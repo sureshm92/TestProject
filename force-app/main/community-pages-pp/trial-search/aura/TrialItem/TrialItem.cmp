@@ -22,6 +22,7 @@
  'First_Name__c':'',
  'Last_Name__c':'',
  'Date_of_Birth__c':'',
+ 'Birth_Year__c':'',
  'Gender__c':'',
  'Phone__c':'',
  'Phone_Type__c':'',

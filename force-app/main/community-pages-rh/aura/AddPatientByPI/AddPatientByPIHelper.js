@@ -203,7 +203,13 @@
                         }
                     }
                 });
-                $A.enqueueAction(action2);
+                window.setTimeout(
+                    $A.getCallback(function() {
+                        $A.enqueueAction(action2);
+                
+                    }), 2000
+                );
+                //$A.enqueueAction(action2);
     },
     doSaveAndExitHelper: function (component) {
         if(component.get('v.doSaveNew')){
@@ -212,6 +218,7 @@
            this.initData(component);
            this.setDelegate(component);
            component.find('editForm').refreshEmailInput(); 
+           component.find('editForm').refreshPartDobInput(); 
         }else{
            var urlEvent = $A.get("e.force:navigateToURL");
            urlEvent.setParams({ "url": "/my-referrals" });  

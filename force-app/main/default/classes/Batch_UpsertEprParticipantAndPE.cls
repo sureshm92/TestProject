@@ -128,6 +128,29 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             partDelegateWrapper.participant = new Participant__c();
             Study_Site__c ss = ssByPrimaryKeyEPRMap.get(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
             Participant__c objParticipant = IprEprTriggerHandler.convertToParticipant(ipr);
+            if (!String.isBlank(objParticipant.Date_of_Birth__c)) {
+                List<String> dateOfBirth = objParticipant.Date_of_Birth__c.split('-');
+                objParticipant.Birth_Day__c = dateOfBirth[2];
+                objParticipant.Birth_Month__c = dateOfBirth[1];
+                objParticipant.Birth_Year__c = dateOfBirth[0];
+
+                Date birthDate = Date.newInstance(
+                    Integer.valueOf(objParticipant.Birth_Year__c),
+                    Integer.valueOf(objParticipant.Birth_Month__c),
+                    Integer.valueOf(objParticipant.Birth_Day__c)
+                );
+
+                Integer participantAge = Date.newInstance(
+                        2000,
+                        birthDate.month(),
+                        birthDate.day()
+                    ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
+                    ? Date.today().year() - birthDate.year()
+                    : Date.today().year() - birthDate.year() - 1;
+                
+                objParticipant.Age__c = participantAge;
+            }
+
             Account participantAccount = new Account(Id = ss.Site__c);
             objParticipant.Site__c = ss.Site__c;
             newParticipantsMap.put(ipr.referralID__c, objParticipant);

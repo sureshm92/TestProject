@@ -282,14 +282,22 @@
                 delegateParticipant.Last_Name__c
             );
         }
-        
+        let dateToday = new Date();
+        let bDay = component.get('v.pday');
+        let bMonth = component.get('v.pmonth');
+        let bYear = component.get('v.pyear');
+        let dobFormat = component.get('v.studySiteFormat');
+        let participantDOB = new Date(bYear+"-"+bMonth+"-"+bDay);
+        let selectedParticipantAge = component.get('v.selectedAge');
+        let isDobValid = (dobFormat == 'DD-MM-YYYY' && participantDOB <= dateToday) || (!dobFormat != 'DD-MM-YYYY' && selectedParticipantAge!='');
         let isValid = false;
         isValid =
             isValid ||
             (participant.First_Name__c &&
              participant.Last_Name__c &&
-             participant.Date_of_Birth__c &&
-             participant.Date_of_Birth__c <= component.get('v.todayDate') &&
+             //participant.Date_of_Birth__c &&
+             //participant.Date_of_Birth__c <= component.get('v.todayDate') &&
+             isDobValid &&
              (needsDelegate || participant.Email__c) &&
              (needsDelegate || emailVaild) &&
              (needsDelegate || emailRepeatValid) &&
@@ -332,8 +340,9 @@
                agreePolicy && attestAge &&
                participant.First_Name__c &&
                participant.Last_Name__c &&
-               participant.Date_of_Birth__c &&
-               participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               //participant.Date_of_Birth__c &&
+               //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               isDobValid &&
                participant.Mailing_Zip_Postal_Code__c &&
               selectedCountry &&
               (selectedState || states.length === 0))
@@ -353,8 +362,9 @@
                agreePolicy && attestAge &&
                participant.First_Name__c &&
                participant.Last_Name__c &&
-               participant.Date_of_Birth__c &&
-               participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               //participant.Date_of_Birth__c &&
+               //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               isDobValid &&
                participant.Email__c &&
                participant.Email__c == emailRepeat &&
                participant.Phone__c &&
@@ -368,8 +378,9 @@
                agreePolicy &&
                participant.First_Name__c &&
                participant.Last_Name__c &&
-               participant.Date_of_Birth__c &&
-               participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               //participant.Date_of_Birth__c &&
+               //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               isDobValid &&
                participant.Email__c &&
                participant.Email__c == emailRepeat &&
                participant.Phone__c &&
@@ -389,7 +400,9 @@
             if(!(isAdultDel && attestAge))
                 isValid = false;
         }
-        
+        if(selectedParticipantAge == "null" && selectedParticipantAge == undefined && selectedParticipantAge == ''){
+            isValid = false; 
+        }
         if(isValid == undefined){
             component.set('v.allRequiredCompleted', false);
         }else{
@@ -532,6 +545,7 @@
             component.set('v.participantToInsert', participant); 
         }
         var participantToInsert = component.get('v.participantToInsert');
+          
         communityService.executeAction(
             component,
             'checkNeedsGuardian',
@@ -594,7 +608,7 @@
     checkGuardianAge: function (component, event, helper) {
         //let frmpatientVeiw = communityService.getUrlParameter('patientVeiwRedirection');
         let frmpatientVeiw =  component.get('v.patientVeiwRedirection');
-        if(component.get('v.attestAge'))
+        if(component.get('v.attestAge') && component.find('checkBoxAttestation')!=undefined)
         {
             var attestCheckbox = component.find('checkBoxAttestation');
             attestCheckbox.setCustomValidity('');
@@ -682,5 +696,170 @@
             });
         }
         return markers;
+    },
+    //dob changes
+    doParticipantAge: function (component) {
+        var pday = component.get('v.pday');
+        var pmonth = component.get('v.pmonth');
+        var pyear = component.get('v.pyear');
+        let studyDobFormat = component.get('v.studySiteFormat');
+        if(studyDobFormat == "DD-MM-YYYY" && pyear && pmonth && pday){
+            let dateToday = new Date();
+            var dob = new Date(pyear+"-"+pmonth+"-"+pday);
+            //calculate month difference from current date in time
+            var month_diff = Date.now() - dob.getTime();
+            //convert the calculated difference in date format
+            var age_dt = new Date(month_diff); 
+            //extract year from date    
+            var year = age_dt.getUTCFullYear();
+            //now calculate the age of the user
+            var age = ((year - 1970) >=0 ? (year - 1970) : 0);
+            if(dob > dateToday){
+                age = '';
+            }
+            component.set('v.selectedAge',age);
+            component.set('v.participant.Age__c',age);
     }
+    },
+    //dob changes
+    generateAgeOptions: function (component) {
+        var opt = [];
+        let todayDate = new Date();
+        let cMonth = todayDate.getMonth()+1;
+        let cYear = parseInt(todayDate.getUTCFullYear());
+        var pmonth = component.get('v.pmonth');
+        var pyear = component.get('v.pyear');
+        let higherAge = Number(todayDate.getUTCFullYear())-Number(pyear);
+        let lowerAge = Number(higherAge)-1;
+        let studyDobFormat = component.get('v.studySiteFormat');
+        if((studyDobFormat == 'YYYY' || (studyDobFormat == 'MM-YYYY' && pmonth && pmonth >= cMonth )) && pyear && pyear!=cYear){
+            console.log('lower age');
+            opt.push({label: lowerAge, value: lowerAge });
+        }
+        if((studyDobFormat == 'YYYY' || (studyDobFormat == 'MM-YYYY' && pmonth && pmonth <= cMonth)) && pyear){
+            console.log('higher age');
+            opt.push({label: higherAge, value: higherAge });
+        }
+        
+        component.set('v.ageOptions', opt);
+    },
+
+    checkForLeapYear : function (component, event, helper) {
+        let pYear = component.get('v.pyear');
+        if (parseInt(pYear) % 400 == 0) {
+            return true;
+    }
+        if (parseInt(pYear) % 100 == 0) {
+            return false;
+        }
+        if (parseInt(pYear) % 4 == 0) {
+            return true;
+        }
+        return false;
+    },
+
+    doMonthPLVChange: function (component, event, helper) {
+        let maxDayMonths = ['01', '03', '05', '07', '08', '10', '12'];
+        let minDayMonths = ['04', '06', '09', '11'];
+        let lastDay=30;
+        let pMonth = component.get('v.pmonth');
+        let pYear = component.get('v.pyear');
+        let pDay = component.get('v.pday');
+        if (maxDayMonths.includes(pMonth)) {
+            lastDay = 31;
+        }
+        else if (minDayMonths.includes(pMonth)) {
+            lastDay = 30;
+        }
+        else if (pMonth == '02') {
+            if (pYear == null || helper.checkForLeapYear(component, event, helper)) {
+                lastDay = 29;
+            }
+            else {
+                lastDay = 28;
+            }
+        }
+        var dayList = [];
+        var obj = {};
+        for (var i = 1; i <= lastDay; i++) {
+            if(i >= 10){
+                obj.label = ""+i;
+                obj.value = ""+i;
+            }else{
+                obj.label = "0"+i;
+                obj.value = "0"+i;
+            }
+            dayList.push(obj);
+            obj = {};
+        }
+        component.set('v.days', dayList);
+        component.set('v.toggleAge',false);
+        component.set('v.toggleAge',true);
+        
+        if (pDay && lastDay && (parseInt(pDay) > lastDay) ) {
+            component.set('v.pday',lastDay.toString());
+        }
+    },
+    validateDOB: function (component,event,helper){
+        var format = component.get("v.studySiteFormat");
+        var part = component.get("v.participant");
+        var dobDate;
+        var today = new Date();
+        component.set("v.futureDate",false);
+        component.set("v.futureDateDDErr",null);
+        component.set("v.futureDateMMErr",null);
+        let lastDay;
+        if(format !== 'YYYY'){
+            var maxDayMonths = ['01','03','05','07','08','10','12'];
+            var minDayMonths = ['04','06','09','11'];
+            lastDay = 31;
+            if(maxDayMonths.includes(component.get('v.pmonth'))){
+                lastDay = 31;
+            }
+            else if(minDayMonths.includes(component.get('v.pmonth'))){
+                lastDay = 30;
+            }
+            else if(component.get('v.pmonth') == '02'){
+                if(component.get('v.pyear') =='----' || helper.checkForLeapYear(component,event, helper)){
+                    lastDay = 29;
+                }     
+                else{
+                    lastDay = 28;
+                }            
+            }
+        }
+        if(format == 'DD-MM-YYYY'){
+            part.Date_of_Birth__c = component.get('v.pyear')+'-'+component.get('v.pmonth')+'-'+component.get('v.pday');            
+        }
+        else if(format == 'MM-YYYY'){
+            part.Date_of_Birth__c = component.get('v.pyear')+'-'+component.get('v.pmonth')+'-'+lastDay;            
+        }
+        else if(format == 'YYYY'){
+            part.Date_of_Birth__c = component.get('v.pyear')+'-12-31';
+        }        
+        if(!part.Date_of_Birth__c.includes('--')){
+            component.set("v.participant",part);
+            //helper.doCheckDateOfBith(component, event, helper);
+            if(format == 'DD-MM-YYYY'){
+                dobDate = new Date(part.Date_of_Birth__c).setHours(0,0,0,0); 
+                today = today.setHours(0,0,0,0);        
+                if(today<dobDate){
+                    component.set("v.futureDate",true);
+                    if(new Date().getMonth()<new Date(part.Date_of_Birth__c).getMonth()){
+                        component.set("v.futureDateMMErr","Value must be current month or earlier");
+                    }
+                    component.set("v.futureDateDDErr","Value must be current date or earlier ");
+                    
+                }
+            }
+            else if(format == 'MM-YYYY'){
+                dobDate = new Date(part.Date_of_Birth__c);
+                if(dobDate.getFullYear()==today.getFullYear() && today.getMonth()<dobDate.getMonth()){
+                    component.set("v.futureDate",true);
+                    component.set("v.futureDateMMErr","Value must be current month or earlier");
+                }
+            }
+        }
+    }
+
 });

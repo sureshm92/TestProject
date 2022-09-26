@@ -29,6 +29,10 @@ export default class MultiLookup extends LightningElement {
             this.optionsToDisplay.push(obj);
             this._options.push(obj);
         });
+        let selectors = this.template.querySelector('[data-id="optionslist"]');
+        if(selectors != null){
+            this.template.querySelector('[data-id="selectedOptionsListId"]').style = 'min-height: '+selectors.clientHeight+'px';
+        }  
     }
     
     openOptionsMenu(){

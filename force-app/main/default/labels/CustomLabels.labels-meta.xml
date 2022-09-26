@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>DOB_Batch_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DOB Batch Label</shortDescription>
+        <value>false</value>
+    </labels>
+    <labels>
         <fullName>ReEngage_Dashboard</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4649,6 +4656,13 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Direct Mail</value>
     </labels>
     <labels>
+        <fullName>RH_future_date_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_future_date_error</shortDescription>
+        <value>Value must be ##todaysDate or earlier.</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Accept_a_patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4984,6 +4998,14 @@ By using our website, you are accepting our use of cookies.</value>
         <shortDescription>Dashnoard_Initial_Visits_Completed</shortDescription>
         <value>Initial Visits Completed</value>
     </labels>
+    <labels>
+        <fullName>Date_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Date_Placeholder</shortDescription>
+        <value>DD</value>
+    </labels>
+   
     <labels>
         <fullName>December</fullName>
         <language>en_US</language>
@@ -10448,6 +10470,14 @@ The expected format is REF##### to REF########</value>
         <shortDescription>weekly task error</shortDescription>
         <value>Cannot set monthly task for these dates.</value>
     </labels>
+    <labels>
+        <fullName>Month_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month_Placeholder</shortDescription>
+        <value>MM</value>
+    </labels>
+   
     <labels>
         <fullName>MO_Active</fullName>
         <language>en_US</language>
@@ -21328,6 +21358,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Please confirm participant/caregiver consent to be contacted on the Participant Details tab</value>
     </labels>
     <labels>
+        <fullName>RH_MOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_MOB</shortDescription>
+        <value>Month of Birth</value>
+    </labels>
+    <labels>
         <fullName>RH_RequestMedicalBtn</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -26229,6 +26266,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Withdrew Consent After Screening</value>
     </labels>
     <labels>
+        <fullName>Year_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Year_Placeholder</shortDescription>
+        <value>YYYY</value>
+    </labels>
+   
+    <labels>
         <fullName>yearly_task_error</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27395,6 +27440,20 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Click &lt;b&gt;Import.&lt;/b&gt;</value>
     </labels>
     <labels>
+        <fullName>RH_DOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_DOB</shortDescription>
+        <value>Day of Birth</value>
+    </labels>
+    <labels>
+        <fullName>RH_Dob_Format_Search</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_Dob_Format_Search</shortDescription>
+        <value>	Select DOB Format</value>
+    </labels>
+    <labels>
         <fullName>RH_DownloadIcon</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27702,5 +27761,26 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>No_active_program</shortDescription>
         <value>No active program</value>
+    </labels>
+    <labels>
+        <fullName>Date_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Date of Birth</shortDescription>
+        <value>Date of Birth</value>
+    </labels>
+    <labels>
+        <fullName>Month_and_Year_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month and Year of Birth</shortDescription>
+        <value>Month/Year of Birth</value>
+    </labels>
+    <labels>
+        <fullName>Year_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Year of Birth</shortDescription>
+        <value>Year of Birth</value>
     </labels>
 </CustomLabels>
