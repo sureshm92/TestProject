@@ -46,37 +46,40 @@
 
                                                 <div class="slds-col slds-size_4-of-6">
                                                     <div>
-                                                        <lightning-formatted-text
-                                                            class="name-style"
-                                                            value={item.visit.Name}
-                                                        >
-                                                        </lightning-formatted-text>
-
+                                                        <b>
+                                                            <lightning-formatted-text
+                                                                class="name-style"
+                                                                value={item.visit.Name}
+                                                            >
+                                                            </lightning-formatted-text>
+                                                        </b>
                                                         <p class="no-date no-visit-date">
                                                             <template if:true={item.noVisitDate}>
                                                                 {label.noVisitsLabel}
                                                             </template>
                                                         </p>
-                                                        <template if:false={item.noVisitDate}>
-                                                            <lightning-formatted-date-time
-                                                                if:false={past}
-                                                                value={item.visit.Planned_Date__c}
-                                                                year="numeric"
-                                                                month="short"
-                                                                day="2-digit"
-                                                                class="l-padding date-style"
-                                                                time-zone={visitTimezone}
-                                                            ></lightning-formatted-date-time>
-                                                            -
-                                                            <lightning-formatted-date-time
-                                                                if:false={past}
-                                                                value={item.visit.Planned_Date__c}
-                                                                hour="2-digit"
-                                                                minute="2-digit"
-                                                                class="date-style"
-                                                                time-zone={visitTimezone}
-                                                            ></lightning-formatted-date-time>
-                                                        </template>
+                                                        <p class="no-date date-style">
+                                                            <template if:false={item.noVisitDate}>
+                                                                <lightning-formatted-date-time
+                                                                    if:false={past}
+                                                                    value={item.visit.Planned_Date__c}
+                                                                    year="numeric"
+                                                                    month="short"
+                                                                    day="2-digit"
+                                                                    class="l-padding date-style"
+                                                                    time-zone={visitTimezone}
+                                                                ></lightning-formatted-date-time>
+                                                                -
+                                                                <lightning-formatted-date-time
+                                                                    if:false={past}
+                                                                    value={item.visit.Planned_Date__c}
+                                                                    hour="2-digit"
+                                                                    minute="2-digit"
+                                                                    class="date-style"
+                                                                    time-zone={visitTimezone}
+                                                                ></lightning-formatted-date-time>
+                                                            </template>
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div class="slds-col slds-size_1-of-6">
