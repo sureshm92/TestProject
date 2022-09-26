@@ -307,7 +307,8 @@ public without sharing class StudySiteService {
         'Principal_Investigator__r.Account.BillingGeocodeAccuracy',
         'Principal_Investigator__r.Account.BillingAddress',
         'Principal_Investigator__r.Full_Name__c',
-        'Site_Staff__r.Site_Contact__c'
+        'Site_Staff__r.Site_Contact__c',
+        'Participant_DOB_format__c'
     };
 
     public static List<Study_Site__c> getStudySitesCommon(String filter) {

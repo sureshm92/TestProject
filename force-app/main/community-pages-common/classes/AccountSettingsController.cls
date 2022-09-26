@@ -16,6 +16,13 @@ public without sharing class AccountSettingsController {
     public static Map<Id, List<Participant_Enrollment__c>> participantIdListOfPerMap = new Map<Id, List<Participant_Enrollment__c>>();
     public static List<Participant_Enrollment__c> perListforCommPref = new List<Participant_Enrollment__c>();
     @AuraEnabled
+    public static PIR_ParticipantDetailController.CountyrStateInfo getCountryCodes(String userMode) {
+        PIR_ParticipantDetailController.CountyrStateInfo countyrStateInfo = new PIR_ParticipantDetailController.CountyrStateInfo();
+        countyrStateInfo = PIR_ParticipantDetailController.getCnData();
+        return  countyrStateInfo;
+    }
+    
+    @AuraEnabled
     public static String getInitData(String userMode) {
         try {
             loggedInUserMode = userMode;
@@ -382,7 +389,11 @@ public without sharing class AccountSettingsController {
                 Initials__c,
                 Gender__c,
                 Date_of_Birth__c,
-                Nickname__c,
+            	Birth_Year__c,
+            	Birth_Month__c,
+            	Birth_Day__c,
+            	Age__c,
+            	Nickname__c,
                 Suffix__c,
                 Use_as_Daytime_Phone__c,
                 Phone_Type__c,
@@ -655,6 +666,9 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         @AuraEnabled
         public Contact myContact;
         @AuraEnabled
+        public String studySiteYOBFormat;
+
+        @AuraEnabled
         public Id LoggedInUserParticipantId;
         @AuraEnabled
         public Participant__c currentParticipant;
@@ -678,6 +692,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public Boolean isSelfAccountSettingWarningMessage = false;
     }
 
+    
     public class ProgramOverViewData {
         public Boolean isDelegateSelfView = false;
         @AuraEnabled
@@ -685,7 +700,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         @AuraEnabled
         public String communityName;
     }
-
+    
     public class PersonWrapper {
         @AuraEnabled
         public Id contactId;
@@ -746,6 +761,12 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public String birthDay;
         @AuraEnabled
         public String birthMonth;
+        @AuraEnabled
+        public Decimal age;
+        @AuraEnabled
+        public Boolean isAdultPar;
+
+
 
         public PersonWrapper(Contact contact, Participant__c participant) {
             contactId = contact.Id;
@@ -800,6 +821,12 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 gender = participant.Gender__c;
                 suffix = participant.Suffix__c;
                 nickname = participant.Nickname__c;
+                age = participant.Age__c;
+                birthYear = participant.Birth_Year__c != null ? participant.Birth_Year__c : null; 
+                birthMonth = participant.Birth_Month__c != null ? participant.Birth_Month__c : null;
+                birthDay = participant.Birth_Day__c != null ? participant.Birth_Day__c : null;
+                isAdultPar = participant.Adult__c;
+
                 List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
                 peList = [
                     SELECT Id
@@ -808,23 +835,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 ];
                 if (peList.size() > 0) {
                     showBirthDate = true;
-                } else {
-                    if (!String.isBlank(participant.Date_of_Birth__c)) {
-                        List<String> seperatedDateOfBirthList = participant.Date_of_Birth__c.split(
-                            '-'
-                        );
-                        birthYear = seperatedDateOfBirthList[0];
-                        birthMonth = seperatedDateOfBirthList[1];
-                        birthDay = seperatedDateOfBirthList[2];
-                    } else {
-                        if (String.isBlank(participant.Birth_Year__c)) {
-                            birthYear = 'YYYY';
-                        } else {
-                            birthYear = participant.Birth_Year__c;
-                        }
-                        birthMonth = 'MM';
-                        birthDay = 'DD';
-                    }
+                } else { 
                     showBirthDate = false;
                 }
             }
@@ -872,6 +883,12 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             }
 
             personParticipant.Date_of_Birth__c = dateBirth;
+            personParticipant.Birth_Year__c = birthYear;
+            personParticipant.Birth_Month__c = birthMonth;
+            personParticipant.Birth_Day__c = birthDay;
+            personParticipant.Age__c = age;
+            personParticipant.Adult__c = isAdultPar;
+
             personParticipant.Gender__c = gender;
             personParticipant.Mailing_Zip_Postal_Code__c = zip;
             personParticipant.Suffix__c = suffix;
@@ -891,6 +908,49 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         }
     }
 
+    /**
+     * @description: This Method will return most restrictive study site DOB format.
+     * @author: Anitha Chavva
+     * @param: perList
+     * @return:
+     **/
+    public static String leastYOBFormat(List<Participant_Enrollment__c> participantEnrollments){
+        Set<String> participantSiteFormat = new Set<String>();
+        Map<Integer,String> studySiteLenghtVsFormatMap = New Map<Integer,String>();
+        Integer minStudySiteFormateLen = 0;
+        String leastYOBFormat;
+        if(participantEnrollments != null && participantEnrollments.size()>0){
+            for(Participant_Enrollment__c per : participantEnrollments){
+                participantSiteFormat.add(per.Study_Site__r.Participant_DOB_format__c);
+            }
+            if(!participantSiteFormat.isEmpty()){
+                    List<String> yobStudySiteFormats = new List<String>(participantSiteFormat);    
+                    if(yobStudySiteFormats.size() > 1){
+                        for(String studySiteFormat : yobStudySiteFormats){
+                            //get the lenght of each YOB formate
+                            Integer siteFormatSize = studySiteFormat.length();
+                            studySiteLenghtVsFormatMap.put(siteFormatSize,studySiteFormat);
+                        }
+                        //Define first element of Map as minimun.
+                        minStudySiteFormateLen = yobStudySiteFormats[0].length();//studySiteLenghtVsFormatMap.keySet()[0]; // 10
+                        for(Integer len: studySiteLenghtVsFormatMap.keySet()){
+                            if(len< minStudySiteFormateLen){  
+                                minStudySiteFormateLen = len;
+                            }
+                        }
+                    }
+                    else{
+                        List<String> participantStudySiteFormat = new List<String>(participantSiteFormat);
+                        Integer siteFormatSize = participantStudySiteFormat[0].length();
+                        studySiteLenghtVsFormatMap.put(siteFormatSize,participantStudySiteFormat[0]);
+                        minStudySiteFormateLen = siteFormatSize;
+                    }
+            }
+            leastYOBFormat = studySiteLenghtVsFormatMap.isEmpty()?null:studySiteLenghtVsFormatMap.get(minStudySiteFormateLen);
+
+        }
+        return leastYOBFormat;
+    }
     /**
      * @description: This Method will set the consent Preference data to the static variables.
      * @author: Krishna Mahto
@@ -931,11 +991,14 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 // initData.consentPreferenceData.perList.addAll(participantEnrollments);
                 initData.consentPreferenceData.isParticipantLoggedIn = false;
                 initData.consentPreferenceData.isPrimaryDelegate = isPrimaryDelegate;
+                initData.consentPreferenceData.studySiteYOBFormat = 'YYYY';
             }
         } else {
             initData.consentPreferenceData.perList.addAll(participantEnrollments);
         }
-
+        if(initData.consentPreferenceData.perList != null && initData.consentPreferenceData.perList.size()>0){
+            initData.consentPreferenceData.studySiteYOBFormat = leastYOBFormat(initData.consentPreferenceData.perList);
+        } 
         Boolean isParticipantLoggedInTemp = initData.consentPreferenceData.isParticipantLoggedIn;
         Boolean isDelegateSelfViewTemp = initData.consentPreferenceData.isDelegateSelfView;
         Participant__c currentParticipantTemp = new Participant__c();
@@ -1079,6 +1142,10 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 Adult__c,
                 Gender__c,
                 Date_of_Birth__c,
+            	Birth_Year__c,
+                Birth_Month__c,
+                Birth_Day__c,
+                Age__c,
                 Initials__c,
                 Suffix__c,
                 Salutation__c,
@@ -1086,7 +1153,6 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 Phone_Type__c,
                 Alternative_Phone_Number__c,
                 Alternative_Phone_Type__c,
-                Birth_Year__c,
                 Email__c,
                 Contact__c,
                 Use_as_Daytime_Phone__c
@@ -1137,9 +1203,13 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             SELECT
                 Id,
                 Participant__c,
+            	Participant__r.Birth_Year__c,
+            	Participant__r.Birth_Month__c,
+                Participant__r.Birth_Day__c,
+            	Participant__r.Age__c,
                 Participant__r.Contact__c,
-                Participant__r.Adult__c,
-                Participant__r.Email__c,
+                Participant__r.Adult__c, 
+                Participant__r.Email__c, 
                 Study_Site__r.SMS_Are_Available__c,
                 Permit_Mail_Email_contact_for_this_study__c,
                 Permit_SMS_Text_for_this_study__c,
@@ -1147,7 +1217,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 Study_Direct_Mail_Consent__c,
                 Clinical_Trial_Profile__r.IQVIA_Outreach__c,
                 Clinical_Trial_Profile__c,
-                Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+            	Study_Site__r.Participant_DOB_format__c
             FROM Participant_Enrollment__c
             WHERE Id = :peIds
         ];
