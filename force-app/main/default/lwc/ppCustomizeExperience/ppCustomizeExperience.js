@@ -10,6 +10,7 @@ import PP_Condition_of_Interest_title from '@salesforce/label/c.PP_Condition_of_
 import PP_Customize_Exp_Description from '@salesforce/label/c.PP_Customize_Exp_Description';
 import PP_Customize_search_text from '@salesforce/label/c.PP_Customize_search_text';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
+import Task_Subject_Select_COI_PP from '@salesforce/label/c.Task_Subject_Select_COI_PP';
 import BACK from '@salesforce/label/c.Back';
 import PP_Profile_Update_Success from '@salesforce/label/c.PP_Profile_Update_Success';
 
@@ -41,7 +42,8 @@ export default class PpCustomizeExperience extends LightningElement {
         PP_Customize_search_text,
         BTN_Save,
         BACK,
-        PP_Profile_Update_Success
+        PP_Profile_Update_Success,
+        Task_Subject_Select_COI_PP
     };
 
     itemshow = false;
