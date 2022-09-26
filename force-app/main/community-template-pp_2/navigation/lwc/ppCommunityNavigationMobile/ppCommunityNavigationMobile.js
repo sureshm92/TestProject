@@ -5,6 +5,7 @@ import navigationMyStudy from '@salesforce/label/c.Navigation_My_Study';
 import navigationResources from '@salesforce/label/c.Navigation_Resources';
 import navigationMessages from '@salesforce/label/c.Navigation_Messages';
 import navigationEDiary from '@salesforce/label/c.Navigation_eDiary';
+import navigationPastStudy from '@salesforce/label/c.Navigation_Past_Studies';
 import trailMatch from '@salesforce/label/c.Trial_Match';
 
 export default class PpCommunityNavigationMobile extends LightningElement {
@@ -79,7 +80,7 @@ export default class PpCommunityNavigationMobile extends LightningElement {
             }
         }
         if (this.communityServic.getEDiaryVisible()) {
-            if (this.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
+            if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
                 if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
                 this.participantTabs.push(allPagesMap['e-diaries']);
             }
@@ -118,4 +119,4 @@ export default class PpCommunityNavigationMobile extends LightningElement {
     updateCurrentPage(pageNam) {
         document.title = this.participantTabs[pageNam];
     }
-}
+} 
