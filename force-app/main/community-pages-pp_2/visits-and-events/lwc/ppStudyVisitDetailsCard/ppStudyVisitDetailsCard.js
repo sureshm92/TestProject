@@ -157,6 +157,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         if (this.visitdata.visitDate) {
             var visitTime = this.visitdata.visitDate;
             return visitTime;
+        } else if (this.visitDateTime) {
+            return this.visitDateTime;
         } else {
             return null;
         }
@@ -547,14 +549,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     doCancel() {
-        this.remindmepub = this.visitdata.task.Remind_Me__c;
-        this.visitDate = '';
-        this.visitTime = '';
-        this.selectedReminderDate = '';
-        this.selectedReminderTime = '';
-        this.email = this.visitdata.task.Remind_Using_Email__c;
-        this.sms = this.visitdata.task.Remind_Using_SMS__c;
-        this.disableButtonSaveCancel = true;
+        const discardEvent = new CustomEvent('discard');
+        this.dispatchEvent(discardEvent);
     }
 
     showErrorToast(titleText, messageText, variantType) {

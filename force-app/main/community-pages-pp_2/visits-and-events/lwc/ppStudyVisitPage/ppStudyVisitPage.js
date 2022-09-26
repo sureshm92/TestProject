@@ -334,6 +334,11 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         }
     }
 
+    handleDiscard() {
+        this.showChild = false;
+        this.createEditTask();
+    }
+
     async handleVisitChange() {
         if (this.visitid) {
             await this.template.querySelector('[data-id="' + this.visitid + '"]');

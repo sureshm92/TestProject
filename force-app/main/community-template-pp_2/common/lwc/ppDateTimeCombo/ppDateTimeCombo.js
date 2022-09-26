@@ -50,6 +50,7 @@ export default class PpDateTimeCombo extends LightningElement {
 
     get dbDate() {
         if (!this.compdate) {
+            this.dt = '';
             return null;
         } else if (this.dt) {
             return this.dt;
@@ -75,6 +76,7 @@ export default class PpDateTimeCombo extends LightningElement {
 
     get dbTime() {
         if (!this.comptime) {
+            this.tm = '';
             return null;
         } else if (this.tm) {
             return this.tm;
