@@ -1,6 +1,6 @@
 /* RP_Community_CSS */ 
 .studyconsent-checkboxus .slds-form-element__help{
-    top: 143px;
+    top: -14px;
     width: 200px;
 }
 .studyconsent-checkboxus .slds-checkbox__label{
@@ -9,7 +9,7 @@
     padding-left: 10px;
 }
 .studyconsent-checkbox-non-us .slds-form-element__help{
-    top: 110px;
+    top: -14px;
     width: 200px;
 }
 .studyconsent-checkbox-non-us .slds-checkbox__label{

@@ -10,8 +10,8 @@ import TIME_ZONE from '@salesforce/i18n/timeZone';
 import date from '@salesforce/label/c.TV_TH_Date';
 import location from '@salesforce/label/c.SS_Location';
 import reminder from '@salesforce/label/c.Home_Page_StudyVisit_Reminder';
-import notificationSettings from '@salesforce/label/c.Update_Notification_Settings';
-import saveChanges from '@salesforce/label/c.PG_AS_BTN_Save_Changes';
+import PREFERENCES from '@salesforce/label/c.PP_TASK_COMM_PREF';
+import saveChanges from '@salesforce/label/c.BTN_Save';
 import discard from '@salesforce/label/c.RH_TV_Discard';
 import selectreminder from '@salesforce/label/c.Select_reminder';
 import email from '@salesforce/label/c.Email';
@@ -27,7 +27,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         date,
         location,
         reminder,
-        notificationSettings,
+        PREFERENCES,
         saveChanges,
         discard,
         selectreminder,
