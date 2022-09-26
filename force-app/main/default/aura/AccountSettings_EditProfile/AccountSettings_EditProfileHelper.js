@@ -212,34 +212,46 @@
         component.set('v.personWrapper', personWrapper);
         helper.doCheckDOB(component, event, helper);
     },
-    validateDOB: function (component, event, helper) {
-        var format = component.get('v.dobConfig');
-        var dobDate;
-        var today = new Date();
-        component.set('v.futureDate', false);
-        component.set('v.futureDateDDErr', null);
-        component.set('v.futureDateMMErr', null);
+    validateDOB: function (component, event, helper){
+        var format = component.get("v.dobConfig");
+        component.set("v.futureDate",false);
+        component.set("v.futureDateDDErr",null);
+        component.set("v.futureDateMMErr",null);
+        var personWrapper = component.get("v.personWrapper");
 
-        if (format == 'DD-MM-YYYY') {
-            dobDate = new Date(part.Date_of_Birth__c).setHours(0, 0, 0, 0);
-            today = today.setHours(0, 0, 0, 0);
-            if (today < dobDate) {
-                component.set('v.futureDate', true);
-                if (new Date().getMonth() < new Date(part.Date_of_Birth__c).getMonth()) {
-                    component.set('v.futureDateMMErr', 'Value must be current month or earlier');
+        if(format == 'DD-MM-YYYY'  || format == 'MM-YYYY'){
+            let dt ;
+            if(format == 'DD-MM-YYYY'){
+                dt= personWrapper.birthYear + '-' + personWrapper.birthMonth + '-' + personWrapper.birthDay;
+            }
+            else {
+                dt= personWrapper.birthYear + '-' + personWrapper.birthMonth + '01';
+            }
+            var today = new Date();
+            var dd= 1;
+            if(format == 'DD-MM-YYYY') { 
+                dd=String(today.getDate()).padStart(2, "0");
+            }
+            var mm = String(today.getMonth() + 1).padStart(2, "0");
+            var yyyy = today.getFullYear();
+            today = yyyy + "-" + mm + "-" + dd;
+            if(dt>today && format == 'DD-MM-YYYY'){
+                component.set("v.futureDate",true);
+                if(new Date().getMonth()<new Date(dt).getMonth()){
+                    component.set('v.invalidDOB',true);
+                    component.set("v.futureDateMMErr","Value must be current month or earlier");
                 }
-                component.set('v.futureDateDDErr', 'Value must be current date or earlier ');
+                component.set("v.futureDateDDErr","Value must be current date or earlier "); 
             }
-        } else if (format == 'MM-YYYY') {
-            var participant = component.get('v.participant');
-            dobDate = new Date(participant.Date_of_Birth__c);
-            if (
-                dobDate.getFullYear() == today.getFullYear() &&
-                today.getMonth() < dobDate.getMonth()
-            ) {
-                component.set('v.futureDate', true);
-                component.set('v.futureDateMMErr', 'Value must be current month or earlier');
+            else if(dt>today && format == 'MM-YYYY'){
+                component.set("v.futureDate",true);
+                component.set('v.invalidDOB',true);
+                component.set("v.futureDateMMErr","Value must be current month or earlier");
             }
+            else{
+                    component.set('v.invalidDOB',false);
+                    
+             }
         }
     },
 
@@ -269,11 +281,12 @@
             );
     },
     doCheckDOB: function (component, event, helper) {
+        var invalidDOB = component.get('v.invalidDOB') ;
         if (component.get('v.dobConfig') == 'DD-MM-YYYY') {
             if (
                 component.get('v.personWrapper.birthYear') === null ||
                 component.get('v.personWrapper.birthMonth') === null ||
-                component.get('v.personWrapper.birthDay') === null
+                component.get('v.personWrapper.birthDay') === null || invalidDOB
             ) {
                 component.set('v.disableSave', true);
             } else {
@@ -283,7 +296,7 @@
             if (
                 component.get('v.personWrapper.birthYear') === null ||
                 component.get('v.personWrapper.birthMonth') === null ||
-                component.get('v.valueAge') === null
+                component.get('v.valueAge') === null || invalidDOB
             ) {
                 component.set('v.disableSave', true);
             } else {
