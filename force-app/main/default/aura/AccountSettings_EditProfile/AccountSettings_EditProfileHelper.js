@@ -215,8 +215,6 @@
     validateDOB: function (component, event, helper){
         var format = component.get("v.dobConfig");
         component.set("v.futureDate",false);
-        component.set("v.futureDateDDErr",null);
-        component.set("v.futureDateMMErr",null);
         var personWrapper = component.get("v.personWrapper");
 
         if(format == 'DD-MM-YYYY'  || format == 'MM-YYYY'){
