@@ -71,7 +71,6 @@
     cursor: pointer;
 }
 
-.bio-icons:hover::after,
 .bio-icons.active::after {
     content: '';
     position: absolute;
