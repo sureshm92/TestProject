@@ -368,6 +368,9 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     if(event.detail){
       this.discardTab = false;
     }
+    else{
+      this.discardTab = true;
+    }
   }
   toggleDetailSave(event){
     this.disableDetailSaveButton = !event.detail;
@@ -403,7 +406,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.selectedTab = "Participant Details";
     this.isDetailModalOpen = false;
   }
-
+  pageLoad =false;
   handleStatusTab(){
     this.isMedicalTab = false;
 	  this.callTelevisistMethod = false;
@@ -426,8 +429,15 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.isParticipantDetail = false;
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
     this.selectedTab = "Status Details";
-    
+      
+      if(this.pageLoad && this.discardTab){
+        this.template.querySelector("c-pir_participant-Status-Details").doSelectedPI();
+      }
+      this.pageLoad=true;
     }
+  }
+  gotoPartTab(){
+    this.template.querySelector("lightning-tabset").activeTabValue = "Participant Details";
   }
   handleParticipantTab() {
     if(!this.isDetailModalOpen){     
@@ -1075,4 +1085,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     return 'slds-col '+ (this.checkStatusReEngaged ? 'slds-size_1-of-2' : 'slds-size_1-of-1')
       + ' slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_xx-small slds-m-bottom_small';
   } 
+  detailsaved(){    
+    this.template.querySelector("c-pir_participant-header").doSelectedPI();  
+  }
 }

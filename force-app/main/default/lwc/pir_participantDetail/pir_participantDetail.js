@@ -1133,6 +1133,7 @@ export default class Pir_participantDetail extends LightningElement {
             .then(result => {
                 this.dispatchEvent(new CustomEvent('toggleclick'));
                 this.dispatchEvent(new CustomEvent('handletab'));
+                this.dispatchEvent(new CustomEvent('detailsaved'));
                 this.peid = this.pd.pe.Id;
                 const event = new ShowToastEvent({
                     variant: 'success',
