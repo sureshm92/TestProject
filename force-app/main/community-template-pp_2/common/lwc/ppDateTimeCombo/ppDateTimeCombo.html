@@ -1,0 +1,63 @@
+<template>
+    <div>
+        <div class="slds-grid slds-wrap" style="padding-left: 24px; padding-right: 24px">
+            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_none">
+                <template if:false={reminder}>
+                    <label>{label.date}</label>
+                </template>
+                <template if:true={reminder}>
+                    <label>{label.reminderdate}</label>
+                </template>
+                <div class="curve-input">
+                    <c-web-icon
+                        class="svg-icon"
+                        icon-size={iconSize}
+                        icon-name="calendar"
+                        data-id="date"
+                        icon-color={iconColor}
+                    >
+                    </c-web-icon>
+                    <input
+                        type="date"
+                        id="date"
+                        value={dbDate}
+                        min={mindate}
+                        max={maxdate}
+                        onchange={handleDate}
+                        placeholder="Enter Date"
+                    />
+                </div>
+            </div>
+            <div
+                if:false={past}
+                class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_none"
+            >
+                <template if:false={reminder}>
+                    <label>{label.time}</label>
+                </template>
+                <template if:true={reminder}>
+                    <label>{label.remindertime}</label>
+                </template>
+                <div class="curve-input">
+                    <c-web-icon
+                        class="svg-icon"
+                        icon-size={iconSize}
+                        icon-name="time_clock"
+                        data-id="time"
+                        icon-color={iconColor}
+                    >
+                    </c-web-icon>
+                    <lightning-input
+                        type="time"
+                        value={dbTime}
+                        min={mintime}
+                        max={maxtime}
+                        onchange={handleTime}
+                        placeholder="Enter Time"
+                    >
+                    </lightning-input>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

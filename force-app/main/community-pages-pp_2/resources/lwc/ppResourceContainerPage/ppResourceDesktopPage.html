@@ -1,0 +1,120 @@
+<template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner"></c-web-spinner>
+    <template if:true={isInitialized}>
+        <div class={cardRTL}>
+            <div class="res-container">
+                <lightning-layout multiple-rows="true">
+
+                    <lightning-layout-item size="12">
+                        <div class="res-header">{labels.RESOURCES}</div>
+                    </lightning-layout-item>
+
+                    <!-- Left Column -->
+                    <lightning-layout-item size="3" class="resource-gutter">
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item size="12">
+                                <div class="engage-header mb-8">{labels.ENGAGE}</div>
+                                <div class="left-column">
+                                    <div class="res-box-engage-container crossed">
+                                        <!-- START : COMING SOON -->
+                                        <div class="object">
+                                            <div class="object-rope"></div>
+                                            <div class="object-shape">
+                                                Coming <span class="soon">Soon</span>
+                                            </div>
+                                        </div>
+                                        <!-- END : COMING SOON -->
+                                        <!-- ENGAGE LWC COMPONENT PLACEHOLDER -->
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                            <template if:true={toggleLinks}>
+                                <lightning-layout-item size="12">
+                                    <div class="rel-header mb-8">{labels.RELEVANT_LINKS}</div>
+                                    <div class="left-column">
+                                        <div class="res-box-relLinks-container crossed">
+                                            <!-- START : COMING SOON -->
+                                            <div class="object">
+                                                <div class="object-rope"></div>
+                                                <div class="object-shape">
+                                                    Coming <span class="soon">Soon</span>
+                                                </div>
+                                            </div>
+                                            <!-- END : COMING SOON -->
+                                            <!-- RELEVANT LINKS LWC COMPONENT PLACEHOLDER -->
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </lightning-layout-item>
+
+                    <!-- Center Column -->
+                    <lightning-layout-item size="6" class="resource-gutter">
+                        <template if:true={toggleExplore}>
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12">
+                                    <div class="explore-header mb-8">{labels.EXPLORE}</div>
+                                    <div class="center-column">
+                                        <div class="res-explore-container crossed">
+                                            <!-- START : COMING SOON -->
+                                            <div class="object">
+                                                <div class="object-rope"></div>
+                                                <div class="object-shape">
+                                                    Coming <span class="soon">Soon</span>
+                                                </div>
+                                            </div>
+                                            <!-- END : COMING SOON -->
+                                            <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                    </lightning-layout-item>
+
+                    <!-- Right Column -->
+                    <lightning-layout-item size="3">
+                        <lightning-layout multiple-rows="true">
+                            <template if:true={toggleDocs}>
+                                <lightning-layout-item size="12">
+                                    <div class="document-header mb-8">{labels.DOCUMENTS}</div>
+                                    <div class="right-column">
+                                        <div class="res-box-document-container crossed">
+                                            <!-- START : COMING SOON -->
+                                            <div class="object">
+                                                <div class="object-rope"></div>
+                                                <div class="object-shape">
+                                                    Coming <span class="soon">Soon</span>
+                                                </div>
+                                            </div>
+                                            <!-- END : COMING SOON -->
+                                            <!-- DOCUMENTS LWC COMPONENT PLACEHOLDER -->
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                            <lightning-layout-item size="12">
+                                <div class="answers-header mb-8">{labels.FIND_ANSWERS}</div>
+                                <div class="left-column">
+                                    <div class="res-box-answers-container crossed">
+                                        <!-- START : COMING SOON -->
+                                        <div class="object">
+                                            <div class="object-rope"></div>
+                                            <div class="object-shape">
+                                                Coming <span class="soon">Soon</span>
+                                            </div>
+                                        </div>
+                                        <!-- END : COMING SOON -->
+                                        <!-- FIND ANSWERS LINKS LWC COMPONENT PLACEHOLDER -->
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </div>
+    </template>
+</template>

@@ -3,7 +3,7 @@
     <fullName>Master_Terms_And_Conditions__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>Master Terms And Conditions</label>
+    <label>Master Terms or Policies</label>
     <referenceTo>Terms_And_Conditions__c</referenceTo>
     <relationshipLabel>Terms And Conditions</relationshipLabel>
     <relationshipName>Terms_And_Conditions</relationshipName>

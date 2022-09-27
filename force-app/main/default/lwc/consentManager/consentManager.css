@@ -39,7 +39,7 @@ label{
 .errorMsg{
     color: rgb(234, 0, 30);
 }
-
+    
 .checkbox_size{
     max-width: 7px;
 }
@@ -52,6 +52,9 @@ label{
 }
 .addParticipantClass {
     padding-left: 17px;
+}
+.addParticipantClassreq {
+    padding-left:30px;
 }
 .editParticipantClass {
     padding-left: 18px;

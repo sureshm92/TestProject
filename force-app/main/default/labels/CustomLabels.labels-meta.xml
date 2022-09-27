@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>RH_Televisit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Virtual Appointment</shortDescription>
+        <value>Virtual Appointment</value>
+    </labels>
+    <labels>
+        <fullName>RH_No_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No appointments scheduled for the selected date and study site</shortDescription>
+        <value>No appointments scheduled for the selected date and study site</value>
+    </labels>    
+    <labels>
+        <fullName>RH_Visit_in_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>In Person Appointment</shortDescription>
+        <value>In Person Appointment</value>
+    </labels>
+    <labels>
         <fullName>DOB_Batch_Label</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1469,7 +1490,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Attestation Confirmation Message For Teams</shortDescription>
-        <value>I attest to this delegate being of legal age in their locale.</value>
+        <value>By checking this box, you confirm that your delegate or chosen care partner is a legal adult in their country.</value>
     </labels>
     <labels>
         <fullName>August</fullName>
@@ -5225,7 +5246,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Edit Visit Legend</shortDescription>
-        <value>Edit Visit Legend</value>
+        <value>Edit Visit/Event Legend</value>
     </labels>
     <labels>
         <fullName>Eligibility_Failed</fullName>
@@ -18433,6 +18454,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You cannot reuse this old password.</value>
     </labels>
     <labels>
+        <fullName>PP_NewPwdCantCurrentPwd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_NewPwdCantCurrentPwd</shortDescription>
+        <value>Your new password cannot be the same as your current password.</value>
+    </labels>
+    <labels>
         <fullName>PP_CannotReuseOldPwd</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18804,6 +18832,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_DelegateTasks</shortDescription>
         <value>What Can I See or Do?</value>
+    </labels>
+    <labels>
+        <fullName>PP_Delegate_Email_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Delegate_Email_Consent</shortDescription>
+        <value>By checking this box, you confirm that your delegate or chosen care partner agrees to share their information with IQVIA and to receive emails at the address provided with information and updates about this study.</value>
     </labels>
     <labels>
         <fullName>PP_Delegate_Header</fullName>
@@ -24549,6 +24584,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Successfully Contacted</value>
     </labels>
     <labels>
+        <fullName>SurveyName_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SurveyName_Error</shortDescription>
+        <value>Survey Name Already Exist,Please Select A Different Name</value>
+    </labels>
+    <labels>
         <fullName>Suspicious_Activity</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -25051,6 +25093,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Task Subject Select COI</shortDescription>
         <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content we display to you</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Select_COI_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Subject Select COI PP</shortDescription>
+        <value>Select medical conditions related to your diagnosis, to help us prioritize the content that we display to you.</value>
     </labels>
     <labels>
         <fullName>Task_Subject_Update_Your_Phone_Number</fullName>
@@ -26158,7 +26207,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit b Add Visit</shortDescription>
-        <value>Add Visit</value>
+        <value>Add Visit/Event</value>
     </labels>
     <labels>
         <fullName>Visit_b_Close</fullName>
@@ -26321,6 +26370,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>monthly survey error</shortDescription>
         <value>Cannot create monthly survey for these days</value>
+    </labels>
+    <labels>
+        <fullName>MRR_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MRR_Error</shortDescription>
+        <value>MRR already exists and for a study you can create only 1 MRR</value>
     </labels>
     <labels>
         <fullName>of</fullName>
@@ -26709,6 +26765,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PIR_Save_Preset</shortDescription>
         <value>Save Preset</value>
+    </labels>
+    <labels>
+        <fullName>PreScreener_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreScreener_Error</shortDescription>
+        <value>Prescreener already exists and for a study you can create only 1 Prescreener.
+        </value>
     </labels>
     <labels>
         <fullName>Email_Body_Removed_as_Televisit_Attendee</fullName>
@@ -27288,6 +27352,41 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Last Updated on:</value>
     </labels>
     <labels>
+        <fullName>PP_StudyPrivacyPolicyNote1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage privacy note1</shortDescription>
+        <value>Your privacy is important to us. By clicking “Save &amp; Continue”, you confirm via your electronic signature that you have read and agree to our </value>
+    </labels>
+    <labels>
+        <fullName>PP_StudyPrivacyPolicyNote2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage privacy note2</shortDescription>
+        <value>and acknowledge our</value>
+    </labels>
+    <labels>
+        <fullName>PP_StudyPrivacyPolicyNote3</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage privacy note3</shortDescription>
+        <value>, and that you consent to share your information with a study team, and to be contacted at the telephone number(s) and/or email you have provided, to keep you updated with important study or program related information and activities, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_PlatformPrivacyPolicyNote1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage platform privacy note1</shortDescription>
+        <value>By checking these boxes, you also consent to the processing of your personal data by IQVIA for the purposes of sending you updates about new clinical trial opportunities according to the terms of IQVIA's</value>
+    </labels>
+    <labels>
+        <fullName>PP_PlatformPrivacyPolicyNote2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage platform privacy note2</shortDescription>
+        <value>, using the telephone number(s) and/or email you have provided, by the following means:s</value>
+    </labels>
+    <labels>
         <fullName>Communication_Preferences</fullName>
         <categories>PPAccountSettings</categories>
         <language>en_US</language>
@@ -27775,9 +27874,150 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>No_active_program</shortDescription>
         <value>No active program</value>
+     </labels>
+     <labels>
+        <fullName>Navigation_AboutProgram</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation About the Program</shortDescription>
+        <value>About the Program</value>
     </labels>
     <labels>
-        <fullName>Date_of_Birth</fullName>
+        <fullName>Navigation_AboutStudy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation About the study</shortDescription>
+        <value>About the Study</value>
+    </labels>
+    <labels>
+        <fullName>Upcoming_Visit_Expect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>What you can Expect:</shortDescription>
+        <value>What you can Expect:</value>
+    </labels>
+    <labels>
+        <fullName>View_Visit_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View Visit Details</shortDescription>
+        <value>View Visit Details</value>
+    </labels>
+    <labels>
+        <fullName>Visit_No_Expect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NO Visit expectations</shortDescription>
+        <value>There are no expectations for this visit</value>
+    </labels>
+    <labels>
+        <fullName>Study_Visit_No_Date_Or_Time_Entered</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study_Visit_No_Date_Or_Time_Entered</shortDescription>
+        <value>No Date Or Time Entered</value>
+    </labels>
+    <labels>
+        <fullName>Visit_My_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit My Visits</shortDescription>
+        <value>My Visits</value>
+    </labels>
+    <labels>
+        <fullName>Visits_No_Data_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits No Data Available</shortDescription>
+        <value>No Data is available for this visit</value>
+    </labels>
+    <labels>
+        <fullName>Visits_Upcoming</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits Upcoming</shortDescription>
+        <value>Upcoming</value>
+    </labels>
+    <labels>
+        <fullName>Visits_Past</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits Past</shortDescription>
+        <value>Past</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Result</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Result</shortDescription>
+        <value>Results</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Check_Result</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Check Result</shortDescription>
+        <value>Check for results once your visit has occurred.</value>
+    </labels>    
+    <labels>
+        <fullName>Visits_View_All_Results</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits View All Results</shortDescription>
+        <value>View All Results</value>
+    </labels>
+    <labels>
+        <fullName>Update_Notification_Settings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Update_Notification_Settings</shortDescription>
+        <value>Update Notification Settings</value>
+    </labels>
+    <labels>
+        <fullName>Select_reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select_reminder</shortDescription>
+        <value>Select reminder</value>
+    </labels>
+    <labels>
+        <fullName>Visit_details_updated_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit_details_updated_successfully</shortDescription>
+        <value>Visit details updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>My_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My_Visits</shortDescription>
+        <value>My Visits</value>
+    </labels>
+    <labels>
+        <fullName>Loading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Loading</shortDescription>
+        <value>Loading</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Details</shortDescription>
+        <value>Visit Details</value>
+    </labels>
+    <labels>
+        <fullName>Edit_Visit_Event_Legend</fullName>
+        <categories>Edit Visit/Event Legend</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Edit Visit/Event Legend</shortDescription>
+        <value>Edit Visit/Event Legend</value>
+    </labels>
+  	<labels>
+  		<fullName>Date_of_Birth</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Date of Birth</shortDescription>
@@ -27796,5 +28036,106 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Year of Birth</shortDescription>
         <value>Year of Birth</value>
+    </labels>
+    <labels>
+        <fullName>Communication_Preference_Url</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Communication Preferences Url</shortDescription>
+        <value>/account-settings?communication-preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Engage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Engage</shortDescription>
+        <value>Engage</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Explore</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Explore</shortDescription>
+        <value>Explore</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Documents</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Documents</shortDescription>
+        <value>Documents</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Answers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Find Answers</shortDescription>
+        <value>Find Answers</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Time</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Reminder Time</shortDescription>
+        <value>Reminder Time</value>
+    </labels>
+    <labels>
+        <fullName>Passwords_Do_Not_Match</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>passwords do not match</shortDescription>
+        <value>The passwords do not match</value>
+    </labels>
+    <labels>
+        <fullName>Password_Easy_to_Guess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>password to guess</shortDescription>
+        <value>The password you entered is too easy to guess. Enter a different one</value>
+    </labels>
+    <labels>
+        <fullName>Password_Cannot_Be_Null</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>password cannot be null</shortDescription>
+        <value>Your password cannot be null</value>
+    </labels>
+    <labels>
+        <fullName>Cannot_Reuse_Old_Password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>cannot reuse Old Password </shortDescription>
+        <value>Error: You cannot reuse this old password.</value>
+    </labels>
+    <labels>
+        <fullName>Old_Password_Invalid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OldPassword Invalid</shortDescription>
+        <value>Error: Your old password is invalid.</value>
+    </labels>
+    <labels>
+        <fullName>PP_TASK_COMM_PREF</fullName>
+        <categories>PPCreateTask</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP_TASK_COMM_PREF</shortDescription>
+        <value>Update Communication Preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_SELECT_REMINDER</fullName>
+        <categories>PPCreateTask</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP_SELECT_REMINDER</shortDescription>
+        <value>Select Reminder</value>
+    </labels>
+    <labels>
+        <fullName>PP_NO_REMINDER</fullName>
+        <categories>PPCreateTask</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP_NO_REMINDER</shortDescription>
+        <value>No reminder</value>
     </labels>
 </CustomLabels>

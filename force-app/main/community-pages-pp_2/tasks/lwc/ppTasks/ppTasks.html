@@ -1,0 +1,34 @@
+<template>
+    <div class={cardRTL}>
+        <div>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item padding="around-small" size="12">
+                    <div class="page-header">
+                        <h2>Tasks</h2>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="12">
+                    <div class="page-section page-header">
+                        <div class="slds-align_absolute-center">
+                            <button class="slds-button slds-button_brand open-task">Open</button
+                            ><button class="slds-button slds-button_brand completed-task">
+                                Completed
+                            </button>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="12">
+                    <div class="slds-align_absolute-center">
+                        <button class={taskButtonClass} onclick={doCreateTask}>
+                            {label.createNewTask}
+                        </button>
+                    </div>
+
+                    <template if:true={isCreateTask}>
+                        <c-pp-create-task></c-pp-create-task>
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </div>
+</template>
