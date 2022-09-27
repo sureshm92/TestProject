@@ -933,7 +933,7 @@ export default class Pir_participantDetail extends LightningElement {
             console.log(e.stack);
         }
     }
-    abortDup = false;
+    abortDup = false;useDup=false;
     useDuplicateRecord() {
         this.abortDup = true;
         try {
@@ -946,6 +946,7 @@ export default class Pir_participantDetail extends LightningElement {
             this.showDupMsg = false;
             this.showUpdateMsg = false;
             this.setVal(this.pd.delegate.Participant_Delegate__r.Phone__c, '3', 'dphone');
+            this.useDup = true;
             this.toggleSave();
         } catch (e) {
             console.log(e.message);
@@ -1140,7 +1141,7 @@ export default class Pir_participantDetail extends LightningElement {
         this.dispatchEvent(new CustomEvent('toggleclick'));
         this.saving = true;
         var updates = this.isUpdated();
-        doSaveParticipantDetails({ perRecord: this.pd.pe, peDeligateString: JSON.stringify(this.pd.delegate), isPeUpdated: updates.isPeUpdated, isPartUpdated: updates.isPartUpdated, isDelUpdated: updates.isDelUpdated, isOutreachUpdated: this.isOutreachUpdated, delegateCriteria: this.delOp, visitPlan: this.vPlan })
+        doSaveParticipantDetails({ perRecord: this.pd.pe, peDeligateString: JSON.stringify(this.pd.delegate), isPeUpdated: updates.isPeUpdated, isPartUpdated: updates.isPartUpdated, isDelUpdated: updates.isDelUpdated, isOutreachUpdated: this.isOutreachUpdated, delegateCriteria: this.delOp, visitPlan: this.vPlan, useDup: this.useDup })
             .then(result => {
                 this.dispatchEvent(new CustomEvent('toggleclick'));
                 this.dispatchEvent(new CustomEvent('handletab'));
