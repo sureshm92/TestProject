@@ -25081,6 +25081,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content we display to you</value>
     </labels>
     <labels>
+        <fullName>Task_Subject_Select_COI_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Subject Select COI PP</shortDescription>
+        <value>Select medical conditions related to your diagnosis, to help us prioritize the content that we display to you.</value>
+    </labels>
+    <labels>
         <fullName>Task_Subject_Update_Your_Phone_Number</fullName>
         <language>en_US</language>
         <protected>true</protected>
