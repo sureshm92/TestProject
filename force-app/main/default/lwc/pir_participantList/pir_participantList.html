@@ -187,7 +187,12 @@
                                <template if:true={checknewStatus}>
                                     <template if:true={checkFinalSuccessStatus}>
                                         <template if:true={p.allowFinalSuccessStatus}>
-                                            <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange}></lightning-input>
+                                            <template if:true={p.dobValid}>
+                                                <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange}></lightning-input>
+                                            </template>
+                                            <template if:false={p.dobValid}>
+                                                <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled=true></lightning-input>
+                                            </template>
                                         </template>
                                         <template if:false={p.allowFinalSuccessStatus}>
                                             <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled=true></lightning-input>
@@ -204,9 +209,16 @@
                                </template>
                                <template if:false={checknewStatus}>
                                     <template if:true={dctCheck}>
-                                        <div class="slds-align--absolute-center w-7">
-                                            <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled={p.showActionbtnDisabled} ></lightning-input>
-                                        </div> 
+                                        <template if:true={p.dobValid}>
+                                            <div class="slds-align--absolute-center w-7">
+                                                <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled={p.showActionbtnDisabled} ></lightning-input>
+                                            </div> 
+                                        </template>
+                                        <template if:false={p.dobValid}>
+                                            <div class="slds-align--absolute-center w-7">
+                                                <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled=true></lightning-input>
+                                            </div>
+                                        </template>
                                     </template>
                                     <template if:false={dctCheck}>
                                         <div class="slds-align--absolute-center w-10" >
