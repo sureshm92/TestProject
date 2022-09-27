@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DOB_outcome_error</fullName>
+    <language>en_US</language>
+    <protected>false</protected>
+    <shortDescription>DOB outcome error</shortDescription>
+    <value>Participant DOB information is missing on Participant Details tab.</value>
+    </labels>
+    <labels>
+        <fullName>Send_to_Dct_dob_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send to Dct dob error</shortDescription>
+        <value>Participant data couldn&apos;t be sent to DCT because some fields related to this participant are missing. Please fill them out on the Participant Details tab before continuing.</value>
+    </labels>
     <labels>
         <fullName>DOB_Batch_Label</fullName>
         <language>en_US</language>

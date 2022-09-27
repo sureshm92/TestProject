@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Participant_DOB_Valid__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( ISBLANK(Participant__r.Birth_Month__c) &amp;&amp; CONTAINS(TEXT(Study_Site__r.Participant_DOB_format__c), &apos;MM&apos;) , false , 
+IF( ISBLANK(Participant__r.Birth_Day__c) &amp;&amp; CONTAINS(TEXT(Study_Site__r.Participant_DOB_format__c), &apos;DD&apos;) , false , true ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Is Participant DOB Valid</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+</CustomField>
