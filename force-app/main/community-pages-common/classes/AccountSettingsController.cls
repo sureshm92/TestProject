@@ -372,7 +372,7 @@ public without sharing class AccountSettingsController {
                     throw new AuraHandledException(System.Label.TST_Your_current_password_is_invalid);
                 }
                      else if (ex.getMessage() == System.Label.Cannot_Reuse_Old_Password ){
-                    throw new AuraHandledException(System.Label.PP_CantReuseOldPwd);
+                    throw new AuraHandledException(System.Label.PP_CannotReuseOldPwd);
                 }
                     else {
                         throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());

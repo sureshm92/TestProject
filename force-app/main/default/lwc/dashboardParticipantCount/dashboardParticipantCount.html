@@ -67,7 +67,7 @@
                                     <tr><th scope="col" style="width: 2rem">                                        
                                     </th>
                                     <th scope="col" >
-                                        <span><p onclick={selectAll} class="thick1" style="cursor: pointer;margin-left: -2rem;" >Select All</p></span>                                        
+                                        <span><p onclick={selectAll} class="thick1" style="cursor: pointer;margin-left: -2rem;" >{label.SelectAll}</p></span>                                        
                                     </th></tr>
                                 </thead>
                             <tbody>  
@@ -104,10 +104,10 @@
                             <span class="slds-float--right">
                                 <button type="button" class="apollo-btn primary btn"
                                 disabled={disableButton}
-                                onclick={sendToSelected}>Invite Selected</button>
+                                onclick={sendToSelected}>{label.InviteSelected}</button>
                             </span>
                             <span class="slds-float--right">
-                                <button type="button" class="apollo-btn tertiary btn"  onclick={closeParticipantModal}>Cancel</button>
+                                <button type="button" class="apollo-btn tertiary btn"  onclick={closeParticipantModal}>{label.Cancel}</button>
                             </span>
                         </div>
                     </footer>
@@ -157,7 +157,7 @@
                 <footer class="siteDB-footer">
                     <div class="modal_btns">
                         <span class="slds-float--right">
-                            <button type="button" class="apollo-btn tertiary btn"  onclick={closeParticipantModal}>Cancel</button>
+                            <button type="button" class="apollo-btn tertiary btn"  onclick={closeParticipantModal}>{label.Cancel}</button>
                         </span>
                     </div>
                 </footer>
