@@ -33,6 +33,7 @@
     background-color: #ffffff;
     color: #0768fd;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    cursor: pointer;
 }
 .task-save-btn {
     box-sizing: border-box;
@@ -43,6 +44,7 @@
     background-color: #0768fd;
     color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    cursor: pointer;
 }
 .task-save-btn-opacity {
     opacity: 0.5;
@@ -54,6 +56,7 @@
     background-color: #0768fd;
     color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    pointer-events: none;
 }
 
 .pad-right {

@@ -45,10 +45,12 @@
 }
 .before-create-task {
     background: rgba(7, 104, 253, 1);
+    cursor: pointer;
 }
 .after-create-task {
     background: rgba(7, 104, 253, 1);
     opacity: 0.4;
+    pointer-events: none;
 }
 .tasks {
     color: #444444;
