@@ -309,6 +309,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         String ParticipantCountry = '';
         String DelegateAgeOfMajority = '';
         String DelegateYOB = '';
+        String lowercasePartCountry = '';
+        String lowerCaseContactCountry = '';
 
         FirstName = headerIndexes.get('PARTICIPANT FIRST NAME') != null &&
           csvRecordData[headerIndexes.get('PARTICIPANT FIRST NAME')] != null
@@ -548,6 +550,36 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             'Required field missing: Last Name'
           );
         }
+        if (String.isEmpty(ParticipantCountry)) {
+          hasErrors = true;
+
+          listOfFailedRecordsWithMsg.add(
+            '' +
+            totalRecordCount +
+            ', ' +
+            'Required field missing: Country'
+          );
+        }
+
+        lowercasePartCountry = ParticipantCountry.toLowerCase().trim();
+        if (uploadUser.Contact.MailingCountry != null) {
+          lowerCaseContactCountry = uploadUser.Contact.MailingCountry.toLowerCase()
+            .trim();
+        }
+
+        if (
+          !String.isEmpty(ParticipantCountry) &&
+          lowercasePartCountry != lowerCaseContactCountry
+        ) {
+          hasErrors = true;
+
+          listOfFailedRecordsWithMsg.add(
+            '' +
+            totalRecordCount +
+            ', ' +
+            'Required field is incorrect: Country'
+          );
+        }
         if (String.isEmpty(Phone)) {
           hasErrors = true;
 
@@ -673,8 +705,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                       ? higherAge
                       : lowerAge;
                     possibleAges.add(participantAge);
-                  }
-                  else {
+                  } else {
                     possibleAges.add(lowerAge);
                     possibleAges.add(higherAge);
                   }
