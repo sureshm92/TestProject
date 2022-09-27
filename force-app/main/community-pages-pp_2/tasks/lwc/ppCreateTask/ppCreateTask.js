@@ -35,6 +35,8 @@ export default class PpCreateTask extends LightningElement {
     isReminderSelected = false;
     spinner;
     taskReminderDate;
+    taskTypeNotSelected = 'Not Selected';
+    taskStatusOpen = 'Open';
 
     labels = { REMIND_USING_REQUIRED };
     label = {
@@ -75,8 +77,8 @@ export default class PpCreateTask extends LightningElement {
                     this.initData = wrapper;
                     this.spinner.hide();
                     var task = wrapper.task;
-                    task.Status = 'Open';
-                    task.Task_Type__c = 'Not Selected';
+                    task.Status = this.taskStatusOpen;
+                    task.Task_Type__c = this.taskTypeNotSelected;
                     this.task = task;
                     this.jsonState = JSON.stringify(wrapper) + '' + JSON.stringify(task);
                 })
