@@ -248,6 +248,9 @@
             }
             else{
                     component.set('v.invalidDOB',false);
+                    component.set("v.futureDate",false);
+                    component.set("v.futureDateDDErr",""); 
+                    component.set("v.futureDateMMErr","");    
                     
              }
         }
