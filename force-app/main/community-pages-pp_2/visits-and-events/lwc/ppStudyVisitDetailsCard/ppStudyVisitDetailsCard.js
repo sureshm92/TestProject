@@ -73,6 +73,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     @track showreminderdatepicker = false;
     @track diffInMinutes;
     @track currentBrowserTime;
+    @track communicationChanged = false;
     booleanFalse = false;
     booleanTrue = true;
 
@@ -114,6 +115,10 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.remindmepub = '';
         this.showreminderdatepicker = false;
         this.visitDateChanged = false;
+        this.sms = false;
+        this.email = false;
+        this.communicationChanged = false;
+        this.disableButtonSaveCancel = true;
         this.template.querySelector('[data-id="visitDateTime"]').callFromParent();
         this.template.querySelector('[data-id="reminderDateTime"]').callFromParent();
     }
@@ -248,6 +253,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     get showEmailSms() {
+        if (!this.communicationChanged) {
+            this.email = this.visitdata.task.Remind_Using_Email__c;
+            this.sms = this.visitdata.task.Remind_Using_SMS__c;
+            this.communicationChanged = true;
+        }
         if (this.remindmepub) {
             return true;
         } else {
@@ -362,13 +372,21 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
 
     setAttributeValueEmail(event) {
         this.reminderChanged = true;
-        this.disableButtonSaveCancel = false;
+        if (event.target.checked || this.sms) {
+            this.disableButtonSaveCancel = false;
+        } else {
+            this.disableButtonSaveCancel = true;
+        }
         this.email = event.target.checked;
     }
 
     setAttributeValueSms(event) {
         this.reminderChanged = true;
-        this.disableButtonSaveCancel = false;
+        if (event.target.checked || this.email) {
+            this.disableButtonSaveCancel = false;
+        } else {
+            this.disableButtonSaveCancel = true;
+        }
         this.sms = event.target.checked;
     }
 
@@ -379,6 +397,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         var remindMe = event.target.value;
         var today = new Date(new Date() + 60 * 1000);
         var dueDateOrplanDate = this.visitDateTime;
+        if (this.sms || this.email) {
+            this.disableButtonSaveCancel = false;
+        } else {
+            this.disableButtonSaveCancel = true;
+        }
         if (remindMe !== this.label.custom) {
             this.showreminderdatepicker = false;
             if (remindMe === this.label.oneweek) {
