@@ -11432,6 +11432,20 @@ The expected format is REF##### to REF########</value>
         <value>November</value>
     </labels>
     <labels>
+        <fullName>NTR_PP_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NTR_PP_header</shortDescription>
+        <value>Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>NTR_RH_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NTR_RH_header</shortDescription>
+        <value>Referral Hub</value>
+    </labels>
+    <labels>
         <fullName>OT_DPI_S10_T</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -22291,6 +22305,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>RH RP Invalid Email</shortDescription>
         <value>You have entered an invalid format</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Invite_Selected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Invite Selected</shortDescription>
+        <value>Invite Selected</value>
     </labels>
     <labels>
         <fullName>RH_RP_Items</fullName>
