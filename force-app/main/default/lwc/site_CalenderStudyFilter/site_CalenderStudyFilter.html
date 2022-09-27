@@ -1,0 +1,262 @@
+<template>
+  <div
+    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 dropdown-fonts_bulk"
+  >
+    <ul
+      class="slds-accordion study-dropdown siteCalenderDropdown studyDropdown"
+    >
+      <li class="slds-accordion__list-item">
+        <section
+          class="slds-accordion__section slds-is-open slds-p-bottom_none slds-accordion__bg width-100"
+        >
+          <div class="slds-accordion__summary">
+            <h2 class="slds-accordion__summary-heading">
+              <button
+                class="slds-button slds-button_reset slds-accordion__summary-action"
+                data-name="conAcc"
+                aria-controls="referenceId-42"
+                aria-expanded="true"
+                onclick={toggleAccordian}
+              >
+                <span
+                  class="slds-accordion__summary-content slds-p-left_x-small"
+                  >{label.Site_Calendar_All_Studies_Sites}</span
+                >
+                <span>
+                  <lightning-icon
+                    class="conAcc"
+                    icon-name="utility:chevrondown"
+                    size="xx-small"
+                    alternative-text="Home"
+                  ></lightning-icon>
+                  <lightning-icon
+                    class="conAcc slds-hide"
+                    icon-name="utility:chevronup"
+                    size="xx-small"
+                    alternative-text="Home"
+                  ></lightning-icon>
+                </span>
+              </button>
+            </h2>
+          </div>
+          <div
+            class="slds-m-top_small conAcc slds-hide slds-p-bottom"
+            id="referenceId-42"
+          >
+            <div
+              class="slds-wrap slds-grid slds-gutters slds-m-bottom_small slds-m-top_x-small margin_slds"
+            >
+              <div
+                class="eth slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element p-left"
+              >
+                <label class="slds-form-element__label slds-no-flex"
+                  >{label.RH_StudyName_Import}<span
+                    class="close-icon"
+                    onclick={removeAllStudy}
+                    >{label.Clear_All}</span
+                  ></label
+                >
+              </div>
+              <div
+                class="eth slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_small p-left"
+              >
+                <div
+                  class="slds-form-element__control slds-grow slds-input slds-p-around--none sBox comboboxContainer dropdown-width"
+                  tabindex="0"
+                  onfocus={openETH}
+                  onblur={closeETH}
+                >
+                  <div class="slds-combobox_container">
+                    <div
+                      class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click sBoxOpen"
+                    >
+                      <div
+                        class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                        role="none"
+                      >
+                        <div class="selectedOption">
+                          <template if:true={getFirstSelecedStudyy}>
+                            <span class="selectedValue slds-truncate">
+                              {getFirstSelecedStudyy}
+                            </span>
+                            <div class="ethmore">{studyCountStr}</div>
+                          </template>
+                        </div>
+                        <span
+                          class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right"
+                        >
+                          <lightning-icon
+                            icon-name="utility:down"
+                            size="x-small"
+                            alternative-text="down"
+                          ></lightning-icon>
+                        </span>
+                      </div>
+                      <div
+                        data-id="studyBox"
+                        class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                        role="listbox"
+                      >
+                        <ul
+                          class="slds-listbox slds-listbox_vertical"
+                          role="presentation"
+                        >
+                          <template if:true={studylist}>
+                            <template for:each={studylist} for:item="item">
+                              <li
+                                key={item}
+                                data-item={item}
+                                role="presentation"
+                                class="slds-listbox__item customDisplay"
+                              >
+                                <div
+                                  id={item.value}
+                                  class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                  role="option"
+                                >
+                                  <span
+                                    class="slds-media__figure slds-listbox__option-icon"
+                                  ></span>
+                                  <span class="slds-media__body">
+                                    <label class="slds-truncate">
+                                      <!--<input type="checkbox" name={item.label} value={item.value} checked={item.check} data-item={item} class="input-width noclk" onchange={setStudyList}/>-->
+                                      <input
+                                        type="checkbox"
+                                        name={item.label}
+                                        value={item.value}
+                                        checked={item.check}
+                                        data-item={item}
+                                        class="input-width noclk"
+                                        onchange={handleStudyChange}
+                                      />
+                                      <span class="text-for-check"
+                                        >{item.label}</span
+                                      >
+                                    </label>
+                                  </span>
+                                </div>
+                              </li>
+                            </template>
+                          </template>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Study Sites-->
+              <div
+                class="eth slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element p-left"
+              >
+                <label class="slds-form-element__label slds-no-flex"
+                  >{label.RH_StudySite_Import}<span
+                    class="close-icon"
+                    onclick={removeAllStudySites}
+                    >{label.Clear_All}</span
+                  ></label
+                >
+              </div>
+              <div
+                class="eth slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_medium p-left"
+              >
+                <div
+                  class={disablecss}
+                  tabindex="0"
+                  onfocus={openStudySites}
+                  onblur={closeStudySites}
+                >
+                  <div class="slds-combobox_container">
+                    <div
+                      class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click ssBoxOpen"
+                    >
+                      <div
+                        class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                        role="none"
+                      >
+                        <div class="selectedStudyOption">
+                          <template if:true={getFirstSelecedStudySitess}>
+                            <span class="selectedValue slds-truncate">
+                              {getFirstSelecedStudySitess}
+                            </span>
+                            <div class="ethmore">{studySiteCountStr}</div>
+                          </template>
+                        </div>
+                        <span
+                          class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right"
+                        >
+                          <lightning-icon
+                            icon-name="utility:down"
+                            size="x-small"
+                            alternative-text="down"
+                          ></lightning-icon>
+                        </span>
+                      </div>
+                      <div
+                        data-id="studySiteBox"
+                        class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                        role="listbox"
+                      >
+                        <ul
+                          class="slds-listbox slds-listbox_vertical"
+                          role="presentation"
+                        >
+                          <template if:true={studySiteList}>
+                            <template for:each={studySiteList} for:item="item">
+                              <li
+                                key={item.value}
+                                role="presentation"
+                                class="slds-listbox__item customDisplay"
+                              >
+                                <div
+                                  id={item.value}
+                                  class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                  role="option"
+                                >
+                                  <span
+                                    class="slds-media__figure slds-listbox__option-icon"
+                                  ></span>
+                                  <span class="slds-media__body">
+                                    <label class="slds-truncate">
+                                      <input
+                                        type="checkbox"
+                                        name={item.label}
+                                        value={item.value}
+                                        checked={item.check}
+                                        class="input-width noclk"
+                                        onchange={handleStudySiteChange}
+                                      />
+                                      <span class="text-for-check"
+                                        >{item.label}</span
+                                      >
+                                    </label>
+                                  </span>
+                                </div>
+                              </li>
+                            </template>
+                          </template>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-m-top_xx-small"
+              >
+                <button
+                  class="apollo-btn secondary filter-btn slds-p-around_x-small slds-float_right stretch-btn"
+                  onclick={applyStudySiteFilter}
+                  disabled={isApply}
+                >
+                  {label.Apply_Filters}
+                </button>
+              </div>
+              <!-- Apply filters-->
+            </div>
+          </div>
+        </section>
+      </li>
+    </ul>
+  </div>
+</template>
