@@ -457,6 +457,11 @@
                                     title={utilLabels.PG_ACPE_L_Outcome} value={selectedOutcome}
                                     options={outcomeoptions} placeholder={label.PG_RP_L_Not_selected}
                                     onchange={outcomeHandleChange}></lightning-combobox>
+                                    <div if:true={dobErr} class="slds-has-error">
+                                        <div class="slds-form-element__help">
+                                            {label.DOB_outcome_error}
+                                        </div>
+                                    </div>
                             </div>
                             <div
                                 class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
@@ -692,7 +697,12 @@
                             <lightning-combobox name="outcome" label={utilLabels.PG_ACPE_L_Outcome}
                                 title={utilLabels.PG_ACPE_L_Outcome} placeholder={label.PG_RP_L_Not_selected}
                                 value={selectedOutcome} options={outcomeoptions} onchange={outcomeHandleChange}>
-                            </lightning-combobox>
+                            </lightning-combobox>                            
+                            <div if:true={dobErr} class="slds-has-error">
+                                <div class="slds-form-element__help">
+                                    {label.DOB_outcome_error}
+                                </div>
+                            </div>
                         </div>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
