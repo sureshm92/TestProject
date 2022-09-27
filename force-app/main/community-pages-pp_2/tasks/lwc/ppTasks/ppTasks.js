@@ -23,12 +23,14 @@ export default class PpTasks extends LightningElement {
     showCreateTaskButton;
     openTasks;
     completedTasks;
+    spinner;
 
     isCreateTask = false;
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 console.log('NEW RR_COMMUNITY_JS loaded');
+                this.spinner = this.template.querySelector('c-web-spinner');
                 this.initializeData();
             })
             .catch((error) => {
@@ -36,14 +38,17 @@ export default class PpTasks extends LightningElement {
             });
     }
     initializeData() {
+        this.spinner.show();
         getParticipantTasks()
             .then((participantTasks) => {
                 this.showCreateTaskButton = participantTasks.showCreateTaskButton;
                 this.openTasks = participantTasks.openTasksWrapper;
                 this.completedTasks = participantTasks.completedTasks;
+                this.spinner.hide();
             })
             .catch((error) => {
                 console.log('error in ppTasks ', error);
+                this.spinner.hide();
             });
     }
     get cardRTL() {

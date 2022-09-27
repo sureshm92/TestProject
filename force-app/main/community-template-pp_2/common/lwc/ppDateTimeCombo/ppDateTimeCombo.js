@@ -109,6 +109,9 @@ export default class PpDateTimeCombo extends LightningElement {
             return comptime;
         }
     }
+    get dateInputClass() {
+        this.createTask = true ? 'task-due-date-time' : 'curve-input';
+    }
 
     handleDate(event) {
         this.dt = event.target.value;
