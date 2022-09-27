@@ -23,7 +23,9 @@ import PG_MRR_BTN_Back_to_My_Participant from '@salesforce/label/c.PG_MRR_BTN_Ba
 import RH_Referred_by from '@salesforce/label/c.RH_Referred_by';
 import RH_Pre_screen from '@salesforce/label/c.RH_Pre_screen'; 
 import Invited_to_Patient_Portal from '@salesforce/label/c.Invited_to_Patient_Portal';
+import Send_to_Dct_dob_error from '@salesforce/label/c.Send_to_Dct_dob_error';
 export default class Pir_participantHeader extends LightningElement {
+    @api partValid;
     printIcon = icon_printIcon;
     label = {
         inviteToPP,
@@ -321,38 +323,50 @@ export default class Pir_participantHeader extends LightningElement {
             })
         }
         if(this.showActionName == 'SH'){
-            if(!this.mrrResults){
-                const custEventSpinner = new CustomEvent(
-                    'handlespinner', {
-                        detail: true 
-                    });
-                this.dispatchEvent(custEventSpinner);
-            }
-            updateParticipantDataSH({ peId: this.peId })
-            .then((result) => {
-                this.showSuccessToast(this.label.Records_sent_to_SH);
-                this.showActiondateTime = result;
-                this.showAction = true;
-                this.showActionName = 'SH';
-                this.showActionbtnDisabled = true;
-                this.showActionlabel = this.label.RH_Sent_to_DCT_Platform; 
-                this.showActiondt = true; 
-                const selectEventHeader = new CustomEvent('callparticipantparent', {});
-                this.dispatchEvent(selectEventHeader);
-            })
-            .catch((error) => {
-                this.showErrorToast(JSON.stringify(error.body.message));
-                console.log(error);
-            })
-            .finally(() => {
+            if(this.per.Is_Participant_DOB_Valid__c){
                 if(!this.mrrResults){
                     const custEventSpinner = new CustomEvent(
                         'handlespinner', {
-                            detail: false 
+                            detail: true 
                         });
                     this.dispatchEvent(custEventSpinner);
                 }
-            })
+                updateParticipantDataSH({ peId: this.peId })
+                .then((result) => {
+                    this.showSuccessToast(this.label.Records_sent_to_SH);
+                    this.showActiondateTime = result;
+                    this.showAction = true;
+                    this.showActionName = 'SH';
+                    this.showActionbtnDisabled = true;
+                    this.showActionlabel = this.label.RH_Sent_to_DCT_Platform; 
+                    this.showActiondt = true; 
+                    const selectEventHeader = new CustomEvent('callparticipantparent', {});
+                    this.dispatchEvent(selectEventHeader);
+                })
+                .catch((error) => {
+                    this.showErrorToast(JSON.stringify(error.body.message));
+                    console.log(error);
+                })
+                .finally(() => {
+                    if(!this.mrrResults){
+                        const custEventSpinner = new CustomEvent(
+                            'handlespinner', {
+                                detail: false 
+                            });
+                        this.dispatchEvent(custEventSpinner);
+                    }
+                })
+            }
+            else{
+                const evt = new ShowToastEvent({
+                    title: Send_to_Dct_dob_error,
+                    message: Send_to_Dct_dob_error,
+                    variant: 'error',
+                    mode: 'sticky'
+                });
+                this.dispatchEvent(evt);
+                this.dispatchEvent(new CustomEvent('gotodetail'));
+            }
         }
     }
 
