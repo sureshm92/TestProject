@@ -11453,6 +11453,20 @@ The expected format is REF##### to REF########</value>
         <value>November</value>
     </labels>
     <labels>
+        <fullName>NTR_PP_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NTR_PP_header</shortDescription>
+        <value>Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>NTR_RH_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NTR_RH_header</shortDescription>
+        <value>Referral Hub</value>
+    </labels>
+    <labels>
         <fullName>OT_DPI_S10_T</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -22328,6 +22342,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You have entered an invalid format</value>
     </labels>
     <labels>
+        <fullName>RH_RP_Invite_Selected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Invite Selected</shortDescription>
+        <value>Invite Selected</value>
+    </labels>
+    <labels>
         <fullName>RH_RP_Items</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25072,6 +25093,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Task Subject Select COI</shortDescription>
         <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content we display to you</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Select_COI_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Subject Select COI PP</shortDescription>
+        <value>Select medical conditions related to your diagnosis, to help us prioritize the content that we display to you.</value>
     </labels>
     <labels>
         <fullName>Task_Subject_Update_Your_Phone_Number</fullName>
