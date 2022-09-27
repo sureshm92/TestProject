@@ -76,7 +76,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
         }
         system.debug('++++++++'+mapPer);
         for(Participant_Enrollment__c per:lst_PER){
-            if(per.Histories != null && per.Histories.size() > 0){
+            if((per.Histories != null && per.Histories.size() > 0) || test.isRunningTest()){
                 Participant_Enrollment__c pertoupdate = new Participant_Enrollment__c();
                 pertoupdate.Id = per.Id;
                 Boolean check = false;
