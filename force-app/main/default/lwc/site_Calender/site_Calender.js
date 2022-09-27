@@ -30,9 +30,11 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
   label = {
     Join,
     Televisit,
-    VisitInSite,    
+    VisitInSite,
     NoVisits
   };
+  divcss =
+    "slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-scrollable scroll-mobile filterclose";
   //Accordian
   toggleAccordian(event) {
     this.template
@@ -62,6 +64,8 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
   fullname;
   studySiteDetails = [];
   isStudyDetailsFilled;
+  loginUserDate;
+  selectedDate;
 
   connectedCallback() {
     loadStyle(this, SiteCalCSS);
@@ -102,6 +106,7 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
         var yyyy = userDate.getFullYear();
 
         userDate = yyyy + "-" + mm + "-" + dd;
+        this.selectedDate = userDate;
         this.fetchVisitData(userDate);
       })
       .catch((error) => {
@@ -136,7 +141,6 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
       })
       .catch((error) => {
         this.error = error;
-        console.log(error);
       });
   }
   navigateToParticipantTab(event) {
@@ -156,15 +160,38 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
 
   handleDateSelection(event) {
     const newDateSelected = event.detail;
+    this.selectedDate = newDateSelected;
     this.fetchVisitData(newDateSelected);
   }
 
   handleStudySiteFilterEvent(event) {
-    this.studyFilterWrapper = event.detail;
+    this.isLoaded = true;
+    let studyIds = [];
+    let siteIds = [];
+    for (let i = 0; i < event.detail.study.length; i++) {
+      studyIds.push(event.detail.study[i].value);
+    }
+    for (let i = 0; i < event.detail.studySite.length; i++) {
+      siteIds.push(event.detail.studySite[i].value);
+    }
+    this.filterData.study = studyIds;
+    this.filterData.studySite = siteIds;
+    this.fetchVisitData(this.selectedDate);
   }
 
   handleJoin(event) {
     let url = event.currentTarget.dataset.meeturl;
     window.open(url, "_blank");
+  }
+
+  handleAccordianEvent(event) {
+    let isOpenAccordian = event.detail.isOpenAccordian;
+    if (isOpenAccordian) {
+      this.divcss =
+        "slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-scrollable scroll-mobile filteropen";
+    } else {
+      this.divcss =
+        "slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-scrollable scroll-mobile filterclose";
+    }
   }
 }

@@ -4,6 +4,7 @@ import moment from '@salesforce/resourceUrl/moment';
 import momentTZ from '@salesforce/resourceUrl/momenttz';
 import { loadScript } from 'lightning/platformResourceLoader';
 import date from '@salesforce/label/c.TV_TH_Date';
+import dueDate from '@salesforce/label/c.Due_Date';
 import time from '@salesforce/label/c.TV_TH_Time';
 import reminderdate from '@salesforce/label/c.Reminder_Date';
 import remindertime from '@salesforce/label/c.Reminder_Time';
@@ -17,6 +18,7 @@ export default class PpDateTimeCombo extends LightningElement {
     @api reminder;
     @api iconSize = 'small';
     @api iconColor = '#00A3E0';
+    @api createTask;
     @track compDateTime;
     @track dt;
     @track tm;
@@ -26,7 +28,8 @@ export default class PpDateTimeCombo extends LightningElement {
         date,
         time,
         reminderdate,
-        remindertime
+        remindertime,
+        dueDate
     };
 
     @api
@@ -105,6 +108,9 @@ export default class PpDateTimeCombo extends LightningElement {
             this.dispatchEvent(dateEvent);
             return comptime;
         }
+    }
+    get dateInputClass() {
+        this.createTask = true ? 'task-due-date-time' : 'curve-input';
     }
 
     handleDate(event) {
