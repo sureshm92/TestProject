@@ -97,11 +97,14 @@
                                 <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
                             </aura:if>
                         </aura:if>
-                        <aura:if isTrue="{!v.communityApiName == 'IQVIA_Patient_Portal1'}">
+                        <aura:if
+                            isTrue="{!and(v.communityApiName == 'IQVIA_Patient_Portal1',$Browser.formFactor != 'PHONE')}"
+                        >
                             <!--new pp navigation-->
                             <c:ppCommunityNavigation
                                 communityServic="{!v.communityServ}"
                                 aura:id="ppMenu"
+                                showSideMenu="{!v.showSideMenu}"
                             />
                             <aura:set attribute="else">
                                 <div class="navigation-block">
@@ -212,7 +215,7 @@
             <div class="rr-body-content rr-min-body-height">
                 <aura:if isTrue="{!v.isInitialized}">
                     <aura:if isTrue="{!v.isPPonPhone}">
-                        <c:ppCommunityNavigationMobile
+                        <c:ppCommunityNavigation
                             communityServic="{!v.communityServ}"
                             showSideMenu="{!v.showSideMenu}"
                         />
