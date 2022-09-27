@@ -1078,8 +1078,19 @@ export default class Pir_participantDetail extends LightningElement {
        if(this.participantSelectedAge == undefined){
         err++;
        }
-        if((this.delegateLevels == 'Level 3' || this.delegateLevels == 'Level 2') && (!this.pd.delegate.Participant_Delegate__r.Attestation__c)){
+        if((this.delegateLevels == 'Level 3' || this.delegateLevels == 'Level 2') && this.delegateReq){
+            if(this.pd.delegate==null || this.pd.delegate=='' || this.pd.delegate.Participant_Delegate__c == null || this.pd.delegate.Participant_Delegate__c == ''){
             err++;
+            }else{
+                let delFields = ['First_Name__c', 'Last_Name__c', 'Phone__c', 'Email__c'];
+                for (var i = 0; i < delFields.length; i++) {
+                    if (this.pd.delegate.Participant_Delegate__r[delFields[i]]) {
+                        if (this.pd.delegate.Participant_Delegate__r[delFields[i]].trim() == "" || this.pd.delegate.Participant_Delegate__r[delFields[i]].trim() == undefined || this.pd.delegate.Participant_Delegate__r[delFields[i]].trim() == null) {
+                            err++;
+                        }
+                    }
+                }
+            }
         }
         return err == 0;
     }
