@@ -20,8 +20,8 @@ import Pswd_Special_Characters from '@salesforce/label/c.Pswd_Special_Characters
 import PG_AS_F_Update_Password from '@salesforce/label/c.PG_AS_F_Update_Password';
 import PP_Password_Management from '@salesforce/label/c.PP_Password_Management';
 import PP_Incorrect_password from '@salesforce/label/c.PP_Incorrect_password';
-import PP_Password_does_not_fit_criteria from '@salesforce/label/c.PP_Password_does_not_fit_criteria';
-import PP_Password_does_not_match from '@salesforce/label/c.PP_Password_does_not_match';
+import PP_PasswordCriteriaNotMet from '@salesforce/label/c.PP_PasswordCriteriaNotMet';
+import PPLite_PasswordsMismatch from '@salesforce/label/c.PPLite_PasswordsMismatch';
 import PP_Password_Requirements from '@salesforce/label/c.PP_Password_Requirements';
 import BACK from '@salesforce/label/c.Back';
 
@@ -68,8 +68,8 @@ export default class PpChangePassword extends LightningElement {
         TST_Your_current_password_is_invalid,
         PP_Password_Management,
         PP_Incorrect_password,
-        PP_Password_does_not_fit_criteria,
-        PP_Password_does_not_match,
+        PP_PasswordCriteriaNotMet,
+        PPLite_PasswordsMismatch,
         PG_AS_F_Current_Password,
         PG_AS_F_New_password,
         PP_Password_Requirements,

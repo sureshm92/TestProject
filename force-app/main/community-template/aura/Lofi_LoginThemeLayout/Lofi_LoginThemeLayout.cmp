@@ -43,7 +43,7 @@
                                     class="main-logo"
                                 />
                                 <div class="{!if(v.isRTL, 'header-title-rtl ', 'header-title')}">
-                                    {!$Label.c.Lofi_Login_PP_Header}
+                                    {!$Label.c.NTR_PP_header}
                                 </div>
                                 <div class="header-subtitle">
                                     {!$Label.c.Lofi_Login_PP_Subheader}
@@ -55,7 +55,7 @@
                                     class="main-logo"
                                 />
                                 <div class="{!if(v.isRTL, 'header-title-rtl ', 'header-title')}">
-                                    {!$Label.c.Lofi_Login_RH_Header}
+                                    {!$Label.c.NTR_RH_header}
                                 </div>
                                 <div class="header-subtitle">
                                     {!$Label.c.Lofi_Login_RH_Subheader}
@@ -113,7 +113,7 @@
                                     class="mobile-logo"
                                 />
                                 <div class="header-title-mobile">
-                                    {!$Label.c.Lofi_Login_PP_Header}
+                                    {!$Label.c.NTR_PP_header}
                                 </div>
                             </div>
                             <div class="slds-col slds-size--1-of-2 slds-align_absolute-center">
@@ -122,7 +122,7 @@
                                     class="mobile-logo"
                                 />
                                 <div class="header-title-mobile">
-                                    {!$Label.c.Lofi_Login_RH_Header}
+                                    {!$Label.c.NTR_RH_header}
                                 </div>
                             </div>
                         </div>
