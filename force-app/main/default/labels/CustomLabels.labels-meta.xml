@@ -25067,6 +25067,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Task Name</value>
     </labels>
     <labels>
+        <fullName>Enter_Task_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enter Task Name</shortDescription>
+        <value>Enter Task Name</value>
+    </labels> 
+    <labels>
         <fullName>Task_Reminder_Details</fullName>
         <language>en_US</language>
         <protected>true</protected>

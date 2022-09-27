@@ -1,0 +1,63 @@
+.input-task-name {
+    height: 32px;
+    width: 334px;
+    border-radius: 1rem;
+    border: 1px solid #d9d9d9;
+    padding-left: 16px;
+}
+.task-length {
+    height: 24px;
+    width: 38px;
+    color: #595959;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+    padding-left: 230px;
+}
+.card-style {
+    height: 273px;
+    width: 334px;
+}
+
+.task-card {
+    width: 510px;
+    height: 316px;
+}
+.task-cancel-btn {
+    box-sizing: border-box;
+    height: 32px;
+    width: 88px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    color: #0768fd;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+}
+.task-save-btn {
+    box-sizing: border-box;
+    height: 32px;
+    width: 96px;
+    border: 1px solid #d9d9d9;
+    border-radius: 20px;
+    background-color: #0768fd;
+    color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+}
+.task-save-btn-opacity {
+    opacity: 0.5;
+    box-sizing: border-box;
+    height: 32px;
+    width: 96px;
+    border: 1px solid #d9d9d9;
+    border-radius: 20px;
+    background-color: #0768fd;
+    color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    pointer-events: none;
+}
+
+.pad-right {
+    padding-right: 16px;
+}
