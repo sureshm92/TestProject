@@ -10,6 +10,7 @@ import getTrialDetail from '@salesforce/apex/StudyDetailViewController.getTrialD
 import getLinksData from '@salesforce/apex/RelevantLinksRemote.getInitData';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import RELEVANT_LINKS from '@salesforce/label/c.Home_Page_RelevantLinks_Title';
+import DISCOVER_TITLE from '@salesforce/label/c.Discover_Title';
 import ENGAGE from '@salesforce/label/c.PP_Resource_Engage';
 import EXPLORE from '@salesforce/label/c.PP_Resource_Explore';
 import DOCUMENTS from '@salesforce/label/c.PP_Resource_Documents';
@@ -32,7 +33,8 @@ export default class PpResourceContainerPage extends LightningElement {
         ENGAGE,
         EXPLORE,
         DOCUMENTS,
-        FIND_ANSWERS
+        FIND_ANSWERS,
+        DISCOVER_TITLE
     };
     @track linksData;
     @track trialdata;
