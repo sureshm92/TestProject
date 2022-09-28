@@ -377,7 +377,8 @@ public without sharing class PIR_StatusDetailController {
         Participant__r.Email__c,
         PI_Contact__r.FirstName,
         PI_Contact__r.LastName,
-        PI_Contact__c
+        PI_Contact__c,
+        Is_Participant_DOB_Valid__c
       FROM Participant_Enrollment__c
       WHERE Id = :perId
     ];

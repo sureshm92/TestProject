@@ -17,6 +17,9 @@ import sendInvites from '@salesforce/apex/DashboardParticipantCount.sendInviteTo
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import LoginModalTitle from '@salesforce/label/c.Site_DB_Model_Login_Title';
 import InviteModalTitle from '@salesforce/label/c.Site_DB_Model_Title';
+import SelectAll from '@salesforce/label/c.Select_All_PI';
+import Cancel from '@salesforce/label/c.BTN_Cancel';
+import InviteSelected from '@salesforce/label/c.RH_RP_Invite_Selected';
 export default class DashboardParticipantCount extends LightningElement {
     @api selectedCTP;
     @api selectedPI;
@@ -54,7 +57,10 @@ export default class DashboardParticipantCount extends LightningElement {
         PPLoginStatusTitle,
         SendInviteSuccessMsg,
         LoginModalTitle,
-        InviteModalTitle
+        InviteModalTitle,
+        SelectAll,
+        Cancel,
+        InviteSelected
     };
 	  
 

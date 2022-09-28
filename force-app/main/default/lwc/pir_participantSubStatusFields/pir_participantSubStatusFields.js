@@ -28,6 +28,7 @@ import Gender_Male from '@salesforce/label/c.Gender_Male';
 import PE_Sex_At_Birth from '@salesforce/label/c.PIR_Gender';
 import { label } from "c/pir_label";
 import TIME_ZONE from '@salesforce/i18n/timeZone';
+import DOB_outcome_error from '@salesforce/label/c.DOB_outcome_error';
 export default class Pir_participantSubStatusFields extends LightningElement {
   @api index = "";
   @api outcomeToReasonMap = {};
@@ -88,7 +89,8 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     PG_RP_L_Not_selected,
     RH_TV_InitialVisitPopUpMessage,
     PIR_Reason_Required,
-    PE_Sex_At_Birth
+    PE_Sex_At_Birth,
+    DOB_outcome_error
  };
  connectedCallback() {
   if(this.isrtl) {
@@ -1249,7 +1251,14 @@ changeInputValue(event) {
       btnValidationSuccess = true;
       validationList.push(btnValidationSuccess);
     }
-    if (validationList.includes(false)) {
+    var discardChanges = ((this.selectedOutcome=='PE_STATUS_ENROLLMENT_SUCCESS' ||  this.selectedOutcome=='Randomization_Success') && !this.pe_record.Is_Participant_DOB_Valid__c);
+    if(discardChanges){
+      const validatesavebtn = new CustomEvent("validatesavebutton", { 
+        detail: true
+      });
+      this.dispatchEvent(validatesavebtn);
+    }
+    else if (validationList.includes(false)) {
       const validatesavebtn = new CustomEvent("validatesavebutton", { 
         detail: true
       });
@@ -1660,8 +1669,8 @@ changeInputValue(event) {
      }else{
        hasChanges.push(false);
      }
-
-      if(hasChanges.includes(true)){ 
+     var discardChanges = ((this.selectedOutcome=='PE_STATUS_ENROLLMENT_SUCCESS' ||  this.selectedOutcome=='Randomization_Success') && !this.pe_record.Is_Participant_DOB_Valid__c);
+      if(hasChanges.includes(true) && !discardChanges){ 
          const valueChangeEvent = new CustomEvent("statusdetailsvaluechange", {
           detail: true
         });
@@ -1925,5 +1934,7 @@ changeInputValue(event) {
     m = m < 10 ? '0' + m : m;
     return h + ':' + m + ':00.000'; 
   }
-
+  get dobErr() {
+    return ((this.selectedOutcome=='PE_STATUS_ENROLLMENT_SUCCESS' ||  this.selectedOutcome=='Randomization_Success') && !this.pe_record.Is_Participant_DOB_Valid__c);
+  }
 }

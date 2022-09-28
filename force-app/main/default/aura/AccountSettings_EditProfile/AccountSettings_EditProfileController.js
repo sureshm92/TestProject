@@ -96,9 +96,15 @@
                         communityService.getCurrentCommunityMode().currentDelegateId
                     );
                     if (component.get('v.userMode') === 'Participant') {
-                        if (initData.participant.Adult__c && initData.delegateUserName != null) {
-                            component.set('v.userEmail', initData.delegateUserName.Username);
+                        if (initData.participant.Adult__c) {
+                            //Disable Adult Participant's contact information for delegate.
+                            component.set('v.disableContactInformationForDel', true);
+                            component.set('v.disableSave', true);
+                            if(initData.delegateUserName != null){
+                                component.set('v.userEmail', initData.delegateUserName.Username);
+                            }
                         } else if (!initData.participant.Adult__c) {
+                            //Hide Minor Participant's contact information for Delegate.
                             component.set('v.hideContactInformationForDel', true);
                         }
                     }
