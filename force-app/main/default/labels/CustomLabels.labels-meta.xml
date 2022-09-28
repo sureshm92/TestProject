@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>DOB_outcome_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DOB outcome error</shortDescription>
+        <value>Participant DOB information is missing on Participant Details tab.</value>
+    </labels>
+    <labels>
+        <fullName>Send_to_Dct_dob_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send to Dct dob error</shortDescription>
+        <value>Participant data couldn&apos;t be sent to DCT because some fields related to this participant are missing. Please fill them out on the Participant Details tab before continuing.</value>
+    </labels>
+    <labels>        
+        <fullName>Site_Calendar_All_Studies_Sites</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site Calendar All Studies Sites</shortDescription>
+        <value>Showing: All Studies, All Sites</value>
+    </labels>
+    <labels>
+        <fullName>Site_Calendar_Apply_Filters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site Calendar Apply Filters</shortDescription>
+        <value>Apply Filters</value>
+    </labels>
+    <labels>
         <fullName>RH_Televisit</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11453,6 +11481,20 @@ The expected format is REF##### to REF########</value>
         <value>November</value>
     </labels>
     <labels>
+        <fullName>NTR_PP_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NTR_PP_header</shortDescription>
+        <value>Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>NTR_RH_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NTR_RH_header</shortDescription>
+        <value>Referral Hub</value>
+    </labels>
+    <labels>
         <fullName>OT_DPI_S10_T</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -22328,6 +22370,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You have entered an invalid format</value>
     </labels>
     <labels>
+        <fullName>RH_RP_Invite_Selected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Invite Selected</shortDescription>
+        <value>Invite Selected</value>
+    </labels>
+    <labels>
         <fullName>RH_RP_Items</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25031,6 +25080,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Task Name</shortDescription>
         <value>Task Name</value>
     </labels>
+    <labels>
+        <fullName>Enter_Task_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enter Task Name</shortDescription>
+        <value>Enter Task Name</value>
+    </labels> 
     <labels>
         <fullName>Task_Reminder_Details</fullName>
         <language>en_US</language>
