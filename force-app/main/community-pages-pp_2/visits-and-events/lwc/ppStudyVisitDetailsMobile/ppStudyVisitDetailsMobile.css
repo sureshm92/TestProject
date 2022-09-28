@@ -16,13 +16,17 @@
     letter-spacing: 0;
     line-height: 32px;
 }
-.icon-cont-mobile {
+.icon-cont-mobile,
+.card-content {
+    display: flex;
     box-sizing: border-box;
-    height: auto;
+    min-height: 209px;
     width: 382px;
-    border: 1px solid #d9d9d9;
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+}
+.icon-cont-mobile {
+    border: 1px solid #d9d9d9;
 }
 .check-for-results-on {
     height: 32px;
@@ -52,22 +56,6 @@
 .view-result {
     color: #2e7cf3;
     margin-bottom: 2rem;
-}
-.icon-cont {
-    box-sizing: border-box;
-    height: 185px;
-    width: 442px;
-    border: 1px solid #d9d9d9;
-    border-radius: 16px;
-    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
-}
-.icon-cont1 {
-    box-sizing: border-box;
-    height: 519px;
-    width: 310px;
-    border: 1px solid #d9d9d9;
-    border-radius: 16px;
-    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
 }
 .visit3 {
     color: #444444;
