@@ -655,7 +655,7 @@ export default class Pir_participantDetail extends LightningElement {
            if(this.isDayMandate){
         dt= this.valueYYYY + '-' + this.valueMM + '-' + this.valueDD;
            }else {
-               dt=this.valueYYYY + '-' + this.valueMM + '01';
+               dt=this.valueYYYY + '-' + this.valueMM + '-01';
            }
         var today = new Date();
         var dd= 1;
