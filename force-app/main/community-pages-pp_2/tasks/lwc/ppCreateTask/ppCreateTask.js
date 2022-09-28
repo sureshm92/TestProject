@@ -22,7 +22,7 @@ export default class PpCreateTask extends LightningElement {
     diffInMinutes;
     todaydate;
     past = false;
-    task;
+    @track task;
     calculatedDate;
     notReminder = false;
     todaytime;
@@ -222,31 +222,39 @@ export default class PpCreateTask extends LightningElement {
     handleReminder(event) {
         this.task.Remind_Using_Email__c = event.detail.emailReminderOptIn;
         this.task.Remind_Using_SMS__c = event.detail.smsReminderOptIn;
-        this.task.Remind_Me__c = event.detail.reminderType;
-        this.isReminderSelected = true;
+        this.task.Remind_Me__c =
+            event.detail.reminderType == 'No reminder' ? '' : event.detail.reminderType;
+        this.isReminderSelected = event.detail.reminderType == 'No reminder' ? false : true;
     }
+
     get saveButtonClass() {
-        if (
-            (this.subject !== undefined || this.subject != null) &&
-            this.taskDueTime &&
-            this.taskDueDate
-        ) {
-            if (!this.isReminderSelected) this.enableSave = true;
-            else if (this.isReminderSelected) {
-                if (
-                    this.isReminderSelected != 'Custom' &&
-                    (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c)
-                )
-                    this.enableSave = true;
-                else if (
-                    this.isReminderSelected == 'Custom' &&
-                    (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c) &&
-                    (this.taskReminderDate != undefined || this.taskReminderDate != null)
-                )
-                    this.enableSave = true;
-                else this.enableSave = false;
-            } else this.enableSave = false;
-        } else this.enableSave = false;
+        this.enableSave = false;
+        if (this.subject && this.taskDueTime && this.taskDueDate) {
+            if (!this.isReminderSelected) {
+                this.enableSave = true;
+            } else if (this.isReminderSelected) {
+                if (this.task.Remind_Me__c) {
+                    if (
+                        this.task.Remind_Me__c != 'Custom' &&
+                        (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c)
+                    ) {
+                        this.enableSave = true;
+                    } else if (
+                        this.task.Remind_Me__c == 'Custom' &&
+                        (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c) &&
+                        this.taskReminderDate
+                    ) {
+                        this.enableSave = true;
+                    } else {
+                        this.enableSave = false;
+                    }
+                }
+            } else {
+                this.enableSave = false;
+            }
+        } else {
+            this.enableSave = false;
+        }
 
         console.log('this.enableSave-------' + this.enableSave);
         return this.enableSave ? 'task-save-btn' : 'task-save-btn-opacity';
