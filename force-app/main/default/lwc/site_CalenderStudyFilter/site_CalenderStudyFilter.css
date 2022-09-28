@@ -1,0 +1,235 @@
+.site-calender {
+  width: 100%;
+}
+.dropdown-fonts_bulk {
+  padding-left: 0;
+  padding-right: 0;
+}
+/* Showing: All Studies, All Sites */
+.slds-accordion__summary {
+  background: #f3f3f3;
+  max-height: 48px;
+  border-bottom: 1px solid #ffffff;
+}
+.study-dropdown {
+  overflow-x: unset !important;
+  overflow-y: unset !important;
+}
+.slds-form-element__label {
+  font-size: 12px !important;
+}
+.width-100 {
+  width: 100%;
+}
+.slds-accordion__bg {
+  background: #f3f3f3;
+  border-bottom: 1px solid #ffffff;
+}
+.slds-button:focus {
+  text-decoration: none;
+}
+.slds-accordion__summary-content {
+  color: #444444;
+  font-size: 12px;
+  line-height: 26px;
+  width: 92%;
+  padding-left: 14px;
+}
+.slds-p-bottom {
+  padding-bottom: 15px;
+}
+.slds-selectdropdown {
+  margin-top: -20px;
+}
+.label_text {
+  font-size: 12px;
+  color: #444444;
+  line-height: 18px;
+}
+
+.margin_slds {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+/* .dropdown_width{
+    width: 320px;
+} */
+/* Showing: All Studies, All Sites End */
+
+/*.slds-selectdropdown{
+    --slds-c-input-color-border: #ea001e;
+    --slds-c-input-shadow: #ea001e 0 0 0 1px inset;
+    --slds-c-input-color-background: var(--slds-c-input-color-background, var(--sds-c-input-color-background, white));
+    --slds-c-input-text-color: var(--slds-c-input-text-color, var(--sds-c-input-text-color), #74747);
+}*/
+.eth .slds-no-flex {
+  width: 100%;
+}
+.eth .close-icon {
+  cursor: pointer;
+  margin-left: 5px;
+  opacity: 0.6;
+}
+.eth .slds-no-flex span {
+  float: right;
+  color: #296fd9;
+  cursor: pointer;
+  font-weight: 500;
+  opacity: 1;
+}
+.eth .slds-input {
+  height: auto;
+}
+.eth .selectedOption {
+  max-width: 291px;
+  width: 291px;
+  overflow: hidden;
+  min-height: 32px;
+  /* white-space: nowrap; */
+}
+.eth .selectedStudyOption {
+  max-width: 291px;
+  width: 291px;
+  overflow: hidden;
+  min-height: 32px;
+}
+.eth .selectedValue {
+  border: 1px solid #d9d9d9;
+  border-radius: 16px;
+  margin-left: 5px;
+  color: black;
+  font-weight: 600;
+  float: left;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  padding: 0 10px;
+  min-height: 0px;
+  line-height: 24px;
+  font-size: 13px;
+}
+.eth .close-img {
+  cursor: pointer;
+  width: 14px;
+  margin-left: 5px;
+}
+.eth .slds-listbox__option-icon {
+  width: 6px;
+}
+.eth .slds-listbox_vertical .slds-listbox__option:hover {
+  background: #ecf3ff;
+}
+.eth .input-width {
+  height: 14px;
+  width: 14px;
+}
+.eth .slds-truncate {
+  width: 50%;
+  cursor: pointer;
+}
+.eth .text-for-check {
+  position: absolute;
+  padding-left: 7px;
+  font-size: 14px;
+  margin-top: -2px;
+  max-width: 84%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.eth .input-width:checked + .text-for-check {
+  font-weight: 600;
+}
+.eth input:focus {
+  box-shadow: none;
+}
+
+.dt input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+.dt input[type="date"]::-webkit-datetime-edit {
+  text-align: right;
+}
+.eth .ethmore {
+  padding: 1px 0px 0px 130px;
+  margin-left: 24px;
+  font-size: 13px;
+}
+.recordListBox {
+  margin-top: 0px !important;
+  overflow-y: scroll;
+}
+.slds-grow {
+  flex-grow: 1;
+}
+
+.customDisplay {
+  display: block !important;
+}
+
+.slds-form-element__control {
+  clear: left;
+  position: relative;
+}
+.studyDropdown {
+  overflow-x: unset !important;
+  overflow-y: unset !important;
+}
+
+.filter-btn {
+  width: 100%;
+}
+
+.text-width {
+  width: 140px;
+  text-align: left;
+}
+
+.staticAll {
+  position: absolute;
+  top: 0px;
+  left: 8px;
+}
+@media (max-device-width: 767px) {
+  .width-100 {
+    width: 315px;
+  }
+
+  .eth .selectedOption {
+    max-width: 270px;
+    width: 270px;
+    overflow: hidden;
+    min-height: 32px;
+    /* white-space: nowrap; */
+  }
+
+  .eth .selectedStudyOption {
+    max-width: 270px;
+    width: 270px;
+    overflow: hidden;
+    min-height: 32px;
+  }
+}
+/* Scrollbar Code */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #999999;
+  border-radius: 4px;
+  cursor: pointer;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #858383;
+}
+/* Scrollbar Code End */
+.dropdowndisable {
+  background-color: var(--lwc-colorBackgroundInputDisabled, rgb(243, 243, 243));
+  border-color: var(--lwc-colorBorderInputDisabled, rgb(201, 201, 201));
+  color: var(--lwc-colorTextInputDisabled, rgb(116, 116, 116));
+  pointer-events: none;
+  cursor: not-allowed;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

@@ -134,13 +134,13 @@
     padding: 80px;
 }
 
-.name-style {
+.name-style,
+.nameStyle {
     color: #595959;
     font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
     letter-spacing: 0;
-    line-height: 32px;
 }
 
 .icon-style {
@@ -224,6 +224,7 @@ a {
 .image-result-visit {
     height: 197px;
     width: 270px;
+    margin-bottom: 1rem;
 }
 
 .active-custom-box {
@@ -233,8 +234,9 @@ a {
     border: 1px solid #015ff1;
     border-radius: 16px;
     background-color: #ffffff;
-    padding: 0.75rem 1rem;
+    padding: 0.9rem 1rem;
     margin-bottom: 0.5rem;
+    color: #595959;
 }
 .list-selection,
 .list-align-mob {
@@ -253,7 +255,7 @@ a {
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background-color: #ffffff;
-    padding: 0.75rem 1rem;
+    padding: 0.9rem 1rem;
     margin-bottom: 0.5rem;
 }
 
@@ -386,13 +388,53 @@ a {
 }
 
 @media all and (max-width: 486px) {
-    .col1,
-    .col3 {
-        display: none;
+
+    .my-visits {
+        margin-left: 0;
     }
 
-    .slds-grid.slds-p-horizontal_x-large {
-        padding-left: unset;
-        padding-right: unset;
+    .slds-p-horizontal_x-large > .slds-size_1-of-1 {
+        padding-inline: .25rem;
+    }
+
+    .list-align-mob > div {
+        width: 100%;
+    }
+
+    .active-custom-box,
+    .inactive-custom-box {
+        min-width: unset;
+        width: 100%;
+        padding: 1rem 1rem .75rem;
+    }
+
+    .active-custom-box .slds-grid,
+    .inactive-custom-box .slds-grid {
+        justify-content: space-between;
+    }
+
+    .active-custom-box .slds-grid .slds-col:first-child,
+    .inactive-custom-box .slds-grid .slds-col:first-child {
+       width: .25rem;
+    }
+
+    .active-custom-box .slds-grid .slds-col:nth-child(2),
+    .inactive-custom-box .slds-grid .slds-col:nth-child(2) {
+      margin-left: -1rem;
+    }
+
+    .active-custom-box .slds-grid .slds-col:nth-child(-n+2),
+    .inactive-custom-box .slds-grid .slds-col:nth-child(-n+2) {
+       padding-left: unset;
+       padding-right: unset;
+    }
+
+    .inactive-custom-box .left-line:before {
+        background-color: #b5b5b5;
+    }
+
+    .active-custom-box .slds-grid .slds-col:nth-child(3),
+    .inactive-custom-box .slds-grid .slds-col:nth-child(3) {
+        visibility: hidden;
     }
 }

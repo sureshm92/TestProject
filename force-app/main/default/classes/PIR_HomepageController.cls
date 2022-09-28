@@ -72,6 +72,8 @@ public without sharing class PIR_HomepageController {
     public Boolean allowFinalSuccessStatus;
     @AuraEnabled
     public Participant_Enrollment__c per;
+    @AuraEnabled
+    public boolean dobValid;
     // Implement the compareTo() method
     // public Integer compareTo(Object compareTo) {
     //   ListViewWrapper compareToP = (ListViewWrapper) compareTo;
@@ -269,6 +271,7 @@ public without sharing class PIR_HomepageController {
         'IVRS_IWRS__c,' +
         'Visit_Plan__c,' +
         'Study_Hub_Log__r.Response_Status_Code__c,' +
+        'Is_Participant_DOB_Valid__c ,' +
         '(' +
         '  SELECT Id, Date__c, Non_Enrollment_Reason__c ' +
         '  FROM Participant_Enrollment_Status_History__r' +
@@ -1160,7 +1163,7 @@ public without sharing class PIR_HomepageController {
       wrap.siteId = lst.Study_Site__c;
       wrap.studyId = lst.Clinical_Trial_Profile__c;
       wrap.perCounter = lst.PerCounter__c;
-      wrap.actionReq = lst.Participant__r.Emancipation_in_progress__c;
+      wrap.actionReq = lst.Participant__r.Emancipation_in_progress__c || !lst.Is_Participant_DOB_Valid__c;
       wrap.status = lst.Participant_Status__c;
       wrap.participantId = lst.Participant__c;
       wrap.promotetoSH = lst.Clinical_Trial_Profile__r.Promote_to_SH__c;
@@ -1176,6 +1179,7 @@ public without sharing class PIR_HomepageController {
       wrap.clinicalPPEnable = lst.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
       wrap.notEligibleEmail = lst.Participant__r.IsCountry_NOT_Eligible_for_Emails__c;
       wrap.permitInfo = lst.Permit_IQVIA_to_contact_about_study__c;
+      wrap.dobValid = lst.Is_Participant_DOB_Valid__c;
       wrap.screeningId = lst.Screening_ID__c;
       wrap.allowScreeningPassed = lst.Clinical_Trial_Profile__r.Tokenization_Support__c 
         ? lst.IVRS_IWRS__c != null : true;
@@ -1266,6 +1270,7 @@ public without sharing class PIR_HomepageController {
           Clinical_Trial_Profile__r.Initial_Visit_Required__c,
           Status_Order__c,
           Participant__r.Full_Name__c,
+          Is_Participant_DOB_Valid__c,
           (
             SELECT Id, Date__c, Non_Enrollment_Reason__c
             FROM Participant_Enrollment_Status_History__r
