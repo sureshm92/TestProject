@@ -14,6 +14,20 @@
         <shortDescription>Send to Dct dob error</shortDescription>
         <value>Participant data couldn&apos;t be sent to DCT because some fields related to this participant are missing. Please fill them out on the Participant Details tab before continuing.</value>
     </labels>
+    <labels>        
+        <fullName>Site_Calendar_All_Studies_Sites</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site Calendar All Studies Sites</shortDescription>
+        <value>Showing: All Studies, All Sites</value>
+    </labels>
+    <labels>
+        <fullName>Site_Calendar_Apply_Filters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site Calendar Apply Filters</shortDescription>
+        <value>Apply Filters</value>
+    </labels>
     <labels>
         <fullName>RH_Televisit</fullName>
         <language>en_US</language>
