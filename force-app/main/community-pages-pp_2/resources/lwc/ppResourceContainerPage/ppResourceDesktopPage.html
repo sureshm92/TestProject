@@ -31,18 +31,19 @@
                             </lightning-layout-item>
                             <template if:true={toggleLinks}>
                                 <lightning-layout-item size="12">
-                                    <div class="rel-header mb-8">{labels.RELEVANT_LINKS}</div>
+                                    <div class="rel-header mb-8">{labels.DISCOVER_TITLE}</div>
                                     <div class="left-column">
-                                        <div class="res-box-relLinks-container crossed">
+                                        <div class="res-box-relLinks-container pad10">
                                             <!-- START : COMING SOON -->
-                                            <div class="object">
+                                            <!-- <div class="object">
                                                 <div class="object-rope"></div>
                                                 <div class="object-shape">
                                                     Coming <span class="soon">Soon</span>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!-- END : COMING SOON -->
                                             <!-- RELEVANT LINKS LWC COMPONENT PLACEHOLDER -->
+                                            <c-pp-discover-links></c-pp-discover-links>
                                         </div>
                                     </div>
                                 </lightning-layout-item>
@@ -51,7 +52,7 @@
                     </lightning-layout-item>
 
                     <!-- Center Column -->
-                    <lightning-layout-item size="6" class="resource-gutter">
+                    <lightning-layout-item size="6">
                         <template if:true={toggleExplore}>
                             <lightning-layout multiple-rows="true">
                                 <lightning-layout-item size="12">
@@ -75,7 +76,7 @@
                     </lightning-layout-item>
 
                     <!-- Right Column -->
-                    <lightning-layout-item size="3">
+                    <lightning-layout-item size="3" class="resource-gutter-left">
                         <lightning-layout multiple-rows="true">
                             <template if:true={toggleDocs}>
                                 <lightning-layout-item size="12">
