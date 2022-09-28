@@ -25,6 +25,13 @@
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
 }
+
+.visit-date-time {
+    display: flex;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
 .icon-cont-mobile {
     border: 1px solid #d9d9d9;
 }
@@ -59,10 +66,10 @@
 }
 .visit3 {
     color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 24px;
+    font-size: 1.5rem;
     letter-spacing: 0;
-    line-height: 48px;
+    font-weight: 600;
+    margin-top: 1rem;
 }
 .image-result-mobile {
     height: 92px;
