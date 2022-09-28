@@ -29,6 +29,13 @@
         <value>false</value>
     </labels>
     <labels>
+        <fullName>Discover_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Discover Links</shortDescription>
+        <value>Discover</value>
+    </labels>
+    <labels>
         <fullName>ReEngage_Dashboard</fullName>
         <language>en_US</language>
         <protected>true</protected>
