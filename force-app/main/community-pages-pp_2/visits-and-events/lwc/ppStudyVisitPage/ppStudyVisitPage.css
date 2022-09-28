@@ -325,9 +325,10 @@ a {
     letter-spacing: 0;
 }
 
-.visitDateTime {
+.visit-date-time {
     display: flex;
     margin-top: 0.5rem;
+    font-size: 1.25rem;
 }
 
 @media all and (max-width: 1200px) {
@@ -388,13 +389,12 @@ a {
 }
 
 @media all and (max-width: 486px) {
-
     .my-visits {
         margin-left: 0;
     }
 
     .slds-p-horizontal_x-large > .slds-size_1-of-1 {
-        padding-inline: .25rem;
+        padding-inline: 0.25rem;
     }
 
     .list-align-mob > div {
@@ -405,7 +405,7 @@ a {
     .inactive-custom-box {
         min-width: unset;
         width: 100%;
-        padding: 1rem 1rem .75rem;
+        padding: 1rem 1rem 0.75rem;
     }
 
     .active-custom-box .slds-grid,
@@ -415,26 +415,26 @@ a {
 
     .active-custom-box .slds-grid .slds-col:first-child,
     .inactive-custom-box .slds-grid .slds-col:first-child {
-       width: .25rem;
+        width: 0.25rem;
     }
 
     .active-custom-box .slds-grid .slds-col:nth-child(2),
     .inactive-custom-box .slds-grid .slds-col:nth-child(2) {
-      margin-left: -1rem;
+        margin-left: -1rem;
     }
 
-    .active-custom-box .slds-grid .slds-col:nth-child(-n+2),
-    .inactive-custom-box .slds-grid .slds-col:nth-child(-n+2) {
-       padding-left: unset;
-       padding-right: unset;
+    .active-custom-box .slds-grid .slds-col:nth-child(-n + 2),
+    .inactive-custom-box .slds-grid .slds-col:nth-child(-n + 2) {
+        padding-left: unset;
+        padding-right: unset;
     }
 
-    .inactive-custom-box .left-line:before {
+    /*inactive-custom-box .left-line:before {
         background-color: #b5b5b5;
     }
 
     .active-custom-box .slds-grid .slds-col:nth-child(3),
     .inactive-custom-box .slds-grid .slds-col:nth-child(3) {
         visibility: hidden;
-    }
+    }*/
 }
