@@ -179,6 +179,8 @@ public without sharing class TaskEditRemote {
             } else {
                 if (taskWrapper.reminderDate != null) {
                     newReminderDate = taskWrapper.reminderDate;
+                } else {
+                    newReminderDate = taskWrapper.reminderDate;
                 }
             }
 
@@ -229,6 +231,16 @@ public without sharing class TaskEditRemote {
                 Patient_Visit__c.class
             );
             update patientVisit;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static void upsertTaskData(String task) {
+        try {
+            Task patientVisitTask = (Task) JSON.deserialize(task, Task.class);
+            upsert patientVisitTask;
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -355,6 +367,30 @@ public without sharing class TaskEditRemote {
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Participant_Enrollment__c> checkSmsOptIn() {
+        List<Participant_Enrollment__c> availablePEs = new List<Participant_Enrollment__c>();
+        try {
+            ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
+                .getState();
+            List<Id> peIds = new List<Id>();
+            peIds = PatientDelegateService.getAvailablePEIdsForContact(
+                participantState.participant.Contact__c
+            );
+            availablePEs = [
+                SELECT
+                    Id,
+                    Permit_SMS_Text_for_this_study__c,
+                    Permit_Mail_Email_contact_for_this_study__c
+                FROM Participant_Enrollment__c
+                WHERE Id = :peIds
+            ];
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return availablePEs;
     }
 
     private static Boolean checkEmailPreferencesIsOn() {

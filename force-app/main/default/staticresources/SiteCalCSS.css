@@ -1,0 +1,10 @@
+.rr-header-content{    
+	z-index: 8700;
+}
+
+@media (max-device-width: 767px) {
+	.rr-header-content{    
+		z-index: 900;
+	}
+}
+

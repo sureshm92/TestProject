@@ -31,13 +31,19 @@
     <aura:attribute name="showModeSwitcher" type="Boolean" default="false" />
     <aura:attribute name="logoURL" type="String" />
     <aura:attribute name="communityName" type="String" />
+    <aura:attribute name="communityApiName" type="String" />
     <aura:attribute name="isRTL" type="Boolean" />
     <aura:attribute name="urlPathPrefix" type="String" />
     <aura:attribute name="isPPonPhone" type="Boolean" default="false" />
     <aura:attribute name="communityServ" type="Object" />
+    <aura:attribute name="isSitecal" type="Boolean" default="false" />
+    <aura:attribute name="isIconVisible" type="Boolean" default="false" />
+    <aura:attribute name="notVisibleOnBlur" type="Boolean" default="false" />
+    <aura:attribute name="isIncentive" type="Boolean" default="false" />
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
+    <aura:handler name="onBlurOverlayEvent" event="c:uiEvent" action="{!c.handleComponentEvent}" />
 
     <!-- methods: -->
     <aura:method name="init" action="{!c.doInit}" access="public" />
@@ -54,13 +60,6 @@
                     <div
                         class="{!'layout-header' + if(v.template == 'PatientPortal', ' rr-width-limiter-pp', ' rr-width-limiter') + ' side-padding' + if(v.isRTL, ' rtl', '')}"
                     >
-                        <div class="menu-btn" onclick="{!c.switchSideMenu}">
-                            <img
-                                src="{!$Resource.icon_hamburgerMenu}"
-                                class="chevron"
-                                style="height: 32px; width: 32px"
-                            />
-                        </div>
                         <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
                             <aura:if
                                 isTrue="{!and(v.template == 'PatientPortal',v.currentMode.userMode == 'Participant')}"
@@ -98,17 +97,28 @@
                                 <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
                             </aura:if>
                         </aura:if>
-
-                        <div class="navigation-block">
-                            <c:CommunityNavigation
-                                aura:id="navigation"
-                                mode="{!v.currentMode.userMode}"
-                                currentPage="{!v.currentPage}"
-                                communityTemplate="{!v.template}"
-                                hasMessage="{!v.hasMessage}"
-                                userMode="{!v.currentMode.userMode}"
+                        <aura:if
+                            isTrue="{!and(v.communityApiName == 'IQVIA_Patient_Portal1',$Browser.formFactor != 'PHONE')}"
+                        >
+                            <!--new pp navigation-->
+                            <c:ppCommunityNavigation
+                                communityServic="{!v.communityServ}"
+                                aura:id="ppMenu"
+                                showSideMenu="{!v.showSideMenu}"
                             />
-                        </div>
+                            <aura:set attribute="else">
+                                <div class="navigation-block">
+                                    <c:CommunityNavigation
+                                        aura:id="navigation"
+                                        mode="{!v.currentMode.userMode}"
+                                        currentPage="{!v.currentPage}"
+                                        communityTemplate="{!v.template}"
+                                        hasMessage="{!v.hasMessage}"
+                                        userMode="{!v.currentMode.userMode}"
+                                    />
+                                </div>
+                            </aura:set>
+                        </aura:if>
 
                         <div class="right-block" data-gtm="community_mode_switcher">
                             <aura:if isTrue="{!v.currentMode.userMode != 'CC'}">
@@ -119,6 +129,46 @@
                                 </aura:if>
                                 <!-- Added as per REF-1343 by Vikrant Sharma for Help icon adjacent to User Profile for PI and HCP -->
                                 <aura:if isTrue="{!v.currentMode.userMode != 'Participant'}">
+                                    <!--Site Calendar Start-->
+                                    <aura:if isTrue="{!not(v.reset)}">
+                                        <c:overLayForCalendar
+                                            class="menu-block menuheight"
+                                            isIncentive="{!v.isIncentive}"
+                                        >
+                                            <aura:set attribute="title">
+                                                <div
+                                                    onclick="{!c.onClickSite}"
+                                                    class="calendarNavigationCss"
+                                                    title="Calendar"
+                                                    onblur="{!c.onBlurSite}"
+                                                >
+                                                    <aura:if isTrue="{!v.isIconVisible}">
+                                                        <c:RRIcon
+                                                            iconName="site-calendar-close"
+                                                            printMode="true"
+                                                        />
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!not(v.isIconVisible)}">
+                                                        <c:RRIcon
+                                                            iconName="site-calendar-open"
+                                                            printMode="true"
+                                                        />
+                                                    </aura:if>
+                                                </div>
+                                            </aura:set>
+                                            <aura:if isTrue="{!v.isSitecal}">
+                                                <c:site_Calender
+                                                    aura:id="site_Calender"
+                                                ></c:site_Calender>
+                                            </aura:if>
+                                            <aura:if isTrue="{!not(v.isSitecal)}">
+                                                <c:site_Calender
+                                                    aura:id="site_Calender"
+                                                ></c:site_Calender>
+                                            </aura:if>
+                                        </c:overLayForCalendar>
+                                    </aura:if>
+                                    <!--Site Calendar End-->
                                     <div
                                         onclick="{!c.onClickHelp}"
                                         class="helpNavigationCSS"
@@ -153,6 +203,7 @@
                                 <c:navIncentiveCounter
                                     onnavigatetoincentives="{!c.doNavigate}"
                                     currentPage="{!v.currentPage}"
+                                    onnotifypartofincentive="{!c.verifyIncentive}"
                                 />
                             </aura:if>
                         </div>
@@ -164,7 +215,10 @@
             <div class="rr-body-content rr-min-body-height">
                 <aura:if isTrue="{!v.isInitialized}">
                     <aura:if isTrue="{!v.isPPonPhone}">
-                        <c:ppCommunityNavigationMobile communityServic="{!v.communityServ}"  showSideMenu="{!v.showSideMenu}"/>
+                        <c:ppCommunityNavigation
+                            communityServic="{!v.communityServ}"
+                            showSideMenu="{!v.showSideMenu}"
+                        />
                     </aura:if>
                     <aura:if isTrue="{!!v.isPPonPhone}">
                         <c:CommunityNavigationMobile
@@ -179,14 +233,23 @@
                         />
                     </aura:if>
                     <!-- Televisit Meet Banner Section PEH-5892 -->
-                    <c:televisitMeetBanner urlPathPrefix="{!v.urlPathPrefix}" currentMode="{!v.currentMode}"></c:televisitMeetBanner>
+                    <c:televisitMeetBanner
+                        urlPathPrefix="{!v.urlPathPrefix}"
+                        currentMode="{!v.currentMode}"
+                    ></c:televisitMeetBanner>
                 </aura:if>
                 {!v.body}
             </div>
             <aura:if isTrue="{!v.isInitialized}">
                 <div class="footer">
                     <div class="rr-width-limiter" style="padding: 0 15px">
-                        <c:CommunityFooter />
+                        <aura:if isTrue="{!v.communityApiName == 'IQVIA_Patient_Portal1'}">
+                            <!--new pp footer-->
+                            <c:ppCommunityFooter aura:id="ppFooter" />
+                            <aura:set attribute="else">
+                                <c:CommunityFooter />
+                            </aura:set>
+                        </aura:if>
                     </div>
                 </div>
                 <aura:if isTrue="{!not(v.isDummy)}">
