@@ -2315,6 +2315,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Participant_DOB_format__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Is_Patient_User_Created__c</field>
         <readable>true</readable>
@@ -2427,6 +2432,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Use_as_Daytime_Phone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Age__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
