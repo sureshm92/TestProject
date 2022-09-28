@@ -880,6 +880,12 @@ public without sharing class MyTeamRemote {
             }else{
                 if(contactDelegate.Id != null){
                         existingUserPatientDelegate = [SELECT ID, Email FROM User WHERE ContactId = :contactDelegate.Id];
+                        
+                        //update email consent for the exiting delegate contact.
+                        contact delexistingContact = new contact();
+                        delexistingContact.Id = contactDelegate.Id;
+                        delexistingContact.Participant_Opt_In_Status_Emails__c = true;
+                        update delexistingContact;
                     }
                  if(existingUserPatientDelegate.isEmpty()){
                 User delegateUser = CommunityService.createUser(
