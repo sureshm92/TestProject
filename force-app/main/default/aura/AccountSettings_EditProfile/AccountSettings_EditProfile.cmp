@@ -834,7 +834,7 @@
                                 title=""
                                 onclick="{! c.doUpdatePerson }"
                                 class="slds-button slds-button_brand apollo-btn primary"
-                                disabled="{!v.disableSave}"
+                                disabled="{!or(v.disableSave,v.disableContactInformationForDel)}"
                             />
                         </div>
 
