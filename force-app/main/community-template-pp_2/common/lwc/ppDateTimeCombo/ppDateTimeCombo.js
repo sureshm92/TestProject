@@ -16,7 +16,7 @@ export default class PpDateTimeCombo extends LightningElement {
     @api maxdate;
     @api maxtime;
     @api reminder;
-    @api iconSize = 'medium';
+    @api iconSize = 'small';
     @api iconColor = '#00A3E0';
     @api createTask;
     @track compDateTime;

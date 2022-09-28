@@ -57,6 +57,11 @@
     background-color: #f2f2f2;
 }
 
+.curve-input:focus-within,
+.slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux:focus-within {
+    border: 1px solid #015ff1;
+}
+
 .curve-input input[type='date'] {
     width: 300px;
     display: flex;
@@ -85,7 +90,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
 
 .curve-input .svg-icon {
     position: absolute;
-    top: 50%;
+    top: 45%;
     transform: translateY(-50%) translateX(-50%);
     left: 20px;
     fill: #00a3e0;

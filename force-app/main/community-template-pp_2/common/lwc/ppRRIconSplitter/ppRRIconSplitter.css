@@ -82,6 +82,7 @@
     bottom: -13px;
 }
 
+
 @media (max-width: 468px) {
     .icons-container .icons-row .icon {
         position: static;
