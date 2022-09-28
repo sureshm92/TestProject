@@ -18,16 +18,15 @@
         <div
           class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-p-left_medium slds-p-right_medium"
         >
-          <!--<c-site_-calender-study-filter
+          <c-site_-calender-study-filter
             onapplystudysitefilterevent={handleStudySiteFilterEvent}
             studysitedetails={studySiteDetails}
-          ></c-site_-calender-study-filter>-->
+            onaccordianevent={handleAccordianEvent}
+          ></c-site_-calender-study-filter>
         </div>
       </template>
       <!--- Display Initial & Televisit data-->
-      <div
-        class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-scrollable scroll-mobile"
-      >
+      <div class={divcss}>
         <template if:true={haveVisits}>
           <div class="visit-list vertical-scroll">
             <template for:each={visitData} for:item="visit">
@@ -37,9 +36,9 @@
                     <div class="step-time">
                       <template if:true={visit.durationTime}>
                         <lightning-formatted-date-time
-                          time-zone={userTimeZone} 
-                          value={visit.visitDateTime} 
-                          hour="2-digit" 
+                          time-zone={userTimeZone}
+                          value={visit.visitDateTime}
+                          hour="2-digit"
                           minute="2-digit">
                         </lightning-formatted-date-time> - <span class="step-minutes">{visit.durationTime}</span>
                       </template>

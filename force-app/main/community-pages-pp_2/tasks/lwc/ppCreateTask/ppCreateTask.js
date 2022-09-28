@@ -10,29 +10,44 @@ import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import taskCreationSuccess from '@salesforce/label/c.PP_TaskCreationSuccess';
 import REMIND_USING_REQUIRED from '@salesforce/label/c.PP_Remind_Using_Required';
+import taskName from '@salesforce/label/c.Task_Name';
+import enterTaskName from '@salesforce/label/c.Enter_Task_Name';
+import cancel from '@salesforce/label/c.BTN_Cancel';
+import save from '@salesforce/label/c.BTN_Save';
 
 export default class PpCreateTask extends LightningElement {
     task_icon = pp_icons + '/' + 'createTask_illustration.svg';
-    taskNamelength;
+    taskNameLeng = 0;
     currentBrowserTime;
     diffInMinutes;
     todaydate;
     past = false;
     task;
     calculatedDate;
-    booleanFalse = false;
+    notReminder = false;
     todaytime;
     taskDateTime;
-    taskTime;
-    taskDate;
+    taskDueTime;
+    taskDueDate;
     @track initData;
     subject;
     jsonState;
     isReminderSelected = false;
     spinner;
+    taskReminderDate;
+    taskTypeNotSelected = 'Not Selected';
+    taskStatusOpen = 'Open';
 
     labels = { REMIND_USING_REQUIRED };
-
+    label = {
+        taskCreationSuccess,
+        taskName,
+        enterTaskName,
+        cancel,
+        save
+    };
+    enableSave = false;
+    createTask = true;
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
@@ -62,8 +77,8 @@ export default class PpCreateTask extends LightningElement {
                     this.initData = wrapper;
                     this.spinner.hide();
                     var task = wrapper.task;
-                    task.Status = 'Open';
-                    task.Task_Type__c = 'Not Selected';
+                    task.Status = this.taskStatusOpen;
+                    task.Task_Type__c = this.taskTypeNotSelected;
                     this.task = task;
                     this.jsonState = JSON.stringify(wrapper) + '' + JSON.stringify(task);
                 })
@@ -74,13 +89,26 @@ export default class PpCreateTask extends LightningElement {
             this.spinner.hide();
         }
     }
-    handleuserNameChange(event) {
+    get taskNameLength() {
+        return this.taskNameLeng > 0 ? this.taskNameLeng : '00';
+    }
+    get taskNameLength() {
+        return this.taskNameLeng > 0 ? this.taskNameLeng : '00';
+    }
+    handletaskNameChange(event) {
         var val = event.target.value;
-        this.taskNamelength = val.length;
+        this.taskNameLeng = val.length;
         this.subject = event.target.value;
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="taskName"]').value = event.target.value;
         }
+    }
+    handleInitialDateLoad(event) {
+        this.taskDueDate = event.detail.compdate;
+    }
+
+    handleInitialTimeLoad(event) {
+        this.taskDueTime = event.detail.comptime;
     }
     get currentDate() {
         var currentDate;
@@ -101,28 +129,35 @@ export default class PpCreateTask extends LightningElement {
     }
     handleTime(event) {
         this.taskDateTime = event.detail.compdatetime;
-        this.taskTime = event.detail.comptime;
-        this.taskDate = event.detail.compdate;
+        this.taskDueTime = event.detail.comptime;
+        this.taskDueDate = event.detail.compdate;
         this.initData.activityDate = this.taskDateTime;
         /**Reset Reminder Values */
-        console.log('date change', this.taskDateTime, this.taskTime, this.taskDate);
+        console.log('date change', this.taskDateTime, this.taskDueTime, this.taskDueDate);
         if (this.isDueDateTimeSelected) {
             this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
         }
+        this.enableSave = true;
     }
 
+    get saveLogic() {
+        return this.enableSave;
+    }
     handleDate(event) {
         this.taskDateTime = event.detail.compdatetime;
-        this.taskDate = event.detail.compdate;
-        this.taskTime = event.detail.comptime;
+        this.taskDueDate = event.detail.compdate;
+        this.taskDueTime = event.detail.comptime;
         this.initData.activityDate = this.taskDateTime;
+        this.isReminderSelected = false;
+        this.taskReminderDate = null;
         /**Reset Reminder Values */
-        console.log('date change', this.taskDateTime, this.taskTime, this.taskDate);
+        console.log('date change', this.taskDateTime, this.taskDueTime, this.taskDueDate);
         if (this.isDueDateTimeSelected) {
             this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
         }
     }
     doCreateTask() {
+        this.task.Subject = this.subject;
         if (
             this.isReminderSelected &&
             (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c)
@@ -133,6 +168,7 @@ export default class PpCreateTask extends LightningElement {
                 paramTask: JSON.stringify(this.task)
             })
                 .then((result) => {
+                    this.enableSave = false;
                     communityService.showToast('', 'success', taskCreationSuccess, 100);
                 })
                 .catch((error) => {
@@ -141,6 +177,14 @@ export default class PpCreateTask extends LightningElement {
         } else {
             communityService.showToast('', 'error', this.labels.REMIND_USING_REQUIRED, 100);
         }
+    }
+    handleCancelTask() {
+        const dateEvent = new CustomEvent('taskcancel', {
+            detail: {
+                isCreate: false
+            }
+        });
+        this.dispatchEvent(dateEvent);
     }
 
     get currentTime() {
@@ -157,11 +201,11 @@ export default class PpCreateTask extends LightningElement {
         var ss = String((currentDate.getSeconds() < 10 ? '0' : '') + currentDate.getSeconds());
         var currentTime = hh + ':' + mm + ':' + ss;
         this.todaytime = currentTime;
-        return currentTime;
+        return this.taskDueDate == this.todaydate ? currentTime : null;
     }
 
     get isDueDateTimeSelected() {
-        return this.taskDateTime && this.taskTime && this.taskDate ? true : false;
+        return this.taskDateTime && this.taskDueTime && this.taskDueDate ? true : false;
     }
 
     handleCustomReminder(event) {
@@ -171,6 +215,7 @@ export default class PpCreateTask extends LightningElement {
             event.detail.reminderType == 'No reminder' ? '' : event.detail.reminderType;
         this.initData.reminderDate =
             event.detail.reminderType == 'No reminder' ? '' : event.detail.reminderDateTime;
+        this.taskReminderDate = event.detail.reminderDateTime;
         this.isReminderSelected = event.detail.reminderType == 'No reminder' ? false : true;
     }
 
@@ -179,5 +224,31 @@ export default class PpCreateTask extends LightningElement {
         this.task.Remind_Using_SMS__c = event.detail.smsReminderOptIn;
         this.task.Remind_Me__c = event.detail.reminderType;
         this.isReminderSelected = true;
+    }
+    get saveButtonClass() {
+        if (
+            (this.subject !== undefined || this.subject != null) &&
+            this.taskDueTime &&
+            this.taskDueDate
+        ) {
+            if (!this.isReminderSelected) this.enableSave = true;
+            else if (this.isReminderSelected) {
+                if (
+                    this.isReminderSelected != 'Custom' &&
+                    (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c)
+                )
+                    this.enableSave = true;
+                else if (
+                    this.isReminderSelected == 'Custom' &&
+                    (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c) &&
+                    (this.taskReminderDate != undefined || this.taskReminderDate != null)
+                )
+                    this.enableSave = true;
+                else this.enableSave = false;
+            } else this.enableSave = false;
+        } else this.enableSave = false;
+
+        console.log('this.enableSave-------' + this.enableSave);
+        return this.enableSave ? 'task-save-btn' : 'task-save-btn-opacity';
     }
 }

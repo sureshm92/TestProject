@@ -9,3 +9,17 @@ div:last-child {
 .toggleClass{
     display: none;
 }
+div .slds-text-color_inverse{
+    color:white
+
+}
+a,
+a:hover,
+a:active,
+a:focus,
+a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+
