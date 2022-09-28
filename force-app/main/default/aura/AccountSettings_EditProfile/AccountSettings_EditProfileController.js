@@ -99,7 +99,6 @@
                         if (initData.participant.Adult__c) {
                             //Disable Adult Participant's contact information for delegate.
                             component.set('v.disableContactInformationForDel', true);
-                            component.set('v.disableSave', true);
                             if(initData.delegateUserName != null){
                                 component.set('v.userEmail', initData.delegateUserName.Username);
                             }
