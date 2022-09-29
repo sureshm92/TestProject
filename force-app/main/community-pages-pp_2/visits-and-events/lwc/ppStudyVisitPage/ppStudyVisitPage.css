@@ -329,13 +329,6 @@ a {
     display: flex;
     margin-top: 0.5rem;
     font-size: 1.25rem;
-}
-.visit-date-mobile {
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 20px;
-    letter-spacing: 0;
-    line-height: 32px;
     font-weight: 400;
 }
 
