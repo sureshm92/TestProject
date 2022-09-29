@@ -100,7 +100,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         })
             .then((result) => {
                 if (result.length > 0) {
-                    
+                    this.visitid = result[0].visit.Id;
+                    this.taskSubject = result[0].visit.Name;
                     for (let i = 0; i < result.length; i++) {
                         if (
                             result[i].visit.Completed_Date__c == null &&
@@ -139,10 +140,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         this.visitTimezone = TIME_ZONE;
                         result[i].visitTimezone = this.visitTimezone;
                     }
-
-                    this.visitid = this.upcomingVisits[0].visit.Id;
-                    this.taskSubject = this.upcomingVisits[0].visit.Name;
-
                     if (!this.pastVisitId && this.pastVisits.length > 0) {
                         this.pastVisits = this.pastVisits.reverse();
                         this.pastVisitId = this.pastVisits[0].visit.Id;
@@ -270,6 +267,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         this.visitdetailurl =
             window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
 
+        console.log('visitdetailurl:: ', this.visitdetailurl);
+
         const config = {
             type: 'standard__webPage',
 
@@ -301,18 +300,12 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 const obj = JSON.parse(jsonstr);
                 if (typeof result[0].task === 'undefined') {
                     obj.task = JSON.parse(str);
-
                 }
                 if (typeof result[0].visitDate === 'undefined') {
                     obj.visitDate = '';
                 }
                 this.visitdata = obj;
                 this.taskId = this.visitdata.task.Id;
-
-                if(this.taskId){
-                    this.upcomingVisits[this.selectedIndex].isReminderDate = true;
-                }
-
                 if (!this.past) {
                     this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
                         this.visitdata.visitDate;
@@ -330,9 +323,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 if (!this.initialPageLoad) {
                     this.initializeData(this.visitid);
                     this.contentLoaded = true;
-                    if(this.template.querySelector('c-pp-Study-Visit-Details-Card')){
-                        this.template.querySelector('c-pp-Study-Visit-Details-Card').callFromParent();
-                    }
+                    this.template.querySelector('c-pp-Study-Visit-Details-Card')?.callFromParent();
                 } else {
                     this.initializeData(this.visitid);
                     this.contentLoaded = true;
