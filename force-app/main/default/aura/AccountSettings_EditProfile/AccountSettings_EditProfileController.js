@@ -30,6 +30,14 @@
                 component.set('v.contactChanged', initData.contactChanged);
                 component.set('v.institute', initData.contactSectionData.institute);
                 component.set('v.personWrapper', initData.contactSectionData.personWrapper);
+                var device = $A.get("$Browser.formFactor");
+                if(device == 'DESKTOP'){
+                    component.set('v.desktop',true);
+                }
+                else  {
+                    component.set('v.desktop',false);
+                }
+
                 var personWrapper = component.get('v.personWrapper');
 
                 var participantselectedage = personWrapper.age !=undefined ? ((personWrapper.age).toString()) : null;
