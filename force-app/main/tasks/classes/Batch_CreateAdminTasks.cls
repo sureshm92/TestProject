@@ -63,11 +63,10 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                     AND Profile.Name = :CommunityService.COMMUNITY_USER_PROFILE_NAME
             ];
             List<Task> tasks = new List<Task>();
-             Time eodTime = Time.newInstance(23, 59, 0, 0);
             for (User user : users) {
                 contactWithoutUser.remove(user.ContactId);
                 TimeZone userTZ = TimeZone.getTimeZone(user.TimeZoneSidKey);
-                //Time eodTime = Time.newInstance(23, 59, 0, 0);
+                Time eodTime = Time.newInstance(23, 59, 0, 0);
                 Time remTime = Time.newInstance(11, 30, 0, 0);
                 String TypeOfContactTemp = IdTypeOfContactMap.get(user.ContactId);
                 for (Id whatId : whatIdByContactIds.get(user.ContactId)) {
@@ -145,22 +144,6 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
             if (!contactListOfId.isEmpty()) {
                 for (Id contactIds : contactListOfId) {
                     for (Id whatId : whatIdByContactIds.get(contactIds)) {
-                         Datetime reminderDT_GMT;
-                         Datetime reminderDT;
-                    if (taskConfig.reminderDate != null) {
-                        reminderDT_GMT = Datetime.newInstanceGmt(
-                            taskConfig.reminderDate,
-                            Datetime.now().timeGmt()
-                        );
-                            reminderDT = Datetime.newInstance(
-                                taskConfig.reminderDate,
-                                Datetime.now().time()
-                            );
-                    }
-                        Datetime activityDT;
-                        if (taskConfig.endTime != null) {
-                        activityDT = Datetime.newInstanceGmt(taskConfig.endTime, eodTime).addSeconds(120);
-                    }
                         String TypeOfContactTemp = IdTypeOfContactMap.get(contactIds);
                         String VisibleFor = taskConfig.visibility;
                         if (
@@ -182,11 +165,6 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                             Subject = taskConfig.subject,
                             Priority = taskConfig.priority,
                             Start_Date__c = taskConfig.startDate,
-                            Activity_Datetime__c = activityDT,
-                            ReminderDateTime = reminderDT,
-                            Reminder_Date__c = reminderDT,
-                            Remind_Using_Email__c = reminderDT != null ? true : false,
-                            Remind_Using_SMS__c = reminderDT != null ? true : false,
                             Visible_For__c = VisibleFor,
                             WhatId = whatId,
                             WhoId = contactIds,
