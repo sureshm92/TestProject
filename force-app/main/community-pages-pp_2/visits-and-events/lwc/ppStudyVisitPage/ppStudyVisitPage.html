@@ -40,9 +40,9 @@
                                             data-name={item.visit.Name}
                                         >
                                             <div class="slds-grid slds-wrap">
-                                                <div class="slds-col slds-size_1-of-12">
-                                                    <span><div class="left-line"></div></span>
-                                                </div>
+                                                <div
+                                                    class="slds-col slds-size_1-of-6 left-line"
+                                                ></div>
 
                                                 <div class="slds-col slds-size_8-of-12 name-card">
                                                     <div>
@@ -171,8 +171,8 @@
                 class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col2"
             >
                 <h1 if:false={past} class="visit3">
-                    <div class="visitColumnTitle">{visitName}</div>
-                    <div class="visitDateTime">
+                    {visitName}
+                    <div class="visit-date-time">
                         <template if:true={plannedDate}>
                             <lightning-formatted-date-time
                                 value={plannedDate}
@@ -340,9 +340,21 @@
                                                     </template>
                                                 </span>
                                             </div>
-                                            <div
-                                                class="slds-col top-padding slds-size_1-of-6"
-                                            ></div>
+                                            <div class="slds-col slds-size_1-of-6">
+                                                <template if:true={item.isReminderDate}>
+                                                    <c-web-icon
+                                                        icon-name="icon_bell"
+                                                        icon-color="#009DD6"
+                                                        icon-size="medium"
+                                                    ></c-web-icon
+                                                ></template>
+                                                <template if:false={item.isReminderDate}>
+                                                    <c-web-icon
+                                                        icon-name="alarm_bell_off"
+                                                        icon-size="medium"
+                                                    ></c-web-icon
+                                                ></template>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -4,45 +4,84 @@
     <lightning-layout multiple-rows="true">
         <lightning-layout-item padding="around-small" size="12">
             <div class="slds-align_absolute-center">
-                <lightning-card title="Tasks">
+                <lightning-card class="task-card">
                     <lightning-layout>
                         <lightning-layout-item padding="around-small" size="4">
                             <img src={task_icon} />
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="8">
-                            <input type="text" data-id="taskName" onkeyup={handleuserNameChange} />
-                            {taskNamelength}/30
-                            <c-pp-date-time-combo
-                                reminder={booleanFalse}
-                                mindate={currentDate}
-                                mintime={currentTime}
-                                ondatechange={handleDate}
-                                ontimechange={handleTime}
-                            ></c-pp-date-time-combo>
-                            <!--Task Reminder Section-->
-                            <template if:true={initData}
-                                ><c-pp-create-task-reminder
-                                    init-data={initData}
-                                    current-date={currentDate}
-                                    current-time={currentTime}
-                                    task-due-date-time={taskDateTime}
-                                    task-due-date={taskDate}
-                                    task-due-time={taskTime}
-                                    is-task-due-date-time-selected={isDueDateTimeSelected}
-                                    oncustomreminderdata={handleCustomReminder}
-                                    onreminderdata={handleReminder}
-                                ></c-pp-create-task-reminder
-                            ></template>
+                            <lightning-layout size="12">
+                                <lightning-layout-item size="10"
+                                    >{label.taskName}
+                                    <abbr class="slds-required" title="required"
+                                        >*
+                                    </abbr></lightning-layout-item
+                                >
+                                <lightning-layout-item size="2"
+                                    ><lightning-layout class="slds-grid_align-end"
+                                        >{taskNameLength}/30</lightning-layout
+                                    ></lightning-layout-item
+                                >
+                            </lightning-layout>
+                            <lightning-layout size="12">
+                                <input
+                                    type="text"
+                                    data-id="taskName"
+                                    placeholder={label.enterTaskName}
+                                    onkeyup={handletaskNameChange}
+                                    maxlength="30"
+                                    class="input-task-name"
+                                />
+                            </lightning-layout>
+                            <lightning-layout-item>
+                                <lightning-layout>
+                                    <lightning-layout-item size="12" class="slds-m-top_medium">
+                                        <c-pp-date-time-combo
+                                            reminder={notReminder}
+                                            mindate={currentDate}
+                                            mintime={currentTime}
+                                            create-task={createTask}
+                                            ondatechange={handleDate}
+                                            ontimechange={handleTime}
+                                            ondate={handleDate}
+                                            ontime={handleTime}
+                                            oninitialdateload={handleInitialDateLoad}
+                                            oninitialtimeload={handleInitialTimeLoad}
+                                            icon-size="small"
+                                            icon-color="#C42EA5"
+                                        ></c-pp-date-time-combo>
+                                        <!--Task Reminder Section-->
+                                        <template if:true={initData}
+                                            ><c-pp-create-task-reminder
+                                                init-data={initData}
+                                                current-date={currentDate}
+                                                current-time={currentTime}
+                                                task-due-date-time={taskDateTime}
+                                                task-due-date={taskDueDate}
+                                                task-due-time={taskDueTime}
+                                                is-task-due-date-time-selected={isDueDateTimeSelected}
+                                                oncustomreminderdata={handleCustomReminder}
+                                                onreminderdata={handleReminder}
+                                            ></c-pp-create-task-reminder
+                                        ></template>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
                         </lightning-layout-item>
                     </lightning-layout>
-
                     <p slot="footer">
-                        <lightning-button
-                            variant="base"
-                            label="Save"
-                            class="slds-m-left_x-small slds-align_absolute-center"
-                            onclick={doCreateTask}
-                        ></lightning-button>
+                        <lightning-layout class="slds-grid_align-end">
+                            <lightning-layout-item class="pad-right"
+                                ><button class="task-cancel-btn" onclick={handleCancelTask}>
+                                    {label.cancel}
+                                </button>
+                            </lightning-layout-item>
+                            <lightning-layout-item>
+                                <button class={saveButtonClass} onclick={doCreateTask}>
+                                    {label.save}
+                                </button></lightning-layout-item
+                            >
+                        </lightning-layout>
                     </p>
                 </lightning-card>
             </div>

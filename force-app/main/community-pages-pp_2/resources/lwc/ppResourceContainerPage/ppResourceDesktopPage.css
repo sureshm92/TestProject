@@ -10,11 +10,16 @@ body {
     padding-right: 20px;
 }
 
+.resource-gutter-left {
+    padding-left: 20px;
+}
+
 .res-container {
     height: auto;
     background: #f7f8fa;
-    width: 100%;
-    padding: 15px;
+    max-width: 1140px;
+    margin: auto;
+    padding: 15px 0px 15px 0px;
 }
 
 .res-header {
@@ -151,6 +156,10 @@ p {
 
 .message {
     margin-top: 40px;
+}
+
+.pad10{
+    padding: 10px;
 }
 
 /* Scroll bar custom */
