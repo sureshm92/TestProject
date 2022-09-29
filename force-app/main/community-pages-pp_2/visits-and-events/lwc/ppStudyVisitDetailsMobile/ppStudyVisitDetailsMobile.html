@@ -13,6 +13,30 @@
         ></lightning-button>
     </div>
     <div>
+        <h1 if:false={past} class="visit3">
+            {visitName}
+            <div class="visit-date-time">
+                <template if:true={plannedDate}>
+                    <lightning-formatted-date-time
+                        value={plannedDate}
+                        year="numeric"
+                        month="short"
+                        day="2-digit"
+                        time-zone={visitTimezone}
+                    ></lightning-formatted-date-time>
+                    &nbsp;|&nbsp;<lightning-formatted-date-time
+                        value={plannedDate}
+                        hour="2-digit"
+                        minute="2-digit"
+                        time-zone={visitTimezone}
+                    ></lightning-formatted-date-time>
+                </template>
+                <template if:false={plannedDate}> {label.noVisitsLabel} </template>
+            </div>
+        </h1>
+        <h1 if:true={past} class="visit3">
+            {visitName}<span class="visit-date-time">&nbsp;|&nbsp;{visitStatus}</span>
+        </h1>
         <h1 class="what-to-expect">{label.WTELabel}</h1>
         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 icon-cont-mobile">
             <div class="slds-clearfix">
@@ -26,40 +50,28 @@
                     </template>
                 </div>
             </div>
-            <template if:true={isError}>
-                <div>
-                    <lightning-layout vertical-align="center">
-                        <div class="slds-align_absolute-center">
-                            <span>
-                                <span class="slds-align_absolute-center">
-                                    {label.noDataAvailable}
-                                </span>
-                                <br />
-                            </span>
-                        </div>
-                    </lightning-layout>
-                </div>
-            </template>
+            <template if:true={isError}
+                ><span class="slds-align_absolute-center"> {label.noDataAvailable} </span></template
+            >
         </div>
         <h1 class="what-to-expect">{label.visitdetails}</h1>
-        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 icon-cont-mobile">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 card-content">
             <div class="slds-clearfix">
-                <div class="card-content">
-                    <c-pp-study-visit-details-card
-                        if:true={showChild}
-                        past={past}
-                        visitid={visitid}
-                        tasksubject={taskSubject}
-                        taskid={taskId}
-                        visitdata={visitdata}
-                        url={sfdcBaseURL}
-                        siteaddress={siteAddress}
-                        sitename={siteName}
-                        sitephone={sitePhoneNumber}
-                        ondataupdated={handleDataUpdate}
-                    >
-                    </c-pp-study-visit-details-card>
-                </div>
+                <c-pp-study-visit-details-card
+                    if:true={showChild}
+                    past={past}
+                    visitid={visitid}
+                    tasksubject={taskSubject}
+                    taskid={taskId}
+                    visitdata={visitdata}
+                    url={sfdcBaseURL}
+                    siteaddress={siteAddress}
+                    sitename={siteName}
+                    sitephone={sitePhoneNumber}
+                    ondataupdated={handleDataUpdate}
+                >
+                </c-pp-study-visit-details-card>
+
                 <template if:false={contentLoaded}>
                     <lightning-spinner alternative-text={label.loading}></lightning-spinner>
                 </template>

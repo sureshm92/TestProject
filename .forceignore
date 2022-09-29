@@ -38,6 +38,7 @@ force-app/main/default/workflows/Case.workflow-meta.xml
 #force-app/main/default/staticresources/Flags.resource-meta.xml
 #force-app/main/tools/staticresources/*
 
+
 #Uncomment during full package deployment
 #force-app/main/default/staticresources/WalkMeCommunity*
 

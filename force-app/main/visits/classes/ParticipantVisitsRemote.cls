@@ -99,6 +99,17 @@ public without sharing class ParticipantVisitsRemote {
     }
 
     @AuraEnabled
+    public static List<Patient_Visit__c> getPatientVisitsDetails(Id visitId) {
+        try {
+            return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
+                .getPatientVisitDetails(visitId);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+    
+    @AuraEnabled
     public static Boolean getIsRTL() {
         try {
             return (System.Label.RTL_Languages).contains(UserInfo.getLanguage());
@@ -140,6 +151,7 @@ public without sharing class ParticipantVisitsRemote {
 
     @AuraEnabled
     public static List<Icon_Details__c> getVisitIconsbyName(Id visitId) {
+        
         Id visitPlanId;
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
         List<Patient_Visit__c> visits = [
