@@ -110,7 +110,7 @@
                         </a>
                     </div>
                 </div>
-                <div if:false={past} style="padding-bottom: 24px">
+                <div if:false={past}>
                     <c-pp-date-time-combo
                         if:true={showreminderdatepicker}
                         data-id="reminderDateTime"
@@ -131,7 +131,7 @@
                 </div>
             </div>
             <div if:false={past} class="slds-size_1-of-1 btn-footer">
-                <button class=" secondaryBtn slds-button " disabled={disableButtonSaveCancel} type="button"
+                <button class="secondaryBtn slds-button " disabled={disableButtonSaveCancel} type="button"
                     onclick={doCancel}>{label.discard}</button>
                 <button class="primaryBtn slds-button " disabled={disableButtonSaveCancel} type="button"
                     onclick={doSave}>{label.saveChanges}</button>

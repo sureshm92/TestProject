@@ -74,7 +74,7 @@
     height: 2rem !important;
     width:6rem !important;
     border-radius: 16px !important;
-    background-color: #0768FD !important;
+    background-color: #015ff1 !important;
     box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04), 0 4px 8px 0 rgba(7,104,253,0.32) !important;
     
 }
@@ -220,7 +220,7 @@
     top: 15px;
     height: 13px;
     width: 12px;
-    color: #0768fd;
+    color: #015ff1;
 }
 .cookie-accordion-paragraph{
     color: #444444;
@@ -231,7 +231,7 @@
     line-height: 24px;
 }
 .slds-accordion__summary-content {
-color: #0768fd!important;
+color: #015ff1!important;
 }
 .slds-accordion__content {
     overflow-x: scroll;
@@ -362,7 +362,7 @@ color: #0768fd!important;
 }
 
 .help-topics .dropdown:hover{
-    border: 1px solid #0768FD !important;
+    border: 1px solid #015ff1 !important;
 }
 
 .help-topics .dropdown:after {
@@ -416,7 +416,7 @@ color: #0768fd!important;
     top: 15px;
     height: 15px;
     width: 15px;
-    fill: #0768fd;
+    fill: #015ff1;
 }
 .slds-accordion__section .slds-is-open .slds-accordion__summary-content::after{
     text-decoration: none !important;
@@ -430,7 +430,7 @@ color: #0768fd!important;
     line-height: 24px;
 }
 .slds-accordion__summary-content {
-    color: #0768fd!important;
+    color: #015ff1!important;
     font-size: 18px;
     font-weight: 600;
     }
@@ -519,7 +519,7 @@ color: #0768fd!important;
 .primaryBtn {
     border-radius: 1rem;
     color: #ffffff;
-    background: #0768fd;
+    background: #015ff1;
     padding: 0 1rem;
     box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04), 0 4px 8px 0 rgba(7,104,253,0.32);
     margin-left: .5rem;
@@ -537,7 +537,7 @@ color: #0768fd!important;
     padding: 0 1rem;
     border: 1px solid #d9d9d9;
     border-radius: 1rem;
-    color: #0768fd;
+    color: #015ff1;
     font-weight: 500;
     cursor: pointer;
     font-family: "Proxima Nova";
@@ -545,13 +545,13 @@ color: #0768fd!important;
     width: 90px;
 }
 .secondaryBtn:disabled {
-    color: #0768fd75;
+    color: #015ff175;
     border-radius: 1rem;
     padding: 0 1rem;
     border-color: #d9d9d9;
 }
 .primaryBtn:disabled {
-    background-color: #0768fd70;
+    background-color: #015ff170;
     border-radius: 1rem;
     padding: 0 1rem;
     margin-left: .5rem;
@@ -560,6 +560,7 @@ color: #0768fd!important;
 .primaryBtn:hover, .secondaryBtn:hover{
     text-decoration: none;
 }
+/* Study Visits Page */
 
 c-pp-study-visit-details-card .slds-card {
     width: 100%;
@@ -571,6 +572,12 @@ c-pp-study-visit-details-card .slds-card {
 c-pp-study-visit-details-card .slds-card__header {
     display: none;
 }
+
+.mBackButton .slds-button {
+    margin-left: .25rem;
+    font-size: 1rem;
+    font-weight: 600;
+} 
 
 /* VISITS PAGE - WHAT TO EXPECT ICON HOVER */
 
@@ -746,10 +753,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
         width: 100%;
     }
 
-    c-pp-Study-Visit-Details-Card .slds-grid .slds-col {
-        padding-left: 0;
-        padding-right: 0;
-    }
 }
 
 ::-webkit-scrollbar {

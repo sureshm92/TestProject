@@ -120,6 +120,7 @@
     margin: 0 16px 16px 24px;
     overflow-y: auto;
     height: 72px;
+    max-height: 175px;
     padding-right: 8px;
 }
 .icons-pad {
