@@ -105,16 +105,8 @@ export default class Site_CalenderStudyFilter extends LightningElement {
             var temp = sites[conts[key]];
             let z = 0;
             for (var j in temp) {
-              if (accesslevels == 0) {
-                z = z + 1;
-                a = a + 1;
-              } else {
-                var level = siteAccessLevels[temp[j].Id];
-                if (level != "Level 3" && level != "Level 2") {
-                  z = z + 1;
-                  a = a + 1;
-                }
-              }
+              z = z + 1;
+              a = a + 1;
             }
             if (z != 0) {
               options.push({
@@ -153,14 +145,7 @@ export default class Site_CalenderStudyFilter extends LightningElement {
               if (key == picklist_Value) {
                 var temp = conts[key];
                 for (var j in temp) {
-                  if (accesslevels == 0) {
-                    options.push({ label: temp[j].Name, value: temp[j].Id });
-                  } else {
-                    var level = this.siteAccessLevels[temp[j].Id];
-                    if (level != "Level 3" && level != "Level 2") {
-                      options.push({ label: temp[j].Name, value: temp[j].Id });
-                    }
-                  }
+                  options.push({ label: temp[j].Name, value: temp[j].Id });
                 }
               }
             }
@@ -168,14 +153,7 @@ export default class Site_CalenderStudyFilter extends LightningElement {
             for (var key in conts) {
               var temp = conts[key];
               for (var j in temp) {
-                if (accesslevels == 0) {
-                  options.push({ label: temp[j].Name, value: temp[j].Id });
-                } else {
-                  var level = this.siteAccessLevels[temp[j].Id];
-                  if (level != "Level 3" && level != "Level 2") {
-                    options.push({ label: temp[j].Name, value: temp[j].Id });
-                  }
-                }
+                options.push({ label: temp[j].Name, value: temp[j].Id });
               }
             }
           }
@@ -414,14 +392,7 @@ export default class Site_CalenderStudyFilter extends LightningElement {
           if (key == temp1) {
             var temp = conts[key];
             for (var j in temp) {
-              if (accesslevels == 0) {
-                this.options.push({ label: temp[j].Name, value: temp[j].Id });
-              } else {
-                var level = this.siteaccesslevels[temp[j].Id];
-                if (level != "Level 3" && level != "Level 2") {
-                  this.options.push({ label: temp[j].Name, value: temp[j].Id });
-                }
-              }
+              this.options.push({ label: temp[j].Name, value: temp[j].Id });
             }
           }
         }
@@ -430,14 +401,7 @@ export default class Site_CalenderStudyFilter extends LightningElement {
       for (var key in conts) {
         var temp = conts[key];
         for (var j in temp) {
-          if (accesslevels == 0) {
             this.options.push({ label: temp[j].Name, value: temp[j].Id });
-          } else {
-            var level = this.siteaccesslevels[temp[j].Id];
-            if (level != "Level 3" && level != "Level 2") {
-              this.options.push({ label: temp[j].Name, value: temp[j].Id });
-            }
-          }
         }
       }
     }

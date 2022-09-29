@@ -1,5 +1,6 @@
 .slds-grid {
     margin-bottom: 1rem;
+    padding: 0 2rem 0 2rem;
 }
 
 .curve-input {
@@ -7,18 +8,22 @@
     position: relative;
     width: 100%;
     height: 2rem;
+    padding-left: 2.25rem;
     border-radius: 1rem;
     border: 1px solid #d9d9d9;
     background-color: #f2f2f2;
-    padding-left: 2.25rem;
 }
 
 .curve-input .svg-icon {
     position: absolute;
-    top: 50%;
+    top: 45%;
     transform: translateY(-50%) translateX(-50%);
     left: 20px;
     fill: #00a3e0;
+}
+
+.curve-input:focus-within {
+    border: 1px solid #015ff1;
 }
 
 .curve-input input[type='date'] {
@@ -32,6 +37,13 @@
     background: #fff;
     color: #595959;
     text-align: left;
+    padding-left: 1rem;
+}
+
+.curve-input input[type='date']:focus,
+.curve-input input[type='date']:focus-visible {
+    outline: unset;
+    box-shadow: unset;
 }
 
 .curve-input input[type='date']:disabled {
