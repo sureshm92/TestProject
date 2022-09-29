@@ -168,7 +168,6 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
                     this.delegateItem.Email__c = this.emailAddress;
                     this.delegateItem.First_Name__c = this.firstName;
                     this.delegateItem.Last_Name__c = this.lastName;
-                    this.delegateItem.Attestation__c = this.duplicateDelegateInfo.attested;
                 }else{
                     this.duplicateDelegateInfo = result;
                     this.delegateItem.isDuplicate = result.isDuplicateDelegate;

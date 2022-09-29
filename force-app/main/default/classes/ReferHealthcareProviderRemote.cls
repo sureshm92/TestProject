@@ -148,7 +148,7 @@ global without sharing class ReferHealthcareProviderRemote {
             List<Contact> contacts = Database.query(contactQuery);
             if (contacts.isEmpty() && !String.isBlank(firstName) && !String.isBlank(lastName)) {
                 delegateParticipants = [
-                    SELECT Id, First_Name__c, Last_Name__c, Phone__c, Phone_Type__c, Contact__c,Birth_Year__c,Attestation__c
+                    SELECT Id, First_Name__c, Last_Name__c, Phone__c, Phone_Type__c, Contact__c,Birth_Year__c
                     FROM Participant__c
                     WHERE
                         (First_Name__c = :firstName
@@ -183,7 +183,7 @@ global without sharing class ReferHealthcareProviderRemote {
                 List<Participant__c> participants;
                 if (delegateParticipants.isEmpty()) {
                     participants = [
-                        SELECT Id, First_Name__c, Last_Name__c, Phone__c, Phone_Type__c,Birth_Year__c,Attestation__c
+                        SELECT Id, First_Name__c, Last_Name__c, Phone__c, Phone_Type__c,Birth_Year__c
                         FROM Participant__c
                         WHERE Contact__c = :contacts[0].Id
                     ];
@@ -196,7 +196,6 @@ global without sharing class ReferHealthcareProviderRemote {
                     hp.contactPhoneType = participants[0].Phone_Type__c;
                     hp.firstName = participants[0].First_Name__c;
                     hp.lastName = participants[0].Last_Name__c;
-                    hp.attested = participants[0].Attestation__c;
                     firstName = participants[0].First_Name__c;
                     lastName = participants[0].Last_Name__c;
                     update contacts[0];
@@ -936,8 +935,6 @@ global without sharing class ReferHealthcareProviderRemote {
         public String DelegateYOB { get; set; }
         @AuraEnabled 
         public Contact conObject { get; set; } // Added for ePR batch Fix
-        @AuraEnabled 
-        public Boolean attested { get; set; }  
     }
 
     public class PDWrapper {
