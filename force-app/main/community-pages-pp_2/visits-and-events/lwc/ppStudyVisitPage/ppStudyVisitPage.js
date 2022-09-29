@@ -100,8 +100,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         })
             .then((result) => {
                 if (result.length > 0) {
-                    this.visitid = result[0].visit.Id;
-                    this.taskSubject = result[0].visit.Name;
+                  
                     for (let i = 0; i < result.length; i++) {
                         if (
                             result[i].visit.Completed_Date__c == null &&
@@ -140,6 +139,10 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         this.visitTimezone = TIME_ZONE;
                         result[i].visitTimezone = this.visitTimezone;
                     }
+                    //get upcoming visit details onload
+                    this.visitid = this.upcomingVisits[0].visit.Id;
+                    this.taskSubject = this.upcomingVisits[0].visit.Name;
+
                     if (!this.pastVisitId && this.pastVisits.length > 0) {
                         this.pastVisits = this.pastVisits.reverse();
                         this.pastVisitId = this.pastVisits[0].visit.Id;
@@ -306,6 +309,12 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
                 this.visitdata = obj;
                 this.taskId = this.visitdata.task.Id;
+
+                //update bell icon once reminder is created PEH-7825
+                if(this.taskId){
+                    this.upcomingVisits[this.selectedIndex].isReminderDate = true;
+                }
+
                 if (!this.past) {
                     this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
                         this.visitdata.visitDate;
