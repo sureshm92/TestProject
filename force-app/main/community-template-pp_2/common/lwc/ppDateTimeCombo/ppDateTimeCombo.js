@@ -21,7 +21,8 @@ export default class PpDateTimeCombo extends LightningElement {
     @track dt;
     @track tm;
     @track diffInMinutes;
-
+    @track initialDateLoaded = false;
+    @track initialTimeLoaded = false;
     label = {
         date,
         time,
@@ -34,6 +35,8 @@ export default class PpDateTimeCombo extends LightningElement {
         this.dt = '';
         this.tm = '';
         this.compDateTime = '';
+        this.initialDateLoaded = false;
+        this.initialTimeLoaded = false;
     }
 
     connectedCallback() {
@@ -54,7 +57,7 @@ export default class PpDateTimeCombo extends LightningElement {
             return null;
         } else if (this.dt) {
             return this.dt;
-        } else {
+        } else if (!this.initialDateLoaded) {
             var compdate;
             var dbCompDate = new Date(this.compdate);
             var localtimezonedate = dbCompDate.toLocaleString('en-US', { timeZone: TIME_ZONE });
@@ -63,6 +66,7 @@ export default class PpDateTimeCombo extends LightningElement {
             var mm = String(processlocaltimezonedate.getMonth() + 1).padStart(2, '0');
             var yyyy = processlocaltimezonedate.getFullYear();
             compdate = yyyy + '-' + mm + '-' + dd;
+            this.initialDateLoaded = true;
             this.dt = compdate;
             const dateEvent = new CustomEvent('initialdateload', {
                 detail: {
@@ -80,7 +84,7 @@ export default class PpDateTimeCombo extends LightningElement {
             return null;
         } else if (this.tm) {
             return this.tm;
-        } else {
+        } else if (!this.initialTimeLoaded) {
             var comptime;
             var dbCompDate = new Date(this.comptime);
             var localtimezonedate = dbCompDate.toLocaleString('en-US', { timeZone: TIME_ZONE });
@@ -98,6 +102,7 @@ export default class PpDateTimeCombo extends LightningElement {
                     processlocaltimezonedate.getSeconds()
             );
             comptime = hh + ':' + mm + ':' + ss;
+            this.initialTimeLoaded = true;
             this.tm = comptime;
             const dateEvent = new CustomEvent('initialtimeload', {
                 detail: {
@@ -110,11 +115,23 @@ export default class PpDateTimeCombo extends LightningElement {
     }
 
     handleDate(event) {
+        this.initialDateLoaded = true;
         this.dt = event.target.value;
-        if (!this.tm) {
+        if (!this.dt) {
+            this.tm = event.target.value;
+            const nulldatetime = new CustomEvent('nulldatetime', {
+                detail: {
+                    compdate: this.dt,
+                    comptime: this.tm
+                }
+            });
+            this.dispatchEvent(nulldatetime);
+        } else if (!this.tm) {
             const dateOnly = new CustomEvent('date', {
                 detail: {
-                    compdate: this.dt
+                    compdatetime: null,
+                    compdate: this.dt,
+                    comptime: null
                 }
             });
             this.dispatchEvent(dateOnly);
@@ -137,11 +154,14 @@ export default class PpDateTimeCombo extends LightningElement {
     }
 
     handleTime(event) {
+        this.initialTimeLoaded = true;
         this.tm = event.target.value;
         if (!this.dt) {
-            const timeOnly = new CustomEvent('time', {
+            const timeOnly = new CustomEvent('timechange', {
                 detail: {
-                    comptime: this.tm
+                    comptime: this.tm,
+                    compdatetime: null,
+                    compdate: null
                 }
             });
             this.dispatchEvent(timeOnly);

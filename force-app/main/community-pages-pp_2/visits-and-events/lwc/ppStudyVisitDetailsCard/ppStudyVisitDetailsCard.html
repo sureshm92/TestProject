@@ -19,7 +19,7 @@
                 <div class="site-address">{siteaddress}</div>
                 <div class="site-phone">{sitephone}</div>
             </div>
-            <div>
+            <div class="slds-m-horizontal_large">
                 <c-pp-date-time-combo
                     data-id="visitDateTime"
                     if:false={past}
@@ -30,6 +30,8 @@
                     mintime={currentTime}
                     ondatechange={handleDate}
                     ontimechange={handleTime}
+                    ondate={handleOnlyDate}
+                    onnulldatetime={handleNullDateTime}
                     oninitialdateload={handleInitialDateLoad}
                     oninitialtimeload={handleInitialTimeLoad}
                 ></c-pp-date-time-combo>
@@ -110,7 +112,7 @@
                         </a>
                     </div>
                 </div>
-                <div if:false={past} style="padding-bottom: 24px">
+                <div if:false={past} class="slds-m-horizontal_large">
                     <c-pp-date-time-combo
                         if:true={showreminderdatepicker}
                         data-id="reminderDateTime"
@@ -125,8 +127,9 @@
                         ontimechange={handleReminderTime}
                         oninitialdateload={handleInitialReminderDateLoad}
                         oninitialtimeload={handleInitialReminderTimeLoad}
-                        ondate={handleOnlyDate}
-                        ontimw={handleOnlyTime}
+                        onnulldatetime={handleNullDateTimeReminder}
+                        ondate={handleOnlyDateReminder}
+                        ontimw={handleOnlyTimeReminder}
                     ></c-pp-date-time-combo>
                 </div>
             </div>

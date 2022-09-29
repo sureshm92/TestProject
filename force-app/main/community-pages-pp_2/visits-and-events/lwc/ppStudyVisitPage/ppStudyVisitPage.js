@@ -287,6 +287,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     }
 
     createEditTask(index) {
+        this.showChild = false;
         this.contentLoaded = false;
         this.showreminderdatepicker = false;
         if (this.visitid) {

@@ -271,12 +271,14 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 this.showreminderdatepicker = true;
             }
             return this.remindmepub;
-        } else if (this.visitdata.task.Remind_Me__c) {
+        } else if (this.visitdata.task.Remind_Me__c && !this.reminderChanged) {
             this.remindmepub = this.visitdata.task.Remind_Me__c;
             if (this.remindmepub == this.label.custom) {
                 this.showreminderdatepicker = true;
             }
             return this.remindmepub;
+        } else {
+            this.showreminderdatepicker = false;
         }
     }
 
@@ -397,6 +399,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         var remindMe = event.target.value;
         var today = new Date(new Date() + 60 * 1000);
         var dueDateOrplanDate = this.visitDateTime;
+        this.selectedReminderDateTime = '';
+        this.reminderDateChanged = true;
         if (this.sms || this.email) {
             this.disableButtonSaveCancel = false;
         } else {
@@ -424,7 +428,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         }
     }
 
-    handleOnlyDate(event) {
+    handleOnlyDateReminder(event) {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.disableButtonSaveCancel = false;
@@ -432,7 +436,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.minReminderTime();
     }
 
-    handleOnlyTime(event) {
+    handleOnlyTimeReminder(event) {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.disableButtonSaveCancel = false;
@@ -457,7 +461,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     handleTime(event) {
-        this.disableButtonSaveCancel = false;
         this.visitDateChanged = true;
         this.reminderDateChanged = true;
         this.selectedReminderDate = '';
@@ -466,11 +469,19 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitDateTime = event.detail.compdatetime;
         this.visitTime = event.detail.comptime;
         this.visitDate = event.detail.compdate;
+        if (this.visitDate && this.visitTime) {
+            this.disableButtonSaveCancel = false;
+        } else {
+            this.disableButtonSaveCancel = true;
+        }
         this.reminderFrequencyList();
+    }
+    handleOnlyDate(event) {
+        this.visitDate = event.detail.compdate;
+        this.visitDateTime = event.detail.compdate;
     }
 
     handleDate(event) {
-        this.disableButtonSaveCancel = false;
         this.visitDateChanged = true;
         this.reminderDateChanged = true;
         this.selectedReminderDate = '';
@@ -479,7 +490,32 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitDateTime = event.detail.compdatetime;
         this.visitDate = event.detail.compdate;
         this.visitTime = event.detail.comptime;
+        if (this.visitDate && this.visitTime) {
+            this.disableButtonSaveCancel = false;
+        } else {
+            this.disableButtonSaveCancel = true;
+        }
         this.reminderFrequencyList();
+    }
+
+    handleNullDateTime(event) {
+        this.disableButtonSaveCancel = false;
+        this.visitDateTime = '';
+        this.visitDate = '';
+        this.visitTime = '';
+        this.visitDateChanged = true;
+        this.remindmepub = '';
+        this.reminderChanged = true;
+        this.showEmailSms = false;
+    }
+
+    handleNullDateTimeReminder(event) {
+        this.disableButtonSaveCancel = false;
+        this.selectedReminderDateTime = '';
+        this.selectedReminderDate = '';
+        this.selectedReminderTime = '';
+        this.reminderDateChanged = true;
+        this.reminderChanged = true;
     }
 
     doSave() {
