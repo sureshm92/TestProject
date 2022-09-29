@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>DOB_outcome_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DOB outcome error</shortDescription>
+        <value>Participant DOB information is missing on Participant Details tab.</value>
+    </labels>
+    <labels>
+        <fullName>Send_to_Dct_dob_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send to Dct dob error</shortDescription>
+        <value>Participant data couldn&apos;t be sent to DCT because some fields related to this participant are missing. Please fill them out on the Participant Details tab before continuing.</value>
+    </labels>
+    <labels>        
+        <fullName>Site_Calendar_All_Studies_Sites</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site Calendar All Studies Sites</shortDescription>
+        <value>Showing: All Studies, All Sites</value>
+    </labels>
+    <labels>
+        <fullName>Site_Calendar_Apply_Filters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site Calendar Apply Filters</shortDescription>
+        <value>Apply Filters</value>
+    </labels>
+    <labels>
         <fullName>RH_Televisit</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27,6 +55,13 @@
         <protected>false</protected>
         <shortDescription>DOB Batch Label</shortDescription>
         <value>false</value>
+    </labels>
+    <labels>
+        <fullName>Discover_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Discover Links</shortDescription>
+        <value>Discover</value>
     </labels>
     <labels>
         <fullName>ReEngage_Dashboard</fullName>
@@ -25052,6 +25087,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Task Name</shortDescription>
         <value>Task Name</value>
     </labels>
+    <labels>
+        <fullName>Enter_Task_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enter Task Name</shortDescription>
+        <value>Enter Task Name</value>
+    </labels> 
     <labels>
         <fullName>Task_Reminder_Details</fullName>
         <language>en_US</language>

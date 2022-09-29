@@ -933,7 +933,7 @@ export default class Pir_participantDetail extends LightningElement {
             console.log(e.stack);
         }
     }
-    abortDup = false;
+    abortDup = false;useDup=false;
     useDuplicateRecord() {
         this.abortDup = true;
         try {
@@ -946,6 +946,7 @@ export default class Pir_participantDetail extends LightningElement {
             this.showDupMsg = false;
             this.showUpdateMsg = false;
             this.setVal(this.pd.delegate.Participant_Delegate__r.Phone__c, '3', 'dphone');
+            this.useDup = true;
             this.toggleSave();
         } catch (e) {
             console.log(e.message);
@@ -1078,8 +1079,19 @@ export default class Pir_participantDetail extends LightningElement {
        if(this.participantSelectedAge == undefined){
         err++;
        }
-        if((this.delegateLevels == 'Level 3' || this.delegateLevels == 'Level 2') && (!this.pd.delegate.Participant_Delegate__r.Attestation__c)){
+        if((this.delegateLevels == 'Level 3' || this.delegateLevels == 'Level 2') && this.delegateReq){
+            if(this.pd.delegate==null || this.pd.delegate=='' || this.pd.delegate.Participant_Delegate__c == null || this.pd.delegate.Participant_Delegate__c == ''){
             err++;
+            }else{
+                let delFields = ['First_Name__c', 'Last_Name__c', 'Phone__c', 'Email__c'];
+                for (var i = 0; i < delFields.length; i++) {
+                    if (this.pd.delegate.Participant_Delegate__r[delFields[i]]) {
+                        if (this.pd.delegate.Participant_Delegate__r[delFields[i]].trim() == "" || this.pd.delegate.Participant_Delegate__r[delFields[i]].trim() == undefined || this.pd.delegate.Participant_Delegate__r[delFields[i]].trim() == null) {
+                            err++;
+                        }
+                    }
+                }
+            }
         }
         return err == 0;
     }
@@ -1129,10 +1141,11 @@ export default class Pir_participantDetail extends LightningElement {
         this.dispatchEvent(new CustomEvent('toggleclick'));
         this.saving = true;
         var updates = this.isUpdated();
-        doSaveParticipantDetails({ perRecord: this.pd.pe, peDeligateString: JSON.stringify(this.pd.delegate), isPeUpdated: updates.isPeUpdated, isPartUpdated: updates.isPartUpdated, isDelUpdated: updates.isDelUpdated, isOutreachUpdated: this.isOutreachUpdated, delegateCriteria: this.delOp, visitPlan: this.vPlan })
+        doSaveParticipantDetails({ perRecord: this.pd.pe, peDeligateString: JSON.stringify(this.pd.delegate), isPeUpdated: updates.isPeUpdated, isPartUpdated: updates.isPartUpdated, isDelUpdated: updates.isDelUpdated, isOutreachUpdated: this.isOutreachUpdated, delegateCriteria: this.delOp, visitPlan: this.vPlan, useDup: this.useDup })
             .then(result => {
                 this.dispatchEvent(new CustomEvent('toggleclick'));
                 this.dispatchEvent(new CustomEvent('handletab'));
+                this.dispatchEvent(new CustomEvent('detailsaved'));
                 this.peid = this.pd.pe.Id;
                 const event = new ShowToastEvent({
                     variant: 'success',
