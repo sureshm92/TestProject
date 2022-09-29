@@ -508,6 +508,7 @@
         let pEnrollment = component.get('v.pEnrollment');
         let contentDocId=component.get("v.contentDocId");
         let spinner = component.find('mainSpinner');
+        var dupPart = '';
         if (!$A.util.isUndefinedOrNull(JSON.stringify(pEnrollment.HCP__r))) {
             pEnrollment.HCP__r.Study__c="";
         }
@@ -526,7 +527,8 @@
         action.setCallback(this, function(response) {
             let state = response.getState();
             if (state === "SUCCESS") {
-                participant.Id = response.getReturnValue();
+                participant.Id = response.getReturnValue()[0];
+                dupPart = response.getReturnValue()[1];
                 var action2 = component.get("c.saveParticipantEnrollment");
                 action2.setParams({
                     hcpeId: hcpeId,
@@ -551,6 +553,15 @@
                             toastEvent.fire();
                         }
                         else{
+                            if(dupPart!='no duplicate'){
+                                var action3 = component.get("c.updateParticipant");
+                                action3.setParams({
+                                    participantJSON : dupPart
+                                });
+                                action3.setCallback(this, function(response){
+                                });
+                                $A.enqueueAction(action3); 
+                            }
                             component.set('v.currentState', 'Refer Success');
                         }
                        spinner.hide();
