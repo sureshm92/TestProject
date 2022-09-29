@@ -62,7 +62,7 @@ export default class PpTasks extends LightningElement {
             ? 'create-task after-create-task'
             : 'create-task before-create-task';
     }
-    handleTaskCancel(event) {
-        this.isCreateTask = event.detail.isCreate;
+    handleTaskClose(event) {
+        this.isCreateTask = event.detail.isClose;
     }
 }

@@ -219,6 +219,25 @@ public inherited sharing class PatientVisitService {
         return visitWrappers;
     }
 
+public List<Patient_Visit__c> getPatientVisitDetails(Id visitId) {
+        List<Patient_Visit__c> visits = [
+            SELECT
+                Id,
+                Name,
+                Visit__c,
+                Visit_Number__c,
+                Visit__r.Visit_Plan__c,
+                Planned_Date__c,
+                Completed_Date__c,
+                Visit__r.Icons__c,
+                Status__c
+            FROM Patient_Visit__c
+            WHERE Id = :visitId
+        ];
+
+        return visits;
+    }
+
     private List<VisitWrapper> getVisitWrappers(List<Patient_Visit__c> visits) {
         List<VisitWrapper> visitWrappers = new List<VisitWrapper>();
         if (visits == null || visits.isEmpty())

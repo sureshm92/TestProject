@@ -1,18 +1,14 @@
 .input-task-name {
     height: 32px;
-    width: 334px;
+    width: 100%;
     border-radius: 1rem;
     border: 1px solid #d9d9d9;
+    font-size: 14px;
     padding-left: 16px;
 }
 .task-length {
-    height: 24px;
-    width: 38px;
     color: #595959;
     font-size: 14px;
-    letter-spacing: 0;
-    line-height: 24px;
-    padding-left: 230px;
 }
 .card-style {
     height: 273px;

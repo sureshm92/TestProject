@@ -158,7 +158,26 @@ export default class PpCreateTask extends LightningElement {
     }
     doCreateTask() {
         this.task.Subject = this.subject;
-        if (
+        if (!this.isReminderSelected) {
+            this.task.Subject = this.subject;
+            upsertTask({
+                wrapper: JSON.stringify(this.initData),
+                paramTask: JSON.stringify(this.task)
+            })
+                .then((result) => {
+                    this.enableSave = false;
+                    communityService.showToast('', 'success', taskCreationSuccess, 100);
+                    const taskCloseEvent = new CustomEvent('taskclose', {
+                        detail: {
+                            isClose: false
+                        }
+                    });
+                    this.dispatchEvent(taskCloseEvent);
+                })
+                .catch((error) => {
+                    console.log(' error during task creation without reminder ', error);
+                });
+        } else if (
             this.isReminderSelected &&
             (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c)
         ) {
@@ -170,21 +189,27 @@ export default class PpCreateTask extends LightningElement {
                 .then((result) => {
                     this.enableSave = false;
                     communityService.showToast('', 'success', taskCreationSuccess, 100);
+                    const taskCloseEvent = new CustomEvent('taskclose', {
+                        detail: {
+                            isClose: false
+                        }
+                    });
+                    this.dispatchEvent(taskCloseEvent);
                 })
                 .catch((error) => {
-                    console.log(' error ', error);
+                    console.log('  error during task creation with reminder ', error);
                 });
         } else {
             communityService.showToast('', 'error', this.labels.REMIND_USING_REQUIRED, 100);
         }
     }
     handleCancelTask() {
-        const dateEvent = new CustomEvent('taskcancel', {
+        const taskCloseEvent = new CustomEvent('taskclose', {
             detail: {
-                isCreate: false
+                isClose: false
             }
         });
-        this.dispatchEvent(dateEvent);
+        this.dispatchEvent(taskCloseEvent);
     }
 
     get currentTime() {
@@ -255,8 +280,6 @@ export default class PpCreateTask extends LightningElement {
         } else {
             this.enableSave = false;
         }
-
-        console.log('this.enableSave-------' + this.enableSave);
         return this.enableSave ? 'task-save-btn' : 'task-save-btn-opacity';
     }
 }
