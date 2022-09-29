@@ -374,7 +374,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
 
     setAttributeValueEmail(event) {
         this.reminderChanged = true;
-        if (event.target.checked || this.sms) {
+        if ((event.target.checked || this.sms) && this.remindmepub !== this.label.custom) {
+            this.disableButtonSaveCancel = false;
+        } else if ((event.target.checked || this.sms) && this.selectedReminderDateTime) {
             this.disableButtonSaveCancel = false;
         } else {
             this.disableButtonSaveCancel = true;
@@ -384,7 +386,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
 
     setAttributeValueSms(event) {
         this.reminderChanged = true;
-        if (event.target.checked || this.email) {
+        if ((event.target.checked || this.email) && this.remindmepub !== this.label.custom) {
+            this.disableButtonSaveCancel = false;
+        } else if ((event.target.checked || this.email) && this.selectedReminderDateTime) {
             this.disableButtonSaveCancel = false;
         } else {
             this.disableButtonSaveCancel = true;
@@ -400,6 +404,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         var today = new Date(new Date() + 60 * 1000);
         var dueDateOrplanDate = this.visitDateTime;
         this.selectedReminderDateTime = '';
+        this.selectedReminderDate = '';
+        this.selectedReminderTime = '';
         this.reminderDateChanged = true;
         if (this.sms || this.email) {
             this.disableButtonSaveCancel = false;
@@ -424,29 +430,69 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             var date = new Date(this.selectedReminderDateTime);
             this.selectedReminderDateTime = date.toISOString();
         } else {
+            if (!this.selectedReminderDateTime) {
+                this.disableButtonSaveCancel = true;
+            }
             this.showreminderdatepicker = true;
         }
+    }
+
+    handleOnlyDate(event) {
+        this.visitDateChanged = true;
+        this.visitDate = event.detail.compdate;
+        this.visitDateTime = event.detail.compdate;
+        this.selectedReminderDateTime = '';
+        this.selectedReminderDate = '';
+        this.selectedReminderTime = '';
+        this.disableButtonSaveCancel = true;
+        this.remindmepub = '';
+        this.showreminderdatepicker = false;
+    }
+
+    handleOnlyTime(event) {
+        this.visitDateChanged = true;
+        this.visitDate = event.detail.comptime;
+        this.visitTime = '';
+        this.selectedReminderDateTime = '';
+        this.selectedReminderDate = '';
+        this.selectedReminderTime = '';
+        this.disableButtonSaveCancel = true;
+        this.remindmepub = '';
+        this.showreminderdatepicker = false;
     }
 
     handleOnlyDateReminder(event) {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
-        this.disableButtonSaveCancel = false;
         this.selectedReminderDate = event.detail.compdate;
+        if ((this.sms || this.email) && this.selectedReminderTime) {
+            this.disableButtonSaveCancel = false;
+        } else {
+            this.disableButtonSaveCancel = true;
+        }
         this.minReminderTime();
     }
 
     handleOnlyTimeReminder(event) {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
-        this.disableButtonSaveCancel = false;
-        this.selectedReminderDate = event.detail.comptime;
+        this.selectedReminderDate = event.detail.compdate;
+        this.selectedReminderTime = '';
+        if ((this.sms || this.email) && this.selectedReminderTime) {
+            this.disableButtonSaveCancel = false;
+        } else {
+            this.disableButtonSaveCancel = true;
+        }
     }
 
     handleReminderDate(event) {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
-        this.disableButtonSaveCancel = false;
+        if (this.sms || this.email) {
+            this.disableButtonSaveCancel = false;
+        } else {
+            this.disableButtonSaveCancel = true;
+        }
         this.selectedReminderDate = event.detail.compdate;
         this.selectedReminderDateTime = event.detail.compdatetime;
         this.minReminderTime();
@@ -455,7 +501,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     handleReminderTime(event) {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
-        this.disableButtonSaveCancel = false;
+        if (this.sms || this.email) {
+            this.disableButtonSaveCancel = false;
+        } else {
+            this.disableButtonSaveCancel = true;
+        }
         this.selectedReminderTime = event.detail.comptime;
         this.selectedReminderDateTime = event.detail.compdatetime;
     }
@@ -475,10 +525,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             this.disableButtonSaveCancel = true;
         }
         this.reminderFrequencyList();
-    }
-    handleOnlyDate(event) {
-        this.visitDate = event.detail.compdate;
-        this.visitDateTime = event.detail.compdate;
     }
 
     handleDate(event) {
@@ -510,7 +556,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     handleNullDateTimeReminder(event) {
-        this.disableButtonSaveCancel = false;
+        this.disableButtonSaveCancel = true;
         this.selectedReminderDateTime = '';
         this.selectedReminderDate = '';
         this.selectedReminderTime = '';
