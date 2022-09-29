@@ -248,14 +248,6 @@ a {
     margin-bottom: 1.5rem;
 }
 
-.name-card {
-    padding: 0px;
-}
-
-.reminder-icon {
-    padding-left: 40px;
-}
-
 .inactive-custom-box {
     box-sizing: border-box;
     height: 80px;
@@ -331,7 +323,6 @@ a {
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
-    margin-left: 0px;
 }
 
 

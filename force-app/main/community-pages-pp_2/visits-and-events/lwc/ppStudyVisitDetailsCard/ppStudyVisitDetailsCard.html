@@ -19,7 +19,7 @@
                 <div class="site-address">{siteaddress}</div>
                 <div class="site-phone">{sitephone}</div>
             </div>
-            <div class="slds-m-horizontal_large">
+            <div>
                 <c-pp-date-time-combo
                     data-id="visitDateTime"
                     if:false={past}
@@ -112,7 +112,7 @@
                         </a>
                     </div>
                 </div>
-                <div if:false={past} class="slds-m-horizontal_large">
+                <div if:false={past}>
                     <c-pp-date-time-combo
                         if:true={showreminderdatepicker}
                         data-id="reminderDateTime"
