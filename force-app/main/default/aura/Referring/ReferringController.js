@@ -553,13 +553,15 @@
                             toastEvent.fire();
                         }
                         else{
-                            var action3 = component.get("c.updateParticipant");
-                            action3.setParams({
-                                participantJSON : dupPart
-                            });
-                            action3.setCallback(this, function(response){
-                            });
-                            $A.enqueueAction(action3); 
+                            if(dupPart!='no duplicate'){
+                                var action3 = component.get("c.updateParticipant");
+                                action3.setParams({
+                                    participantJSON : dupPart
+                                });
+                                action3.setCallback(this, function(response){
+                                });
+                                $A.enqueueAction(action3); 
+                            }
                             component.set('v.currentState', 'Refer Success');
                         }
                        spinner.hide();
