@@ -151,6 +151,7 @@ public without sharing class ParticipantVisitsRemote {
 
     @AuraEnabled
     public static List<Icon_Details__c> getVisitIconsbyName(Id visitId) {
+        
         Id visitPlanId;
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
         List<Patient_Visit__c> visits = [
