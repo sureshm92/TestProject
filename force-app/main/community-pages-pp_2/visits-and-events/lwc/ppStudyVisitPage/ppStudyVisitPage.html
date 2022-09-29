@@ -181,7 +181,11 @@
                                 time-zone={visitTimezone}
                             ></lightning-formatted-date-time>
                         </template>
-                        <template if:false={plannedDate}> {label.noVisitsLabel} </template>
+                        <template if:false={plannedDate}>
+                            <span class="visit-date-mobile">
+                                {label.noVisitsLabel}
+                            </span>
+                        </template>
                     </div>
                 </h1>
                 <h1 if:true={past} class="visit3">
