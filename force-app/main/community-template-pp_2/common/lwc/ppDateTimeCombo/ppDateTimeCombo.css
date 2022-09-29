@@ -82,8 +82,8 @@ input[type='date']::-webkit-calendar-picker-indicator,
         padding-right: .75rem;
     }
 
-    .slds-small-size_1-of-2.slds-p-right_xx-small {
-        margin-bottom: 1rem
+    .slds-small-size_1-of-2.slds-p-left_xx-small {
+        margin-bottom: 1rem;
     }
 
 }

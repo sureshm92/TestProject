@@ -534,7 +534,8 @@ color: #015ff1!important;
 }
 
  .secondaryBtn {
-    padding: 0 1rem;
+    justify-content: center;
+    padding: 0;
     border: 1px solid #d9d9d9;
     border-radius: 1rem;
     color: #015ff1;

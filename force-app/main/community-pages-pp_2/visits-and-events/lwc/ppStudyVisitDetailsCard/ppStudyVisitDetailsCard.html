@@ -30,6 +30,7 @@
                     mintime={currentTime}
                     ondatechange={handleDate}
                     ontimechange={handleTime}
+                    onnulldatetime={handleNullDateTime}
                     oninitialdateload={handleInitialDateLoad}
                     oninitialtimeload={handleInitialTimeLoad}
                 ></c-pp-date-time-combo>
@@ -77,7 +78,7 @@
                     </div>
                     <div
                         if:false={past}
-                        class="slds-col slds-size_3-of-4 slds-small-size_1-of-2  comm-checks"
+                        class="slds-col slds-size_3-of-4 slds-small-size_1-of-2 comm-checks"
                     >
                         <div if:true={showEmailSms}>
                             <lightning-input
@@ -86,7 +87,7 @@
                                 type="checkbox"
                                 name={label.email}
                                 value={visitdata.task.Remind_Using_Email__c}
-                                enabled={emailOptIn}
+                                disabled={emailOptIn}
                                 checked={visitdata.task.Remind_Using_Email__c}
                                 onchange={setAttributeValueEmail}
                             ></lightning-input>
@@ -96,7 +97,7 @@
                                 label={label.sms}
                                 name={label.sms}
                                 value={visitdata.task.Remind_Using_SMS__c}
-                                enabled={smsOptIn}
+                                disabled={smsOptIn}
                                 checked={visitdata.task.Remind_Using_SMS__c}
                                 onchange={setAttributeValueSms}
                             ></lightning-input>
@@ -125,8 +126,9 @@
                         ontimechange={handleReminderTime}
                         oninitialdateload={handleInitialReminderDateLoad}
                         oninitialtimeload={handleInitialReminderTimeLoad}
-                        ondate={handleOnlyDate}
-                        ontimw={handleOnlyTime}
+                        onnulldatetime={handleNullDateTimeReminder}
+                        ondate={handleOnlyDateReminder}
+                        ontimw={handleOnlyTimeReminder}
                     ></c-pp-date-time-combo>
                 </div>
             </div>
