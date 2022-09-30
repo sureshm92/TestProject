@@ -291,9 +291,7 @@ public without sharing class PreferenceManagementController {
             Contact cont = optOutPlatFormLevelSMS(contactId);
             contactToUpdate.Add(cont);
         }
-
-        //TODO: Uncomment Below code in Iteration 4.2 for Delegate Part - Start
-        /*
+        
         //If Participant deleted his MobilePhone but Participant is also a delegate for another participant. 
         if(isParticipantLoggedIn && isDelegateAlsoAParticipant){
             Contact cont = optOutPlatFormLevelSMS(contactId);
@@ -308,21 +306,19 @@ public without sharing class PreferenceManagementController {
             }
         }
 
-        //If Delegate deleted his MobilePhone and Delegate is not a Participant for another study.
-        if(isDelegateSelfView && isPrimaryDelegate){
+        //If Delegate deleted his own MobilePhone and Delegate is not a Participant for another study.
+        if(isDelegateSelfView){
             Contact cont = optOutPlatFormLevelSMS(contactId);
             contactToUpdate.Add(cont);
             //if Delegate is Primary Delegate.
             if(isPrimaryDelegate){
-               //All all the contact record of Minor/Adult without email Participant of Primary Delegate.
+               //Store all the contact record of Minor/Adult without email Participant of Primary Delegate.
                contactToUpdate.addAll(getConOfMinorOfAdultWithoutEmailPar(contactId));
                //get the PER records for Minor/Adult without email Participants. 
                perToUpdate.addAll(PatientDelegateService.getPERRecords(minorOrAdultWithNoEmailParIdSet));
             }
         }
-        */
-        //TODO: Uncomment Above code in Iteration 4.2 for Delegate Part - End
-        
+                
         //Opt out Platform level SMS and Revert welcome message flags.
         if(contactToUpdate!=null && !contactToUpdate.isEmpty()){
             update contactToUpdate;
