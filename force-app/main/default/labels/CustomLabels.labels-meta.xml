@@ -28184,7 +28184,7 @@ Please contact the Study Team for further updates or please login for additiona
         <fullName>Upcoming_Visits_Clock</fullName>
         <categories></categories>
         <language>en_US</language>
-        <protected>flase</protected>
+        <protected>false</protected>
         <shortDescription>Upcoming Visits Clock</shortDescription>
         <value>Clock</value>
     </labels>
@@ -28192,7 +28192,7 @@ Please contact the Study Team for further updates or please login for additiona
         <fullName>Upcoming_Visit_calendar</fullName>
         <categories></categories>
         <language>en_US</language>
-        <protected>flase</protected>
+        <protected>false</protected>
         <shortDescription>Upcoming Visit calendar</shortDescription>
         <value>Calendar</value>
     </labels>
@@ -28200,8 +28200,16 @@ Please contact the Study Team for further updates or please login for additiona
         <fullName>Upcoming_Visit_Location</fullName>
         <categories></categories>
         <language>en_US</language>
-        <protected>flase</protected>
+        <protected>false</protected>
         <shortDescription>Upcoming Visit Location</shortDescription>
         <value>Location</value>
+    </labels>
+    <labels>
+        <fullName>Visit_No_Upcoming_Visit</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit No Upcoming Visit</shortDescription>
+        <value>No upcoming visit</value>
     </labels>
 </CustomLabels>
