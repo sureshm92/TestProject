@@ -43,8 +43,11 @@
                                             create-task={createTask}
                                             ondatechange={handleDate}
                                             ontimechange={handleTime}
-                                            ondate={handleDate}
-                                            ontime={handleTime}
+                                            compdate={taskDueDate}
+                                            comptime={taskDueTime}
+                                            ondate={handleOnlyDate}
+                                            ontime={handleOnlyTime}
+                                            onnulldatetime={handleNullDateTime}
                                             oninitialdateload={handleInitialDateLoad}
                                             oninitialtimeload={handleInitialTimeLoad}
                                             icon-size="small"
