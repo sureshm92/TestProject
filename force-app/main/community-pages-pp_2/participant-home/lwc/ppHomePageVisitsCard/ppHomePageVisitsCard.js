@@ -11,6 +11,7 @@ import NO_TIME from '@salesforce/label/c.PP_Time_Unavailable';
 import NO_EXPECT from '@salesforce/label/c.Visit_No_Expect';
 import View_Visit_Details from '@salesforce/label/c.View_Visit_Details';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
+import No_Upcoming_Visit from '@salesforce/label/c.Visit_No_Upcoming_Visit';
 
 export default class HomePageVisitsCard extends LightningElement {
     planDateTime;
@@ -30,8 +31,11 @@ export default class HomePageVisitsCard extends LightningElement {
         View_Visit_Details,
         NO_DATE,
         NO_TIME,
-        NO_EXPECT
+        NO_EXPECT,
+        No_Upcoming_Visit
     };
+
+    isUpcomingDetails = false;
 
     connectedCallback() {
         this.initializeData();
@@ -42,30 +46,33 @@ export default class HomePageVisitsCard extends LightningElement {
         getVisitsPreview({})
             .then((result) => {
                 let visitDetails = result;
-                if (visitDetails != null) {
+                if (visitDetails != null || visitDetails.length != 0 || visitDetails != '') {
+                    this.isUpcomingDetails = true;
                     this.upcomingVisit = visitDetails[0];
                     this.planDateTime = this.upcomingVisit.visitDate
                         ? this.upcomingVisit.visitDate
                         : false;
                     this.visitName = this.upcomingVisit.visit.Name;
-                    this.siteTitle =
-                        this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r?.Site__r?.Name;
-                    this.sitePhone =
-                        this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r?.Site__r?.Phone;
-                    let location =
-                        this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r.Site__r
-                            ?.BillingAddress;
-                    this.siteLocation =
-                        (location.street ? location.street : '') +
-                        ', ' +
-                        (location.city ? location.city : '') +
-                        ', ' +
-                        (location.stateCode ? location.stateCode : '') +
-                        ' ' +
-                        (location.postalCode ? location.postalCode : '');
+                    this.siteTitle = this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r?.Site__r?.Name;
+                    this.sitePhone = this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r?.Site__r?.Phone;
+                    let location = this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r
+                        ?.Site__r?.BillingAddress;
+
+                    this.siteLocation = location
+                        ? (location.street ? location.street : '') +
+                          ', ' +
+                          (location.city ? location.city : '') +
+                          ', ' +
+                          (location.stateCode ? location.stateCode : '') +
+                          ' ' +
+                          (location.postalCode ? location.postalCode : '')
+                        : '';
+
                     let icons = this.upcomingVisit.iconDetails;
                     this.moreIconsCount = icons.length > 4 ? icons.length - 4 : false;
-                    this.iconDetails =icons.length > 0 ? icons?.slice(0, 4) :false;
+                    this.iconDetails = icons.length > 0 ? icons?.slice(0, 4) : false;
+                } else {
+                    this.isUpcomingDetails = false;
                 }
             })
             .catch((error) => {

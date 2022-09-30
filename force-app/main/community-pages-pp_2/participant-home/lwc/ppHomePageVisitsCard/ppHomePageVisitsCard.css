@@ -4,12 +4,21 @@
     background-color: transparent;
     border-style: none;
     padding: 0;
+    margin-left: 10px;
+    width: 420px;
 }
 .container-card {
     background-color: transparent;
     border-top-color: #00a3e0;
     border-top-width: 8px;
     padding: 0;
+}
+.container-card-upcoming {
+    background-color: transparent;
+    border-top-color: #00a3e0;
+    border-top-width: 8px;
+    padding: 0;
+    height: 416px;
 }
 .upcoming {
     height: 3.14%;
@@ -125,7 +134,17 @@ hr {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
-
+.visitcard-upcoming {
+    height: 377px;
+    width: 381px;
+    display: grid;
+}
+.center-align {
+    text-align: center;
+}
+.text-colour {
+    color: #a9a9a9;
+}
 .label {
     height: 24px;
     width: 108px;
