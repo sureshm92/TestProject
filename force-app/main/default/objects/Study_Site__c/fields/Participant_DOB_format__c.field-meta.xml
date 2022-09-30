@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Participant_DOB_format__c</fullName>
-    <defaultValue>&quot;DD-MM-YYYY&quot;</defaultValue>
+    <defaultValue>&quot;MM-YYYY&quot;</defaultValue>
     <externalId>false</externalId>
     <label>Participant DOB format</label>
     <required>false</required>
