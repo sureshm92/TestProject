@@ -626,7 +626,7 @@ c-pp-study-visit-details-card .slds-card__header {
 .cCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input,
 .cCustomThemeLayout .curve-input .slds-combobox__input.slds-input {     
     height: 30px!important;
-    width: 300px;
+    /* width: 300px; */
     display: flex;
     align-items: center;
     max-width: 100%;
@@ -647,6 +647,10 @@ c-pp-study-visit-details-card .slds-card__header {
 .cCustomThemeLayout .curve-input .slds-combobox__input.slds-input:focus-within {
     outline: unset;
     box-shadow: unset;
+}
+
+.task-card .slds-card__footer{
+    border-top: 1px solid #e9e9e9 !important;
 }
 
 

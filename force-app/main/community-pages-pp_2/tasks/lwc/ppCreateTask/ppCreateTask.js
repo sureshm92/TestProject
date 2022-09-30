@@ -150,9 +150,7 @@ export default class PpCreateTask extends LightningElement {
         this.initData.activityDate = this.taskDateTime;
         /**Reset Reminder Values */
         console.log('date change', this.taskDateTime, this.taskDueTime, this.taskDueDate);
-        if (this.isDueDateTimeSelected) {
-            this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
-        }
+        this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
         this.enableSave = true;
     }
 
@@ -168,9 +166,7 @@ export default class PpCreateTask extends LightningElement {
         this.taskReminderDate = null;
         /**Reset Reminder Values */
         console.log('date change', this.taskDateTime, this.taskDueTime, this.taskDueDate);
-        if (this.isDueDateTimeSelected) {
-            this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
-        }
+        this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
     }
     handleNullDateTime(event) {
         this.enableSave = false;
