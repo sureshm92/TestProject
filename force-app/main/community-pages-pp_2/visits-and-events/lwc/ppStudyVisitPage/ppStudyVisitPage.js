@@ -100,7 +100,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         })
             .then((result) => {
                 if (result.length > 0) {
-                  
                     for (let i = 0; i < result.length; i++) {
                         if (
                             result[i].visit.Completed_Date__c == null &&
@@ -288,6 +287,10 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     handleDataUpdate() {
         this.createEditTask();
     }
+    saveClicked() {
+        this.showChild = false;
+        this.contentLoaded = false;
+    }
 
     createEditTask(index) {
         this.showChild = false;
@@ -312,7 +315,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.taskId = this.visitdata.task.Id;
 
                 //update bell icon once reminder is created PEH-7825
-                if(this.taskId){
+                if (this.taskId) {
                     this.upcomingVisits[this.selectedIndex].isReminderDate = true;
                 }
 
