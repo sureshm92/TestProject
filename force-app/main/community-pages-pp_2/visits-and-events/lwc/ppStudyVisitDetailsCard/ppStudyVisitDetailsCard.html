@@ -135,10 +135,22 @@
                 </div>
             </div>
             <div if:false={past} class="slds-size_1-of-1 btn-footer">
-                <button class="secondaryBtn slds-button " disabled={disableButtonSaveCancel} type="button"
-                    onclick={doCancel}>{label.discard}</button>
-                <button class="primaryBtn slds-button " disabled={disableButtonSaveCancel} type="button"
-                    onclick={doSave}>{label.saveChanges}</button>
+                <button
+                    class="secondaryBtn slds-button"
+                    disabled={disableDiscard}
+                    type="button"
+                    onclick={doCancel}
+                >
+                    {label.discard}
+                </button>
+                <button
+                    class="primaryBtn slds-button"
+                    disabled={disableButtonSaveCancel}
+                    type="button"
+                    onclick={doSave}
+                >
+                    {label.saveChanges}
+                </button>
             </div>
         </div>
     </lightning-card>
