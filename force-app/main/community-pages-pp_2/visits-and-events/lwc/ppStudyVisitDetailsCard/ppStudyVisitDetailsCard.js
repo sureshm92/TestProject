@@ -444,6 +444,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.selectedReminderDateTime = '';
         this.selectedReminderDate = '';
         this.selectedReminderTime = '';
+        this.reminderDateChanged = '';
         this.disableButtonSaveCancel = true;
         this.remindmepub = '';
         this.showreminderdatepicker = false;
@@ -456,6 +457,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.selectedReminderDateTime = '';
         this.selectedReminderDate = '';
         this.selectedReminderTime = '';
+        this.reminderDateChanged = '';
         this.disableButtonSaveCancel = true;
         this.remindmepub = '';
         this.showreminderdatepicker = false;
