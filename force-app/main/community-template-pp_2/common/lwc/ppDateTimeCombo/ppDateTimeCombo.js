@@ -58,6 +58,7 @@ export default class PpDateTimeCombo extends LightningElement {
 
     get dbDate() {
         if (!this.compdate) {
+            this.initialDateLoaded = true;
             this.dt = '';
             return null;
         } else if (this.dt) {
@@ -86,6 +87,7 @@ export default class PpDateTimeCombo extends LightningElement {
 
     get dbTime() {
         if (!this.comptime) {
+            this.initialTimeLoaded = true;
             this.tm = '';
             return null;
         } else if (this.tm) {

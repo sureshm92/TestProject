@@ -565,6 +565,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     doSave() {
+        const saveClicked = new CustomEvent('saveclicked');
+        this.dispatchEvent(saveClicked);
         this.disableButtonSaveCancel = true;
         var errorInDml = false;
         var reminderDate;
