@@ -4,7 +4,7 @@ import createNewTask from '@salesforce/label/c.BTN_Create_New_Task';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import getParticipantTasks from '@salesforce/apex/TasksRemote.getParticipantTasks';
-
+import formFactor from '@salesforce/client/formFactor';
 export default class PpTasks extends LightningElement {
     initData;
     isNewTask = true;
@@ -24,9 +24,15 @@ export default class PpTasks extends LightningElement {
     openTasks;
     completedTasks;
     spinner;
+    isMobile = false;
 
     isCreateTask = false;
     connectedCallback() {
+        if (formFactor === 'Small') {
+            this.isMobile = true;
+        } else {
+            this.isMobile = false;
+        }
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 console.log('NEW RR_COMMUNITY_JS loaded');

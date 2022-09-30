@@ -121,7 +121,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         }
         this.btnclassName = 'slds-input input-field-container';
     }
-
+    
     handlepasswordChange(event) {
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="password"]').value = event.target.value;

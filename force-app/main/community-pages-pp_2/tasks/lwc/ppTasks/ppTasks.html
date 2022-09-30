@@ -1,42 +1,89 @@
 <template>
-    <!-- Loading Spinner-->
-    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
-    <div class={cardRTL}>
-        <div>
-            <lightning-layout multiple-rows="true">
-                <lightning-layout-item class="slds-p-vertical_small" size="12">
-                    <div class="tasks">{label.tasksHeader}</div>
-                </lightning-layout-item>
-                <lightning-layout-item padding="around-small" size="12">
-                    <div class="page-section page-header">
-                        <div class="slds-align_absolute-center">
-                            <button class="open-task">Open</button
-                            ><button class="completed-task">Completed</button>
+    <!--DESKTOP VIEW-->
+    <template if:false={isMobile}>
+        <!-- Loading Spinner-->
+        <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+        <div class={cardRTL}>
+            <div>
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item class="slds-p-vertical_small" size="12">
+                        <div class="tasks">{label.tasksHeader}</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <div class="page-section page-header">
+                            <div class="slds-align_absolute-center">
+                                <button class="open-task">Open</button
+                                ><button class="completed-task">Completed</button>
+                            </div>
                         </div>
-                    </div>
-                </lightning-layout-item>
-                <lightning-layout-item padding="around-small" size="12">
-                    <template if:true={showCreateTaskButton}>
-                        <div class="slds-align_absolute-center">
-                            <button class={taskButtonClass} onclick={doCreateTask}>
-                                <span
-                                    ><lightning-icon
-                                        icon-name="utility:add"
-                                        size="x-small"
-                                        class="plus-icon"
-                                    >
-                                    </lightning-icon
-                                ></span>
-                                <span>{label.createNewTask}</span>
-                            </button>
-                        </div>
-                    </template>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <template if:true={showCreateTaskButton}>
+                            <div class="slds-align_absolute-center">
+                                <button class={taskButtonClass} onclick={doCreateTask}>
+                                    <span
+                                        ><lightning-icon
+                                            icon-name="utility:add"
+                                            size="x-small"
+                                            class="plus-icon"
+                                        >
+                                        </lightning-icon
+                                    ></span>
+                                    <span>{label.createNewTask}</span>
+                                </button>
+                            </div>
+                        </template>
 
-                    <template if:true={isCreateTask}>
-                        <c-pp-create-task ontaskclose={handleTaskClose}></c-pp-create-task>
-                    </template>
-                </lightning-layout-item>
-            </lightning-layout>
+                        <template if:true={isCreateTask}>
+                            <c-pp-create-task ontaskclose={handleTaskClose}></c-pp-create-task>
+                        </template>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
         </div>
-    </div>
+    </template>
+
+    <!--MOBILE VIEW-->
+    <template if:true={isMobile}>
+        <!-- Loading Spinner-->
+        <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+        <div class={cardRTL}>
+            <div>
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item class="slds-p-vertical_small" size="12">
+                        <div class="tasks-mobile">{label.tasksHeader}</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <div class="page-section page-header">
+                            <div class="slds-align_absolute-center">
+                                <button class="open-task">Open</button
+                                ><button class="completed-task">Completed</button>
+                            </div>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <template if:true={showCreateTaskButton}>
+                            <div class="slds-align_absolute-center">
+                                <button class={taskButtonClass} onclick={doCreateTask}>
+                                    <span
+                                        ><lightning-icon
+                                            icon-name="utility:add"
+                                            size="x-small"
+                                            class="plus-icon"
+                                        >
+                                        </lightning-icon
+                                    ></span>
+                                    <span>{label.createNewTask}</span>
+                                </button>
+                            </div>
+                        </template>
+    
+                        <template if:true={isCreateTask}>
+                            <c-pp-create-task ontaskclose={handleTaskClose}></c-pp-create-task>
+                        </template>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </div>
+    </template>
 </template>
