@@ -23,7 +23,9 @@ export default class PpDateTimeCombo extends LightningElement {
     @track dt;
     @track tm;
     @track diffInMinutes;
-
+    @track initialDateLoaded = false;
+    @track initialTimeLoaded = false;
+    @track timeOnlyPresent = true;
     label = {
         date,
         time,
@@ -37,6 +39,9 @@ export default class PpDateTimeCombo extends LightningElement {
         this.dt = '';
         this.tm = '';
         this.compDateTime = '';
+        this.initialDateLoaded = false;
+        this.initialTimeLoaded = false;
+        this.timeOnlyPresent = true;
     }
 
     connectedCallback() {
@@ -53,10 +58,12 @@ export default class PpDateTimeCombo extends LightningElement {
 
     get dbDate() {
         if (!this.compdate) {
+            this.initialDateLoaded = true;
+            this.dt = '';
             return null;
         } else if (this.dt) {
             return this.dt;
-        } else {
+        } else if (!this.initialDateLoaded) {
             var compdate;
             var dbCompDate = new Date(this.compdate);
             var localtimezonedate = dbCompDate.toLocaleString('en-US', { timeZone: TIME_ZONE });
@@ -65,6 +72,8 @@ export default class PpDateTimeCombo extends LightningElement {
             var mm = String(processlocaltimezonedate.getMonth() + 1).padStart(2, '0');
             var yyyy = processlocaltimezonedate.getFullYear();
             compdate = yyyy + '-' + mm + '-' + dd;
+            this.initialDateLoaded = true;
+            this.timeOnlyPresent = false;
             this.dt = compdate;
             const dateEvent = new CustomEvent('initialdateload', {
                 detail: {
@@ -78,10 +87,12 @@ export default class PpDateTimeCombo extends LightningElement {
 
     get dbTime() {
         if (!this.comptime) {
+            this.initialTimeLoaded = true;
+            this.tm = '';
             return null;
         } else if (this.tm) {
             return this.tm;
-        } else {
+        } else if (!this.initialTimeLoaded) {
             var comptime;
             var dbCompDate = new Date(this.comptime);
             var localtimezonedate = dbCompDate.toLocaleString('en-US', { timeZone: TIME_ZONE });
@@ -99,6 +110,8 @@ export default class PpDateTimeCombo extends LightningElement {
                     processlocaltimezonedate.getSeconds()
             );
             comptime = hh + ':' + mm + ':' + ss;
+            this.initialTimeLoaded = true;
+            this.timeOnlyPresent = false;
             this.tm = comptime;
             const dateEvent = new CustomEvent('initialtimeload', {
                 detail: {
@@ -109,20 +122,36 @@ export default class PpDateTimeCombo extends LightningElement {
             return comptime;
         }
     }
+
     get dateInputClass() {
         this.createTask = true ? 'task-due-date-time' : 'curve-input';
     }
 
     handleDate(event) {
+        this.initialDateLoaded = true;
         this.dt = event.target.value;
-        if (!this.tm) {
+        if (!this.dt) {
+            this.timeOnlyPresent = true;
+            this.tm = event.target.value;
+            const nulldatetime = new CustomEvent('nulldatetime', {
+                detail: {
+                    compdate: this.dt,
+                    comptime: this.tm
+                }
+            });
+            this.dispatchEvent(nulldatetime);
+        } else if (!this.tm) {
+            this.timeOnlyPresent = false;
             const dateOnly = new CustomEvent('date', {
                 detail: {
-                    compdate: this.dt
+                    compdatetime: null,
+                    compdate: this.dt,
+                    comptime: null
                 }
             });
             this.dispatchEvent(dateOnly);
         } else if (this.tm) {
+            this.timeOnlyPresent = false;
             this.compDateTime = this.dt + 'T' + this.tm;
             var date = new Date(this.compDateTime);
             var ms = Date.parse(date);
@@ -141,15 +170,30 @@ export default class PpDateTimeCombo extends LightningElement {
     }
 
     handleTime(event) {
+        this.initialTimeLoaded = true;
         this.tm = event.target.value;
-        if (!this.dt) {
+        if (!this.tm) {
+            this.timeOnlyPresent = false;
             const timeOnly = new CustomEvent('time', {
                 detail: {
-                    comptime: this.tm
+                    comptime: null,
+                    compdatetime: null,
+                    compdate: this.dt
+                }
+            });
+            this.dispatchEvent(timeOnly);
+        } else if (!this.dt) {
+            this.timeOnlyPresent = true;
+            const timeOnly = new CustomEvent('timechange', {
+                detail: {
+                    comptime: this.tm,
+                    compdatetime: null,
+                    compdate: null
                 }
             });
             this.dispatchEvent(timeOnly);
         } else if (this.dt) {
+            this.timeOnlyPresent = false;
             this.compDateTime = this.dt + 'T' + this.tm;
             var date = new Date(this.compDateTime);
             var ms = Date.parse(date);

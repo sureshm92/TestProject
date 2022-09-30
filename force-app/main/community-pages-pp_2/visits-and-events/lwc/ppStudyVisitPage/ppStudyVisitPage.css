@@ -330,6 +330,7 @@ a {
     display: flex;
     margin-top: 0.5rem;
     font-size: 1.25rem;
+    font-weight: 400;
 }
 
 @media all and (max-width: 1200px) {
