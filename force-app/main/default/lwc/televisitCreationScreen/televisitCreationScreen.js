@@ -132,6 +132,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             visitDateTime = this.getTwentyFourHourTime(visitDateTime);
             //this.startTime = visitDateTime;
 
+            this.visitDate = new Date(event.target.dataset.visitdatetime).toLocaleString('sv-SE', { timeZone: TIME_ZONE }).slice(0,10);
+            
             if(FORM_FACTOR == 'Small'){
                 this.isMobileDevice = true;
                 this.startTime = visitDateTime.substring(0, 5);
