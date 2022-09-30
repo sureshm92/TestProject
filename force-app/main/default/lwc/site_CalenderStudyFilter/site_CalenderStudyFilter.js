@@ -61,8 +61,6 @@ export default class Site_CalenderStudyFilter extends LightningElement {
   studySiteCountStr;
   isApply = true;
   openAccordian = false;
-  disablecss =
-    "slds-form-element__control slds-grow slds-input slds-p-around--none ssBox comboboxContainer dropdown-width";
 
   connectedCallback() {
     this.participantAccess();
@@ -78,9 +76,13 @@ export default class Site_CalenderStudyFilter extends LightningElement {
       this.selectedStudSites.length > 0
     ) {
       this.isApply = false;
-    } else {
+    } else if(!isInitial){
+        this.isApply = false;
+
+    }else {
       this.isApply = true;
     }
+    this.checkStudySiteDetails();
   }
 
   participantAccess() {
@@ -145,7 +147,7 @@ export default class Site_CalenderStudyFilter extends LightningElement {
               if (key == picklist_Value) {
                 var temp = conts[key];
                 for (var j in temp) {
-                  options.push({ label: temp[j].Name, value: temp[j].Id });
+                  options.push({ label: temp[j].Name, value: temp[j].Id });                  
                 }
               }
             }
@@ -232,7 +234,7 @@ export default class Site_CalenderStudyFilter extends LightningElement {
     } else {
       this.handleSingleSelection(value, isChecked, true);
     }
-    this.studyhandleChange();
+    this.studyhandleChange();    
     this.toggleApply(false);
     this.template.querySelector(".sBox").focus();
   }
@@ -259,11 +261,16 @@ export default class Site_CalenderStudyFilter extends LightningElement {
         }
       }
       this.getFirstSelecedStudyy = selectedStudies[0];
-      if (selectedStudies.length > 1) {
-        this.studyCountStr =
-          "+" + (selectedStudies.length - 1) + " " + this.label.More;
+      if(selectedStudies.length > 0) {
+        if (selectedStudies.length > 1) {
+          this.studyCountStr =
+            "+" + (selectedStudies.length - 1) + " " + this.label.More;
+        } else {
+          this.studyCountStr = "";
+        }
+        this.template.querySelector(".s-icon").classList.remove("dropdowndisable");
       } else {
-        this.studyCountStr = "";
+        this.template.querySelector(".s-icon").classList.add("dropdowndisable");
       }
     } else {
       let selectedStudySites = [];
@@ -287,16 +294,41 @@ export default class Site_CalenderStudyFilter extends LightningElement {
         }
       }
       this.getFirstSelecedStudySitess = selectedStudySites[0];
-      if (selectedStudySites.length > 1) {
-        this.studySiteCountStr =
-          "+" + (selectedStudySites.length - 1) + " " + this.label.More;
+      if(selectedStudySites.length > 0) {
+        if (selectedStudySites.length > 1) {
+          this.studySiteCountStr =
+            "+" + (selectedStudySites.length - 1) + " " + this.label.More;
+        } else {
+          this.studySiteCountStr = "";
+        }
+        if(this.isApply) {
+          this.isApply = false;
+        }
+        this.template.querySelector(".ssicon").classList.remove("dropdowndisable");
       } else {
-        this.studySiteCountStr = "";
+        this.template.querySelector(".ssicon").classList.add("dropdowndisable");
       }
     }
   }
+  checkStudySiteDetails() {    
+    if(this.studySiteList.length > 0) {
+      let count = 0;
+      for(let i=0; i<this.studySiteList.length;i++) {
+        if(!this.studySiteList[i].check) {
+          count++;
+        }
+      }
+      if(this.studySiteList.length == count){
+        this.isApply = true;
+      }else{
+        this.isApply = false;
+      }
+    } else {
+      this.isApply = true;
+    }
+  }
   handleAllSelected(isChecked, isStudy) {
-    if (isStudy) {
+    if (isStudy && this.studylist) {
       let selectedStudies = [];
       this.selectedStudy = [];
       for (let i = 0; i < this.studylist.length; i++) {
@@ -314,19 +346,26 @@ export default class Site_CalenderStudyFilter extends LightningElement {
         if (selectedStudies.length > 1) {
           this.studyCountStr =
             "+" + (selectedStudies.length - 1) + " " + this.label.More;
+        } else{
+          this.studyCountStr = "";
+        }
+        if(this.template.querySelector(".s-icon") != null) {
+          this.template.querySelector(".s-icon").classList.remove("dropdowndisable");
         }
       } else {
         this.getFirstSelecedStudyy = "";
         this.studyCountStr = "";
+        this.template.querySelector(".s-icon").classList.add("dropdowndisable");
       }
       if (!isChecked) {
         this.clearStudySites();
       }
-    } else {
+    } else if(this.studylist){
       let selectedStudySites = [];
       this.selectedStudSites = [];
-      this.disablecss =
-        "slds-form-element__control slds-grow slds-input slds-p-around--none ssBox comboboxContainer dropdown-width";
+      if(this.template.querySelector(".ssBox") != null) {
+        this.template.querySelector(".ssBox").classList.remove("dropdowndisable");
+      }
       for (let i = 0; i < this.studySiteList.length; i++) {
         this.studySiteList[i].check = isChecked;
         if (
@@ -345,17 +384,22 @@ export default class Site_CalenderStudyFilter extends LightningElement {
           this.studySiteCountStr =
             "+" + (selectedStudySites.length - 1) + " " + this.label.More;
         }
+        if(this.isApply){
+          this.isApply = false;
+        }
+        if(this.template.querySelector(".ssicon") != null) {
+          this.template.querySelector(".ssicon").classList.remove("dropdowndisable");
+        }
       } else {
         this.getFirstSelecedStudySitess = "";
         this.studySiteCountStr = "";
         if (this.studySiteList.length == 1) {
           this.studySiteList = [];
-          this.disablecss =
-            "slds-form-element__control slds-grow slds-input slds-p-around--none ssBox comboboxContainer dropdown-width dropdowndisable";
+          this.template.querySelector(".ssBox").classList.add("dropdowndisable");
         } else {
-          this.disablecss =
-            "slds-form-element__control slds-grow slds-input slds-p-around--none ssBox comboboxContainer dropdown-width";
+          this.template.querySelector(".ssBox").classList.remove("dropdowndisable");
         }
+        this.template.querySelector(".ssicon").classList.add("dropdowndisable");
       }
     }
   }
@@ -377,7 +421,9 @@ export default class Site_CalenderStudyFilter extends LightningElement {
         this.allStudy = false;
       }
     }
+    if(this.siteAccessLevels){
     var accesslevels = Object.keys(this.siteAccessLevels).length;
+    }
     var conts = this.studyToStudySite;
     this.options = [];
     this.options.push({
@@ -392,7 +438,7 @@ export default class Site_CalenderStudyFilter extends LightningElement {
           if (key == temp1) {
             var temp = conts[key];
             for (var j in temp) {
-              this.options.push({ label: temp[j].Name, value: temp[j].Id });
+              this.options.push({ label: temp[j].Name, value: temp[j].Id });              
             }
           }
         }
@@ -401,7 +447,7 @@ export default class Site_CalenderStudyFilter extends LightningElement {
       for (var key in conts) {
         var temp = conts[key];
         for (var j in temp) {
-            this.options.push({ label: temp[j].Name, value: temp[j].Id });
+          this.options.push({ label: temp[j].Name, value: temp[j].Id });          
         }
       }
     }
@@ -438,10 +484,14 @@ export default class Site_CalenderStudyFilter extends LightningElement {
   clearStudySites() {
     this.studySiteList = [];
     this.getFirstSelecedStudySitess = "";
-    this.disablecss =
-      "slds-form-element__control slds-grow slds-input slds-p-around--none ssBox comboboxContainer dropdown-width dropdowndisable";
+    this.template.querySelector(".ssBox").classList.add("dropdowndisable");
+    this.template.querySelector(".ssicon").classList.add("dropdowndisable");
+    this.template.querySelector(".s-icon").classList.add("dropdowndisable");
   }
   removeAllStudy() {
+    this.isApply=false;
+    this.template.querySelector(".ssicon").classList.add("dropdowndisable");
+    this.template.querySelector(".s-icon").classList.add("dropdowndisable");
     this.handleAllSelected(false, true);
     this.template.querySelector(".sBox").blur();
   }
@@ -451,6 +501,13 @@ export default class Site_CalenderStudyFilter extends LightningElement {
   }
   closeETH() {
     this.template.querySelector(".sBoxOpen").classList.remove("slds-is-open");
+  }
+  toggleDropdown() {
+    if(this.template.querySelector(".sBoxOpen").classList.contains("slds-is-open")) {
+      this.closeETH();
+    } else {
+      this.openETH();
+    }
   }
   /* Study Multiselected code end*/
 
@@ -462,6 +519,7 @@ export default class Site_CalenderStudyFilter extends LightningElement {
   removeAllStudySites() {
     this.handleAllSelected(false, false);
     this.template.querySelector(".sBox").blur();
+    this.isApply = true;
   }
 
   openStudySites() {
@@ -469,6 +527,14 @@ export default class Site_CalenderStudyFilter extends LightningElement {
   }
   closeStudySites() {
     this.template.querySelector(".ssBoxOpen").classList.remove("slds-is-open");
+  }
+
+  toggleStudySites() {
+    if(this.template.querySelector(".ssBoxOpen").classList.contains("slds-is-open")) {
+      this.closeStudySites();
+    } else {
+      this.openStudySites();
+    }
   }
 
   @api
