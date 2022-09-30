@@ -292,12 +292,16 @@ public without sharing class IntegrationService {
                 Participant__r.Mailing_Street__c,
                 Participant__r.Preferred_Language__c,
                 Participant__r.Date_of_Birth__c,
+                Participant__r.Birth_Day__c,
+                Participant__r.Birth_Month__c,
+                Participant__r.Birth_Year__c,
                 Participant__r.Gender__c,
                 Referral_ID__c,
                 Referred_Date__c,
                 High_Priority__c,
                 Initial_visit_scheduled_date__c,
                 Initial_visit_scheduled_time__c,
+                Study_Site__r.Participant_DOB_format__c,
                 Study_Site__r.Protocol_ID__c,
                 Study_Site__r.Study_Site_Type__c,
                 Study_Site__r.Study_Site_Number__c,
@@ -369,7 +373,17 @@ public without sharing class IntegrationService {
         subjectDetails.LastName = pe.Participant__r.Last_Name__c;
         subjectDetails.Address = addr;
         subjectDetails.Contact = contact;
-        subjectDetails.DateOfBirth = pe.Participant__r.Date_of_Birth__c;
+        //subjectDetails.DateOfBirth = pe.Participant__r.Date_of_Birth__c;
+        subjectDetails.DateOfBirth = '';
+        if(pe.Study_Site__r.Participant_DOB_format__c == 'DD-MM-YYYY' && !string.isblank(pe.Participant__r.Birth_Year__c)
+           && !string.isblank(pe.Participant__r.Birth_Day__c) && !string.isBlank(pe.Participant__r.Birth_Month__c)){
+            subjectDetails.DateOfBirth = pe.Participant__r.Birth_Year__c+'-'+pe.Participant__r.Birth_Month__c+'-'+pe.Participant__r.Birth_Day__c;            
+        }else if(pe.Study_Site__r.Participant_DOB_format__c == 'MM-YYYY' && 
+                 !string.isblank(pe.Participant__r.Birth_Year__c) && !string.isBlank(pe.Participant__r.Birth_Month__c)){
+            subjectDetails.DateOfBirth = pe.Participant__r.Birth_Year__c+'-'+pe.Participant__r.Birth_Month__c;             
+        }else if(pe.Study_Site__r.Participant_DOB_format__c == 'YYYY' && !string.isblank(pe.Participant__r.Birth_Year__c)){
+            subjectDetails.DateOfBirth = pe.Participant__r.Birth_Year__c; 
+        }
         subjectDetails.Gender = pe.Participant__r.Gender__c;
 
         AuditLog auditLog = new AuditLog();
