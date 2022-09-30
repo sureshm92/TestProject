@@ -1,5 +1,5 @@
 /*Created by Chetna Chauhan Sep 9,2022*/
-.headercard {
+.header-card {
     background-blend-mode: color;
     background-color: transparent;
     border-style: none;
@@ -43,7 +43,7 @@ hr {
     line-height: 32px;
     text-align: center;
 }
-.visitText {
+.visit-text {
     height: 2.36%;
     /*width: 20.89%;*/
     color: #444444;
@@ -63,9 +63,8 @@ hr {
     letter-spacing: 0;
     line-height: 21px;
 }
-.iconName {
+.icon-name {
     height: 2.36%;
-    /*width: 7.47%;*/
     color: #6e6e6e;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -76,10 +75,10 @@ hr {
 .icon {
     height: 1.57%;
 }
-.expectIcon {
+.expect-icon {
     height: 2.32%;
 }
-.expectText {
+.expect-text {
     height: 2.36%;
     color: #444444;
     font-family: 'Proxima Nova';
@@ -88,7 +87,7 @@ hr {
     letter-spacing: 0;
     line-height: 32px;
 }
-.visitTitle {
+.visit-title {
     height: 3.14%;
     color: #444444;
     font-family: 'Proxima Nova';
@@ -97,7 +96,7 @@ hr {
     letter-spacing: 0;
     line-height: 32px;
 }
-.noExpect {
+.no-expect {
     height: 4.71%;
     color: #999999;
     font-family: 'Proxima Nova';
@@ -121,20 +120,20 @@ hr {
     padding-left: 16px;
     padding-right: 16px;
 }
-.cardwrap {
+.card-wrap {
     padding: 0;
 }
-.iconbox {
+.icon-box {
     padding-top: 0;
     padding-bottom: 0;
 }
-.visitcard {
+.visit-card {
     padding-top: 10px;
     padding-bottom: 0;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
-.visitcard-upcoming {
+.visit-card-upcoming {
     height: 377px;
     width: 381px;
     display: grid;
@@ -156,7 +155,7 @@ hr {
     line-height: 24px;
     text-align: center;
 }
-.iconCard {
+.icon-card {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }

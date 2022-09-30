@@ -12,6 +12,9 @@ import NO_EXPECT from '@salesforce/label/c.Visit_No_Expect';
 import View_Visit_Details from '@salesforce/label/c.View_Visit_Details';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import No_Upcoming_Visit from '@salesforce/label/c.Visit_No_Upcoming_Visit';
+import visit_clock from '@salesforce/label/c.Upcoming_Visits_Clock';
+import visit_calendar from '@salesforce/label/c.Upcoming_Visit_calendar';
+import Upcoming_Visit_Location from '@salesforce/label/c.Upcoming_Visit_Location';
 
 export default class HomePageVisitsCard extends LightningElement {
     planDateTime;
@@ -32,7 +35,10 @@ export default class HomePageVisitsCard extends LightningElement {
         NO_DATE,
         NO_TIME,
         NO_EXPECT,
-        No_Upcoming_Visit
+        No_Upcoming_Visit,
+        visit_clock,
+        visit_calendar,
+        Upcoming_Visit_Location
     };
 
     isUpcomingDetails = false;

@@ -28180,4 +28180,28 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>PP_NO_REMINDER</shortDescription>
         <value>No reminder</value>
     </labels>
+    <labels>
+        <fullName>Upcoming_Visits_Clock</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>Upcoming Visits Clock</shortDescription>
+        <value>Clock</value>
+    </labels>
+    <labels>
+        <fullName>Upcoming_Visit_calendar</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>Upcoming Visit calendar</shortDescription>
+        <value>Calendar</value>
+    </labels>
+    <labels>
+        <fullName>Upcoming_Visit_Location</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>Upcoming Visit Location</shortDescription>
+        <value>Location</value>
+    </labels>
 </CustomLabels>

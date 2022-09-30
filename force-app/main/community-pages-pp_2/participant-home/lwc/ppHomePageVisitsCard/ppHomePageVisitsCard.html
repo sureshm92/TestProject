@@ -1,26 +1,31 @@
 <template>
     <template if:true={isInitialized}>
-        <article class="slds-card headercard">
-            <div class="slds-card__header slds-grid cardwrap">
+        <article class="slds-card header-card">
+            <div class="slds-card__header slds-grid card-wrap">
                 <header class="slds-has-flexi-truncate">
                     <h2 class="slds-card__header-title">
-                        <p class="slds-card__header-link slds-truncate upcoming" title="Outer Card Header">
+                        <p
+                            class="slds-card__header-link slds-truncate upcoming"
+                            title="Outer Card Header"
+                        >
                             <span>{labels.UPCOMING}</span>
                         </p>
                     </h2>
                 </header>
             </div>
             <template if:true={isUpcomingDetails}>
-                <div class="slds-card__body slds-card__body_inner cardwrap">
+                <div class="slds-card__body slds-card__body_inner card-wrap">
                     <article class="slds-card slds-card_boundary container-card">
                         <div class="slds-card__body slds-card__body_inner content">
-                            <div class="slds-card-wrapper slds-card_boundary visitcard">
-                                <article class="slds-card slds-has-bottom-magnet slds-has-bottom-magnet">
-                                    <div class="slds-card__header slds-grid cardwrap">
+                            <div class="slds-card-wrapper slds-card_boundary visit-card">
+                                <article
+                                    class="slds-card slds-has-bottom-magnet slds-has-bottom-magnet"
+                                >
+                                    <div class="slds-card__header slds-grid card-wrap">
                                         <header class="slds-has-flexi-truncate">
                                             <h2 class="slds-card__header-title">
                                                 <p
-                                                    class="slds-card__header-link slds-truncate visitTitle"
+                                                    class="slds-card__header-link slds-truncate visit-title"
                                                     title="Card Header"
                                                 >
                                                     <span>{visitName}</span>
@@ -30,20 +35,29 @@
                                     </div>
                                 </article>
                                 <article
-                                    class="slds-card slds-has-bottom-magnet slds-has-top-magnet cardwrap"
+                                    class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
                                 >
                                     <div
-                                        class="slds-card__header slds-grid slds-media slds-media_center slds-has-flexi-truncate cardwrap"
+                                        class="slds-card__header slds-grid slds-media slds-media_center slds-has-flexi-truncate card-wrap"
                                     >
                                         <div class="slds-media__figure icon">
-                                            <c-web-icon icon-size="medium" icon-name="calendar" data-id="calendar" 
-                                                icon-color="#00A3E0">
+                                            <c-web-icon
+                                                icon-size="medium"
+                                                icon-name="calendar"
+                                                data-id="calendar"
+                                                icon-color="#00A3E0"
+                                            >
                                             </c-web-icon>
-                                            <span class="slds-assistive-text">calendar</span>
+                                            <span class="slds-assistive-text"
+                                                >{labels.visit_calendar}</span
+                                            >
                                         </div>
                                         <div class="slds-media__body">
                                             <div class="slds-card__header-title">
-                                                <p class="slds-card__header-link slds-truncate visitText" title="Date">
+                                                <p
+                                                    class="slds-card__header-link slds-truncate visit-text"
+                                                    title="Date"
+                                                >
                                                     <template if:true={planDateTime}>
                                                         <span>
                                                             <lightning-formatted-date-time
@@ -64,19 +78,29 @@
                                         </div>
                                     </div>
                                 </article>
-                                <article class="slds-card slds-has-bottom-magnet slds-has-top-magnet cardwrap" >
-                                    <div class="slds-card__header slds-grid cardwrap">
-                                        <header class="slds-media slds-media_center slds-has-flexi-truncate ">
+                                <article
+                                    class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
+                                >
+                                    <div class="slds-card__header slds-grid card-wrap">
+                                        <header
+                                            class="slds-media slds-media_center slds-has-flexi-truncate"
+                                        >
                                             <div class="slds-media__figure icon">
-                                                <c-web-icon icon-size="medium" icon-name="time_clock" data-id="clock"
-                                                    icon-color="#00A3E0">
+                                                <c-web-icon
+                                                    icon-size="medium"
+                                                    icon-name="time_clock"
+                                                    data-id="clock"
+                                                    icon-color="#00A3E0"
+                                                >
                                                 </c-web-icon>
-                                                <span class="slds-assistive-text">clock</span>
+                                                <span class="slds-assistive-text"
+                                                    >{labels.visit_clock}</span
+                                                >
                                             </div>
                                             <div class="slds-media__body">
                                                 <div class="slds-card__header-title">
                                                     <p
-                                                        class="slds-card__header-link slds-truncate visitText"
+                                                        class="slds-card__header-link slds-truncate visit-text"
                                                         title="Time"
                                                     >
                                                         <template if:true={planDateTime}>
@@ -101,19 +125,30 @@
                                     </div>
                                 </article>
                                 <article
-                                    class="slds-card slds-has-bottom-magnet slds-has-top-magnet cardwrap">
-                                    <div class="slds-card__header slds-grid cardwrap">
-                                        <headerclass="slds-media slds-media_center slds-has-flexi-truncate">
+                                    class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
+                                >
+                                    <div class="slds-card__header slds-grid card-wrap">
+                                        <header
+                                            class="slds-media slds-media_center slds-has-flexi-truncate"
+                                        >
                                             <div class="slds-media__figure icon">
-                                                <c-web-icon icon-size="medium" icon-name="location_pin" data-id="location"
-                                                    icon-color="#00A3E0">
+                                                <c-web-icon
+                                                    icon-size="medium"
+                                                    icon-name="location_pin"
+                                                    data-id="location"
+                                                    icon-color="#00A3E0"
+                                                >
                                                 </c-web-icon>
-                                                <span class="slds-assistive-text">location</span>
+                                                <span class="slds-assistive-text"
+                                                    >{labels.Upcoming_Visit_Location}</span
+                                                >
                                             </div>
                                             <div class="slds-media__body">
                                                 <div class="slds-card__header-title">
-                                                    <div class="slds-card__header-link slds-truncate visitText"
-                                                        title="location">
+                                                    <div
+                                                        class="slds-card__header-link slds-truncate visit-text"
+                                                        title="location"
+                                                    >
                                                         <span>{siteTitle}</span>
                                                         <p class="location">{siteLocation}</p>
                                                         <p class="location">{sitePhone}</p>
@@ -125,27 +160,39 @@
                                 </article>
                             </div>
                             <hr />
-                            <article class="slds-card iconCard">
+                            <article class="slds-card icon-card">
                                 <template if:true={iconDetails}>
                                     <div class="slds-card__header slds-grid content1">
-                                        <div class="slds-col expectText content1">
+                                        <div class="slds-col expect-text content1">
                                             {labels.What_to_Expect}
                                         </div>
                                     </div>
-                                    <div class="slds-card__header slds-grid slds-wrap slds-grid_align-spread iconbox">
+                                    <div
+                                        class="slds-card__header slds-grid slds-wrap slds-grid_align-spread icon-box"
+                                    >
                                         <template for:each={iconDetails} for:item="icon">
                                             <div class="slds-col slds-size_5-of-12" key={icon.Name}>
-                                                <div class="slds-media slds-media_center slds-has-flexi-truncate">
-                                                    <div class="slds-media__figure expectIcon">
-                                                        <c-web-icon icon-size="medium" icon-name={icon.Name} 
-                                                            data-id={icon.Label__c} data-name={icon.Name}
-                                                            icon-color="#00A3E0">
+                                                <div
+                                                    class="slds-media slds-media_center slds-has-flexi-truncate"
+                                                >
+                                                    <div class="slds-media__figure expect-icon">
+                                                        <c-web-icon
+                                                            icon-size="medium"
+                                                            icon-name={icon.Name}
+                                                            data-id={icon.Label__c}
+                                                            data-name={icon.Name}
+                                                            icon-color="#00A3E0"
+                                                        >
                                                         </c-web-icon>
-                                                        <span class="slds-assistive-text">{icon.Label__c}</span>
+                                                        <span class="slds-assistive-text"
+                                                            >{icon.Label__c}</span
+                                                        >
                                                     </div>
                                                     <div class="slds-media__body">
-                                                        <p class="slds-card__header-link slds-truncate iconName "
-                                                            title="name">
+                                                        <p
+                                                            class="slds-card__header-link slds-truncate icon-name"
+                                                            title="name"
+                                                        >
                                                             <span>{icon.Label__c}</span>
                                                         </p>
                                                     </div>
@@ -154,23 +201,24 @@
                                         </template>
                                     </div>
                                     <template if:true={moreIconsCount}>
-                                        <div class="slds-card__body slds-card__body_inner slds-grid">
+                                        <div
+                                            class="slds-card__body slds-card__body_inner slds-grid"
+                                        >
                                             <div class="slds-col more">
                                                 + {moreIconsCount} {labels.MORE}
                                             </div>
                                         </div>
                                     </template>
                                     <template if:false={moreIconsCount}>
-                                        <div class="slds-card__body slds-card__body_inner slds-grid">
-                                            <div class="slds-col more">
-                                            </div>
+                                        <div
+                                            class="slds-card__body slds-card__body_inner slds-grid"
+                                        >
+                                            <div class="slds-col more"></div>
                                         </div>
                                     </template>
                                 </template>
                                 <template if:false={iconDetails}>
-                                    <div class="noExpect">
-                                        {labels.NO_EXPECT}
-                                    </div>
+                                    <div class="no-expect">{labels.NO_EXPECT}</div>
                                 </template>
                             </article>
                         </div>
@@ -178,11 +226,11 @@
                 </div>
             </template>
             <template if:false={isUpcomingDetails}>
-                <div class="slds-card__body slds-card__body_inner cardwrap">
+                <div class="slds-card__body slds-card__body_inner card-wrap">
                     <article class="slds-card slds-card_boundary container-card-upcoming">
                         <div class="slds-card__body slds-card__body_inner content">
                             <div
-                                class="slds-card-wrapper slds-card_boundary slds-align_absolute-center visitcard-upcoming"
+                                class="slds-card-wrapper slds-card_boundary slds-align_absolute-center visit-card-upcoming"
                             >
                                 <span class="center-align"
                                     ><c-web-icon
@@ -197,12 +245,12 @@
                     </article>
                 </div>
             </template>
-            <footer class="slds-card__footer cardwrap">
+            <footer class="slds-card__footer card-wrap">
                 <a
                     class="slds-card__footer-action slds-align_absolute-center label"
                     href="pp/s/visits"
                     >{labels.View_Visit_Details}
-                    <span class="slds-assistive-text">Visit Details</span>
+                    <span class="slds-assistive-text">{labels.View_Visit_Details}</span>
                 </a>
             </footer>
         </article>
