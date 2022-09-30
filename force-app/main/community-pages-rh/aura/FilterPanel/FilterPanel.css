@@ -10,6 +10,10 @@
     font-size: 13px;
 }
 
+.THIS.widthcontains{
+    width:160px;
+}
+
 .THIS .fp-filter-block {
     padding-top: 5px;
     padding-bottom: 10px;
