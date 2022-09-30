@@ -99,8 +99,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             visitMode: this.visitMode
         })
             .then((result) => {
+                this.template.querySelector('c-web-spinner').show();
                 if (result.length > 0) {
-                  
                     for (let i = 0; i < result.length; i++) {
                         if (
                             result[i].visit.Completed_Date__c == null &&
@@ -156,6 +156,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     this.initializeData(this.visitid);
                     this.createEditTask();
                 } else {
+                    this.template.querySelector('c-web-spinner').hide();
                     this.contentLoaded = true;
                 }
             })
@@ -174,6 +175,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         this.callParticipantVisit();
         getSiteAddress()
             .then((result) => {
+                this.template.querySelector('c-web-spinner').show();
                 var data = JSON.parse(result);
                 this.siteAddress = data.accountAddress;
                 this.siteName = data.accountName;
@@ -288,10 +290,16 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     handleDataUpdate() {
         this.createEditTask();
     }
+    saveClicked() {
+        this.showChild = false;
+        this.contentLoaded = false;
+        this.template.querySelector('c-web-spinner').show();
+    }
 
     createEditTask(index) {
         this.showChild = false;
         this.contentLoaded = false;
+        this.template.querySelector('c-web-spinner').show();
         this.showreminderdatepicker = false;
         if (this.visitid) {
             getParticipantVisitsDetails({
@@ -312,7 +320,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.taskId = this.visitdata.task.Id;
 
                 //update bell icon once reminder is created PEH-7825
-                if(this.taskId){
+                if (this.taskId) {
                     this.upcomingVisits[this.selectedIndex].isReminderDate = true;
                 }
 
@@ -333,14 +341,17 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 if (!this.initialPageLoad) {
                     this.initializeData(this.visitid);
                     this.contentLoaded = true;
+                    this.template.querySelector('c-web-spinner').hide();
                     this.template.querySelector('c-pp-Study-Visit-Details-Card')?.callFromParent();
                 } else {
                     this.initializeData(this.visitid);
                     this.contentLoaded = true;
+                    this.template.querySelector('c-web-spinner').hide();
                 }
             });
         } else {
             this.contentLoaded = true;
+            this.template.querySelector('c-web-spinner').hide();
         }
     }
 
