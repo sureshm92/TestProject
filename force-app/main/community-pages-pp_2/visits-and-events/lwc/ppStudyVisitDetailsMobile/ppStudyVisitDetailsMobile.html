@@ -1,18 +1,17 @@
 <template>
-    <div onclick={handleBackClick}>
+    <div onclick={handleBackClick} class="mBackButton">
         <c-web-icon
             icon-size="medium"
             icon-name="chevron-left"
-            icon-color="#297dfd"
+            icon-color="#015ff1"
             onclick={handleBackClick}
         ></c-web-icon>
         <lightning-button
             variant="base"
             label={label.BTN_Back}
-            style="font-weight: 600"
         ></lightning-button>
     </div>
-    <div>
+    <div class="mVisitContent">
         <h1 if:false={past} class="visit3">
             {visitName}
             <div class="visit-date-time">

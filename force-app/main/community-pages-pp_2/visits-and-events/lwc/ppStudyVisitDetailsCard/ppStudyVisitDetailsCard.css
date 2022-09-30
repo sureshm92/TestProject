@@ -23,6 +23,7 @@
 .address-section-outer {
     margin-bottom: 1rem;
     border-bottom: 1px solid #d9d9d9;
+    font-size: 1rem;
 }
 
 .address-section {
@@ -98,7 +99,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
 
 .comm-checks {
     margin-top: 26px;
-    padding-left: 1.5rem;
+    padding-left: 1.25rem;
 }
 
 .comm-checks > div {
@@ -125,6 +126,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
 }
 
 @media all and (min-width: 768px) and (max-width: 870px) {
+
     .slds-small-size_1-of-2.slds-p-left_none {
         min-width: 100%;
         padding-left: 0;
@@ -155,19 +157,27 @@ input[type='date']::-webkit-calendar-picker-indicator,
 }
 
 @media all and (max-width: 486px) {
+
+    .btn-footer {
+        padding-bottom: .25rem;
+    }
+
     .curve-input {
         margin-bottom: 1rem;
     }
 
     .comm-checks {
         margin-top: 0.5rem;
-    }
-
-    .comm-checks > div {
-        padding-left: 0.875rem;
+        padding-left: unset;
     }
 
     .comm-checks > div:first-child {
-        width: 70%;
+        width: 90%;
     }
+
+    .acc-pref {
+        justify-content: flex-start;
+        padding-left: 1.5rem;
+    }
+
 }
