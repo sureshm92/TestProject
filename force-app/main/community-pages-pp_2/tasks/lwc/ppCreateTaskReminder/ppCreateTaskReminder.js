@@ -185,6 +185,22 @@ export default class PpCreateTaskReminder extends LightningElement {
         return this.isTaskDueDateTimeSelected ? false : true;
     }
 
+    get dbreminderdate() {
+        if (this.selectedReminderDateTime) {
+            return this.selectedReminderDateTime;
+        } else {
+            return null;
+        }
+    }
+
+    get dbremindertime() {
+        if (this.selectedReminderDateTime) {
+            return this.selectedReminderDateTime;
+        } else {
+            return null;
+        }
+    }
+
     loadSessionId() {
         getSessionId()
             .then((sessionId) => {
@@ -277,12 +293,11 @@ export default class PpCreateTaskReminder extends LightningElement {
         }
     }
 
-    handleInitialReminderDateLoad(event) {
-        this.selectedReminderDate = event.detail.compdate;
-    }
-
-    handleInitialReminderTimeLoad(event) {
-        this.selectedReminderTime = event.detail.comptime;
+    handleNullDateTimeReminder(event) {
+        this.selectedReminderDate = '';
+        this.selectedReminderTime = '';
+        this.selectedReminderDateTime = '';
+        this.handleReminderDataChange();
     }
 
     handleEmailReminder(event) {
