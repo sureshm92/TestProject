@@ -39,6 +39,8 @@
                     <c-pp-date-time-combo
                         data-id="reminderDateTime"
                         reminder={isCustomReminderOptionSelected}
+                        compdate={dbreminderdate}
+                        comptime={dbremindertime}
                         mindate={currentDate}
                         maxdate={taskDueDate}
                         mintime={minimumReminderTime}
@@ -47,10 +49,9 @@
                         icon-color="#C42EA5"
                         ondatechange={handleReminderDate}
                         ontimechange={handleReminderTime}
-                        oninitialdateload={handleInitialReminderDateLoad}
-                        oninitialtimeload={handleInitialReminderTimeLoad}
                         ondate={handleOnlyDate}
                         ontime={handleOnlyTime}
+                        onnulldatetime={handleNullDateTimeReminder}
                     ></c-pp-date-time-combo>
                 </div>
             </template>

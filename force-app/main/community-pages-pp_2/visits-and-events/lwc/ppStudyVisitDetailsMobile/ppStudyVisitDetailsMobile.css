@@ -1,3 +1,12 @@
+.mBackButton {
+    display: flex;
+    align-items: center;
+}
+
+.mVisitContent {
+    padding: 0 .75rem;
+}
+
 .visit3-mobile {
     color: #444444;
     font-family: 'Proxima Nova';
@@ -7,7 +16,6 @@
 }
 .what-to-expect {
     height: 32px;
-    width: 217px;
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 18px;
@@ -18,10 +26,7 @@
 }
 .icon-cont-mobile,
 .card-content {
-    display: flex;
-    box-sizing: border-box;
     min-height: 209px;
-    width: 382px;
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
 }
@@ -34,10 +39,10 @@
 
 .icon-cont-mobile {
     border: 1px solid #d9d9d9;
+    max-height: 400px;
 }
 .check-for-results-on {
     height: 32px;
-    width: 348px;
     color: #999999;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -52,7 +57,6 @@
 .icon-cont1-mobile {
     box-sizing: border-box;
     height: auto;
-    width: 382px;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
