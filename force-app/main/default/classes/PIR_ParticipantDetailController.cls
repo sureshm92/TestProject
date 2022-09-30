@@ -313,7 +313,16 @@ public without sharing class PIR_ParticipantDetailController {
                     update pdUpd;
                 }
                 update pdToupdateDuplicate;   
-            }
+            }else{
+                Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
+                Primary_Delegate__c = true,
+                Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
+                Participant__c = perRecord.Participant__c,
+                Contact__c = peDeligate.Participant_Delegate__r.Contact__c
+                );
+                contactId = peDeligate.Participant_Delegate__r.Contact__c;
+                insert pdToupdateAfterInsertDuplicate;
+              }
           }else{
             Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
               Primary_Delegate__c = true,

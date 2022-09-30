@@ -1,13 +1,25 @@
 <template>
     <div>
-        <div class="slds-grid slds-wrap" style="padding-left: 24px; padding-right: 24px">
-            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_none">
+        <div class="slds-grid slds-wrap">
+            <div
+                class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_none"
+            >
                 <template if:false={reminder}>
-                    <label>{label.date}</label>
+                    <template if:false={createTask}>
+                        <label>{label.date}</label>
+                    </template>
+                    <template if:true={createTask}>
+                        <label
+                            >{label.dueDate}<abbr class="slds-required" title="required"
+                                >*
+                            </abbr></label
+                        >
+                    </template>
                 </template>
                 <template if:true={reminder}>
                     <label>{label.reminderdate}</label>
                 </template>
+
                 <div class="curve-input">
                     <c-web-icon
                         class="svg-icon"
@@ -33,7 +45,16 @@
                 class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_none"
             >
                 <template if:false={reminder}>
-                    <label>{label.time}</label>
+                    <template if:false={createTask}>
+                        <label>{label.time}</label>
+                    </template>
+                    <template if:true={createTask}>
+                        <label
+                            >{label.time}<abbr class="slds-required" title="required"
+                                >*
+                            </abbr></label
+                        >
+                    </template>
                 </template>
                 <template if:true={reminder}>
                     <label>{label.remindertime}</label>
@@ -53,6 +74,7 @@
                         min={mintime}
                         max={maxtime}
                         onchange={handleTime}
+                        disabled={timeOnlyPresent}
                         placeholder="Enter Time"
                     >
                     </lightning-input>

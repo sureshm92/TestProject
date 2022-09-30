@@ -1,4 +1,5 @@
 <template>
+    <c-web-spinner fixed="true"></c-web-spinner>
     <template if:false={isMobile}>
         <h1 class="my-visits">{label.myVisits}</h1>
         <div class="slds-grid slds-wrap slds-gutters slds-p-horizontal_x-large">
@@ -40,9 +41,9 @@
                                             data-name={item.visit.Name}
                                         >
                                             <div class="slds-grid slds-wrap">
-                                                <div class="slds-col slds-size_1-of-6">
-                                                    <span><div class="left-line"></div></span>
-                                                </div>
+                                                <div
+                                                    class="slds-col slds-size_1-of-6 left-line"
+                                                ></div>
 
                                                 <div class="slds-col slds-size_4-of-6">
                                                     <div>
@@ -164,8 +165,8 @@
                 class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col2"
             >
                 <h1 if:false={past} class="visit3">
-                    <div class="visitColumnTitle">{visitName}</div>
-                    <div class="visitDateTime">
+                    {visitName}
+                    <div class="visit-date-time">
                         <template if:true={plannedDate}>
                             <lightning-formatted-date-time
                                 value={plannedDate}
@@ -181,6 +182,7 @@
                                 time-zone={visitTimezone}
                             ></lightning-formatted-date-time>
                         </template>
+                        <template if:false={plannedDate}> {label.noVisitsLabel} </template>
                     </div>
                 </h1>
                 <h1 if:true={past} class="visit3">
@@ -230,14 +232,11 @@
                                     sitename={siteName}
                                     sitephone={sitePhoneNumber}
                                     ondataupdated={handleDataUpdate}
+                                    ondiscard={handleDiscard}
+                                    onsaveclicked={saveClicked}
                                 >
                                 </c-pp-Study-Visit-Details-Card>
                             </div>
-                            <template if:false={contentLoaded}>
-                                <lightning-spinner
-                                    alternative-text={label.loading}
-                                ></lightning-spinner>
-                            </template>
                         </div>
                     </div>
                 </div>
@@ -332,9 +331,21 @@
                                                     </template>
                                                 </span>
                                             </div>
-                                            <div
-                                                class="slds-col top-padding slds-size_1-of-6"
-                                            ></div>
+                                            <div class="slds-col slds-size_1-of-6">
+                                                <template if:true={item.isReminderDate}>
+                                                    <c-web-icon
+                                                        icon-name="icon_bell"
+                                                        icon-color="#009DD6"
+                                                        icon-size="medium"
+                                                    ></c-web-icon
+                                                ></template>
+                                                <template if:false={item.isReminderDate}>
+                                                    <c-web-icon
+                                                        icon-name="alarm_bell_off"
+                                                        icon-size="medium"
+                                                    ></c-web-icon
+                                                ></template>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

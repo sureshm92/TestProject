@@ -845,6 +845,7 @@ public without sharing class MyTeamRemote {
                 contactDelegate.Landing_Community__c = Site.getMasterLabel() == 'IQVIA RH'
                     ? CommunityService.IQVIA_NETWORK_NAME
                     : Site.getMasterLabel();
+                contactDelegate.Participant_Opt_In_Status_Emails__c=true;
                 insert contactDelegate;
                 Participant__c participantDelegate = new Participant__c(
                     Adult__c = true,
@@ -879,6 +880,12 @@ public without sharing class MyTeamRemote {
             }else{
                 if(contactDelegate.Id != null){
                         existingUserPatientDelegate = [SELECT ID, Email FROM User WHERE ContactId = :contactDelegate.Id];
+                        
+                        //update email consent for the exiting delegate contact.
+                        contact delexistingContact = new contact();
+                        delexistingContact.Id = contactDelegate.Id;
+                        delexistingContact.Participant_Opt_In_Status_Emails__c = true;
+                        update delexistingContact;
                     }
                  if(existingUserPatientDelegate.isEmpty()){
                 User delegateUser = CommunityService.createUser(
