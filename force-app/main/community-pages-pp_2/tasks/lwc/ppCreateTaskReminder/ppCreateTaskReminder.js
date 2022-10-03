@@ -295,7 +295,6 @@ export default class PpCreateTaskReminder extends LightningElement {
 
     handleNullDateTimeReminder(event) {
         this.selectedReminderDate = '';
-        this.selectedReminderTime = '';
         this.selectedReminderDateTime = '';
         this.handleReminderDataChange();
     }

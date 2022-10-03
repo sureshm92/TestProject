@@ -175,14 +175,17 @@ export default class PpCreateTask extends LightningElement {
         this.taskDueTime = '';
         this.isReminderSelected = false;
         this.taskReminderDate = null;
+        this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
     }
     handleOnlyDate(event) {
         this.taskDateTime = event.detail.compdatetime;
         this.taskDueDate = event.detail.compdate;
+        this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
     }
     handleOnlyTime(event) {
         this.taskDateTime = event.detail.compdatetime;
-        his.taskDueTime = event.detail.comptime;
+        this.taskDueTime = event.detail.comptime;
+        this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
     }
     doCreateTask() {
         this.task.Subject = this.subject;
