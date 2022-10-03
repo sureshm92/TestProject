@@ -1151,7 +1151,7 @@ export default class Pir_participantDetail extends LightningElement {
     RH_YearofBirth = RH_YearofBirth;
     RH_DelegateAttestation = RH_DelegateAttestation;
     RH_MinorDelegateErrMsg = RH_MinorDelegateErrMsg;
-    RH_future_date_error =RH_future_date_error;
+    RH_future_date_error = RH_future_date_error;
     PG_AP_F_Phone_Type = PG_AP_F_Phone_Type;
     PE_Country = PE_Country;
     PE_State = PE_State;
