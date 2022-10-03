@@ -57,6 +57,8 @@
     <!--DOB-->
     <aura:attribute name="futureDate" type="Boolean" />
 
+    <aura:attribute name="dupPart" type="String"  />
+
     <!-- methods: -->
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
         <aura:attribute name="callback" type="Function" />
