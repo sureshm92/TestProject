@@ -260,7 +260,7 @@
                 <field>Primary_Key_ePR__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
+                <behavior>Edit</behavior>
                 <field>Participant_DOB_format__c</field>
             </layoutItems>
         </layoutColumns>
