@@ -185,6 +185,22 @@ export default class PpCreateTaskReminder extends LightningElement {
         return this.isTaskDueDateTimeSelected ? false : true;
     }
 
+    get dbreminderdate() {
+        if (this.selectedReminderDate) {
+            return this.selectedReminderDate;
+        } else {
+            return null;
+        }
+    }
+
+    get dbremindertime() {
+        if (this.selectedReminderDateTime) {
+            return this.selectedReminderDateTime;
+        } else {
+            return null;
+        }
+    }
+
     loadSessionId() {
         getSessionId()
             .then((sessionId) => {
@@ -256,7 +272,7 @@ export default class PpCreateTaskReminder extends LightningElement {
     }
 
     handleReminderTime(event) {
-        this.selectedReminderTime = event.detail.comptime;
+        this.selectedReminderDate = event.detail.compdate;
         this.selectedReminderDateTime = event.detail.compdatetime;
         if (this.selectedReminderDateTime) {
             this.handleReminderDataChange();
@@ -277,12 +293,10 @@ export default class PpCreateTaskReminder extends LightningElement {
         }
     }
 
-    handleInitialReminderDateLoad(event) {
-        this.selectedReminderDate = event.detail.compdate;
-    }
-
-    handleInitialReminderTimeLoad(event) {
-        this.selectedReminderTime = event.detail.comptime;
+    handleNullDateTimeReminder(event) {
+        this.selectedReminderDate = '';
+        this.selectedReminderDateTime = '';
+        this.handleReminderDataChange();
     }
 
     handleEmailReminder(event) {
@@ -319,6 +333,8 @@ export default class PpCreateTaskReminder extends LightningElement {
     @api
     handleDueDateChange() {
         this.selectedReminderOption = '';
+        this.selectedReminderDate = '';
+        this.selectedReminderDateTime = '';
         this.smsReminderOptIn = false;
         this.emailReminderOptIn = false;
     }

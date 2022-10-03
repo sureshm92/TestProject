@@ -126,10 +126,31 @@ export default class PpDateTimeCombo extends LightningElement {
     get dateInputClass() {
         this.createTask = true ? 'task-due-date-time' : 'curve-input';
     }
+    get dueDateClass() {
+        return this.createTask == true
+            ? 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small'
+            : 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small';
+    }
+    get timeClass() {
+        return this.createTask == true
+            ? 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small'
+            : 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small';
+    }
+    get gridClass() {
+        return this.createTask == true
+            ? 'slds-grid slds-wrap'
+            : 'slds-grid slds-grid-visit slds-wrap';
+    }
 
+    get dueDateTimeGrid() {
+        return this.createTask == true
+            ? ''
+            : 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small';
+    }
     handleDate(event) {
         this.initialDateLoaded = true;
         this.dt = event.target.value;
+        this.tm = '';
         if (!this.dt) {
             this.timeOnlyPresent = true;
             this.tm = event.target.value;

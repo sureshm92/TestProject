@@ -15,6 +15,7 @@ import Join from "@salesforce/label/c.WelcomeModal_Join";
 import Televisit from "@salesforce/label/c.RH_Televisit";
 import VisitInSite from "@salesforce/label/c.RH_Visit_in_Site";
 import NoVisits from "@salesforce/label/c.RH_No_Visits";
+import propertyName from "@salesforce/community/basePath";
 
 const timeZone = TIME_ZONE;
 const locale = LOCALE;
@@ -180,7 +181,7 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
   }
 
   handleJoin(event) {
-    let url = event.currentTarget.dataset.meeturl;
+    let url = propertyName.replace('/s', '') + event.currentTarget.dataset.meeturl;
     window.open(url, "_blank");
   }
 
