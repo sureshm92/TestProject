@@ -3,13 +3,9 @@
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <div class="slds-grid slds-wrap slds-grid_vertical-align-start">
         <!--Reminder Dropdown-->
-        <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
-            <div class="full-width">
-                <label class="label-reminder"
-                    >{labels.REMINDER}<abbr class="slds-required required-icon" title="required"
-                        >*
-                    </abbr></label
-                >
+        <div class="slds-col slds-size_1-of-1">
+            <div class="full-width slds-m-bottom_medium">
+                <label class="label-reminder">{labels.REMINDER}</label>
                 <div class="curve-input">
                     <c-web-icon
                         class="svg-icon"
@@ -39,10 +35,13 @@
         <template if:true={isReminderOptionSelected}>
             <!--Custom Reminder Option Date Time-->
             <template if:true={isCustomReminderOptionSelected}>
-                <div class="slds-col slds-size_1-of-1 slds-p-around_medium task-reminder">
+                <div class="slds-col slds-size_1-of-1 task-reminder">
                     <c-pp-date-time-combo
                         data-id="reminderDateTime"
+                        create-task={isCustomReminderOptionSelected}
                         reminder={isCustomReminderOptionSelected}
+                        compdate={dbreminderdate}
+                        comptime={dbremindertime}
                         mindate={currentDate}
                         maxdate={taskDueDate}
                         mintime={minimumReminderTime}
@@ -51,16 +50,15 @@
                         icon-color="#C42EA5"
                         ondatechange={handleReminderDate}
                         ontimechange={handleReminderTime}
-                        oninitialdateload={handleInitialReminderDateLoad}
-                        oninitialtimeload={handleInitialReminderTimeLoad}
                         ondate={handleOnlyDate}
                         ontime={handleOnlyTime}
+                        onnulldatetime={handleNullDateTimeReminder}
                     ></c-pp-date-time-combo>
                 </div>
             </template>
 
             <!--Email SMS Communication Option-->
-            <div class="slds-col slds-size_1-of-1 slds-p-around_medium slds-p-top_none">
+            <div class="slds-col slds-size_1-of-1 slds-p-top_none">
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_1-of-1 slds-p-around_xx-small">
                         {labels.REMIND_USING}<abbr

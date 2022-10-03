@@ -10,7 +10,9 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
                     Id,
                     Participant__c,
                     Participant__r.Id,
-                    Participant__r.Date_of_Birth__c,
+                    Participant__r.Birth_Year__c,
+                    Participant__r.Birth_Month__c,
+                    Participant__r.Birth_Day__c,
                     Participant__r.Adult__c,
                     Participant__r.Mailing_Country_Code__c,
                     Participant__r.Mailing_State_Code__c,
@@ -113,13 +115,16 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
 
         List<Participant__c> nowAdultParticipantOrBecomeSooner = new List<Participant__c>();
         for (Participant__c prt : participants) {
-            if (prt.Adult__c || String.isBlank(prt.Date_of_Birth__c))
+            if (prt.Adult__c || String.isBlank(prt.Birth_Year__c))
                 continue;
             try {
+                Integer mm = !String.isBlank(prt.Birth_Month__c) ? Integer.valueOf(prt.Birth_Month__c) : 12;
+                Integer dd = !String.isBlank(prt.Birth_Day__c) ? Integer.valueOf(prt.Birth_Day__c) : Date.daysInMonth(Integer.valueOf(prt.Birth_Year__c), mm);
+
                 Date birthDate = Date.newInstance(
-                    Integer.valueOf(prt.Date_of_Birth__c.substring(0, 4)),
-                    Integer.valueOf(prt.Date_of_Birth__c.substring(5, 7)),
-                    Integer.valueOf(prt.Date_of_Birth__c.substring(8, 10))
+                    Integer.valueOf(prt.Birth_Year__c),
+                    mm,
+                    dd
                 );
 
                 Integer participantAge = Date.newInstance(

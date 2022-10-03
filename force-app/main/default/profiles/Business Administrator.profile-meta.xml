@@ -2364,6 +2364,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Study_Site__c.Participant_DOB_format__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Patient_Delegate__c.isInviteToPP__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2654,6 +2659,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Use_as_Daytime_Phone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Age__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

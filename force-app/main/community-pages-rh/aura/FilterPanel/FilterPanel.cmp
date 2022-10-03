@@ -2,10 +2,10 @@
  - Created by Leonid Bartenev
  -->
 
- <aura:component description="FilterPanel" extends="c:CommunityContext">
+<aura:component description="FilterPanel" extends="c:CommunityContext">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
 
-    <!-- attributes: -->    
+    <!-- attributes: -->
     <aura:attribute name="searchText" type="String" />
     <aura:attribute name="searchTextPlaceHolder" type="String" />
     <aura:attribute name="recordsPerPage" type="String" />
@@ -28,7 +28,8 @@
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="myParticipantPg" type="Boolean" default="false" />
     <!--compoenent body -->
-    <div class="{!'fp-container' + if(v.isCollapsed, ' collapsed', '')}" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
+    <div class="{!'fp-container' + if(v.isCollapsed, ' collapsed', '')}"
+        style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
         <div class="fp-collapsed-view"></div>
         <div class="fp-mobile rr-large-up-hide">
             <div class="fp-header">
@@ -43,11 +44,8 @@
                 </div>
                 <div class="fp-search">
                     <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
-                        <c:rrInput
-                            valueString="{!v.searchText}"
-                            iconName="icon-search"
-                            placeholder="{!v.searchTextPlaceHolder}"
-                        />
+                        <c:rrInput valueString="{!v.searchText}" iconName="icon-search"
+                            placeholder="{!v.searchTextPlaceHolder}" />
                         <!--aura:set attribute="else">
                                         {!v.buttons}
                                 </aura:set-->
@@ -57,19 +55,15 @@
         </div>
         <div class="fp-collapsible">
             <div class="fp-filter-block">
-                <div class="{!v.isRTL? 'fp-filters-labelRTL rr-large-down-hide':'fp-filters-label rr-large-down-hide'}">{!$Label.c.PG_FP_L_Filter_by}</div>
+                <div class="{!v.isRTL? 'fp-filters-labelRTL rr-large-down-hide':'fp-filters-label rr-large-down-hide'}">
+                    {!$Label.c.PG_FP_L_Filter_by}</div>
                 <div class="fp-main-filter-block">
                     <div class="fp-search-input rr-large-down-hide">
                         <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
-                            <c:rrInput
-                                valueString="{!v.searchText}"
-                                iconName="icon-search"
-                                placeholder="{!v.searchTextPlaceHolder}"
-                            />
+                            <c:rrInput valueString="{!v.searchText}" iconName="icon-search"
+                                placeholder="{!v.searchTextPlaceHolder}" />
                             <aura:set attribute="else">
-                                <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}"
-                                    >{!v.buttons}</aura:if
-                                >
+                                <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">{!v.buttons}</aura:if>
                             </aura:set>
                         </aura:if>
                     </div>
@@ -78,18 +72,15 @@
                 </div>
             </div>
         </div>
-   
-        <div class="{!v.isRTL? 'fp-pagination-blockRTL slds-grid slds-wrap':'fp-pagination-block slds-grid slds-wrap'}" >
+
+        <div class="{!v.isRTL? 'fp-pagination-blockRTL slds-grid slds-wrap':'fp-pagination-block slds-grid slds-wrap'}">
             <div class="slds-col slds-size--7-of-12 slds-max-medium-size_1-of-1 fp-page-info">
                 <div class="filterLeft">
                     <aura:if isTrue="{!v.myParticipantPg}">
                         <aura:if isTrue="{!v.userMode != 'HCP'}">
                             <div class="vp-export-btn">
-                                <button
-                                    class="apollo-btn secondary"
-                                    data-gtm="BTN_My_Participants_Export_All"
-                                    onclick="{!c.doExportFull}"
-                                >
+                                <button class="apollo-btn secondary" data-gtm="BTN_My_Participants_Export_All"
+                                    onclick="{!c.doExportFull}">
                                     {!$Label.c.BTN_Export_All}
                                 </button>
                             </div>
@@ -97,61 +88,50 @@
                     </aura:if>
                     <aura:if isTrue="{!!empty(v.recordsPerPageVariants)}">
                         <div>
-                                <aura:if isTrue="{!v.isRTL}">
-                                    {! v.itemTitle + ' ' + v.allRecordsCount + ' ' + $Label.c.PG_FP_L_of + ' ' + 
-                                    if(or(v.recordsPerPage > v.allRecordsCount, v.showMore), v.allRecordsCount, v.currentPageCount) +
-                                    ' ' + $Label.c.PG_FP_L_Showing}
+                            <aura:if isTrue="{!v.isRTL}">
+                                {! v.itemTitle + ' ' + v.allRecordsCount + ' ' + $Label.c.PG_FP_L_of + ' ' +
+                                if(or(v.recordsPerPage > v.allRecordsCount, v.showMore), v.allRecordsCount,
+                                v.currentPageCount) +
+                                ' ' + $Label.c.PG_FP_L_Showing}
                                 <aura:set attribute="else">
                                     {!$Label.c.PG_FP_L_Showing + ' ' + if(or(v.recordsPerPage >
                                     v.allRecordsCount, v.showMore), v.allRecordsCount, v.currentPageCount) +
                                     ' ' + $Label.c.PG_FP_L_of + ' ' + v.allRecordsCount + ' ' + v.itemTitle}
                                 </aura:set>
-                                </aura:if>
-                            
+                            </aura:if>
+
                         </div>
                         <aura:if isTrue="{!v.showMoreEnabled}">
                             <div class="show-more">
-                                <a onclick="{!c.doSwitchShowMore}"
-                                    >{!if(v.showMore,$Label.c.PG_FP_L_Show_less,
-                                    $Label.c.PG_FP_L_Show_more)}</a
-                                >
+                                <a onclick="{!c.doSwitchShowMore}">{!if(v.showMore,$Label.c.PG_FP_L_Show_less,
+                                    $Label.c.PG_FP_L_Show_more)}</a>
                             </div>
                         </aura:if>
                     </aura:if>
                 </div>
                 <aura:if isTrue="{!v.myParticipantPg}">
                     <div class="pagination-position">
-                        <c:RRPaginationRemote
-                            entriesOnPage="{!v.entriesOnPage}"
-                            currentPage="{!v.currentPage}"
-                            allRecordsCount="{!v.allRecordsCount}"
-                        />
+                        <c:RRPaginationRemote entriesOnPage="{!v.entriesOnPage}" currentPage="{!v.currentPage}"
+                            allRecordsCount="{!v.allRecordsCount}" />
                     </div>
                 </aura:if>
             </div>
 
             <aura:if isTrue="{!!empty(v.recordsPerPageVariants)}">
                 <div
-                    class="{!'slds-col slds-size--5-of-12 slds-max-medium-size_1-of-1 '+ if(v.isRTL, 'fp-page-controlRTL','fp-page-control')}"
-                >
+                    class="{!'slds-col slds-size--5-of-12 slds-max-medium-size_1-of-1 '+ if(v.isRTL, 'fp-page-controlRTL','fp-page-control')}">
                     <div class="{!v.isRTL? 'fp-form-elementRTL':'fp-form-element'}">{!v.buttons}</div>
                     <aura:if isTrue="{!!empty(v.sortVariants)}">
                         <div class="{!v.isRTL? 'fp-form-elementRTL':'fp-form-element'}">
                             <label>{!$Label.c.PG_FP_L_Sort_by}</label>
-                            <c:rrSelect
-                                value="{!v.sortType}"
-                                options="{!v.sortVariants}"
-                                setValueAsSelected="{!v.setValueAsSelected}"
-                            />
+                            <c:rrSelect value="{!v.sortType}" options="{!v.sortVariants}"
+                                setValueAsSelected="{!v.setValueAsSelected}" class="widthcontains" />
                         </div>
                     </aura:if>
                     <aura:if isTrue="{!v.showEntriesVisble}">
                         <div class="{!v.isRTL? 'fp-form-elementRTL':'fp-form-element'}">
                             <label>{!$Label.c.PG_FP_L_Show_entries}</label>
-                            <c:rrSelect
-                                value="{!v.recordsPerPage}"
-                                options="{!v.recordsPerPageVariants}"
-                            />
+                            <c:rrSelect value="{!v.recordsPerPage}" options="{!v.recordsPerPageVariants}" />
                         </div>
                     </aura:if>
                 </div>

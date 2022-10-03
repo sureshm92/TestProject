@@ -223,7 +223,8 @@ public without sharing class PIR_ParticipantDetailController {
     Boolean isDelUpdated,
     Boolean isOutreachUpdated,
     String delegateCriteria,
-    String visitPlan
+    String visitPlan,
+    Boolean useDup
   ) {
     Boolean bol = true;
     try {
@@ -291,14 +292,47 @@ public without sharing class PIR_ParticipantDetailController {
 
           update piToUpdateDelegate;
         }else if(delegateCriteria == 'updateDeligate'){
-          Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
-            Primary_Delegate__c = true,
-            Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
-            Participant__c = perRecord.Participant__c,
-            Contact__c = peDeligate.Participant_Delegate__r.Contact__c
-          );
-          contactId = peDeligate.Participant_Delegate__r.Contact__c;
-          insert pdToupdateAfterInsertDuplicate;
+          if(useDup){
+            List<Patient_Delegate__c> pd = new List<Patient_Delegate__c>();
+            List<Patient_Delegate__c> pds = new List<Patient_Delegate__c>();
+            pd = [Select Id,Participant__c,Participant_Delegate__c from Patient_Delegate__c where Participant__c=: perRecord.Participant__c and Participant_Delegate__c=:peDeligate.Participant_Delegate__r.Id];
+            if(pd != null && !pd.isEmpty()){
+                  Patient_Delegate__c pdToupdateDuplicate = new Patient_Delegate__c(
+                  Id = pd[0].Id,
+                  Primary_Delegate__c = true
+                );
+                pds = [Select Id,Participant__c,Participant_Delegate__c,Primary_Delegate__c  from Patient_Delegate__c where Participant__c=: perRecord.Participant__c and Primary_Delegate__c  =:true];
+                if(pds != null && !pds.isEmpty()){
+                    List<Patient_Delegate__c> pdUpd = new List<Patient_Delegate__c>();
+                    for(Patient_Delegate__c p:pds){
+                        Patient_Delegate__c patdel = new Patient_Delegate__c();
+                        patdel.Id = p.Id;
+                        patdel.Primary_Delegate__c = false;
+                        pdUpd.add(patdel);
+                    }
+                    update pdUpd;
+                }
+                update pdToupdateDuplicate;   
+            }else{
+                Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
+                Primary_Delegate__c = true,
+                Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
+                Participant__c = perRecord.Participant__c,
+                Contact__c = peDeligate.Participant_Delegate__r.Contact__c
+                );
+                contactId = peDeligate.Participant_Delegate__r.Contact__c;
+                insert pdToupdateAfterInsertDuplicate;
+              }
+          }else{
+            Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
+              Primary_Delegate__c = true,
+              Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
+              Participant__c = perRecord.Participant__c,
+              Contact__c = peDeligate.Participant_Delegate__r.Contact__c
+            );
+            contactId = peDeligate.Participant_Delegate__r.Contact__c;
+            insert pdToupdateAfterInsertDuplicate;
+          }
         }else if(string.isBlank(peDeligate.Participant_Delegate__r.First_Name__c)){//if(delegateCriteria == 'deleteDelegate'){
           Patient_Delegate__c pdToupdate = new Patient_Delegate__c(
             Id = peDeligate.Id,

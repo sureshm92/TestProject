@@ -30,12 +30,12 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
 
     passwordInputType = 'password';
     isEyeHidden = true;
-    
+
     eyeHidden = PP_Desktoplogos + '/eye-hidden.svg';
     wave = PP_Desktoplogos + '/wave_desktop.png';
     exclamation = LOFI_LOGIN_ICONS + '/status-exclamation.svg';
     eyeIcon = LOFI_LOGIN_ICONS + '/eye-icon.svg';
-    
+
     label = {
         unableToLogin,
         forgotPassword,
@@ -49,7 +49,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     currentPageReference;
     erroContainerPosition = 'margin-left: 13px';
     errorIconPosition = 'margin-left: 8px';
-    
+
     renderedCallback() {
         Promise.all([loadStyle(this, communityPPTheme)])
             .then(() => {
@@ -116,12 +116,18 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="userName"]').value = event.target.value;
         }
+        if (event.which == 13) {
+            this.handleLogin();
+        }
         this.btnclassName = 'slds-input input-field-container';
     }
 
     handlepasswordChange(event) {
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="password"]').value = event.target.value;
+        }
+        if (event.which == 13) {
+            this.handleLogin();
         }
         this.btnclassName = 'slds-input input-field-container';
     }

@@ -30,8 +30,11 @@
                     mintime={currentTime}
                     ondatechange={handleDate}
                     ontimechange={handleTime}
+                    onnulldatetime={handleNullDateTime}
                     oninitialdateload={handleInitialDateLoad}
                     oninitialtimeload={handleInitialTimeLoad}
+                    ondate={handleOnlyDate}
+                    ontime={handleOnlyTime}
                 ></c-pp-date-time-combo>
                 <div if:true={past} class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_1-of-2 slds-p-left_none">
@@ -86,7 +89,7 @@
                                 type="checkbox"
                                 name={label.email}
                                 value={visitdata.task.Remind_Using_Email__c}
-                                enabled={emailOptIn}
+                                disabled={emailOptIn}
                                 checked={visitdata.task.Remind_Using_Email__c}
                                 onchange={setAttributeValueEmail}
                             ></lightning-input>
@@ -96,7 +99,7 @@
                                 label={label.sms}
                                 name={label.sms}
                                 value={visitdata.task.Remind_Using_SMS__c}
-                                enabled={smsOptIn}
+                                disabled={smsOptIn}
                                 checked={visitdata.task.Remind_Using_SMS__c}
                                 onchange={setAttributeValueSms}
                             ></lightning-input>
@@ -106,11 +109,11 @@
                 <div class="slds-grid slds-wrap acc-pref" if:false={past}>
                     <div if:true={showEmailSms}>
                         <a class="comm-link" href={url}>
-                            <span>{label.notificationSettings}</span>
+                            <span>{label.PREFERENCES}</span>
                         </a>
                     </div>
                 </div>
-                <div if:false={past} style="padding-bottom: 24px">
+                <div if:false={past}>
                     <c-pp-date-time-combo
                         if:true={showreminderdatepicker}
                         data-id="reminderDateTime"
@@ -125,24 +128,29 @@
                         ontimechange={handleReminderTime}
                         oninitialdateload={handleInitialReminderDateLoad}
                         oninitialtimeload={handleInitialReminderTimeLoad}
-                        ondate={handleOnlyDate}
-                        ontimw={handleOnlyTime}
+                        onnulldatetime={handleNullDateTimeReminder}
+                        ondate={handleOnlyDateReminder}
+                        ontime={handleOnlyTimeReminder}
                     ></c-pp-date-time-combo>
                 </div>
             </div>
             <div if:false={past} class="slds-size_1-of-1 btn-footer">
-                <lightning-button
+                <button
+                    class="secondaryBtn slds-button"
+                    disabled={disableDiscard}
+                    type="button"
                     onclick={doCancel}
-                    label={label.discard}
+                >
+                    {label.discard}
+                </button>
+                <button
+                    class="primaryBtn slds-button"
                     disabled={disableButtonSaveCancel}
-                    class="secondaryBtn"
-                ></lightning-button>
-                <lightning-button
+                    type="button"
                     onclick={doSave}
-                    label={label.saveChanges}
-                    disabled={disableButtonSaveCancel}
-                    class="primaryBtn"
-                ></lightning-button>
+                >
+                    {label.saveChanges}
+                </button>
             </div>
         </div>
     </lightning-card>

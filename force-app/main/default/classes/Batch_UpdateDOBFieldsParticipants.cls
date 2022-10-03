@@ -13,6 +13,21 @@ public without sharing class Batch_UpdateDOBFieldsParticipants implements Databa
                 participant.Birth_Day__c = participant.Date_of_Birth__c.substring(8,10);
                 participant.Birth_Month__c = participant.Date_of_Birth__c.substring(5,7);
                 participant.Birth_Year__c = participant.Date_of_Birth__c.substring(0,4);
+                Date birthDate = Date.newInstance(
+                    Integer.valueOf(participant.Birth_Year__c),
+                    Integer.valueOf(participant.Birth_Month__c),
+                    Integer.valueOf(participant.Birth_Day__c)
+                );
+
+                Integer participantAge = Date.newInstance(
+                        2000,
+                        birthDate.month(),
+                        birthDate.day()
+                    ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
+                    ? Date.today().year() - birthDate.year()
+                    : Date.today().year() - birthDate.year() - 1;
+                
+                participant.Age__c = participantAge;
                 pList.add(participant);
             }
         }

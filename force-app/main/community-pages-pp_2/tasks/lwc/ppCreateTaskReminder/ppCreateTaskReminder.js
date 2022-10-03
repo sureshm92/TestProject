@@ -18,7 +18,7 @@ import FOUR_HOUR from '@salesforce/label/c.PP_Four_Hours_Before';
 import ONE_DAY from '@salesforce/label/c.One_day_before';
 import ONE_WEEK from '@salesforce/label/c.PP_One_Week_Before';
 import CUSTOM from '@salesforce/label/c.PP_Custom';
-import NONE from '@salesforce/label/c.None';
+import PP_NO_REMINDER from '@salesforce/label/c.PP_NO_REMINDER';
 import REMIND_USING from '@salesforce/label/c.PP_Remind_Using';
 import EMAIL from '@salesforce/label/c.Email';
 import SMS_TEXT_MESSAGE from '@salesforce/label/c.PP_SMSTexMessage';
@@ -38,6 +38,8 @@ export default class PpCreateTaskReminder extends LightningElement {
 
     isInitialized = false;
     spinner;
+    /**Platform Event */
+    cometd;
     subscription;
     channel = '/event/Communication_Preference_Change__e';
 
@@ -58,13 +60,14 @@ export default class PpCreateTaskReminder extends LightningElement {
         ONE_DAY,
         ONE_WEEK,
         CUSTOM,
-        NONE,
+        PP_NO_REMINDER,
         REMIND_USING,
         EMAIL,
         SMS_TEXT_MESSAGE,
         PP_TASK_COMM_PREF
     };
     @track initialReminderOptions = [
+        { label: this.labels.PP_NO_REMINDER, value: 'No reminder', itemClass: 'dropdown-li' },
         {
             label: this.labels.ONE_HOUR,
             value: '1 hour before',
@@ -85,8 +88,7 @@ export default class PpCreateTaskReminder extends LightningElement {
             value: '1 week before',
             itemClass: 'dropdown-li li-item-disabled'
         },
-        { label: this.labels.CUSTOM, value: 'Custom', itemClass: 'dropdown-li' },
-        { label: this.labels.NONE, value: 'None', itemClass: 'dropdown-li' }
+        { label: this.labels.CUSTOM, value: 'Custom', itemClass: 'dropdown-li' }
     ];
 
     connectedCallback() {
@@ -104,6 +106,8 @@ export default class PpCreateTaskReminder extends LightningElement {
                         if (!this.initData) {
                             this.initializeData();
                         } else {
+                            this.isEmailReminderDisabled = !this.initData.emailOptIn;
+                            this.isSMSReminderDisabled = !this.initData.smsOptIn;
                             this.isInitialized = true;
                         }
                     })
@@ -119,24 +123,24 @@ export default class PpCreateTaskReminder extends LightningElement {
     get reminderOptions() {
         let differenceTimeHours = this.calculateTimezoneDifference();
         if (differenceTimeHours > 1) {
-            this.initialReminderOptions[0].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
-        }
-        if (differenceTimeHours > 4) {
             this.initialReminderOptions[1].itemClass = 'dropdown-li';
         } else {
-            this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
+            this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
         }
-        if (differenceTimeHours > 24) {
+        if (differenceTimeHours > 4) {
             this.initialReminderOptions[2].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
         }
-        if (differenceTimeHours > 168) {
+        if (differenceTimeHours > 24) {
             this.initialReminderOptions[3].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[3].itemClass = 'dropdown-li li-item-disabled';
+        }
+        if (differenceTimeHours > 168) {
+            this.initialReminderOptions[4].itemClass = 'dropdown-li';
+        } else {
+            this.initialReminderOptions[4].itemClass = 'dropdown-li li-item-disabled';
         }
         return this.initialReminderOptions;
     }
@@ -168,7 +172,9 @@ export default class PpCreateTaskReminder extends LightningElement {
     }
 
     get isReminderOptionSelected() {
-        return !this.selectedReminderOption || this.selectedReminderOption == 'None' ? false : true;
+        return !this.selectedReminderOption || this.selectedReminderOption == 'No reminder'
+            ? false
+            : true;
     }
 
     get isCustomReminderOptionSelected() {
@@ -177,6 +183,22 @@ export default class PpCreateTaskReminder extends LightningElement {
 
     get isReminderDisabled() {
         return this.isTaskDueDateTimeSelected ? false : true;
+    }
+
+    get dbreminderdate() {
+        if (this.selectedReminderDate) {
+            return this.selectedReminderDate;
+        } else {
+            return null;
+        }
+    }
+
+    get dbremindertime() {
+        if (this.selectedReminderDateTime) {
+            return this.selectedReminderDateTime;
+        } else {
+            return null;
+        }
     }
 
     loadSessionId() {
@@ -216,6 +238,11 @@ export default class PpCreateTaskReminder extends LightningElement {
                 let initialData = result;
                 this.isEmailReminderDisabled = !initialData.emailOptIn;
                 this.isSMSReminderDisabled = !initialData.smsOptIn;
+                this.emailReminderOptIn = this.isEmailReminderDisabled
+                    ? false
+                    : this.emailReminderOptIn;
+                this.smsReminderOptIn = this.isSMSReminderDisabled ? false : this.smsReminderOptIn;
+                this.handleReminderDataChange();
                 this.isInitialized = true;
                 this.spinner.hide();
             })
@@ -226,13 +253,13 @@ export default class PpCreateTaskReminder extends LightningElement {
 
     handleReminderOptionChange(event) {
         this.selectedReminderOption = event.detail;
-        if (this.selectedReminderOption == 'None') {
+        if (this.selectedReminderOption == 'No reminder') {
             this.selectedReminderDateTime = '';
             this.smsReminderOptIn = false;
             this.emailReminderOptIn = false;
-            this.handleCustomEvent('customreminderdata', this.selectedReminderOption, '');
-        } else if (this.selectedReminderOption != 'Custom') {
-            this.handleCustomEvent('reminderdata', this.selectedReminderOption, '');
+            this.handleReminderDataChange();
+        } else {
+            this.handleReminderDataChange();
         }
     }
 
@@ -240,61 +267,57 @@ export default class PpCreateTaskReminder extends LightningElement {
         this.selectedReminderDate = event.detail.compdate;
         this.selectedReminderDateTime = event.detail.compdatetime;
         if (this.selectedReminderDateTime) {
-            this.handleCustomEvent(
-                'customreminderdata',
-                this.selectedReminderOption,
-                this.selectedReminderDateTime
-            );
+            this.handleReminderDataChange();
         }
     }
 
     handleReminderTime(event) {
-        this.selectedReminderTime = event.detail.comptime;
+        this.selectedReminderDate = event.detail.compdate;
         this.selectedReminderDateTime = event.detail.compdatetime;
         if (this.selectedReminderDateTime) {
-            this.handleCustomEvent(
-                'customreminderdata',
-                this.selectedReminderOption,
-                this.selectedReminderDateTime
-            );
+            this.handleReminderDataChange();
         }
     }
 
     handleOnlyDate(event) {
         this.selectedReminderDate = event.detail.compdate;
         if (this.selectedReminderDateTime) {
-            this.handleCustomEvent(
-                'customreminderdata',
-                this.selectedReminderOption,
-                this.selectedReminderDateTime
-            );
+            this.handleReminderDataChange();
         }
     }
 
     handleOnlyTime(event) {
         this.selectedReminderDateTime = event.detail.compdatetime;
         if (this.selectedReminderDateTime) {
+            this.handleReminderDataChange();
+        }
+    }
+
+    handleNullDateTimeReminder(event) {
+        this.selectedReminderDate = '';
+        this.selectedReminderDateTime = '';
+        this.handleReminderDataChange();
+    }
+
+    handleEmailReminder(event) {
+        this.emailReminderOptIn = event.target.checked;
+        this.handleReminderDataChange();
+    }
+
+    handleReminderDataChange() {
+        if (this.selectedReminderOption == 'Custom') {
             this.handleCustomEvent(
                 'customreminderdata',
                 this.selectedReminderOption,
                 this.selectedReminderDateTime
             );
+        } else {
+            this.handleCustomEvent('reminderdata', this.selectedReminderOption, '');
         }
-    }
-
-    handleInitialReminderDateLoad(event) {
-        this.selectedReminderDate = event.detail.compdate;
-    }
-
-    handleInitialReminderTimeLoad(event) {
-        this.selectedReminderTime = event.detail.comptime;
-    }
-
-    handleEmailReminder(event) {
-        this.emailReminderOptIn = event.target.checked;
     }
     handleSMSReminder(event) {
         this.smsReminderOptIn = event.target.checked;
+        this.handleReminderDataChange();
     }
 
     calculateTimezoneDifference() {
@@ -309,8 +332,9 @@ export default class PpCreateTaskReminder extends LightningElement {
 
     @api
     handleDueDateChange() {
-        console.log('due date changed');
         this.selectedReminderOption = '';
+        this.selectedReminderDate = '';
+        this.selectedReminderDateTime = '';
         this.smsReminderOptIn = false;
         this.emailReminderOptIn = false;
     }

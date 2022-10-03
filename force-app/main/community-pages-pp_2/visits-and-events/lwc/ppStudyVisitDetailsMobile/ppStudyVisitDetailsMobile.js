@@ -1,4 +1,5 @@
 import { LightningElement, track, wire } from 'lwc';
+import getParticipantVisits from '@salesforce/apex/ParticipantVisitsRemote.getPatientVisitsDetails';
 import getParticipantVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsDetails';
 import getSiteAddress from '@salesforce/apex/ParticipantVisitsRemote.getSiteAddress';
 import noVisitsLabel from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Entered';
@@ -7,6 +8,7 @@ import myVisits from '@salesforce/label/c.Visit_My_Visits';
 import noDataAvailable from '@salesforce/label/c.Visits_No_Data_Available';
 import upcoming from '@salesforce/label/c.Visits_Upcoming';
 import past from '@salesforce/label/c.Visits_Past';
+import BTN_Back from '@salesforce/label/c.BTN_Back';
 import results from '@salesforce/label/c.Visit_Result';
 import resultsCheck from '@salesforce/label/c.Visit_Check_Result';
 import viewAllResults from '@salesforce/label/c.Visits_View_All_Results';
@@ -18,6 +20,8 @@ import { loadScript } from 'lightning/platformResourceLoader';
 import basePathName from '@salesforce/community/basePath';
 import visitdetails from '@salesforce/label/c.Visit_Details';
 import communicationPreference from '@salesforce/label/c.Communication_Preference_Url';
+import TIME_ZONE from '@salesforce/i18n/timeZone';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class PpStudyVisitDetailsMobile extends NavigationMixin(LightningElement) {
     label = {
@@ -30,7 +34,8 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         results,
         resultsCheck,
         viewAllResults,
-        visitdetails
+        visitdetails,
+        BTN_Back
     };
     status = {
         scheduled: 'Scheduled',
@@ -54,9 +59,13 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     @track past = false;
     @track showChild = false;
     visitimage1 = pp_icons + '/' + 'VisitPageResultImage.png';
+    @track visitDetail;
+    visitName = '';
+    plannedDate = '';
+    visitStatus = '';
+    visitTimezone = '';
 
     connectedCallback() {
-        console.log('Connected callback');
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 this.sfdcBaseURL = window.location.origin + basePathName + communicationPreference;
@@ -66,7 +75,25 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                 this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
     }
-
+    getVisitDetails(visitid) {
+        if (visitid != null) {
+            getParticipantVisits({
+                visitId: visitid
+            })
+                .then((result) => {
+                    this.visitDetail = result;
+                    if (result.length != 0 || result != null || result != '') {
+                        this.visitName = this.visitDetail[0].Name;
+                        this.plannedDate = this.visitDetail[0].Planned_Date__c;
+                        this.visitStatus = this.visitDetail[0].Status__c;
+                        this.visitTimezone = TIME_ZONE;
+                    }
+                })
+                .catch((error) => {
+                    this.showErrorToast('error occured', error.message, 'error');
+                });
+        }
+    }
     getParams() {
         this.visitid = communityService.getUrlParameter('visitid');
         console.log('visit in getParams: ', this.visitid);
@@ -80,14 +107,14 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                         this.isError = true;
                     } else {
                         this.isError = false;
+                        this.cblabel = this.icondetails[0].Label__c;
+                        this.cbdescription = this.icondetails[0].Description__c;
                     }
-
-                    this.cblabel = this.icondetails[0].Label__c;
-                    this.cbdescription = this.icondetails[0].Description__c;
                 })
                 .catch((error) => {
                     this.showErrorToast('error occured', error.message, 'error');
                 });
+            this.getVisitDetails(this.visitid);
             this.createEditTask();
             this.getAccount();
         }
@@ -97,7 +124,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
-                name: 'Visit_List_Mobile__c'
+                name: 'Visits__c'
             }
         });
     }
@@ -129,8 +156,8 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                 if (typeof result[0].task === 'undefined') {
                     obj.task = JSON.parse(str);
                 }
-                if (typeof result[0].visitDate === 'undefined') {
-                    obj.visitDate = '';
+                if (typeof result[0].plannedDate === 'undefined') {
+                    obj.plannedDate = '';
                 }
                 this.visitdata = obj;
                 if (

@@ -1,5 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import getTrialDetail from '@salesforce/apex/StudyDetailViewController.getTrialDetail';
+import menuDesktop from './ppCommunityNavigation.html';
+import menuMobile from './ppCommunityNavigationMobile.html';
 import navigationHelp from '@salesforce/label/c.Navigation_Help';
 import navigationHome from '@salesforce/label/c.Navigation_Home';
 import navigationMyStudy from '@salesforce/label/c.Navigation_My_Study';
@@ -13,6 +15,7 @@ import navigationProgram from '@salesforce/label/c.Navigation_AboutProgram';
 import navigationStudy from '@salesforce/label/c.Navigation_AboutStudy';
 import navigationTasks from '@salesforce/label/c.PG_SW_Tab_Tasks';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
+import navigationPastStudy from '@salesforce/label/c.Navigation_Past_Studies';
 import desktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import DEVICE from '@salesforce/client/formFactor';
@@ -20,6 +23,7 @@ import DEVICE from '@salesforce/client/formFactor';
 export default class PpCommunityNavigation extends LightningElement {
     @api communityServic;
     @api isRTL;
+    @api showSideMenu;
     @track participantTabs = [];
     currentPageName;
     navDivider = desktopLogos + '/Nav_Tab_Divider.svg';
@@ -33,11 +37,15 @@ export default class PpCommunityNavigation extends LightningElement {
     showAboutStudy = false;
     isInitialized = false;
     desktop=false;
-
+    menuCss = 'phone-menu-background nav-menu slds-border_top slds-p-vertical_large ';
     connectedCallback() {
         this.baseLink = window.location.origin;
         this.initializeData();
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+    }
+    //template toggle
+    render() {
+        return this.desktop ? menuDesktop : menuMobile;
     }
     initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
@@ -93,7 +101,7 @@ export default class PpCommunityNavigation extends LightningElement {
             tasks: {
                 page: 'tasks',
                 label: navigationTasks,
-                icon: 'tasks'
+                icon: 'icon_bell'
             },
             resources: {
                 page: 'resources',
@@ -102,7 +110,7 @@ export default class PpCommunityNavigation extends LightningElement {
             },
             'past-studies': {
                 page: 'past-studies',
-                label: navigationHelp,
+                label: navigationPastStudy,
                 icon: 'plan-check-in-square'
             },
             messages: {
@@ -159,19 +167,25 @@ export default class PpCommunityNavigation extends LightningElement {
         }
         if (this.communityServic.getCurrentCommunityMode().hasPastStudies)
             this.participantTabs.push(this.allPagesMap['past-studies']);
-        if (this.communityServic.getEDiaryVisible()) {
-            if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
-                this.participantTabs.push(this.allPagesMap['e-diaries']);
+            if (this.communityServic.getEDiaryVisible()) {
+                if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
+                    if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                        this.participantTabs.push(this.allPagesMap['e-diaries']);
+                    }
+                }
             }
-        }
-        if (this.communityServic.getMessagesVisible()) {
-            this.participantTabs.push(this.allPagesMap['messages']);
-        }
-        if (this.communityServic.getTrialMatchVisible()) {
-            if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
-                this.participantTabs.push(this.allPagesMap['trial-match']);
+            if (this.communityServic.getMessagesVisible()) {
+                if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                    this.participantTabs.push(this.allPagesMap['messages']);
+                }
             }
-        }
+            if (this.communityServic.getTrialMatchVisible()) {
+                if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
+                    if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                        this.participantTabs.push(this.allPagesMap['trial-match']);
+                    }
+                }
+            }
         this.participantTabs.push(this.allPagesMap['tasks']);
         this.participantTabs.push(this.allPagesMap['resources']);
         this.participantTabs.push(this.allPagesMap['help']);
@@ -187,8 +201,10 @@ export default class PpCommunityNavigation extends LightningElement {
             this.updateCurrentPage(this.currentPageName);
         }
         try {
+            !this.showSideMenu ? (this.menuCss += 'toggleClass') : '';
             this.communityServic.navigateToPage(event.currentTarget.dataset.pageName);
-            currentPageName = this.communityServic.getPageName();
+            this.currentPageName = this.communityServic.getPageName();
+            this.removeElementFocus();
         } catch (e) {
             console.error(e);
         }

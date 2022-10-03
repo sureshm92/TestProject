@@ -23,6 +23,7 @@
 .address-section-outer {
     margin-bottom: 1rem;
     border-bottom: 1px solid #d9d9d9;
+    font-size: 1rem;
 }
 
 .address-section {
@@ -53,8 +54,13 @@
     height: 2rem;
     border-radius: 1rem;
     border: 1px solid #d9d9d9;
-    padding-left: 35px;
+    padding-left: 2.25rem;
     background-color: #f2f2f2;
+}
+
+.curve-input:focus-within,
+.slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux:focus-within {
+    border: 1px solid #015ff1;
 }
 
 .curve-input input[type='date'] {
@@ -85,15 +91,15 @@ input[type='date']::-webkit-calendar-picker-indicator,
 
 .curve-input .svg-icon {
     position: absolute;
-    top: 50%;
+    top: 45%;
     transform: translateY(-50%) translateX(-50%);
     left: 20px;
     fill: #00a3e0;
 }
 
 .comm-checks {
-    margin-top: 22px;
-    padding-left: 1.5rem;
+    margin-top: 26px;
+    padding-left: 1.25rem;
 }
 
 .comm-checks > div {
@@ -108,7 +114,8 @@ input[type='date']::-webkit-calendar-picker-indicator,
 }
 
 .acc-pref {
-    margin-left: 163px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .btn-footer {
@@ -116,6 +123,27 @@ input[type='date']::-webkit-calendar-picker-indicator,
     border-top: 1px solid #d9d9d9;
     display: flex;
     justify-content: flex-end;
+}
+
+@media all and (min-width: 768px) and (max-width: 870px) {
+
+    .slds-small-size_1-of-2.slds-p-left_none {
+        min-width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .slds-small-size_1-of-2.comm-checks {
+        min-width: 50%;
+        margin-bottom: unset;
+        padding-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    .acc-pref {
+        justify-content: flex-start;
+    }
 }
 
 @media all and (max-width: 786px) {
@@ -129,19 +157,27 @@ input[type='date']::-webkit-calendar-picker-indicator,
 }
 
 @media all and (max-width: 486px) {
+
+    .btn-footer {
+        padding-bottom: .25rem;
+    }
+
     .curve-input {
         margin-bottom: 1rem;
     }
 
     .comm-checks {
         margin-top: 0.5rem;
-    }
-
-    .comm-checks > div {
-        padding-left: 0.875rem;
+        padding-left: unset;
     }
 
     .comm-checks > div:first-child {
-        width: 70%;
+        width: 90%;
     }
+
+    .acc-pref {
+        justify-content: flex-start;
+        padding-left: 1.5rem;
+    }
+
 }
