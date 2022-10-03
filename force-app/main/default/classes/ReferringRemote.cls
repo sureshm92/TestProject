@@ -860,7 +860,7 @@ return String.join(addressList, ', ');
     }
     //SOQL 101 fix : split participant and pe creation to 2 methods saveParticipantV2 and saveParticipantEnrollment
     @AuraEnabled
-    public static string saveParticipantV2( 
+    public static list<string> saveParticipantV2( 
         Id hcpeId,
         String pEnrollmentJSON,
         String participantJSON,
@@ -1001,6 +1001,10 @@ return String.join(addressList, ', ');
             AuraHelper.throwException(e);
         }
         return null;
+    }
+    @AuraEnabled
+    public static void updateParticipant(String participantJSON) {
+        AddPatientByPIRemote.updateParticipant(participantJSON);
     }
     //PE insertion
     @AuraEnabled
