@@ -1018,7 +1018,9 @@ export default class Pir_participantDetail extends LightningElement {
             return false;
         } else if (this.delegateMinor && this.noYOB) {
             return false;
-        }
+        }else if (this.invalidDOB== true){
+        return false;
+    }
         var inp = this.template.querySelectorAll("lightning-input");
         var inp2 = this.template.querySelectorAll("lightning-combobox");
         var err = 0;
