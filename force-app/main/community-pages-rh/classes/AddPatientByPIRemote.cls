@@ -236,7 +236,7 @@ public without sharing class AddPatientByPIRemote {
     }
 
     @AuraEnabled
-    public static String saveParticipants(
+    public static list<String> saveParticipants(
         String participantJSON,
         String peJSON,
         String userLanguage,
@@ -335,14 +335,14 @@ public without sharing class AddPatientByPIRemote {
             participant.Date_of_Birth__c = null;
             system.debug('participant.Age__c'+participant.Age__c);
             //DOB changes end
-             String parID = 
+            list<String> parIDandDup = 
             ParticipantService.createParticipantAndUpdatePES(
                 participant,
                 participantDelegate,
                 pe,
                 userLanguage
             );
-            return parID ;
+            return parIDandDup ;
         } catch (Exception e) {
             AuraHelper.throwException(e);
             return null;
@@ -525,8 +525,7 @@ public without sharing class AddPatientByPIRemote {
         }
     }
 
-    @Future
-    @TestVisible
+    @AuraEnabled
     public static void updateParticipant(String participantJSON) {
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
