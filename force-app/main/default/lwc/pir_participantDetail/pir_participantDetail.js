@@ -1018,7 +1018,9 @@ export default class Pir_participantDetail extends LightningElement {
             return false;
         } else if (this.delegateMinor && this.noYOB) {
             return false;
-        }
+        }else if (this.invalidDOB== true){
+        return false;
+    }
         var inp = this.template.querySelectorAll("lightning-input");
         var inp2 = this.template.querySelectorAll("lightning-combobox");
         var err = 0;
@@ -1149,6 +1151,7 @@ export default class Pir_participantDetail extends LightningElement {
     RH_YearofBirth = RH_YearofBirth;
     RH_DelegateAttestation = RH_DelegateAttestation;
     RH_MinorDelegateErrMsg = RH_MinorDelegateErrMsg;
+    RH_future_date_error = RH_future_date_error;
     PG_AP_F_Phone_Type = PG_AP_F_Phone_Type;
     PE_Country = PE_Country;
     PE_State = PE_State;
