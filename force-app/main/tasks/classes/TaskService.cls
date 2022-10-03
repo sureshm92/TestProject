@@ -486,8 +486,36 @@ public without sharing class TaskService {
                         tsc.reminderDatetime = inv.ReminderDateTime__c;
                         tsc.reminderGMT = inv.ReminderDateTime__c;
                     }
+                }else {
+                    Id userId;
+                     TimeZone tz;
+                     for (Id pdId : patientDelContactIds) {
+                        userId = userTimezoneMap.get(delContactUser.get(pdId)) != null
+                            ? delContactUser.get(pdId)
+                            : null;
+                         tz = userTimezoneMap.get(userId);
+                    }
+                    if (tz == null)
+                        continue;
+                    Datetime userDatetime = DateTimeConverterUtil.getUserDT(
+                        Datetime.now().dateGMT(),
+                        Datetime.now().timeGmt(),
+                        tz
+                    );
+                    tsc.startDate = userDatetime.dateGMT();
+                    if (inv.ExpireDateTime__c != null) {
+                        tsc.activityDate = inv.ExpireDateTime__c;
+                    }
+                    if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
+                        Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
+                        tsc.reminderDatetime = userDatetime.addDays(firstReminderDay);
+                        tsc.reminderGMT = Datetime.now().addDays(firstReminderDay);
+                    }
+                    if (inv.ReminderDateTime__c != null) {
+                        tsc.reminderDatetime = inv.ReminderDateTime__c;
+                        tsc.reminderGMT = inv.ReminderDateTime__c;
+                    }
                 }
-
                 tsc.subject = subject;
                 tsc.type = TASK_TYPE_SURVEY;
                 tsc.visibility = SurveyService.SURVEY_VISIBLE.get(visible);
