@@ -28,6 +28,11 @@
             component.find('navigationMobile').refresh();
             component.find('alerts').refresh();
         }
+        else{
+            component.find('ppMenu').forceRefresh();
+            component.find('ppFooter').forceRefresh();
+            
+        }
     },
 
     switchSideMenu: function (component) {
@@ -41,6 +46,10 @@
         var page = event.getParam('page');
         communityService.navigateToPage(page);
     },
+    verifyIncentive: function (component, event) {
+        let isPartOfincentive = event.getParam('parOfIncentiveProgram');
+        component.set('v.isIncentive',isPartOfincentive);
+    },
     //Added as per REF-1343 by Vikrant Sharma for Help icon adjacent to User Profile for PI and HCP
     onClickHelp: function () {
         communityService.navigateToPage('help');
@@ -51,6 +60,30 @@
             component.set('v.isPPonPhone', true);
         } else {
             component.set('v.isPPonPhone', false);
+        }
+    },
+    onClickSite: function(component, event) {
+        
+        if(!component.get('v.isSitecal')) {
+            component.set('v.isSitecal', true);
+        } else {
+            component.set('v.isSitecal', false);
+        }
+        if(!component.get('v.isIconVisible')) {
+            component.set('v.isIconVisible', true);
+        } else {
+            component.set('v.isIconVisible', false);
+             component.set('v.notVisibleOnBlur', true);
+        }
+    },
+     handleComponentEvent : function(component, event, helper) {
+         
+        if(!component.get('v.isIconVisible')) {
+            if(!component.get('v.notVisibleOnBlur'))
+                component.set('v.isIconVisible', true);
+        } else {
+             component.set('v.notVisibleOnBlur', false);
+            component.set('v.isIconVisible', false);
         }
     }
 });

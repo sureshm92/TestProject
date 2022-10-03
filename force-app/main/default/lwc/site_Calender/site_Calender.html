@@ -1,0 +1,114 @@
+<template>
+  <div class="site-calender rtl-code">
+    <template if:true={isLoaded} class="slds-is-relative">
+      <lightning-spinner alternative-text="Loading..." variant="brand">
+      </lightning-spinner>
+    </template>
+    <div class="slds-grid slds-wrap slds-gutters">
+      <!--Weekly Calendar-->
+      <div
+        class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-p-left_medium slds-p-right_medium"
+      >
+        <c-site-weekly-calendar
+          onselected={handleDateSelection}
+        ></c-site-weekly-calendar>
+      </div>
+      <!--Filter UI -->
+      <template if:true={isStudyDetailsFilled}>
+        <div
+          class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-p-left_medium slds-p-right_medium"
+        >
+          <c-site_-calender-study-filter
+            onapplystudysitefilterevent={handleStudySiteFilterEvent}
+            studysitedetails={studySiteDetails}
+            onaccordianevent={handleAccordianEvent}
+          ></c-site_-calender-study-filter>
+        </div>
+      </template>
+      <!--- Display Initial & Televisit data-->
+      <div class={divcss}>
+        <template if:true={haveVisits}>
+          <div class="visit-list vertical-scroll">
+            <template for:each={visitData} for:item="visit">
+              <div key={visit.Id} style="display: inline">
+                <div class={visit.boxVisitCSS}>
+                  <div class="step-info step-info-border w-80">
+                    <div class="step-time">
+                      <template if:true={visit.durationTime}>
+                        <lightning-formatted-date-time
+                          time-zone={userTimeZone}
+                          value={visit.visitDateTime}
+                          hour="2-digit"
+                          minute="2-digit">
+                        </lightning-formatted-date-time> - <span class="step-minutes">{visit.durationTime}</span>
+                      </template>
+                      <template if:false={visit.durationTime}>
+                        {visit.visitTime}
+                      </template>
+                    </div>
+                    <!-- step-time-->
+                    <div
+                      class="step-status text-wrap-info"
+                      title={visit.visitTitle}
+                    >
+                      {visit.visitTitle}
+                    </div>
+                    <!-- step-status -->
+                    <div class="step-name text-wrap-info">
+                      <a
+                        onclick={navigateToParticipantTab}
+                        name={visit.fullName}
+                        title={visit.refIdName}
+                      >
+                        {visit.participantName}
+                      </a>
+                    </div>
+                    <!-- step-name -->
+                  </div>
+                  <!-- Step-Info -->
+
+                  <div class="step-status-img tooltip w-20">
+                    <template if:true={visit.isJoin}>
+                      <button
+                        title=""
+                        class="slds-button apollo-btn primary join-btn"
+                        onclick={handleJoin}
+                        data-meeturl={visit.meetingURL}
+                      >
+                        {label.Join}
+                      </button>
+                    </template>
+                    <template if:false={visit.isJoin}>
+                      <template if:true={visit.durationTime}>
+                        <img class="status-img" src={TeleVisit} />
+                        <span class="tooltiptextBottom">{label.Televisit}</span>
+                      </template>
+                      <template if:false={visit.durationTime}>
+                        <img class="status-img" src={SiteVisit} />
+                        <span class="tooltiptextBottom"
+                          >{label.VisitInSite}</span
+                        >
+                      </template>
+                    </template>
+                  </div>
+                  <!-- Step-Status-Img -->
+                </div>
+                <!-- Box-Visit-Screen -->
+              </div>
+            </template>
+          </div>
+          <!-- Visit-List -->
+        </template>
+        <template if:false={haveVisits}>
+          <div class="no-event">
+            <div class="slds-m-bottom_small">
+              <img class="status-img" src={NoVisitDataIcon} />
+            </div>
+            <div class="eventText">{label.NoVisits}</div>
+          </div>
+          <!-- No Event -->
+        </template>
+      </div>
+    </div>
+  </div>
+</template>

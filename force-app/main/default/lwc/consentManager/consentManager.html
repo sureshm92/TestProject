@@ -12,30 +12,90 @@
             </div>
         </template>
         <template if:true={isCountryUS}>
-            <div class="label_align">
-                <lightning-input data-id="studyConsent" type="checkbox" varient="label-hidden" name="studyConsent"
-                    checked={consentModel.studyConsent} onchange={handleConsentChange} disabled={isaccesslevelthree}
-                    class="checkbox_size labelRTL"></lightning-input>
-                <span class={ClassName}><label class={ClassNameforLabel}
-                        for="studyConsent">{CONSENT_TO_STORE_AND_CONTACT}</label></span>
-            </div>
+			<template if:true={studyconsentcheck}>
+                <div class="label_align studyconsent-checkboxus">        
+                    <lightning-input 
+                                    data-id="studyConsent" 
+                                    type="checkbox" 
+                                    varient="label-hidden" 
+                                    name="studyConsent" 
+                                    checked={consentModel.studyConsent} 
+                                    onchange={handleConsentChange}
+                                    disabled={isaccesslevelthree}
+                                    required
+                                    class="checkbox_size labelRTL"></lightning-input>
+                    <span class={ClassName}><label class={ClassNameforLabel}  for="studyConsent">{CONSENT_TO_STORE_AND_CONTACT}</label></span>
+                    </div>   
+            </template>
+			<template if:false={studyconsentcheck}>
+                <div class="label_align">        
+                    <lightning-input 
+                                    data-id="studyConsent" 
+                                    type="checkbox" 
+                                    varient="label-hidden" 
+                                    name="studyConsent" 
+                                    checked={consentModel.studyConsent} 
+                                    onchange={handleConsentChange}
+                                    disabled={isaccesslevelthree}
+                                    class="checkbox_size labelRTL"></lightning-input>
+                    <span class={ClassName}><label class={ClassNameforLabel}  for="studyConsent">{CONSENT_TO_STORE_AND_CONTACT}</label></span>
+                </div>
+            </template>
         </template>
-
         <template if:false={isCountryUS}>
-            <div class="label_align">
-                <lightning-input data-id="studyConsent" type="checkbox" varient="label-hidden" name="studyConsent"
-                    checked={consentModel.studyConsent} onchange={handleConsentChange} disabled={isaccesslevelthree}
-                    class="checkbox_size"></lightning-input>
-                <span class={ClassName}><label class={ClassNameforLabel}
-                        for="studyConsent">{EMAIL_ROW_CONSENT}</label></span>
-            </div>
-            <div class={studyConsentClassName}>
-                <lightning-input data-id="studySMSConsent" type="checkbox" varient="label-hidden" name="studySMSConsent"
-                    checked={consentModel.studySMSConsent} onchange={handleConsentChange} disabled={isaccesslevelthree}
-                    class="checkbox_size"></lightning-input>
-                <span class={ClassName}><label class={ClassNameforLabel}
-                        for="studySMSConsent">{PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US}</label></span>
-            </div>
+			<template if:true={studyconsentcheck}>
+                <div class="label_align studyconsent-checkbox-non-us">             
+                    <lightning-input 
+                                    data-id="studyConsent" 
+                                    type="checkbox" 
+                                    varient="label-hidden" 
+                                    name="studyConsent" 
+                                    checked={consentModel.studyConsent} 
+                                    onchange={handleConsentChange}
+                                    disabled={isaccesslevelthree}
+                                    required
+                                    class="checkbox_size"></lightning-input>
+                    <span class={ClassName}><label class={ClassNameforLabel}  for="studyConsent">{EMAIL_ROW_CONSENT}</label></span>
+                </div>
+                <div class={studyConsentClassName} style="margin-top:8px;">
+                    <lightning-input 
+                                     data-id="studySMSConsent"
+                                     type="checkbox"  
+                                     varient="label-hidden" 
+                                     name="studySMSConsent" 
+                                     checked={consentModel.studySMSConsent} 
+                                     onchange={handleConsentChange}
+                                     disabled={isaccesslevelthree}
+                                     class="checkbox_size"></lightning-input>
+                    <span class={ClassName}><label class={ClassNameforLabel} for="studySMSConsent">{PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US}</label></span>
+                </div>
+            </template>
+			<template if:false={studyconsentcheck}>
+                <div class="label_align ">             
+                    <lightning-input 
+                                    data-id="studyConsent" 
+                                    type="checkbox" 
+                                    varient="label-hidden" 
+                                    name="studyConsent" 
+                                    checked={consentModel.studyConsent} 
+                                    onchange={handleConsentChange}
+                                    disabled={isaccesslevelthree}
+                                    class="checkbox_size"></lightning-input>
+                    <span class={ClassName}><label class={ClassNameforLabel}  for="studyConsent">{EMAIL_ROW_CONSENT}</label></span>
+                </div>
+                <div class={studyConsentClassName}>
+                    <lightning-input 
+                                     data-id="studySMSConsent"
+                                     type="checkbox"  
+                                     varient="label-hidden" 
+                                     name="studySMSConsent" 
+                                     checked={consentModel.studySMSConsent} 
+                                     onchange={handleConsentChange}
+                                     disabled={isaccesslevelthree}
+                                     class="checkbox_size"></lightning-input>
+                    <span class={ClassName}><label class={ClassNameforLabel} for="studySMSConsent">{PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US}</label></span>
+                </div>
+            </template>
         </template>
         <br />
         <!--IQVIA Outreach -->

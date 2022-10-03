@@ -37,7 +37,7 @@
                 else  {
                     component.set('v.desktop',false);
                 }
-
+                component.set('v.consentPreferenceData', initData.consentPreferenceData);
                 var personWrapper = component.get('v.personWrapper');
 
                 var participantselectedage = personWrapper.age !=undefined ? ((personWrapper.age).toString()) : null;
@@ -53,7 +53,7 @@
                     }
                 }
                 //helper.setPlaceHolder(component,event,helper);
-                console.log('valueage::'+component.get('v.valueAge')); 
+                console.log('valueage::'+component.get('v.valueAge'));                
                 if (initData.contactSectionData.personWrapper) {
                     // split mailing street(address line1 and address line2)
                     if (initData.contactSectionData.personWrapper.mailingStreet)
@@ -103,9 +103,14 @@
                         communityService.getCurrentCommunityMode().currentDelegateId
                     );
                     if (component.get('v.userMode') === 'Participant') {
-                        if (initData.participant.Adult__c && initData.delegateUserName != null) {
-                            component.set('v.userEmail', initData.delegateUserName.Username);
+                        if (initData.participant.Adult__c) {
+                            //Disable Adult Participant's contact information for delegate.
+                            component.set('v.disableContactInformationForDel', true);
+                            if(initData.delegateUserName != null){
+                                component.set('v.userEmail', initData.delegateUserName.Username);
+                            }
                         } else if (!initData.participant.Adult__c) {
+                            //Hide Minor Participant's contact information for Delegate.
                             component.set('v.hideContactInformationForDel', true);
                         }
                     }
@@ -394,13 +399,6 @@
             } else {
                 console.log('personWrapper.optInSMS' + personWrapper.optInSMS);
                 console.log('!personWrapper.mobilePhone' + !personWrapper.mobilePhone);
-                if (personWrapper.optInSMS && !personWrapper.mobilePhone) {
-                    console.log('inside optinsms--->');
-                    component.set('v.disableSave', true);
-                    console.log('inside optinsms--->');
-                } else {
-                    helper.doCheckDOB(component,event,helper);
-                }
             }
         } else if (
             component.get('v.userMode') == 'HCP' ||
@@ -481,8 +479,7 @@
     navigateToHelpPage: function (component, event, helper) {
         communityService.navigateToPage('help');
     },
-    
-    doUpdatePerson: function (component, event, helper) {
+    doUpdatePerson: function (component, event, helper) {                    
         var per = component.get('v.personWrapper');
         var personWrapper = component.get('v.personWrapper');
         var addressLine1 = component.get('v.addressLine1');
@@ -551,9 +548,11 @@
                     console.log('saving::'+JSON.stringify(component.get('v.personWrapper')));
                     communityService.executeAction(
                         component,
-                        'updatePerson',
+                        'updatePersonMain',
                         {
-                            wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
+                            wrapperJSON: JSON.stringify(component.get('v.personWrapper')),
+                            commPrefWrapperJSON: JSON.stringify(component.get('v.consentPreferenceData')),
+                            userMode: component.get('v.userMode')
                         },
                         function () {
                             component.find('spinner').hide();
