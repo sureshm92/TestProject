@@ -110,6 +110,22 @@ export default class PpCreateTask extends LightningElement {
     handleInitialTimeLoad(event) {
         this.taskDueTime = event.detail.comptime;
     }
+    get taskTime() {
+        if (this.taskDueTime) {
+            return this.taskDueTime;
+        } else {
+            return null;
+        }
+    }
+
+    get taskDate() {
+        if (this.taskDueDate) {
+            return this.taskDueDate;
+        } else {
+            return null;
+        }
+    }
+
     get currentDate() {
         var currentDate;
         if (this.diffInMinutes < 0) {
@@ -134,9 +150,7 @@ export default class PpCreateTask extends LightningElement {
         this.initData.activityDate = this.taskDateTime;
         /**Reset Reminder Values */
         console.log('date change', this.taskDateTime, this.taskDueTime, this.taskDueDate);
-        if (this.isDueDateTimeSelected) {
-            this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
-        }
+        this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
         this.enableSave = true;
     }
 
@@ -152,9 +166,26 @@ export default class PpCreateTask extends LightningElement {
         this.taskReminderDate = null;
         /**Reset Reminder Values */
         console.log('date change', this.taskDateTime, this.taskDueTime, this.taskDueDate);
-        if (this.isDueDateTimeSelected) {
-            this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
-        }
+        this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
+    }
+    handleNullDateTime(event) {
+        this.enableSave = false;
+        this.taskDateTime = '';
+        this.taskDueDate = '';
+        this.taskDueTime = '';
+        this.isReminderSelected = false;
+        this.taskReminderDate = null;
+        this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
+    }
+    handleOnlyDate(event) {
+        this.taskDateTime = event.detail.compdatetime;
+        this.taskDueDate = event.detail.compdate;
+        this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
+    }
+    handleOnlyTime(event) {
+        this.taskDateTime = event.detail.compdatetime;
+        this.taskDueTime = event.detail.comptime;
+        this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
     }
     doCreateTask() {
         this.task.Subject = this.subject;

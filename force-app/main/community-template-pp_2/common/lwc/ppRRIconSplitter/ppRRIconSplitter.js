@@ -28,5 +28,6 @@ export default class PpRRIconSplitter extends LightningElement {
             ele.classList.remove('active');
         });
         webIcons[index].classList.add('active');
+        document.getElementById('.before-your-visits').scrollTo(0,0)
     }
 }

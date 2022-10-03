@@ -193,6 +193,14 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.selectedReminderTime = event.detail.comptime;
     }
 
+    get disableDiscard() {
+        if (this.visitDateChanged || this.reminderChanged || this.reminderDateChanged) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     get dbCompletedDate() {
         if (this.visitdata.visitStatus == 'Missed') {
             return null;
@@ -225,7 +233,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     get showReminders() {
-        if (this.visitdata.visitDate || this.visitDateTime) {
+        if (this.visitDate && this.visitTime) {
             return false;
         } else {
             return true;
@@ -441,21 +449,26 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitDateChanged = true;
         this.visitDate = event.detail.compdate;
         this.visitDateTime = event.detail.compdate;
+        this.visitTime = event.detail.comptime;
         this.selectedReminderDateTime = '';
         this.selectedReminderDate = '';
         this.selectedReminderTime = '';
-        this.disableButtonSaveCancel = true;
         this.remindmepub = '';
+        this.reminderChanged = true;
+        this.reminderDateChanged = true;
+        this.disableButtonSaveCancel = true;
         this.showreminderdatepicker = false;
     }
 
     handleOnlyTime(event) {
         this.visitDateChanged = true;
-        this.visitDate = event.detail.comptime;
+        this.visitDate = event.detail.compdate;
         this.visitTime = '';
         this.selectedReminderDateTime = '';
         this.selectedReminderDate = '';
         this.selectedReminderTime = '';
+        this.reminderDateChanged = true;
+        this.reminderChanged = true;
         this.disableButtonSaveCancel = true;
         this.remindmepub = '';
         this.showreminderdatepicker = false;
@@ -465,6 +478,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.selectedReminderDate = event.detail.compdate;
+        this.selectedReminderDateTime = event.detail.compdate;
+        this.selectedReminderTime = event.detail.comptime;
         if ((this.sms || this.email) && this.selectedReminderTime) {
             this.disableButtonSaveCancel = false;
         } else {
@@ -477,6 +492,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.selectedReminderDate = event.detail.compdate;
+        this.selectedReminderDateTime = event.detail.compdatetime;
+        this.selectedReminderTime = event.detail.comptime;
         this.selectedReminderTime = '';
         if ((this.sms || this.email) && this.selectedReminderTime) {
             this.disableButtonSaveCancel = false;
