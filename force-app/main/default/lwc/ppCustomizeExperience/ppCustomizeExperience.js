@@ -312,7 +312,6 @@ export default class PpCustomizeExperience extends LightningElement {
         }
         let copy = JSON.parse(JSON.stringify(this.conditionsOfInterestTemp));
         this.conditionsOfInterest = copy;
-				console.log('copy conn......'+copy);
         let arr = [];
         this.searchInput = '';
         this.saveCOIs();
