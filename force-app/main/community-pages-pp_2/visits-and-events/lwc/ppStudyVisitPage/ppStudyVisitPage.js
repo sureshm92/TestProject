@@ -82,12 +82,10 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @api cblabel = '';
     @api cbdescription = '';
     @track noVisitDate = false;
-    @track visitTimezone = [];
     @track showUpcomingVisits = true;
     @track onVisitSelection = false;
     visitimage1 = pp_icons + '/' + 'VisitPageResultImage.png';
     visitimage2 = pp_icons + '/' + 'VisitPage_1.png';
-    @track isReminderDate = false;
     @track missedVisit = false;
     @track showList = false;
     isMobile = false;
@@ -113,10 +111,14 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                             } else {
                                 result[i].noVisitDate = false;
                             }
-                            if (result[i].task?.Reminder_Date__c !== undefined) {
-                                result[i].isReminderDate = true;
-                            } else {
+                            if (result[i].task === undefined) {
                                 result[i].isReminderDate = false;
+                            } else {
+                                if (result[i].task.Reminder_Date__c === undefined) {
+                                    result[i].isReminderDate = false;
+                                } else {
+                                    result[i].isReminderDate = true;
+                                }
                             }
                             this.upcomingVisits.push(result[i]);
                         } else if (
@@ -136,8 +138,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                             result[i].missedVisit = this.missedVisit;
                             this.pastVisits.push(result[i]);
                         }
-                        this.visitTimezone = TIME_ZONE;
-                        result[i].visitTimezone = this.visitTimezone;
                     }
                     //get upcoming visit details onload
                     this.visitid = this.upcomingVisits[0].visit.Id;
@@ -290,6 +290,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     handleDataUpdate() {
         this.createEditTask();
     }
+
     saveClicked() {
         this.showChild = false;
         this.contentLoaded = false;
@@ -312,6 +313,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 const obj = JSON.parse(jsonstr);
                 if (typeof result[0].task === 'undefined') {
                     obj.task = JSON.parse(str);
+                    this.upcomingVisits[this.selectedIndex].isReminderDate = false;
                 }
                 if (typeof result[0].visitDate === 'undefined') {
                     obj.visitDate = '';
@@ -321,7 +323,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
 
                 //update bell icon once reminder is created PEH-7825
                 if (this.taskId) {
-                    this.upcomingVisits[this.selectedIndex].isReminderDate = true;
+                    if (this.visitdata.task.Reminder_Date__c === undefined) {
+                        this.upcomingVisits[this.selectedIndex].isReminderDate = false;
+                    } else {
+                        this.upcomingVisits[this.selectedIndex].isReminderDate = true;
+                    }
+                } else {
+                    this.upcomingVisits[this.selectedIndex].isReminderDate = false;
                 }
 
                 if (!this.past) {
