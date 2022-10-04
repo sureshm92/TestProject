@@ -4,7 +4,7 @@
     <div class="slds-grid slds-wrap slds-grid_vertical-align-start">
         <!--Reminder Dropdown-->
         <div class="slds-col slds-size_1-of-1">
-            <div class="full-width">
+            <div class="full-width slds-m-bottom_medium">
                 <label class="label-reminder">{labels.REMINDER}</label>
                 <div class="curve-input">
                     <c-web-icon
@@ -38,6 +38,7 @@
                 <div class="slds-col slds-size_1-of-1 task-reminder">
                     <c-pp-date-time-combo
                         data-id="reminderDateTime"
+                        create-task={isCustomReminderOptionSelected}
                         reminder={isCustomReminderOptionSelected}
                         compdate={dbreminderdate}
                         comptime={dbremindertime}

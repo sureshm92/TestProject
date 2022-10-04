@@ -353,6 +353,13 @@ The IQVIA Referral Hub Support Team</value>
         <value>Select Televisit Vendor</value>
     </labels>
     <labels>
+        <fullName>Select_Time</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Time</shortDescription>
+        <value>Select Time</value>
+    </labels>
+    <labels>
         <fullName>Televisit_Record_Vendor_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1533,6 +1540,13 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>ASSOCIATE_VISIT_PLAN_TO_STUDY_SITE_ONLY</shortDescription>
         <value>Proceed to only associate this visit plan to the study site (Note: This will not assign any visit plan to these participants).</value>
+    </labels>
+    <labels>
+        <fullName>Attendees_Place_Holder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Attendees Place Holder</shortDescription>
+        <value>Search to add</value>
     </labels>
     <labels>
         <fullName>Attestation_Confirmation_Message</fullName>
@@ -5288,6 +5302,20 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>true</protected>
         <shortDescription>Duplicate Delegate Message</shortDescription>
         <value>is already associated with ##firstName ##lastName. We only allow one user per email address. Please confirm that this is the correct email address. If this is not ##firstName, please enter the new delegate’s unique email address.</value>
+    </labels>
+    <labels>
+        <fullName>Duration_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Duration Help Text</shortDescription>
+        <value>Call will be ended after the planned duration time</value>
+    </labels>
+    <labels>
+        <fullName>Duration_Place_Holder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Duration Place Holder</shortDescription>
+        <value>Select Duration</value>
     </labels>
     <labels>
         <fullName>Eamil_Action_View_My_Studies</fullName>
@@ -21109,6 +21137,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Business Address</value>
     </labels>
     <labels>
+        <fullName>RH_Canceled_Completed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH Canceled/Completed</shortDescription>
+        <value>Cancelled/Completed</value>
+    </labels>
+    <labels>
         <fullName>RH_Comorbidities</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -21576,6 +21611,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>We are happy to inform you that your registration in the IQVIA Referral Hub was successful.
 
             This will allow you to use Referral Hub’s participant referral and status tracking capabilities. You will also be able to find other clinical research studies that are available and refer patients to nearby study sites.</value>
+    </labels>
+    <labels>
+        <fullName>RH_Pir_Add_Televisit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH Pir Add Televisit</shortDescription>
+        <value>Add televisit for Initial Visit</value>
+    </labels>
+    <labels>
+        <fullName>RH_Pir_Confirm_Televisit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH Pir Confirm Televisit</shortDescription>
+        <value>Confirm Televisit</value>
     </labels>
     <labels>
         <fullName>rh_physician_email_subject_Initial</fullName>
@@ -24147,6 +24196,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Participant has consented to being invited to Patient Portal and informed about other study opportunities.</value>
     </labels>
     <labels>
+        <fullName>Start_Time</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Start Time</shortDescription>
+        <value>Start Time</value>
+    </labels>
+    <labels>
         <fullName>State_Country</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25346,6 +25402,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Title for has not Login Push</shortDescription>
         <value>We miss you</value>
+    </labels>
+    <labels>
+        <fullName>Title_Place_Holder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title Place Holder</shortDescription>
+        <value>Enter Title</value>
     </labels>
     <labels>
         <fullName>Title_Visit_Reminder_Push</fullName>
