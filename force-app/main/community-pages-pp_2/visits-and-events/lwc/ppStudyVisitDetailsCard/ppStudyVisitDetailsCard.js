@@ -568,6 +568,10 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitTime = '';
         this.visitDateChanged = true;
         this.remindmepub = '';
+        this.selectedReminderDateTime = '';
+        this.selectedReminderDate = '';
+        this.selectedReminderTime = '';
+        this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.showEmailSms = false;
     }
@@ -582,8 +586,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     doSave() {
-        const saveClicked = new CustomEvent('saveclicked');
-        this.dispatchEvent(saveClicked);
         this.disableButtonSaveCancel = true;
         var errorInDml = false;
         var reminderDate;

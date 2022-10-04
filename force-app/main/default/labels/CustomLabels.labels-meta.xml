@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>RH_No_Active_Study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_No_Active_Study</shortDescription>
+        <value>You are not associated with an active study / study site</value>
+    </labels>
+    <labels>
+        <fullName>RH_Select_Study_Sites</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Select_Study_Sites</shortDescription>
+        <value>Select a study and study site from the filters above to view scheduled appointments</value>
+    </labels>
+    <labels>
+        <fullName>RH_No_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_No_Study_Site</shortDescription>
+        <value>Select a study site from the filter above to view scheduled appointments</value>
+    </labels>
+    <labels>
         <fullName>DOB_outcome_error</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -54,7 +75,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DOB Batch Label</shortDescription>
-        <value>false</value>
+        <value>true</value>
     </labels>
     <labels>
         <fullName>Discover_Title</fullName>
