@@ -19,6 +19,7 @@ export default class PpDateTimeCombo extends LightningElement {
     @api iconSize = 'small';
     @api iconColor = '#00A3E0';
     @api createTask;
+    @api taskReminder = false;
     @track compDateTime;
     @track dt;
     @track tm;
@@ -138,7 +139,9 @@ export default class PpDateTimeCombo extends LightningElement {
     }
     get gridClass() {
         return this.createTask == true
-            ? 'slds-grid slds-wrap'
+            ? this.taskReminder
+                ? 'slds-grid slds-wrap slds-m-bottom_none'
+                : 'slds-grid slds-wrap'
             : 'slds-grid slds-grid-visit slds-wrap';
     }
 

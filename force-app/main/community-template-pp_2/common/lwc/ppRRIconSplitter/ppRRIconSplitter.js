@@ -13,7 +13,6 @@ export default class PpRRIconSplitter extends LightningElement {
 
     @api
     resetValues() {
-        console.log('inside reset');
         this.name = '';
         this.description = '';
         this.label = '';
@@ -40,7 +39,6 @@ export default class PpRRIconSplitter extends LightningElement {
             ele.classList.remove('active');
         });
         webIcons[index].classList.add('active');
-
-        this.template.querySelector('.visit-desc').scrollTop = 0;
+        this.template.querySelector('.before-your-visits').scrollTop = 0;
     }
 }
