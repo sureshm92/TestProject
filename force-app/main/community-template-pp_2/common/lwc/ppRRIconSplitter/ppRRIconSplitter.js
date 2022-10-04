@@ -43,7 +43,4 @@ export default class PpRRIconSplitter extends LightningElement {
         let pScroll = this.template.querySelector('.before-your-visits')
 		pScroll.scrollTop=0;
     } 
-
-        this.template.querySelector('.visit-desc').scrollTop = 0;
-    }
 }
