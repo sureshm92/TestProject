@@ -9,6 +9,7 @@ export default class PpRRIconSplitter extends LightningElement {
     @track classListArry = [];
     @track testArray = [];
     @api name = '';
+    isloaded = false;
 
     @api
     resetValues() {
@@ -17,6 +18,17 @@ export default class PpRRIconSplitter extends LightningElement {
         this.description = '';
         this.label = '';
         this.icons = '';
+    }
+
+    renderedCallback() {
+        let webIcons = this.template.querySelectorAll('.bio-icons');
+        if (webIcons[0] && this.isloaded != true) {
+            webIcons.forEach((ele) => {
+                ele.classList.remove('active');
+            });
+            webIcons[0].classList.add('active');
+            this.isloaded = true;
+        }
     }
 
     handleonclick(event) {
@@ -28,6 +40,7 @@ export default class PpRRIconSplitter extends LightningElement {
             ele.classList.remove('active');
         });
         webIcons[index].classList.add('active');
-        document.getElementById('.before-your-visits').scrollTo(0,0)
+
+        this.template.querySelector('.visit-desc').scrollTop = 0;
     }
 }
