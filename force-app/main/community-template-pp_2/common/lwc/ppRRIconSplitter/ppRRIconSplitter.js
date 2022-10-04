@@ -40,7 +40,6 @@ export default class PpRRIconSplitter extends LightningElement {
             ele.classList.remove('active');
         });
         webIcons[index].classList.add('active');
-        let pScroll = this.template.querySelector('.before-your-visits')
-		pScroll.scrollTop=0;
+       this.template.querySelector('.before-your-visits').scrollTop=0;
     } 
 }
