@@ -13,7 +13,6 @@ export default class PpRRIconSplitter extends LightningElement {
 
     @api
     resetValues() {
-        console.log('inside reset');
         this.name = '';
         this.description = '';
         this.label = '';
