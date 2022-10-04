@@ -223,7 +223,7 @@ export default class PpCustomizeExperience extends LightningElement {
         console.log('conditionsOfInterestTemp--' + this.conditionsOfInterestTemp);
         let taList = this.conditionsOfInterestTemp;
         let inputValue = event.target.name;
-				let check =this.conditionOfInterestList;
+		let check =this.conditionOfInterestList;
         console.log('inputValue' + inputValue);
         console.log('event.target.checked' + event.target.checked);
         console.log(' event.currentTarget.name--' + event.currentTarget.name);
@@ -231,11 +231,10 @@ export default class PpCustomizeExperience extends LightningElement {
         var selectedCheckBoxes = this.selectedValues;
         let uncheckedValues = [];
         let finalSelectedvalues = [];
-				  //this.conditionOfInterestList = JSON.parse(JSON.stringify(returnValue));
-                let copy = JSON.parse(JSON.stringify(this.conditionOfInterestList));
-				if(check.length <5){
-						this.isValueChanged = false;
-				}
+        let copy = JSON.parse(JSON.stringify(this.conditionOfInterestList));
+			if(check.length <5){
+					this.isValueChanged = false;
+			}
         if (!event.target.checked) {
             for (let i = 0; i < taList.length; i++) {
                 if (
@@ -253,18 +252,12 @@ export default class PpCustomizeExperience extends LightningElement {
                     }
                 }
                 taList = finalSelectedvalues;
-								
-            }
-						if (taList.length < 5){
-								
-						}this.isValueChanged = false;
-					
+		     }				
         } else if (taList.length < 5) {
             selectedCheckBoxes.push(capturedCheckboxName);
             taList.push(capturedCheckboxName);
         } else {
-            event.target.checked = false;
-						
+            event.target.checked = false;				
         }
         this.conditionsOfInterestTemp = taList;
 				let a = (this.conditionsOfInterestTemp.length === copy.length);
@@ -272,8 +265,9 @@ export default class PpCustomizeExperience extends LightningElement {
         if (taList.length === 0 || a === true) {
             this.isValueChanged = false;
             }
-         
-				else{ this.isValueChanged = true;}
+        else{ 
+            this.isValueChanged = true;
+        }
     }
 
     showMenuBar(event) {
