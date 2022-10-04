@@ -75,7 +75,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DOB Batch Label</shortDescription>
-        <value>false</value>
+        <value>true</value>
     </labels>
     <labels>
         <fullName>Discover_Title</fullName>

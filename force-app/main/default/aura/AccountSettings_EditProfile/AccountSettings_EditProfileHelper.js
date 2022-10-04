@@ -295,8 +295,8 @@
             }
         } else if (component.get('v.dobConfig') == 'MM-YYYY') {
             if (
-                component.get('v.personWrapper.birthYear') === null || component.get('v.personWrapper.birthYear') ||
-                component.get('v.personWrapper.birthMonth') === null || component.get('v.personWrapper.birthMonth') ||
+                component.get('v.personWrapper.birthYear') === null || component.get('v.personWrapper.birthYear') == '' ||
+                component.get('v.personWrapper.birthMonth') === null || component.get('v.personWrapper.birthMonth') == '' ||
                 component.get('v.valueAge') === null || component.get('v.valueAge') === '' || invalidDOB
             ) {
                 component.set('v.disableSave', true);
