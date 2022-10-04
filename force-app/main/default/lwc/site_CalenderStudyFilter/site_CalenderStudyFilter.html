@@ -19,9 +19,37 @@
                 onclick={toggleAccordian}
               >
                 <span
+                  if:false={isFilterChange}
                   class="slds-accordion__summary-content slds-p-left_x-small"
                   >{label.Site_Calendar_All_Studies_Sites}</span
                 >
+                <div 
+                  class="display-box"
+                  if:true={isFilterChange}>
+
+                  <div 
+                    class=" slds-accordion__summary-content line-height-text"
+                    ><div 
+                      class="text-width">
+                        {getFirstSelecedStudyy}
+                  </div>&nbsp;<div 
+                      class="more-width">
+                        {studyCountStr}
+                </div>
+                  </div>
+
+                  <div 
+                    class="slds-accordion__summary-content line-height-text"
+                    ><div 
+                      class="text-width"
+                      >{getFirstSelecedStudySitess}
+                  </div>&nbsp;<div 
+                      class="more-width"
+                        >{studySiteCountStr}
+                  </div>
+                  </div>
+
+              </div>
                 <span>
                   <lightning-icon
                     class="conAcc"
@@ -66,6 +94,7 @@
                   onblur={closeETH}
                   onclick={toggleDropdown}
                 >
+                <!-- onfocus={openETH} -->
                   <div class="slds-combobox_container">
                     <div
                       class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click sBoxOpen"
@@ -166,6 +195,7 @@
                   onblur={closeStudySites}
                   onclick={toggleStudySites}
                 >
+                <!-- onfocus={openStudySites} -->
                   <div class="slds-combobox_container">
                     <div
                       class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click ssBoxOpen"

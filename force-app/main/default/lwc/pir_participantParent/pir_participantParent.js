@@ -9,6 +9,7 @@ import RH_PP_Add_New_Participant from '@salesforce/label/c.RH_PP_Add_New_Partici
 import RH_PP_Select_Study_Site from '@salesforce/label/c.RH_PP_Select_Study_Site';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import RH_ExportSelected from '@salesforce/label/c.RH_ExportSelected';
+import { CurrentPageReference } from 'lightning/navigation';
 import BTN_Export_All from '@salesforce/label/c.BTN_Export_All';
 import RH_ParticipantSelected from '@salesforce/label/c.RH_ParticipantSelected';
 import Continue from '@salesforce/label/c.Continue';
@@ -140,6 +141,19 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   @api isRTL = false; 
   maindivcls;
   isLanguageSelected = false;
+  dtimeToidentifyTheRecord ;
+
+  @wire(CurrentPageReference) 
+  getStateParameters(currentPageReference) {
+     if (currentPageReference) {
+        this.urlStateParameters = currentPageReference.state;
+        this.setParametersBasedOnUrl();
+     }
+  }
+  setParametersBasedOnUrl() {
+    this.dtimeToidentifyTheRecord = this.urlStateParameters.dTime || null;
+    console.log('urlPerName',this.dtimeToidentifyTheRecord);
+  }
   
   connectedCallback() {
     if(!this.isLanguageSelected) {
@@ -232,6 +246,9 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   }
 
   selectedPI(event) {
+    if(this.dtimeToidentifyTheRecord == 'true'){
+    this.handleTelevisitTab();
+    }
     this.selectedPE = event.detail;
     this.isMedicalHistryAccess = true;
     this.isMedicalDetailChanged = false;
@@ -429,16 +446,16 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.isParticipantDetail = false;
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
     this.selectedTab = "Status Details";
-      
-      if(this.pageLoad && this.discardTab){
-        this.template.querySelector("c-pir_participant-Status-Details").doSelectedPI();
-      }
-      this.pageLoad=true;
+    
+    if(this.pageLoad && this.discardTab){
+      this.template.querySelector("c-pir_participant-Status-Details").doSelectedPI();
     }
+    this.pageLoad=true;
   }
-  gotoPartTab(){
-    this.template.querySelector("lightning-tabset").activeTabValue = "Participant Details";
-  }
+}
+gotoPartTab(){
+  this.template.querySelector("lightning-tabset").activeTabValue = "Participant Details";
+}
   handleParticipantTab() {
     if(!this.isDetailModalOpen){     
       this.isParticipantDetail = true;
