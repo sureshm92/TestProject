@@ -255,7 +255,10 @@ export default class PpCustomizeExperience extends LightningElement {
             event.target.checked = false;
         }
         this.conditionsOfInterestTemp = taList;
-        this.isValueChanged = true;
+        if (taList.length === 0) {
+            this.isValueChanged = false;
+            }
+            else{this.isValueChanged = true;}
     }
 
     showMenuBar(event) {
@@ -305,6 +308,7 @@ export default class PpCustomizeExperience extends LightningElement {
         this.saveCOIs();
         communityService.showToast('', 'success', this.label.PP_Profile_Update_Success, 100);
         //communityService.navigateToPage('account-settings?changePref');
+        this.isValueChanged = false;
     }
     saveCOIs() {
         let coiWrapperList = this.conditionsOfInterest;
