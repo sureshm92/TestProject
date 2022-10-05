@@ -138,3 +138,9 @@
 .xyzcss svg {
     fill: yellow;
 }
+
+@media all and (max-width: 786px) {
+    .before-your-visits {
+        max-height: unset;
+    }
+}
