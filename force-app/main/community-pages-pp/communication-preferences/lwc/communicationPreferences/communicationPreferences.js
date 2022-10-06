@@ -100,6 +100,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     isDelegateSelfView = false;
     isAdultParticipant = false;
     isEmailAvailabelForParticipant = false;
+    isWithdrawnDelegate = false;
     currentPERId = '';
     updatedPerRecord = {};
     commPrefForPrivacyPolicy = true;
@@ -217,6 +218,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
             this.consentPreferenceDataLocal.isMobilePhoneNumberAvailable;
         this.currentParticipantId = this.consentPreferenceDataLocal.currentParticipant.Id;
         this.currentContactId = this.consentPreferenceDataLocal.currentParticipant.Contact__c;
+        this.isWithdrawnDelegate = this.consentPreferenceDataLocal.isWithdrawnDelegate;
 
         //Check IQVIA Outreach Consent Visibility
         if (this.showIQVIAOutreachConsent()) {
@@ -236,7 +238,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         */
 
         //Show Static message for delegate self view.
-        if (!this.isParticipantLoggedIn && this.isDelegateSelfView) {
+        if (!this.isParticipantLoggedIn && this.isDelegateSelfView && !this.isWithdrawnDelegate) {
             this.showStaticMessageForDelSelfView = true;
             //console.log('Hide for Delegate self View');
         }

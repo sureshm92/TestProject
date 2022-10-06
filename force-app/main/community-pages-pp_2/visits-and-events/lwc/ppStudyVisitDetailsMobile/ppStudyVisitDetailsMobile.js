@@ -96,7 +96,8 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
     getParams() {
         this.visitid = communityService.getUrlParameter('visitid');
-        console.log('visit in getParams: ', this.visitid);
+        this.cblabel = '';
+        this.cbdescription = '';
         if (this.visitid != null) {
             getIcon({
                 visitId: this.visitid

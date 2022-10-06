@@ -47,9 +47,64 @@ public without sharing class TasksRemote {
         ParticipantTasks participantTasks = new ParticipantTasks();
         try {
             participantTasks.openTasksWrapper = new List<OpenTask>();
-
             List<Task> openTasks = TaskService.getInstance().getOpenTasks();
             for (Task task : openTasks) {
+                OpenTask taskWrapper = new OpenTask();
+                taskWrapper.openTask = task;
+
+                if (task.Activity_Datetime__c != null)
+                    taskWrapper.activityDate = task.Activity_Datetime__c.date();
+                if (task.ReminderDateTime != null)
+                    taskWrapper.reminder = task.ReminderDateTime.date();
+
+                participantTasks.openTasksWrapper.add(taskWrapper);
+            }
+            createOriginatorsList(participantTasks.openTasksWrapper);
+
+            participantTasks.completedTasks = new List<TasksRemote.CompletedTask>();
+            List<Task> completedTasks = TaskService.getInstance().getCompletedTasks();
+            for (Task compTask : completedTasks) {
+                CompletedTask completedTask = new CompletedTask();
+                completedTask.task = compTask;
+                if (compTask.Completed_Date__c != null)
+                    completedTask.completedDate = compTask.Completed_Date__c.date();
+
+                participantTasks.completedTasks.add(completedTask);
+            }
+
+            ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
+                .getState();
+            if (participantState.isDelegate) {
+                participantTasks.emptyText = Label.PG_Task_Tab_No_Tasks_Delegate.replace(
+                    '##ParticipantFirstName',
+                    participantState.participant.First_Name__c
+                );
+            } else {
+                participantTasks.emptyText = Label.PG_Task_Tab_No_Tasks;
+            }
+            if (
+                /*ParticipantContext.getCurrentUser() != null &&*/ /*create tasks for minors */
+                (participantState.value == ParticipantService.ParticipantStates.ALUMNI ||
+                participantState.ctp.Tasks_Are_Available__c)
+            ) {
+                participantTasks.showCreateTaskButton = true;
+            }
+        } catch (Exception e) {
+            return (ParticipantTasks) AuraHelper.throwException(e);
+        }
+        return participantTasks;
+    }
+
+    @AuraEnabled
+    public static ParticipantTasks getPPParticipantTasks() {
+        ParticipantTasks participantTasks = new ParticipantTasks();
+        try {
+            participantTasks.openTasksWrapper = new List<OpenTask>();
+            List<Task> openTasks = TaskService.getInstance().getOpenTasks();
+            System.debug('openTasks:::' + openTasks);
+
+            List<Task> sortedTaskList = getPPSortedTasks(openTasks);
+            for (Task task : sortedTaskList) {
                 OpenTask taskWrapper = new OpenTask();
                 taskWrapper.openTask = task;
 
@@ -121,5 +176,187 @@ public without sharing class TasksRemote {
                 }
             }
         }
+    }
+
+    public static List<Task> getPPSortedTasks(List<Task> tasks) {
+        List<String> codeList = new List<String>{
+            'Complete_Your_Profile',
+            'Update_Your_Phone_Number',
+            'Select_COI'
+        };
+        List<Task> finalSortedTasksList = new List<Task>();
+        System.debug('openTasks::::' + tasks);
+        List<Task> groupATasks = new List<Task>();
+        List<Task> groupBTasks = new List<Task>();
+        for (Task taskObj : tasks) {
+            if (taskObj.whatId != null && !codeList.contains(taskObj.Task_code__c)) {
+                if (
+                    String.valueOf(taskObj.whatId.getSobjectType()) == 'Participant_Enrollment__c'
+                ) {
+                    groupATasks.add(taskObj); //Study Level Task
+                }
+                if (
+                    String.valueOf(taskObj.whatId.getSobjectType()) == 'Participant__c' &&
+                    taskObj.Task_Type__c != TaskService.TASK_TYPE_ECOA
+                ) {
+                    if (taskObj.Originator__c == 'IQVIA Admin') {
+                        //add it to platform level task
+                        groupBTasks.add(taskObj);
+                    } else {
+                        //add it to manually created tasks
+                        groupATasks.add(taskObj);
+                    }
+                }
+            }
+            if (taskObj.Survey_Invitation__c != null) {
+                // add it to study level surveys
+                groupATasks.add(taskObj);
+            }
+            if (taskObj.Task_Type__c == 'Ecoa') {
+                groupATasks.add(taskObj);
+                //add it to ecoa surveys
+            }
+            if (codeList.contains(taskObj.Task_code__c)) {
+                //add it to System tasks
+                groupBTasks.add(taskObj);
+            }
+        }
+        System.debug('groupA Tasks ' + groupATasks);
+        if (groupATasks.size() > 0) {
+            finalSortedTasksList.addAll(processSorting(groupATasks));
+        }
+        System.debug('groupB Tasks ' + groupBTasks);
+        if (groupBTasks.size() > 0) {
+            finalSortedTasksList.addAll(processSorting(groupBTasks));
+        }
+        System.debug('finalOpenTasksList:::' + finalSortedTasksList);
+        Contact c = null;
+        // System.debug(c.Id);
+        return finalSortedTasksList;
+    }
+    public static List<Task> processSorting(List<Task> tasksList) {
+        Map<Date, List<Task>> tasksWithDue = new Map<Date, List<Task>>();
+        Map<Date, List<Task>> taskswithStartDate = new Map<Date, List<Task>>();
+        Map<Date, List<Task>> taskswithCreationDate = new Map<Date, List<Task>>();
+        Map<Date, List<Task>> taskswithCriticalTaskswithDueDate = new Map<Date, List<Task>>();
+        Map<Date, List<Task>> taskswithCriticalTaskswithStartDate = new Map<Date, List<Task>>();
+        Map<Date, List<Task>> taskswithCriticalTaskswithCreatedDate = new Map<Date, List<Task>>();
+        for (Task taskObj : tasksList) {
+            if (taskObj.Activity_Datetime__c != null) {
+                if (
+                    (tasksWithDue.keySet().contains(taskObj.Activity_Datetime__c.date()) &&
+                    taskObj.Priority != 'Critical') ||
+                    (taskObj.Priority == 'Critical' &&
+                    taskswithCriticalTaskswithDueDate.keySet()
+                        .contains(taskObj.Activity_Datetime__c.date()))
+                ) {
+                    if (taskObj.Priority == 'Critical') {
+                        taskswithCriticalTaskswithDueDate.get(taskObj.Activity_Datetime__c.date())
+                            .add(taskObj);
+                    } else {
+                        tasksWithDue.get(taskObj.Activity_Datetime__c.date()).add(taskObj);
+                    }
+                } else {
+                    if (taskObj.Priority == 'Critical') {
+                        taskswithCriticalTaskswithDueDate.put(
+                            taskObj.Activity_Datetime__c.date(),
+                            new List<Task>{ taskObj }
+                        );
+                    } else {
+                        tasksWithDue.put(
+                            taskObj.Activity_Datetime__c.date(),
+                            new List<Task>{ taskObj }
+                        );
+                    }
+                }
+            }
+            if (taskObj.Activity_Datetime__c == null && taskObj.Start_Date__c != null) {
+                if (
+                    (taskswithStartDate.keySet().contains(taskObj.Start_Date__c) &&
+                    taskObj.Priority != 'Critical') ||
+                    (taskObj.Priority == 'Critical' &&
+                    taskswithCriticalTaskswithStartDate.keySet().contains(taskObj.Start_Date__c))
+                ) {
+                    if (taskObj.Priority == 'Critical') {
+                        taskswithCriticalTaskswithStartDate.get(taskObj.Start_Date__c).add(taskObj);
+                    } else {
+                        taskswithStartDate.get(taskObj.Start_Date__c).add(taskObj);
+                    }
+                } else {
+                    if (taskObj.Priority == 'Critical') {
+                        taskswithCriticalTaskswithStartDate.put(
+                            taskObj.Start_Date__c,
+                            new List<Task>{ taskObj }
+                        );
+                    } else {
+                        taskswithStartDate.put(taskObj.Start_Date__c, new List<Task>{ taskObj });
+                    }
+                }
+            }
+            if (taskObj.Activity_Datetime__c == null && taskObj.Start_Date__c == null) {
+                System.debug('taskObj:::' + taskObj);
+                if (
+                    (taskswithCreationDate.keySet().contains(taskObj.CreatedDate.date()) &&
+                    taskObj.Priority != 'Critical') ||
+                    (taskObj.Priority == 'Critical' &&
+                    taskswithCriticalTaskswithCreatedDate.keySet()
+                        .contains(taskObj.CreatedDate.date()))
+                ) {
+                    if (taskObj.Priority == 'Critical') {
+                        taskswithCriticalTaskswithCreatedDate.get(taskObj.CreatedDate.date())
+                            .add(taskObj);
+                    } else {
+                        taskswithCreationDate.get(taskObj.CreatedDate.date()).add(taskObj);
+                    }
+                } else {
+                    if (taskObj.Priority == 'Critical') {
+                        taskswithCriticalTaskswithCreatedDate.put(
+                            taskObj.CreatedDate.date(),
+                            new List<Task>{ taskObj }
+                        );
+                    } else {
+                        taskswithCreationDate.put(
+                            taskObj.CreatedDate.date(),
+                            new List<Task>{ taskObj }
+                        );
+                    }
+                }
+            }
+        }
+        System.debug(taskswithCreationDate);
+        System.debug(tasksWithDue);
+        System.debug(taskswithStartDate);
+        System.debug(taskswithCriticalTaskswithDueDate);
+        System.debug(taskswithCriticalTaskswithStartDate);
+        System.debug(taskswithCriticalTaskswithCreatedDate);
+        List<Task> sortedTasksList = new List<Task>();
+        sortedTasksList.addAll(sortListOrderbyAsc(taskswithCriticalTaskswithDueDate));
+        sortedTasksList.addAll(sortListOrderbyAsc(taskswithCriticalTaskswithStartDate));
+        sortedTasksList.addAll(sortListOrderbyDesc(taskswithCriticalTaskswithCreatedDate));
+        sortedTasksList.addAll(sortListOrderbyAsc(tasksWithDue));
+        sortedTasksList.addAll(sortListOrderbyAsc(taskswithStartDate));
+        sortedTasksList.addAll(sortListOrderbyDesc(taskswithCreationDate));
+        System.debug(sortedTasksList);
+        return sortedTasksList;
+    }
+    public static List<Task> sortListOrderbyDesc(Map<Date, List<Task>> tasksDateListMap) {
+        List<Date> dateslist = new List<Date>();
+        List<Task> tasksList = new List<Task>();
+        dateslist.addAll(tasksDateListMap.keySet());
+        dateslist.sort();
+        for (Integer i = dateslist.size() - 1; i >= 0; i--) {
+            tasksList.addAll(tasksDateListMap.get(dateslist.get(i)));
+        }
+        return tasksList;
+    }
+    public static List<Task> sortListOrderbyAsc(Map<Date, List<Task>> tasksDateListMap) {
+        List<Date> dateslist = new List<Date>();
+        List<Task> tasksList = new List<Task>();
+        dateslist.addAll(tasksDateListMap.keySet());
+        dateslist.sort();
+        for (Date dt : dateslist) {
+            tasksList.addAll(tasksDateListMap.get(dt));
+        }
+        return tasksList;
     }
 }
