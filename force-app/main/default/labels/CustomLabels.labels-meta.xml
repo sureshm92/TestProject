@@ -25186,6 +25186,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>If you need to discuss your health, please contact your doctor directly.</value>
     </labels>
     <labels>
+        <fullName>Task_Due</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Due</shortDescription>
+        <value>Due</value>
+    </labels>
+    <labels>
         <fullName>Task_Edit</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25198,6 +25205,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Task Ignore</shortDescription>
         <value>Ignore</value>
+    </labels>
+    <labels>
+        <fullName>Task_Mark_Complete_Msg</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Mark Complete Msg</shortDescription>
+        <value>You are about to mark this task as complete. Are you sure you would like to continue?</value>
     </labels>
     <labels>
         <fullName>Task_Name</fullName>

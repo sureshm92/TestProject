@@ -5,6 +5,10 @@ import taskCompleted from '@salesforce/label/c.Task_Completed';
 import taskCreateReminder from '@salesforce/label/c.Task_create_reminder';
 import taskEdit from '@salesforce/label/c.Task_Edit';
 import taskIgnore from '@salesforce/label/c.Task_Ignore';
+import taskMarkComplete from '@salesforce/label/c.Task_Mark_Complete_Msg';
+import taskDue from '@salesforce/label/c.Task_Due';
+import taskCancel from '@salesforce/label/c.RH_RP_Cancel';
+import taskConfirm from '@salesforce/label/c.RH_TV_Confirm';
 
 
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
@@ -28,7 +32,11 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         taskCompleted,
         taskCreateReminder,
         taskEdit,
-        taskIgnore
+        taskIgnore,
+        taskMarkComplete,
+        taskDue,
+        taskCancel,
+        taskConfirm
     };
     isEnrolled;
     emailOptIn;
@@ -52,7 +60,6 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     cssClass;
     popUpTaskId;
     @track popupTaskMenuItems;
-    carList = ['Create Reminder', 'Ignore', 'Edit'];
     threedots_imgUrl = pp_icons + '/' + 'three_dots.png';
     systemTaskImg = pp_icons + '/' + 'Task_Illustration.svg';
     openTaskImg = pp_icons + '/' + 'Oval.svg';
@@ -110,14 +117,14 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].openTask.Task_Code__c === undefined
                     ? false
                     : this.taskCodeList.includes(tasks[i].openTask.Task_Code__c);
-            tasks[i].dueDate = tasks[i].openTask.activityDate ? true : false;
+            tasks[i].dueDate = tasks[i].openTask.Activity_Datetime__c ? true : false;
             tasks[i].startDate =
-                tasks[i].openTask.Start_Date__c && tasks[i].openTask.activityDate === undefined
+                tasks[i].openTask.Start_Date__c && tasks[i].openTask.Activity_Datetime__c === undefined
                     ? true
                     : false;
             tasks[i].createdDate =
                 tasks[i].openTask.Start_Date__c === undefined &&
-                tasks[i].openTask.activityDate === undefined
+                tasks[i].openTask.Activity_Datetime__c === undefined
                     ? true
                     : false;
         }
@@ -192,10 +199,15 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
 
         } else {
             if(selectedTask.openTask.Task_Code__c =='Complete_Survey'){
-this.popupTaskMenuItems.push(this.ignoreObj,this.reminderObj); //reminderObj
+                this.popupTaskMenuItems.push(this.reminderObj,this.ignoreObj); 
             }
             else{
-                this.popupTaskMenuItems.push(this.editObj,this.ignoreObj,this.reminderObj); 
+                if(selectedTask.openTask.Originator__c=='IQVIA Admin'){
+                this.popupTaskMenuItems.push(this.reminderObj,this.ignoreObj); 
+                }
+                else{
+                    this.popupTaskMenuItems.push(this.editObj,this.ignoreObj); 
+                }
             }
 
             //this.popupTaskMenuItems.push('Edit');
