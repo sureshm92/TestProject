@@ -304,19 +304,30 @@
                 component.set('v.disableSave', false);
             }
         } else if (component.get('v.dobConfig') == 'YYYY') {
-            if (
-                component.get('v.personWrapper.birthYear') === null || component.get('v.personWrapper.birthYear') === '' ||
-                component.get('v.valueAge') === null || component.get('v.valueAge') === ''
-            ) {
-                component.set('v.disableSave', true);
-            } else {
-                component.set('v.disableSave', false);
+            if(!component.get('v.isDelegate') && !component.get('v.personWrapper.showBirthDate')){
+                if (
+                    component.get('v.personWrapper.birthYear') === null || component.get('v.personWrapper.birthYear') === '' 
+                    
+                ) {
+                    component.set('v.disableSave', true);
+                } else {
+                    component.set('v.disableSave', false);
+                }  
             }
+            else if (
+                    component.get('v.personWrapper.birthYear') === null || component.get('v.personWrapper.birthYear') === '' ||
+                    component.get('v.valueAge') === null || component.get('v.valueAge') === ''
+                ) {
+                    component.set('v.disableSave', true);
+                } 
+                else {
+                    component.set('v.disableSave', false);
+                }
         }
-            else{
-                component.set('v.disableSave', false);
-                
-            }
+        else{
+            component.set('v.disableSave', false);
+            
+        }
     },
     setPlaceHolder: function (component, event, helper) {
         var personWrapper = component.get('v.personWrapper');
