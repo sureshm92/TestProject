@@ -19,3 +19,7 @@ img {
     height: 50px;
     vertical-align: top;
 }
+.slds-dropdown-trigger_click {
+    margin-top: 10%;
+    border-radius: 4px;
+}
