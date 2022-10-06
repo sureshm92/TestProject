@@ -4,6 +4,7 @@
 ({
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
+        component.set('v.communityName', communityService.getCurrentCommunityName());
 
         if (!communityService.isDummy()) {
             component.find('spinner').show();
