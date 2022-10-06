@@ -29,7 +29,6 @@ force-app/main/default/flows/Create_Task_For_OutReach_User.flow-meta.xml
 force-app/main/default/flows/Email_to_Technical_Support_for_Optout_option.flow-meta.xml
 force-app/main/default/workflows/Integration_Patient_Referral__c.workflow-meta.xml
 force-app/main/default/workflows/Case.workflow-meta.xml
-force-app/main/default/classes/PIR_ParticipantDetailControllerTest.cls-meta.xml
 
 #Ignore all onboarding slides, comment line for include
 #**/onboarding-tour/staticresources
@@ -48,5 +47,4 @@ force-app/main/default/classes/PIR_ParticipantDetailControllerTest.cls-meta.xml
 #force-app/main/default/profiles
 #force-app/communities
 #force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
-force-app/main/default/profiles/PRDBAPI*
-force-app/main/default/profiles/PRDBAPI.profile-meta.xml
+#force-app/main/default/profiles/PRDBAPI*
