@@ -63,6 +63,10 @@ input[type='date']::-webkit-calendar-picker-indicator,
     height: 273px;
     width: 334px;
 }
+.slds-required {
+    font-size: 16px;
+    font-weight: bold;
+}
 
 @media all and (min-width: 768px) and (max-width: 870px) {
     .slds-small-size_1-of-2.slds-p-right_xx-small,
