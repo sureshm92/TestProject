@@ -144,29 +144,33 @@
                                     <div class="duetime">
                                         Due : &nbsp;
                                         <template if:true={item.dueDate}>
+                                           
                                             <lightning-formatted-date-time
-                                                value={item.openTask.activityDate}
+                                                value={item.openTask.Activity_Datetime__c}
                                                 year="numeric"
                                                 month="short"
                                                 day="2-digit"
                                             ></lightning-formatted-date-time
                                         ></template>
+                                        <template if:false={item.dueDate}>None</template>
+                                        <!--<template if:false={item.dueDate}>
                                         <template if:true={item.startDate}
-                                            ><lightning-formatted-date-time
+                                            >
+                                            Start : &nbsp;<lightning-formatted-date-time
                                                 value={item.openTask.Start_Date__c}
                                                 year="numeric"
                                                 month="short"
                                                 day="2-digit"
                                             ></lightning-formatted-date-time
-                                        ></template>
+                                        ></template></template>
                                         <template if:true={item.createdDate}
-                                            ><lightning-formatted-date-time
+                                            >Created :&nbsp;<lightning-formatted-date-time
                                                 value={item.openTask.CreatedDate}
                                                 year="numeric"
                                                 month="short"
                                                 day="2-digit"
                                             ></lightning-formatted-date-time
-                                        ></template>
+                                        ></template> -->
                                     </div>
                                 </div>
                             </lightning-layout-item>
