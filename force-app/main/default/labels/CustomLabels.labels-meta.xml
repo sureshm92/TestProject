@@ -9429,6 +9429,20 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quo
         <value>Your height is the measurement of your body from head to foot in centimeters (cm) or feet and inches.</value>
     </labels>
     <labels>
+        <fullName>Help_Emergency_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Help Emergency Contact</shortDescription>
+        <value>If you have a medical emergency, please contact your local emergency medical services.</value>
+    </labels>
+    <labels>
+        <fullName>Help_FAQ</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Help FAQ</shortDescription>
+        <value>Frequently Asked Questions</value>
+    </labels>
+    <labels>
         <fullName>Help_Participant_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
