@@ -155,7 +155,6 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                     );
                 }
             }
-
             Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
             Integer participantAge = Date.newInstance(2000, birthDate.month(), birthDate.day()) <=
                 Date.newInstance(2000, Date.today().month(), Date.today().day())
@@ -861,7 +860,7 @@ return String.join(addressList, ', ');
     }
     //SOQL 101 fix : split participant and pe creation to 2 methods saveParticipantV2 and saveParticipantEnrollment
     @AuraEnabled
-    public static string saveParticipantV2( 
+    public static list<string> saveParticipantV2( 
         Id hcpeId,
         String pEnrollmentJSON,
         String participantJSON,
@@ -990,7 +989,7 @@ return String.join(addressList, ', ');
                 if (participantDelegate != null)
                     participantDelegate.Site__c = sSite[0].Site__c;
             }
-            
+            participant.Date_of_Birth__c = null;
             return ParticipantService.createParticipantAndUpdatePES(
                 participant,
                 participantDelegate,
@@ -1002,6 +1001,10 @@ return String.join(addressList, ', ');
             AuraHelper.throwException(e);
         }
         return null;
+    }
+    @AuraEnabled
+    public static void updateParticipant(String participantJSON) {
+        AddPatientByPIRemote.updateParticipant(participantJSON);
     }
     //PE insertion
     @AuraEnabled

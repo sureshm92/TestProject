@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
         
@@ -64,6 +64,11 @@
                     component.set('v.accessUserLevel', initData.delegateAccessLevel);
                     component.set('v.authRequired',initData.trial.Patient_Auth_Upload_Required__c);
                     component.set('v.contentDoc',JSON.parse(initData.contentDoc));
+                    let dobFormat = (component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') :  component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') : null);
+                    component.set('v.studySiteFormat',dobFormat);
+                    component.set('v.pyear',null);
+                    component.set('v.pmonth',null);
+                    component.set('v.pday',null);
                     if(initData.trial.Patient_Auth_Upload_Required__c && component.get('v.contentDoc') != null){
                         component.set('v.fileRequired',false);
                     }
@@ -96,6 +101,12 @@
                         } else {
                             component.set('v.currentState', 'No Active Sites');
                         }
+                        component.set('v.pyear',null);
+                        component.set('v.pmonth',null);
+                        component.set('v.pday',null);
+                        if(initData.participantEnrollment.YOB__c) {component.set('v.pyear',initData.participantEnrollment.YOB__c);}
+                        if(initData.participantEnrollment.Birth_Month__c && dobFormat!='YYYY') {component.set('v.pmonth',initData.participantEnrollment.Birth_Month__c);}
+                        component.dobChangeMethod();
                     } else {
                         component.set('v.currentState', 'Select Source');
                     }
@@ -119,13 +130,12 @@
                         }
                     }
                     //component.set('v.actions', initData.actions);
-                    if(component.get('v.patientVeiwRedirection')){
                         var dayList = [];
                         var obj = {};
                         for (var i = 1; i <= 31; i++) {
                             if(i >= 10){
-                                obj.label = i;
-                                obj.value = i;
+                                obj.label = ''+i;
+                                obj.value = ''+i;
                             }else{
                                 obj.label = '0'+i;
                                 obj.value = '0'+i;
@@ -136,6 +146,19 @@
                         component.set('v.days', dayList);
                         var monthList = [];
                         var obj = {};
+                        monthList.push({"value":'01',"label":"January"});
+                        monthList.push({"value":'02',"label":"February"});
+                        monthList.push({"value":'03',"label":"March"});
+                        monthList.push({"value":'04',"label":"April"});
+                        monthList.push({"value":'05',"label":"May"});
+                        monthList.push({"value":'06',"label":"June"});
+                        monthList.push({"value":'07',"label":"July"});
+                        monthList.push({"value":'08',"label":"August"});
+                        monthList.push({"value":'09',"label":"September"});
+                        monthList.push({"value":'10',"label":"October"});
+                        monthList.push({"value":'11',"label":"November"});
+                        monthList.push({"value":'12',"label":"December"});
+                       /*
                         for (var i = 1; i <= 12; i++) {
                             if(i >= 10){
                                 obj.label = i;
@@ -146,20 +169,21 @@
                             }
                             monthList.push(obj);
                             obj = {};
-                        }
+                        }*/
                         component.set('v.months', monthList);
                         var yearNow = $A.localizationService.formatDateTime(new Date(), "YYYY");
-                        var oldyear = yearNow - 121;
+                    var oldyear = yearNow - 122;
                         var yearList = [];
                         var obj = {};
-                        for (var i = oldyear; i <= yearNow; i++) {
+                    for (var i = yearNow; i >= oldyear; i--) {
                             obj.label = i;
                             obj.value = i;
                             yearList.push(obj);
                             obj = {};
                         }
                         component.set('v.years', yearList);
-                        component.set('v.pday',null);
+                    
+                    if(component.get('v.patientVeiwRedirection')){
                         var penrollment = component.get('v.pEnrollment');
                         //let participant = component.get('v.participant');
                         if(component.get('v.primaryDelegateFirstname') != null){
@@ -251,8 +275,10 @@
         let trial = component.get('v.trial');
         let hcpeId = event.target.dataset.hcpeId;
         let siteId = event.target.dataset.siteId;
+        let ssFormat = event.target.dataset.ssFormat;
         component.set('v.siteId', siteId);
         component.set('v.hcpeId', hcpeId);
+        component.set('v.studySiteFormat', ssFormat);
         if (trial.Link_to_Pre_screening__c) {
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Questionnaire'));
             component.find('mainSpinner').show();
@@ -260,6 +286,8 @@
         } else { 
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Contact_Info'));
         }
+        if(ssFormat=='YYYY') {component.set('v.pmonth',null);}
+        component.dobChangeMethod();
         window.scrollTo(0, 0);
     },
     
@@ -310,6 +338,8 @@
             let pe = pendingList[i];
             if (pe.Id === peId) {
                 component.set('v.pEnrollment', pe);
+                //let dobFormat = (component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') :  component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') : null);
+                //component.set('v.studySiteFormat',dobFormat);
                 helper.setParticipant(component, pe);
                 helper.checkSites(component);
                 component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Discussion'));
@@ -335,20 +365,62 @@
         }
     },
     
+    doDayChange: function (component, event, helper) {
+        component.set('v.selectedAge','');
+        component.set('v.participant.Birth_Day__c',component.get('v.pday'));
+        component.set('v.participant.Birth_Month__c',component.get('v.pmonth'));
+        component.set('v.participant.Birth_Year__c',component.get('v.pyear'));
+        let formatSS = component.get('v.studySiteFormat');
+        //component.checkdobMethod();
+        if(formatSS == 'DD-MM-YYYY'){helper.doParticipantAge(component);}
+        if(formatSS != 'DD-MM-YYYY'){helper.generateAgeOptions(component);}
+        component.checkdobMethod();
+        if(formatSS != 'YYYY' && formatSS != undefined && formatSS != null){
+            helper.validateDOB(component, event, helper);
+        }
+    },
+
+    doDOBChange: function (component, event, helper) {
+        component.set('v.selectedAge','');
+        component.set('v.participant.Birth_Day__c',component.get('v.pday'));
+        component.set('v.participant.Birth_Month__c',component.get('v.pmonth'));
+        component.set('v.participant.Birth_Year__c',component.get('v.pyear'));
+        let formatSS = component.get('v.studySiteFormat');
+        if(formatSS == 'DD-MM-YYYY'){helper.doMonthPLVChange(component, event, helper);}
+        if(formatSS == 'DD-MM-YYYY'){helper.doParticipantAge(component);}
+        if(formatSS != 'DD-MM-YYYY'){helper.generateAgeOptions(component);}
+        component.checkdobMethod();
+        if(formatSS != 'YYYY' && formatSS != undefined && formatSS != null){
+            helper.validateDOB(component, event, helper);
+        }
+        //component.checkdobMethod();
+    },
+    doAgeChange: function (component, event, helper) {
+        component.set('v.participant.Age__c',component.get('v.selectedAge'));
+        component.checkdobMethod();
+        helper.checkFields(component, event, helper);
+    },
+
     doCheckDateOfBith: function (component, event, helper) {
-        console.log('dob'+component.get('v.participant.Date_of_Birth__c'));
+        helper.doParticipantAge(component);
         var pday = component.get('v.pday');
         var pmonth = component.get('v.pmonth');
         var pyear = component.get('v.pyear');
-        if(component.get('v.patientVeiwRedirection')){
-            if((pday && pmonth && pyear) != null){
-               helper.checkParticipantNeedsGuardian(component, event, helper);
-            }
-        }else{
+        let todayDate = new Date();
+        let partAge = component.get('v.selectedAge');
+        let dobFormat = component.get('v.studySiteFormat');
+        if(dobFormat && pyear && 
+            (dobFormat == 'YYYY' || (pmonth &&  (dobFormat == 'MM-YYYY' || (dobFormat == 'DD-MM-YYYY'  && pday))) )){
+                let higherAge = Number(todayDate.getUTCFullYear())-Number(pyear);
+                let endOfMonth = new Date(pyear, pmonth, 0);
+                let dd = ((pday) ?   pday : ( higherAge == partAge ? 1 : (dobFormat == 'YYYY' ? 31 : endOfMonth.getDate() ) )  );
+                
+                let mm = (pmonth) ? pmonth : ( ( higherAge == partAge) ? 1 : 12 );
+                component.set('v.participant.Date_of_Birth__c',pyear+'-'+mm+'-'+dd);
+                
            helper.checkParticipantNeedsGuardian(component, event, helper);
         }
         //helper.checkFields(component, event, helper); REF-3070
- 
     },
     
     doCheckYearOfBith: function (component, event, helper) {
@@ -424,6 +496,9 @@
     }, 
    
     doSaveParticipant: function (component) {
+        if(component.get('v.studySiteFormat') == 'YYYY'){
+            component.set('v.participant.Birth_Month__c','');
+        }
         let participant = component.get('v.participant');
         console.log('part-->'+JSON.stringify(participant));
         let delegateParticipant = component.get('v.delegateParticipant');
@@ -433,6 +508,7 @@
         let pEnrollment = component.get('v.pEnrollment');
         let contentDocId=component.get("v.contentDocId");
         let spinner = component.find('mainSpinner');
+        var dupPart = '';
         if (!$A.util.isUndefinedOrNull(JSON.stringify(pEnrollment.HCP__r))) {
             pEnrollment.HCP__r.Study__c="";
         }
@@ -451,7 +527,8 @@
         action.setCallback(this, function(response) {
             let state = response.getState();
             if (state === "SUCCESS") {
-                participant.Id = response.getReturnValue();
+                participant.Id = response.getReturnValue()[0];
+                dupPart = response.getReturnValue()[1];
                 var action2 = component.get("c.saveParticipantEnrollment");
                 action2.setParams({
                     hcpeId: hcpeId,
@@ -476,6 +553,15 @@
                             toastEvent.fire();
                         }
                         else{
+                            if(dupPart!='no duplicate'){
+                                var action3 = component.get("c.updateParticipant");
+                                action3.setParams({
+                                    participantJSON : dupPart
+                                });
+                                action3.setCallback(this, function(response){
+                                });
+                                $A.enqueueAction(action3); 
+                            }
                             component.set('v.currentState', 'Refer Success');
                         }
                        spinner.hide();
@@ -501,6 +587,8 @@
         if (component.get('v.mrrResult') === 'Start Pre-Screening') {
             let searchResult = component.get('v.searchResult');
             component.set('v.pEnrollment', searchResult.pe);
+            let dobFormat = (component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') :  component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') : null);
+            component.set('v.studySiteFormat',dobFormat);
             helper.checkSites(component);
             component.set('v.participant', {
                 sobjectType: 'Participant__c',

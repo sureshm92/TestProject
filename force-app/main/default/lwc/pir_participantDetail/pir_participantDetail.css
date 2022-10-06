@@ -259,3 +259,7 @@
     letter-spacing: 0;
     line-height: 24px;
 }
+
+.lpad-none{
+    padding-left: 0px;
+}

@@ -1,42 +1,47 @@
 <template>
-    <br/>
+    <br />
     <div class="slds-grid slds-wrap space_between">
         <lightning-layout class="slds-grid slds-wrap slds-container_fluid">
-            <lightning-layout-item class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-p-bottom_small">
-                <div if:false={isPPUserActivated} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element ">
-                    <div class="slds-notify_alert notify-box notify-box-outline" role="alert">                             
-                        <span class="slds-icon_container slds-icon-utility-warning slds-m-left_x-small slds-m-right_small" title="Description of icon when needed">
-                        <img class="notify-img" src={notification}/>
+            <lightning-layout-item
+                class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-p-bottom_small">
+                <div if:false={isPPUserActivated}
+                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element ">
+                    <div class="slds-notify_alert notify-box notify-box-outline" role="alert">
+                        <span
+                            class="slds-icon_container slds-icon-utility-warning slds-m-left_x-small slds-m-right_small"
+                            title="Description of icon when needed">
+                            <img class="notify-img" src={notification} />
                         </span>
-                        <h2 class="tv_label">{label.RH_UserRegistration_Warning}</h2>                          
+                        <h2 class="tv_label">{label.RH_UserRegistration_Warning}</h2>
                     </div>
                 </div>
             </lightning-layout-item>
-            <lightning-layout-item class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-p-bottom_medium">
-                
-                <div if:false={isEmailPermitted} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_medium">
-                    <div class="slds-notify_alert notify-box alert-box-outline" role="alert">                             
-                          <span class="slds-icon_container slds-icon-utility-error slds-m-left_x-small slds-m-right_small" title="Description of icon when needed">
-                          <img class="alert-img" src={alert}/>
-                          </span>
-                          <h2 class="tv_label">{label.RH_UserEmailPermissionAlert}</h2>                          
+            <lightning-layout-item
+                class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-p-bottom_medium">
+
+                <div if:false={isEmailPermitted}
+                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_medium">
+                    <div class="slds-notify_alert notify-box alert-box-outline" role="alert">
+                        <span class="slds-icon_container slds-icon-utility-error slds-m-left_x-small slds-m-right_small"
+                            title="Description of icon when needed">
+                            <img class="alert-img" src={alert} />
+                        </span>
+                        <h2 class="tv_label">{label.RH_UserEmailPermissionAlert}</h2>
                     </div>
-              </div>
+                </div>
             </lightning-layout-item>
         </lightning-layout>
 
-        <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-order_2 slds-medium-order_1 slds-large-order_1">
+        <div
+            class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-order_2 slds-medium-order_1 slds-large-order_1">
             <lightning-layout class="slds-grid slds-wrap">
-                <lightning-layout-item class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_2-of-8 slds-large-size_1-of-8 slds-p-bottom_medium">
+                <lightning-layout-item
+                    class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_2-of-8 slds-large-size_1-of-8 slds-p-bottom_medium">
                     {label.RH_TV_View}
                 </lightning-layout-item>
-                <lightning-layout-item class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_6-of-8 slds-large-size_7-of-8">
-                    <lightning-combobox
-                        value={value}
-                        options={options}
-                        onchange={handleChange}
-                        class="view_btn"
-                    >
+                <lightning-layout-item
+                    class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_6-of-8 slds-large-size_7-of-8">
+                    <lightning-combobox value={value} options={options} onchange={handleChange} class="view_btn">
                     </lightning-combobox>
                 </lightning-layout-item>
             </lightning-layout>
@@ -49,101 +54,113 @@
             </div>
         </div> -->
 
-        <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_6-of-12 slds-order_1 slds-medium-order_2 slds-large-order_2">
-            <lightning-button 
-                variant="brand-outline"
-                label={label.RH_TV_CreateTelevisit}
-                title={label.RH_TV_CreateTelevisit}
-                onclick={openModal}
+        <div
+            class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_6-of-12 slds-order_1 slds-medium-order_2 slds-large-order_2">
+            <lightning-button variant="brand-outline" label={label.RH_TV_CreateTelevisit}
+                title={label.RH_TV_CreateTelevisit} onclick={openModal}
                 class="slds-m-left_x-small slds-float_right slds-p-bottom_medium televisit">
             </lightning-button>
         </div>
     </div>
-    
+
     <template if:true={isModalOpen}>
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-            aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
+            aria-describedby="modal-content-id-1"
+            class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
             <div class="slds-modal_small">
-            <div class="slds-modal__container model-small" >
-                
-                <div class="slds-modal__content mainSpinnerHolder" id="modal-content-id-1">
-                    <template if:true={isMainSpinnerLoading}>
-                        <div>
-                            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
-                        </div>
-                    </template> 
-                    
-                    <div class="bar"></div>
-                    <div class="slds-p-around_large televisit_modal" style="margin:0px 15px 0px 15px;">
-                        <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
-                            
-                            
-                        <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_11-of-12">
-                            <template if:true={televisitEditView}>
-                                <span class="title" style="font-weight:700;font-size:20px">{label.RH_TV_EditTelevisit}</span> 
-                            </template>  
-                            <template if:false={televisitEditView}>
-                                <span class="title" style="font-weight:700;font-size:20px">{label.RH_TV_CreateTelevisit}</span> 
-                            </template>  
-                            
-                        </div>
-                        <div class="slds-col slds-size_1-of-12 close-icon slds-p-top_x-small">
-                            <div onclick={closeModal}>
-                                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse slds-float_right" title="Close" onclick={closeModal}>
-                                    <lightning-icon icon-name="utility:close"
-                                        alternative-text="close"
-                                        size="small" ></lightning-icon>
-                                    <span class="slds-assistive-text">Close</span>
-                                </button>
+                <div class="slds-modal__container model-small">
+
+                    <div class="slds-modal__content mainSpinnerHolder" id="modal-content-id-1">
+                        <template if:true={isMainSpinnerLoading}>
+                            <div>
+                                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
                             </div>
-                        </div>
-                        </div>
-                        <slot name="body">
-                            <div class="slds-grid slds-wrap">
-                                <div class="slds-col slds-size_12-of-12 slds-p-vertical_xx-small">
-                                    <abbr class="slds-required">*</abbr>
-                                    <label class="inputFields">Title</label>
-                                    <lightning-input maxlength="255" class="inputFields slds-p-vertical_x-small" variant="label-hidden"  data-id="Title"  value={title} name="Title" onchange={handleChangeValidation} type="text" label="Title" title="Title" placeholder="Enter Title"></lightning-input>
+                        </template>
+
+                        <div class="bar"></div>
+                        <div class="slds-p-around_large televisit_modal" style="margin:0px 15px 0px 15px;">
+                            <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
+
+
+                                <div
+                                    class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_11-of-12">
+                                    <template if:true={televisitEditView}>
+                                        <span class="title"
+                                            style="font-weight:700;font-size:20px">{label.RH_TV_EditTelevisit}</span>
+                                    </template>
+                                    <template if:false={televisitEditView}>
+                                        <span class="title"
+                                            style="font-weight:700;font-size:20px">{label.RH_TV_CreateTelevisit}</span>
+                                    </template>
+
+                                </div>
+                                <div class="slds-col slds-size_1-of-12 close-icon slds-p-top_x-small">
+                                    <div onclick={closeModal}>
+                                        <button
+                                            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse slds-float_right"
+                                            title="Close" onclick={closeModal}>
+                                            <lightning-icon icon-name="utility:close" alternative-text="close"
+                                                size="small"></lightning-icon>
+                                            <span class="slds-assistive-text">Close</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            <div class="slds-grid slds-wrap">
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-vertical_xx-small visit-date">
-                                    <abbr class="slds-required">*</abbr>
-                                    <label class="inputFields">Visit Date</label>
-                                    <lightning-input variant="label-hidden"  min={today} message-when-range-underflow="Enter Today or Future Date" class="inputFields slds-p-vertical_x-small visit_date" name="Visit Date" data-id="Visit Date" title="Visit Date" value={visitDate} onchange={handleChangeValidation} type="date" placeholder="mm/dd/yyyy" label="Visit Date"></lightning-input>
-                                    <!--<input onchange={handleChangeValidation} class="slds-input inputFields" type="date" data-id="Visit Date" name="Visit Date" value={visitDate} min={today} max="2122-01-02" placeholder="mm/dd/yyyy">-->
+                            <slot name="body">
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_12-of-12 slds-p-vertical_xx-small">
+                                        <abbr class="slds-required">*</abbr>
+                                        <label class="inputFields">{label.PG_AS_F_Title}</label>
+                                        <lightning-input maxlength="255" class="inputFields slds-p-vertical_x-small"
+                                            variant="label-hidden" data-id="Title" value={title} name="Title"
+                                            onchange={handleChangeValidation} type="text" label="Title" title="Title"
+                                            placeholder={label.Title_Place_Holder}></lightning-input>
+                                    </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-vertical_xx-small start-time">
-                                    
-                                    <!--05:00:00.000Z-->
-                                    
+
+                                <div class="slds-grid slds-wrap">
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-vertical_xx-small visit-date">
+                                        <abbr class="slds-required">*</abbr>
+                                        <label class="inputFields">{label.PP_Visit_Date}</label>
+                                        <lightning-input variant="label-hidden" min={today}
+                                            message-when-range-underflow="Enter Today or Future Date"
+                                            class="inputFields slds-p-vertical_x-small visit_date" name="Visit Date"
+                                            data-id="Visit Date" title={label.PP_Visit_Date} value={visitDate}
+                                            onchange={handleChangeValidation} type="date"
+                                            placeholder={label.pir_mm_dd_yyyy} label="Visit Date"></lightning-input>
+                                        <!--<input onchange={handleChangeValidation} class="slds-input inputFields" type="date" data-id="Visit Date" name="Visit Date" value={visitDate} min={today} max="2122-01-02" placeholder="mm/dd/yyyy">-->
+                                    </div>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-vertical_xx-small start-time">
+
+                                        <!--05:00:00.000Z-->
+
                                         <!--max="23:45:00.000Z"-->
-                                        
+
                                         <template if:false={isMobileDevice}>
                                             <abbr class="slds-required">*</abbr>
-                                            <label class="inputFields">Start Time</label>
-                                            <lightning-input  class="inputFields slds-p-vertical_x-small time" name="Start Time" data-id="Start Time" type="time" data-value="Start Time" onchange={handleChangeValidation}
-                                                variant="label-hidden"
-                                                value={startTime}
-                                                label="Start Time"
-                                                    title="Start Time" min={defaultTime}  placeholder="Select Time"
-                                                    >
+                                            <label class="inputFields">{label.Start_Time}</label>
+                                            <lightning-input class="inputFields slds-p-vertical_x-small time"
+                                                name="Start Time" data-id="Start Time" type="time"
+                                                data-value="Start Time" onchange={handleChangeValidation}
+                                                variant="label-hidden" value={startTime} label="Start Time"
+                                                title="Start Time" min={defaultTime} placeholder={label.Select_Time}>
                                             </lightning-input>
                                         </template>
                                         <template if:true={isMobileDevice}>
                                             <div>
                                                 <abbr class="slds-required">*</abbr>
-                                                <label class="inputFields">Start Time</label>
+                                                <label class="inputFields">{label.Start_Time}</label>
                                             </div>
                                             <div>
-                                                <lightning-input  class="inputFields slds-p-vertical_x-small time" name="Start Time" data-id="Start Time" type="time" data-value="Start Time" onchange={handleChangeValidation}
-                                                    variant="label-hidden"
-                                                    value={startTime}
-                                                    label="Start Time"
-                                                    title="Start Time" min={defaultTime}  placeholder="Select Time"
-                                                >
-                                            </lightning-input>
+                                                <lightning-input class="inputFields slds-p-vertical_x-small time"
+                                                    name="Start Time" data-id="Start Time" type="time"
+                                                    data-value="Start Time" onchange={handleChangeValidation}
+                                                    variant="label-hidden" value={startTime} label="Start Time"
+                                                    title="Start Time" min={defaultTime}
+                                                    placeholder={label.Select_Time}>
+                                                </lightning-input>
                                             </div>
                                         </template>
 
@@ -160,269 +177,317 @@
                                             </div>
                                         </template>
                                         -->
-                                </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-vertical_xx-small">
-                                    <abbr class="slds-required">*</abbr>
-                                    <label class="inputFields">Duration</label>
-                                    &nbsp;
-                                    <div class="tooltip"> 
-                                        <lightning-icon icon-name="utility:info" size="x-small"></lightning-icon>
-                                        <span class="tooltiptextBottom ">Call will be ended after the planned duration time</span> 
                                     </div>
-                                    <lightning-combobox
-                                            name="Duration"
-                                            label="Duration"
-                                            value={duration}
-                                            options={durations}
-                                            onchange={handleChangeValidation}
-                                            placeholder="Select Duration"
-                                            data-id="Duration"
-                                            variant="label-hidden"
-                                            class="inputFields slds-p-vertical_x-small"
-                                            title="Duration"
-                                        >
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-vertical_xx-small">
+                                        <abbr class="slds-required">*</abbr>
+                                        <label class="inputFields">{label.TV_TH_Duration}</label>
+                                        &nbsp;
+                                        <div class="tooltip">
+                                            <lightning-icon icon-name="utility:info" size="x-small"></lightning-icon>
+                                            <span class="tooltiptextBottom ">{label.Duration_Help_Text}</span>
+                                        </div>
+                                        <lightning-combobox name="Duration" label="Duration" value={duration}
+                                            options={durations} onchange={handleChangeValidation}
+                                            placeholder={label.Duration_Place_Holder} data-id="Duration"
+                                            variant="label-hidden" class="inputFields slds-p-vertical_x-small"
+                                            title={label.TV_TH_Duration}>
                                         </lightning-combobox>
-                                        
-                                    
-                                </div>
-                            </div>
-        
-                            <div class="slds-grid slds-wrap">
-                                <div class="slds-col slds-size_12-of-12">
-                                    <abbr class="slds-required">*</abbr>
-                                    <label class="inputFields">Attendees</label>
-                                    <div class="slds-combobox_container" onmouseleave={closeOptionsMenu} style="width: 100%;">
-                                        <div class={cbComputedClass} aria-expanded={isComboExpanded} aria-haspopup="listbox" role="combobox">
-                                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">                
-                                                <!--onkeyup={handleSearch}-->
-                                                <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="combobox-id" data-id="searchbox" autocomplete="off"
-                                                aria-controls="listbox-id" role="textbox" placeholder={placeHolder} onkeyup={handleSearch} onclick={openOptionsMenu}></input>
-                                                <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
-                                                    <lightning-icon icon-name="utility:search" size="x-small" class="slds-icon-text-default"></lightning-icon>
-                                                </span>
-                                            </div>
-                                            <div id="listbox-id" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid vk-scrollbar" role="listbox" onmouseleave={closeOptionsMenu}> 
-                                                <ul class="slds-listbox slds-listbox_vertical" role="presentation">
-                                                    <template for:each={televisitAttendeesList} for:item="option">
-                                                        <li role="presentation" class="slds-listbox__item" key={option.id}>
-                                                            <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
-                                                                <span class="slds-media__body">
-                                                                    <span class="slds-listbox__option-text slds-listbox__option-text_entity" 
-                                                                    data-id={option.id} data-first-name={option.firstName} data-last-name={option.lastName} 
-                                                                    data-attendee-type={option.attendeeType} data-is-mandatory-selection={option.isMandatorySelection} 
-                                                                    data-attendee-id={option.attendeeId} 
-                                                                    data-participant-primary-delegate={option.participantPrimaryDelegate} 
-                                                                    data-participant-has-email={option.participantHasEmail}
-                                                                    onclick={handleSelection}>
-                                                                        {option.firstName} {option.lastName} ({option.attendeeType})
-                                                                    </span>
-                                                                </span>
-                                                            </div>
-                                                        </li>
-                                                    </template>
-                                                    <!--<li if:true={noResultsFound} class="slds-p-left_small"> No results found</li>-->
-                                                </ul>
-                                            </div>
-                                        </div>
+
+
                                     </div>
-                                    <template if:true={isLoading}>
-                                        <div class="spinnerHolder">
-                                            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                                </div>
+
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_12-of-12">
+                                        <abbr class="slds-required">*</abbr>
+                                        <label class="inputFields">{label.Participants}</label>
+                                        <div class="slds-combobox_container" onmouseleave={closeOptionsMenu}
+                                            style="width: 100%;">
+                                            <div class={cbComputedClass} aria-expanded={isComboExpanded}
+                                                aria-haspopup="listbox" role="combobox">
+                                                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                                    role="none">
+                                                    <!--onkeyup={handleSearch}-->
+                                                    <input type="text"
+                                                        class="slds-input slds-combobox__input slds-combobox__input-value"
+                                                        id="combobox-id" data-id="searchbox" autocomplete="off"
+                                                        aria-controls="listbox-id" role="textbox"
+                                                        placeholder={placeHolder} onkeyup={handleSearch}
+                                                        onclick={openOptionsMenu}></input>
+                                                    <span
+                                                        class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                                        <lightning-icon icon-name="utility:search" size="x-small"
+                                                            class="slds-icon-text-default"></lightning-icon>
+                                                    </span>
+                                                </div>
+                                                <div id="listbox-id"
+                                                    class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid vk-scrollbar"
+                                                    role="listbox" onmouseleave={closeOptionsMenu}>
+                                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                        <template for:each={televisitAttendeesList} for:item="option">
+                                                            <li role="presentation" class="slds-listbox__item"
+                                                                key={option.id}>
+                                                                <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                                                    role="option">
+                                                                    <span class="slds-media__body">
+                                                                        <span
+                                                                            class="slds-listbox__option-text slds-listbox__option-text_entity"
+                                                                            data-id={option.id}
+                                                                            data-first-name={option.firstName}
+                                                                            data-last-name={option.lastName}
+                                                                            data-attendee-type={option.attendeeType}
+                                                                            data-is-mandatory-selection={option.isMandatorySelection}
+                                                                            data-attendee-id={option.attendeeId}
+                                                                            data-participant-primary-delegate={option.participantPrimaryDelegate}
+                                                                            data-participant-has-email={option.participantHasEmail}
+                                                                            onclick={handleSelection}>
+                                                                            {option.firstName} {option.lastName}
+                                                                            ({option.attendeeType})
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                            </li>
+                                                        </template>
+                                                        <!--<li if:true={noResultsFound} class="slds-p-left_small"> No results found</li>-->
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </template>
-                                    <template if:false={isLoading}>
-                                        <div style="font-size:16px;height: 100px;width:100%; overflow: auto" >
-                                            <table style="background:#fbfbfb" >
-                                                <template for:each={selectedTelevisitAttendeesList} for:item="selectedAttendee">
-                                                    <tr key={selectedAttendee}>
-                                                        <td>
-                                                            <lightning-icon icon-name="utility:user"
-                                                                alternative-text="user"
-                                                                size="xx-small" class="slds-p-right_x-small">
-                                                            </lightning-icon>
-                                                            {selectedAttendee.firstName} {selectedAttendee.lastName} ({selectedAttendee.attendeeType}) &nbsp; 
-                                                            <template if:false={selectedAttendee.isMandatorySelection}>
-                                                                <a data-id={selectedAttendee.id} data-first-name={selectedAttendee.firstName} data-last-name={selectedAttendee.lastName} 
-                                                                data-attendee-type={selectedAttendee.attendeeType} 
-                                                                data-is-mandatory-selection={selectedAttendee.isMandatorySelection} 
-                                                                data-attendee-id={selectedAttendee.attendeeId} 
-                                                                data-participant-primary-delegate={selectedAttendee.participantPrimaryDelegate} 
-                                                                data-participant-has-email={selectedAttendee.participantHasEmail}
-                                                                onclick={handleRemoveItems}>{label.RH_TV_Remove}</a>
-                                                            </template>
-                                                            
-                                                        </td>
-                                                    </tr>
+                                        <template if:true={isLoading}>
+                                            <div class="spinnerHolder">
+                                                <lightning-spinner alternative-text="Loading" size="small">
+                                                </lightning-spinner>
+                                            </div>
+                                        </template>
+                                        <template if:false={isLoading}>
+                                            <div style="font-size:16px;height: 100px;width:100%; overflow: auto">
+                                                <table style="background:#fbfbfb">
+                                                    <template for:each={selectedTelevisitAttendeesList}
+                                                        for:item="selectedAttendee">
+                                                        <tr key={selectedAttendee}>
+                                                            <td>
+                                                                <lightning-icon icon-name="utility:user"
+                                                                    alternative-text="user" size="xx-small"
+                                                                    class="slds-p-right_x-small">
+                                                                </lightning-icon>
+                                                                {selectedAttendee.firstName} {selectedAttendee.lastName}
+                                                                ({selectedAttendee.attendeeType}) &nbsp;
+                                                                <template
+                                                                    if:false={selectedAttendee.isMandatorySelection}>
+                                                                    <a data-id={selectedAttendee.id}
+                                                                        data-first-name={selectedAttendee.firstName}
+                                                                        data-last-name={selectedAttendee.lastName}
+                                                                        data-attendee-type={selectedAttendee.attendeeType}
+                                                                        data-is-mandatory-selection={selectedAttendee.isMandatorySelection}
+                                                                        data-attendee-id={selectedAttendee.attendeeId}
+                                                                        data-participant-primary-delegate={selectedAttendee.participantPrimaryDelegate}
+                                                                        data-participant-has-email={selectedAttendee.participantHasEmail}
+                                                                        onclick={handleRemoveItems}>{label.Button_Remove}</a>
+                                                                </template>
+
+                                                            </td>
+                                                        </tr>
+                                                    </template>
+                                                </table>
+                                                <template if:false={siteStaffAdded}>
+                                                    <p style="color: red;">{label.RH_TV_SiteStaffRequiredErrorMessage}
+                                                    </p>
                                                 </template>
-                                            </table>
-                                            <template if:false={siteStaffAdded}>
-                                                <p style="color: red;">{label.RH_TV_SiteStaffRequiredErrorMessage}</p>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <div class="slds-grid slds-wrap slds-m-top_large">
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                        <div class="slds-float_right mobile-width televisit_acion_btn">
+                                            <button
+                                                class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12  slds-button apollo-btn secondary btn-height discard-btn"
+                                                onclick={closeModal}> {label.RH_TV_Discard}</button>
+                                            <template if:false={televisitEditView}>
+                                                <button title=""
+                                                    class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-button apollo-btn primary btn-height save-btn"
+                                                    data-id="Save" onclick={submitDetails} disabled={disableSaveButton}>
+                                                    {label.BTN_Save} </button>
+                                            </template>
+                                            <template if:true={televisitEditView}>
+                                                <button title=""
+                                                    class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-button apollo-btn primary btn-height save-btn"
+                                                    data-id="Update" onclick={submitDetails}
+                                                    disabled={disableSaveButton}> Update </button>
                                             </template>
                                         </div>
-                                    </template>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <div class="slds-grid slds-wrap slds-m-top_large">
-                            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                                <div class="slds-float_right mobile-width televisit_acion_btn">  
-                                    <button class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12  slds-button apollo-btn secondary btn-height discard-btn"  onclick={closeModal}> {label.RH_TV_Discard}</button>                
-                                    <template if:false={televisitEditView}>
-                                        <button title="" class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-button apollo-btn primary btn-height save-btn" data-id="Save"  onclick={submitDetails} disabled={disableSaveButton}> {label.RH_TV_Save} </button>
-                                    </template>
-                                    <template if:true={televisitEditView}>
-                                        <button title="" class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-button apollo-btn primary btn-height save-btn" data-id="Update" onclick={submitDetails} disabled={disableSaveButton}> Update </button>
-                                    </template>
-                                </div>    
-                            </div>
+                            </slot>
+
                         </div>
-                        </slot>
-                    
                     </div>
                 </div>
             </div>
-            </div>
-            </section>
-            <div class="slds-backdrop slds-backdrop_open"></div>
-        
-    </template> 
-    
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+
     <template if:false={displayTelevisitRecords}>
         <div class="noRecordsFound">
             {label.RH_TV_NoRecordsFoundMessage}
         </div>
     </template>
-    
+
     <template if:true={displayTelevisitRecords}>
-        <div  class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-1 vertical-scroll" style="font-size:15px;">
-            
-        <template for:each={televisitRecordsList} for:item="tv">
-            <div key={tv.id} class="lightningCard">
-                
-                <lightning-card>
-                    <lightning-layout multiple-rows="true" style="padding-bottom: 10px;">
-                        <lightning-layout-item padding="horizontal-small" style="margin-top:-10px;margin-bottom:10px;" size="9" small-device-size="9" medium-device-size="11" large-device-size="11" >
-                            <lightning-formatted-text style="font-size: 16px;" value={tv.title}></lightning-formatted-text>&nbsp;&nbsp;
-                            <template if:true={tv.isCancelledStatus}>
-                                <lightning-formatted-text class="CancelledTag" value="Canceled"></lightning-formatted-text>
-                            </template>                            
-                        </lightning-layout-item>
-                        <template if:true={tv.isScheduledStatus}>
-                            <lightning-layout-item size="3" small-device-size="3" medium-device-size="1" large-device-size="1" class="slds-p-left_medium tv_edit">
-                                <lightning-layout >            
-                                    <lightning-layout-item  >
-                                        <lightning-button-menu onselect={handleOnselect} menu-alignment="auto" >
-                                            <!--data-starttime={tv.startTime}-->
-                                            <lightning-menu-item value="Edit" label="Edit" data-id={tv.id} data-title={tv.title} data-visitdate={tv.visitDate} data-starttime={tv.startTime} data-visitdatetime={tv.visitDateTime} data-duration={tv.duration} data-attendeeslist={tv.attendeesList}  onclick={openModal}></lightning-menu-item>
-                                            <lightning-menu-item value="Cancel" label="Cancel" data-id={tv.id} onclick={openCancelModal}></lightning-menu-item>
-                                        </lightning-button-menu>
+        <div class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-1 vertical-scroll" style="font-size:15px;">
+
+            <template for:each={televisitRecordsList} for:item="tv">
+                <div key={tv.id} class="lightningCard">
+
+                    <lightning-card>
+                        <lightning-layout multiple-rows="true" style="padding-bottom: 10px;">
+                            <lightning-layout-item padding="horizontal-small"
+                                style="margin-top:-10px;margin-bottom:10px;" size="9" small-device-size="9"
+                                medium-device-size="11" large-device-size="11">
+                                <lightning-formatted-text style="font-size: 16px;" value={tv.title}>
+                                </lightning-formatted-text>&nbsp;&nbsp;
+                                <template if:true={tv.isCancelledStatus}>
+                                    <lightning-formatted-text class="CancelledTag" value="Canceled">
+                                    </lightning-formatted-text>
+                                </template>
+                            </lightning-layout-item>
+                            <template if:true={tv.isScheduledStatus}>
+                                <lightning-layout-item size="3" small-device-size="3" medium-device-size="1"
+                                    large-device-size="1" class="slds-p-left_medium tv_edit">
+                                    <lightning-layout>
+                                        <lightning-layout-item>
+                                            <lightning-button-menu onselect={handleOnselect} menu-alignment="auto">
+                                                <!--data-starttime={tv.startTime}-->
+                                                <lightning-menu-item value="Edit" label="Edit" data-id={tv.id}
+                                                    data-title={tv.title} data-visitdate={tv.visitDate}
+                                                    data-starttime={tv.startTime} data-visitdatetime={tv.visitDateTime}
+                                                    data-duration={tv.duration} data-attendeeslist={tv.attendeesList}
+                                                    onclick={openModal}></lightning-menu-item>
+                                                <lightning-menu-item value="Cancel" label="Cancel" data-id={tv.id}
+                                                    onclick={openCancelModal}></lightning-menu-item>
+                                            </lightning-button-menu>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item size="12" style="margin-top:-10px">
+                                <lightning-layout class="slds-grid slds-wrap">
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 tv_date">
+                                        <lightning-layout-item padding="horizontal-small">
+                                            <lightning-icon icon-name="utility:event" alternative-text="event"
+                                                size="x-small">
+                                            </lightning-icon>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item>
+                                            <lightning-formatted-date-time value={tv.visitDate}>
+                                            </lightning-formatted-date-time>
+                                        </lightning-layout-item><span class="tv_span">,&nbsp;</span>
+                                    </div>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 tv_time">
+                                        <lightning-layout-item class="slds-p-right_x-small">
+                                            <!--<lightning-formatted-date-time time-zone="UTC" value={tv.startTime} hour="2-digit" minute="2-digit" hour12="false" ></lightning-formatted-date-time>-->
+                                            <lightning-formatted-date-time time-zone={userTimeZone}
+                                                value={tv.visitDateTime} hour="2-digit" minute="2-digit">
+                                            </lightning-formatted-date-time>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item>
+                                            (<lightning-formatted-text value={tv.duration}></lightning-formatted-text>)
+                                        </lightning-layout-item>
+                                    </div>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                            <hr class="televisit_hr" />
+                            <lightning-layout-item padding="around-small" size="12">
+                                <lightning-layout>
+                                    <lightning-layout-item class="slds-p-right_xx-small">
+                                        <lightning-icon icon-name="utility:user" alternative-text="user" size="x-small"
+                                            class="slds-p-right_x-small">
+                                        </lightning-icon>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-right_x-small tv_attendees">
+                                        <!--<template for:each={tv.attendeesList} for:item="attendee" >
+                                        {attendee.Firstname__c} {attendee.Lastname__c} ({attendee.Attendee_Type__c}),&nbsp;
+                                    </template>-->
+                                        <template iterator:it={tv.attendeesList}>
+                                            <template if:true={it.first}></template>
+                                            <div key={it.value.id} class="attendees_list">{it.value.Firstname__c}
+                                                {it.value.Lastname__c} ({it.value.Attendee_Type__c})<span
+                                                    class="attendee_span">,&nbsp;</span><br /></div>
+                                            <template if:false={it.last}></template>
+
+                                        </template>
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
-                        </template>                   
-                    </lightning-layout>
-                    <lightning-layout multiple-rows="true">
-                        <lightning-layout-item size="12" style="margin-top:-10px">    
-                            <lightning-layout class="slds-grid slds-wrap">
-                                <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 tv_date">
-                                <lightning-layout-item padding="horizontal-small">
-                                    <lightning-icon icon-name="utility:event"
-                                        alternative-text="event"
-                                        size="x-small" >
-                                    </lightning-icon>
-                                </lightning-layout-item>
-                                <lightning-layout-item>
-                                    <lightning-formatted-date-time value={tv.visitDate} >
-                                    </lightning-formatted-date-time>
-                                </lightning-layout-item><span class="tv_span">,&nbsp;</span>
-                                </div>
-                                <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 tv_time">
-                                <lightning-layout-item class="slds-p-right_x-small">
-                                    <!--<lightning-formatted-date-time time-zone="UTC" value={tv.startTime} hour="2-digit" minute="2-digit" hour12="false" ></lightning-formatted-date-time>-->
-                                    <lightning-formatted-date-time time-zone={userTimeZone} value={tv.visitDateTime} hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
-                                </lightning-layout-item>
-                                <lightning-layout-item>
-                                    (<lightning-formatted-text value={tv.duration}></lightning-formatted-text>)
-                                </lightning-layout-item>
-                            </div>
-                            </lightning-layout>
-                        </lightning-layout-item>
-                        <hr class="televisit_hr"/>
-                        <lightning-layout-item padding="around-small" size="12">
-                            <lightning-layout>
-                                <lightning-layout-item class="slds-p-right_xx-small">
-                                    <lightning-icon icon-name="utility:user"
-                                        alternative-text="user"
-                                        size="x-small" class="slds-p-right_x-small">
-                                    </lightning-icon>
-                                </lightning-layout-item>
-                                <lightning-layout-item class="slds-p-right_x-small tv_attendees" >
-                                    <!--<template for:each={tv.attendeesList} for:item="attendee" >
-                                        {attendee.Firstname__c} {attendee.Lastname__c} ({attendee.Attendee_Type__c}),&nbsp;
-                                    </template>-->
-                                    <template iterator:it={tv.attendeesList}>
-                                        <template if:true={it.first}></template><div key={it.value.id} class="attendees_list">{it.value.Firstname__c} {it.value.Lastname__c} ({it.value.Attendee_Type__c})<span class="attendee_span">,&nbsp;</span><br/></div>
-                                        <template if:false={it.last}></template>
-                                        
-                                    </template>
-                                </lightning-layout-item>
                         </lightning-layout>
-                        </lightning-layout-item>
-                    </lightning-layout>
-                </lightning-card>
-            </div>
-        </template>
-    </div>
+                    </lightning-card>
+                </div>
+            </template>
+        </div>
     </template>
     <template if:true={isCancelModalOpen}>
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-        aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
-        <div class="slds-modal_small">
-           <div class="slds-modal__container model-small">
-              <div class="slds-modal__content cancelSpinnerHolder">
-                <template if:true={isCancelSpinnerLoading}>
-                    <div>
-                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            aria-describedby="modal-content-id-1"
+            class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
+            <div class="slds-modal_small">
+                <div class="slds-modal__container model-small">
+                    <div class="slds-modal__content cancelSpinnerHolder">
+                        <template if:true={isCancelSpinnerLoading}>
+                            <div>
+                                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                            </div>
+                        </template>
+                        <div class="bar"></div>
+                        <div class="slds-p-around_large">
+                            <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
+                                <div
+                                    class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
+                                    <span class="title" style="font-size:18px; font-weight:600;">
+                                        <p>{label.RH_TV_CancelTelevisit}</p>
+                                    </span>
+                                    <span class="title" style="font-size:16px; font-weight:500;">
+                                        <p>{label.RH_TV_CancelMessage}</p>
+                                    </span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12 close-icon">
+                                    <div onclick={handleCloseModal}>
+                                        <lightning-icon icon-name="utility:close" alternative-text="close"
+                                            size="x-small"></lightning-icon>
+                                        <span class="slds-assistive-text">{label.RH_TV_Close}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <slot name="body1">
+                                <p class="sub-text"></p>
+                                <div class="slds-grid slds-wrap slds-m-top_large">
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                        <div class="slds-float_right mobile-width cancel_tv_actionBtn">
+                                            <button title="" class="slds-button apollo-btn primary btn-height save-btn"
+                                                data-id={cancelTelevisitRecordId} onclick={cancelTelevisit}>
+                                                {label.RH_TV_Confirm} </button>
+                                            <button class="slds-button apollo-btn secondary btn-height discard-btn"
+                                                onclick={handleCloseModal}> {label.RH_TV_Discard} </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </slot>
+                        </div>
                     </div>
-                </template> 
-                <div class="bar"></div>
-                 <div class="slds-p-around_large">
-                    <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
-                       <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                            <span class="title" style= "font-size:18px; font-weight:600;">
-                                <p>{label.RH_TV_CancelTelevisit}</p>
-                            </span> 
-                            <span class="title" style= "font-size:16px; font-weight:500;">
-                                <p>{label.RH_TV_CancelMessage}</p>
-                            </span> 
-                       </div>
-                       <div class="slds-col slds-size_1-of-12 close-icon">
-                          <div onclick={handleCloseModal}>
-                             <lightning-icon icon-name="utility:close"
-                                alternative-text="close"
-                                size="x-small" ></lightning-icon>
-                             <span class="slds-assistive-text">{label.RH_TV_Close}</span>
-                          </div>
-                       </div>
-                    </div>
-                    <slot name="body1">
-                       <p class="sub-text"></p>
-                       <div class="slds-grid slds-wrap slds-m-top_large">
-                          <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                            <div class="slds-float_right mobile-width cancel_tv_actionBtn">                  
-                                <button title="" class="slds-button apollo-btn primary btn-height save-btn" data-id={cancelTelevisitRecordId}  onclick={cancelTelevisit}> {label.RH_TV_Confirm} </button>
-                                <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleCloseModal}> {label.RH_TV_Discard} </button>
-                            </div>    
-                          </div>
-                       </div>
-                    </slot>
-                 </div>
-              </div>
-           </div>
-        </div>
-     </section>
-     <div class="slds-backdrop slds-backdrop_open"></div>
-     </template>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
 
-    
- </template>
+
+</template>

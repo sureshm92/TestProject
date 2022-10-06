@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
+        <apexClass>rh_siteBirthdateConfigController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2137,6 +2141,16 @@
     <custom>true</custom>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant__c.Birth_Day__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Birth_Month__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>User.IsCommunityUserRegistered__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2342,6 +2356,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Banner_Dispose_Offset_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Participant_DOB_format__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2631,6 +2650,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Use_as_Daytime_Phone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Age__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

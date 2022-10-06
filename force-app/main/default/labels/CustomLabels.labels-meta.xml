@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>DOB_outcome_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DOB outcome error</shortDescription>
+        <value>Participant DOB information is missing on Participant Details tab.</value>
+    </labels>
+    <labels>
+        <fullName>Send_to_Dct_dob_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send to Dct dob error</shortDescription>
+        <value>Participant data couldn&apos;t be sent to DCT because some fields related to this participant are missing. Please fill them out on the Participant Details tab before continuing.</value>
+    </labels>
+    <labels>
+        <fullName>DOB_Batch_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DOB Batch Label</shortDescription>
+        <value>true</value>
+    </labels>
+    <labels>
         <fullName>ReEngage_Dashboard</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -267,6 +288,13 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Select Televisit Vendor</shortDescription>
         <value>Select Televisit Vendor</value>
+    </labels>
+    <labels>
+        <fullName>Select_Time</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Time</shortDescription>
+        <value>Select Time</value>
     </labels>
     <labels>
         <fullName>Televisit_Record_Vendor_Name</fullName>
@@ -1449,6 +1477,13 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>ASSOCIATE_VISIT_PLAN_TO_STUDY_SITE_ONLY</shortDescription>
         <value>Proceed to only associate this visit plan to the study site (Note: This will not assign any visit plan to these participants).</value>
+    </labels>
+    <labels>
+        <fullName>Attendees_Place_Holder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Attendees Place Holder</shortDescription>
+        <value>Search to add</value>
     </labels>
     <labels>
         <fullName>Attestation_Confirmation_Message</fullName>
@@ -4993,6 +5028,14 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Initial Visits Completed</value>
     </labels>
     <labels>
+        <fullName>Date_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Date_Placeholder</shortDescription>
+        <value>DD</value>
+    </labels>
+   
+    <labels>
         <fullName>December</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5197,6 +5240,20 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>true</protected>
         <shortDescription>Duplicate Delegate Message</shortDescription>
         <value>is already associated with ##firstName ##lastName. We only allow one user per email address. Please confirm that this is the correct email address. If this is not ##firstName, please enter the new delegate’s unique email address.</value>
+    </labels>
+    <labels>
+        <fullName>Duration_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Duration Help Text</shortDescription>
+        <value>Call will be ended after the planned duration time</value>
+    </labels>
+    <labels>
+        <fullName>Duration_Place_Holder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Duration Place Holder</shortDescription>
+        <value>Select Duration</value>
     </labels>
     <labels>
         <fullName>Eamil_Action_View_My_Studies</fullName>
@@ -10457,6 +10514,14 @@ The expected format is REF##### to REF########</value>
         <value>Cannot set monthly task for these dates.</value>
     </labels>
     <labels>
+        <fullName>Month_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month_Placeholder</shortDescription>
+        <value>MM</value>
+    </labels>
+   
+    <labels>
         <fullName>MO_Active</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11408,6 +11473,20 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>November</shortDescription>
         <value>November</value>
+    </labels>
+    <labels>
+        <fullName>NTR_PP_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NTR_PP_header</shortDescription>
+        <value>Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>NTR_RH_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NTR_RH_header</shortDescription>
+        <value>Referral Hub</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S10_T</fullName>
@@ -20982,6 +21061,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Business Address</value>
     </labels>
     <labels>
+        <fullName>RH_Canceled_Completed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH Canceled/Completed</shortDescription>
+        <value>Cancelled/Completed</value>
+    </labels>
+    <labels>
         <fullName>RH_Comorbidities</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -21329,6 +21415,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Please confirm participant/caregiver consent to be contacted on the Participant Details tab</value>
     </labels>
     <labels>
+        <fullName>RH_MOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_MOB</shortDescription>
+        <value>Month of Birth</value>
+    </labels>
+    <labels>
         <fullName>RH_RequestMedicalBtn</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21442,6 +21535,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>We are happy to inform you that your registration in the IQVIA Referral Hub was successful.
 
             This will allow you to use Referral Hub’s participant referral and status tracking capabilities. You will also be able to find other clinical research studies that are available and refer patients to nearby study sites.</value>
+    </labels>
+    <labels>
+        <fullName>RH_Pir_Add_Televisit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH Pir Add Televisit</shortDescription>
+        <value>Add televisit for Initial Visit</value>
+    </labels>
+    <labels>
+        <fullName>RH_Pir_Confirm_Televisit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH Pir Confirm Televisit</shortDescription>
+        <value>Confirm Televisit</value>
     </labels>
     <labels>
         <fullName>rh_physician_email_subject_Initial</fullName>
@@ -22262,6 +22369,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>RH RP Invalid Email</shortDescription>
         <value>You have entered an invalid format</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Invite_Selected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Invite Selected</shortDescription>
+        <value>Invite Selected</value>
     </labels>
     <labels>
         <fullName>RH_RP_Items</fullName>
@@ -24006,6 +24120,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Participant has consented to being invited to Patient Portal and informed about other study opportunities.</value>
     </labels>
     <labels>
+        <fullName>Start_Time</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Start Time</shortDescription>
+        <value>Start Time</value>
+    </labels>
+    <labels>
         <fullName>State_Country</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25186,6 +25307,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>We miss you</value>
     </labels>
     <labels>
+        <fullName>Title_Place_Holder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title Place Holder</shortDescription>
+        <value>Enter Title</value>
+    </labels>
+    <labels>
         <fullName>Title_Visit_Reminder_Push</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -26229,6 +26357,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Withdrew Consent After Screening</shortDescription>
         <value>Withdrew Consent After Screening</value>
     </labels>
+    <labels>
+        <fullName>Year_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Year_Placeholder</shortDescription>
+        <value>YYYY</value>
+    </labels>
+   
     <labels>
         <fullName>yearly_task_error</fullName>
         <language>en_US</language>
@@ -27396,6 +27532,20 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Click &lt;b&gt;Import.&lt;/b&gt;</value>
     </labels>
     <labels>
+        <fullName>RH_DOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_DOB</shortDescription>
+        <value>Day of Birth</value>
+    </labels>
+    <labels>
+        <fullName>RH_Dob_Format_Search</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_Dob_Format_Search</shortDescription>
+        <value>	Select DOB Format</value>
+    </labels>
+    <labels>
         <fullName>RH_DownloadIcon</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27703,5 +27853,26 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>No_active_program</shortDescription>
         <value>No active program</value>
+    </labels>
+    <labels>
+        <fullName>Date_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Date of Birth</shortDescription>
+        <value>Date of Birth</value>
+    </labels>
+    <labels>
+        <fullName>Month_and_Year_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month and Year of Birth</shortDescription>
+        <value>Month/Year of Birth</value>
+    </labels>
+    <labels>
+        <fullName>Year_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Year of Birth</shortDescription>
+        <value>Year of Birth</value>
     </labels>
 </CustomLabels>

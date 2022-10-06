@@ -110,9 +110,6 @@
                                     <div class="slds-col  slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
                                          <lightning-input type="text" label={utilLabels.PG_AS_F_Nickname} title={utilLabels.PG_AS_F_Nickname} name="nickname" value={participant.Nickname__c} onchange={changeInputValue} data-value="Nickname"></lightning-input>
                                     </div>
-                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
-                                         <lightning-input type="date" name="input1" label={utilLabels.PG_AS_F_Date_of_Birth} title={utilLabels.PG_AS_F_Date_of_Birth} value={participant.Date_of_Birth__c} onchange={changeInputValue} data-value="DOB" placeholder="" required=""></lightning-input>
-                                    </div>
                                     <div class="slds-col  slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
                                     <lightning-combobox
                                         name="Sex"
@@ -126,6 +123,53 @@
                                         required=""
                                         ></lightning-combobox>
                                     </div>
+                                    <div class="slds-col  slds-size_1-of-1 slds-medium-size_2-of-4 slds-large-size_2-of-4 outcome-form-element slds-m-bottom_medium"></div>
+                                
+                                    <div if:true={isMonthMandate} class="slds-col  slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
+                                        <lightning-combobox
+                                              name={MOB}
+                                              label={MOB}
+                                              value={valueMM}
+                                              title={MOB}
+                                              placeholder="MM"
+                                              options={optionsMM}
+                                              onchange={handleMMChange} required=""></lightning-combobox>
+                                  </div>
+                                  <div if:true={isDayMandate} class="slds-col  slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
+                                              <lightning-combobox
+                                              name={DOB}
+                                              label={DOB}
+                                              value={valueDD}
+                                              title={DOB}
+                                              placeholder="DD"
+                                              options={optionsDD}
+                                              onchange={handleDDChange} required=""></lightning-combobox>
+                                  </div>
+                                  <div class="slds-col  slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
+                                              <lightning-combobox
+                                              name={YOB}
+                                              label={YOB}
+                                              title={YOB}
+                                              value={valueYYYY}
+                                              placeholder="YYYY"
+                                              options={optionsYYYY}
+                                              onchange={handleYYYYChange} required="">
+                                              </lightning-combobox>
+                                  </div>
+                                  <div if:false={isDayMandate} class="slds-col  slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
+                             
+                                    <div >
+                                          <lightning-combobox
+                                                label={Age}
+                                                value={participantSelectedAge}
+                                                placeholder="Age"
+                                                options={ageOptions}
+                                                onchange={handleAgeChange} 
+                                                required=""
+                                                >
+                                                </lightning-combobox>
+                                    </div>
+                              </div>
                                 </div>
                                 <!-- participant's personal information End -->  
                                 <!-- update participant's contact information Start -->
@@ -380,7 +424,17 @@
                                         </div> 
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
                                             <div class="participant-subtext slds-m-bottom_x-smal">
-                                                {utilLabels.RP_DOB_label}: {participant.Date_of_Birth__c}
+                                                <template if:true={isDayMandate}>
+                                                    {labels.Dateofbirth}:&nbsp;{monthName}&nbsp;{participant.Birth_Day__c},&nbsp;{participant.Birth_Year__c}
+                                                </template>
+                                                <template if:false={isDayMandate}>
+                                                    <template if:true={isMonthMandate}>
+                                                        {labels.Monthyearofbirth}:&nbsp;{monthName},&nbsp;{participant.Birth_Year__c}<!--{participant.Birth_Month__c}-->
+                                                    </template>
+                                                    <template if:false={isMonthMandate}>
+                                                        {labels.Yearofbirth}:&nbsp;{participant.Birth_Year__c}
+                                                    </template>
+                                                </template>
                                             </div>
                                         </div> 
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
@@ -393,11 +447,20 @@
                                                 {utilLabels.PE_State}: {mailingState}
                                             </div>
                                         </div> 
-                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
-                                            <div class="participant-subtext slds-m-bottom_x-smal">
-                                                {utilLabels.PG_AS_F_Gender}: {participant.Gender__c}
+                                        <template if:true = {isDayMandate}>
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                                <div class="participant-subtext slds-m-bottom_x-smal">
+                                                    {utilLabels.PG_AS_F_Gender}: {participant.Gender__c}
+                                                </div>
                                             </div>
-                                        </div> 
+                                        </template>
+                                        <template if:false = {isDayMandate}>
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                                <div class="participant-subtext slds-m-bottom_x-smal">
+                                                    {Age}: {participant.Age__c}
+                                                </div>
+                                            </div>
+                                        </template>
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
                                             <div class="participant-subtext slds-m-bottom_x-smal">
                                                 {utilLabels.PG_AS_F_Email_address}: {participant.Email__c}
@@ -408,6 +471,13 @@
                                                 {utilLabels.PG_AS_F_Zip_Postal_Code}:  {participant.Mailing_Zip_Postal_Code__c}
                                             </div>
                                         </div> 
+                                        <template if:false = {isDayMandate}>
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                                <div class="participant-subtext slds-m-bottom_x-smal">
+                                                    {utilLabels.PG_AS_F_Gender}: {participant.Gender__c}
+                                                </div>
+                                            </div>
+                                        </template> 
                                     </div>
                                 </div> <!-- bg-Participant  --> 
                                 <div class="bg-Participant slds-p-around_medium slds-m-bottom_medium slds-m-top_medium">
