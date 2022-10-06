@@ -71,21 +71,20 @@
                                     ></lightning-layout>
 
                                     <div class="modalbody">
-                                        You are about to mark this task as complete. Are you sure
-                                        you would like to continue?
+                                        {label.taskMarkComplete}
                                         <!-- <a >Cancel</a>
                                         <button class="modalbutton">Confirm</button>-->
                                         <lightning-layout style="float: right; margin-right: -1rem">
                                             <lightning-layout-item
                                                 style="margin-top: 2.5rem; margin-right: 1rem"
                                             >
-                                                <a onclick={closeModel}>Cancel</a>
+                                                <a onclick={closeModel}>{label.taskCancel}</a>
                                             </lightning-layout-item>
                                             <lightning-layout-item
                                                 style="margin-top: 2.2rem; margin-right: 1rem"
                                             >
                                                 <button class="modalbutton" onclick={closeTheTask}>
-                                                    Confirm
+                                                    {label.taskConfirm}
                                                 </button>
                                             </lightning-layout-item>
                                         </lightning-layout>

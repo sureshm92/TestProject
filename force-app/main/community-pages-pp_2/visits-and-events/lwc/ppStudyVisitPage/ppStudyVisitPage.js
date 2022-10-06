@@ -261,6 +261,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.createEditTask();
             const objChild = this.template.querySelector('c-pp-r-r-icon-splitter');
             objChild.resetValues();
+            objChild.handleOnVisitClick();
         }
 
         if (this.isMobile == true) {
