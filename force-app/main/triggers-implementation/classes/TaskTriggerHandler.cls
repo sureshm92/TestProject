@@ -194,13 +194,13 @@ public without sharing class TaskTriggerHandler {
         }
 
         for (Task task : tasksWithOwner) {
-            if (task.Task_Code__c != null) {
+           if (task.Task_Code__c != null && task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
                 if (card != null && card.Immediate_Email_Template__c != null) {
                     Id whatId = task.WhatId;
-                    if (whatId == null && task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
+                    if (whatId == null) {
                         whatId = task.Survey_Invitation__c;
-                    }
+                        }
                     if (card.Immediate_Notification_Type__c != null) {
                         if (
                             task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) &&
@@ -211,29 +211,24 @@ public without sharing class TaskTriggerHandler {
                                 new Notification__c(
                                     Recipient__c = usersByIds.get(task.OwnerId).ContactId,
                                     WhatId__c = whatId,
-                                    Notification_Type__c = card.Immediate_Notification_Type__c
+                                    Notification_Type__c = card.Immediate_Notification_Type__c,
+                                    RemindUsing__c = 'Email'
                                 )
                             );
                         }
                         if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
-                            if (
-                                usersByIds.containskey(task.OwnerId) &&
-                                !delegatesCntByPartCnt.containsKey(
-                                    usersByIds.get(task.OwnerId).ContactId
-                                )
-                            )
-                                continue;
-                            if (usersByIds.containskey(task.OwnerId)) {
-                                for (
-                                    Id delContactId : delegatesCntByPartCnt.get(
-                                        usersByIds.get(task.OwnerId).ContactId
-                                    )
-                                ) {
+                             List<Contact> delegates = delegatesByPAContact.containskey(task.WhoId)
+                             ? delegatesByPAContact.get(task.WhoId) : null;
+                           
+                            if (delegates != null && !delegates.isEmpty()) {
+                                for (Contact delContact : delegates)
+                                  {
                                     notifications.add(
                                         new Notification__c(
-                                            Recipient__c = delContactId,
+                                            Recipient__c = delContact.Id,
                                             WhatId__c = whatId,
-                                            Notification_Type__c = card.Immediate_Notification_Type__c
+                                            Notification_Type__c = card.Immediate_Notification_Type__c,
+                                            RemindUsing__c = 'Email'
                                         )
                                     );
                                 }

@@ -625,6 +625,8 @@ private class Test_ParticipantInformationRemote {
                                                                   pList,
                                                                   false,
                                                                   testData.ss.id);
+        
+        ParticipantInformationRemote.disconnectDelegateToPatient(pd.Id);                                                          
         }
     }
     
