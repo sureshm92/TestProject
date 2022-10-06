@@ -338,8 +338,8 @@
             let pe = pendingList[i];
             if (pe.Id === peId) {
                 component.set('v.pEnrollment', pe);
-                let dobFormat = (component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') :  component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') : null);
-                component.set('v.studySiteFormat',dobFormat);
+                //let dobFormat = (component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') :  component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') : null);
+                //component.set('v.studySiteFormat',dobFormat);
                 helper.setParticipant(component, pe);
                 helper.checkSites(component);
                 component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Discussion'));
