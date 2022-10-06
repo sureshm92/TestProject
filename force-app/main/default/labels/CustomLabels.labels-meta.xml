@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>RH_No_Active_Study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_No_Active_Study</shortDescription>
+        <value>You are not associated with an active study / study site</value>
+    </labels>
+    <labels>
+        <fullName>RH_Select_Study_Sites</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Select_Study_Sites</shortDescription>
+        <value>Select a study and study site from the filters above to view scheduled appointments</value>
+    </labels>
+    <labels>
+        <fullName>RH_No_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_No_Study_Site</shortDescription>
+        <value>Select a study site from the filter above to view scheduled appointments</value>
+    </labels>
+    <labels>
         <fullName>DOB_outcome_error</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14,7 +35,7 @@
         <shortDescription>Send to Dct dob error</shortDescription>
         <value>Participant data couldn&apos;t be sent to DCT because some fields related to this participant are missing. Please fill them out on the Participant Details tab before continuing.</value>
     </labels>
-    <labels>        
+    <labels>
         <fullName>Site_Calendar_All_Studies_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -41,7 +62,7 @@
         <protected>false</protected>
         <shortDescription>No appointments scheduled for the selected date and study site</shortDescription>
         <value>No appointments scheduled for the selected date and study site</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>RH_Visit_in_Site</fullName>
         <language>en_US</language>
@@ -54,7 +75,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DOB Batch Label</shortDescription>
-        <value>false</value>
+        <value>true</value>
     </labels>
     <labels>
         <fullName>Discover_Title</fullName>
@@ -5075,7 +5096,7 @@ By using our website, you are accepting our use of cookies.</value>
         <shortDescription>Date_Placeholder</shortDescription>
         <value>DD</value>
     </labels>
-   
+
     <labels>
         <fullName>December</fullName>
         <language>en_US</language>
@@ -9408,6 +9429,20 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quo
         <value>Your height is the measurement of your body from head to foot in centimeters (cm) or feet and inches.</value>
     </labels>
     <labels>
+        <fullName>Help_Emergency_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Help Emergency Contact</shortDescription>
+        <value>If you have a medical emergency, please contact your local emergency medical services.</value>
+    </labels>
+    <labels>
+        <fullName>Help_FAQ</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Help FAQ</shortDescription>
+        <value>Frequently Asked Questions</value>
+    </labels>
+    <labels>
         <fullName>Help_Participant_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10561,7 +10596,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Month_Placeholder</shortDescription>
         <value>MM</value>
     </labels>
-   
+
     <labels>
         <fullName>MO_Active</fullName>
         <language>en_US</language>
@@ -14159,7 +14194,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG AS F Zip Postal Code</shortDescription>
         <value>Zip/Postal Code</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_AS_F_Zip_Postal_Code</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -25123,6 +25158,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Sharing Options</value>
     </labels>
     <labels>
+        <fullName>Task_Completed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Completed</shortDescription>
+        <value>Task marked as complete.</value>
+    </labels>
+    <labels>
         <fullName>Task_Details</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25137,6 +25179,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>If you need to discuss your health, please contact your doctor directly.</value>
     </labels>
     <labels>
+        <fullName>Task_Edit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Edit</shortDescription>
+        <value>Edit</value>
+    </labels>
+    <labels>
+        <fullName>Task_Ignore</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Ignore</shortDescription>
+        <value>Ignore</value>
+    </labels>
+    <labels>
         <fullName>Task_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25149,7 +25205,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Enter Task Name</shortDescription>
         <value>Enter Task Name</value>
-    </labels> 
+    </labels>
     <labels>
         <fullName>Task_Reminder_Details</fullName>
         <language>en_US</language>
@@ -25310,6 +25366,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Task Type Visit</shortDescription>
         <value>Visit</value>
+    </labels>
+    <labels>
+        <fullName>Task_create_reminder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task create reminder</shortDescription>
+        <value>Create Reminder</value>
     </labels>
     <labels>
         <fullName>Technical_Support</fullName>
@@ -26440,7 +26503,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Year_Placeholder</shortDescription>
         <value>YYYY</value>
     </labels>
-   
+
     <labels>
         <fullName>yearly_task_error</fullName>
         <language>en_US</language>
@@ -27979,8 +28042,8 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>No_active_program</shortDescription>
         <value>No active program</value>
-     </labels>
-     <labels>
+    </labels>
+    <labels>
         <fullName>Navigation_AboutProgram</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -28020,7 +28083,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Study_Visit_No_Date_Or_Time_Entered</shortDescription>
-        <value>No Date Or Time Entered</value>
+        <value>No date or time entered</value>
     </labels>
     <labels>
         <fullName>Visit_My_Visits</fullName>
@@ -28063,7 +28126,7 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Visit Check Result</shortDescription>
         <value>Check for results once your visit has occurred.</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>Visits_View_All_Results</fullName>
         <language>en_US</language>
@@ -28121,8 +28184,8 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Edit Visit/Event Legend</shortDescription>
         <value>Edit Visit/Event Legend</value>
     </labels>
-  	<labels>
-  		<fullName>Date_of_Birth</fullName>
+    <labels>
+        <fullName>Date_of_Birth</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Date of Birth</shortDescription>

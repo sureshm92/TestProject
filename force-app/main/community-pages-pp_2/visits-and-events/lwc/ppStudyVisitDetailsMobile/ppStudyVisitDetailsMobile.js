@@ -96,7 +96,8 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
     getParams() {
         this.visitid = communityService.getUrlParameter('visitid');
-        console.log('visit in getParams: ', this.visitid);
+        this.cblabel = '';
+        this.cbdescription = '';
         if (this.visitid != null) {
             getIcon({
                 visitId: this.visitid
@@ -143,6 +144,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
 
     createEditTask() {
+        this.showChild = false;
         this.contentLoaded = false;
         this.showreminderdatepicker = false;
         if (this.visitid) {
@@ -180,7 +182,23 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
 
     handleDataUpdate() {
-        this.createEditTask();
+        this.redirectPage(this.visitid);
+    }
+
+    redirectPage(visitid) {
+        this.visitdetailurl =
+            window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
+        const config = {
+            type: 'standard__webPage',
+
+            attributes: {
+                url: this.visitdetailurl
+            }
+        };
+
+        this[NavigationMixin.GenerateUrl](config).then((url) => {
+            window.open(url, '_self');
+        });
     }
 
     showErrorToast(titleText, messageText, variantType) {
