@@ -5,6 +5,10 @@ import taskCompleted from '@salesforce/label/c.Task_Completed';
 import taskCreateReminder from '@salesforce/label/c.Task_create_reminder';
 import taskEdit from '@salesforce/label/c.Task_Edit';
 import taskIgnore from '@salesforce/label/c.Task_Ignore';
+import taskMarkComplete from '@salesforce/label/c.Task_Mark_Complete_Msg';
+import taskDue from '@salesforce/label/c.Task_Due';
+import taskCancel from '@salesforce/label/c.RH_RP_Cancel';
+import taskConfirm from '@salesforce/label/c.RH_TV_Confirm';
 
 
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
@@ -28,7 +32,11 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         taskCompleted,
         taskCreateReminder,
         taskEdit,
-        taskIgnore
+        taskIgnore,
+        taskMarkComplete,
+        taskDue,
+        taskCancel,
+        taskConfirm
     };
     isEnrolled;
     emailOptIn;
