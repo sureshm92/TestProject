@@ -63,7 +63,9 @@ public without sharing class TaskService {
         'Is_Reminder_Sent__c',
         'Survey_Invitation__c',
         'Survey_Invitation__r.Is_Expired__c',
-        'Survey_Invitation__r.Participant_Enrollment__c'
+        'Survey_Invitation__r.Participant_Enrollment__c',
+        'Survey_Invitation__r.IsTrialSurvey__c',
+        'Start_Date__c'
     };
 
     public static final List<String> TASK_STATUS_GROUP_EXPIRE_AVAILABLE = new List<String>{
