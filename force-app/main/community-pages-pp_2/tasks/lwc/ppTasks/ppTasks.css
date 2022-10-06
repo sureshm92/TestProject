@@ -173,3 +173,10 @@
     border: none;
     float: right;
 }
+
+.active-custom-box{
+    border: 1px solid #C42EA5;
+  border-radius: 16px;
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
+}

@@ -107,7 +107,7 @@
                         </section>
                     </template>
                     <template for:each={openTasks} for:item="item" for:index="index">
-                        <div key={item} class="inactive-custom-box slds-align_absolute-center">
+                        <div key={item} class="inactive-custom-box slds-align_absolute-center" data-parentdiv={item.openTask.Id}>
                             <lightning-layout-item size="2">
                                 <template if:true={item.systemTask}>
                                     <div
@@ -126,7 +126,7 @@
                                         data-index={item.openTask.Id}
                                     >
                                         <template if:false={item.isClosed}>
-                                            <img src={openTaskImg} class="opentask" />
+                                            <img src={openTaskImg} class="opentask"  />
                                         </template>
                                         <template if:true={item.isClosed}>
                                             <img src={closeTaskImg} class="opentask" />

@@ -19,7 +19,7 @@
             onchange={checkFields} 
             data-name="email"
             data-value="email"
-            required="" disabled={isConnected}></lightning-input>
+            required="" disabled={isConnectedAtLeastOnce}></lightning-input>
         </div>
         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_x-small">
             <lightning-input type="text"
@@ -30,7 +30,7 @@
              data-name="firstName"
              data-value="firstName"
              onblur={doCheckContact}
-             required="" disabled={isConnected}></lightning-input>
+             required="" disabled={isConnectedAtLeastOnce}></lightning-input>
         </div>
         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_x-small">
             <lightning-input type="text" 
@@ -41,7 +41,7 @@
             data-name="lastName"
             data-value="lastName"
             onblur={doCheckContact}
-            required="" disabled={isConnected}></lightning-input>
+            required="" disabled={isConnectedAtLeastOnce}></lightning-input>
         </div>
         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_x-small">
             <template if:true={isConnected}>
@@ -55,10 +55,44 @@
                 </button>
             </template>
         </div>
-        <template if:true={isDuplicate}>
-           <c-pir_participant-emancipated-duplicate-message
-             duplicate-info={duplicateDelegateInfo} onuseduplicaterecord={useDuplicateRecord}>
-           </c-pir_participant-emancipated-duplicate-message>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_x-small" if:true={isDisplay}>
+            <lightning-combobox
+               name="progress"
+               label={labels.YearOfBirth}
+               placeholder="--"
+               options={yobOptions}                  
+               required
+               data-name='yob'
+               class="validate"                  
+               value={birthYear}
+               dropdown-alignment="bottom-left"
+               onchange={checkDelegateAgeHandler}
+               ></lightning-combobox>
+               <!--value={sharingObject.Birth_Year__c}-->
+               
+            
+               
+         </div>
+         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_3-of-4 outcome-form-element slds-m-bottom_x-small" if:true={isDisplay}>
+            <lightning-input 
+                  type="checkbox" 
+                  class="validate checkbox-text" 
+                  label={labels.DelegateAttestation}
+                  name="input2"
+                  required 
+                  data-name="attestCheckbox"
+                  checked={checkBox}
+                  disabled={isAdultDelegate}
+                  onchange={checkFields}
+                  >
+            </lightning-input>
+         </div>
+        <template if:false={isDisconnected}> 
+            <template if:true={isDuplicate}>
+                <c-pir_participant-emancipated-duplicate-message
+                    duplicate-info={duplicateDelegateInfo} onuseduplicaterecord={useDuplicateRecord}>
+                </c-pir_participant-emancipated-duplicate-message>
+            </template>
         </template>
         </div>
     </div>

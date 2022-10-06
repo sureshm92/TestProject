@@ -149,9 +149,14 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         this.isShowModal = true;
         this.popUpTaskId = taskId;
         this.selectedTaskId = taskId;
+        let radioTask = this.template.querySelector('[data-parentdiv="' + this.selectedTaskId + '"]');
+        radioTask.classList.add('active-custom-box');
+ 
     }
     hideModalBox() {
         this.isShowModal = false;
+        let radioTask = this.template.querySelector('[data-parentdiv="' + this.selectedTaskId + '"]');
+        radioTask.classList.remove('active-custom-box');
     }
     closeTheTask() {
         this.hideModalBox();
@@ -246,6 +251,8 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         let radioTask = this.template.querySelector('[data-modalpopup="' + this.popUpTaskId + '"]');
         console.log(this.popUpTaskId);
         this.isShowModal = false;
+        let radioTask2 = this.template.querySelector('[data-parentdiv="' + this.selectedTaskId + '"]');
+        radioTask2.classList.remove('active-custom-box');
     }
     showToast(titleText, messageText, variantType) {
         this.dispatchEvent(
