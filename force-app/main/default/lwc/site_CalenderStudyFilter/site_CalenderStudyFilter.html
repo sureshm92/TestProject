@@ -19,9 +19,37 @@
                 onclick={toggleAccordian}
               >
                 <span
+                  if:false={isFilterChange}
                   class="slds-accordion__summary-content slds-p-left_x-small"
                   >{label.Site_Calendar_All_Studies_Sites}</span
                 >
+                <div 
+                  class="display-box"
+                  if:true={isFilterChange}>
+
+                  <div 
+                    class=" slds-accordion__summary-content line-height-text"
+                    ><div 
+                      class="text-width">
+                        {getFirstSelecedStudyy}
+                  </div>&nbsp;<div 
+                      class="more-width">
+                        {studyCountStr}
+                </div>
+                  </div>
+
+                  <div 
+                    class="slds-accordion__summary-content line-height-text"
+                    ><div 
+                      class="text-width"
+                      >{getFirstSelecedStudySitess}
+                  </div>&nbsp;<div 
+                      class="more-width"
+                        >{studySiteCountStr}
+                  </div>
+                  </div>
+
+              </div>
                 <span>
                   <lightning-icon
                     class="conAcc"
@@ -51,7 +79,7 @@
               >
                 <label class="slds-form-element__label slds-no-flex"
                   >{label.RH_StudyName_Import}<span
-                    class="close-icon"
+                    class="close-icon s-icon"
                     onclick={removeAllStudy}
                     >{label.Clear_All}</span
                   ></label
@@ -63,9 +91,10 @@
                 <div
                   class="slds-form-element__control slds-grow slds-input slds-p-around--none sBox comboboxContainer dropdown-width"
                   tabindex="0"
-                  onfocus={openETH}
                   onblur={closeETH}
+                  onclick={toggleDropdown}
                 >
+                <!-- onfocus={openETH} -->
                   <div class="slds-combobox_container">
                     <div
                       class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click sBoxOpen"
@@ -117,7 +146,7 @@
                                   <span
                                     class="slds-media__figure slds-listbox__option-icon"
                                   ></span>
-                                  <span class="slds-media__body">
+                                  <span class="slds-media__body drop-truncate">
                                     <label class="slds-truncate">
                                       <!--<input type="checkbox" name={item.label} value={item.value} checked={item.check} data-item={item} class="input-width noclk" onchange={setStudyList}/>-->
                                       <input
@@ -150,7 +179,7 @@
               >
                 <label class="slds-form-element__label slds-no-flex"
                   >{label.RH_StudySite_Import}<span
-                    class="close-icon"
+                    class="close-icon ssicon"
                     onclick={removeAllStudySites}
                     >{label.Clear_All}</span
                   ></label
@@ -160,11 +189,13 @@
                 class="eth slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_medium p-left"
               >
                 <div
-                  class={disablecss}
-                  tabindex="0"
-                  onfocus={openStudySites}
+                  id="studysitedropdown"
+                  class="slds-form-element__control slds-grow slds-input slds-p-around--none ssBox comboboxContainer dropdown-width"
+                  tabindex="0"                  
                   onblur={closeStudySites}
+                  onclick={toggleStudySites}
                 >
+                <!-- onfocus={openStudySites} -->
                   <div class="slds-combobox_container">
                     <div
                       class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click ssBoxOpen"
@@ -215,7 +246,7 @@
                                   <span
                                     class="slds-media__figure slds-listbox__option-icon"
                                   ></span>
-                                  <span class="slds-media__body">
+                                  <span class="slds-media__body drop-truncate">
                                     <label class="slds-truncate">
                                       <input
                                         type="checkbox"

@@ -43,8 +43,11 @@
                                             create-task={createTask}
                                             ondatechange={handleDate}
                                             ontimechange={handleTime}
-                                            ondate={handleDate}
-                                            ontime={handleTime}
+                                            compdate={taskDueDate}
+                                            comptime={taskDueTime}
+                                            ondate={handleOnlyDate}
+                                            ontime={handleOnlyTime}
+                                            onnulldatetime={handleNullDateTime}
                                             oninitialdateload={handleInitialDateLoad}
                                             oninitialtimeload={handleInitialTimeLoad}
                                             icon-size="small"
@@ -55,7 +58,7 @@
                                             ><c-pp-create-task-reminder
                                                 init-data={initData}
                                                 current-date={currentDate}
-                                                current-time={currentTime}
+                                                current-time={todaytime}
                                                 task-due-date-time={taskDateTime}
                                                 task-due-date={taskDueDate}
                                                 task-due-time={taskDueTime}

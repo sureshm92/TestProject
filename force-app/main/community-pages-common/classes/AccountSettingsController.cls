@@ -130,7 +130,7 @@ public without sharing class AccountSettingsController {
                         perListAllforCommPref.addAll(availablePEsForDel);
                     }
 
-                    //TODO: Check this logic for Delegate withdrawn from Alumi Study - Start
+                    //TODO: Redesign this logic for delegate redesign changes - Start
                     //When delegate was delegate of Alumi Participant and Delegate withdrawn from Alumi Participant.
                     //Note: In this case there wont be any PER record associated with Delegate via Participant. 
                     if (
@@ -138,10 +138,18 @@ public without sharing class AccountSettingsController {
                         !participantState.isDelegate && 
                         (perListAllforCommPref == null || perListAllforCommPref.isEmpty())
                     ) {
-                        isDelegateSelfView = true;
-                        checkIfDelAlsoAParticipant = true;
+                        //Get the PER Record from the alumni Participant.
+                        peIdList = PatientDelegateService.getAvailablePEIdsForDelContact(
+                            participantState.participant.Contact__c
+                        );
+
+                        List<Participant_Enrollment__c> availablePEsForDel = getPERRecords(peIdList);
+                        if (availablePEsForDel != null)
+                        perListAllforCommPref.addAll(availablePEsForDel);
+                        //isDelegateSelfView = true;
+                        //checkIfDelAlsoAParticipant = true;
                     }
-                    //TODO: Check this logic for Delegate withdrawn from Alumi Study - End
+                     //TODO: Redesign this logic for delegate redesign changes - Start
 
                     //if (perListAllforCommPref != null) {
                         //Prepare Communication Preference data.

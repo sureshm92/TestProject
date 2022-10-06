@@ -22,6 +22,8 @@
             onapplystudysitefilterevent={handleStudySiteFilterEvent}
             studysitedetails={studySiteDetails}
             onaccordianevent={handleAccordianEvent}
+            onclearall={handleClearAll}
+            disable-filters={disableFilters}
           ></c-site_-calender-study-filter>
         </div>
       </template>
@@ -39,7 +41,7 @@
                           time-zone={userTimeZone}
                           value={visit.visitDateTime}
                           hour="2-digit"
-                          minute="2-digit">
+                          minute="2-digit"> 
                         </lightning-formatted-date-time> - <span class="step-minutes">{visit.durationTime}</span>
                       </template>
                       <template if:false={visit.durationTime}>
@@ -59,6 +61,7 @@
                         onclick={navigateToParticipantTab}
                         name={visit.fullName}
                         title={visit.refIdName}
+                        id={visit.durationTime}
                       >
                         {visit.participantName}
                       </a>
@@ -104,7 +107,7 @@
             <div class="slds-m-bottom_small">
               <img class="status-img" src={NoVisitDataIcon} />
             </div>
-            <div class="eventText">{label.NoVisits}</div>
+            <div class="eventText">{noData}</div>
           </div>
           <!-- No Event -->
         </template>

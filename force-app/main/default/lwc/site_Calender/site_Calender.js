@@ -15,6 +15,8 @@ import Join from "@salesforce/label/c.WelcomeModal_Join";
 import Televisit from "@salesforce/label/c.RH_Televisit";
 import VisitInSite from "@salesforce/label/c.RH_Visit_in_Site";
 import NoVisits from "@salesforce/label/c.RH_No_Visits";
+import NoActiveStudy from "@salesforce/label/c.RH_No_Active_Study";
+import propertyName from "@salesforce/community/basePath";
 
 const timeZone = TIME_ZONE;
 const locale = LOCALE;
@@ -31,8 +33,11 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
     Join,
     Televisit,
     VisitInSite,
-    NoVisits
+    NoVisits,
+    NoActiveStudy
   };
+  noData = '';
+  clearAll = false;
   divcss =
     "slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-scrollable scroll-mobile filterclose";
   //Accordian
@@ -66,6 +71,7 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
   isStudyDetailsFilled;
   loginUserDate;
   selectedDate;
+  disableFilters = false;
 
   connectedCallback() {
     loadStyle(this, SiteCalCSS);
@@ -107,55 +113,83 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
 
         userDate = yyyy + "-" + mm + "-" + dd;
         this.selectedDate = userDate;
-        this.fetchVisitData(userDate);
-      })
-      .catch((error) => {
-        this.error = error;
-      });
-  }
-  haveVisits = true; //added for no visits
-  fetchVisitData(dateSelected) {
-    this.filterData.calendarDate = dateSelected;
-    recordsOfTeleAndInitialVisit({
-      filterData: JSON.stringify(this.filterData)
-    })
-      .then((result) => {
-        this.isLoaded = false;
-        if (result.length != 0) {
-          this.haveVisits = true;
-          this.visitData = result;
-          if (this.visitData.durationTime != null) {
-            this.visitData.forEach(function (vss) {
-              var now = new Date();
-              let dateNow = new Date(now);
-              let bannerStartTime = new Time(vss.visitTime);
-              if (dateNow >= bannerStartTime) {
-                this.totalTime = true;
-              }
-            });
-          }
-          this.error = undefined;
+        if(this.studyValuesId.length > 0 && this.studySiteValues.length > 0) {
+          this.disableFilters = false;
+          this.fetchVisitData(userDate);
         } else {
+          this.disableFilters = true;
           this.haveVisits = false;
+          this.noData = this.label.NoActiveStudy;
+          this.isLoaded = false;
         }
       })
       .catch((error) => {
         this.error = error;
+        console.log('error:'+error);
       });
+  }
+  haveVisits = true; //added for no visits
+  fetchVisitData(dateSelected) {
+    if(!this.clearAll || this.disableFilters) {
+      this.filterData.calendarDate = dateSelected;
+      recordsOfTeleAndInitialVisit({
+        filterData: JSON.stringify(this.filterData)
+      })
+        .then((result) => {
+          this.isLoaded = false;
+          if (result.length != 0) {
+            this.haveVisits = true;
+            this.visitData = result;
+            if (this.visitData.durationTime != null) {
+              this.visitData.forEach(function (vss) {
+                var now = new Date();
+                let dateNow = new Date(now);
+                let bannerStartTime = new Time(vss.visitTime);
+                if (dateNow >= bannerStartTime) {
+                  this.totalTime = true;
+                }
+              });
+            }
+            this.error = undefined;
+          } else {
+            this.haveVisits = false;
+            this.noData = this.label.NoVisits
+          }
+        })
+        .catch((error) => {
+          this.error = error;
+          console.log('error:'+error);
+        });
+    }
   }
   navigateToParticipantTab(event) {
     this.refIdName = event.currentTarget.title;
     this.fullname = event.currentTarget.name;
-    this[NavigationMixin.Navigate]({
-      type: "comm__namedPage",
-      attributes: {
-        pageName: "my-referrals"
-      },
-      state: {
-        perName: this.refIdName,
-        Pname: this.fullname
-      }
-    });
+    if (!event.currentTarget.id) {
+      this[NavigationMixin.Navigate]({
+        type: "comm__namedPage",
+        attributes: {
+          pageName: "my-referrals"
+        },
+        state: {
+          perName: this.refIdName,
+          Pname: this.fullname,
+          dTime: "false"
+        }
+      });
+    } else {
+      this[NavigationMixin.Navigate]({
+        type: "comm__namedPage",
+        attributes: {
+          pageName: "my-referrals"
+        },
+        state: {
+          perName: this.refIdName,
+          Pname: this.fullname,
+          dTime: "true"
+        }
+      });
+    }
   }
 
   handleDateSelection(event) {
@@ -168,6 +202,7 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
     this.isLoaded = true;
     let studyIds = [];
     let siteIds = [];
+    this.clearAll = false;
     for (let i = 0; i < event.detail.study.length; i++) {
       studyIds.push(event.detail.study[i].value);
     }
@@ -180,7 +215,7 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
   }
 
   handleJoin(event) {
-    let url = event.currentTarget.dataset.meeturl;
+    let url = propertyName.replace('/s', '') + event.currentTarget.dataset.meeturl;
     window.open(url, "_blank");
   }
 
@@ -194,4 +229,13 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
         "slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-scrollable scroll-mobile filterclose";
     }
   }
+
+  handleClearAll(event) {
+    this.clearAll = true;
+    this.haveVisits = false;
+    this.filterData.study = [];
+    this.filterData.studySite = [];
+    this.noData = event.detail.msg;
+  }
+  
 }
