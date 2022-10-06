@@ -88,9 +88,32 @@
         header2=true
         header-value2=""
         modalsize="small">    
-        <div slot="body" class="processBody"> 
+        <div slot="body" class="processBody">
+            
+            <div class="progress-bar">
+                <div class="status-bar">
+                    <template for:each={surveyCompleted} for:item="Scom">
+                        <div class="status-path-item  completed"  key={Scom.Id}>      
+                        </div>
+                    </template>
+                    <template for:each={surveyInProgress} for:item="SurveyProgress">
+                        
+                    <div  class="status-path-item  progress" key={SurveyProgress.Id}>      
+                    </div>
+                    </template>
+                    <template for:each={surveyPending} for:item="SurveyPend">
+                        <div  class="status-path-item  " key={SurveyPend.Id}>      
+                        </div>
+                    </template>
+                    
+                </div><!-- status-bar  -->                 
+            </div><!-- progress-bar  -->
+            <div class="screenercss">
+            {completedSurveyByUser} {label.of} {totalSurveyToComplete} {label.RH_ScreenerComplete} 
+            </div>
+             
             <template if:false={mrrResults}>
-                 <c-pir_mrr-log gizmosrc={mrrLink} peid={peId} mrrorprescreener ="mrr" onmedicalreviewresult={doMrrResult} ></c-pir_mrr-log>
+                 <c-pir_mrr-log gizmosrc={mrrLink} peid={peId} currentsurvey ={currentSurvey}   onmedicalreviewresult={doMrrResult} ></c-pir_mrr-log>
             </template>
             <template if:true={mrrResults}>
                 <div class="mrr-alert">
@@ -119,15 +142,15 @@
                             <template if:true={showAction}>
                                 <template if:false={showActiondt}>
                                     <template if:false={showActionbtnDisabled}>
-                                        <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small" title={label.inviteToPP}  onclick={doAction}> {label.inviteToPP} </button> 
-                                    </template>
+                                        <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small" title={label.inviteToPP}  onclick={doAction}> {label.inviteToPP} </button>
                                 </template>
+                            </template>
                             </template>
                         </template>
                     </div>
                     <div>
                         <template if:true={showPreScreener_Button}>
-                            <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small" onclick={pre_Eligibility}>{label.RH_Complete_Pre_Screener}</button>
+                            <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small" onclick={pre_Eligibility}>{label.RH_Complete_Participant_Screener}</button>
                         </template>
                     </div>        
                     <div>
@@ -139,56 +162,4 @@
     </c-popup-l-w-c>
    </template>
     </div>
-   <template if:true={openPreScreener_Modal}>
-    <c-popup-l-w-c
-    show-modal=true
-    onclose={closePreScreener_Modal} 
-    header2=true
-    header-value2=""
-    modalsize="small">    
-    <div slot="body" class="processBody"> 
-        <template if:false={preScreenerResults}>
-             <c-pir_mrr-log gizmosrc={preScreenerLink} peid={peId} mrrorprescreener ="prescreener" onprescreenerresult={doPreScreenerResult} ></c-pir_mrr-log>
-        </template>
-        <template if:true={preScreenerResults}>
-            <div class="mrr-alert">
-                <div>
-                    <template if:true={preScreenerPassed}>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="mrr-icon-pass">
-                            <use xlink:href={mrrPass}></use>
-                        </svg>
-                    </template>
-                    <template if:false={preScreenerPassed}>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="mrr-icon-fail">
-                            <use xlink:href={mrrFail}></use>
-                        </svg>
-                    </template>
-                </div>
-                <div class="main-title">
-                    <template if:true={preScreenerPassed}>
-                        <div class="slds-truncate"> {per.Participant__r.Full_Name__c}  &nbsp;{label.PG_MRR_R_Passed} </div>
-                    </template>
-                    <template if:false={preScreenerPassed}>
-                       <div class="slds-truncate">  {per.Participant__r.Full_Name__c} &nbsp;{label.PG_MRR_R_Failed} </div>
-                    </template>
-                </div>
-                <div>
-                    <template if:true={checkAction}>
-                        <template if:true={showAction}>                            
-                            <template if:false={showActiondt}>
-                                <template if:false={showActionbtnDisabled}>
-                                    <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small"  onclick={doAction}> {label.inviteToPP} </button> 
-                                </template>
-                            </template>
-                        </template>
-                    </template>
-                </div>
-                <div>
-                    <lightning-button variant="base" label={label.PG_MRR_BTN_Back_to_My_Participant} onclick={closePreScreener_Modal} class="back-to-my-participant"></lightning-button>
-                </div>
-            </div>
-        </template>
-    </div> 
-</c-popup-l-w-c>
-</template>   
 </template>
