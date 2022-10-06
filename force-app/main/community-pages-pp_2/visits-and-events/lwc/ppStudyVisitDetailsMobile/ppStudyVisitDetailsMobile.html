@@ -6,10 +6,7 @@
             icon-color="#015ff1"
             onclick={handleBackClick}
         ></c-web-icon>
-        <lightning-button
-            variant="base"
-            label={label.BTN_Back}
-        ></lightning-button>
+        <lightning-button variant="base" label={label.BTN_Back}></lightning-button>
     </div>
     <div class="mVisitContent">
         <h1 if:false={past} class="visit3">
@@ -68,6 +65,7 @@
                     sitename={siteName}
                     sitephone={sitePhoneNumber}
                     ondataupdated={handleDataUpdate}
+                    ondiscard={handleDiscard}
                 >
                 </c-pp-study-visit-details-card>
 
@@ -79,15 +77,7 @@
 
         <h1 class="what-to-expect">{label.results}</h1>
         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 icon-cont1-mobile">
-            <div class="slds-grid slds-wrap">
-                <div class="slds-col center slds-p-around_large">
-                    <img src={visitimage1} class="image-result-mobile" />
-                </div>
-                <div class="slds-col center slds-p-bottom_xx-large check-for-results-on">
-                    {label.resultsCheck}
-                </div>
-                <div class="slds-col center view-result">{label.viewAllResults}</div>
-            </div>
+            <c-pp-study-visit-result-card></c-pp-study-visit-result-card>
         </div>
     </div>
 </template>
