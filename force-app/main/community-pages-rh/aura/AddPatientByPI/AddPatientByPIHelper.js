@@ -404,7 +404,6 @@
 
                 component.set('v.participant.Adult__c', !isNeedGuardian);
                 component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
-                if (isNeedGuardian != component.get('v.needsGuardian')) {
                     component.set('v.needsGuardian', isNeedGuardian);
                     if(!isNeedGuardian){            
                         component.set('v.delNotAdultErrMsg',false);
@@ -424,7 +423,6 @@
                     else{
                         component.find('checkbox-delegate').getElement().disabled = false; //REF-3070
                     }
-                }
             },
             null,
             function () {

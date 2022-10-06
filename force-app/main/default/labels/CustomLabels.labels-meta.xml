@@ -4760,6 +4760,7 @@ By using our website, you are accepting our use of cookies.</value>
         <shortDescription>DLIT L Accept a patient</shortDescription>
         <value>Accept a participant</value>
     </labels>
+
     <labels>
         <fullName>DLIT_L_Accept_a_referring_HCP</fullName>
         <language>en_US</language>
