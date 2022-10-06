@@ -30,6 +30,11 @@ export default class PpRRIconSplitter extends LightningElement {
         }
     }
 
+    @api
+    handleOnVisitClick() {
+        this.isloaded = false;
+    }
+
     handleonclick(event) {
         this.label = event.target.dataset.label;
         this.description = event.target.dataset.description;
