@@ -143,6 +143,11 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
             });
     }
 
+    handleDiscard() {
+        this.showChild = false;
+        this.createEditTask();
+    }
+
     createEditTask() {
         this.showChild = false;
         this.contentLoaded = false;

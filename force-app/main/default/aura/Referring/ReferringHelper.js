@@ -289,7 +289,7 @@
         let dobFormat = component.get('v.studySiteFormat');
         let participantDOB = new Date(bYear+"-"+bMonth+"-"+bDay);
         let selectedParticipantAge = component.get('v.selectedAge');
-        let isDobValid = (dobFormat == 'DD-MM-YYYY' && participantDOB <= dateToday) || (!dobFormat != 'DD-MM-YYYY' && selectedParticipantAge!='');
+        let isDobValid = (dobFormat == 'DD-MM-YYYY' && participantDOB <= dateToday && selectedParticipantAge!='') || (!dobFormat != 'DD-MM-YYYY' && selectedParticipantAge!='');
         let isValid = false;
         isValid =
             isValid ||
