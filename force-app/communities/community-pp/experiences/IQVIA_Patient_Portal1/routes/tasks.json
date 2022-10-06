@@ -3,7 +3,7 @@
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
   "configurationTags" : [ ],
   "id" : "db858ce4-5f88-4523-9119-0a9c4fc8e7f9",
-  "label" : "tasks",
+  "label" : "Tasks",
   "pageAccess" : "UseParent",
   "routeType" : "custom-tasks",
   "type" : "route",
