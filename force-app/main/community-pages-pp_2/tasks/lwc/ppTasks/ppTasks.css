@@ -67,7 +67,7 @@
     background-color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     margin-bottom: 8px;
-    margin-top: 8px;
+    /* margin-top: 8px; */
 }
 
 .sandy {
@@ -105,17 +105,14 @@
 }
 
 .systask {
-    height: 96px;
-    width: 510px;
-    margin-left: 16px;
+    margin-left: 6px;
 }
 
 .opentask {
     box-sizing: border-box;
-    height: 24px;
-    width: 24px;
     background-color: #ffffff;
-    margin-left: 25px;
+    margin-left: 20px;
+    cursor: pointer;
 }
 
 .completemask {
@@ -172,4 +169,65 @@
     line-height: 1.5rem;
     border: none;
     float: right;
+}
+.overflow-scroll {
+    height: 500px;
+    overflow-y: auto;
+}
+.active-custom-box {
+    border: 1px solid #c42ea5;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+}
+.fillOval {
+    fill: rgba(196, 46, 165, 0.1);
+}
+.emptyOval {
+    fill: #ffffff;
+}
+.critical-rect {
+    position: relative;
+    bottom: 10px;
+    float: right;
+    padding: 0px 6px 0 6px;
+    background-color: #e20000;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+}
+@media all and (max-width: 486px) {
+    .inactive-custom-box {
+        width: 366px;
+        margin-left: 0.75rem;
+    }
+    .opentask {
+        margin-left: 10px;
+    }
+    .mob-task-sub {
+        margin-left: 0.75rem;
+    }
+    .tasks {
+        margin-left: 1rem;
+    }
+    .overflow-scroll {
+        height: unset !important;
+        overflow-y: unset !important;
+    }
+}
+/* Scroll bar custom */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #fff;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #999999;
 }

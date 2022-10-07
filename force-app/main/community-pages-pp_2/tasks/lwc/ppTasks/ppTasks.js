@@ -5,7 +5,10 @@ import taskCompleted from '@salesforce/label/c.Task_Completed';
 import taskCreateReminder from '@salesforce/label/c.Task_create_reminder';
 import taskEdit from '@salesforce/label/c.Task_Edit';
 import taskIgnore from '@salesforce/label/c.Task_Ignore';
-
+import taskMarkComplete from '@salesforce/label/c.Task_Mark_Complete_Msg';
+import taskDue from '@salesforce/label/c.Task_Due';
+import taskCancel from '@salesforce/label/c.RH_RP_Cancel';
+import taskConfirm from '@salesforce/label/c.RH_TV_Confirm';
 
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
@@ -28,7 +31,11 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         taskCompleted,
         taskCreateReminder,
         taskEdit,
-        taskIgnore
+        taskIgnore,
+        taskMarkComplete,
+        taskDue,
+        taskCancel,
+        taskConfirm
     };
     isEnrolled;
     emailOptIn;
@@ -52,14 +59,17 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     cssClass;
     popUpTaskId;
     @track popupTaskMenuItems;
-    carList = ['Create Reminder', 'Ignore', 'Edit'];
     threedots_imgUrl = pp_icons + '/' + 'three_dots.png';
     systemTaskImg = pp_icons + '/' + 'Task_Illustration.svg';
     openTaskImg = pp_icons + '/' + 'Oval.svg';
     closeTaskImg = pp_icons + '/' + 'Oval_Completed.svg';
-    reminderObj = {name: this.label.taskCreateReminder,iconUrl :'reminderbell_icom',reminder:true};
-    editObj = {name: this.label.taskEdit,iconUrl :'Pencil_Icon',edit:true};
-    ignoreObj = {name: this.label.taskIgnore,iconUrl :'icon-close',ignore:true};
+    reminderObj = {
+        name: this.label.taskCreateReminder,
+        iconUrl: 'reminderbell_icom',
+        reminder: true
+    };
+    editObj = { name: this.label.taskEdit, iconUrl: 'Pencil_Icon', edit: true };
+    ignoreObj = { name: this.label.taskIgnore, iconUrl: 'icon-close', ignore: true };
 
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
@@ -76,7 +86,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         this.spinner.show();
         getPPParticipantTasks()
             .then((participantTasks) => {
-                console.log('ppp',participantTasks);
+                console.log('ppp', participantTasks);
                 this.showCreateTaskButton = participantTasks.showCreateTaskButton;
                 this.openTasks = participantTasks.openTasksWrapper;
                 this.populateSystemTasks(this.openTasks);
@@ -101,6 +111,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     }
     handleTaskClose(event) {
         this.isCreateTask = event.detail.isClose;
+        this.initializeData();
     }
 
     populateSystemTasks(tasks) {
@@ -110,14 +121,15 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].openTask.Task_Code__c === undefined
                     ? false
                     : this.taskCodeList.includes(tasks[i].openTask.Task_Code__c);
-            tasks[i].dueDate = tasks[i].openTask.activityDate ? true : false;
+            tasks[i].dueDate = tasks[i].openTask.Activity_Datetime__c ? true : false;
             tasks[i].startDate =
-                tasks[i].openTask.Start_Date__c && tasks[i].openTask.activityDate === undefined
+                tasks[i].openTask.Start_Date__c &&
+                tasks[i].openTask.Activity_Datetime__c === undefined
                     ? true
                     : false;
             tasks[i].createdDate =
                 tasks[i].openTask.Start_Date__c === undefined &&
-                tasks[i].openTask.activityDate === undefined
+                tasks[i].openTask.Activity_Datetime__c === undefined
                     ? true
                     : false;
         }
@@ -142,9 +154,17 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         this.isShowModal = true;
         this.popUpTaskId = taskId;
         this.selectedTaskId = taskId;
+        let radioTask = this.template.querySelector(
+            '[data-parentdiv="' + this.selectedTaskId + '"]'
+        );
+        radioTask.classList.add('active-custom-box');
     }
     hideModalBox() {
         this.isShowModal = false;
+        let radioTask = this.template.querySelector(
+            '[data-parentdiv="' + this.selectedTaskId + '"]'
+        );
+        radioTask.classList.remove('active-custom-box');
     }
     closeTheTask() {
         this.hideModalBox();
@@ -168,55 +188,54 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
             });
     }
     expandtheCard(event) {
-        try{
-        this.popupTaskMenuItems = [];
-        var taskId = event.currentTarget.dataset.popup;
-        console.log('taskid', taskId);
-        this.popUpTaskId = taskId;
-        let radioTask = this.template.querySelector('[data-popup="' + taskId + '"]');
-        let cl = radioTask.classList.value;
-        let selectedTask;
-        for (let i = 0; i < this.openTasks.length; i++) {
-            if (this.openTasks[i].openTask.Id == this.popUpTaskId) {
-                selectedTask = this.openTasks[i];
-                break;
+        try {
+            this.popupTaskMenuItems = [];
+            var taskId = event.currentTarget.dataset.popup;
+            console.log('taskid', taskId);
+            this.popUpTaskId = taskId;
+            let radioTask = this.template.querySelector('[data-popup="' + taskId + '"]');
+            let cl = radioTask.classList.value;
+            let selectedTask;
+            for (let i = 0; i < this.openTasks.length; i++) {
+                if (this.openTasks[i].openTask.Id == this.popUpTaskId) {
+                    selectedTask = this.openTasks[i];
+                    break;
+                }
             }
+            console.log(selectedTask.openTask.Task_Code__c);
+
+            if (
+                this.taskCodeList.includes(selectedTask.openTask.Task_Code__c) &&
+                selectedTask.openTask.Task_Code__c != 'Complete_Survey'
+            ) {
+                this.popupTaskMenuItems.push(this.reminderObj);
+            } else {
+                if (selectedTask.openTask.Task_Code__c == 'Complete_Survey') {
+                    this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
+                } else {
+                    if (selectedTask.openTask.Originator__c == 'IQVIA Admin') {
+                        this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
+                    } else {
+                        this.popupTaskMenuItems.push(this.editObj, this.ignoreObj);
+                    }
+                }
+
+                //this.popupTaskMenuItems.push('Edit');
+            }
+
+            for (var i = 0; i < this.popupTaskMenuItems.length; i++) {
+                console.log(this.popupTaskMenuItems[i].name);
+                console.log(this.popupTaskMenuItems[i].iconUrl);
+            }
+            console.log(this.popupTaskMenuItems);
+            console.log(this.openTasks);
+            console.log(cl.includes('slds-is-open'));
+            if (!cl.includes('slds-is-open')) radioTask.classList.add('slds-is-open');
+            console.log(radioTask.classList.value);
+            if (cl.includes('slds-is-open')) radioTask.classList.remove('slds-is-open');
+        } catch (e) {
+            alert(e);
         }
-        console.log(selectedTask.openTask.Task_Code__c);
-
-        if (
-            this.taskCodeList.includes(selectedTask.openTask.Task_Code__c) &&
-            selectedTask.openTask.Task_Code__c != 'Complete_Survey'
-        ) {
-            this.popupTaskMenuItems.push(this.reminderObj);
-
-        } else {
-            if(selectedTask.openTask.Task_Code__c =='Complete_Survey'){
-this.popupTaskMenuItems.push(this.ignoreObj,this.reminderObj); //reminderObj
-            }
-            else{
-                this.popupTaskMenuItems.push(this.editObj,this.ignoreObj,this.reminderObj); 
-            }
-
-            //this.popupTaskMenuItems.push('Edit');
-        }
-
-        for(var i=0;i<this.popupTaskMenuItems.length;i++)
-            {
-            console.log(this.popupTaskMenuItems[i].name);
-            console.log(this.popupTaskMenuItems[i].iconUrl);
-
-            }
-        console.log(this.popupTaskMenuItems);
-        console.log(this.openTasks);
-        console.log(cl.includes('slds-is-open'));
-        if (!cl.includes('slds-is-open')) radioTask.classList.add('slds-is-open');
-        console.log(radioTask.classList.value);
-        if (cl.includes('slds-is-open')) radioTask.classList.remove('slds-is-open');
-    }catch(e)
-    {
-        alert(e);
-    }
     }
 
     closeMenu() {
@@ -234,6 +253,10 @@ this.popupTaskMenuItems.push(this.ignoreObj,this.reminderObj); //reminderObj
         let radioTask = this.template.querySelector('[data-modalpopup="' + this.popUpTaskId + '"]');
         console.log(this.popUpTaskId);
         this.isShowModal = false;
+        let radioTask2 = this.template.querySelector(
+            '[data-parentdiv="' + this.selectedTaskId + '"]'
+        );
+        radioTask2.classList.remove('active-custom-box');
     }
     showToast(titleText, messageText, variantType) {
         this.dispatchEvent(
@@ -243,5 +266,17 @@ this.popupTaskMenuItems.push(this.ignoreObj,this.reminderObj); //reminderObj
                 variant: variantType
             })
         );
+    }
+    fillTheOpenIcon(event) {
+        // alert('fillTheOpenIcon')
+        var taskId = event.currentTarget.dataset.index;
+        let radioTask2 = this.template.querySelector('[data-index="' + taskId + '"]');
+        if (radioTask2.classList.value.includes('fillOval')) {
+            radioTask2.classList.remove('fillOval');
+            radioTask2.classList.add('emptyOval');
+        } else {
+            radioTask2.classList.add('fillOval');
+            radioTask2.classList.remove('emptyOval');
+        }
     }
 }

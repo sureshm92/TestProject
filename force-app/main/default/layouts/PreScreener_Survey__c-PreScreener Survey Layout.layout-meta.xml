@@ -21,7 +21,7 @@
                 <field>Link_to_Pre_screening__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Study__c</field>
             </layoutItems>
             <layoutItems>
