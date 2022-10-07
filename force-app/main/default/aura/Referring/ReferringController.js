@@ -54,6 +54,8 @@
                     component.set('v.hadDiscussion', undefined);
                     component.set('v.stillInterested', undefined);
                     component.set('v.trial', initData.trial);
+                    component.set('v.preScreenerSurvey', initData.preScreenerSurvey);	
+                    component.set('v.preMrrSurvey', initData.mrrSurvey);
                     component.set('v.pEnrollment', initData.participantEnrollment);
                     component.set('v.hcpEnrollment', initData.hcpEnrollment);
                     component.set('v.pendingPEnrollments', initData.pendingPEnrollments);
@@ -72,12 +74,12 @@
                     if(initData.trial.Patient_Auth_Upload_Required__c && component.get('v.contentDoc') != null){
                         component.set('v.fileRequired',false);
                     }
-                    component.set(
-                        'v.showMRRButton',
-                        initData.trial.Link_to_Medical_Record_Review__c &&
-                        initData.trial.Link_to_Pre_screening__c
-                    );
-                    component.set('v.mrrExist',  initData.trial.Link_to_Medical_Record_Review__c);
+                    component.set(	
+                        'v.showMRRButton',	
+                        initData.mrrSurvey && initData.mrrSurvey.Link_to_Pre_screening__c &&	
+                        initData.preScreenerSurvey && initData.preScreenerSurvey.Link_to_Pre_screening__c	
+                    );	
+                    component.set('v.mrrExist',  initData.mrrSurvey ? initData.mrrSurvey.Link_to_Pre_screening__c : null);
                     if(component.get('v.mrrExist') == undefined){
                          //component.set('v.patientVeiwRedirection',true);
                     }
@@ -110,7 +112,7 @@
                     } else {
                         component.set('v.currentState', 'Select Source');
                     }
-                    if (!initData.trial.Link_to_Pre_screening__c) {
+                    if (!initData.preScreenerSurvey || !initData.preScreenerSurvey.Link_to_Pre_screening__c) {
                         if(!component.get('v.patientVeiwRedirection') && communityService.getUrlParameter('navigatetodiscussion')!== 'true'){
                             component.set('v.currentState', 'Search PE');
                           }
@@ -120,9 +122,9 @@
                             $A.get('$Label.c.PG_Ref_Step_Contact_Info')
                         ]);
                     }
-                    if (
-                        !initData.trial.Link_to_Medical_Record_Review__c &&
-                        initData.trial.Link_to_Pre_screening__c
+                    if (	
+                        !initData.mrrSurvey &&	
+                        (initData.preScreenerSurvey && initData.preScreenerSurvey.Link_to_Pre_screening__c)	
                     ) {
                         //let pvr = communityService.getUrlParameter('patientVeiwRedirection');
                         if(!component.get('v.patientVeiwRedirection')){
@@ -241,11 +243,12 @@
     
     doNext : function (component, event, helper) {
         let trial = component.get('v.trial');
+        let preScreenerSurvey = component.get('v.preScreenerSurvey');
         let hcpeId = component.get('v.hcpeId');
         window.scrollTo(0, 0);
         if (!hcpeId) {
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Site_Selection'));
-        } else if (trial.Link_to_Pre_screening__c) {
+        } else if (preScreenerSurvey && preScreenerSurvey.Link_to_Pre_screening__c) {
             helper.addEventListener(component, helper);
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Questionnaire'));
         } else {
@@ -273,13 +276,14 @@
     },
     doSelectSite: function (component, event, helper) {
         let trial = component.get('v.trial');
+        let preScreenerSurvey = component.get('v.preScreenerSurvey');
         let hcpeId = event.target.dataset.hcpeId;
         let siteId = event.target.dataset.siteId;
         let ssFormat = event.target.dataset.ssFormat;
         component.set('v.siteId', siteId);
         component.set('v.hcpeId', hcpeId);
         component.set('v.studySiteFormat', ssFormat);
-        if (trial.Link_to_Pre_screening__c) {
+        if (preScreenerSurvey && preScreenerSurvey.Link_to_Pre_screening__c) {
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Questionnaire'));
             component.find('mainSpinner').show();
             helper.addEventListener(component, helper);
