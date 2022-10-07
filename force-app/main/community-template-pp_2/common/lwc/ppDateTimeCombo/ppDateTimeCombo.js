@@ -8,6 +8,8 @@ import dueDate from '@salesforce/label/c.Due_Date';
 import time from '@salesforce/label/c.TV_TH_Time';
 import reminderdate from '@salesforce/label/c.Reminder_Date';
 import remindertime from '@salesforce/label/c.Reminder_Time';
+import timePlaceHolder from '@salesforce/label/c.PP_Time_Place_Holder';
+
 export default class PpDateTimeCombo extends LightningElement {
     @api compdate;
     @api comptime;
@@ -32,7 +34,8 @@ export default class PpDateTimeCombo extends LightningElement {
         time,
         reminderdate,
         remindertime,
-        dueDate
+        dueDate,
+        timePlaceHolder
     };
 
     @api
