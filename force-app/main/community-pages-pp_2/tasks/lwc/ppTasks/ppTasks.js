@@ -70,6 +70,8 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     };
     editObj = { name: this.label.taskEdit, iconUrl: 'Pencil_Icon', edit: true };
     ignoreObj = { name: this.label.taskIgnore, iconUrl: 'icon-close', ignore: true };
+    editImg =pp_icons + '/'+ 'Pencil_Icon.svg';
+    emptyOpenTasks;
 
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
@@ -89,6 +91,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 console.log('ppp', participantTasks);
                 this.showCreateTaskButton = participantTasks.showCreateTaskButton;
                 this.openTasks = participantTasks.openTasksWrapper;
+                this.emptyOpenTasks = this.openTasks.length ==0;
                 this.populateSystemTasks(this.openTasks);
                 this.completedTasks = participantTasks.completedTasks;
                 this.spinner.hide();
@@ -132,6 +135,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].openTask.Activity_Datetime__c === undefined
                     ? true
                     : false;
+            tasks[i].criticalTask = tasks[i].openTask.Priority=='Critical' ? true: false;
         }
     }
     taskOpen(event) {
