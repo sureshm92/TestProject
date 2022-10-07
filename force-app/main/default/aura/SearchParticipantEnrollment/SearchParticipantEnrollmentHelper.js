@@ -5,12 +5,15 @@
     updateMRRStatus: function (component, status, gizmoData) {
         component.find('mainSpinner').show();
         var pe = component.get('v.searchResult').pe;
+        var preSurvey = component.get('v.preSurvey');
         var action = component.get('c.setMRRStatus');
+        
         component.set('v.isUpdateCalled',true);
         action.setParams({
             peJSON: JSON.stringify(pe),
             status: status,
-            surveyGizmoData: gizmoData
+            surveyGizmoData: gizmoData,
+            preSurvey : preSurvey.Id
         });
         action.setCallback(this, function (response) {
             var searchResult = component.get('v.searchResult');

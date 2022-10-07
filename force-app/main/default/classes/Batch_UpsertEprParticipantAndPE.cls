@@ -315,6 +315,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         Set<Id> participantsWithoutErrors = new Set<Id>();
         list<Integration_Patient_Referral__c> iprListToUpdate = new list<Integration_Patient_Referral__c>();
         list<contact> contactsToDelete = new list<contact>();
+        List<Participant_PrescreenerResponse__c> screenerResponseList = new List<Participant_PrescreenerResponse__c>();
         for (Integer i = 0; i < saveResults.size(); i++) {
             Participant_Enrollment__c pe = peList[i];	
             Database.SaveResult sr = saveResults[i];
@@ -335,7 +336,16 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                         dupPartToUpdateList.add(dupPart);   
                         newParticipantsMap.put(ipr.referralID__c, dupPart);                     
                     }
-                    
+                    if(String.isNotBlank(ipr.MRR_Survey_Results_URL__c)) {
+                        screenerResponseList.add(
+                            new Participant_PrescreenerResponse__c(
+                                Completed_Date__c = Datetime.now(),
+                                Participant_enrollment__c = sr.getId(),
+                                Screener_Response__c = ipr.MRR_Survey_Results_URL__c,
+                                Status__c = 'Pass'
+                            )
+                        );
+                    }
 
                 } else {
                     ipr.Batch_consideration__c = 'Completed';
@@ -353,6 +363,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         }
         update iprListToUpdate;
 
+        insert screenerResponseList;
         //REF-4741
         if(!dupPartToUpdateList.isEmpty())
             update dupPartToUpdateList;
