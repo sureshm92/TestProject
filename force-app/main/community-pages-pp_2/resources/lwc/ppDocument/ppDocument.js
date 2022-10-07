@@ -9,7 +9,7 @@ export default class Documents extends NavigationMixin(LightningElement) {
 
     handleNavigate() {
         let detailLink =
-            window.location.origin + '/pp/s/resource-document' + '?resourceid=' + this.id;
+            window.location.origin + '/pp/s/resource-detail' + '?resourceid=' + this.id;
 
         const config = {
             type: 'standard__webPage',
