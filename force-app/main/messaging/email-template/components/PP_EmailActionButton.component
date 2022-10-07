@@ -1,0 +1,42 @@
+<!--
+ - Created by Rushikesh Kadam on 03.10.2022.
+ -->
+
+<apex:component id="PP_EmailActionButton" access="global" controller="EmailActionBtnController">
+
+    <!-- attributes: -->
+    <apex:attribute name="buttonLabel" type="String" description="" access="global" assignTo="{!buttonLabelName}" />
+    <apex:attribute name="buttonURL" type="String" description="" access="global" assignTo="{!buttonURLString}" />
+    <apex:attribute name="caseId" type="String" description="" access="global" assignTo="{!caseIdString}" />
+    <apex:attribute name="surveyId" type="Id" description="" access="global" assignTo="{!surveyIdString}" />
+    <apex:attribute name="resourceId" type="Id" description="DEPRECATED" access="global" assignTo="{!resourceIdString}" />
+    <apex:attribute name="communityTemplate" type="String" description="" access="global" assignTo="{!communityTemplateValue}"
+    />
+    <apex:outputpanel>
+        <!-- component body: -->
+        <apex:outputLink value="{!resultURL}" style="border: 1px solid #ffffff;
+                            border-radius: 30px;
+                            color: #ffffff;
+                            font-family: Arial,sans-serif;
+                            font-size: 1.5rem;
+                            text-align: center;
+                            text-decoration: none;
+                            height: 48px;
+                            width: 321px;
+                            padding: 0 25px;
+                            display: table-cell;
+                            vertical-align: middle;
+                            background: #297DFD;
+                            color: #FFFFFF;
+                            padding: 0px;
+                            border: 1px;
+                            letter-spacing: 0;
+                            user-select: none;
+                            cursor: pointer;
+                            min-width: 100px;
+                            text-decoration: none;">
+            {!buttonLabelValue}
+        </apex:outputLink>
+    </apex:outputpanel>
+
+</apex:component>

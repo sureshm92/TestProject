@@ -146,6 +146,7 @@ public without sharing class AccountSettingsController {
                         List<Participant_Enrollment__c> availablePEsForDel = getPERRecords(peIdList);
                         if (availablePEsForDel != null)
                         perListAllforCommPref.addAll(availablePEsForDel);
+                        initData.consentPreferenceData.isWithdrawnDelegate = true;
                         //isDelegateSelfView = true;
                         //checkIfDelAlsoAParticipant = true;
                     }
@@ -788,6 +789,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public Boolean isDelegateAlsoAParticipant = false;
         @AuraEnabled
         public Boolean isPrimaryDelegateWithMultiRole = false;
+        @AuraEnabled
+        public Boolean isWithdrawnDelegate = false;
     }
 
     

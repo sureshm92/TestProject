@@ -20,6 +20,7 @@ import onehour from '@salesforce/label/c.PP_One_Hour_Before';
 import fourhour from '@salesforce/label/c.PP_Four_Hours_Before';
 import oneday from '@salesforce/label/c.One_day_before';
 import oneweek from '@salesforce/label/c.PP_One_Week_Before';
+import none from '@salesforce/label/c.PP_None';
 import custom from '@salesforce/label/c.PP_Custom';
 import visitdetailsupdated from '@salesforce/label/c.Visit_details_updated_successfully';
 export default class PpStudyVisitDetailsCard extends LightningElement {
@@ -38,7 +39,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         oneday,
         oneweek,
         custom,
-        visitdetailsupdated
+        visitdetailsupdated,
+        none
     };
 
     @api visitid;
@@ -296,6 +298,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             var dateTime = new Date(this.visitDateTime);
             var currentDateTime = new Date();
             var differenceTimeHours = (dateTime - currentDateTime) / 3600000;
+            const noneoption = {
+                label: this.label.none,
+                value: this.label.none
+            };
+            this.reminderOptions = [...this.reminderOptions, noneoption];
             if (differenceTimeHours > 1) {
                 const option = {
                     label: this.label.onehour,
@@ -437,11 +444,15 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             }
             var date = new Date(this.selectedReminderDateTime);
             this.selectedReminderDateTime = date.toISOString();
-        } else {
+        } else if (remindMe === this.label.custom) {
             if (!this.selectedReminderDateTime) {
                 this.disableButtonSaveCancel = true;
             }
             this.showreminderdatepicker = true;
+        } else if (remindMe === this.label.none) {
+            this.selectedReminderDateTime = '';
+            this.selectedReminderTime = '';
+            this.selectedReminderTime = '';
         }
     }
 
@@ -492,7 +503,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.selectedReminderDate = event.detail.compdate;
-        this.selectedReminderDateTime = event.detail.compdatetime;
+        this.selectedReminderDateTime = event.detail.compdate;
         this.selectedReminderTime = event.detail.comptime;
         this.selectedReminderTime = '';
         if ((this.sms || this.email) && this.selectedReminderTime) {
@@ -568,6 +579,10 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitTime = '';
         this.visitDateChanged = true;
         this.remindmepub = '';
+        this.selectedReminderDateTime = '';
+        this.selectedReminderDate = '';
+        this.selectedReminderTime = '';
+        this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.showEmailSms = false;
     }
@@ -582,8 +597,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     doSave() {
-        const saveClicked = new CustomEvent('saveclicked');
-        this.dispatchEvent(saveClicked);
         this.disableButtonSaveCancel = true;
         var errorInDml = false;
         var reminderDate;
