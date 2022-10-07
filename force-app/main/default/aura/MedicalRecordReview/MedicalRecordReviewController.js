@@ -55,6 +55,7 @@
                         }
                         component.set('v.accessUserLevel', initData.delegateAccessLevel);
                         component.set('v.trial', initData.trial);
+                        component.set('v.preSurvey', initData.preSurvey);
                         component.set('v.actions', initData.actions);
                     },
                     null,
