@@ -4550,11 +4550,7 @@
         <field>PreScreener_Survey__c.ProviderName__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>PreScreener_Survey__c.Study__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
+    
 	<fieldPermissions>
 		<editable>false</editable>
 		<field>Contact.IQVIA_Artificial_Voice_Consent_Time__c</field>
@@ -5901,16 +5897,8 @@
         <recordType>Comorbidities__c.Comorbidity</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>true</default>
-        <recordType>PreScreener_Survey__c.General</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>PreScreener_Survey__c.Study_Specific</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
+   
+   
     <userPermissions>
         <enabled>true</enabled>
         <name>ImportLeads</name>

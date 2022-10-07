@@ -12899,6 +12899,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Invalid Action</value>
     </labels>
     <labels>
+        <fullName>RH_Complete_Participant_Screener</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Complete_Participant_Screener</shortDescription>
+        <value>Complete Participant Screener</value>
+    </labels>
+    <labels>
+        <fullName>RH_ScreenerComplete</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ScreenerComplete</shortDescription>
+        <value>Screeners completed</value>
+    </labels>
+    <labels>
         <fullName>RH_Send_to_DCT_Platform</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -24715,7 +24729,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SurveyName_Error</shortDescription>
-        <value>Survey Name Already Exist,Please Select A Different Name</value>
+        <value>Screener name already exist, please select a different name.</value>
     </labels>
     <labels>
         <fullName>Suspicious_Activity</fullName>
@@ -26566,7 +26580,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MRR_Error</shortDescription>
-        <value>MRR already exists and for a study you can create only 1 MRR</value>
+        <value>MRR already exists and for a study you can create only 1 MRR.</value>
     </labels>
     <labels>
         <fullName>of</fullName>
@@ -26961,8 +26975,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PreScreener_Error</shortDescription>
-        <value>Prescreener already exists and for a study you can create only 1 Prescreener.
-        </value>
+        <value>Prescreener already exists and for a study you can create only 1 Prescreener.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Removed_as_Televisit_Attendee</fullName>
