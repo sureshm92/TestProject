@@ -160,7 +160,9 @@
                                                     </lightning-formatted-text
                                                 ></span> </lightning-layout-item
                                         ></lightning-layout>
-                                        <span class="critical-rect">Critical</span>
+                                        <template if:true={item.criticalTask}
+                                            ><span class="critical-rect">Critical</span></template
+                                        >
                                         <lightning-layout
                                             ><lightning-layout-item size="12"
                                                 ><template if:false={item.systemTask}
@@ -239,14 +241,8 @@
                                                                         </c-web-icon
                                                                     ></template>
                                                                     <template if:true={citem.edit}>
-                                                                        <c-web-icon
-                                                                            class="svg-icon"
-                                                                            icon-size="small"
-                                                                            icon-name="Pencil_Icon"
-                                                                            icon-color="#999999"
-                                                                        >
-                                                                        </c-web-icon
-                                                                    ></template>
+                                                                        <img src={editImg} />
+                                                                    </template>
                                                                     <template
                                                                         if:true={citem.ignore}
                                                                     >
@@ -268,6 +264,17 @@
                                         <!--End-->
                                     </lightning-layout-item>
                                 </div>
+                            </template>
+                            <template if:true={emptyOpenTasks}>
+                            <!-- Task List View UI with no data -->
+                            <lightning-layout class="inactive-custom-box slds-align_absolute-center no-task-list-view">
+                                <div class="slds-align_absolute-center dis-block">
+                                    <span class="center"><img src={systemTaskImg} /></span>
+                                    <span class="no-task-txt slds-m-top_medium"
+                                        >You have no open tasks</span
+                                    >
+                                </div>
+                            </lightning-layout>
                             </template>
                         </lightning-layout-item>
                         <lightning-layout-item
