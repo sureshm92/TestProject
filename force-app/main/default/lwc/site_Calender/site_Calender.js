@@ -130,7 +130,9 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
   }
   haveVisits = true; //added for no visits
   fetchVisitData(dateSelected) {
-    if(!this.clearAll || this.disableFilters) {
+    if(this.clearAll || this.disableFilters) {
+      return;
+    }else {
       this.filterData.calendarDate = dateSelected;
       recordsOfTeleAndInitialVisit({
         filterData: JSON.stringify(this.filterData)
