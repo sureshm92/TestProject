@@ -10,6 +10,11 @@ import Apply_Filters from "@salesforce/label/c.Site_Calendar_Apply_Filters";
 import More from "@salesforce/label/c.PIR_more";
 import NoStudyFiltersSelected from "@salesforce/label/c.RH_Select_Study_Sites";
 import NoStudySiteSelected from "@salesforce/label/c.RH_No_Study_Site";
+import ShowNoStudySite from "@salesforce/label/c.RH_Show_No_Study_Site";
+import ShowNoSite from "@salesforce/label/c.RH_Show_No_Site";
+import ShowNoActiveStudy from "@salesforce/label/c.RH_No_Active_Study";
+import Showing from "@salesforce/label/c.RH_Showing";
+
 
 export default class Site_CalenderStudyFilter extends LightningElement {
   isLoading = false;
@@ -39,7 +44,11 @@ export default class Site_CalenderStudyFilter extends LightningElement {
     Site_Calendar_All_Studies_Sites,
     Apply_Filters,
     NoStudyFiltersSelected,
-    NoStudySiteSelected
+    NoStudySiteSelected,
+    ShowNoStudySite,
+    ShowNoSite,
+    ShowNoActiveStudy,
+    Showing
   };
   @api studyFilterWrapper = {
     studyList: [],
@@ -68,6 +77,12 @@ export default class Site_CalenderStudyFilter extends LightningElement {
   isFilterChange = false;
   @api
   disableFilters;
+  showingStudy='';
+  showingStudyCount='';
+  showingStudySite='';
+  showingStudySiteCount='';
+  showNoFilter = '';
+  isNoFilter = false;
 
   connectedCallback() {
     this.participantAccess();
@@ -84,6 +99,9 @@ export default class Site_CalenderStudyFilter extends LightningElement {
   renderedCallback() {
     if(this.disableFilters) {
       this.disableAllFilters();
+      this.isFilterChange = true;
+      this.isNoFilter = true;
+      this.showNoFilter = this.label.ShowNoActiveStudy;
     }
   }
   disableAllFilters() {
@@ -231,7 +249,6 @@ export default class Site_CalenderStudyFilter extends LightningElement {
       '[data-id="studySiteBox"]'
     );
     let opts = studySiteElement.getElementsByTagName("input");
-    this.isFilterChange = true;
     let tempList = [];
     for (var i = 0; i < opts.length; i++) {
       if (opts[i].checked) {
@@ -255,7 +272,6 @@ export default class Site_CalenderStudyFilter extends LightningElement {
     let label = event.target.name;
     let isChecked = event.target.checked;
     let value = event.target.value;
-    this.isFilterChange = true;
     let studyElement = this.template.querySelector('[data-id="studyBox"]');
     let opts = studyElement.getElementsByTagName("input");
     let tempList = [];
@@ -312,6 +328,8 @@ export default class Site_CalenderStudyFilter extends LightningElement {
         this.template.querySelector(".s-icon").classList.add("dropdowndisable");
         this.clearAllStudy = true;
         this.showNoData(this.label.NoStudyFiltersSelected);
+        this.isNoFilter = true;
+        this.showNoFilter = this.label.ShowNoStudySite;
       }
     } else {
       let selectedStudySites = [];
@@ -348,8 +366,12 @@ export default class Site_CalenderStudyFilter extends LightningElement {
         this.template.querySelector(".ssicon").classList.remove("dropdowndisable");
       } else {
         this.studySiteCountStr = "";
-        if(!this.clearAllStudy)
+        if(!this.clearAllStudy) {
           this.showNoData(this.label.NoStudySiteSelected);
+          this.isFilterChange = true;
+          this.isNoFilter = true;
+          this.showNoFilter = this.label.ShowNoSite;
+        }
         this.template.querySelector(".ssicon").classList.add("dropdowndisable");
       }
     }
@@ -402,6 +424,8 @@ export default class Site_CalenderStudyFilter extends LightningElement {
         this.studyCountStr = "";        
         this.clearAllStudy = true;
         this.showNoData(this.label.NoStudyFiltersSelected);
+        this.isNoFilter = true;
+        this.showNoFilter = this.label.ShowNoStudySite;
         this.template.querySelector(".s-icon").classList.add("dropdowndisable");
         
       }
@@ -445,8 +469,12 @@ export default class Site_CalenderStudyFilter extends LightningElement {
           this.template.querySelector(".ssBox").classList.remove("dropdowndisable");
         }
         this.template.querySelector(".ssicon").classList.add("dropdowndisable");
-        if(!this.clearAllStudy)
+        if(!this.clearAllStudy) {
           this.showNoData(this.label.NoStudySiteSelected);
+          this.isFilterChange = true;
+          this.isNoFilter = true;
+          this.showNoFilter = this.label.ShowNoSite;
+        }
       }
     }else{
       if (this.template.querySelector(".ssicon") != null) {
@@ -543,13 +571,15 @@ export default class Site_CalenderStudyFilter extends LightningElement {
   }
   removeAllStudy() {
     this.onloadfilters = false;
-    this.isFilterChange = true;
     this.isApply=true;
     this.template.querySelector(".ssicon").classList.add("dropdowndisable");
     this.template.querySelector(".s-icon").classList.add("dropdowndisable");
     this.handleAllSelected(false, true);
     this.clearAllStudy = true;
     this.showNoData(this.label.NoStudyFiltersSelected);
+    this.isFilterChange = true;
+    this.isNoFilter = true;
+    this.showNoFilter = this.label.ShowNoStudySite;
     this.template.querySelector(".sBox").blur();
   }
 
@@ -583,10 +613,12 @@ export default class Site_CalenderStudyFilter extends LightningElement {
   }
 
   removeAllStudySites() {
-    this.isFilterChange = true;
     this.handleAllSelected(false, false);
     this.isApply = true;
     this.showNoData(this.label.NoStudySiteSelected);
+    this.isFilterChange = true;
+    this.isNoFilter = true;
+    this.showNoFilter = this.label.ShowNoSite;
     this.template.querySelector(".sBox").blur();    
   }
 
@@ -609,6 +641,7 @@ export default class Site_CalenderStudyFilter extends LightningElement {
   applyStudySiteFilter() {
     this.studyFilterWrapper.studyList.push(this.selectedStudy);
     this.studyFilterWrapper.siteList.push(this.selectedStudSites);
+    this.displayShowingVariables();
     const selectEvent = new CustomEvent("applystudysitefilterevent", {
       detail: {
         study: this.selectedStudy,
@@ -617,5 +650,14 @@ export default class Site_CalenderStudyFilter extends LightningElement {
     });
     this.isApply = true;
     this.dispatchEvent(selectEvent);
+  }
+
+  displayShowingVariables() {
+    this.isFilterChange = true;
+    this.isNoFilter = false;
+    this.showingStudy = this.getFirstSelecedStudyy;
+    this.showingStudyCount = this.studyCountStr;
+    this.showingStudySite = this.getFirstSelecedStudySitess;
+    this.showingStudySiteCount = this.studySiteCountStr;
   }
 }

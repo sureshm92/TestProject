@@ -25,30 +25,37 @@
                 >
                 <div 
                   class="display-box"
-                  if:true={isFilterChange}>
-
+                  if:true={isFilterChange}
+                  >
+                  <div
+                    class="clear-text slds-p-left_x-small "
+                    if:true={isNoFilter}
+                    >{label.Showing} {showNoFilter}
+                  </div>
                   <div 
-                    class=" slds-accordion__summary-content line-height-text"
+                    class="slds-accordion__summary-content line-height-text" 
+                    if:false={isNoFilter}
                     ><div 
                       class="text-width">
-                        {getFirstSelecedStudyy}
-                  </div>&nbsp;<div 
+                      {label.Showing} {showingStudy}
+                    </div>&nbsp;<div 
                       class="more-width">
-                        {studyCountStr}
-                </div>
+                        {showingStudyCount}
+                    </div>
                   </div>
 
                   <div 
                     class="slds-accordion__summary-content line-height-text"
+                    if:false={isNoFilter}
                     ><div 
-                      class="text-width"
-                      >{getFirstSelecedStudySitess}
+                      class="text-width text-padding"
+                      >{showingStudySite}
                   </div>&nbsp;<div 
                       class="more-width"
-                        >{studySiteCountStr}
+                        >{showingStudySiteCount}
                   </div>
-                  </div>
-
+                </div>
+                
               </div>
                 <span>
                   <lightning-icon
