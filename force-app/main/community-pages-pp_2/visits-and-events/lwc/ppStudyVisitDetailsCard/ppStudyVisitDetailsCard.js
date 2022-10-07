@@ -430,11 +430,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         if (remindMe !== this.label.custom) {
             this.showreminderdatepicker = false;
             if (remindMe === this.label.oneweek) {
-                isGreaterThanToday = moment(dueDateOrplanDate).subtract(7, 'days').isBefore(today);
-                this.selectedReminderDateTime = moment(dueDateOrplanDate).subtract(7, 'days');
+                this.selectedReminderDateTime = new Date(dueDateOrplanDate) - 3600 * 1000 * 24 * 7;
             } else if (remindMe === this.label.oneday) {
-                isGreaterThanToday = moment(dueDateOrplanDate).subtract(1, 'days').isBefore(today);
-                this.selectedReminderDateTime = moment(dueDateOrplanDate).subtract(1, 'days');
+                this.selectedReminderDateTime = new Date(dueDateOrplanDate) - 3600 * 1000 * 24;
             } else if (remindMe === this.label.onehour) {
                 this.selectedReminderDateTime = new Date(dueDateOrplanDate) - 3600 * 1000;
                 isGreaterThanToday = new Date() > new Date(reminderdate);
