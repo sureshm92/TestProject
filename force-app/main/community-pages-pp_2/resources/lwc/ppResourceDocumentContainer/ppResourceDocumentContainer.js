@@ -20,7 +20,7 @@ export default class PpResourceDocumentContainer extends LightningElement {
                         Title: this.documentList[i].resource.Title__c,
                         VersionDate: this.documentList[i].resource.Version_Date__c,
                         thumbnailFileCard:
-                            '/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&amp;versionId=' +
+                            '/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=' +
                             this.documentList[i].thumbnailDocId
                     };
                     this.documents.push(file);
