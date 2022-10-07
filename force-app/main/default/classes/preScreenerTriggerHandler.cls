@@ -21,10 +21,6 @@ public class preScreenerTriggerHandler {
         set<Id> setPreScreenerchangeId = new Set<Id>();
         set<Id> setExistingCTPwithPreScreener = new Set<Id>();
 
-        String generalRecordType = Schema.SObjectType.PreScreener_Survey__c.getRecordTypeInfosByName()
-            .get('General')
-            .getRecordTypeId();
-
         for (PreScreener_Survey__c surveyList : surveyData) {
             if (oldMapPrescreener != null && !oldMapPrescreener.isEmpty()) {
                 if (
@@ -52,11 +48,7 @@ public class preScreenerTriggerHandler {
                     setNameChange.add(surveyList.Study__c);
                 }
             } else {
-                if (surveyList.RecordTypeId == generalRecordType)
-                    surveyList.Study__c = null;
-                else {
-                    studyId.add(surveyList.Study__c);
-                }
+                studyId.add(surveyList.Study__c);
             }
         }
         for (PreScreener_Survey__c objPrescrener : [
