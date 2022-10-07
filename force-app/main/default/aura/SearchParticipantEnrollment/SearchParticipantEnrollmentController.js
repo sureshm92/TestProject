@@ -20,9 +20,10 @@
                 function (returnValue) {
                     var searchResult = JSON.parse(returnValue);
                     component.set('v.searchResult', searchResult);
+                    var preSurvey = component.get('v.preSurvey');
                     if (
                         searchResult.result === 'New' &&
-                        searchResult.pe.Medical_Record_Review_Status__c === 'Not Required'
+                        !preSurvey
                     ) {
                         searchResult.result = 'Start Pre-Screening';
                         component.set('v.mrrResult', 'Start Pre-Screening');
@@ -46,9 +47,10 @@
                 function (returnValue) {
                     var searchResult = JSON.parse(returnValue);
                     component.set('v.searchResult', searchResult);
+                    var preSurvey = component.get('v.preSurvey');
                     if (
                         searchResult.result === 'New' &&
-                        searchResult.pe.Medical_Record_Review_Status__c === 'Not Required'
+                        !preSurvey
                     ) {
                         searchResult.result = 'Start Pre-Screening';
                         component.set('v.mrrResult', 'Start Pre-Screening');
