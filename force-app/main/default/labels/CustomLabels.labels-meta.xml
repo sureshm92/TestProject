@@ -28353,4 +28353,36 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Visit No Upcoming Visit</shortDescription>
         <value>No upcoming visit</value>
     </labels>
+    <labels>
+        <fullName>PP_Email_Tech_Support</fullName>
+        <categories>PP_Email_Template</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Email Tech Support</shortDescription>
+        <value>support</value>
+    </labels>
+    <labels>
+        <fullName>PP_Email_Update_Pref</fullName>
+        <categories>PP_Email_Template</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Email Update Pref</shortDescription>
+        <value>update preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_Email_Opt_Out</fullName>
+        <categories>PP_Email_Template</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Email Opt Out</shortDescription>
+        <value>To opt-out of email communication,</value>
+    </labels>
+    <labels>
+        <fullName>PP_Email_Technical_Support</fullName>
+        <categories>PP_Email_Template</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Email Technical Support</shortDescription>
+        <value>For technical support, contact</value>
+    </labels>
 </CustomLabels>
