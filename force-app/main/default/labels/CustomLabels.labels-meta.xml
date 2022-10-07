@@ -28441,4 +28441,32 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>PP_None</shortDescription>
         <value>No reminder</value>
     </labels>
+    <labels>
+        <fullName>Add_Consent_Vendor</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add_Consent_Vendor</shortDescription>
+        <value>Add Consent Vendor</value>
+    </labels>
+    <labels>
+        <fullName>E_Consent_Permission</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>E_Consent_Permission</shortDescription>
+        <value>You don&apos;t have any study sites to display or Missing e-consent permission.</value>
+    </labels>
+    <labels>
+        <fullName>E_Consent_Record_Vendor_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>E-Consent Record Vendor Name</shortDescription>
+        <value>Consent Record Vendor Name</value>
+    </labels>
+    <labels>
+        <fullName>Select_E_Consent_Vendor</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select_E-Consent_Vendor</shortDescription>
+        <value>Select E-Consent Vendor</value>
+    </labels>
 </CustomLabels>

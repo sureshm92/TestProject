@@ -74,6 +74,13 @@
                           };
                         component.find("sampleMessageChannel").publish(lmsTest);
                     }
+                    if(source === 'E-Consent_Configuration'){
+                        const lmsTest = {
+                            recordId: "Econsent",
+                            name: "EconsentPermission"
+                          };
+                        component.find("econsentMessageChannel").publish(lmsTest);
+                    }
                     communityService.showSuccessToast('Success', 'Study Configuration setting saved!');
                 }
             );
