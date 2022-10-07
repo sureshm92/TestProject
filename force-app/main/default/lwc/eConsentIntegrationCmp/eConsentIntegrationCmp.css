@@ -1,0 +1,12 @@
+.text-truncate{
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.fix{
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: #f8f8f8;
+}
