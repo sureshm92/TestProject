@@ -1,17 +1,28 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getResources from '@salesforce/apex/ResourceRemote.getResources';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
+import ALL from '@salesforce/label/c.AF_All';
+import ARTICLES from '@salesforce/label/c.Resources_Card_Title_Articles';
+import ARTICLE from '@salesforce/label/c.Resources_Article';
+import VIDEO from '@salesforce/label/c.Resources_Video';
+import VIDEOS from '@salesforce/label/c.Resources_Card_Title_Videos';
+import FAVORITES from '@salesforce/label/c.Resource_Tab_Favorites';
 
 export default class PpResourceEngage extends LightningElement {
     //@api vars
     @api isRtl = false;
     @api desktop = false;
-    resourcesData;
+
+    @track resourcesData;
+    @track resourcesFilterData;
+    selectedOption = ALL;
+
     //Boolean vars
     isInitialized = false;
 
     connectedCallback() {
+        this.selectedOption = 'All';
         this.initializeData();
     }
     initializeData() {
@@ -21,9 +32,8 @@ export default class PpResourceEngage extends LightningElement {
         }
         getResources({ resourceType: 'Article;Video', resourceMode: 'Default' })
             .then((result) => {
-               let allResources = result;
-                console.log('ResourceData-->' + JSON.stringify(allResources.wrappers, null, 2));
-                this.resourcesData= allResources.wrappers;
+                this.resourcesData = result.wrappers;
+                this.resourcesFilterData = this.resourcesData;
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
@@ -41,5 +51,24 @@ export default class PpResourceEngage extends LightningElement {
                 variant: variantType
             })
         );
+    }
+    get options() {
+        return [
+            { label: ALL, value: ALL },
+            { label: FAVORITES, value: FAVORITES },
+            { label: ARTICLES, value: ARTICLE },
+            { label: VIDEOS, value: VIDEO }
+        ];
+    }
+    handleChangeSelection(event) {
+        this.selectedOption = event.detail.value;
+        this.resourcesFilterData =
+            this.selectedOption == ALL
+                ? this.resourcesData
+                : this.selectedOption == FAVORITES
+                ? this.resourcesData.filter((data) => data.isFavorite == true)
+                : this.resourcesData.filter(
+                      (data) => data.resource.Content_Type__c == this.selectedOption
+                  );
     }
 }

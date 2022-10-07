@@ -3,7 +3,8 @@ import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import { NavigationMixin } from 'lightning/navigation';
-
+import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
+import Uploaded from '@salesforce/label/c.Resource_Uploaded';
 export default class PpResourceContainer extends NavigationMixin(LightningElement) {
     userTimezone = TIME_ZONE;
     //@api vars
@@ -20,6 +21,9 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
 
     //Boolean vars
     isInitialized = false;
+    label={
+        Uploaded
+    }
 
     connectedCallback() {
         this.initializeData();
@@ -29,8 +33,6 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
         if (this.spinner) {
             this.spinner.show();
         }
-        console.log('resourceid-->' + this.resourceId);
-        console.log('key-->' + this.key);
         this.isInitialized = true;
         if (this.spinner) {
             this.spinner.hide();
@@ -72,4 +74,5 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
             })
         );
     }
+    
 }

@@ -7,15 +7,24 @@
             <lightning-layout-item size="12">
                 <lightning-layout multiple-rows="true">
                     <!--   FILTER    -->
-                    <lightning-layout-item size="12"> Filter </lightning-layout-item>
+                    <lightning-layout-item size="3" class="round-combobox  ppCombobox slds-p-around_small">
+                        <lightning-combobox
+                            value={selectedOption}
+                            placeholder={selectedOption}
+                            options={options}
+                            onchange={handleChangeSelection}
+                            label={selectedOption}
+                            variant="label-hidden"
+                        ></lightning-combobox>
+                    </lightning-layout-item>
                 </lightning-layout>
                 <!-- Second ROW-->
                 <lightning-layout multiple-rows="true">
                     <!--  Articles/Videos    -->
                     <lightning-layout-item size="12">
                         <!--Iteration -->
-                        <template if:true={resourcesData}>
-                            <template for:each={resourcesData} for:item="Data">
+                        <template if:true={resourcesFilterData}>
+                            <template for:each={resourcesFilterData} for:item="Data">
                                 <c-pp-resource-container
                                     desktop={desktop}
                                     is-rtl={isRTL}
