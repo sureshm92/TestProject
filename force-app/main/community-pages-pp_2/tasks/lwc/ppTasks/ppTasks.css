@@ -180,18 +180,26 @@
     background-color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
 }
-
 .fillOval {
     fill: rgba(196, 46, 165, 0.1);
 }
-
 .emptyOval {
     fill: #ffffff;
 }
-
-@media all and (max-width: 768px) {
+.critical-rect {
+    position: relative;
+    bottom: 10px;
+    float: right;
+    padding: 0px 6px 0 6px;
+    background-color: #e20000;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+}
+@media all and (max-width: 486px) {
     .inactive-custom-box {
         width: 366px;
+        margin-left: 0.75rem;
     }
     .opentask {
         margin-left: 10px;
@@ -201,6 +209,10 @@
     }
     .tasks {
         margin-left: 1rem;
+    }
+    .overflow-scroll {
+        height: unset !important;
+        overflow-y: unset !important;
     }
 }
 /* Scroll bar custom */

@@ -94,12 +94,16 @@
                         </section>
                     </template>
                     <lightning-layout>
-                        <lightning-layout-item size="3"></lightning-layout-item>
+                        <lightning-layout-item
+                            size="3"
+                            class="slds-show_medium"
+                        ></lightning-layout-item>
                         <lightning-layout-item size="6" class="overflow-scroll">
                             <template for:each={openTasks} for:item="item" for:index="index">
                                 <div
                                     key={item}
                                     class="inactive-custom-box slds-align_absolute-center"
+                                    data-parentdiv={item.openTask.Id}
                                 >
                                     <lightning-layout-item size="2">
                                         <template if:true={item.systemTask}>
@@ -119,14 +123,17 @@
                                         </template>
                                         <template if:false={item.systemTask}>
                                             <div
-                                                class="slds-p-around_medium"
+                                                class="slds-p-around_medium emptyOval"
                                                 onclick={showTaskCompleteModal}
+                                                onmouseover={fillTheOpenIcon}
+                                                onmouseout={fillTheOpenIcon}
                                                 data-index={item.openTask.Id}
                                             >
                                                 <template if:false={item.isClosed}>
                                                     <c-web-icon
                                                         class="opentask"
                                                         icon-name="icon-opentask"
+                                                        icon-color=""
                                                     >
                                                     </c-web-icon>
                                                 </template>
@@ -150,38 +157,33 @@
                                                     ><lightning-formatted-text
                                                         value={item.openTask.Subject}
                                                     >
-                                                    </lightning-formatted-text></span></lightning-layout-item
+                                                    </lightning-formatted-text
+                                                ></span> </lightning-layout-item
                                         ></lightning-layout>
+                                        <span class="critical-rect">Critical</span>
                                         <lightning-layout
                                             ><lightning-layout-item size="12"
-                                                ><span class="duetime"
-                                                    >Due : &nbsp;
-                                                    <template if:true={item.dueDate}>
-                                                        <lightning-formatted-date-time
-                                                            value={item.openTask.activityDate}
-                                                            year="numeric"
-                                                            month="short"
-                                                            day="2-digit"
-                                                        ></lightning-formatted-date-time
-                                                    ></template>
-                                                    <template if:true={item.startDate}
-                                                        ><lightning-formatted-date-time
-                                                            value={item.openTask.Start_Date__c}
-                                                            year="numeric"
-                                                            month="short"
-                                                            day="2-digit"
-                                                        ></lightning-formatted-date-time
-                                                    ></template>
-                                                    <template if:true={item.createdDate}
-                                                        ><lightning-formatted-date-time
-                                                            value={item.openTask.CreatedDate}
-                                                            year="numeric"
-                                                            month="short"
-                                                            day="2-digit"
-                                                        ></lightning-formatted-date-time></template></span
-                                            ></lightning-layout-item>
+                                                ><template if:false={item.systemTask}
+                                                    ><span class="duetime"
+                                                        >{label.taskDue} : &nbsp;
+                                                        <template if:true={item.dueDate}>
+                                                            <lightning-formatted-date-time
+                                                                value={item.openTask.Activity_Datetime__c}
+                                                                year="numeric"
+                                                                month="short"
+                                                                day="2-digit"
+                                                            ></lightning-formatted-date-time
+                                                        ></template>
+                                                        <template if:false={item.dueDate}
+                                                            >None</template
+                                                        >
+                                                    </span></template
+                                                ></lightning-layout-item
+                                            >
                                         </lightning-layout>
                                     </lightning-layout-item>
+                                    <!-- Critical Task UI -->
+                                    <!-- <span class="critical-rect">Critical</span> -->
                                     <lightning-layout-item size="2" padding="around-small">
                                         <!--Menu Items-->
                                         <div
@@ -268,7 +270,10 @@
                                 </div>
                             </template>
                         </lightning-layout-item>
-                        <lightning-layout-item size="3"></lightning-layout-item>
+                        <lightning-layout-item
+                            size="3"
+                            class="slds-show_medium"
+                        ></lightning-layout-item>
                     </lightning-layout>
                 </lightning-layout-item>
             </lightning-layout>
