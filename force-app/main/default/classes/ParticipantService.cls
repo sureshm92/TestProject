@@ -375,7 +375,9 @@ public without sharing class ParticipantService {
             String communityName = TranslateHelper.getLabelValue(
                 UserContext.getTemplateProperty('CommunityWelcome')
             );
-            message = message.replace('##CommunityWelcome', communityName);
+            if (communityName != null) {
+                message = message.replace('##CommunityWelcome', communityName);
+            }
         }
 
         return message.replace('##UserName', userName);

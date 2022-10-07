@@ -1,0 +1,53 @@
+<template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner"></c-web-spinner>
+    <template if:true={isInitialized}>
+        <lightning-layout multiple-rows="true">
+            <!-- FIRST ROW-->
+            <lightning-layout-item size="12">
+                <lightning-layout multiple-rows="true">
+                    <!--   FILTER    -->
+                    <lightning-layout-item
+                        size="4"
+                        class="slds-var-p-around_small round-combobox ppCombobox"
+                    >
+                        <lightning-combobox
+                            value={selectedOption}
+                            placeholder={selectedOption}
+                            options={options}
+                            onchange={handleChangeSelection}
+                            label={selectedOption}
+                            variant="label-hidden"
+                        ></lightning-combobox>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <!-- Second ROW-->
+                <lightning-layout multiple-rows="true">
+                    <!--  Articles/Videos    -->
+                    <lightning-layout-item size="12">
+                        <!--Iteration -->
+                        <template if:true={resourcesFilterData}>
+                            <template for:each={resourcesFilterData} for:item="Data">
+                                <c-pp-resource-container
+                                    desktop={desktop}
+                                    is-rtl={isRTL}
+                                    thumbnail={Data.resource.Image__c}
+                                    resource-type={Data.resource.Content_Type__c}
+                                    resource-id={Data.resource.Id}
+                                    resource-title={Data.resource.Title__c}
+                                    res-upload-date={Data.resource.Version_Date__c}
+                                    is-favourite={Data.isFavorite}
+                                    resource-summary={Data.resource.Body__c}
+                                    is-voted={Data.isVoted}
+                                    key={Data.resource.Id}
+                                    data-key={Data.resource.Id}
+                                >
+                                </c-pp-resource-container>
+                            </template>
+                        </template>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+</template>
