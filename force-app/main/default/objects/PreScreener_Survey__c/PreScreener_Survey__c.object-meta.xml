@@ -153,7 +153,7 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Screeners</label>
+    <label>Screener</label>
     <nameField>
         <displayFormat>S-{0}</displayFormat>
         <label>Name</label>

@@ -2353,11 +2353,7 @@
         <field>PreScreener_Survey__c.ProviderName__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>PreScreener_Survey__c.Study__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
+    
     
 	<fieldPermissions>
         <editable>true</editable>
@@ -2549,16 +2545,8 @@
         <object>PreScreener_Survey__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
-    <recordTypeVisibilities>
-        <default>true</default>
-        <recordType>PreScreener_Survey__c.General</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>PreScreener_Survey__c.Study_Specific</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
+    
+    
     <tabVisibilities>
         <tab>Terms_And_Conditions__c</tab>
         <visibility>DefaultOn</visibility>
@@ -2581,17 +2569,11 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Participant_PrescreenerResponse__c</tab>
-        <visibility>DefaultOff</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
-    <layoutAssignments>
-        <layout>PreScreener_Survey__c-General Screener Layout</layout>
-        <recordType>PreScreener_Survey__c.General</recordType>
-    </layoutAssignments>
+     
     <layoutAssignments>
         <layout>PreScreener_Survey__c-PreScreener Survey Layout</layout>
     </layoutAssignments>
-    <layoutAssignments>
-        <layout>PreScreener_Survey__c-Study Specific Screener</layout>
-        <recordType>PreScreener_Survey__c.Study_Specific</recordType>
-    </layoutAssignments>
+     
 </Profile>

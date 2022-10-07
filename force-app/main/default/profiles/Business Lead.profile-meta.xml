@@ -2638,13 +2638,7 @@
         <editable>true</editable>
         <field>PreScreener_Survey__c.ProviderName__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>PreScreener_Survey__c.Study__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-
+    </fieldPermissions> 
 
     <fieldPermissions>
         <editable>true</editable>
@@ -3250,17 +3244,11 @@
         <field>Study_Site__c.Banner_Dispose_Offset_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <layoutAssignments>
-        <layout>PreScreener_Survey__c-General Screener Layout</layout>
-        <recordType>PreScreener_Survey__c.General</recordType>
-    </layoutAssignments>
+     
     <layoutAssignments>
         <layout>PreScreener_Survey__c-PreScreener Survey Layout</layout>
     </layoutAssignments>
-    <layoutAssignments>
-        <layout>PreScreener_Survey__c-Study Specific Screener</layout>
-        <recordType>PreScreener_Survey__c.Study_Specific</recordType>
-    </layoutAssignments>
+     
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -3436,17 +3424,7 @@
         <default>true</default>
         <recordType>Comorbidities__c.Comorbidity</recordType>
         <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>true</default>
-        <recordType>PreScreener_Survey__c.General</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>PreScreener_Survey__c.Study_Specific</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
+    </recordTypeVisibilities>  
     <pageAccesses>
         <apexPage>ShowPrivacyPolicyAsPDF</apexPage>
         <enabled>true</enabled>
@@ -3485,7 +3463,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Participant_PrescreenerResponse__c</tab>
-        <visibility>DefaultOff</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>PreScreener_Survey__c</tab>
