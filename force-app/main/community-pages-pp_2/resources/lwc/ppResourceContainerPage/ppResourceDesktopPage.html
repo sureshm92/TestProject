@@ -5,7 +5,6 @@
         <div class={cardRTL}>
             <div class="res-container">
                 <lightning-layout multiple-rows="true">
-
                     <lightning-layout-item size="12">
                         <div class="res-header">{labels.RESOURCES}</div>
                     </lightning-layout-item>
@@ -82,16 +81,8 @@
                                 <lightning-layout-item size="12">
                                     <div class="document-header mb-8">{labels.DOCUMENTS}</div>
                                     <div class="right-column">
-                                        <div class="res-box-document-container crossed">
-                                            <!-- START : COMING SOON -->
-                                            <div class="object">
-                                                <div class="object-rope"></div>
-                                                <div class="object-shape">
-                                                    Coming <span class="soon">Soon</span>
-                                                </div>
-                                            </div>
-                                            <!-- END : COMING SOON -->
-                                            <!-- DOCUMENTS LWC COMPONENT PLACEHOLDER -->
+                                        <div class="res-box-document-container">
+                                            <c-pp-Resource-Document-Container></c-pp-Resource-Document-Container>
                                         </div>
                                     </div>
                                 </lightning-layout-item>

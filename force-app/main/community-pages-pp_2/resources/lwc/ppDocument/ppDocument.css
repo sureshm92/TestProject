@@ -1,0 +1,52 @@
+.card-border {
+    box-sizing: border-box;
+    height: 64px;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+.thumbnail-box {
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    height: 58px;
+    background-color: #e8e8e8;
+}
+
+.document-label {
+    color: #0768fd;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 160px;
+    white-space: nowrap;
+}
+
+.document-details {
+    height: 58px;
+}
+
+.version-date {
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+
+.thumnail-img {
+    height: 95%;
+    width: 100%;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 3px;
+}
+
+.document-label a:hover {
+    overflow: visible;
+}
