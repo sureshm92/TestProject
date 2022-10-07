@@ -492,7 +492,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.selectedReminderDate = event.detail.compdate;
-        this.selectedReminderDateTime = event.detail.compdatetime;
+        this.selectedReminderDateTime = event.detail.compdate;
         this.selectedReminderTime = event.detail.comptime;
         this.selectedReminderTime = '';
         if ((this.sms || this.email) && this.selectedReminderTime) {

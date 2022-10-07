@@ -3,7 +3,7 @@
     <fullName>PreScreener_Survey__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>PreScreener Survey</label>
+    <label>Screener</label>
     <referenceTo>PreScreener_Survey__c</referenceTo>
     <relationshipName>Participant_PrescreenerResponses</relationshipName>
     <required>false</required>
