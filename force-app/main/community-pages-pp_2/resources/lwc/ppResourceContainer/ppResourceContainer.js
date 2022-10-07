@@ -17,13 +17,13 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
     @api resUploadDate;
     @api isFavourite = false;
     @api resourceSummary;
-    @api isVoted=false;
+    @api isVoted = false;
 
     //Boolean vars
     isInitialized = false;
-    label={
+    label = {
         Uploaded
-    }
+    };
 
     connectedCallback() {
         this.initializeData();
@@ -55,11 +55,13 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
         });
     }
     handleFavourite() {
-        this.isFavourite=!this.isFavourite;
-        setResourceAction({ resourceId: this.resourceId, isFavorite: this.isFavourite, isVoted: false })
-            .then((result) => {
-                
-            })
+        this.isFavourite = !this.isFavourite;
+        setResourceAction({
+            resourceId: this.resourceId,
+            isFavorite: this.isFavourite,
+            isVoted: false
+        })
+            .then((result) => {})
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
@@ -74,5 +76,4 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
             })
         );
     }
-    
 }
