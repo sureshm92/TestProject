@@ -9,6 +9,10 @@ public without sharing class EConsentIntegrationController {
         public String userPermission = TYPE_DISABLED;
         @AuraEnabled
         public Boolean userProfilePermission = false;
+        @AuraEnabled 
+        public boolean econsentpermissioncheck = false;
+        @AuraEnabled 
+        public Integer ssListSize=0;
     }
     @AuraEnabled
     public static InitData getPermission(Id ctpId) {
@@ -16,14 +20,20 @@ public without sharing class EConsentIntegrationController {
             InitData initData = new InitData();
             initData.userPermission = getViewMode(E_Consent);
              String usrProfileName = [select u.Profile.Name from User u where u.id = :Userinfo.getUserId()].Profile.Name;
+        List<Study_Site__c> ssList = new List<Study_Site__c>();
+        ssList = [Select Id,Clinical_Trial_Profile__r.E_Consent_Configuration__c from Study_Site__c where Clinical_Trial_Profile__c=:ctpId];
+        initData.ssListSize = ssList.size();
+        if(!ssList.isempty()){
+            initData.econsentpermissioncheck = ssList[0].Clinical_Trial_Profile__r.E_Consent_Configuration__c;
+        }else{
+            initData.econsentpermissioncheck = false;
+        }     
         if(usrProfileName == 'Business Administrator' || usrProfileName == 'System Administrator'){
             initData.userProfilePermission = true;
         }else{
             initData.userProfilePermission = false;
-        } 
-           
-             return initData;
-              
+        }   
+        return initData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
          }
