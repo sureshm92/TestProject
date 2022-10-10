@@ -15,7 +15,10 @@
     <aura:attribute name="recordId" type="String" />
     <aura:attribute name="isreadonly" type="Boolean" default="false" />
     <aura:method name="refresh" action="{!c.doInit}" />
-
+    <aura:attribute name="usrPermission" type="String" />
+    <aura:attribute name="usrStudySiteSize" type="Integer" />
+    <aura:attribute name="usrProfilePermission" type="Boolean" default="false" />
+    <aura:handler event="c:EconsentEvent" action="{!c.handleEvents}"/>
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <c:RRSpinner aura:id="spinner" showSpinner="true" />

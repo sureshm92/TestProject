@@ -23,16 +23,15 @@
                                     ></lightning-layout-item
                                 >
                             </lightning-layout>
-                            <lightning-layout size="12">
-                                <input
+                            <div class="profile-info-input taskName-focus">
+                                <lightning-input
                                     type="text"
                                     data-id="taskName"
                                     placeholder={label.enterTaskName}
                                     onkeyup={handletaskNameChange}
                                     maxlength="30"
-                                    class="input-task-name"
-                                />
-                            </lightning-layout>
+                                ></lightning-input>
+                            </div>
                             <lightning-layout-item>
                                 <lightning-layout>
                                     <lightning-layout-item size="12" class="slds-m-top_medium">

@@ -75,11 +75,8 @@
                         component.find("sampleMessageChannel").publish(lmsTest);
                     }
                     if(source === 'E-Consent_Configuration'){
-                        const lmsTest = {
-                            recordId: "Econsent",
-                            name: "EconsentPermission"
-                          };
-                        component.find("econsentMessageChannel").publish(lmsTest);
+                        var appEvent = $A.get("e.c:EconsentEvent"); 
+                        appEvent.fire(); 
                     }
                     communityService.showSuccessToast('Success', 'Study Configuration setting saved!');
                 }
