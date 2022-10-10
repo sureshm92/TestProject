@@ -19,7 +19,7 @@
 
     <!-- application events: -->
     <aura:registerEvent name="appEvent" type="c:TaskToggleEvent" />
-
+    <aura:registerEvent name="EconsentEvent" type="c:EconsentEvent"/>
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <aura:if isTrue="{!v.user_has_permission != 'Disabled'}">
@@ -216,5 +216,4 @@
     </aura:if>
 
     <lightning:messageChannel type="rhrefresh__c" aura:id="sampleMessageChannel" />
-    <lightning:messageChannel type="rhrefresheconsent__c" aura:id="econsentMessageChannel" />
 </aura:component>
