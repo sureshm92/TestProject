@@ -1,6 +1,6 @@
 import { LightningElement, wire, api } from "lwc";
-import RH_StudyName_Import from "@salesforce/label/c.Dashboard_Study_Name";
-import RH_StudySite_Import from "@salesforce/label/c.RH_StudySite_Import";
+import RH_StudyName_Import from "@salesforce/label/c.CC_Study";
+import RH_StudySite_Import from "@salesforce/label/c.CC_Study_Site";
 import AllStudy from "@salesforce/label/c.PIR_All_Study";
 import AllStudySite from "@salesforce/label/c.PIR_All_Study_Site";
 import PG_AC_Select from "@salesforce/label/c.PG_AC_Select";
