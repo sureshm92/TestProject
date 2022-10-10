@@ -1,11 +1,3 @@
-.input-task-name {
-    height: 32px;
-    width: 100%;
-    border-radius: 1rem;
-    border: 1px solid #d9d9d9;
-    font-size: 14px;
-    padding-left: 16px;
-}
 .task-length {
     color: #595959;
     font-size: 14px;

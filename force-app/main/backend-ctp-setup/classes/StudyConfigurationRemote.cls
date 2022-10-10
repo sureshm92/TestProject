@@ -39,7 +39,8 @@ public with sharing class StudyConfigurationRemote {
                     Study_Version_GUID__c,
                     Visits_are_Available__c,
                     Televisit_Vendor_is_Available__c, //Televisit
-                    IQVIA_Outreach__c
+                    IQVIA_Outreach__c,
+                    E_Consent_Configuration__c
                 FROM Clinical_Trial_Profile__c
                 WHERE Id = :ctpId
             ];

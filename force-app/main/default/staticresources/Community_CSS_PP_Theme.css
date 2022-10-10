@@ -48,7 +48,9 @@
     border-radius: 16px !important;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%) !important;
 }
-
+.taskName-focus .slds-input:focus-within {
+    border: 1px solid #015ff1 !important;
+}
 .time-input .slds-input{
     height: 2rem !important;
     border-left: none !important;
