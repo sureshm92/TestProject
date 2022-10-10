@@ -61,6 +61,22 @@ private without sharing class Test_ReferringRemote {
                 Clinical_Trial_Profile__c = testDataInstance.ctp.Id
             );
             insert studyRes;
+
+            List<PreScreener_Survey__c> screenerList = new List<PreScreener_Survey__c>();
+            screenerList.add(new PreScreener_Survey__c(
+                Link_to_Pre_screening__c = 'https://link.test',
+                Prescreener__c = true,
+                ProviderName__c = 'surveygizmo',
+                Study__c = testDataInstance.ctp.Id,
+                Survey_Name__c = 'Prescreener'
+            ));
+
+            insert screenerList;
+
+            Participant_PrescreenerResponse__c response = new Participant_PrescreenerResponse__c(
+                PreScreener_Survey__c = screenerList[0].Id,
+                Screener_Response__c = 'Test Response'
+            );
             
             Test.startTest();
             ReferringRemote.saveParticipant(
@@ -68,6 +84,7 @@ private without sharing class Test_ReferringRemote {
                 JSON.serialize(pe),
                 JSON.serialize(participant),
                 JSON.serialize(participantDelegate),
+                JSON.serialize(response),
                 null,
                 null,
                 null
@@ -75,11 +92,13 @@ private without sharing class Test_ReferringRemote {
 
             ReferringRemote.setfailedReferral(
                 JSON.serialize(pe),
+                JSON.serialize(response),
                 ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING
             );
             try {
                 ReferringRemote.setfailedReferral(
                     'pe',
+                    JSON.serialize(response),
                     ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING
                 );
             } catch (exception e) {
@@ -90,6 +109,7 @@ private without sharing class Test_ReferringRemote {
                     'pe',
                     'participant',
                     'participantDelegate',
+                    null,
                     null,
                     null,
                     null
