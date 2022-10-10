@@ -74,11 +74,15 @@ public class Batch_CreateScreener implements Database.Batchable<SObject> {
     public static void bypassTriggers() {
 
         TriggerHandlerExecutor.bypassHandler(ClinicalTrialProfileTriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(CTPNotificationTriggerHandler.class);
         TriggerHandlerExecutor.bypassHandler(
             ClinicalTrialProfileTriggerHandler.UpdateClinicalTrialProfile.class
         );
         TriggerHandlerExecutor.bypassHandler(
             ClinicalTrialProfileTriggerHandler.manageBypassedFieldsForTMDH.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            CTPNotificationTriggerHandler.CreateNotificationHandler.class
         );
     }
 }
