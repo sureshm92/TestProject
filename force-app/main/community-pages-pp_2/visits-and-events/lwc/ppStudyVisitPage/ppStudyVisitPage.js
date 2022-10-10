@@ -89,6 +89,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track missedVisit = false;
     @track showList = false;
     isMobile = false;
+    hasRendered = false;
 
     callParticipantVisit() {
         this.cbload = true;
@@ -163,6 +164,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             .catch((error) => {
                 this.error = error;
             });
+    }
+
+    renderedCallback() {
+        if (!this.hasRendered) {
+            this.template.querySelector('c-web-spinner').show();
+            this.hasRendered = true;
+        }
     }
 
     connectedCallback() {
@@ -334,21 +342,18 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 if (!this.past) {
-                    this.upcomingVisits[
-                        this.selectedIndex
-                    ].visit.Planned_Date__c = this.visitdata.visitDate;
+                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
+                        this.visitdata.visitDate;
                 }
                 if (this.visitdata.visitDate && this.showUpcomingVisits) {
                     this.upcomingVisits[this.selectedIndex].noVisitDate = false;
-                    this.plannedDate = this.upcomingVisits[
-                        this.selectedIndex
-                    ].visit.Planned_Date__c;
+                    this.plannedDate =
+                        this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
                 } else {
                     this.upcomingVisits[this.selectedIndex].noVisitDate = true;
                     this.plannedDate = '';
                 }
                 this.showChild = true;
-                this.handleVisitChange();
                 if (!this.initialPageLoad) {
                     this.initializeData(this.visitid);
                     this.contentLoaded = true;
@@ -359,6 +364,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     this.contentLoaded = true;
                     this.template.querySelector('c-web-spinner').hide();
                 }
+                this.handleVisitChange();
             });
         } else {
             this.contentLoaded = true;
