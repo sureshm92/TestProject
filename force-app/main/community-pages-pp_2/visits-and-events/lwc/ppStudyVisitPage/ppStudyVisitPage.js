@@ -217,6 +217,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         }
         const objChild = this.template.querySelector('c-pp-r-r-icon-splitter');
         objChild.resetValues();
+        objChild.handleOnVisitClick();
     }
 
     onPastClick() {
@@ -243,6 +244,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         }
         const objChild = this.template.querySelector('c-pp-r-r-icon-splitter');
         objChild.resetValues();
+        objChild.handleOnVisitClick();
     }
 
     onVisitSelect(event) {
