@@ -740,6 +740,14 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void mrrTest() {
         TestData testData = new TestData();
+        insert new PreScreener_Survey__c(
+            Link_to_Pre_screening__c = 'https://link.test',
+            MRR__c = true,
+            ProviderName__c = 'surveygizmo',
+            Study__c = testData.ctp.Id,
+            Survey_Name__c = 'Medical Record Review'
+        );
+
         Test.startTest();
         System.runAs(testData.hcpUser) {
             String jsonResult = MedicalRecordReviewRemote.getInitData(
@@ -753,6 +761,16 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void mrrAndReferringTest1() {
         TestData testData = new TestData();
+
+        PreScreener_Survey__c screener = new PreScreener_Survey__c(
+            Link_to_Pre_screening__c = 'https://link.test',
+            MRR__c = true,
+            ProviderName__c = 'surveygizmo',
+            Study__c = testData.ctp.Id,
+            Survey_Name__c = 'Medical Record Review'
+        );
+        insert screener;
+
         Test.startTest();
         System.runAs(testData.hcpUser) {
             String jsonResult = MedicalRecordReviewRemote.createParticipantEnrollment(
@@ -770,7 +788,8 @@ private class Test_BaseCRCPCommunity {
             MedicalRecordReviewRemote.setMRRStatus(
                 peJSON,
                 ParticipantEnrollmentService.PES_STATUS_PASS,
-                'https://link.test'
+                'https://link.test',
+                screener.Id
             );
         }
         Test.stopTest();
@@ -779,6 +798,25 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void mrrAndReferringTest2() {
         TestData testData = new TestData();
+
+        List<PreScreener_Survey__c> screenerList = new List<PreScreener_Survey__c>();
+        screenerList.add(new PreScreener_Survey__c(
+            Link_to_Pre_screening__c = 'https://link.test',
+            MRR__c = true,
+            ProviderName__c = 'surveygizmo',
+            Study__c = testData.ctp.Id,
+            Survey_Name__c = 'Medical Record Review'
+        ));
+        screenerList.add(new PreScreener_Survey__c(
+            Link_to_Pre_screening__c = 'https://link.test',
+            Prescreener__c = true,
+            ProviderName__c = 'surveygizmo',
+            Study__c = testData.ctp.Id,
+            Survey_Name__c = 'Prescreener'
+        ));
+
+        insert screenerList;
+
         Test.startTest();
         System.runAs(testData.hcpUser) {
             String refInitDataJSON = ReferringRemote.getInitData(
@@ -804,12 +842,19 @@ private class Test_BaseCRCPCommunity {
                 Phone__c = '12123123',
                 Email__c = 'NewTestPart@email.com'
             );
+
+            Participant_PrescreenerResponse__c response = new Participant_PrescreenerResponse__c(
+                PreScreener_Survey__c = screenerList[1].Id,
+                Screener_Response__c = 'Test Response'
+            );
+            
             try {
                 ReferringRemote.saveParticipant(
                     testData.hcpEnrollment.Id,
                     JSON.serialize(refInitData.participantEnrollment),
                     JSON.serialize(participant2),
                     null,
+                    JSON.serialize(response),
                     null,
                     null,null
                 );
