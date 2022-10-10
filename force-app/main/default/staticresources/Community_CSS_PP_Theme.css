@@ -752,6 +752,12 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     .pp-change-pwd [lightning-input_input-host] {
         width: 100% !important;
     }
+
+    .cCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input, 
+    .cCustomThemeLayout .curve-input .slds-combobox__input.slds-input {
+        justify-content: center;
+    }
+
 }
 
 
