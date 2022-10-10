@@ -1,0 +1,34 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="VisitResultSharingPanel" implements="force:hasRecordId,flexipage:availableForAllPageTypes"
+    controller="EConsentIntegrationController">
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
+
+    <!-- attributes: -->
+    <aura:attribute name="initData" type="Object" />
+    <aura:attribute name="groups" type="List" />
+    <aura:attribute name="options" type="Object" />
+    <aura:attribute name="dataSnapshot" type="String" />
+    <aura:attribute name="userPermission" type="String" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="isreadonly" type="Boolean" default="false" />
+    <aura:method name="refresh" action="{!c.doInit}" />
+    <aura:attribute name="usrPermission" type="String" />
+    <aura:attribute name="usrStudySiteSize" type="Integer" />
+    <aura:attribute name="usrProfilePermission" type="Boolean" default="false" />
+    <aura:handler event="c:EconsentEvent" action="{!c.handleEvents}"/>
+    <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
+    <c:RRSpinner aura:id="spinner" showSpinner="true" />
+    <aura:if isTrue="{!v.userPermission != 'Disabled'}">
+        <aura:set attribute="else">
+            <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}" />
+        </aura:set>
+        <div class="panel">
+
+            <c:eConsentIntegrationCmp recordId="{!v.recordId}" isreadonly="{!v.isreadonly}" />
+        </div>
+    </aura:if>
+</aura:component>
