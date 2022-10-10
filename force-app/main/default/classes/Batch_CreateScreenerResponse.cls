@@ -91,7 +91,8 @@ public class Batch_CreateScreenerResponse implements Database.Batchable<SObject>
                 if(peToUpdate.containsKey(surveyResponseRec.Participant_enrollment__c)) { 
                     peRecord = peToUpdate.get(surveyResponseRec.Participant_enrollment__c);
                 } 
-                if(ctpMRRSurveyIdsMap.values().contains(surveyResponseRec.PreScreener_Survey__c)) { 
+                if(surveyResponseRec.PreScreener_Survey__c == null 
+                    || ctpMRRSurveyIdsMap.values().contains(surveyResponseRec.PreScreener_Survey__c)) { 
                     peRecord.Medical_Record_Review_Completed_by__c = null;
                     peRecord.Medical_Record_Review_Completed_Date__c = null;
                     peRecord.MRR_Survey_Results_URL__c = null;
