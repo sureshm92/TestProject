@@ -18547,6 +18547,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>To be eligible to participate in the study, one must meet the following criteria: </value>
     </labels>
     <labels>
+        <fullName>PP_Study_Overview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Study_Overview</shortDescription>
+        <value>Study Overview </value>
+    </labels>
+    <labels>
         <fullName>PP_Inclusion_Criteria</fullName>
         <language>en_US</language>
         <protected>true</protected>
