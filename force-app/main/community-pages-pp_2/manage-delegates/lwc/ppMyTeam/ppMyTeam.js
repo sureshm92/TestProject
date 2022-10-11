@@ -12,11 +12,10 @@ import PP_AS_LAB_RESULTS from '@salesforce/label/c.PP_AS_LAB_RESULTS';
 import PP_AS_VITALS from '@salesforce/label/c.PP_AS_VITALS';
 import PP_AS_MEASUREMENTS from '@salesforce/label/c.PP_AS_MEASUREMENTS';
 import PP_AS_CONDITIONAL_FEATURE from '@salesforce/label/c.PP_AS_CONDITIONAL_FEATURE';
-import Receive_emails_about_your_study_status from '@salesforce/label/c.Receive_emails_about_your_study_status';
-import all_features_may_not_be_available_for_each_study from '@salesforce/label/c.all_features_may_not_be_available_for_each_study';
+import Receive_emails_about_your_study_status from '@salesforce/label/c.PP_Receive_emails_about_your_study_status';
+import all_features_may_not_be_available_for_each_study from '@salesforce/label/c.PP_all_features_may_not_be_available_for_each_study';
 
 import getInitData from '@salesforce/apex/MyTeamRemote.getInitData';
-import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitData';
 
 export default class PpMyTeam extends LightningElement {
     @api usermode;
