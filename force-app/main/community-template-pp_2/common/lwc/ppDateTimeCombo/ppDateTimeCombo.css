@@ -81,13 +81,11 @@ input[type='date']::-webkit-calendar-picker-indicator,
 }
 
 @media all and (max-width: 486px) {
-    .slds-small-size_1-of-2.slds-p-right_xx-small,
-    .slds-small-size_1-of-2.slds-p-left_xx-small {
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
-    }
-
-    .slds-small-size_1-of-2.slds-p-left_xx-small {
+    .slds-small-size_1-of-2.slds-p-right_xx-small {
         margin-bottom: 1rem;
+        padding-right: 0;
+    }
+    .slds-small-size_1-of-2.slds-p-left_xx-small {
+        padding-left: 0;
     }
 }
