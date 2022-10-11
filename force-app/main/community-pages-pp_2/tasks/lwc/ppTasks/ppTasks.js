@@ -11,6 +11,9 @@ import taskCancel from '@salesforce/label/c.RH_RP_Cancel';
 import taskConfirm from '@salesforce/label/c.RH_TV_Confirm';
 import taskPriorityCritical from '@salesforce/label/c.Task_priority_critical';
 import notAvailable from '@salesforce/label/c.Not_Available';
+import taskMarkCompleteHeader from '@salesforce/label/c.Task_Mark_Complete';
+import taskReminder from '@salesforce/label/c.Task_Reminder';
+import noOpenTasks from '@salesforce/label/c.No_Open_Tasks';
 
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
@@ -42,7 +45,10 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         taskCancel,
         taskConfirm,
         taskPriorityCritical,
-        notAvailable
+        notAvailable,
+        taskMarkCompleteHeader,
+        taskReminder,
+        noOpenTasks
     };
     isEnrolled;
     emailOptIn;
@@ -95,7 +101,6 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         this.spinner.show();
         getPPParticipantTasks()
             .then((participantTasks) => {
-                console.log('ppp', participantTasks);
                 this.showCreateTaskButton = participantTasks.showCreateTaskButton;
                 this.openTasks = participantTasks.openTasksWrapper;
                 this.emptyOpenTasks = this.openTasks.length ==0;
@@ -104,7 +109,6 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 this.spinner.hide();
             })
             .catch((error) => {
-                console.log('error in ppTasks ', error);
                 this.spinner.hide();
             });
     }
@@ -209,7 +213,6 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         try {
             this.popupTaskMenuItems = [];
             var taskId = event.currentTarget.dataset.popup;
-            console.log('taskid', taskId);
             this.popUpTaskId = taskId;
             let radioTask = this.template.querySelector('[data-popup="' + taskId + '"]');
             let cl = radioTask.classList.value;
@@ -220,7 +223,6 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                     break;
                 }
             }
-            console.log(selectedTask.openTask.Task_Code__c);
 
             if (
                 this.taskCodeList.includes(selectedTask.openTask.Task_Code__c) &&
@@ -237,19 +239,8 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                         this.popupTaskMenuItems.push(this.editObj, this.ignoreObj);
                     }
                 }
-
-                //this.popupTaskMenuItems.push('Edit');
             }
-
-            for (var i = 0; i < this.popupTaskMenuItems.length; i++) {
-                console.log(this.popupTaskMenuItems[i].name);
-                console.log(this.popupTaskMenuItems[i].iconUrl);
-            }
-            console.log(this.popupTaskMenuItems);
-            console.log(this.openTasks);
-            console.log(cl.includes('slds-is-open'));
             if (!cl.includes('slds-is-open')) radioTask.classList.add('slds-is-open');
-            console.log(radioTask.classList.value);
             if (cl.includes('slds-is-open')) radioTask.classList.remove('slds-is-open');
         } catch (e) {
             alert(e);
@@ -257,9 +248,6 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     }
 
     closeMenu() {
-        console.log('closeMenu');
-        console.log(this.popUpTaskId);
-
         try {
             let radioTask = this.template.querySelector('[data-popup="' + this.popUpTaskId + '"]');
             radioTask.classList.remove('slds-is-open');
@@ -269,7 +257,6 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     }
     closeModel() {
         let radioTask = this.template.querySelector('[data-modalpopup="' + this.popUpTaskId + '"]');
-        console.log(this.popUpTaskId);
         this.isShowModal = false;
         let radioTask2 = this.template.querySelector(
             '[data-parentdiv="' + this.selectedTaskId + '"]'
@@ -286,15 +273,14 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         );
     }
     fillTheOpenIcon(event) {
-        // alert('fillTheOpenIcon')
         var taskId = event.currentTarget.dataset.index;
         let radioTask2 = this.template.querySelector('[data-index="' + taskId + '"]');
-        if (radioTask2.classList.value.includes('fillOval')) {
-            radioTask2.classList.remove('fillOval');
-            radioTask2.classList.add('emptyOval');
+        if (radioTask2.classList.value.includes('fill-oval')) {
+            radioTask2.classList.remove('fill-oval');
+            radioTask2.classList.add('empty-oval');
         } else {
-            radioTask2.classList.add('fillOval');
-            radioTask2.classList.remove('emptyOval');
+            radioTask2.classList.add('fill-oval');
+            radioTask2.classList.remove('empty-oval');
         }
     }
 }
