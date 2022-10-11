@@ -52,7 +52,7 @@
  .taskName-focus .slds-input:focus-within {
      border: 1px solid #015ff1 !important;
  }
- 
+
  .time-input .slds-input{
      height: 2rem !important;
      border-left: none !important;
@@ -630,8 +630,7 @@
  .cCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input,
  .cCustomThemeLayout .curve-input .slds-combobox__input.slds-input {     
      height: 30px!important;
--    width: 300px; 
-+    width: 350px; 
+     width: 350px; 
      display: flex;
      align-items: center;
      max-width: 100%;
@@ -741,31 +740,19 @@
  .fadePlaceholder button span{
      opacity: 0.7;
  }
- 
--/**Task Reminder Checkbox */
--.task-reminder-pref .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
--    background-color: #0768FD !important;
--    border-radius: 2px;
--    border: 1px solid #0768FD !important;
--}
-+/* Date Time Dropdown Alignment */
- 
--.task-reminder-pref .slds-checkbox [type=checkbox]:checked:focus+.slds-checkbox__label .slds-checkbox_faux:before{
--    border: 1px solid #0768FD !important;
--    border-radius: 2px;
-+.slds-listbox.slds-dropdown {
-+    left: -2.25rem!important;
-+    min-width: 165px;
+
+/* Date Time Dropdown Alignment */
+
+    .slds-listbox.slds-dropdown {
+        left: -2.25rem!important;
+        min-width: 165px;
  }
  
--.task-reminder-pref .slds-checkbox [type=checkbox]:focus+.slds-checkbox__label .slds-checkbox_faux:before { 
--     border: 1px solid #0768FD !important;
--     border-radius: 2px;
-+.slds-listbox.slds-dropdown.slds-listbox_vertical .slds-listbox__option_plain {
-+    padding-left: 1.5rem;
- }
+.slds-listbox.slds-dropdown.slds-listbox_vertical .slds-listbox__option_plain {
+    padding-left: 1.5rem;
+}
  
-+
+
  @media all and (max-width: 768px) {
      .cCustomThemeLayout .apollo-btn, 
      .cCustomThemeLayout .slds-input, 
@@ -780,12 +767,12 @@
      .pp-change-pwd [lightning-input_input-host] {
          width: 100% !important;
      }
-+
-+    .cCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input, 
-+    .cCustomThemeLayout .curve-input .slds-combobox__input.slds-input {
-+        justify-content: center;
-+    }
-+
+
+    .cCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input, 
+    .cCustomThemeLayout .curve-input .slds-combobox__input.slds-input {
+        justify-content: center;
+    }
+
  }
  
  
