@@ -156,7 +156,7 @@
     <label>Participant Screener Response</label>
     <nameField>
         <displayFormat>PPR-{0000}</displayFormat>
-        <label>Participant_PrescreenerResponse Name</label>
+        <label>Participant Screener Response Name</label>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Participant Screener Responses</pluralLabel>
