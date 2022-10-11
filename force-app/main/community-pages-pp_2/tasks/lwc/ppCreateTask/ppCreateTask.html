@@ -2,7 +2,7 @@
     <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <lightning-layout multiple-rows="true">
-        <lightning-layout-item class="slds-p-vertical_none" size="12">
+        <lightning-layout-item class="slds-m-bottom_small" size="12">
             <div class="slds-align_absolute-center">
                 <lightning-card class="task-card">
                     <lightning-layout>
@@ -23,16 +23,15 @@
                                     ></lightning-layout-item
                                 >
                             </lightning-layout>
-                            <lightning-layout size="12">
-                                <input
+                            <div class="profile-info-input taskName-focus">
+                                <lightning-input
                                     type="text"
                                     data-id="taskName"
                                     placeholder={label.enterTaskName}
                                     onkeyup={handletaskNameChange}
                                     maxlength="30"
-                                    class="input-task-name"
-                                />
-                            </lightning-layout>
+                                ></lightning-input>
+                            </div>
                             <lightning-layout-item>
                                 <lightning-layout>
                                     <lightning-layout-item size="12" class="slds-m-top_medium">

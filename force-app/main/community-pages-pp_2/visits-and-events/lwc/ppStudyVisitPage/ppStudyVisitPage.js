@@ -89,6 +89,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track missedVisit = false;
     @track showList = false;
     isMobile = false;
+    hasRendered = false;
 
     callParticipantVisit() {
         this.cbload = true;
@@ -165,6 +166,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             });
     }
 
+    renderedCallback() {
+        if (!this.hasRendered) {
+            this.template.querySelector('c-web-spinner').show();
+            this.hasRendered = true;
+        }
+    }
+
     connectedCallback() {
         if (formFactor === 'Small') {
             this.isMobile = true;
@@ -209,6 +217,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         }
         const objChild = this.template.querySelector('c-pp-r-r-icon-splitter');
         objChild.resetValues();
+        objChild.handleOnVisitClick();
     }
 
     onPastClick() {
@@ -235,6 +244,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         }
         const objChild = this.template.querySelector('c-pp-r-r-icon-splitter');
         objChild.resetValues();
+        objChild.handleOnVisitClick();
     }
 
     onVisitSelect(event) {
@@ -334,21 +344,18 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 if (!this.past) {
-                    this.upcomingVisits[
-                        this.selectedIndex
-                    ].visit.Planned_Date__c = this.visitdata.visitDate;
+                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
+                        this.visitdata.visitDate;
                 }
                 if (this.visitdata.visitDate && this.showUpcomingVisits) {
                     this.upcomingVisits[this.selectedIndex].noVisitDate = false;
-                    this.plannedDate = this.upcomingVisits[
-                        this.selectedIndex
-                    ].visit.Planned_Date__c;
+                    this.plannedDate =
+                        this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
                 } else {
                     this.upcomingVisits[this.selectedIndex].noVisitDate = true;
                     this.plannedDate = '';
                 }
                 this.showChild = true;
-                this.handleVisitChange();
                 if (!this.initialPageLoad) {
                     this.initializeData(this.visitid);
                     this.contentLoaded = true;
@@ -359,6 +366,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     this.contentLoaded = true;
                     this.template.querySelector('c-web-spinner').hide();
                 }
+                this.handleVisitChange();
             });
         } else {
             this.contentLoaded = true;

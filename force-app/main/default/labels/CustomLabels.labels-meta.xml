@@ -11475,6 +11475,13 @@ The expected format is REF##### to REF########</value>
         <value>No case assigenment rule found!</value>
     </labels>
     <labels>
+        <fullName>No_Open_Tasks</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Open Tasks</shortDescription>
+        <value>You have no open tasks</value>
+    </labels>
+    <labels>
         <fullName>No_Payment_Information_Available</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -13844,6 +13851,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG AS F 2nd Choice Language Help Text</shortDescription>
         <value>This will be used to display study information when your Preferred Language is not available.</value>
+    </labels>
+    <labels>
+        <fullName>PP_all_features_may_not_be_available_for_each_study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>all_features_may_not_be_available_for_each_study</shortDescription>
+        <value>*all features may not be available for each study</value>
     </labels>
     <labels>
         <fullName>PP_AS_F_2nd_Choice_Language_Help_Text</fullName>
@@ -18524,6 +18538,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Participant_Eligible_Criteria</shortDescription>
         <value>To be eligible to participate in the program, one must meet the following criteria: </value>
+    </labels>
+    <labels>
+        <fullName>PP_Participant_Study_Eligible_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Participant_Study_Eligible_Criteria</shortDescription>
+        <value>To be eligible to participate in the study, one must meet the following criteria: </value>
+    </labels>
+    <labels>
+        <fullName>PP_Study_Overview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Study_Overview</shortDescription>
+        <value>Study Overview </value>
     </labels>
     <labels>
         <fullName>PP_Inclusion_Criteria</fullName>
@@ -25236,6 +25264,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Ignore</value>
     </labels>
     <labels>
+        <fullName>Task_Mark_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Mark Complete</shortDescription>
+        <value>Mark as Complete</value>
+    </labels>
+    <labels>
         <fullName>Task_Mark_Complete_Msg</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25248,6 +25283,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Task Name</shortDescription>
         <value>Task Name</value>
+    </labels>
+    <labels>
+        <fullName>Task_Reminder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Reminder</shortDescription>
+        <value>Reminder</value>
     </labels>
     <labels>
         <fullName>Enter_Task_Name</fullName>
@@ -25423,6 +25465,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Task create reminder</shortDescription>
         <value>Create Reminder</value>
+    </labels>
+    <labels>
+        <fullName>Task_priority_critical</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task priority critical</shortDescription>
+        <value>Critical</value>
     </labels>
     <labels>
         <fullName>Technical_Support</fullName>
@@ -26710,6 +26759,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Primary Delegate</shortDescription>
         <value>Primary Delegate</value>
+    </labels>
+    <labels>
+        <fullName>PP_Receive_emails_about_your_study_status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Receive emails about your study status</shortDescription>
+        <value>Receive emails about your study status</value>
     </labels>
     <labels>
         <fullName>PP_required</fullName>
@@ -28439,6 +28495,34 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_None</shortDescription>
-        <value>None</value>
+        <value>No reminder</value>
+    </labels>
+    <labels>
+        <fullName>Add_Consent_Vendor</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add_Consent_Vendor</shortDescription>
+        <value>Add Consent Vendor</value>
+    </labels>
+    <labels>
+        <fullName>E_Consent_Permission</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>E_Consent_Permission</shortDescription>
+        <value>You don&apos;t have any study sites to display or Missing e-consent permission.</value>
+    </labels>
+    <labels>
+        <fullName>E_Consent_Record_Vendor_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>E-Consent Record Vendor Name</shortDescription>
+        <value>Consent Record Vendor Name</value>
+    </labels>
+    <labels>
+        <fullName>Select_E_Consent_Vendor</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select_E-Consent_Vendor</shortDescription>
+        <value>Select E-Consent Vendor</value>
     </labels>
 </CustomLabels>

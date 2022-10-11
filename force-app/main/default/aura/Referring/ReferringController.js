@@ -533,12 +533,14 @@
             if (state === "SUCCESS") {
                 participant.Id = response.getReturnValue()[0];
                 dupPart = response.getReturnValue()[1];
+                var surveyResponse =component.get('v.preScreenerResponse');
                 var action2 = component.get("c.saveParticipantEnrollment");
                 action2.setParams({
                     hcpeId: hcpeId,
                     pEnrollmentJSON: JSON.stringify(pEnrollment),
                     participantJSON: JSON.stringify(participant),
                     participantDelegateJSON: JSON.stringify(delegateParticipant),
+                    preScreenerResponseJSON: JSON.stringify(surveyResponse),
                     delegateId: delID,
                     ddInfo: JSON.stringify(component.get('v.delegateDuplicateInfo')),
                     contentDocId:contentDocId
