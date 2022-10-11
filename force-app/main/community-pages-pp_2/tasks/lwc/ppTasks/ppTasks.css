@@ -103,8 +103,7 @@
     cursor: pointer;
 }
 
-.curpointer
-{
+.curpointer {
     cursor: pointer;
 }
 .open-task-icon {
@@ -211,6 +210,7 @@
 @media all and (max-width: 486px) {
     .inactive-custom-box {
         width: 366px;
+        margin-left: 0.75rem;
     }
     .opentask {
         margin-left: 10px;
