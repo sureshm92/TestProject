@@ -24,7 +24,6 @@ import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 
-
 export default class PpTasks extends NavigationMixin(LightningElement) {
     initData;
     isNewTask = true;
@@ -83,7 +82,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     };
     editObj = { name: this.label.taskEdit, iconUrl: 'Pencil_Icon', edit: true };
     ignoreObj = { name: this.label.taskIgnore, iconUrl: 'icon-close', ignore: true };
-    editImg =pp_icons + '/'+ 'Pencil_Icon.svg';
+    editImg = pp_icons + '/' + 'Pencil_Icon.svg';
     emptyOpenTasks;
 
     connectedCallback() {
@@ -103,7 +102,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
             .then((participantTasks) => {
                 this.showCreateTaskButton = participantTasks.showCreateTaskButton;
                 this.openTasks = participantTasks.openTasksWrapper;
-                this.emptyOpenTasks = this.openTasks.length ==0;
+                this.emptyOpenTasks = this.openTasks.length == 0;
                 this.populateSystemTasks(this.openTasks);
                 this.completedTasks = participantTasks.completedTasks;
                 this.spinner.hide();
@@ -146,20 +145,24 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].openTask.Activity_Datetime__c === undefined
                     ? true
                     : false;
-            if(this.taskCodeList.includes(tasks[i].openTask.Task_Code__c)){
+            if (this.taskCodeList.includes(tasks[i].openTask.Task_Code__c)) {
                 tasks[i].criticalTask = false;
-            }else{
-            tasks[i].criticalTask = tasks[i].openTask.Priority=='Critical' ? true: false;
-        }
-        tasks[i].subjectClass= tasks[i].systemTask?'set-up-your-account curpointer':'set-up-your-account';
-        tasks[i].businessTask =  tasks[i].systemTask?tasks[i].openTask.Task_Code__c== 'Complete_Survey':  true;
+            } else {
+                tasks[i].criticalTask = tasks[i].openTask.Priority == 'Critical' ? true : false;
+            }
+            tasks[i].subjectClass = tasks[i].systemTask
+                ? 'set-up-your-account curpointer'
+                : 'set-up-your-account';
+            tasks[i].businessTask = tasks[i].systemTask
+                ? tasks[i].openTask.Task_Code__c == 'Complete_Survey'
+                : true;
         }
     }
     taskOpen(event) {
         let selectedTask;
         var taskId = event.currentTarget.dataset.index;
-        if(event.currentTarget.dataset.actionurl != undefined){
-        communityService.navigateToPage(event.currentTarget.dataset.actionurl);
+        if (event.currentTarget.dataset.actionurl != undefined) {
+            communityService.navigateToPage(event.currentTarget.dataset.actionurl);
         }
     }
     showTaskCompleteModal(event) {
