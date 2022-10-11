@@ -25432,6 +25432,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Create Reminder</value>
     </labels>
     <labels>
+        <fullName>Task_priority_critical</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task priority critical</shortDescription>
+        <value>Critical</value>
+    </labels>
+    <labels>
         <fullName>Technical_Support</fullName>
         <categories>Opt Out And Technical Support</categories>
         <language>en_US</language>
