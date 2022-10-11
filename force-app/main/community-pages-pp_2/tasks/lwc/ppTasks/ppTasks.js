@@ -9,6 +9,8 @@ import taskMarkComplete from '@salesforce/label/c.Task_Mark_Complete_Msg';
 import taskDue from '@salesforce/label/c.Task_Due';
 import taskCancel from '@salesforce/label/c.RH_RP_Cancel';
 import taskConfirm from '@salesforce/label/c.RH_TV_Confirm';
+import taskPriorityCritical from '@salesforce/label/c.Task_priority_critical';
+import notAvailable from '@salesforce/label/c.Not_Available';
 
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
@@ -17,6 +19,8 @@ import markAsCompleted from '@salesforce/apex/TaskEditRemote.markAsCompleted';
 import { NavigationMixin } from 'lightning/navigation';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import TIME_ZONE from '@salesforce/i18n/timeZone';
+
 
 export default class PpTasks extends NavigationMixin(LightningElement) {
     initData;
@@ -25,6 +29,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     taskId;
     task;
     taskExisting;
+    userTimeZone = TIME_ZONE;
     label = {
         createNewTask,
         tasksHeader,
@@ -35,7 +40,9 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         taskMarkComplete,
         taskDue,
         taskCancel,
-        taskConfirm
+        taskConfirm,
+        taskPriorityCritical,
+        notAvailable
     };
     isEnrolled;
     emailOptIn;
@@ -135,14 +142,21 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].openTask.Activity_Datetime__c === undefined
                     ? true
                     : false;
+            if(this.taskCodeList.includes(tasks[i].openTask.Task_Code__c)){
+                tasks[i].criticalTask = false;
+            }else{
             tasks[i].criticalTask = tasks[i].openTask.Priority=='Critical' ? true: false;
+        }
+        tasks[i].subjectClass= tasks[i].systemTask?'set-up-your-account curpointer':'set-up-your-account';
+        tasks[i].businessTask =  tasks[i].systemTask?tasks[i].openTask.Task_Code__c== 'Complete_Survey':  true;
         }
     }
     taskOpen(event) {
         let selectedTask;
         var taskId = event.currentTarget.dataset.index;
-        console.log(event.currentTarget.dataset.actionurl);
+        if(event.currentTarget.dataset.actionurl != undefined){
         communityService.navigateToPage(event.currentTarget.dataset.actionurl);
+        }
     }
     showTaskCompleteModal(event) {
         let selectedTask;

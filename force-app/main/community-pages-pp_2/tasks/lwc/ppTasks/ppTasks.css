@@ -106,8 +106,13 @@
 
 .systask {
     margin-left: 6px;
+    cursor: pointer;
 }
 
+.curpointer
+{
+    cursor: pointer;
+}
 .opentask {
     box-sizing: border-box;
     background-color: #ffffff;
