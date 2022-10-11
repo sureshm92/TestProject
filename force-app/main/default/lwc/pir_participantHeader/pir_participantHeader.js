@@ -23,6 +23,7 @@ import PG_MRR_BTN_Back_to_My_Participant from '@salesforce/label/c.PG_MRR_BTN_Ba
 import RH_Referred_by from '@salesforce/label/c.RH_Referred_by';
 import RH_Pre_screen from '@salesforce/label/c.RH_Pre_screen'; 
 import Invited_to_Patient_Portal from '@salesforce/label/c.Invited_to_Patient_Portal';
+import Send_to_Dct_dob_error from '@salesforce/label/c.Send_to_Dct_dob_error';
 import RH_ScreenerComplete from '@salesforce/label/c.RH_ScreenerComplete';
 import of from '@salesforce/label/c.of';
 import RH_Complete_Participant_Screener from '@salesforce/label/c.RH_Complete_Participant_Screener';

@@ -37,6 +37,8 @@ public without sharing class ParticipantInformationRemote {
         PE_COMMON_FIELDS_PRINT.add('Clinical_Trial_Profile__r.Initial_Visit_Required__c');
         PE_COMMON_FIELDS_PRINT.add('Study_Hub_Log__c');
         PE_COMMON_FIELDS_PRINT.add('Study_Hub_Log__r.Response_Status_Code__c');
+        List<String> PE_COMMON_DOB_FIELDS = new List<String>{'Participant__r.Age__c','Participant__r.Birth_Day__c','Participant__r.Birth_Month__c'};
+        PE_COMMON_FIELDS_PRINT.addAll(PE_COMMON_DOB_FIELDS);
         try {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
                 peId,
