@@ -30,6 +30,9 @@
     <aura:attribute name="sendToSHReason" type="String" />
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
     <aura:attribute name="peshData" type="Object" />
+    <aura:attribute name="showMonth" type="Boolean" default="false"/>
+    <aura:attribute name="showDay" type="Boolean" default="false"/>
+    <aura:attribute name="showYear" type="Boolean" default="false"/>
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" size="medium" />
     <div class="form-content">
@@ -73,7 +76,7 @@
                                     disabled="true"
                                 />
                             </div>
-                            <div class="rr-form-element slds-col slds-size--1-of-4">
+                            <!-- <div class="rr-form-element slds-col">
                                 <div class="label">{!$Label.c.PG_AS_F_Date_of_Birth}</div>
                                 <lightning:input
                                     max="{!v.todayDate}"
@@ -82,7 +85,57 @@
                                     disabled="true"
                                     dateStyle="medium"
                                 />
+                            </div>-->
+                            <!-- DOB changes start -->
+                            <aura:if isTrue ="{!v.showMonth}">
+                                <div class="rr-form-element slds-col slds-size--1-of-4">
+                                    <div class="label">{!$Label.c.RH_MOB}</div>
+                                    <lightning:input
+                                                     type="text"
+                                                     value="{!v.participant.Birth_Month__c}"
+                                                     disabled="true"
+                                                     />
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue ="{!v.showDay}">
+                                <div class="rr-form-element slds-col slds-size--1-of-4">
+                                    <div class="label">{!$Label.c.RH_DOB}</div>
+                                    <lightning:input
+                                                     type="text"
+                                                     value="{!v.participant.Birth_Day__c}"
+                                                     disabled="true"
+                                                     />
+                                </div>
+                            </aura:if>
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
+                                <div class="label">{!$Label.c.RH_YearofBirth}</div>
+                                <lightning:input
+                                                 type="text"
+                                                 value="{!v.participant.Birth_Year__c}"
+                                                 disabled="true"
+                                                 />
                             </div>
+                            <!--<aura:if isTrue ="{!(!v.showDay)}"> -->
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
+                                <div class="label">{!$Label.c.Age}</div>
+                                <lightning:input
+                                                 type="text"
+                                                 value="{!v.participant.Age__c}"
+                                                 disabled="true"
+                                                 />
+                            </div>
+                            <!--</aura:if>-->
+                            <aura:if isTrue ="{!v.showYear}">
+                                <div class="rr-form-element slds-col slds-size--1-of-4"></div>
+                                <div class="rr-form-element slds-col slds-size--1-of-4"></div>
+                                <aura:set attribute="else">
+                                    <aura:if isTrue ="{!and(v.showMonth,!v.showDay)}">
+                                        <div class="rr-form-element slds-col slds-size--1-of-4"></div>
+                                        
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+                            <!-- DOB changes ends -->
                             <div class="rr-form-element slds-col slds-size--1-of-4">
                                 <div class="label">{!$Label.c.PG_AS_F_Nickname}</div>
                                 <lightning:input

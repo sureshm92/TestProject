@@ -49,14 +49,14 @@
                             class="slds-modal slds-fade-in-open"
                         >
                             <div
-                                class="slds-modal__container completemask"
+                                class="slds-modal__container complete-mask"
                                 data-modalpopup={popUpTaskId}
                             >
-                                <div class="completemaskmargin">
+                                <div class="complete-mask-margin">
                                     <lightning-layout>
                                         <lightning-layout-item
-                                            ><div class="modaltitle">
-                                                Mark as Complete
+                                            ><div class="modal-title">
+                                                {label.taskMarkCompleteHeader}
                                             </div></lightning-layout-item
                                         >
                                         <lightning-layout-item
@@ -70,10 +70,8 @@
                                             </lightning-icon></lightning-layout-item
                                     ></lightning-layout>
 
-                                    <div class="modalbody">
+                                    <div class="modal-body">
                                         {label.taskMarkComplete}
-                                        <!-- <a >Cancel</a>
-                                        <button class="modalbutton">Confirm</button>-->
                                         <lightning-layout style="float: right; margin-right: -1rem">
                                             <lightning-layout-item
                                                 style="margin-top: 2.5rem; margin-right: 1rem"
@@ -83,7 +81,7 @@
                                             <lightning-layout-item
                                                 style="margin-top: 2.2rem; margin-right: 1rem"
                                             >
-                                                <button class="modalbutton" onclick={closeTheTask}>
+                                                <button class="modal-button" onclick={closeTheTask}>
                                                     {label.taskConfirm}
                                                 </button>
                                             </lightning-layout-item>
@@ -114,7 +112,7 @@
                                                 data-index={item.openTask.Id}
                                             >
                                                 <c-web-icon
-                                                    class="systask"
+                                                    class="sys-task"
                                                     icon-name="task-illustration"
                                                     icon-size="big"
                                                 >
@@ -123,7 +121,7 @@
                                         </template>
                                         <template if:false={item.systemTask}>
                                             <div
-                                                class="slds-p-around_medium emptyOval"
+                                                class="slds-p-around_medium empty-oval"
                                                 onclick={showTaskCompleteModal}
                                                 onmouseover={fillTheOpenIcon}
                                                 onmouseout={fillTheOpenIcon}
@@ -131,7 +129,7 @@
                                             >
                                                 <template if:false={item.isClosed}>
                                                     <c-web-icon
-                                                        class="opentask"
+                                                        class="open-task-icon"
                                                         icon-name="icon-opentask"
                                                         icon-color=""
                                                     >
@@ -139,7 +137,7 @@
                                                 </template>
                                                 <template if:true={item.isClosed}>
                                                     <c-web-icon
-                                                        class="opentask"
+                                                        class="open-task-icon"
                                                         icon-name="icon-completedtask"
                                                     ></c-web-icon>
                                                 </template>
@@ -152,8 +150,12 @@
                                         padding="around-small"
                                     >
                                         <lightning-layout>
-                                            <lightning-layout-item size="12"
-                                                ><span class="set-up-your-account"
+                                            <lightning-layout-item size="12">
+                                                <span
+                                                    class={item.subjectClass}
+                                                    onclick={taskOpen}
+                                                    data-actionurl={item.openTask.Action_URL__c}
+                                                    data-index={item.openTask.Id}
                                                     ><lightning-formatted-text
                                                         value={item.openTask.Subject}
                                                     >
@@ -161,26 +163,59 @@
                                                 ></span> </lightning-layout-item
                                         ></lightning-layout>
                                         <template if:true={item.criticalTask}
-                                            ><span class="critical-rect">Critical</span></template
+                                            ><span class="critical-rect"
+                                                >{label.taskPriorityCritical}</span
+                                            ></template
                                         >
                                         <lightning-layout
                                             ><lightning-layout-item size="12"
-                                                ><template if:false={item.systemTask}
-                                                    ><span class="duetime"
-                                                        >{label.taskDue} : &nbsp;
+                                                ><template if:true={item.businessTask}
+                                                    ><span class="due-time"
+                                                        >{label.taskDue} :&nbsp;
                                                         <template if:true={item.dueDate}>
                                                             <lightning-formatted-date-time
                                                                 value={item.openTask.Activity_Datetime__c}
                                                                 year="numeric"
                                                                 month="short"
                                                                 day="2-digit"
+                                                            ></lightning-formatted-date-time>
+                                                            &nbsp;|&nbsp;
+                                                            <lightning-formatted-date-time
+                                                                value={item.openTask.Activity_Datetime__c}
+                                                                hour="numeric"
+                                                                minute="numeric"
+                                                                time-zone={userTimeZone}
                                                             ></lightning-formatted-date-time
                                                         ></template>
                                                         <template if:false={item.dueDate}
-                                                            >None</template
+                                                            >{label.notAvailable}</template
                                                         >
                                                     </span></template
-                                                ></lightning-layout-item
+                                                >
+                                                <template if:false={item.businessTask}
+                                                ><span class="due-time"
+                                                    >{label.taskReminder} :&nbsp;
+                                                    <template if:true={item.openTask.ReminderDateTime}>
+                                                        <lightning-formatted-date-time
+                                                            value={item.openTask.ReminderDateTime}
+                                                            year="numeric"
+                                                            month="short"
+                                                            day="2-digit"
+                                                        ></lightning-formatted-date-time>
+                                                        &nbsp;|&nbsp;
+                                                        <lightning-formatted-date-time
+                                                            value={item.openTask.ReminderDateTime}
+                                                            hour="numeric"
+                                                            minute="numeric"
+                                                            time-zone={userTimeZone}
+                                                        ></lightning-formatted-date-time
+                                                    ></template>
+                                                    <template if:false={item.openTask.ReminderDateTime}
+                                                        >{label.notAvailable}</template
+                                                    >
+                                                </span></template
+                                            >
+                                            </lightning-layout-item
                                             >
                                         </lightning-layout>
                                     </lightning-layout-item>
@@ -222,7 +257,7 @@
                                                         for:item="citem"
                                                     >
                                                         <li
-                                                            class="slds-dropdown__item popupdefault"
+                                                            class="slds-dropdown__item popup-default"
                                                             role="presentation"
                                                             key={citem}
                                                         >
@@ -265,15 +300,17 @@
                                 </div>
                             </template>
                             <template if:true={emptyOpenTasks}>
-                            <!-- Task List View UI with no data -->
-                            <lightning-layout class="inactive-custom-box slds-align_absolute-center no-task-list-view">
-                                <div class="slds-align_absolute-center dis-block">
-                                    <span class="center"><img src={systemTaskImg} /></span>
-                                    <span class="no-task-txt slds-m-top_medium"
-                                        >You have no open tasks</span
-                                    >
-                                </div>
-                            </lightning-layout>
+                                <!-- Task List View UI with no data -->
+                                <lightning-layout
+                                    class="inactive-custom-box slds-align_absolute-center no-task-list-view"
+                                >
+                                    <div class="slds-align_absolute-center dis-block">
+                                        <span class="center"><img src={systemTaskImg} /></span>
+                                        <span class="no-task-txt slds-m-top_medium"
+                                            >{label.noOpenTasks}</span
+                                        >
+                                    </div>
+                                </lightning-layout>
                             </template>
                         </lightning-layout-item>
                         <lightning-layout-item
