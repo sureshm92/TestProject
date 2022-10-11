@@ -11475,6 +11475,13 @@ The expected format is REF##### to REF########</value>
         <value>No case assigenment rule found!</value>
     </labels>
     <labels>
+        <fullName>No_Open_Tasks</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Open Tasks</shortDescription>
+        <value>You have no open tasks</value>
+    </labels>
+    <labels>
         <fullName>No_Payment_Information_Available</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25243,6 +25250,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Ignore</value>
     </labels>
     <labels>
+        <fullName>Task_Mark_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Mark Complete</shortDescription>
+        <value>Mark as Complete</value>
+    </labels>
+    <labels>
         <fullName>Task_Mark_Complete_Msg</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25255,6 +25269,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Task Name</shortDescription>
         <value>Task Name</value>
+    </labels>
+    <labels>
+        <fullName>Task_Reminder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Reminder</shortDescription>
+        <value>Reminder</value>
     </labels>
     <labels>
         <fullName>Enter_Task_Name</fullName>
