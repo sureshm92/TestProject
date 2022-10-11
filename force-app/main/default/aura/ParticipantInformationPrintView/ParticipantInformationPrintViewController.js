@@ -29,6 +29,17 @@
                     component.set('v.initialized', true);
                     component.set('v.pe', returnValue.pe);
                     component.set('v.participant', returnValue.pe.Participant__r);
+                    component.set('v.showDay',false);
+                    component.set('v.showMonth',false);
+                    component.set('v.showYear',false);
+                    if(returnValue.pe.Study_Site__r.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                        component.set('v.showDay',true);
+                        component.set('v.showMonth',true);
+                    }else if(returnValue.pe.Study_Site__r.Participant_DOB_format__c == 'MM-YYYY'){
+                        component.set('v.showMonth',true);
+                    }else if(returnValue.pe.Study_Site__r.Participant_DOB_format__c == 'YYYY'){
+                        component.set('v.showYear',true);
+                    }
                     component.set('v.pathItems', returnValue.pathItems);
                     component.set('v.containsFile', returnValue.containsFile);//REF-2826
                     component.set('v.peshData',returnValue);
