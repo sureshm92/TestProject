@@ -5,10 +5,10 @@
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>This field should map to the &quot;Study Phase&quot; field in clinicaltrials.gov</inlineHelpText>
-    <label>Study Phase</label>
+    <label>Study/Program Phase</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-<!--    <trackHistory>true</trackHistory>-->
+    <!--    <trackHistory>true</trackHistory>-->
     <trackTrending>false</trackTrending>
     <type>TextArea</type>
 </CustomField>

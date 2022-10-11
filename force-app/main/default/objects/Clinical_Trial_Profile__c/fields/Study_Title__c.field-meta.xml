@@ -5,10 +5,10 @@
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>This field should map to the &quot;Brief Title&quot; field in clinicaltrials.gov</inlineHelpText>
-    <label>Study Title</label>
+    <label>Study/Program Title</label>
     <length>300</length>
     <trackFeedHistory>false</trackFeedHistory>
-<!--    <trackHistory>true</trackHistory>-->
+    <!--    <trackHistory>true</trackHistory>-->
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>2</visibleLines>
