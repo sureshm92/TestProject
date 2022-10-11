@@ -70,13 +70,7 @@
     /* margin-top: 8px; */
 }
 
-.sandy {
-    margin-left: 2rem;
-}
-.test-color {
-    opacity: 0;
-}
-.popupdefault {
+.popup-default {
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 14px;
@@ -93,7 +87,7 @@
     letter-spacing: 0;
 }
 
-.duetime {
+.due-time {
     height: 24px;
     width: 303px;
     color: #6e6e6e;
@@ -104,7 +98,7 @@
     margin-top: 19px;
 }
 
-.systask {
+.sys-task {
     margin-left: 6px;
     cursor: pointer;
 }
@@ -113,14 +107,14 @@
 {
     cursor: pointer;
 }
-.opentask {
+.open-task-icon {
     box-sizing: border-box;
     background-color: #ffffff;
     margin-left: 20px;
     cursor: pointer;
 }
 
-.completemask {
+.complete-mask {
     box-sizing: border-box;
     height: 230px;
     width: 320px;
@@ -130,7 +124,7 @@
     box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
     margin-top: 16.875rem;
 }
-.completemaskmargin {
+.complete-mask-margin {
     height: 16px;
     width: 320px;
     margin-left: -1px;
@@ -139,7 +133,7 @@
     border-top-right-radius: 16px;
     border-top-left-radius: 16px;
 }
-.modaltitle {
+.modal-title {
     height: 32px;
     width: 100%;
     color: #000000;
@@ -151,7 +145,7 @@
     margin-top: 2rem;
     margin-left: 1rem;
 }
-.modalbody {
+.modal-body {
     height: 72px;
     width: 272px;
     color: #444444;
@@ -162,7 +156,7 @@
     margin-left: 1rem;
     margin-top: 1rem;
 }
-.modalbutton {
+.modal-button {
     border-radius: 20px;
     background: rgba(7, 104, 253, 1);
     color: #ffffff;
@@ -185,10 +179,10 @@
     background-color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
 }
-.fillOval {
+.fill-oval {
     fill: rgba(196, 46, 165, 0.1);
 }
-.emptyOval {
+.empty-oval {
     fill: #ffffff;
 }
 .critical-rect {
