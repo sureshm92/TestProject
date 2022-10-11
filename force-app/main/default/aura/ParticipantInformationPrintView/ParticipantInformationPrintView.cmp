@@ -407,11 +407,11 @@
 
             <!--MRR Survey Results-->
             <aura:if
-                isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}"
+                isTrue="{!v.peshData.screenerResponse &amp;&amp; !v.actions.screenerResponses.disabled}"
             >
                 <div>
                     <div class="header">{!$Label.c.BTN_Screener_Responses}</div>
-                    <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}" />
+                    <c:SurveyGismoResultsView results="{!v.peshData.screenerResponse.Screener_Response__c}" />
                 </div>
             </aura:if>
 

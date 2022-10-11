@@ -66,7 +66,7 @@ public without sharing class ParticipantInformationRemote {
             }else{
                 pi.containsFile = false;
             }
-            
+            pi.screenerResponse = getMrrScreenerResponse(peId);
             
          List<Participant_Enrollment_Status_History__c> pehistory = new List<Participant_Enrollment_Status_History__c>();
          pehistory = [
@@ -171,6 +171,24 @@ public without sharing class ParticipantInformationRemote {
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
+    }
+
+    public static Participant_PrescreenerResponse__c getMrrScreenerResponse(Id peId) {
+
+        if (peId != null) {
+           
+            List<Participant_PrescreenerResponse__c> responseList = [
+                SELECT Id, Screener_Response__c
+                FROM Participant_PrescreenerResponse__c 
+                WHERE Participant_enrollment__c = :peid AND PreScreener_Survey__r.MRR__c = true
+                LIMIT 1
+            ];
+
+            if(responseList.isEmpty() == false) {
+                return responseList[0];
+            }
+        }
+        return null;
     }
 
     @AuraEnabled
