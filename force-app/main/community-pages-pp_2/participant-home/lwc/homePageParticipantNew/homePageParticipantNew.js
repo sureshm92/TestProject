@@ -19,6 +19,7 @@ export default class HomePageParticipantNew extends LightningElement {
     @api currentMode;
     spinner;
     isInitialized = false;
+    isProgram = false;
 
     desktop = true;
     isDelegateSelfview = false;
@@ -62,6 +63,8 @@ export default class HomePageParticipantNew extends LightningElement {
                     if (this.participantState.pe) {
                         if (this.participantState.pe.Clinical_Trial_Profile__r) {
                             this.clinicalrecord = this.participantState.pe.Clinical_Trial_Profile__r;
+                            // Check if Program toggle is or study workspcae on ctp
+                            this.isProgram = this.clinicalrecord.Is_Program__c;
                         }
                     }
                     //For Delegate Self view
