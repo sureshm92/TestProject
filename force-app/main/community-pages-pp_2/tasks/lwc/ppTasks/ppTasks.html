@@ -152,8 +152,12 @@
                                         padding="around-small"
                                     >
                                         <lightning-layout>
-                                            <lightning-layout-item size="12"
-                                                ><span class="set-up-your-account"
+                                            <lightning-layout-item size="12">
+                                                <span
+                                                    class={item.subjectClass}
+                                                    onclick={taskOpen}
+                                                    data-actionurl={item.openTask.Action_URL__c}
+                                                    data-index={item.openTask.Id}
                                                     ><lightning-formatted-text
                                                         value={item.openTask.Subject}
                                                     >
@@ -161,26 +165,59 @@
                                                 ></span> </lightning-layout-item
                                         ></lightning-layout>
                                         <template if:true={item.criticalTask}
-                                            ><span class="critical-rect">Critical</span></template
+                                            ><span class="critical-rect"
+                                                >{label.taskPriorityCritical}</span
+                                            ></template
                                         >
                                         <lightning-layout
                                             ><lightning-layout-item size="12"
-                                                ><template if:false={item.systemTask}
+                                                ><template if:true={item.businessTask}
                                                     ><span class="duetime"
-                                                        >{label.taskDue} : &nbsp;
+                                                        >{label.taskDue} :&nbsp;
                                                         <template if:true={item.dueDate}>
                                                             <lightning-formatted-date-time
                                                                 value={item.openTask.Activity_Datetime__c}
                                                                 year="numeric"
                                                                 month="short"
                                                                 day="2-digit"
+                                                            ></lightning-formatted-date-time>
+                                                            &nbsp;|&nbsp;
+                                                            <lightning-formatted-date-time
+                                                                value={item.openTask.Activity_Datetime__c}
+                                                                hour="numeric"
+                                                                minute="numeric"
+                                                                time-zone={userTimeZone}
                                                             ></lightning-formatted-date-time
                                                         ></template>
                                                         <template if:false={item.dueDate}
-                                                            >None</template
+                                                            >{label.notAvailable}</template
                                                         >
                                                     </span></template
-                                                ></lightning-layout-item
+                                                >
+                                                <template if:false={item.businessTask}
+                                                ><span class="duetime"
+                                                    >Reminder :&nbsp;
+                                                    <template if:true={item.openTask.ReminderDateTime}>
+                                                        <lightning-formatted-date-time
+                                                            value={item.openTask.ReminderDateTime}
+                                                            year="numeric"
+                                                            month="short"
+                                                            day="2-digit"
+                                                        ></lightning-formatted-date-time>
+                                                        &nbsp;|&nbsp;
+                                                        <lightning-formatted-date-time
+                                                            value={item.openTask.ReminderDateTime}
+                                                            hour="numeric"
+                                                            minute="numeric"
+                                                            time-zone={userTimeZone}
+                                                        ></lightning-formatted-date-time
+                                                    ></template>
+                                                    <template if:false={item.openTask.ReminderDateTime}
+                                                        >{label.notAvailable}</template
+                                                    >
+                                                </span></template
+                                            >
+                                            </lightning-layout-item
                                             >
                                         </lightning-layout>
                                     </lightning-layout-item>
@@ -265,15 +302,17 @@
                                 </div>
                             </template>
                             <template if:true={emptyOpenTasks}>
-                            <!-- Task List View UI with no data -->
-                            <lightning-layout class="inactive-custom-box slds-align_absolute-center no-task-list-view">
-                                <div class="slds-align_absolute-center dis-block">
-                                    <span class="center"><img src={systemTaskImg} /></span>
-                                    <span class="no-task-txt slds-m-top_medium"
-                                        >You have no open tasks</span
-                                    >
-                                </div>
-                            </lightning-layout>
+                                <!-- Task List View UI with no data -->
+                                <lightning-layout
+                                    class="inactive-custom-box slds-align_absolute-center no-task-list-view"
+                                >
+                                    <div class="slds-align_absolute-center dis-block">
+                                        <span class="center"><img src={systemTaskImg} /></span>
+                                        <span class="no-task-txt slds-m-top_medium"
+                                            >You have no open tasks</span
+                                        >
+                                    </div>
+                                </lightning-layout>
                             </template>
                         </lightning-layout-item>
                         <lightning-layout-item

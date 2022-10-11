@@ -356,7 +356,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     this.plannedDate = '';
                 }
                 this.showChild = true;
-                this.handleVisitChange();
                 if (!this.initialPageLoad) {
                     this.initializeData(this.visitid);
                     this.contentLoaded = true;
@@ -367,6 +366,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     this.contentLoaded = true;
                     this.template.querySelector('c-web-spinner').hide();
                 }
+                this.handleVisitChange();
             });
         } else {
             this.contentLoaded = true;
