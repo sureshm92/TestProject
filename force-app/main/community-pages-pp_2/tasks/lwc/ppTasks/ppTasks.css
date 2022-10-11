@@ -210,9 +210,8 @@
 @media all and (max-width: 486px) {
     .inactive-custom-box {
         width: 366px;
-        margin-left: 0.75rem;
     }
-    .opentask {
+    .open-task {
         margin-left: 10px;
     }
     .mob-task-sub {
