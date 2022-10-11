@@ -101,8 +101,6 @@ public without sharing class TasksRemote {
         try {
             participantTasks.openTasksWrapper = new List<OpenTask>();
             List<Task> openTasks = TaskService.getInstance().getOpenTasks();
-            System.debug('openTasks:::' + openTasks);
-
             List<Task> sortedTaskList = getPPSortedTasks(openTasks);
             for (Task task : sortedTaskList) {
                 OpenTask taskWrapper = new OpenTask();
@@ -230,8 +228,6 @@ public without sharing class TasksRemote {
             finalSortedTasksList.addAll(processSorting(groupBTasks));
         }
         System.debug('finalOpenTasksList:::' + finalSortedTasksList);
-        Contact c = null;
-        // System.debug(c.Id);
         return finalSortedTasksList;
     }
     public static List<Task> processSorting(List<Task> tasksList) {
@@ -241,7 +237,17 @@ public without sharing class TasksRemote {
         Map<Date, List<Task>> taskswithCriticalTaskswithDueDate = new Map<Date, List<Task>>();
         Map<Date, List<Task>> taskswithCriticalTaskswithStartDate = new Map<Date, List<Task>>();
         Map<Date, List<Task>> taskswithCriticalTaskswithCreatedDate = new Map<Date, List<Task>>();
+        List<String> taskCodeList = new List<String>{
+            'Complete_Survey',
+            'Complete_Your_Profile',
+            'Activate_Ecoa_Ediaries',
+            'Update_Your_Phone_Number',
+            'Select_COI'
+        };
         for (Task taskObj : tasksList) {
+            if (taskCodeList.contains(taskObj.Task_Code__c)) {
+                taskObj.Priority = 'Normal';
+            }
             if (taskObj.Activity_Datetime__c != null) {
                 if (
                     (tasksWithDue.keySet().contains(taskObj.Activity_Datetime__c.date()) &&
@@ -294,7 +300,6 @@ public without sharing class TasksRemote {
                 }
             }
             if (taskObj.Activity_Datetime__c == null && taskObj.Start_Date__c == null) {
-                System.debug('taskObj:::' + taskObj);
                 if (
                     (taskswithCreationDate.keySet().contains(taskObj.CreatedDate.date()) &&
                     taskObj.Priority != 'Critical') ||
@@ -323,12 +328,6 @@ public without sharing class TasksRemote {
                 }
             }
         }
-        System.debug(taskswithCreationDate);
-        System.debug(tasksWithDue);
-        System.debug(taskswithStartDate);
-        System.debug(taskswithCriticalTaskswithDueDate);
-        System.debug(taskswithCriticalTaskswithStartDate);
-        System.debug(taskswithCriticalTaskswithCreatedDate);
         List<Task> sortedTasksList = new List<Task>();
         sortedTasksList.addAll(sortListOrderbyAsc(taskswithCriticalTaskswithDueDate));
         sortedTasksList.addAll(sortListOrderbyAsc(taskswithCriticalTaskswithStartDate));

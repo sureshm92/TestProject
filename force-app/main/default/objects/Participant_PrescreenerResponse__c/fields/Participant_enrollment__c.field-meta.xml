@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <label>Participant Enrollment</label>
     <referenceTo>Participant_Enrollment__c</referenceTo>
-    <relationshipLabel>Participant Prescreener Responses</relationshipLabel>
+    <relationshipLabel>Participant Screener Responses</relationshipLabel>
     <relationshipName>Participant_PrescreenerResponses</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
