@@ -30,7 +30,7 @@ public without sharing class StudyTrialService {
         'Official_Title__c',
         'Study_Code_Name__c',
         'Study_Sponsor__c',
-        'Override_Inclusion_Criteria__c',
+        'Override_Inclusion_Criteria__c' //,
         //'Brief_Summary__c'
     };
 
@@ -629,7 +629,7 @@ public without sharing class StudyTrialService {
                 Name,
                 Study_Sponsor__c,
                 Detailed_Description__c,
-               // Brief_Summary__c,
+                // Brief_Summary__c,
                 Override_Recruitment_Status__c,
                 Terms_And_Conditions_ID__c,
                 Link_to_Medical_Record_Review__c,
@@ -745,7 +745,7 @@ public without sharing class StudyTrialService {
                 Study_Type__c,
                 Detailed_Description__c,
                 Override_Recruitment_Status__c,
-               // Brief_Summary__c,
+                // Brief_Summary__c,
                 Override_Description__c,
                 Override_Inclusion_Criteria__c,
                 Override_Exclusion_Criteria__c,
