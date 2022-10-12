@@ -218,6 +218,7 @@
                         <c:ppCommunityNavigation
                             communityServic="{!v.communityServ}"
                             showSideMenu="{!v.showSideMenu}"
+                            aura:id="ppMenu"
                         />
                     </aura:if>
                     <aura:if isTrue="{!!v.isPPonPhone}">
