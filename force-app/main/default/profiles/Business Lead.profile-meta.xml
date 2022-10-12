@@ -717,6 +717,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EConsentIntegrationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmailActionBtnController</apexClass>
         <enabled>true</enabled>
     </classAccesses>

@@ -14,6 +14,7 @@ import taskName from '@salesforce/label/c.Task_Name';
 import enterTaskName from '@salesforce/label/c.Enter_Task_Name';
 import cancel from '@salesforce/label/c.BTN_Cancel';
 import save from '@salesforce/label/c.BTN_Save';
+import formFactor from '@salesforce/client/formFactor';
 
 export default class PpCreateTask extends LightningElement {
     task_icon = pp_icons + '/' + 'createTask_illustration.svg';
@@ -37,6 +38,7 @@ export default class PpCreateTask extends LightningElement {
     taskReminderDate;
     taskTypeNotSelected = 'Not Selected';
     taskStatusOpen = 'Open';
+    isMobile = false;
 
     labels = { REMIND_USING_REQUIRED };
     label = {
@@ -49,6 +51,11 @@ export default class PpCreateTask extends LightningElement {
     enableSave = false;
     createTask = true;
     connectedCallback() {
+        if (formFactor === 'Small') {
+            this.isMobile = true;
+        } else {
+            this.isMobile = false;
+        }
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 console.log('RR_COMMUNITY_JS loaded');
