@@ -29,8 +29,8 @@
             component.find('alerts').refresh();
         }
         else{
-            component.find('ppMenu').forceRefresh();
-            component.find('ppFooter').forceRefresh();
+            component.find('ppMenu')?.forceRefresh();
+            component.find('ppFooter')?.forceRefresh();
             
         }
     },
