@@ -264,7 +264,7 @@ export default class Medicalinformation extends LightningElement {
                 : '') + 'Medical Record Review');
             this.returnpervalue.surveyResponses[i].screenerTitle = 
               this.returnpervalue.surveyResponses[i].screenerName + ' ' 
-              + new Date(this.returnpervalue.surveyResponses[i].CreatedDate).toLocaleDateString();
+              + new Date(this.returnpervalue.surveyResponses[i].Completed_Date__c).toLocaleDateString();
           }
 
           for (var i = 0; i < result.surveyResponses.length; i++) {
