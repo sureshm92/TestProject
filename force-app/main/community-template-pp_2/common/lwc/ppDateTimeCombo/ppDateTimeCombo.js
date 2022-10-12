@@ -8,6 +8,8 @@ import dueDate from '@salesforce/label/c.Due_Date';
 import time from '@salesforce/label/c.TV_TH_Time';
 import reminderdate from '@salesforce/label/c.Reminder_Date';
 import remindertime from '@salesforce/label/c.Reminder_Time';
+import timePlaceHolder from '@salesforce/label/c.PP_Time_Place_Holder';
+
 export default class PpDateTimeCombo extends LightningElement {
     @api compdate;
     @api comptime;
@@ -19,18 +21,21 @@ export default class PpDateTimeCombo extends LightningElement {
     @api iconSize = 'small';
     @api iconColor = '#00A3E0';
     @api createTask;
+    @api taskReminder = false;
     @track compDateTime;
     @track dt;
     @track tm;
     @track diffInMinutes;
     @track initialDateLoaded = false;
     @track initialTimeLoaded = false;
+    @track timeOnlyPresent = true;
     label = {
         date,
         time,
         reminderdate,
         remindertime,
-        dueDate
+        dueDate,
+        timePlaceHolder
     };
 
     @api
@@ -40,6 +45,7 @@ export default class PpDateTimeCombo extends LightningElement {
         this.compDateTime = '';
         this.initialDateLoaded = false;
         this.initialTimeLoaded = false;
+        this.timeOnlyPresent = true;
     }
 
     connectedCallback() {
@@ -56,6 +62,7 @@ export default class PpDateTimeCombo extends LightningElement {
 
     get dbDate() {
         if (!this.compdate) {
+            this.initialDateLoaded = true;
             this.dt = '';
             return null;
         } else if (this.dt) {
@@ -70,6 +77,7 @@ export default class PpDateTimeCombo extends LightningElement {
             var yyyy = processlocaltimezonedate.getFullYear();
             compdate = yyyy + '-' + mm + '-' + dd;
             this.initialDateLoaded = true;
+            this.timeOnlyPresent = false;
             this.dt = compdate;
             const dateEvent = new CustomEvent('initialdateload', {
                 detail: {
@@ -83,6 +91,7 @@ export default class PpDateTimeCombo extends LightningElement {
 
     get dbTime() {
         if (!this.comptime) {
+            this.initialTimeLoaded = true;
             this.tm = '';
             return null;
         } else if (this.tm) {
@@ -106,6 +115,7 @@ export default class PpDateTimeCombo extends LightningElement {
             );
             comptime = hh + ':' + mm + ':' + ss;
             this.initialTimeLoaded = true;
+            this.timeOnlyPresent = false;
             this.tm = comptime;
             const dateEvent = new CustomEvent('initialtimeload', {
                 detail: {
@@ -116,14 +126,39 @@ export default class PpDateTimeCombo extends LightningElement {
             return comptime;
         }
     }
+
     get dateInputClass() {
         this.createTask = true ? 'task-due-date-time' : 'curve-input';
     }
+    get dueDateClass() {
+        return this.createTask == true
+            ? 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small'
+            : 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small';
+    }
+    get timeClass() {
+        return this.createTask == true
+            ? 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small'
+            : 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small';
+    }
+    get gridClass() {
+        return this.createTask == true
+            ? this.taskReminder
+                ? 'slds-grid slds-wrap slds-m-bottom_none'
+                : 'slds-grid slds-wrap'
+            : 'slds-grid slds-grid-visit slds-wrap';
+    }
 
+    get dueDateTimeGrid() {
+        return this.createTask == true
+            ? ''
+            : 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small';
+    }
     handleDate(event) {
         this.initialDateLoaded = true;
         this.dt = event.target.value;
+        this.tm = '';
         if (!this.dt) {
+            this.timeOnlyPresent = true;
             this.tm = event.target.value;
             const nulldatetime = new CustomEvent('nulldatetime', {
                 detail: {
@@ -133,6 +168,7 @@ export default class PpDateTimeCombo extends LightningElement {
             });
             this.dispatchEvent(nulldatetime);
         } else if (!this.tm) {
+            this.timeOnlyPresent = false;
             const dateOnly = new CustomEvent('date', {
                 detail: {
                     compdatetime: null,
@@ -142,6 +178,7 @@ export default class PpDateTimeCombo extends LightningElement {
             });
             this.dispatchEvent(dateOnly);
         } else if (this.tm) {
+            this.timeOnlyPresent = false;
             this.compDateTime = this.dt + 'T' + this.tm;
             var date = new Date(this.compDateTime);
             var ms = Date.parse(date);
@@ -159,10 +196,26 @@ export default class PpDateTimeCombo extends LightningElement {
         }
     }
 
+    handleKeyEvent(event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
     handleTime(event) {
         this.initialTimeLoaded = true;
         this.tm = event.target.value;
-        if (!this.dt) {
+        if (!this.tm) {
+            this.timeOnlyPresent = false;
+            const timeOnly = new CustomEvent('time', {
+                detail: {
+                    comptime: null,
+                    compdatetime: null,
+                    compdate: this.dt
+                }
+            });
+            this.dispatchEvent(timeOnly);
+        } else if (!this.dt) {
+            this.timeOnlyPresent = true;
             const timeOnly = new CustomEvent('timechange', {
                 detail: {
                     comptime: this.tm,
@@ -172,6 +225,7 @@ export default class PpDateTimeCombo extends LightningElement {
             });
             this.dispatchEvent(timeOnly);
         } else if (this.dt) {
+            this.timeOnlyPresent = false;
             this.compDateTime = this.dt + 'T' + this.tm;
             var date = new Date(this.compDateTime);
             var ms = Date.parse(date);

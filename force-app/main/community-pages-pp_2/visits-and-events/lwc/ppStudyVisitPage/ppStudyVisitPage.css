@@ -24,7 +24,7 @@
 
 .icon-cont {
     box-sizing: border-box;
-    height: 185px;
+    min-height: 185px;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
@@ -330,6 +330,7 @@ a {
     display: flex;
     margin-top: 0.5rem;
     font-size: 1.25rem;
+    font-weight: 400;
 }
 
 @media all and (max-width: 1200px) {

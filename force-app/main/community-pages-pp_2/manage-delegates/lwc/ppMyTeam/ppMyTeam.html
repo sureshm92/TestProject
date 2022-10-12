@@ -55,12 +55,14 @@
                     <span class="list-heading-text">What can your delegate see or do?</span>
                     <ul class="slds-list_dotted slds-m-vertical_medium">
                         <li class="myteam-list-txt">{label.PP_AS_COMPLETE_TASK}</li>
-                        <li class="myteam-list-txt">{label.PP_AS_RECEIVE_EMAIL}</li>
+                        <template if:true={IsProgram}><li class="myteam-list-txt">{label.PP_AS_RECEIVE_EMAIL}</li></template>
+                        <template if:false={IsProgram}><li class="myteam-list-txt">{label.Receive_emails_about_your_study_status}</li></template>
                         <li class="myteam-list-txt">{label.PP_AS_LAB_RESULTS}</li>
                         <li class="myteam-list-txt">{label.PP_AS_VITALS}</li>
                         <li class="myteam-list-txt">{label.PP_AS_MEASUREMENTS}</li>
                     </ul>
-                    <span class="myteam-asteric-txt">{label.PP_AS_CONDITIONAL_FEATURE}</span>
+                    <template if:true={IsProgram}><span class="myteam-asteric-txt">{label.PP_AS_CONDITIONAL_FEATURE}</span></template>
+                    <template if:false={IsProgram}><span class="myteam-asteric-txt">{label.all_features_may_not_be_available_for_each_study}</span></template>
                 </div>
                 <template if:true={isInitialized}>
                     <div

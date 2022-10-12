@@ -35,7 +35,6 @@ body {
 
 .res-box-engage-container,
 .res-box-relLinks-container,
-.res-box-document-container,
 .res-box-answers-container {
     box-sizing: border-box;
     height: 335px;
@@ -46,6 +45,15 @@ body {
     overflow-y: auto;
     /* padding: 10px 15px; */
     overflow-x: hidden;
+}
+
+.res-box-document-container {
+    box-sizing: border-box;
+    height: 335px;
+    width: auto;
+    border: 1px solid #e9e9e9;
+    border-radius: 16px;
+    background-color: #ffffff !important;
 }
 
 .res-explore-container {
@@ -158,7 +166,7 @@ p {
     margin-top: 40px;
 }
 
-.pad10{
+.pad10 {
     padding: 10px;
 }
 

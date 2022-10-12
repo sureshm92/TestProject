@@ -1,8 +1,9 @@
 .slds-grid {
     margin-bottom: 1rem;
-    padding: 0 2rem 0 2rem;
 }
-
+.slds-grid-visit {
+    padding: 0 0.75rem;
+}
 .curve-input {
     display: flex;
     position: relative;
@@ -62,13 +63,29 @@ input[type='date']::-webkit-calendar-picker-indicator,
     height: 273px;
     width: 334px;
 }
+.slds-required {
+    font-size: 16px;
+    font-weight: bold;
+}
 
 @media all and (min-width: 768px) and (max-width: 870px) {
-    .slds-small-size_1-of-2.slds-p-left_none,
-    .slds-small-size_1-of-2.slds-p-right_none {
+    .slds-small-size_1-of-2.slds-p-right_xx-small,
+    .slds-small-size_1-of-2.slds-p-left_xx-small {
         min-width: 100%;
-        padding-left: 0;
-        padding-right: 0;
         margin-bottom: 1rem;
+    }
+
+    .slds-grid {
+        margin-bottom: unset;
+    }
+}
+
+@media all and (max-width: 486px) {
+    .slds-small-size_1-of-2.slds-p-right_xx-small {
+        margin-bottom: 1rem;
+        padding-right: 0;
+    }
+    .slds-small-size_1-of-2.slds-p-left_xx-small {
+        padding-left: 0;
     }
 }

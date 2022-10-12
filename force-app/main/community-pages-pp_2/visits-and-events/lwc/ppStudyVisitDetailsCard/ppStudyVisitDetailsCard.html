@@ -30,10 +30,11 @@
                     mintime={currentTime}
                     ondatechange={handleDate}
                     ontimechange={handleTime}
-                    ondate={handleOnlyDate}
                     onnulldatetime={handleNullDateTime}
                     oninitialdateload={handleInitialDateLoad}
                     oninitialtimeload={handleInitialTimeLoad}
+                    ondate={handleOnlyDate}
+                    ontime={handleOnlyTime}
                 ></c-pp-date-time-combo>
                 <div if:true={past} class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_1-of-2 slds-p-left_none">
@@ -129,14 +130,14 @@
                         oninitialtimeload={handleInitialReminderTimeLoad}
                         onnulldatetime={handleNullDateTimeReminder}
                         ondate={handleOnlyDateReminder}
-                        ontimw={handleOnlyTimeReminder}
+                        ontime={handleOnlyTimeReminder}
                     ></c-pp-date-time-combo>
                 </div>
             </div>
             <div if:false={past} class="slds-size_1-of-1 btn-footer">
                 <button
                     class="secondaryBtn slds-button"
-                    disabled={disableButtonSaveCancel}
+                    disabled={disableDiscard}
                     type="button"
                     onclick={doCancel}
                 >
