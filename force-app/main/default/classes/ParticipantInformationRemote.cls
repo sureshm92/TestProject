@@ -37,6 +37,8 @@ public without sharing class ParticipantInformationRemote {
         PE_COMMON_FIELDS_PRINT.add('Clinical_Trial_Profile__r.Initial_Visit_Required__c');
         PE_COMMON_FIELDS_PRINT.add('Study_Hub_Log__c');
         PE_COMMON_FIELDS_PRINT.add('Study_Hub_Log__r.Response_Status_Code__c');
+        List<String> PE_COMMON_DOB_FIELDS = new List<String>{'Participant__r.Age__c','Participant__r.Birth_Day__c','Participant__r.Birth_Month__c'};
+        PE_COMMON_FIELDS_PRINT.addAll(PE_COMMON_DOB_FIELDS);
         try {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
                 peId,
@@ -64,7 +66,7 @@ public without sharing class ParticipantInformationRemote {
             }else{
                 pi.containsFile = false;
             }
-            
+            pi.screenerResponse = getMrrScreenerResponse(peId);
             
          List<Participant_Enrollment_Status_History__c> pehistory = new List<Participant_Enrollment_Status_History__c>();
          pehistory = [
@@ -169,6 +171,24 @@ public without sharing class ParticipantInformationRemote {
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
+    }
+
+    public static Participant_PrescreenerResponse__c getMrrScreenerResponse(Id peId) {
+
+        if (peId != null) {
+           
+            List<Participant_PrescreenerResponse__c> responseList = [
+                SELECT Id, Screener_Response__c
+                FROM Participant_PrescreenerResponse__c 
+                WHERE Participant_enrollment__c = :peid AND PreScreener_Survey__r.MRR__c = true
+                LIMIT 1
+            ];
+
+            if(responseList.isEmpty() == false) {
+                return responseList[0];
+            }
+        }
+        return null;
     }
 
     @AuraEnabled
