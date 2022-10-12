@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "45eb3a3a-e493-4299-a088-966d7d2010e4",
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "configurationTags" : [ ],
+  "id" : "71e505d5-9038-4f36-8e89-12b57a30bd22",
+  "label" : "survey",
+  "pageAccess" : "Public",
+  "routeType" : "custom-survey",
+  "type" : "route",
+  "urlPrefix" : "survey"
+}

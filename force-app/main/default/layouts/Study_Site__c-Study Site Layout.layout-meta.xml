@@ -259,6 +259,10 @@
                 <behavior>Edit</behavior>
                 <field>Primary_Key_ePR__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Participant_DOB_format__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>

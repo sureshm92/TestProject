@@ -1885,6 +1885,10 @@ public without sharing class ParticipantWorkflowService {
                 result.left = PEStatusState.STATUS_STATE_NEUTRAL;
             }
             result.right = PEStatusState.STATUS_STATE_NEUTRAL;
+            if(pe.Participant_Status__c == PEStatusState.PE_STATUS_NO_SHOW && UserContext.getCurrentUserMode().userMode == CommunityService.USER_MODE_PARTICIPANT){//step.DeveloperName == 'Initial_Visit'
+                result.state = PEStatusState.STATUS_STATE_NEUTRAL;
+                result.left = PEStatusState.STATUS_STATE_NEUTRAL;
+            }
         }
         if (result.state != PEStatusState.STATUS_STATE_NEUTRAL && previousStep != null) {
             previousStep.right = PEStatusState.STATUS_STATE_SUCCESS;

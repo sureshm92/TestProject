@@ -23,5 +23,7 @@
     <permissionSets>PP_Trial_Surveys_Edit</permissionSets>
     <permissionSets>PP_Visits_Configuration_Edit</permissionSets>
     <permissionSets>PP_Visits_Results_Sharing_Edit</permissionSets>
+    <permissionSets>E_Consent_Sharing_Edit</permissionSets>
+    <permissionSets>E_Consent_Sharing_View</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

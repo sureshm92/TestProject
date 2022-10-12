@@ -1,10 +1,10 @@
 <template>
-     <!--DESKTOP VIEW-->
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <!-- Create Task Desktop View -->
     <template if:false={isMobile}>
-        <!-- Loading Spinner-->
-        <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
         <lightning-layout multiple-rows="true">
-            <lightning-layout-item padding="around-small" size="12">
+            <lightning-layout-item class="slds-m-bottom_small" size="12">
                 <div class="slds-align_absolute-center">
                     <lightning-card class="task-card">
                         <lightning-layout>
@@ -25,16 +25,15 @@
                                         ></lightning-layout-item
                                     >
                                 </lightning-layout>
-                                <lightning-layout size="12">
-                                    <input
+                                <div class="profile-info-input taskName-focus">
+                                    <lightning-input
                                         type="text"
                                         data-id="taskName"
                                         placeholder={label.enterTaskName}
                                         onkeyup={handletaskNameChange}
                                         maxlength="30"
-                                        class="input-task-name"
-                                    />
-                                </lightning-layout>
+                                    ></lightning-input>
+                                </div>
                                 <lightning-layout-item>
                                     <lightning-layout>
                                         <lightning-layout-item size="12" class="slds-m-top_medium">
@@ -45,8 +44,11 @@
                                                 create-task={createTask}
                                                 ondatechange={handleDate}
                                                 ontimechange={handleTime}
-                                                ondate={handleDate}
-                                                ontime={handleTime}
+                                                compdate={taskDueDate}
+                                                comptime={taskDueTime}
+                                                ondate={handleOnlyDate}
+                                                ontime={handleOnlyTime}
+                                                onnulldatetime={handleNullDateTime}
                                                 oninitialdateload={handleInitialDateLoad}
                                                 oninitialtimeload={handleInitialTimeLoad}
                                                 icon-size="small"
@@ -57,7 +59,7 @@
                                                 ><c-pp-create-task-reminder
                                                     init-data={initData}
                                                     current-date={currentDate}
-                                                    current-time={currentTime}
+                                                    current-time={todaytime}
                                                     task-due-date-time={taskDateTime}
                                                     task-due-date={taskDueDate}
                                                     task-due-time={taskDueTime}
@@ -90,17 +92,14 @@
             </lightning-layout-item>
         </lightning-layout>
     </template>
-
-     <!--DESKTOP VIEW-->
-     <template if:true={isMobile}>
-        <!-- Loading Spinner-->
-        <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <!-- Create Task Mobile View -->
+    <template if:true={isMobile}>
         <lightning-layout multiple-rows="true">
-            <lightning-layout-item padding="around-small" size="12">
+            <lightning-layout-item class="slds-m-bottom_small" size="12">
                 <div class="slds-align_absolute-center">
                     <lightning-card class="task-card-mobile">
                         <lightning-layout>
-                            <lightning-layout-item padding="around-small" size="8">
+                            <lightning-layout-item padding="around-small" size="12">
                                 <lightning-layout size="12">
                                     <lightning-layout-item size="10"
                                         >{label.taskName}
@@ -114,19 +113,22 @@
                                         ></lightning-layout-item
                                     >
                                 </lightning-layout>
-                                <lightning-layout size="12">
-                                    <input
+                                <div class="profile-info-input taskName-focus">
+                                    <lightning-input
                                         type="text"
                                         data-id="taskName"
                                         placeholder={label.enterTaskName}
                                         onkeyup={handletaskNameChange}
                                         maxlength="30"
-                                        class="input-task-name"
-                                    />
-                                </lightning-layout>
+                                    ></lightning-input>
+                                </div>
                                 <lightning-layout-item>
                                     <lightning-layout>
-                                        <lightning-layout-item size="12" class="slds-m-top_medium">
+                                        <lightning-layout-item
+                                            size="12"
+                                            class="slds-m-top_medium"
+                                            style="padding-inline: 0"
+                                        >
                                             <c-pp-date-time-combo
                                                 reminder={notReminder}
                                                 mindate={currentDate}
@@ -134,8 +136,11 @@
                                                 create-task={createTask}
                                                 ondatechange={handleDate}
                                                 ontimechange={handleTime}
-                                                ondate={handleDate}
-                                                ontime={handleTime}
+                                                compdate={taskDueDate}
+                                                comptime={taskDueTime}
+                                                ondate={handleOnlyDate}
+                                                ontime={handleOnlyTime}
+                                                onnulldatetime={handleNullDateTime}
                                                 oninitialdateload={handleInitialDateLoad}
                                                 oninitialtimeload={handleInitialTimeLoad}
                                                 icon-size="small"
@@ -146,7 +151,7 @@
                                                 ><c-pp-create-task-reminder
                                                     init-data={initData}
                                                     current-date={currentDate}
-                                                    current-time={currentTime}
+                                                    current-time={todaytime}
                                                     task-due-date-time={taskDateTime}
                                                     task-due-date={taskDueDate}
                                                     task-due-time={taskDueTime}

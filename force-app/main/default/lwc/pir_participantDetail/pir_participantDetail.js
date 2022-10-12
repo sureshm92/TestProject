@@ -206,6 +206,7 @@ export default class Pir_participantDetail extends LightningElement {
                 if(this.pd['pe']['Participant__r']['Birth_Year__c']){
                     this.valueYYYY = this.pd['pe']['Participant__r']['Birth_Year__c'];
                     this.YYYYChange();
+                    this.getErrorMessage();
                 }
                 this.participantSelectedAge = (this.pd['pe']['Participant__r']['Age__c']!=undefined ? ((this.pd['pe']['Participant__r']['Age__c']).toString()) : null); 
                 
@@ -655,7 +656,7 @@ export default class Pir_participantDetail extends LightningElement {
            if(this.isDayMandate){
         dt= this.valueYYYY + '-' + this.valueMM + '-' + this.valueDD;
            }else {
-               dt=this.valueYYYY + '-' + this.valueMM + '01';
+               dt=this.valueYYYY + '-' + this.valueMM + '-01';
            }
         var today = new Date();
         var dd= 1;

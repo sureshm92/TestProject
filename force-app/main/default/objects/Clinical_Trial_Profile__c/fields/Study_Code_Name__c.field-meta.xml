@@ -3,11 +3,11 @@
     <fullName>Study_Code_Name__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
-    <label>Study Code Name</label>
+    <label>Study/Program Code Name</label>
     <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-<!--    <trackHistory>true</trackHistory>-->
+    <!--    <trackHistory>true</trackHistory>-->
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

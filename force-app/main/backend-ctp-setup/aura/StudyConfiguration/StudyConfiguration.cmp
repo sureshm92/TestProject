@@ -2,11 +2,8 @@
  - Created by Nargiz Mamedova on 12/6/2019.
  -->
 
-<aura:component
-    description="StudyConfiguration"
-    implements="force:hasRecordId,flexipage:availableForAllPageTypes"
-    controller="StudyConfigurationRemote"
->
+<aura:component description="StudyConfiguration" implements="force:hasRecordId,flexipage:availableForAllPageTypes"
+    controller="StudyConfigurationRemote">
     <!-- attributes: -->
     <aura:attribute name="ctp" type="Object" />
     <aura:attribute name="delay_days" type="String" />
@@ -22,7 +19,7 @@
 
     <!-- application events: -->
     <aura:registerEvent name="appEvent" type="c:TaskToggleEvent" />
-
+    <aura:registerEvent name="EconsentEvent" type="c:EconsentEvent"/>
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <aura:if isTrue="{!v.user_has_permission != 'Disabled'}">
@@ -36,29 +33,17 @@
                     <div class="group-title">Community Layout</div>
                     <div class="global-data">
                         <div class="global-element">
-                            <lightning:input
-                                aura:id="stworkspaceToggle"
-                                type="toggle"
-                                label="Study Workspace"
-                                name="studyWorkspaceToggle"
-                                checked="{!not(v.ctp.Is_Program__c)}"
-                                onchange="{!c.saveCTP}"
-                                variant="label-hidden"
-                            />
+                            <lightning:input aura:id="stworkspaceToggle" type="toggle" label="Study Workspace"
+                                name="studyWorkspaceToggle" checked="{!not(v.ctp.Is_Program__c)}"
+                                onchange="{!c.saveCTP}" variant="label-hidden" />
                             <div style="margin-left: 10px">
                                 Study Workspace (About the Study, My Visits, My Results)
                             </div>
                         </div>
                         <div class="global-element">
-                            <lightning:input
-                                aura:id="prToggle"
-                                type="toggle"
-                                label="Program (Description)"
-                                name="programToggle"
-                                checked="{!v.ctp.Is_Program__c}"
-                                onchange="{!c.saveCTP}"
-                                variant="label-hidden"
-                            />
+                            <lightning:input aura:id="prToggle" type="toggle" label="Program (Description)"
+                                name="programToggle" checked="{!v.ctp.Is_Program__c}" onchange="{!c.saveCTP}"
+                                variant="label-hidden" />
                             <div style="margin-left: 10px; margin-right: 20px">
                                 Program (Description)
                             </div>
@@ -67,272 +52,160 @@
                     <div class="group-title">Progress Timeline</div>
                     <div class="global-data">
                         <div class="global-element">
-                            <lightning:input
-                                aura:id="stToggle"
-                                type="toggle"
-                                label="Status/Milestones"
-                                name="statusTimelineToggle"
-                                checked="{!not(v.ctp.Visit_Schedule_Is_Available__c)}"
-                                onchange="{!c.saveCTP}"
-                                variant="label-hidden"
-                            />
+                            <lightning:input aura:id="stToggle" type="toggle" label="Status/Milestones"
+                                name="statusTimelineToggle" checked="{!not(v.ctp.Visit_Schedule_Is_Available__c)}"
+                                onchange="{!c.saveCTP}" variant="label-hidden" />
                             <div style="margin-left: 10px">Status/Milestones</div>
                         </div>
                         <div class="global-element">
-                            <lightning:input
-                                aura:id="vsToggle"
-                                type="toggle"
-                                label="Visits/Events"
-                                name="visitScheduleToggle"
-                                checked="{!v.ctp.Visit_Schedule_Is_Available__c}"
-                                onchange="{!c.saveCTP}"
-                                variant="label-hidden"
-                            />
+                            <lightning:input aura:id="vsToggle" type="toggle" label="Visits/Events"
+                                name="visitScheduleToggle" checked="{!v.ctp.Visit_Schedule_Is_Available__c}"
+                                onchange="{!c.saveCTP}" variant="label-hidden" />
                             <div style="margin-left: 10px; margin-right: 20px">Visits/Events</div>
                         </div>
                     </div>
                     <div class="group-title">Resources</div>
                     <div class="global-data">
                         <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Documents"
-                                name="studyDocumentsToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Study_Documents_Are_Available__c}"
-                                variant="label-hidden"
-                            />
+                            <lightning:input type="toggle" label="Documents" name="studyDocumentsToggle"
+                                onchange="{!c.saveCTP}" checked="{!v.ctp.Study_Documents_Are_Available__c}"
+                                variant="label-hidden" />
                             <div style="margin-left: 10px">Documents</div>
                         </div>
                         <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Video and Articles"
-                                name="videoArticlesToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Video_And_Articles_Are_Available__c}"
-                                variant="label-hidden"
-                            />
+                            <lightning:input type="toggle" label="Video and Articles" name="videoArticlesToggle"
+                                onchange="{!c.saveCTP}" checked="{!v.ctp.Video_And_Articles_Are_Available__c}"
+                                variant="label-hidden" />
                             <div style="margin-left: 10px">Video and Articles</div>
                         </div>
                         <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Relevant Links"
-                                name="RelevantLinksToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Relevant_Links_Are_Available__c}"
-                                variant="label-hidden"
-                            />
+                            <lightning:input type="toggle" label="Relevant Links" name="RelevantLinksToggle"
+                                onchange="{!c.saveCTP}" checked="{!v.ctp.Relevant_Links_Are_Available__c}"
+                                variant="label-hidden" />
                             <div style="margin-left: 10px">Relevant Links</div>
                         </div>
                     </div>
                     <div class="group-title">Travel Support</div>
                     <div class="global-data">
                         <div class="global-element">
-                            <lightning:input
-                                aura:id="tvToggle"
-                                type="toggle"
-                                label="Post-enrollment"
-                                name="travelVendorToggle"
-                                onchange="{!c.savePostEnrollment}"
-                                checked="{!v.ctp.Travel_Vendor_Is_Available__c}"
-                                variant="label-hidden"
-                            />
+                            <lightning:input aura:id="tvToggle" type="toggle" label="Post-enrollment"
+                                name="travelVendorToggle" onchange="{!c.savePostEnrollment}"
+                                checked="{!v.ctp.Travel_Vendor_Is_Available__c}" variant="label-hidden" />
                             <div style="margin-left: 10px">Post-enrollment</div>
                         </div>
                         <div class="global-element">
-                            <lightning:input
-                                aura:id="cToggle"
-                                type="toggle"
-                                label="Consent through Enrolled/Randomized"
-                                name="consentToggle"
-                                onchange="{!c.saveConsentThroughEnrolledOrRandomized}"
+                            <lightning:input aura:id="cToggle" type="toggle" label="Consent through Enrolled/Randomized"
+                                name="consentToggle" onchange="{!c.saveConsentThroughEnrolledOrRandomized}"
                                 checked="{!v.ctp.Enrolled_Or_Randomized_Consent_Available__c}"
-                                disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}"
-                                variant="label-hidden"
-                            />
+                                disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}" variant="label-hidden" />
                             <div style="margin-left: 10px">Consent through Enrolled/Randomized</div>
                         </div>
                         <div class="global-element">
-                            <lightning:input
-                                aura:id="ruToggle"
-                                type="toggle"
-                                label="Pre-consent"
-                                name="ReceivedUntilConsent"
-                                onchange="{!c.saveCTP}"
+                            <lightning:input aura:id="ruToggle" type="toggle" label="Pre-consent"
+                                name="ReceivedUntilConsent" onchange="{!c.saveCTP}"
                                 checked="{!v.ctp.Received_Until_Consent_Is_Available__c}"
-                                disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}"
-                                variant="label-hidden"
-                            />
+                                disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}" variant="label-hidden" />
                             <div style="margin-left: 10px">Pre-consent</div>
                         </div>
                     </div>
                     <div class="group-title">Others</div>
                     <div class="global-data">
                         <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Study Visit Details"
-                                name="StudyVisitDetails"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Visits_are_Available__c}"
-                                variant="label-hidden"
-                                default="true"
-                            />
+                            <lightning:input type="toggle" label="Study Visit Details" name="StudyVisitDetails"
+                                onchange="{!c.saveCTP}" checked="{!v.ctp.Visits_are_Available__c}"
+                                variant="label-hidden" default="true" />
                             <div style="margin-left: 10px">Visit/Event Details</div>
                         </div>
                         <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Tasks"
-                                name="tasksToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Tasks_Are_Available__c}"
-                                variant="label-hidden"
-                            />
+                            <lightning:input type="toggle" label="Tasks" name="tasksToggle" onchange="{!c.saveCTP}"
+                                checked="{!v.ctp.Tasks_Are_Available__c}" variant="label-hidden" />
                             <div style="margin-left: 10px">Tasks</div>
                         </div>
                         <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Payment"
-                                name="PaymentToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Payment_Is_Available__c}"
-                                variant="label-hidden"
-                            />
+                            <lightning:input type="toggle" label="Payment" name="PaymentToggle" onchange="{!c.saveCTP}"
+                                checked="{!v.ctp.Payment_Is_Available__c}" variant="label-hidden" />
                             <div style="margin-left: 10px">Payment</div>
                         </div>
                         <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Medical Vendor"
-                                name="medicalVendorToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Medical_Vendor_is_Available__c}"
-                                variant="label-hidden"
-                                aura:id="mdToggle"
-                            />
+                            <lightning:input type="toggle" label="Medical Vendor" name="medicalVendorToggle"
+                                onchange="{!c.saveCTP}" checked="{!v.ctp.Medical_Vendor_is_Available__c}"
+                                variant="label-hidden" aura:id="mdToggle" />
                             <div style="margin-left: 10px">Medical Record Retrieval</div>
                         </div>
                         <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Trial Match"
-                                name="TrialMatchToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Trial_Match_Is_Available__c}"
-                                variant="label-hidden"
-                            />
+                            <lightning:input type="toggle" label="Trial Match" name="TrialMatchToggle"
+                                onchange="{!c.saveCTP}" checked="{!v.ctp.Trial_Match_Is_Available__c}"
+                                variant="label-hidden" />
                             <div style="margin-left: 10px">Trial Match</div>
                         </div>
                         <aura:if isTrue="{!v.ctp.Trial_Match_Is_Available__c}">
                             <div style="margin-left: 20px" class="global-element">
                                 <div style="margin-bottom: 10px">Delay (in days)</div>
                                 <div style="margin-left: 10px; margin-right: 10px">
-                                    <lightning:input
-                                        aura:id="delayedDays"
-                                        type="number"
-                                        variant="label-hidden"
-                                        min="1"
-                                        max="100"
-                                        value="{!v.ctp.Delayed_No_Of_Days__c}"
+                                    <lightning:input aura:id="delayedDays" type="number" variant="label-hidden" min="1"
+                                        max="100" value="{!v.ctp.Delayed_No_Of_Days__c}"
                                         messageWhenRangeUnderflow="Please enter a number greater than 0."
                                         messageWhenBadInput="Please enter only numbers."
-                                        messageWhenRangeOverflow="Please enter a number less than 100."
-                                    >
+                                        messageWhenRangeOverflow="Please enter a number less than 100.">
                                     </lightning:input>
                                 </div>
-                                <lightning:buttonIcon
-                                    class="delay-save"
-                                    variant="bare"
-                                    name="saveDelayDays"
-                                    alternativeText="Save"
-                                    iconName="utility:save"
-                                    onclick="{!c.saveCTP}"
-                                    size="large"
-                                />
+                                <lightning:buttonIcon class="delay-save" variant="bare" name="saveDelayDays"
+                                    alternativeText="Save" iconName="utility:save" onclick="{!c.saveCTP}"
+                                    size="large" />
                             </div>
                         </aura:if>
                         <!-- eCOA toggle starts-->
                         <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="eCOA"
-                                name="eCOAToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.ECOA_Is_Avaialble__c}"
-                                variant="label-hidden"
-                            />
+                            <lightning:input type="toggle" label="eCOA" name="eCOAToggle" onchange="{!c.saveCTP}"
+                                checked="{!v.ctp.ECOA_Is_Avaialble__c}" variant="label-hidden" />
                             <div style="margin-left: 10px">eCOA</div>
                         </div>
                         <aura:if isTrue="{!v.ctp.ECOA_Is_Avaialble__c}">
                             <div style="margin-left: 20px" class="global-element">
                                 <div style="margin-bottom: 10px">Study GUID</div>
                                 <div style="margin-left: 10px; margin-right: 10px">
-                                    <lightning:input
-                                        aura:id="studyGUID"
-                                        type="text"
-                                        variant="label-hidden"
-                                        required="true"
-                                        messageWhenValueMissing="{!v.study_guid_error}"
-                                        value="{!v.ctp.Study_GUID__c}"
-                                    >
+                                    <lightning:input aura:id="studyGUID" type="text" variant="label-hidden"
+                                        required="true" messageWhenValueMissing="{!v.study_guid_error}"
+                                        value="{!v.ctp.Study_GUID__c}">
                                     </lightning:input>
                                 </div>
                                 <div style="margin-bottom: 10px">Study Version GUID</div>
                                 <div style="margin-left: 10px; margin-right: 10px">
-                                    <lightning:input
-                                        aura:id="studyVersionGUID"
-                                        type="text"
-                                        variant="label-hidden"
-                                        required="true"
-                                        messageWhenValueMissing="{!v.study_version_guid_error}"
-                                        value="{!v.ctp.Study_Version_GUID__c}"
-                                    >
+                                    <lightning:input aura:id="studyVersionGUID" type="text" variant="label-hidden"
+                                        required="true" messageWhenValueMissing="{!v.study_version_guid_error}"
+                                        value="{!v.ctp.Study_Version_GUID__c}">
                                     </lightning:input>
                                 </div>
-                                <lightning:buttonIcon
-                                    class="delay-save"
-                                    variant="bare"
-                                    name="saveECOAGUIDs"
-                                    alternativeText="Save"
-                                    iconName="utility:save"
-                                    onclick="{!c.saveCTP}"
-                                    size="large"
-                                />
+                                <lightning:buttonIcon class="delay-save" variant="bare" name="saveECOAGUIDs"
+                                    alternativeText="Save" iconName="utility:save" onclick="{!c.saveCTP}"
+                                    size="large" />
                             </div>
                         </aura:if>
                         <!-- eCOA toggle ends-->
                         <!-- Televisit starts -->
                         <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Televisit Vendor"
-                                name="TelevisitToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Televisit_Vendor_is_Available__c}"
-                                variant="label-hidden"
-                                aura:id="teleToggle"
-                            />
+                            <lightning:input type="toggle" label="Televisit Vendor" name="TelevisitToggle"
+                                onchange="{!c.saveCTP}" checked="{!v.ctp.Televisit_Vendor_is_Available__c}"
+                                variant="label-hidden" aura:id="teleToggle" />
                             <div style="margin-left: 10px">Televisit</div>
                         </div>
                         <!-- Televisit ends -->
                         <!-- IQVIA Outreach-->
                         <div class="global-element">
-                            <lightning:input
-                                aura:id="iqviaToggle"
-                                type="toggle"
-                                label="IQVIA Outreach"
-                                name="IqviaOutreach"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.IQVIA_Outreach__c}"
-                                variant="label-hidden"
-                            />
+                            <lightning:input aura:id="iqviaToggle" type="toggle" label="IQVIA Outreach"
+                                name="IqviaOutreach" onchange="{!c.saveCTP}" checked="{!v.ctp.IQVIA_Outreach__c}"
+                                variant="label-hidden" />
                             <div style="margin-left: 10px">IQVIA Outreach</div>
                         </div>
                         <!-- IQVIA Outreach-->
+                        <!-- E-Consent Configuration-->
+                        <div class="global-element">
+                            <lightning:input aura:id="eConsentToggle" type="toggle" label="E-Consent Configuration"
+                                name="E-Consent_Configuration" onchange="{!c.saveCTP}"
+                                checked="{!v.ctp.E_Consent_Configuration__c}" variant="label-hidden" />
+                            <div style="margin-left: 10px">E-Consent Configuration</div>
+                        </div>
+                        <!-- E-Consent Configuration-->
                     </div>
                 </div>
                 <aura:if isTrue="{!v.user_has_permission == 'View'}">

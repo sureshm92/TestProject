@@ -721,6 +721,10 @@
         <apexClass>DuplicateContactController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>EConsentIntegrationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>EmailActionBtnController</apexClass>
         <enabled>true</enabled>
@@ -2364,6 +2368,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Study_Site__c.Participant_DOB_format__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Patient_Delegate__c.isInviteToPP__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2482,6 +2491,11 @@
         <field>Clinical_Trial_Profile__c.Privacy_Policy_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.E_Consent_Configuration__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Comorbidities__c.Comorbidity_Name__c</field>
@@ -2534,6 +2548,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Scheduling_vendors__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.E_Consent_Vendor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2654,6 +2673,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Use_as_Daytime_Phone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Age__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2846,13 +2870,7 @@
         <editable>true</editable>
         <field>PreScreener_Survey__c.ProviderName__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>PreScreener_Survey__c.Study__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-
+    </fieldPermissions> 
 
 
     <fieldPermissions>
@@ -3279,18 +3297,10 @@
         <editable>true</editable>
         <field>Integration_Biomarker__c.Completed__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <layoutAssignments>
-        <layout>PreScreener_Survey__c-General Screener Layout</layout>
-        <recordType>PreScreener_Survey__c.General</recordType>
-    </layoutAssignments>
+    </fieldPermissions> 
     <layoutAssignments>
         <layout>PreScreener_Survey__c-PreScreener Survey Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>PreScreener_Survey__c-Study Specific Screener</layout>
-        <recordType>PreScreener_Survey__c.Study_Specific</recordType>
-    </layoutAssignments>
+    </layoutAssignments> 
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -3298,6 +3308,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Comorbidities__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>E_Consent_Vendor__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -3476,16 +3495,7 @@
         <recordType>Comorbidities__c.Comorbidity</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>true</default>
-        <recordType>PreScreener_Survey__c.General</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>PreScreener_Survey__c.Study_Specific</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
+   
     <pageAccesses>
         <apexPage>ShowPrivacyPolicyAsPDF</apexPage>
         <enabled>true</enabled>
@@ -3524,7 +3534,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Participant_PrescreenerResponse__c</tab>
-        <visibility>DefaultOff</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>PreScreener_Survey__c</tab>

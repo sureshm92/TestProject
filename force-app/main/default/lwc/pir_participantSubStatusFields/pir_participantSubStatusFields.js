@@ -16,7 +16,7 @@ import Task_Type_Not_Selected from '@salesforce/label/c.Task_Type_Not_Selected';
 import PG_RP_L_Not_selected from '@salesforce/label/c.PG_RP_L_Not_selected';
 import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
 import PIR_Initial_Visit_Validation from '@salesforce/label/c.PIR_Initial_Visit_Validation';
-import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save';  
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save';
 import BTN_Yes from '@salesforce/label/c.BTN_Yes';
 import BTN_No from '@salesforce/label/c.BTN_No';
 import RH_TV_InitialVisitPopUpMessage from '@salesforce/label/c.RH_TV_InitialVisitPopUpMessage';
@@ -25,10 +25,14 @@ import getTelevisitVisibility from "@salesforce/apex/TelevisitCreationScreenCont
 import PIR_Reason_Required from '@salesforce/label/c.PIR_Reason_Required';
 import Gender_Female from '@salesforce/label/c.Gender_Female';
 import Gender_Male from '@salesforce/label/c.Gender_Male';
-import PE_Sex_At_Birth from '@salesforce/label/c.PIR_Gender';
+import PE_Sex_At_Birth from '@salesforce/label/c.PIR_Gender';
 import { label } from "c/pir_label";
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import DOB_outcome_error from '@salesforce/label/c.DOB_outcome_error';
+import RH_Pir_Confirm_Televisit from '@salesforce/label/c.RH_Pir_Confirm_Televisit';
+import RH_TV_Confirm from '@salesforce/label/c.RH_TV_Confirm';
+import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
+import RH_Pir_Add_Televisit from '@salesforce/label/c.RH_Pir_Add_Televisit';
 export default class Pir_participantSubStatusFields extends LightningElement {
   @api index = "";
   @api outcomeToReasonMap = {};
@@ -51,9 +55,9 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   @track selectedvisitplan;
   selectedreason = "";
   selectedreasonIV = "";
-  revisitDateReq=false;
-  isScreeningReq=false;
-  isWithdrew=false;
+  revisitDateReq = false;
+  isScreeningReq = false;
+  isWithdrew = false;
   @api initialvisitsctime = "";
   @api isfinalconsentrequired = false;
   @api isvprequired = false;
@@ -62,8 +66,8 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   @api isfovNull = false;
   @api reVisitDt = "";
   @api plan = "";
-  @api currentuserdate = "";  
-  @api latestStatusGrp=''; 
+  @api currentuserdate = "";
+  @api latestStatusGrp = '';
   @api isrtl = false;
   @api addTelevisitForInitialVisit = false;
   @track disableTelevisitCheckbox = true;
@@ -72,7 +76,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   @track televisitInitialVisitCheckboxStatus = 'Disabled';
   @track isTelevisitModalOpen = false;
   @track proceedSaveRecord = false;
-  @api getreengaged=false;
+  @api getreengaged = false;
   maindivcls;
   label = {
     FD_PE_Field_Initial_Visit_Attended_Validation,
@@ -90,24 +94,28 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     RH_TV_InitialVisitPopUpMessage,
     PIR_Reason_Required,
     PE_Sex_At_Birth,
-    DOB_outcome_error
- };
- connectedCallback() {
-  if(this.isrtl) {
-    this.maindivcls = 'rtl';
-  }else{
-    this.maindivcls = 'ltr';
+    DOB_outcome_error,
+    RH_Pir_Confirm_Televisit,
+    RH_TV_Confirm,
+    BTN_Cancel,
+    RH_Pir_Add_Televisit,
+  };
+  connectedCallback() {
+    if (this.isrtl) {
+      this.maindivcls = 'rtl';
+    } else {
+      this.maindivcls = 'ltr';
+    }
   }
-} 
-@api noShow = false;
-changeInputValue(event) {
+  @api noShow = false;
+  changeInputValue(event) {
     let datavalue = event.target.dataset.value;
 
     if (event.target.dataset.value === "sitePreference") {
       this.participantrecord.Site_Communication_Preference__c =
         event.target.checked;
     } else if (event.target.dataset.value === "Reason") {
-      if(event.target.value == null || event.target.value == ' '){
+      if (event.target.value == null || event.target.value == ' ') {
         this.participantrecord.Non_Enrollment_Reason__c = '';
         this.selectedreason = '';
         if (this.selectedOutcomeIV == "Declined_Consent") {
@@ -117,17 +125,17 @@ changeInputValue(event) {
             this.selectedreasonIV = event.target.value;
           }
         }
-      }else{
+      } else {
         this.participantrecord.Non_Enrollment_Reason__c = event.target.value;
         this.selectedreason = event.target.value;
         if (this.selectedOutcomeIV == "Declined_Consent") {
-           //Patch Release
+          //Patch Release
           this.statusChanged = true;
           this.participantrecord.Participant_Status__c = "Declined Consent";
           this.participantrecord.Informed_Consent__c = false;
 
           if (this.selectedreason == "PWS_Picklist_Value_Other") {
-            this.selectedreasonIV = "PWS_Picklist_Value_Other"; 
+            this.selectedreasonIV = "PWS_Picklist_Value_Other";
           } else {
             this.selectedreasonIV = event.target.value;
           }
@@ -139,7 +147,7 @@ changeInputValue(event) {
     } else if (event.target.dataset.value === "InitialVisitTime") {
       this.participantrecord.Initial_visit_scheduled_time__c =
         event.target.value;
-        this.customButtonValidation();
+      this.customButtonValidation();
     } else if (event.target.dataset.value === "additionalNotes") {
       this.additionalNote = event.target.value;
       this.customButtonValidation();
@@ -148,16 +156,16 @@ changeInputValue(event) {
       this.customButtonValidation();
     } else if (event.target.dataset.value === "screeningID") {
       this.participantrecord.IVRS_IWRS__c = event.target.value.trim();
-      if(this.participantrecord.Clinical_Trial_Profile__r.Tokenization_Support__c){
-        if(!this.participantrecord.IVRS_IWRS__c || this.participantrecord.IVRS_IWRS__c==''){
-          this.isScreeningReq=true;
+      if (this.participantrecord.Clinical_Trial_Profile__r.Tokenization_Support__c) {
+        if (!this.participantrecord.IVRS_IWRS__c || this.participantrecord.IVRS_IWRS__c == '') {
+          this.isScreeningReq = true;
           this.customButtonValidation();
-        }else{
+        } else {
           this.customButtonValidation();
         }
       }
-    } else if(event.target.dataset.value === 'SexatBirth'){
-      this.participantRec.Gender__c=event.target.value;
+    } else if (event.target.dataset.value === 'SexatBirth') {
+      this.participantRec.Gender__c = event.target.value;
       this.customButtonValidation();
     } else if (event.target.dataset.value === "RevisitDate") {
       this.participantrecord.Revisit_Date__c = event.target.value;
@@ -178,12 +186,12 @@ changeInputValue(event) {
         this.participantrecord.Washout_Run_In_Applies__c = false;
         this.runinwashout = "No";
         this.reVisitDt = "";
-        this.participantrecord.Revisit_Date__c=null; // patch release
+        this.participantrecord.Revisit_Date__c = null; // patch release
         this.customButtonValidation();
       }
     } else if (event.target.dataset.value === "InitialVisitAttended") {
       if (event.target.value == "Yes") {
-        this.noShow = false;  this.additionalNote="";
+        this.noShow = false; this.additionalNote = "";
         this.participantrecord.Initial_visit_occurred_flag__c = true;
         this.initialvisitattended = "Yes";
         this.customFieldValidation(datavalue);
@@ -196,29 +204,29 @@ changeInputValue(event) {
           this.participantrecord.Informed_Consent__c &&
           this.participantrecord.Initial_visit_scheduled_date__c != null &&
           this.participantrecord.Initial_visit_scheduled_date__c != "" &&
-          this.pe_record.Participant_Status__c != "Ready to Screen" && 
-          this.participantrecord.isBulkUpdate__c==false
-        ) { 
+          this.pe_record.Participant_Status__c != "Ready to Screen" &&
+          this.participantrecord.isBulkUpdate__c == false
+        ) {
           this.participantrecord.Participant_Status__c = "Ready to Screen";
-          this.participantrecord.Non_Enrollment_Reason__c = ''; 
-        }else{
-          delete this.participantrecord.Participant_Status__c;  
-          this.participantrecord.isBulkUpdate__c=false;
+          this.participantrecord.Non_Enrollment_Reason__c = '';
+        } else {
+          delete this.participantrecord.Participant_Status__c;
+          this.participantrecord.isBulkUpdate__c = false;
         }
       } else {
-        this.additionalNote="";
+        this.additionalNote = "";
         this.participantrecord.Initial_visit_occurred_flag__c = false;
         this.initialvisitattended = "No";
         this.customFieldValidation(datavalue);
         //Patch Release Fix--------------------
         //delete this.participantrecord.Initial_visit_occurred_date__c;
-         this.participantrecord.Initial_visit_occurred_date__c ='';
-         
+        this.participantrecord.Initial_visit_occurred_date__c = '';
+
         if (this.selectedOutcomeIV != "BTN_Yes") {
-          this.customFieldValidation("Consent Signed"); 
+          this.customFieldValidation("Consent Signed");
         }
-        if(this.participantrecord.Participant_Status__c == "Ready to Screen"){
-          delete this.participantrecord.Participant_Status__c;  
+        if (this.participantrecord.Participant_Status__c == "Ready to Screen") {
+          delete this.participantrecord.Participant_Status__c;
         }
       }
     } else if (event.target.dataset.value === "EnrollmentID") {
@@ -240,21 +248,21 @@ changeInputValue(event) {
       this.customFieldValidation("VisitPlan");
     } else if (event.target.dataset.value === "PartcipantNoShow") {
       this.participantrecord.ParticipantNoShow__c = event.target.checked;
-      if(event.target.checked){
-        this.noShow = true; this.additionalNote="";
-        this.participantrecord.Non_Enrollment_Reason__c='';
+      if (event.target.checked) {
+        this.noShow = true; this.additionalNote = "";
+        this.participantrecord.Non_Enrollment_Reason__c = '';
         this.participantrecord.Participant_Status__c = "Participant No Show";
         this.statusChanged = true;
-      }else{
+      } else {
         this.noShow = false;
-        this.additionalNote="";
-        delete this.participantrecord.Participant_Status__c; 
+        this.additionalNote = "";
+        delete this.participantrecord.Participant_Status__c;
         this.statusChanged = false;
       }
     }
     this.isdataChanged();
-  this.validateTelevisitVisibility();
-  this.validateTelevisitVisibility2();
+    this.validateTelevisitVisibility();
+    this.validateTelevisitVisibility2();
   }
 
   customFieldValidation(dataValue) {
@@ -275,7 +283,7 @@ changeInputValue(event) {
     }
     if (fieldname == "ConsentSigned") {
       if (this.selectedOutcomeIV != "BTN_Yes") {
-        if(!this.pe_record.Informed_Consent__c){
+        if (!this.pe_record.Informed_Consent__c) {
           element.setCustomValidity(this.label.FG_PE_Inf_Consent_Validation);
           element.reportValidity();
         }
@@ -302,18 +310,18 @@ changeInputValue(event) {
     }
   }
   @track initialVisitTelevisitVisible = false;
-  get isTelevisitEnabled(){
-    getTelevisitVisibility({ParticipantEnrollmentId : this.peid})
+  get isTelevisitEnabled() {
+    getTelevisitVisibility({ ParticipantEnrollmentId: this.peid })
       .then((result) => {
         this.initialVisitTelevisitVisible = result;
       })
       .catch((error) => {
-          console.log(error);
-          return false;
+        console.log(error);
+        return false;
       });
-      return true;
+    return true;
   }
-  
+
   get isReceived() {
     if (this.currentitems.index == 0) {
       return true;
@@ -392,10 +400,10 @@ changeInputValue(event) {
       return this.pe_record.Informed_Consent__c;
     }
   }
-  get isTokanizationSupportReq(){
-    if (this.pe_record.Clinical_Trial_Profile__r.Tokenization_Support__c){
+  get isTokanizationSupportReq() {
+    if (this.pe_record.Clinical_Trial_Profile__r.Tokenization_Support__c) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -408,24 +416,24 @@ changeInputValue(event) {
       return " ";
     }
   }
-  get reasonLabel(){
-    if(this.selectedOutcome == "Pre_review_Failed" ||
-    this.selectedOutcome == "Screening_Failed" ||
-    this.selectedOutcome == "Unable_to_Screen" ||
-    this.selectedOutcome == "Withdrew_Consent" ||
-    this.selectedOutcome == "Withdrew_Consent_After_Screening" ||
-    this.selectedOutcome == "Declined_Final_Consent" ||
-    this.selectedOutcome == "Eligibility_Failed" ||
-    this.selectedOutcome == "Enrollment_Failed" ||
-    this.selectedOutcome == "Randomization_Failed" ||
-    this.selectedOutcome == "Contacted_Not_Suitable"
-    ){
-          return this.label.PIR_Reason_Required;
-    }else{
-          return this.utilLabels.PG_ACPE_L_Reason;
+  get reasonLabel() {
+    if (this.selectedOutcome == "Pre_review_Failed" ||
+      this.selectedOutcome == "Screening_Failed" ||
+      this.selectedOutcome == "Unable_to_Screen" ||
+      this.selectedOutcome == "Withdrew_Consent" ||
+      this.selectedOutcome == "Withdrew_Consent_After_Screening" ||
+      this.selectedOutcome == "Declined_Final_Consent" ||
+      this.selectedOutcome == "Eligibility_Failed" ||
+      this.selectedOutcome == "Enrollment_Failed" ||
+      this.selectedOutcome == "Randomization_Failed" ||
+      this.selectedOutcome == "Contacted_Not_Suitable"
+    ) {
+      return this.label.PIR_Reason_Required;
+    } else {
+      return this.utilLabels.PG_ACPE_L_Reason;
     }
   }
-  
+
   reasoneoptions = [];
   outcomeoptions = [];
   participantrecord;
@@ -453,9 +461,9 @@ changeInputValue(event) {
     this.notesNeeded = [];
     this.statusChanged = false;
     this.participantrecord = JSON.parse(JSON.stringify(this.pe_record));
-    this.participantRec={
-      Id:this.participantrecord.Participant__c,
-      Gender__c:this.participantrecord.Participant__r.Gender__c
+    this.participantRec = {
+      Id: this.participantrecord.Participant__c,
+      Gender__c: this.participantrecord.Participant__r.Gender__c
     };
     this.consentSigned = this.pe_record.Informed_Consent__c;
     this.reVisitDt = this.participantrecord.Revisit_Date__c;
@@ -474,39 +482,39 @@ changeInputValue(event) {
 
     this.setOutcomeOptions();
   }
-  renderedCallback(){
-    if(this.currentitems.index == 3){
-      if(this.pe_record.Clinical_Trial_Profile__r.Initial_Visit_Required__c){
-        if(this.pe_record.Participant_Status__c == "Withdrew Consent"){
+  renderedCallback() {
+    if (this.currentitems.index == 3) {
+      if (this.pe_record.Clinical_Trial_Profile__r.Initial_Visit_Required__c) {
+        if (this.pe_record.Participant_Status__c == "Withdrew Consent") {
           let datavalue = "ScreeningOutcome";
           let element = this.template.querySelector(
             '[data-value="' + datavalue + '"]'
           );
-          element.setCustomValidity(this.label.PWS_Withdrew_Conscent_Disclaimer);  
+          element.setCustomValidity(this.label.PWS_Withdrew_Conscent_Disclaimer);
           element.reportValidity();
         }
-        if(this.pe_record.Participant_Status__c == "Declined Consent"){
+        if (this.pe_record.Participant_Status__c == "Declined Consent") {
           let datavalue = "ScreeningOutcome";
           let element = this.template.querySelector(
             '[data-value="' + datavalue + '"]'
           );
-          element.setCustomValidity(this.label.PWS_Declined_Conscent_Disclaimer);  
+          element.setCustomValidity(this.label.PWS_Declined_Conscent_Disclaimer);
           element.reportValidity();
         }
       }
     }
-}
+  }
   get checkContactStatus() {
     if (this.grpicons == "success") {
       if (this.isinitialvisit) {
         if (this.isinitialvisitpresent || (this.pe_record.Informed_Consent__c && this.pe_record.Initial_visit_occurred_flag__c)) {
           return false;
         } else {
-            if(this.pe_record.Participant_Status__c == 'Declined Consent'){
-              return false;
-            }else{
-              return true;
-            }
+          if (this.pe_record.Participant_Status__c == 'Declined Consent') {
+            return false;
+          } else {
+            return true;
+          }
         }
       } else {
         return false;
@@ -607,13 +615,13 @@ changeInputValue(event) {
     if (
       this.participantrecord.Clinical_Trial_Profile__r.Initial_Visit_Required__c
     ) {
-      if(this.pe_record.Participant_Status__c == "Withdrew Consent"){
+      if (this.pe_record.Participant_Status__c == "Withdrew Consent") {
         return this.label.PG_RP_L_Not_selected;
       } else if (this.pe_record.Participant_Status__c == "Declined Consent") {
         return this.utilLabels.Declined_Consent;
-      } else if(this.pe_record.Participant_Status__c == "Ready to Screen"){
+      } else if (this.pe_record.Participant_Status__c == "Ready to Screen") {
         return this.utilLabels.Ready_to_Screen;
-      }else{
+      } else {
         return this.label.PG_RP_L_Not_selected;
       }
     } else {
@@ -622,7 +630,7 @@ changeInputValue(event) {
 
   }
   get checkOldStatus() {
-    if(this.pe_record.Clinical_Trial_Profile__r.Initial_Visit_Required__c){
+    if (this.pe_record.Clinical_Trial_Profile__r.Initial_Visit_Required__c) {
       if (
         this.pe_record.Participant_Status__c == "Withdrew Consent" ||
         this.pe_record.Participant_Status__c == "Declined Consent"
@@ -631,10 +639,10 @@ changeInputValue(event) {
       } else {
         return false;
       }
-    }else{
-        return false;
+    } else {
+      return false;
     }
-    
+
   }
   get checkOutcome() {
     if (this.selectedOutcomeIV == "Declined_Consent") {
@@ -661,102 +669,74 @@ changeInputValue(event) {
     let objKeys = Object.keys(this.outcomeToReasonMap);
     let opts = this.createopts(objKeys);
     let trans_opts = [];
-    if(this.pe_record.Clinical_Trial_Profile__r.Initial_Visit_Required__c){
-          if (this.pe_record.Participant_Status__c == "Withdrew Consent") {
-          trans_opts.push({
-            label: this.utilLabels.PWS_Picklist_Value_Withdrew,
-            value: "Withdrew_Consent"
-          });
-          trans_opts.push({ label: this.utilLabels.BTN_Yes, value: "BTN_Yes" });
-          let withdrewReasons = {'Transportation Issues':'PWS_Picklist_Value_Transportation_Issues',
-                                  'Childcare Issues':'PWS_Picklist_Value_Childcare_Issues',
-                                  'Protocol Concerns':'PWS_Picklist_Value_Protocol_Concerns',
-                                  'Participant Not Interested':'PWS_Picklist_Value_Participant_Not_Interested',
-                                  'Other':'PWS_Picklist_Value_Other'
-                                };
-          this.selectedreasonIV = withdrewReasons[this.pe_record.Non_Enrollment_Reason__c]; 
-          this.selectedOutcomeIV = "Withdrew_Consent";
-        } else if (this.pe_record.Participant_Status__c == "Declined Consent") {
-          for (let i = 0; i < opts.length; i++) {
-            if (opts[i].label === "BTN_Yes") {
-              trans_opts.push({
-                label: this.utilLabels.BTN_Yes,
-                value: opts[i].value
-              });
-            } else if (opts[i].label === "Declined_Consent") {
-              trans_opts.push({
-                label: this.utilLabels.PIR_Declined,
-                value: opts[i].value
-              });
-            }
-          }
-          this.selectedOutcomeIV = "Declined_Consent";
-          let reasonopts = this.createopts(
-            this.outcomeToReasonMap[this.selectedOutcomeIV]
-          );
-          let trans_reasonopts = [];
-          for (let i = 0; i < reasonopts.length; i++) {
-            let outcomeReasonLabel = reasonopts[i].label;
-            let outcomeReasonValue = reasonopts[i].value;
-            if (outcomeReasonValue.endsWith("*")) {
-              outcomeReasonLabel = outcomeReasonLabel.substring(
-                0,
-                outcomeReasonLabel.length - 1
-              );
-              outcomeReasonValue = outcomeReasonValue.substring(
-                0,
-                outcomeReasonValue.length - 1
-              );
-                if(outcomeReasonLabel.length != 1){
-                  this.notesNeeded.push(outcomeReasonValue);
-                }else{
-                  this.notesNeeded.push('BLANK');
-                }
-            }
-            trans_reasonopts.push({
-              label: this.utilLabels[outcomeReasonLabel],
-              value: outcomeReasonValue
+    if (this.pe_record.Clinical_Trial_Profile__r.Initial_Visit_Required__c) {
+      if (this.pe_record.Participant_Status__c == "Withdrew Consent") {
+        trans_opts.push({
+          label: this.utilLabels.PWS_Picklist_Value_Withdrew,
+          value: "Withdrew_Consent"
+        });
+        trans_opts.push({ label: this.utilLabels.BTN_Yes, value: "BTN_Yes" });
+        let withdrewReasons = {
+          'Transportation Issues': 'PWS_Picklist_Value_Transportation_Issues',
+          'Childcare Issues': 'PWS_Picklist_Value_Childcare_Issues',
+          'Protocol Concerns': 'PWS_Picklist_Value_Protocol_Concerns',
+          'Participant Not Interested': 'PWS_Picklist_Value_Participant_Not_Interested',
+          'Other': 'PWS_Picklist_Value_Other'
+        };
+        this.selectedreasonIV = withdrewReasons[this.pe_record.Non_Enrollment_Reason__c];
+        this.selectedOutcomeIV = "Withdrew_Consent";
+      } else if (this.pe_record.Participant_Status__c == "Declined Consent") {
+        for (let i = 0; i < opts.length; i++) {
+          if (opts[i].label === "BTN_Yes") {
+            trans_opts.push({
+              label: this.utilLabels.BTN_Yes,
+              value: opts[i].value
+            });
+          } else if (opts[i].label === "Declined_Consent") {
+            trans_opts.push({
+              label: this.utilLabels.PIR_Declined,
+              value: opts[i].value
             });
           }
-          this.reasoneoptions = trans_reasonopts;
-          let declinedReasons = {'Transportation Issues':'PWS_Picklist_Value_Transportation_Issues',
-            'Childcare Issues':'PWS_Picklist_Value_Childcare_Issues',
-            'Protocol Concerns':'PWS_Picklist_Value_Protocol_Concerns',
-            'Participant Not Interested':'PWS_Picklist_Value_Participant_Not_Interested',
-            'Other':'PWS_Picklist_Value_Other'
-          };
-          this.selectedreasonIV = declinedReasons[this.pe_record.Non_Enrollment_Reason__c];
-        } else {
-          for (let i = 0; i < opts.length; i++) {
-            if (opts[i].label === "Screening In Progress - Wash Out Period") {
-              trans_opts.push({
-                label: this.utilLabels.In_Wash_Out_Period,
-                value: "Screening In Progress - Wash Out Period"
-              });
-            } else if (opts[i].label === "Declined_Consent") {
-              trans_opts.push({
-                label: this.utilLabels.PIR_Declined,
-                value: opts[i].value
-              });
+        }
+        this.selectedOutcomeIV = "Declined_Consent";
+        let reasonopts = this.createopts(
+          this.outcomeToReasonMap[this.selectedOutcomeIV]
+        );
+        let trans_reasonopts = [];
+        for (let i = 0; i < reasonopts.length; i++) {
+          let outcomeReasonLabel = reasonopts[i].label;
+          let outcomeReasonValue = reasonopts[i].value;
+          if (outcomeReasonValue.endsWith("*")) {
+            outcomeReasonLabel = outcomeReasonLabel.substring(
+              0,
+              outcomeReasonLabel.length - 1
+            );
+            outcomeReasonValue = outcomeReasonValue.substring(
+              0,
+              outcomeReasonValue.length - 1
+            );
+            if (outcomeReasonLabel.length != 1) {
+              this.notesNeeded.push(outcomeReasonValue);
             } else {
-                if(opts[i].label === "Declined_Final_Consent"){
-                  if(this.pe_record.Clinical_Trial_Profile__r.Final_Consent_Required__c){
-                      trans_opts.push({
-                        label: this.utilLabels[opts[i].label],
-                        value: opts[i].value
-                      });
-                  }
-              }
-              else{
-                    trans_opts.push({
-                      label: this.utilLabels[opts[i].label],
-                      value: opts[i].value
-                    }); 
-                  }
+              this.notesNeeded.push('BLANK');
             }
           }
-        } 
-    }else{
+          trans_reasonopts.push({
+            label: this.utilLabels[outcomeReasonLabel],
+            value: outcomeReasonValue
+          });
+        }
+        this.reasoneoptions = trans_reasonopts;
+        let declinedReasons = {
+          'Transportation Issues': 'PWS_Picklist_Value_Transportation_Issues',
+          'Childcare Issues': 'PWS_Picklist_Value_Childcare_Issues',
+          'Protocol Concerns': 'PWS_Picklist_Value_Protocol_Concerns',
+          'Participant Not Interested': 'PWS_Picklist_Value_Participant_Not_Interested',
+          'Other': 'PWS_Picklist_Value_Other'
+        };
+        this.selectedreasonIV = declinedReasons[this.pe_record.Non_Enrollment_Reason__c];
+      } else {
         for (let i = 0; i < opts.length; i++) {
           if (opts[i].label === "Screening In Progress - Wash Out Period") {
             trans_opts.push({
@@ -769,24 +749,54 @@ changeInputValue(event) {
               value: opts[i].value
             });
           } else {
-             if(opts[i].label === "Declined_Final_Consent"){
-                if(this.pe_record.Clinical_Trial_Profile__r.Final_Consent_Required__c){
-                    trans_opts.push({
-                      label: this.utilLabels[opts[i].label],
-                      value: opts[i].value
-                    });
-                }
-             }
-             else{
-                  trans_opts.push({
-                    label: this.utilLabels[opts[i].label],
-                    value: opts[i].value
-                  }); 
-                }
+            if (opts[i].label === "Declined_Final_Consent") {
+              if (this.pe_record.Clinical_Trial_Profile__r.Final_Consent_Required__c) {
+                trans_opts.push({
+                  label: this.utilLabels[opts[i].label],
+                  value: opts[i].value
+                });
+              }
             }
+            else {
+              trans_opts.push({
+                label: this.utilLabels[opts[i].label],
+                value: opts[i].value
+              });
+            }
+          }
         }
+      }
+    } else {
+      for (let i = 0; i < opts.length; i++) {
+        if (opts[i].label === "Screening In Progress - Wash Out Period") {
+          trans_opts.push({
+            label: this.utilLabels.In_Wash_Out_Period,
+            value: "Screening In Progress - Wash Out Period"
+          });
+        } else if (opts[i].label === "Declined_Consent") {
+          trans_opts.push({
+            label: this.utilLabels.PIR_Declined,
+            value: opts[i].value
+          });
+        } else {
+          if (opts[i].label === "Declined_Final_Consent") {
+            if (this.pe_record.Clinical_Trial_Profile__r.Final_Consent_Required__c) {
+              trans_opts.push({
+                label: this.utilLabels[opts[i].label],
+                value: opts[i].value
+              });
+            }
+          }
+          else {
+            trans_opts.push({
+              label: this.utilLabels[opts[i].label],
+              value: opts[i].value
+            });
+          }
+        }
+      }
     }
-    
+
     this.outcomeoptions = trans_opts;
   }
   createopts(optList) {
@@ -836,11 +846,11 @@ changeInputValue(event) {
           0,
           outcomeReasonValue.length - 1
         );
-          if(outcomeReasonLabel.length != 1){
-            this.notesNeeded.push(outcomeReasonValue);
-          }else{
-            this.notesNeeded.push('BLANK');
-          }
+        if (outcomeReasonLabel.length != 1) {
+          this.notesNeeded.push(outcomeReasonValue);
+        } else {
+          this.notesNeeded.push('BLANK');
+        }
       }
       trans_reasonopts.push({
         label: this.utilLabels[outcomeReasonLabel],
@@ -853,10 +863,10 @@ changeInputValue(event) {
         this.selectedreason = "";
         this.participantrecord.Non_Enrollment_Reason__c = "";
       } else {
-        if(this.reasoneoptions[0].label == undefined){ 
+        if (this.reasoneoptions[0].label == undefined) {
           this.selectedreason = "";
           this.participantrecord.Non_Enrollment_Reason__c = "";
-        }else{
+        } else {
           //Reason fix
           //this.selectedreason = this.reasoneoptions[0].value;
           //this.participantrecord.Non_Enrollment_Reason__c = this.reasoneoptions[0].value;
@@ -877,16 +887,16 @@ changeInputValue(event) {
     }
     if (this.participantrecord.Clinical_Trial_Profile__r.Tokenization_Support__c) {
       if (this.selectedOutcome === "Screening_Passed") {
-        this.isScreeningReq=true;
+        this.isScreeningReq = true;
         this.customButtonValidation();
-      }else if(this.selectedOutcome === "Randomization_Success" || this.selectedOutcome === "PE_STATUS_ENROLLMENT_SUCCESS"){
+      } else if (this.selectedOutcome === "Randomization_Success" || this.selectedOutcome === "PE_STATUS_ENROLLMENT_SUCCESS") {
         this.customButtonValidation();
-      }else{
-        this.isScreeningReq=false;
+      } else {
+        this.isScreeningReq = false;
         this.customButtonValidation();
       }
     }
-    if(this.selectedOutcome == "Unable_to_Reach"){
+    if (this.selectedOutcome == "Unable_to_Reach") {
       this.customButtonValidation();
     }
     this.isdataChanged();
@@ -900,7 +910,7 @@ changeInputValue(event) {
       this.participantrecord.Informed_Consent__c = true;
       this.participantrecord.Participant_Status__c = "Ready to Screen";
       this.customFieldValidation("Consent Signed");
-      if(this.initialvisitattended == "No"){
+      if (this.initialvisitattended == "No") {
         this.customFieldValidation("InitialVisitAttended");
       }
     } else if (this.selectedOutcomeIV == "Declined_Consent") {
@@ -932,11 +942,11 @@ changeInputValue(event) {
             0,
             outcomeReasonValue.length - 1
           );
-            if(outcomeReasonLabel.length != 1){
-              this.notesNeeded.push(outcomeReasonValue);
-            }else{
-              this.notesNeeded.push('BLANK');
-            }
+          if (outcomeReasonLabel.length != 1) {
+            this.notesNeeded.push(outcomeReasonValue);
+          } else {
+            this.notesNeeded.push('BLANK');
+          }
         }
         trans_reasonopts.push({
           label: this.utilLabels[outcomeReasonLabel],
@@ -957,17 +967,17 @@ changeInputValue(event) {
     this.isdataChanged();
   }
   get reasonDisabled() {
-      if (this.selectedOutcomeIV == "BTN_Yes") {
-        let elements = this.template.querySelector(
-          '[data-value="' + 'Reason' + '"]'
-        );
-        elements.setCustomValidity("");
-        elements.reportValidity();
-      }
-      return this.reasoneoptions == 0;
+    if (this.selectedOutcomeIV == "BTN_Yes") {
+      let elements = this.template.querySelector(
+        '[data-value="' + 'Reason' + '"]'
+      );
+      elements.setCustomValidity("");
+      elements.reportValidity();
+    }
+    return this.reasoneoptions == 0;
   }
   get screeningReasonDisabled() {
-    if(this.pe_record.Clinical_Trial_Profile__r.Initial_Visit_Required__c){
+    if (this.pe_record.Clinical_Trial_Profile__r.Initial_Visit_Required__c) {
       if (
         this.pe_record.Participant_Status__c == "Withdrew Consent" ||
         this.pe_record.Participant_Status__c == "Declined Consent"
@@ -976,23 +986,23 @@ changeInputValue(event) {
       } else {
         return this.reasoneoptions == 0;
       }
-    }else{
+    } else {
       return this.reasoneoptions == 0;
     }
   }
 
   get notesLabel() {
-    if(this.selectedOutcome == "Contacted_Not_Suitable" &&  this.selectedreason == ""){
-          this.customButtonValidation(); 
-          return this.utilLabels.PG_ACPE_L_Notes_Optional;
-    }else if(this.selectedOutcome == "Unable_to_Reach" &&  this.selectedreason == ""){
-      this.customButtonValidation(); 
+    if (this.selectedOutcome == "Contacted_Not_Suitable" && this.selectedreason == "") {
+      this.customButtonValidation();
+      return this.utilLabels.PG_ACPE_L_Notes_Optional;
+    } else if (this.selectedOutcome == "Unable_to_Reach" && this.selectedreason == "") {
+      this.customButtonValidation();
       return this.utilLabels.PG_ACPE_L_Notes_Required;
-    } else{
+    } else {
       if (this.notesNeeded.includes(this.selectedreason)) {
         this.customButtonValidation();
         return this.utilLabels.PG_ACPE_L_Notes_Required;
-       }else {
+      } else {
         this.customButtonValidation();
         return this.utilLabels.PG_ACPE_L_Notes_Optional;
       }
@@ -1017,7 +1027,7 @@ changeInputValue(event) {
         return this.utilLabels.PG_ACPE_L_Notes_Optional;
       }
     } else {
-      if (this.selectedreason == "PWS_Picklist_Value_Other"){
+      if (this.selectedreason == "PWS_Picklist_Value_Other") {
         this.customButtonValidation();
         return this.utilLabels.PG_ACPE_L_Notes_Required;
       } else {
@@ -1075,10 +1085,10 @@ changeInputValue(event) {
     let notes = this.additionalNote.trim();
     let btnValidationSuccess = false;
     let validationList = [];
-     
+
     //1.
     if (this.notesNeeded.includes(this.selectedreason)) {
-      if ( this.notesNeeded.includes(this.selectedreasonIV) ) {
+      if (this.notesNeeded.includes(this.selectedreasonIV)) {
         let noteIV = this.additionalNoteIV.trim();
         if (noteIV != null && noteIV != "" && noteIV.length != 0) {
           btnValidationSuccess = true;
@@ -1100,7 +1110,7 @@ changeInputValue(event) {
 
     //2.
     if (this.runinwashout == "Yes") {
-        this.revisitDateReq=true; //patch release
+      this.revisitDateReq = true; //patch release
       if (this.participantrecord.Revisit_Date__c) {
         btnValidationSuccess = true;
         validationList.push(btnValidationSuccess);
@@ -1109,15 +1119,15 @@ changeInputValue(event) {
         validationList.push(btnValidationSuccess);
       }
     } else {
-      this.revisitDateReq=false; //patch release
+      this.revisitDateReq = false; //patch release
       btnValidationSuccess = true;
       validationList.push(btnValidationSuccess);
     }
     //3.
     if (
-        (this.selectedOutcome == "Randomization_Success" ||
+      (this.selectedOutcome == "Randomization_Success" ||
         this.selectedOutcome == "PE_STATUS_ENROLLMENT_SUCCESS") ||
-        ( this.selectedOutcome == "" && (this.pe_record.Participant_Status__c == 'Enrollment Success' || this.pe_record.Participant_Status__c == 'Randomization Success'))
+      (this.selectedOutcome == "" && (this.pe_record.Participant_Status__c == 'Enrollment Success' || this.pe_record.Participant_Status__c == 'Randomization Success'))
     ) {
       let enrollment_or_randomizationid =
         this.participantrecord.Screening_ID__c == undefined
@@ -1204,7 +1214,7 @@ changeInputValue(event) {
     }
 
     //6.
-    if((this.selectedOutcome == "Contacted_Not_Suitable" || this.selectedOutcome == "Unable_to_Reach") &&  this.participantrecord.Non_Enrollment_Reason__c == ''){
+    if ((this.selectedOutcome == "Contacted_Not_Suitable" || this.selectedOutcome == "Unable_to_Reach") && this.participantrecord.Non_Enrollment_Reason__c == '') {
       if (notes != null && notes != "" && notes.length != 0) {
         btnValidationSuccess = true;
         validationList.push(btnValidationSuccess);
@@ -1215,51 +1225,51 @@ changeInputValue(event) {
     }
 
     //7.
-    if(this.participantrecord.Initial_visit_scheduled_time__c <= '04:59:00.000' || this.participantrecord.Initial_visit_scheduled_time__c >= '23:46:00.000'){
+    if (this.participantrecord.Initial_visit_scheduled_time__c <= '04:59:00.000' || this.participantrecord.Initial_visit_scheduled_time__c >= '23:46:00.000') {
       btnValidationSuccess = false;
       validationList.push(btnValidationSuccess);
-    }else{
+    } else {
       btnValidationSuccess = true;
       validationList.push(btnValidationSuccess);
     }
 
     //8.
-    if(this.selectedOutcome == "Pre_review_Failed" ||
-    this.selectedOutcome == "Screening_Failed" ||
-    this.selectedOutcome == "Unable_to_Screen" ||
-    this.selectedOutcome == "Withdrew_Consent" ||
-    this.selectedOutcome == "Withdrew_Consent_After_Screening" ||
-    this.selectedOutcome == "Declined_Final_Consent" ||
-    this.selectedOutcome == "Eligibility_Failed" ||
-    this.selectedOutcome == "Enrollment_Failed" ||
-    this.selectedOutcome == "Randomization_Failed" ||
-    this.selectedOutcome == "Contacted_Not_Suitable"
-    ){
-           if(this.selectedreason == ""){
-            btnValidationSuccess = false;
-            validationList.push(btnValidationSuccess);
-           }
+    if (this.selectedOutcome == "Pre_review_Failed" ||
+      this.selectedOutcome == "Screening_Failed" ||
+      this.selectedOutcome == "Unable_to_Screen" ||
+      this.selectedOutcome == "Withdrew_Consent" ||
+      this.selectedOutcome == "Withdrew_Consent_After_Screening" ||
+      this.selectedOutcome == "Declined_Final_Consent" ||
+      this.selectedOutcome == "Eligibility_Failed" ||
+      this.selectedOutcome == "Enrollment_Failed" ||
+      this.selectedOutcome == "Randomization_Failed" ||
+      this.selectedOutcome == "Contacted_Not_Suitable"
+    ) {
+      if (this.selectedreason == "") {
+        btnValidationSuccess = false;
+        validationList.push(btnValidationSuccess);
+      }
     }
     //9.
-    if(this.isScreeningReq && (!this.participantrecord.IVRS_IWRS__c || this.participantrecord.IVRS_IWRS__c=='')){
+    if (this.isScreeningReq && (!this.participantrecord.IVRS_IWRS__c || this.participantrecord.IVRS_IWRS__c == '')) {
       btnValidationSuccess = false;
       validationList.push(btnValidationSuccess);
-    }else if(this.isSexatBirthReq && (!this.participantRec.Gender__c || this.participantrecord.Gender__c=='')){
+    } else if (this.isSexatBirthReq && (!this.participantRec.Gender__c || this.participantrecord.Gender__c == '')) {
       btnValidationSuccess = false;
       validationList.push(btnValidationSuccess);
-    }else{
+    } else {
       btnValidationSuccess = true;
       validationList.push(btnValidationSuccess);
     }
-    var discardChanges = ((this.selectedOutcome=='PE_STATUS_ENROLLMENT_SUCCESS' ||  this.selectedOutcome=='Randomization_Success') && !this.pe_record.Is_Participant_DOB_Valid__c);
-    if(discardChanges){
-      const validatesavebtn = new CustomEvent("validatesavebutton", { 
+    var discardChanges = ((this.selectedOutcome == 'PE_STATUS_ENROLLMENT_SUCCESS' || this.selectedOutcome == 'Randomization_Success') && !this.pe_record.Is_Participant_DOB_Valid__c);
+    if (discardChanges) {
+      const validatesavebtn = new CustomEvent("validatesavebutton", {
         detail: true
       });
       this.dispatchEvent(validatesavebtn);
     }
     else if (validationList.includes(false)) {
-      const validatesavebtn = new CustomEvent("validatesavebutton", { 
+      const validatesavebtn = new CustomEvent("validatesavebutton", {
         detail: true
       });
       this.dispatchEvent(validatesavebtn);
@@ -1278,10 +1288,10 @@ changeInputValue(event) {
     ];
   }
   get sexAssignedBirth() {
-    return [      
-        { label: Gender_Male, value: 'Male' },
-        { label: Gender_Female, value: 'Female' },
-       
+    return [
+      { label: Gender_Male, value: 'Male' },
+      { label: Gender_Female, value: 'Female' },
+
     ];
   }
   get initialVisitAttended() {
@@ -1305,8 +1315,8 @@ changeInputValue(event) {
       .forEach(function (L) {
         L.classList.toggle("slds-hide");
       });
-      this.template.querySelectorAll("."+event.currentTarget.dataset.name+"Bg").forEach(function (L) {
-        L.classList.toggle("bg-white");
+    this.template.querySelectorAll("." + event.currentTarget.dataset.name + "Bg").forEach(function (L) {
+      L.classList.toggle("bg-white");
     });
   }
 
@@ -1317,35 +1327,35 @@ changeInputValue(event) {
       .forEach(function (R) {
         R.classList.toggle("slds-hide");
       });
-      this.template.querySelectorAll("."+event.currentTarget.dataset.name+"Bg").forEach(function (L) {
-        L.classList.toggle("bg-white");
+    this.template.querySelectorAll("." + event.currentTarget.dataset.name + "Bg").forEach(function (L) {
+      L.classList.toggle("bg-white");
     });
     getRecievedHistory({ pe: this.peid })
-    .then((result) => {
-      if (result.length == 0) {
-        this.historyNull = true;
-      } else {
-        this.historyResults = result;
-        this.historyNull = false;
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-    
+      .then((result) => {
+        if (result.length == 0) {
+          this.historyNull = true;
+        } else {
+          this.historyResults = result;
+          this.historyNull = false;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
   }
   @api contactHistorys;
   getContactHistorySection(event) {
-    this.historyResults = "";this.contactHistorys = '';
+    this.historyResults = ""; this.contactHistorys = '';
     this.template
       .querySelectorAll("." + event.currentTarget.dataset.name)
       .forEach(function (R) {
         R.classList.toggle("slds-hide");
       });
-      this.template.querySelectorAll("."+event.currentTarget.dataset.name+"Bg").forEach(function (L) {
-        L.classList.toggle("bg-white");
+    this.template.querySelectorAll("." + event.currentTarget.dataset.name + "Bg").forEach(function (L) {
+      L.classList.toggle("bg-white");
     });
-    getContactHistory({ pe: this.peid ,groupName: this.latestStatusGrp})
+    getContactHistory({ pe: this.peid, groupName: this.latestStatusGrp })
       .then((result) => {
         if (result == null || result.length == 0) {
           this.historyNull = true;
@@ -1413,23 +1423,23 @@ changeInputValue(event) {
           historyList.sort(function (a, b) {
             return new Date(a.detailDate) - new Date(b.detailDate);
           });
-          
+
           this.historyResults = historyList.reverse();
           var historyLists = [];
-          var conts =  this.historyResults;
+          var conts = this.historyResults;
           for (var key in conts) {
-                if(conts[key].number != undefined){
-                  for (var i = 0; i < result.length; i++) {
-                    if (result[i].isAdditionalNote && (result[i].noteKey == conts[key].number)) {
-                      historyLists.push(result[i]);
-                    }
-                  }
+            if (conts[key].number != undefined) {
+              for (var i = 0; i < result.length; i++) {
+                if (result[i].isAdditionalNote && (result[i].noteKey == conts[key].number)) {
+                  historyLists.push(result[i]);
                 }
-                historyLists.push(conts[key]);
+              }
+            }
+            historyLists.push(conts[key]);
           }
           for (var i = 0; i < result.length; i++) {
-            if (result[i].isAdditionalNote && result[i].isAdditionalNoteOld){
-                  historyLists.push(result[i]);
+            if (result[i].isAdditionalNote && result[i].isAdditionalNoteOld) {
+              historyLists.push(result[i]);
             }
           }
           this.contactHistorys = historyLists;
@@ -1448,8 +1458,8 @@ changeInputValue(event) {
       .forEach(function (R) {
         R.classList.toggle("slds-hide");
       });
-      this.template.querySelectorAll("."+event.currentTarget.dataset.name+"Bg").forEach(function (L) {
-        L.classList.toggle("bg-white");
+    this.template.querySelectorAll("." + event.currentTarget.dataset.name + "Bg").forEach(function (L) {
+      L.classList.toggle("bg-white");
     });
 
     getInitialVisitHistory({ pe: this.peid })
@@ -1473,8 +1483,8 @@ changeInputValue(event) {
       .forEach(function (R) {
         R.classList.toggle("slds-hide");
       });
-      this.template.querySelectorAll("."+event.currentTarget.dataset.name+"Bg").forEach(function (L) {
-        L.classList.toggle("bg-white");
+    this.template.querySelectorAll("." + event.currentTarget.dataset.name + "Bg").forEach(function (L) {
+      L.classList.toggle("bg-white");
     });
 
     getEligibilityHistory({ pe: this.peid })
@@ -1498,8 +1508,8 @@ changeInputValue(event) {
       .forEach(function (R) {
         R.classList.toggle("slds-hide");
       });
-      this.template.querySelectorAll("."+event.currentTarget.dataset.name+"Bg").forEach(function (L) {
-        L.classList.toggle("bg-white");
+    this.template.querySelectorAll("." + event.currentTarget.dataset.name + "Bg").forEach(function (L) {
+      L.classList.toggle("bg-white");
     });
 
     getScreeningHistory({ pe: this.peid })
@@ -1523,8 +1533,8 @@ changeInputValue(event) {
       .forEach(function (R) {
         R.classList.toggle("slds-hide");
       });
-      this.template.querySelectorAll("."+event.currentTarget.dataset.name+"Bg").forEach(function (L) {
-        L.classList.toggle("bg-white");
+    this.template.querySelectorAll("." + event.currentTarget.dataset.name + "Bg").forEach(function (L) {
+      L.classList.toggle("bg-white");
     });
 
     getEnrollmentHistory({ pe: this.peid })
@@ -1547,9 +1557,9 @@ changeInputValue(event) {
       this.selectedOutcome == "PE_STATUS_ENROLLMENT_SUCCESS"
     ) {
       return true;
-    } else if( this.selectedOutcome == "" && (this.pe_record.Participant_Status__c == 'Enrollment Success' || this.pe_record.Participant_Status__c == 'Randomization Success')) {
+    } else if (this.selectedOutcome == "" && (this.pe_record.Participant_Status__c == 'Enrollment Success' || this.pe_record.Participant_Status__c == 'Randomization Success')) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -1560,33 +1570,33 @@ changeInputValue(event) {
       this.selectedOutcome == "PE_STATUS_ENROLLMENT_SUCCESS"
     ) {
       return true;
-    } else if( this.selectedOutcome == "" && (this.pe_record.Participant_Status__c == 'Enrollment Success' || this.pe_record.Participant_Status__c == 'Randomization Success')) {
+    } else if (this.selectedOutcome == "" && (this.pe_record.Participant_Status__c == 'Enrollment Success' || this.pe_record.Participant_Status__c == 'Randomization Success')) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
-  get isSexatBirthReq(){
+  get isSexatBirthReq() {
     if (
       this.selectedOutcome == "Randomization_Success" ||
       this.selectedOutcome == "PE_STATUS_ENROLLMENT_SUCCESS"
     ) {
       return true;
-    } else if( this.selectedOutcome == "" && (this.pe_record.Participant_Status__c == 'Enrollment Success' || this.pe_record.Participant_Status__c == 'Randomization Success')) {
+    } else if (this.selectedOutcome == "" && (this.pe_record.Participant_Status__c == 'Enrollment Success' || this.pe_record.Participant_Status__c == 'Randomization Success')) {
       return true;
-    }else{
+    } else {
       return false;
     }
-  } 
+  }
   get makerequiredrandomizationid() {
     if (
       this.selectedOutcome == "Randomization_Success" ||
       this.selectedOutcome == "PE_STATUS_ENROLLMENT_SUCCESS"
     ) {
       return true;
-    } else if( this.selectedOutcome == "" && (this.pe_record.Participant_Status__c == 'Enrollment Success' || this.pe_record.Participant_Status__c == 'Randomization Success')) {
+    } else if (this.selectedOutcome == "" && (this.pe_record.Participant_Status__c == 'Enrollment Success' || this.pe_record.Participant_Status__c == 'Randomization Success')) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -1629,63 +1639,63 @@ changeInputValue(event) {
     }
   }
 
-  isdataChanged(){
+  isdataChanged() {
     let hasChanges = [];
-    if(this.pe_record.Site_Communication_Preference__c != this.participantrecord.Site_Communication_Preference__c ||
-       this.pe_record.Initial_visit_occurred_flag__c != this.participantrecord.Initial_visit_occurred_flag__c ||
-       this.pe_record.Informed_Consent__c != this.participantrecord.Informed_Consent__c ||
-       this.pe_record.Washout_Run_In_Applies__c != this.participantrecord.Washout_Run_In_Applies__c ||
-       this.pe_record.Final_consent__c != this.participantrecord.Final_consent__c ||
-       this.pe_record.ParticipantNoShow__c != this.participantrecord.ParticipantNoShow__c ||
-       this.pe_record.Initial_visit_scheduled_date__c != this.participantrecord.Initial_visit_scheduled_date__c ||
-       this.pe_record.Initial_visit_scheduled_time__c != this.participantrecord.Initial_visit_scheduled_time__c ||
-       this.pe_record.Informed_Consent_Date__c != this.participantrecord.Informed_Consent_Date__c ||
-       this.pe_record.IVRS_IWRS__c != this.participantrecord.IVRS_IWRS__c ||
-       this.pe_record.Revisit_Date__c != this.participantrecord.Revisit_Date__c ||
-       this.pe_record.Screening_ID__c != this.participantrecord.Screening_ID__c ||
-       this.pe_record.Final_consent__c != this.participantrecord.Final_consent__c
-      ){
-        hasChanges.push(true);
-      }else{
-        hasChanges.push(false);
-      }
+    if (this.pe_record.Site_Communication_Preference__c != this.participantrecord.Site_Communication_Preference__c ||
+      this.pe_record.Initial_visit_occurred_flag__c != this.participantrecord.Initial_visit_occurred_flag__c ||
+      this.pe_record.Informed_Consent__c != this.participantrecord.Informed_Consent__c ||
+      this.pe_record.Washout_Run_In_Applies__c != this.participantrecord.Washout_Run_In_Applies__c ||
+      this.pe_record.Final_consent__c != this.participantrecord.Final_consent__c ||
+      this.pe_record.ParticipantNoShow__c != this.participantrecord.ParticipantNoShow__c ||
+      this.pe_record.Initial_visit_scheduled_date__c != this.participantrecord.Initial_visit_scheduled_date__c ||
+      this.pe_record.Initial_visit_scheduled_time__c != this.participantrecord.Initial_visit_scheduled_time__c ||
+      this.pe_record.Informed_Consent_Date__c != this.participantrecord.Informed_Consent_Date__c ||
+      this.pe_record.IVRS_IWRS__c != this.participantrecord.IVRS_IWRS__c ||
+      this.pe_record.Revisit_Date__c != this.participantrecord.Revisit_Date__c ||
+      this.pe_record.Screening_ID__c != this.participantrecord.Screening_ID__c ||
+      this.pe_record.Final_consent__c != this.participantrecord.Final_consent__c
+    ) {
+      hasChanges.push(true);
+    } else {
+      hasChanges.push(false);
+    }
 
-     let notes = this.additionalNote.trim();
-	   if (notes != null && notes != "" && notes.length != 0) {
-        hasChanges.push(true);
-     }else{
-        hasChanges.push(false);
-     }
-     
-     let notesIV = this.additionalNoteIV.trim();
-	   if (notesIV != null && notesIV != "" && notesIV.length != 0) {
-        hasChanges.push(true);
-     }else{
-        hasChanges.push(false);
-     }
-     
-     if(this.selectedOutcome !='' && this.selectedOutcome !=null){
-       hasChanges.push(true);
-     }else{
-       hasChanges.push(false);
-     }
-     var discardChanges = ((this.selectedOutcome=='PE_STATUS_ENROLLMENT_SUCCESS' ||  this.selectedOutcome=='Randomization_Success') && !this.pe_record.Is_Participant_DOB_Valid__c);
-      if(hasChanges.includes(true) && !discardChanges){ 
-         const valueChangeEvent = new CustomEvent("statusdetailsvaluechange", {
-          detail: true
-        });
-        this.dispatchEvent(valueChangeEvent);
-      }else{
-        const valueChangeEvent = new CustomEvent("statusdetailsvaluechange", {
-          detail: false
-        });
-        this.dispatchEvent(valueChangeEvent);
-      }
+    let notes = this.additionalNote.trim();
+    if (notes != null && notes != "" && notes.length != 0) {
+      hasChanges.push(true);
+    } else {
+      hasChanges.push(false);
+    }
+
+    let notesIV = this.additionalNoteIV.trim();
+    if (notesIV != null && notesIV != "" && notesIV.length != 0) {
+      hasChanges.push(true);
+    } else {
+      hasChanges.push(false);
+    }
+
+    if (this.selectedOutcome != '' && this.selectedOutcome != null) {
+      hasChanges.push(true);
+    } else {
+      hasChanges.push(false);
+    }
+    var discardChanges = ((this.selectedOutcome == 'PE_STATUS_ENROLLMENT_SUCCESS' || this.selectedOutcome == 'Randomization_Success') && !this.pe_record.Is_Participant_DOB_Valid__c);
+    if (hasChanges.includes(true) && !discardChanges) {
+      const valueChangeEvent = new CustomEvent("statusdetailsvaluechange", {
+        detail: true
+      });
+      this.dispatchEvent(valueChangeEvent);
+    } else {
+      const valueChangeEvent = new CustomEvent("statusdetailsvaluechange", {
+        detail: false
+      });
+      this.dispatchEvent(valueChangeEvent);
+    }
 
   }
-  isReEngaged=false;
+  isReEngaged = false;
   getSaved() {
-	  if(this.addTelevisitForInitialVisit && !this.proceedSaveRecord){
+    if (this.addTelevisitForInitialVisit && !this.proceedSaveRecord) {
       this.handleTelevisitOpenModal();
       return;
     }
@@ -1705,23 +1715,23 @@ changeInputValue(event) {
     }
     // }
     if (!this.statusChanged) {
-      if(this.participantrecord.Participant_Status__c != "Ready to Screen"){
+      if (this.participantrecord.Participant_Status__c != "Ready to Screen") {
         delete this.participantrecord.Participant_Status__c;
       }
       delete this.participantrecord.Non_Enrollment_Reason__c;
     }
-     if (
-       this.selectedOutcome == "Successfully_Contacted" ||
-       this.selectedOutcome == "Pre_review_Passed"
-     ) {
-       this.participantrecord.ParticipantNoShow__c = false;
-     } else if (
-       this.pe_record.ParticipantNoShow__c ==
-       this.participantrecord.ParticipantNoShow__c
-     ) {
-       delete this.participantrecord.ParticipantNoShow__c;
-   }
-   
+    if (
+      this.selectedOutcome == "Successfully_Contacted" ||
+      this.selectedOutcome == "Pre_review_Passed"
+    ) {
+      this.participantrecord.ParticipantNoShow__c = false;
+    } else if (
+      this.pe_record.ParticipantNoShow__c ==
+      this.participantrecord.ParticipantNoShow__c
+    ) {
+      delete this.participantrecord.ParticipantNoShow__c;
+    }
+
     if (this.participantrecord.Participant_Status__c == "Ready to Screen") {
       if (
         this.participantrecord.Informed_Consent__c &&
@@ -1736,30 +1746,30 @@ changeInputValue(event) {
       }
     }
     if (this.participantrecord.Participant_Status__c == "Declined Final Consent") {
-          this.participantrecord.Final_consent__c = false;
+      this.participantrecord.Final_consent__c = false;
     }
-    
-    if(this.participantrecord.Participant_Status__c == "Withdrew Consent" && this.participantrecord.Initial_visit_occurred_flag__c==true){
-      this.participantrecord.Informed_Consent__c=false;
+
+    if (this.participantrecord.Participant_Status__c == "Withdrew Consent" && this.participantrecord.Initial_visit_occurred_flag__c == true) {
+      this.participantrecord.Informed_Consent__c = false;
     }
-   
-    if(this.participantrecord.Clinical_Trial_Profile__r.Initial_Visit_Required__c){
-      if( this.participantrecord.Succesfully_Re_Engaged__c==true  &&
-     ( (this.participantrecord.Participant_Status__c == "Successfully Contacted" ||
-       this.pe_record.Participant_Status__c=="Successfully Contacted") 
-      || 
-      (this.participantrecord.Participant_Status__c=='Eligibility Passed' || 
-      this.pe_record.Participant_Status__c=='Eligibility Passed'))
-      &&
-      this.participantrecord.Initial_visit_scheduled_date__c!=null &&
-      this.participantrecord.Initial_visit_scheduled_time__c!=null
-     ){
-      this.participantrecord.Succesfully_Re_Engaged__c = false;
+
+    if (this.participantrecord.Clinical_Trial_Profile__r.Initial_Visit_Required__c) {
+      if (this.participantrecord.Succesfully_Re_Engaged__c == true &&
+        ((this.participantrecord.Participant_Status__c == "Successfully Contacted" ||
+          this.pe_record.Participant_Status__c == "Successfully Contacted")
+          ||
+          (this.participantrecord.Participant_Status__c == 'Eligibility Passed' ||
+            this.pe_record.Participant_Status__c == 'Eligibility Passed'))
+        &&
+        this.participantrecord.Initial_visit_scheduled_date__c != null &&
+        this.participantrecord.Initial_visit_scheduled_time__c != null
+      ) {
+        this.participantrecord.Succesfully_Re_Engaged__c = false;
       }
     }
-    
+
     let outcome = this.selectedOutcome;
-    
+
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
     //let tdyDt = this.todaydate();
     let tdyDt = this.currentuserdate;
@@ -1767,27 +1777,27 @@ changeInputValue(event) {
       this.showErrorToast(this.label.PIR_Initial_Visit_Validation);
     } else {
       let visitPln = 'null';
-      if(this.participantrecord.Visit_Plan__c){
+      if (this.participantrecord.Visit_Plan__c) {
         visitPln = this.participantrecord.Visit_Plan__c;
       }
-      if(this.pe_record.Participant_Status__c == 'Ready to Screen' && this.participantrecord.Participant_Status__c == 'Ready to Screen'){
-         delete this.participantrecord.Participant_Status__c;
+      if (this.pe_record.Participant_Status__c == 'Ready to Screen' && this.participantrecord.Participant_Status__c == 'Ready to Screen') {
+        delete this.participantrecord.Participant_Status__c;
       }
       const selectedEvent = new CustomEvent("recordsave", {});
       this.dispatchEvent(selectedEvent);
-      
-      if(this.participantrecord.ParticipantNoShow__c  && this.participantrecord.Participant_Status__c != 'Participant No Show'){
+
+      if (this.participantrecord.ParticipantNoShow__c && this.participantrecord.Participant_Status__c != 'Participant No Show') {
         this.participantrecord.Participant_Status__c = 'Participant No Show';
         delete this.participantrecord.Non_Enrollment_Reason__c;
       }
-      
-      doSaveStatusDetails({ perRecord: this.participantrecord,perRec:this.participantRec, visitPlan : visitPln })
+
+      doSaveStatusDetails({ perRecord: this.participantrecord, perRec: this.participantRec, visitPlan: visitPln })
         .then((result) => {
           this.showSuccessToast(this.label.RH_RP_Record_Saved_Successfully);
           const selectedEvent = new CustomEvent("saved", {});
           this.dispatchEvent(selectedEvent);
-          if (outcome == "Eligibility_Passed"|| this.participantrecord.Participant_Status__c == "Ready to Screen" ||
-          this.participantrecord.Participant_Status__c == "Participant No Show") {
+          if (outcome == "Eligibility_Passed" || this.participantrecord.Participant_Status__c == "Ready to Screen" ||
+            this.participantrecord.Participant_Status__c == "Participant No Show") {
             const selectEventHeader = new CustomEvent(
               "callparticipantstatusdetail",
               {}
@@ -1832,78 +1842,78 @@ changeInputValue(event) {
     });
     this.dispatchEvent(evt);
   }
-  handleTelevisitCheckboxChange(event){
+  handleTelevisitCheckboxChange(event) {
     this.addTelevisitForInitialVisit = event.target.checked;
-    if(event.target.name === 'televisitCheckbox')
+    if (event.target.name === 'televisitCheckbox')
       this.participantrecord.Add_televisit_for_Initial_Visit__c = this.template.querySelector('[data-value="televisitCheckbox"]').checked;
-    if(event.target.name === 'televisitCheckbox2')
+    if (event.target.name === 'televisitCheckbox2')
       this.participantrecord.Add_televisit_for_Initial_Visit__c = this.template.querySelector('[data-value="televisitCheckbox2"]').checked;
   }
-  validateTelevisitVisibility(){
+  validateTelevisitVisibility() {
     var initialVisitDateValue = this.template.querySelector('[data-value="InitialVisitDate"]').value;
     var initialVisitTimeValue = this.template.querySelector('[data-value="InitialVisitTime"]').value;
-    var today = new Date().toLocaleString('sv-SE', { timeZone: TIME_ZONE }).slice(0,10);
+    var today = new Date().toLocaleString('sv-SE', { timeZone: TIME_ZONE }).slice(0, 10);
     var currentTime = new Date().toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
     //initialVisitTimeValue = this.getTwentyFourHourTime(initialVisitTimeValue);
     currentTime = this.getTwentyFourHourTime(currentTime);
     var oldValue = this.pe_record.Add_televisit_for_Initial_Visit__c;
     //!this.template.querySelector('[data-value="televisitCheckbox"]').checked
-    if(oldValue){
+    if (oldValue) {
       this.disableTelevisitCheckbox = true;
-    }else if(this.selectedOutcome === 'Successfully_Contacted' && 
-      initialVisitDateValue != null && 
-      initialVisitDateValue != undefined && 
+    } else if (this.selectedOutcome === 'Successfully_Contacted' &&
+      initialVisitDateValue != null &&
+      initialVisitDateValue != undefined &&
       initialVisitDateValue != '' &&
-      initialVisitTimeValue != null && 
-      initialVisitTimeValue != undefined && 
-      initialVisitTimeValue != ''){
-        if(today < initialVisitDateValue){
-          this.disableTelevisitCheckbox = false;
-        }else if(today == initialVisitDateValue && currentTime <=initialVisitTimeValue ){
-          this.disableTelevisitCheckbox = false;
-        }else{
-          if(this.checkContactStatus){
-            this.template.querySelector('[data-value="televisitCheckbox"]').checked = false;
-            this.participantrecord.Add_televisit_for_Initial_Visit__c = this.template.querySelector('[data-value="televisitCheckbox"]').checked;
-            this.addTelevisitForInitialVisit = false;
-          }
-          this.disableTelevisitCheckbox = true;
+      initialVisitTimeValue != null &&
+      initialVisitTimeValue != undefined &&
+      initialVisitTimeValue != '') {
+      if (today < initialVisitDateValue) {
+        this.disableTelevisitCheckbox = false;
+      } else if (today == initialVisitDateValue && currentTime <= initialVisitTimeValue) {
+        this.disableTelevisitCheckbox = false;
+      } else {
+        if (this.checkContactStatus) {
+          this.template.querySelector('[data-value="televisitCheckbox"]').checked = false;
+          this.participantrecord.Add_televisit_for_Initial_Visit__c = this.template.querySelector('[data-value="televisitCheckbox"]').checked;
+          this.addTelevisitForInitialVisit = false;
         }
+        this.disableTelevisitCheckbox = true;
+      }
 
-        
-    }else{
+
+    } else {
       //if(this.checkContactStatus){
-        if(this.template.querySelector('[data-value="televisitCheckbox"]') !== null){
-          this.template.querySelector('[data-value="televisitCheckbox"]').checked = oldValue;
-          this.participantrecord.Add_televisit_for_Initial_Visit__c = oldValue;
-          this.addTelevisitForInitialVisit = oldValue;
-        }
+      if (this.template.querySelector('[data-value="televisitCheckbox"]') !== null) {
+        this.template.querySelector('[data-value="televisitCheckbox"]').checked = oldValue;
+        this.participantrecord.Add_televisit_for_Initial_Visit__c = oldValue;
+        this.addTelevisitForInitialVisit = oldValue;
+      }
       //}      
       this.disableTelevisitCheckbox = true;
     }
   }
-  validateTelevisitVisibility2(){
+  validateTelevisitVisibility2() {
     var initialVisitDateValue;
     var initialVisitTimeValue;
-    if(this.template.querySelector('[data-value="InitialVisitDate"]') !== null){
+    if (this.template.querySelector('[data-value="InitialVisitDate"]') !== null) {
       initialVisitDateValue = this.template.querySelector('[data-value="InitialVisitDate"]').value;
     }
-    if(this.template.querySelector('[data-value="InitialVisitTime"]') !== null){
+    if (this.template.querySelector('[data-value="InitialVisitTime"]') !== null) {
       initialVisitTimeValue = this.template.querySelector('[data-value="InitialVisitTime"]').value;
     }
-    var today = new Date().toLocaleString('sv-SE', { timeZone: TIME_ZONE }).slice(0,10);
+    var today = new Date().toLocaleString('sv-SE', { timeZone: TIME_ZONE }).slice(0, 10);
     var currentTime = new Date().toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
     currentTime = this.getTwentyFourHourTime(currentTime);
-      
+
     var oldValue = this.pe_record.Add_televisit_for_Initial_Visit__c;
-    if(oldValue){
+    if (oldValue) {
       this.disableTelevisitCheckbox2 = true;
-    }else if(today < initialVisitDateValue){
+    } else if (today < initialVisitDateValue) {
       this.disableTelevisitCheckbox2 = false;
-    }else if(today == initialVisitDateValue && currentTime <=initialVisitTimeValue ){
+    } else if (today == initialVisitDateValue && currentTime <= initialVisitTimeValue) {
       this.disableTelevisitCheckbox2 = false;
-    }else{
-      if(this.template.querySelector('[data-value="televisitCheckbox2"]')!== null){
+    } else {
+      if (this.template.querySelector('[data-value="televisitCheckbox2"]') !== null) {
         this.template.querySelector('[data-value="televisitCheckbox2"]').checked = oldValue;
         this.participantrecord.Add_televisit_for_Initial_Visit__c = oldValue;
         this.addTelevisitForInitialVisit = oldValue;
@@ -1911,30 +1921,30 @@ changeInputValue(event) {
       this.disableTelevisitCheckbox2 = true;
     }
 
-}
+  }
 
-  handleTelevisitCloseModal(){
+  handleTelevisitCloseModal() {
     this.isTelevisitModalOpen = false;
     this.proceedSaveRecord = false;
     this.disableInitialVisitCheckbox = false;
   }
-  proceedTelevisitSave(){
+  proceedTelevisitSave() {
     this.isTelevisitModalOpen = false;
     this.proceedSaveRecord = true;
     this.getSaved();
   }
-  handleTelevisitOpenModal(){
+  handleTelevisitOpenModal() {
     this.isTelevisitModalOpen = true;
   }
-  getTwentyFourHourTime(amPmString) { 
-    var d = new Date("1/1/2013 " + amPmString); 
+  getTwentyFourHourTime(amPmString) {
+    var d = new Date("1/1/2013 " + amPmString);
     let h = d.getHours();
     let m = d.getMinutes();
     h = h < 10 ? '0' + h : h;
     m = m < 10 ? '0' + m : m;
-    return h + ':' + m + ':00.000'; 
+    return h + ':' + m + ':00.000';
   }
   get dobErr() {
-    return ((this.selectedOutcome=='PE_STATUS_ENROLLMENT_SUCCESS' ||  this.selectedOutcome=='Randomization_Success') && !this.pe_record.Is_Participant_DOB_Valid__c);
+    return ((this.selectedOutcome == 'PE_STATUS_ENROLLMENT_SUCCESS' || this.selectedOutcome == 'Randomization_Success') && !this.pe_record.Is_Participant_DOB_Valid__c);
   }
 }
