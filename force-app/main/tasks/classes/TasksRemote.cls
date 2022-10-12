@@ -231,12 +231,12 @@ public without sharing class TasksRemote {
         return finalSortedTasksList;
     }
     public static List<Task> processSorting(List<Task> tasksList) {
-        Map<Date, List<Task>> tasksWithDue = new Map<Date, List<Task>>();
-        Map<Date, List<Task>> taskswithStartDate = new Map<Date, List<Task>>();
-        Map<Date, List<Task>> taskswithCreationDate = new Map<Date, List<Task>>();
-        Map<Date, List<Task>> taskswithCriticalTaskswithDueDate = new Map<Date, List<Task>>();
-        Map<Date, List<Task>> taskswithCriticalTaskswithStartDate = new Map<Date, List<Task>>();
-        Map<Date, List<Task>> taskswithCriticalTaskswithCreatedDate = new Map<Date, List<Task>>();
+        Map<Datetime, List<Task>> tasksWithDue = new Map<Datetime, List<Task>>();
+        Map<Datetime, List<Task>> taskswithStartDate = new Map<Datetime, List<Task>>();
+        Map<Datetime, List<Task>> taskswithCreationDate = new Map<Datetime, List<Task>>();
+        Map<Datetime, List<Task>> taskswithCriticalTaskswithDueDate = new Map<Datetime, List<Task>>();
+        Map<Datetime, List<Task>> taskswithCriticalTaskswithStartDate = new Map<Datetime, List<Task>>();
+        Map<Datetime, List<Task>> taskswithCriticalTaskswithCreatedDate = new Map<Datetime, List<Task>>();
         List<String> taskCodeList = new List<String>{
             'Complete_Survey',
             'Complete_Your_Profile',
@@ -250,80 +250,77 @@ public without sharing class TasksRemote {
             }
             if (taskObj.Activity_Datetime__c != null) {
                 if (
-                    (tasksWithDue.keySet().contains(taskObj.Activity_Datetime__c.date()) &&
+                    (tasksWithDue.keySet().contains(taskObj.Activity_Datetime__c) &&
                     taskObj.Priority != 'Critical') ||
                     (taskObj.Priority == 'Critical' &&
                     taskswithCriticalTaskswithDueDate.keySet()
-                        .contains(taskObj.Activity_Datetime__c.date()))
+                        .contains(taskObj.Activity_Datetime__c))
                 ) {
                     if (taskObj.Priority == 'Critical') {
-                        taskswithCriticalTaskswithDueDate.get(taskObj.Activity_Datetime__c.date())
+                        taskswithCriticalTaskswithDueDate.get(taskObj.Activity_Datetime__c)
                             .add(taskObj);
                     } else {
-                        tasksWithDue.get(taskObj.Activity_Datetime__c.date()).add(taskObj);
+                        tasksWithDue.get(taskObj.Activity_Datetime__c).add(taskObj);
                     }
                 } else {
                     if (taskObj.Priority == 'Critical') {
                         taskswithCriticalTaskswithDueDate.put(
-                            taskObj.Activity_Datetime__c.date(),
+                            taskObj.Activity_Datetime__c,
                             new List<Task>{ taskObj }
                         );
                     } else {
-                        tasksWithDue.put(
-                            taskObj.Activity_Datetime__c.date(),
-                            new List<Task>{ taskObj }
-                        );
+                        tasksWithDue.put(taskObj.Activity_Datetime__c, new List<Task>{ taskObj });
                     }
                 }
             }
             if (taskObj.Activity_Datetime__c == null && taskObj.Start_Date__c != null) {
                 if (
-                    (taskswithStartDate.keySet().contains(taskObj.Start_Date__c) &&
+                    (taskswithStartDate.keySet().contains((Datetime) taskObj.Start_Date__c) &&
                     taskObj.Priority != 'Critical') ||
                     (taskObj.Priority == 'Critical' &&
-                    taskswithCriticalTaskswithStartDate.keySet().contains(taskObj.Start_Date__c))
+                    taskswithCriticalTaskswithStartDate.keySet()
+                        .contains((Datetime) taskObj.Start_Date__c))
                 ) {
                     if (taskObj.Priority == 'Critical') {
-                        taskswithCriticalTaskswithStartDate.get(taskObj.Start_Date__c).add(taskObj);
+                        taskswithCriticalTaskswithStartDate.get((Datetime) taskObj.Start_Date__c)
+                            .add(taskObj);
                     } else {
-                        taskswithStartDate.get(taskObj.Start_Date__c).add(taskObj);
+                        taskswithStartDate.get((Datetime) taskObj.Start_Date__c).add(taskObj);
                     }
                 } else {
                     if (taskObj.Priority == 'Critical') {
                         taskswithCriticalTaskswithStartDate.put(
-                            taskObj.Start_Date__c,
+                            (Datetime) taskObj.Start_Date__c,
                             new List<Task>{ taskObj }
                         );
                     } else {
-                        taskswithStartDate.put(taskObj.Start_Date__c, new List<Task>{ taskObj });
+                        taskswithStartDate.put(
+                            (Datetime) taskObj.Start_Date__c,
+                            new List<Task>{ taskObj }
+                        );
                     }
                 }
             }
             if (taskObj.Activity_Datetime__c == null && taskObj.Start_Date__c == null) {
                 if (
-                    (taskswithCreationDate.keySet().contains(taskObj.CreatedDate.date()) &&
+                    (taskswithCreationDate.keySet().contains(taskObj.CreatedDate) &&
                     taskObj.Priority != 'Critical') ||
                     (taskObj.Priority == 'Critical' &&
-                    taskswithCriticalTaskswithCreatedDate.keySet()
-                        .contains(taskObj.CreatedDate.date()))
+                    taskswithCriticalTaskswithCreatedDate.keySet().contains(taskObj.CreatedDate))
                 ) {
                     if (taskObj.Priority == 'Critical') {
-                        taskswithCriticalTaskswithCreatedDate.get(taskObj.CreatedDate.date())
-                            .add(taskObj);
+                        taskswithCriticalTaskswithCreatedDate.get(taskObj.CreatedDate).add(taskObj);
                     } else {
-                        taskswithCreationDate.get(taskObj.CreatedDate.date()).add(taskObj);
+                        taskswithCreationDate.get(taskObj.CreatedDate).add(taskObj);
                     }
                 } else {
                     if (taskObj.Priority == 'Critical') {
                         taskswithCriticalTaskswithCreatedDate.put(
-                            taskObj.CreatedDate.date(),
+                            taskObj.CreatedDate,
                             new List<Task>{ taskObj }
                         );
                     } else {
-                        taskswithCreationDate.put(
-                            taskObj.CreatedDate.date(),
-                            new List<Task>{ taskObj }
-                        );
+                        taskswithCreationDate.put(taskObj.CreatedDate, new List<Task>{ taskObj });
                     }
                 }
             }
@@ -338,8 +335,8 @@ public without sharing class TasksRemote {
         System.debug(sortedTasksList);
         return sortedTasksList;
     }
-    public static List<Task> sortListOrderbyDesc(Map<Date, List<Task>> tasksDateListMap) {
-        List<Date> dateslist = new List<Date>();
+    public static List<Task> sortListOrderbyDesc(Map<Datetime, List<Task>> tasksDateListMap) {
+        List<Datetime> dateslist = new List<Datetime>();
         List<Task> tasksList = new List<Task>();
         dateslist.addAll(tasksDateListMap.keySet());
         dateslist.sort();
@@ -348,12 +345,12 @@ public without sharing class TasksRemote {
         }
         return tasksList;
     }
-    public static List<Task> sortListOrderbyAsc(Map<Date, List<Task>> tasksDateListMap) {
-        List<Date> dateslist = new List<Date>();
+    public static List<Task> sortListOrderbyAsc(Map<Datetime, List<Task>> tasksDateListMap) {
+        List<Datetime> dateslist = new List<Datetime>();
         List<Task> tasksList = new List<Task>();
         dateslist.addAll(tasksDateListMap.keySet());
         dateslist.sort();
-        for (Date dt : dateslist) {
+        for (Datetime dt : dateslist) {
             tasksList.addAll(tasksDateListMap.get(dt));
         }
         return tasksList;
