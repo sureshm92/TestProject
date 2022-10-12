@@ -8,7 +8,7 @@
         <apexClass>MedicalHistryTabController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
+    <classAccesses>
         <apexClass>rpPatientOutreachController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -16,8 +16,8 @@
         <apexClass>StudySiteInformationController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-   <classAccesses>
-	    <apexClass>AccountSettingsController</apexClass>
+    <classAccesses>
+        <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -620,7 +620,7 @@
         <apexClass>DashboardRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-	<classAccesses>
+    <classAccesses>
         <apexClass>DashboardRemoteNew</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -924,7 +924,7 @@
         <apexClass>IntegrationPatientRefCovidTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    
+
     <classAccesses>
         <apexClass>IntegrationPatientTriggerHandler</apexClass>
         <enabled>true</enabled>
@@ -1009,7 +1009,7 @@
         <apexClass>LightningSelfRegisterControllerTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-	<classAccesses>
+    <classAccesses>
         <apexClass>ListViewParticipantController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1045,7 +1045,7 @@
         <apexClass>MediaOutreachServices</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
+    <classAccesses>
         <apexClass>MedicalHistoryViewController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1273,7 +1273,7 @@
         <apexClass>ParticipantItem</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
+    <classAccesses>
         <apexClass>ParticipantParagraphController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1757,7 +1757,7 @@
         <apexClass>StudySiteItem</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
+    <classAccesses>
         <apexClass>StudySiteCountryWarning</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1780,7 +1780,7 @@
     <classAccesses>
         <apexClass>StudySiteItemRemote</apexClass>
         <enabled>true</enabled>
-    </classAccesses> 
+    </classAccesses>
     <classAccesses>
         <apexClass>StudySiteVisitConfigRemote</apexClass>
         <enabled>true</enabled>
@@ -2106,7 +2106,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>User.IsCommunityUserRegistered__c</field>
         <readable>true</readable>
@@ -2481,11 +2481,11 @@
         <field>Clinical_Trial_Profile__c.Block_Outreach__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+    <!--<fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Brief_Summary__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions>-->
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Chart_Review__c</field>
@@ -5890,12 +5890,12 @@
         <editable>true</editable>
         <field>Participant_Enrollment__c.Pre_Screener_Completed_by__c</field>
         <readable>true</readable>
-    </fieldPermissions>     
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Pre_Screener_Survey_Response__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Participant_Opt_In_Status_Emails__c</field>
@@ -6736,7 +6736,7 @@
         <field>Patient_Delegate__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    
+
     <fieldPermissions>
         <editable>false</editable>
         <field>Site_Staff__c.Clinical_Trial_Profile__c</field>
@@ -8052,7 +8052,7 @@
         <tab>Participant_Enrollment_Status_History__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
-    
+
     <tabVisibilities>
         <tab>Participant_Enrollment__c</tab>
         <visibility>Hidden</visibility>

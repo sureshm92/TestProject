@@ -2,14 +2,13 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Brief_Summary__c</fullName>
     <description>Summary of Title</description>
-    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
-    <inlineHelpText>This field should map to the &quot;Objective&quot; field in clinicaltrials.gov</inlineHelpText>
+    <inlineHelpText>This field should map to the &apos;Objective&apos; field in clinicaltrails.gov</inlineHelpText>
     <label>Brief Summary</label>
     <length>32768</length>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>LongTextArea</type>
-    <visibleLines>3</visibleLines>
+    <type>Html</type>
+    <visibleLines>10</visibleLines>
 </CustomField>

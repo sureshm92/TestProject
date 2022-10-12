@@ -20,11 +20,11 @@
         <field>Clinical_Trial_Profile__c.Block_Outreach__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+    <!--<fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Brief_Summary__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions>-->
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Chart_Review__c</field>
