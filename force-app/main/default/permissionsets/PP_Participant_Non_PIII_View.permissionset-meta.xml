@@ -5,11 +5,11 @@
         <field>Clinical_Trial_Profile__c.Age__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+    <!--<fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Brief_Summary__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions> -->
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Chart_Review__c</field>
@@ -674,7 +674,7 @@
         <editable>true</editable>
         <field>Participant_Enrollment__c.Last_Status_Changed_Additional_Notes__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.MRN_Id__c</field>
@@ -834,7 +834,7 @@
         <editable>false</editable>
         <field>Participant_Enrollment__c.Pre_Screener_Completed_by__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Randomized_Date__c</field>
