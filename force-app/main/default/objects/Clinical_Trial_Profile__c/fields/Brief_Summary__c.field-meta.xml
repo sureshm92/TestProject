@@ -4,7 +4,7 @@
     <description>Summary of Title</description>
     <externalId>false</externalId>
     <inlineHelpText>This field should map to the &apos;Objective&apos; field in clinicaltrails.gov</inlineHelpText>
-    <label>Brief Summary</label>
+    <label>Objective</label>
     <length>32768</length>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
