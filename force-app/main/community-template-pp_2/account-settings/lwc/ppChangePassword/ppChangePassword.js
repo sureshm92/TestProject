@@ -172,6 +172,16 @@ export default class PpChangePassword extends LightningElement {
         return this.showReNewPassword ? 'utility:preview' : 'utility:hide';
     }
 
+    get currentPasswordEyeIconTitle() {
+        return this.showCurrentPassword ? 'Hide' : 'Show';
+    }
+    get newCurrentPasswordEyeIconTitle() {
+        return this.showNewPassword ? 'Hide' : 'Show';
+    }
+    get reNewCurrentPasswordEyeIconTitle() {
+        return this.showReNewPassword ? 'Hide' : 'Show';
+    }
+
     get checkIcon() {
         return 'check';
     }
@@ -392,8 +402,10 @@ export default class PpChangePassword extends LightningElement {
             .catch((error) => {
                 let errorMessage = error.body.message.split('\n')[0];
                 console.log('error message' + error + errorMessage);
-             errorMessage == TST_Your_current_password_is_invalid ?  this.incorrectOldPassword = true : this.incorrectOldPassword = false;
-                   
+                errorMessage == TST_Your_current_password_is_invalid
+                    ? (this.incorrectOldPassword = true)
+                    : (this.incorrectOldPassword = false);
+
                 communityService.showToast('', 'error', errorMessage, 100);
                 this.validateOldPassword();
                 this.spinner.hide();

@@ -40,7 +40,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
         'Sponsor_Pays_for_Referral_Activity__c',
         'Override_Inclusion_Criteria__c',
         'Override_Description__c',
-        'Brief_Summary__c',
+        //'Brief_Summary__c',
         'Therapeutic_Area__r.Name',
         'NCT_Number__c'
     };
@@ -86,7 +86,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
         'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
         'Clinical_Trial_Profile__r.Orientation_Required__c',
         'Clinical_Trial_Profile__r.Include_in_patient_trial_search__c',
-        'Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',    
+        'Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
         'Principal_Investigator__r.Name',
         'Principal_Investigator__r.FirstName',
         'Principal_Investigator__r.LastName',
@@ -278,10 +278,12 @@ public without sharing class PIStudiesFilter implements SearchFilter {
             List<Study_Site__c> studySites = filterStudySitesByCurrentCommunity(
                 StudySiteService.getStudySitesForPI()
             );
-            for(Study_Site__c site : studySites){
+            for (Study_Site__c site : studySites) {
                 piHavingPartIds.add(site.Principal_Investigator__c);
             }
-            Map<Id,Participant__c> piPartDetails = StudyListViewController.getPIParticipantDetails(piHavingPartIds);
+            Map<Id, Participant__c> piPartDetails = StudyListViewController.getPIParticipantDetails(
+                piHavingPartIds
+            );
             for (Study_Site__c site : studySites) {
                 if (!piIds.contains(site.Principal_Investigator__c)) {
                     if (site.Principal_Investigator__c == CommunityService.getUserContact().Id) {
@@ -291,7 +293,9 @@ public without sharing class PIStudiesFilter implements SearchFilter {
                     } else {
                         PIPickList.add(
                             new LabelValueItem(
-                                piPartDetails.containsKey(site.Principal_Investigator__c)?piPartDetails.get(site.Principal_Investigator__c).Full_Name__c:site.Principal_Investigator__r.Full_Name__c,
+                                piPartDetails.containsKey(site.Principal_Investigator__c)
+                                    ? piPartDetails.get(site.Principal_Investigator__c).Full_Name__c
+                                    : site.Principal_Investigator__r.Full_Name__c,
                                 site.Principal_Investigator__c
                             )
                         );
