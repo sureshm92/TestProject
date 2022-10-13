@@ -155,6 +155,18 @@ export default class PpCreateTaskReminder extends LightningElement {
             ('0' + (currentDateTimeObject.getMonth() + 1)).slice(-2),
             ('0' + currentDateTimeObject.getDate()).slice(-2)
         ].join('-');
+        let hh = String(
+            (currentDateTimeObject.getHours() < 10 ? '0' : '') + currentDateTimeObject.getHours()
+        );
+        let mm = String(
+            (currentDateTimeObject.getMinutes() < 10 ? '0' : '') +
+                currentDateTimeObject.getMinutes()
+        );
+        let ss = String(
+            (currentDateTimeObject.getSeconds() < 10 ? '0' : '') +
+                currentDateTimeObject.getSeconds()
+        );
+        this.currentTime = hh + ':' + mm + ':' + ss;
         return this.selectedReminderDate == currentDateTimeString ? this.currentTime : null;
     }
 
