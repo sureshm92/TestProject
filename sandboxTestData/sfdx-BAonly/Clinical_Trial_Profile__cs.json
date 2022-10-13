@@ -5,7 +5,7 @@
                 "type": "Clinical_Trial_Profile__c",
                 "referenceId": "Clinical_Trial_Profile__cRef2"
             },
-          //  "Brief_Summary__c": "This is pulling from the brief summary field.",
+            "Brief_Summary__c": "This is pulling from the brief summary field.",
             "Currency_for_Below_Amounts__c": "USD",
             "Has_Data_Monitoring_Committee__c": false,
             "NCT_Number__c": "NCT03953333",
