@@ -110,9 +110,9 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
             ) {
                 ctp.Override_Recruitment_Status__c = 'On Hold';
             }
-            if (ctp.Detailed_Description__c != null && ctp.Override_Description__c == null) {
+            /*if (ctp.Detailed_Description__c != null && ctp.Override_Description__c == null) {
                 ctp.Override_Description__c = ctp.Detailed_Description__c;
-            }
+            }*/
         }
     }
 
@@ -429,7 +429,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
             Batch_CreatePreEnrollVistsForExtngPERs objBatch = new Batch_CreatePreEnrollVistsForExtngPERs(
                 ctpIds
             );
-            Database.executeBatch(objBatch, 50); 
+            Database.executeBatch(objBatch, 50);
         }
     }
 }
