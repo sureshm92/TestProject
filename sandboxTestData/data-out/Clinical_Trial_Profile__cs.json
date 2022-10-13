@@ -5,7 +5,7 @@
                 "type": "Clinical_Trial_Profile__c",
                 "referenceId": "Clinical_Trial_Profile__cRef1"
             },
-            "Brief_Summary__c": "Brief Summary",
+           // "Brief_Summary__c": "Brief Summary",
             "Currency_for_Below_Amounts__c": "USD",
             "Has_Data_Monitoring_Committee__c": false,
             "Link_to_Medical_Record_Review__c": "https://www.surveygizmo.com/s3/4770553/ReferralHub-MRR-Test",
@@ -30,7 +30,7 @@
                 "type": "Clinical_Trial_Profile__c",
                 "referenceId": "Clinical_Trial_Profile__cRef2"
             },
-            "Brief_Summary__c": "The primary objective of the study is to determine whether pemafibrate administered twice\r\n      daily will delay the time to first occurrence of any component of the clinical composite\r\n      endpoint of:\r\n\r\n        -  nonfatal Myocardial Infarction (MI)\r\n\r\n        -  nonfatal ischemic stroke\r\n\r\n        -  hospitalization for unstable angina requiring unplanned coronary revascularization; or\r\n\r\n        -  Cardio Vascular (CV) death.",
+          //  "Brief_Summary__c": "The primary objective of the study is to determine whether pemafibrate administered twice\r\n      daily will delay the time to first occurrence of any component of the clinical composite\r\n      endpoint of:\r\n\r\n        -  nonfatal Myocardial Infarction (MI)\r\n\r\n        -  nonfatal ischemic stroke\r\n\r\n        -  hospitalization for unstable angina requiring unplanned coronary revascularization; or\r\n\r\n        -  Cardio Vascular (CV) death.",
             "Condition_s_Therapeutic_Area__c": "Endocrinology",
             "Currency_for_Below_Amounts__c": "USD",
             "Detailed_Description__c": "A multi-regional clinical trial with participating sites planned in the following countries\r\n      pending approval from the applicable oversight authorities:\r\n\r\n        -  Argentina\r\n\r\n        -  Brazil\r\n\r\n        -  Bulgaria\r\n\r\n        -  Canada\r\n\r\n        -  Colombia\r\n\r\n        -  Czech Republic\r\n\r\n        -  Denmark\r\n\r\n        -  France\r\n\r\n        -  Germany\r\n\r\n        -  Hungary\r\n\r\n        -  India\r\n\r\n        -  Israel\r\n\r\n        -  Japan\r\n\r\n        -  Mexico\r\n\r\n        -  Netherlands\r\n\r\n        -  Poland\r\n\r\n        -  Romania\r\n\r\n        -  Russian Federation\r\n\r\n        -  Slovakia\r\n\r\n        -  South Africa\r\n\r\n        -  Spain\r\n\r\n        -  Ukraine\r\n\r\n        -  United Kingdom\r\n\r\n        -  United States",
@@ -72,7 +72,7 @@
                 "type": "Clinical_Trial_Profile__c",
                 "referenceId": "Clinical_Trial_Profile__cRef3"
             },
-            "Brief_Summary__c": "A Randomized, Double-Blind, Parallel-Group, Placebo- and Active-Controlled, Multicenter Phase III Study of the Efficacy and Safety of Olokizumab in Subjects With Moderately to Severely Active Rheumatoid Arthritis Inadequately Controlled by Methotrexate Therapy",
+           // "Brief_Summary__c": "A Randomized, Double-Blind, Parallel-Group, Placebo- and Active-Controlled, Multicenter Phase III Study of the Efficacy and Safety of Olokizumab in Subjects With Moderately to Severely Active Rheumatoid Arthritis Inadequately Controlled by Methotrexate Therapy",
             "Currency_for_Below_Amounts__c": "USD",
             "Has_Data_Monitoring_Committee__c": false,
             "Link_to_Medical_Record_Review__c": "https://www.surveygizmo.com/s3/4303141/rocket-referral-medical-review",
@@ -99,7 +99,7 @@
                 "type": "Clinical_Trial_Profile__c",
                 "referenceId": "Clinical_Trial_Profile__cRef4"
             },
-            "Brief_Summary__c": "Testing this information displays on the Study Card and pulling from brief summary field.",
+           // "Brief_Summary__c": "Testing this information displays on the Study Card and pulling from brief summary field.",
             "Currency_for_Below_Amounts__c": "USD",
             "Has_Data_Monitoring_Committee__c": false,
             "NCT_Number__c": "NCT03044249",
