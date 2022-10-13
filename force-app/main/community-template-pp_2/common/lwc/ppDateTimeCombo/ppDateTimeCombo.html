@@ -71,8 +71,8 @@
                         onchange={handleTime}
                         disabled={timeOnlyPresent}
                         placeholder={label.timePlaceHolder}
-                        onkeyup={handleKeyEvent}
-                        onkeydown={handleKeyEvent}
+                        message-when-bad-input="Invalid Entry"
+                        message-when-pattern-mismatch="Invalid Entry"
                     >
                     </lightning-input>
                 </div>
