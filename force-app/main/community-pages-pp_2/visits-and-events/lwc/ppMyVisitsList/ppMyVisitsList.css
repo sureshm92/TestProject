@@ -24,7 +24,7 @@
 
 .icon-cont {
     box-sizing: border-box;
-    min-height: 185px;
+    height: 185px;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
@@ -391,10 +391,9 @@ a {
 
 @media all and (max-width: 486px) {
     .my-visits {
-        margin: 2px 0 16px 0;
-        font-size: 1.5rem;
+        margin-left: 0;
     }
-    
+
     .slds-p-horizontal_x-large > .slds-size_1-of-1 {
         padding-inline: 0.25rem;
     }

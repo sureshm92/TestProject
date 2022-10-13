@@ -195,6 +195,7 @@ export default class PpCreateTask extends LightningElement {
         this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
     }
     doCreateTask() {
+        this.spinner.show();
         this.task.Subject = this.subject;
         if (!this.isReminderSelected) {
             this.task.Subject = this.subject;
@@ -203,6 +204,7 @@ export default class PpCreateTask extends LightningElement {
                 paramTask: JSON.stringify(this.task)
             })
                 .then((result) => {
+                    this.spinner.hide();
                     this.enableSave = false;
                     communityService.showToast('', 'success', taskCreationSuccess, 100);
                     const taskCloseEvent = new CustomEvent('taskclose', {
@@ -225,6 +227,7 @@ export default class PpCreateTask extends LightningElement {
                 paramTask: JSON.stringify(this.task)
             })
                 .then((result) => {
+                    this.spinner.hide();
                     this.enableSave = false;
                     communityService.showToast('', 'success', taskCreationSuccess, 100);
                     const taskCloseEvent = new CustomEvent('taskclose', {
@@ -239,6 +242,7 @@ export default class PpCreateTask extends LightningElement {
                 });
         } else {
             communityService.showToast('', 'error', this.labels.REMIND_USING_REQUIRED, 100);
+            this.spinner.hide();
         }
     }
     handleCancelTask() {
