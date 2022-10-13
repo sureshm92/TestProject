@@ -142,10 +142,12 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   maindivcls;
   isLanguageSelected = false;
   dtimeToidentifyTheRecord ;
+  currentPageReference;
 
   @wire(CurrentPageReference) 
   getStateParameters(currentPageReference) {
-     if (currentPageReference) {
+     if (currentPageReference) {       
+      this.currentPageReference = currentPageReference;
         this.urlStateParameters = currentPageReference.state;
         this.setParametersBasedOnUrl();
      }
@@ -154,7 +156,22 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.dtimeToidentifyTheRecord = this.urlStateParameters.dTime || null;
     console.log('urlPerName',this.dtimeToidentifyTheRecord);
   }
-  
+  get newPageReference() {
+    return Object.assign({}, this.currentPageReference, {
+        state: Object.assign({}, this.currentPageReference.state, this.newPageReferenceUrlParams)
+    });
+  }
+  get newPageReferenceUrlParams() {
+    return {
+        dTime: 'false'
+    };
+  }
+  navigateToNewPage() {
+    this[NavigationMixin.Navigate](
+        this.newPageReference,
+        true 
+    );
+  }  
   connectedCallback() {
     if(!this.isLanguageSelected) {
       getUserLanguage() 
@@ -247,7 +264,8 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
 
   selectedPI(event) {
     if(this.dtimeToidentifyTheRecord == 'true'){
-    this.handleTelevisitTab();
+      this.handleTelevisitTab();
+      this.navigateToNewPage();
     }
     this.selectedPE = event.detail;
     this.isMedicalHistryAccess = true;
