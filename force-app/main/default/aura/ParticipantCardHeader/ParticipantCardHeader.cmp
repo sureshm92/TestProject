@@ -47,7 +47,7 @@
                         </div>
                         <div class="objective-section">
                             <div class="objective-text">
-                               <!-- {!v.pe.Clinical_Trial_Profile__r.Brief_Summary__c}-->
+                                {!v.pe.Clinical_Trial_Profile__r.Brief_Summary__c}
                             </div>
                         </div>
                         <aura:set attribute="else">

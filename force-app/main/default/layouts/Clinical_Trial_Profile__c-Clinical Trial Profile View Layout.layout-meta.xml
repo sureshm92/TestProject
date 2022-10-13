@@ -66,10 +66,10 @@
                 <behavior>Edit</behavior>
                 <field>Official_Title__c</field>
             </layoutItems>
-            <!--  <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Brief_Summary__c</field>
-            </layoutItems> -->
+            </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>

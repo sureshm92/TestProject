@@ -4,7 +4,7 @@
     <active>false</active>
     <errorConditionFormula>
         !ISNEW()&amp;&amp;!(PRIORVALUE( Override_Recruitment_Status__c ) == &#39;&#39;)&amp;&amp; (($User.FirstName + &#39; &#39; + $User.LastName) == &#39;IQVIA Integrations&#39;) &amp;&amp;
-         ( <!--ISCHANGED(Brief_Summary__c)|| -->
+         (ISCHANGED(Brief_Summary__c)||
         ISCHANGED(MDM_Cluster_ID__c)||ISCHANGED(Randomization__c)||ISCHANGED(Study_Sponsor__c)||ISCHANGED(Condition_s_Therapeutic_Area__c)||ISCHANGED(Detailed_Description__c)||ISCHANGED(Eligibility_Criteria__c)||ISCHANGED(Estimated_Enrollment__c)||ISCHANGED(Responsible_Party_Organization__c)||ISCHANGED(NCT_Number__c)||ISCHANGED(Protocol_ID__c)||ISCHANGED(Responsible_Party__c)||ISCHANGED(Study_Arms__c)||ISCHANGED(Study_Design__c)||ISCHANGED(Study_Phase__c)||ISCHANGED(Study_Title__c)||ISCHANGED(Study_Type__c)||ISCHANGED(Start_Date__c)||ISCHANGED(Official_Title__c)||ISCHANGED(Study_Source__c)||ISCHANGED(US_FDA_Regulated_Product__c)||ISCHANGED(Has_Data_Monitoring_Committee__c)||ISCHANGED(Verification_Date__c)||ISCHANGED(Estimated_Completion_Date__c)||ISCHANGED(Enrollment_Target__c)||ISCHANGED(Estimated_Primary_Completion_Date__c)||ISCHANGED(Enrollment_Actual__c)||ISCHANGED(Study_Code_Name__c))
     </errorConditionFormula>
     <errorMessage>Only Status Field can be changed by Integration</errorMessage>

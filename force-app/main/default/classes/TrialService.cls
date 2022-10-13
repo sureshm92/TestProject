@@ -15,7 +15,7 @@ public without sharing class TrialService {
         'Study_Type__c',
         'Detailed_Description__c',
         'toLabel(Override_Recruitment_Status__c)',
-        //'Brief_Summary__c',
+        'Brief_Summary__c',
         'Override_Description__c',
         'Override_Inclusion_Criteria__c',
         'Override_Exclusion_Criteria__c',
