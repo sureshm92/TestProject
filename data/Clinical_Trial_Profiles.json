@@ -6,7 +6,7 @@
                 "referenceId": "ctp1"
             },
             "Age__c": "Age__c",
-            "Brief_Summary__c": "Nasotracheal intubation is a common method for securing an advanced airway during surgery for procedures that involve manipulation of the oral cavity, the dentition, or the facial bones. The placement of a nasotracheal tube is often more challenging, especially for learning providers, even for patients with normal airway anatomy. Video laryngoscopy is an adjunctive technique in anesthesia that utilizes a camera at the tip of the laryngoscope blade and provides an indirect view of the glottis during intubation through display on a monitor. The use of video laryngoscopes has been shown to reduce time to intubation, result in perception of easier intubation by the anesthesia team, and reduce the use of adjunctive maneuvers during intubation. There is little evidence, however, to show these benefits for routine nasotracheal intubation. The purpose of the study is to compare the ease of video-assisted laryngoscopy and direct laryngoscopy in routine nasotracheal intubation for Maxillofacial procedures. The investigators hypothesize that the use of video-assisted laryngoscopy for routine nasotracheal intubation will result in quicker time to intubation, less adjunctive maneuvers and anesthesia perception of easier intubation when compared to direct nasotrahceal intubation. The investigators aim to compare the time to intubation, number of adjunctive maneuvers and the perception of intubation difficulty in routine nasotracheal intubation for Maxillofacial procedures for video-assisted laryngoscopy and direct laryngoscopy.",
+            //"Brief_Summary__c": "Nasotracheal intubation is a common method for securing an advanced airway during surgery for procedures that involve manipulation of the oral cavity, the dentition, or the facial bones. The placement of a nasotracheal tube is often more challenging, especially for learning providers, even for patients with normal airway anatomy. Video laryngoscopy is an adjunctive technique in anesthesia that utilizes a camera at the tip of the laryngoscope blade and provides an indirect view of the glottis during intubation through display on a monitor. The use of video laryngoscopes has been shown to reduce time to intubation, result in perception of easier intubation by the anesthesia team, and reduce the use of adjunctive maneuvers during intubation. There is little evidence, however, to show these benefits for routine nasotracheal intubation. The purpose of the study is to compare the ease of video-assisted laryngoscopy and direct laryngoscopy in routine nasotracheal intubation for Maxillofacial procedures. The investigators hypothesize that the use of video-assisted laryngoscopy for routine nasotracheal intubation will result in quicker time to intubation, less adjunctive maneuvers and anesthesia perception of easier intubation when compared to direct nasotrahceal intubation. The investigators aim to compare the time to intubation, number of adjunctive maneuvers and the perception of intubation difficulty in routine nasotracheal intubation for Maxillofacial procedures for video-assisted laryngoscopy and direct laryngoscopy.",
             "Visit_Schedule_Is_Available__c": true,
             "Study_Documents_Are_Available__c":  true,
             "Video_And_Articles_Are_Available__c": true,
@@ -63,7 +63,7 @@
                 "referenceId": "ctp2"
             },
             "Age__c": "Age__c",
-            "Brief_Summary__c": "Brief_Summary__c",
+            //"Brief_Summary__c": "Brief_Summary__c",
             "Visit_Schedule_Is_Available__c": true,
             "Study_Documents_Are_Available__c":  true,
             "Video_And_Articles_Are_Available__c": true,
@@ -119,7 +119,7 @@
                 "referenceId": "ctp3"
             },
             "Age__c": "Age__c",
-            "Brief_Summary__c": "Brief_Summary__c",
+            //"Brief_Summary__c": "Brief_Summary__c",
             "Co_morbidity__c": "",
             "Condition_s_Therapeutic_Area__c": "Intubation, Intratracheal",
             "Currency_for_Below_Amounts__c": "USD",
@@ -169,7 +169,7 @@
                 "referenceId": "ctp4"
             },
             "Age__c": "Age__c",
-            "Brief_Summary__c": "Brief_Summary__c",
+            //"Brief_Summary__c": "Brief_Summary__c",
             "Co_morbidity__c": "",
             "Condition_s_Therapeutic_Area__c": "Intubation, Intratracheal",
             "Currency_for_Below_Amounts__c": "USD",
@@ -219,7 +219,7 @@
                 "referenceId": "ctp5"
             },
             "Age__c": "Age__c",
-            "Brief_Summary__c": "Brief_Summary__c",
+            //"Brief_Summary__c": "Brief_Summary__c",
             "Co_morbidity__c": "",
             "Condition_s_Therapeutic_Area__c": "Intubation, Intratracheal",
             "Currency_for_Below_Amounts__c": "USD",
@@ -269,7 +269,7 @@
                 "referenceId": "ctp6"
             },
             "Age__c": "Age__c",
-            "Brief_Summary__c": "Brief_Summary__c",
+            //"Brief_Summary__c": "Brief_Summary__c",
             "Co_morbidity__c": "",
             "CommunityTemplate__c": "GSK",
             "Condition_s_Therapeutic_Area__c": "Intubation, Intratracheal",

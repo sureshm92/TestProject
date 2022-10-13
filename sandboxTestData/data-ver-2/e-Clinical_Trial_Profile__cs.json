@@ -5,7 +5,7 @@
                 "type": "Clinical_Trial_Profile__c",
                 "referenceId": "Clinical_Trial_Profile__cRef1"
             },
-            "Brief_Summary__c": "Brief Summary",
+          //  "Brief_Summary__c": "Brief Summary",
             "Currency_for_Below_Amounts__c": "USD",
             "Has_Data_Monitoring_Committee__c": false,
             "Link_to_Medical_Record_Review__c": "https://www.surveygizmo.com/s3/4770553/ReferralHub-MRR-Test",
@@ -30,7 +30,7 @@
                 "type": "Clinical_Trial_Profile__c",
                 "referenceId": "Clinical_Trial_Profile__cRef2"
             },
-            "Brief_Summary__c": "Brief Summary of the study. Brief Summary of the study. Brief Summary of the study. Brief Summary of the study. Brief Summary of the study.",
+          //  "Brief_Summary__c": "Brief Summary of the study. Brief Summary of the study. Brief Summary of the study. Brief Summary of the study. Brief Summary of the study.",
             "Currency_for_Below_Amounts__c": "USD",
             "Has_Data_Monitoring_Committee__c": false,
             "Link_to_Medical_Record_Review__c": "https://www.surveygizmo.com/s3/4770553/ReferralHub-MRR-Test",
