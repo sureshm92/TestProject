@@ -20,16 +20,16 @@ private class Test_TrialMatchLearnMoreLinkPDF {
         }
         Test.stopTest();
     }
-     @IsTest //getBase64LearnMoreData
+    @IsTest //getBase64LearnMoreData
     static void testQuery_getBase64LearnMoreData() {
         Test.startTest();
         Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c(
             Study_Code_Name__c = 'Test Code',
-            Detailed_Description__c = 'Test Description',
+            // Detailed_Description__c = 'Test Description',
             Protocol_ID__c = System.now() + 'Test'
         );
         insert ctp;
-         try {
+        try {
             TrialMatchLearnMoreLinkPDF.getBase64LearnMoreData(ctp.Id);
         } catch (Exception e) {
             System.debug('Exception Handing');
@@ -41,11 +41,11 @@ private class Test_TrialMatchLearnMoreLinkPDF {
         Test.startTest();
         Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c(
             Study_Code_Name__c = 'Test Code',
-            Detailed_Description__c = 'Test Description',
+            //  Detailed_Description__c = 'Test Description',
             Protocol_ID__c = System.now() + 'Test'
         );
         insert ctp;
-         try {
+        try {
             TrialMatchLearnMoreLinkPDF.getBase64LearnMoreData('');
         } catch (Exception e) {
             System.debug('Exception Handing');
@@ -59,15 +59,15 @@ private class Test_TrialMatchLearnMoreLinkPDF {
         Test.startTest();
         Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c(
             Study_Code_Name__c = 'Test Code',
-            Detailed_Description__c = 'Test Description',
+            // Detailed_Description__c = 'Test Description',
             Protocol_ID__c = System.now() + 'Test'
         );
         insert ctp;
-        System.assertEquals(
-            ctp.Detailed_Description__c,
+        /* System.assertEquals(
+             ctp.Detailed_Description__c,
             TrialMatchLearnMoreLinkPDF.fetchCTPLearnMoreDetails(ctp.Id).Detailed_Description__c,
             'The description should match'
-        );
+        );*/
         System.assertEquals(
             ctp.Study_Code_Name__c,
             TrialMatchLearnMoreLinkPDF.fetchCTPLearnMoreDetails(ctp.Id).Study_Code_Name__c,

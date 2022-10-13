@@ -45,12 +45,8 @@ public without sharing class TrialMatchLearnMoreLinkPDF {
         Clinical_Trial_Profile__c ctpDetails;
         try {
             ctpDetails = [
-                SELECT
-                    Id,
-                    Study_Code_Name__c,
-                    CommunityTemplate__c,
-                    Study_Content__c,
-                    Detailed_Description__c
+                SELECT Id, Study_Code_Name__c, CommunityTemplate__c, Study_Content__c //,
+                // Detailed_Description__c
                 FROM Clinical_Trial_Profile__c
                 WHERE Id = :ctpId
             ];
