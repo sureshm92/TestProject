@@ -30,7 +30,7 @@ public without sharing class StudyTrialService {
         'Official_Title__c',
         'Study_Code_Name__c',
         'Study_Sponsor__c',
-        'Override_Inclusion_Criteria__c' //,
+        'Override_Inclusion_Criteria__c',
         'Brief_Summary__c'
     };
 
