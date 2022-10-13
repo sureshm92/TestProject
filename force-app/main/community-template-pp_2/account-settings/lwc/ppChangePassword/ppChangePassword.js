@@ -61,6 +61,7 @@ export default class PpChangePassword extends LightningElement {
 
     showCurrentPassword = false;
     showNewPassword = false;
+    passwordInputType = 'password';
     showReNewPassword = false;
 
     label = {
@@ -111,20 +112,20 @@ export default class PpChangePassword extends LightningElement {
     // Getters for Input Type Masked
     get currentPasswordCssClass() {
         return this.showCurrentPassword
-            ? 'profile-info-input change-password'
-            : 'profile-info-input masked change-password';
+            ?   this.passwordInputType = 'text'
+            : this.passwordInputType = 'password';
     }
 
     get newPasswordCssClass() {
         return this.showNewPassword
-            ? 'profile-info-input change-password'
-            : 'profile-info-input masked change-password';
+        ?   this.passwordInputType = 'text'
+        : this.passwordInputType = 'password';
     }
 
     get reNewPasswordCssClass() {
         return this.showReNewPassword
-            ? 'profile-info-input change-password'
-            : 'profile-info-input masked change-password';
+        ?   this.passwordInputType = 'text'
+        : this.passwordInputType = 'password';
     }
 
     // Getters For Icon color Change
@@ -169,6 +170,16 @@ export default class PpChangePassword extends LightningElement {
     }
     get reNewCurrentPasswordEyeIcon() {
         return this.showReNewPassword ? 'utility:preview' : 'utility:hide';
+    }
+
+    get currentPasswordEyeIconTitle() {
+        return this.showCurrentPassword ? 'Hide' : 'Show';
+    }
+    get newCurrentPasswordEyeIconTitle() {
+        return this.showNewPassword ? 'Hide' : 'Show';
+    }
+    get reNewCurrentPasswordEyeIconTitle() {
+        return this.showReNewPassword ? 'Hide' : 'Show';
     }
 
     get checkIcon() {
@@ -391,8 +402,10 @@ export default class PpChangePassword extends LightningElement {
             .catch((error) => {
                 let errorMessage = error.body.message.split('\n')[0];
                 console.log('error message' + error + errorMessage);
-             errorMessage == TST_Your_current_password_is_invalid ?  this.incorrectOldPassword = true : this.incorrectOldPassword = false;
-                   
+                errorMessage == TST_Your_current_password_is_invalid
+                    ? (this.incorrectOldPassword = true)
+                    : (this.incorrectOldPassword = false);
+
                 communityService.showToast('', 'error', errorMessage, 100);
                 this.validateOldPassword();
                 this.spinner.hide();
