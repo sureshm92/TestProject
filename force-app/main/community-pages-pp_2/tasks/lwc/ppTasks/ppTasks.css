@@ -2,30 +2,38 @@
     direction: rtl;
 }
 .open-task {
-    background: rgba(7, 104, 253, 1);
     border-radius: 1rem 0 0 1rem;
-    color: #ffffff;
     width: 7.5rem;
     height: 2rem;
-    font-size: 1rem;
-    font-weight: 600;
     letter-spacing: 0;
     line-height: 1.5rem;
-    border: none;
+}
+
+.active-btn
+{
+    background: rgba(7, 104, 253, 1);
+	color: #ffffff;
+	font-size: 1rem;
+    font-weight: 600;
+	border: none;
 }
 
 .completed-task {
-    border: 1px solid #d9d9d9;
-    --slds-c-button-brand-color-background: #ffffff;
     border-radius: 0rem 1rem 1rem 0rem;
-    color: #595959;
     width: 7.5rem;
     height: 2rem;
     margin-left: 0rem;
-    font-size: 1rem;
-    font-weight: 500;
     letter-spacing: 0;
     line-height: 1.5rem;
+}
+
+.inactive-btn
+{
+    --slds-c-button-brand-color-background: #ffffff;
+    color: #595959;
+    font-size: 1rem;
+    font-weight: 500;
+    border: 1px solid #d9d9d9;
 }
 .create-task {
     background: rgba(7, 104, 253, 1);
@@ -207,9 +215,82 @@
 .center {
     text-align: center;
 }
+.complete-container
+{
+    border: 1px solid #C42EA5;
+}
+.complete-header
+{
+    color: #595959;
+}
+.complete-datetime{
+    color: #6E6E6E;
+}
+
+.ignore-container
+{
+    border: 1px solid #E9E9E9;
+}
+.ignore-header
+{
+    color: #595959;
+}
+.ignore-datetime{
+    color: #6E6E6E;
+}
+
+.expire-container
+{
+    opacity: 0.7;
+    border: 1px solid #E9E9E9;
+}
+.expire-header
+{
+    color: #595959;
+    
+}
+.expire-datetime{
+    color: #6E6E6E;
+}
+
+.ignored {
+    height: 24px;
+    width: 62px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 20px;
+  }
+  .expired {
+    height: 24px;
+    width: 61px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 20px;
+  }
+  .path-2-copy {
+    box-sizing: border-box;
+    height: 1px;
+    width: 439px;
+    border: 1px solid #979797;
+    margin-top: 10px;
+    margin-left: -17px;
+    background-color: #979797;
+  }
+
 @media all and (max-width: 486px) {
     .inactive-custom-box {
         width: 366px;
+    }
+    .path-2-copy
+    {
+        width: 301px;
+        margin-left: 0.3rem
     }
     .open-task {
         margin-left: 10px;

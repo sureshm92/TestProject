@@ -28525,4 +28525,11 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Select_E-Consent_Vendor</shortDescription>
         <value>Select E-Consent Vendor</value>
     </labels>
+    <labels>
+        <fullName>Task_No_Completed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task No Completed</shortDescription>
+        <value>You have no completed tasks</value>
+    </labels>
 </CustomLabels>
