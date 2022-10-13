@@ -137,7 +137,7 @@
                 <div class="sponsor-name">{!v.currentStudy.trial.Study_Sponsor__c}</div>
                 <div class="slvi-objective-section">
                     <div class="objective-text">
-                        {!v.currentStudy.trial.Detailed_Description__c}
+                     <!--  {!v.currentStudy.trial.Detailed_Description__c}-->
                     </div>
                     <div class="objective-link">
                         <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
