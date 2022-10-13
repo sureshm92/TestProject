@@ -61,6 +61,7 @@ export default class PpChangePassword extends LightningElement {
 
     showCurrentPassword = false;
     showNewPassword = false;
+    passwordInputType = 'password';
     showReNewPassword = false;
 
     label = {
@@ -111,20 +112,20 @@ export default class PpChangePassword extends LightningElement {
     // Getters for Input Type Masked
     get currentPasswordCssClass() {
         return this.showCurrentPassword
-            ? 'profile-info-input change-password'
-            : 'profile-info-input masked change-password';
+            ?   this.passwordInputType = 'text'
+            : this.passwordInputType = 'password';
     }
 
     get newPasswordCssClass() {
         return this.showNewPassword
-            ? 'profile-info-input change-password'
-            : 'profile-info-input masked change-password';
+        ?   this.passwordInputType = 'text'
+        : this.passwordInputType = 'password';
     }
 
     get reNewPasswordCssClass() {
         return this.showReNewPassword
-            ? 'profile-info-input change-password'
-            : 'profile-info-input masked change-password';
+        ?   this.passwordInputType = 'text'
+        : this.passwordInputType = 'password';
     }
 
     // Getters For Icon color Change
