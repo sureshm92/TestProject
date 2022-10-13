@@ -64,6 +64,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     plannedDate = '';
     visitStatus = '';
     visitTimezone = '';
+    hasRendered = false;
 
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
@@ -74,6 +75,12 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
             .catch((error) => {
                 this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
+    }
+    renderedCallback() {
+        if (!this.hasRendered) {
+            this.template.querySelector('c-web-spinner').show();
+            this.hasRendered = true;
+        }
     }
     getVisitDetails(visitid) {
         if (visitid != null) {

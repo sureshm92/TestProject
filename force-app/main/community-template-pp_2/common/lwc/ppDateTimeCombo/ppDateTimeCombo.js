@@ -196,11 +196,6 @@ export default class PpDateTimeCombo extends LightningElement {
         }
     }
 
-    handleKeyEvent(event) {
-        event.stopPropagation();
-        event.preventDefault();
-    }
-
     handleTime(event) {
         this.initialTimeLoaded = true;
         this.tm = event.target.value;
