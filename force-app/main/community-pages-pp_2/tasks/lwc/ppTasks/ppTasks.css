@@ -171,6 +171,7 @@
 .overflow-scroll {
     height: 500px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 .active-custom-box {
     border: 1px solid #c42ea5;
