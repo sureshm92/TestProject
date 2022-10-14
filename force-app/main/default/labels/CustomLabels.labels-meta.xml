@@ -18495,7 +18495,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_SMSTexMessage</shortDescription>
-        <value>SMS/Text Message</value>
+        <value>SMS/Text</value>
     </labels>
     <labels>
         <fullName>PP_SaveContinue</fullName>
@@ -28531,5 +28531,12 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>Task No Completed</shortDescription>
         <value>You have no completed tasks</value>
+    </labels>
+    <labels>
+        <fullName>Valid_Time_Format</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Please enter a valid time format</shortDescription>
+        <value>Please enter a valid time format</value>
     </labels>
 </CustomLabels>
