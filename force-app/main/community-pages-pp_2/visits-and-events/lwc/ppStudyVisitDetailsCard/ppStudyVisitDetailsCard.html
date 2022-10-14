@@ -67,14 +67,16 @@
                                     icon-color="#00A3E0"
                                 >
                                 </c-web-icon>
-                                <lightning-combobox
-                                    data:id="reminderOption"
-                                    placeholder={label.selectreminder}
-                                    value={dbReminderOption}
-                                    onchange={doValidateFields}
-                                    options={reminderFrequencyList}
-                                    disabled={showReminders}
-                                ></lightning-combobox>
+                                <c-pp-web-select
+                                    class="full-width"
+                                    label-hidden="true"
+                                    place-holder={label.selectreminder}
+                                    selected-value={dbReminderOption}
+                                    options={reminderOptions}
+                                    is-disabled-options="true"
+                                    is-disabled={showReminders}
+                                    onchangevalue={doValidateFields}
+                                ></c-pp-web-select>
                             </div>
                         </div>
                     </div>

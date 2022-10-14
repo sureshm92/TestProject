@@ -66,7 +66,15 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     visitTimezone = '';
     hasRendered = false;
 
+    renderedCallback() {
+        if (!this.hasRendered) {
+            this.template.querySelector('c-web-spinner').show();
+            this.hasRendered = true;
+        }
+    }
+
     connectedCallback() {
+        this.contentLoaded = false;
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 this.sfdcBaseURL = window.location.origin + basePathName + communicationPreference;
@@ -76,12 +84,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                 this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
     }
-    renderedCallback() {
-        if (!this.hasRendered) {
-            this.template.querySelector('c-web-spinner').show();
-            this.hasRendered = true;
-        }
-    }
+
     getVisitDetails(visitid) {
         if (visitid != null) {
             getParticipantVisits({
@@ -183,6 +186,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                 this.taskId = this.visitdata.task.Id;
                 this.taskSubject = this.visitdata.visit.Name;
                 this.contentLoaded = true;
+                this.template.querySelector('c-web-spinner').hide();
                 this.showChild = true;
                 if (this.template.querySelector('c-pp-Study-Visit-Details-Card')) {
                     this.template.querySelector('c-pp-Study-Visit-Details-Card').callFromParent();
@@ -190,6 +194,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
             });
         } else {
             this.contentLoaded = true;
+            this.template.querySelector('c-web-spinner').hide();
         }
     }
 
