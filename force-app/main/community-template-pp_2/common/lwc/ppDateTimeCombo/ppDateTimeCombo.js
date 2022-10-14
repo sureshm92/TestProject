@@ -200,6 +200,7 @@ export default class PpDateTimeCombo extends LightningElement {
     handleTime(event) {
         this.initialTimeLoaded = true;
         this.tm = event.target.value;
+
         if (!this.tm) {
             this.timeOnlyPresent = false;
             const timeOnly = new CustomEvent('time', {
