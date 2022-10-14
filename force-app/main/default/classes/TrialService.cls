@@ -41,7 +41,7 @@ public without sharing class TrialService {
         'Tasks_Are_Available__c',
         'Travel_Vendor_Is_Available__c',
         'Received_Until_Consent_Is_Available__c',
-        'Enrolled_Or_Randomized_Consent_Available__c',   
+        'Enrolled_Or_Randomized_Consent_Available__c',
         'Visit_Schedule_Is_Available__c',
         'Participant_Workflow_Final_Step__c',
         'Initial_Visit_Required__c',
@@ -142,15 +142,18 @@ public without sharing class TrialService {
         return trials;
     }
 
-    public List<Clinical_Trial_Profile__c> getTrialsImpl(List<Id> trialIds, List<String> CTP_INPUT_FIELDS) {
+    public List<Clinical_Trial_Profile__c> getTrialsImpl(
+        List<Id> trialIds,
+        List<String> CTP_INPUT_FIELDS
+    ) {
         List<Clinical_Trial_Profile__c> trials = DatabaseService.query(
             CTP_INPUT_FIELDS,
             Clinical_Trial_Profile__c.getSObjectType(),
             DatabaseService.fieldInValues('Id', trialIds)
         );
         return trials;
-    }    
-    
+    }
+
     public Clinical_Trial_Profile__c getTrialImpl(Id trialId) {
         List<Clinical_Trial_Profile__c> trials = getTrialsImpl(new List<Id>{ trialId });
         if (trials.size() > 0) {
@@ -170,7 +173,10 @@ public without sharing class TrialService {
     }
 
     public Clinical_Trial_Profile__c getTrialImpl(Id trialId, List<String> CTP_INPUT_FIELDS) {
-        List<Clinical_Trial_Profile__c> trials = getTrialsImpl(new List<Id>{ trialId }, CTP_INPUT_FIELDS);
+        List<Clinical_Trial_Profile__c> trials = getTrialsImpl(
+            new List<Id>{ trialId },
+            CTP_INPUT_FIELDS
+        );
         if (trials.size() > 0) {
             String language = UserInfo.getLanguage();
             if (
@@ -186,8 +192,7 @@ public without sharing class TrialService {
         }
         return null;
     }
-    
-    
+
     public List<Id> getAvailableTrialIdsImpl(String userMode) {
         return getAvailableTrialIdsImpl(userMode, null);
     }
@@ -236,7 +241,7 @@ public without sharing class TrialService {
     public static Clinical_Trial_Profile__c getTrial(Id trialId, List<String> CTP_INPUT_FIELDS) {
         return getInstance().getTrialImpl(trialId, CTP_INPUT_FIELDS);
     }
-    
+
     public static List<Clinical_Trial_Profile__c> getTrials(List<Id> trialIds) {
         return getInstance().getTrialsImpl(trialIds);
     }

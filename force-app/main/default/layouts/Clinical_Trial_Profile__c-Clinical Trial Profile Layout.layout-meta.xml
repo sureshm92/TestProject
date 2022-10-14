@@ -5,7 +5,7 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Study Basics</label>
+        <label>Study/Program Basics</label>
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -112,7 +112,7 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Study Details</label>
+        <label>Study/Program Details</label>
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -208,7 +208,7 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Study Activation and Options</label>
+        <label>Study/Program Activation and Options</label>
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -307,14 +307,6 @@
                 <emptySpace>true</emptySpace>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Link_to_Medical_Record_Review__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Link_to_Pre_screening__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Share_URL__c</field>
             </layoutItems>
@@ -328,7 +320,7 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Study Status</label>
+        <label>Study/Program Status</label>
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -618,9 +610,9 @@
         <detailHeading>false</detailHeading>
         <editHeading>true</editHeading>
         <label>Custom Links</label>
-        <layoutColumns/>
-        <layoutColumns/>
-        <layoutColumns/>
+        <layoutColumns />
+        <layoutColumns />
+        <layoutColumns />
         <style>CustomLinks</style>
     </layoutSections>
     <platformActionList>
