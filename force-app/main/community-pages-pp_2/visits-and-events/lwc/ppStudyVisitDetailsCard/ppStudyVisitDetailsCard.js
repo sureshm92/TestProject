@@ -235,7 +235,15 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
 
     get showReminders() {
         if (this.visitDate && this.visitTime) {
-            return false;
+            let currentUserTime = new Date().toLocaleString('en-US', { timeZone: TIME_ZONE });
+            let taskDueDateTime = new Date(this.visitDateTime).toLocaleString('en-US', {
+                timeZone: TIME_ZONE
+            });
+            if (new Date(taskDueDateTime) < new Date(currentUserTime)) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return true;
         }
@@ -321,7 +329,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         if (differenceTimeHours > 1) {
             this.initialReminderOptions[0].itemClass = 'dropdown-li';
         } else {
-            this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
+            this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
         }
         if (differenceTimeHours > 4) {
             this.initialReminderOptions[1].itemClass = 'dropdown-li';
