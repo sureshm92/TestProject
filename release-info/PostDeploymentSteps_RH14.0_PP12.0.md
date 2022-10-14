@@ -1,23 +1,9 @@
-1. Switch to Salesforce Classic -> Go to Documents Tab -> Click on New -> Enter below values in field:
-   Document Name : PP_IQVIA_Logo
-   Document Unique Name : PP_IQVIA_Logo
-   Externally Available Image : checked
-   Folder : Shared Documents
-   Description : IQVIA Footer Logo for PP Email Templates
+Replace empty values in "Participant DOB format" field with default "DD-MM-YYYY": 1) Goto Setup - Object Manager - Search for "Study Site", Click on it - Fields & Relationships - Search for "Participant DOB format" field , Click on it. 2) Scroll down to the picklist values section, then click on Replace button. 3) Check the Replace all blank values checkbox, and select "DD-MM-YYYY" value in the Select Value Changing To dropdown and click replace
 
-    From 'File to Upload' button, upload PP_IQVIA_Logo.png file present in
-    https://gitlabrnds.quintiles.com/e2e-pe/rhpp-project/-/blob/INT14/release-info/images/PP_IQVIA_Logo.png
-    Click on Save.
-    For any quiries related to this step, contact rushikesh.kadam@iqvia.com
+Data correction for date of birth field and age
+a)Goto - developer console - Debug - open Execute Anonymous Window - Add the below Script
 
-2. Switch to Salesforce Classic -> Go to Documents Tab -> Click on New -> Enter below values in the fields:
-   Document Name : PP_Community_Email_Top_Background
-   Document Unique Name : PP_Community_Email_Top_Background
-   Externally Available Image : checked
-   Folder : Shared Documents
-   Description : Top Header Background for PP Email Templates
+    Batch_UpdateDOBFieldsParticipants batch = new Batch_UpdateDOBFieldsParticipants();
+    Database.executebatch(batch,2000);
 
-    From 'File to Upload' button, upload PP_IQVIA_Logo.png file present in
-    https://gitlabrnds.quintiles.com/e2e-pe/rhpp-project/-/blob/INT14/release-info/images/PP_Community_Email_Top_Background.png
-    Click on Save.
-    For any quiries related to step, contact rushikesh.kadam@iqvia.com
+    b)Click on execute button
