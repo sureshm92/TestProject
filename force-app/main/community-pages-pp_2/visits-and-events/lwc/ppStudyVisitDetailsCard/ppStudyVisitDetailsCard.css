@@ -110,10 +110,6 @@ input[type='date']::-webkit-calendar-picker-indicator,
     padding-left: 1.25rem;
 }
 
-.full-width {
-    width: 100%;
-}
-
 .comm-checks > div {
     display: flex;
 }
