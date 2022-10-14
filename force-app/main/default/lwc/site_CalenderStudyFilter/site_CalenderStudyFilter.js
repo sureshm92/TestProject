@@ -327,6 +327,7 @@ export default class Site_CalenderStudyFilter extends LightningElement {
       } else {
         this.template.querySelector(".s-icon").classList.add("dropdowndisable");
         this.clearAllStudy = true;
+        this.isFilterChange = true;
         this.showNoData(this.label.NoStudyFiltersSelected);
         this.isNoFilter = true;
         this.showNoFilter = this.label.ShowNoStudySite;
@@ -424,6 +425,7 @@ export default class Site_CalenderStudyFilter extends LightningElement {
         this.studyCountStr = "";        
         this.clearAllStudy = true;
         this.showNoData(this.label.NoStudyFiltersSelected);
+        this.isFilterChange = true;
         this.isNoFilter = true;
         this.showNoFilter = this.label.ShowNoStudySite;
         this.template.querySelector(".s-icon").classList.add("dropdowndisable");
