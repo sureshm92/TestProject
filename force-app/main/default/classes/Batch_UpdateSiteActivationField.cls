@@ -3,7 +3,7 @@ public class Batch_UpdateSiteActivationField implements Database.Batchable<sObje
     public Database.QueryLocator start(Database.BatchableContext BC){
         List<String> referralsStatus = new List<String>{'Accepted','Accepted (Admin)','Deactivated (Admin)','Deactivated','Invitation Sent','On Hold (Admin)','On Hold'};
         return Database.getQueryLocator('select Id,Site_Activation_Status__c, Override_PI_Referral_Status__c  from Study_Site__c '
-                                        +'where Site_Activation_Status__c !=null and (Override_PI_Referral_Status__c  IN :referralsStatus or Override_PI_Referral_Status__c =null) ');
+                                        +'where Site_Activation_Status__c = null and (Override_PI_Referral_Status__c  IN :referralsStatus or Override_PI_Referral_Status__c =null) ');
     }
     public void execute(Database.BatchableContext BC, List<Study_Site__c> scope){
         for(Study_Site__c ss : scope){
