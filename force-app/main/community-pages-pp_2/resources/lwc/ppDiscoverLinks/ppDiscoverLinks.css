@@ -1,0 +1,80 @@
+.links-type{
+    color: lightgray;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+.links-container:hover{
+    cursor: pointer;
+}
+
+.links-header {
+    height: 19px;
+    width: 195px;
+    color: #0768FD;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 19px;
+    margin-bottom: 5px;
+}
+
+.links-desc {
+    width: 230px;
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 16px;
+    padding-right: 10px;
+    margin-bottom: 5px;
+}
+
+.links-type {
+    height: 16px;
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+
+.separator {
+    box-sizing: border-box;
+    height: 1px;
+    border-bottom: 1px solid rgba(153,153,153,0.59);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.open-icon {
+    fill: #595959;
+    height: 20px;
+    width: 20px;
+}
+
+.open-tab{
+    width:14px;
+    height:14px;
+}
+
+/* Scroll bar custom */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #fff;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    padding-right: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #999999;
+    padding-right: 10px;
+  }

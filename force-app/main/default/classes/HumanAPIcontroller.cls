@@ -29,25 +29,25 @@ public with sharing class HumanAPIcontroller {
     
     public class RH_MulesoftWrapper {
 
-	public String salesforce_Id;
-	public String enrollmentName;
-	public String humanId;
-	public String participantFullName;
-	public String participantFirstName;
-	public String participantLastName;
-	public String participantEmail;
-	public String studySiteName;
-	public String studyCodeName;
-	public String uniqueHumanId;
-	public String primaryDelegateEmail;
-	public String primaryDelegateFirstName;
-	public String primaryDelegateLastName;
-	public String pIname;
-	public String language;
-	public String country;
-	public String salutation;
+    public String salesforce_Id;
+    public String enrollmentName;
+    public String humanId;
+    public String participantFullName;
+    public String participantFirstName;
+    public String participantLastName;
+    public String participantEmail;
+    public String studySiteName;
+    public String studyCodeName;
+    public String uniqueHumanId;
+    public String primaryDelegateEmail;
+    public String primaryDelegateFirstName;
+    public String primaryDelegateLastName;
+    public String pIname;
+    public String language;
+    public String country;
+    public String salutation;
   Public String protocolId; 
-	 
+     
     }
 
   public class ResponseWrapperReportListOrganization {
@@ -186,9 +186,9 @@ public with sharing class HumanAPIcontroller {
   }
     
   public class HumanAPIErrorWrapper{
-    public Integer statusCode;	 
-    public String error;	 
-    public String message;	  
+    public Integer statusCode;   
+    public String error;     
+    public String message;    
    }
 
   @AuraEnabled
@@ -259,6 +259,7 @@ public with sharing class HumanAPIcontroller {
       }
 
       System.debug('##### wrap: ' + wrap);
+       
       return wrap;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
