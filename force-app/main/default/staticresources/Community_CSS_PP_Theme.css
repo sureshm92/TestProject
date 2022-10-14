@@ -184,6 +184,12 @@
 .masked .slds-input {
     -webkit-text-security: disc;
 }
+.task-card .slds-card{
+    border-radius:16px !important;
+}
+.task-card-mobile .slds-card{
+    border-radius:16px !important;
+}
 
 .ppCombobox button{  
     border-radius: 20px !important;
