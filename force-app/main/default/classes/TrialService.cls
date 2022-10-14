@@ -13,7 +13,7 @@ public without sharing class TrialService {
         'Terms_And_Conditions_ID__c',
         'Study_Sponsor__c',
         'Study_Type__c',
-        //'Detailed_Description__c',
+        'Detailed_Description__c',
         'toLabel(Override_Recruitment_Status__c)',
         'Brief_Summary__c',
         'Override_Description__c',
