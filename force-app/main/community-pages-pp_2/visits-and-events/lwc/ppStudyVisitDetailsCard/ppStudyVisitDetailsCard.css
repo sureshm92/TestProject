@@ -59,7 +59,11 @@
 }
 
 .curve-input:focus-within,
-.slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux:focus-within {
+.slds-form-element__control
+    .slds-checkbox
+    [type='checkbox']:checked
+    + .slds-checkbox__label
+    .slds-checkbox_faux:focus-within {
     border: 1px solid #015ff1;
 }
 
@@ -102,6 +106,10 @@ input[type='date']::-webkit-calendar-picker-indicator,
     padding-left: 1.25rem;
 }
 
+.full-width {
+    width: 100%;
+}
+
 .comm-checks > div {
     display: flex;
 }
@@ -126,7 +134,6 @@ input[type='date']::-webkit-calendar-picker-indicator,
 }
 
 @media all and (min-width: 768px) and (max-width: 870px) {
-
     .slds-small-size_1-of-2.slds-p-left_none {
         min-width: 100%;
         padding-left: 0;
@@ -157,9 +164,8 @@ input[type='date']::-webkit-calendar-picker-indicator,
 }
 
 @media all and (max-width: 486px) {
-
     .btn-footer {
-        padding-bottom: .25rem;
+        padding-bottom: 0.25rem;
     }
 
     .curve-input {
@@ -179,5 +185,4 @@ input[type='date']::-webkit-calendar-picker-indicator,
         justify-content: flex-start;
         padding-left: 1.5rem;
     }
-
 }

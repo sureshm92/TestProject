@@ -56,7 +56,7 @@
             <div>
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-p-left_none">
-                        <div if:false={past}>
+                        <div class="full-width" if:false={past}>
                             <label>{label.reminder}</label>
                             <div class="curve-input">
                                 <c-web-icon
@@ -73,6 +73,7 @@
                                     place-holder={label.selectreminder}
                                     selected-value={dbReminderOption}
                                     options={reminderOptions}
+                                    custom-class="custom-no-border"
                                     is-disabled-options="true"
                                     is-disabled={showReminders}
                                     onchangevalue={doValidateFields}

@@ -319,24 +319,24 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     get reminderOptions() {
         let differenceTimeHours = this.calculateTimezoneDifference();
         if (differenceTimeHours > 1) {
-            this.initialReminderOptions[1].itemClass = 'dropdown-li';
+            this.initialReminderOptions[0].itemClass = 'dropdown-li';
         } else {
-            this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
+            this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
         }
         if (differenceTimeHours > 4) {
+            this.initialReminderOptions[1].itemClass = 'dropdown-li';
+        } else {
+            this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
+        }
+        if (differenceTimeHours > 24) {
             this.initialReminderOptions[2].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
         }
-        if (differenceTimeHours > 24) {
+        if (differenceTimeHours > 168) {
             this.initialReminderOptions[3].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[3].itemClass = 'dropdown-li li-item-disabled';
-        }
-        if (differenceTimeHours > 168) {
-            this.initialReminderOptions[4].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[4].itemClass = 'dropdown-li li-item-disabled';
         }
         return this.initialReminderOptions;
     }
