@@ -9,7 +9,7 @@ public without sharing class StudyTrialService {
         'Id',
         'Name',
         'Study_Sponsor__c',
-        'Detailed_Description__c',
+        //'Detailed_Description__c',
         'Override_Recruitment_Status__c',
         'Terms_And_Conditions_ID__c',
         'Link_to_Medical_Record_Review__c',
@@ -21,7 +21,7 @@ public without sharing class StudyTrialService {
         'Sponsor_Pays_for_Referral_Activity__c',
         'Override_Inclusion_Criteria__c',
         'Override_Description__c',
-        //'Brief_Summary__c',
+        'Brief_Summary__c',
         'Therapeutic_Area__r.Name',
         'NCT_Number__c'
     };
@@ -30,8 +30,8 @@ public without sharing class StudyTrialService {
         'Official_Title__c',
         'Study_Code_Name__c',
         'Study_Sponsor__c',
-        'Override_Inclusion_Criteria__c' //,
-        //'Brief_Summary__c'
+        'Override_Inclusion_Criteria__c',
+        'Brief_Summary__c'
     };
 
     public class StudyFilterData {
@@ -628,8 +628,8 @@ public without sharing class StudyTrialService {
                 Id,
                 Name,
                 Study_Sponsor__c,
-                Detailed_Description__c,
-                // Brief_Summary__c,
+                //Detailed_Description__c,
+                Brief_Summary__c,
                 Override_Recruitment_Status__c,
                 Terms_And_Conditions_ID__c,
                 Link_to_Medical_Record_Review__c,
@@ -743,9 +743,9 @@ public without sharing class StudyTrialService {
                 Terms_And_Conditions_ID__c,
                 Study_Sponsor__c,
                 Study_Type__c,
-                Detailed_Description__c,
+                // Detailed_Description__c,
                 Override_Recruitment_Status__c,
-                // Brief_Summary__c,
+                Brief_Summary__c,
                 Override_Description__c,
                 Override_Inclusion_Criteria__c,
                 Override_Exclusion_Criteria__c,

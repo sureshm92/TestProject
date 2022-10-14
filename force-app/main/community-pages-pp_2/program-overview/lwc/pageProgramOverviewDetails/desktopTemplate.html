@@ -26,18 +26,18 @@
                                 <div class="po-tab-overview"> 
                                     <p class="po-pb-10"><lightning-formatted-text value={label.PPOBJECTIVE} class="po-tab-header"></lightning-formatted-text></p>   
                                     <div class="po-tab-content">
-                                       <!-- <template if:true={clinicaltrailrecrd.Brief_Summary__c}>
+                                        <template if:true={clinicaltrailrecrd.Brief_Summary__c}>
                                             {clinicaltrailrecrd.Brief_Summary__c}
-                                        </template>-->
+                                        </template>
                                         </div>
                                 </div>
 
                                 <div class="po-tab-overview po-mt-10"> 
                                     <p class="po-pb-10"><lightning-formatted-text value={label.PPPROGRAMOVERVIEW} class="po-tab-header"></lightning-formatted-text></p>   
                                     <div class="po-tab-content">
-                                        <template if:true={clinicaltrailrecrd.Detailed_Description__c}>
+                                       <!-- <template if:true={clinicaltrailrecrd.Detailed_Description__c}>
                                             {clinicaltrailrecrd.Detailed_Description__c}
-                                        </template>
+                                        </template>-->
                                     </div>
                                 </div>
                             </lightning-tab>     
