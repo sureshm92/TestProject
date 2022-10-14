@@ -60,11 +60,11 @@
         <field>Clinical_Trial_Profile__c.Demographic__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <!--<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Detailed_Description__c</field>
         <readable>true</readable>
-    </fieldPermissions>-->
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Diagnosis__c</field>
