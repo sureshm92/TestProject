@@ -166,10 +166,10 @@
         <editHeading>false</editHeading>
         <label>New Section</label>
         <layoutColumns>
-            <!-- <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Detailed_Description__c</field>
-            </layoutItems>-->
+            </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>
@@ -790,7 +790,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Survey_Name__c</fields>
         <relatedList>PreScreener_Survey__c.Study__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
