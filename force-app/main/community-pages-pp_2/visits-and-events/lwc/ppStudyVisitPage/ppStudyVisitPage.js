@@ -199,16 +199,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         this.initialPageLoad = false;
         this.showChild = false;
         this.cbload = true;
-        if(this.isMobile){
-            if (this.visitid) {
-                const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-                theDiv.className = 'inactive-custom-box';
-            }
-            this.template.querySelector('[data-id="upcoming"]').className =
-                'slds-button slds-button_brand up-button active-button-background';
-            this.template.querySelector('[data-id="past"]').className =
-                'slds-button slds-button_neutral past-button inactive-button-background';
-        }
         this.showList = false;
         this.showUpcomingVisits = true;
         if (this.upcomingVisits.length > 0) {
@@ -228,16 +218,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         this.initialPageLoad = false;
         this.showChild = false;
         this.cbload = true;
-        if(this.isMobile){
-            if (this.visitid) {
-                const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-                theDiv.className = 'inactive-custom-box';
-            }
-            this.template.querySelector('[data-id="past"]').className =
-                'slds-button slds-button_brand past-button active-button-background';
-            this.template.querySelector('[data-id="upcoming"]').className =
-                'slds-button slds-button_neutral up-button inactive-button-background';
-        }
         this.showList = false;
         this.showUpcomingVisits = false;
         if (this.pastVisits) {
@@ -348,13 +328,15 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 if (!this.past) {
-                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
-                        this.visitdata.visitDate;
+                    this.upcomingVisits[
+                        this.selectedIndex
+                    ].visit.Planned_Date__c = this.visitdata.visitDate;
                 }
                 if (this.visitdata.visitDate && this.showUpcomingVisits) {
                     this.upcomingVisits[this.selectedIndex].noVisitDate = false;
-                    this.plannedDate =
-                        this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
+                    this.plannedDate = this.upcomingVisits[
+                        this.selectedIndex
+                    ].visit.Planned_Date__c;
                 } else {
                     this.upcomingVisits[this.selectedIndex].noVisitDate = true;
                     this.plannedDate = '';
@@ -369,9 +351,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     this.initializeData(this.visitid);
                     this.contentLoaded = true;
                     this.template.querySelector('c-web-spinner').hide();
-                }
-                if(this.isMobile){
-                    this.handleVisitChange();
                 }
             });
         } else {

@@ -1,0 +1,59 @@
+<!--
+ - Created by Rushikesh Kadam on 12-Oct-2022.
+ -->
+
+<apex:component id="PP_EmailWireframeText" controller="PP_EmailWireframeController" access="global" language="{!userLanguageCode}">
+
+    <!-- Records info -->
+    <apex:attribute name="recipientId" type="Id" assignTo="{!emailRecipientId}" description="" access="global" />
+    <apex:attribute name="recipientName" type="String" assignTo="{!emailRecipientName}" description="" access="global" />
+    <apex:attribute name="recipientLanguage" type="String" assignTo="{!emailRecipientLanguage}" description="" access="global"
+    />
+    <apex:attribute name="sourceId" assignTo="{!sourceRecordId}" type="Id" description="" access="global" />
+
+    <!-- Templates labels -->
+    <apex:attribute name="header" assignTo="{!headerValue}" type="String" description="" />
+    <apex:attribute name="title" assignTo="{!titleValue}" type="String" description="" />
+    <apex:attribute name="greeting" assignTo="{!greetingValue}" type="String" description="" />
+    <apex:attribute name="signature" assignTo="{!signatureValue}" type="String" description="" />
+    <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description="" />
+
+    <!-- Other -->
+    <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="Text" />
+    <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}" description="Community template name"
+    />
+    <apex:attribute name="specificEmailProvider" type="String" assignTo="{!specificEmailProviderValue}" description="If you need specific instance of EmailTemplateProvider set this here"
+    />
+    <apex:attribute name="shareEmailTemplate" assignTo="{!shareTemplate}" type="String" description="" default="No" access="global"
+    />
+    <apex:attribute name="OptOut" assignTo="{!displayOptOut}" type="String" description="" default="Yes" access="global" />
+    <!--Header-->
+    {!headerText}
+    <!--Subject/Title-->
+    <br/> {!titleText}
+    <br/>
+    <!--Greetings-->
+    {!greetingText}
+    <br/>
+    <br/>
+    <!--Body-->
+    <apex:componentBody rendered="{!isInitialized}" />
+    <!--Pre-signature-->
+    {!preSignatureText}
+    <br/>
+    <br/>
+    <!--Signature-->
+    {!signatureText}
+
+    <br/>
+    <br/>
+    <!--Footer START-->
+    <!--IQVIA Address/Privacy Policy-->
+    {!$Label.Email_Footer_Address} | {!$Label.Email_Footer_Privacy_Policy}: {!IF(communityTemplate == 'Janssen', $Label.CommunityJanssenURL
+    + '/s/privacy-policy?language='+UserLanguageCode, emailCommunityURL+'/s/privacy-policy?language='+UserLanguageCode)}
+    <br/>
+    <!--Tech Support, Opt Out and Medical Emergency -->
+    <apex:componentBody rendered="{!displayOptOut!='No'}">
+        {!$Label.Email_Opt_Out_footer} {!$Label.Email_Opt_Out_footer_here} : {!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}
+    </apex:componentBody>
+</apex:component>
