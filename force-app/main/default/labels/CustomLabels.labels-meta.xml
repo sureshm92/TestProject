@@ -28532,4 +28532,11 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Select_E-Consent_Vendor</shortDescription>
         <value>Select E-Consent Vendor</value>
     </labels>
+    <labels>
+        <fullName>Valid_Time_Format</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Please enter a valid time format</shortDescription>
+        <value>Please enter a valid time format</value>
+    </labels>
 </CustomLabels>
