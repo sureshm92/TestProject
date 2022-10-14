@@ -55,7 +55,7 @@ export default class StudyOverview extends LightningElement {
 				else{
 					this.shortOverview = this.clinicalrecord.Brief_Summary__c;
 				}
-            }
+            } 
         }
 
         getisRTL()

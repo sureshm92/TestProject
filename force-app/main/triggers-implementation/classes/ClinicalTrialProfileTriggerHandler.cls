@@ -429,7 +429,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
             Batch_CreatePreEnrollVistsForExtngPERs objBatch = new Batch_CreatePreEnrollVistsForExtngPERs(
                 ctpIds
             );
-            Database.executeBatch(objBatch, 50); 
+            Database.executeBatch(objBatch, 50);
         }
     }
 }
