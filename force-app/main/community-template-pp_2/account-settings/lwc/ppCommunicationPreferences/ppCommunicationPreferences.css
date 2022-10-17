@@ -297,6 +297,7 @@
 .highlightErrorCheckbox {
     --sds-c-checkbox-color-background-checked: #fff;
     --slds-c-checkbox-color-border-checked: red;
+    --slds-c-checkbox-color-border-focus: red;
     --slds-c-checkbox-color-border: red;
 }
 .participant-empty-card {
