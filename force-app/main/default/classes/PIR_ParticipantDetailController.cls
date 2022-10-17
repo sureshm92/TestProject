@@ -22,6 +22,7 @@ public without sharing class PIR_ParticipantDetailController {
           Referral_ID__c,
           Screening_ID__c,
           Participant_Status__c,
+          Is_Participant_DOB_Valid__c,
           Visit_Plan__r.Name,
           Participant__r.id,
           Participant__r.Adult__c,
