@@ -27,7 +27,7 @@ a)Goto - developer console - Debug - open Execute Anonymous Window - Add the bel
    Folder : Shared Documents
    Description : Top Header Background for PP Email Templates
 
-    From 'File to Upload' button, upload PP_IQVIA_Logo.png file present in
+    From 'File to Upload' button, upload PP_Community_Email_Top_Background.png file present in
     https://gitlabrnds.quintiles.com/e2e-pe/rhpp-project/-/blob/INT14/release-info/images/PP_Community_Email_Top_Background.png
     Click on Save.
     For any quiries related to step, contact rushikesh.kadam@iqvia.com
