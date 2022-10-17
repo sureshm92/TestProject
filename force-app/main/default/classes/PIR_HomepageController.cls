@@ -74,6 +74,8 @@ public without sharing class PIR_HomepageController {
     public Participant_Enrollment__c per;
     @AuraEnabled
     public boolean dobValid;
+    @AuraEnabled
+    public boolean eligibilityInvalid;
     // Implement the compareTo() method
     // public Integer compareTo(Object compareTo) {
     //   ListViewWrapper compareToP = (ListViewWrapper) compareTo;
@@ -1200,7 +1202,7 @@ public without sharing class PIR_HomepageController {
             (ssVisitPlanMap.get(lst.Study_Site__c).size() > 1 ? lst.Visit_Plan__c != null : true) :  true))
         ? (lst.Clinical_Trial_Profile__r.Tokenization_Support__c ?  lst.Participant__r.Gender__c != null : true) 
         : false;
-
+      wrap.eligibilityInvalid = lst.Clinical_Trial_Profile__r.Promote_to_SH__c  && (lst.Study_Site__r.Study_Site_Type__c =='Virtual'|| lst.Study_Site__r.Study_Site_Type__c =='Hybrid') && !lst.Is_Participant_DOB_Valid__c;
       listViewWrapper.add(wrap);
     }
 
@@ -2562,7 +2564,8 @@ public without sharing class PIR_HomepageController {
                 Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,
                 Clinical_Trial_Profile__r.Initial_Visit_Required__c,
                 Clinical_Trial_Profile__r.Final_Consent_Required__c,
-                Clinical_Trial_Profile__r.Tokenization_Support__c
+                Clinical_Trial_Profile__r.Tokenization_Support__c,
+                Clinical_Trial_Profile__r.Promote_to_SH__c
             FROM Study_Site__c
             WHERE Id = :studySiteId
         ];
@@ -2570,9 +2573,19 @@ public without sharing class PIR_HomepageController {
             result.participantStatuses = new List<LabelValueItem>();
             result.visitPlansLVList = new List<LabelValueItem>();
             result.objStudySite = new Study_Site__c();
-        }else{
-            result.participantStatuses = PEStatusState.getParticipantImportStatusesLV(sites[0].Clinical_Trial_Profile__r);
-            result.visitPlansLVList =StudySiteService.getVisitPlansLVList(studySiteId);
+        }else{            
+          List<LabelValueItem> tempParticipantStatuses = PEStatusState.getParticipantImportStatusesLV(sites[0].Clinical_Trial_Profile__r);
+          if(sites[0].Clinical_Trial_Profile__r.Promote_to_SH__c && !sites[0].Clinical_Trial_Profile__r.Initial_Visit_Required__c && (sites[0].Study_Site_Type__c =='Virtual' ||sites[0].Study_Site_Type__c =='Hybrid')){
+            result.participantStatuses = new List<LabelValueItem>();
+            for(LabelValueItem opt : tempParticipantStatuses){
+              if(opt.value == 'Received' || opt.value == 'Successfully Contacted'){
+                result.participantStatuses.add(opt);
+              }
+            }
+          } else{
+            result.participantStatuses = tempParticipantStatuses;
+          }
+          result.visitPlansLVList =StudySiteService.getVisitPlansLVList(studySiteId);
           result.objStudySite = sites[0];
         }
         return result;    
