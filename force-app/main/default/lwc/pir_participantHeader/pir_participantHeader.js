@@ -544,13 +544,7 @@ export default class Pir_participantHeader extends LightningElement {
                 })
             }
             else{
-                const evt = new ShowToastEvent({
-                    title: Send_to_Dct_dob_error,
-                    message: Send_to_Dct_dob_error,
-                    variant: 'error',
-                    mode: 'sticky'
-                });
-                this.dispatchEvent(evt);
+                this.showErrorToast(Send_to_Dct_dob_error);                
                 this.dispatchEvent(new CustomEvent('gotodetail'));
             }
         }
