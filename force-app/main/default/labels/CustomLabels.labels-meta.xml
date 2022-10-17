@@ -54,7 +54,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Send to Dct dob error</shortDescription>
-        <value>Participant data couldn&apos;t be sent to DCT because some fields related to this participant are missing. Please fill them out on the Participant Details tab before continuing.</value>
+        <value>Participant could not be sent to DCT. Information is missing on Participant Details tab</value>
+    </labels>
+    <labels>
+        <fullName>Missing_participant_information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing participant information</shortDescription>
+        <value>Please fill in the required missing information before continuing.</value>
     </labels>
     <labels>
         <fullName>Site_Calendar_All_Studies_Sites</fullName>
@@ -28524,6 +28531,13 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Select_E-Consent_Vendor</shortDescription>
         <value>Select E-Consent Vendor</value>
+    </labels>
+    <labels>
+        <fullName>Task_No_Completed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task No Completed</shortDescription>
+        <value>You have no completed tasks</value>
     </labels>
     <labels>
         <fullName>Valid_Time_Format</fullName>
