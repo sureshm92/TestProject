@@ -6,11 +6,15 @@ import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
 
 import PPLEARNMOREDESKTOPLabel from '@salesforce/label/c.PP_ProgramOverview_LearnMore_Desktop';
+import PP_We_share_the_vision_to_drive_healthcare_forward from '@salesforce/label/c.PP_We_share_the_vision_to_drive_healthcare_forward';
+import PP_Clinical_Research_by_IQVIA from '@salesforce/label/c.PP_Clinical_Research_by_IQVIA';
 
 
 export default class StudyOverview extends LightningElement {
     label = {
-				PPLEARNMOREDESKTOPLabel
+				PPLEARNMOREDESKTOPLabel,
+                PP_We_share_the_vision_to_drive_healthcare_forward,
+                PP_Clinical_Research_by_IQVIA
     };
 
     iqviaLogoUrl = IQVIA_Logo+'/IQVIALogo.png';
@@ -85,6 +89,16 @@ export default class StudyOverview extends LightningElement {
 
     handleclick(){
         communityService.navigateToPage('about-study-and-overview');
+    }
+
+    handleclickClinicalResearch(){
+        const config = {
+            type: 'standard__webPage',
+            attributes: {
+                url: 'http://ClinicalResearch.com'
+            }
+        };
+        this[NavigationMixin.Navigate](config);
     }
     
 }
