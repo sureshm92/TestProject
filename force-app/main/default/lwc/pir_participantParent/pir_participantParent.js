@@ -205,29 +205,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     loadStyle(this, PIR_Community_CSS)
   }
 
-  // @wire(getStudyAccessLevel)
-  // wiredAccess({ error, data }) {
-  //   console.log('>>wired access called>>>>');
-  //   if (data) {
-  //     console.log('>>if data called>>>>');
-  //       this.lststudysiteaccesslevel = data;
-  //       if(this.selectedPE){
-  //       if(this.lststudysiteaccesslevel[this.selectedPE.siteId])
-  //       {
-  //         if(this.lststudysiteaccesslevel[this.selectedPE.siteId] == 'Level 3'){
-  //           this.isMedicalHistryAccess = false; 
-  //         } 
-  //       }
-  //       else{
-  //         this.isMedicalHistryAccess = true; 
-  //       } 
-  //     }
-  //   } else if (error) {
-  //     console.log('>>wired error called stringfy>>>>'+JSON.stringify(error));
-  //     console.log('>>wired error called>>>>'+error);
-  //       this.error = error;
-  //   }
-  // }
+
   studyhandleChange(event) {
     var picklist_Value = event.target.value;
     this.selectedStudy = picklist_Value;
