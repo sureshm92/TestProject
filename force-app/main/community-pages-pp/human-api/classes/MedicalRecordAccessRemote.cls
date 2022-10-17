@@ -1,10 +1,4 @@
 public class MedicalRecordAccessRemote {
-    
-    public static String clientId='72cd1f1f7b36cc80e104efd2a9332e74372fcb24';
-    public static  String clientUserId='SK_Sandeep'; //referral Id
-    public static String clientUserEmail='sandeepsfdc527@gmail.com';//patient email
-    public static String clientSecret='8338fd6645b6b430fe186729a1a873e7cd57a839';
-    
     @AuraEnabled 
     public static RemoteCall_getHumanAPITokens.SessionTokenInfo getSessionToken(String participantEmail,String referralId,String humanId,String uniqueHumanId){    
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
