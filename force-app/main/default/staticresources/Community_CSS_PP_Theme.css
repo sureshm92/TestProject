@@ -676,28 +676,27 @@ c-pp-Study-Visit-Details-Card .slds-form-element:nth-child(2) .slds-checkbox .sl
     margin-left: .5rem;
 }
 
-.slds-checkbox .slds-checkbox__label {
+.comm-checks .slds-checkbox .slds-checkbox__label {
     display: flex;
     align-items: center;
 }
 
-.slds-checkbox .slds-checkbox__label .slds-form-element__label {
+.comm-checks .slds-checkbox .slds-checkbox__label .slds-form-element__label {
     font-size: .875rem;
 }
 
-.slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
+.comm-checks .slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
     position: relative;
 }
 
-.slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux,
-.task-comm-pref .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
+.comm-checks .slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
     background-color: #00a3e0;
     border-radius: 2px;
     border: none;
     top: 1px;
 }
 
-.slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux:after {
+.comm-checks .slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux:after {
     color: #00a3e0;
     position: absolute;
     content: " ";
@@ -717,8 +716,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     box-shadow: none
 }
 
-.slds-form-element__control .slds-checkbox [type=checkbox]:checked:focus+.slds-checkbox__label .slds-checkbox_faux:before,
-.task-comm-pref .slds-checkbox [type=checkbox]:checked:focus+.slds-checkbox__label .slds-checkbox_faux:before{
+.comm-checks .slds-form-element__control .slds-checkbox [type=checkbox]:checked:focus+.slds-checkbox__label .slds-checkbox_faux:before{
     border: 2px solid #051ff1;
     height: 16px;
     width: 16px;
@@ -729,8 +727,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     left: 0;
 }
 
-.slds-form-element__control .slds-checkbox [type=checkbox]:focus+.slds-checkbox__label .slds-checkbox_faux:before,
-.task-comm-pref .slds-checkbox [type=checkbox]:focus+.slds-checkbox__label .slds-checkbox_faux:before { 
+.comm-checks .slds-form-element__control .slds-checkbox [type=checkbox]:focus+.slds-checkbox__label .slds-checkbox_faux:before{ 
      border: 2px solid #051ff1;
     height: 16px;
     width: 16px;

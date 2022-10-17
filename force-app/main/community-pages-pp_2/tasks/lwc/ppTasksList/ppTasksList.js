@@ -17,10 +17,12 @@ import markAsCompleted from '@salesforce/apex/TaskEditRemote.markAsCompleted';
 import { NavigationMixin } from 'lightning/navigation';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import TIME_ZONE from '@salesforce/i18n/timeZone';
 
 export default class PpTasksList extends NavigationMixin(LightningElement) {
     isShowModal = false;
     popUpTaskId;
+    userTimeZone = TIME_ZONE;
     @track tasksList;
     @api expireTaskAvailable = false;
     @api containerClass;
