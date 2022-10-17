@@ -59,8 +59,18 @@
                                     </div>
                             </lightning-layout-item>
                             <lightning-layout-item size="8">
-																<div class="po-text slds-p-top_x-small"></div>
-														</lightning-layout-item>                          
+								<div class="po-text slds-p-top_x-small">
+                                    PP_We_share_the_vision_to_drive_healthcare_forward
+                                    </br>
+                                    <span class="po-more-text" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
+                                    <lightning-button-icon
+                                    icon-name="utility:new_window"
+                                    variant="bare"
+                                    size="large"
+                                    onclick={handleclickClinicalResearch}
+                                    ></lightning-button-icon>
+                                </div>
+							</lightning-layout-item>                          
                         </lightning-layout>
                     </div>
             </template>
@@ -123,8 +133,19 @@
                                 </div>
                         </lightning-layout-item>
                         <lightning-layout-item size="8">
-                                <div class="po-text slds-p-top_medium"></div>
-                        </lightning-layout-item>                          
+                            <div class="po-text slds-p-top_x-small">
+                                <span class="po-more-text" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
+                                <lightning-button-icon
+                                icon-name="utility:new_window"
+                                variant="bare"
+                                size="large"
+                                onclick={handleclickClinicalResearch}
+                                ></lightning-button-icon>
+                            </div> 
+                        </lightning-layout-item>   
+                        <lightning-layout-item size="12">
+                            <div class="po-text slds-p-top_medium">PP_We_share_the_vision_to_drive_healthcare_forward</div>
+                        </lightning-layout-item>                       
                     </lightning-layout>
                 </div>
         </template>

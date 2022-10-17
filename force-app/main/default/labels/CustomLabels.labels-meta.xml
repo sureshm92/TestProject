@@ -54,7 +54,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Send to Dct dob error</shortDescription>
-        <value>Participant could not be sent to DCT. Information is missing on Participant Details tab</value>
+        <value>Participant could not be sent to DCT. Information is missing on Participant Details tab.</value>
     </labels>
     <labels>
         <fullName>Missing_participant_information</fullName>
@@ -13895,6 +13895,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>To be used when your Preferred and Second Language are not available.</value>
     </labels>
     <labels>
+        <fullName>PP_Clinical_Research_by_IQVIA</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Clinical_Research_by_IQVIA</shortDescription>
+        <value>Clinical Research by IQVIA</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Current_Password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -20123,6 +20130,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Welcome</shortDescription>
         <value>Welcome</value>
+    </labels>
+    <labels>
+        <fullName>PP_We_share_the_vision_to_drive_healthcare_forward</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_We_share_the_vision_to_drive_healthcare_forward</shortDescription>
+        <value>We share the vision to drive healthcare forward. We do our part by using breakthroughs in insights, technology and human intelligence to reimagine and deliver ways to help make them a reality. Learn more about clinical trial opportunities and what new hope is on the horizon today!</value>
     </labels>
     <labels>
         <fullName>PP_Withdraw_Delegate</fullName>

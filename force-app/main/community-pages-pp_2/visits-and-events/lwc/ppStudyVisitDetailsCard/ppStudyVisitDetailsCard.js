@@ -563,6 +563,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitDateTime = event.detail.compdatetime;
         this.visitTime = event.detail.comptime;
         this.visitDate = event.detail.compdate;
+        this.remindmepub = '';
         if (this.visitDate && this.visitTime) {
             this.disableButtonSaveCancel = false;
         } else {
@@ -580,6 +581,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitDateTime = event.detail.compdatetime;
         this.visitDate = event.detail.compdate;
         this.visitTime = event.detail.comptime;
+        this.remindmepub = '';
         if (this.visitDate && this.visitTime) {
             this.disableButtonSaveCancel = false;
         } else {
