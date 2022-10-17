@@ -185,4 +185,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
         justify-content: flex-start;
         padding-left: 1.5rem;
     }
+    .slds-grid {
+        padding: 0 0.75rem 0 0.75rem;
+    }
 }
