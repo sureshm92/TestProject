@@ -232,7 +232,7 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
         this.loading = true;
         let obj = {};
         if(event.currentTarget.dataset.name === 'yob') {  
-            obj = {"Birth_Year__c": (event.detail.value==null || event.detail.value == undefined)?'--':event.detail.value.trim()};
+            obj = {"Birth_Year__c": (event.detail.value==null || event.detail.value == undefined)?'':event.detail.value.trim()};
             this.birthYear = (event.detail.value==null || event.detail.value == undefined)?'--':event.detail.value.trim();
             if(this.birthYear == ''|| this.birthYear == '--' || this.birthYear == undefined || this.birthYear == null){
                 this.checkBox = false;
