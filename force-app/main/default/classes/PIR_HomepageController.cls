@@ -1521,6 +1521,41 @@ public without sharing class PIR_HomepageController {
     }
   }
 
+  @AuraEnabled
+  public static Map<Id, String> getStudyAccessLevelInitParent() {
+    try {
+      Map<Id, String> piStudiesAccessLevel = new Map<Id, String>();
+      List<Site_Staff__c> piStaffs = [
+        SELECT
+          Id,
+          Study_Site__c,
+          Study_Site__r.Principal_Investigator__c,
+          Study_Site__r.Clinical_Trial_Profile__c,
+          Delegate_Level__c,
+          clinical_Trial_Profile__c,
+          Site_Contact__c,
+          is_Invited__c
+        FROM Site_Staff__c
+        WHERE
+          (Site_Contact__c = :CommunityService.getUserContact().Id
+          OR Study_Site__r.Principal_Investigator__c = :CommunityService.getUserContact()
+            .Id)
+          AND is_Invited__c = TRUE
+      ];
+      for (Site_Staff__c siteStaff : piStaffs) {
+        if (siteStaff.Site_Contact__c == CommunityService.getUserContact().Id) {
+          piStudiesAccessLevel.put(
+            siteStaff.Study_Site__c,
+            siteStaff.Delegate_Level__c
+          );
+        }
+      }
+      return piStudiesAccessLevel;
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
   @AuraEnabled(cacheable=true)
   public static Map<Id, String> getStudyAccessLevel() {
     try {
