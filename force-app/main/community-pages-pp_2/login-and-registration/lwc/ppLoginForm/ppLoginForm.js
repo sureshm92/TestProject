@@ -261,6 +261,11 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     get className() {
         return this.btnclassName;
     }
+
+    get PasswordEyeIconTitle(){
+        return this.isEyeHidden ? 'show' : 'hide';
+    }
+
     changeImgSrc() {
         let isEyeHidden = this.isEyeHidden;
         if (isEyeHidden) {
