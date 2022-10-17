@@ -54,7 +54,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Send to Dct dob error</shortDescription>
-        <value>Participant could not be sent to DCT. Information is missing on Participant Details tab</value>
+        <value>Participant could not be sent to DCT. Information is missing on Participant Details tab.</value>
     </labels>
     <labels>
         <fullName>Missing_participant_information</fullName>
