@@ -131,12 +131,12 @@ public without sharing class MedicalHistryTabController {
             if(String.isNotBlank(peid)) {
 
                 objWrapper.surveyResponses = [
-                    SELECT Id, CreatedDate, Screener_Response__c, PreScreener_Survey__c, PreScreener_Survey__r.MRR__c, 
+                    SELECT Id, Completed_Date__c, Screener_Response__c, PreScreener_Survey__c, PreScreener_Survey__r.MRR__c, 
                         PreScreener_Survey__r.Survey_Name__c, Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c 
                     FROM Participant_PrescreenerResponse__c 
                     WHERE (Participant_enrollment__c = :peid OR Participant__c = :objPer.Participant__c)
                         AND (PreScreener_Survey__c != null OR Participant_enrollment__c != null)
-                    ORDER BY CreatedDate DESC
+                    ORDER BY Completed_Date__c DESC
                 ];
             }
         return  objWrapper;

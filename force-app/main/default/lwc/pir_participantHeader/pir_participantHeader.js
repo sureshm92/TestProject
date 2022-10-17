@@ -207,8 +207,7 @@ export default class Pir_participantHeader extends LightningElement {
                         this.showActionName = 'NOPP';
                     }
 
-
-                 if(result.objScreenerWrapper.lstPrescreenerSurveyPending.length > 0){
+                if(result.preScreenAccess && result.objScreenerWrapper.lstPrescreenerSurveyPending.length > 0){ 
                     this.totalSurveyToComplete = result.objScreenerWrapper.lstTotalSurvey.length;
                     this.completedSurveyByUser = result.objScreenerWrapper.lstPreScreenerCompleted.length;
                     this.surveyPending = result.objScreenerWrapper.lstPrescreenerSurveyPending;
@@ -249,10 +248,35 @@ export default class Pir_participantHeader extends LightningElement {
                    {
                     
                     this.currentSurvey = this.StudySpecificPrimarySurveyList[0];
+                    var index = this.StudySpecificPrimarySurveyList.findIndex(
+                        (x) => x.Id ===this.currentSurvey.Id
+                      );
+                    if(index != -1){
+                      this.StudySpecificPrimarySurveyList =
+                      this.StudySpecificPrimarySurveyList.filter(
+                        (surve) =>
+                        surve.Id !=
+                          this.StudySpecificPrimarySurveyList[index].Id
+                      );
+                    }
+
                    }
                    else if(!this.currentSurvey && !this.prescreenerSurvey && this.StudySpecificSecondarySurveyList.length >0)
                    {
                     this.currentSurvey = this.StudySpecificSecondarySurveyList[0];
+                    var indexSec = this.StudySpecificSecondarySurveyList.findIndex(
+                        (x) => x.Id ===this.currentSurvey.Id
+                      );
+                    if(indexSec != -1){
+                      this.StudySpecificSecondarySurveyList =
+                      this.StudySpecificSecondarySurveyList.filter(
+                        (surve) =>
+                        surve.Id !=
+                          this.StudySpecificSecondarySurveyList[indexSec].Id
+                      );
+                    }
+
+
                    }
                    
                    this.mrrLink = this.currentSurvey.Link_to_Pre_screening__c;
@@ -343,7 +367,7 @@ export default class Pir_participantHeader extends LightningElement {
           );
         }
        this.mrrResults = true;
-       
+
        if(event.detail.result == 'Pass'){
           this.mrrPassed = true;
        }else{
@@ -361,22 +385,26 @@ export default class Pir_participantHeader extends LightningElement {
             }
             else if(this.StudySpecificPrimarySurveyList.length > 0)
             {
-                var index = this.StudySpecificPrimarySurveyList.findIndex(
-                    (x) => x.Id ===this.currentSurvey.Id
-                  );
-                if(index != -1){
-                  this.StudySpecificPrimarySurveyList =
-                  this.StudySpecificPrimarySurveyList.filter(
-                    (surve) =>
-                    surve.Id !=
-                      this.StudySpecificPrimarySurveyList[index].Id
-                  );
-                }
                 this.currentSurvey =  this.StudySpecificPrimarySurveyList[0];
                 this.mrrLink = this.currentSurvey.Link_to_Pre_screening__c;
+
+                var indexStd = this.StudySpecificPrimarySurveyList.findIndex(
+                    (x) => x.Id ===this.currentSurvey.Id
+                  );
+                if(indexStd != -1){
+                  this.StudySpecificPrimarySurveyList =
+                  this.StudySpecificPrimarySurveyList.filter(
+                    (surveStd) =>
+                    surveStd.Id !=
+                      this.StudySpecificPrimarySurveyList[indexStd].Id
+                  );
+                }
             }
             else if(this.StudySpecificSecondarySurveyList.length > 0)
             {
+                this.currentSurvey =  this.StudySpecificSecondarySurveyList[0];
+                this.mrrLink = this.currentSurvey.Link_to_Pre_screening__c;
+
                 var indexSec = this.StudySpecificSecondarySurveyList.findIndex(
                     (x) => x.Id ===this.currentSurvey.Id
                   );
@@ -388,8 +416,6 @@ export default class Pir_participantHeader extends LightningElement {
                       this.StudySpecificSecondarySurveyList[indexSec].Id
                   );
                 }
-                this.currentSurvey =  this.StudySpecificSecondarySurveyList[0];
-                this.mrrLink = this.currentSurvey.Link_to_Pre_screening__c;
             }
            
        }

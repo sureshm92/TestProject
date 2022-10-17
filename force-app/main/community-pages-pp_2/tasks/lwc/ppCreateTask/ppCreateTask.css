@@ -9,7 +9,7 @@
 
 .task-card {
     width: 510px;
-    height: 316px;
+    min-height: 316px;
 }
 .task-cancel-btn {
     box-sizing: border-box;
@@ -52,4 +52,13 @@
 .slds-required {
     font-size: 16px;
     font-weight: bold;
+}
+.task-card-mobile {
+    box-sizing: border-box;
+    min-height: 304px;
+    width: 366px;
+    border: 1px solid #e9e9e9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
 }
