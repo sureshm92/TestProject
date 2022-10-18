@@ -13,6 +13,8 @@ import enterUsernameMsg from '@salesforce/label/c.Lofi_Enter_Username';
 import enterPasswordMsg from '@salesforce/label/c.Lofi_Enter_Password';
 import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
+import PP_Login_Form_Show from '@salesforce/label/c.PP_Login_Form_Show';
+import PP_Login_Form_Hide from '@salesforce/label/c.PP_Login_Form_Hide';
 
 export default class PpLoginForm extends NavigationMixin(LightningElement) {
     @track inError;
@@ -43,7 +45,9 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         password,
         enterUsernameMsg,
         enterPasswordMsg,
-        login
+        login,
+        PP_Login_Form_Hide,
+        PP_Login_Form_Show
     };
 
     currentPageReference;
@@ -263,7 +267,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     }
 
     get PasswordEyeIconTitle(){
-        return this.isEyeHidden ? 'show' : 'hide';
+        return this.isEyeHidden ? this.label.PP_Login_Form_Show : this.label.PP_Login_Form_Hide;
     }
 
     changeImgSrc() {
