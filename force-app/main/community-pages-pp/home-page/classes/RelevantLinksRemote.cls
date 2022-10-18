@@ -10,6 +10,13 @@ public without sharing class RelevantLinksRemote {
         public List<LinksWrapper> linksWrappers = new List<LinksWrapper>();
     }
 
+    public class InitDataNew {
+        @AuraEnabled
+        public Boolean linksAvailable = false;
+        @AuraEnabled
+        public List<ResourceService.ResourceWrapper> resources = new List<ResourceService.ResourceWrapper>();
+    }
+
     public class LinksWrapper {
         @AuraEnabled
         public LabelValueItem type;
@@ -88,6 +95,87 @@ public without sharing class RelevantLinksRemote {
         }
     }
 
+    @AuraEnabled
+    public static InitDataNew getInitDataNew() {
+        try {
+            String contentType = ResourceService.RESOURCE_TYPE_RELEVANT_LINK;
+            List<Id> COIsOfParticipant = new List<Id>();
+            InitDataNew initDataNew = new InitDataNew();
+
+            ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
+            List<Participant_Enrollment__c> enrollments = getEnrollments(ps);
+            List<String> preferredLanguages = ContactService.getPreferredLanguages();
+
+            List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = [
+                SELECT Id, Therapeutic_Area__c
+                FROM Therapeutic_Area_Patient__c
+                WHERE Participant__c = :ps.participant.Id
+            ];
+            for (Therapeutic_Area_Patient__c tap : therapeuticAreaPatients)
+                COIsOfParticipant.add(tap.Therapeutic_Area__c);
+
+            List<Resource__c> resourcesVisibleForParticipant = getStudySpecificResources(
+                contentType,
+                enrollments,
+                preferredLanguages,
+                COIsOfParticipant,
+                ps.isDelegate
+            );
+            if (ps.value == ParticipantService.ParticipantStates.ALUMNI) {
+                resourcesVisibleForParticipant.addAll(
+                    getCOIResources(contentType, COIsOfParticipant, preferredLanguages)
+                );
+                if (!resourcesVisibleForParticipant.isEmpty())
+                    initDataNew.linksAvailable = true;
+            } else {
+                if (enrollments.size() > 0)
+                    initDataNew.linksAvailable = true;
+            }
+
+            TranslateHelper.translate(resourcesVisibleForParticipant);
+            List<LabelValueItem> typeLabelValues = getTranslatedTypes(
+                Resource__c.Type__c.getDescribe().getPicklistValues()
+            );
+            /*for (LabelValueItem t : typeLabelValues) {
+                LinksWrapper lw = new LinksWrapper();
+                for (Resource__c res : resourcesVisibleForParticipant) {
+                    if (res.Type__c.equals(t.value)) {
+                        lw.resources.add(new ResourceService.ResourceWrapper(res));
+                    }
+                }
+
+                if (!lw.resources.isEmpty()) {
+                    lw.type = new LabelValueItem(
+                        TranslateHelper.getPickListLabel(Resource__c.Type__c, 'Relevant Links'),
+                        'Relevant Links'
+                    );
+                    lw.resources = ResourceService.sortResourcesByCOI(lw.resources);
+                    initData.linksWrappers.add(lw);
+                }
+            }*/
+            for (Resource__c res : resourcesVisibleForParticipant) {
+                //LinksWrapper lw = new LinksWrapper();
+                ResourceService.ResourceWrapper rw = new ResourceService.ResourceWrapper(res);
+                //lw.resources.add(new ResourceService.ResourceWrapper(res));
+                //lw.resources = ResourceService.sortResourcesByCOI(lw.resources);
+                initDataNew.resources.add(rw);
+            }
+
+            /*if (initData.linksAvailable && initData.linksWrappers.isEmpty()) {
+                LinksWrapper lw = new LinksWrapper();
+                lw.type = new LabelValueItem(
+                    TranslateHelper.getPickListLabel(Resource__c.Type__c, 'Relevant Links'),
+                    'Relevant Links'
+                );
+                initData.linksWrappers.add(lw);
+            }*/
+
+            return initDataNew;
+        } catch (Exception e) {
+            return (InitDataNew) AuraHelper.throwException(e);
+        }
+    }
+
     private static List<Resource__c> getStudySpecificResources(
         String contentType,
         List<Participant_Enrollment__c> enrollments,
@@ -149,6 +237,8 @@ public without sharing class RelevantLinksRemote {
                 Title__c,
                 Type__c,
                 URL__c,
+            	description__c,
+                CreatedDate,
                 (
                     SELECT Id, Therapeutic_Area__c
                     FROM Therapeutic_Area_Assignments__r
@@ -156,6 +246,7 @@ public without sharing class RelevantLinksRemote {
                 )
             FROM Resource__c
             WHERE Id IN :resourceIdsVisibleForParticipant
+            ORDER BY CreatedDate DESC
         ];
         return resourcesVisibleForParticipant;
     }
