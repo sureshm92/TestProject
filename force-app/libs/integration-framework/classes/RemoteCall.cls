@@ -23,6 +23,7 @@ public abstract class RemoteCall {
     public abstract Type getType();
     protected abstract String buildRequestBody();
     protected abstract Object parseResponse(String responseBody);
+    protected  Integer responseCode;
 
     public Object execute() {
         System.debug('endPointURL::::' + endPointURL);
@@ -91,6 +92,7 @@ public abstract class RemoteCall {
             }
             System.debug('RESPONSE STATUS: ' + res.getStatusCode() + ' ' + res.getStatus());
             System.debug(res.getBody());
+            responseCode= res.getstatusCode();
             return parseResponse(res.getBody());
         } catch (Exception e) {
             responseDT = Datetime.now();

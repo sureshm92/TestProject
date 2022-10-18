@@ -29,13 +29,25 @@ public without sharing class RemoteCall_GetCardDetails extends RemoteCall {
     }
 
     protected override Object parseResponse(String responseBody) {
-        List<Card> responseCards = (List<Card>) JSON.deserialize(responseBody, List<Card>.class);
+       /* List<Card> responseCards = (List<Card>) JSON.deserialize(responseBody, List<Card>.class);
         for (Card card : responseCards) {
             if (card.balance.substring(card.balance.length() - 2).equals('.0'))
                 card.balance = card.balance + '0';
             card.status =
                 card.status.substring(0, 1).toUpperCase() + card.status.substring(1).toLowerCase();
         }
+        return responseCards;*/
+        List<Card>  responseCards = new List<Card>();
+        if(responseCode==200){
+            responseCards = (List<Card>) JSON.deserialize(responseBody, List<Card>.class);
+            for (Card card : responseCards) {
+                if (card.balance.substring(card.balance.length() - 2).equals('.0'))
+                    card.balance = card.balance + '0';
+                card.status =
+                    card.status.substring(0, 1).toUpperCase() + card.status.substring(1).toLowerCase();
+            }
+        }
+
         return responseCards;
     }
 }

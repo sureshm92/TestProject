@@ -26,10 +26,28 @@ public class Test_PaymentsRemote {
 
         Test.startTest();
         ParticipantService.setMock(new ParticipantServiceMock());
-        Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock());
+        integer rescode;
+        rescode = 200;
+        Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock(rescode));    
         initData = PaymentsRemote.getPaymentData();
         Test.stopTest();
 
         System.assertEquals(2, initData.cards.size());
+    }
+    @IsTest
+    public static void testfourhundred() {
+        PaymentsRemote.InitData initData;
+        Test.startTest();
+        ParticipantService.setMock(new ParticipantServiceMock());
+        integer rescode;
+       // GetCardDetailsHttpCalloutMock httpcall = new GetCardDetailsHttpCalloutMock();
+        rescode = 400;
+        //httpcall.add(rescode);
+        Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock(rescode));
+        initData = PaymentsRemote.getPaymentData();
+        Test.stopTest();
+        IntegrationLog__c integrationLog = [Select Id, Error_Message__c, Response_Body__c From   IntegrationLog__c];
+        //System.assertEquals(2, initData.cards.size());
+        System.assertEquals('Internal Server Error', integrationLog.Error_Message__c);
     }
 }
