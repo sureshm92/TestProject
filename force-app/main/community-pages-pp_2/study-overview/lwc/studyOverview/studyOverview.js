@@ -1,4 +1,6 @@
 import { LightningElement, api } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
+
 import DEVICE from '@salesforce/client/formFactor';
 import IQVIA_Logo from '@salesforce/resourceUrl/IQVIA_Logo';
 import GSK_Logo from '@salesforce/resourceUrl/GSK_Logos';
@@ -10,7 +12,7 @@ import PP_We_share_the_vision_to_drive_healthcare_forward from '@salesforce/labe
 import PP_Clinical_Research_by_IQVIA from '@salesforce/label/c.PP_Clinical_Research_by_IQVIA';
 
 
-export default class StudyOverview extends LightningElement {
+export default class StudyOverview extends NavigationMixin(LightningElement) {
     label = {
 				PPLEARNMOREDESKTOPLabel,
                 PP_We_share_the_vision_to_drive_healthcare_forward,
