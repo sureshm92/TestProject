@@ -350,16 +350,25 @@ public without sharing class UploadParticipantsDelegateHelper {
         if(contactInsertedIds != null &&
            !contactInsertedIds.isEmpty() && contactInsertedIds.size() != 0)
          {   
-             dupContList = [Select Id,FirstName,LastName,Email from Contact where Id IN:contactInsertedIds];           
+            dupContList = [Select Id,FirstName,LastName,Email,(Select First_Name__c,Last_Name__c,Email__c from Participants__r) from Contact where Id IN:contactInsertedIds];         
          }
          Map<String,String> keyWithContactID = new Map<String,String>();
          if(dupContList != null && !dupContList.isEmpty() && dupContList.size() != 0){
-             for(Contact c:dupContList){
-                 String contKey = c.FirstName+c.LastName+c.Email;
-                 contKey = contKey.toLowercase();
-                 keyWithContactID.put(contKey,c.Id);
-             }
-         }
+            String contKey='';
+            for(Contact c:dupContList){
+                  if(c.FirstName != null && c.LastName != null){
+                      contKey = c.FirstName+c.LastName+c.Email;
+                      contKey = contKey.toLowercase(); 
+                  }else{
+                      if(c.Participants__r != null){
+                         contKey = c.Participants__r[0].First_Name__c+c.Participants__r[0].Last_Name__c+c.Email;
+                         contKey = contKey.toLowercase();
+                      }
+                  }    
+                keyWithContactID.put(contKey,c.Id);
+                contKey='';
+            }
+        }
         
         if (duplicateRowMap != null) {
             for (String key : duplicateRowMap.keySet()) {
