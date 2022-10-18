@@ -37,13 +37,10 @@ public class Test_PaymentsRemote {
     @IsTest
     public static void testfourhundred() {
         PaymentsRemote.InitData initData;
+
         Test.startTest();
         ParticipantService.setMock(new ParticipantServiceMock());
-        integer rescode;
-       // GetCardDetailsHttpCalloutMock httpcall = new GetCardDetailsHttpCalloutMock();
-        rescode = 400;
-        //httpcall.add(rescode);
-        Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock(rescode));
+        Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock(400));
         initData = PaymentsRemote.getPaymentData();
         Test.stopTest();
         IntegrationLog__c integrationLog = [Select Id, Error_Message__c, Response_Body__c From   IntegrationLog__c];
