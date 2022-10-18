@@ -79,6 +79,7 @@
                                     container-class="inactive-custom-box slds-align_absolute-center complete-container"
                                     due-time-class="due-time complete-datetime"
                                     selected-tasks={completedTasksList}
+                                    expire-task-available="true"
                                     ontaskcreated={handleTaskCreated}
                                 ></c-pp-tasks-list>
                                 <template if:false={emptyIgnoreTasks}>
