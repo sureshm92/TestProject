@@ -243,6 +243,9 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                     : 'set-up-your-account expire-header';
                 this.expiredTasksList.push(tasks[i]);
             }
+            tasks[i].subjectEllipsisClass = tasks[i].criticalTask
+                ? 'crit-subject-ellipsis crit-mob-subject-ellipsis'
+                : 'subject-ellipsis mob-subject-ellipsis';
         }
         this.emptyIgnoreTasks = this.ignoredTasksList.length == 0;
         this.emptyExpiredTasks = this.expiredTasksList.length == 0;
