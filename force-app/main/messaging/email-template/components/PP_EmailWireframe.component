@@ -175,14 +175,14 @@
                         <div style="display:block;
                                     padding: 0.5rem 0 0 0;">
                             <!-- Tech Support -->
-                            {!$Label.PP_Email_Technical_Support}
+                            {!$Label.Email_Opt_Out_footer}
                             <a style="color: #015FF1;
                                     font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">
-                                {!$Label.PP_Email_Tech_Support}</a>.
+                                {!$Label.Email_Opt_Out_footer_here}</a>.
                             <!--Opt Out -->
-                            {!$Label.PP_Email_Opt_Out}
+                            <!-- {!$Label.Email_Opt_Out_footer_here}
                             <a style="color: #015FF1;
-                                    font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">{!$Label.PP_Email_Update_Pref}</a>.
+                                    font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">{!$Label.PP_Email_Update_Pref}</a>. -->
                         </div>
 
                         <!--Medical Emergency -->
@@ -202,14 +202,14 @@
                         <div style="display:block;
                                     padding: 0.5rem 0 0 0;">
                             <!-- Tech Support -->
-                            {!$Label.PP_Email_Technical_Support}
+                            {!$Label.Email_Opt_Out_footer}
                             <a style="color: #015FF1;
                                     font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">
-                                {!$Label.PP_Email_Tech_Support}</a>.
+                                {!$Label.Email_Opt_Out_footer_here}</a>.
                             <!--Opt Out -->
-                            {!$Label.PP_Email_Opt_Out}
+                            <!-- {!$Label.PP_Email_Opt_Out}
                             <a style="color: #015FF1;
-                                    font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">{!$Label.PP_Email_Update_Pref}</a>.
+                                    font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">{!$Label.PP_Email_Update_Pref}</a>. -->
                         </div>
                         <!--Medical Emergency -->
                         <div style="padding: 0.5rem 0 0.5rem 0;

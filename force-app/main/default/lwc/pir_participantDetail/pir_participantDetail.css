@@ -267,3 +267,10 @@
 .lpad-none,.pl-0{
     padding-left: 0px;
 }
+
+.alert-img-dob{
+    height: 16px;
+}
+.alert-box-dob{
+    justify-content: left;
+}

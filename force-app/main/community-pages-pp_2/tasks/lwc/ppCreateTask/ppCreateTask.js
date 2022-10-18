@@ -103,11 +103,19 @@ export default class PpCreateTask extends LightningElement {
         return this.taskNameLeng > 0 ? this.taskNameLeng : '00';
     }
     handletaskNameChange(event) {
-        var val = event.target.value;
-        this.taskNameLeng = val.length;
-        this.subject = event.target.value;
-        if (event.target.value !== '') {
-            this.template.querySelector('[data-id="taskName"]').value = event.target.value;
+        let inputvalue = event.target.value;
+        if (inputvalue) {
+            let tasksubject = inputvalue.trimStart();
+            if (tasksubject.length > 0) {
+                this.taskNameLeng = tasksubject.length;
+                this.subject = tasksubject;
+                if (event.target.value !== '') {
+                    this.template.querySelector('[data-id="taskName"]').value = tasksubject;
+                }
+            } else {
+                this.subject = '';
+                this.taskNameLeng = 0;
+            }
         }
     }
     handleInitialDateLoad(event) {
@@ -134,18 +142,15 @@ export default class PpCreateTask extends LightningElement {
     }
 
     get currentDate() {
-        var currentDate;
-        if (this.diffInMinutes < 0) {
-            var currentDateTime = this.currentBrowserTime - this.diffInMinutes * 60 * 1000;
-            currentDate = new Date(currentDateTime);
-        } else {
-            var currentDateTime = this.currentBrowserTime + this.diffInMinutes * 60 * 1000;
-            currentDate = new Date(currentDateTime);
-        }
-        var dd = String(currentDate.getDate()).padStart(2, '0');
-        var mm = String(currentDate.getMonth() + 1).padStart(2, '0');
-        var yyyy = currentDate.getFullYear();
-        var today = yyyy + '-' + mm + '-' + dd;
+        let currentDateTime = new Date().toLocaleString('en-US', {
+            timeZone: TIME_ZONE
+        });
+        let currentDateTimeObject = new Date(currentDateTime);
+
+        let dd = String(currentDateTimeObject.getDate()).padStart(2, '0');
+        let mm = String(currentDateTimeObject.getMonth() + 1).padStart(2, '0');
+        let yyyy = currentDateTimeObject.getFullYear();
+        let today = yyyy + '-' + mm + '-' + dd;
         this.todaydate = today;
         this.calculatedDate = today;
         return today;
@@ -255,20 +260,23 @@ export default class PpCreateTask extends LightningElement {
     }
 
     get currentTime() {
-        var currentDate;
-        if (this.diffInMinutes < 0) {
-            var currentDateTime = this.currentBrowserTime - this.diffInMinutes * 60 * 1000;
-            currentDate = new Date(currentDateTime);
-        } else {
-            var currentDateTime = this.currentBrowserTime + this.diffInMinutes * 60 * 1000;
-            currentDate = new Date(currentDateTime);
-        }
-        var hh = String((currentDate.getHours() < 10 ? '0' : '') + currentDate.getHours());
-        var mm = String((currentDate.getMinutes() < 10 ? '0' : '') + currentDate.getMinutes());
-        var ss = String((currentDate.getSeconds() < 10 ? '0' : '') + currentDate.getSeconds());
-        var currentTime = hh + ':' + mm + ':' + ss;
-        this.todaytime = currentTime;
-        return this.taskDueDate == this.todaydate ? currentTime : null;
+        let currentDateTime = new Date().toLocaleString('en-US', {
+            timeZone: TIME_ZONE
+        });
+        let currentDateTimeObject = new Date(currentDateTime);
+        let hh = String(
+            (currentDateTimeObject.getHours() < 10 ? '0' : '') + currentDateTimeObject.getHours()
+        );
+        let mm = String(
+            (currentDateTimeObject.getMinutes() < 10 ? '0' : '') +
+                currentDateTimeObject.getMinutes()
+        );
+        let ss = String(
+            (currentDateTimeObject.getSeconds() < 10 ? '0' : '') +
+                currentDateTimeObject.getSeconds()
+        );
+        this.todayTime = hh + ':' + mm + ':' + ss;
+        return this.taskDueDate == this.todaydate ? this.todayTime : null;
     }
 
     get isDueDateTimeSelected() {

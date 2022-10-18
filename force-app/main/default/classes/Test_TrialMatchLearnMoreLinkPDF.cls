@@ -20,7 +20,7 @@ private class Test_TrialMatchLearnMoreLinkPDF {
         }
         Test.stopTest();
     }
-     @IsTest //getBase64LearnMoreData
+    @IsTest //getBase64LearnMoreData
     static void testQuery_getBase64LearnMoreData() {
         Test.startTest();
         Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c(
@@ -29,7 +29,7 @@ private class Test_TrialMatchLearnMoreLinkPDF {
             Protocol_ID__c = System.now() + 'Test'
         );
         insert ctp;
-         try {
+        try {
             TrialMatchLearnMoreLinkPDF.getBase64LearnMoreData(ctp.Id);
         } catch (Exception e) {
             System.debug('Exception Handing');
@@ -45,7 +45,7 @@ private class Test_TrialMatchLearnMoreLinkPDF {
             Protocol_ID__c = System.now() + 'Test'
         );
         insert ctp;
-         try {
+        try {
             TrialMatchLearnMoreLinkPDF.getBase64LearnMoreData('');
         } catch (Exception e) {
             System.debug('Exception Handing');
