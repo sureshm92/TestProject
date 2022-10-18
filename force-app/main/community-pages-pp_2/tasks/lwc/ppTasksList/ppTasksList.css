@@ -262,6 +262,18 @@
     margin-left: -17px;
   }
 
+.crit-subject-ellipsis {
+    width: 255px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.subject-ellipsis {
+    width: 320px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 @media all and (max-width: 486px) {
     .inactive-custom-box {
         width: 366px;
@@ -285,6 +297,12 @@
     .overflow-scroll {
         height: unset !important;
         overflow-y: unset !important;
+    }
+    .crit-mob-subject-ellipsis {
+        width: 157px;
+    }
+    .mob-subject-ellipsis {
+        width: 230px;
     }
 }
 /* Scroll bar custom */
