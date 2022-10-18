@@ -483,6 +483,53 @@ public without sharing class PIR_HomePageControllerTest {
         Test.stopTest();
     }
     @isTest
+    static void testgetStudyAccessLevelInitParent() {
+        TestData testData = new TestData();
+        Test.startTest();
+        Study_Site__c ssn= [select id from Study_Site__c];
+        Participant_Enrollment__c partEnroll = [
+            SELECT Id, Participant__c, Study_Site__c,Show_Referring_Provider__c
+            FROM Participant_Enrollment__c
+            LIMIT 1
+        ]; 
+        partEnroll.Study_Site__c=ssn.id;
+        update partEnroll;
+        Participant_Enrollment_Status_History__c pehistory1 = new Participant_Enrollment_Status_History__c(
+            Date__c = Datetime.now(),
+            Status__c = 'Eligibility Passed',
+            Additional_Notes__c = 'Test Notes testing testclass code on this date by test user',
+            ParticipantEnrollment__c = partEnroll.Id,
+            Non_Enrollment_Reason__c= 'PI Decision',
+            Notes__c='Test Notes testing testclass code on this date by test user'
+        );
+        insert pehistory1;
+        Contact con = [
+            SELECT Id, AccountId, MailingCountryCode, Participant_Opt_In_Status_SMS__c
+            FROM Contact
+            WHERE Id = :testData.piContact.id
+        ];
+        User u = [SELECT ContactId, Id, IsActive FROM User WHERE ContactId=:testData.piContact.id];
+        
+        List<Site_Staff__c> SS = new List<Site_Staff__c>();
+        
+        Site_Staff__c s = new Site_Staff__c(
+            Email__c = 'sitestaff' + 1 + '@emil.com',
+            Study_Site__c=ssn.id,
+            Site_Contact__c = con.id,
+            Delegate_Level__c = 'Level 3',
+            is_Invited__c = true);
+        insert s;
+        List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
+        ctpList[0].CommunityTemplate__c='Janssen';
+        update ctpList;
+        
+        System.runAs(testData.piUser) {
+            PIR_HomepageController.getStudyAccessLevelInitParent();
+        }
+        
+        Test.stopTest();
+    }
+    @isTest
     static void testgetStudyAccessLevel_2() {
         TestData testData = new TestData();
         Test.startTest();
