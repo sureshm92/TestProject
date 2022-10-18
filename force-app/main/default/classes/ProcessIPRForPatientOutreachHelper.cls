@@ -114,7 +114,7 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
             if(dd < 10){
                 ddValue = '0'+dd;
             }
-            ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
+            //ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
             Participant__c objParticipant = IprEprTriggerHandler.convertToParticipant(ipr);
             objParticipant.Age__c = participantAge;
             if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
