@@ -919,4 +919,44 @@ public without sharing class PatientDelegateService {
         }
         return isPrimaryDelegate;
     }
+    /**
+     * @description: This Method will return PD record if Participant is Minor or adult without email. 
+     * @author: Krishna Mahto
+     * @param: pdContactId
+     * @return: List<Patient_Delegate__c> 
+     **/
+    public static List<Patient_Delegate__c>  getPDForMinorOrAdultWithoutEmailPar(Id pdContactId) {
+        List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+        pdList = [
+            SELECT Id, 
+                   Participant__c,
+                   Participant__r.Contact__c
+            FROM Patient_Delegate__c
+            WHERE Contact__c = :pdContactId 
+            AND (Participant__r.Adult__c = false OR Participant__r.Email__c = null)
+        ];
+        
+        return pdList;
+    }
+    /**
+     * @description: This Method will return Participant Enrollment record for the given participant Id. 
+     * @author: Krishna Mahto
+     * @param: ParticipantIdSet
+     * @return: List<Participant_Enrollment__c> 
+     **/
+    public static List<Participant_Enrollment__c>  getPerRecords(Set<Id> ParticipantIdSet) {
+        List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
+        perList = [
+            SELECT Id, 
+                   Participant_Contact__c,
+                   Participant__c,
+                   Permit_SMS_Text_for_this_study__c,
+                   Welcome_Message_Sent__c,
+                   Welcome_Message_Delivered__c
+            FROM Participant_Enrollment__c
+            WHERE Participant__c IN: ParticipantIdSet 
+        ];
+        
+        return perList;
+    }
 }

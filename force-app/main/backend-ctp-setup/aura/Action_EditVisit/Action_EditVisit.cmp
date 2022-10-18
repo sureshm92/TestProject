@@ -23,17 +23,21 @@
     <c:uiModal
         aura:id="modal"
         size="medium"
-        headerText="{!if(v.mode == 'new', 'Add Visit', 'Edit Visit')}"
+        headerText="{!if(v.mode == 'new', 'Add Visit/Event', 'Edit Visit')}"
     >
         <div class="form-container">
             <div class="slds-grid slds-gutters">
                 <div class="slds-col slds-size--1-of-2">
-                    <lightning:input type="text" label="SDH Visit Name" value="{!v.visit.Name}" />
+                    <lightning:input
+                        type="text"
+                        label="SDH Visit/Event Name"
+                        value="{!v.visit.Name}"
+                    />
                 </div>
                 <div class="slds-col slds-size--1-of-2">
                     <lightning:input
                         type="text"
-                        label="Patient Portal Visit Name"
+                        label="Patient Portal Visit/Event Name"
                         value="{!v.visit.Patient_Portal_Name__c}"
                     />
                 </div>
@@ -49,7 +53,7 @@
                 <div class="slds-col slds-size--1-of-2">
                     <lightning:input
                         type="number"
-                        label="SDH Visit Number"
+                        label="SDH Visit/Event Number"
                         min="1"
                         value="{!v.visit.Visit_Number__c}"
                     />
@@ -67,7 +71,7 @@
             <lightning:button
                 variant="brand"
                 type="button"
-                label="{!if(v.mode == 'new', 'Add Visit', 'Save Visit')}"
+                label="{!if(v.mode == 'new', 'Add Visit/Event', 'Save Visit')}"
                 disabled="{!v.isValid}"
                 onclick="{!c.saveVisit}"
             />

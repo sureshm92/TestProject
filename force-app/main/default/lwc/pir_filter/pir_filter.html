@@ -4,7 +4,7 @@
       <template if:false={loaded}>
         <lightning-spinner alternative-text="Loading"></lightning-spinner>
       </template>
-      <div class="slds-col slds-size_12-of-12 closebutton">
+      <div class="slds-col slds-size_12-of-12 closebutton closebtnRTL">
         <lightning-icon icon-name="utility:close" size="x-small" class="close-icon-pop" onclick={handleCloseFilter}>
         </lightning-icon>
       </div>
@@ -34,7 +34,8 @@
               p-left-none
               p-right-rtl
             ">
-              <lightning-combobox name="Active/Inactive" label={label.Active_InActive} value={selectedActiveInactive}
+              <div class="text-overflow" title={label.Active_InActive}>{label.Active_InActive}</div>
+              <lightning-combobox name="Active/Inactive" variant="label-hidden" value={selectedActiveInactive}
                 placeholder="" options={activeoptions} onchange={activehandleChange}></lightning-combobox>
             </div>
             <div class="
@@ -259,7 +260,8 @@
               p-left-none
               m-top-birth
             ">
-              <lightning-combobox name="Sex at Birth" label={label.SexAtBirth} value={defaultSex} placeholder=""
+              <div class="text-overflow" title={label.SexAtBirth}>{label.SexAtBirth}</div>
+              <lightning-combobox name="Sex at Birth" variant="label-hidden" value={defaultSex} placeholder=""
                 options={sexatbirthoptions} onchange={sexatbirthhandleChange}></lightning-combobox>
             </div>
             <div class="

@@ -70,6 +70,12 @@ public without sharing class RPRecordReviewLogController {
     public class peProfileSection {
         @AuraEnabled 
         public Participant_Enrollment__c peRecord;
+        @AuraEnabled
+        public Participant_PrescreenerResponse__c mrrScreenerResponse;
+        @AuraEnabled
+        public Participant_PrescreenerResponse__c prescreenerResponse;
+        @AuraEnabled
+        public PreScreener_Survey__c mrrScreener;
         @AuraEnabled 
         public String createdDateFormat;
         @AuraEnabled 
@@ -179,10 +185,51 @@ public without sharing class RPRecordReviewLogController {
             peProfileSectionWrapperList[0].siteList = RPRecordReviewLogHelper.getSelectedStudySite(currentContactId,
                                                                                                    peList[0].Clinical_Trial_Profile__c);
             peProfileSectionWrapperList[0].accessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);
+            peProfileSectionWrapperList[0].mrrScreener = getMRRSurvey(peList[0].Clinical_Trial_Profile__c);
+            peProfileSectionWrapperList[0] = getScreenerResponse(peId, peProfileSectionWrapperList[0]);
             return peProfileSectionWrapperList;
         } 
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+   
+    public static peProfileSection getScreenerResponse(String peId, peProfileSection profileSection){
+        try {
+            List<Participant_PrescreenerResponse__c> responseList = [
+                SELECT Participant_enrollment__c, PreScreener_Survey__c, Status__c,
+                    PreScreener_Survey__r.MRR__c, PreScreener_Survey__r.Prescreener__c
+                FROM  Participant_PrescreenerResponse__c 
+                WHERE Participant_enrollment__c =: peId
+            ];
+            
+            for(Participant_PrescreenerResponse__c response : responseList){
+                if(response.PreScreener_Survey__r.MRR__c == true){
+                    profileSection.mrrScreenerResponse = response;
+                } else if(response.PreScreener_Survey__r.Prescreener__c == true){
+                    profileSection.prescreenerResponse = response;
+                }
+            }
+            return profileSection;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
+    public static PreScreener_Survey__c getMRRSurvey(Id trialId){
+        try {
+			List<PreScreener_Survey__c> preSurveyList = [
+                SELECT Id, Link_to_Pre_screening__c, Survey_Name__c 
+                FROM PreScreener_Survey__c  
+                WHERE Study__c = :trialId AND MRR__c = true
+            ];
+            if(!preSurveyList.isEmpty()){
+                preSurveyList[0].Link_to_Pre_screening__c = CommunityFacadeRemote.getLocalizedURL(preSurveyList[0].Link_to_Pre_screening__c);
+                return preSurveyList[0];
+            }
+            return null;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
         }
     }
     
@@ -474,26 +521,16 @@ public without sharing class RPRecordReviewLogController {
     public static void setMRRStatus(
         String peId,
         String status,
-        String surveyGizmoData
+        String surveyGizmoData,
+        Id screenerId
     ) {
         
         try{ 
-            Participant_Enrollment__c pe = [select id,Medical_Record_Review_Completed_Date__c,
-                                            Medical_Record_Review_Status__c,
-                                            MRR_Survey_Results_URL__c,
-                                            Medical_Record_Review_Completed_by__c,
-                                            Pre_screening_Status__c,
-                                            Study_Site__c,
-                                            Name,
-                                            Participant_Status__c From Participant_Enrollment__c where id=:peId
-                                           ];
-            
-            pe.Medical_Record_Review_Completed_Date__c = Datetime.now();
-            pe.Medical_Record_Review_Status__c = status;
-            if(!Test.isRunningTest()){
-                pe.MRR_Survey_Results_URL__c = surveyGizmoData;
-                pe.Medical_Record_Review_Completed_by__c = CommunityService.getUserContact().Id;
-            }
+            Participant_Enrollment__c pe = [
+                SELECT Id, Study_Site__c, Name, Participant_Status__c 
+                FROM Participant_Enrollment__c 
+                WHERE Id = :peId
+            ];
             if (status == 'Fail') {
                 pe.Participant_Status__c = 'Failed Review';
             }
@@ -510,6 +547,18 @@ public without sharing class RPRecordReviewLogController {
                 );
             }
             update pe;
+
+            Participant_PrescreenerResponse__c prscreenerresponse = new Participant_PrescreenerResponse__c(
+                Participant_enrollment__c = pe.Id,
+                Status__c = status,
+                PreScreener_Survey__c = screenerId,
+                Completed_Date__c = Datetime.now()
+            );
+            if(!Test.isRunningTest()){
+                prscreenerresponse.Screener_Response__c = surveyGizmoData;
+                prscreenerresponse.Completed_by__c = CommunityService.getUserContact().Id;
+            }
+            insert prscreenerresponse;
         } 
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());

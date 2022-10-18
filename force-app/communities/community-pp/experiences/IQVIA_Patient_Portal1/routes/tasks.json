@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "ae0865cb-0c66-4b45-b2de-65ce728ac8dc",
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "configurationTags" : [ ],
+  "id" : "db858ce4-5f88-4523-9119-0a9c4fc8e7f9",
+  "label" : "Tasks",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-tasks",
+  "type" : "route",
+  "urlPrefix" : "tasks"
+}

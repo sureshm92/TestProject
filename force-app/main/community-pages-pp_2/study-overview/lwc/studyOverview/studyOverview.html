@@ -1,0 +1,155 @@
+<template>
+    <div class={cardRTL}>
+        <template if:true={desktop}>
+            <!-- Program Overview Available -->
+            <template if:false={noStudyOverviewAvailable}>
+                <template if:true={clinicalrecord}>
+                    <div class="po-container">
+                        <lightning-layout
+                            multiple-rows="true"
+                            vertical-align="center"
+                            horizontal-align="center"
+                            class="po-custom-card"
+                        >
+                            <lightning-layout-item size="3" class="border-right">
+                                <template if:true={clinicalrecord.Profile_Picture__c}>
+                                    <div class="po-center">
+                                        <img src={clinicalrecord.Profile_Picture__c} class="po-logo" />
+                                    </div>
+                                </template>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6">
+                                <template if:true={clinicalrecord.Brief_Summary__c}>
+                                    <div class="po-text">{shortOverview}</div>
+                                </template>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="3" class="slds-align_absolute-center">
+                                <div class="po-more">
+                                    <span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREDESKTOPLabel}</span>
+                                    <lightning-button-icon
+                                        icon-name="utility:chevronright"
+                                        variant="bare"
+                                        size="large"
+                                        onclick={handleclick}
+                                    ></lightning-button-icon>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </template>
+            </template>
+
+            <!-- NO program overview available -->
+            <template if:true={noStudyOverviewAvailable}>
+                    <div class="po-container">
+                        <lightning-layout
+                            multiple-rows="true"
+                            vertical-align="center"
+                            horizontal-align="center"
+                            class="po-custom-card"
+                        >
+                            <lightning-layout-item size="4" class={borderPOHome}>
+                                    <div class="po-center">
+                                        <template if:true={isIqviaLogo}>
+                                            <img src={iqviaLogoUrl} class="po-logo" />
+                                        </template>
+                                        <template if:true={isGskLogo}>
+                                            <img src={gskLogoUrl} class="po-logo" />
+                                        </template>
+                                    </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="8">
+								<div class="po-text slds-p-top_x-small">
+                                    PP_We_share_the_vision_to_drive_healthcare_forward
+                                    </br>
+                                    <span class="po-more-text" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
+                                    <lightning-button-icon
+                                    icon-name="utility:new_window"
+                                    variant="bare"
+                                    size="large"
+                                    onclick={handleclickClinicalResearch}
+                                    ></lightning-button-icon>
+                                </div>
+							</lightning-layout-item>                          
+                        </lightning-layout>
+                    </div>
+            </template>
+
+        </template>
+
+        <template if:false={desktop}>
+             <!-- Program Overview Available -->
+            <template if:false={noStudyOverviewAvailable}>
+                <template if:true={clinicalrecord}>
+                    <div class="po-container">
+                        <lightning-layout
+                            multiple-rows="true"
+                            vertical-align="center"
+                            horizontal-align="center"
+                            class="po-custom-card-mobile"
+                        >
+                            <lightning-layout-item size="5" class={borderPOHome}>
+                                <template if:true={clinicalrecord.Profile_Picture__c}>
+                                    <div class="po-center">
+                                        <img src={clinicalrecord.Profile_Picture__c} />
+                                    </div>
+                                </template>
+                            </lightning-layout-item>   
+
+                            <lightning-layout-item size="7" class="slds-align_absolute-center">
+                                <div class="po-more">
+                                    <span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREMBLELabel}</span>
+                                    <lightning-button-icon
+                                    icon-name="utility:chevronright"
+                                    variant="bare"
+                                    size="large"
+                                    onclick={handleclick}
+                                ></lightning-button-icon>
+                                </div>
+                            </lightning-layout-item>
+
+                        </lightning-layout>
+                    </div>
+                </template>
+            </template>
+
+            <!-- NO program overview available -->
+            <template if:true={noStudyOverviewAvailable}>
+                <div class="po-container">
+                    <lightning-layout
+                        multiple-rows="true"
+                        vertical-align="center"
+                        horizontal-align="center"
+                        class="po-custom-card"
+                    >
+                        <lightning-layout-item size="4" class={borderPOHome}>
+                                <div class="po-center">
+                                    <template if:true={isIqviaLogo}>
+                                        <img src={iqviaLogoUrl} class="po-logo" />
+                                    </template>
+                                    <template if:true={isGskLogo}>
+                                        <img src={gskLogoUrl} class="po-logo" />
+                                    </template>
+                                </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="8">
+                            <div class="po-text slds-p-top_x-small">
+                                <span class="po-more-text" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
+                                <lightning-button-icon
+                                icon-name="utility:new_window"
+                                variant="bare"
+                                size="large"
+                                onclick={handleclickClinicalResearch}
+                                ></lightning-button-icon>
+                            </div> 
+                        </lightning-layout-item>   
+                        <lightning-layout-item size="12">
+                            <div class="po-text slds-p-top_medium">PP_We_share_the_vision_to_drive_healthcare_forward</div>
+                        </lightning-layout-item>                       
+                    </lightning-layout>
+                </div>
+        </template>
+
+        </template>
+    </div>
+</template>

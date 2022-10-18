@@ -1,0 +1,37 @@
+{
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "componentName" : "c:pir_OneColumnLayout",
+  "id" : "ae0865cb-0c66-4b45-b2de-65ce728ac8dc",
+  "label" : "tasks",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ppTasks",
+      "id" : "3c522c87-a168-46ac-8a31-b7e2263a076e",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "3e6f5e13-67cb-4c35-98eb-8a8caf5d8517",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Tasks"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "1a3fd247-b243-46ad-8590-10f7529c94b7",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "e1c6bbbb-5fcc-45c0-bcd6-53c893194c22",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-tasks"
+}

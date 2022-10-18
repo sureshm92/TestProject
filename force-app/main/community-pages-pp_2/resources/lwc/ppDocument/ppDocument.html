@@ -1,0 +1,21 @@
+<template>
+    <div class="slds-grid slds-wrap slds-m-around_x-small card-border">
+        <div class="slds-col slds-size_1-of-6 slds-m-around_xxx-small thumbnail-box">
+            <img src={thumbnail} class="thumnail-img" alt="Image N/A" onclick={handleNavigate} />
+        </div>
+        <div class="slds-col slds-size_4-of-6 slds-m-around_small document-details">
+            <div>
+                <p class="document-label"><a onclick={handleNavigate}>{title}</a></p>
+            </div>
+            <div class="slds-m-top_x-small version-date">
+                Version Date: &nbsp;
+                <lightning-formatted-date-time
+                    value={versiondate}
+                    year="numeric"
+                    month="short"
+                    day="2-digit"
+                ></lightning-formatted-date-time>
+            </div>
+        </div>
+    </div>
+</template>

@@ -9,6 +9,7 @@ import RH_PP_Add_New_Participant from '@salesforce/label/c.RH_PP_Add_New_Partici
 import RH_PP_Select_Study_Site from '@salesforce/label/c.RH_PP_Select_Study_Site';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import RH_ExportSelected from '@salesforce/label/c.RH_ExportSelected';
+import { CurrentPageReference } from 'lightning/navigation';
 import BTN_Export_All from '@salesforce/label/c.BTN_Export_All';
 import RH_ParticipantSelected from '@salesforce/label/c.RH_ParticipantSelected';
 import Continue from '@salesforce/label/c.Continue';
@@ -42,6 +43,7 @@ import successfully_Re_Engaged from '@salesforce/label/c.Successfully_Re_Engaged
 import { NavigationMixin } from 'lightning/navigation';
 import { label } from "c/pir_label";
 import getUserLanguage from '@salesforce/apex/PIR_HomepageController.fetchCurrentUserLanguage';
+import getStudyAccessLevelInitParent from '@salesforce/apex/PIR_HomepageController.getStudyAccessLevelInitParent';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import PIR_Study_Site_Name from '@salesforce/label/c.PIR_Study_Site_Name';
 import PIR_Study_Name from '@salesforce/label/c.PIR_Study_Name';
@@ -140,7 +142,37 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   @api isRTL = false; 
   maindivcls;
   isLanguageSelected = false;
-  
+  dtimeToidentifyTheRecord ;
+  currentPageReference;
+
+  @wire(CurrentPageReference) 
+  getStateParameters(currentPageReference) {
+     if (currentPageReference) {       
+      this.currentPageReference = currentPageReference;
+        this.urlStateParameters = currentPageReference.state;
+        this.setParametersBasedOnUrl();
+     }
+  }
+  setParametersBasedOnUrl() {
+    this.dtimeToidentifyTheRecord = this.urlStateParameters.dTime || null;
+    console.log('urlPerName',this.dtimeToidentifyTheRecord);
+  }
+  get newPageReference() {
+    return Object.assign({}, this.currentPageReference, {
+        state: Object.assign({}, this.currentPageReference.state, this.newPageReferenceUrlParams)
+    });
+  }
+  get newPageReferenceUrlParams() {
+    return {
+        dTime: 'false'
+    };
+  }
+  navigateToNewPage() {
+    this[NavigationMixin.Navigate](
+        this.newPageReference,
+        true 
+    );
+  }  
   connectedCallback() {
     if(!this.isLanguageSelected) {
       getUserLanguage() 
@@ -160,18 +192,20 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
               this.error = error;
         });
     }
+    getStudyAccessLevelInitParent()
+    .then((resultaccess) => {
+      this.lststudysiteaccesslevel = resultaccess;
+    })
+    .catch((error) => {
+              this.error = error;
+              
+        });
+
     loadScript(this, xlsxmin).then(() => {});
     loadStyle(this, PIR_Community_CSS)
   }
 
-  @wire(getStudyAccessLevel)
-  wiredAccess({ error, data }) {
-    if (data) {
-        this.lststudysiteaccesslevel = data;
-    } else if (error) {
-        this.error = error;
-    }
-  }
+
   studyhandleChange(event) {
     var picklist_Value = event.target.value;
     this.selectedStudy = picklist_Value;
@@ -232,6 +266,10 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   }
 
   selectedPI(event) {
+    if(this.dtimeToidentifyTheRecord == 'true'){
+      this.handleTelevisitTab();
+      this.navigateToNewPage();
+    }
     this.selectedPE = event.detail;
     this.isMedicalHistryAccess = true;
     this.isMedicalDetailChanged = false;
@@ -368,6 +406,9 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     if(event.detail){
       this.discardTab = false;
     }
+    else{
+      this.discardTab = true;
+    }
   }
   toggleDetailSave(event){
     this.disableDetailSaveButton = !event.detail;
@@ -403,7 +444,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.selectedTab = "Participant Details";
     this.isDetailModalOpen = false;
   }
-
+  pageLoad =false;
   handleStatusTab(){
     this.isMedicalTab = false;
 	  this.callTelevisistMethod = false;
@@ -427,8 +468,15 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
     this.selectedTab = "Status Details";
     
+    if(this.pageLoad && this.discardTab){
+      this.template.querySelector("c-pir_participant-Status-Details").doSelectedPI();
     }
+    this.pageLoad=true;
   }
+}
+gotoPartTab(){
+  this.template.querySelector("lightning-tabset").activeTabValue = "Participant Details";
+}
   handleParticipantTab() {
     if(!this.isDetailModalOpen){     
       this.isParticipantDetail = true;
@@ -1075,4 +1123,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     return 'slds-col '+ (this.checkStatusReEngaged ? 'slds-size_1-of-2' : 'slds-size_1-of-1')
       + ' slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_xx-small slds-m-bottom_small';
   } 
+  detailsaved(){    
+    this.template.querySelector("c-pir_participant-header").doSelectedPI();  
+  }
 }

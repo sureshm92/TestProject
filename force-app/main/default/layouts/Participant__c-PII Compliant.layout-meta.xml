@@ -130,10 +130,6 @@
                 <field>Date_of_Birth__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Day_of_Birth__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>PSE_Count__c</field>
             </layoutItems>

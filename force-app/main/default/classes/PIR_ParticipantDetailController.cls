@@ -9,6 +9,7 @@ public without sharing class PIR_ParticipantDetailController {
           id,
           MRN_Id__c,
           Study_Site__c,
+          Study_Site__r.Participant_DOB_format__c,
           Visit_Plan__c,
           Permit_Mail_Email_contact_for_this_study__c,
           Permit_SMS_Text_for_this_study__c,
@@ -21,9 +22,11 @@ public without sharing class PIR_ParticipantDetailController {
           Referral_ID__c,
           Screening_ID__c,
           Participant_Status__c,
+          Is_Participant_DOB_Valid__c,
           Visit_Plan__r.Name,
           Participant__r.id,
           Participant__r.Adult__c,
+          Participant__r.Age__c,
           Participant__r.Ethnicity__c,
           Participant__r.First_Name__c,
           Participant__r.Last_Name__c,
@@ -45,6 +48,9 @@ public without sharing class PIR_ParticipantDetailController {
           Participant__r.Mailing_Country_Code__c,
           Participant__r.Mailing_Zip_Postal_Code__c,
           Participant__r.Emancipation_in_progress__c,
+          Participant__r.Birth_Day__c,
+          Participant__r.Birth_Month__c,
+          Participant__r.Birth_Year__c,
           Clinical_Trial_Profile__r.IQVIA_Outreach__c,
           Participant_Contact__c,
           Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
@@ -218,7 +224,8 @@ public without sharing class PIR_ParticipantDetailController {
     Boolean isDelUpdated,
     Boolean isOutreachUpdated,
     String delegateCriteria,
-    String visitPlan
+    String visitPlan,
+    Boolean useDup
   ) {
     Boolean bol = true;
     try {
@@ -266,6 +273,8 @@ public without sharing class PIR_ParticipantDetailController {
         if(delegateCriteria == 'insertDelegate'){
           Participant__c piToInsertDelegate = new Participant__c();
           piToInsertDelegate = peDeligate.Participant_Delegate__r;
+          piToInsertDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+          piToInsertDelegate.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
            piToInsertDelegate.id=null;
           insert piToInsertDelegate;
           List<Participant__c> parti = [SELECT Id, Contact__c FROM Participant__c WHERE Id = : piToInsertDelegate.Id];
@@ -286,14 +295,47 @@ public without sharing class PIR_ParticipantDetailController {
 
           update piToUpdateDelegate;
         }else if(delegateCriteria == 'updateDeligate'){
-          Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
-            Primary_Delegate__c = true,
-            Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
-            Participant__c = perRecord.Participant__c,
-            Contact__c = peDeligate.Participant_Delegate__r.Contact__c
-          );
-          contactId = peDeligate.Participant_Delegate__r.Contact__c;
-          insert pdToupdateAfterInsertDuplicate;
+          if(useDup){
+            List<Patient_Delegate__c> pd = new List<Patient_Delegate__c>();
+            List<Patient_Delegate__c> pds = new List<Patient_Delegate__c>();
+            pd = [Select Id,Participant__c,Participant_Delegate__c from Patient_Delegate__c where Participant__c=: perRecord.Participant__c and Participant_Delegate__c=:peDeligate.Participant_Delegate__r.Id];
+            if(pd != null && !pd.isEmpty()){
+                  Patient_Delegate__c pdToupdateDuplicate = new Patient_Delegate__c(
+                  Id = pd[0].Id,
+                  Primary_Delegate__c = true
+                );
+                pds = [Select Id,Participant__c,Participant_Delegate__c,Primary_Delegate__c  from Patient_Delegate__c where Participant__c=: perRecord.Participant__c and Primary_Delegate__c  =:true];
+                if(pds != null && !pds.isEmpty()){
+                    List<Patient_Delegate__c> pdUpd = new List<Patient_Delegate__c>();
+                    for(Patient_Delegate__c p:pds){
+                        Patient_Delegate__c patdel = new Patient_Delegate__c();
+                        patdel.Id = p.Id;
+                        patdel.Primary_Delegate__c = false;
+                        pdUpd.add(patdel);
+                    }
+                    update pdUpd;
+                }
+                update pdToupdateDuplicate;   
+            }else{
+                Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
+                Primary_Delegate__c = true,
+                Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
+                Participant__c = perRecord.Participant__c,
+                Contact__c = peDeligate.Participant_Delegate__r.Contact__c
+                );
+                contactId = peDeligate.Participant_Delegate__r.Contact__c;
+                insert pdToupdateAfterInsertDuplicate;
+              }
+          }else{
+            Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
+              Primary_Delegate__c = true,
+              Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
+              Participant__c = perRecord.Participant__c,
+              Contact__c = peDeligate.Participant_Delegate__r.Contact__c
+            );
+            contactId = peDeligate.Participant_Delegate__r.Contact__c;
+            insert pdToupdateAfterInsertDuplicate;
+          }
         }else if(string.isBlank(peDeligate.Participant_Delegate__r.First_Name__c)){//if(delegateCriteria == 'deleteDelegate'){
           Patient_Delegate__c pdToupdate = new Patient_Delegate__c(
             Id = peDeligate.Id,

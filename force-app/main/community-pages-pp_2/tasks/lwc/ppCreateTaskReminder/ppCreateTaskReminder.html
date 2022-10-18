@@ -1,0 +1,110 @@
+<template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <div class="slds-grid slds-wrap slds-grid_vertical-align-start">
+        <!--Reminder Dropdown-->
+        <div class="slds-col slds-size_1-of-1">
+            <div class="full-width">
+                <label class="label-reminder">{labels.REMINDER}</label>
+                <div class="curve-input">
+                    <c-web-icon
+                        class="svg-icon"
+                        icon-size="small"
+                        icon-name="icon_bell"
+                        data-id="icon_bell"
+                        icon-color="#C42EA5"
+                    >
+                    </c-web-icon>
+                    <c-pp-web-select
+                        class="full-width"
+                        label-hidden="true"
+                        place-holder={labels.SELECT_REMINDER}
+                        selected-value={selectedReminderOption}
+                        options={reminderOptions}
+                        custom-class="custom-no-border"
+                        is-disabled-options="true"
+                        is-disabled={isReminderDisabled}
+                        onchangevalue={handleReminderOptionChange}
+                        oncustomreminderdata={handleCustomReminder}
+                        onreminderdata={handleCustomReminder}
+                    ></c-pp-web-select>
+                </div>
+            </div>
+        </div>
+
+        <template if:true={isReminderOptionSelected}>
+            <!--Custom Reminder Option Date Time-->
+            <template if:true={isCustomReminderOptionSelected}>
+                <div class="slds-col slds-size_1-of-1 slds-m-top_medium task-reminder">
+                    <c-pp-date-time-combo
+                        data-id="reminderDateTime"
+                        create-task={isCustomReminderOptionSelected}
+                        reminder={isCustomReminderOptionSelected}
+                        compdate={dbreminderdate}
+                        comptime={dbremindertime}
+                        mindate={currentDate}
+                        maxdate={taskDueDate}
+                        mintime={minimumReminderTime}
+                        maxtime={maximumReminderTime}
+                        icon-size="small"
+                        icon-color="#C42EA5"
+                        task-reminder={isCustomReminderOptionSelected}
+                        ondatechange={handleReminderDate}
+                        ontimechange={handleReminderTime}
+                        ondate={handleOnlyDate}
+                        ontime={handleOnlyTime}
+                        onnulldatetime={handleNullDateTimeReminder}
+                    ></c-pp-date-time-combo>
+                </div>
+            </template>
+
+            <!--Email SMS Communication Option-->
+            <div class="slds-col slds-size_1-of-1 slds-p-top_x-small">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-1">{labels.REMIND_USING}</div>
+                    <div class="slds-col slds-size_1-of-1 task-reminder-pref">
+                        <div class="slds-checkbox">
+                            <input
+                                type="checkbox"
+                                data-id="emailReminder"
+                                id="emailReminder"
+                                value={emailReminderOptIn}
+                                checked={emailReminderOptIn}
+                                disabled={isEmailReminderDisabled}
+                                onclick={handleEmailReminder}
+                            />
+                            <label class="slds-checkbox__label" for="emailReminder">
+                                <span class="slds-checkbox_faux"></span>
+                                <span class="slds-form-element__label field-title slds-p-left_small"
+                                    >{labels.EMAIL}</span
+                                >
+                            </label>
+                        </div>
+                        <div class="slds-checkbox slds-p-left_medium">
+                            <input
+                                type="checkbox"
+                                data-id="smsReminder"
+                                id="smsReminder"
+                                value={smsReminderOptIn}
+                                checked={smsReminderOptIn}
+                                disabled={isSMSReminderDisabled}
+                                onclick={handleSMSReminder}
+                            />
+                            <label class="slds-checkbox__label" for="smsReminder">
+                                <span class="slds-checkbox_faux"></span>
+                                <span class="slds-form-element__label field-title slds-p-left_small"
+                                    >{labels.SMS_TEXT_MESSAGE}</span
+                                >
+                            </label>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-p-top_xx-small update-communication">
+                        <a href="./account-settings?communication-preferences" target="_blank">
+                            {labels.PP_TASK_COMM_PREF}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

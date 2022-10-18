@@ -1,0 +1,258 @@
+<template>
+    <template if:true={isInitialized}>
+        <article class="slds-card header-card">
+            <div class="slds-card__header slds-grid card-wrap">
+                <header class="slds-has-flexi-truncate">
+                    <h2 class="slds-card__header-title">
+                        <p
+                            class="slds-card__header-link slds-truncate upcoming"
+                            title="Outer Card Header"
+                        >
+                            <span>{labels.UPCOMING}</span>
+                        </p>
+                    </h2>
+                </header>
+            </div>
+            <template if:true={isUpcomingDetails}>
+                <div class="slds-card__body slds-card__body_inner card-wrap">
+                    <article class="slds-card slds-card_boundary container-card">
+                        <div class="slds-card__body slds-card__body_inner content">
+                            <div class="slds-card-wrapper slds-card_boundary visit-card">
+                                <article
+                                    class="slds-card slds-has-bottom-magnet slds-has-bottom-magnet"
+                                >
+                                    <div class="slds-card__header slds-grid card-wrap">
+                                        <header class="slds-has-flexi-truncate">
+                                            <h2 class="slds-card__header-title">
+                                                <p
+                                                    class="slds-card__header-link slds-truncate visit-title"
+                                                    title="Card Header"
+                                                >
+                                                    <span>{visitName}</span>
+                                                </p>
+                                            </h2>
+                                        </header>
+                                    </div>
+                                </article>
+                                <article
+                                    class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
+                                >
+                                    <div
+                                        class="slds-card__header slds-grid slds-media slds-media_center slds-has-flexi-truncate card-wrap"
+                                    >
+                                        <div class="slds-media__figure icon">
+                                            <c-web-icon
+                                                icon-size="medium"
+                                                icon-name="calendar"
+                                                data-id="calendar"
+                                                icon-color="#00A3E0"
+                                            >
+                                            </c-web-icon>
+                                            <span class="slds-assistive-text"
+                                                >{labels.visit_calendar}</span
+                                            >
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <div class="slds-card__header-title">
+                                                <p
+                                                    class="slds-card__header-link slds-truncate visit-text"
+                                                    title="Date"
+                                                >
+                                                    <template if:true={planDateTime}>
+                                                        <span>
+                                                            <lightning-formatted-date-time
+                                                                value={planDateTime}
+                                                                year="numeric"
+                                                                month="long"
+                                                                day="numeric"
+                                                                time-zone={userTimeZone}
+                                                            >
+                                                            </lightning-formatted-date-time>
+                                                        </span>
+                                                    </template>
+                                                    <template if:false={planDateTime}>
+                                                        {labels.NO_DATE}
+                                                    </template>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article
+                                    class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
+                                >
+                                    <div class="slds-card__header slds-grid card-wrap">
+                                        <header
+                                            class="slds-media slds-media_center slds-has-flexi-truncate"
+                                        >
+                                            <div class="slds-media__figure icon">
+                                                <c-web-icon
+                                                    icon-size="medium"
+                                                    icon-name="time_clock"
+                                                    data-id="clock"
+                                                    icon-color="#00A3E0"
+                                                >
+                                                </c-web-icon>
+                                                <span class="slds-assistive-text"
+                                                    >{labels.visit_clock}</span
+                                                >
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <div class="slds-card__header-title">
+                                                    <p
+                                                        class="slds-card__header-link slds-truncate visit-text"
+                                                        title="Time"
+                                                    >
+                                                        <template if:true={planDateTime}>
+                                                            <span>
+                                                                <lightning-formatted-date-time
+                                                                    value={planDateTime}
+                                                                    hour="2-digit"
+                                                                    minute="2-digit"
+                                                                    hour12={ampm}
+                                                                    time-zone={userTimeZone}
+                                                                >
+                                                                </lightning-formatted-date-time>
+                                                            </span>
+                                                        </template>
+                                                        <template if:false={planDateTime}>
+                                                            {labels.NO_TIME}
+                                                        </template>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </header>
+                                    </div>
+                                </article>
+                                <article
+                                    class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
+                                >
+                                    <div class="slds-card__header slds-grid card-wrap">
+                                        <header
+                                            class="slds-media slds-media_center slds-has-flexi-truncate"
+                                        >
+                                            <div class="slds-media__figure icon">
+                                                <c-web-icon
+                                                    icon-size="medium"
+                                                    icon-name="location_pin"
+                                                    data-id="location"
+                                                    icon-color="#00A3E0"
+                                                >
+                                                </c-web-icon>
+                                                <span class="slds-assistive-text"
+                                                    >{labels.Upcoming_Visit_Location}</span
+                                                >
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <div class="slds-card__header-title">
+                                                    <div
+                                                        class="slds-card__header-link slds-truncate visit-text"
+                                                        title="location"
+                                                    >
+                                                        <span>{siteTitle}</span>
+                                                        <p class="location">{siteLocation}</p>
+                                                        <p class="location">{sitePhone}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </header>
+                                    </div>
+                                </article>
+                            </div>
+                            <hr />
+                            <article class="slds-card icon-card">
+                                <template if:true={iconDetails}>
+                                    <div class="slds-card__header slds-grid content1">
+                                        <div class="slds-col expect-text content1">
+                                            {labels.What_to_Expect}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="slds-card__header slds-grid slds-wrap slds-grid_align-spread icon-box"
+                                    >
+                                        <template for:each={iconDetails} for:item="icon">
+                                            <div class="slds-col slds-size_5-of-12" key={icon.Name}>
+                                                <div
+                                                    class="slds-media slds-media_center slds-has-flexi-truncate"
+                                                >
+                                                    <div class="slds-media__figure expect-icon">
+                                                        <c-web-icon
+                                                            icon-size="medium"
+                                                            icon-name={icon.Name}
+                                                            data-id={icon.Label__c}
+                                                            data-name={icon.Name}
+                                                            icon-color="#00A3E0"
+                                                        >
+                                                        </c-web-icon>
+                                                        <span class="slds-assistive-text"
+                                                            >{icon.Label__c}</span
+                                                        >
+                                                    </div>
+                                                    <div class="slds-media__body">
+                                                        <p
+                                                            class="slds-card__header-link slds-truncate icon-name"
+                                                            title="name"
+                                                        >
+                                                            <span>{icon.Label__c}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <template if:true={moreIconsCount}>
+                                        <div
+                                            class="slds-card__body slds-card__body_inner slds-grid"
+                                        >
+                                            <div class="slds-col more">
+                                                + {moreIconsCount} {labels.MORE}
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template if:false={moreIconsCount}>
+                                        <div
+                                            class="slds-card__body slds-card__body_inner slds-grid"
+                                        >
+                                            <div class="slds-col more"></div>
+                                        </div>
+                                    </template>
+                                </template>
+                                <template if:false={iconDetails}>
+                                    <div class="no-expect">{labels.NO_EXPECT}</div>
+                                </template>
+                            </article>
+                        </div>
+                    </article>
+                </div>
+            </template>
+            <template if:false={isUpcomingDetails}>
+                <div class="slds-card__body slds-card__body_inner card-wrap">
+                    <article class="slds-card slds-card_boundary container-card-upcoming">
+                        <div class="slds-card__body slds-card__body_inner content">
+                            <div
+                                class="slds-card-wrapper slds-card_boundary slds-align_absolute-center visit-card-upcoming"
+                            >
+                                <span class="center-align"
+                                    ><c-web-icon
+                                        icon-size="big"
+                                        icon-name="image_upcoming_visit"
+                                        icon-color="#00A3E0"
+                                    ></c-web-icon
+                                ></span>
+                                <span class="text-colour"> {labels.No_Upcoming_Visit} </span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </template>
+            <footer class="slds-card__footer card-wrap">
+                <a
+                    class="slds-card__footer-action slds-align_absolute-center label"
+                    href="pp/s/visits"
+                    >{labels.View_Visit_Details}
+                    <span class="slds-assistive-text">{labels.View_Visit_Details}</span>
+                </a>
+            </footer>
+        </article>
+    </template>
+</template>

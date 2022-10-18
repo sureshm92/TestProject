@@ -18,9 +18,16 @@
                                     <h2 class="po-fontsize">{userName}</h2>
                                     <!--<template if:true={clinicalrecord}>-->
                                     <template if:true={showProgramOverview}>
-                                        <c-program-overview
-                                            clinicalrecord={clinicalrecord}
-                                        ></c-program-overview>
+                                        <template if:true={isProgram}>
+                                            <c-program-overview
+                                                clinicalrecord={clinicalrecord}
+                                            ></c-program-overview>
+                                        </template>
+                                        <template if:false={isProgram}>
+                                            <c-study-overview
+                                                clinicalrecord={clinicalrecord}
+                                            ></c-study-overview>
+                                        </template>
                                     </template>
                                 </lightning-layout-item>
                             </lightning-layout>
@@ -43,9 +50,16 @@
                         <lightning-layout-item size="12">
                             <!--<template if:true={clinicalrecord}>-->
                             <template if:true={showProgramOverview}>
-                                <c-program-overview
-                                    clinicalrecord={clinicalrecord}
-                                ></c-program-overview>
+                                <template if:true={isProgram}>
+                                    <c-program-overview
+                                        clinicalrecord={clinicalrecord}
+                                    ></c-program-overview>
+                                </template>
+                                <template if:false={isProgram}>
+                                    <c-study-overview
+                                        clinicalrecord={clinicalrecord}
+                                    ></c-study-overview>
+                                </template>
                             </template>
                         </lightning-layout-item>
                     </lightning-layout>

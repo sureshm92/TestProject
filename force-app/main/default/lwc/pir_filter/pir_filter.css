@@ -43,6 +43,13 @@
       
     } 
 
+    :dir(rtl) .closebtnRTL{
+        position: absolute;
+        right: 940px;
+        top: 13px;
+        cursor: pointer;
+         }
+
 .disflex{
     display:flex;
 }

@@ -1,8 +1,8 @@
-import { LightningElement, track, api } from 'lwc';
+import { LightningElement, wire, track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
-import getPrivacyPolicy from '@salesforce/apex/TermsAndConditionsRemote.getTC';
+import getPrivacyPolicy from '@salesforce/apex/TermsAndConditionsRemote.getPPTC';
 import generatePDF from '@salesforce/apex/TermsAndConditionsRemote.generatePDF';
 import formFactor from '@salesforce/client/formFactor';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
@@ -10,6 +10,7 @@ import PP_HEADER from '@salesforce/label/c.Email_Footer_Privacy_Policy';
 import LAST_UPDATED from '@salesforce/label/c.Last_Updated_On';
 import CHAPTER from '@salesforce/label/c.Chapter';
 import DOWNLOAD_AS_PDF from '@salesforce/label/c.Download_PP_as_PDF';
+import { CurrentPageReference } from 'lightning/navigation';
 
 export default class PpPrivacyPolicyViewerPage extends LightningElement {
     lanCode;
@@ -17,6 +18,10 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
     lastUpdated;
     isLoggedinUser;
     @api isRTL;
+    @api ctpId;
+    currentPageReference = null;
+    urlStateParameters = null;
+    studyId = null;
     ppRichText;
     @track listOfHeaders = [];
     empNames = [];
@@ -46,6 +51,18 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
             });
     }
 
+    @wire(CurrentPageReference)
+    getStateParameters(currentPageReference) {
+        if (currentPageReference) {
+            this.urlStateParameters = currentPageReference.state;
+            this.setParametersBasedOnUrl();
+        }
+    }
+
+    setParametersBasedOnUrl() {
+        this.ctpId = this.urlStateParameters.id || null;
+    }
+
     loadPrivacyPolicy() {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
@@ -56,7 +73,8 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
         getPrivacyPolicy({
             code: 'PrivacyPolicy',
             languageCode: communityService.getUrlParameter('language'),
-            useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC
+            useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC,
+            ctId: this.ctpId
         })
             .then((result) => {
                 let tcData = JSON.parse(result);

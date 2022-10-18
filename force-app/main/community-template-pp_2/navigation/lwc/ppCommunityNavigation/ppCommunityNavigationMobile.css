@@ -1,0 +1,25 @@
+.phone-menu-background {
+    background-color: #10558a;
+    padding-left: 7px;
+}
+div:last-child {
+    border-bottom-right-radius: 20px;
+}
+
+.toggleClass{
+    display: none;
+}
+div .slds-text-color_inverse{
+    color:white
+
+}
+a,
+a:hover,
+a:active,
+a:focus,
+a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+

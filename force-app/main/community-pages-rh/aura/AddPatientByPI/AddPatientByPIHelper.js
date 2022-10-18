@@ -120,7 +120,8 @@
             if (state === "SUCCESS") { 
                 console.log('server 1 call end');console.log('response-->'+response.getReturnValue());  
                 var partid = response.getReturnValue() ;
-                component.set('v.partID',partid);
+                component.set('v.partID',partid[0]);
+                component.set('v.dupPart',partid[1]);
                 this.createPER(component);
             }else{
                         var errors = response.getError();
@@ -141,6 +142,7 @@
     }, 
     createPER: function (component) { 
         var pe = component.get('v.pe');
+        var dupPart = component.get('v.dupPart');
         var participant = component.get('v.participant');
         var userLanguage = component.get('v.userLanguage');
         console.log(
@@ -173,6 +175,15 @@
                 action2.setCallback(this, function(response){
                     var state = response.getState();
                     if (state === "SUCCESS") { 
+                        if(dupPart!='no duplicate'){
+                            var action3 = component.get("c.updateParticipant");
+                            action3.setParams({
+                                participantJSON : dupPart
+                            });
+                            action3.setCallback(this, function(response){
+                            });
+                            $A.enqueueAction(action3);
+                        }
                         communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
                         //callback();
                         component.set('v.doContact', false);
@@ -212,6 +223,7 @@
            this.initData(component);
            this.setDelegate(component);
            component.find('editForm').refreshEmailInput(); 
+           component.find('editForm').refreshPartDobInput(); 
         }else{
            var urlEvent = $A.get("e.force:navigateToURL");
            urlEvent.setParams({ "url": "/my-referrals" });  
@@ -392,7 +404,6 @@
 
                 component.set('v.participant.Adult__c', !isNeedGuardian);
                 component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
-                if (isNeedGuardian != component.get('v.needsGuardian')) {
                     component.set('v.needsGuardian', isNeedGuardian);
                     if(!isNeedGuardian){            
                         component.set('v.delNotAdultErrMsg',false);
@@ -412,7 +423,6 @@
                     else{
                         component.find('checkbox-delegate').getElement().disabled = false; //REF-3070
                     }
-                }
             },
             null,
             function () {

@@ -181,6 +181,11 @@
 }
 .errmsg{
     color: rgb(234, 0, 30);
+    font-size: 12px;
+    clear: both;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap
 }
 /* RTL start */
 .rtl .vertical-scroll{
@@ -235,6 +240,10 @@
         margin-right:35px;
         margin-left:-31px;
     }
+    .pl-0{
+        padding-left: var(--lwc-spacingSmall,0.75rem) !important;
+    }
+   
 }
 /* RLT End */
 .label_align{
@@ -253,4 +262,15 @@
     font-weight: 500;
     letter-spacing: 0;
     line-height: 24px;
+}
+
+.lpad-none,.pl-0{
+    padding-left: 0px;
+}
+
+.alert-img-dob{
+    height: 16px;
+}
+.alert-box-dob{
+    justify-content: left;
 }
