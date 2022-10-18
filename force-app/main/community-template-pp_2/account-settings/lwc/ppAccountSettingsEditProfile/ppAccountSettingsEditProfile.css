@@ -141,6 +141,10 @@
     --sds-c-input-border: 1px solid #d9d9d9;
 }
 
+.custom-checkbox {
+    --slds-c-checkbox-mark-color-foreground: #ffffff;
+}
+
 .input-text-size {
     font-size: 14px !important;
 }
