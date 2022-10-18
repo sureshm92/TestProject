@@ -20,6 +20,7 @@ public abstract class RemoteCall {
     protected Boolean logAutoInsert = true;
     public Boolean hideParamsInLog = true;
 
+
     public abstract Type getType();
     protected abstract String buildRequestBody();
     protected abstract Object parseResponse(String responseBody);
@@ -94,6 +95,7 @@ public abstract class RemoteCall {
             System.debug(res.getBody());
             responseCode= res.getstatusCode();
             return parseResponse(res.getBody());
+
         } catch (Exception e) {
             responseDT = Datetime.now();
             String errorMessage = e.getMessage() + ' ' + e.getStackTraceString();

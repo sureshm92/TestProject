@@ -28,7 +28,7 @@ public class Test_PaymentsRemote {
         ParticipantService.setMock(new ParticipantServiceMock());
         integer rescode;
         rescode = 200;
-        Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock(rescode));    
+        Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock(rescode));       
         initData = PaymentsRemote.getPaymentData();
         Test.stopTest();
 
