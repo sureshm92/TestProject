@@ -848,6 +848,12 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     }
 }
 
+/* Resource Page */
+.resPage button{
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
 
 @media all and (max-width: 486px) {
     c-pp-Study-Visit-Details-Card .slds-card {
