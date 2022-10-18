@@ -702,8 +702,8 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         }
         finally {
 			String isAbortJob =Label.Abort_Batch_UpsertEprParticipantAndPE;
-           //if(!test.isRunningTest() && isAbortJob!='True')
-            //	Database.executeBatch(new Batch_UpsertEprParticipantAndPE(), 7);
+           if(!test.isRunningTest() && isAbortJob!='True')
+            	Database.executeBatch(new Batch_UpsertEprParticipantAndPE(), 7);
         }
         
     }
