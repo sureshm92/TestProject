@@ -12,6 +12,7 @@ import myVisits from '@salesforce/label/c.My_Visits';
 import loading from '@salesforce/label/c.Loading';
 import visitdetails from '@salesforce/label/c.Visit_Details';
 import { NavigationMixin } from 'lightning/navigation';
+import TIME_ZONE from '@salesforce/i18n/timeZone';
 export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     label = {
         noVisitsLabel,
@@ -36,7 +37,7 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     @api pastvisits;
     @api upcomingvisits;
     @api visittimezone;
-    
+
     @api showupcomingvisits;
     @api visitid;
     @api pastvisitid;
@@ -45,21 +46,23 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     @api ismobile;
     @api initialpageload;
     @api past;
-    
+
     @track showreminderdatepicker = false;
     @track contentLoaded = false;
     @track visitName;
     @track plannedDate;
     @track visitStatus;
     @track taskId;
-    @track showList=true;
+    @track showList = true;
     @track selectedIndex = 0;
-    
+    @track visitTimezone = '';
+
     initialized = '';
     cbload = false;
 
     connectedCallback() {
         this.handleVisitChange();
+        this.visitTimezone = TIME_ZONE;
     }
     onPastClick() {
         this.cbload = true;
@@ -68,7 +71,7 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
             theDiv.className = 'inactive-custom-box';
         }
         this.showupcomingvisits = false;
-        if (this.pastvisits) {
+        if (this.pastvisits.length>0) {
             this.visitid = this.pastvisitid;
             this.visitName = this.pastvisits[0].visit.Name;
             this.plannedDate = this.pastvisits[0].visit.Planned_Date__c;
@@ -130,12 +133,14 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
                     this.upcomingVisits[this.selectedIndex].isReminderDate = true;
                 }
                 if (!this.past) {
-                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
-                        this.visitdata.visitDate;
+                    this.upcomingVisits[
+                        this.selectedIndex
+                    ].visit.Planned_Date__c = this.visitdata.visitDate;
                     if (this.visitdata.visitDate && this.showupcomingvisits) {
                         this.upcomingvisits[this.selectedIndex].noVisitDate = false;
-                        this.plannedDate =
-                            this.upcomingvisits[this.selectedIndex].visit.Planned_Date__c;
+                        this.plannedDate = this.upcomingvisits[
+                            this.selectedIndex
+                        ].visit.Planned_Date__c;
                     } else {
                         this.upcomingvisits[this.selectedIndex].noVisitDate = true;
                         this.plannedDate = '';
@@ -144,7 +149,6 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
                 this.handleVisitChange();
                 this.contentLoaded = true;
                 this.template.querySelector('c-web-spinner').hide();
-                
             });
         } else {
             this.contentLoaded = true;
@@ -155,7 +159,6 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     onVisitSelect(event) {
         var index = event.currentTarget.dataset.index;
         var past = event.currentTarget.dataset.past;
-        console.log('Inside Visit Select : '+past);
         const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
         theDiv.className = 'inactive-custom-box';
         if (past === 'true') {
@@ -177,14 +180,11 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
         }
 
         if (this.ismobile == true) {
-            
         }
 
-        const visitEvent = new CustomEvent('visitchange',{
-            detail:{past:this.past, indexval:index, tasksubject:this.taskSubject  
-                }
+        const visitEvent = new CustomEvent('visitchange', {
+            detail: { past: this.past, indexval: index, tasksubject: this.taskSubject }
         });
         this.dispatchEvent(visitEvent);
     }
-
 }

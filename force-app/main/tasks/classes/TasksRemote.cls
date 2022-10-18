@@ -116,8 +116,10 @@ public without sharing class TasksRemote {
             createOriginatorsList(participantTasks.openTasksWrapper);
 
             participantTasks.completedTasks = new List<TasksRemote.CompletedTask>();
+
             List<Task> completedTasks = TaskService.getInstance().getCompletedTasks();
-            for (Task compTask : completedTasks) {
+            List<Task> sortedCompleteTasks = gropupCompletedTasks(completedTasks);
+            for (Task compTask : sortedCompleteTasks) {
                 CompletedTask completedTask = new CompletedTask();
                 completedTask.task = compTask;
                 if (compTask.Completed_Date__c != null)
@@ -354,5 +356,102 @@ public without sharing class TasksRemote {
             tasksList.addAll(tasksDateListMap.get(dt));
         }
         return tasksList;
+    }
+
+    public static List<Task> gropupCompletedTasks(List<Task> tasksList) {
+        List<Task> completedTaskList = new List<Task>();
+        List<Task> ignoreTaskList = new List<Task>();
+        List<Task> expiredTaskList = new List<Task>();
+        List<Task> resultSortedList = new List<Task>();
+
+        for (Task taskObj : tasksList) {
+            if (taskObj.Status == 'Completed') {
+                completedTaskList.add(taskObj);
+            }
+            if (taskObj.Status == 'Ignored') {
+                ignoreTaskList.add(taskObj);
+            }
+            if (taskObj.Status == 'Expired') {
+                expiredTaskList.add(taskObj);
+            }
+        }
+        resultSortedList.addAll(processSortingForComplete(completedTaskList));
+        resultSortedList.addAll(processSortingForComplete(ignoreTaskList));
+        resultSortedList.addAll(processSortingForComplete(expiredTaskList));
+
+        return resultSortedList;
+    }
+
+    public static List<Task> processSortingForComplete(List<Task> tasksList) {
+        Map<Datetime, List<Task>> tasksMapwithDueDate = new Map<Datetime, List<Task>>();
+        Map<Datetime, List<Task>> tasksMapwithStartDate = new Map<Datetime, List<Task>>();
+        Map<Datetime, List<Task>> tasksMapwithCreatedDate = new Map<Datetime, List<Task>>();
+        Map<Datetime, List<Task>> tasksMapwithCompletedDate = new Map<Datetime, List<Task>>();
+        List<Task> sortedTasksList = new List<Task>();
+
+        List<String> taskCodeList = new List<String>{
+            'Complete_Survey',
+            'Complete_Your_Profile',
+            'Activate_Ecoa_Ediaries',
+            'Update_Your_Phone_Number',
+            'Select_COI'
+        };
+        for (Task taskObj : tasksList) {
+            if (taskCodeList.contains(taskObj.Task_Code__c)) {
+                taskObj.Priority = 'Normal';
+            }
+
+            if (taskObj.Completed_Date__c != null) {
+                if (tasksMapwithCompletedDate.keySet().contains(taskObj.Completed_Date__c)) {
+                    tasksMapwithCompletedDate.get(taskObj.Completed_Date__c).add(taskObj);
+                } else {
+                    tasksMapwithCompletedDate.put(
+                        taskObj.Completed_Date__c,
+                        new List<Task>{ taskObj }
+                    );
+                }
+            }
+            if (taskObj.Completed_Date__c == null && taskObj.Activity_Datetime__c != null) {
+                if (tasksMapwithDueDate.keySet().contains(taskObj.Activity_Datetime__c)) {
+                    tasksMapwithDueDate.get(taskObj.Activity_Datetime__c).add(taskObj);
+                } else {
+                    tasksMapwithDueDate.put(
+                        taskObj.Activity_Datetime__c,
+                        new List<Task>{ taskObj }
+                    );
+                }
+            }
+            if (
+                taskObj.Completed_Date__c == null &&
+                taskObj.Activity_Datetime__c == null &&
+                taskObj.Start_Date__c != null
+            ) {
+                if (tasksMapwithStartDate.keySet().contains((Datetime) taskObj.Start_Date__c)) {
+                    tasksMapwithStartDate.get((Datetime) taskObj.Start_Date__c).add(taskObj);
+                } else {
+                    tasksMapwithStartDate.put(
+                        (Datetime) taskObj.Start_Date__c,
+                        new List<Task>{ taskObj }
+                    );
+                }
+            }
+            if (
+                taskObj.Completed_Date__c == null &&
+                taskObj.Activity_Datetime__c == null &&
+                taskObj.Start_Date__c == null
+            ) {
+                if (tasksMapwithCreatedDate.keySet().contains(taskObj.CreatedDate)) {
+                    tasksMapwithCreatedDate.get(taskObj.CreatedDate).add(taskObj);
+                } else {
+                    tasksMapwithCreatedDate.put(taskObj.CreatedDate, new List<Task>{ taskObj });
+                }
+            }
+        }
+
+        sortedTasksList.addAll(sortListOrderbyAsc(tasksMapwithCompletedDate));
+        sortedTasksList.addAll(sortListOrderbyAsc(tasksMapwithDueDate));
+        sortedTasksList.addAll(sortListOrderbyAsc(tasksMapwithStartDate));
+        sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithCreatedDate));
+        return sortedTasksList;
     }
 }
