@@ -87,7 +87,7 @@
             </lightning-layout-item>
             <lightning-layout-item size="8" class="mob-task-sub" padding="around-small">
                 <lightning-layout>
-                    <lightning-layout-item size="12"
+                    <lightning-layout-item size="12" class={item.subjectEllipsisClass}
                         ><span
                             class={item.subjectClass}
                             onclick={taskOpen}
@@ -101,56 +101,30 @@
                 <template if:true={item.criticalTask}
                     ><span class="critical-rect">{label.taskPriorityCritical}</span></template
                 >
-                <lightning-layout
-                    ><lightning-layout-item size="12"
-                        ><template if:true={item.businessTask}
+                <template if:true={item.dueDate}>
+                    <lightning-layout
+                        ><lightning-layout-item size="12"
                             ><span class={dueTimeClass}
                                 >{label.taskDue} : &nbsp;
-                                <template if:true={item.dueDate}>
-                                    <lightning-formatted-date-time
-                                        value={item.task.Activity_Datetime__c}
-                                        year="numeric"
-                                        month="short"
-                                        day="2-digit"
-                                        time-zone={userTimeZone}
-                                    ></lightning-formatted-date-time
-                                    >&nbsp;|&nbsp;
-                                    <lightning-formatted-date-time
-                                        value={item.task.Activity_Datetime__c}
-                                        hour="numeric"
-                                        minute="numeric"
-                                        time-zone={userTimeZone}
-                                    ></lightning-formatted-date-time
-                                ></template>
-                                <template if:false={item.dueDate}>{label.notAvailable}</template>
-                            </span></template
-                        >
-                        <template if:false={item.businessTask}
-                            ><span class="due-time"
-                                >{label.taskReminder} :&nbsp;
-                                <template if:true={item.task.ReminderDateTime}>
-                                    <lightning-formatted-date-time
-                                        value={item.task.ReminderDateTime}
-                                        year="numeric"
-                                        month="short"
-                                        day="2-digit"
-                                        time-zone={userTimeZone}
-                                    ></lightning-formatted-date-time>
-                                    &nbsp;|&nbsp;
-                                    <lightning-formatted-date-time
-                                        value={item.task.ReminderDateTime}
-                                        hour="numeric"
-                                        minute="numeric"
-                                        time-zone={userTimeZone}
-                                    ></lightning-formatted-date-time
-                                ></template>
-                                <template if:false={item.task.ReminderDateTime}
-                                    >{label.notAvailable}</template
-                                >
-                            </span></template
-                        ></lightning-layout-item
-                    >
-                </lightning-layout>
+
+                                <lightning-formatted-date-time
+                                    value={item.task.Activity_Datetime__c}
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
+                                    time-zone={userTimeZone}
+                                ></lightning-formatted-date-time
+                                >&nbsp;|&nbsp;
+                                <lightning-formatted-date-time
+                                    value={item.task.Activity_Datetime__c}
+                                    hour="numeric"
+                                    minute="numeric"
+                                    time-zone={userTimeZone}
+                                ></lightning-formatted-date-time>
+                            </span>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
             </lightning-layout-item>
 
             <lightning-layout-item size="2" padding="around-small">
