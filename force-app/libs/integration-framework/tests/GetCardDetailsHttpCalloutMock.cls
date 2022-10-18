@@ -4,9 +4,12 @@
 
 public with sharing class GetCardDetailsHttpCalloutMock implements HttpCalloutMock{
     public  integer rescode;
-    public  GetCardDetailsHttpCalloutMock (integer rescode){
-    this.rescode= rescode;
+    public  GetCardDetailsHttpCalloutMock  (Integer in_rescode){
+        rescode=in_rescode;
     }
+    /*public  GetCardDetailsHttpCalloutMock (integer rescode){
+    this.rescode= rescode;
+    }*/
     public HttpResponse respond(HttpRequest request) {
         HttpResponse response = new HttpResponse();
         response.setHeader('Content-Type', 'application/json');
