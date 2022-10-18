@@ -539,6 +539,17 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         }
         this.selectedReminderDate = event.detail.compdate;
         this.selectedReminderDateTime = event.detail.compdatetime;
+        let visitDateTime = new Date(this.visitDateTime).toLocaleString('en-US', {
+            timeZone: TIME_ZONE
+        });
+        let reminderDateTime = new Date(this.selectedReminderDateTime).toLocaleString('en-US', {
+            timeZone: TIME_ZONE
+        });
+        if (new Date(visitDateTime) < new Date(reminderDateTime)) {
+            this.disableButtonSaveCancel = true;
+        } else {
+            this.disableButtonSaveCancel = false;
+        }
         this.minReminderTime();
     }
 
