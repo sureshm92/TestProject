@@ -5,7 +5,7 @@
 
 .slds-grid {
     margin-bottom: 1rem;
-    padding: 0 1.5rem;
+    padding: 0 1rem;
 }
 
 .slds-card__header {
@@ -101,6 +101,10 @@ input[type='date']::-webkit-calendar-picker-indicator,
     fill: #00a3e0;
 }
 
+.slds-col.slds-small-size_1-of-2.slds-p-horizonal_none {
+    padding-inline: unset;
+}
+
 .full-width {
     width: 100%;
 }
@@ -134,7 +138,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
 }
 
 @media all and (min-width: 768px) and (max-width: 870px) {
-    .slds-small-size_1-of-2.slds-p-left_none {
+    .slds-small-size_1-of-2.slds-p-horizontal_none {
         min-width: 100%;
         padding-left: 0;
         padding-right: 0;
