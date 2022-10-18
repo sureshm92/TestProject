@@ -311,7 +311,23 @@ export default class PpCreateTask extends LightningElement {
                         (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c) &&
                         this.taskReminderDate
                     ) {
-                        this.enableSave = true;
+                        let currentTaskDateTime = new Date(this.taskDateTime).toLocaleString(
+                            'en-US',
+                            {
+                                timeZone: TIME_ZONE
+                            }
+                        );
+                        let reminderDateTime = new Date(this.taskReminderDate).toLocaleString(
+                            'en-US',
+                            {
+                                timeZone: TIME_ZONE
+                            }
+                        );
+                        if (new Date(reminderDateTime) < new Date(currentTaskDateTime)) {
+                            this.enableSave = true;
+                        } else {
+                            this.enableSave = false;
+                        }
                     } else {
                         this.enableSave = false;
                     }
