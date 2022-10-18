@@ -3,12 +3,13 @@
  }
 
  .slds-grid-visit {
-     padding: 0 0.75rem 0 0.25rem;
+     padding: 0 1rem 0 0;
  }
  
  .slds-grid-visit .slds-col.slds-p-left_xx-small,
  .slds-grid-visit .slds-col.slds-p-right_xx-small {
      padding-right: unset;
+     padding-left: 1rem;
  }
  
  .curve-input {
