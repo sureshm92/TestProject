@@ -415,8 +415,8 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
 
     get useAsDaytimeContainerClass() {
         return this.isMobile
-            ? 'slds-col slds-size_5-of-8 slds-p-top_small'
-            : 'slds-col slds-size_2-of-7';
+            ? 'slds-col slds-size_5-of-8 slds-p-top_small custom-checkbox'
+            : 'slds-col slds-size_2-of-7 custom-checkbox';
     }
 
     get daytimePhoneContainerClass() {
