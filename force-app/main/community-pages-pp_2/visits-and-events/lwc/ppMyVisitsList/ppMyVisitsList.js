@@ -71,7 +71,7 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
             theDiv.className = 'inactive-custom-box';
         }
         this.showupcomingvisits = false;
-        if (this.pastvisits) {
+        if (this.pastvisits.length>0) {
             this.visitid = this.pastvisitid;
             this.visitName = this.pastvisits[0].visit.Name;
             this.plannedDate = this.pastvisits[0].visit.Planned_Date__c;
@@ -159,7 +159,6 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     onVisitSelect(event) {
         var index = event.currentTarget.dataset.index;
         var past = event.currentTarget.dataset.past;
-        console.log('Inside Visit Select : ' + past);
         const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
         theDiv.className = 'inactive-custom-box';
         if (past === 'true') {
