@@ -40,9 +40,9 @@ public class Test_PaymentsRemote {
         Test.startTest();
         ParticipantService.setMock(new ParticipantServiceMock());
         integer rescode;
-       // GetCardDetailsHttpCalloutMock httpcall = new GetCardDetailsHttpCalloutMock();
+       GetCardDetailsHttpCalloutMock httpcall = new GetCardDetailsHttpCalloutMock();
         rescode = 400;
-        //httpcall.add(rescode);
+        httpcall.add(rescode);
         Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock(rescode));
         initData = PaymentsRemote.getPaymentData();
         Test.stopTest();
