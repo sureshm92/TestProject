@@ -205,7 +205,11 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].task.Task_Code__c === undefined
                     ? false
                     : this.taskCodeList.includes(tasks[i].task.Task_Code__c);
+                tasks[i].completed = tasks[i].task.Status == 'Completed' ? true : false;
+                tasks[i].dueDate = false;
+                if (!tasks[i].completed) {
             tasks[i].dueDate = tasks[i].task.Activity_Datetime__c ? true : false;
+                }
             tasks[i].startDate =
                 tasks[i].task.Start_Date__c && tasks[i].task.Activity_Datetime__c === undefined
                     ? true

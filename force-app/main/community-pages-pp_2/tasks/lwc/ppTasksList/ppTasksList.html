@@ -125,6 +125,30 @@
                         </lightning-layout-item>
                     </lightning-layout>
                 </template>
+                <template if:true={item.completed}>
+                    <lightning-layout
+                        ><lightning-layout-item size="12"
+                            ><span class={dueTimeClass}
+                                >Completed : &nbsp;
+
+                                <lightning-formatted-date-time
+                                    value={item.task.Completed_Date__c}
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
+                                    time-zone={userTimeZone}
+                                ></lightning-formatted-date-time
+                                >&nbsp;|&nbsp;
+                                <lightning-formatted-date-time
+                                    value={item.task.Completed_Date__c}
+                                    hour="numeric"
+                                    minute="numeric"
+                                    time-zone={userTimeZone}
+                                ></lightning-formatted-date-time>
+                            </span>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
             </lightning-layout-item>
 
             <lightning-layout-item size="2" padding="around-small">
