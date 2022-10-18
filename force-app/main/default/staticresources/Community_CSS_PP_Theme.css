@@ -676,6 +676,14 @@ c-pp-Study-Visit-Details-Card .slds-form-element:nth-child(2) .slds-checkbox .sl
     margin-left: .5rem;
 }
 
+.slds-checkbox .slds-checkbox_faux{
+    -webkit-transition-property: none;
+    -moz-transition-property: none;
+    -o-transition-property: none;
+    transition-property: none;
+    border: 1px solid #B5B5B5;
+}
+
 .comm-checks .slds-checkbox .slds-checkbox__label {
     display: flex;
     align-items: center;
@@ -689,26 +697,27 @@ c-pp-Study-Visit-Details-Card .slds-form-element:nth-child(2) .slds-checkbox .sl
     position: relative;
 }
 
-.comm-checks .slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
-    background-color: #00a3e0;
+
+/**Checked Checkbox CSS*/
+.slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
+    background-color: #015FF1;
     border-radius: 2px;
     border: none;
     top: 1px;
 }
 
-.comm-checks .slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux:after {
-    color: #00a3e0;
+.slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux:after {
+    color: #015FF1;
     position: absolute;
-    content: " ";
+    content: "";
     display: inline-block;
-    transform: rotate(34deg);
-    height: 10px;
-    width: 6px;
-    top: 1px;
-    left: 5px;
+    transform: translate3d(-50%, -50%, 0) rotate(-45deg);
+    height: 0.25rem;
+    width: 0.5rem;
+    top: 50%;
+    left: 50%;
     border-bottom: 2px solid #fff;
-    border-right: 2px solid #fff;
-    border-left: none;
+    border-left: 2px solid #fff;
     border-radius: 0;
 }
 
@@ -716,8 +725,22 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     box-shadow: none
 }
 
-.comm-checks .slds-form-element__control .slds-checkbox [type=checkbox]:checked:focus+.slds-checkbox__label .slds-checkbox_faux:before{
-    border: 2px solid #051ff1;
+/**Hover Event Checkbox CSS*/
+.slds-checkbox [type=checkbox]:hover+.slds-checkbox__label .slds-checkbox_faux:before{
+    border: 1px solid #015FF1;
+    background-color: #ECF3FF;
+    height: 16px;
+    width: 16px;
+    content: "";
+    position: absolute;
+    border-radius: 2px;
+    top: -1px;
+    left: -1px;
+}
+
+.slds-checkbox [type=checkbox]:checked:hover+.slds-checkbox__label .slds-checkbox_faux:before{
+    background-color: #0557D5;
+    border: 1px solid #015FF1;
     height: 16px;
     width: 16px;
     content: "";
@@ -727,15 +750,42 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     left: 0;
 }
 
-.comm-checks .slds-form-element__control .slds-checkbox [type=checkbox]:focus+.slds-checkbox__label .slds-checkbox_faux:before{ 
-     border: 2px solid #051ff1;
-    height: 16px;
-    width: 16px;
-    content: "";
-    position: absolute;
-    border-radius: 2px;
+/**Disabled Checkbox CSS*/
+.slds-checkbox [type=checkbox][disabled]+.slds-checkbox__label .slds-checkbox_faux{
+    border: 1px solid #D9D9D9 !important;
+}
+
+.slds-checkbox [type=checkbox][disabled]+.slds-checkbox__label .slds-checkbox_faux:after,
+.slds-checkbox [type=checkbox][disabled]+.slds-checkbox__label .slds-checkbox--faux:after {
+    border-color: #ffffff !important;
+}
+
+.slds-checkbox [type=checkbox][disabled]:hover+.slds-checkbox__label .slds-checkbox_faux,
+.slds-checkbox [type=checkbox][disabled]:hover+.slds-checkbox__label .slds-checkbox_faux
+{
+    border: 1px solid #D9D9D9 !important;
+    background-color: #F2F2F2 !important;
+}
+
+.slds-checkbox [type=checkbox][disabled]:hover+.slds-checkbox__label .slds-checkbox_faux:before{
+    border: 1px solid #D9D9D9 !important;
+    background-color: #F2F2F2;
+}
+
+.slds-checkbox [type=checkbox][disabled]:checked+.slds-checkbox__label .slds-checkbox_faux{
+    background-color: rgba(1, 95, 241, 0.4) !important;
     top: -1px;
     left: -1px;
+    border: none !important;
+    border-color: #ffffff !important;
+}
+
+.slds-checkbox [type=checkbox][disabled]:checked:hover+.slds-checkbox__label .slds-checkbox_faux:before,
+.slds-checkbox [type=checkbox][disabled]:checked:hover+.slds-checkbox__label .slds-checkbox_faux{
+    background-color: rgba(1, 95, 241, 0.4) !important;
+    top: -1px;
+    left: -1px;
+    border: none !important;
 }
 
 .fadePlaceholder button span{
@@ -764,16 +814,20 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     background-color: #0768FD !important;
     border-radius: 2px;
     border: 1px solid #0768FD !important;
+/**Communication Preference Error Checkbox*/
+.highlightErrorCheckbox .slds-checkbox .slds-checkbox_faux{
+    border: 2px solid #E20000 !important;
+    background-color: #FFFFFF !important;
+    top: 1px !important;
+    left: 0px !important;
 }
 
-.task-reminder-pref .slds-checkbox [type=checkbox]:checked:focus+.slds-checkbox__label .slds-checkbox_faux:before{
-    border: 1px solid #0768FD !important;
-    border-radius: 2px;
-}
-
-.task-reminder-pref .slds-checkbox [type=checkbox]:focus+.slds-checkbox__label .slds-checkbox_faux:before { 
-     border: 1px solid #0768FD !important;
-     border-radius: 2px;
+.highlightErrorCheckbox .slds-checkbox [type=checkbox]:checked:hover+.slds-checkbox__label .slds-checkbox_faux:before,
+.highlightErrorCheckbox .slds-checkbox [type=checkbox]:hover+.slds-checkbox__label .slds-checkbox_faux:before {
+    background-color: #FFFFFF !important;
+    border: 2px solid #E20000 !important;
+    top: -2px !important;
+    left: -2px !important;
 }
 
 @media all and (max-width: 768px) {
