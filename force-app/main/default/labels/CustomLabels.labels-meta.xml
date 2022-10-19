@@ -28602,4 +28602,11 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Value cannot be in future</shortDescription>
         <value>Value cannot be in future</value>
     </labels>
+    <labels>
+        <fullName>PP_Enter_New_Password</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EnterNewPassword</shortDescription>
+        <value>Enter New Password</value>
+    </labels>
 </CustomLabels>
