@@ -534,7 +534,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.reminderChanged = true;
         this.selectedReminderDate = event.detail.compdate;
         this.selectedReminderDateTime = event.detail.compdatetime;
-        console.log('SMS and EMAIL:' + this.sms + this.email);
         let visitDateTime = new Date(this.visitDateTime).toLocaleString('en-US', {
             timeZone: TIME_ZONE
         });
