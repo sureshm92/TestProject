@@ -10,6 +10,8 @@ import reminderdate from '@salesforce/label/c.Reminder_Date';
 import remindertime from '@salesforce/label/c.Reminder_Time';
 import timePlaceHolder from '@salesforce/label/c.PP_Time_Place_Holder';
 import validTimeFormat from '@salesforce/label/c.Valid_Time_Format';
+import noPastValues from '@salesforce/label/c.No_Past_Values';
+import noFutureValues from '@salesforce/label/c.No_future_Values';
 export default class PpDateTimeCombo extends LightningElement {
     @api compdate;
     @api comptime;
@@ -36,7 +38,9 @@ export default class PpDateTimeCombo extends LightningElement {
         remindertime,
         dueDate,
         timePlaceHolder,
-        validTimeFormat
+        validTimeFormat,
+        noPastValues,
+        noFutureValues
     };
 
     @api
@@ -154,6 +158,7 @@ export default class PpDateTimeCombo extends LightningElement {
             ? ''
             : 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small';
     }
+
     handleDate(event) {
         this.initialDateLoaded = true;
         this.dt = event.target.value;

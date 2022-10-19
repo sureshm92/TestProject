@@ -225,8 +225,7 @@
     height: 100%;	
     display: inline-flex;	
     align-items: center;	
-    padding: 0 5px;	
-    margin-left: 4px;	
+    padding: 0 8px;
 }
 
 .THIS .helpNavigationCSS .cRRIcon.rr-icon-default {
