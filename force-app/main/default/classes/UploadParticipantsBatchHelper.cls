@@ -40,7 +40,7 @@ global class UploadParticipantsBatchHelper implements Database.Batchable<sObject
             WHERE ParticipantEnrollment__c IN :ids
         ]) {
             if (obj.Status__c == acceptedStatus && 
-            StudySiteService.SS_TYPE_VT_INTEGRATION.contains(pe.Study_Site__r.Study_Site_Type__c) &&
+            StudySiteService.SS_TYPE_VT_INTEGRATION.contains(obj.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c) &&
             obj.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_to_SH__c == true &&
             obj.ParticipantEnrollment__r.Clinical_Trial_Profile__r.DCT_Platform__c == 'Study Hub') {
                 pEnrollmentsForSH.add(obj.ParticipantEnrollment__c);
