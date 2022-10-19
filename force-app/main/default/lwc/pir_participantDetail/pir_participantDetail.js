@@ -79,6 +79,7 @@ import PP_required from '@salesforce/label/c.PP_required';
 import RH_MOB from '@salesforce/label/c.RH_MOB';
 import RH_YOB from '@salesforce/label/c.RH_YearofBirth';
 import RH_DOB from '@salesforce/label/c.RH_DOB';
+import Missing_participant_information from '@salesforce/label/c.Missing_participant_information';
 
 export default class Pir_participantDetail extends LightningElement {
     @api selectedPE; @api delegateLevels = ''; @api lststudysiteaccesslevel = [];
@@ -1299,4 +1300,5 @@ export default class Pir_participantDetail extends LightningElement {
     DOB = RH_DOB;
     YOB = RH_YOB;
     MOB = RH_MOB;
+    Missing_participant_information = Missing_participant_information;
 }

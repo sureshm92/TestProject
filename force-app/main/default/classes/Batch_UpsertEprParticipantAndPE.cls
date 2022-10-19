@@ -104,7 +104,8 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             Override_PI_Referral_Status__c,
             Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
             Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
-            Suppress_Participant_Emails__c
+            Suppress_Participant_Emails__c,
+            Participant_DOB_format__c 
             FROM Study_Site__c
             WHERE Primary_Key_ePR__c IN :ssNumbersList
         ];
@@ -127,30 +128,62 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             ParticipantDuplicateService.ParticipantWithDelegate partDelegateWrapper = new ParticipantDuplicateService.ParticipantWithDelegate();
             partDelegateWrapper.participant = new Participant__c();
             Study_Site__c ss = ssByPrimaryKeyEPRMap.get(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
-            Participant__c objParticipant = IprEprTriggerHandler.convertToParticipant(ipr);
-            if (!String.isBlank(objParticipant.Date_of_Birth__c)) {
-                List<String> dateOfBirth = objParticipant.Date_of_Birth__c.split('-');
-                objParticipant.Birth_Day__c = dateOfBirth[2];
-                objParticipant.Birth_Month__c = dateOfBirth[1];
-                objParticipant.Birth_Year__c = dateOfBirth[0];
-
-                Date birthDate = Date.newInstance(
-                    Integer.valueOf(objParticipant.Birth_Year__c),
-                    Integer.valueOf(objParticipant.Birth_Month__c),
-                    Integer.valueOf(objParticipant.Birth_Day__c)
-                );
-
-                Integer participantAge = Date.newInstance(
-                        2000,
-                        birthDate.month(),
-                        birthDate.day()
-                    ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
-                    ? Date.today().year() - birthDate.year()
-                    : Date.today().year() - birthDate.year() - 1;
-                
-                objParticipant.Age__c = participantAge;
+            
+            //if (!String.isBlank(ipr.BirthDate__c)) {
+            List<String> dateOfBirth = ipr.BirthDate__c.split('-');
+            String mmValue;
+            String ddValue;
+            String yyyyValue;
+            if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                if(dateOfBirth.size() > 2){
+                    ddValue = dateOfBirth[2];
+                    mmValue = dateOfBirth[1];
+                }else if(dateOfBirth.size() > 1){
+                    mmValue = dateOfBirth[1];
+                }
+            }else if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                if(dateOfBirth.size() > 1){
+                    mmValue = dateOfBirth[1];
+                }
             }
-
+            yyyyValue = dateOfBirth[0];
+            Integer mm = String.isNotBlank(mmValue) ? Integer.valueof(mmValue) : 12;
+            Integer dd = String.isNotBlank(ddValue) ? Integer.valueof(ddValue) : Date.daysInMonth(Integer.valueOf(yyyyValue), mm);
+            Date birthDate = Date.newInstance( 
+                Integer.valueOf(yyyyValue),mm,dd
+            );
+            Integer participantAge = Date.newInstance(
+                2000,
+                birthDate.month(),
+                birthDate.day()
+            ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
+            ? Date.today().year() - birthDate.year()
+            : Date.today().year() - birthDate.year() - 1;
+            mmValue = String.valueof(mm);
+            ddValue = String.valueof(dd);
+            if(mm < 10){
+               mmValue = '0'+mm;
+            }
+            if(dd < 10){
+                ddValue = '0'+dd;
+            }
+            //ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
+            Participant__c objParticipant = IprEprTriggerHandler.convertToParticipant(ipr);
+            objParticipant.Age__c = participantAge;
+            if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                if(dateOfBirth.size() > 2){
+                    objParticipant.Birth_Day__c = ddValue;
+                    objParticipant.Birth_Month__c = mmValue;
+                }else if(dateOfBirth.size() > 1){
+                    objParticipant.Birth_Month__c = mmValue;
+                }
+            }else if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                if(dateOfBirth.size() > 1){
+                    objParticipant.Birth_Month__c = mmValue;
+                }
+            }
+            objParticipant.Birth_Year__c = yyyyValue;
+            objParticipant.Date_of_Birth__c = null;
             Account participantAccount = new Account(Id = ss.Site__c);
             objParticipant.Site__c = ss.Site__c;
             newParticipantsMap.put(ipr.referralID__c, objParticipant);
@@ -669,7 +702,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         }
         finally {
 			String isAbortJob =Label.Abort_Batch_UpsertEprParticipantAndPE;
-            if(!test.isRunningTest() && isAbortJob!='True')
+           if(!test.isRunningTest() && isAbortJob!='True')
             	Database.executeBatch(new Batch_UpsertEprParticipantAndPE(), 7);
         }
         

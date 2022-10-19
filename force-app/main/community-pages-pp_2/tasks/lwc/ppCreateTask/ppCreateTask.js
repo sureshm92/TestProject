@@ -103,11 +103,19 @@ export default class PpCreateTask extends LightningElement {
         return this.taskNameLeng > 0 ? this.taskNameLeng : '00';
     }
     handletaskNameChange(event) {
-        var val = event.target.value;
-        this.taskNameLeng = val.length;
-        this.subject = event.target.value;
-        if (event.target.value !== '') {
-            this.template.querySelector('[data-id="taskName"]').value = event.target.value;
+        let inputvalue = event.target.value;
+        if (inputvalue) {
+            let tasksubject = inputvalue.trimStart();
+            if (tasksubject.length > 0) {
+                this.taskNameLeng = tasksubject.length;
+                this.subject = tasksubject;
+                if (event.target.value !== '') {
+                    this.template.querySelector('[data-id="taskName"]').value = tasksubject;
+                }
+            } else {
+                this.subject = '';
+                this.taskNameLeng = 0;
+            }
         }
     }
     handleInitialDateLoad(event) {

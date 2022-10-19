@@ -33,6 +33,7 @@
     <aura:attribute name="showMonth" type="Boolean" default="false"/>
     <aura:attribute name="showDay" type="Boolean" default="false"/>
     <aura:attribute name="showYear" type="Boolean" default="false"/>
+    <aura:attribute name="monthName" type="String"/>
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" size="medium" />
     <div class="form-content">
@@ -92,7 +93,7 @@
                                     <div class="label">{!$Label.c.RH_MOB}</div>
                                     <lightning:input
                                                      type="text"
-                                                     value="{!v.participant.Birth_Month__c}"
+                                                     value="{!v.monthName}"
                                                      disabled="true"
                                                      />
                                 </div>
@@ -407,13 +408,13 @@
 
             <!--MRR Survey Results-->
             <aura:if
-                isTrue="{!v.peshData.screenerResponse &amp;&amp; !v.actions.screenerResponses.disabled}"
-            >
-                <div>
-                    <div class="header">{!$Label.c.BTN_Screener_Responses}</div>
-                    <c:SurveyGismoResultsView results="{!v.peshData.screenerResponse.Screener_Response__c}" />
-                </div>
-            </aura:if>
+            isTrue="{!v.peshData.screenerResponse &amp;&amp; !v.actions.screenerResponses.disabled}"
+        >
+            <div>
+                <div class="header">{!$Label.c.BTN_Screener_Responses}</div>
+                <c:SurveyGismoResultsView results="{!v.peshData.screenerResponse.Screener_Response__c}" />
+            </div>
+        </aura:if>
 
             <!--Medical History Results-->     
             <aura:if isTrue="{!and(v.containsFile , !v.actions.medicalHistory.disabled)}">

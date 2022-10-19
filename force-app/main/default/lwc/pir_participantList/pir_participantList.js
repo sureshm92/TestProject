@@ -1154,9 +1154,9 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                     csvStringResult += '" "' + ',';
                 }
     
-                if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Present_Age__c'] !== undefined) {
+                if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Age__c'] !== undefined) {
                     csvStringResult +=
-                        '"' + partList[i] ['Participant__r']['Present_Age__c'] + '"' + ',';
+                        '"' + partList[i] ['Participant__r']['Age__c'] + '"' + ',';
                 } else {
                     csvStringResult += '" "' + ',';
                 }
@@ -1461,7 +1461,13 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                             }
                     }
                 }else{
-                    if((!this.participantList[i].showActionbtnDisabled || this.dropDownLabel!='Send to DCT') && this.participantList[i].dobValid){
+                    if((!this.participantList[i].showActionbtnDisabled || this.dropDownLabel!='Send to DCT') ){
+                        if(this.dropDownLabel == 'Send to DCT' &&  !this.participantList[i].dobValid){
+                            continue;
+                        }
+                        if(this.bulkEligibilityPassed && this.participantList[i].eligibilityInvalid){
+                            continue;
+                        }
                         checkboxes[i].checked = event.target.checked;
                         if(checkboxes[i].checked==true){
                             if(!this.selectedCheckboxes.includes(this.participantList[i].id))
@@ -1772,5 +1778,8 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             return "("+count+")";
         }
         return "";
+    }
+    get bulkEligibilityPassed(){
+        return this.newstatus == 'Eligibility Passed';
     }
 }
