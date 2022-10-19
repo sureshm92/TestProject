@@ -1081,11 +1081,16 @@ public without sharing class NotificationAvailabilityService {
                 : false;
         } else if (objType == STUDY_SITE_OBJ_NAME) {
             Study_Site__c ss = (Study_Site__c) objectsByIds.get(Id.valueOf(whatId));
-            isValid = ss.Clinical_Trial_Profile__r.CommunityTemplate__c ? true : false;
+            isValid = ss.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                CommunityTemplateService.TEMPLATE_PP
+                ? true
+                : false;
         } else if (objType == TASK_OBJ_NAME) {
             Task task = (Task) objectsByIds.get(Id.valueOf(whatId));
             if (task.Community_Template_Name__c != null) {
-                isValid = task.Community_Template_Name__c ? true : false;
+                isValid = task.Community_Template_Name__c == CommunityTemplateService.TEMPLATE_PP
+                    ? true
+                    : false;
             } else if (
                 task.WhatId != null &&
                 task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()
@@ -1101,6 +1106,9 @@ public without sharing class NotificationAvailabilityService {
         } else if (objType == SURVEY_INVITATION_OBJ_NAME) {
             SurveyInvitation surveyInv = (SurveyInvitation) objectsByIds.get(Id.valueOf(whatId));
             if (surveyInv.Participant_Enrollment__c != null) {
+                Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
+                    Id.valueOf(surveyInv.Participant_Enrollment__c)
+                );
                 isValid = pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
                     CommunityTemplateService.TEMPLATE_PP
                     ? true

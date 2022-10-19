@@ -545,7 +545,7 @@ public without sharing class NotificationService {
         sendResultService.updateResults();
         //Send emails:
         if (!emailNotifications.isEmpty()) {
-            EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
+            EmailService.send(emailNotifications, orgWideEmailByNotifyMap, availabilityService);
         }
         //Async send SMS
         if (!smsNotifications.isEmpty()) {

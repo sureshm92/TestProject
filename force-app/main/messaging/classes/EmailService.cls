@@ -59,7 +59,8 @@ public without sharing class EmailService {
 
     public static void send(
         List<Notification__c> notifications,
-        Map<Id, String> orgWideEmailByNotifyMap
+        Map<Id, String> orgWideEmailByNotifyMap,
+        NotificationAvailabilityService availabilityService
     ) {
         NotificationResultService sendResultService = new NotificationResultService(notifications);
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
@@ -75,8 +76,7 @@ public without sharing class EmailService {
                 String emailTemplate = n.IsDelegate__c
                     ? emailTarget.Email_Template_Delegate__c
                     : emailTarget.Email_Template__c;
-                emailTemplate = NotificationAvailabilityService.isUpdatedPPTemplate(n.WhatId__c) ==
-                    true
+                emailTemplate = availabilityService.isUpdatedPPTemplate(n.WhatId__c) == true
                     ? emailTemplate + '_PP'
                     : emailTemplate;
                 emailMessages.add(
