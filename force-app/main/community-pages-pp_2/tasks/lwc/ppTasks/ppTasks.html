@@ -37,10 +37,7 @@
                         </template>
                     </lightning-layout-item>
                     <lightning-layout class="slds-align_absolute-center" multiple-rows="true">
-                        <lightning-layout-item
-                            class="overflow-scroll"
-                            padding="around-small"
-                            size="12"
+                        <lightning-layout-item class="overflow-scroll" size="12"
                             ><template if:true={isCreateTask}>
                                 <c-pp-create-task ontaskclose={handleTaskClose}> </c-pp-create-task>
                             </template>
@@ -69,11 +66,7 @@
                 </template>
                 <template if:false={taskOpenTab}>
                     <lightning-layout class="slds-align_absolute-center" multiple-rows="true">
-                        <lightning-layout-item
-                            class="overflow-scroll"
-                            padding="around-small"
-                            size="12"
-                        >
+                        <lightning-layout-item class="overflow-scroll" size="12">
                             <template if:false={emptyCompletedTasks}>
                                 <c-pp-tasks-list
                                     container-class="inactive-custom-box slds-align_absolute-center complete-container"

@@ -187,6 +187,9 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].subjectClass = tasks[i].systemTask
                     ? 'set-up-your-account curpointer'
                     : 'set-up-your-account';
+                tasks[i].subjectEllipsisClass = tasks[i].criticalTask
+                    ? 'crit-subject-ellipsis crit-mob-subject-ellipsis'
+                    : 'subject-ellipsis mob-subject-ellipsis';
                 tasks[i].businessTask = tasks[i].systemTask
                     ? tasks[i].openTask.Task_Code__c == 'Complete_Survey'
                     : true;
@@ -207,7 +210,11 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].task.Task_Code__c === undefined
                     ? false
                     : this.taskCodeList.includes(tasks[i].task.Task_Code__c);
+                tasks[i].completed = tasks[i].task.Status == 'Completed' ? true : false;
+                tasks[i].dueDate = false;
+                if (!tasks[i].completed) {
             tasks[i].dueDate = tasks[i].task.Activity_Datetime__c ? true : false;
+                }
             tasks[i].startDate =
                 tasks[i].task.Start_Date__c && tasks[i].task.Activity_Datetime__c === undefined
                     ? true
@@ -245,6 +252,9 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                     : 'set-up-your-account expire-header';
                 this.expiredTasksList.push(tasks[i]);
             }
+            tasks[i].subjectEllipsisClass = tasks[i].criticalTask
+                ? 'crit-subject-ellipsis crit-mob-subject-ellipsis'
+                : 'subject-ellipsis mob-subject-ellipsis';
         }
         this.emptyIgnoreTasks = this.ignoredTasksList.length == 0;
         this.emptyExpiredTasks = this.expiredTasksList.length == 0;
