@@ -28581,4 +28581,25 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Please enter a valid time format</shortDescription>
         <value>Please enter a valid time format</value>
     </labels>
+    <labels>
+        <fullName>No_Documents_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No documents available</shortDescription>
+        <value>No documents available</value>
+    </labels>
+    <labels>
+        <fullName>No_Past_Values</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Value cannot be in past</shortDescription>
+        <value>Value cannot be in past</value>
+    </labels>
+    <labels>
+        <fullName>No_future_Values</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Value cannot be in future</shortDescription>
+        <value>Value cannot be in future</value>
+    </labels>
 </CustomLabels>
