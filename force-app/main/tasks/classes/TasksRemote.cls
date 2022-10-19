@@ -387,6 +387,7 @@ public without sharing class TasksRemote {
         Map<Datetime, List<Task>> tasksMapwithStartDate = new Map<Datetime, List<Task>>();
         Map<Datetime, List<Task>> tasksMapwithCreatedDate = new Map<Datetime, List<Task>>();
         Map<Datetime, List<Task>> tasksMapwithCompletedDate = new Map<Datetime, List<Task>>();
+        Map<Datetime, List<Task>> tasksMapwithExpiredDate = new Map<Datetime, List<Task>>();
         List<Task> sortedTasksList = new List<Task>();
 
         List<String> taskCodeList = new List<String>{
@@ -446,6 +447,25 @@ public without sharing class TasksRemote {
                     tasksMapwithCreatedDate.put(taskObj.CreatedDate, new List<Task>{ taskObj });
                 }
             }
+            if (
+                taskObj.Status != 'Completed' &&
+                taskObj.Task_Type__c == 'Survey' &&
+                taskObj.Survey_Invitation__c != null &&
+                taskObj.Activity_Datetime__c == null
+            ) {
+                if (
+                    tasksMapwithExpiredDate.keySet()
+                        .contains(taskObj.Survey_Invitation__r.ExpireDateTime__c)
+                ) {
+                    tasksMapwithExpiredDate.get(taskObj.Survey_Invitation__r.ExpireDateTime__c)
+                        .add(taskObj);
+                } else {
+                    tasksMapwithExpiredDate.put(
+                        taskObj.Survey_Invitation__r.ExpireDateTime__c,
+                        new List<Task>{ taskObj }
+                    );
+                }
+            }
         }
 
         if (taskStatus == 'Completed') {
@@ -458,8 +478,7 @@ public without sharing class TasksRemote {
         }
         if (taskStatus == 'Expired') {
             sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithDueDate));
-            sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithStartDate));
-            sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithCreatedDate));
+            sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithExpiredDate));
         }
         return sortedTasksList;
     }
