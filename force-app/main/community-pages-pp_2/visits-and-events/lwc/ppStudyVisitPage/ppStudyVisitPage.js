@@ -160,6 +160,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     this.template.querySelector('c-web-spinner').hide();
                     this.contentLoaded = true;
                 }
+                if (this.isMobile) {
+                    this.getParams();
+                }
             })
             .catch((error) => {
                 this.error = error;
@@ -194,6 +197,18 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             });
     }
 
+    getParams() {
+        if (communityService.getUrlParameter('ispast') === 'true') {
+            this.past = true;
+            this.showUpcomingVisits = false;
+            this.visitid = this.pastVisits[0].visit.Id;
+        } else {
+            this.past = false;
+            this.showUpcomingVisits = true;
+            this.visitid = this.upcomingVisits[0].visit.Id;
+        }
+    }
+
     onUpcomingClick() {
         this.initialPageLoad = false;
         this.showChild = false;
@@ -220,14 +235,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         this.showList = false;
         this.past = true;
         this.showUpcomingVisits = false;
-        if (this.pastVisits.length>0) {
+        if (this.pastVisits.length > 0) {
             this.visitid = this.pastVisitId;
             this.visitName = this.pastVisits[0].visit.Name;
             this.plannedDate = this.pastVisits[0].visit.Planned_Date__c;
             this.visitStatus = this.pastVisits[0].visit.Status__c;
             this.createEditTask();
-        }
-        else{
+        } else {
             this.visitid = this.pastVisitId;
             this.visitName = '';
             this.visitStatus = '';
