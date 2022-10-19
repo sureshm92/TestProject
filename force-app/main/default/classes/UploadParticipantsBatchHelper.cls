@@ -20,6 +20,8 @@ global class UploadParticipantsBatchHelper implements Database.Batchable<sObject
         String acceptedStatus = PEStatusState.PE_STATUS_ELIGIBILITY_PASSED;
         List<id> PEStatusHistIdList = new List<Id>();
         Map<id, Integration_Log__c> PELogMap = new Map<id, Integration_Log__c>();
+        Set<Id> pEnrollmentsForSH = new Set<Id>();
+        /*
         for (Participant_Enrollment__c s : scope) {
             if (s.Participant_Status__c == acceptedStatus) {
                 //Callout for Participent enrollment and store the Return value from the method in a list.
@@ -27,13 +29,28 @@ global class UploadParticipantsBatchHelper implements Database.Batchable<sObject
                 PELogMap.put(s.id, PEReturnedValue);
             }
         }
+        */
         //Iterate over Participant Enrollment status history object
         for (Participant_Enrollment_Status_History__c obj : [
-            SELECT Id
+            SELECT Id,Status__c,
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_to_SH__c,
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.DCT_Platform__c,
+            ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c IN :ids
         ]) {
+            if (obj.Status__c == acceptedStatus && 
+            StudySiteService.SS_TYPE_VT_INTEGRATION.contains(pe.Study_Site__r.Study_Site_Type__c) &&
+            obj.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_to_SH__c == true &&
+            obj.ParticipantEnrollment__r.Clinical_Trial_Profile__r.DCT_Platform__c == 'Study Hub') {
+                pEnrollmentsForSH.add(obj.ParticipantEnrollment__c);
+            }
             PEStatusHistIdList.Add(obj.id);
+        }
+        for(Id peIdsForSH : pEnrollmentsForSH){
+            //Callout for Participent enrollment and store the Return value from the method in a list.
+            Integration_Log__c PEReturnedValue = IntegrationService.sendPEToStudyHubBatch(peIdsForSH);
+            PELogMap.put(peIdsForSH, PEReturnedValue);
         }
         //Callout for Participent enrollment Status History.
         IntegrationService.sendPESHToEPRBatch(PEStatusHistIdList);
