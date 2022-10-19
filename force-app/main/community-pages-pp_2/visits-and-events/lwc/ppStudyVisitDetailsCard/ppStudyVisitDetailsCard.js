@@ -103,6 +103,12 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             } else {
                 this.emailOptIn = true;
             }
+            if (!this.emailOptIn) {
+                this.email = false;
+            }
+            if (!this.smsOptIn) {
+                this.sms = false;
+            }
         } else if (error) {
             this.showErrorToast('Error occured', error.message, 'error');
         }
