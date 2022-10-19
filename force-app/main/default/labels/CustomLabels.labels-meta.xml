@@ -54,7 +54,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Send to Dct dob error</shortDescription>
-        <value>Participant data couldn&apos;t be sent to DCT because some fields related to this participant are missing. Please fill them out on the Participant Details tab before continuing.</value>
+        <value>Participant could not be sent to DCT. Information is missing on Participant Details tab.</value>
+    </labels>
+    <labels>
+        <fullName>Missing_participant_information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing participant information</shortDescription>
+        <value>Please fill in the required missing information before continuing.</value>
     </labels>
     <labels>
         <fullName>Site_Calendar_All_Studies_Sites</fullName>
@@ -10591,6 +10598,20 @@ The expected format is REF##### to REF########</value>
         <value>Hide</value>
     </labels>
     <labels>
+        <fullName>PP_Login_Form_Show</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Login Form Show</shortDescription>
+        <value>show</value>
+    </labels>
+    <labels>
+        <fullName>PP_Login_Form_Hide</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription> PP Login Form Hide</shortDescription>
+        <value>hide</value>
+    </labels>
+    <labels>
         <fullName>Low_density_Lipoprotein</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13886,6 +13907,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP AS F 3rd Choice Language Help Text</shortDescription>
         <value>To be used when your Preferred and Second Language are not available.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Clinical_Research_by_IQVIA</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Clinical_Research_by_IQVIA</shortDescription>
+        <value>Clinical Research by IQVIA</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Current_Password</fullName>
@@ -20116,6 +20144,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Welcome</shortDescription>
         <value>Welcome</value>
+    </labels>
+    <labels>
+        <fullName>PP_We_share_the_vision_to_drive_healthcare_forward</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_We_share_the_vision_to_drive_healthcare_forward</shortDescription>
+        <value>We share the vision to drive healthcare forward. We do our part by using breakthroughs in insights, technology and human intelligence to reimagine and deliver ways to help make them a reality. Learn more about clinical trial opportunities and what new hope is on the horizon today!</value>
     </labels>
     <labels>
         <fullName>PP_Withdraw_Delegate</fullName>
@@ -28524,6 +28559,13 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Select_E-Consent_Vendor</shortDescription>
         <value>Select E-Consent Vendor</value>
+    </labels>
+    <labels>
+        <fullName>Task_No_Completed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task No Completed</shortDescription>
+        <value>You have no completed tasks</value>
     </labels>
     <labels>
         <fullName>Valid_Time_Format</fullName>

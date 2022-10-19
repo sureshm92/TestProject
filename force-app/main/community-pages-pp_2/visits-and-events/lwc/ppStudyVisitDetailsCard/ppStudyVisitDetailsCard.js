@@ -539,6 +539,17 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         }
         this.selectedReminderDate = event.detail.compdate;
         this.selectedReminderDateTime = event.detail.compdatetime;
+        let visitDateTime = new Date(this.visitDateTime).toLocaleString('en-US', {
+            timeZone: TIME_ZONE
+        });
+        let reminderDateTime = new Date(this.selectedReminderDateTime).toLocaleString('en-US', {
+            timeZone: TIME_ZONE
+        });
+        if (new Date(visitDateTime) < new Date(reminderDateTime)) {
+            this.disableButtonSaveCancel = true;
+        } else {
+            this.disableButtonSaveCancel = false;
+        }
         this.minReminderTime();
     }
 
@@ -563,6 +574,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitDateTime = event.detail.compdatetime;
         this.visitTime = event.detail.comptime;
         this.visitDate = event.detail.compdate;
+        this.remindmepub = '';
         if (this.visitDate && this.visitTime) {
             this.disableButtonSaveCancel = false;
         } else {
@@ -580,6 +592,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitDateTime = event.detail.compdatetime;
         this.visitDate = event.detail.compdate;
         this.visitTime = event.detail.comptime;
+        this.remindmepub = '';
         if (this.visitDate && this.visitTime) {
             this.disableButtonSaveCancel = false;
         } else {
