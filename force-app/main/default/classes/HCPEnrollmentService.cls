@@ -266,6 +266,7 @@ public without sharing class HCPEnrollmentService {
         'Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c',
         'Study_Site__r.Clinical_Trial_Profile__c',
         'Study_Site__r.Override_PI_Referral_Status__c',
+        'Study_Site__r.Site_Activation_Status__c',
         'Study_Site__r.Clinical_Trial_Profile__r.Override_Recruitment_Status__c',
         'Study_Site__r.Clinical_Trial_Profile__r.Override_Status_Updated_By__c',
         'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Pre_screening__c',

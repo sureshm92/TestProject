@@ -43,6 +43,7 @@ import successfully_Re_Engaged from '@salesforce/label/c.Successfully_Re_Engaged
 import { NavigationMixin } from 'lightning/navigation';
 import { label } from "c/pir_label";
 import getUserLanguage from '@salesforce/apex/PIR_HomepageController.fetchCurrentUserLanguage';
+import getStudyAccessLevelInitParent from '@salesforce/apex/PIR_HomepageController.getStudyAccessLevelInitParent';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import PIR_Study_Site_Name from '@salesforce/label/c.PIR_Study_Site_Name';
 import PIR_Study_Name from '@salesforce/label/c.PIR_Study_Name';
@@ -191,18 +192,20 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
               this.error = error;
         });
     }
+    getStudyAccessLevelInitParent()
+    .then((resultaccess) => {
+      this.lststudysiteaccesslevel = resultaccess;
+    })
+    .catch((error) => {
+              this.error = error;
+              
+        });
+
     loadScript(this, xlsxmin).then(() => {});
     loadStyle(this, PIR_Community_CSS)
   }
 
-  @wire(getStudyAccessLevel)
-  wiredAccess({ error, data }) {
-    if (data) {
-        this.lststudysiteaccesslevel = data;
-    } else if (error) {
-        this.error = error;
-    }
-  }
+
   studyhandleChange(event) {
     var picklist_Value = event.target.value;
     this.selectedStudy = picklist_Value;
