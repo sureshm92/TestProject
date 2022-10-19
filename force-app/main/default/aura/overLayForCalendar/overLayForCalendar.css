@@ -24,7 +24,7 @@
     white-space: nowrap;
     display: flex;
     align-items: center;
-    padding: 0 5px;
+    padding: 0 0px;
     justify-content: flex-end;
 }
 
@@ -109,7 +109,6 @@
         left: -161px;
     }
 }
-
 .THIS .menu-popup-panel.popupTargetContainer.visible {
     display: block;
     visibility: visible;
