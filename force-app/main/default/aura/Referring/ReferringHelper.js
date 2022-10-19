@@ -505,6 +505,7 @@
                 if (returnValue.email) {
                     participantDelegate.Email__c = returnValue.email;
                     component.set('v.emailInstance', returnValue.email.toLowerCase());
+                    component.set('v.emailDelegateRepeat',returnValue.email.toLowerCase());
                 } else component.set('v.emailInstance', null);
                 if (returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
                 if (returnValue.firstName)

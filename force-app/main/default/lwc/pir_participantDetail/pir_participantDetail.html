@@ -93,6 +93,7 @@
                                                       value={valueMM} placeholder="MM" options={optionsMM}
                                                       onchange={handleMMChange} required="" class="margin-top">
                                                 </lightning-combobox>
+                                                <div class="errmsg" if:true={invalidDOB}>{convertedStringToDate}</div>
                                           </div>
                                           <div
                                                 class="slds-col slds-p-right_none slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 outcome-form-element slds-m-bottom_medium label-margin-top ltl-r-none rtl-r-none">
