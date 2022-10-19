@@ -13,7 +13,7 @@
 }
 
 .location-title {
-    padding: 0 1.5rem 1rem;
+    padding: 0 1rem 1rem;
 }
 
 .site-name {
@@ -27,7 +27,7 @@
 }
 
 .address-section {
-    padding: 0 1.5rem 0.5rem;
+    padding: 0 1rem 0.5rem;
     display: flex;
 }
 
@@ -82,6 +82,7 @@
 
 .curve-input input[type='date']:disabled {
     background: #f2f2f2;
+    padding-left: 1rem;
 }
 
 input[type='date']::-webkit-calendar-picker-indicator,
