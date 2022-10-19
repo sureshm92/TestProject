@@ -532,13 +532,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     handleReminderDate(event) {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
-        if (this.sms || this.email) {
-            this.disableButtonSaveCancel = false;
-        } else {
-            this.disableButtonSaveCancel = true;
-        }
         this.selectedReminderDate = event.detail.compdate;
         this.selectedReminderDateTime = event.detail.compdatetime;
+        console.log('SMS and EMAIL:' + this.sms + this.email);
         let visitDateTime = new Date(this.visitDateTime).toLocaleString('en-US', {
             timeZone: TIME_ZONE
         });
@@ -552,7 +548,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         ) {
             this.disableButtonSaveCancel = true;
         } else {
-            this.disableButtonSaveCancel = false;
+            if (this.sms || this.email) {
+                this.disableButtonSaveCancel = false;
+            } else {
+                this.disableButtonSaveCancel = true;
+            }
         }
         this.minReminderTime();
     }
@@ -620,6 +620,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitTime = '';
         this.visitDateChanged = true;
         this.remindmepub = '';
+        this.email = false;
+        this.sms = false;
         this.selectedReminderDateTime = '';
         this.selectedReminderDate = '';
         this.selectedReminderTime = '';
