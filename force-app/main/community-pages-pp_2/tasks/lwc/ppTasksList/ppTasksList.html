@@ -55,8 +55,18 @@
                         data-status={item.task.Status}
                         data-index={item.task.Id}
                     >
-                        <c-web-icon class="sys-task" icon-name="task-illustration" icon-size="big">
+                        <template if:false={item.businessTask}>
+                            <c-web-icon
+                                class="sys-task"
+                                icon-name="task-illustration"
+                                icon-size="big"
+                            >
                         </c-web-icon>
+                        </template>
+                        <template if:true={item.businessTask}>
+                            <c-web-icon class="sys-task" icon-name="task-survey" icon-size="big">
+                            </c-web-icon>
+                        </template>
                     </div>
                 </template>
                 <template if:false={item.systemTask}>
