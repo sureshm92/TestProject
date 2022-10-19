@@ -812,6 +812,11 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     border: 1px solid #0768FD !important;
 }
 
+.task-reminder-pref .slds-checkbox [type=checkbox]:checked:hover+.slds-checkbox__label .slds-checkbox_faux:before{
+    top: -1px;
+    left:-1px;
+}
+
 .fadePlaceholder button span{
     opacity: 0.7;
 }

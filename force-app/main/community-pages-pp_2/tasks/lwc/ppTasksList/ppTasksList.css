@@ -181,7 +181,7 @@
 }
 .critical-rect {
     position: relative;
-    bottom: 10px;
+    bottom: -4px;
     float: right;
     padding: 0px 6px 0 6px;
     background-color: #e20000;
@@ -260,7 +260,7 @@
     border: 0.8px solid #979797;
     margin-top: 10px;
     margin-left: -17px;
-  }
+}
 
 .crit-subject-ellipsis {
     width: 255px;
@@ -298,8 +298,12 @@
         height: unset !important;
         overflow-y: unset !important;
     }
+    .critical-rect {
+        right: -15px;
+        float: none;
+    }
     .crit-mob-subject-ellipsis {
-        width: 157px;
+        width: 165px;
     }
     .mob-subject-ellipsis {
         width: 230px;
