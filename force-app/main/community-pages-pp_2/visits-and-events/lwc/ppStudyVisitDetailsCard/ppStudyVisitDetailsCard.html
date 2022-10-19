@@ -37,7 +37,7 @@
                     ontime={handleOnlyTime}
                 ></c-pp-date-time-combo>
                 <div if:true={past} class="slds-grid slds-wrap">
-                    <div class="slds-col slds-size_1-of-2 slds-p-left_none">
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-left_none">
                         {label.date}
                         <div class="curve-input">
                             <c-web-icon
@@ -137,6 +137,7 @@
                         ondate={handleOnlyDateReminder}
                         ontime={handleOnlyTimeReminder}
                     ></c-pp-date-time-combo>
+                    &nbsp; &nbsp;
                 </div>
             </div>
             <div if:false={past} class="slds-size_1-of-1 btn-footer">
