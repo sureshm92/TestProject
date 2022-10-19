@@ -9,13 +9,12 @@
     line-height: 1.5rem;
 }
 
-.active-btn
-{
+.active-btn {
     background: rgba(7, 104, 253, 1);
-	color: #ffffff;
-	font-size: 1rem;
+    color: #ffffff;
+    font-size: 1rem;
     font-weight: 600;
-	border: none;
+    border: none;
 }
 
 .completed-task {
@@ -27,8 +26,7 @@
     line-height: 1.5rem;
 }
 
-.inactive-btn
-{
+.inactive-btn {
     --slds-c-button-brand-color-background: #ffffff;
     color: #595959;
     font-size: 1rem;
@@ -180,6 +178,7 @@
     height: 500px;
     overflow-y: auto;
     overflow-x: hidden;
+    padding: 0 1rem 0 1rem;
 }
 .active-custom-box {
     border: 1px solid #c42ea5;
@@ -216,81 +215,73 @@
 .center {
     text-align: center;
 }
-.complete-container
-{
-    border: 1px solid #C42EA5;
+.complete-container {
+    border: 1px solid #c42ea5;
 }
-.complete-header
-{
+.complete-header {
     color: #595959;
 }
-.complete-datetime{
-    color: #6E6E6E;
+.complete-datetime {
+    color: #6e6e6e;
 }
 
-.ignore-container
-{
-    border: 1px solid #E9E9E9;
+.ignore-container {
+    border: 1px solid #e9e9e9;
 }
-.ignore-header
-{
+.ignore-header {
     color: #595959;
 }
-.ignore-datetime{
-    color: #6E6E6E;
+.ignore-datetime {
+    color: #6e6e6e;
 }
 
-.expire-container
-{
+.expire-container {
     opacity: 0.7;
-    border: 1px solid #E9E9E9;
+    border: 1px solid #e9e9e9;
 }
-.expire-header
-{
+.expire-header {
     color: #595959;
-    
 }
-.expire-datetime{
-    color: #6E6E6E;
+.expire-datetime {
+    color: #6e6e6e;
 }
 
 .ignored {
     height: 24px;
     width: 62px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 500;
     letter-spacing: 0;
     line-height: 20px;
-  }
-  .expired {
+}
+.expired {
     height: 24px;
     width: 61px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 500;
     letter-spacing: 0;
     line-height: 20px;
-  }
-  .path-2-copy {
+}
+.path-2-copy {
     box-sizing: border-box;
     height: 1px;
     width: 439px;
     border: 0.6px solid #979797;
     margin-top: 10px;
     margin-left: -17px;
-  }
+}
 
 @media all and (max-width: 486px) {
     .inactive-custom-box {
         width: 366px;
     }
-    .path-2-copy
-    {
+    .path-2-copy {
         width: 301px;
-        margin-left: 0.3rem
+        margin-left: 0.3rem;
     }
     .open-task {
         margin-left: 10px;
@@ -304,6 +295,7 @@
     .overflow-scroll {
         height: unset !important;
         overflow-y: unset !important;
+        padding: unset !important;
     }
 }
 /* Scroll bar custom */

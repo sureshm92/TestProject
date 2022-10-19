@@ -375,14 +375,14 @@ public without sharing class TasksRemote {
                 expiredTaskList.add(taskObj);
             }
         }
-        resultSortedList.addAll(processSortingForComplete(completedTaskList));
-        resultSortedList.addAll(processSortingForComplete(ignoreTaskList));
-        resultSortedList.addAll(processSortingForComplete(expiredTaskList));
+        resultSortedList.addAll(processSortingForComplete(completedTaskList, 'Completed'));
+        resultSortedList.addAll(processSortingForComplete(ignoreTaskList, 'Ignored'));
+        resultSortedList.addAll(processSortingForComplete(expiredTaskList, 'Expired'));
 
         return resultSortedList;
     }
 
-    public static List<Task> processSortingForComplete(List<Task> tasksList) {
+    public static List<Task> processSortingForComplete(List<Task> tasksList, String taskStatus) {
         Map<Datetime, List<Task>> tasksMapwithDueDate = new Map<Datetime, List<Task>>();
         Map<Datetime, List<Task>> tasksMapwithStartDate = new Map<Datetime, List<Task>>();
         Map<Datetime, List<Task>> tasksMapwithCreatedDate = new Map<Datetime, List<Task>>();
@@ -401,7 +401,7 @@ public without sharing class TasksRemote {
                 taskObj.Priority = 'Normal';
             }
 
-            if (taskObj.Completed_Date__c != null) {
+            if (taskObj.Completed_Date__c != null && taskObj.Status == 'Completed') {
                 if (tasksMapwithCompletedDate.keySet().contains(taskObj.Completed_Date__c)) {
                     tasksMapwithCompletedDate.get(taskObj.Completed_Date__c).add(taskObj);
                 } else {
@@ -411,7 +411,7 @@ public without sharing class TasksRemote {
                     );
                 }
             }
-            if (taskObj.Completed_Date__c == null && taskObj.Activity_Datetime__c != null) {
+            if (taskObj.Status != 'Completed' && taskObj.Activity_Datetime__c != null) {
                 if (tasksMapwithDueDate.keySet().contains(taskObj.Activity_Datetime__c)) {
                     tasksMapwithDueDate.get(taskObj.Activity_Datetime__c).add(taskObj);
                 } else {
@@ -422,7 +422,7 @@ public without sharing class TasksRemote {
                 }
             }
             if (
-                taskObj.Completed_Date__c == null &&
+                taskObj.Status != 'Completed' &&
                 taskObj.Activity_Datetime__c == null &&
                 taskObj.Start_Date__c != null
             ) {
@@ -436,7 +436,7 @@ public without sharing class TasksRemote {
                 }
             }
             if (
-                taskObj.Completed_Date__c == null &&
+                taskObj.Status != 'Completed' &&
                 taskObj.Activity_Datetime__c == null &&
                 taskObj.Start_Date__c == null
             ) {
@@ -448,10 +448,19 @@ public without sharing class TasksRemote {
             }
         }
 
-        sortedTasksList.addAll(sortListOrderbyAsc(tasksMapwithCompletedDate));
+        if (taskStatus == 'Completed') {
+            sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithCompletedDate));
+        }
+        if (taskStatus == 'Ignored') {
         sortedTasksList.addAll(sortListOrderbyAsc(tasksMapwithDueDate));
         sortedTasksList.addAll(sortListOrderbyAsc(tasksMapwithStartDate));
         sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithCreatedDate));
+        }
+        if (taskStatus == 'Expired') {
+            sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithDueDate));
+            sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithStartDate));
+            sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithCreatedDate));
+        }
         return sortedTasksList;
     }
 }
