@@ -30,7 +30,24 @@
                             </lightning-layout-item>
                             <template if:true={toggleLinks}>
                                 <lightning-layout-item size="12">
-                                    <div class="rel-header mb-8">{labels.DISCOVER_TITLE}</div>
+                                    <div class="rel-header mb-8 resPage">{labels.DISCOVER_TITLE}
+                                        <span>
+                                            <!-- <lightning-helptext
+                                                class="newColor"
+                                                content={label.PP_AS_F_Preferred_Language_Help_Text}
+                                                icon-name="utility:info"
+                                            >
+                                            </lightning-helptext> -->
+                                            <lightning-helptext
+                                            class="newColor"
+                                            content="Links will open in new browser window. IQVIA Patient Portal
+                                            is not responsible for content provided in external websites."
+                                            icon-name="utility:info"
+                                        >
+                                        </lightning-helptext>
+                                        </span>
+                                    </div>
+
                                     <div class="left-column">
                                         <div class="res-box-relLinks-container pad10">
                                             <!-- START : COMING SOON -->
