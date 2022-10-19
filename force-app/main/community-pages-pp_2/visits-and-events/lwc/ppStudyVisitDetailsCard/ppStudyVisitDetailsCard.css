@@ -58,7 +58,11 @@
 }
 
 .curve-input:focus-within,
-.slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux:focus-within {
+.slds-form-element__control
+    .slds-checkbox
+    [type='checkbox']:checked
+    + .slds-checkbox__label
+    .slds-checkbox_faux:focus-within {
     border: 1px solid #015ff1;
 }
 
