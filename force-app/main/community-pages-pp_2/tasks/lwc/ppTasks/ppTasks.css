@@ -32,6 +32,7 @@
     font-size: 1rem;
     font-weight: 500;
     border: 1px solid #d9d9d9;
+    background: #ffffff;
 }
 .create-task {
     background: rgba(7, 104, 253, 1);
