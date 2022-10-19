@@ -103,10 +103,10 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             } else {
                 this.emailOptIn = true;
             }
-            if (!this.emailOptIn) {
+            if (this.emailOptIn) {
                 this.email = false;
             }
-            if (!this.smsOptIn) {
+            if (this.smsOptIn) {
                 this.sms = false;
             }
         } else if (error) {
@@ -277,8 +277,16 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
 
     get showEmailSms() {
         if (!this.communicationChanged) {
-            this.email = this.visitdata.task.Remind_Using_Email__c;
-            this.sms = this.visitdata.task.Remind_Using_SMS__c;
+            if (this.emailOptIn) {
+                this.email = false;
+            } else {
+                this.email = this.visitdata.task.Remind_Using_Email__c;
+            }
+            if (this.smsOptIn) {
+                this.sms = false;
+            } else {
+                this.sms = this.visitdata.task.Remind_Using_SMS__c;
+            }
             this.communicationChanged = true;
         }
         if (this.remindmepub) {
