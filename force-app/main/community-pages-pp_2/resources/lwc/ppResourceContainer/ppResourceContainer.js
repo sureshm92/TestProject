@@ -40,7 +40,12 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
     }
     handleNavigate() {
         let detailLink =
-            window.location.origin + '/pp/s/resource-detail' + '?resourceid=' + this.resourceId;
+            window.location.origin +
+            '/pp/s/resource-detail' +
+            '?resourceid=' +
+            this.resourceId +
+            '&resourcetype=' +
+            this.resourceType;
 
         const config = {
             type: 'standard__webPage',

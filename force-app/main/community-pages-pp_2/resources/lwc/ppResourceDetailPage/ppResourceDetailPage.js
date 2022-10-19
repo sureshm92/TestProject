@@ -1,0 +1,74 @@
+import { LightningElement, api, track, wire } from 'lwc';
+import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
+import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesById';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import TIME_ZONE from '@salesforce/i18n/timeZone';
+import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
+import Uploaded from '@salesforce/label/c.Resource_Uploaded';
+
+export default class PpResourceDetailPage extends LightningElement {
+    userTimezone = TIME_ZONE;
+    isInitialized = false;
+    resourceType;
+    resourceId;
+    resourceTitle;
+    resUploadDate;
+    resourceLink;
+    isFavourite = false;
+    resourceSummary;
+    isVoted = false;
+    isDocument = false;
+    label = {
+        Uploaded
+    };
+
+    connectedCallback() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        this.resourceId = urlParams.get('resourceid');
+        this.resourceType = urlParams.get('resourcetype');
+        this.initializeData();
+    }
+    initializeData() {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        if (this.spinner) {
+            this.spinner.show();
+        }
+        getResourceDetails({
+            resourceId: this.resourceId,
+            resourceType: this.resourceType
+        })
+            .then((result) => {
+                console.log('result-->' + JSON.stringify(result, null, 2));
+                let resourceData = result.wrappers[0].resource;
+                this.resUploadDate = resourceData.Version_Date__c;
+                this.resourceTitle = resourceData.Title__c;
+                this.resourceSummary = resourceData.Body__c;
+                this.resourceLink =
+                    this.resourceType == 'Article' ? resourceData.Image__c : resourceData.Video__c;
+                this.isFavourite = result.wrappers[0].isFavorite;
+                this.isVoted = result.wrappers[0].isVoted;
+                this.isDocument = this.resourceType == 'Document' ? true : false;
+            })
+            .catch((error) => {
+                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+            });
+        this.isInitialized = true;
+
+        if (this.spinner) {
+            this.spinner.hide();
+        }
+    }
+
+    handleBackClick() {}
+    handleFavourite() {}
+    showErrorToast(titleText, messageText, variantType) {
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: titleText,
+                message: messageText,
+                variant: variantType
+            })
+        );
+    }
+}

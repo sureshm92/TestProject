@@ -1,0 +1,117 @@
+<template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner"></c-web-spinner>
+    <template if:true={isInitialized}>
+        <div class="page-container">
+            <lightning-layout multiple-rows="true">
+                <!-- Back To Resources-->
+                <lightning-layout-item size="12">
+                    <div onclick={handleBackClick} class="mBackButton slds-p-vertical_x-small">
+                        <c-web-icon
+                            icon-size="medium"
+                            icon-name="chevron-left"
+                            icon-color="#015ff1"
+                            onclick={handleBackClick}
+                        ></c-web-icon>
+                        <lightning-button
+                            variant="base"
+                            label="Back to Resources"
+                        ></lightning-button>
+                    </div>
+                    <hr />
+                </lightning-layout-item>
+
+                <!-- Resource Title-->
+                <lightning-layout-item size="12">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="12" class="study-title">
+                            Study Title</lightning-layout-item
+                        >
+                        <lightning-layout-item size="12" class="resource-heading">
+                            Resource Title</lightning-layout-item
+                        >
+                    </lightning-layout>
+                    <hr />
+                </lightning-layout-item>
+                <!--  Resource Container  -->
+                <lightning-layout multiple-rows="true">
+                    <template if:false={isDocument}>
+                        <lightning-layout-item size="12" class="resource-container">
+                            <!--  Resource Container Media  -->
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12">
+                                    <c-pp-detail-page-resource-item
+                                        resource-link={resourceLink}
+                                        resource-type={resourceType}
+                                    >
+                                    </c-pp-detail-page-resource-item>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <!--  Resource Detail   -->
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12" class="title-row">
+                                    <lightning-layout multiple-rows="true">
+                                        <!--   TITLE    -->
+                                        <lightning-layout-item size="10">
+                                            <div class="summary-title" onclick={handleNavigate}>
+                                                {resourceTitle}
+                                            </div>
+                                        </lightning-layout-item>
+                                        <!--   STARICON    -->
+                                        <lightning-layout-item size="2">
+                                            <div
+                                                class="resource-icon resource-pointer"
+                                                onclick={handleFavourite}
+                                            >
+                                                <template if:false={isFavourite}>
+                                                    <c-web-icon
+                                                        icon-size="small"
+                                                        icon-name="icon-star"
+                                                        data-id="star"
+                                                        data-name="star"
+                                                    ></c-web-icon>
+                                                </template>
+                                                <template if:true={isFavourite}>
+                                                    <c-web-icon
+                                                        icon-size="small"
+                                                        icon-name="icon-star-solid"
+                                                        data-id="fav-star"
+                                                        data-name="fav-star"
+                                                    ></c-web-icon>
+                                                </template>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                                <!--   Upload Date    -->
+                                <lightning-layout-item size="12">
+                                    <div class="summary-date">
+                                        {label.Uploaded}
+                                        <lightning-formatted-date-time
+                                            value={resUploadDate}
+                                            year="numeric"
+                                            month="2-digit"
+                                            day="2-digit"
+                                            time-zone={userTimeZone}
+                                        >
+                                        </lightning-formatted-date-time>
+                                    </div>
+                                </lightning-layout-item>
+                                <!--   SUMMARY    -->
+                                <lightning-layout-item size="12">
+                                    <div class="summary-text">{resourceSummary}</div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </template>
+                    <template if:true={isDocument}>
+
+                    </template>
+                </lightning-layout>
+            </lightning-layout>
+        </div>
+    </template>
+    <div class="rr-width-limiter side-padding footer-resource">
+        <c-pp-community-footer> </c-pp-community-footer>
+    </div>
+</template>
