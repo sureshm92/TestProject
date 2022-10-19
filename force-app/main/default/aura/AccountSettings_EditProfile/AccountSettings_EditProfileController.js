@@ -30,6 +30,13 @@
                 component.set('v.contactChanged', initData.contactChanged);
                 component.set('v.institute', initData.contactSectionData.institute);
                 component.set('v.personWrapper', initData.contactSectionData.personWrapper);
+                var device = $A.get("$Browser.formFactor");
+                if(device == 'DESKTOP'){
+                    component.set('v.desktop',true);
+                }
+                else  {
+                    component.set('v.desktop',false);
+                }
                 component.set('v.consentPreferenceData', initData.consentPreferenceData);
                 var personWrapper = component.get('v.personWrapper');
 
@@ -335,7 +342,7 @@
         var emailField = component.find('emailInput');
         var emailValue = emailField ? emailField.get('v.value') : null;
         var emailValid = helper.checkValidEmail(emailField, emailValue);
-        if (emailValid) component.set('v.disableSave', false);
+        if (emailValid)         helper.doCheckDOB(component,event,helper);
         else component.set('v.disableSave', true);
     },
     doCheckFieldsValidity: function (component, event, helper) {
@@ -354,7 +361,7 @@
                 component.set('v.disableSave', true);
             } else {
                 phoneField.setCustomValidity(''); // reset custom error message
-                component.set('v.disableSave', false);
+                helper.doCheckDOB(component,event,helper);
                 component.set('v.disableToggle', false);
             }
         } else {
@@ -377,7 +384,7 @@
                 component.set('v.disableSave', true);
             } else {
                 homephoneField.setCustomValidity(''); // reset custom error message
-                component.set('v.disableSave', false);
+                helper.doCheckDOB(component,event,helper);
             }
             homephoneField.reportValidity();
             if (
@@ -412,11 +419,11 @@
                     component.set('v.disableSave', true);
                 } else {
                     homephoneField.setCustomValidity(''); // reset custom error message
-                    component.set('v.disableSave', false);
+                    helper.doCheckDOB(component,event,helper);
                 }
             } else {
                 homephoneField.setCustomValidity('');
-                component.set('v.disableSave', false);
+                helper.doCheckDOB(component,event,helper);
             }
             homephoneField.reportValidity();
             if (
@@ -606,7 +613,7 @@
             component.set('v.disableSave', true);
         } else {
             phoneField.setCustomValidity(''); // reset custom error message
-            component.set('v.disableSave', false);
+            helper.doCheckDOB(component,event,helper);
             component.set('v.disableToggle', false);
         }
         phoneField.reportValidity();
@@ -626,7 +633,7 @@
             component.set('v.disableSave', true);
         } else {
             phoneField.setCustomValidity(''); // reset custom error message
-            component.set('v.disableSave', false);
+            helper.doCheckDOB(component,event,helper);
         }
         phoneField.reportValidity();
     },
@@ -662,6 +669,7 @@
     },
     
     onChangeInput: function (component, event, helper) {
-        component.set('v.disableSave', false);
+        helper.doCheckDOB(component,event,helper);
+        //component.set('v.disableSave', false);
     }
 });

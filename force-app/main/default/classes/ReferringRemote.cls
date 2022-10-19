@@ -19,6 +19,8 @@ public without sharing class ReferringRemote {
         public Map<String, List<LabelValueItem>> statesByCountryMap;
         public String delegateAccessLevel;
         public String contentDoc;
+        public PreScreener_Survey__c preScreenerSurvey;
+        public PreScreener_Survey__c mrrSurvey;
     }
 
     public class AccountWrapper {
@@ -42,16 +44,11 @@ public without sharing class ReferringRemote {
         //try{
         InitData initData = new InitData();
         initData.trial = TrialService.getInstance().getTrialImpl(trialId);
-
+        getScreenerSurvey(trialId, initData);
         //ContentDocumentLink
         initData.contentDoc = getContentDocumentLink(trialId, language);
 
         //localize pes
-        if (initData.trial.Link_to_Pre_screening__c != null) {
-            initData.trial.Link_to_Pre_screening__c = CommunityFacadeRemote.getLocalizedURL(
-                initData.trial.Link_to_Pre_screening__c
-            );
-        }
         if (hcpeId != null) {
             initData.hcpEnrollment = HCPEnrollmentService.getInstance()
                 .getHCPEnrollmentByIdImpl(hcpeId, userMode, delegateId); //getHCPEnrollmentForHCPByTrial(trialId);
@@ -65,19 +62,43 @@ public without sharing class ReferringRemote {
                 userMode,
                 delegateId
             );
-        } else if (initData.trial.Link_to_Medical_Record_Review__c == null) {
+        } else if (initData.mrrSurvey == null) {
             initData.participantEnrollment = ParticipantEnrollmentService.createParticipantEnrollment(
                 initData.trial,
                 initData.hcpEnrollment,
                 null
             );
         }
-        if (initData.trial.Link_to_Medical_Record_Review__c != null) {
+        if (initData.mrrSurvey != null) {
             initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(
                 trialId,
                 null,
                 delegateId
             );
+            if(initData.pendingPEnrollments != null && !initData.pendingPEnrollments.isEmpty()) {
+                Map<Id, List<Participant_PrescreenerResponse__c>> peIdResponseMap = new Map<Id, List<Participant_PrescreenerResponse__c>>();
+                for(Participant_PrescreenerResponse__c response : [
+                    SELECT Id, Participant_enrollment__c, Status__c, PreScreener_Survey__r.MRR__c 
+                    FROM Participant_PrescreenerResponse__c 
+                    WHERE Participant_enrollment__c IN :initData.pendingPEnrollments
+                ]) {
+                    if(!peIdResponseMap.containsKey(response.Participant_enrollment__c)) {
+                        peIdResponseMap.put(response.Participant_enrollment__c, new List<Participant_PrescreenerResponse__c>());
+                    }
+                    peIdResponseMap.get(response.Participant_enrollment__c).add(response);
+                }
+                for(Participant_enrollment__c peRecord : initData.pendingPEnrollments) {
+                    if(peIdResponseMap.containsKey(peRecord.Id)){
+                        for(Participant_PrescreenerResponse__c response : peIdResponseMap.get(peRecord.Id)) {
+                            if(response.PreScreener_Survey__r.MRR__c) {
+                                peRecord.Medical_Record_Review_Status__c = response.Status__c;
+                            } else {
+                                peRecord.Pre_screening_Status__c = response.Status__c;
+                            }
+                        }
+                    } 
+                }
+            }
         }
         StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance()
             .getSiteFilterDataImpl(trialId, 'HCP');
@@ -132,6 +153,25 @@ public without sharing class ReferringRemote {
 System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
 throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
 }*/
+    }
+
+    public static void getScreenerSurvey(Id trialId, InitData initData){
+        
+        for(PreScreener_Survey__c survey : [
+            SELECT Id, Link_to_Pre_screening__c, MRR__c, Prescreener__c
+            FROM PreScreener_Survey__c  
+            WHERE Study__c = :trialId  
+                AND (MRR__c = true OR Prescreener__c = true)
+        ]) {
+            if(String.isNotBlank(survey.Link_to_Pre_screening__c)) {
+                survey.Link_to_Pre_screening__c = CommunityFacadeRemote.getLocalizedURL(survey.Link_to_Pre_screening__c);
+                if(survey.MRR__c == true) {
+                    initData.mrrSurvey = survey;
+                } else if(survey.Prescreener__c == true) {
+                    initData.preScreenerSurvey = survey;
+                }
+            }
+        }
     }
 
     @AuraEnabled
@@ -329,6 +369,7 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         String pEnrollmentJSON,
         String participantJSON,
         String participantDelegateJSON,
+        String preScreenerResponseJSON,
         String delegateId,
         String ddInfo,
         String contentDocId
@@ -367,13 +408,6 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                 pEnrollmentJSON,
                 Participant_Enrollment__c.class
             );
-            if (
-                enrollment.Pre_screening_Status__c == 'Pass' ||
-                enrollment.Pre_screening_Status__c == 'Fail'
-            ) {
-                enrollment.Pre_Screener_Completed_by__c = CommunityService.getUserContact().Id;
-                enrollment.Pre_Screener_Completed_Date__c = Datetime.now();
-            }
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             enrollment.Contacted__c = true;
             enrollment.Contacted_Date__c = System.today();
@@ -397,12 +431,6 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             enrollment.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
             
             //setConsentChange(enrollment);
-            if (
-                enrollment.Pre_screening_Status__c ==
-                ParticipantEnrollmentService.PES_STATUS_PENDING
-            ) {
-                enrollment.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_PASS;
-            }
             List<String> HCPE_FIELDS = HCPEnrollmentService.HCPE_COMMON_FIELDS;
             HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c');
             HCPE_FIELDS.add('Study_Site__r.Suppress_Participant_Emails__c');
@@ -463,6 +491,24 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             String participantId = !String.isBlank(participant.Id)
                 ? participant.Id
                 : enrollment.Participant__c;
+
+            if(String.isNotBlank(preScreenerResponseJSON)) {
+                Participant_PrescreenerResponse__c screenerResponse = (Participant_PrescreenerResponse__c) JSON.deserialize(
+                    preScreenerResponseJSON,
+                    Participant_PrescreenerResponse__c.class
+                );
+                if(screenerResponse != null) {
+                    insert new Participant_PrescreenerResponse__c(
+                        Completed_by__c =  CommunityService.getUserContact().Id,
+                        Completed_Date__c = Datetime.now(),
+                        Participant_enrollment__c = enrollment.Id,
+                        PreScreener_Survey__c = screenerResponse.PreScreener_Survey__c,
+                        Screener_Response__c = screenerResponse.Screener_Response__c,
+                        Status__c = ParticipantEnrollmentService.PES_STATUS_PASS
+                    );
+                }
+            }
+            
             if (participantId != null) {
                 Participant__c newpartcipant = [
                     SELECT Id, Contact__c, Phone__c, Site__c
@@ -796,24 +842,36 @@ update objConVersion;*/
     }
 
     @AuraEnabled
-    public static void setfailedReferral(String peJSON, String reason) {
+    public static void setfailedReferral(String peJSON, String preScreenerResponseJSON, String reason) {
         try {
             Participant_Enrollment__c pe = (Participant_Enrollment__c) JSON.deserialize(
                 peJSON,
                 Participant_Enrollment__c.class
             );
             pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL;
-            if (pe.Pre_screening_Status__c != ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED)
-                pe.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_FAIL;
             pe.Non_Referral_Reason__c = reason;
-            if (reason == ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING) {
-                pe.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_FAIL;
-            }
-            if (pe.Pre_screening_Status__c == 'Pass' || pe.Pre_screening_Status__c == 'Fail') {
-                pe.Pre_Screener_Completed_by__c = CommunityService.getUserContact().Id;
-                pe.Pre_Screener_Completed_Date__c = Datetime.now();
-            }
             upsert pe;
+
+            if(String.isNotBlank(preScreenerResponseJSON)) {
+
+                Participant_PrescreenerResponse__c screenerResponse = (Participant_PrescreenerResponse__c) JSON.deserialize(
+                    preScreenerResponseJSON,
+                    Participant_PrescreenerResponse__c.class
+                );
+                if (screenerResponse.Status__c != ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED)
+                    screenerResponse.Status__c = ParticipantEnrollmentService.PES_STATUS_FAIL;
+                if (reason == ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING) {
+                    screenerResponse.Status__c = ParticipantEnrollmentService.PES_STATUS_FAIL;
+                }
+                insert new Participant_PrescreenerResponse__c(
+                    Completed_by__c =  CommunityService.getUserContact().Id,
+                    Completed_Date__c = Datetime.now(),
+                    Participant_enrollment__c = pe.Id,
+                    PreScreener_Survey__c = screenerResponse.PreScreener_Survey__c,
+                    Screener_Response__c = screenerResponse.Screener_Response__c,
+                    Status__c = screenerResponse.Status__c
+                );
+            }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -860,7 +918,7 @@ return String.join(addressList, ', ');
     }
     //SOQL 101 fix : split participant and pe creation to 2 methods saveParticipantV2 and saveParticipantEnrollment
     @AuraEnabled
-    public static string saveParticipantV2( 
+    public static list<string> saveParticipantV2( 
         Id hcpeId,
         String pEnrollmentJSON,
         String participantJSON,
@@ -903,13 +961,6 @@ return String.join(addressList, ', ');
                 pEnrollmentJSON,
                 Participant_Enrollment__c.class
             );
-            if (
-                enrollment.Pre_screening_Status__c == 'Pass' ||
-                enrollment.Pre_screening_Status__c == 'Fail'
-            ) {
-                enrollment.Pre_Screener_Completed_by__c = CommunityService.getUserContact().Id;
-                enrollment.Pre_Screener_Completed_Date__c = Datetime.now();
-            }
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             enrollment.Contacted__c = true;
             enrollment.Contacted_Date__c = System.today();
@@ -933,12 +984,6 @@ return String.join(addressList, ', ');
             enrollment.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
             
             //setConsentChange(enrollment);
-            if (
-                enrollment.Pre_screening_Status__c ==
-                ParticipantEnrollmentService.PES_STATUS_PENDING
-            ) {
-                enrollment.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_PASS;
-            }
             List<String> HCPE_FIELDS = HCPEnrollmentService.HCPE_COMMON_FIELDS;
             HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c');
             HCPE_FIELDS.add('Study_Site__r.Suppress_Participant_Emails__c');
@@ -1002,6 +1047,10 @@ return String.join(addressList, ', ');
         }
         return null;
     }
+    @AuraEnabled
+    public static void updateParticipant(String participantJSON) {
+        AddPatientByPIRemote.updateParticipant(participantJSON);
+    }
     //PE insertion
     @AuraEnabled
     public static string saveParticipantEnrollment(
@@ -1009,6 +1058,7 @@ return String.join(addressList, ', ');
         String pEnrollmentJSON,
         String participantJSON,
         String participantDelegateJSON,
+        String preScreenerResponseJSON,
         String delegateId,
         String ddInfo,
         String contentDocId
@@ -1047,13 +1097,6 @@ return String.join(addressList, ', ');
                 pEnrollmentJSON,
                 Participant_Enrollment__c.class
             );
-            if (
-                enrollment.Pre_screening_Status__c == 'Pass' ||
-                enrollment.Pre_screening_Status__c == 'Fail'
-            ) {
-                enrollment.Pre_Screener_Completed_by__c = CommunityService.getUserContact().Id;
-                enrollment.Pre_Screener_Completed_Date__c = Datetime.now();
-            }
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             enrollment.Contacted__c = true;
             enrollment.Contacted_Date__c = System.today();
@@ -1077,12 +1120,6 @@ return String.join(addressList, ', ');
             enrollment.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
             
             //setConsentChange(enrollment);
-            if (
-                enrollment.Pre_screening_Status__c ==
-                ParticipantEnrollmentService.PES_STATUS_PENDING
-            ) {
-                enrollment.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_PASS;
-            }
             List<String> HCPE_FIELDS = HCPEnrollmentService.HCPE_COMMON_FIELDS;
             HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c');
             HCPE_FIELDS.add('Study_Site__r.Suppress_Participant_Emails__c');
@@ -1162,6 +1199,22 @@ language
                 }
             }
             
+            if(String.isNotBlank(preScreenerResponseJSON)) {
+                Participant_PrescreenerResponse__c screenerResponse = (Participant_PrescreenerResponse__c) JSON.deserialize(
+                    preScreenerResponseJSON,
+                    Participant_PrescreenerResponse__c.class
+                );
+                if(screenerResponse != null) {
+                    insert new Participant_PrescreenerResponse__c(
+                        Completed_by__c =  CommunityService.getUserContact().Id,
+                        Completed_Date__c = Datetime.now(),
+                        Participant_enrollment__c = enrollment.Id,
+                        PreScreener_Survey__c = screenerResponse.PreScreener_Survey__c,
+                        Screener_Response__c = screenerResponse.Screener_Response__c,
+                        Status__c = ParticipantEnrollmentService.PES_STATUS_PASS
+                    );
+                }
+            }
             
             String participantId = !String.isBlank(participant.Id)
                 ? participant.Id

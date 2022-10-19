@@ -19,6 +19,9 @@
     line-height: 1.5rem;
     color: #595959;
 }
+.curve-input:focus-within {
+    border: 1px solid #015ff1;
+}
 
 .curve-input input[type='date'] {
     width: 300px;

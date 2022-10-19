@@ -8,13 +8,18 @@
                 if (e.data.messageType === 'SurveyGizmoResult') {
                     if (e.data.success) {
                         component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Contact_Info'));
-                        var pe =component.get('v.pEnrollment');
-                        pe.Pre_Screener_Survey_Response__c = e.data.pdfContent;
-                        component.set('v.pEnrollment',pe);
+                        var survey = component.get('v.preScreenerSurvey') || {};	
+                        var response = component.get('v.preScreenerResponse') || {};	
+                        response.PreScreener_Survey__c = survey.Id;	
+                        response.Screener_Response__c = e.data.pdfContent;
+                        component.set('v.preScreenerResponse',response);
                         window.scrollTo(0, 0);
                     } else {
-                        var pe =component.get('v.pEnrollment');
-                        pe.Pre_Screener_Survey_Response__c =e.data.pdfContent;
+                        var survey = component.get('v.preScreenerSurvey') || {};	
+                        var response = component.get('v.preScreenerResponse') || {};	
+                        response.PreScreener_Survey__c = survey.Id;	
+                        response.Screener_Response__c = e.data.pdfContent;
+                        component.set('v.preScreenerResponse',response);
                         helper.doFailedReferral(
                             component,
                             'Failed Pre-Eligibility Screening',
@@ -37,9 +42,14 @@
     doFailedReferral: function (component, reason, successCallBack) {
         var pEnrollment = component.get('v.pEnrollment');
         var spinner = component.find('mainSpinner');
+        var response = component.get('v.preScreenerResponse');
         spinner.show();
         let action = component.get("c.setfailedReferral");
-        action.setParams({peJSON: JSON.stringify(pEnrollment),reason: reason });
+        action.setParams({
+            peJSON: JSON.stringify(pEnrollment),
+            preScreenerResponseJSON: response ? JSON.stringify(response) : '',
+            reason: reason 
+        });
         action.setCallback(this, function(response) {
             let state = response.getState();
             if (state === "SUCCESS") {
@@ -289,7 +299,7 @@
         let dobFormat = component.get('v.studySiteFormat');
         let participantDOB = new Date(bYear+"-"+bMonth+"-"+bDay);
         let selectedParticipantAge = component.get('v.selectedAge');
-        let isDobValid = (dobFormat == 'DD-MM-YYYY' && participantDOB <= dateToday) || (!dobFormat != 'DD-MM-YYYY' && selectedParticipantAge!='');
+        let isDobValid = (dobFormat == 'DD-MM-YYYY' && participantDOB <= dateToday && selectedParticipantAge!='') || (!dobFormat != 'DD-MM-YYYY' && selectedParticipantAge!='');
         let isValid = false;
         isValid =
             isValid ||

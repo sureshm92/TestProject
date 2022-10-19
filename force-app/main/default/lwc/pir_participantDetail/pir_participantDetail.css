@@ -240,6 +240,10 @@
         margin-right:35px;
         margin-left:-31px;
     }
+    .pl-0{
+        padding-left: var(--lwc-spacingSmall,0.75rem) !important;
+    }
+   
 }
 /* RLT End */
 .label_align{
@@ -260,6 +264,13 @@
     line-height: 24px;
 }
 
-.lpad-none{
+.lpad-none,.pl-0{
     padding-left: 0px;
+}
+
+.alert-img-dob{
+    height: 16px;
+}
+.alert-box-dob{
+    justify-content: left;
 }

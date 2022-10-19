@@ -155,6 +155,18 @@ export default class PpCreateTaskReminder extends LightningElement {
             ('0' + (currentDateTimeObject.getMonth() + 1)).slice(-2),
             ('0' + currentDateTimeObject.getDate()).slice(-2)
         ].join('-');
+        let hh = String(
+            (currentDateTimeObject.getHours() < 10 ? '0' : '') + currentDateTimeObject.getHours()
+        );
+        let mm = String(
+            (currentDateTimeObject.getMinutes() < 10 ? '0' : '') +
+                currentDateTimeObject.getMinutes()
+        );
+        let ss = String(
+            (currentDateTimeObject.getSeconds() < 10 ? '0' : '') +
+                currentDateTimeObject.getSeconds()
+        );
+        this.currentTime = hh + ':' + mm + ':' + ss;
         return this.selectedReminderDate == currentDateTimeString ? this.currentTime : null;
     }
 
@@ -183,6 +195,22 @@ export default class PpCreateTaskReminder extends LightningElement {
 
     get isReminderDisabled() {
         return this.isTaskDueDateTimeSelected ? false : true;
+    }
+
+    get dbreminderdate() {
+        if (this.selectedReminderDate) {
+            return this.selectedReminderDate;
+        } else {
+            return null;
+        }
+    }
+
+    get dbremindertime() {
+        if (this.selectedReminderDateTime) {
+            return this.selectedReminderDateTime;
+        } else {
+            return null;
+        }
     }
 
     loadSessionId() {
@@ -256,7 +284,7 @@ export default class PpCreateTaskReminder extends LightningElement {
     }
 
     handleReminderTime(event) {
-        this.selectedReminderTime = event.detail.comptime;
+        this.selectedReminderDate = event.detail.compdate;
         this.selectedReminderDateTime = event.detail.compdatetime;
         if (this.selectedReminderDateTime) {
             this.handleReminderDataChange();
@@ -277,12 +305,10 @@ export default class PpCreateTaskReminder extends LightningElement {
         }
     }
 
-    handleInitialReminderDateLoad(event) {
-        this.selectedReminderDate = event.detail.compdate;
-    }
-
-    handleInitialReminderTimeLoad(event) {
-        this.selectedReminderTime = event.detail.comptime;
+    handleNullDateTimeReminder(event) {
+        this.selectedReminderDate = '';
+        this.selectedReminderDateTime = '';
+        this.handleReminderDataChange();
     }
 
     handleEmailReminder(event) {
@@ -319,6 +345,8 @@ export default class PpCreateTaskReminder extends LightningElement {
     @api
     handleDueDateChange() {
         this.selectedReminderOption = '';
+        this.selectedReminderDate = '';
+        this.selectedReminderDateTime = '';
         this.smsReminderOptIn = false;
         this.emailReminderOptIn = false;
     }

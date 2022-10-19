@@ -62,6 +62,8 @@ export default class Pir_participantEmancipated extends LightningElement {
     @api phoneType = [];
     @api genderType = [];
     @api isValid = false;
+    @api isDelValid = false;
+    @api isNewDelValid = false;
     @api pathdetails = [];
     @api finalAgree = false;
     @api participantContact;
@@ -288,10 +290,35 @@ export default class Pir_participantEmancipated extends LightningElement {
         this.addDelegateListNew[indexvalue].em = event.detail.em;
         this.addDelegateListNew[indexvalue].fn = event.detail.fn;
         this.addDelegateListNew[indexvalue].ln = event.detail.ln;
+        this.addDelegateListNew[indexvalue].by = event.detail.by;
+        this.addDelegateListNew[indexvalue].cb = event.detail.cb;
+        this.addDelegateListNew[indexvalue].val = event.detail.val;
+        this.addDelegateListNew[indexvalue].disp = event.detail.disp;
+        this.addDelegateListNew[indexvalue].isadultdel = event.detail.isadultdel;
+        this.addDelegateListNew[indexvalue].usingdupdel = event.detail.usingdupdel;
         this.addDelegateListNew[indexvalue].isConnected = event.detail.connect;
+        this.addDelegateListNew[indexvalue].delegateId = event.detail.delegateId;
+        this.addDelegateListNew[indexvalue].isConnectedOnce = event.detail.isConnectedOnce;
+        this.addDelegateListNew[indexvalue].isDisconnected = event.detail.disconnect;
         let partmsgname = this.utilLabels.PG_Ref_L_Delegate_continue_be_delegate;
         var partmsg = partmsgname.replace("##delegateName",event.detail.fn+' '+event.detail.ln);
         this.addDelegateListNew[indexvalue].continueDelegatenewMsg = partmsg;
+        var i = 0, len = this.addDelegateListNew.length;
+        while (i < len) {
+            let addDelNew = this.addDelegateListNew[i];
+            let fnameIsValid = addDelNew.fn != undefined && addDelNew.fn != null && addDelNew.fn != '' && addDelNew.fn.length !=0;
+            let lnameIsValid = addDelNew.ln != undefined && addDelNew.ln !=null && addDelNew.ln != '' && addDelNew.ln.length !=0;
+            let emailIsValid = addDelNew.em != undefined && addDelNew.em != '' && addDelNew.em.length != 0;
+            let birthYearIsValid = addDelNew.by != undefined && addDelNew.by != '' && addDelNew.by != '--' && addDelNew.by.length != 0;
+           if((!fnameIsValid && !lnameIsValid && !emailIsValid && !birthYearIsValid && addDelNew.cb != true) || addDelNew.isConnectedOnce === true){
+            this.isNewDelValid = false;
+            console.log('@anshufalse1');
+           }else{
+            console.log('@anshutrue1');
+            this.isNewDelValid = true;
+           }
+            i++
+        }
     }
     handleDataChangeOfDelegates(event){
         this.delegates[event.detail.indexvalue].Phone__c = event.detail.phoneNumber;
@@ -324,9 +351,9 @@ export default class Pir_participantEmancipated extends LightningElement {
             }
         }
         if(validationListDelegate.includes(false)){ 
-            this.isValid = true;
+            this.isDelValid = true;
         }else{
-            this.isValid = false;
+            this.isDelValid = false;
         } 
     }
     handleNewHCP(){
@@ -598,6 +625,12 @@ export default class Pir_participantEmancipated extends LightningElement {
         }
 
     }
+    get isValidCheck(){
+        if(this.currentTab == "2"){
+            return this.isDelValid || this.isNewDelValid;
+        }
+        return this.isValid;
+    }
     handleNext(){
         if(this.currentTab == "1"){
             this.currentTab = "2";
@@ -620,9 +653,9 @@ export default class Pir_participantEmancipated extends LightningElement {
                 }
             }
             if(validationListDelegate.includes(false)){ 
-                this.isValid = true;
+                this.isDelValid = true;
             }else{
-                this.isValid = false;
+                this.isDelValid = false;
             } 
         }else if(this.currentTab == "2"){
             this.currentTab = "3";

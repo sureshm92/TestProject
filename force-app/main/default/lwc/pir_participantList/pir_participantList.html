@@ -1,28 +1,40 @@
-<template>    
+<template>
     <div class={maindivcls}>
-    <div class="dividerTop slds-border--right slds-grid slds-wrap slds-p-top--medium">
-        
-                <div class="slds-col slds-size_9-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12 slds-p-right_none" onclick={resetPagination}>
-                    <div class="slds-form-element slds-m-left_x-small labelHide rtl-margin-right">
-                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right labelhide_1">
-                            <lightning-icon icon-name="utility:search" size="x-small" alternative-text="search" title={label.pir_Search_Participants} class="dim slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"></lightning-icon>
-                            <!-- <input type="text" id="searchText" placeholder="Search Participants" class="slds-input" onblur={handlesearch} /> -->
-                             <lightning-input type="text" id="searchText" value={srchTxt} placeholder={label.pir_Search_Participants} variant="label-hidden"  onchange={handleParticipantsearch} >
-                                 
-                                 </lightning-input>
-                        </div>
+        <div class="dividerTop slds-border--right slds-grid slds-wrap slds-p-top--medium">
+
+            <div class="slds-col slds-size_9-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12 slds-p-right_none"
+                onclick={resetPagination}>
+                <div class="slds-form-element slds-m-left_x-small labelHide rtl-margin-right">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right labelhide_1">
+                        <lightning-icon icon-name="utility:search" size="x-small" alternative-text="search"
+                            title={label.pir_Search_Participants}
+                            class="dim slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default">
+                        </lightning-icon>
+                        <!-- <input type="text" id="searchText" placeholder="Search Participants" class="slds-input" onblur={handlesearch} /> -->
+                        <lightning-input type="text" id="searchText" value={srchTxt}
+                            placeholder={label.pir_Search_Participants} variant="label-hidden"
+                            onchange={handleParticipantsearch}>
+
+                        </lightning-input>
                     </div>
                 </div>
-                <div class="slds-col slds-size_3-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 textBold w-filter " data-id="filterdiv">
-                    <button class="slds-button slds-button_neutral filterTextButton" onclick={toggleFilter} disabled={disabledFilter}>
-                        <img class="slds-button__icon slds-m-left_xx-small " src={filterIcon}/><span class="slds-p-left_xx-small filter-color slds-truncate w-truncate">{label.pir_Filter} {filterCount}</span>
-                    </button>      
-                    <div class="slds-button slds-button_neutral slds-m-left_xx-small filterIconButton" onclick={toggleFilter}>   
-                        <img class="slds-button__icon" src={filterIcon}/><span class="slds-p-left_xx-small textBold filter-color ">{filterCount}</span>
-                    </div>
+            </div>
+            <div class="slds-col slds-size_3-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 textBold w-filter "
+                data-id="filterdiv">
+                <button class="slds-button slds-button_neutral filterTextButton" onclick={toggleFilter}
+                    disabled={disabledFilter}>
+                    <img class="slds-button__icon slds-m-left_xx-small " src={filterIcon} /><span
+                        class="slds-p-left_xx-small filter-color slds-truncate w-truncate">{label.pir_Filter}
+                        {filterCount}</span>
+                </button>
+                <div class="slds-button slds-button_neutral slds-m-left_xx-small filterIconButton"
+                    onclick={toggleFilter}>
+                    <img class="slds-button__icon" src={filterIcon} /><span
+                        class="slds-p-left_xx-small textBold filter-color ">{filterCount}</span>
                 </div>
-            
-        <!-- <div class="slds-col slds-size_9-of-12">
+            </div>
+
+            <!-- <div class="slds-col slds-size_9-of-12">
             <div class="slds-form-element slds-m-left_x-small">
                 <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
                     <lightning-icon icon-name="utility:search" size="x-small" alternative-text="search" title="search" class="dim slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"></lightning-icon>
@@ -36,254 +48,345 @@
                 <lightning-icon icon-name="utility:filterList" size="x-small" class="slds-button__icon"></lightning-icon>
             </div>
         </div> -->
-        <div if:true={showFilter} class="slds-col slds-size_12-of-12 filter-relative slds-hide">
-                <c-pir_filter maindivcls={maindivcls} sponser={communityTemplate} onpresetcreated={refreshAllPreset} ongetdefaultfilter={setDefaultFilter} urlstudyid={urlStudyId} urlsiteid={urlSiteId} onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue} filters={filterWrapper} onclosefilter={toggleFilter}></c-pir_filter>
-        </div>
-        <div class="slds-col slds-size_12-of-12">
-            <div class="slds-m-left_x-small slds-m-right_small slds-m-top--x-small rtl-marg">
-                <div class="textBolds slds-m-bottom--xx-small">{label.pir_Presets}
-                    <span if:false={disablePreset} class="enablePreset rtl-p-r" onclick={editPreset}>
-                        <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon}/>                    
-                    </span>
-                    <span if:true={disablePreset} class="disablePreset rtl-p-r" title="No Preset Available to perform edit">
-                        <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon}/>                    
-                    </span>
+            <div if:true={showFilter} class="slds-col slds-size_12-of-12 filter-relative slds-hide">
+                <c-pir_filter maindivcls={maindivcls} sponser={communityTemplate} onpresetcreated={refreshAllPreset}
+                    ongetdefaultfilter={setDefaultFilter} urlstudyid={urlStudyId} urlsiteid={urlSiteId}
+                    onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue}
+                    filters={filterWrapper} onclosefilter={toggleFilter}></c-pir_filter>
+            </div>
+            <div class="slds-col slds-size_12-of-12">
+                <div class="slds-m-left_x-small slds-m-right_small slds-m-top--x-small rtl-marg">
+                    <div class="textBolds slds-m-bottom--xx-small">{label.pir_Presets}
+                        <span if:false={disablePreset} class="enablePreset rtl-p-r" onclick={editPreset}>
+                            <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon} />
+                        </span>
+                        <span if:true={disablePreset} class="disablePreset rtl-p-r"
+                            title="No Preset Available to perform edit">
+                            <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon} />
+                        </span>
+                    </div>
+                    <lightning-combobox name="preset" variant="label-hidden" onchange={handlePresetChange}
+                        disabled={disablePresetPicklist} placeholder={label.Select} options={presetOpts}
+                        value={presetSel}></lightning-combobox>
                 </div>
-                <lightning-combobox name="preset" variant="label-hidden" onchange={handlePresetChange}  disabled={disablePresetPicklist}
-                placeholder={label.Select} options={presetOpts} value={presetSel}></lightning-combobox>
-            </div>     
-            <template if:true={showEditPreset}> 
-                <c-pir_-preset-edit maindivcls={maindivcls} disable-close={disableClose} onclosepresetmodel={closepresetmodel} all-presets={sysPresets} opts={presetOpts} preset-sel={presetSel} selected-filter={filterWrapper}></c-pir_-preset-edit>
-            </template>
-            <template if:true={faultyPreset}>
-                <c-pir_preset-invalid oneditpr={editInvalid}></c-pir_preset-invalid>
-            </template>
-        </div>
-        <div class="slds-col slds-size_12-of-12 dropsize">
-            <div class="slds-grid slds-wrap slds-m-left_x-small slds-m-right--x-small slds-m-top--small">
-                <div class="slds-col slds-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12">
-                    <div class="slds-p-top--x-small textBolds">{label.pir_Sort_By}</div>
-                </div>
-                <div class="slds-col slds-size_4-of-12 slds-medium-size_5-of-12 slds-large-size_4-of-12 dropdown-fonts">
-                    <lightning-combobox  options={sortOptions} value={sortValue} onchange={handleSortChange}  variant="label-hidden"></lightning-combobox>
-                </div>
-                <div class="slds-col slds-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 w-action">
-                   
-                    <div class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 D" >
-                        <button class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small j-content" aria-haspopup="true" aria-expanded="true"  title={dropDownLabel} onclick={opendropdown} disabled={dropDownChange} onblur={handleonblur}>                               
-                             <span class="slds-truncate text-width" >{dropDownLabel}</span> 
-                             <span><lightning-icon icon-name="utility:down" size="xx-small" alternative-text="down" title="down" class="slds-icon-text-primary"></lightning-icon></span>
-                        </button>
-                            <div class="slds-dropdown slds-dropdown_left w-100 dropdown-zindex"  >
+                <template if:true={showEditPreset}>
+                    <c-pir_-preset-edit maindivcls={maindivcls} disable-close={disableClose}
+                        onclosepresetmodel={closepresetmodel} all-presets={sysPresets} opts={presetOpts}
+                        preset-sel={presetSel} selected-filter={filterWrapper}></c-pir_-preset-edit>
+                </template>
+                <template if:true={faultyPreset}>
+                    <c-pir_preset-invalid oneditpr={editInvalid}></c-pir_preset-invalid>
+                </template>
+            </div>
+            <div class="slds-col slds-size_12-of-12 dropsize">
+                <div class="slds-grid slds-wrap slds-m-left_x-small slds-m-right--x-small slds-m-top--small">
+                    <div class="slds-col slds-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                        <div class="slds-p-top--x-small textBolds text-overflow" title={label.pir_Sort_By}>
+                            {label.pir_Sort_By}</div>
+                    </div>
+                    <div
+                        class="slds-col slds-size_4-of-12 slds-medium-size_5-of-12 slds-large-size_4-of-12 dropdown-fonts">
+                        <lightning-combobox options={sortOptions} value={sortValue} onchange={handleSortChange}
+                            variant="label-hidden"></lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 w-action">
+
+                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 D">
+                            <button
+                                class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small j-content"
+                                aria-haspopup="true" aria-expanded="true" title={dropDownLabel} onclick={opendropdown}
+                                disabled={dropDownChange} onblur={handleonblur}>
+                                <span class="slds-truncate text-width">{dropDownLabel}</span>
+                                <span>
+                                    <lightning-icon icon-name="utility:down" size="xx-small" alternative-text="down"
+                                        title="down" class="slds-icon-text-primary"></lightning-icon>
+                                </span>
+                            </button>
+                            <div class="slds-dropdown slds-dropdown_left w-100 dropdown-zindex">
                                 <ul class="slds-dropdown__list font-dropdowns" role="menu" aria-label={dropDownLabel}>
-                                   <template if:false={hideActiononSearch}>
-                                    <template if:false={noRecords}>
-                                   <template if:true={showDCT}>
-                                       <li class="slds-dropdown__item" role="presentation" data-id='Send to DCT'>
-                                        <a href="#" role="menuitem" data-id='Send to DCT' onmousedown={handlenewOnSelect} >  <span class="slds-truncate" title={label.Send_to_DCT}  data-id='Send to DCT'>{label.Send_to_DCT}</span> </a>
-                                       </li>
-                                    </template> 
-                                    <template if:true={showPP}>
-                                      <li class="slds-dropdown__item" role="presentation" data-id='Invite to Patient Portal'>
-                                        <a href="#" role="menuitem" data-id='Invite to Patient Portal' onmousedown={handlenewOnSelect} > <span class="slds-truncate" title={label.Invite_to_Patient_Portal} data-id='Invite to Patient Portal'>{label.Invite_to_Patient_Portal}</span> </a>
-                                      </li>
+                                    <template if:false={hideActiononSearch}>
+                                        <template if:false={noRecords}>
+                                            <template if:true={showDCT}>
+                                                <li class="slds-dropdown__item" role="presentation"
+                                                    data-id='Send to DCT'>
+                                                    <a href="#" role="menuitem" data-id='Send to DCT'
+                                                        onmousedown={handlenewOnSelect}> <span class="slds-truncate"
+                                                            title={label.Send_to_DCT}
+                                                            data-id='Send to DCT'>{label.Send_to_DCT}</span> </a>
+                                                </li>
+                                            </template>
+                                            <template if:true={showPP}>
+                                                <li class="slds-dropdown__item" role="presentation"
+                                                    data-id='Invite to Patient Portal'>
+                                                    <a href="#" role="menuitem" data-id='Invite to Patient Portal'
+                                                        onmousedown={handlenewOnSelect}> <span class="slds-truncate"
+                                                            title={label.Invite_to_Patient_Portal}
+                                                            data-id='Invite to Patient Portal'>{label.Invite_to_Patient_Portal}</span>
+                                                    </a>
+                                                </li>
+                                            </template>
+                                            <template if:true={showStatus}>
+                                                <li class="slds-dropdown__item" role="presentation"
+                                                    data-id='Change Status'>
+                                                    <a href="#" role="menuitem" data-id='Change Status'
+                                                        onmousedown={handlenewOnSelect}> <span class="slds-truncate"
+                                                            title={label.Change_Participant_Status}
+                                                            data-id='Change Status'>{label.Change_Participant_Status}</span>
+                                                    </a>
+                                                </li>
+                                            </template>
+                                        </template>
                                     </template>
-                                    <template if:true={showStatus}>
-                                      <li class="slds-dropdown__item" role="presentation" data-id='Change Status'>
-                                        <a href="#" role="menuitem" data-id='Change Status' onmousedown={handlenewOnSelect}> <span class="slds-truncate" title={label.Change_Participant_Status} data-id='Change Status'>{label.Change_Participant_Status}</span> </a>
-                                      </li>
-                                    </template>
-                                </template>
-                            </template>
                                     <li class="slds-dropdown__item showDesktop " role="presentation" data-id='Export'>
-                                        <a href="#" role="menuitem" data-id='Export' onmousedown={handlenewOnSelect} > <span class="slds-truncate showDesktop" title={label.BTN_Export} data-id='Export'>{label.BTN_Export}</span> </a>
+                                        <a href="#" role="menuitem" data-id='Export' onmousedown={handlenewOnSelect}>
+                                            <span class="slds-truncate showDesktop" title={label.BTN_Export}
+                                                data-id='Export'>{label.BTN_Export}</span> </a>
                                     </li>
                                     <li class="slds-dropdown__item hideDesktop " role="presentation" data-id='Export'>
-                                        <a href="#" role="menuitem" data-id='Export' onmousedown={handleMobileExport} > <span class="slds-truncate " title={label.BTN_Export} data-id='Export'>{label.BTN_Export}</span> </a>
+                                        <a href="#" role="menuitem" data-id='Export' onmousedown={handleMobileExport}>
+                                            <span class="slds-truncate " title={label.BTN_Export}
+                                                data-id='Export'>{label.BTN_Export}</span> </a>
                                     </li>
-                                    <template if:true={showAddParticipant}>   
-                                        <li class="slds-dropdown__item" role="presentation" data-id='Add New Participant'>
-                                            <a href="#" role="menuitem" data-id='Add New Participant' onmousedown={handlenewOnSelect}> <span class="slds-truncate" title={label.RH_PP_Add_New_Participant} data-id='Add New Participant'>{label.RH_PP_Add_New_Participant}</span> </a>
+                                    <template if:true={showAddParticipant}>
+                                        <li class="slds-dropdown__item" role="presentation"
+                                            data-id='Add New Participant'>
+                                            <a href="#" role="menuitem" data-id='Add New Participant'
+                                                onmousedown={handlenewOnSelect}> <span class="slds-truncate"
+                                                    title={label.RH_PP_Add_New_Participant}
+                                                    data-id='Add New Participant'>{label.RH_PP_Add_New_Participant}</span>
+                                            </a>
                                         </li>
-                                    </template> 
-                                    <template if:true={showAddParticipant}>   
-                                        <li class="slds-dropdown__item" role="presentation" data-id='Import Participants'>
-                                            <a href="#" role="menuitem" data-id='Import Participants' onmousedown={handleImport}> <span class="slds-truncate" title={label.PIR_Import_Participants} data-id='Import Participants'>{label.PIR_Import_Participants}</span> </a>
+                                    </template>
+                                    <template if:true={showAddParticipant}>
+                                        <li class="slds-dropdown__item" role="presentation"
+                                            data-id='Import Participants'>
+                                            <a href="#" role="menuitem" data-id='Import Participants'
+                                                onmousedown={handleImport}> <span class="slds-truncate"
+                                                    title={label.PIR_Import_Participants}
+                                                    data-id='Import Participants'>{label.PIR_Import_Participants}</span>
+                                            </a>
                                         </li>
-                                        <li class="slds-dropdown__item" role="presentation" data-id='Bulk Import History'>
-                                            <a href="#" role="menuitem" data-id='Bulk Import History' onmousedown={handleImport}> <span class="slds-truncate" title={label.pir_Bulk_Import_History} data-id='Bulk Import History'>{label.pir_Bulk_Import_History}</span> </a>
+                                        <li class="slds-dropdown__item" role="presentation"
+                                            data-id='Bulk Import History'>
+                                            <a href="#" role="menuitem" data-id='Bulk Import History'
+                                                onmousedown={handleImport}> <span class="slds-truncate"
+                                                    title={label.pir_Bulk_Import_History}
+                                                    data-id='Bulk Import History'>{label.pir_Bulk_Import_History}</span>
+                                            </a>
                                         </li>
-                                    </template> 
+                                    </template>
                                 </ul>
                             </div>
+                        </div>
                     </div>
-                </div>
-                
-                <template if:true={isCheckboxhidden}>
-                    <template if:true={changeStatus}>
-                       
-                        <div class="slds-col slds-size_12-of-12 slds-p-bottom_small slds-p-top_medium slds-p-right_xx-small ">
-                            <lightning-combobox name="ChangeStatusTo" variant="label-hidden"  value={statusSelected}
-                            placeholder="Select a status"  options={statusChangeList}  onchange={handleChangeOfStatus} ></lightning-combobox>
-                        </div> 
-                    </template>
-                </template>
 
-            </div>    
-        </div>
-        <template if:true={isCheckboxhidden}>
-            <!-- <template if:true={changeStatus}>
+                    <template if:true={isCheckboxhidden}>
+                        <template if:true={changeStatus}>
+
+                            <div
+                                class="slds-col slds-size_12-of-12 slds-p-bottom_small slds-p-top_medium slds-p-right_xx-small ">
+                                <lightning-combobox name="ChangeStatusTo" variant="label-hidden" value={statusSelected}
+                                    placeholder="Select a status" options={statusChangeList}
+                                    onchange={handleChangeOfStatus}></lightning-combobox>
+                            </div>
+                        </template>
+                    </template>
+
+                </div>
+            </div>
+            <template if:true={isCheckboxhidden}>
+                <!-- <template if:true={changeStatus}>
                 <div class="slds-col slds-size_12-of-12 slds-p-bottom_small slds-p-around_small ">
                     <lightning-combobox name="ChangeStatusTo" variant="label-hidden"  value={statusSelected}
                       options={statusChangeList}  onchange={handleChangeOfStatus} ></lightning-combobox>
                 </div> 
             </template> -->
-             <template if:false={noRecords}>
-            <template if:false={dctCheck}>
-                <div class="slds-col slds-size_12-of-12 checkbox-color  ">
-                    <template if:false={enableStatus}>
-                        <div class="checkbox-place ">
-                        <lightning-input type="checkbox" onchange={handleSelectAll}  checked={selectall} ></lightning-input>
-                        </div>
-                    </template>   
-                </div>
-            </template>
-                <template if:true={dctCheck}>
-                <div class="slds-col slds-size_12-of-12 checkbox-colordct  ">
-                    <template if:false={enableStatus}>
-                        <div class="checkbox-placedct ">
-                        <lightning-input type="checkbox" onchange={handleSelectAll}  checked={selectall} ></lightning-input>
-                        </div>
-                    </template>   
-                </div>
-            </template>
-            </template>
-        </template>
-        <div tabindex="0" class="overflowSet keyup dividerTop slds-border--bottom slds-col slds-size_12-of-12">
-            <template if:false={participantList}>
-                <div class="overflowSet" style="position:relative">
-                    <div role="status" class="slds-spinner slds-spinner_medium">
-                        <span class="slds-assistive-text">Loading</span>
-                        <div class="slds-spinner__dot-a"></div>
-                        <div class="slds-spinner__dot-b"></div>
-                    </div>
-                    <template if:true={pageLimit}>
-                        <div class="slds-align--absolute-center wait">
-                            {label.pir_Please_wait_as_your_page_loads}
+                <template if:false={noRecords}>
+                    <template if:false={dctCheck}>
+                        <div class="slds-col slds-size_12-of-12 checkbox-color  ">
+                            <template if:false={enableStatus}>
+                                <div class="checkbox-place ">
+                                    <lightning-input type="checkbox" onchange={handleSelectAll} checked={selectall}>
+                                    </lightning-input>
+                                </div>
+                            </template>
                         </div>
                     </template>
-                    </div>
-            </template>
-            <template if:true={participantList}>
-                <template if:true={saving}>
-                    <lightning-spinner alternative-text="Loading..." variant="brand">
-                    </lightning-spinner>
-                </template>
-            <template if:true={isCheckboxhidden}>
-                <template for:each={participantList} for:item="p"  for:index="index">
-                    <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-small slds-p-top--xx-small dividerTop rtl-pad-right">
-                        <div class="card-content checkboxdisplay">  
+                    <template if:true={dctCheck}>
+                        <div class="slds-col slds-size_12-of-12 checkbox-colordct  ">
                             <template if:false={enableStatus}>
-                               <template if:true={checknewStatus}>
-                                    <template if:true={checkFinalSuccessStatus}>
-                                        <template if:true={p.allowFinalSuccessStatus}>
-                                            <template if:true={p.dobValid}>
-                                                <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange}></lightning-input>
-                                            </template>
-                                            <template if:false={p.dobValid}>
-                                                <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled=true></lightning-input>
-                                            </template>
-                                        </template>
-                                        <template if:false={p.allowFinalSuccessStatus}>
-                                            <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled=true></lightning-input>
-                                        </template>
-                                    </template>
-                                    <template if:true={checkScreeningPassedStatus}>
-                                        <template if:true={p.allowScreeningPassed}>
-                                            <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange}></lightning-input>
-                                        </template>
-                                        <template if:false={p.allowScreeningPassed}>
-                                            <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled=true></lightning-input>
-                                        </template>
-                                    </template>
-                               </template>
-                               <template if:false={checknewStatus}>
-                                    <template if:true={dctCheck}>
-                                        <template if:true={p.dobValid}>
-                                            <div class="slds-align--absolute-center w-7">
-                                                <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled={p.showActionbtnDisabled} ></lightning-input>
-                                            </div> 
-                                        </template>
-                                        <template if:false={p.dobValid}>
-                                            <div class="slds-align--absolute-center w-7">
-                                                <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled=true></lightning-input>
-                                            </div>
-                                        </template>
-                                    </template>
-                                    <template if:false={dctCheck}>
-                                        <div class="slds-align--absolute-center w-10" >
-                                            <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} ></lightning-input>
-                                        </div> 
-                                    </template>
-                               </template>
+                                <div class="checkbox-placedct ">
+                                    <lightning-input type="checkbox" onchange={handleSelectAll} checked={selectall}>
+                                    </lightning-input>
+                                </div>
                             </template>
-                        <div class="w-90">
-                            <div class="flags">
-                                <template if:true={p.actionReq}><span class=" actionReq"><img src={iconActionReq}/>{label.Action_Required}</span></template>
-                                <template if:true={p.highPriority}><span class="priority"><img src={iconHighPriority}/>{label.High_Priority}</span></template>
-                                <template if:true={p.highRisk}><span class="risk"><img src={iconHighRisk}/>{label.High_Risk}</span></template>
-                            </div>
-                            <div class="slds-text-heading--small breakW" >
-                                <!-- {p.firstName} {p.lastName}   -->
-                                {p.initialsName}
-                            </div>
-                            <div class="tooltip">
-                                <div class="subInfo slds-truncate" >
-                                    {p.refId} - {p.studyName}
-                                </div>
-                                <span class={p.cs}>{p.studyName}</span>
-                            </div>
                         </div>
-                        </div>
-                    </div>
+                    </template>
                 </template>
             </template>
-            <template if:false={isCheckboxhidden}>
-                <template for:each={participantList} for:item="p"  for:index="index">
-                    <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-large slds-p-top--xx-small dividerTop rtl-pad-right">
-                        <div class="flags">
-                            <template if:true={p.actionReq}><span class=" actionReq"><img src={iconActionReq}/>{label.Action_Required}</span></template>
-                            <template if:true={p.highPriority}><span class="priority"><img src={iconHighPriority}/>{label.High_Priority}</span></template>
-                            <template if:true={p.highRisk}><span class="risk"><img src={iconHighRisk}/>{label.High_Risk}</span></template>
+            <div tabindex="0" class="overflowSet keyup dividerTop slds-border--bottom slds-col slds-size_12-of-12">
+                <template if:false={participantList}>
+                    <div class="overflowSet" style="position:relative">
+                        <div role="status" class="slds-spinner slds-spinner_medium">
+                            <span class="slds-assistive-text">Loading</span>
+                            <div class="slds-spinner__dot-a"></div>
+                            <div class="slds-spinner__dot-b"></div>
                         </div>
-                        <div class="card-content ">  
-                            <div class="slds-text-heading--small breakW" >
-                                <!-- {p.firstName} {p.lastName}   -->
-                                {p.initialsName}
+                        <template if:true={pageLimit}>
+                            <div class="slds-align--absolute-center wait">
+                                {label.pir_Please_wait_as_your_page_loads}
                             </div>
-                            <div class="tooltip">
-                                <div class="subInfo slds-truncate" >
-                                    {p.refId} - {p.studyName}
-                                </div>
-                                <span class={p.cs}>{p.studyName}</span>
-                            </div>
-                        </div>
+                        </template>
                     </div>
                 </template>
-            </template>
-            <template if:true={showStatusPopup}>
-                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-    aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
-    <div class="slds-modal_small ">
-      <div class="slds-modal__container model-small">
-         <div class="slds-modal__content" id="modal-content-id-4548"> 
-            <div class="bar"></div>
-            <div class="slds-p-around_large">
-               <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
-                  <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                     <span class="title">{label.RH_InvalidAction}</span> 
-                  </div>
-                <!--  <div class="slds-col slds-size_1-of-12 close-icon">
+                <template if:true={participantList}>
+                    <template if:true={saving}>
+                        <lightning-spinner alternative-text="Loading..." variant="brand">
+                        </lightning-spinner>
+                    </template>
+                    <template if:true={isCheckboxhidden}>
+                        <template for:each={participantList} for:item="p" for:index="index">
+                            <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0"
+                                class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-small slds-p-top--xx-small dividerTop rtl-pad-right">
+                                <div class="card-content checkboxdisplay">
+                                    <template if:false={enableStatus}>
+                                        <template if:true={checknewStatus}>
+                                            <template if:true={checkFinalSuccessStatus}>
+                                                <template if:true={p.allowFinalSuccessStatus}>
+                                                    <template if:true={p.dobValid}>
+                                                        <lightning-input type="checkbox" data-id="checkbox"
+                                                            checked={p.check} data-value={p.id}
+                                                            onchange={handleCheckChange}></lightning-input>
+                                                    </template>
+                                                    <template if:false={p.dobValid}>
+                                                        <lightning-input type="checkbox" data-id="checkbox"
+                                                            checked={p.check} data-value={p.id}
+                                                            onchange={handleCheckChange} disabled=true>
+                                                        </lightning-input>
+                                                    </template>
+                                                </template>
+                                                <template if:false={p.allowFinalSuccessStatus}>
+                                                    <lightning-input type="checkbox" data-id="checkbox"
+                                                        checked={p.check} data-value={p.id} onchange={handleCheckChange}
+                                                        disabled=true></lightning-input>
+                                                </template>
+                                            </template>
+                                            <template if:true={checkScreeningPassedStatus}>
+                                                <template if:true={p.allowScreeningPassed}>
+                                                    <lightning-input type="checkbox" data-id="checkbox"
+                                                        checked={p.check} data-value={p.id}
+                                                        onchange={handleCheckChange}></lightning-input>
+                                                </template>
+                                                <template if:false={p.allowScreeningPassed}>
+                                                    <lightning-input type="checkbox" data-id="checkbox"
+                                                        checked={p.check} data-value={p.id} onchange={handleCheckChange}
+                                                        disabled=true></lightning-input>
+                                                </template>
+                                            </template>
+                                        </template>
+                                        <template if:false={checknewStatus}>
+                                            <template if:true={dctCheck}>
+                                                <template if:true={p.dobValid}>
+                                                    <div class="slds-align--absolute-center w-7">
+                                                        <lightning-input type="checkbox" data-id="checkbox"
+                                                            checked={p.check} data-value={p.id}
+                                                            onchange={handleCheckChange}
+                                                            disabled={p.showActionbtnDisabled}></lightning-input>
+                                                    </div>
+                                                </template>
+                                                <template if:false={p.dobValid}>
+                                                    <div class="slds-align--absolute-center w-7">
+                                                        <lightning-input type="checkbox" data-id="checkbox"
+                                                            checked={p.check} data-value={p.id}
+                                                            onchange={handleCheckChange} disabled=true>
+                                                        </lightning-input>
+                                                    </div>
+                                                </template>
+                                            </template>
+                                            <template if:false={dctCheck}>
+                                                <template if:true={bulkEligibilityPassed}>
+                                                    <div class="slds-align--absolute-center w-10">
+                                                        <lightning-input type="checkbox" data-id="checkbox"
+                                                            checked={p.check} data-value={p.id}
+                                                            onchange={handleCheckChange} disabled={p.eligibilityInvalid}></lightning-input>
+                                                    </div>
+                                                </template>
+                                                <template if:false={bulkEligibilityPassed}>
+                                                    <div class="slds-align--absolute-center w-10">
+                                                        <lightning-input type="checkbox" data-id="checkbox"
+                                                            checked={p.check} data-value={p.id}
+                                                            onchange={handleCheckChange}></lightning-input>
+                                                    </div>
+                                                </template>                                                
+                                            </template>
+                                        </template>
+                                    </template>
+                                    <div class="w-90">
+                                        <div class="flags">
+                                            <template if:true={p.actionReq}><span class=" actionReq"><img
+                                                        src={iconActionReq} />{label.Action_Required}</span></template>
+                                            <template if:true={p.highPriority}><span class="priority"><img
+                                                        src={iconHighPriority} />{label.High_Priority}</span></template>
+                                            <template if:true={p.highRisk}><span class="risk"><img
+                                                        src={iconHighRisk} />{label.High_Risk}</span></template>
+                                        </div>
+                                        <div class="slds-text-heading--small breakW">
+                                            <!-- {p.firstName} {p.lastName}   -->
+                                            {p.initialsName}
+                                        </div>
+                                        <div class="tooltip">
+                                            <div class="subInfo slds-truncate">
+                                                {p.refId} - {p.studyName}
+                                            </div>
+                                            <span class={p.cs}>{p.studyName}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:false={isCheckboxhidden}>
+                        <template for:each={participantList} for:item="p" for:index="index">
+                            <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0"
+                                class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-large slds-p-top--xx-small dividerTop rtl-pad-right">
+                                <div class="flags">
+                                    <template if:true={p.actionReq}><span class=" actionReq"><img
+                                                src={iconActionReq} />{label.Action_Required}</span></template>
+                                    <template if:true={p.highPriority}><span class="priority"><img
+                                                src={iconHighPriority} />{label.High_Priority}</span></template>
+                                    <template if:true={p.highRisk}><span class="risk"><img
+                                                src={iconHighRisk} />{label.High_Risk}</span></template>
+                                </div>
+                                <div class="card-content ">
+                                    <div class="slds-text-heading--small breakW">
+                                        <!-- {p.firstName} {p.lastName}   -->
+                                        {p.initialsName}
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="subInfo slds-truncate">
+                                            {p.refId} - {p.studyName}
+                                        </div>
+                                        <span class={p.cs}>{p.studyName}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:true={showStatusPopup}>
+                        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                            aria-describedby="modal-content-id-1"
+                            class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
+                            <div class="slds-modal_small ">
+                                <div class="slds-modal__container model-small">
+                                    <div class="slds-modal__content" id="modal-content-id-4548">
+                                        <div class="bar"></div>
+                                        <div class="slds-p-around_large">
+                                            <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
+                                                <div
+                                                    class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
+                                                    <span class="title">{label.RH_InvalidAction}</span>
+                                                </div>
+                                                <!--  <div class="slds-col slds-size_1-of-12 close-icon">
                      <div onclick={handleCloseAllStatus}>
                         <lightning-icon icon-name="utility:close"
                            alternative-text="close"
@@ -291,40 +394,45 @@
                         <span class="slds-assistive-text">Close</span>
                      </div>
                   </div>-->
-               </div>
-               <slot name="body">   
-                  <div class="slds-grid slds-wrap slds-gutters ">
-                       <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                           <div class="participant-text">
-                           {label.RH_ChangeStatusErrorMsg}
-                           </div> 
-                       </div>
-                   
-                   </div>
-                   <div class="slds-grid slds-wrap slds-m-top_large">
-                    <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                      <div class="slds-float_right mobile-width">                  
-                          <button class="slds-button apollo-btn primary btn-height save-btn" title={label.BTN_OK} onclick={handleCloseAllStatus} disabled={handleContinue}> {label.BTN_OK} </button>
-                      </div>     
-                    </div>
-                 </div>
-               </slot>
+                                            </div>
+                                            <slot name="body">
+                                                <div class="slds-grid slds-wrap slds-gutters ">
+                                                    <div
+                                                        class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                                        <div class="participant-text">
+                                                            {label.RH_ChangeStatusErrorMsg}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="slds-grid slds-wrap slds-m-top_large">
+                                                    <div
+                                                        class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                                        <div class="slds-float_right mobile-width">
+                                                            <button
+                                                                class="slds-button apollo-btn primary btn-height save-btn"
+                                                                title={label.BTN_OK} onclick={handleCloseAllStatus}
+                                                                disabled={handleContinue}> {label.BTN_OK} </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </slot>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="slds-backdrop slds-backdrop_open"></div>
+
+                    </template>
+                </template>
+                <template if:true={noRecords}>
+                    <span class="noRecords">{label.RH_RP_No_Item_To_Display}</span>
+                </template>
+
             </div>
-         </div>
-      </div>
-    </div>
-    </section>
-    <div class="slds-backdrop slds-backdrop_open"></div>
-    
-            </template>
-            </template>
-            <template if:true={noRecords}>
-                <span class="noRecords">{label.RH_RP_No_Item_To_Display}</span>
-            </template>
-            
         </div>
-    </div>
-    
-        
+
+
     </div>
 </template>

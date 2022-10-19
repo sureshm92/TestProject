@@ -375,7 +375,9 @@ public without sharing class ParticipantService {
             String communityName = TranslateHelper.getLabelValue(
                 UserContext.getTemplateProperty('CommunityWelcome')
             );
-            message = message.replace('##CommunityWelcome', communityName);
+            if (communityName != null) {
+                message = message.replace('##CommunityWelcome', communityName);
+            }
         }
 
         return message.replace('##UserName', userName);
@@ -443,13 +445,14 @@ public without sharing class ParticipantService {
         }
     }
 
-    public static String createParticipantAndUpdatePEImpls(
+    public static list<String> createParticipantAndUpdatePEImpls(
         Participant__c participant,
         Participant__c participantDelegate,
         Participant_Enrollment__c pe,
         String userLanguage
     ) {
         try {
+            String dupPart = 'no duplicate';
             participant.Preferred_Language__c = userLanguage;
             ParticipantDuplicateService.ParticipantWithDelegate participantWithDelegate = new ParticipantDuplicateService.ParticipantWithDelegate();
             participantWithDelegate.participant = participant;
@@ -460,7 +463,8 @@ public without sharing class ParticipantService {
             String ParticipantID = '';
             Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
             if (participantFromDatabase != null) {
-                AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
+                //AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
+                dupPart = JSON.serialize(participant);
                 participant = participantFromDatabase;
                 ParticipantID = participant.Id;
             } else {
@@ -483,7 +487,7 @@ public without sharing class ParticipantService {
                 system.debug('>>AfterInsertPart>' + limits.getQueries());
                 ParticipantID = participant.Id;
             }
-            return ParticipantID;
+            return new list<String>{ParticipantID,dupPart};
         } catch (Exception e) {
             System.debug('ERROR: ' + e);
             AuraHelper.throwException(e);
@@ -506,19 +510,19 @@ public without sharing class ParticipantService {
         getInstance()
             .createParticipantAndUpdatePEImpl(participant, participantDelegate, pe, userLanguage);
     }
-    public static String createParticipantAndUpdatePES(
+    public static list<String> createParticipantAndUpdatePES(
         Participant__c participant,
         Participant__c participantDelegate,
         Participant_Enrollment__c pe,
         String userLanguage
     ) {
-        string partID = createParticipantAndUpdatePEImpls(
+        list<String> partAndDup = createParticipantAndUpdatePEImpls(
             participant,
             participantDelegate,
             pe,
             userLanguage
         );
-        return partID;
+        return partAndDup;
     }
 
     public static List<LabelValueItem> getGenderLVList() {

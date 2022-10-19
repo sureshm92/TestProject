@@ -35,37 +35,34 @@
         <template if:true={isReminderOptionSelected}>
             <!--Custom Reminder Option Date Time-->
             <template if:true={isCustomReminderOptionSelected}>
-                <div class="slds-col slds-size_1-of-1 task-reminder">
+                <div class="slds-col slds-size_1-of-1 slds-m-top_medium task-reminder">
                     <c-pp-date-time-combo
                         data-id="reminderDateTime"
+                        create-task={isCustomReminderOptionSelected}
                         reminder={isCustomReminderOptionSelected}
+                        compdate={dbreminderdate}
+                        comptime={dbremindertime}
                         mindate={currentDate}
                         maxdate={taskDueDate}
                         mintime={minimumReminderTime}
                         maxtime={maximumReminderTime}
                         icon-size="small"
                         icon-color="#C42EA5"
+                        task-reminder={isCustomReminderOptionSelected}
                         ondatechange={handleReminderDate}
                         ontimechange={handleReminderTime}
-                        oninitialdateload={handleInitialReminderDateLoad}
-                        oninitialtimeload={handleInitialReminderTimeLoad}
                         ondate={handleOnlyDate}
                         ontime={handleOnlyTime}
+                        onnulldatetime={handleNullDateTimeReminder}
                     ></c-pp-date-time-combo>
                 </div>
             </template>
 
             <!--Email SMS Communication Option-->
-            <div class="slds-col slds-size_1-of-1 slds-p-top_none">
+            <div class="slds-col slds-size_1-of-1 slds-p-top_x-small">
                 <div class="slds-grid slds-wrap">
-                    <div class="slds-col slds-size_1-of-1 slds-p-around_xx-small">
-                        {labels.REMIND_USING}<abbr
-                            class="slds-required required-icon"
-                            title="required"
-                            >*
-                        </abbr>
-                    </div>
-                    <div class="slds-col slds-size_1-of-1 slds-p-around_xx-small task-comm-pref">
+                    <div class="slds-col slds-size_1-of-1">{labels.REMIND_USING}</div>
+                    <div class="slds-col slds-size_1-of-1 task-reminder-pref">
                         <div class="slds-checkbox">
                             <input
                                 type="checkbox"
@@ -101,9 +98,7 @@
                             </label>
                         </div>
                     </div>
-                    <div
-                        class="slds-col slds-size_1-of-1 slds-p-bottom_x-small update-communication"
-                    >
+                    <div class="slds-col slds-size_1-of-1 slds-p-top_xx-small update-communication">
                         <a href="./account-settings?communication-preferences" target="_blank">
                             {labels.PP_TASK_COMM_PREF}
                         </a>

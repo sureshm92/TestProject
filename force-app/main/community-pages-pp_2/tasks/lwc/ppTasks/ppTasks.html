@@ -10,32 +10,133 @@
                 <lightning-layout-item padding="around-small" size="12">
                     <div class="page-section page-header">
                         <div class="slds-align_absolute-center">
-                            <button class="open-task">Open</button
-                            ><button class="completed-task">Completed</button>
+                            <button class={taskBtnOpenClass} onclick={navigateToOpen}>Open</button
+                            ><button class={taskBtnCompleteClass} onclick={navigateToCompleted}>
+                                Completed
+                            </button>
                         </div>
                     </div>
                 </lightning-layout-item>
-                <lightning-layout-item padding="around-small" size="12">
-                    <template if:true={showCreateTaskButton}>
-                        <div class="slds-align_absolute-center">
-                            <button class={taskButtonClass} onclick={doCreateTask}>
-                                <span
-                                    ><lightning-icon
-                                        icon-name="utility:add"
-                                        size="x-small"
-                                        class="plus-icon"
-                                    >
-                                    </lightning-icon
-                                ></span>
-                                <span>{label.createNewTask}</span>
-                            </button>
-                        </div>
-                    </template>
 
-                    <template if:true={isCreateTask}>
-                        <c-pp-create-task ontaskcancel={handleTaskCancel}></c-pp-create-task>
-                    </template>
-                </lightning-layout-item>
+                <template if:true={taskOpenTab}>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <template if:true={showCreateTaskButton}>
+                            <div class="slds-align_absolute-center">
+                                <button class={taskButtonClass} onclick={doCreateTask}>
+                                    <span
+                                        ><lightning-icon
+                                            icon-name="utility:add"
+                                            size="x-small"
+                                            class="plus-icon"
+                                        >
+                                        </lightning-icon
+                                    ></span>
+                                    <span>{label.createNewTask}</span>
+                                </button>
+                            </div>
+                        </template>
+                    </lightning-layout-item>
+                    <lightning-layout class="slds-align_absolute-center" multiple-rows="true">
+                        <lightning-layout-item
+                            class="overflow-scroll"
+                            padding="around-small"
+                            size="12"
+                            ><template if:true={isCreateTask}>
+                                <c-pp-create-task ontaskclose={handleTaskClose}> </c-pp-create-task>
+                            </template>
+                            <template if:false={emptyOpenTasks}>
+                                <c-pp-tasks-list
+                                    container-class="inactive-custom-box slds-align_absolute-center"
+                                    due-time-class="due-time"
+                                    selected-tasks={openTasks}
+                                    ontaskcreated={handleTaskCreated}
+                                ></c-pp-tasks-list>
+                            </template>
+                            <template if:true={emptyOpenTasks}>
+                                <lightning-layout
+                                    class="inactive-custom-box slds-align_absolute-center no-task-list-view"
+                                >
+                                    <div class="slds-align_absolute-center dis-block">
+                                        <span class="center"><img src={systemTaskImg} /></span>
+                                        <span class="no-task-txt slds-m-top_medium"
+                                            >{label.noOpenTasks}</span
+                                        >
+                                    </div>
+                                </lightning-layout>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+                <template if:false={taskOpenTab}>
+                    <lightning-layout class="slds-align_absolute-center" multiple-rows="true">
+                        <lightning-layout-item
+                            class="overflow-scroll"
+                            padding="around-small"
+                            size="12"
+                        >
+                            <template if:false={emptyCompletedTasks}>
+                                <c-pp-tasks-list
+                                    container-class="inactive-custom-box slds-align_absolute-center complete-container"
+                                    due-time-class="due-time complete-datetime"
+                                    selected-tasks={completedTasksList}
+                                    expire-task-available="true"
+                                    ontaskcreated={handleTaskCreated}
+                                ></c-pp-tasks-list>
+                                <template if:false={emptyIgnoreTasks}>
+                                    <lightning-layout>
+                                        <lightning-layout-item size="2"
+                                            ><div class="ignored">
+                                                Ignored
+                                            </div></lightning-layout-item
+                                        >
+                                        <lightning-layout-item size="8"
+                                            ><div class="path-2-copy"></div></lightning-layout-item
+                                    ></lightning-layout>
+                                    <!-- Dispaying Task Card for Ignored Tasks ignoredTasksList-->
+                                    <c-pp-tasks-list
+                                        container-class="inactive-custom-box slds-align_absolute-center ignore-container"
+                                        due-time-class="due-time ignore-datetime"
+                                        selected-tasks={ignoredTasksList}
+                                        ontaskcreated={handleTaskCreated}
+                                    ></c-pp-tasks-list>
+                                </template>
+                                <template if:false={emptyExpiredTasks}>
+                                    <lightning-layout>
+                                        <lightning-layout-item size="2"
+                                            ><div class="expired">
+                                                Expired
+                                            </div></lightning-layout-item
+                                        >
+                                        <lightning-layout-item size="8"
+                                            ><div class="path-2-copy"></div></lightning-layout-item
+                                    ></lightning-layout>
+                                    <c-pp-tasks-list
+                                        container-class="inactive-custom-box slds-align_absolute-center expire-container"
+                                        due-time-class="due-time expire-datetime"
+                                        selected-tasks={expiredTasksList}
+                                        expire-task-available="true"
+                                        ontaskcreated={handleTaskCreated}
+                                    ></c-pp-tasks-list>
+                                </template>
+                            </template>
+                            <!--End Card for completed tasks-->
+
+                            <!-- Task List View UI with no data -->
+                            <template if:true={emptyCompletedTasks}>
+                                <lightning-layout
+                                    class="inactive-custom-box slds-align_absolute-center no-task-list-view"
+                                >
+                                    <div class="slds-align_absolute-center dis-block">
+                                        <span class="center"><img src={systemTaskImg} /></span>
+                                        <span class="no-task-txt slds-m-top_medium"
+                                            >{label.noCompletedTasks}</span
+                                        >
+                                    </div>
+                                </lightning-layout>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
             </lightning-layout>
         </div>
     </div>

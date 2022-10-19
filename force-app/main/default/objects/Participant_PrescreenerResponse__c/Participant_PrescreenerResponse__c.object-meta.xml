@@ -153,13 +153,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Participant Prescreener Response</label>
+    <label>Participant Screener Response</label>
     <nameField>
         <displayFormat>PPR-{0000}</displayFormat>
-        <label>Participant_PrescreenerResponse Name</label>
+        <label>Participant Screener Response Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Participant Prescreener Responses</pluralLabel>
+    <pluralLabel>Participant Screener Responses</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

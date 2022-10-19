@@ -14,6 +14,7 @@
     <aura:attribute name="trialId" type="String" />
     <aura:attribute name="hcpeId" type="String" />
     <aura:attribute name="trial" type="Object" />
+    <aura:attribute name="preSurvey" type="Object" />
     <aura:attribute name="hcpEnrollment" type="Object" />
     <aura:attribute name="hcpContact" type="Object" />
     <aura:attribute name="hcpEnrollmentParticipantName" type="String" />
@@ -92,6 +93,7 @@
                             <c:SearchParticipantEnrollment
                                 trialId="{!v.trialId}"
                                 trial="{!v.trial}"
+                                preSurvey="{!v.preSurvey}"
                                 hcpeId="{!v.hcpeId}"
                                 searchData="{!v.searchData}"
                                 searchResult="{!v.searchResult}"

@@ -268,11 +268,6 @@
   margin-bottom: 10px;
   margin-right: 10px;
 }
-@media (max-device-width: 767px) {
-  .scroll-mobile {
-    padding: 0px 0px 20px 0px;
-  }
-}
 /* No Event  */
 .no-event {
   margin-top: 150px;
@@ -287,6 +282,7 @@
 .eventText {
   font-size: 16px;
   color: #858383;
+  padding: 0px 30px;
 }
 /* No Event End */
 @media only screen and (min-device-width: 1080px) and (max-device-width: 1920px) {
@@ -300,9 +296,23 @@
 @media only screen and (min-device-width: 864px) and (max-device-width: 1536px) {
   /* insert styles here */
   .filterclose .vertical-scroll {
-    height: 63vh;
+    height: 64vh;
   }
   .filteropen .vertical-scroll {
-    max-height: 24vh;
+    max-height: 30vh;
+  }
+
+}
+@media (max-device-width: 767px) {
+  /* .scroll-mobile {
+    padding: 0px 0px 20px 0px;
+  } */
+  .filterclose .vertical-scroll {
+    max-height: 58vh;
+    height: 58vh;
+  }
+  .filteropen .vertical-scroll {
+    max-height: 32vh;
+    height: 68vh;
   }
 }

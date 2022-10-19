@@ -1,15 +1,17 @@
 <template>
     <div>
-        <div class="slds-grid slds-wrap" style="padding-left: 24px; padding-right: 24px">
-            <div
-                class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_none"
-            >
+        <div class={gridClass}>
+            <div class={dueDateClass}>
                 <template if:false={reminder}>
                     <template if:false={createTask}>
                         <label>{label.date}</label>
                     </template>
                     <template if:true={createTask}>
-                        <label>{label.dueDate}</label>
+                        <label
+                            >{label.dueDate}<abbr class="slds-required" title="required"
+                                >*
+                            </abbr></label
+                        >
                     </template>
                 </template>
                 <template if:true={reminder}>
@@ -33,15 +35,21 @@
                         max={maxdate}
                         onchange={handleDate}
                         placeholder="Enter Date"
-                    />
+                    /> 
                 </div>
             </div>
-            <div
-                if:false={past}
-                class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_none"
-            >
+            <div if:false={past} class={timeClass}>
                 <template if:false={reminder}>
-                    <label>{label.time}</label>
+                    <template if:false={createTask}>
+                        <label>{label.time}</label>
+                    </template>
+                    <template if:true={createTask}>
+                        <label
+                            >{label.time}<abbr class="slds-required" title="required"
+                                >*
+                            </abbr></label
+                        >
+                    </template>
                 </template>
                 <template if:true={reminder}>
                     <label>{label.remindertime}</label>
@@ -60,8 +68,11 @@
                         value={dbTime}
                         min={mintime}
                         max={maxtime}
-                        onchange={handleTime}
-                        placeholder="Enter Time"
+                        onblur={handleTime}
+                        disabled={timeOnlyPresent}
+                        placeholder={label.timePlaceHolder}
+                        message-when-bad-input={label.validTimeFormat}
+                        message-when-pattern-mismatch={label.validTimeFormat}
                     >
                     </lightning-input>
                 </div>

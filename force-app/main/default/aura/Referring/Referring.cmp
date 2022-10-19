@@ -11,6 +11,9 @@
     <aura:attribute name="trialId" type="String" />
     <aura:attribute name="siteId" type="String" />
     <aura:attribute name="trial" type="Object" />
+    <aura:attribute name="preScreenerSurvey" type="Object" />	
+    <aura:attribute name="preMrrSurvey" type="Object" />	
+    <aura:attribute name="preScreenerResponse" type="Object"/>
     <aura:attribute name="pEnrollment" type="Object" />
     <aura:attribute name="mailingCountryCode" type="String" />
     <aura:attribute name="hcpeId" type="String" />
@@ -551,7 +554,7 @@
                 <!-- Questionare -->
                 <aura:if isTrue="{!v.currentStep == $Label.c.PG_Ref_Step_Questionnaire}">
                     <div class="rr-width-limiter">
-                        <iframe src="{!v.trial.Link_to_Pre_screening__c}" class="screening-gizmo-frame"
+                        <iframe src="{!v.preScreenerSurvey.Link_to_Pre_screening__c}" class="screening-gizmo-frame"
                             style="{!'height: '+v.frameHeight + 'px'}" onload="{!c.doFrameLoaded}">
                         </iframe>
                     </div>
@@ -2010,7 +2013,7 @@
                             class="{!'slds-col slds-size_1-of-1 slds-large-size_8-of-12 ' + if(v.isRTL,'right-columnRTL','right-column')}">
                             <c:SearchParticipantEnrollment aura:id="searchPECmp" trialId="{!v.trialId}"
                                 trial="{!v.trial}" searchData="{!v.searchData}" searchResult="{!v.searchResult}"
-                                mrrResult="{!v.mrrResult}" />
+                                mrrResult="{!v.mrrResult}" preSurvey="{!v.preMrrSurvey}"/>
                         </div>
                     </div>
                 </aura:if>

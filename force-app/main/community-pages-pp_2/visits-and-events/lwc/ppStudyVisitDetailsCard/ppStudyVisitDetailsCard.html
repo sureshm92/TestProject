@@ -30,8 +30,11 @@
                     mintime={currentTime}
                     ondatechange={handleDate}
                     ontimechange={handleTime}
+                    onnulldatetime={handleNullDateTime}
                     oninitialdateload={handleInitialDateLoad}
                     oninitialtimeload={handleInitialTimeLoad}
+                    ondate={handleOnlyDate}
+                    ontime={handleOnlyTime}
                 ></c-pp-date-time-combo>
                 <div if:true={past} class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_1-of-2 slds-p-left_none">
@@ -52,7 +55,9 @@
             </div>
             <div>
                 <div class="slds-grid slds-wrap">
-                    <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-p-left_none">
+                    <div
+                        class="slds-size_1-of-1 slds-small-size_1-of-2 slds-p-right_x-small slds-p-left_none"
+                    >
                         <div if:false={past}>
                             <label>{label.reminder}</label>
                             <div class="curve-input">

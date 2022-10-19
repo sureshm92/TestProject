@@ -79,6 +79,7 @@ import PP_required from '@salesforce/label/c.PP_required';
 import RH_MOB from '@salesforce/label/c.RH_MOB';
 import RH_YOB from '@salesforce/label/c.RH_YearofBirth';
 import RH_DOB from '@salesforce/label/c.RH_DOB';
+import Missing_participant_information from '@salesforce/label/c.Missing_participant_information';
 
 export default class Pir_participantDetail extends LightningElement {
     @api selectedPE; @api delegateLevels = ''; @api lststudysiteaccesslevel = [];
@@ -206,6 +207,7 @@ export default class Pir_participantDetail extends LightningElement {
                 if(this.pd['pe']['Participant__r']['Birth_Year__c']){
                     this.valueYYYY = this.pd['pe']['Participant__r']['Birth_Year__c'];
                     this.YYYYChange();
+                    this.getErrorMessage();
                 }
                 this.participantSelectedAge = (this.pd['pe']['Participant__r']['Age__c']!=undefined ? ((this.pd['pe']['Participant__r']['Age__c']).toString()) : null); 
                 
@@ -655,7 +657,7 @@ export default class Pir_participantDetail extends LightningElement {
            if(this.isDayMandate){
         dt= this.valueYYYY + '-' + this.valueMM + '-' + this.valueDD;
            }else {
-               dt=this.valueYYYY + '-' + this.valueMM + '01';
+               dt=this.valueYYYY + '-' + this.valueMM + '-01';
            }
         var today = new Date();
         var dd= 1;
@@ -1298,4 +1300,5 @@ export default class Pir_participantDetail extends LightningElement {
     DOB = RH_DOB;
     YOB = RH_YOB;
     MOB = RH_MOB;
+    Missing_participant_information = Missing_participant_information;
 }

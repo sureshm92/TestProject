@@ -793,6 +793,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EConsentIntegrationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmailTemplateInitialCC</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2971,10 +2975,10 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-		<editable>false</editable>
-		<field>Clinical_Trial_Profile__c.Program_Overview__c</field>
-		<readable>true</readable>
-	</fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Program_Overview__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Publications__c</field>
@@ -5319,7 +5323,7 @@
         <editable>true</editable>
         <field>Participant_Enrollment__c.Permit_SMS_Text_for_this_study__c</field>
         <readable>true</readable>
-    </fieldPermissions> 
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Permit_Voice_Text_contact_for_this_study__c</field>
@@ -6110,11 +6114,7 @@
         <field>PreScreener_Survey__c.ProviderName__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>PreScreener_Survey__c.Study__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
+
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.From_Number__c</field>
@@ -8737,17 +8737,11 @@
     <layoutAssignments>
         <layout>Provider_Payment__c-Provider Payment Layout</layout>
     </layoutAssignments>
-    <layoutAssignments>
-        <layout>PreScreener_Survey__c-General Screener Layout</layout>
-        <recordType>PreScreener_Survey__c.General</recordType>
-    </layoutAssignments>
+
     <layoutAssignments>
         <layout>PreScreener_Survey__c-PreScreener Survey Layout</layout>
     </layoutAssignments>
-    <layoutAssignments>
-        <layout>PreScreener_Survey__c-Study Specific Screener</layout>
-        <recordType>PreScreener_Survey__c.Study_Specific</recordType>
-    </layoutAssignments>
+
     <layoutAssignments>
         <layout>RP_Delegate_Relationship__c-RP Delegate Relationship Layout</layout>
     </layoutAssignments>
@@ -9351,6 +9345,15 @@
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Communication_Preference_Change__e</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Televisit_Attendee__c</object>
         <viewAllRecords>true</viewAllRecords>
@@ -9437,16 +9440,8 @@
         <recordType>Metric.Progress</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>-->
-    <recordTypeVisibilities>
-        <default>true</default>
-        <recordType>PreScreener_Survey__c.General</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>PreScreener_Survey__c.Study_Specific</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
+
+
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Res_study__c.Study_Resource</recordType>
@@ -9579,7 +9574,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Participant_PrescreenerResponse__c</tab>
-        <visibility>DefaultOff</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>PreScreener_Survey__c</tab>

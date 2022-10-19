@@ -179,10 +179,10 @@
   width: 100%;
 }
 
-.text-width {
+/* .text-width {
   width: 140px;
   text-align: left;
-}
+} */
 
 .staticAll {
   position: absolute;
@@ -226,10 +226,63 @@
   background-color: var(--lwc-colorBackgroundInputDisabled, rgb(243, 243, 243));
   border-color: var(--lwc-colorBorderInputDisabled, rgb(201, 201, 201));
   color: var(--lwc-colorTextInputDisabled, rgb(116, 116, 116));
+  color: #ccc !important;
   pointer-events: none;
   cursor: not-allowed;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.eth .noclk{
+  pointer-events: none;
+  cursor: pointer;
+}
+.eth .drop-truncate .slds-truncate{
+  width: 100%;
+  cursor: pointer;
+}
+.display-box{
+  width: 92%;
+}
+.line-height-text{
+  line-height: 20px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  display: flex;
+  width: 290px;
+  max-height: 290px;
+}
+.text-width{
+  color: #444444;
+  font-size: 12px;
+  line-height: 18px;
+  /*width: 269px;*/
+  padding-left: 0;
+  padding-bottom: 0;
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* font-weight: 600; */
+}
+.more-width{
+  width: 20%;
+  padding-left: 5px;
+  margin-top: -1.5px
+}
+.text-padding{
+  padding-left: 53px;
+}
+.clear-text{
+  color: #444444;
+  font-size: 12px;
+  line-height: 15px;
+  width: 92%;
+  padding-left: 14px;
+  max-width: 100%;
+  overflow: unset;
+  text-overflow: unset;
+  white-space: unset;
+  /* font-weight: 600; */
 }
