@@ -43,12 +43,8 @@ force-app/main/default/workflows/Case.workflow-meta.xml
 #force-app/main/default/staticresources/WalkMeCommunity*
 
 #Ignore State globalValueSet
-force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
-force-app/main/default/profiles
-force-app/communities/community-iqvia
-force-app/communities/community-janssen
-force-app/communities/community-gsk
-force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
+#force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
+#force-app/main/default/profiles
+#force-app/communities
+#force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
 #force-app/main/default/profiles/PRDBAPI*
-**/staticresources/pirResources*
-force-app/main/default/**/PreScreener_Survey__c*
