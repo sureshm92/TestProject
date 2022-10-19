@@ -777,22 +777,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     opacity: 0.7;
 }
 
-@media all and (max-width: 768px) {
-    .cCustomThemeLayout .apollo-btn,
-    .cCustomThemeLayout .slds-input,
-    .cCustomThemeLayout .slds-button_neutral,
-    .cCustomThemeLayout .cRrInput.rri-container input,
-    .cCustomThemeLayout .cRrSelect.rrs-container select,
-    .cCustomThemeLayout input[type='text'],
-    .cCustomThemeLayout input[type='password'],
-    .cCustomThemeLayout input[type='email'] {
-        height: 32px !important;
-    }
-    .pp-change-pwd [lightning-input_input-host] {
-        width: 100% !important;
-    }
-}
-
 @media all and (max-width: 486px) {
     c-pp-Study-Visit-Details-Card .slds-card {
         width: 100%;
@@ -828,6 +812,11 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     background-color: #0768FD !important;
     border-radius: 2px;
     border: 1px solid #0768FD !important;
+}
+
+.task-reminder-pref .slds-checkbox [type=checkbox]:checked:hover+.slds-checkbox__label .slds-checkbox_faux:before{
+    top: -1px;
+    left:-1px;
 }
 
 .fadePlaceholder button span{
