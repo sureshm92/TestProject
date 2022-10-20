@@ -1,9 +1,17 @@
 .slds-grid {
     margin-bottom: 1rem;
 }
+
 .slds-grid-visit {
-    padding: 0 0.75rem;
+    padding: 0 1rem 0 0;
 }
+
+.slds-grid-visit .slds-col.slds-p-left_xx-small,
+.slds-grid-visit .slds-col.slds-p-right_xx-small {
+    padding-right: unset;
+    padding-left: 1rem;
+}
+
 .curve-input {
     display: flex;
     position: relative;
@@ -28,7 +36,7 @@
 }
 
 .curve-input input[type='date'] {
-    width: 300px;
+    width: 350px;
     display: flex;
     align-items: center;
     max-width: 100%;

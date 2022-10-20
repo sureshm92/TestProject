@@ -11,13 +11,17 @@ public without sharing class StudySiteService {
     public final static String PI_S_ON_HOLD_A = 'On Hold (Admin)';
     public final static String PI_S_DEACTIVATED_A = 'Deactivated (Admin)';
     public final static String PI_S_DECLINED_ACCEPTANCE = 'Declined (Acceptance)';
-
+    public final static String Study_Site_Activated = 'Activated';
+    public final static String Study_Site_Activated_A = 'Activated (Admin)';
+    
     //oldStatus/<actionType, newStatus>
     public final static Map<String, Map<String, String>> SS_CHANGE_STATUS_MAP = new Map<String, Map<String, String>>();
 
     public final static List<String> STATUS_GROUP_ACCEPTED = new List<String>{
         PI_S_ACCEPTED,
-        PI_S_ACCEPTED_A
+        PI_S_ACCEPTED_A,
+        Study_Site_Activated,
+        Study_Site_Activated_A
     };
 
     public final static List<String> STATUS_GROUP_ON_HOLD = new List<String>{
@@ -308,7 +312,8 @@ public without sharing class StudySiteService {
         'Principal_Investigator__r.Account.BillingAddress',
         'Principal_Investigator__r.Full_Name__c',
         'Site_Staff__r.Site_Contact__c',
-        'Participant_DOB_format__c'
+        'Participant_DOB_format__c',
+        'Site_Activation_Status__c'
     };
 
     public static List<Study_Site__c> getStudySitesCommon(String filter) {
@@ -840,8 +845,10 @@ public without sharing class StudySiteService {
         }
         if (filter.onlyAcceptedSites) {
             filterString +=
-                ' AND Override_PI_Referral_Status__c != NULL ' +
-                '  AND Override_PI_Referral_Status__c IN (\'' +
+                ' AND Site_Activation_Status__c != NULL ' +
+                '  AND Site_Activation_Status__c IN (\'' +
+                //' AND Override_PI_Referral_Status__c != NULL ' +
+                //'  AND Override_PI_Referral_Status__c IN (\'' +
                 String.join(STATUS_GROUP_ACCEPTED, '\',\'') +
                 '\')';
         }

@@ -25,6 +25,7 @@ global without sharing class SiteCalendarController {
                 Visit_Date_Time__c,
                 Start_Time__c,
                 Visit_Link_Activation_Start_Time__c,
+                Visit_End_Date_Time__c,
                 Visit_Link_Activation_End_Time__c,
                 Status__c,
                 Meeting_URL__c,
@@ -47,7 +48,6 @@ global without sharing class SiteCalendarController {
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__c IN :filterDetails.study          
                 ORDER BY Visit_Date_Time__c DESC
             ];
-            
             for (Televisit__c visitData : televisitData) {
                 string visitTime = timeFormatForVisits(visitData.Start_Time__c);
                 Boolean isJoin = isJoinEnabled(visitData);
@@ -55,6 +55,10 @@ global without sharing class SiteCalendarController {
                     boxVisitCSS = 'box-visit-screen join-btn-bg';
                 } else {
                     boxVisitCSS = 'box-visit-screen';
+                }
+                
+                if(visitData.Visit_End_Date_Time__c< system.now()){
+                    boxVisitCSS = 'box-visit-screen disabled';
                 }
                 String participantName = visitData.Participant_Enrollment__r.Participant__r.Last_Name__c;
                 if (
@@ -119,6 +123,21 @@ global without sharing class SiteCalendarController {
                     visitData.Initial_visit_scheduled_time__c
                 );
                 boxVisitCSS = 'box-visit-screen';
+                
+                Integer dy = visitData.Initial_visit_scheduled_date__c.day();
+				Integer mon = visitData.Initial_visit_scheduled_date__c.month();
+				Integer yr = visitData.Initial_visit_scheduled_date__c.year();
+                Date myDate = Date.newInstance(yr,mon,dy);
+                Integer myHour = visitData.Initial_visit_scheduled_time__c.hour();
+                Integer myMin = visitData.Initial_visit_scheduled_time__c.minute();
+                Integer mySecond = visitData.Initial_visit_scheduled_time__c.second();
+                Integer myMillisecond = visitData.Initial_visit_scheduled_time__c.millisecond();
+                Time myTime = Time.newInstance(myHour, myMin, mySecond, myMillisecond);
+				DateTime objDT = DateTime.newInstance( myDate, myTime );
+                DateTime newDateTime = objDT.addMinutes(30);
+                if(newDateTime< system.now()){
+                    boxVisitCSS = 'box-visit-screen disabled';
+                }
                 string completeName =
                     visitData.Participant_Name__c +
                     ' ' +
