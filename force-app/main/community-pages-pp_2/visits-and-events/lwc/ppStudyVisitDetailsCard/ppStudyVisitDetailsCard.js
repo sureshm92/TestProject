@@ -647,6 +647,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.selectedReminderDateTime = '';
         this.selectedReminderDate = '';
         this.selectedReminderTime = '';
+        this.showreminderdatepicker = false;
+        this.reminderChanged = true;
         this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.showEmailSms = false;
