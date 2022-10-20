@@ -1,6 +1,6 @@
 global with sharing class Batch_UpdatetimestampsexistingContacts implements Database.Batchable<sObject>{
-    public static List<String> perIds = new List<String>
-    public static List<String> perExcludeIds = new List<String>
+    public  List<String> perIds = new List<String>();
+    public  List<String> perExcludeIds = new List<String>();
     public Batch_UpdatetimestampsexistingContacts(List<String> perIds, List<String> perExcludeIds){
         this.perIds = perIds ;
         this.perExcludeIds = perExcludeIds;
