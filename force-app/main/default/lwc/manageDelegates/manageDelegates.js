@@ -3,11 +3,12 @@ import { NavigationMixin } from 'lightning/navigation';
 import BTN_Add_New_Delegate from '@salesforce/label/c.Add_New_Delegate';
 import PP_ManageDelegates from '@salesforce/label/c.PP_ManageDelegates';
 import PP_Remove from '@salesforce/label/c.PP_Remove';
-import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
+//import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 import { loadScript } from 'lightning/platformResourceLoader';
 import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
+import getPDE from '@salesforce/apex/PatientDelegateEnrollmentService.getPDE';
 import {
     subscribe,
     unsubscribe,
@@ -20,6 +21,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     @api isDesktop;
     @api consentPreferenceData;
     @api userMode;
+    @api isRTL;
     @wire(MessageContext)
     messageContext;
     subscription = null;
@@ -61,16 +63,6 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         }
     ];
 
-    /*pdWrapper 
-          Patient Delegate List( contID, Email, Full Name) 
-          PDEnrollment( PER.Study.CTP.StudyCOdeName, Id)
-
-    
-    */
-
-        
-        
-    }]
     connectedCallback() {
         //this.spinner = true;
         // Get Initial Load Data
@@ -82,15 +74,25 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                     this.isDesktop = false;
                 }
             });
-            getisRTL()
-                .then((data) => {
-                    this.isRTL = data;
-                })
-                .catch(function (error) {
-                    console.error('Error RTL: ' + JSON.stringify(error));
-                });
+            // getisRTL()
+            //     .then((data) => {
+            //         this.isRTL = data;
+            //     })
+            //     .catch(function (error) {
+            //         console.error('Error RTL: ' + JSON.stringify(error));
+            //     });
         }
+        this.initializeData();
         this.subscribeToMessageChannel();
+    }
+    initializeData() {
+        getPDE()
+            .then((returnValue) => {
+                console.log('success--', JSON.stringify(returnValue));
+            })
+            .catch((error) => {
+                console.log('error--', error);
+            });
     }
     //Subscribe the message channel to read the message published.
     subscribeToMessageChannel() {

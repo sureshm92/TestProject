@@ -222,6 +222,7 @@
                             isDesktop="{!v.isDesktop}"
                             consentPreferenceData="{!v.consentPreferenceData}"
                             userMode="{!v.userMode}"
+                            isRTL="{!v.isRTLLanguage}"
                         />
                         <!-- <c:ppAddNewDelegate selectedParent="{!v.contact.Id}"> </c:ppAddNewDelegate> -->
                     </aura:if>
