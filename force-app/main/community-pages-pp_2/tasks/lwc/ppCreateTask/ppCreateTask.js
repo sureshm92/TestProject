@@ -123,6 +123,7 @@ export default class PpCreateTask extends LightningElement {
             }
         } else {
             this.taskNameLeng = 0;
+            this.subject = '';
         }
     }
     handleInitialDateLoad(event) {
