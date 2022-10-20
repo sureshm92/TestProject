@@ -363,7 +363,6 @@ export default class Pir_sharingFormFields extends LightningElement {
             else{
                 let checkboxUS = this.template.querySelector('[data-name="attestCheckboxUS"]').checked;
                 let emailDel=this.template.querySelector('[data-name="email"]').value;
-                console.log(checkboxUS,'+++',emailDel);
                 if(checkboxUS && emailDel!='') {
                     this.isValid = false;
                 }
