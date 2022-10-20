@@ -6,7 +6,7 @@ public without sharing class PatientDelegateEnrollmentService {
     private Boolean isDelegate = false;
     public Boolean hasDelegates = false;
     private Participant__c participant;
-    public static list<PatientDelegateEnrollmentsWrapper> listPDEWrapper = new List<PatientDelegateEnrollmentsWrapper>();
+    public list<PatientDelegateEnrollmentsWrapper> listPDEWrapper = new List<PatientDelegateEnrollmentsWrapper>();
 
     public list<PatientDelegateEnrollmentsWrapper> PdeWrapper;
     public static PatientDelegateEnrollmentService getInstance() {
