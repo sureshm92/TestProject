@@ -17,7 +17,9 @@
                                 {label.taskMarkCompleteHeader}
                             </div></lightning-layout-item
                         >
-                        <lightning-layout-item style="margin-left: 5rem; margin-top: 2rem">
+                        <lightning-layout-item
+                            style="margin-left: 5rem; margin-top: 2rem; cursor: pointer"
+                        >
                             <lightning-icon
                                 icon-name="utility:close"
                                 size="small"
@@ -72,7 +74,7 @@
                 <template if:false={item.systemTask}>
                     <template if:false={item.isClosed}>
                         <c-web-icon
-                            class="open-task-icon slds-p-left_medium empty-oval"
+                            class={webIconClass}
                             icon-name="icon-opentask"
                             icon-color=""
                             onclick={showTaskCompleteModal}
@@ -85,7 +87,7 @@
                     </template>
                     <template if:true={item.isClosed}>
                         <c-web-icon
-                            class="open-task-icon slds-p-left_medium empty-oval"
+                            class={webIconClass}
                             icon-name="icon-completedtask"
                             onclick={showTaskCompleteModal}
                             onmouseover={fillTheOpenIcon}
@@ -141,12 +143,13 @@
                         </lightning-layout-item>
                     </lightning-layout>
                 </template>
+
                 <template if:true={item.completed}>
                     <lightning-layout
                         ><lightning-layout-item size="12"
                             ><span class={dueTimeClass}
                                 >Completed : &nbsp;
-
+                                <template if:true={isMobile}><br /></template>
                                 <lightning-formatted-date-time
                                     value={item.task.Completed_Date__c}
                                     year="numeric"
