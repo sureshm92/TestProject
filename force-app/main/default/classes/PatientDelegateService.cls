@@ -608,13 +608,35 @@ public without sharing class PatientDelegateService {
         String filter,
         Boolean includeDelegates
     ) {
+        Id delContactId = CommunityService.getInstance().getCurrentContactId();
+        Set<Id> delPeidsset = new Set<Id>();
+        List<Id> delPeids = new List<Id>();
         if (filter == null)
             filter = '';
         String ownPEFilter =
             'Participant__r.Contact__c IN ' + DatabaseService.listToString(contactIds);
-        if (!String.isEmpty(filter))
-            ownPEFilter += ' AND ' + filter;
-        List<Participant_Enrollment__c> ownPEList = DatabaseService.query(
+
+            if(contactIds != null && delContactId != contactIds[0]){
+                Map<Id,Patient_Delegate_Enrollment__c> pdeList = new Map<Id,Patient_Delegate_Enrollment__c>([
+                    SELECT Id, Participant_Enrollment__c, Participant_Enrollment__r.Participant_Status__c,Patient_Delegate__r.Contact__c,Patient_Delegate__c,Patient_Delegate__r.Participant__c,Name,Status__c,Participant_Enrollment__r.study__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE Patient_Delegate__r.Contact__c =: delContactId AND Status__c = 'Active']);
+                if(!pdeList.isEmpty() && pdeList != null){
+                    for(Patient_Delegate_Enrollment__c pde : pdeList.values()){
+                        delPeidsset.add(pde.Participant_Enrollment__c);
+                    }    
+                }
+            }
+            if(delPeidsset != null) delPeids.addAll(delPeidsset);
+            if (!String.isEmpty(filter) && delPeids != null && delPeids.size()>0){
+                filter += ' AND Id IN ' +DatabaseService.listToString(delPeids);
+                ownPEFilter += ' AND ' + filter;
+                system.debug('ownPEFilter:::'+ownPEFilter);
+            }
+            else if (!String.isEmpty(filter)){
+                ownPEFilter += ' AND ' + filter;
+            }
+            List<Participant_Enrollment__c> ownPEList = DatabaseService.query(
             new List<String>{ 'Participant__c', 'Participant__r.Contact__c' },
             Participant_Enrollment__c.getSObjectType(),
             ownPEFilter
