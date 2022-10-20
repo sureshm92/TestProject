@@ -37,7 +37,7 @@
                     ontime={handleOnlyTime}
                 ></c-pp-date-time-combo>
                 <div if:true={past} class="slds-grid slds-wrap">
-                    <div class="slds-col slds-size_1-of-2 slds-p-left_none">
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-left_none">
                         {label.date}
                         <div class="curve-input">
                             <c-web-icon
@@ -56,9 +56,9 @@
             <div>
                 <div class="slds-grid slds-wrap">
                     <div
-                        class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-p-horizontal_none"
+                        class="slds-size_1-of-1 slds-small-size_1-of-2 slds-p-right_x-small slds-p-left_none"
                     >
-                        <div class="full-width" if:false={past}>
+                        <div if:false={past}>
                             <label>{label.reminder}</label>
                             <div class="curve-input">
                                 <c-web-icon
@@ -93,9 +93,9 @@
                                 label={label.email}
                                 type="checkbox"
                                 name={label.email}
-                                value={visitdata.task.Remind_Using_Email__c}
+                                value={email}
                                 disabled={emailOptIn}
-                                checked={visitdata.task.Remind_Using_Email__c}
+                                checked={email}
                                 onchange={setAttributeValueEmail}
                             ></lightning-input>
                             <lightning-input
@@ -103,9 +103,9 @@
                                 type="checkbox"
                                 label={label.sms}
                                 name={label.sms}
-                                value={visitdata.task.Remind_Using_SMS__c}
+                                value={sms}
                                 disabled={smsOptIn}
-                                checked={visitdata.task.Remind_Using_SMS__c}
+                                checked={sms}
                                 onchange={setAttributeValueSms}
                             ></lightning-input>
                         </div>

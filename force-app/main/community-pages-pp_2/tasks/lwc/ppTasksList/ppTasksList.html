@@ -55,34 +55,45 @@
                         data-status={item.task.Status}
                         data-index={item.task.Id}
                     >
-                        <c-web-icon class="sys-task" icon-name="task-illustration" icon-size="big">
-                        </c-web-icon>
-                    </div>
-                </template>
-                <template if:false={item.systemTask}>
-                    <div
-                        class="slds-p-around_medium empty-oval"
-                        onclick={showTaskCompleteModal}
-                        onmouseover={fillTheOpenIcon}
-                        onmouseout={fillTheOpenIcon}
-                        data-index={item.task.Id}
-                        data-status={item.task.Status}
-                    >
-                        <template if:false={item.isClosed}>
+                        <template if:false={item.businessTask}>
                             <c-web-icon
-                                class="open-task-icon"
-                                icon-name="icon-opentask"
-                                icon-color=""
+                                class="sys-task"
+                                icon-name="task-illustration"
+                                icon-size="big"
                             >
                             </c-web-icon>
                         </template>
-                        <template if:true={item.isClosed}>
-                            <c-web-icon
-                                class="open-task-icon"
-                                icon-name="icon-completedtask"
-                            ></c-web-icon>
+                        <template if:true={item.businessTask}>
+                            <c-web-icon class="sys-task" icon-name="task-survey" icon-size="big">
+                            </c-web-icon>
                         </template>
                     </div>
+                </template>
+                <template if:false={item.systemTask}>
+                    <template if:false={item.isClosed}>
+                        <c-web-icon
+                            class="open-task-icon slds-p-left_medium empty-oval"
+                            icon-name="icon-opentask"
+                            icon-color=""
+                            onclick={showTaskCompleteModal}
+                            onmouseover={fillTheOpenIcon}
+                            onmouseout={fillTheOpenIcon}
+                            data-index={item.task.Id}
+                            data-status={item.task.Status}
+                        >
+                        </c-web-icon>
+                    </template>
+                    <template if:true={item.isClosed}>
+                        <c-web-icon
+                            class="open-task-icon slds-p-left_medium empty-oval"
+                            icon-name="icon-completedtask"
+                            onclick={showTaskCompleteModal}
+                            onmouseover={fillTheOpenIcon}
+                            onmouseout={fillTheOpenIcon}
+                            data-index={item.task.Id}
+                            data-status={item.task.Status}
+                        ></c-web-icon>
+                    </template>
                 </template>
             </lightning-layout-item>
             <lightning-layout-item size="8" class="mob-task-sub" padding="around-small">

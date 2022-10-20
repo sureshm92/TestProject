@@ -13,7 +13,7 @@
 }
 
 .location-title {
-    padding: 0 1.5rem 1rem;
+    padding: 0 1rem 1rem;
 }
 
 .site-name {
@@ -27,7 +27,7 @@
 }
 
 .address-section {
-    padding: 0 1.5rem 0.5rem;
+    padding: 0 1rem 0.5rem;
     display: flex;
 }
 
@@ -56,6 +56,7 @@
     border: 1px solid #d9d9d9;
     padding-left: 2.25rem;
     background-color: #f2f2f2;
+    padding-left: 55px;
 }
 
 .curve-input:focus-within,
@@ -82,6 +83,7 @@
 
 .curve-input input[type='date']:disabled {
     background: #f2f2f2;
+    padding-left: 1rem;
 }
 
 input[type='date']::-webkit-calendar-picker-indicator,
@@ -138,7 +140,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
 }
 
 @media all and (min-width: 768px) and (max-width: 870px) {
-    .slds-small-size_1-of-2.slds-p-horizontal_none {
+    .slds-small-size_1-of-2.slds-p-left_none {
         min-width: 100%;
         padding-left: 0;
         padding-right: 0;
@@ -170,6 +172,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
 @media all and (max-width: 486px) {
     .btn-footer {
         padding-bottom: 0.25rem;
+        padding-bottom: 0.25rem;
     }
 
     .curve-input {
@@ -189,6 +192,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
         justify-content: flex-start;
         padding-left: 1.5rem;
     }
+
     .slds-grid {
         padding: 0 0.75rem 0 0.75rem;
     }
