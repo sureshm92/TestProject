@@ -1,14 +1,24 @@
 global with sharing class Batch_UpdatetimestampsexistingContacts implements Database.Batchable<sObject>{
+    public static List<String> perIds = new List<String>
+    public static List<String> perExcludeIds = new List<String>
+    public Batch_UpdatetimestampsexistingContacts(List<String> perIds, List<String> perExcludeIds){
+        this.perIds = perIds ;
+        this.perExcludeIds = perExcludeIds;
+    }
     global Database.QueryLocator start(Database.BatchableContext bc) {
         List<String> filedsList = new List<String>{'Participant_Opt_In_Status_Emails__c','Participant_Phone_Opt_In_Permit_Phone__c','Participant_Opt_In_Status_SMS__c','IQVIA_Contact_info_storage_consent__c'};
-        List<String> ID_LIST = new List<String>{'0038E00001LnfCjQAJ','0033N00000dkclUQAQ','0038E00001Ll0JxQAJ'};
         String query  = 'Select Id,createddate,IQVIA_Email_Consent_Time__c,IQVIA_Phone_Consent_Time__c,IQVIA_SMS_Consent_Time__c,IQVIA_Contact_info_storage_consent__c,IQVIA_PI_Storage_Consent_Time__c,';
         query += 'Participant_Opt_In_Status_SMS__c,Participant_Opt_In_Status_Emails__c,Participant_Phone_Opt_In_Permit_Phone__c,IQVIA_Direct_Mail_Consent_Time__c,';
         query += 'IQVIA_Direct_Mail_Consent__c,IQVIA_Pre_recorded_Voice_Consent__c,IQVIA_Assisted_Dialing_Consent_Time__c,IQVIA_Pre_recorded_Calls_Consent_Time__c,';
         query += '(Select id,ContactId ,Field, OldValue , NewValue,createddate from Histories where Field IN :filedsList)';
-        query += ' from contact where ID IN: ID_LIST';
-        //query += '(IQVIA_Email_Consent_Time__c = null or IQVIA_Phone_Consent_Time__c = null or IQVIA_SMS_Consent_Time__c = null)';
-        //query += 'or (Permit_Mail_Email_contact_for_this_study__c = true or Permit_SMS_Text_for_this_study__c = true or Permit_Voice_Text_contact_for_this_study__c = true)';
+        query += ' from contact ';
+        if(perIds.size()>0 && perExcludeIds.size()>0){
+            query += ' where ID IN: perIds and ID NOT IN:perExcludeIds';
+        }else if(perExcludeIds.size()>0){
+            query += ' where ID NOT IN:perExcludeIds';
+        }else if(perIds.size()>0){
+            query += ' where ID IN: perIds';
+        }
         return Database.getQueryLocator(query);
     }
     global void execute(Database.BatchableContext bc, List<contact> scope){
