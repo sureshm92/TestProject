@@ -154,8 +154,10 @@
             component.set('v.delegateDuplicateInfo',null);
         }
         var sendToSH = false;
-        if(component.get('v.ctp').Promote_to_SH__c == true && component.get('v.ctp').DCT_Platform__c == 'Study Hub'){
-            sendToSH = true;
+        if(component.get('v.ctp').Promote_to_SH__c == true && 
+            component.get('v.ctp').DCT_Platform__c == 'Study Hub' &&
+            component.get('v.ctp').Initial_Visit_Required__c == false){
+                sendToSH = true;
         }
                 var action2 = component.get("c.savePER");
                 action2.setParams({
