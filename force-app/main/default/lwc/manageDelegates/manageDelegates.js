@@ -8,7 +8,7 @@ import { loadScript } from 'lightning/platformResourceLoader';
 import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
-import getPDE from '@salesforce/apex/PatientDelegateEnrollmentService.getPDE';
+//import getPDE from '@salesforce/apex/PatientDelegateEnrollmentService.getPDE';
 import {
     subscribe,
     unsubscribe,
@@ -82,7 +82,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             //         console.error('Error RTL: ' + JSON.stringify(error));
             //     });
         }
-        this.initializeData();
+        //this.initializeData();
         this.subscribeToMessageChannel();
     }
     initializeData() {
