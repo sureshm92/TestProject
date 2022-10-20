@@ -155,9 +155,7 @@ public without sharing class CommunityModeService {
         Participant__c userParticipant;
         if (!userParticipants.isEmpty())
             userParticipant = userParticipants[0];
-        /*List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(
-            contactId
-        );*/
+
         PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedParticipantIdsMap(
             contactId
         );
@@ -554,9 +552,7 @@ public without sharing class CommunityModeService {
         Participant__c userParticipant;
         if (userParticipants.size() > 0)
             userParticipant = userParticipants[0];
-        /*List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(
-            UserContext.getUserContactId()
-        );*/
+            
         PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedParticipantIdsMap(
             UserContext.getUserContactId()
         );
