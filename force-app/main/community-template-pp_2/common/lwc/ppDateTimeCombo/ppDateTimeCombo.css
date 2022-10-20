@@ -67,6 +67,11 @@ input[type='date']::-webkit-calendar-picker-indicator,
     width: 100%;
     opacity: 0;
 }
+
+.slds-input::placeholder {
+    font-size: .875rem;
+}
+
 .task-due-date-time {
     height: 273px;
     width: 334px;
