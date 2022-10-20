@@ -28623,6 +28623,8 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>PP_EnterNewPassword</shortDescription>
         <value>Enter New Password</value>
+    </labels>
+    <labels>
         <fullName>PP_Change_Preferences</fullName>
         <language>en_US</language>
         <protected>false</protected>
