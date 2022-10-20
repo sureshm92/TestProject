@@ -10,9 +10,9 @@ global with sharing class Batch_UpdatetimestampsexistingContacts implements Data
 
     global Database.QueryLocator start(Database.BatchableContext bc) {
         List<String> filedsList = new List<String>{'Participant_Opt_In_Status_Emails__c','Participant_Phone_Opt_In_Permit_Phone__c','Participant_Opt_In_Status_SMS__c','IQVIA_Contact_info_storage_consent__c'};
-        String query  = 'Select Id,createddate,IQVIA_Email_Consent_Time__c,IQVIA_Phone_Consent_Time__c,IQVIA_SMS_Consent_Time__c,IQVIA_Contact_info_storage_consent__c,IQVIA_PI_Storage_Consent_Time__c,';
+        String query  = 'Select Id,createddate,IQVIA_Email_Consent_Time__c,IQVIA_Phone_Consent_Time__c,IQVIA_Artificial_Voice_Consent__c,IQVIA_SMS_Consent_Time__c,IQVIA_Contact_info_storage_consent__c,IQVIA_PI_Storage_Consent_Time__c,';
         query += 'Participant_Opt_In_Status_SMS__c,Participant_Opt_In_Status_Emails__c,Participant_Phone_Opt_In_Permit_Phone__c,IQVIA_Direct_Mail_Consent_Time__c,';
-        query += 'IQVIA_Direct_Mail_Consent__c,IQVIA_Pre_recorded_Voice_Consent__c,IQVIA_Assisted_Dialing_Consent_Time__c,IQVIA_Pre_recorded_Calls_Consent_Time__c,';
+        query += 'IQVIA_Direct_Mail_Consent__c,IQVIA_Assisted_Dialing_Consent__c,IQVIA_Pre_recorded_Voice_Consent__c,IQVIA_Assisted_Dialing_Consent_Time__c,IQVIA_Pre_recorded_Calls_Consent_Time__c,';
         query += '(Select id,ContactId ,Field, OldValue , NewValue,createddate from Histories where Field IN :filedsList)';
         query += ' from contact ';
         if(perIds.size()>0 && perExcludeIds.size()>0){
