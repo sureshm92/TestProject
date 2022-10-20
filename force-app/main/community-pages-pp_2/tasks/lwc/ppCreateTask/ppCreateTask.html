@@ -55,7 +55,7 @@
                                                 icon-color="#C42EA5"
                                             ></c-pp-date-time-combo>
                                             <!--Task Reminder Section-->
-                                            <template if:true={initData}
+                                            <template if:true={taskInitData}
                                                 ><c-pp-create-task-reminder
                                                     init-data={initData}
                                                     current-date={currentDate}
@@ -147,7 +147,7 @@
                                                 icon-color="#C42EA5"
                                             ></c-pp-date-time-combo>
                                             <!--Task Reminder Section-->
-                                            <template if:true={initData}
+                                            <template if:true={taskInitData}
                                                 ><c-pp-create-task-reminder
                                                     init-data={initData}
                                                     current-date={currentDate}
