@@ -7,10 +7,13 @@
         } else {
             component.set('v.isDelegate', false);
         }
-		component.set('v.participantState', communityService.getCurrentCommunityMode().participantState);
-        var device = $A.get("$Browser.formFactor");
-        if (device=='PHONE'){
-            component.set('v.isDesktop',false);
+        component.set(
+            'v.participantState',
+            communityService.getCurrentCommunityMode().participantState
+        );
+        var device = $A.get('$Browser.formFactor');
+        if (device == 'PHONE') {
+            component.set('v.isDesktop', false);
         }
         communityService.executeAction(
             component,
@@ -19,7 +22,7 @@
                 userMode: component.get('v.userMode')
             },
             function (returnValue) {
-                let initData = JSON.parse(returnValue);                
+                let initData = JSON.parse(returnValue);
                 initData.password = {
                     old: '',
                     new: '',
@@ -42,6 +45,8 @@
                     component.set('v.compId', '6');
                 } else if (queryString.includes('notify')) {
                     component.set('v.compId', '7');
+                } else if (queryString.includes('manage-delegates')) {
+                    component.set('v.compId', '8');
                 } else {
                     console.log('URL param not found!');
                 }
@@ -54,7 +59,7 @@
                 component.set('v.optInEmail', initData.contactSectionData.personWrapper.optInEmail);
                 component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
                 component.set('v.userType', initData.myContact.UserCommunytyType__c);
-                component.set('v.consentPreferenceData', initData.consentPreferenceData);                
+                component.set('v.consentPreferenceData', initData.consentPreferenceData);
                 var userType = initData.myContact.userCommunytyType__c;
                 if (userType)
                     if (userType.includes('HCP') && component.get('v.userMode') == 'PI')
@@ -78,7 +83,7 @@
         component.set('v.toglNavg', false);
     },
     // Added for REF-2736 bug fixing
-     onClick: function (component, event, helper) {
+    onClick: function (component, event, helper) {
         var y = document.getElementById('selectOption');
         var toglNavg = component.get('v.toglNavg');
         toglNavg = !toglNavg;
@@ -87,8 +92,8 @@
         var id = event.target.dataset.menuItemId;
         component.set('v.compId', id);
         var compId = component.get('v.compId');
-        
-        if (device == 'PHONE'|| device == 'TABLET') {
+
+        if (device == 'PHONE' || device == 'TABLET') {
             for (var i = 1; i < 7; i++) {
                 var x = document.getElementById(i);
                 if (id != i && !toglNavg) {
@@ -104,25 +109,27 @@
         }
 
         if (compId == '1') {
-            window.history.replaceState(null, null, "?profileInformation");
+            window.history.replaceState(null, null, '?profileInformation');
             //communityService.navigateToPage('account-settings?profileInformation');
         } else if (compId == '4') {
-            window.history.replaceState(null, null, "?langloc");
+            window.history.replaceState(null, null, '?langloc');
             //communityService.navigateToPage('account-settings?langloc');
         } else if (compId == '5') {
-            window.history.replaceState(null, null, "?changePref");
+            window.history.replaceState(null, null, '?changePref');
             //communityService.navigateToPage('account-settings?changePref');
         } else if (compId == '2') {
-            window.history.replaceState(null, null, "?passwordchange");
+            window.history.replaceState(null, null, '?passwordchange');
             //communityService.navigateToPage('account-settings?passwordchange');
         } else if (compId == '6') {
-            window.history.replaceState(null, null, "?cookiesSettings");
+            window.history.replaceState(null, null, '?cookiesSettings');
             //communityService.navigateToPage('account-settings?cookiesSettings');
         } else if (compId == '7') {
-            window.history.replaceState(null, null, "?notify");
+            window.history.replaceState(null, null, '?notify');
             //communityService.navigateToPage('account-settings?notify');
-        }else if (compId == '3') {
-            window.history.replaceState(null, null, "?communication-preferences");
+        } else if (compId == '3') {
+            window.history.replaceState(null, null, '?communication-preferences');
+        } else if (compId == '8') {
+            window.history.replaceState(null, null, '?manage-delegates');
         } else {
             communityService.navigateToPage('account-settings');
         }
@@ -174,7 +181,5 @@
         let personWrapper = event.getSource().get('v.personWrapper');
         component.set('v.personWrapper', personWrapper);
     },
-    selectPassword : function (component, event, helper){
-    
-	}
+    selectPassword: function (component, event, helper) {}
 });

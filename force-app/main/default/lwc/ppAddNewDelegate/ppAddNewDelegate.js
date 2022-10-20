@@ -1,4 +1,4 @@
-import { LightningElement, track, api } from 'lwc';
+import { LightningElement, track, api, wire } from 'lwc';
 import PG_NTM_L_Personal_Information from '@salesforce/label/c.PG_NTM_L_Personal_Information';
 import PG_AS_F_Email_address from '@salesforce/label/c.PG_AS_F_Email_address';
 import PG_AS_F_First_name from '@salesforce/label/c.PG_AS_F_First_name';
@@ -20,20 +20,35 @@ import PG_NTM_L_Permission_level_will_apply_to_all_studies from '@salesforce/lab
 import PP_DelegateAlreadyExists from '@salesforce/label/c.PP_DelegateAlreadyExists';
 import PP_ActiveDelegateError from '@salesforce/label/c.PP_ActiveDelegateError';
 import TST_You_have_successfully_created_permissions_for from '@salesforce/label/c.TST_You_have_successfully_created_permissions_for';
-import Profile_Information from '@salesforce/label/c.Profile_Information';
+//import Profile_Information from '@salesforce/label/c.Profile_Information';
 
 import getContactData from '@salesforce/apex/MyTeamRemote.getContactData';
 import getMaxLength from '@salesforce/apex/MyTeamRemote.getMaxLength';
 import isExistingDelegate from '@salesforce/apex/MyTeamRemote.isExistingDelegate';
 import savePatientDelegate from '@salesforce/apex/MyTeamRemote.savePatientDelegate';
+import getFilterData from '@salesforce/apex/MyTeamRemote.getFilterData';
 import PP_Attestation_Confirmation_Message_For_Teams from '@salesforce/label/c.PP_Attestation_Confirmation_Message_For_Teams';
 import PP_Email_Error from '@salesforce/label/c.PP_Email_Error';
 import PP_Required_Field from '@salesforce/label/c.PP_Required_Field';
+import PP_Delegate_Email_Consent from '@salesforce/label/c.PP_Delegate_Email_Consent';
+import Add_New_Delegate from '@salesforce/label/c.Add_New_Delegate';
+import Btn_Add_Delegate from '@salesforce/label/c.Add_Delegate';
+import Back_to_Manage_Delegates from '@salesforce/label/c.Back_to_Manage_Delegates';
+import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 
-export default class PpNewTeamMember extends LightningElement {
+import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
+import {
+    publish,
+    subscribe,
+    unsubscribe,
+    MessageContext,
+    APPLICATION_SCOPE
+} from 'lightning/messageService';
+export default class PpAddNewDelegate extends LightningElement {
     @track delegate = {};
     @api selectedParent;
     isAttested = false;
+    isEmailConsentChecked = false;
     @track allTrialLevel = {};
     isDelegateExisting = false;
     cmpinitialized = false;
@@ -52,7 +67,11 @@ export default class PpNewTeamMember extends LightningElement {
     isDelegateActive = false;
     spinner = false;
     isLoading = false;
-
+    @track delegateFilterData = [];
+    @wire(MessageContext)
+    messageContext;
+    subscription = null;
+    icon_url = pp_icons + '/Chevron-Right-Blue.svg';
     label = {
         PG_NTM_L_Personal_Information,
         PG_NTM_L_Team_member,
@@ -70,10 +89,14 @@ export default class PpNewTeamMember extends LightningElement {
         PG_NTM_BTN_Back_to_My_Team,
         PG_NTM_L_Already_Exists,
         TST_You_have_successfully_created_permissions_for,
-        Profile_Information,
+        //Profile_Information,
         PP_Attestation_Confirmation_Message_For_Teams,
         PP_Email_Error,
-        PP_Required_Field
+        PP_Required_Field,
+        PP_Delegate_Email_Consent,
+        Add_New_Delegate,
+        Btn_Add_Delegate,
+        Back_to_Manage_Delegates
     };
     backToDelegates(event) {
         const selectedEvent = new CustomEvent('backtodelegates', {
@@ -110,34 +133,6 @@ export default class PpNewTeamMember extends LightningElement {
             } else return false;
         } else return false;
     }
-    /*get delexistingmsg() {
-        if (this.delegate) {
-            if (
-                this.delegate.delegateContact != undefined &&
-                this.delegate.delegateContact != '' &&
-                this.delegate.delegateContact != null
-            ) {
-                if (
-                    this.delegate.delegateContact.Id != undefined &&
-                    this.delegate.delegateContact.Id != null &&
-                    this.delegate.delegateContact.Id != ''
-                ) {
-                    if (!this.isStaff) {
-                        return (
-                            this.label.PG_PST_L_Delegates_Delegate +
-                            ' ' +
-                            this.delegate.delegateContact.FirstName +
-                            ' ' +
-                            this.delegate.delegateContact.LastName +
-                            ' ' +
-                            this.label.PG_NTM_L_Already_Exists
-                        );
-                    }
-                }
-            }
-        }
-    }
-    */
 
     get validateData() {
         let savedisabled = false;
@@ -150,11 +145,12 @@ export default class PpNewTeamMember extends LightningElement {
             this.delegate.delegateContact.LastName == '' ||
             this.delegate.delegateContact.LastName.length == 0 ||
             this.delegate.delegateContact.Id == this.currentUserContactId ||
-            !this.isAttested;
+            !this.isAttested ||
+            !this.isEmailConsentChecked;
         return savedisabled;
     }
     get saveButtonClass() {
-        return this.validateData ? 'profile-info-btn btn-save-opacity' : 'profile-info-btn';
+        return this.validateData ? 'save-del-btn btn-save-opacity' : 'save-del-btn';
     }
     handleDateChange(event) {
         if (event.currentTarget.dataset.id == 'firstNameInput') {
@@ -171,6 +167,9 @@ export default class PpNewTeamMember extends LightningElement {
         }
         if (event.currentTarget.dataset.id == 'consentcheck') {
             this.isAttested = event.target.checked;
+        }
+        if (event.currentTarget.dataset.id == 'emailconsentcheck') {
+            this.isEmailConsentChecked = event.target.checked;
         }
     }
     connectedCallback() {
@@ -197,7 +196,12 @@ export default class PpNewTeamMember extends LightningElement {
                 })
                 .catch((error) => {
                     this.isLoading = false;
-                    communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                    communityService.showToast(
+                        '',
+                        'error',
+                        'Failed To read the Data(Max Length)...',
+                        100
+                    );
                     this.spinner = false;
                 });
             if (
@@ -231,15 +235,66 @@ export default class PpNewTeamMember extends LightningElement {
                     .catch((error) => {
                         //alert('error');
                         this.isLoading = false;
-                        communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                        communityService.showToast(
+                            '',
+                            'error',
+                            'Failed To read the Data(Contact Data)...',
+                            100
+                        );
+                        this.spinner = false;
+                    });
+                //get Available list of studies of participant
+                getFilterData({
+                    userMode: this.userMode
+                })
+                    .then((result) => {
+                        this.delegateFilterData = result;
+                        //Sent the List of studies via LMS to child component.
+                        this.sendpiclistValues();
+                        this.isLoading = false;
+                        this.spinner = false;
+                    })
+                    .catch((error) => {
+                        this.isLoading = false;
+                        communityService.showToast(
+                            '',
+                            'error',
+                            'Failed To read the Data(study Filter)...',
+                            100
+                        );
                         this.spinner = false;
                     });
             }
+            this.subscribeToMessageChannel();
         } else {
             //alert('else block');
             console.log('else block');
         }
     }
+    disconnectedCallback() {
+        this.unsubscribeToMessageChannel();
+    }
+
+    //Encapsulate logic for Lightning message service subscribe and unsubsubscribe
+    subscribeToMessageChannel() {
+        if (!this.subscription) {
+            this.subscription = subscribe(
+                this.messageContext,
+                messageChannel,
+                (message) => this.handleMessage(message),
+                { scope: APPLICATION_SCOPE }
+            );
+        }
+    }
+    //Handler for message received by Aura component
+    handleMessage(message) {
+        this.delegateFilterData.studiesSelected = message.selectedListOfStudies;
+    }
+    unsubscribeToMessageChannel() {
+        unsubscribe(this.subscription);
+        this.subscription = null;
+    }
+
     //Partially Mask the field
     partiallyMaskFields(value) {
         let maskedValue = '';
@@ -404,6 +459,8 @@ export default class PpNewTeamMember extends LightningElement {
                         JSON.stringify(delegate.delegateContact)
                 );
                 console.log('isAttested' + this.isAttested);
+                console.log('isEmailConsentChecked' + this.isEmailConsentChecked);
+
                 isExistingDelegate({
                     delegate: JSON.stringify(delegate.delegateContact)
                 })
@@ -435,7 +492,7 @@ export default class PpNewTeamMember extends LightningElement {
                         } else {
                             savePatientDelegate({
                                 delegate: JSON.stringify(delegate.delegateContact),
-                                delegateFilterData: null //Passing Null for now, we can pass actual data when we do Delegate redesign for PP lite.
+                                delegateFilterData: JSON.stringify(this.delegateFilterData)
                             })
                                 .then((result) => {
                                     communityService.showToast(
@@ -450,6 +507,7 @@ export default class PpNewTeamMember extends LightningElement {
                                         100
                                     );
                                     this.isAttested = false;
+                                    this.isEmailConsentChecked = false;
                                     this.template.querySelector(
                                         '[data-id="firstNameInput"]'
                                     ).value = '';
@@ -458,6 +516,7 @@ export default class PpNewTeamMember extends LightningElement {
 
                                     this.template.querySelector('[data-id="emailInput"]').value =
                                         '';
+                                    this.sendFilterUpdates();
                                     this.isLoading = false;
                                 })
                                 .catch((error) => {
@@ -467,7 +526,12 @@ export default class PpNewTeamMember extends LightningElement {
                         }
                     })
                     .catch((error) => {
-                        communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                        communityService.showToast(
+                            '',
+                            'error',
+                            'Failed To read the Data(existing Delegate)...',
+                            100
+                        );
                         this.spinner = false;
                         this.isLoading = false;
                     });
@@ -493,5 +557,30 @@ export default class PpNewTeamMember extends LightningElement {
         this.isCorrectContactData =
             delegate.delegateContact.FirstName.trim() !== '' &&
             delegate.delegateContact.LastName.trim() !== '';
+    }
+    //Send Reset All to True to child component PP_MultiPickistLWC to reset the multipicklist value.
+    //This LMS will be subscribe in connectedCallback in PP_MultiPickistLWC LWC comp.
+    sendFilterUpdates() {
+        const returnPayload = {
+            ResetAll: true
+        };
+        publish(this.messageContext, messageChannel, returnPayload);
+    }
+    //Send Study Picklist value to Child component.
+    //This LMS will be subscribe in connectedCallback in PP_MultiPickistLWC LWC comp.
+    sendpiclistValues() {
+        const returnPayload = {
+            piclistValues: this.delegateFilterData.studies
+        };
+        publish(this.messageContext, messageChannel, returnPayload);
+    }
+
+    //Go back to manage delegate page
+    //This LMS will be subscribe in connectedCallback in ManageDelegate LWC comp.
+    goBackToManageDelegate() {
+        const returnPayload = {
+            showAddDelegatePage: false
+        };
+        publish(this.messageContext, messageChannel, returnPayload);
     }
 }
