@@ -3,13 +3,17 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
     public Batch_UpdatetimestampsforexistingPER(List<String> contactExcludeIds){
         this.contactExcludeIds = contactExcludeIds;
     }
+    public Batch_UpdatetimestampsforexistingPER(){}
+
     global Database.QueryLocator start(Database.BatchableContext bc) {
         List<String> filedsList = new List<String>{'Permit_Mail_Email_contact_for_this_study__c','Permit_Voice_Text_contact_for_this_study__c','Permit_SMS_Text_for_this_study__c','Permit_IQVIA_to_contact_about_study__c'};
         String query  = 'Select id,CreatedDate,Study_Email_Consent_Time__c,Study_Phone_Consent_Time__c,Study_Pre_recorded_Calls_Consent_Time__c,Study_Artificial_Voice_Consent_Time__c,Study_SMS_Consent_Time__c,Study_Assisted_Dialing_Consent_Time__c,Study_PI_Storage_Consent_Time__c,Permit_Mail_Email_contact_for_this_study__c,';
         query += 'Participant__r.Mailing_Country_Code__c,Participant__r.Mailing_Country__c,Permit_IQVIA_to_contact_about_study__c,Permit_SMS_Text_for_this_study__c,Study_Direct_Mail_Consent_Time__c,Permit_Voice_Text_contact_for_this_study__c,';
         query = query + '(Select id,parentId,Field, OldValue , NewValue,createddate from Histories where Field IN :filedsList)';
-        query = query + ' from Participant_Enrollment__c where';
-        query = query + ' ID NOT IN:contactExcludeIds';
+        query = query + ' from Participant_Enrollment__c ';
+        if(contactExcludeIds.size()>0){
+            query = query + '  where ID NOT IN:contactExcludeIds';
+        }
         return Database.getQueryLocator(query);
     }
     global void execute(Database.BatchableContext bc, List<Participant_Enrollment__c> scope){

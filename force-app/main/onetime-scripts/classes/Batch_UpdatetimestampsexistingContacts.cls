@@ -5,6 +5,9 @@ global with sharing class Batch_UpdatetimestampsexistingContacts implements Data
         this.perIds = perIds ;
         this.perExcludeIds = perExcludeIds;
     }
+
+    public Batch_UpdatetimestampsexistingContacts(){}
+
     global Database.QueryLocator start(Database.BatchableContext bc) {
         List<String> filedsList = new List<String>{'Participant_Opt_In_Status_Emails__c','Participant_Phone_Opt_In_Permit_Phone__c','Participant_Opt_In_Status_SMS__c','IQVIA_Contact_info_storage_consent__c'};
         String query  = 'Select Id,createddate,IQVIA_Email_Consent_Time__c,IQVIA_Phone_Consent_Time__c,IQVIA_SMS_Consent_Time__c,IQVIA_Contact_info_storage_consent__c,IQVIA_PI_Storage_Consent_Time__c,';
