@@ -12,6 +12,7 @@ import location from '@salesforce/label/c.SS_Location';
 import reminder from '@salesforce/label/c.Home_Page_StudyVisit_Reminder';
 import PREFERENCES from '@salesforce/label/c.PP_TASK_COMM_PREF';
 import saveChanges from '@salesforce/label/c.BTN_Save';
+import REMIND_ME from '@salesforce/label/c.Remind_Me';
 import discard from '@salesforce/label/c.BTN_Cancel';
 import selectreminder from '@salesforce/label/c.Select_reminder';
 import email from '@salesforce/label/c.Email';
@@ -40,7 +41,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         oneweek,
         custom,
         visitdetailsupdated,
-        none
+        none,
+        REMIND_ME
     };
 
     @api visitid;
