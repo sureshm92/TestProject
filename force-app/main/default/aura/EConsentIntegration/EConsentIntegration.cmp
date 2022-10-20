@@ -18,6 +18,7 @@
     <aura:attribute name="usrPermission" type="String" />
     <aura:attribute name="usrStudySiteSize" type="Integer" />
     <aura:attribute name="usrProfilePermission" type="Boolean" default="false" />
+    <aura:attribute name="econsentPermission" type="Boolean" default="false" />
     <aura:handler event="c:EconsentEvent" action="{!c.handleEvents}"/>
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />

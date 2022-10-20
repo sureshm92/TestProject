@@ -35,7 +35,7 @@
                         max={maxdate}
                         onchange={handleDate}
                         placeholder="Enter Date"
-                    />
+                    /> 
                 </div>
             </div>
             <div if:false={past} class={timeClass}>
@@ -73,6 +73,8 @@
                         placeholder={label.timePlaceHolder}
                         message-when-bad-input={label.validTimeFormat}
                         message-when-pattern-mismatch={label.validTimeFormat}
+                        message-when-range-underflow={label.noPastValues}
+                        message-when-range-overflow={label.noFutureValues}
                     >
                     </lightning-input>
                 </div>
