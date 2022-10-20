@@ -81,20 +81,38 @@
                
                   
             </div>
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_10-of-12 slds-m-top_medium slds-m-bottom_medium check-box-m-top" if:false={isDisplay}>
-               <lightning-input 
-                     type="checkbox" 
-                     class="validate checkbox-text" 
-                     label={label.DelegateAttestation}
-                     name="input2" 
-                     required 
-                     data-name="attestCheckbox"
-                     disabled={isAdultDelegate}
-                     onchange={checkFields}
-                     >
-                     
-                  </lightning-input>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_medium slds-m-bottom_small mtop check-box-m-top checkboxalignonePDelegate " if:false={isDisplay}>
+               <div class="label_align">             
+                     <lightning-input 
+                         type="checkbox" 
+                         varient="label-hidden" 
+                         name="input2" 
+                         required
+                         data-name="attestCheckbox"
+                         disabled={isAdultDelegate}
+                         onchange={checkFields}
+                         class="validate checkbox-text checkbox_size slds-form-element">
+                     </lightning-input>
+                      <span class="addParticipantCls"><label >{label.DelegateAttestation}</label></span>
+                  </div>
             </div>
+             <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12  slds-m-bottom_medium check-box-m-top checkboxalignonePDelegate errorcss" if:false={isDisplayConsent}>
+                  <div class="label_align">             
+                        <lightning-input 
+                            type="checkbox" 
+                            varient="label-hidden" 
+                            name="checkoxUS" 
+                            data-name="attestCheckboxUS"
+                            required
+                            onchange={checkFields} 
+                           
+                            disabled={isAdultDelegateUS}
+                            class="validate checkbox-text checkbox_size slds-form-element ">
+                        </lightning-input>
+                         <span class="addParticipantClss"><label >{label.RH_DelegateConsentEmail}</label></span>
+                     </div>
+               </div>
+            
             <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element" if:false={isExistingDelegate}>
                <button class="slds-button apollo-btn secondary connect-patient-btn" disabled={isValid} data-name='connect' onclick={ConnectDelegate}>                                                              
                      {label.ConnectPatient}
