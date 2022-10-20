@@ -586,6 +586,7 @@
     margin-left: 0.5rem;
     color: #ffffff;
 }
+
 .primaryBtn:hover,
 .secondaryBtn:hover {
     text-decoration: none;
@@ -669,7 +670,6 @@ c-pp-study-visit-details-card .slds-card__header {
     background: #fff;
     border: none;
     color: #595959;
-    text-overflow: ellipsis;
 }
 
 .cCustomThemeLayout .curve-input .slds-input[type='time']:focus,
