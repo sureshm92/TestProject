@@ -375,18 +375,19 @@ public without sharing class TasksRemote {
                 expiredTaskList.add(taskObj);
             }
         }
-        resultSortedList.addAll(processSortingForComplete(completedTaskList));
-        resultSortedList.addAll(processSortingForComplete(ignoreTaskList));
-        resultSortedList.addAll(processSortingForComplete(expiredTaskList));
+        resultSortedList.addAll(processSortingForComplete(completedTaskList, 'Completed'));
+        resultSortedList.addAll(processSortingForComplete(ignoreTaskList, 'Ignored'));
+        resultSortedList.addAll(processSortingForComplete(expiredTaskList, 'Expired'));
 
         return resultSortedList;
     }
 
-    public static List<Task> processSortingForComplete(List<Task> tasksList) {
+    public static List<Task> processSortingForComplete(List<Task> tasksList, String taskStatus) {
         Map<Datetime, List<Task>> tasksMapwithDueDate = new Map<Datetime, List<Task>>();
         Map<Datetime, List<Task>> tasksMapwithStartDate = new Map<Datetime, List<Task>>();
         Map<Datetime, List<Task>> tasksMapwithCreatedDate = new Map<Datetime, List<Task>>();
         Map<Datetime, List<Task>> tasksMapwithCompletedDate = new Map<Datetime, List<Task>>();
+        Map<Datetime, List<Task>> tasksMapwithExpiredDate = new Map<Datetime, List<Task>>();
         List<Task> sortedTasksList = new List<Task>();
 
         List<String> taskCodeList = new List<String>{
@@ -401,7 +402,7 @@ public without sharing class TasksRemote {
                 taskObj.Priority = 'Normal';
             }
 
-            if (taskObj.Completed_Date__c != null) {
+            if (taskObj.Completed_Date__c != null && taskObj.Status == 'Completed') {
                 if (tasksMapwithCompletedDate.keySet().contains(taskObj.Completed_Date__c)) {
                     tasksMapwithCompletedDate.get(taskObj.Completed_Date__c).add(taskObj);
                 } else {
@@ -411,7 +412,7 @@ public without sharing class TasksRemote {
                     );
                 }
             }
-            if (taskObj.Completed_Date__c == null && taskObj.Activity_Datetime__c != null) {
+            if (taskObj.Status != 'Completed' && taskObj.Activity_Datetime__c != null) {
                 if (tasksMapwithDueDate.keySet().contains(taskObj.Activity_Datetime__c)) {
                     tasksMapwithDueDate.get(taskObj.Activity_Datetime__c).add(taskObj);
                 } else {
@@ -422,7 +423,7 @@ public without sharing class TasksRemote {
                 }
             }
             if (
-                taskObj.Completed_Date__c == null &&
+                taskObj.Status != 'Completed' &&
                 taskObj.Activity_Datetime__c == null &&
                 taskObj.Start_Date__c != null
             ) {
@@ -436,7 +437,7 @@ public without sharing class TasksRemote {
                 }
             }
             if (
-                taskObj.Completed_Date__c == null &&
+                taskObj.Status != 'Completed' &&
                 taskObj.Activity_Datetime__c == null &&
                 taskObj.Start_Date__c == null
             ) {
@@ -446,12 +447,39 @@ public without sharing class TasksRemote {
                     tasksMapwithCreatedDate.put(taskObj.CreatedDate, new List<Task>{ taskObj });
                 }
             }
+            if (
+                taskObj.Status != 'Completed' &&
+                taskObj.Task_Type__c == 'Survey' &&
+                taskObj.Survey_Invitation__c != null &&
+                taskObj.Activity_Datetime__c == null
+            ) {
+                if (
+                    tasksMapwithExpiredDate.keySet()
+                        .contains(taskObj.Survey_Invitation__r.ExpireDateTime__c)
+                ) {
+                    tasksMapwithExpiredDate.get(taskObj.Survey_Invitation__r.ExpireDateTime__c)
+                        .add(taskObj);
+                } else {
+                    tasksMapwithExpiredDate.put(
+                        taskObj.Survey_Invitation__r.ExpireDateTime__c,
+                        new List<Task>{ taskObj }
+                    );
+                }
+            }
         }
 
-        sortedTasksList.addAll(sortListOrderbyAsc(tasksMapwithCompletedDate));
+        if (taskStatus == 'Completed') {
+            sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithCompletedDate));
+        }
+        if (taskStatus == 'Ignored') {
         sortedTasksList.addAll(sortListOrderbyAsc(tasksMapwithDueDate));
         sortedTasksList.addAll(sortListOrderbyAsc(tasksMapwithStartDate));
         sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithCreatedDate));
+        }
+        if (taskStatus == 'Expired') {
+            sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithDueDate));
+            sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithExpiredDate));
+        }
         return sortedTasksList;
     }
 }
