@@ -30,7 +30,8 @@
                             </lightning-layout-item>
                             <template if:true={toggleLinks}>
                                 <lightning-layout-item size="12">
-                                    <div class="rel-header mb-8 resPage">{labels.DISCOVER_TITLE}
+                                    <div class="rel-header mb-8 resPage">
+                                        {labels.DISCOVER_TITLE}
                                         <span>
                                             <!-- <lightning-helptext
                                                 class="newColor"
@@ -39,12 +40,12 @@
                                             >
                                             </lightning-helptext> -->
                                             <lightning-helptext
-                                            class="newColor"
-                                            content="Links will open in new browser window. IQVIA Patient Portal
+                                                class="newColor"
+                                                content="Links will open in new browser window. IQVIA Patient Portal
                                             is not responsible for content provided in external websites."
-                                            icon-name="utility:info"
-                                        >
-                                        </lightning-helptext>
+                                                icon-name="utility:info"
+                                            >
+                                            </lightning-helptext>
                                         </span>
                                     </div>
 
@@ -72,12 +73,25 @@
                         <template if:true={toggleExplore}>
                             <lightning-layout multiple-rows="true">
                                 <lightning-layout-item size="12">
-                                    <div class="explore-header mb-8">{labels.EXPLORE}</div>
+                                    <div class="explore-header mb-8">
+                                        {labels.EXPLORE}
+                                        <a
+                                            onclick={handleChangePreference}
+                                            class="change-preferences"
+                                            style="float: right"
+                                        >
+                                            {labels.CHANGE_PREFERENCES}
+                                        </a>
+                                    </div>
+
                                     <div class="center-column">
                                         <div class="res-explore-container">
                                             <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
                                             <c-pp-resource-engage desktop={desktop} is-rtl={isRTL}>
                                             </c-pp-resource-engage>
+                                        </div>
+                                        <div class="slds-var-p-top_medium">
+                                            <c-pp-contribute-section></c-pp-contribute-section>
                                         </div>
                                     </div>
                                 </lightning-layout-item>
