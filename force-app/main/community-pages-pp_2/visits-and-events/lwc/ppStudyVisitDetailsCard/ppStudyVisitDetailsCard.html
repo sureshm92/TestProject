@@ -93,9 +93,9 @@
                                 label={label.email}
                                 type="checkbox"
                                 name={label.email}
-                                value={visitdata.task.Remind_Using_Email__c}
+                                value={email}
                                 disabled={emailOptIn}
-                                checked={visitdata.task.Remind_Using_Email__c}
+                                checked={email}
                                 onchange={setAttributeValueEmail}
                             ></lightning-input>
                             <lightning-input
@@ -103,9 +103,9 @@
                                 type="checkbox"
                                 label={label.sms}
                                 name={label.sms}
-                                value={visitdata.task.Remind_Using_SMS__c}
+                                value={sms}
                                 disabled={smsOptIn}
-                                checked={visitdata.task.Remind_Using_SMS__c}
+                                checked={sms}
                                 onchange={setAttributeValueSms}
                             ></lightning-input>
                         </div>
