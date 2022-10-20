@@ -1,15 +1,13 @@
-.slds-grid {
+.slds-grid-visit {
+    padding: 0 1rem 0 1rem;
     margin-bottom: 1rem;
 }
 
-.slds-grid-visit {
-    padding: 0 1rem 0 0;
-}
-
-.slds-grid-visit .slds-col.slds-p-left_xx-small,
-.slds-grid-visit .slds-col.slds-p-right_xx-small {
+.slds-grid-visit .slds-col.slds-p-left_xx-small {
     padding-right: unset;
-    padding-left: 1rem;
+}
+.slds-grid-visit .slds-col.slds-p-right_xx-small {
+    padding-left: unset;
 }
 
 .curve-input {
@@ -83,17 +81,20 @@ input[type='date']::-webkit-calendar-picker-indicator,
         margin-bottom: 1rem;
     }
 
-    .slds-grid {
+    .slds-grid-visit {
         margin-bottom: unset;
     }
 }
 
 @media all and (max-width: 486px) {
-    .slds-small-size_1-of-2.slds-p-right_xx-small {
-        margin-bottom: 1rem;
-        padding-right: 0;
-    }
+    .slds-small-size_1-of-2.slds-p-right_xx-small,
     .slds-small-size_1-of-2.slds-p-left_xx-small {
-        padding-left: 0;
+        margin-bottom: 1rem;
+        padding-left: unset;
+        padding-right: unset;
+    }
+
+    .slds-grid-visit {
+        margin-bottom: unset;
     }
 }
