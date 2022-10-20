@@ -65,6 +65,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     visitStatus = '';
     visitTimezone = '';
     hasRendered = false;
+    @track visitdetailpageurl = '';
 
     renderedCallback() {
         if (!this.hasRendered) {
@@ -132,11 +133,16 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
 
     handleBackClick() {
-        this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
+        this.visitdetailpageurl =
+            window.location.origin + basePathName + '/visits' + '?ispast=' + this.past;
+        const config = {
+            type: 'standard__webPage',
             attributes: {
-                name: 'Visits__c'
+                url: this.visitdetailpageurl
             }
+        };
+        this[NavigationMixin.GenerateUrl](config).then((url) => {
+            window.open(url, '_self');
         });
     }
 
