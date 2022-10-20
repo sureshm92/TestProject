@@ -83,7 +83,7 @@ public without sharing class PatientDelegateEnrollmentService {
     
     @AuraEnabled
     public static list<PatientDelegateEnrollmentsWrapper> getPDE() {
-        return listPDEWrapper;
+        return PatientDelegateEnrollmentService.getInstance().listPDEWrapper;
     }
     public void createPatientDelegateEnrollment(
         Patient_Delegate__c newDelegate,
