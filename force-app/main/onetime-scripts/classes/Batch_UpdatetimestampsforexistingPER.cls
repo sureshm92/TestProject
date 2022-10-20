@@ -1,7 +1,9 @@
 global with sharing class Batch_UpdatetimestampsforexistingPER implements Database.Batchable<sObject>{
-    public List<Id> contactExcludeIds = new List<Id>();
-    public Batch_UpdatetimestampsforexistingPER(List<String> contactExcludeIds){
-        this.contactExcludeIds = contactExcludeIds;
+    public List<Id> perExcludeIds = new List<Id>();
+    public List<Id> perTargetIds = new List<Id>();
+    public Batch_UpdatetimestampsforexistingPER(List<Id> perExcludeIds,List<Id> perTargetIds){
+        this.perExcludeIds = perExcludeIds;
+        this.perTargetIds = perTargetIds;
     }
     public Batch_UpdatetimestampsforexistingPER(){}
 
@@ -11,8 +13,13 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
         query += 'Participant__r.Mailing_Country_Code__c,Participant__r.Mailing_Country__c,Permit_IQVIA_to_contact_about_study__c,Permit_SMS_Text_for_this_study__c,Study_Direct_Mail_Consent_Time__c,Permit_Voice_Text_contact_for_this_study__c,';
         query = query + '(Select id,parentId,Field, OldValue , NewValue,createddate from Histories where Field IN :filedsList)';
         query = query + ' from Participant_Enrollment__c ';
-        if(contactExcludeIds.size()>0){
-            query = query + '  where ID NOT IN:contactExcludeIds';
+        if(perExcludeIds.size()>0 && perTargetIds.size()>0){
+            query = query + '  where ID NOT IN:perExcludeIds and ID IN:perTargetIds';
+        }
+        else if(perExcludeIds.size()>0){
+            query = query + '  where ID NOT IN:perExcludeIds';
+        }else if(perTargetIds.size()>0){
+            query = query + '  where ID IN:perExcludeIds';
         }
         return Database.getQueryLocator(query);
     }
@@ -44,7 +51,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                 pertoupdate.Id = per.Id;
                 Boolean check = false;
                 Boolean hasHistory = enrollmentWithConsentTimestamps.containsKey(per.Id);
-                Boolean isCountryUS = per.Participant__r.Mailing_Country_Code__c == 'US';
+                Boolean isCountryUS = (per.Participant__r.Mailing_Country_Code__c == 'US' || per.Participant__r.Mailing_Country__c == 'United States');
         
                 if(per.Study_PI_Storage_Consent_Time__c == null && hasHistory && 
                 enrollmentWithConsentTimestamps.get(per.Id).keyset().contains('Permit_IQVIA_to_contact_about_study__c')){
