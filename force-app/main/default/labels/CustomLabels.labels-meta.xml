@@ -28602,4 +28602,11 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>PP_EnterNewPassword</shortDescription>
         <value>Enter New Password</value>
     </labels>
+    <labels>
+        <fullName>View_All_Tasks</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View All Tasks</shortDescription>
+        <value>View All Tasks</value>
+    </labels>
 </CustomLabels>

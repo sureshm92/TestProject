@@ -23,6 +23,8 @@ import { NavigationMixin } from 'lightning/navigation';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
+import basePathName from '@salesforce/community/basePath';
+import viewAllTasks from '@salesforce/label/c.View_All_Tasks';
 
 export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
     initData;
@@ -55,6 +57,8 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
     jsonState;
     showCreateTaskButton;
     @track openTasks;
+    @track sfdcBaseURL;
+    viewAllTasks;
     completedTasks;
     spinner;
     taskCodeList = [
@@ -86,6 +90,7 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
     emptyOpenTasks;
 
     connectedCallback() {
+        this.sfdcBaseURL = window.location.origin + basePathName + '/tasks';
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 console.log('NEW RR_COMMUNITY_JS loaded');
@@ -285,5 +290,27 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
             radioTask2.classList.add('fill-oval');
             radioTask2.classList.remove('empty-oval');
         }
+    }
+    handleonclick() {
+        console.log('handleonclick');
+        this.redirectPage(this.taskId);
+    }
+    redirectPage(taskId) {
+        console.log('redirectPage:',window.location.origin);
+        console.log('basePathName:',basePathName);
+
+        this.taskurl = window.location.origin + basePathName + '/tasks'+ '?taskId=' + taskId;
+        console.log('taskurl:', this.taskurl);
+
+        const config = {
+            type: 'standard__webPage',
+
+            attributes: {
+                url: this.taskurl
+            }
+        };
+        this[NavigationMixin.GenerateUrl](config).then((url) => {
+            window.open(url, '_self');
+        });
     }
 }

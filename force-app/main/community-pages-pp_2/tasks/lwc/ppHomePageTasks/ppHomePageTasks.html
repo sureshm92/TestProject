@@ -3,13 +3,13 @@
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <div class={cardRTL}>
         <div>
+            <lightning-layout-item class="slds-p-vertical_small">
+                <div class="tasks">{label.tasksHeader}</div>
+            </lightning-layout-item>
+            <br />
             <lightning-layout class="slds-align_absolute-center" multiple-rows="true">
-                <lightning-layout-item class="slds-p-vertical_small">
-                    <div class="tasks">{label.tasksHeader}</div>
-                </lightning-layout-item>
-                <br/>
                 <div class="rectangle"></div>
-                <lightning-layout-item class="overflow-scroll" padding="around-small" size="12"
+                <lightning-layout-item padding="around-small" size="12"
                     ><template if:true={isCreateTask}>
                         <c-pp-create-task ontaskclose={handleTaskClose}> </c-pp-create-task>
                     </template>
@@ -194,7 +194,11 @@
                             <!-- <span class="critical-rect">Critical</span> -->
                             <lightning-layout-item size="2" padding="around-small">
                                 <!--Menu Items-->
-                                <div
+                                <c-web-icon
+                                    icon-name="taskCard_Button"
+                                    onclick={handleonclick}
+                                ></c-web-icon>
+                                <!--   <div
                                     class="slds-dropdown-trigger slds-dropdown-trigger_click"
                                     data-popup={item.openTask.Id}
                                     onclick={expandtheCard}
@@ -207,6 +211,7 @@
                                         tabindex="0"
                                     >
                                         <img src={threedots_imgUrl} class="image-result" />
+                                       
                                     </div>
                                     <div
                                         class="slds-dropdown slds-dropdown_right"
@@ -252,7 +257,7 @@
                                             </li>
                                         </template>
                                     </div>
-                                </div>
+                                </div>-->
                                 <!--End-->
                             </lightning-layout-item>
                         </div>
@@ -272,6 +277,11 @@
                     </template>
                 </lightning-layout-item>
             </lightning-layout>
+            <div>
+                <a class="comm-link" href={url} target="_blank">
+                    <span>{label.viewAllTasks}</span>
+                </a>
+            </div>
         </div>
     </div>
 </template>
