@@ -1,0 +1,153 @@
+<template>
+    <!--Spinner: Starts-->
+    <template if:true={spinner}>
+        <lightning-spinner
+            alternative-text="Loading"
+            variant="brand"
+            size="medium"
+            class="web-spinner fixed"
+        ></lightning-spinner>
+    </template>
+    <!--Spinner: Ends-->
+    <c-web-spinner fixed="true"></c-web-spinner>
+    <!-- Show Add Delegate Page: Start-->
+    <template if:true={showAddDelegatePage}>
+        <!--TODO: Add Current participant Contact Id Dynamically-->
+        <c-pp-add-new-delegate selected-parent="0037g00001B2uZ8AAJ"> </c-pp-add-new-delegate>
+    </template>
+    <!-- Show Add Delegate Page: Ends-->
+    <!-- Show Manage Delegate Page: Start-->
+    <template if:false={showAddDelegatePage}>
+        <!--Desktop View: Starts-->
+        <template if:true={isDesktop}>
+            <div class={cardRTL}>
+                <div class="manage-del-continer">
+                    <!--Main Layout: Starts -->
+                    <lightning-layout multiple-rows="true">
+                        <!-- Manage Delegate Header: Starts-->
+                        <lightning-layout-item size="6" class="m-top-24">
+                            <span class="manage-delegates-header">
+                                {label.PP_ManageDelegates}
+                            </span>
+                        </lightning-layout-item>
+                        <!-- Manage Delegate Header: Ends-->
+                        <!--Add Del Button: Starts-->
+                        <lightning-layout-item size="6" class="m-top-24" alignment-bump="right">
+                            <button
+                                title="Non-primary action"
+                                onclick={navToAddDelegate}
+                                class={addDelBtnMarin}
+                            >
+                                {label.BTN_Add_New_Delegate}
+                            </button>
+                        </lightning-layout-item>
+                        <!--Iterate over each Delegate Associated to the Participant: Starts-->
+                        <template
+                            for:each={listOfDelegateOfParticipant}
+                            for:item="del"
+                            for:index="index"
+                        >
+                            <!--Delegate Card Section: Starts -->
+                            <lightning-layout-item
+                                size="12"
+                                class="del-container m-top-16"
+                                key={del.id}
+                            >
+                                <!--Dlegate Info Layout: Starts -->
+                                <lightning-layout multiple-rows="true" class="manage-del-items">
+                                    <!--Delegate Profile Logo and Name Section: Starts-->
+                                    <lightning-layout-item size="12" class="m-top-30 height-32">
+                                        <!--Delegate Personal Detail Layout: Starts-->
+                                        <lightning-layout multiple-rows="true">
+                                            <!--Profile Logo: Stats-->
+                                            <lightning-layout-item size="1">
+                                                <span><img src={icon_url} /></span>
+                                            </lightning-layout-item>
+                                            <!--Profile Logo: Ends-->
+                                            <!--Delegate Name: Stats-->
+                                            <lightning-layout-item size="11"
+                                                ><lightning-layout multiple-rows="true">
+                                                    <lightning-layout-item
+                                                        size="12"
+                                                        class="delegate-name"
+                                                        >{del.name}</lightning-layout-item
+                                                    >
+                                                    <lightning-layout-item
+                                                        size="12"
+                                                        class="delegate-email"
+                                                        >{del.email}</lightning-layout-item
+                                                    >
+                                                </lightning-layout>
+                                            </lightning-layout-item>
+                                            <!--Delegate Name: Ends-->
+                                        </lightning-layout>
+                                        <!--Delegate Personal Detail Layout: Ends-->
+                                    </lightning-layout-item>
+                                    <!--Delegate Profile Logo and Name Section: Ends-->
+                                    <!--Iterate over each pdEnrollment Associated to the Delegate: Starts-->
+                                    <template
+                                        for:each={pdEnrollmentsForDel}
+                                        for:item="pdEnrollment"
+                                        for:index="index"
+                                    >
+                                        <lightning-layout-item
+                                            size="12"
+                                            class="m-top-10 study-rectangle"
+                                            key={pdEnrollment.id}
+                                        >
+                                            <lightning-layout multiple-rows="true" class="m-top-16">
+                                                <lightning-layout-item size="8"
+                                                    ><span class={studyCodeNameClass}
+                                                        >{pdEnrollment.label}</span
+                                                    ></lightning-layout-item
+                                                >
+                                                <lightning-layout-item size="4"
+                                                    ><button
+                                                        title="Non-primary action"
+                                                        onclick={removeDelAssociationFromStudy}
+                                                        class={removeDelBtn}
+                                                        data-id={pdEnrollment.id}
+                                                    >
+                                                        {label.PP_Remove}
+                                                    </button></lightning-layout-item
+                                                >
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                    </template>
+                                    <!--Iterate over each pdEnrollment Associated to the Delegate: Starts-->
+                                    <!--Add Assignment Button: Starts-->
+                                    <lightning-layout-item
+                                        size="12"
+                                        class="m-top-8 add-assignment-rectangle"
+                                    >
+                                        <button
+                                            class="apollo-btn secondary slds-box width-100"
+                                            onclick={addAssignment}
+                                        >
+                                            <c-web-icon
+                                                icon-name="icon-plus"
+                                                icon-color="#0768fd"
+                                                icon-height="25"
+                                                icon-width="18"
+                                            ></c-web-icon>
+                                            <span class="add-assignment-label"
+                                                >&nbsp; Add assignment</span
+                                            >
+                                        </button>
+                                    </lightning-layout-item>
+                                    <!--Add Assignment Button: Ends-->
+                                </lightning-layout>
+                                <!--Dlegate Info Layout: Ends -->
+                            </lightning-layout-item>
+                            <!--Delegate Card SectionL: Ends -->
+                        </template>
+                        <!--Iterate over each Delegate Associated to the Participant: Ends-->
+                    </lightning-layout>
+                    <!--Main Layout: Ends -->
+                </div>
+            </div>
+        </template>
+        <!--Desktop View: Ends-->
+    </template>
+    <!-- Show Manage Delegate Page: Ends-->
+</template>

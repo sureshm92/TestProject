@@ -519,7 +519,7 @@ private class Test_MyTeamRemote {
             c.FirstName = 'dummy';
             c.LastName = 'd';
             c.Email = 'lol@l.com';
-            MyTeamRemote.savePatientDelegate(JSON.serialize(c));
+            MyTeamRemote.savePatientDelegate(JSON.serialize(c),null);
             Boolean isExistingDelegate = MyTeamRemote.isExistingDelegate(JSON.serialize(c));
             System.assertEquals(false, isExistingDelegate);
         }
@@ -537,9 +537,9 @@ private class Test_MyTeamRemote {
             c.FirstName = 'dummy';
             c.LastName = 'd';
             c.Email = 'lol@l.com';
-            MyTeamRemote.savePatientDelegate(JSON.serialize(c));
+            MyTeamRemote.savePatientDelegate(JSON.serialize(c),null);
             Contact c2 = [SELECT Id, FirstName, LastName, EMail FROM Contact WHERE Email='lol@l.com' LIMIT 1];
-            MyTeamRemote.savePatientDelegate(JSON.serialize(c2));  
+            MyTeamRemote.savePatientDelegate(JSON.serialize(c2),null);  
         }
         
         Test.stopTest();
@@ -556,7 +556,7 @@ private class Test_MyTeamRemote {
             c.FirstName = 'dummy';
             c.LastName = 'd';
             c.Email = 'lol@l.com';
-            MyTeamRemote.savePatientDelegate(JSON.serialize(c));
+            MyTeamRemote.savePatientDelegate(JSON.serialize(c),null);
             
             Contact c2 = [SELECT Id, FirstName, LastName, EMail FROM Contact WHERE Email='lol@l.com' LIMIT 1];
 			MyTeamRemote.sendEmailNotificationWelcome(c2);

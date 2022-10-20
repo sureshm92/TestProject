@@ -1,0 +1,102 @@
+<template>
+    <!-- Ethnicity starts -->
+    <div class="eth outcome-form-element slds-m-bottom_medium p-left">
+        <label class="slds-form-element__label slds-no-flex disflex"
+            ><span class="text-overflow1" title="Studies And Program">Studies And Program</span
+            ><template if:true={showSelectAll}>
+                <span class="btn select-all-clear-all" onclick={selectAll}
+                    >{label.Select_All_PI}</span
+                >
+            </template>
+            <template if:true={showClearAll}>
+                <span class="btn select-all-clear-all" onclick={removeAll}>{label.Clear_All}</span>
+            </template>
+        </label>
+        <div
+            class="slds-form-element__control slds-grow slds-input slds-p-around--none eBox dropdown-width"
+            tabindex="0"
+            onfocus={openStudy}
+            onblur={closeStudy}
+        >
+            <div class="slds-combobox_container">
+                <div
+                    class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click eBoxOpen"
+                >
+                    <div
+                        class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                        role="none"
+                    >
+                        <div class="selectedOption">
+                            <template if:true={getFirstSelecedStudy}>
+                                <!-- <span class="selectedValue slds-truncate"> -->
+                                <!-- <span class="selectedValue"> {getFirstSelecedStudy} </span>
+                                <div class="ethmore">{studyCount}</div> -->
+                                <template
+                                    for:each={selectedStudy}
+                                    for:item="study"
+                                    for:index="index"
+                                >
+                                    <span key={study.id} class="selectedValue">
+                                        {study.label}
+                                    </span>
+                                    <!-- <div key={study.id} class="ethmore">{studyCount}</div> -->
+                                </template>
+                            </template>
+                        </div>
+                        <span
+                            class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right"
+                        >
+                            <lightning-icon
+                                icon-name="utility:down"
+                                size="x-small"
+                                alternative-text="down"
+                            >
+                            </lightning-icon>
+                        </span>
+                    </div>
+                    <div
+                        data-id="studyBox"
+                        class="slds-dropdown slds-dropdown_fluid open-width rtl-width"
+                        role="listbox"
+                    >
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            <template if:true={picklistValues}>
+                                <template for:each={picklistValues} for:item="item">
+                                    <li
+                                        key={item.value}
+                                        role="presentation"
+                                        class="slds-listbox__item"
+                                    >
+                                        <div
+                                            id={item.value}
+                                            onclick={divSetStudy}
+                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                            role="option"
+                                        >
+                                            <span
+                                                class="slds-media__figure slds-listbox__option-icon"
+                                            ></span>
+                                            <span class="slds-media__body">
+                                                <label class="slds-truncate">
+                                                    <input
+                                                        type="checkbox"
+                                                        name={item.label}
+                                                        value={item.value}
+                                                        class="input-width noclk"
+                                                        onchange={setStudyList}
+                                                    />
+                                                    <span class="text-for-check">{item.label}</span>
+                                                </label>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </template>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Ethnicity ends -->
+</template>

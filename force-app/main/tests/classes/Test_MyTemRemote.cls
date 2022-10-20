@@ -16,7 +16,7 @@ public class Test_MyTemRemote {
                 LastName = 'Del',
                 Email = 'del@del.com'
             );
-            MyTeamRemote.savePatientDelegate(JSON.serialize(delegateContact));
+            MyTeamRemote.savePatientDelegate(JSON.serialize(delegateContact),null);
         }
         Test.stopTest();
         List<Participant__c> partDelegates = [
