@@ -542,6 +542,7 @@
     text-decoration: none;
     justify-content: center;
     border: none;
+    transition: .25s;
 }
 
 .secondaryBtn {
@@ -555,7 +556,23 @@
     font-family: 'Proxima Nova';
     height: 35px;
     width: 90px;
+    transition: .25s;
 }
+
+.slds-button.primaryBtn:hover {
+    --slds-c-button-color-border: unset;
+    color: #fff;
+    background: #0557d5;
+    transition: .25s;
+}
+
+.slds-button.secondaryBtn:hover {
+    --slds-c-button-color-border: #015ff1;
+    --slds-c-button-color-background: #ecf3ff;
+    color: #015ff1;
+    transition: .25s;
+}
+
 .secondaryBtn:disabled {
     color: #015ff175;
     border-radius: 1rem;
@@ -572,6 +589,10 @@
 .primaryBtn:hover,
 .secondaryBtn:hover {
     text-decoration: none;
+}
+
+.btn-footer .slds-button+.slds-button {
+    margin-left: .5rem;
 }
 /* Study Visits Page */
 
