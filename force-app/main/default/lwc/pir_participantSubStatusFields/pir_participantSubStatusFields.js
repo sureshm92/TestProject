@@ -1261,7 +1261,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       btnValidationSuccess = true;
       validationList.push(btnValidationSuccess);
     }
-    var discardChanges = ((this.selectedOutcome == 'PE_STATUS_ENROLLMENT_SUCCESS' || this.selectedOutcome == 'Randomization_Success') && !this.pe_record.Is_Participant_DOB_Valid__c);
+    var discardChanges = ((this.selectedOutcome == 'PE_STATUS_ENROLLMENT_SUCCESS' || this.selectedOutcome == 'Randomization_Success') && !this.pe_record.Is_Participant_DOB_Valid__c)||this.invalidForEligibility;
     if (discardChanges) {
       const validatesavebtn = new CustomEvent("validatesavebutton", {
         detail: true
@@ -1679,7 +1679,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     } else {
       hasChanges.push(false);
     }
-    var discardChanges = ((this.selectedOutcome == 'PE_STATUS_ENROLLMENT_SUCCESS' || this.selectedOutcome == 'Randomization_Success') && !this.pe_record.Is_Participant_DOB_Valid__c);
+    var discardChanges = ((this.selectedOutcome == 'PE_STATUS_ENROLLMENT_SUCCESS' || this.selectedOutcome == 'Randomization_Success') && !this.pe_record.Is_Participant_DOB_Valid__c)||this.invalidForEligibility;
     if (hasChanges.includes(true) && !discardChanges) {
       const valueChangeEvent = new CustomEvent("statusdetailsvaluechange", {
         detail: true
@@ -1946,5 +1946,8 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   }
   get dobErr() {
     return ((this.selectedOutcome == 'PE_STATUS_ENROLLMENT_SUCCESS' || this.selectedOutcome == 'Randomization_Success') && !this.pe_record.Is_Participant_DOB_Valid__c);
+  }
+  get invalidForEligibility(){
+    return (this.pe_record.Clinical_Trial_Profile__r.Promote_to_SH__c && (this.pe_record.Study_Site__r.Study_Site_Type__c =='Virtual'|| this.pe_record.Study_Site__r.Study_Site_Type__c =='Hybrid') && this.selectedOutcome == 'Eligibility_Passed' && !this.pe_record.Is_Participant_DOB_Valid__c);
   }
 }

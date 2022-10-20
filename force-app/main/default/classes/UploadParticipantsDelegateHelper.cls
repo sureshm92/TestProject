@@ -26,6 +26,7 @@ public without sharing class UploadParticipantsDelegateHelper {
         Set<String> duplicateRowCheckSet = new Set<String>();
         Map<String, String> duplicateRowMap = new Map<String, String>();
         Map<String, String> duplicateContactRowMap = new Map<String, String>();
+        List<Id> contactInsertedIds = new List<Id>();
         String duplicateKey = '';
         for (ParticipantsDelegateWrapper pWrapper : ParticipantsDelegateWrapperList) {
             //Duplicate check in the sheet
@@ -137,9 +138,13 @@ public without sharing class UploadParticipantsDelegateHelper {
                         pWrapper.mainparticipant.Id
                     );
                     duplicateContactRowMap.put(duplicateKey, ddInfo.contactId);
+                    contactInsertedIds.add(ddInfo.contactId);
                 }
             } else {
-                duplicateRowMap.put(duplicateKey, pWrapper.mainparticipant.Id);
+                //duplicateRowMap.put(duplicateKey, pWrapper.mainparticipant.Id);
+                 String dupkeyWithId = duplicateKey+ pWrapper.mainparticipant.Id;
+                 dupkeyWithId = dupkeyWithId.toLowercase();
+                 duplicateRowMap.put(dupkeyWithId, pWrapper.mainparticipant.Id);
                 participantEmailMap.put(
                     pWrapper.mainparticipant.Id,
                     pWrapper.mainparticipant.Email__c
@@ -170,6 +175,7 @@ public without sharing class UploadParticipantsDelegateHelper {
                     iqviaOutReachSet.add(saveRes[i].getId());
                 }
                 successfullyInsertedContactSet.add(saveRes[i].getId());
+                contactInsertedIds.add(saveRes[i].getId());
                 duplicateContactRowMap.put(duplicateKey, saveRes[i].getId());
             } else {
                 errorwrap.errorRecordCount++;
@@ -339,19 +345,44 @@ public without sharing class UploadParticipantsDelegateHelper {
         }
 
         List<Patient_Delegate__c> pdDuplicateList = new List<Patient_Delegate__c>();
-
+        
+        List<Contact> dupContList = new List<Contact>();
+        if(contactInsertedIds != null &&
+           !contactInsertedIds.isEmpty() && contactInsertedIds.size() != 0)
+         {   
+            dupContList = [Select Id,FirstName,LastName,Email,(Select First_Name__c,Last_Name__c,Email__c from Participants__r) from Contact where Id IN:contactInsertedIds];         
+         }
+         Map<String,String> keyWithContactID = new Map<String,String>();
+         if(dupContList != null && !dupContList.isEmpty() && dupContList.size() != 0){
+            String contKey='';
+            for(Contact c:dupContList){
+                  if(c.FirstName != null && c.LastName != null){
+                      contKey = c.FirstName+c.LastName+c.Email;
+                      contKey = contKey.toLowercase(); 
+                  }else{
+                      if(c.Participants__r != null){
+                         contKey = c.Participants__r[0].First_Name__c+c.Participants__r[0].Last_Name__c+c.Email;
+                         contKey = contKey.toLowercase();
+                      }
+                  }    
+                keyWithContactID.put(contKey,c.Id);
+                contKey='';
+            }
+        }
+        
         if (duplicateRowMap != null) {
             for (String key : duplicateRowMap.keySet()) {
                 String contactId = '';
                 String mainparticipantId = '';
-
+                 String dupkey = key.substring(0, key.length()-18);
                 if (
                     duplicateRowMap != null &&
                     duplicateRowMap.get(key) != null &&
-                    duplicateContactRowMap != null &&
-                    duplicateContactRowMap.get(key) != null
+                    keyWithContactID != null && 
+                   !keyWithContactID.isEmpty()
                 ) {
-                    contactId = duplicateContactRowMap.get(key);
+                    //contactId = duplicateContactRowMap.get(dupkey);
+                     contactId = keyWithContactID.get(dupkey);
                     mainparticipantId = duplicateRowMap.get(key);
                     Patient_Delegate__c pd = createPatientDelegate(contactId, mainparticipantId);
                     pdDuplicateList.add(pd);
