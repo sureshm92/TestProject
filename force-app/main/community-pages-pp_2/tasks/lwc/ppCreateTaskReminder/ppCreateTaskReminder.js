@@ -6,7 +6,6 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 //static resources
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import COMETD_LIB from '@salesforce/resourceUrl/cometd';
 import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import getSessionId from '@salesforce/apex/TelevisitMeetBannerController.getSessionId';
@@ -94,7 +93,6 @@ export default class PpCreateTaskReminder extends LightningElement {
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 Promise.all([
-                    loadStyle(this, communityPPTheme),
                     loadScript(this, COMETD_LIB),
                     loadScript(this, moment),
                     loadScript(this, momentTZ)
