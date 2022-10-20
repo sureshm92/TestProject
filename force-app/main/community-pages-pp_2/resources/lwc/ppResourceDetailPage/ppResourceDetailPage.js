@@ -60,8 +60,22 @@ export default class PpResourceDetailPage extends LightningElement {
         }
     }
 
-    handleBackClick() {}
-    handleFavourite() {}
+    handleBackClick() {
+        let pageLink = window.location.origin + '/pp/s/resources';
+        window.location.assign(pageLink);
+    }
+    handleFavourite() {
+        this.isFavourite = !this.isFavourite;
+        setResourceAction({
+            resourceId: this.resourceId,
+            isFavorite: this.isFavourite,
+            isVoted: false
+        })
+            .then((result) => {})
+            .catch((error) => {
+                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+            });
+    }
     showErrorToast(titleText, messageText, variantType) {
         this.dispatchEvent(
             new ShowToastEvent({

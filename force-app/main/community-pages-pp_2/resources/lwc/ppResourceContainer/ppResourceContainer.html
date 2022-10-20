@@ -2,7 +2,7 @@
     <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner"></c-web-spinner>
     <template if:true={isInitialized}>
-        <lightning-layout multiple-rows="true" class="slds-p-around_small">
+        <lightning-layout multiple-rows="true" class="slds-p-vertical_xx-small">
             <lightning-layout-item size="12">
                 <lightning-layout
                     multiple-rows="true"
@@ -16,6 +16,7 @@
                             src={thumbnail}
                             alt="Image is not available"
                             onclick={handleNavigate}
+                            class="resource-pointer"
                         />
                     </lightning-layout-item>
                     <!--   Description     -->
@@ -25,7 +26,7 @@
                                 <lightning-layout multiple-rows="true">
                                     <!--   TITLE    -->
                                     <lightning-layout-item size="10">
-                                        <div class="summary-title" onclick={handleNavigate}>
+                                        <div class="summary-title resource-pointer" onclick={handleNavigate}>
                                             {resourceTitle}
                                         </div>
                                     </lightning-layout-item>
@@ -49,6 +50,7 @@
                                                     icon-name="icon-star-solid"
                                                     data-id="fav-star"
                                                     data-name="fav-star"
+                                                    icon-color="#595959"
                                                 ></c-web-icon>
                                             </template>
                                         </div>
