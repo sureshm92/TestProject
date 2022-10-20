@@ -1,5 +1,5 @@
 global with sharing class Batch_UpdatetimestampsforexistingPER implements Database.Batchable<sObject>{
-    public static List<Id> contactExcludeIds = new List<Id>();
+    public List<Id> contactExcludeIds = new List<Id>();
     public Batch_UpdatetimestampsforexistingPER(List<String> contactExcludeIds){
         this.contactExcludeIds = contactExcludeIds;
     }
