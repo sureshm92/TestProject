@@ -55,8 +55,18 @@
                         data-status={item.task.Status}
                         data-index={item.task.Id}
                     >
-                        <c-web-icon class="sys-task" icon-name="task-illustration" icon-size="big">
+                        <template if:false={item.businessTask}>
+                            <c-web-icon
+                                class="sys-task"
+                                icon-name="task-illustration"
+                                icon-size="big"
+                            >
                         </c-web-icon>
+                        </template>
+                        <template if:true={item.businessTask}>
+                            <c-web-icon class="sys-task" icon-name="task-survey" icon-size="big">
+                            </c-web-icon>
+                        </template>
                     </div>
                 </template>
                 <template if:false={item.systemTask}>
@@ -86,8 +96,8 @@
                 </template>
             </lightning-layout-item>
             <lightning-layout-item size="8" class="mob-task-sub" padding="around-small">
-                <lightning-layout>
-                    <lightning-layout-item size="12" class={item.subjectEllipsisClass}
+                <lightning-layout size="12">
+                    <lightning-layout-item size="10" class={item.subjectEllipsisClass}
                         ><span
                             class={item.subjectClass}
                             onclick={taskOpen}
@@ -96,11 +106,16 @@
                             data-index={item.task.Id}
                             ><lightning-formatted-text value={item.task.Subject}>
                             </lightning-formatted-text
-                        ></span> </lightning-layout-item
-                ></lightning-layout>
-                <template if:true={item.criticalTask}
-                    ><span class="critical-rect">{label.taskPriorityCritical}</span></template
-                >
+                        ></span>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="2"
+                        ><template if:true={item.criticalTask}
+                            ><span class="critical-rect"
+                                >{label.taskPriorityCritical}</span
+                            ></template
+                        ></lightning-layout-item
+                    >
+                </lightning-layout>
                 <template if:true={item.dueDate}>
                     <lightning-layout
                         ><lightning-layout-item size="12"
