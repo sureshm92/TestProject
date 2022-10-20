@@ -1,0 +1,36 @@
+<aura:component description="BlankThemeLayout" implements="forceCommunity:themeLayout">
+    <ltng:require
+        styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Default_Theme, $Resource.proximanova + '/proximanova.css')}"
+        scripts="{!join(',', $Resource.rr_community_js)}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
+    <aura:attribute name="isRTL" type="Boolean" />
+    <!-- component body: -->
+    <div
+        class="all-content"
+        style="{!'background-image: linear-gradient(135deg, #25095b 0%,#176ba4 100%);'}"
+    >
+        <div
+            class="body-cell"
+            style="{!if(v.isRTL == true, '/* @noflip */  direction: rtl;overflow-x: hidden;', '')}"
+        >
+            <div class="logo-block">
+                <div class="rr-small-down-hide slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2">
+                        <img
+                            src="{!$Resource.rr_community_icons + '/rh_logo_subt_black.svg'}"
+                            class="main-logo"
+                        />
+                    </div>
+                    <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2">
+                        <img
+                            src="{!$Resource.PH_logo + '/pp_logo_subt_black.svg'}"
+                            class="main-logo"
+                        />
+                    </div>
+                </div>
+                <div class="body-components">{!v.body}</div>
+            </div>
+        </div>
+    </div>
+</aura:component>
