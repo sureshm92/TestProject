@@ -22,7 +22,6 @@ import visitdetails from '@salesforce/label/c.Visit_Details';
 import communicationPreference from '@salesforce/label/c.Communication_Preference_Url';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import Unavailable from '@salesforce/label/c.Study_Visit_Unavailable';
 
 export default class PpStudyVisitDetailsMobile extends NavigationMixin(LightningElement) {
     label = {
@@ -36,8 +35,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         resultsCheck,
         viewAllResults,
         visitdetails,
-        BTN_Back,
-        Unavailable
+        BTN_Back
     };
     status = {
         scheduled: 'Scheduled',
@@ -68,7 +66,6 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     visitTimezone = '';
     hasRendered = false;
     @track visitdetailpageurl = '';
-    @track visitUnavailable = false;
 
     renderedCallback() {
         if (!this.hasRendered) {
@@ -103,7 +100,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                         this.visitTimezone = TIME_ZONE;
                     }
                     if (this.visitStatus == 'Missed') {
-                        this.visitUnavailable = true;
+                        this.visitStatus = 'Unavailable';
                     }
                 })
                 .catch((error) => {
