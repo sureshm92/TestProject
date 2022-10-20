@@ -1,0 +1,169 @@
+<template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+            <lightning-spinner
+                alternative-text="Loading"
+                variant="brand"
+                size="medium"
+                class="spins"
+            >
+            </lightning-spinner>
+        </template>
+    </div>
+    <template if:true={cmpinitialized}>
+        <div class="profile-information-rectangle slds-p-around_medium slds-m-bottom_small">
+            <div class="profile-information slds-m-bottom_medium">
+                <!--chevron Icon: Stats-->
+                <lightning-layout-item size="1">
+                    <span><img src={icon_url} class="icon-chevron-right" /></span>
+                </lightning-layout-item>
+                <!--chevron Icon: Ends-->
+                <button
+                    title="Go Back to Manage Delegate"
+                    onclick={goBackToManageDelegate}
+                    class="back-to-manage-del-btn"
+                >
+                    {label.Back_to_Manage_Delegates}
+                </button>
+            </div>
+            <div class="profile-information slds-m-bottom_medium">{label.Add_New_Delegate}</div>
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-7 profile-info-input">
+                    <label class="slds-form-element__label" for="userName"
+                        >{label.PG_AS_F_Email_address}<abbr class="slds-required" title="required"
+                            >*
+                        </abbr></label
+                    >
+                    <div class="slds-form-element__control">
+                        <lightning-input
+                            onchange={handleDateChange}
+                            class="validate"
+                            type="email"
+                            required
+                            data-id="emailInput"
+                            variant="label-hidden"
+                            label={label.PG_AS_F_Email_address}
+                            value={delegate.delegateContact.Email}
+                            message-when-value-missing={label.PP_Required_Field}
+                            onblur={doSearchContact}
+                        ></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-7 profile-info-input">
+                    <label class="slds-form-element__label" for="userName"
+                        >{label.PG_AS_F_First_name}<abbr class="slds-required" title="required"
+                            >*
+                        </abbr></label
+                    >
+                    <div class="slds-form-element__control1">
+                        <lightning-input
+                            onchange={handleDateChange}
+                            class="validate"
+                            variant="label-hidden"
+                            data-id="firstNameInput"
+                            label={label.PG_AS_F_First_name}
+                            disabled={firstNameDisabledCheck}
+                            value={delegate.delegateContact.FirstName}
+                            maxlength={maxLengthData.FirstName}
+                            required
+                            onblur={doValidateField}
+                        ></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-7 profile-info-input">
+                    <label class="slds-form-element__label" for="userName"
+                        >{label.PG_AS_F_Last_name}
+                        <abbr class="slds-required" title="required">* </abbr></label
+                    >
+                    <div class="slds-form-element__control">
+                        <lightning-input
+                            data-id="lastNameInput"
+                            onchange={handleDateChange}
+                            class="validate"
+                            variant="label-hidden"
+                            label={label.PG_AS_F_Last_name}
+                            disabled={lastNameDisabledCheck}
+                            value={delegate.delegateContact.LastName}
+                            maxlength={maxLengthData.LastName}
+                            required
+                            onblur={doValidateField}
+                        ></lightning-input>
+                    </div>
+                </div>
+            </div>
+            <!--Stidu Multip Piclist Start-->
+            <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large"
+            >
+                <c-pp_multi-picklist-l-w-c></c-pp_multi-picklist-l-w-c>
+            </div>
+            <!--Stidu Multip Piclist End-->
+            <div class="checkbox-container slds-m-vertical_large">
+                <lightning-input
+                    data-id="consentcheck"
+                    class="taps mob-checkbox-txt validate"
+                    type="checkbox"
+                    label={label.PP_Attestation_Confirmation_Message_For_Teams}
+                    checked={isAttested}
+                    onchange={handleDateChange}
+                ></lightning-input>
+            </div>
+            <div class="checkbox-container slds-m-vertical_large">
+                <lightning-input
+                    data-id="emailconsentcheck"
+                    class="taps mob-checkbox-txt validate"
+                    type="checkbox"
+                    label={label.PP_Delegate_Email_Consent}
+                    checked={isEmailConsentChecked}
+                    onchange={handleDateChange}
+                ></lightning-input>
+            </div>
+            <button
+                title="Add Delegate"
+                onclick={doSaveChanges}
+                class={saveButtonClass}
+                disabled={validateData}
+            >
+                {label.Btn_Add_Delegate}
+            </button>
+            <lightning-layout
+                multiple-rows="true"
+                class="del-access-rectangle slds-m-vertical_large"
+            >
+                <lightning-layout-item size="12"
+                    ><span class="what-can-your-delega m-left-24"
+                        >What can your delegate see or do?</span
+                    >
+                </lightning-layout-item>
+                <lightning-layout-item size="6"
+                    ><ul class="slds-list_dotted">
+                        <li>
+                            <span class="delegate-can-see-list">Complete tasks on my behalf</span>
+                        </li>
+                        <li>
+                            <span class="receive-emails-abo"
+                                >Receive emails about my study status</span
+                            >
+                        </li>
+                        <li>
+                            <span class="delegate-can-see-list">See my lab results</span>
+                        </li>
+                    </ul></lightning-layout-item
+                >
+                <lightning-layout-item size="6"
+                    ><ul class="slds-list_dotted">
+                        <li><span class="delegate-can-see-list">See my vitals</span></li>
+                        <li>
+                            <span class="delegate-can-see-list">See my measurements</span>
+                        </li>
+                        <li>
+                            <span class="all-features-may-no"
+                                >*all features may not be available for each program</span
+                            >
+                        </li>
+                    </ul></lightning-layout-item
+                >
+            </lightning-layout>
+        </div>
+    </template>
+</template>
