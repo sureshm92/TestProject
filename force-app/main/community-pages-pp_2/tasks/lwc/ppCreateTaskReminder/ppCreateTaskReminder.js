@@ -124,7 +124,7 @@ export default class PpCreateTaskReminder extends LightningElement {
         if (differenceTimeHours > 1) {
             this.initialReminderOptions[0].itemClass = 'dropdown-li';
         } else {
-            this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
+            this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
         }
         if (differenceTimeHours > 4) {
             this.initialReminderOptions[1].itemClass = 'dropdown-li';
