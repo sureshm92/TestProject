@@ -63,6 +63,8 @@
     color: #444444;
     font-size: 32px;
     font-weight: 600;
+    letter-spacing: 0;
+    line-height: 48px;
 }
 
 .inactive-custom-box {
@@ -204,9 +206,15 @@
     color: #ffffff;
 }
 .no-task-list-view {
-    height: 152px !important;
+    box-sizing: border-box;
+    height: 152px;
+    width: 510px;
+    border: 1px solid #979797;
+    border-radius: 16px;
+    background-color: #ffffff;
 }
 .no-task-txt {
+    color: #999999;
     font-size: 16px;
     font-weight: 500;
 }

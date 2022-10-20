@@ -20,6 +20,7 @@ import ProvidersLastnameLabel from '@salesforce/label/c.HealthCare_Providers_Las
 import YearOfBirth from '@salesforce/label/c.RH_YearofBirth';
 import DelegateAttestation from '@salesforce/label/c.RH_DelegateAttestation';
 import DifferentHealthCareProvider from '@salesforce/label/c.Different_HealthCare_Provider';
+import RH_DelegateConsentEmail from '@salesforce/label/c.RH_DelegateConsentEmail' 
 export default class Pir_sharingFormFields extends LightningElement {
     @api yob;
     @api pe;
@@ -29,6 +30,7 @@ export default class Pir_sharingFormFields extends LightningElement {
     value = [];
     communityTemplate ='';
     @api isAdultDelegate;
+    isAdultDelegateUS=true;
     loading = false;
     isValidError = [];
     isDuplicateDelegate = false;
@@ -76,7 +78,8 @@ export default class Pir_sharingFormFields extends LightningElement {
         ProvidersLastnameLabel,
         YearOfBirth,
         DelegateAttestation,
-        DifferentHealthCareProvider
+        DifferentHealthCareProvider,
+        RH_DelegateConsentEmail
     }
 
     connectedCallback(){
@@ -179,33 +182,29 @@ export default class Pir_sharingFormFields extends LightningElement {
             }
         }
     }
-
+    isDisplayConsent=false;
     displayFormFields() {
         if(this.isExistingDelegate || this.isDisplayFormFields) {
             this.isDisplay = true;
         } else {
             this.isDisplay = false;
         }
+        if( this.isExistingDelegate || this.isDisplayFormFields){
+            this.isDisplayConsent = true;
+        } else {
+            this.isDisplayConsent = false;
+        
+        }
     }
+    cssError=false;
+    cssErrorUS=false;
 
     checkFields(event) {
         let obj = {};
         let mergedObj = {};
         if(event.currentTarget.dataset.name === 'email') { 
             if(this.sharingObject.sObjectType === 'Object') {
-                this.isDisplayFormFields = true;
-                this.displayFormFields();
-                if(this.duplicateDelegateInfo) {
-                    this.duplicateDelegateInfo = {};
-                    this.isDuplicateDelegate = false;
-                }
-                if(this.sharingObject.Birth_Year__c) {
-                    this.sharingObject.Birth_Year__c = '';
-                    this.template.querySelector('[data-name="attestCheckbox"]').checked = false;
-                    this.isAdultDelegate = true;
-                    //this.isDisabled = false;
-                }                
-                this.isDisabled = false;
+                this.handleDuplicate();
                 obj = {"email": event.detail.value.trim()};
             } else {
                 if(this.isDisabled) {                
@@ -220,6 +219,7 @@ export default class Pir_sharingFormFields extends LightningElement {
         }
         if(event.currentTarget.dataset.name === 'firstName') {
             if(this.sharingObject.sObjectType === 'Object') {
+                this.handleDuplicate();
                 obj = {"firstName": event.detail.value.trim()};
             } else {
                 obj = {"First_Name__c": event.detail.value.trim()};
@@ -229,6 +229,7 @@ export default class Pir_sharingFormFields extends LightningElement {
         }
         if(event.currentTarget.dataset.name === 'lastName') {
             if(this.sharingObject.sObjectType === 'Object') {
+                this.handleDuplicate();
                 obj = {"lastName": event.detail.value.trim()};
             } else {
                 obj = {"Last_Name__c": event.detail.value.trim()};
@@ -242,9 +243,57 @@ export default class Pir_sharingFormFields extends LightningElement {
             inputField.reportValidity();
         }
 
+        if(event.currentTarget.dataset.name === 'attestCheckboxUS') {
+            let inputField = this.template.querySelector('[data-name="attestCheckboxUS"]');
+            inputField.reportValidity();
+            this.cssError=event.target.checked;
+            this.handleCSS();
+        }
+      
         this.validateForm();
+   
     }
 
+    handleDuplicate(){
+        this.isDisplayFormFields = true;
+        this.isAdultDelegateUS=true;
+        if(this.isDuplicateAttestation){
+        this.isDuplicateAttestation=false;
+        }
+        this.displayFormFields();
+        if(this.duplicateDelegateInfo) {
+            this.duplicateDelegateInfo = {};
+            this.isDuplicateDelegate = false;
+        }
+        if(this.sharingObject.Birth_Year__c) {
+            this.sharingObject.Birth_Year__c = '';
+            this.template.querySelector('[data-name="attestCheckbox"]').checked = false;
+            this.template.querySelector('[data-name="attestCheckboxUS"]').checked = false;
+            this.isAdultDelegate = true;
+            this.isAdultDelegateUS=true;
+            //this.isDisabled = false;
+        }                
+        this.isDisabled = false;
+    }
+    handleCSS(){
+        if(this.cssError == true){
+            this.template.querySelectorAll(".errorcss").forEach(function (L) {
+                L.classList.add("check-box-m-topUSNoError");
+            });
+            this.template.querySelectorAll(".errorcss").forEach(function (L) {
+                L.classList.remove("check-box-m-topUSError");
+            });
+        }
+        else {
+            this.template.querySelectorAll(".errorcss").forEach(function (L) {
+                L.classList.add("check-box-m-topUSError");
+            });
+            this.template.querySelectorAll(".errorcss").forEach(function (L) {
+                L.classList.remove("check-box-m-topUSNoError");
+            });
+        }
+       
+    }
     checkDelegateAgeHandler(event) {
         
         this.loading = true;
@@ -264,10 +313,12 @@ export default class Pir_sharingFormFields extends LightningElement {
         .then((result) => {
             if(result === 'true') {
                 this.isAdultDelegate = false;
+                this.isAdultDelegateUS=false;
                  attestCheckbox.setCustomValidity('');
                 attestCheckbox.reportValidity();
             } else {
                 this.isAdultDelegate = true;
+                this.isAdultDelegateUS=true;
                 attestCheckbox.setCustomValidity(this.label.AttestedCheckboxError);                
                 attestCheckbox.reportValidity();
             }
@@ -277,6 +328,7 @@ export default class Pir_sharingFormFields extends LightningElement {
         .catch((error) => {
             console.log(error);
             this.isAdultDelegate = true;
+            this.isAdultDelegateUS=true;
             this.loading = false;
         });
         
@@ -294,25 +346,42 @@ export default class Pir_sharingFormFields extends LightningElement {
         });
 
         if(this.sharingObject.sObjectType === 'Object') {
-            if(this.isDisplayFormFields && isValidCount == 0) {
-                this.isValid = true;
-            }else if(isValidCount == 0 && !this.isDisplayFormFields) {//validation successfull
-                let checkbox = this.template.querySelector('[data-name="attestCheckbox"]').checked;
-                if(!this.isAdultDelegate && checkbox && !this.isDuplicateDelegate) {
+            if(!this.isDuplicateAttestation){
+                if(this.isDisplayFormFields && isValidCount == 0) {
+                    this.isValid = true;
+                }else if(isValidCount == 0 && !this.isDisplayFormFields) {//validation successfull
+                    let checkbox = this.template.querySelector('[data-name="attestCheckbox"]').checked;
+                    let checkboxUS = this.template.querySelector('[data-name="attestCheckboxUS"]').checked;
+
+                    if(!this.isAdultDelegate && checkbox && checkboxUS && !this.isDuplicateDelegate) {
+                        this.isValid = false;
+                    }
+                } else {
+                    this.isValid = true;
+                }
+            }
+            else{
+                let checkboxUS = this.template.querySelector('[data-name="attestCheckboxUS"]').checked;
+                let emailDel=this.template.querySelector('[data-name="email"]').value;
+                if(checkboxUS && emailDel!='') {
                     this.isValid = false;
                 }
-            } else {
-                this.isValid = true;
+                else {
+                    this.isValid = true;
+                }
             }
-        } else {
+        } 
+        
+        else {
             if(isValidCount == 0 && !this.isDisabled) {//validation successfull
                 this.isValid = false;
             } else {
                 this.isValid = true;
             }
         }
+    
         
-    }
+    } 
 
     ConnectDelegate() {
 
@@ -529,10 +598,13 @@ export default class Pir_sharingFormFields extends LightningElement {
         });
 
     }
-
+    isDuplicateAttestation=false;
     useDuplicateRecord() {
+        this.isDisplayConsent=false;
+        this.isDuplicateAttestation=true;
+        this.isAdultDelegateUS=false;
         this.isDuplicateDelegate = false;
-        this.isValid = false;
+        //this.isValid = false;
     }
 
     stopSharing() {
