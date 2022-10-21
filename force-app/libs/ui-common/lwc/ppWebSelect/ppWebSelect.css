@@ -183,8 +183,8 @@
 }
 
 .custom-no-border .dropdown-span {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: .5rem;
+    padding-right: unset;
 }
 
 .rtl {

@@ -205,3 +205,50 @@ p {
             rgba(0, 0, 0, 0) 100%
         );
 }
+
+.change-preferences {
+    height: 24px;
+    width: 118px;
+    color: #0768fd;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-decoration: underline;
+}
+
+.resource-container {
+    height: 95px;
+    width: 627px;
+}
+.url-disclaimer {
+    height: 34px;
+    width: 564px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 17px;
+}
+.contribute {
+    height: 17px;
+    width: 68px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 17px;
+}
+.btn {
+    border-radius: 25px;
+}
+.input-container {
+    box-sizing: border-box;
+    height: 32px;
+    width: 503px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+}
