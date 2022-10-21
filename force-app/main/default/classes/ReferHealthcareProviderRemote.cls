@@ -436,6 +436,10 @@ global without sharing class ReferHealthcareProviderRemote {
                     newContact.MailingCountry = countryName;
                     newContact.MailingState = stateName;
                     newContact.MailingPostalCode = participantObj.Mailing_Zip_Postal_Code__c;
+                    newContact.IQVIA_Contact_info_storage_consent__c =true;
+                    newContact.Participant_Opt_In_Status_Emails__c =true;
+                    newContact.IQVIA_PI_Storage_Consent_Time__c =Datetime.now();
+                    newContact.IQVIA_Email_Consent_Time__c =Datetime.now();
                     if ('Home' == participantObj.Phone_Type__c) {
                         newContact.HomePhone = participantObj.Phone__c;
                     }
@@ -447,10 +451,19 @@ global without sharing class ReferHealthcareProviderRemote {
                     insert newContact;
                 } else {
                     newContact = [
-                        SELECT Id, FirstName, LastName, Email, MailingCity
+                        SELECT Id, FirstName, LastName, Email, MailingCity,
+                        IQVIA_Contact_info_storage_consent__c,
+                        Participant_Opt_In_Status_Emails__c,
+                        IQVIA_PI_Storage_Consent_Time__c,
+                        IQVIA_Email_Consent_Time__c
                         FROM Contact
                         WHERE Id = :delegateDuplicate.contactId
                     ];
+                        newContact.IQVIA_Contact_info_storage_consent__c =true;
+                        newContact.Participant_Opt_In_Status_Emails__c =true;
+                        newContact.IQVIA_PI_Storage_Consent_Time__c =Datetime.now();
+                        newContact.IQVIA_Email_Consent_Time__c =Datetime.now();
+                        update newContact;
 					if(delegateDuplicate.contactId != null){
                         existingUserPatientDelegate = [SELECT ID, Email FROM User WHERE ContactId = :delegateDuplicate.contactId];
                     }
