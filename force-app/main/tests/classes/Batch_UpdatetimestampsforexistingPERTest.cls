@@ -2,6 +2,7 @@
 public with sharing class Batch_UpdatetimestampsforexistingPERTest {
     @isTest
     public static void test(){
+        Test.startTest();
         TestData.loadTestData();
         TestData testData = new TestData();
         Participant_Enrollment__c pe = new Participant_Enrollment__c();
@@ -16,9 +17,15 @@ public with sharing class Batch_UpdatetimestampsforexistingPERTest {
         pe.Study_PI_Storage_Consent_Time__c = null;
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class);
         update pe;
-        Participant_Enrollment__History[] ah =  [Select ParentId, Field, OldValue, NewValue from Participant_Enrollment__History where ParentId = :pe.Id limit 200];
-        system.debug('++++++++'+ah.size());
+        Participant_Enrollment__c pe1 = [select Id,Participant__c from Participant_Enrollment__c limit 1];
+        Participant__c part = new Participant__c();
+        part.Id = pe1.Participant__c;
+        part.Mailing_Country__c = 'United Kingdom';
+        part.Mailing_Country_Code__c = 'GB';
+        update part;
+        
         Batch_UpdatetimestampsforexistingPER batch = new Batch_UpdatetimestampsforexistingPER();
-        database.executeBatch(batch, 200);
+        database.executeBatch(batch, 2000);
+        Test.stopTest();
     }
 }
