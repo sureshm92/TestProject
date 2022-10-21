@@ -16,6 +16,10 @@
                     invitationId: communityService.getUrlParameter('inv')
                 },
                 function (response) {
+                    if (component.get('v.communityName') == 'IQVIA Patient Portal') {
+                        var ppMobileMenuEvent = $A.get('e.c:PPMobileMenu');
+                        ppMobileMenuEvent.fire();
+                    }
                     if (response === 'expired') {
                         communityService.showInfoToast('', $A.get('$Label.c.Invitation_Expired'));
                         communityService.navigateToHome();
