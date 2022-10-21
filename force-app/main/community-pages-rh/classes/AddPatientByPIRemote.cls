@@ -587,7 +587,7 @@ public without sharing class AddPatientByPIRemote {
         }
     }
 
-    @Future
+    @Future(Callout=true)
     @TestVisible
     private static void createParticipantDelegate(
         String participantDelegateJSON,
