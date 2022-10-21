@@ -70,6 +70,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track upcomingVisitId;
     @track selectedIndex = 0;
     @track initialPageLoad = false;
+    isResultsCard = true;
     initialized = '';
     visitWrappers = [];
     @api icondetails = [];
@@ -260,7 +261,14 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.visitid = this.pastVisits[index].visit.Id;
             this.visitName = this.pastVisits[index].visit.Name;
             this.plannedDate = this.pastVisits[index].visit.Planned_Date__c;
-            this.visitStatus = this.pastVisits[index].visit.Status__c;
+            if(this.pastVisits[index].missedVisit){
+                this.visitStatus = this.label.visitUnavailable;
+                this.isResultsCard = false;
+            }
+            else{
+                this.visitStatus = this.pastVisits[index].visit.Status__c;
+                this.isResultsCard = true;
+            }
         } else {
             this.visitid = this.upcomingVisits[index].visit.Id;
             this.visitName = this.upcomingVisits[index].visit.Name;
