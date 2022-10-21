@@ -569,7 +569,7 @@
 
 .slds-button.secondaryBtn:hover {
     --slds-c-button-color-border: #015ff1;
-    --slds-c-button-color-background: #ecf3ff;
+    /*--slds-c-button-color-background: #ecf3ff;*/
     color: #015ff1;
     transition: .25s;
     text-decoration: none;
