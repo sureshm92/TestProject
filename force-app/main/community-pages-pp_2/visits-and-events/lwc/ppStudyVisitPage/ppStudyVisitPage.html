@@ -112,11 +112,12 @@
                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col3"
                 >
                     <img src={visitimage2} class="image-result-visit" />
-
-                    <h1 class="what-to-expect">{label.results}</h1>
-                    <div class="icon-cont1 slds-align_absolute-center">
-                        <c-pp-study-visit-result-card></c-pp-study-visit-result-card>
-                    </div>
+                    <template if:true={isResultsCard}>
+                        <h1 class="what-to-expect">{label.results}</h1>
+                        <div class="icon-cont1 slds-align_absolute-center">
+                            <c-pp-study-visit-result-card></c-pp-study-visit-result-card>
+                        </div>
+                    </template>
                 </div>
             </div>
         </template>

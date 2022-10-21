@@ -68,6 +68,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     visitTimezone = '';
     hasRendered = false;
     @track visitdetailpageurl = '';
+    @track missedVisit = false;
 
     renderedCallback() {
         if (!this.hasRendered) {
@@ -103,6 +104,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                     }
                     if (this.visitStatus == 'Missed') {
                         this.visitStatus = this.label.Unavailable;
+                        this.missedVisit = true;
                     }
                 })
                 .catch((error) => {
