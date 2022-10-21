@@ -12,6 +12,7 @@ import location from '@salesforce/label/c.SS_Location';
 import reminder from '@salesforce/label/c.Home_Page_StudyVisit_Reminder';
 import PREFERENCES from '@salesforce/label/c.PP_TASK_COMM_PREF';
 import saveChanges from '@salesforce/label/c.BTN_Save';
+import REMIND_ME from '@salesforce/label/c.Remind_Me';
 import discard from '@salesforce/label/c.BTN_Cancel';
 import selectreminder from '@salesforce/label/c.Select_reminder';
 import email from '@salesforce/label/c.Email';
@@ -40,7 +41,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         oneweek,
         custom,
         visitdetailsupdated,
-        none
+        none,
+        REMIND_ME
     };
 
     @api visitid;
@@ -103,10 +105,10 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             } else {
                 this.emailOptIn = true;
             }
-            if (!this.emailOptIn) {
+            if (this.emailOptIn) {
                 this.email = false;
             }
-            if (!this.smsOptIn) {
+            if (this.smsOptIn) {
                 this.sms = false;
             }
         } else if (error) {
@@ -277,8 +279,16 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
 
     get showEmailSms() {
         if (!this.communicationChanged) {
-            this.email = this.visitdata.task.Remind_Using_Email__c;
-            this.sms = this.visitdata.task.Remind_Using_SMS__c;
+            if (this.emailOptIn) {
+                this.email = false;
+            } else {
+                this.email = this.visitdata.task.Remind_Using_Email__c;
+            }
+            if (this.smsOptIn) {
+                this.sms = false;
+            } else {
+                this.sms = this.visitdata.task.Remind_Using_SMS__c;
+            }
             this.communicationChanged = true;
         }
         if (this.remindmepub) {
@@ -300,6 +310,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 this.showreminderdatepicker = true;
             }
             return this.remindmepub;
+        } else if (!this.remindermepub) {
+            return null;
         } else {
             this.showreminderdatepicker = false;
         }
@@ -584,6 +596,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitTime = event.detail.comptime;
         this.visitDate = event.detail.compdate;
         this.remindmepub = '';
+        this.showreminderdatepicker = false;
         if (this.visitDate && this.visitTime) {
             this.disableButtonSaveCancel = false;
         } else {
@@ -601,7 +614,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitDateTime = event.detail.compdatetime;
         this.visitDate = event.detail.compdate;
         this.visitTime = event.detail.comptime;
+        this.email = false;
+        this.sms = false;
         this.remindmepub = '';
+        this.showreminderdatepicker = false;
+        this.reminderChanged = true;
         if (this.visitDateTime) {
             let currentUserTime = new Date().toLocaleString('en-US', { timeZone: TIME_ZONE });
             let visitDueDateTime = new Date(this.visitDateTime).toLocaleString('en-US', {
@@ -630,6 +647,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.selectedReminderDateTime = '';
         this.selectedReminderDate = '';
         this.selectedReminderTime = '';
+        this.showreminderdatepicker = false;
+        this.reminderChanged = true;
         this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.showEmailSms = false;
