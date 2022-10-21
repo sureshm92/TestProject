@@ -161,7 +161,7 @@
 }
 
 .THIS .slds-input::placeholder {
-    font-size: 1rem;
+    font-size: .875rem;
     color: #999;
     font-weight: 400;
 }

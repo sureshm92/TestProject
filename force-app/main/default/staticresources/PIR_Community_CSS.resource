@@ -79,6 +79,42 @@ height: 70px;
 .filter-area .slds-listbox__option .slds-media__body {
     font-size: 12px;
 }
+.checkboxalignonePDelegate .slds-checkbox{
+    display: inline-flex !important;
+}
+.checkboxalignonePDelegate .slds-form-element__help{
+    top: -18px;
+    position: absolute;
+    width: 200px;
+    left: 8px;
+} 
+ .checkboxalignUSPDelegate .slds-checkbox{
+    display: inline-flex !important;
+} 
+.checkboxalignUSPDelegate .slds-form-element__help{
+    top: -18px;
+    position: absolute;
+    width: 200px;
+    left: 8px;
+} 
+.checkboxalignNonUSPDelegate .slds-checkbox{
+    display: inline-flex !important;
+} 
+.checkboxalignNonUSPDelegate .slds-form-element__help{
+    top: -18px;
+    position: absolute;
+    width: 200px;
+    left: 8px;
+} 
+.checkboxalignEmancipation .slds-checkbox{
+    display: inline-flex !important;
+} 
+.checkboxalignEmancipation .slds-form-element__help{
+    top: -16px;
+    position: absolute;
+    width: 200px;
+    left: 8px;
+} 
 @media (max-device-width: 767px) {
     .pir-parent .slds-tabs_default__link {
       max-width: 190px;
@@ -89,5 +125,21 @@ height: 70px;
     .dropdown_truncate .slds-truncate {
         width:12rem;
     }
+    .checkboxalignonePDelegate .slds-form-element__label{
+        width: 83%;
+        margin-top: 33px;
+    }
+    .checkboxalignonePDelegate .slds-form-element__help{
+        top: -20px;
+    } 
+    .checkboxalignUSPDelegate .slds-form-element__help{
+        top: -20px;
+    } 
+    .checkboxalignNonUSPDelegate .slds-form-element__help{
+        top: 16px;
+    } 
+    .checkboxalignNonUSPDelegate .slds-form-element__help{
+        top: -20px;
+    } 
    
 }

@@ -4,6 +4,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import DEVICE from '@salesforce/client/formFactor';
 import IQVIA_Logo from '@salesforce/resourceUrl/IQVIA_Logo';
 import GSK_Logo from '@salesforce/resourceUrl/GSK_Logos';
+import openNewTabBlueIcon from '@salesforce/resourceUrl/openNewTabBlueIcon';
 import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
 
@@ -21,7 +22,8 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
 
     iqviaLogoUrl = IQVIA_Logo+'/IQVIALogo.png';
     gskLogoUrl = GSK_Logo+'/gsk-full.png';
-    
+    open_new_tab = openNewTabBlueIcon;
+
     @api clinicalrecord;
     shortOverview;
 

@@ -18,6 +18,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
+import formFactor from '@salesforce/client/formFactor';
 
 export default class PpTasksList extends NavigationMixin(LightningElement) {
     isShowModal = false;
@@ -38,6 +39,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     }
     @api completedTasks;
     spinner;
+    @api webIconClass;
     taskCodeList = [
         'Complete_Survey',
         'Complete_Your_Profile',
@@ -88,9 +90,15 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     expiredTasksList = [];
     ignoredTasksList = [];
     spinner;
+    isMobile = false;
 
     connectedCallback() {
         console.log('tasks', this.tasksList);
+        if (formFactor === 'Small') {
+            this.isMobile = true;
+        } else {
+            this.isMobile = false;
+        }
     }
 
     taskOpen(event) {

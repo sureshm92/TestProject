@@ -4,4 +4,4 @@ include:
     ref: master
 
 variables:
-    currentenv: $CI_COMMIT_BRANCH
+   currentenv: $CI_COMMIT_BRANCH
