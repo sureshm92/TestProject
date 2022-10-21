@@ -564,6 +564,7 @@
     color: #fff;
     background: #0557d5;
     transition: .25s;
+    text-decoration: none;
 }
 
 .slds-button.secondaryBtn:hover {
@@ -571,25 +572,24 @@
     --slds-c-button-color-background: #ecf3ff;
     color: #015ff1;
     transition: .25s;
+    text-decoration: none;
 }
 
-.secondaryBtn:disabled {
+.secondaryBtn:disabled,
+.secondaryBtn:hover:disabled {
     color: #015ff175;
     border-radius: 1rem;
     padding: 0 1rem;
     border-color: #d9d9d9;
 }
-.primaryBtn:disabled {
+
+.primaryBtn:disabled,
+.primaryBtn:hover:disabled {
     background-color: #015ff170;
     border-radius: 1rem;
     padding: 0 1rem;
     margin-left: 0.5rem;
     color: #ffffff;
-}
-
-.primaryBtn:hover,
-.secondaryBtn:hover {
-    text-decoration: none;
 }
 
 .btn-footer .slds-button+.slds-button {
