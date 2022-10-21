@@ -62,9 +62,13 @@
             component.set('v.isPPonPhone', false);
         }
     },
-    onClickSite: function(component, event) {
-        
-        if(!component.get('v.isSitecal')) {
+    closePPMobileMenu: function (component, event, helper) {
+        if (component.get('v.isPPonPhone')) {
+            component.set('v.isPPonPhone', false);
+        }
+    },
+    onClickSite: function (component, event) {
+        if (!component.get('v.isSitecal')) {
             component.set('v.isSitecal', true);
         } else {
             component.set('v.isSitecal', false);
