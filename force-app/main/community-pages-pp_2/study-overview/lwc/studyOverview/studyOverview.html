@@ -62,14 +62,8 @@
 								<div class="po-text_2 ">
                                     {label.PP_We_share_the_vision_to_drive_healthcare_forward}
                                     </br>
-                                    <span class="po-more-text" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
-                                    <lightning-button-icon
-																		class="slds-p-left_x-small"
-                                    icon-name="utility:new_window"
-                                    variant="bare"
-                                    size="medium"
-                                    onclick={handleclickClinicalResearch}
-                                    ></lightning-button-icon>
+                                    <span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
+                                    <img src={open_new_tab} onclick={handleclickClinicalResearch}/>
                                 </div>
 							</lightning-layout-item>                          
                         </lightning-layout>
@@ -134,14 +128,8 @@
                         </lightning-layout-item>
                         <lightning-layout-item size="8">
                             <div class="po-text_3 slds-p-top_large">
-                                <span class="po-more-text" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
-                                <lightning-button-icon 
-																class="slds-p-left_x-small"
-                                icon-name="utility:new_window"
-                                variant="bare"
-                                size="medium"
-                                onclick={handleclickClinicalResearch}
-                                ></lightning-button-icon>
+                                <span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
+                                <img src={open_new_tab} onclick={handleclickClinicalResearch}/>
                             </div> 
                         </lightning-layout-item>   
                         <lightning-layout-item size="12">
