@@ -15,7 +15,7 @@
                             onclick={handleBackClick}
                             class="slds-p-right_xx-small"
                         ></c-web-icon>
-                        <span>Back to Resources</span>
+                        <span>{label.Back_To_Resources}</span>
                     </div>
                     <hr />
                 </lightning-layout-item>
@@ -24,7 +24,7 @@
                 <lightning-layout-item size="12" class="slds-p-vertical_x-small">
                     <lightning-layout multiple-rows="true">
                         <lightning-layout-item size="12" class="study-title">
-                            Study Title</lightning-layout-item
+                            {studyTitle}</lightning-layout-item
                         >
                         <lightning-layout-item size="12" class="resource-heading">
                             {resourceTitle}</lightning-layout-item
@@ -111,8 +111,9 @@
             </lightning-layout>
             <!--**********  Resource Container End *************-->
         </div>
+
+        <div class="rr-width-limiter side-padding footer-resource">
+            <c-pp-community-footer> </c-pp-community-footer>
+        </div>
     </template>
-    <div class="rr-width-limiter side-padding footer-resource">
-        <c-pp-community-footer> </c-pp-community-footer>
-    </div>
 </template>
