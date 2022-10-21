@@ -59,16 +59,11 @@
                                     </div>
                             </lightning-layout-item>
                             <lightning-layout-item size="8">
-								<div class="po-text slds-p-top_x-small">
-                                    PP_We_share_the_vision_to_drive_healthcare_forward
+								<div class="po-text_2 ">
+                                    {label.PP_We_share_the_vision_to_drive_healthcare_forward}
                                     </br>
-                                    <span class="po-more-text" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
-                                    <lightning-button-icon
-                                    icon-name="utility:new_window"
-                                    variant="bare"
-                                    size="large"
-                                    onclick={handleclickClinicalResearch}
-                                    ></lightning-button-icon>
+                                    <span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
+                                    <img src={open_new_tab} onclick={handleclickClinicalResearch}/>
                                 </div>
 							</lightning-layout-item>                          
                         </lightning-layout>
@@ -118,9 +113,8 @@
                 <div class="po-container">
                     <lightning-layout
                         multiple-rows="true"
-                        vertical-align="center"
                         horizontal-align="center"
-                        class="po-custom-card"
+                        class="po-custom-card-mobile"
                     >
                         <lightning-layout-item size="4" class={borderPOHome}>
                                 <div class="po-center">
@@ -133,18 +127,13 @@
                                 </div>
                         </lightning-layout-item>
                         <lightning-layout-item size="8">
-                            <div class="po-text slds-p-top_x-small">
-                                <span class="po-more-text" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
-                                <lightning-button-icon
-                                icon-name="utility:new_window"
-                                variant="bare"
-                                size="large"
-                                onclick={handleclickClinicalResearch}
-                                ></lightning-button-icon>
+                            <div class="po-text_3 slds-p-top_large">
+                                <span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
+                                <img src={open_new_tab} onclick={handleclickClinicalResearch}/>
                             </div> 
                         </lightning-layout-item>   
                         <lightning-layout-item size="12">
-                            <div class="po-text slds-p-top_medium">PP_We_share_the_vision_to_drive_healthcare_forward</div>
+                            <div class="po-text_3">{label.PP_We_share_the_vision_to_drive_healthcare_forward}</div>
                         </lightning-layout-item>                       
                     </lightning-layout>
                 </div>

@@ -1,7 +1,10 @@
 import { LightningElement, api } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
+
 import DEVICE from '@salesforce/client/formFactor';
 import IQVIA_Logo from '@salesforce/resourceUrl/IQVIA_Logo';
 import GSK_Logo from '@salesforce/resourceUrl/GSK_Logos';
+import openNewTabBlueIcon from '@salesforce/resourceUrl/openNewTabBlueIcon';
 import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
 
@@ -10,7 +13,7 @@ import PP_We_share_the_vision_to_drive_healthcare_forward from '@salesforce/labe
 import PP_Clinical_Research_by_IQVIA from '@salesforce/label/c.PP_Clinical_Research_by_IQVIA';
 
 
-export default class StudyOverview extends LightningElement {
+export default class StudyOverview extends NavigationMixin(LightningElement) {
     label = {
 				PPLEARNMOREDESKTOPLabel,
                 PP_We_share_the_vision_to_drive_healthcare_forward,
@@ -19,7 +22,8 @@ export default class StudyOverview extends LightningElement {
 
     iqviaLogoUrl = IQVIA_Logo+'/IQVIALogo.png';
     gskLogoUrl = GSK_Logo+'/gsk-full.png';
-    
+    open_new_tab = openNewTabBlueIcon;
+
     @api clinicalrecord;
     shortOverview;
 
