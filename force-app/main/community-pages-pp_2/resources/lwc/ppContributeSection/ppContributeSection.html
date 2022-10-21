@@ -1,0 +1,38 @@
+<template>
+    <lightning-layout multiple-rows>
+        <lightning-layout-item size="12">
+            <div class="contribute">{labels.CONTRIBUTE}</div>
+            <div class="url-disclaimer slds-var-p-top_xx-small">{labels.PP_Share_Article}</div>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="12">
+            <lightning-layout>
+                <lightning-layout-item size="10">
+                    <div
+                        class="slds-p-top_x-small slds-p-right_large input-section profile-info-input"
+                    >
+                        <lightning-input
+                            type="text"
+                            data-input="inputval"
+                            placeholder={labels.URLLINK}
+                            onblur={handleUrlValidation}
+                            value={textValue}
+                        ></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="2">
+                    <div class="slds-var-p-top_x-small resource-btn profile-info-btn">
+                        <lightning-button
+                            variant="brand"
+                            label={labels.SUBMIT}
+                            title="Primary action"
+                            onclick={handleCreateArticles}
+                            class={saveButtonClass}
+                            disabled={disableSave}
+                        ></lightning-button>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

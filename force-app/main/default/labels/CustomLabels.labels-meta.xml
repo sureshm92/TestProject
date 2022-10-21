@@ -21300,12 +21300,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You have entered an invalid format</value>
     </labels>
     <labels>
-        <fullName>RH_MedicalRecords_NoPermitEmail</fullName>
+        <fullName>RH_DelegateConsentEmail</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>RH_MedicalRecords_NoPermitEmail</shortDescription>
-        <value>Please confirm participant/caregiver consent to be contacted on the Participant Details tab</value>
+        <shortDescription>RH_DelegateConsentEmail</shortDescription>
+        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with IQVIA and to be contacted at the email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
     </labels>
+    <labels>
+        <fullName>RH_DelegateConsentEmailTelROW</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_DelegateConsentEmailTelROW</shortDescription>
+        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with IQVIA and to be contacted at the telephone number(s) and/or email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
+    </labels>
+    <labels>
+        <fullName>RH_DelegateConsentEmailTelUS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_DelegateConsentEmailTelUS</shortDescription>
+        <value>By checking this box, you confirm that the participant’s chosen delegate consents to share their personal data with IQVIA, and to be contacted at the telephone number(s) and/or email provided above, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping them updated with important study-related information, according to the terms of the Privacy Policy. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+
     <labels>
         <fullName>RPR_Actions</fullName>
         <language>en_US</language>
@@ -28608,5 +28623,47 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>PP_EnterNewPassword</shortDescription>
         <value>Enter New Password</value>
+    </labels>
+    <labels>
+        <fullName>PP_Change_Preferences</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Change Preferences</shortDescription>
+        <value>Change preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_Share_Article</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Share Article</shortDescription>
+        <value>Have an article or a video that you found supportive during your clinical trial experience? Share it with us!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resources_Contribute</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resources Contribute</shortDescription>
+        <value>Contribute</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_URL_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resource URL Placeholder</shortDescription>
+        <value>Paste article or video website URL here</value>
+    </labels>
+    <labels>
+        <fullName>PP_Submit_Button</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Submit Button</shortDescription>
+        <value>Submit</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Submit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resource Submit</shortDescription>
+        <value>Content was submitted successfully. Thank you for your contribution!</value>
     </labels>
 </CustomLabels>

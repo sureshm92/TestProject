@@ -274,6 +274,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.cursor-default {
+    cursor: default;
+}
 @media all and (max-width: 486px) {
     .inactive-custom-box {
         width: 366px;
