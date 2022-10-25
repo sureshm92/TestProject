@@ -1347,27 +1347,39 @@ public without sharing class PIR_HomepageController {
 
   public static PreScreenerWrapper getPrescrennerSurvey(String strCtpId,String strPerId, String strParticipantId){
     Set<Id> setFilledPrescreenerSurvey = new Set<Id> ();
-  
     PreScreenerWrapper objWrapper = new PreScreenerWrapper();
-  
-    List<PreScreener_Survey__c> totalScreener = [SELECT Id,Study__c,Link_to_Pre_screening__c,MRR__c,Prescreener__c FROM PreScreener_Survey__c 
-                                                 Where Study__c=:strCtpId];
-   
-    
-    for(Participant_PrescreenerResponse__c objPreScreenerResponse : [SELECT ID,PreScreener_Survey__c FROM Participant_PrescreenerResponse__c
+    Boolean boolisComingFromEPR = false;
+    for(Participant_PrescreenerResponse__c objPreScreenerResponse : [SELECT ID,PreScreener_Survey__c,MRR_EPR__c FROM Participant_PrescreenerResponse__c
                                                                       wHERE Participant_enrollment__c =:strPerId OR  Participant__c=:strParticipantId]) 
     {
+      if(objPreScreenerResponse.MRR_EPR__c)
+        boolisComingFromEPR = true;
+  
       setFilledPrescreenerSurvey.add(objPreScreenerResponse.PreScreener_Survey__c);
     }
-  
+    List<PreScreener_Survey__c> totalScreener = new List<PreScreener_Survey__c> ();
+    if(!boolisComingFromEPR){
+      totalScreener = [SELECT Id,Study__c,Link_to_Pre_screening__c,MRR__c,Prescreener__c FROM PreScreener_Survey__c 
+                                                 Where Study__c=:strCtpId];
+    }
+    else {
+        totalScreener = [SELECT Id,Study__c,Link_to_Pre_screening__c,MRR__c,Prescreener__c FROM PreScreener_Survey__c 
+                         Where Study__c=:strCtpId and MRR__c = false];
+    }
     List<PreScreener_Survey__c> lstPrescreenerSurveyCompleted = [SELECT ID,Link_to_Pre_screening__c,MRR__c,Primary__c,Prescreener__c,ProviderName__c,Study__c,Survey_Name__c
                                                                   FROM PreScreener_Survey__c Where ID IN:setFilledPrescreenerSurvey];
   
-    
-  
-    List<PreScreener_Survey__c> lstPrescreenerSurvey = [SELECT ID,Link_to_Pre_screening__c,MRR__c,Primary__c,Prescreener__c,ProviderName__c,Study__c,Survey_Name__c
+    List<PreScreener_Survey__c> lstPrescreenerSurvey = new List<PreScreener_Survey__c> ();
+    if(!boolisComingFromEPR){
+     lstPrescreenerSurvey = [SELECT ID,Link_to_Pre_screening__c,MRR__c,Primary__c,Prescreener__c,ProviderName__c,Study__c,Survey_Name__c
                                                         FROM PreScreener_Survey__c Where ID NOT IN:setFilledPrescreenerSurvey 
                                                         AND  Study__c=:strCtpId  order by CreatedDate asc];
+    }
+    else{
+        lstPrescreenerSurvey = [SELECT ID,Link_to_Pre_screening__c,MRR__c,Primary__c,Prescreener__c,ProviderName__c,Study__c,Survey_Name__c
+                                                        FROM PreScreener_Survey__c Where ID NOT IN:setFilledPrescreenerSurvey AND MRR__c = false
+                                                        AND  Study__c=:strCtpId   order by CreatedDate asc];
+    }
   
     objWrapper.lstPreScreenerCompleted = lstPrescreenerSurveyCompleted;
     objWrapper.lstTotalSurvey = totalScreener;
@@ -1700,6 +1712,8 @@ public without sharing class PIR_HomepageController {
       objScreenerResponse.PreScreener_Survey__c = objScreener.Id;
       objScreenerResponse.Participant__c = objScreener.Study__c != null ? null : pe.Participant__c;
       objScreenerResponse.Participant_enrollment__c = objScreener.Study__c != null ? pe.id :null;
+      objScreenerResponse.MRR__c = objScreener.MRR__c == true ? true : false;
+      objScreenerResponse.Prescreener__c = objScreener.Prescreener__c == true ? true : false;
       objScreenerResponse.Screener_Response__c = surveyGizmoData;
       objScreenerResponse.Completed_by__c = CommunityService.getUserContact().Id;
       objScreenerResponse.Completed_Date__c = Datetime.now();
