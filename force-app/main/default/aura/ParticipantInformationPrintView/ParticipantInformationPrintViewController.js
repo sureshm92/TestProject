@@ -25,6 +25,28 @@
                         component.set('v.sendToSHDate',returnValue.currentPageList[0].sendToSHDate);
                         component.set('v.sendToSHReason',returnValue.currentPageList[0].sendToSHReason);
                     }
+
+                    if(returnValue.screenerResponse && returnValue.screenerResponse.length > 0) {
+
+                        for (var i = 0; i < returnValue.screenerResponse.length; i++) {
+
+                            if(returnValue.screenerResponse[i].PreScreener_Survey__c) {
+                              
+                                returnValue.screenerResponse[i].screenerName = returnValue.screenerResponse[i].PreScreener_Survey__r.Survey_Name__c;
+                            } else {
+                              var ctpName = '';
+                              if(returnValue.screenerResponse[i].Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c) {
+                                ctpName = returnValue.screenerResponse[i].Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                              }
+                              if(returnValue.screenerResponse[i].MRR_EPR__c) {
+                                returnValue.screenerResponse[i].screenerName = $A.get('$Label.c.EPR_Screener_Name') + (ctpName ? '_' + ctpName : '');
+                              } else if(returnValue.screenerResponse[i].MRR__c){
+                                returnValue.screenerResponse[i].screenerName =  (ctpName ? ctpName + '_' : '') + $A.get('$Label.c.Medical_Record_Review');
+                              } 
+                            }
+                        }
+                    }
+
                     component.set('v.isFinalUpdate', true);
                     component.set('v.initialized', true);
                     component.set('v.pe', returnValue.pe);

@@ -407,11 +407,19 @@
 
             <!--MRR Survey Results-->
             <aura:if
-                isTrue="{!v.peshData.screenerResponse &amp;&amp; !v.actions.screenerResponses.disabled}"
+                isTrue="{!not(empty(v.peshData.screenerResponse)) &amp;&amp; !v.actions.screenerResponses.disabled}"
             >
                 <div>
                     <div class="header">{!$Label.c.BTN_Screener_Responses}</div>
-                    <c:SurveyGismoResultsView results="{!v.peshData.screenerResponse.Screener_Response__c}" />
+                    <aura:iteration items="{!v.peshData.screenerResponse}" var="response">
+                        <div class="header">
+                            {!response.screenerName}
+                            <span class="slds-p-left_x-small">
+                                <lightning:formattedDateTime value="{!response.Completed_Date__c}" year="numeric" month="2-digit" day="2-digit"></lightning:formattedDateTime>
+                            </span>
+                        </div>    
+                        <c:SurveyGismoResultsView results="{!response.Screener_Response__c}" />
+                    </aura:iteration>
                 </div>
             </aura:if>
 

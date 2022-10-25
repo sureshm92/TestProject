@@ -342,7 +342,8 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                                 Completed_Date__c = Datetime.now(),
                                 Participant_enrollment__c = sr.getId(),
                                 Screener_Response__c = ipr.MRR_Survey_Results_URL__c,
-                                Status__c = 'Pass'
+                                Status__c = 'Pass',
+                                MRR_EPR__c = true
                             )
                         );
                     }
