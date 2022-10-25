@@ -17,7 +17,9 @@
                                 {label.taskMarkCompleteHeader}
                             </div></lightning-layout-item
                         >
-                        <lightning-layout-item style="margin-left: 5rem; margin-top: 2rem">
+                        <lightning-layout-item
+                            style="margin-left: 5rem; margin-top: 2rem; cursor: pointer"
+                        >
                             <lightning-icon
                                 icon-name="utility:close"
                                 size="small"
@@ -56,12 +58,22 @@
                         data-index={item.task.Id}
                     >
                         <template if:false={item.businessTask}>
-                            <c-web-icon
-                                class="sys-task"
-                                icon-name="task-illustration"
-                                icon-size="big"
-                            >
-                            </c-web-icon>
+                            <template if:true={isMobile}>
+                                <c-web-icon
+                                    class="sys-task"
+                                    icon-name="task-illustration"
+                                    icon-size="big-custom"
+                                >
+                                </c-web-icon>
+                            </template>
+                            <template if:false={isMobile}>
+                                <c-web-icon
+                                    class="sys-task"
+                                    icon-name="task-illustration"
+                                    icon-size="big"
+                                >
+                                </c-web-icon>
+                            </template>
                         </template>
                         <template if:true={item.businessTask}>
                             <c-web-icon class="sys-task" icon-name="task-survey" icon-size="big">
@@ -72,7 +84,7 @@
                 <template if:false={item.systemTask}>
                     <template if:false={item.isClosed}>
                         <c-web-icon
-                            class="open-task-icon slds-p-left_medium empty-oval"
+                            class={webIconClass}
                             icon-name="icon-opentask"
                             icon-color=""
                             onclick={showTaskCompleteModal}
@@ -85,7 +97,7 @@
                     </template>
                     <template if:true={item.isClosed}>
                         <c-web-icon
-                            class="open-task-icon slds-p-left_medium empty-oval"
+                            class={webIconClass}
                             icon-name="icon-completedtask"
                             onclick={showTaskCompleteModal}
                             onmouseover={fillTheOpenIcon}
@@ -105,7 +117,10 @@
                             data-actionurl={item.task.Action_URL__c}
                             data-status={item.task.Status}
                             data-index={item.task.Id}
-                            ><lightning-formatted-text value={item.task.Subject}>
+                            ><lightning-formatted-text
+                                value={item.task.Subject}
+                                title={item.task.Subject}
+                            >
                             </lightning-formatted-text
                         ></span>
                     </lightning-layout-item>
@@ -121,7 +136,7 @@
                     <lightning-layout
                         ><lightning-layout-item size="12"
                             ><span class={dueTimeClass}
-                                >{label.taskDue} : &nbsp;
+                                >{label.taskDue}: &nbsp;
 
                                 <lightning-formatted-date-time
                                     value={item.task.Activity_Datetime__c}
@@ -141,12 +156,13 @@
                         </lightning-layout-item>
                     </lightning-layout>
                 </template>
+
                 <template if:true={item.completed}>
                     <lightning-layout
                         ><lightning-layout-item size="12"
                             ><span class={dueTimeClass}
-                                >Completed : &nbsp;
-
+                                >{label.taskPPCompletedLabel}: &nbsp;
+                                <template if:true={isMobile}><br /></template>
                                 <lightning-formatted-date-time
                                     value={item.task.Completed_Date__c}
                                     year="numeric"

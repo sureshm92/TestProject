@@ -28624,4 +28624,67 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>PP_EnterNewPassword</shortDescription>
         <value>Enter New Password</value>
     </labels>
+    <labels>
+        <fullName>PP_Change_Preferences</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Change Preferences</shortDescription>
+        <value>Change preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_Share_Article</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Share Article</shortDescription>
+        <value>Have an article or a video that you found supportive during your clinical trial experience? Share it with us!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resources_Contribute</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resources Contribute</shortDescription>
+        <value>Contribute</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_URL_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resource URL Placeholder</shortDescription>
+        <value>Paste article or video website URL here</value>
+    </labels>
+    <labels>
+        <fullName>PP_Submit_Button</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Submit Button</shortDescription>
+        <value>Submit</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Submit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resource Submit</shortDescription>
+        <value>Content was submitted successfully. Thank you for your contribution!</value>
+    </labels>
+    <labels>
+        <fullName>Task_PP_Completed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task PP Completed</shortDescription>
+        <value>Completed</value>
+    </labels>
+    <labels>
+        <fullName>Task_PP_Expired</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task PP Expired</shortDescription>
+        <value>Expired</value>
+    </labels>
+    <labels>
+        <fullName>Task_PP_Ignored</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task PP Ignored</shortDescription>
+        <value>Ignored</value>
+    </labels>
 </CustomLabels>

@@ -55,9 +55,7 @@
             </div>
             <div>
                 <div class="slds-grid slds-wrap">
-                    <div
-                        class="slds-size_1-of-1 slds-small-size_1-of-2 slds-p-right_x-small slds-p-left_none"
-                    >
+                    <div class="slds-size_1-of-1 slds-small-size_1-of-1 slds-p-left_none">
                         <div if:false={past}>
                             <label>{label.reminder}</label>
                             <div class="curve-input">
@@ -85,7 +83,7 @@
                     </div>
                     <div
                         if:false={past}
-                        class="slds-col slds-size_3-of-4 slds-small-size_1-of-2 comm-checks"
+                        class="slds-col slds-size_3-of-4 slds-small-size_3-of-4 slds-p-around_none comm-checks"
                     >
                         <div if:true={showEmailSms}>
                             <lightning-input
@@ -111,7 +109,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="slds-grid slds-wrap acc-pref" if:false={past}>
+                <div class="slds-col slds-size_1-of-1 slds-p-top_xx-smal acc-pref" if:false={past}>
                     <div if:true={showEmailSms}>
                         <a class="comm-link" href={url} target="_blank">
                             <span>{label.PREFERENCES}</span>
@@ -137,8 +135,8 @@
                         ondate={handleOnlyDateReminder}
                         ontime={handleOnlyTimeReminder}
                     ></c-pp-date-time-combo>
-                    &nbsp; &nbsp;
                 </div>
+                &nbsp; &nbsp; &nbsp;
             </div>
             <div if:false={past} class="slds-size_1-of-1 btn-footer">
                 <button
