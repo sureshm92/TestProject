@@ -37,7 +37,7 @@
                     ontime={handleOnlyTime}
                 ></c-pp-date-time-combo>
                 <div if:true={past} class="slds-grid slds-wrap">
-                    <div class="slds-col slds-size_1-of-2 slds-p-left_none">
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-left_none">
                         {label.date}
                         <div class="curve-input">
                             <c-web-icon
@@ -55,7 +55,7 @@
             </div>
             <div>
                 <div class="slds-grid slds-wrap">
-                    <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-p-left_none">
+                    <div class="slds-size_1-of-1 slds-small-size_1-of-1 slds-p-left_none">
                         <div if:false={past}>
                             <label>{label.reminder}</label>
                             <div class="curve-input">
@@ -67,20 +67,23 @@
                                     icon-color="#00A3E0"
                                 >
                                 </c-web-icon>
-                                <lightning-combobox
-                                    data:id="reminderOption"
-                                    placeholder={label.selectreminder}
-                                    value={dbReminderOption}
-                                    onchange={doValidateFields}
-                                    options={reminderFrequencyList}
-                                    disabled={showReminders}
-                                ></lightning-combobox>
+                                <c-pp-web-select
+                                    class="full-width"
+                                    label-hidden="true"
+                                    place-holder={label.selectreminder}
+                                    selected-value={dbReminderOption}
+                                    options={reminderOptions}
+                                    custom-class="custom-no-border"
+                                    is-disabled-options="true"
+                                    is-disabled={showReminders}
+                                    onchangevalue={doValidateFields}
+                                ></c-pp-web-select>
                             </div>
                         </div>
                     </div>
                     <div
                         if:false={past}
-                        class="slds-col slds-size_3-of-4 slds-small-size_1-of-2 comm-checks"
+                        class="slds-col slds-size_3-of-4 slds-small-size_3-of-4 slds-p-around_none comm-checks"
                     >
                         <div if:true={showEmailSms}>
                             <lightning-input
@@ -88,9 +91,9 @@
                                 label={label.email}
                                 type="checkbox"
                                 name={label.email}
-                                value={visitdata.task.Remind_Using_Email__c}
+                                value={email}
                                 disabled={emailOptIn}
-                                checked={visitdata.task.Remind_Using_Email__c}
+                                checked={email}
                                 onchange={setAttributeValueEmail}
                             ></lightning-input>
                             <lightning-input
@@ -98,17 +101,17 @@
                                 type="checkbox"
                                 label={label.sms}
                                 name={label.sms}
-                                value={visitdata.task.Remind_Using_SMS__c}
+                                value={sms}
                                 disabled={smsOptIn}
-                                checked={visitdata.task.Remind_Using_SMS__c}
+                                checked={sms}
                                 onchange={setAttributeValueSms}
                             ></lightning-input>
                         </div>
                     </div>
                 </div>
-                <div class="slds-grid slds-wrap acc-pref" if:false={past}>
+                <div class="slds-col slds-size_1-of-1 slds-p-top_xx-smal acc-pref" if:false={past}>
                     <div if:true={showEmailSms}>
-                        <a class="comm-link" href={url}>
+                        <a class="comm-link" href={url} target="_blank">
                             <span>{label.PREFERENCES}</span>
                         </a>
                     </div>
@@ -133,6 +136,7 @@
                         ontime={handleOnlyTimeReminder}
                     ></c-pp-date-time-combo>
                 </div>
+                &nbsp; &nbsp; &nbsp;
             </div>
             <div if:false={past} class="slds-size_1-of-1 btn-footer">
                 <button

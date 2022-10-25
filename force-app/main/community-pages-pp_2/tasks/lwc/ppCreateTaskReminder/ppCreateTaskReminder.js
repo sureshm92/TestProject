@@ -6,7 +6,6 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 //static resources
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import COMETD_LIB from '@salesforce/resourceUrl/cometd';
 import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import getSessionId from '@salesforce/apex/TelevisitMeetBannerController.getSessionId';
@@ -67,7 +66,6 @@ export default class PpCreateTaskReminder extends LightningElement {
         PP_TASK_COMM_PREF
     };
     @track initialReminderOptions = [
-        { label: this.labels.PP_NO_REMINDER, value: 'No reminder', itemClass: 'dropdown-li' },
         {
             label: this.labels.ONE_HOUR,
             value: '1 hour before',
@@ -95,7 +93,6 @@ export default class PpCreateTaskReminder extends LightningElement {
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 Promise.all([
-                    loadStyle(this, communityPPTheme),
                     loadScript(this, COMETD_LIB),
                     loadScript(this, moment),
                     loadScript(this, momentTZ)
@@ -123,24 +120,24 @@ export default class PpCreateTaskReminder extends LightningElement {
     get reminderOptions() {
         let differenceTimeHours = this.calculateTimezoneDifference();
         if (differenceTimeHours > 1) {
-            this.initialReminderOptions[1].itemClass = 'dropdown-li';
+            this.initialReminderOptions[0].itemClass = 'dropdown-li';
         } else {
-            this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
+            this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
         }
         if (differenceTimeHours > 4) {
+            this.initialReminderOptions[1].itemClass = 'dropdown-li';
+        } else {
+            this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
+        }
+        if (differenceTimeHours > 24) {
             this.initialReminderOptions[2].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
         }
-        if (differenceTimeHours > 24) {
+        if (differenceTimeHours > 168) {
             this.initialReminderOptions[3].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[3].itemClass = 'dropdown-li li-item-disabled';
-        }
-        if (differenceTimeHours > 168) {
-            this.initialReminderOptions[4].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[4].itemClass = 'dropdown-li li-item-disabled';
         }
         return this.initialReminderOptions;
     }
@@ -155,6 +152,18 @@ export default class PpCreateTaskReminder extends LightningElement {
             ('0' + (currentDateTimeObject.getMonth() + 1)).slice(-2),
             ('0' + currentDateTimeObject.getDate()).slice(-2)
         ].join('-');
+        let hh = String(
+            (currentDateTimeObject.getHours() < 10 ? '0' : '') + currentDateTimeObject.getHours()
+        );
+        let mm = String(
+            (currentDateTimeObject.getMinutes() < 10 ? '0' : '') +
+                currentDateTimeObject.getMinutes()
+        );
+        let ss = String(
+            (currentDateTimeObject.getSeconds() < 10 ? '0' : '') +
+                currentDateTimeObject.getSeconds()
+        );
+        this.currentTime = hh + ':' + mm + ':' + ss;
         return this.selectedReminderDate == currentDateTimeString ? this.currentTime : null;
     }
 

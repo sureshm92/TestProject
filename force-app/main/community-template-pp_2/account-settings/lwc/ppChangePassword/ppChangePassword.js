@@ -173,13 +173,13 @@ export default class PpChangePassword extends LightningElement {
     }
 
     get currentPasswordEyeIconTitle() {
-        return this.showCurrentPassword ? 'Hide' : 'Show';
+        return this.showCurrentPassword ? 'hide' : 'show';
     }
     get newCurrentPasswordEyeIconTitle() {
-        return this.showNewPassword ? 'Hide' : 'Show';
+        return this.showNewPassword ? 'hide' : 'show';
     }
     get reNewCurrentPasswordEyeIconTitle() {
-        return this.showReNewPassword ? 'Hide' : 'Show';
+        return this.showReNewPassword ? 'hide' : 'show';
     }
 
     get checkIcon() {

@@ -22,6 +22,7 @@ import visitdetails from '@salesforce/label/c.Visit_Details';
 import communicationPreference from '@salesforce/label/c.Communication_Preference_Url';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import Unavailable from '@salesforce/label/c.Study_Visit_Unavailable';
 
 export default class PpStudyVisitDetailsMobile extends NavigationMixin(LightningElement) {
     label = {
@@ -35,7 +36,8 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         resultsCheck,
         viewAllResults,
         visitdetails,
-        BTN_Back
+        BTN_Back,
+        Unavailable
     };
     status = {
         scheduled: 'Scheduled',
@@ -64,8 +66,19 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     plannedDate = '';
     visitStatus = '';
     visitTimezone = '';
+    hasRendered = false;
+    @track visitdetailpageurl = '';
+    @track missedVisit = false;
+
+    renderedCallback() {
+        if (!this.hasRendered) {
+            this.template.querySelector('c-web-spinner').show();
+            this.hasRendered = true;
+        }
+    }
 
     connectedCallback() {
+        this.contentLoaded = false;
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 this.sfdcBaseURL = window.location.origin + basePathName + communicationPreference;
@@ -75,6 +88,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                 this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
     }
+
     getVisitDetails(visitid) {
         if (visitid != null) {
             getParticipantVisits({
@@ -87,6 +101,10 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                         this.plannedDate = this.visitDetail[0].Planned_Date__c;
                         this.visitStatus = this.visitDetail[0].Status__c;
                         this.visitTimezone = TIME_ZONE;
+                    }
+                    if (this.visitStatus == 'Missed') {
+                        this.visitStatus = this.label.Unavailable;
+                        this.missedVisit = true;
                     }
                 })
                 .catch((error) => {
@@ -122,11 +140,16 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
 
     handleBackClick() {
-        this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
+        this.visitdetailpageurl =
+            window.location.origin + basePathName + '/visits' + '?ispast=' + this.past;
+        const config = {
+            type: 'standard__webPage',
             attributes: {
-                name: 'Visits__c'
+                url: this.visitdetailpageurl
             }
+        };
+        this[NavigationMixin.GenerateUrl](config).then((url) => {
+            window.open(url, '_self');
         });
     }
 
@@ -176,6 +199,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                 this.taskId = this.visitdata.task.Id;
                 this.taskSubject = this.visitdata.visit.Name;
                 this.contentLoaded = true;
+                this.template.querySelector('c-web-spinner').hide();
                 this.showChild = true;
                 if (this.template.querySelector('c-pp-Study-Visit-Details-Card')) {
                     this.template.querySelector('c-pp-Study-Visit-Details-Card').callFromParent();
@@ -183,6 +207,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
             });
         } else {
             this.contentLoaded = true;
+            this.template.querySelector('c-web-spinner').hide();
         }
     }
 

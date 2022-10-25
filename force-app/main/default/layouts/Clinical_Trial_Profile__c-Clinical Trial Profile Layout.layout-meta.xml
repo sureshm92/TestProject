@@ -94,10 +94,10 @@
                 <behavior>Edit</behavior>
                 <field>Official_Title__c</field>
             </layoutItems>
-            <!-- <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Brief_Summary__c</field>
-            </layoutItems> -->
+            </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Study_Content__c</field>
@@ -790,6 +790,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Survey_Name__c</fields>
         <relatedList>PreScreener_Survey__c.Study__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

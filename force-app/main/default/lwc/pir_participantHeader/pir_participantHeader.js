@@ -207,8 +207,7 @@ export default class Pir_participantHeader extends LightningElement {
                         this.showActionName = 'NOPP';
                     }
 
-
-                 if(result.objScreenerWrapper.lstPrescreenerSurveyPending.length > 0){
+                if(result.preScreenAccess && result.objScreenerWrapper.lstPrescreenerSurveyPending.length > 0){ 
                     this.totalSurveyToComplete = result.objScreenerWrapper.lstTotalSurvey.length;
                     this.completedSurveyByUser = result.objScreenerWrapper.lstPreScreenerCompleted.length;
                     this.surveyPending = result.objScreenerWrapper.lstPrescreenerSurveyPending;
@@ -265,6 +264,19 @@ export default class Pir_participantHeader extends LightningElement {
                    else if(!this.currentSurvey && !this.prescreenerSurvey && this.StudySpecificSecondarySurveyList.length >0)
                    {
                     this.currentSurvey = this.StudySpecificSecondarySurveyList[0];
+                    var indexSec = this.StudySpecificSecondarySurveyList.findIndex(
+                        (x) => x.Id ===this.currentSurvey.Id
+                      );
+                    if(indexSec != -1){
+                      this.StudySpecificSecondarySurveyList =
+                      this.StudySpecificSecondarySurveyList.filter(
+                        (surve) =>
+                        surve.Id !=
+                          this.StudySpecificSecondarySurveyList[indexSec].Id
+                      );
+                    }
+
+
                    }
                    
                    this.mrrLink = this.currentSurvey.Link_to_Pre_screening__c;
@@ -390,6 +402,9 @@ export default class Pir_participantHeader extends LightningElement {
             }
             else if(this.StudySpecificSecondarySurveyList.length > 0)
             {
+                this.currentSurvey =  this.StudySpecificSecondarySurveyList[0];
+                this.mrrLink = this.currentSurvey.Link_to_Pre_screening__c;
+
                 var indexSec = this.StudySpecificSecondarySurveyList.findIndex(
                     (x) => x.Id ===this.currentSurvey.Id
                   );
@@ -401,8 +416,6 @@ export default class Pir_participantHeader extends LightningElement {
                       this.StudySpecificSecondarySurveyList[indexSec].Id
                   );
                 }
-                this.currentSurvey =  this.StudySpecificSecondarySurveyList[0];
-                this.mrrLink = this.currentSurvey.Link_to_Pre_screening__c;
             }
            
        }
@@ -531,13 +544,7 @@ export default class Pir_participantHeader extends LightningElement {
                 })
             }
             else{
-                const evt = new ShowToastEvent({
-                    title: Send_to_Dct_dob_error,
-                    message: Send_to_Dct_dob_error,
-                    variant: 'error',
-                    mode: 'sticky'
-                });
-                this.dispatchEvent(evt);
+                this.showErrorToast(Send_to_Dct_dob_error);                
                 this.dispatchEvent(new CustomEvent('gotodetail'));
             }
         }

@@ -54,7 +54,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Send to Dct dob error</shortDescription>
-        <value>Participant data couldn&apos;t be sent to DCT because some fields related to this participant are missing. Please fill them out on the Participant Details tab before continuing.</value>
+        <value>Participant could not be sent to DCT. Information is missing on Participant Details tab.</value>
+    </labels>
+    <labels>
+        <fullName>Missing_participant_information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing participant information</shortDescription>
+        <value>Please fill in the required missing information before continuing.</value>
     </labels>
     <labels>
         <fullName>Site_Calendar_All_Studies_Sites</fullName>
@@ -10591,6 +10598,20 @@ The expected format is REF##### to REF########</value>
         <value>Hide</value>
     </labels>
     <labels>
+        <fullName>PP_Login_Form_Show</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Login Form Show</shortDescription>
+        <value>show</value>
+    </labels>
+    <labels>
+        <fullName>PP_Login_Form_Hide</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription> PP Login Form Hide</shortDescription>
+        <value>hide</value>
+    </labels>
+    <labels>
         <fullName>Low_density_Lipoprotein</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13886,6 +13907,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP AS F 3rd Choice Language Help Text</shortDescription>
         <value>To be used when your Preferred and Second Language are not available.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Clinical_Research_by_IQVIA</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Clinical_Research_by_IQVIA</shortDescription>
+        <value>Clinical Research by IQVIA</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Current_Password</fullName>
@@ -18495,7 +18523,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_SMSTexMessage</shortDescription>
-        <value>SMS/Text Message</value>
+        <value>SMS/Text</value>
     </labels>
     <labels>
         <fullName>PP_SaveContinue</fullName>
@@ -20118,6 +20146,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Welcome</value>
     </labels>
     <labels>
+        <fullName>PP_We_share_the_vision_to_drive_healthcare_forward</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_We_share_the_vision_to_drive_healthcare_forward</shortDescription>
+        <value>We share the vision to drive healthcare forward. We do our part by using breakthroughs in insights, technology and human intelligence to reimagine and deliver ways to help make them a reality. Learn more about clinical trial opportunities and what new hope is on the horizon today!</value>
+    </labels>
+    <labels>
         <fullName>PP_Withdraw_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21264,6 +21299,28 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>RH Email Invalid Error</shortDescription>
         <value>You have entered an invalid format</value>
     </labels>
+    <labels>
+        <fullName>RH_DelegateConsentEmail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_DelegateConsentEmail</shortDescription>
+        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with IQVIA and to be contacted at the email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
+    </labels>
+    <labels>
+        <fullName>RH_DelegateConsentEmailTelROW</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_DelegateConsentEmailTelROW</shortDescription>
+        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with IQVIA and to be contacted at the telephone number(s) and/or email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
+    </labels>
+    <labels>
+        <fullName>RH_DelegateConsentEmailTelUS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_DelegateConsentEmailTelUS</shortDescription>
+        <value>By checking this box, you confirm that the participant’s chosen delegate consents to share their personal data with IQVIA, and to be contacted at the telephone number(s) and/or email provided above, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping them updated with important study-related information, according to the terms of the Privacy Policy. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+
     <labels>
         <fullName>RPR_Actions</fullName>
         <language>en_US</language>
@@ -28524,5 +28581,110 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Select_E-Consent_Vendor</shortDescription>
         <value>Select E-Consent Vendor</value>
+    </labels>
+    <labels>
+        <fullName>Task_No_Completed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task No Completed</shortDescription>
+        <value>You have no completed tasks</value>
+    </labels>
+    <labels>
+        <fullName>Valid_Time_Format</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Please enter a valid time format</shortDescription>
+        <value>Please enter a valid time format</value>
+    </labels>
+    <labels>
+        <fullName>No_Documents_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No documents available</shortDescription>
+        <value>No documents available</value>
+    </labels>
+    <labels>
+        <fullName>No_Past_Values</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Value cannot be in past</shortDescription>
+        <value>Value cannot be in past</value>
+    </labels>
+    <labels>
+        <fullName>No_future_Values</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Value cannot be in future</shortDescription>
+        <value>Value cannot be in future</value>
+    </labels>
+    <labels>
+        <fullName>PP_Enter_New_Password</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EnterNewPassword</shortDescription>
+        <value>Enter New Password</value>
+    </labels>
+    <labels>
+        <fullName>PP_Change_Preferences</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Change Preferences</shortDescription>
+        <value>Change preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_Share_Article</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Share Article</shortDescription>
+        <value>Have an article or a video that you found supportive during your clinical trial experience? Share it with us!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resources_Contribute</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resources Contribute</shortDescription>
+        <value>Contribute</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_URL_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resource URL Placeholder</shortDescription>
+        <value>Paste article or video website URL here</value>
+    </labels>
+    <labels>
+        <fullName>PP_Submit_Button</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Submit Button</shortDescription>
+        <value>Submit</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Submit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resource Submit</shortDescription>
+        <value>Content was submitted successfully. Thank you for your contribution!</value>
+    </labels>
+    <labels>
+        <fullName>Task_PP_Completed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task PP Completed</shortDescription>
+        <value>Completed</value>
+    </labels>
+    <labels>
+        <fullName>Task_PP_Expired</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task PP Expired</shortDescription>
+        <value>Expired</value>
+    </labels>
+    <labels>
+        <fullName>Task_PP_Ignored</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task PP Ignored</shortDescription>
+        <value>Ignored</value>
     </labels>
 </CustomLabels>

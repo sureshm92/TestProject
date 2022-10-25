@@ -54,6 +54,16 @@
                     component.set('v.showDay',false);
                     component.set('v.showMonth',false);
                     component.set('v.showYear',false);
+                    component.set('v.monthName','');
+                    let monthmap = new Map([
+                            ["01" ,$A.get("$Label.c.January")],["02", $A.get("$Label.c.February")], ["03", $A.get("$Label.c.March")],["04" ,$A.get("$Label.c.April")],
+                            ["05", $A.get("$Label.c.May")], ["06", $A.get("$Label.c.June")],["07" ,$A.get("$Label.c.July")],["08", $A.get("$Label.c.August")],
+                            ["09", $A.get("$Label.c.September")], ["10", $A.get("$Label.c.October")],["11", $A.get("$Label.c.November")], ["12", $A.get("$Label.c.December")]
+                    ]);
+                    if(returnValue.pe.Study_Site__r.Participant_DOB_format__c != 'YYYY' && 
+                       returnValue.pe.Participant__r.Birth_Month__c != undefined && returnValue.pe.Participant__r.Birth_Month__c != null){
+                        component.set('v.monthName',monthmap.get(returnValue.pe.Participant__r.Birth_Month__c));
+                    }
                     if(returnValue.pe.Study_Site__r.Participant_DOB_format__c == 'DD-MM-YYYY'){
                         component.set('v.showDay',true);
                         component.set('v.showMonth',true);

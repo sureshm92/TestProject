@@ -304,11 +304,20 @@
                                                 </template>
                                             </template>
                                             <template if:false={dctCheck}>
-                                                <div class="slds-align--absolute-center w-10">
-                                                    <lightning-input type="checkbox" data-id="checkbox"
-                                                        checked={p.check} data-value={p.id}
-                                                        onchange={handleCheckChange}></lightning-input>
-                                                </div>
+                                                <template if:true={bulkEligibilityPassed}>
+                                                    <div class="slds-align--absolute-center w-10">
+                                                        <lightning-input type="checkbox" data-id="checkbox"
+                                                            checked={p.check} data-value={p.id}
+                                                            onchange={handleCheckChange} disabled={p.eligibilityInvalid}></lightning-input>
+                                                    </div>
+                                                </template>
+                                                <template if:false={bulkEligibilityPassed}>
+                                                    <div class="slds-align--absolute-center w-10">
+                                                        <lightning-input type="checkbox" data-id="checkbox"
+                                                            checked={p.check} data-value={p.id}
+                                                            onchange={handleCheckChange}></lightning-input>
+                                                    </div>
+                                                </template>                                                
                                             </template>
                                         </template>
                                     </template>
