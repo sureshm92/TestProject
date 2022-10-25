@@ -27,11 +27,14 @@
     width: 25px;
 }
 
-.rr-icon_large{
+.rr-icon_large {
     height: 35px;
     width: 35px;
 }
-
+.rr-icon_big-custom {
+    height: 45px;
+    width: 45px;
+}
 .rr-icon_big {
     height: 60px;
     width: 60px;
