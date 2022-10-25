@@ -8367,6 +8367,13 @@ Release 4.0 includes additional details around the screening process, which has 
         <value>Ethnicity</value>
     </labels>
     <labels>
+        <fullName>EPR_Screener_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EPR Screener Name</shortDescription>
+        <value>Digital Recruitment</value>
+    </labels>
+    <labels>
         <fullName>Export_Excel_Investigator_Name</fullName>
         <categories>excel export</categories>
         <language>en_US</language>
@@ -8724,6 +8731,13 @@ Release 4.0 includes additional details around the screening process, which has 
         <protected>false</protected>
         <shortDescription>Gather Share Know</shortDescription>
         <value>Gather Share Know</value>
+    </labels>
+    <labels>
+        <fullName>General_Screener_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>General Screener Name</shortDescription>
+        <value>Screener</value>
     </labels>
     <labels>
         <fullName>GMap_Not_Available</fullName>
@@ -10638,6 +10652,13 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Month_Placeholder</shortDescription>
         <value>MM</value>
+    </labels>
+    <labels>
+        <fullName>MRR_Screener_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MRR Screener Name</shortDescription>
+        <value>Medical Record Review</value>
     </labels>
 
     <labels>
