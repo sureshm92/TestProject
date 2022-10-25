@@ -12,6 +12,7 @@ import notAvailable from '@salesforce/label/c.Not_Available';
 import taskMarkCompleteHeader from '@salesforce/label/c.Task_Mark_Complete';
 import taskReminder from '@salesforce/label/c.Task_Reminder';
 import noOpenTasks from '@salesforce/label/c.No_Open_Tasks';
+import taskPPCompletedLabel from '@salesforce/label/c.Task_PP_Completed';
 
 import markAsCompleted from '@salesforce/apex/TaskEditRemote.markAsCompleted';
 import { NavigationMixin } from 'lightning/navigation';
@@ -65,7 +66,8 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         taskEdit,
         taskIgnore,
         taskCreateReminder,
-        taskCompleted
+        taskCompleted,
+        taskPPCompletedLabel
     };
     isCreateTask = false;
     isShowModal = false;
