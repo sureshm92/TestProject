@@ -279,7 +279,6 @@ public without sharing class PatientDelegateService {
         ];
         Boolean hasWithdrawn = true;
         if (newDelegateContact.size() > 0) {
-            system.debug('newDelegateContact-->' + newDelegateContact);
             List<Patient_Delegate__c> pdList = [
                 SELECT Id, Contact__r.Email, Contact__c, Status__c, Participant__c
                 FROM Patient_Delegate__c
@@ -290,7 +289,6 @@ public without sharing class PatientDelegateService {
 
             for (Patient_Delegate__c pd : pdList) {
                 if (pd.Status__c != 'Withdrawn') {
-                    system.debug('pd-->' + pd.Status__c);
                     hasWithdrawn = false;
                 }
             }
@@ -298,14 +296,13 @@ public without sharing class PatientDelegateService {
         for (Id contactId : getDelegatedContactIds()) {
             if (contactId == newDelegate.Id) {
                 isDelegateExisting = true;
-                system.debug('isDelegateExisting--> 11' + isDelegateExisting);
                 break;
             }
         }
         return (isDelegateExisting && (hasWithdrawn == false));
     }
 
-    public void createPatientDelegate(Contact newDelegate) {
+    public void createPatientDelegate(Contact newDelegate,String delegateFilterData) {
         List<User> delegateUser = [
             SELECT Id
             FROM User
@@ -382,6 +379,10 @@ public without sharing class PatientDelegateService {
             pd.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
             pd.Attested_by__c = participant.get(0).Contact__c;
             insert pd;
+            //@krihsna:- Added null check as method called from PPLight will send null as of now.
+            if(delegateFilterData!=null){
+                 PatientDelegateEnrollmentService.getInstance().createPatientDelegateEnrollment(pd,delegateFilterData);
+            }
         }
     }
 
@@ -611,36 +612,41 @@ public without sharing class PatientDelegateService {
         Id delContactId = CommunityService.getInstance().getCurrentContactId();
         Set<Id> delPeidsset = new Set<Id>();
         List<Id> delPeids = new List<Id>();
+
         if (filter == null)
             filter = '';
         String ownPEFilter =
             'Participant__r.Contact__c IN ' + DatabaseService.listToString(contactIds);
+        system.debug('ownPEFilter:::'+ownPEFilter); //Participant__r.Contact__c IN ('0037g00001B2uZ8AAJ')
 
-            if(contactIds != null && delContactId != contactIds[0]){
-                Map<Id,Patient_Delegate_Enrollment__c> pdeList = new Map<Id,Patient_Delegate_Enrollment__c>([
-                    SELECT Id, Participant_Enrollment__c, Participant_Enrollment__r.Participant_Status__c,Patient_Delegate__r.Contact__c,Patient_Delegate__c,Patient_Delegate__r.Participant__c,Name,Status__c,Participant_Enrollment__r.study__c
-                    FROM Patient_Delegate_Enrollment__c
-                    WHERE Patient_Delegate__r.Contact__c =: delContactId AND Status__c = 'Active']);
-                if(!pdeList.isEmpty() && pdeList != null){
-                    for(Patient_Delegate_Enrollment__c pde : pdeList.values()){
-                        delPeidsset.add(pde.Participant_Enrollment__c);
-                    }    
-                }
+        if(contactIds != null && delContactId != contactIds[0]){
+            Map<Id,Patient_Delegate_Enrollment__c> pdeList = new Map<Id,Patient_Delegate_Enrollment__c>([
+                SELECT Id, Participant_Enrollment__c, Participant_Enrollment__r.Participant_Status__c,Patient_Delegate__r.Contact__c,Patient_Delegate__c,Patient_Delegate__r.Participant__c,Name,Status__c,Participant_Enrollment__r.study__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Patient_Delegate__r.Contact__c =: delContactId AND Status__c = 'Active']);
+            if(!pdeList.isEmpty()){
+                for(Patient_Delegate_Enrollment__c pde : pdeList.values()){
+                    delPeidsset.add(pde.Participant_Enrollment__c);
+                }    
             }
-            if(delPeidsset != null) delPeids.addAll(delPeidsset);
-            if (!String.isEmpty(filter) && delPeids != null && delPeids.size()>0){
-                filter += ' AND Id IN ' +DatabaseService.listToString(delPeids);
-                ownPEFilter += ' AND ' + filter;
-                system.debug('ownPEFilter:::'+ownPEFilter);
-            }
-            else if (!String.isEmpty(filter)){
-                ownPEFilter += ' AND ' + filter;
-            }
-            List<Participant_Enrollment__c> ownPEList = DatabaseService.query(
+        }
+        if(delPeidsset != null) delPeids.addAll(delPeidsset);
+        if (!String.isEmpty(filter) && delContactId != null && delPeids != null && delPeids.size()>0){
+            filter += ' AND Id IN ' +DatabaseService.listToString(delPeids);
+            ownPEFilter += ' AND ' + filter;
+            system.debug('ownPEFilter:::'+ownPEFilter);
+        }
+        else if (!String.isEmpty(filter)){
+            ownPEFilter += ' AND ' + filter;
+        }
+        system.debug('ownPEFilter:::'+ownPEFilter);
+        List<Participant_Enrollment__c> ownPEList = DatabaseService.query(
             new List<String>{ 'Participant__c', 'Participant__r.Contact__c' },
             Participant_Enrollment__c.getSObjectType(),
             ownPEFilter
         );
+        system.debug('ownPEList:::'+ownPEList); //(Participant_Enrollment__c:{Participant__c=a0z7g00000Gr4lkAAB, Id=a0v7g000004KooQAAS})
+
         Map<Id, List<Id>> resultMap = new Map<Id, List<Id>>();
         for (Participant_Enrollment__c pe : ownPEList) {
             List<Id> ownPEIdsForContact = resultMap.get(pe.Participant__r.Contact__c);
@@ -654,6 +660,7 @@ public without sharing class PatientDelegateService {
             Map<Id, List<Id>> participantIdsByDelegatedContactIdMap = getParticipantIdsByDelegatedContactIdMap(
                 contactIds
             );
+
             System.debug(
                 'Participant Ids >>> ' + JSON.serializePretty(participantIdsByDelegatedContactIdMap)
             );
@@ -673,6 +680,7 @@ public without sharing class PatientDelegateService {
                 Participant__c.getSObjectType(),
                 DatabaseService.fieldInValues('Id', delegatedParticipantIds)
             );
+
             System.debug('>>> All participants: ' + JSON.serializePretty(allDelegatedParticipants));
             Map<Id, List<Id>> peIdsByParticipantIdMap = new Map<Id, List<Id>>();
             for (Participant__c participant : allDelegatedParticipants) {
@@ -686,17 +694,21 @@ public without sharing class PatientDelegateService {
                 List<Id> delegatedParticipantIdsForContact = participantIdsByDelegatedContactIdMap.get(
                     contactId
                 );
+
                 if (delegatedParticipantIds == null)
                     delegatedParticipantIds = new List<Id>();
                 List<Id> delegatedPEIdsForContact = new List<Id>();
                 for (Id participantId : delegatedParticipantIdsForContact) {
                     delegatedPEIdsForContact.addAll(peIdsByParticipantIdMap.get(participantId));
                 }
+                System.debug('>>> All delegatedPEIdsForContact: ' + (delegatedPEIdsForContact));
+
                 List<Id> allPEIdsForContact = resultMap.get(contactId);
                 if (allPEIdsForContact == null)
                     allPEIdsForContact = new List<Id>();
                 allPEIdsForContact.addAll(delegatedPEIdsForContact);
                 resultMap.put(contactId, allPEIdsForContact);
+
             }
         }
         return resultMap;

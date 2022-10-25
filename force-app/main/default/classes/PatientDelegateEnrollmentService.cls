@@ -21,6 +21,7 @@ public without sharing class PatientDelegateEnrollmentService {
         );
     }
     public PatientDelegateEnrollmentService() {
+        system.debug('called');
         list<Patient_Delegate_Enrollment__c> lstPDE = DatabaseService.query(
             new List<String>{
                 'Id',
@@ -83,6 +84,7 @@ public without sharing class PatientDelegateEnrollmentService {
     
     @AuraEnabled
     public static list<PatientDelegateEnrollmentsWrapper> getPDE() {
+        //return listPDEWrapper;
         return PatientDelegateEnrollmentService.getInstance().listPDEWrapper;
     }
     public void createPatientDelegateEnrollment(

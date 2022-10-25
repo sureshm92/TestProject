@@ -952,8 +952,7 @@ public without sharing class MyTeamRemote {
                     PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                 );
             }
-            //TODO: @Ranjit - Please Uncomment this code when you deploy your code and remove this comment. 
-            //PatientDelegateService.getInstance().createPatientDelegate(contactDelegate,delegateFilterData);
+            PatientDelegateService.getInstance().createPatientDelegate(contactDelegate,delegateFilterData);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
