@@ -161,7 +161,7 @@
                     <lightning-layout
                         ><lightning-layout-item size="12"
                             ><span class={dueTimeClass}
-                                >Completed: &nbsp;
+                                >{label.taskPPCompletedLabel}: &nbsp;
                                 <template if:true={isMobile}><br /></template>
                                 <lightning-formatted-date-time
                                     value={item.task.Completed_Date__c}
