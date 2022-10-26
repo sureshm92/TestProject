@@ -198,15 +198,15 @@ public without sharing class RPRecordReviewLogController {
         try {
             List<Participant_PrescreenerResponse__c> responseList = [
                 SELECT Participant_enrollment__c, PreScreener_Survey__c, Status__c,
-                    PreScreener_Survey__r.MRR__c, PreScreener_Survey__r.Prescreener__c
+                    MRR__c, Prescreener__c
                 FROM  Participant_PrescreenerResponse__c 
                 WHERE Participant_enrollment__c =: peId
             ];
             
             for(Participant_PrescreenerResponse__c response : responseList){
-                if(response.PreScreener_Survey__r.MRR__c == true){
+                if(response.MRR__c == true){
                     profileSection.mrrScreenerResponse = response;
-                } else if(response.PreScreener_Survey__r.Prescreener__c == true){
+                } else if(response.Prescreener__c == true){
                     profileSection.prescreenerResponse = response;
                 }
             }
@@ -552,7 +552,8 @@ public without sharing class RPRecordReviewLogController {
                 Participant_enrollment__c = pe.Id,
                 Status__c = status,
                 PreScreener_Survey__c = screenerId,
-                Completed_Date__c = Datetime.now()
+                Completed_Date__c = Datetime.now(),
+                MRR__c = true
             );
             if(!Test.isRunningTest()){
                 prscreenerresponse.Screener_Response__c = surveyGizmoData;
