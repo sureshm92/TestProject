@@ -58,12 +58,22 @@
                         data-index={item.task.Id}
                     >
                         <template if:false={item.businessTask}>
-                            <c-web-icon
-                                class="sys-task"
-                                icon-name="task-illustration"
-                                icon-size="big"
-                            >
-                            </c-web-icon>
+                            <template if:true={isMobile}>
+                                <c-web-icon
+                                    class="sys-task"
+                                    icon-name="task-illustration"
+                                    icon-size="big-custom"
+                                >
+                                </c-web-icon>
+                            </template>
+                            <template if:false={isMobile}>
+                                <c-web-icon
+                                    class="sys-task"
+                                    icon-name="task-illustration"
+                                    icon-size="big"
+                                >
+                                </c-web-icon>
+                            </template>
                         </template>
                         <template if:true={item.businessTask}>
                             <c-web-icon class="sys-task" icon-name="task-survey" icon-size="big">
@@ -107,7 +117,10 @@
                             data-actionurl={item.task.Action_URL__c}
                             data-status={item.task.Status}
                             data-index={item.task.Id}
-                            ><lightning-formatted-text value={item.task.Subject}>
+                            ><lightning-formatted-text
+                                value={item.task.Subject}
+                                title={item.task.Subject}
+                            >
                             </lightning-formatted-text
                         ></span>
                     </lightning-layout-item>
@@ -123,7 +136,7 @@
                     <lightning-layout
                         ><lightning-layout-item size="12"
                             ><span class={dueTimeClass}
-                                >{label.taskDue} : &nbsp;
+                                >{label.taskDue}: &nbsp;
 
                                 <lightning-formatted-date-time
                                     value={item.task.Activity_Datetime__c}
@@ -148,7 +161,7 @@
                     <lightning-layout
                         ><lightning-layout-item size="12"
                             ><span class={dueTimeClass}
-                                >Completed : &nbsp;
+                                >{label.taskPPCompletedLabel}: &nbsp;
                                 <template if:true={isMobile}><br /></template>
                                 <lightning-formatted-date-time
                                     value={item.task.Completed_Date__c}

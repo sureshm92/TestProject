@@ -43,6 +43,7 @@ public class Test_Batch_CreateScreenerResponse {
         td.pe.Medical_Record_Review_Completed_Date__c = DateTime.now();
         td.pe.MRR_Survey_Results_URL__c = 'Test MRR Response';
         td.pe.Medical_Record_Review_Status__c = null;
+        td.pe.Referral_ID__c = 'TESTREF8080';
         update td.pe;       
 
         Database.executeBatch(new Batch_CreateScreenerResponse());

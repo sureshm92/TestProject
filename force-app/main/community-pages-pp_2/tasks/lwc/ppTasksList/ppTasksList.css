@@ -288,9 +288,6 @@
     .open-task {
         margin-left: 10px;
     }
-    .sys-task {
-        margin-left: 0;
-    }
     .mob-task-sub {
         margin-left: 0.75rem;
     }
@@ -310,6 +307,9 @@
     }
     .mob-subject-ellipsis {
         width: 230px;
+    }
+    .open-task-icon {
+        margin-left: 14px !important;
     }
 }
 /* Scroll bar custom */
