@@ -181,7 +181,7 @@
 }
 .critical-rect {
     position: relative;
-    bottom: -4px;
+    bottom: -2px;
     float: right;
     padding: 0px 6px 0 6px;
     background-color: #e20000;
@@ -288,9 +288,6 @@
     .open-task {
         margin-left: 10px;
     }
-    .sys-task {
-        margin-left: 0;
-    }
     .mob-task-sub {
         margin-left: 0.75rem;
     }
@@ -304,12 +301,16 @@
     .critical-rect {
         right: -15px;
         float: none;
+        bottom: -4px !important;
     }
     .crit-mob-subject-ellipsis {
         width: 165px;
     }
     .mob-subject-ellipsis {
         width: 230px;
+    }
+    .open-task-icon {
+        margin-left: 14px !important;
     }
 }
 /* Scroll bar custom */

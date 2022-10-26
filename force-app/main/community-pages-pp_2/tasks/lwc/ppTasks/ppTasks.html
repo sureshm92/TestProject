@@ -12,7 +12,7 @@
                         <div class="slds-align_absolute-center">
                             <button class={taskBtnOpenClass} onclick={navigateToOpen}>Open</button
                             ><button class={taskBtnCompleteClass} onclick={navigateToCompleted}>
-                                Completed
+                                {label.taskPPCompleted}
                             </button>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                                     <lightning-layout>
                                         <lightning-layout-item size="2"
                                             ><div class="ignored">
-                                                Ignored
+                                                {label.taskPPIgnored}
                                             </div></lightning-layout-item
                                         >
                                         <lightning-layout-item size="8"
@@ -100,7 +100,7 @@
                                     <lightning-layout>
                                         <lightning-layout-item size="2"
                                             ><div class="expired">
-                                                Expired
+                                                {label.taskPPExpired}
                                             </div></lightning-layout-item
                                         >
                                         <lightning-layout-item size="8"
