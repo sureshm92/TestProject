@@ -78,7 +78,7 @@ public without sharing class ReferringRemote {
             if(initData.pendingPEnrollments != null && !initData.pendingPEnrollments.isEmpty()) {
                 Map<Id, List<Participant_PrescreenerResponse__c>> peIdResponseMap = new Map<Id, List<Participant_PrescreenerResponse__c>>();
                 for(Participant_PrescreenerResponse__c response : [
-                    SELECT Id, Participant_enrollment__c, Status__c, PreScreener_Survey__r.MRR__c 
+                    SELECT Id, Participant_enrollment__c, Status__c, MRR__c, Prescreener__c
                     FROM Participant_PrescreenerResponse__c 
                     WHERE Participant_enrollment__c IN :initData.pendingPEnrollments
                 ]) {
@@ -90,9 +90,9 @@ public without sharing class ReferringRemote {
                 for(Participant_enrollment__c peRecord : initData.pendingPEnrollments) {
                     if(peIdResponseMap.containsKey(peRecord.Id)){
                         for(Participant_PrescreenerResponse__c response : peIdResponseMap.get(peRecord.Id)) {
-                            if(response.PreScreener_Survey__r.MRR__c) {
+                            if(response.MRR__c) {
                                 peRecord.Medical_Record_Review_Status__c = response.Status__c;
-                            } else {
+                            } else if(response.Prescreener__c){
                                 peRecord.Pre_screening_Status__c = response.Status__c;
                             }
                         }
@@ -504,7 +504,8 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                         Participant_enrollment__c = enrollment.Id,
                         PreScreener_Survey__c = screenerResponse.PreScreener_Survey__c,
                         Screener_Response__c = screenerResponse.Screener_Response__c,
-                        Status__c = ParticipantEnrollmentService.PES_STATUS_PASS
+                        Status__c = ParticipantEnrollmentService.PES_STATUS_PASS,
+                        Prescreener__c = true
                     );
                 }
             }
@@ -869,7 +870,8 @@ update objConVersion;*/
                     Participant_enrollment__c = pe.Id,
                     PreScreener_Survey__c = screenerResponse.PreScreener_Survey__c,
                     Screener_Response__c = screenerResponse.Screener_Response__c,
-                    Status__c = screenerResponse.Status__c
+                    Status__c = screenerResponse.Status__c,
+                    Prescreener__c = true
                 );
             }
         } catch (Exception e) {
@@ -1211,7 +1213,8 @@ language
                         Participant_enrollment__c = enrollment.Id,
                         PreScreener_Survey__c = screenerResponse.PreScreener_Survey__c,
                         Screener_Response__c = screenerResponse.Screener_Response__c,
-                        Status__c = ParticipantEnrollmentService.PES_STATUS_PASS
+                        Status__c = ParticipantEnrollmentService.PES_STATUS_PASS,
+                        Prescreener__c = true
                     );
                 }
             }
