@@ -4,7 +4,8 @@ public class Batch_CreateScreenerResponse implements Database.Batchable<SObject>
             [
                 SELECT Id, Clinical_Trial_Profile__c, Medical_Record_Review_Completed_by__c, Medical_Record_Review_Completed_Date__c, 
                     Medical_Record_Review_Status__c, MRR_Survey_Results_URL__c, Pre_Screener_Completed_by__c,
-                    Pre_Screener_Completed_Date__c, Pre_Screener_Survey_Response__c, Pre_screening_Status__c
+                    Pre_Screener_Completed_Date__c, Pre_Screener_Survey_Response__c, Pre_screening_Status__c, Referral_ID__c,
+                    Clinical_Trial_Profile__r.Study_Code_Name__c
                 FROM Participant_Enrollment__c 
                 WHERE Medical_Record_Review_Completed_Date__c != null OR Pre_Screener_Completed_Date__c != null
             ]
@@ -39,44 +40,41 @@ public class Batch_CreateScreenerResponse implements Database.Batchable<SObject>
 
             if(String.isNotBlank(peRecord.MRR_Survey_Results_URL__c)) {
 
-                if(String.isNotBlank(peRecord.Medical_Record_Review_Completed_by__c)
-                    && ctpMRRSurveyIdsMap.containsKey(peRecord.Clinical_Trial_Profile__c)) {
-                    responseRecords.add(
-                        new Participant_PrescreenerResponse__c(
-                            Completed_by__c = peRecord.Medical_Record_Review_Completed_by__c,
-                            Completed_Date__c = peRecord.Medical_Record_Review_Completed_Date__c,
-                            Participant_enrollment__c = peRecord.Id,
-                            PreScreener_Survey__c = ctpMRRSurveyIdsMap.get(peRecord.Clinical_Trial_Profile__c),
-                            Screener_Response__c = peRecord.MRR_Survey_Results_URL__c,
-                            Status__c = peRecord.Medical_Record_Review_Status__c
-                        )
-                    );
-                } else if(String.isBlank(peRecord.Medical_Record_Review_Completed_by__c) 
-                        && String.isBlank(peRecord.Medical_Record_Review_Status__c)){
-                    responseRecords.add(
-                        new Participant_PrescreenerResponse__c(
-                            Completed_Date__c = peRecord.Medical_Record_Review_Completed_Date__c,
-                            Participant_enrollment__c = peRecord.Id,
-                            Screener_Response__c = peRecord.MRR_Survey_Results_URL__c,
-                            Status__c = 'Pass'
-                        )
-                    );
+                Participant_PrescreenerResponse__c mrrResponse = new Participant_PrescreenerResponse__c(
+                    Completed_Date__c = peRecord.Medical_Record_Review_Completed_Date__c,
+                    Participant_enrollment__c = peRecord.Id,
+                    Screener_Response__c = peRecord.MRR_Survey_Results_URL__c
+                );
+
+                if(String.isBlank(peRecord.Referral_ID__c)) {
+                    mrrResponse.Completed_by__c = peRecord.Medical_Record_Review_Completed_by__c;
+                    mrrResponse.Status__c = peRecord.Medical_Record_Review_Status__c;
+                    mrrResponse.MRR__c = true;
+                    if(ctpMRRSurveyIdsMap.containsKey(peRecord.Clinical_Trial_Profile__c)) {
+                        mrrResponse.PreScreener_Survey__c = ctpMRRSurveyIdsMap.get(peRecord.Clinical_Trial_Profile__c);
+                    } 
+                } else {
+                    mrrResponse.Status__c = 'Pass';
+                    mrrResponse.MRR_EPR__c = true;
+                    mrrResponse.Completed_by__c = peRecord.Medical_Record_Review_Completed_by__c;
                 }
+                responseRecords.add(mrrResponse);
             }
             
-            if(String.isNotBlank(peRecord.Pre_Screener_Survey_Response__c)
-                && ctpScreenerSurveyIdsMap.containsKey(peRecord.Clinical_Trial_Profile__c)) {
+            if(String.isNotBlank(peRecord.Pre_Screener_Survey_Response__c)) {
 
-                responseRecords.add(
-                    new Participant_PrescreenerResponse__c(
-                        Completed_by__c = peRecord.Pre_Screener_Completed_by__c,
-                        Completed_Date__c = peRecord.Pre_Screener_Completed_Date__c,
-                        Participant_enrollment__c = peRecord.Id,
-                        PreScreener_Survey__c = ctpScreenerSurveyIdsMap.get(peRecord.Clinical_Trial_Profile__c),
-                        Screener_Response__c = peRecord.Pre_Screener_Survey_Response__c,
-                        Status__c = peRecord.Pre_screening_Status__c
-                    )
+                Participant_PrescreenerResponse__c screenerResponse = new Participant_PrescreenerResponse__c(
+                    Completed_by__c = peRecord.Pre_Screener_Completed_by__c,
+                    Completed_Date__c = peRecord.Pre_Screener_Completed_Date__c,
+                    Participant_enrollment__c = peRecord.Id,
+                    Screener_Response__c = peRecord.Pre_Screener_Survey_Response__c,
+                    Status__c = peRecord.Pre_screening_Status__c,
+                    Prescreener__c = true
                 );
+                if(ctpScreenerSurveyIdsMap.containsKey(peRecord.Clinical_Trial_Profile__c)) {
+                    screenerResponse.PreScreener_Survey__c = ctpScreenerSurveyIdsMap.get(peRecord.Clinical_Trial_Profile__c);
+                }
+                responseRecords.add(screenerResponse);
             }
         }
         
@@ -91,13 +89,12 @@ public class Batch_CreateScreenerResponse implements Database.Batchable<SObject>
                 if(peToUpdate.containsKey(surveyResponseRec.Participant_enrollment__c)) { 
                     peRecord = peToUpdate.get(surveyResponseRec.Participant_enrollment__c);
                 } 
-                if(surveyResponseRec.PreScreener_Survey__c == null 
-                    || ctpMRRSurveyIdsMap.values().contains(surveyResponseRec.PreScreener_Survey__c)) { 
+                if(surveyResponseRec.MRR__c == true || surveyResponseRec.MRR_EPR__c == true) { 
                     peRecord.Medical_Record_Review_Completed_by__c = null;
                     peRecord.Medical_Record_Review_Completed_Date__c = null;
                     peRecord.MRR_Survey_Results_URL__c = null;
                     peRecord.Medical_Record_Review_Status__c = null;
-                } else if(ctpScreenerSurveyIdsMap.values().contains(surveyResponseRec.PreScreener_Survey__c)){
+                } else if(surveyResponseRec.Prescreener__c == true){
                     peRecord.Pre_Screener_Completed_by__c = null;
                     peRecord.Pre_Screener_Completed_Date__c = null;
                     peRecord.Pre_Screener_Survey_Response__c = null;
@@ -112,6 +109,7 @@ public class Batch_CreateScreenerResponse implements Database.Batchable<SObject>
     
     public void finish(Database.BatchableContext bc){
         
+        system.debug('Batch Create Screener Response is completed');
     }
 
     public static void bypassTriggers() {
@@ -129,9 +127,6 @@ public class Batch_CreateScreenerResponse implements Database.Batchable<SObject>
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class
         );
-        /*TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class
-        );*/
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
         );
@@ -153,18 +148,12 @@ public class Batch_CreateScreenerResponse implements Database.Batchable<SObject>
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
         );
-        /*TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
-        );*/
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
         );
-        /*TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class
-        );*/
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
         );
@@ -192,11 +181,5 @@ public class Batch_CreateScreenerResponse implements Database.Batchable<SObject>
         TriggerHandlerExecutor.bypassHandler(
             PENotificationTriggerHandler.CreateNotificationHandler.class
         );
-        /*TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.SendDropOutEmailHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class
-        );*/
     }
 }
