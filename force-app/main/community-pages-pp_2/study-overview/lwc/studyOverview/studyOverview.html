@@ -18,9 +18,9 @@
                                     </div>
                                 </template>
                             </lightning-layout-item>
-                            <lightning-layout-item size="6">
+                            <lightning-layout-item size="6" class="slds-p-left_small">
                                 <template if:true={clinicalrecord.Brief_Summary__c}>
-                                    <div class="po-text">{shortOverview}</div>
+                                    <lightning-formatted-rich-text class="po-text" value={shortOverview}></lightning-formatted-rich-text>
                                 </template>
                             </lightning-layout-item>
                             <lightning-layout-item size="3" class="slds-align_absolute-center">
