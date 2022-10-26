@@ -19038,6 +19038,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>##PatientFirstName has designated you as their delegate.</value>
     </labels>
     <labels>
+        <fullName>PP_Delegates_Permitted_Actions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>What can your delegate see or do?</shortDescription>
+        <value>What can your delegate see or do?</value>
+    </labels>
+    <labels>
         <fullName>PP_Details</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -28185,6 +28192,14 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>PP_AS_Delegate_Removed</shortDescription>
         <value>You have been succesfully removed from the Delegates list</value>
+    </labels>
+    <labels>
+        <fullName>PP_Delegate_Added_Successfully</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP Delegate Added Successfully</shortDescription>
+        <value>Delegate added successfully.</value>
     </labels>
     <labels>
         <fullName>PP_Delegate_Deactivated</fullName>

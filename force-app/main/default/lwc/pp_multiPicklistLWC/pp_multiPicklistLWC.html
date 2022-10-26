@@ -2,7 +2,7 @@
     <!-- Ethnicity starts -->
     <div class="eth outcome-form-element slds-m-bottom_medium p-left">
         <label class="slds-form-element__label slds-no-flex disflex"
-            ><span class="text-overflow1" title="Studies And Program">Studies And Program</span
+            ><span class="text-overflow1" title="Studies">{label.PG_MS_L_Studies_up}</span
             ><template if:true={showSelectAll}>
                 <span class="btn select-all-clear-all" onclick={selectAll}
                     >{label.Select_All_PI}</span
@@ -13,7 +13,7 @@
             </template>
         </label>
         <div
-            class="slds-form-element__control slds-grow slds-input slds-p-around--none eBox dropdown-width"
+            class="slds-form-element__control slds-grow slds-input slds-p-around--none slds-m-top_xx-small eBox dropdown-width"
             tabindex="0"
             onfocus={openStudy}
             onblur={closeStudy}

@@ -2,6 +2,7 @@ import { LightningElement, track, api, wire } from 'lwc';
 import Clear_All from '@salesforce/label/c.RPR_Clear_All';
 import Select_All_PI from '@salesforce/label/c.Select_All_PI';
 import More from '@salesforce/label/c.PIR_more';
+import PG_MS_L_Studies_up from '@salesforce/label/c.PG_MS_L_Studies_up';
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
 import {
     publish,
@@ -14,7 +15,8 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     label = {
         Select_All_PI,
         Clear_All,
-        More
+        More,
+        PG_MS_L_Studies_up
     };
     /* @api*/ picklistValues = [];
     @api selectedStudy = [];
