@@ -173,20 +173,18 @@ public without sharing class ParticipantInformationRemote {
         }
     }
 
-    public static Participant_PrescreenerResponse__c getMrrScreenerResponse(Id peId) {
+    public static List<Participant_PrescreenerResponse__c> getMrrScreenerResponse(Id peId) {
 
         if (peId != null) {
            
-            List<Participant_PrescreenerResponse__c> responseList = [
-                SELECT Id, Screener_Response__c
+            return [
+                SELECT Id, Screener_Response__c, Completed_Date__c, PreScreener_Survey__c, MRR_EPR__c, MRR__c,
+                    PreScreener_Survey__r.Survey_Name__c, Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
                 FROM Participant_PrescreenerResponse__c 
-                WHERE Participant_enrollment__c = :peid AND PreScreener_Survey__r.MRR__c = true
-                LIMIT 1
+                WHERE Participant_enrollment__c = :peid 
+                    AND (MRR_EPR__c = true OR MRR__c = true)
+                ORDER BY Completed_Date__c DESC
             ];
-
-            if(responseList.isEmpty() == false) {
-                return responseList[0];
-            }
         }
         return null;
     }
