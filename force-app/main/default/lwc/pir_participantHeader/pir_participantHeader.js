@@ -136,6 +136,7 @@ export default class Pir_participantHeader extends LightningElement {
         this.surveyPending = [];
         this.surveyInProgress = [];
         this.surveyCompleted = [];
+        this.showPreScreen = false;
         
         if(this.peId)
         {
@@ -143,11 +144,12 @@ export default class Pir_participantHeader extends LightningElement {
              getPEData({ peId: this.peId })
              .then((result) => {
                  this.preScreenerCompleted = false;
+                 this.showPreScreen = false;
                  this.mrrCompleted = false;
                  this.per = result.per;
                  this.isAllowedForSH = result.isAllowedForSH;
                 // this.mrrLink = this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c;
-                 this.preScreenerLink = this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c;
+                // this.preScreenerLink = this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c;
                     if(this.per.Participant__r.Adult__c == true && this.per.Participant__r.Email__c != null && this.per.Study_Site__r.Study_Site_Type__c == 'Traditional' && this.per.Clinical_Trial_Profile__r.CommunityTemplate__c != this.label.Janssen_Community_Template_Name && (this.per.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c || this.per.Study_Site__r.Suppress_Participant_Emails__c))
                     {
                         this.showAction = true;
