@@ -1,4 +1,4 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 import tasksHeader from '@salesforce/label/c.PG_SW_Tab_Tasks';
 import createNewTask from '@salesforce/label/c.BTN_Create_New_Task';
 import taskCompleted from '@salesforce/label/c.Task_Completed';
@@ -30,7 +30,7 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
     initData;
     isNewTask = true;
     isRTL;
-    taskId;
+    @track taskId;
     task;
     taskExisting;
     userTimeZone = TIME_ZONE;
@@ -49,7 +49,8 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
         notAvailable,
         taskMarkCompleteHeader,
         taskReminder,
-        noOpenTasks
+        noOpenTasks,
+        viewAllTasks
     };
     isEnrolled;
     emailOptIn;
@@ -58,7 +59,6 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
     showCreateTaskButton;
     @track openTasks;
     @track sfdcBaseURL;
-    viewAllTasks;
     completedTasks;
     spinner;
     taskCodeList = [
@@ -100,6 +100,7 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
             .catch((error) => {
                 console.error('Error in loading RR Community JS: ' + JSON.stringify(error));
             });
+            console.log('openTasks:',this.openTasks);
     }
     initializeData() {
         this.spinner.show();
@@ -291,9 +292,10 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
             radioTask2.classList.remove('empty-oval');
         }
     }
-    handleonclick() {
-        console.log('handleonclick');
-        this.redirectPage(this.taskId);
+    handleonclick(event) {
+        var taskId = event.currentTarget.dataset.index;
+        console.log('taskId:',taskId);
+        this.redirectPage(taskId);
     }
     redirectPage(taskId) {
         console.log('redirectPage:',window.location.origin);
