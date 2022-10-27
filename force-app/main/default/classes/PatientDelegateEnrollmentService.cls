@@ -41,11 +41,12 @@ public without sharing class PatientDelegateEnrollmentService {
                 'Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c',
                 'Status__c',
                 'Participant_Enrollment__c',
-                'Participant_Enrollment__r.Name'
+                'Participant_Enrollment__r.Name',
+                'Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c'
             },
             Patient_Delegate_Enrollment__c.getSObjectType(),
             DatabaseService.fieldEqual(
-                'Patient_Delegate__r.Contact__c',
+                'Patient_Delegate__r.Participant__r.Contact__c',
                 CommunityService.getInstance().getCurrentContactId()
             ) +
             ' AND ' +
@@ -80,13 +81,30 @@ public without sharing class PatientDelegateEnrollmentService {
             listPDEWrapper.add(pdw);
         }
     }
-    
-    
+
     @AuraEnabled
     public static list<PatientDelegateEnrollmentsWrapper> getPDE() {
         //return listPDEWrapper;
         return PatientDelegateEnrollmentService.getInstance().listPDEWrapper;
     }
+
+    @AuraEnabled
+    public static list<PatientDelegateEnrollmentsWrapper> removeAssignment(String pDEId) {
+        list<Patient_Delegate_Enrollment__c> lst = [
+            SELECT id, Status__c
+            FROM Patient_Delegate_Enrollment__c
+            WHERE id = :pDEId
+        ];
+        if (lst.size() > 0) {
+            Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
+            pde.id = lst[0].Id;
+            pde.Status__c = 'Withdrawn';
+            update pde;
+            return PatientDelegateEnrollmentService.getInstance().listPDEWrapper;
+        }
+        return PatientDelegateEnrollmentService.getInstance().listPDEWrapper;
+    }
+
     public void createPatientDelegateEnrollment(
         Patient_Delegate__c newDelegate,
         String studyPERData
@@ -164,7 +182,7 @@ public without sharing class PatientDelegateEnrollmentService {
     }
 
     public class PatientDelegateEnrollmentsWrapper {
-        @AuraEnabled        
+        @AuraEnabled
         public Participant__c PatientDelegate;
         @AuraEnabled
         public list<Patient_Delegate_Enrollment__c> PDEEnrollments;

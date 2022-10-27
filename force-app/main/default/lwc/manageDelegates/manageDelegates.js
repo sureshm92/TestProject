@@ -8,7 +8,8 @@ import { loadScript } from 'lightning/platformResourceLoader';
 import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
-//import getPDE from '@salesforce/apex/PatientDelegateEnrollmentService.getPDE';
+import getPDE from '@salesforce/apex/PatientDelegateEnrollmentService.getPDE';
+import removeAssignment from '@salesforce/apex/PatientDelegateEnrollmentService.removeAssignment';
 import {
     subscribe,
     unsubscribe,
@@ -22,6 +23,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     @api consentPreferenceData;
     @api userMode;
     @api isRTL;
+    @track listPDE;
     @wire(MessageContext)
     messageContext;
     subscription = null;
@@ -82,16 +84,20 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             //         console.error('Error RTL: ' + JSON.stringify(error));
             //     });
         }
-        //this.initializeData();
+        this.initializeData();
         this.subscribeToMessageChannel();
     }
     initializeData() {
+        this.spinner = true;
         getPDE()
             .then((returnValue) => {
-                console.log('success--', JSON.stringify(returnValue));
+                console.log('success', returnValue);
+                this.listPDE = returnValue;
+                this.spinner = false;
             })
             .catch((error) => {
-                console.log('error--', error);
+                console.log('error');
+                this.spinner = false;
             });
     }
     //Subscribe the message channel to read the message published.
@@ -110,7 +116,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         //If we backToManageDelegate = false when we click on back to Manage delegate button.
         if (message.showAddDelegatePage == false) {
             //this.spinner = true;
+            this.initializeData();
             this.showAddDelegatePage = false;
+
             //this.spinner = false;
         }
     }
@@ -168,11 +176,19 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     }
     removeDelAssociationFromStudy(event) {
         let pdeId = event.target.dataset.id;
-        alert('TODO: remove this PDeId Record:  ' + pdeId);
-        const index = this.pdEnrollmentsForDel.findIndex((o) => {
-            return o.id === pdeId;
-        });
-        this.pdEnrollmentsForDel.splice(index, 1);
+        //alert('TODO: remove this PDeId Record:  ' + pdeId);
+        this.spinner = true;
+        removeAssignment({ pDEId: pdeId })
+            .then((returnValue) => {
+                console.log('success second', returnValue);
+                this.listPDE = returnValue;
+                //this.initializeData();
+                this.spinner = false;
+            })
+            .catch((error) => {
+                console.log('error');
+                this.spinner = false;
+            });
 
         //TODO: logic TBD
     }
