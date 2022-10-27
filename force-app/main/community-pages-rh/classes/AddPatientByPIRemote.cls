@@ -601,6 +601,9 @@ public without sharing class AddPatientByPIRemote {
         Boolean sendPEToStudyHubAsync,
         Id peId
     ) {
+        if(sendPEToStudyHubAsync == true){
+            IntegrationService.sendPEToStudyHub(peId);
+        }
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
             Participant__c.class
@@ -845,9 +848,6 @@ public without sharing class AddPatientByPIRemote {
                 }
                 update pdList;
             }
-        }
-        if(sendPEToStudyHubAsync == true){
-            IntegrationService.sendPEToStudyHub(peId);
         }
     }
 
