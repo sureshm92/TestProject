@@ -95,7 +95,6 @@
 
 .sys-task {
     margin-left: 6px;
-    cursor: pointer;
 }
 
 .curpointer {
@@ -207,6 +206,7 @@
 }
 .complete-header {
     color: #595959;
+    cursor: default;
 }
 .complete-datetime {
     color: #6e6e6e;

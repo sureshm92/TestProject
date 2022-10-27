@@ -28722,4 +28722,25 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Task PP Ignored</shortDescription>
         <value>Ignored</value>
     </labels>
+    <labels>
+        <fullName>Task_Ignore_Modal_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Ignore Modal Body</shortDescription>
+        <value>You are about to ignore this task. Once ignored, it will be moved to completed tasks. Would you like to continue?</value>
+    </labels>
+    <labels>
+        <fullName>Task_Ignore_Modal_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Ignore Modal Title</shortDescription>
+        <value>Ignore Task</value>
+    </labels>
+    <labels>
+        <fullName>Task_Ignored_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Ignored Message</shortDescription>
+        <value>Task ignored</value>
+    </labels>
 </CustomLabels>
