@@ -181,7 +181,7 @@
 }
 .critical-rect {
     position: relative;
-    bottom: -4px;
+    bottom: -2px;
     float: right;
     padding: 0px 6px 0 6px;
     background-color: #e20000;
@@ -301,6 +301,7 @@
     .critical-rect {
         right: -15px;
         float: none;
+        bottom: -4px !important;
     }
     .crit-mob-subject-ellipsis {
         width: 165px;
