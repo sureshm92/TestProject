@@ -91,97 +91,17 @@
 .del-access-rectangle {
     box-sizing: border-box;
     height: 151px;
-    /* width: 768px; */
+    /*width: 768px; */
     border: 1px solid #d9d9d9;
     border-radius: 4px;
     background-color: #ffffff;
 }
 
 .what-can-your-delega {
-    height: 24px;
-    /* width: 280px; */
-    color: #444444;
-    font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
-    letter-spacing: 0;
-    line-height: 24px;
 }
-.delegate-can-see-list {
-    height: 24px;
-    /* width: 224px; */
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 24px;
-}
-/* .see-your-vitals {
-    height: 24px;
-    /* width: 113px; */
-/* color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 24px;
-} */
-.receive-emails-abo {
-    height: 24px;
-    /* width: 304px; */
-    opacity: 0.8;
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 24px;
-}
-/* .see-your-measureme {
-    height: 24px;
-    width: 181px;
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 24px;
-}
-.receive-emails-abo {
-    height: 24px;
-    width: 304px;
-    opacity: 0.8;
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 24px;
-}
-.see-your-measureme {
-    height: 24px;
-    width: 181px;
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 24px;
-}
-.see-your-lab-resul {
-    height: 24px;
-    width: 149px;
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 24px;
-} */
-.all-features-may-no {
-    height: 20px;
-    /* width: 317px; */
-    color: #595959;
-    font-family: 'Proxima Nova';
-    font-size: 14px;
-    font-style: italic;
-    letter-spacing: 0;
-    line-height: 20px;
-}
+
 .m-top-16 {
     margin-top: 16px;
 }
@@ -197,7 +117,14 @@
 .m-right-32 {
     margin-right: 32px;
 }
+.m-16 {
+    margin: 16px;
+}
 
+.text-italic {
+    font-style: italic;
+    font-size: 14px;
+}
 /* .input-border-radius {
     border-radius: 20px;
 }

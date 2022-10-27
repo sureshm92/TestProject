@@ -42,16 +42,12 @@
                             </button>
                         </lightning-layout-item>
                         <!--Iterate over each Delegate Associated to the Participant: Starts-->
-                        <template
-                            for:each={listOfDelegateOfParticipant}
-                            for:item="del"
-                            for:index="index"
-                        >
+                        <template for:each={listPDE} for:item="del" for:index="index">
                             <!--Delegate Card Section: Starts -->
                             <lightning-layout-item
                                 size="12"
                                 class="del-container m-top-16"
-                                key={del.id}
+                                key={del.PatientDelegate.Id}
                             >
                                 <!--Dlegate Info Layout: Starts -->
                                 <lightning-layout multiple-rows="true" class="manage-del-items">
@@ -70,12 +66,13 @@
                                                     <lightning-layout-item
                                                         size="12"
                                                         class="delegate-name"
-                                                        >{del.name}</lightning-layout-item
-                                                    >
+                                                        >{del.PatientDelegate.First_Name__c}
+                                                        {del.PatientDelegate.Last_Name__c}
+                                                    </lightning-layout-item>
                                                     <lightning-layout-item
                                                         size="12"
                                                         class="delegate-email"
-                                                        >{del.email}</lightning-layout-item
+                                                        >{del.PatientDelegate.Email__c}</lightning-layout-item
                                                     >
                                                 </lightning-layout>
                                             </lightning-layout-item>
@@ -86,19 +83,19 @@
                                     <!--Delegate Profile Logo and Name Section: Ends-->
                                     <!--Iterate over each pdEnrollment Associated to the Delegate: Starts-->
                                     <template
-                                        for:each={pdEnrollmentsForDel}
+                                        for:each={del.PDEEnrollments}
                                         for:item="pdEnrollment"
                                         for:index="index"
                                     >
                                         <lightning-layout-item
                                             size="12"
                                             class="m-top-10 study-rectangle"
-                                            key={pdEnrollment.id}
+                                            key={pdEnrollment.Id}
                                         >
                                             <lightning-layout multiple-rows="true" class="m-top-16">
                                                 <lightning-layout-item size="8"
                                                     ><span class={studyCodeNameClass}
-                                                        >{pdEnrollment.label}</span
+                                                        >{pdEnrollment.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
                                                     ></lightning-layout-item
                                                 >
                                                 <lightning-layout-item size="4"
@@ -106,7 +103,7 @@
                                                         title="Non-primary action"
                                                         onclick={removeDelAssociationFromStudy}
                                                         class={removeDelBtn}
-                                                        data-id={pdEnrollment.id}
+                                                        data-id={pdEnrollment.Id}
                                                     >
                                                         {label.PP_Remove}
                                                     </button></lightning-layout-item

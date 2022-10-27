@@ -37,7 +37,7 @@
                             <p class="po-pb-10"><lightning-formatted-text value={label.PPOBJECTIVE} class="po-tab-header"></lightning-formatted-text></p>   
                             <div class="po-tab-content">
                                 <template if:true={clinicaltrailrecrd.Brief_Summary__c}>
-                                    {clinicaltrailrecrd.Brief_Summary__c}
+                                    <lightning-formatted-rich-text value={clinicaltrailrecrd.Brief_Summary__c}></lightning-formatted-rich-text>
                                 </template>
                             </div>
                         </div>
@@ -45,8 +45,8 @@
                         <div class="po-tab-overview po-mt-10"> 
                             <p class="po-pb-10"><lightning-formatted-text value={label.PPSTUDYOVERVIEW} class="po-tab-header"></lightning-formatted-text></p>   
                             <div class="po-tab-content">
-                                <template if:true={clinicaltrailrecrd.Program_Overview__c}>
-                                    {clinicaltrailrecrd.Program_Overview__c}
+                                <template if:true={clinicaltrailrecrd.Detailed_Description__c}>
+                                    <lightning-formatted-rich-text value={clinicaltrailrecrd.Detailed_Description__c}></lightning-formatted-rich-text>
                                 </template>
                             </div>
                         </div>

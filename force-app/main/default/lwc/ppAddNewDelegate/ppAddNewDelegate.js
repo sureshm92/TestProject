@@ -19,7 +19,7 @@ import TST_You_cannot_add_primary_investigator_as_a_delegate from '@salesforce/l
 import PG_NTM_L_Permission_level_will_apply_to_all_studies from '@salesforce/label/c.PG_NTM_L_Permission_level_will_apply_to_all_studies';
 import PP_DelegateAlreadyExists from '@salesforce/label/c.PP_DelegateAlreadyExists';
 import PP_ActiveDelegateError from '@salesforce/label/c.PP_ActiveDelegateError';
-import TST_You_have_successfully_created_permissions_for from '@salesforce/label/c.TST_You_have_successfully_created_permissions_for';
+import PP_Delegate_Added_Successfully from '@salesforce/label/c.PP_Delegate_Added_Successfully';
 //import Profile_Information from '@salesforce/label/c.Profile_Information';
 
 import getContactData from '@salesforce/apex/MyTeamRemote.getContactData';
@@ -35,6 +35,12 @@ import Add_New_Delegate from '@salesforce/label/c.Add_New_Delegate';
 import Btn_Add_Delegate from '@salesforce/label/c.Add_Delegate';
 import Back_to_Manage_Delegates from '@salesforce/label/c.Back_to_Manage_Delegates';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
+import PG_PST_L_Delegates_Compl_Task_Behalf from '@salesforce/label/c.PG_PST_L_Delegates_Compl_Task_Behalf';
+import PG_PST_L_Delegates_Receive_Emails from '@salesforce/label/c.PG_PST_L_Delegates_Receive_Emails';
+import PG_PST_L_Delegates_See_Lab_Result from '@salesforce/label/c.PG_PST_L_Delegates_See_Lab_Result';
+import PG_PST_L_Delegates_My_Measur from '@salesforce/label/c.PG_PST_L_Delegates_My_Measur';
+import PP_AS_CONDITIONAL_FEATURE from '@salesforce/label/c.PP_AS_CONDITIONAL_FEATURE';
+import PP_Delegates_Permitted_Actions from '@salesforce/label/c.PP_Delegates_Permitted_Actions';
 
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
 import {
@@ -88,7 +94,7 @@ export default class PpAddNewDelegate extends LightningElement {
         PG_PST_L_Delegates_Back,
         PG_NTM_BTN_Back_to_My_Team,
         PG_NTM_L_Already_Exists,
-        TST_You_have_successfully_created_permissions_for,
+        PP_Delegate_Added_Successfully,
         //Profile_Information,
         PP_Attestation_Confirmation_Message_For_Teams,
         PP_Email_Error,
@@ -96,7 +102,13 @@ export default class PpAddNewDelegate extends LightningElement {
         PP_Delegate_Email_Consent,
         Add_New_Delegate,
         Btn_Add_Delegate,
-        Back_to_Manage_Delegates
+        Back_to_Manage_Delegates,
+        PG_PST_L_Delegates_Compl_Task_Behalf,
+        PG_PST_L_Delegates_Receive_Emails,
+        PG_PST_L_Delegates_See_Lab_Result,
+        PG_PST_L_Delegates_My_Measur,
+        PP_AS_CONDITIONAL_FEATURE,
+        PP_Delegates_Permitted_Actions
     };
     backToDelegates(event) {
         const selectedEvent = new CustomEvent('backtodelegates', {
@@ -300,8 +312,8 @@ export default class PpAddNewDelegate extends LightningElement {
         let maskedValue = '';
         let resetValidationError = false;
         for (let i = 0; i < value.length; i++) {
-            if (i == 0) {
-                maskedValue += value.charAt(0);
+            if (i <= 1) {
+                maskedValue += value.charAt(i);
             } else {
                 maskedValue += '*';
             }
@@ -498,12 +510,7 @@ export default class PpAddNewDelegate extends LightningElement {
                                     communityService.showToast(
                                         '',
                                         'success',
-                                        this.label
-                                            .TST_You_have_successfully_created_permissions_for +
-                                            ' ' +
-                                            delegate.delegateContact.FirstName +
-                                            ' ' +
-                                            delegate.delegateContact.LastName,
+                                        this.label.PP_Delegate_Added_Successfully,
                                         100
                                     );
                                     this.isAttested = false;
@@ -517,6 +524,7 @@ export default class PpAddNewDelegate extends LightningElement {
                                     this.template.querySelector('[data-id="emailInput"]').value =
                                         '';
                                     this.sendFilterUpdates();
+                                    this.goBackToManageDelegate();
                                     this.isLoading = false;
                                 })
                                 .catch((error) => {

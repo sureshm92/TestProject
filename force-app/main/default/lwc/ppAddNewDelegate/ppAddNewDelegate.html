@@ -130,39 +130,35 @@
                 multiple-rows="true"
                 class="del-access-rectangle slds-m-vertical_large"
             >
-                <lightning-layout-item size="12"
-                    ><span class="what-can-your-delega m-left-24"
-                        >What can your delegate see or do?</span
+                <lightning-layout-item size="12" class="slds-p-left_large slds-p-top_large"
+                    ><span class="what-can-your-delega"
+                        >{label.PP_Delegates_Permitted_Actions}</span
                     >
                 </lightning-layout-item>
-                <lightning-layout-item size="6"
-                    ><ul class="slds-list_dotted">
-                        <li>
-                            <span class="delegate-can-see-list">Complete tasks on my behalf</span>
-                        </li>
-                        <li>
-                            <span class="receive-emails-abo"
-                                >Receive emails about my study status</span
-                            >
-                        </li>
-                        <li>
-                            <span class="delegate-can-see-list">See my lab results</span>
-                        </li>
-                    </ul></lightning-layout-item
-                >
-                <lightning-layout-item size="6"
-                    ><ul class="slds-list_dotted">
-                        <li><span class="delegate-can-see-list">See my vitals</span></li>
-                        <li>
-                            <span class="delegate-can-see-list">See my measurements</span>
-                        </li>
-                        <li>
-                            <span class="all-features-may-no"
-                                >*all features may not be available for each program</span
-                            >
-                        </li>
-                    </ul></lightning-layout-item
-                >
+                <lightning-layout-item size="12">
+                    <lightning-layout>
+                        <lightning-layout-item size="6" class="slds-p-left_large"
+                            ><ul class="slds-list_dotted">
+                                <li>{label.PG_PST_L_Delegates_Compl_Task_Behalf}</li>
+                                <li class="slds-m-vertical_xx-small">
+                                    {label.PG_PST_L_Delegates_Receive_Emails}
+                                </li>
+                                <li>{label.PG_PST_L_Delegates_See_Lab_Result}</li>
+                            </ul></lightning-layout-item
+                        >
+                        <lightning-layout-item size="6" class="slds-p-left_large"
+                            ><ul class="slds-list_dotted">
+                                <li>See my vitals</li>
+                                <li class="slds-m-vertical_xx-small">
+                                    {label.PG_PST_L_Delegates_My_Measur}
+                                </li>
+                            </ul>
+                            <span class="text-italic">
+                                {label.PP_AS_CONDITIONAL_FEATURE}
+                            </span></lightning-layout-item
+                        >
+                    </lightning-layout>
+                </lightning-layout-item>
             </lightning-layout>
         </div>
     </template>
