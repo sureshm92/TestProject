@@ -16,14 +16,20 @@
     font-family: Proxima Nova Medium;
 }
 
+.po-custom-card-mobile-no-study {
+    height: 250px;
+    background-color: #fff;
+    font-family: Proxima Nova Medium;
+}
+
 .po-center {
     text-align: center;
 }
 
-.po-logo {
+/*.po-logo {
     width: 110px;
     height: 69px;
-}
+}*/
 
 .po-logo-mobile {
     width: 76px;
