@@ -1,0 +1,72 @@
+.summary-title {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 17px;
+}
+
+.summary-text {
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 17px;
+    overflow-wrap: break-word;
+}
+
+.summary {
+    padding-left: 2%;
+    margin-left: 1%;
+    border: 1px solid #f2f2f2;
+    contain: size;
+    overflow: auto;
+    height: 200px;
+}
+.title-row {
+    padding: 2% 1% 0% 0%;
+}
+.summary-date {
+    color: #898989;
+    padding-bottom: 2%;
+    font-size: 14px;
+}
+.resource-icon {
+    display: block;
+}
+.resource-pointer {
+    cursor: pointer;
+    padding-left: 95%;
+}
+hr {
+    margin: 0% -3%;
+}
+.study-title {
+    color: #6e6e6e;
+    font-weight: 500;
+}
+.resource-heading {
+    color: #444444;
+    font-size: 32px;
+    font-weight: 600;
+}
+.page-container {
+    padding: 0% 2%;
+    background-color: #f6f7fb;
+    margin: -30px 0 0 0;
+}
+.resource-container {
+    padding: 1.5% 18%;
+}
+.back-link {
+    margin-left: 0.25rem;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color:#015ff1;
+    margin-right: 86%;
+}
+
