@@ -63,7 +63,7 @@
 
                         <!-- objectiove section: -->
                         <div class="sdas-sub-category">{!$Label.c.PG_SW_H_Objective}</div>
-                        <div class="sdas-text">{!v.studyDetail.trial.Brief_Summary__c}</div>
+                        <div class="sdas-text"><ui:outputRichText value="{!v.studyDetail.trial.Brief_Summary__c}"></ui:outputRichText></div>
 
                         <!-- study overview: -->
                         <div class="sdas-sub-category">{!$Label.c.PG_SW_H_Study_Overview}</div>

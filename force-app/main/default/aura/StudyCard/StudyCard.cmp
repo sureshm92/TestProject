@@ -101,7 +101,7 @@
                 </div>
             </div>
             <div class="slvi-objective-section">
-                <div class="objective-text">{!v.currentStudy.trial.Brief_Summary__c}</div>
+                <div class="objective-text"><ui:outputRichText value="{!v.currentStudy.trial.Brief_Summary__c}"></ui:outputRichText></div>
                 <div class="objective-link">
                     <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
                               >
@@ -137,7 +137,7 @@
                 <div class="sponsor-name">{!v.currentStudy.trial.Study_Sponsor__c}</div>
                 <div class="slvi-objective-section">
                     <div class="objective-text">
-                        {!v.currentStudy.trial.Detailed_Description__c}
+                        <ui:outputRichText value="{!v.currentStudy.trial.Detailed_Description__c}"></ui:outputRichText>"
                     </div>
                     <div class="objective-link">
                         <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
