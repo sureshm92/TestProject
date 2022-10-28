@@ -17,9 +17,7 @@
                                 {label.taskMarkCompleteHeader}
                             </div></lightning-layout-item
                         >
-                        <lightning-layout-item
-                            style="margin-left: 5rem; margin-top: 2rem; cursor: pointer"
-                        >
+                        <lightning-layout-item class="task-modal-complete-close-icon">
                             <lightning-icon
                                 icon-name="utility:close"
                                 size="small"
@@ -31,11 +29,11 @@
                     <div class="modal-body">
                         {label.taskMarkComplete}
 
-                        <lightning-layout style="float: right; margin-right: -1rem">
-                            <lightning-layout-item style="margin-top: 2.5rem; margin-right: 1rem">
+                        <lightning-layout class="task-modal-footer-complete">
+                            <lightning-layout-item class="task-modal-footer-item-cancel">
                                 <a onclick={closeModel}>{label.taskCancel}</a>
                             </lightning-layout-item>
-                            <lightning-layout-item style="margin-top: 2.2rem; margin-right: 1rem">
+                            <lightning-layout-item class="task-modal-footer-item-continue">
                                 <button class="modal-button" onclick={closeTheTask}>
                                     {label.taskConfirm}
                                 </button>
@@ -63,9 +61,7 @@
                                 {label.taskIgnoreModalTitle}
                             </div></lightning-layout-item
                         >
-                        <lightning-layout-item
-                            style="margin-left: 9rem; margin-top: 2rem; cursor: pointer"
-                        >
+                        <lightning-layout-item class="task-modal-ignore-close-icon">
                             <lightning-icon
                                 icon-name="utility:close"
                                 size="small"
@@ -77,11 +73,11 @@
                     <div class="modal-body">
                         {label.taskIgnoreModalBody}
 
-                        <lightning-layout style="float: right; margin-right: -1rem">
-                            <lightning-layout-item style="margin-top: 2.5rem; margin-right: 1rem">
+                        <lightning-layout class="task-modal-footer">
+                            <lightning-layout-item class="task-modal-footer-item-cancel">
                                 <a onclick={closeModel}>{label.taskCancel}</a>
                             </lightning-layout-item>
-                            <lightning-layout-item style="margin-top: 2.2rem; margin-right: 1rem">
+                            <lightning-layout-item class="task-modal-footer-item-continue">
                                 <button class="modal-button" onclick={markTheTaskIgnore}>
                                     {label.taskIgnoreContinue}
                                 </button>
@@ -328,9 +324,8 @@
                             <img src={threedots_imgUrl} class="image-result" />
                         </div>
                         <div
-                            class="slds-dropdown slds-dropdown_right"
+                            class="slds-dropdown slds-dropdown_right task-action-menu"
                             tabindex="0"
-                            style="margin-bottom: -98px; margin-top: -13px; margin-left: -65px"
                             onblur={closeMenu}
                         >
                             <ul class="slds-dropdown__list" role="menu" aria-label="Show More">

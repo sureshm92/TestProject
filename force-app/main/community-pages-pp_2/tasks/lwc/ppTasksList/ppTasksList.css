@@ -277,6 +277,37 @@
 .cursor-default {
     cursor: default;
 }
+
+.task-action-menu {
+    margin-top: -16px;
+    margin-right: 3px;
+}
+.task-modal-footer {
+    float: right;
+    margin-right: -1rem;
+}
+.task-modal-footer-item-cancel {
+    margin-top: 2.5rem;
+    margin-right: 1rem;
+}
+.task-modal-footer-item-continue {
+    margin-top: 2.2rem;
+    margin-right: 1rem;
+}
+.task-modal-footer-complete {
+    float: right;
+    margin-right: -1rem;
+}
+.task-modal-complete-close-icon {
+    margin-left: 5rem;
+    margin-top: 2rem;
+    cursor: pointer;
+}
+.task-modal-ignore-close-icon {
+    margin-left: 9rem;
+    margin-top: 2rem;
+    cursor: pointer;
+}
 @media all and (max-width: 486px) {
     .inactive-custom-box {
         width: 366px;
