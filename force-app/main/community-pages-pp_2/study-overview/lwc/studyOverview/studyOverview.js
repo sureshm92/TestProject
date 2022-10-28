@@ -10,7 +10,7 @@ import getInitData from '@salesforce/apex/AccountSettingsController.getInitData'
 
 import PPLEARNMOREDESKTOPLabel from '@salesforce/label/c.PP_ProgramOverview_LearnMore_Desktop';
 import PPLEARNMOREMBLELabel from '@salesforce/label/c.PP_StudyOverview_LearnMore_Mobile';
-import PP_We_share_the_vision_to_drive_healthcare_forward from '@salesforce/label/c.PP_We_share_the_vision_to_drive_healthcare_forward';
+import PP_StudyOverview_homePage_shortDecs_DelAlu from '@salesforce/label/c.PP_StudyOverview_homePage_shortDecs_DelAlu';
 import PP_Clinical_Research_by_IQVIA from '@salesforce/label/c.PP_Clinical_Research_by_IQVIA';
 
 
@@ -18,7 +18,7 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
     label = {
 				PPLEARNMOREDESKTOPLabel,
                 PPLEARNMOREMBLELabel,
-                PP_We_share_the_vision_to_drive_healthcare_forward,
+                PP_StudyOverview_homePage_shortDecs_DelAlu,
                 PP_Clinical_Research_by_IQVIA
     };
 
