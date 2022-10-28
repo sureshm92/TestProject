@@ -16,7 +16,7 @@
                 <div class="study-title">
                     {!v.ctp.Study_Code_Name__c} ({!v.ctp.Therapeutic_Area__r.Name})
                 </div>
-                <div class="study-description"><ui:outputRichText value="{!v.ctp.Detailed_Description__c}"></ui:outputRichText></div>
+                <div class="study-description"><lightning:formattedRichText value="{!v.ctp.Detailed_Description__c}"></lightning:formattedRichText></div>
 
                 <div class="rr-fields-cutter">
                     <div class="rr-fields-container">

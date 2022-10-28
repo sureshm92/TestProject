@@ -130,7 +130,7 @@
                     </div>
                 </div>
                 <div class="slvi-objective-section">
-                    <div class="objective-text"><ui:outputRichText value="{!v.currentStudy.trial.Brief_Summary__c}"></ui:outputRichText></div> 
+                    <div class="objective-text"><lightning:formattedRichText value="{!v.currentStudy.trial.Brief_Summary__c}"></lightning:formattedRichText></div> 
                     <div class="objective-link">
                         <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
                             >{!$Label.c.BTN_Learn_More}
@@ -225,7 +225,7 @@
                     </div>
                 </div>
                 <div class="slvi-objective-section slds-col slds-small-size_6-of-6">
-                    <div class="objective-text"><ui:outputRichText value="{!v.currentStudy.trial.Brief_Summary__c}"></ui:outputRichText></div> 
+                    <div class="objective-text"><lightning:formattedRichText value="{!v.currentStudy.trial.Brief_Summary__c}"></lightning:formattedRichText></div> 
                     <div class="objective-link">
                         <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
                             >{!$Label.c.BTN_Learn_More}
@@ -258,7 +258,7 @@
 
                 <div class="slvi-objective-section">
                     <div class="objective-text">
-                        <ui:outputRichText value="{!v.currentStudy.trial.Detailed_Description__c}"></ui:outputRichText>
+                        <lightning:formattedRichText value="{!v.currentStudy.trial.Detailed_Description__c}"></lightning:formattedRichText>
                     </div>
                     <div class="objective-link">
                         <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
