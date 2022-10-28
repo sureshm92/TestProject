@@ -60,7 +60,7 @@
                             </lightning-layout-item>
                             <lightning-layout-item size="8">
 								<div class="po-text_2 ">
-                                    {label.PP_We_share_the_vision_to_drive_healthcare_forward}
+                                    {label.PP_StudyOverview_homePage_shortDecs_DelAlu}
                                     </br>
                                     <a><span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
                                     <img src={open_new_tab} onclick={handleclickClinicalResearch}/></a>
@@ -116,13 +116,13 @@
                         horizontal-align="center"
                         class="po-custom-card-mobile-no-study"
                     >
-                        <lightning-layout-item size="4" class={borderPOHome}>
-                                <div class="po-center">
+                        <lightning-layout-item size="4">
+                                <div class="po-center slds-p-top_medium">
                                     <template if:true={isIqviaLogo}>
-                                        <img src={iqviaLogoUrl} class="po-logo" />
+                                        <img src={iqviaLogoUrl} class="po-logo borderRight" />
                                     </template>
                                     <template if:true={isGskLogo}>
-                                        <img src={gskLogoUrl} class="po-logo" />
+                                        <img src={gskLogoUrl} class="po-logo borderRight" />
                                     </template>
                                 </div>
                         </lightning-layout-item>
@@ -133,7 +133,7 @@
                             </div> 
                         </lightning-layout-item>   
                         <lightning-layout-item size="12">
-                            <div class="po-text_3">{label.PP_We_share_the_vision_to_drive_healthcare_forward}</div>
+                            <div class="po-text_3">{label.PP_StudyOverview_homePage_shortDecs_DelAlu}</div>
                         </lightning-layout-item>                       
                     </lightning-layout>
                 </div>
