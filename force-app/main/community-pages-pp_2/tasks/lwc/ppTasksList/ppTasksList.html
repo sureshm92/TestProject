@@ -17,9 +17,7 @@
                                 {label.taskMarkCompleteHeader}
                             </div></lightning-layout-item
                         >
-                        <lightning-layout-item
-                            style="margin-left: 5rem; margin-top: 2rem; cursor: pointer"
-                        >
+                        <lightning-layout-item class="task-modal-complete-close-icon">
                             <lightning-icon
                                 icon-name="utility:close"
                                 size="small"
@@ -31,13 +29,57 @@
                     <div class="modal-body">
                         {label.taskMarkComplete}
 
-                        <lightning-layout style="float: right; margin-right: -1rem">
-                            <lightning-layout-item style="margin-top: 2.5rem; margin-right: 1rem">
+                        <lightning-layout class="task-modal-footer-complete">
+                            <lightning-layout-item class="task-modal-footer-item-cancel">
                                 <a onclick={closeModel}>{label.taskCancel}</a>
                             </lightning-layout-item>
-                            <lightning-layout-item style="margin-top: 2.2rem; margin-right: 1rem">
+                            <lightning-layout-item class="task-modal-footer-item-continue">
                                 <button class="modal-button" onclick={closeTheTask}>
                                     {label.taskConfirm}
+                                </button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template if:true={isTaskIgnoreModal}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="modal-heading-01"
+            aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class="slds-modal slds-fade-in-open"
+        >
+            <div class="slds-modal__container complete-mask" data-modalpopup={popUpTaskId}>
+                <div class="complete-mask-margin">
+                    <lightning-layout>
+                        <lightning-layout-item
+                            ><div class="modal-title">
+                                {label.taskIgnoreModalTitle}
+                            </div></lightning-layout-item
+                        >
+                        <lightning-layout-item class="task-modal-ignore-close-icon">
+                            <lightning-icon
+                                icon-name="utility:close"
+                                size="small"
+                                onclick={closeModel}
+                            >
+                            </lightning-icon></lightning-layout-item
+                    ></lightning-layout>
+
+                    <div class="modal-body">
+                        {label.taskIgnoreModalBody}
+
+                        <lightning-layout class="task-modal-footer">
+                            <lightning-layout-item class="task-modal-footer-item-cancel">
+                                <a onclick={closeModel}>{label.taskCancel}</a>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="task-modal-footer-item-continue">
+                                <button class="modal-button" onclick={markTheTaskIgnore}>
+                                    {label.taskIgnoreContinue}
                                 </button>
                             </lightning-layout-item>
                         </lightning-layout>
@@ -60,7 +102,7 @@
                         <template if:false={item.businessTask}>
                             <template if:true={isMobile}>
                                 <c-web-icon
-                                    class="sys-task"
+                                    class={systemIconClass}
                                     icon-name="task-illustration"
                                     icon-size="big-custom"
                                 >
@@ -68,7 +110,7 @@
                             </template>
                             <template if:false={isMobile}>
                                 <c-web-icon
-                                    class="sys-task"
+                                    class={systemIconClass}
                                     icon-name="task-illustration"
                                     icon-size="big"
                                 >
@@ -76,7 +118,11 @@
                             </template>
                         </template>
                         <template if:true={item.businessTask}>
-                            <c-web-icon class="sys-task" icon-name="task-survey" icon-size="big">
+                            <c-web-icon
+                                class={systemIconClass}
+                                icon-name="task-survey"
+                                icon-size="big"
+                            >
                             </c-web-icon>
                         </template>
                     </div>
@@ -267,20 +313,20 @@
                         data-popup={item.task.Id}
                         onclick={expandtheCard}
                         tabindex="0"
+                        onblur={closeMenu}
                     >
                         <div
                             aria-haspopup="true"
                             aria-expanded="true"
-                            onblur={closeMenu}
                             tabindex="0"
+                            onblur={closeMenu}
                         >
                             <img src={threedots_imgUrl} class="image-result" />
                         </div>
                         <div
-                            class="slds-dropdown slds-dropdown_right"
-                            onblur={closeMenu}
+                            class="slds-dropdown slds-dropdown_right task-action-menu"
                             tabindex="0"
-                            style="margin-bottom: -98px; margin-top: -13px; margin-left: -65px"
+                            onblur={closeMenu}
                         >
                             <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
                                 <template for:each={popupTaskMenuItems} for:item="citem">
@@ -289,7 +335,13 @@
                                         role="presentation"
                                         key={citem}
                                     >
-                                        <a href="#" role="menuitem">
+                                        <a
+                                            href="#"
+                                            onclick={callMethod}
+                                            data-method={citem.name}
+                                            role="menuitem"
+                                            onmousedown={stopBlurEvent}
+                                        >
                                             <span class="slds-truncate">
                                                 <template if:true={citem.reminder}>
                                                     <c-web-icon
