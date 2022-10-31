@@ -48,6 +48,7 @@
                                     due-time-class="due-time"
                                     selected-tasks={openTasks}
                                     ontaskcreated={handleTaskCreated}
+                                    system-icon-class="sys-task curpointer"
                                 ></c-pp-tasks-list>
                             </template>
                             <template if:true={emptyOpenTasks}>
@@ -76,6 +77,7 @@
                                     selected-tasks={completedTasksList}
                                     expire-task-available="true"
                                     ontaskcreated={handleTaskCreated}
+                                    system-icon-class="sys-task"
                                 ></c-pp-tasks-list>
                                 <template if:false={emptyIgnoreTasks}>
                                     <lightning-layout>
@@ -94,6 +96,7 @@
                                         due-time-class="due-time ignore-datetime"
                                         selected-tasks={ignoredTasksList}
                                         ontaskcreated={handleTaskCreated}
+                                        system-icon-class="sys-task curpointer"
                                     ></c-pp-tasks-list>
                                 </template>
                                 <template if:false={emptyExpiredTasks}>
@@ -112,6 +115,7 @@
                                         due-time-class="due-time expire-datetime"
                                         selected-tasks={expiredTasksList}
                                         expire-task-available="true"
+                                        system-icon-class="sys-task"
                                         ontaskcreated={handleTaskCreated}
                                     ></c-pp-tasks-list>
                                 </template>
