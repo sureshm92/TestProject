@@ -1,6 +1,7 @@
-import { LightningElement, api, track, wire } from 'lwc';
+import { LightningElement } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
 import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesById';
+import getCtpName from '@salesforce/apex/ParticipantStateRemote.getInitData';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
@@ -21,12 +22,14 @@ export default class PpResourceDetailPage extends LightningElement {
     isDocument = false;
     langCode;
     documentLink;
+    studyTitle;
     label = {
         Uploaded,
         Back_To_Resources
     };
 
     connectedCallback() {
+        //get resource parameters from url
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         this.resourceId = urlParams.get('resourceid');
@@ -42,6 +45,16 @@ export default class PpResourceDetailPage extends LightningElement {
         if (this.spinner) {
             this.spinner.show();
         }
+        //get study Title
+        getCtpName({})
+            .then((result) => {
+                let data = JSON.parse(result);
+                this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Title__c;
+            })
+            .catch((error) => {
+                this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
+            });
+        //get clicked resource details
         getResourceDetails({
             resourceId: this.resourceId,
             resourceType: this.resourceType

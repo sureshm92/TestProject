@@ -19,28 +19,18 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
     @api resourceSummary;
     @api isVoted = false;
 
-    //Boolean vars
-    isInitialized = false;
     label = {
         Uploaded
     };
 
-    connectedCallback() {
-        this.initializeData();
-    }
-    initializeData() {
-        this.spinner = this.template.querySelector('c-web-spinner');
-        if (this.spinner) {
-            this.spinner.show();
-        }
-        this.isInitialized = true;
-        if (this.spinner) {
-            this.spinner.hide();
-        }
-    }
     handleNavigate() {
         let detailLink =
-            window.location.origin + '/pp/s/resource-detail' + '?resourceid=' + this.resourceId;
+            window.location.origin +
+            '/pp/s/resource-detail' +
+            '?resourceid=' +
+            this.resourceId +
+            '&resourcetype=' +
+            this.resourceType;
 
         const config = {
             type: 'standard__webPage',

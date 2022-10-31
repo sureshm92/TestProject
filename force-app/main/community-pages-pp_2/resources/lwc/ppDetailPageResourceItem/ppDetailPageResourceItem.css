@@ -1,4 +1,9 @@
-img{
+img {
     height: 440px;
     width: 786px;
+}
+
+iframe {
+    min-height: 440px;
+    min-width: 786px;
 }

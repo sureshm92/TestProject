@@ -20174,11 +20174,11 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Welcome</value>
     </labels>
     <labels>
-        <fullName>PP_We_share_the_vision_to_drive_healthcare_forward</fullName>
+        <fullName>PP_StudyOverview_homePage_shortDecs_DelAlu</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>PP_We_share_the_vision_to_drive_healthcare_forward</shortDescription>
-        <value>We share the vision to drive healthcare forward. We do our part by using breakthroughs in insights, technology and human intelligence to reimagine and deliver ways to help make them a reality. Learn more about clinical trial opportunities and what new hope is on the horizon today!</value>
+        <shortDescription>PP_StudyOverview_homePage_shortDecs_DelAlu</shortDescription>
+        <value>Clinical research participants are vital to the development of medical breakthroughs. Your help and support are truly invaluable. The IQVIA team appreciates your willingness to advance clinical discovery. Together we will drive healthcare forward!</value>
     </labels>
     <labels>
         <fullName>PP_Withdraw_Delegate</fullName>
@@ -28721,5 +28721,26 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>Task PP Ignored</shortDescription>
         <value>Ignored</value>
+    </labels>
+    <labels>
+        <fullName>Task_Ignore_Modal_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Ignore Modal Body</shortDescription>
+        <value>You are about to ignore this task. Once ignored, it will be moved to completed tasks. Would you like to continue?</value>
+    </labels>
+    <labels>
+        <fullName>Task_Ignore_Modal_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Ignore Modal Title</shortDescription>
+        <value>Ignore Task</value>
+    </labels>
+    <labels>
+        <fullName>Task_Ignored_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Ignored Message</shortDescription>
+        <value>Task ignored</value>
     </labels>
 </CustomLabels>

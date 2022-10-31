@@ -7,6 +7,10 @@ export default class PpDetailPageResourceItem extends LightningElement {
     showVideo = false;
     showDocument = false;
     connectedCallback() {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        if (this.spinner) {
+            this.spinner.show();
+        }
         if (this.resourceType == 'Article') {
             this.showArticle = true;
         }
@@ -15,6 +19,9 @@ export default class PpDetailPageResourceItem extends LightningElement {
         }
         if (this.resourceType == 'Document') {
             this.showDocument = true;
+        }
+        if (this.spinner) {
+            this.spinner.hide();
         }
     }
 }
