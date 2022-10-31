@@ -40,14 +40,26 @@ global without sharing class EmailActionBtnController {
         String result = buttonURLString;
         String invitationString = surveyIdString;
         if (String.isBlank(caseIdString)) {
-            if (result == null)
+            if (result == null && communityTemplateValue != 'PatientPortal') {
                 result = '';
+            } else if (result == null && communityTemplateValue == 'PatientPortal') {
+                result = 'pp/s';
+            }
 
-            if (!result.containsIgnoreCase('http')) {
+            if (!result.containsIgnoreCase('http') && communityTemplateValue != 'PatientPortal') {
                 if (String.isNotBlank(result) && !result.startsWith('/'))
                     result = '/' + result;
                 if (String.isNotBlank(invitationString) && !invitationString.startsWith('/'))
                     result = '/s/survey?inv=' + invitationString;
+                result = getCurrentCommunityURL() + result;
+            } else if (
+                !result.containsIgnoreCase('http') && communityTemplateValue == 'PatientPortal'
+            ) {
+                //Need to unit test
+                if (String.isNotBlank(result) && !result.startsWith('/'))
+                    result = '/' + result;
+                if (String.isNotBlank(invitationString) && !invitationString.startsWith('/'))
+                    result = '/pp/s/survey?inv=' + invitationString;
                 result = getCurrentCommunityURL() + result;
             }
         } else {
