@@ -32,8 +32,10 @@ import DOB_outcome_error from '@salesforce/label/c.DOB_outcome_error';
 import RH_Pir_Confirm_Televisit from '@salesforce/label/c.RH_Pir_Confirm_Televisit';
 import RH_TV_Confirm from '@salesforce/label/c.RH_TV_Confirm';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
+import Log_in_and_sign from '@salesforce/label/c.Log_in_and_sign';
 import RH_Pir_Add_Televisit from '@salesforce/label/c.RH_Pir_Add_Televisit';
-export default class Pir_participantSubStatusFields extends LightningElement {
+import { NavigationMixin } from "lightning/navigation";
+export default class Pir_participantSubStatusFields extends NavigationMixin(LightningElement) {
   @api index = "";
   @api outcomeToReasonMap = {};
   @api visitplanoptions = {};
@@ -77,6 +79,8 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   @track isTelevisitModalOpen = false;
   @track proceedSaveRecord = false;
   @api getreengaged = false;
+  redirecturl=''; @api e_consentConfigured=false;
+  eConsentRedirect = false;
   maindivcls;
   label = {
     FD_PE_Field_Initial_Visit_Attended_Validation,
@@ -99,6 +103,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     RH_TV_Confirm,
     BTN_Cancel,
     RH_Pir_Add_Televisit,
+    Log_in_and_sign
   };
   connectedCallback() {
     if (this.isrtl) {
@@ -903,25 +908,32 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     this.validateTelevisitVisibility();
     this.validateTelevisitVisibility2();
   }
+  @api consSign = false;
   outcomeHandleChangeIV(event) {
     let datavalue = event.target.dataset.value;
     this.selectedOutcomeIV = event.detail.value;
     if (this.selectedOutcomeIV == "BTN_Yes") {
       this.participantrecord.Informed_Consent__c = true;
+      this.participantrecord.Re_consent__c = false;
       this.participantrecord.Participant_Status__c = "Ready to Screen";
       this.customFieldValidation("Consent Signed");
       if (this.initialvisitattended == "No") {
         this.customFieldValidation("InitialVisitAttended");
-      }
+        this.consSign = true;
+      }else{this.consSign = false;}
     } else if (this.selectedOutcomeIV == "Declined_Consent") {
       this.participantrecord.Participant_Status__c = "Declined Consent";
       this.participantrecord.Informed_Consent__c = false;
+      this.consSign = false;
     } else if (this.selectedOutcomeIV == "Withdrew_Consent") {
       this.participantrecord.Participant_Status__c = "Withdrew Consent";
       this.participantrecord.Informed_Consent__c = false;
+      this.consSign = false;
     } else {
       this.participantrecord.Informed_Consent__c = false;
+      this.participantrecord.Re_consent__c = false;
       delete this.participantrecord.Participant_Status__c;
+      this.consSign = false; 
     }
 
     this.statusChanged = true;
@@ -1731,6 +1743,14 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     ) {
       delete this.participantrecord.ParticipantNoShow__c;
     }
+    let isDeclinedAndConsentAsYes = false;
+    if(this.consSign == true && this.initialvisitattended == "No" && this.pe_record.Participant_Status__c == "Declined Consent"){
+       this.participantrecord.Participant_Status__c = "Successfully Contacted";
+       this.participantrecord.Non_Enrollment_Reason__c = '';
+       isDeclinedAndConsentAsYes = true;
+    }else{
+       isDeclinedAndConsentAsYes = false;
+    }
 
     if (this.participantrecord.Participant_Status__c == "Ready to Screen") {
       if (
@@ -1791,7 +1811,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         delete this.participantrecord.Non_Enrollment_Reason__c;
       }
 
-      doSaveStatusDetails({ perRecord: this.participantrecord, perRec: this.participantRec, visitPlan: visitPln })
+      doSaveStatusDetails({ perRecord: this.participantrecord, perRec: this.participantRec, visitPlan: visitPln, isDeclinedAndConsentAsYes : isDeclinedAndConsentAsYes })
         .then((result) => {
           this.showSuccessToast(this.label.RH_RP_Record_Saved_Successfully);
           const selectedEvent = new CustomEvent("saved", {});
@@ -1949,5 +1969,19 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   }
   get invalidForEligibility(){
     return (this.pe_record.Clinical_Trial_Profile__r.Promote_to_SH__c && (this.pe_record.Study_Site__r.Study_Site_Type__c =='Virtual'|| this.pe_record.Study_Site__r.Study_Site_Type__c =='Hybrid') && this.selectedOutcome == 'Eligibility_Passed' && !this.pe_record.Is_Participant_DOB_Valid__c);
+  }
+  
+  handleConsentLogin(event) {
+    if(this.pe_record.Study_Site__r.Clinical_Trial_Profile__r.E_Consent_Configuration__c &&
+        this.pe_record.Study_Site__r.E_Consent_Vendor__r.Vendor_URL__c != null) {
+          this.redirecturl = this.pe_record.Study_Site__r.E_Consent_Vendor__r.Vendor_URL__c;
+        let config = {
+          type: 'standard__webPage',
+          attributes: {
+              url: this.pe_record.Study_Site__r.E_Consent_Vendor__r.Vendor_URL__c
+          }
+        };
+        this[NavigationMixin.Navigate](config);
+    }    
   }
 }

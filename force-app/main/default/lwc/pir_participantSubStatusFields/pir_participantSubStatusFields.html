@@ -329,6 +329,14 @@
                             style="padding-top: 10px">
                             <div class="step-card-title">{utilLabels.FG_PE_Inf_Consent}</div>
                         </div>
+                        <template if:true={e_consentConfigured}>
+                            <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                                <div class="step-card-title">
+                                    <button class="slds-button apollo-btn primary slds-p-around_x-medium econsentlogin"
+                                        onclick={handleConsentLogin}>{label.Log_in_and_sign}</button>
+                                </div>
+                            </div>
+                        </template>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <div class="text-overlap margininitial"
@@ -477,6 +485,12 @@
                                     data-value="additionalNotes" value={additionalNote} label={notesLabel}
                                     title={notesLabel} onchange={changeInputValue}>
                                 </lightning-textarea>
+                            </div>
+                        </template>
+                        <template if:true={e_consentConfigured}>
+                            <div class="slds-col slds-size--1-of-1 outcome-form-element step-card-title">
+                                <button class="slds-button apollo-btn primary slds-p-around_x-medium econsentlogin"
+                                    onclick={handleConsentLogin}> {label.Log_in_and_sign}</button>
                             </div>
                         </template>
                         <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
