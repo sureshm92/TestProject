@@ -2135,7 +2135,7 @@
         <recordType>Comorbidities__c.Comorbidity</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-   
+
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Birth_Day__c</field>
@@ -2341,7 +2341,7 @@
         <field>Clinical_Trial_Profile__c.Patient_Outreach_Info__c</field>
         <readable>true</readable>
     </fieldPermissions>
-        <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Privacy_Policy_ID__c</field>
         <readable>true</readable>
@@ -2661,7 +2661,7 @@
         <field>PreScreener_Survey__c.ProviderName__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    
+
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Callout_Log__c.Comment__c</field>
@@ -2933,6 +2933,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Program_Overview__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Study_Site__c.Banner_Display_Offset_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2946,11 +2951,11 @@
         <field>Study_Site__c.Participant_DOB_format__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    
+
     <layoutAssignments>
         <layout>PreScreener_Survey__c-PreScreener Survey Layout</layout>
     </layoutAssignments>
-   
+
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>

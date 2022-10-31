@@ -324,6 +324,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     @track initialReminderOptions = [
+        { label: this.label.none, value: 'No reminder', itemClass: 'dropdown-li li-item-disabled' },
         {
             label: this.label.onehour,
             value: '1 hour before',
@@ -344,36 +345,35 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             value: '1 week before',
             itemClass: 'dropdown-li li-item-disabled'
         },
-        { label: this.label.custom, value: 'Custom', itemClass: 'dropdown-li' },
-        { label: this.label.none, value: 'No reminder', itemClass: 'dropdown-li li-item-disabled' }
+        { label: this.label.custom, value: 'Custom', itemClass: 'dropdown-li' }
     ];
 
     get reminderOptions() {
         let differenceTimeHours = this.calculateTimezoneDifference();
         if (differenceTimeHours > 1) {
-            this.initialReminderOptions[0].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
-        }
-        if (differenceTimeHours > 4) {
             this.initialReminderOptions[1].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
         }
-        if (differenceTimeHours > 24) {
+        if (differenceTimeHours > 4) {
             this.initialReminderOptions[2].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
         }
-        if (differenceTimeHours > 168) {
+        if (differenceTimeHours > 24) {
             this.initialReminderOptions[3].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[3].itemClass = 'dropdown-li li-item-disabled';
         }
-        if (this.remindmepub === '') {
-            this.initialReminderOptions[5].itemClass = 'dropdown-li li-item-disabled';
+        if (differenceTimeHours > 168) {
+            this.initialReminderOptions[4].itemClass = 'dropdown-li';
         } else {
-            this.initialReminderOptions[5].itemClass = 'dropdown-li';
+            this.initialReminderOptions[4].itemClass = 'dropdown-li li-item-disabled';
+        }
+        if (this.remindmepub === '') {
+            this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
+        } else {
+            this.initialReminderOptions[0].itemClass = 'dropdown-li';
         }
         return this.initialReminderOptions;
     }
