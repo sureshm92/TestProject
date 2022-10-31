@@ -28759,4 +28759,11 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Email Subject Survey Reminder</shortDescription>
         <value>Reminder: You have an upcoming task</value>
     </labels>
+    <labels>
+        <fullName>Email_Instant_Del_Subject_Reminder_Type_Not_Selected_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Instant Del Subject Reminder Type Not Selected PP</shortDescription>
+        <value>Your participant has a new task</value>
+    </labels>
 </CustomLabels>
