@@ -1,7 +1,7 @@
 <template>
     <div class={cardRTL}>
         <template if:true={desktop}>
-            <!-- Program Overview Available -->
+            <!-- Study Overview Available -->
             <template if:false={noStudyOverviewAvailable}>
                 <template if:true={clinicalrecord}>
                     <div class="po-container">
@@ -13,14 +13,14 @@
                         >
                             <lightning-layout-item size="3" class="border-right">
                                 <template if:true={clinicalrecord.Profile_Picture__c}>
-                                    <div class="po-center">
+                                    <div class="po-center slds-p-right_small slds-p-left_small">
                                         <img src={clinicalrecord.Profile_Picture__c} class="po-logo" />
                                     </div>
                                 </template>
                             </lightning-layout-item>
-                            <lightning-layout-item size="6">
+                            <lightning-layout-item size="6" class="slds-p-left_small">
                                 <template if:true={clinicalrecord.Brief_Summary__c}>
-                                    <div class="po-text">{shortOverview}</div>
+                                    <lightning-formatted-rich-text class="po-text" value={shortOverview}></lightning-formatted-rich-text>
                                 </template>
                             </lightning-layout-item>
                             <lightning-layout-item size="3" class="slds-align_absolute-center">
@@ -39,7 +39,7 @@
                 </template>
             </template>
 
-            <!-- NO program overview available -->
+            <!-- NO study overview available -->
             <template if:true={noStudyOverviewAvailable}>
                     <div class="po-container">
                         <lightning-layout
@@ -49,7 +49,7 @@
                             class="po-custom-card"
                         >
                             <lightning-layout-item size="4" class={borderPOHome}>
-                                    <div class="po-center">
+                                    <div class="po-center slds-p-right_small slds-p-left_small">
                                         <template if:true={isIqviaLogo}>
                                             <img src={iqviaLogoUrl} class="po-logo" />
                                         </template>
@@ -60,16 +60,10 @@
                             </lightning-layout-item>
                             <lightning-layout-item size="8">
 								<div class="po-text_2 ">
-                                    {label.PP_We_share_the_vision_to_drive_healthcare_forward}
+                                    {label.PP_StudyOverview_homePage_shortDecs_DelAlu}
                                     </br>
-                                    <span class="po-more-text" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
-                                    <lightning-button-icon
-																		class="slds-p-left_x-small"
-                                    icon-name="utility:new_window"
-                                    variant="bare"
-                                    size="medium"
-                                    onclick={handleclickClinicalResearch}
-                                    ></lightning-button-icon>
+                                    <a><span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
+                                    <img src={open_new_tab} onclick={handleclickClinicalResearch}/></a>
                                 </div>
 							</lightning-layout-item>                          
                         </lightning-layout>
@@ -79,7 +73,7 @@
         </template>
 
         <template if:false={desktop}>
-             <!-- Program Overview Available -->
+             <!-- Study Overview Available -->
             <template if:false={noStudyOverviewAvailable}>
                 <template if:true={clinicalrecord}>
                     <div class="po-container">
@@ -91,7 +85,7 @@
                         >
                             <lightning-layout-item size="5" class={borderPOHome}>
                                 <template if:true={clinicalrecord.Profile_Picture__c}>
-                                    <div class="po-center">
+                                    <div class="po-center slds-p-right_small slds-p-left_small">
                                         <img src={clinicalrecord.Profile_Picture__c} />
                                     </div>
                                 </template>
@@ -114,38 +108,32 @@
                 </template>
             </template>
 
-            <!-- NO program overview available -->
+            <!-- NO study overview available -->
             <template if:true={noStudyOverviewAvailable}>
                 <div class="po-container">
                     <lightning-layout
                         multiple-rows="true"
                         horizontal-align="center"
-                        class="po-custom-card-mobile"
+                        class="po-custom-card-mobile-no-study"
                     >
-                        <lightning-layout-item size="4" class={borderPOHome}>
-                                <div class="po-center">
+                        <lightning-layout-item size="4">
+                                <div class="po-center slds-p-top_medium">
                                     <template if:true={isIqviaLogo}>
-                                        <img src={iqviaLogoUrl} class="po-logo" />
+                                        <img src={iqviaLogoUrl} class="po-logo borderRight" />
                                     </template>
                                     <template if:true={isGskLogo}>
-                                        <img src={gskLogoUrl} class="po-logo" />
+                                        <img src={gskLogoUrl} class="po-logo borderRight" />
                                     </template>
                                 </div>
                         </lightning-layout-item>
                         <lightning-layout-item size="8">
                             <div class="po-text_3 slds-p-top_large">
-                                <span class="po-more-text" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
-                                <lightning-button-icon 
-																class="slds-p-left_x-small"
-                                icon-name="utility:new_window"
-                                variant="bare"
-                                size="medium"
-                                onclick={handleclickClinicalResearch}
-                                ></lightning-button-icon>
+                                <a><span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
+                                <img src={open_new_tab} onclick={handleclickClinicalResearch}/></a>
                             </div> 
                         </lightning-layout-item>   
                         <lightning-layout-item size="12">
-                            <div class="po-text_3">{label.PP_We_share_the_vision_to_drive_healthcare_forward}</div>
+                            <div class="po-text_3">{label.PP_StudyOverview_homePage_shortDecs_DelAlu}</div>
                         </lightning-layout-item>                       
                     </lightning-layout>
                 </div>

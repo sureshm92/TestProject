@@ -21,6 +21,28 @@
 .duplicatemsg{
     width:100%;
 }
+.mtop{
+    margin-top: 19px;
+}
+.label_align{
+    display:flex;
+    align-items: baseline;
+}
+.checkbox_size {
+    max-width: 15px;
+}
+.addParticipantCls{
+    padding-left: 17px;
+}
+.addParticipantClss{
+    padding-left: 20px;
+}
+.check-box-m-topUSError{
+    margin-top: 9px;
+}
+.check-box-m-topUSNoError{
+    margin-top: 0px;
+}
 @media (max-device-width: 767px) {
     .delegate-bg{
         margin-top: 15px;
@@ -38,7 +60,9 @@
         text-overflow: unset;
         white-space: unset;
     }
-
+    .addParticipantClss{
+        padding-left: 27px;
+    }
  }
  .slds-form-element__label {
     max-width: 100%;

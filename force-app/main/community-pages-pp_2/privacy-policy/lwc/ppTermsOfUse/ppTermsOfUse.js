@@ -21,6 +21,7 @@ export default class PpTermsOfUse extends LightningElement {
     lastUpdated;
     ppRichText;
     @track currentHeaderLabel = '';
+    spinner;
 
     labels = {
         TU_HEADER,
@@ -89,9 +90,6 @@ export default class PpTermsOfUse extends LightningElement {
                 .catch((error) => {
                     this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
                 });
-        }
-        if (this.spinner) {
-            this.spinner.hide();
         }
     }
 
@@ -213,6 +211,9 @@ export default class PpTermsOfUse extends LightningElement {
             if (tcContent) {
                 tcContent.innerHTML = this.tcRichText;
             }
+            if (this.spinner) {
+                this.spinner.hide();
+            }
         }
     }
 
@@ -255,9 +256,8 @@ export default class PpTermsOfUse extends LightningElement {
 
             this.isMobile
                 ? (this.template.querySelector('[data-id="tcRichText"]').scrollTop = offsetPosition)
-                : (this.template.querySelector(
-                      '[data-id="tcRichTextD"]'
-                  ).scrollTop = offsetPosition);
+                : (this.template.querySelector('[data-id="tcRichTextD"]').scrollTop =
+                      offsetPosition);
             this.currentHeaderLabel = event.currentTarget.dataset.label;
         }
     }

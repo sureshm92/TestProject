@@ -167,7 +167,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             if(dd < 10){
                 ddValue = '0'+dd;
             }
-            //ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
+            ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
             Participant__c objParticipant = IprEprTriggerHandler.convertToParticipant(ipr);
             objParticipant.Age__c = participantAge;
             if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
@@ -375,7 +375,8 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                                 Completed_Date__c = Datetime.now(),
                                 Participant_enrollment__c = sr.getId(),
                                 Screener_Response__c = ipr.MRR_Survey_Results_URL__c,
-                                Status__c = 'Pass'
+                                Status__c = 'Pass',
+                                MRR_EPR__c = true
                             )
                         );
                     }
