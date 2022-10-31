@@ -63,11 +63,11 @@
 
                         <!-- objectiove section: -->
                         <div class="sdas-sub-category">{!$Label.c.PG_SW_H_Objective}</div>
-                        <div class="sdas-text">{!v.studyDetail.trial.Brief_Summary__c}</div>
+                        <div class="sdas-text"><lightning:formattedRichText value="{!v.studyDetail.trial.Brief_Summary__c}"></lightning:formattedRichText></div>
 
                         <!-- study overview: -->
                         <div class="sdas-sub-category">{!$Label.c.PG_SW_H_Study_Overview}</div>
-                        <div class="sdas-text">{!v.studyDetail.trial.Override_Description__c}</div>
+                        <div class="sdas-text"><lightning:formattedRichText value="{!v.studyDetail.trial.Override_Description__c}"></lightning:formattedRichText></div>
 
                         <!-- inclusion exclusion: -->
                         <div class="sdas-sub-category">
