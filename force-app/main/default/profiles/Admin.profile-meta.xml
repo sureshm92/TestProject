@@ -6832,6 +6832,11 @@
         <field>Participant_Enrollment__c.Is_Participant_Contact_Opt_in_SMS__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Re_consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Status_Integration__mdt.ApiFieldNames__c</field>
