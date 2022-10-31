@@ -1,0 +1,5 @@
+img,
+iframe {
+    min-height: 440px;
+    min-width: 786px;
+}
