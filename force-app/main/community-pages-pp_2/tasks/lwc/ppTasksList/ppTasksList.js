@@ -13,8 +13,13 @@ import taskMarkCompleteHeader from '@salesforce/label/c.Task_Mark_Complete';
 import taskReminder from '@salesforce/label/c.Task_Reminder';
 import noOpenTasks from '@salesforce/label/c.No_Open_Tasks';
 import taskPPCompletedLabel from '@salesforce/label/c.Task_PP_Completed';
+import taskIgnoreModalTitle from '@salesforce/label/c.Task_Ignore_Modal_Title';
+import taskIgnoreModalBody from '@salesforce/label/c.Task_Ignore_Modal_Body';
+import taskIgnoreContinue from '@salesforce/label/c.Continue';
+import taskIgnoredMessage from '@salesforce/label/c.Task_Ignored_Message';
 
 import markAsCompleted from '@salesforce/apex/TaskEditRemote.markAsCompleted';
+import markAsIgnore from '@salesforce/apex/TaskEditRemote.ignoreTask';
 import { NavigationMixin } from 'lightning/navigation';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -23,6 +28,7 @@ import formFactor from '@salesforce/client/formFactor';
 
 export default class PpTasksList extends NavigationMixin(LightningElement) {
     isShowModal = false;
+    isTaskIgnoreModal = false;
     popUpTaskId;
     userTimeZone = TIME_ZONE;
     @track tasksList;
@@ -41,6 +47,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     @api completedTasks;
     spinner;
     @api webIconClass;
+    @api systemIconClass;
     taskCodeList = [
         'Complete_Survey',
         'Complete_Your_Profile',
@@ -67,7 +74,11 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         taskIgnore,
         taskCreateReminder,
         taskCompleted,
-        taskPPCompletedLabel
+        taskPPCompletedLabel,
+        taskIgnoreModalTitle,
+        taskIgnoreModalBody,
+        taskIgnoreContinue,
+        taskIgnoredMessage
     };
     isCreateTask = false;
     isShowModal = false;
@@ -83,8 +94,16 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         iconUrl: 'reminderbell_icom',
         reminder: true
     };
-    editObj = { name: this.label.taskEdit, iconUrl: 'Pencil_Icon', edit: true };
-    ignoreObj = { name: this.label.taskIgnore, iconUrl: 'icon-close', ignore: true };
+    editObj = {
+        name: this.label.taskEdit,
+        iconUrl: 'Pencil_Icon',
+        edit: true
+    };
+    ignoreObj = {
+        name: this.label.taskIgnore,
+        iconUrl: 'icon-close',
+        ignore: true
+    };
     editImg = pp_icons + '/' + 'Pencil_Icon.svg';
     emptyOpenTasks;
     emptyCompletedTasks;
@@ -107,7 +126,11 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         let selectedTask;
         var taskId = event.currentTarget.dataset.index;
         console.log('sss', event.currentTarget.dataset.status);
-        if (event.currentTarget.dataset.status == 'Expired') return;
+        if (
+            event.currentTarget.dataset.status == 'Expired' ||
+            event.currentTarget.dataset.status == 'Completed'
+        )
+            return;
         if (event.currentTarget.dataset.actionurl != undefined) {
             communityService.navigateToPage(event.currentTarget.dataset.actionurl);
         }
@@ -132,6 +155,9 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         radioTask.classList.add('active-custom-box');
     }
 
+    showIgnoreModal(event) {
+        this.isTaskIgnoreModal = true;
+    }
     hideModalBox() {
         this.isShowModal = false;
         let radioTask = this.template.querySelector(
@@ -209,6 +235,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     closeModel() {
         let radioTask = this.template.querySelector('[data-modalpopup="' + this.popUpTaskId + '"]');
         this.isShowModal = false;
+        this.isTaskIgnoreModal = false;
         let radioTask2 = this.template.querySelector(
             '[data-parentdiv="' + this.selectedTaskId + '"]'
         );
@@ -235,5 +262,64 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             radioTask2.classList.add('fill-oval');
             radioTask2.classList.remove('empty-oval');
         }
+    }
+    stopBlurEvent(event) {
+        event.preventDefault();
+    }
+    createReminder() {
+        alert('createReminder');
+    }
+    editTask() {
+        alert('editTask');
+    }
+    callMethod(event) {
+        if (event.currentTarget.dataset.method == this.label.taskCreateReminder) {
+            this.createReminder();
+        }
+        if (event.currentTarget.dataset.method == this.label.taskEdit) {
+            this.editTask();
+        }
+        if (event.currentTarget.dataset.method == this.label.taskIgnore) {
+            this.showIgnoreModal();
+        }
+        event.preventDefault();
+    }
+    markTheTaskIgnore() {
+        this.isTaskIgnoreModal = false;
+        this.spinner = this.template.querySelector('c-web-spinner');
+        this.spinner.show();
+
+        markAsIgnore({ taskId: this.popUpTaskId })
+            .then(() => {
+                this.removeTheTaskfromList(this.popUpTaskId);
+                this.spinner.hide();
+                this.showToast(
+                    this.label.taskIgnoredMessage,
+                    this.label.taskIgnoredMessage,
+                    'success'
+                );
+            })
+            .catch((error) => {
+                this.spinner.hide();
+            });
+    }
+    getTaskDetailsById(taskId) {
+        let selectedTask;
+        for (let i = 0; i < this.tasksList.length; i++) {
+            if (this.tasksList[i].task.Id == taskId) {
+                selectedTask = this.tasksList[i];
+                break;
+            }
+        }
+        return selectedTask;
+    }
+    removeTheTaskfromList(taskId) {
+        let i;
+        for (i = 0; i < this.tasksList.length; i++) {
+            if (this.tasksList[i].task.Id == taskId) {
+                break;
+            }
+        }
+        this.tasksList.splice(i, 1);
     }
 }
