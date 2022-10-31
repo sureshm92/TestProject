@@ -30,7 +30,9 @@
                             {resourceTitle}</lightning-layout-item
                         >
                     </lightning-layout>
-                    <hr />
+                    <template if:false={isDocument}>
+                        <hr />
+                    </template>
                 </lightning-layout-item>
             </lightning-layout>
             <!--**********  Resource Container *************-->
@@ -107,13 +109,24 @@
                     </lightning-layout-item>
                 </template>
                 <!-- Study Documents  -->
-                <template if:true={isDocument}> </template>
+                <template if:true={isDocument}>
+                    <lightning-layout-item size="12" class="title-row">
+                        <div class="ah-video-iframe">
+                            <iframe
+                                frameborder="0"
+                                src={documentLink}
+                                height="1000px"
+                                width="1336px"
+                            >
+                            </iframe>
+                        </div>
+                    </lightning-layout-item>
+                </template>
             </lightning-layout>
             <!--**********  Resource Container End *************-->
         </div>
-
-        <div class="rr-width-limiter side-padding footer-resource">
-            <c-pp-community-footer> </c-pp-community-footer>
-        </div>
     </template>
+    <div class="rr-width-limiter side-padding footer-resource">
+        <c-pp-community-footer> </c-pp-community-footer>
+    </div>
 </template>

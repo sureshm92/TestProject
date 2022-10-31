@@ -3,3 +3,11 @@
     border-radius: 4px;
     margin-right: 10px;
 }
+
+.no-data-is-available {
+    color: #999999;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+}
