@@ -253,6 +253,7 @@ public without sharing class MedicalRecordReviewRemote {
             prscreenerresponse.Screener_Response__c = surveyGizmoData;
             prscreenerresponse.Completed_by__c = CommunityService.getUserContact().Id;
             prscreenerresponse.Completed_Date__c = Datetime.now();
+            prscreenerresponse.MRR__c = true;
             insert prscreenerresponse;
 
             return JSON.serialize(participantEnrollment);

@@ -38,6 +38,10 @@ import pir_BmiHelptext from "@salesforce/label/c.pir_BmiHelptext";
 import RH_MedicalRecords_NoPermitEmail from "@salesforce/label/c.RH_MedicalRecords_NoPermitEmail";
 import PIR_Download from "@salesforce/label/c.PIR_Download";
 import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save'; 
+import Prescreener_Name from '@salesforce/label/c.Prescreener_Name';
+import MRR_Screener_Name from '@salesforce/label/c.MRR_Screener_Name';
+import EPR_Screener_Name from '@salesforce/label/c.EPR_Screener_Name';
+import General_Screener_Name from '@salesforce/label/c.General_Screener_Name';
 
 import LOCALE from "@salesforce/i18n/locale";
 
@@ -73,7 +77,11 @@ export default class Medicalinformation extends LightningElement {
     pir_BmiHelptext,
     RH_MedicalRecords_NoPermitEmail,
     PIR_Download,
-    RH_RP_Record_Saved_Successfully
+    RH_RP_Record_Saved_Successfully,
+    Prescreener_Name,
+    MRR_Screener_Name,
+    EPR_Screener_Name,
+    General_Screener_Name
   };
 
   @api selectedPe;
@@ -257,11 +265,26 @@ export default class Medicalinformation extends LightningElement {
             this.returnpervalue.surveyResponses[i].accordianHide = result.surveyResponses[i].Id + ' slds-hide';
             this.returnpervalue.surveyResponses[i].accordianDiv = 'slds-m-top_small '+ result.surveyResponses[i].Id +' slds-hide';
             this.returnpervalue.surveyResponses[i].screenerDiv = 'screener'+ result.surveyResponses[i].Id;
-            this.returnpervalue.surveyResponses[i].screenerName = this.returnpervalue.surveyResponses[i].PreScreener_Survey__c 
-              ? this.returnpervalue.surveyResponses[i].PreScreener_Survey__r.Survey_Name__c 
-              : ((this.returnpervalue.surveyResponses[i].Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c ?
-                this.returnpervalue.surveyResponses[i].Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c + '_'
-                : '') + 'Medical Record Review');
+
+            if(this.returnpervalue.surveyResponses[i].PreScreener_Survey__c) {
+              
+              this.returnpervalue.surveyResponses[i].screenerName = this.returnpervalue.surveyResponses[i].PreScreener_Survey__r.Survey_Name__c;
+            } else {
+              var ctpName = '';
+              if(this.returnpervalue.surveyResponses[i].Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c) {
+                ctpName = this.returnpervalue.surveyResponses[i].Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+              }
+              if(this.returnpervalue.surveyResponses[i].MRR_EPR__c) {
+                this.returnpervalue.surveyResponses[i].screenerName = this.label.EPR_Screener_Name + (ctpName ? '_' + ctpName : '');
+              } else if(this.returnpervalue.surveyResponses[i].MRR__c){
+                this.returnpervalue.surveyResponses[i].screenerName =  (ctpName ? ctpName + '_' : '') + this.label.MRR_Screener_Name;
+              } else if(this.returnpervalue.surveyResponses[i].Prescreener__c) {
+                this.returnpervalue.surveyResponses[i].screenerName =  (ctpName ? ctpName + '_' : '') + this.label.Prescreener_Name;
+              } else {
+                this.returnpervalue.surveyResponses[i].screenerName =  (ctpName ? ctpName + '_' : '') + this.label.General_Screener_Name;
+              }
+            }
+            
             this.returnpervalue.surveyResponses[i].screenerTitle = 
               this.returnpervalue.surveyResponses[i].screenerName + ' ' 
               + new Date(this.returnpervalue.surveyResponses[i].Completed_Date__c).toLocaleDateString(LOCALE, { year: 'numeric', month: '2-digit', day: '2-digit' });
