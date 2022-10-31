@@ -27721,7 +27721,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Last Updated On</shortDescription>
-        <value>Last Updated on:</value>
+        <value>Last updated on:</value>
     </labels>
     <labels>
         <fullName>PP_StudyPrivacyPolicyNote1</fullName>
@@ -28742,5 +28742,28 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>Task Ignored Message</shortDescription>
         <value>Task ignored</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Plain_Summary_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Plain Summary PP</shortDescription>
+        <value>New documents from ##StudyName are now available on the ##ShortCommunityName.   
+
+            Please login to the ##ShortCommunityName to view this information.</value>
+    </labels>
+	<labels>
+        <fullName>Email_Subject_Survey_Reminder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Survey Reminder</shortDescription>
+        <value>Reminder: You have an upcoming task</value>
+    </labels>
+    <labels>
+        <fullName>Email_Instant_Del_Subject_Reminder_Type_Not_Selected_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Instant Del Subject Reminder Type Not Selected PP</shortDescription>
+        <value>Your participant has a new task</value>
     </labels>
 </CustomLabels>
