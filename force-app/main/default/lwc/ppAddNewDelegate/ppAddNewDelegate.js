@@ -55,6 +55,7 @@ export default class PpAddNewDelegate extends LightningElement {
     @api selectedParent;
     isAttested = false;
     isEmailConsentChecked = false;
+    isAtLeastOneStudySelected = false;
     @track allTrialLevel = {};
     isDelegateExisting = false;
     cmpinitialized = false;
@@ -158,7 +159,8 @@ export default class PpAddNewDelegate extends LightningElement {
             this.delegate.delegateContact.LastName.length == 0 ||
             this.delegate.delegateContact.Id == this.currentUserContactId ||
             !this.isAttested ||
-            !this.isEmailConsentChecked;
+            !this.isEmailConsentChecked ||
+            !this.isAtLeastOneStudySelected;
         return savedisabled;
     }
     get saveButtonClass() {
@@ -298,9 +300,16 @@ export default class PpAddNewDelegate extends LightningElement {
             );
         }
     }
-    //Handler for message received by Aura component
+    //Handler for message received from child component.
     handleMessage(message) {
-        this.delegateFilterData.studiesSelected = message.selectedListOfStudies;
+        if (message != undefined && message.selectedListOfStudies != undefined) {
+            this.delegateFilterData.studiesSelected = message.selectedListOfStudies;
+            if (message.selectedListOfStudies.length > 0) {
+                this.isAtLeastOneStudySelected = true;
+            } else if (message.selectedListOfStudies.length == 0) {
+                this.isAtLeastOneStudySelected = false;
+            }
+        }
     }
     unsubscribeToMessageChannel() {
         unsubscribe(this.subscription);
@@ -310,7 +319,6 @@ export default class PpAddNewDelegate extends LightningElement {
     //Partially Mask the field
     partiallyMaskFields(value) {
         let maskedValue = '';
-        let resetValidationError = false;
         for (let i = 0; i < value.length; i++) {
             if (i <= 1) {
                 maskedValue += value.charAt(i);
