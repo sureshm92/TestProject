@@ -1,13 +1,14 @@
 <template>
     <div class="slds-scrollable_y scroll-bar">
-        <template for:each={documents} for:item="docs" for:index="index">
-            <c-pp-Document
-                key={docs}
-                id={docs.Id}
-                title={docs.Title}
-                versiondate={docs.VersionDate}
-                thumbnail={docs.thumbnailFileCard}
-            ></c-pp-Document>
+        <template if:true={documentPresent}>
+            <template for:each={documentList} for:item="docs" for:index="index">
+                <c-pp-Document key={docs} document={docs}></c-pp-Document>
+            </template>
+        </template>
+        <template if:false={documentPresent}>
+            <div class="slds-align_absolute-center no-data-is-available">
+                {label.noDocumentsAvailable}
+            </div>
         </template>
     </div>
 </template>
