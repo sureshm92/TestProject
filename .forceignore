@@ -14,11 +14,13 @@ force-app/main/default/settings/Address.settings-meta.xml
 **/jsconfig.json
 **/.eslintrc.json
 
+
 #profiles:
 force-app/main/default/profiles/Custom%3A Marketing Profile.profile-meta.xml
 force-app/main/default/profiles/Custom%3A Sales Profile.profile-meta.xml
 force-app/main/default/profiles/Custom%3A Support Profile.profile-meta.xml
 force-app/main/default/profiles/IQVIA RH Profile.profile-meta.xml
+
 
 #flows
 force-app/main/default/flows/net_promoter_score.flow-meta.xml
@@ -29,32 +31,38 @@ force-app/main/default/flows/Create_Task_For_OutReach_User.flow-meta.xml
 force-app/main/default/flows/Email_to_Technical_Support_for_Optout_option.flow-meta.xml
 force-app/main/default/workflows/Integration_Patient_Referral__c.workflow-meta.xml
 force-app/main/default/workflows/Case.workflow-meta.xml
+force-app/main/default/profiles
+
+
+
+force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
+force-app/main/onboarding-tour
+force-app/main/messaging/customMetadata
+force-app/unpackaged
+force-app/libs
+
 
 #Ignore all onboarding slides, comment line for include
-#**/onboarding-tour/staticresources
-#force-app/unpackaged/main/default/staticresources/os_***
-#force-app/main/onboarding-tour/staticresources/os_*
-#force-app/main/default/staticresources/Flags.svg
-#force-app/main/default/staticresources/Flags.resource-meta.xml
-#force-app/main/tools/staticresources/*
+
+**/onboarding-tour/staticresources
+force-app/unpackaged/main/default/staticresources/os_*
+force-app/main/onboarding-tour/staticresources/os_*
+force-app/main/default/staticresources/Flags.svg
+force-app/main/default/staticresources/Flags.resource-meta.xml
+force-app/main/tools/staticresources/*
 
 
 #Uncomment during full package deployment
 #force-app/main/default/staticresources/WalkMeCommunity*
 
 #Ignore State globalValueSet
-#force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
-#force-app/main/default/profiles
-#force-app/communities
-#force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
-#force-app/main/default/profiles/PRDBAPI*
-force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
-force-app/main/default/profiles/PRDBAPI*
-force-app/communities/community-gsk
-force-app/communities/community-janssen
-force-app/communities/community-iqvia
-rhpp-project/force-app/main/default/profiles
+force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
 force-app/main/default/profiles
-force-app/main/default/profilePasswordPolicies/IQVIA_Customer_Community_Plus_Login_User_profilePasswordPolicy1594451707573.profilePasswordPolicy-meta.xml
-force-app/main/default/flows/Patient_Welcome_to_the_Study_Email.flow-meta.xml
-force-app/main/default/translations/ar.translation-meta.xml
+force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
+force-app/main/onboarding-tour
+force-app/main/messaging/customMetadata
+force-app/communities
+!force-app/communities/community-pp
+force-app/main/tests/classes
+#force-app/main/integration/classes/RemoteCall_GetCardDetails.cls
+**/__tests__
