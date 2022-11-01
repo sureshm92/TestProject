@@ -52,7 +52,7 @@
                                 <!--Dlegate Info Layout: Starts -->
                                 <lightning-layout multiple-rows="true" class="manage-del-items">
                                     <!--Delegate Profile Logo and Name Section: Starts-->
-                                    <lightning-layout-item size="12" class="m-top-30 height-32">
+                                    <lightning-layout-item size="12" class="slds-m-bottom_medium">
                                         <!--Delegate Personal Detail Layout: Starts-->
                                         <lightning-layout multiple-rows="true">
                                             <!--Profile Logo: Stats-->
@@ -89,20 +89,25 @@
                                     >
                                         <lightning-layout-item
                                             size="12"
-                                            class="m-top-10 study-rectangle"
+                                            class="slds-m-bottom_small study-rectangle"
                                             key={pdEnrollment.Id}
                                         >
-                                            <lightning-layout multiple-rows="true" class="m-top-16">
-                                                <lightning-layout-item size="8"
-                                                    ><span class={studyCodeNameClass}
-                                                        >{pdEnrollment.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
-                                                    ></lightning-layout-item
+                                            <lightning-layout>
+                                                <lightning-layout-item
+                                                    size="9"
+                                                    padding="around-large"
+                                                    ><p class="study-code-name">
+                                                        {pdEnrollment.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                                                    </p></lightning-layout-item
                                                 >
-                                                <lightning-layout-item size="4"
+                                                <lightning-layout-item
+                                                    size="3"
+                                                    padding="around-large"
+                                                    class="slds-align_absolute-center"
                                                     ><button
+                                                        class="remove-btn"
                                                         title="Non-primary action"
                                                         onclick={removeDelAssociationFromStudy}
-                                                        class={removeDelBtn}
                                                         data-id={pdEnrollment.Id}
                                                     >
                                                         {label.PP_Remove}
