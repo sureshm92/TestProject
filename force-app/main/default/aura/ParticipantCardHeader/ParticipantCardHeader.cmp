@@ -3,12 +3,16 @@
  -->
 
 <aura:component description="ParticipantCardHeader" extends="c:CommunityContext">
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="pe" type="Object" />
     <aura:attribute name="isReferral" type="Boolean" />
     <aura:attribute name="isInvited" type="Boolean" />
     <aura:attribute name="sendToSHDate" type="Date" default="false" />
+    <aura:attribute name="BriefSummary" type="String" />
 
     <!--added for the performance issue-->
     <!--aura:attribute name="parent" type="Aura.Component" required="true"/>
@@ -47,7 +51,7 @@
                         </div>
                         <div class="objective-section">
                             <div class="objective-text">
-                                <lightning:formattedRichText value="{!v.pe.Clinical_Trial_Profile__r.Brief_Summary__c}"/>
+                                <lightning:formattedRichText class= "briefSummery" value="{!v.pe.Clinical_Trial_Profile__r.Brief_Summary__c}"/>
                             </div>
                         </div>
                         <aura:set attribute="else">
