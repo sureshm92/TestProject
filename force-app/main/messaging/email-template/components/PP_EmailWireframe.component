@@ -30,6 +30,7 @@
     <apex:attribute name="shareEmailTemplate" assignTo="{!shareTemplate}" type="String" description="" default="No" access="global"
     />
     <apex:attribute name="OptOut" assignTo="{!displayOptOut}" type="String" description="" default="Yes" access="global" />
+    <apex:attribute name="surveyId" type="Id" description="" access="global" assignTo="{!surveyIdString}" />
 
     <!--Parent Container -->
     <div style="{!IF(isRTL=true,templateMap['emailTemplateBackgroundRTL'], templateMap['emailTemplateBackground'])}">
@@ -84,7 +85,8 @@
         <!-- Button-->
         <apex:outputPanel rendered="{!isPreBodyButton=true}">
             <div style="text-align:center;width: fit-content;margin: 0 auto;margin-top:32px;">
-                <c:PP_EmailActionButton rendered="true" buttonLabel="{!preBodyButtonName}" buttonURL="{!preBodyButtonURL}"></c:PP_EmailActionButton>
+                <c:PP_EmailActionButton rendered="true" buttonLabel="{!preBodyButtonName}" buttonURL="{!preBodyButtonURL}" communityTemplate="{!communityTemplate}"
+                    surveyId="{!surveyId}"></c:PP_EmailActionButton>
             </div>
         </apex:outputPanel>
 
