@@ -51,7 +51,7 @@
                         </div>
                         <div class="objective-section">
                             <div class="objective-text">
-                                <lightning:formattedRichText class= "briefSummery" value="{!v.pe.Clinical_Trial_Profile__r.Brief_Summary__c}"/>
+                                <lightning:formattedRichText class= "briefSummery" value="{!v.BriefSummary}"/>
                             </div>
                         </div>
                         <aura:set attribute="else">
