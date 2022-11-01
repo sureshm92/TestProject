@@ -1,4 +1,3 @@
-//testing
 @IsTest(IsParallel=false)
 public class Test_ListViewParticipantService {
     @IsTest
