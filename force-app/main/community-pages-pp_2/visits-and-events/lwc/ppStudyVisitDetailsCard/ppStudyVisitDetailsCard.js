@@ -500,6 +500,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             this.selectedReminderTime = '';
             this.showreminderdatepicker = false;
             this.reminderChanged = true;
+            this.disableButtonSaveCancel = false;
             if (this.emailOptIn) {
                 this.email = false;
             } else {
