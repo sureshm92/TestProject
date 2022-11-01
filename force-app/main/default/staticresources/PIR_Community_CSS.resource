@@ -115,6 +115,9 @@ height: 70px;
     width: 200px;
     left: 8px;
 } 
+.dateErrAlign .slds-form-element__help{	
+    width: 300px;	
+}
 @media (max-device-width: 767px) {
     .pir-parent .slds-tabs_default__link {
       max-width: 190px;

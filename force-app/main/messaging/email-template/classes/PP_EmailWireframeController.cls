@@ -20,6 +20,7 @@ global without sharing class PP_EmailWireframeController {
     global String outputMode { get; set; }
     global String displayOptOut { get; set; }
     global String userModeValue { get; set; }
+    global Id surveyIdString { get; set; }
     private EmailTemplateProvider templateProvider;
 
     global String getUserLanguageCode() {
