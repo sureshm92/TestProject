@@ -80,6 +80,11 @@ import RH_MOB from '@salesforce/label/c.RH_MOB';
 import RH_YOB from '@salesforce/label/c.RH_YearofBirth';
 import RH_DOB from '@salesforce/label/c.RH_DOB';
 import Missing_participant_information from '@salesforce/label/c.Missing_participant_information';
+import RH_DelegateConsentEmailTelUS from '@salesforce/label/c.RH_DelegateConsentEmailTelUS' 
+import RH_DelegateConsentEmailTelROW from '@salesforce/label/c.RH_DelegateConsentEmailTelROW' 
+import PG_Ref_L_Permit_IQVIA_To_Contact_ESP from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_ESP'
+import PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US'  
+import PG_Ref_L_Permit_IQVIA_To_Store_And_Contact from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Store_And_Contact' 
 
 export default class Pir_participantDetail extends LightningElement {
     @api selectedPE; @api delegateLevels = ''; @api lststudysiteaccesslevel = [];
@@ -98,6 +103,10 @@ export default class Pir_participantDetail extends LightningElement {
     @track invalidDOB = false;
     showPresentDate = RH_future_date_error;
     convertedStringToDate;
+    isCountryUS=false;
+    isInfoCheckedUS=false;
+    isInfoCheckedROW=false;
+    isSMSupdate=false;
     //DOB Variables
     participantSelectedAge = null;
     isMonthMandate = false;
@@ -139,6 +148,7 @@ export default class Pir_participantDetail extends LightningElement {
     ["state" , "Mailing_State__c"],
     ["statecode" , "Mailing_State_Code__c"],
     ["country" , "Mailing_Country__c"],
+    ["dattestIQVIA" , "AttestationIQVIA"],
     ["countrycode" , "Mailing_Country_Code__c"],
     ["zipcode" , "Mailing_Zip_Postal_Code__c"],
     ["ethnicity" , "Ethnicity__c"],
@@ -184,7 +194,7 @@ export default class Pir_participantDetail extends LightningElement {
                 var disableSaveOn = ['Randomization Success', 'Treatment Period Started', 'Follow-Up Period Started', 'Participation Complete', 'Trial Complete', 'Enrollment Success'];
                 this.disableEdit = disableSaveOn.includes(this.pd.pe.Participant_Status__c);
                 if (!this.pd['delegate']) {
-                    this.pd.delegate = { "Id": "", "Participant_Delegate__c": "", "Participant_Delegate__r": {} };
+                    this.pd.delegate = {"Id":"","Participant_Delegate__c":"","Participant_Delegate__r":{},"Contact__c":"","Contact__r":{} };
                     //this.pd.delegate.Participant_Delegate__r={"First_Name__c":"","Last_Name__c":"","Phone__c":"","Email__c":"","Birth_Year__c":"","Attestation__c":false};
                 }
                 if (!this.pd['pe']['Participant__r']['Middle_Name__c']) {
@@ -223,7 +233,7 @@ export default class Pir_participantDetail extends LightningElement {
                     this.infoSharingValue.push('txtcnt');
                 }
                 if (!this.pd['delegate']) {
-                    this.pd.delegate = { "Participant_Delegate__r": {} };
+                    this.pd.delegate = {"Participant_Delegate__r":{} ,"Contact__r":{}};
                     //this.pd.delegate.Participant_Delegate__r={"First_Name__c":"","Last_Name__c":"","Phone__c":"","Email__c":"","Birth_Year__c":"","Attestation__c":false};
                 }
                 if (this.pd['pe']['IVRS_IWRS__c']) {
@@ -232,6 +242,10 @@ export default class Pir_participantDetail extends LightningElement {
                 if (this.pd['pe']['MRN_Id__c']) {
                     this.disableScreening = true;
                 }
+                if(this.pd['pe']['Participant__r']['Mailing_Country_Code__c']=='US'){
+                    this.isCountryUS=true;
+                }
+                
                 if (this.pd['pe']['Participant__r']['Adult__c']) {
                     this.isAdult = true;
                     this.isNotAdult = false;
@@ -580,6 +594,24 @@ export default class Pir_participantDetail extends LightningElement {
         }
         return opt;
     }
+    handleCSS(event){
+        if(event.target.checked == true){
+            this.template.querySelectorAll(".errorcss").forEach(function (L) {
+                L.classList.add("check-box-m-topUSNoError");
+            });
+            this.template.querySelectorAll(".errorcss").forEach(function (L) {
+                L.classList.remove("check-box-m-topUSError");
+            });
+        }
+        else {
+            this.template.querySelectorAll(".errorcss").forEach(function (L) {
+                L.classList.add("check-box-m-topUSError");
+            });
+            this.template.querySelectorAll(".errorcss").forEach(function (L) {
+                L.classList.remove("check-box-m-topUSNoError");
+            });
+        }
+    }
     handleDDChange(event) {
         this.valueDD = event.detail.value;
         this.pd['pe']['Participant__r']['Birth_Day__c'] = (event.detail.value).toString();
@@ -800,6 +832,12 @@ export default class Pir_participantDetail extends LightningElement {
         if (this.delegateMinor && this.showDelYear) {
             this.setVal(this.pd['delegate']['Participant_Delegate__r']['Birth_Year__c'], '3', 'dbyear');
         }
+        if( this.pd['pe']['Participant__r']['Mailing_Country_Code__c']=='US'){
+            this.isCountryUS=true;
+        }
+        else{
+            this.isCountryUS=false;
+        }
         this.isAdultCal();
         this.setReqDelegate();
         this.setReqEmail();      
@@ -935,9 +973,10 @@ export default class Pir_participantDetail extends LightningElement {
             console.log(e.stack);
         }
     }
-    abortDup = false;useDup=false;
+    abortDup = false;useDup=false;showConsent=false;
     useDuplicateRecord() {
         this.abortDup = true;
+        this.showConsent=true;
         try {
             this.newDel = JSON.parse(JSON.stringify(this.newDupDel));
             this.pd.delegate.Id = '';
@@ -945,6 +984,7 @@ export default class Pir_participantDetail extends LightningElement {
             this.pd.delegate.Participant_Delegate__c = this.pd.delegate.Participant_Delegate__r.Id;
             this.delOp = 'updateDeligate';
             this.showDelYear = false;
+            this.showConsent=true;
             this.showDupMsg = false;
             this.showUpdateMsg = false;
             this.setVal(this.pd.delegate.Participant_Delegate__r.Phone__c, '3', 'dphone');
@@ -957,6 +997,7 @@ export default class Pir_participantDetail extends LightningElement {
     newDel = null;
     newDupDel = null;
     showDelYear = false;
+    showDelConsent=false;
     createupdateDelegate(event) {
         this.showUpdateMsg = false;
         this.abortDup = true;
@@ -966,6 +1007,7 @@ export default class Pir_participantDetail extends LightningElement {
         this.newDel.Last_Name__c = this.pd.delegate.Participant_Delegate__r.Last_Name__c;
         this.newDel.First_Name__c = this.pd.delegate.Participant_Delegate__r.First_Name__c;
         this.newDel.Birth_Year__c = this.pd.delegate.Participant_Delegate__r.Birth_Year__c;
+        this.showDelConsent=true;
         this.delOp = 'updateParticipant';
         if (event.detail == 'insert') {
             this.newDel.Id = null;
@@ -974,6 +1016,7 @@ export default class Pir_participantDetail extends LightningElement {
             this.pd.delegate.Participant_Delegate__r.Birth_Year__c = '';
             this.newDel.Birth_Year__c = null;
             this.showDelYear = true;
+            this.showDelConsent=true;
             this.noYOB = false;
             this.delOp = 'insertDelegate';
         }
@@ -1021,6 +1064,36 @@ export default class Pir_participantDetail extends LightningElement {
         this.pd.delegate.Participant_Delegate__r.Attestation__c = event.target.checked;
         this.toggleSave();
     }
+
+    handleConsentChange(event){
+       
+        if(this.isCountryUS)
+        {
+            this.pd.delegate.Contact__r.IQVIA_Contact_info_storage_consent__c=event.target.checked;
+            this.pd.delegate.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c=event.target.checked;
+            this.pd.delegate.Contact__r.Participant_Opt_In_Status_Emails__c=event.target.checked;
+            this.pd.delegate.Contact__r.IQVIA_Assisted_Dialing_Consent__c=event.target.checked;
+            this.pd.delegate.Contact__r.IQVIA_Artificial_Voice_Consent__c=event.target.checked;
+            this.pd.delegate.Contact__r.IQVIA_Pre_recorded_Voice_Consent__c=event.target.checked;
+            this.pd.delegate.Contact__r.Participant_Opt_In_Status_SMS__c=event.target.checked;
+        }
+        else{
+            
+            this.pd.delegate.Contact__r.IQVIA_Contact_info_storage_consent__c=event.target.checked;
+            this.pd.delegate.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c=event.target.checked;
+            this.pd.delegate.Contact__r.Participant_Opt_In_Status_Emails__c=event.target.checked;
+            this.pd.delegate.Contact__r.IQVIA_Assisted_Dialing_Consent__c=event.target.checked;
+            this.pd.delegate.Contact__r.IQVIA_Artificial_Voice_Consent__c=event.target.checked;
+            this.pd.delegate.Contact__r.IQVIA_Pre_recorded_Voice_Consent__c=event.target.checked;
+        }
+        this.toggleSave();
+    }
+    
+    handleConsentSMSChange(event){
+        this.pd.delegate.Contact__r.Participant_Opt_In_Status_SMS__c=event.target.checked;
+        this.toggleSave();
+    }
+
 
     //info section
     get refByPI() {
@@ -1104,7 +1177,7 @@ export default class Pir_participantDetail extends LightningElement {
                 var isPeUpdated = false;
                 var partFields =['age','pid', 'adult', 'ethnicity', 'firstname', 'lastname', 'middlename', 'fullname', 'nickname', 'suffixname', 'lang', 'dob','yob','mob','dayob', 'gender', 'email', 'phone', 'phonetype', 'altph', 'altphtype', 'prefCntTime', 'state', 'statecode', 'country', 'countrycode', 'zipcode'];
                 var isPartUpdated = false;
-                var delFields = ['dfirstname', 'dlstname', 'dphone', 'demail', 'dbyear', 'dattest', 'dpid'];
+                var delFields = ['dfirstname','dlstname','dphone','demail','dbyear','dattest','dattestIQVIA','dpid'];
                 var isDelUpdated = false;
                 var iqviaConsentFields = ['iqConsentEmail', 'iqConsentPhone', 'iqConsentSMS', 'iqConsentDM'];
                 var isIqviaConsentUpdated = false;
@@ -1301,4 +1374,9 @@ export default class Pir_participantDetail extends LightningElement {
     YOB = RH_YOB;
     MOB = RH_MOB;
     Missing_participant_information = Missing_participant_information;
+    RH_DelegateConsentEmailTelUS=RH_DelegateConsentEmailTelUS;
+    RH_DelegateConsentEmailTelROW=RH_DelegateConsentEmailTelROW;
+    PG_Ref_L_Permit_IQVIA_To_Store_And_Contact=PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;
+    PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US=PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US;
+    PG_Ref_L_Permit_IQVIA_To_Contact_ESP=PG_Ref_L_Permit_IQVIA_To_Contact_ESP;
 }

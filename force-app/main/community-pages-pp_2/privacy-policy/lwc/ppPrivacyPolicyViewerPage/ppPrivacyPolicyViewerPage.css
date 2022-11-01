@@ -270,6 +270,7 @@
     color: #ffffff;
     box-shadow: none;
     background: #0768fd;
+    font-weight: bold;
 }
 .slds-nav-vertical__item {
     color: #444444;
@@ -286,7 +287,7 @@
     box-shadow: none;
     background: #0768fd;
     border-bottom: none;
-    font-weight: 500;
+    font-weight: bold;
 }
 
 li:last-child {

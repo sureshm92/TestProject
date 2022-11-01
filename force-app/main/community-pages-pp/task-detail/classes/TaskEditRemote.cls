@@ -237,6 +237,19 @@ public without sharing class TaskEditRemote {
     }
 
     @AuraEnabled
+    public static Boolean deleteReminder(String taskId) {
+        Boolean deleteSuccess = false;
+        try {
+            List<Task> taskRecord = [SELECT Id FROM Task WHERE Id = :taskId LIMIT 1];
+            delete taskRecord;
+            deleteSuccess = true;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return deleteSuccess;
+    }
+
+    @AuraEnabled
     public static void upsertTaskData(String task) {
         try {
             Task patientVisitTask = (Task) JSON.deserialize(task, Task.class);
