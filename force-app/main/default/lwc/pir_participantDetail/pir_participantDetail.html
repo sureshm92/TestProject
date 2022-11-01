@@ -286,25 +286,78 @@
                               <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_2-of-3">
                               </div>
                               <div if:true={noYOB}
-                                    class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium">
+                                    class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium dateErrAlign">
                                     <lightning-combobox label={RH_YearofBirth} placeholder="----" options={optionsYYYY}
                                           required={noYOB} data-lvl="3" name="dbyear" onchange={handleValChange}
                                           disabled={checkDelLevels}></lightning-combobox>
                                     <div class="errmsg" if:true={delegateMinor}>{RH_MinorDelegateErrMsg}</div>
                               </div>
                               <div if:true={showDelYear}
-                                    class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium">
+                                    class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium dateErrAlign">
                                     <lightning-combobox label={RH_YearofBirth} placeholder="----" options={optionsYYYY}
                                           required={showDelYear} data-lvl="3" name="dbyear" onchange={handleValChange}
                                           disabled={checkDelLevels}></lightning-combobox>
                                     <div class="errmsg" if:true={delegateMinor}>{RH_MinorDelegateErrMsg}</div>
                               </div>
                               <div if:true={showDelYear}
-                                    class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_10-of-12 slds-m-top_medium slds-m-bottom_medium check-box-m-top">
-                                    <lightning-input type="checkbox" class="checkbox-text"
-                                          label={RH_DelegateAttestation} name="input2" required={showDelYear}
-                                          onchange={delAttest} disabled={checkDelLevels}></lightning-input>
+                              class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium check-box-m-top checkboxalignonePDelegate margintopdm">
+                                    <div class="label_align_aa">             
+                                          <lightning-input 
+                                              type="checkbox" 
+                                              varient="label-hidden" 
+                                              name="input2" 
+                                              required={showDelYear}
+                                              onchange={delAttest}
+                                              disabled={checkDelLevels}
+                                              class="checkboxone checkbox-text checkbox_size slds-form-element">
+                                          </lightning-input>
+                                           <span class="addParticipantCls"><label >{RH_DelegateAttestation}</label></span>
+                                    </div>
+                        </div>
+                        <div if:true={showDelConsent} class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_xx-small errorcss ">
+                              <div if:true={isCountryUS} class="checkboxalignUSPDelegate">
+                                   <div class="label_align_aa ">             
+                                          <lightning-input 
+                                              type="checkbox" 
+                                              varient="label-hidden" 
+                                              name="checkoxUS" 
+                                              required={showDelConsent}
+                                              onchange={handleConsentChange}
+                                              onblur={handleCSS}
+                                              disabled={checkDelLevels}
+                                              class="checkbox_size slds-form-element">
+                                          </lightning-input>
+                                           <span class="addParticipantClass"><label >{PG_Ref_L_Permit_IQVIA_To_Store_And_Contact}</label></span>
+                                    </div>       
                               </div>
+                              <div if:false={isCountryUS} class="checkboxalignNonUSPDelegate">
+                                    <div class="label_align_aa ">             
+                                          <lightning-input 
+                                              type="checkbox" 
+                                              varient="label-hidden" 
+                                              name="checkoxROW" 
+                                              required={showDelConsent}
+                                              onchange={handleConsentChange}
+                                              onblur={handleCSS}
+                                              disabled={checkDelLevels}
+                                              class="checkbox_size slds-form-element">
+                                          </lightning-input>
+                                           <span class="addParticipantClass"><label >{PG_Ref_L_Permit_IQVIA_To_Contact_ESP}</label></span>
+                                    </div>
+                                    <div class="label_align  alignsms">             
+                                          <lightning-input 
+                                              type="checkbox" 
+                                              varient="label-hidden" 
+                                              name="checkoxROWSms" 
+                                              onchange={handleConsentSMSChange}
+                                              disabled={checkDelLevels}
+                                              class="checkbox_size slds-form-element ">
+                                          </lightning-input>
+                                           <span class="addParticipantClass paddingsms "><label >{PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US}</label></span>
+                                    </div>          
+                              </div>      
+                        </div>
+
                         </div>
                         <template if:true={showDupMsg}>
                               <c-pir_duplicate-delegate-message duplicate-info={duplicateDelegateInfo}
