@@ -1,21 +1,79 @@
 <template>
     <div class="slds-grid slds-wrap slds-m-around_x-small card-border">
-        <div class="slds-col slds-size_1-of-6 slds-m-around_xxx-small thumbnail-box">
-            <img src={thumbnail} class="thumnail-img" alt="Image N/A" onclick={handleNavigate} />
-        </div>
-        <div class="slds-col slds-size_4-of-6 slds-m-around_small document-details">
-            <div>
-                <p class="document-label"><a onclick={handleNavigate}>{title}</a></p>
+        <template if:false={multipleTranslations}>
+            <div class="slds-col slds-size_1-of-6 slds-m-around_xxx-small thumbnail-box">
+                <img
+                    src={thumbnail}
+                    class="thumnail-img"
+                    alt="Image N/A"
+                    onclick={handleNavigate}
+                />
             </div>
-            <div class="slds-m-top_x-small version-date">
-                Version Date: &nbsp;
-                <lightning-formatted-date-time
-                    value={versiondate}
-                    year="numeric"
-                    month="short"
-                    day="2-digit"
-                ></lightning-formatted-date-time>
+            <div class="slds-col slds-size_4-of-6 slds-m-around_small document-details">
+                <p class="document-label">
+                    <a onclick={handleNavigateDefault} onhover={title}>{title}</a>
+                </p>
+                <div class="slds-m-top_x-small version-date">
+                    Version Date: &nbsp;
+                    <lightning-formatted-date-time
+                        value={versiondate}
+                        year="numeric"
+                        month="short"
+                        day="2-digit"
+                    ></lightning-formatted-date-time>
+                </div>
             </div>
-        </div>
+        </template>
+        <template if:true={multipleTranslations}>
+            <div class="slds-col slds-size_1-of-6 slds-m-around_xxx-small thumbnail-box">
+                <img
+                    src={thumbnail}
+                    class="thumnail-img"
+                    alt="Image N/A"
+                    onclick={handleNavigate}
+                />
+            </div>
+            <div class="slds-col slds-size_4-of-6 slds-m-around_small document-details">
+                <div
+                    class="slds-dropdown-trigger slds-dropdown-trigger_click"
+                    data-popup={id}
+                    onclick={expandtheCard}
+                >
+                    <div aria-haspopup="true" aria-expanded="true" onblur={closeMenu}>
+                        <p class="document-label">{title}</p>
+                    </div>
+                    <div
+                        class="slds-dropdown slds-dropdown_right"
+                        onblur={closeMenu}
+                        style="margin-bottom: -98px; margin-top: -13px; margin-left: -65px"
+                    >
+                        <ul class="slds-dropdown__list" aria-label="Show More">
+                            <template for:each={translations} for:item="translation">
+                                <div key={translation}>
+                                    <p>
+                                        <a
+                                            onclick={doMenuItemSelected}
+                                            data-itemvalue={translation}
+                                            data-langcode={translation.languageCode}
+                                            data-contentid={translation.contentId}
+                                            >{translation.languageLabel}</a
+                                        >
+                                    </p>
+                                </div>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slds-m-top_x-small version-date-translation">
+                    Version Date: &nbsp;
+                    <lightning-formatted-date-time
+                        value={versiondate}
+                        year="numeric"
+                        month="short"
+                        day="2-digit"
+                    ></lightning-formatted-date-time>
+                </div>
+            </div>
+        </template>
     </div>
 </template>
