@@ -25,7 +25,7 @@
                             </lightning-layout-item>
                             <lightning-layout-item size="3" class="slds-align_absolute-center">
                                 <div class="po-more">
-                                    <span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREDESKTOPLabel}</span>
+                                    <span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREMBLELabel}</span>
                                     <lightning-button-icon
                                         icon-name="utility:chevronright"
                                         variant="bare"
@@ -48,7 +48,7 @@
                             horizontal-align="center"
                             class="po-custom-card"
                         >
-                            <lightning-layout-item size="4" class={borderPOHome}>
+                            <lightning-layout-item size="3" class={borderPOHome}>
                                     <div class="po-center slds-p-right_small slds-p-left_small">
                                         <template if:true={isIqviaLogo}>
                                             <img src={iqviaLogoUrl} class="po-logo" />
@@ -58,12 +58,12 @@
                                         </template>
                                     </div>
                             </lightning-layout-item>
-                            <lightning-layout-item size="8">
+                            <lightning-layout-item size="9">
 								<div class="po-text_2 ">
                                     {label.PP_StudyOverview_homePage_shortDecs_DelAlu}
-                                    </br>
+                                <!--    </br>
                                     <a><span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
-                                    <img src={open_new_tab} onclick={handleclickClinicalResearch}/></a>
+                                    <img src={open_new_tab} onclick={handleclickClinicalResearch}/></a> -->
                                 </div>
 							</lightning-layout-item>                          
                         </lightning-layout>
@@ -116,8 +116,8 @@
                         horizontal-align="center"
                         class="po-custom-card-mobile-no-study"
                     >
-                        <lightning-layout-item size="4">
-                                <div class="po-center slds-p-top_medium">
+                        <lightning-layout-item size="5">
+                                <div class="po-center slds-p-top_medium slds-p-left_medium">
                                     <template if:true={isIqviaLogo}>
                                         <img src={iqviaLogoUrl} class="po-logo borderRight" />
                                     </template>
@@ -126,11 +126,11 @@
                                     </template>
                                 </div>
                         </lightning-layout-item>
-                        <lightning-layout-item size="8">
-                            <div class="po-text_3 slds-p-top_large">
+                        <lightning-layout-item size="7">
+                        <!--    <div class="po-text_3 slds-p-top_large">
                                 <a><span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
                                 <img src={open_new_tab} onclick={handleclickClinicalResearch}/></a>
-                            </div> 
+                            </div> -->
                         </lightning-layout-item>   
                         <lightning-layout-item size="12">
                             <div class="po-text_3">{label.PP_StudyOverview_homePage_shortDecs_DelAlu}</div>
