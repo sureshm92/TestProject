@@ -80,17 +80,20 @@
 }
 
 .po-more {
-    font-size: 16px;
-    color: #0768fd;
+    height: 24px;
+    width: 199px;
+    color: #015ff1;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
     line-height: 24px;
-    margin-left: 24px;
-    cursor: pointer;
 }
 
 .po-more-text {
     height: 24px;
     width: 162px;
-    color: #0768fd;
+    color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 600;
