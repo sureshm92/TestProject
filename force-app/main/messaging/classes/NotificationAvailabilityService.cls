@@ -1106,10 +1106,7 @@ public without sharing class NotificationAvailabilityService {
         } else if (objType == SURVEY_INVITATION_OBJ_NAME) {
             SurveyInvitation surveyInv = (SurveyInvitation) objectsByIds.get(Id.valueOf(whatId));
             if (surveyInv.Participant_Enrollment__c != null) {
-                Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
-                    Id.valueOf(surveyInv.Participant_Enrollment__c)
-                );
-                isValid = pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                isValid = surveyInv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
                     CommunityTemplateService.TEMPLATE_PP
                     ? true
                     : false;
