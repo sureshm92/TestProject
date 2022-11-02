@@ -10561,6 +10561,13 @@ The expected format is REF##### to REF########</value>
         <value>For Patients &amp; Caregivers</value>
     </labels>
     <labels>
+        <fullName>Log_in_and_sign</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Log in and sign</shortDescription>
+        <value>Log in &amp; Sign</value>
+    </labels>
+    <labels>
         <fullName>Lofi_Login_RH_Header</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20792,6 +20799,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Pdf Not Available</shortDescription>
         <value>Opening this link is only supported using the web browser experience</value>
+    </labels>
+    <labels>
+        <fullName>Participant_Re_Consent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participant_Re_Consent</shortDescription>
+        <value>The Participant needs to re-consent the informed consent form. Update the informed consent.</value>
     </labels>
     <labels>
         <fullName>Phone</fullName>

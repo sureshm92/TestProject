@@ -782,13 +782,13 @@ public without sharing class PIR_StatusDetailControllerTest {
         insert peshList;
         Participant__c perRec= [select Id,Gender__c from Participant__c where Email__c='part1@email.com' limit 1];
         perRec.Gender__c='Female';
-        PIR_StatusDetailController.doSaveStatusDetails(parList[0],perRec,'');
-        PIR_StatusDetailController.doSaveStatusDetails(parList[1],perRec,'');
-        PIR_StatusDetailController.doSaveStatusDetails(parList[2],perRec,'');
-        PIR_StatusDetailController.doSaveStatusDetails(parList[2],perRec,vp.id);
+        PIR_StatusDetailController.doSaveStatusDetails(parList[0],perRec,'',false);
+        PIR_StatusDetailController.doSaveStatusDetails(parList[1],perRec,'',false);
+        PIR_StatusDetailController.doSaveStatusDetails(parList[2],perRec,'',false);
+        PIR_StatusDetailController.doSaveStatusDetails(parList[2],perRec,vp.id,false);
         try{
             parList[0].Non_Enrollment_Reason__c = 'test Show For Initial Visit';
-            PIR_StatusDetailController.doSaveStatusDetails(new Participant_Enrollment__c(),new Participant__c(),'');
+            PIR_StatusDetailController.doSaveStatusDetails(new Participant_Enrollment__c(),new Participant__c(),'',false);
         }catch(Exception ex) {System.assertEquals(ex.getMessage(),'Script-thrown exception' );}
         
         Test.stopTest();
