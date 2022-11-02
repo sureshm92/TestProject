@@ -12,8 +12,11 @@
 .center-align {
     text-align: center;
 }
-.text-colour {
+.empty-label {
     color: #a9a9a9;
+    margin-top: 8%;
+    line-height: 24px;
+    font-size: 13px;
 }
 .svg-align{
     margin: auto;
