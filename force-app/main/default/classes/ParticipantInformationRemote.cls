@@ -796,14 +796,17 @@ public without sharing class ParticipantInformationRemote {
                         )
                     );
                 }
-                if(!delContact.isEmpty()){
-                    if(participant.Mailing_Country_Code__c=='US'){
-                        updateDelContact(delContact, true,mapContactIdToSMS);
-                    }
-                    else{
-                        updateDelContact(delContact, false,mapContactIdToSMS);
-                    }
             }
+            if(!delContact.isEmpty()){
+                if(participant.Mailing_Country_Code__c=='US'){
+                    updateDelContact(delContact, true,mapContactIdToSMS);
+                }
+                else{
+
+                    updateDelContact(delContact, false,mapContactIdToSMS);
+                }
+                
+           }
             if (!delegates.isEmpty() && needsInvite == true) {
                 update delegates;
             }
