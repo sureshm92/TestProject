@@ -604,12 +604,12 @@ public without sharing class ParticipantInformationRemote {
                 insert delegateContact;
             } else {
                 delegateContact = new Contact(Id = ddi.contactId,
-                IQVIA_Contact_info_storage_consent__c =true,
-                Participant_Opt_In_Status_Emails__c =true,
-                IQVIA_PI_Storage_Consent_Time__c =Datetime.now(),
-                IQVIA_Email_Consent_Time__c =Datetime.now()
-                );
-                update delegateContact;);
+                    IQVIA_Contact_info_storage_consent__c =true,
+                    Participant_Opt_In_Status_Emails__c =true,
+                    IQVIA_PI_Storage_Consent_Time__c =Datetime.now(),
+                    IQVIA_Email_Consent_Time__c =Datetime.now()
+                    );
+                    update delegateContact;
             }
 
             List<Patient_Delegate__c> patientDelegatesEver = [
