@@ -282,6 +282,8 @@ public without sharing class PIR_HomepageController {
         'Source_Type__c,' +
         'Study_Hub_Log__c,' +
         'Screening_ID__c,' +
+        'Re_consent__c,' +
+        'Study_Site__r.E_Consent_Vendor__r.Name,' +
         'IVRS_IWRS__c,' +
         'Visit_Plan__c,' +
         'Study_Hub_Log__r.Response_Status_Code__c,' +
@@ -1177,7 +1179,14 @@ public without sharing class PIR_HomepageController {
       wrap.siteId = lst.Study_Site__c;
       wrap.studyId = lst.Clinical_Trial_Profile__c;
       wrap.perCounter = lst.PerCounter__c;
-      wrap.actionReq = lst.Participant__r.Emancipation_in_progress__c || !lst.Is_Participant_DOB_Valid__c;
+      if(lst.Participant__r.Emancipation_in_progress__c || !lst.Is_Participant_DOB_Valid__c){
+      wrap.actionReq=true;
+      }else if(lst.Re_consent__c == true && lst.Study_Site__r.E_Consent_Vendor__r.Name !=null && lst.Study_Site__r.E_Consent_Vendor__r.Name !='' ){
+      wrap.actionReq=true;
+      }else{
+      wrap.actionReq=false;
+      }
+      //wrap.actionReq = lst.Participant__r.Emancipation_in_progress__c || !lst.Is_Participant_DOB_Valid__c;
       wrap.status = lst.Participant_Status__c;
       wrap.participantId = lst.Participant__c;
       wrap.promotetoSH = lst.Clinical_Trial_Profile__r.Promote_to_SH__c;
@@ -2177,7 +2186,8 @@ public without sharing class PIR_HomepageController {
           Initial_visit_occurred_flag__c,
           isBulkUpdate__c,
           ParticipantNoShow__c,
-          Visit_Plan__c
+          Visit_Plan__c,
+          Re_consent__c
         FROM Participant_Enrollment__c
         WHERE Id IN :peIdList
       ]) {
@@ -2185,6 +2195,13 @@ public without sharing class PIR_HomepageController {
         pe.Non_Referral_Notes__c = Notes;
         pe.Last_Status_Changed_Notes__c = Notes;
         pe.Non_Enrollment_Reason__c = initReasonMap.get(reason);
+        if(StatusToUpdate == 'Declined Consent' ||
+        StatusToUpdate == 'Withdrew Consent' ||
+        StatusToUpdate== 'Withdrew Consent After Screening' ||
+        StatusToUpdate == 'Declined Final Consent'
+        ){
+        pe.Re_consent__c=false;
+        }
         if (
           pe.Participant_Status__c ==
           PEStatusState.PE_STATUS_DECLINED_FINAL_CONSENT
