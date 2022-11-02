@@ -7,6 +7,7 @@ import yearOfBirth from '@salesforce/apex/PIR_SharingOptionsController.fetchYear
 import { label } from "c/pir_label";
 import DelegateAttestation from '@salesforce/label/c.RH_DelegateAttestation';
 import YearOfBirth from '@salesforce/label/c.RH_YearofBirth';
+import RH_DelegateConsentEmail from '@salesforce/label/c.RH_DelegateConsentEmail';
 
 export default class Pir_participantEmancipatedDelegate extends LightningElement {
     @api emailAddress = '';
@@ -14,6 +15,7 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
     @api lastName = '';
     @api birthYear = '';
     @api checkBox = false;
+    @api checkBoxEmail = false;
     @api isAdultDelegate = false;
     @api participantid;
     @api isValid = false;
@@ -39,9 +41,11 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
     @api maindivcls;
     @api isDisplay = false;
     isDisplayFormFields = false;
+    @api isDisplayConsent=false;
     labels = {
         DelegateAttestation,
-        YearOfBirth
+        YearOfBirth,
+        RH_DelegateConsentEmail
     }
     connectedCallback(){
         this.displayOptions();
@@ -52,11 +56,13 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
             this.isDisplay = true;
         } else {
             this.isDisplay = false;
-        }
+        }   
     }
 
     checkFields(event){
-        this.usingDuplicateDelegate = false;
+     if( this.usingDuplicateDelegate && event.currentTarget.dataset.name !== 'attestCheckboxEmail'){
+         this.usingDuplicateDelegate = false;
+        }
         let datavalue = event.target.dataset.value;
         if(event.target.dataset.value === "firstName") {
             this.firstName = event.target.value;
@@ -69,6 +75,9 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
           }else if(event.currentTarget.dataset.name === 'attestCheckbox') {
             this.checkBox = this.template.querySelector('[data-name="attestCheckbox"]').checked;
           }
+          else if(event.currentTarget.dataset.name === 'attestCheckboxEmail') {
+            this.checkBoxEmail = this.template.querySelector('[data-name="attestCheckboxEmail"]').checked;
+          }
           this.checkValidation();
           const selectedEvent = new CustomEvent("progressvaluechange", {
             detail: {
@@ -77,8 +86,10 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
                 ln:this.lastName,
                 by:this.birthYear,
                 cb:this.checkBox,
+                cbe:this.checkBoxEmail,
                 val:this.isValid,
                 disp:this.isDisplay,
+                dispcon:this.isDisplayConsent,
                 indx:this.indexVal,
                 connect:this.isConnected,
                 usingdupdel:this.usingDuplicateDelegate,
@@ -121,18 +132,18 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
 
     get doValid(){
        if(this.isValid){
-           if(this.isConnected == true || this.isDisconnected == true || this.usingDuplicateDelegate ==true){
-            return false;
-           }else if(this.isDuplicate){
+           if(this.isConnected == true || this.isDisconnected == true ||  (this.usingDuplicateDelegate ==true && this.checkBoxEmail ) ){
+                return false;
+           }else if(this.isDuplicate ){
                return true;
            }else if(
                  (this.birthYear !=null && this.birthYear !=undefined && this.birthYear != ''  && this.birthYear != '--' && this.birthYear.length != 0 
-                  && this.checkBox === true)
+                  && this.checkBox === true && this.checkBoxEmail=== true)
                 ){
                     return false;
                 }else{
                     return true;
-                }
+                }       
         }else{
             return true;
         }
@@ -155,6 +166,8 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
                         this.isDuplicate = false;
                     }else{
                         this.isDuplicate = true;
+                        this.isDisplayConsent=false;
+                        this.checkBoxEmail=false;
                     }
                     this.duplicateDelegateInfo = result;
                     this.delegateItem.isDuplicate = result.isDuplicateDelegate;
@@ -184,6 +197,7 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
                     this.delegateItem.Birth_Year__c = this.birthYear;
                     this.isDuplicate = false;
                     this.isDisplayFormFields = true;
+                    this.isDisplayConsent=true;
                     this.displayFormFields();
                 } 
                 if(this.connect){
@@ -228,7 +242,7 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
         });
     }
 
-    checkDelegateAgeHandler(event) {   
+    checkDelegateAgeHandler(event) {  
         this.loading = true;
         let obj = {};
         if(event.currentTarget.dataset.name === 'yob') {  
@@ -236,6 +250,7 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
             this.birthYear = (event.detail.value==null || event.detail.value == undefined)?'--':event.detail.value.trim();
             if(this.birthYear == ''|| this.birthYear == '--' || this.birthYear == undefined || this.birthYear == null){
                 this.checkBox = false;
+                this.checkBoxEmail=false;
             }
         }
 
@@ -249,6 +264,7 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
             } else {
                 this.isAdultDelegate = true;
                 this.checkBox = false;
+                this.checkBoxEmail=false;
             }
             const selectedEvent = new CustomEvent("progressvaluechange", {
                 detail: {
@@ -257,9 +273,11 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
                     ln:this.lastName,
                     by:this.birthYear,
                     cb:this.checkBox,
+                    cbe:this.checkBoxEmail,
                     isadultdel:this.isAdultDelegate,
                     val:this.isValid,
                     disp:this.isDisplay,
+                    dispcon:this.isDisplayConsent,
                     indx:this.indexVal,
                     connect:this.isConnected,
                     usingdupdel:this.usingDuplicateDelegate,
@@ -291,6 +309,7 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
             this.isConnected = true;
             this.connect = false;
             this.isDisplay = false;
+            this.isDisplayConsent=false;
             this.isDisconnected = false;
             this.isConnectedOnce = true;
             this.delegateId = result.delegateId;
@@ -302,8 +321,10 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
                     ln:this.lastName,
                     by:this.birthYear,
                     cb:this.checkBox,
+                    cbe:this.checkBoxEmail,
                     val:this.isValid,
                     disp:this.isDisplay,
+                    dispcon:this.isDisplayConsent,
                     indx:this.indexVal,
                     connect:true,
                     usingdupdel:this.usingDuplicateDelegate,
@@ -330,6 +351,7 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
             this.connect = false;
             this.disconnect = false;
             this.isDisplay = false;
+            this.isDisplayConsent=false;
             this.isDelegateConnected = false;
             const selectedEvent = new CustomEvent("progressvaluechange", {
                 detail: {
@@ -338,8 +360,10 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
                     ln:this.lastName,
                     by:this.birthYear,
                     cb:this.checkBox,
+                    cbe:this.checkBoxEmail,
                     val:this.isValid,
                     disp:this.isDisplay,
+                    dispcon:this.isDisplayConsent,
                     indx:this.indexVal,
                     connect:false,
                     usingdupdel:this.usingDuplicateDelegate,
@@ -357,10 +381,12 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
         });
        
     }
-
+    duplicateConsent=false;
     useDuplicateRecord(event){
         this.isDuplicate = false;
         this.usingDuplicateDelegate = true;
+        this.isDisplayConsent=true;
+        this.duplicateConsent=true;
         const selectedEvent = new CustomEvent("progressvaluechange", {
             detail: {
                 em:this.emailAddress,
@@ -368,8 +394,10 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
                 ln:this.lastName,
                 by:this.birthYear,
                 cb:this.checkBox,
+                cbe:this.checkBoxEmail,
                 val:this.isValid,
                 disp:this.isDisplay,
+                dispcon:this.isDisplayConsent,
                 indx:this.indexVal,
                 connect:this.isConnected,
                 usingdupdel:this.usingDuplicateDelegate,

@@ -234,6 +234,7 @@
                                         options={contactstates}
                                         onchange={changeInputValue}
                                         data-value="Province"
+                                        data-id="Province"
                                         required={checkStatesList}
                                         disabled={checkStates}
                                         class="province"
@@ -280,7 +281,11 @@
                                                                          indexvalue={delegateItem.index} 
                                                                          delegate-msg-with-name={delegateItem.continueDelegateMsg}  
                                                                          phone-types={phoneType}  
+                                                                         consent={delegateItem.consent}
+                                                                         consentrow={delegateItem.consentrow}
+                                                                         consentsms={delegateItem.consentsms}
                                                                          continuedelegate={delegateItem.isCont}
+                                                                         iscountryus={iscountryus}
                                                                          ondatavaluechange={handleDataChangeOfDelegates}
                               ></c-pir_participant-emancipated-delegate-list> 
                        </template> 
@@ -298,8 +303,10 @@
                                                                     last-name ={delegatenew.ln}
                                                                     birth-year ={delegatenew.by}
                                                                     check-box ={delegatenew.cb}
+                                                                    check-box-email ={delegatenew.cbe}
                                                                     is-valid ={delegatenew.val}
                                                                     is-display={delegatenew.disp}
+                                                                    is-display-consent={delegatenew.dispcon}
                                                                     is-adult-delegate={delegatenew.isadultdel}
                                                                     using-duplicate-delegate={delegatenew.usingdupdel}
                                                                     delegate-id={delegatenew.delegateId}
