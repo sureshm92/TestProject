@@ -4,21 +4,23 @@
     background-color: transparent;
     border-style: none;
     padding: 0;
-    margin-left: 10px;
-    width: 420px;
 }
 .container-card {
     background-color: transparent;
-    border-top-color: #00a3e0;
+    border-top-color: #00a3E0;
     border-top-width: 8px;
     padding: 0;
+    border-radius: 7px;
 }
+
 .container-card-upcoming {
     background-color: transparent;
-    border-top-color: #00a3e0;
+    border-top-color: #00a3E0;
     border-top-width: 8px;
     padding: 0;
     height: 416px;
+    border-radius: 8px;
+   
 }
 .upcoming {
     height: 3.14%;
@@ -30,7 +32,7 @@
     line-height: 32px;
 }
 hr {
-    margin: 0;
+    margin: -1px;
 }
 .more {
     height: 2.36%;
@@ -52,6 +54,7 @@ hr {
     font-weight: 500;
     letter-spacing: 0;
     line-height: 21px;
+    margin-bottom: 6px;
 }
 .location {
     height: 2.06%;
@@ -72,9 +75,9 @@ hr {
     letter-spacing: 0;
     line-height: 32px;
 }
-.icon {
+/* .icon {
     height: 1.57%;
-}
+} */
 .expect-icon {
     height: 2.32%;
 }
@@ -158,4 +161,17 @@ hr {
 .icon-card {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+    border: 1px solid lightgrey;
 }
+@media only screen and (max-width: 600px) {
+    .container-card{
+      height: 37px;
+      border-radius: 16px 16px 0 0;
+      background-color: #005587 !important;
+      border-top-color: #005587; 
+     border-top-width: 1px !important;
+    }
+    .content{
+        margin-top: 35px !important;
+    }
+  }
