@@ -45,7 +45,10 @@ public without sharing class AddPatientByPIRemote {
             FormData initData = new FormData();
             if (ssId != null) {
                 initData.ss = StudySiteService.getStudySiteForPIById(ssId);
-                initData.ctp = TrialService.getTrial(initData.ss.Clinical_Trial_Profile__c);
+                List<String> CTP_FIELDS_ADDPBYPI = TrialService.CTP_FIELDS;
+                CTP_FIELDS_ADDPBYPI.add('Promote_to_SH__c');
+                CTP_FIELDS_ADDPBYPI.add('DCT_Platform__c');
+                initData.ctp = TrialService.getTrial(initData.ss.Clinical_Trial_Profile__c, CTP_FIELDS_ADDPBYPI);
                 initData.visitPlansLVList = StudySiteService.getVisitPlansLVList(ssId);
                 initData.peStatusLVList = PEStatusState.getParticipantImportStatusesLV(
                     initData.ctp
@@ -227,7 +230,9 @@ public without sharing class AddPatientByPIRemote {
                 allowDelegateContact,
                 TaskService.invitationsVisibleTemp, // added this to hold the value of this param in future method
                 contactConsentJSON,
-                iqviaOutreachEnabled
+                iqviaOutreachEnabled,
+                false,
+                null
             );
             //Moved history Creation to Trigger
         } catch (Exception e) {
@@ -256,7 +261,9 @@ public without sharing class AddPatientByPIRemote {
             TriggerHandlerExecutor.bypassHandler(
                 ContactTriggerHandler.CreateUserForCCContactHandler.class
             );
-
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class
+            );
             if (!createUser) {
                 TriggerHandlerExecutor.bypassHandler(
                     ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
@@ -364,9 +371,14 @@ public without sharing class AddPatientByPIRemote {
         Boolean allowEmail,
         Boolean allowPhone,
         Boolean allowSMS,
-        Boolean allowContact
+        Boolean allowContact,
+        Boolean sendToSH,
+        String ssType
     ) {
         try{ 
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class
+            ); 
             TriggerHandlerExecutor.bypassHandler(
                 ContactTriggerHandler.CreateUserForCCContactHandler.class
             );
@@ -480,7 +492,14 @@ public without sharing class AddPatientByPIRemote {
             ) {
                 assignParticipantPermissions(ssId, newParticipant.Contact__c);
             }
-
+            Boolean sendPEToStudyHubAsync= false;
+            if((pe.Participant_Status__c == PEStatusState.PE_STATUS_SCREENING_PASSED ||
+               pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS ||
+               pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS ||
+               pe.Participant_Status__c == PEStatusState.PE_STATUS_READY_TO_SCREEN
+               )&& sendToSH == true && StudySiteService.SS_TYPE_VT_INTEGRATION.contains(ssType)){
+                sendPEToStudyHubAsync = true;
+            }
             // updateParticipant(JSON.serialize(participant));
             createParticipantDelegate(
                 participantDelegateJSON,
@@ -490,7 +509,9 @@ public without sharing class AddPatientByPIRemote {
                 allowDelegateContact,
                 TaskService.invitationsVisibleTemp, // added this to hold the value of this param in future method
                 contactConsentJSON,
-                iqviaOutreachEnabled
+                iqviaOutreachEnabled,
+                sendPEToStudyHubAsync,
+                pe.Id
             );
             //Moved history Creation to Trigger
             System.debug('>>>TRANSACTIONOVER>>>'+limits.getQueries());
@@ -525,7 +546,8 @@ public without sharing class AddPatientByPIRemote {
         }
     }
 
-    @AuraEnabled
+    @Future
+    @TestVisible
     public static void updateParticipant(String participantJSON) {
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
@@ -633,7 +655,7 @@ public without sharing class AddPatientByPIRemote {
         }
     }
 
-    @Future
+    @Future(Callout=true)
     @TestVisible
     private static void createParticipantDelegate(
         String participantDelegateJSON,
@@ -643,8 +665,13 @@ public without sharing class AddPatientByPIRemote {
         Boolean createDelegateuser,
         Map<Id,String> invitationsVisibleTemp,
         String contactConsentJSON,
-        Boolean iqviaOutreachEnabled
+        Boolean iqviaOutreachEnabled,
+        Boolean sendPEToStudyHubAsync,
+        Id peId
     ) {
+        if(sendPEToStudyHubAsync == true){
+            IntegrationService.sendPEToStudyHub(peId);
+        }
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
             Participant__c.class

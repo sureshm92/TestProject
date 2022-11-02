@@ -107,7 +107,7 @@ public without sharing class IntegrationService {
         }
         return queriedStatusFields;
     }
-
+    //This method is not in use anymore.
     @Future(Callout=true)
     public static void sendPEToServiceNowAsync(Id participantEnrollmentId) {
         sendPEToServiceNow(participantEnrollmentId);
@@ -144,7 +144,7 @@ public without sharing class IntegrationService {
     }
 
     public static void sendPEToStudyHub(Id participantEnrollmentId) {
-        IntegrationMessage integrationMessage = createIntegrationMessage(participantEnrollmentId,true);
+        IntegrationMessage integrationMessage = createIntegrationMessage(participantEnrollmentId,true, true);
         System.debug('PE: ' + integrationMessage);
         if (integrationMessage == null)
             return;
@@ -271,7 +271,12 @@ public without sharing class IntegrationService {
         return new ResponseResult(response, log);
     }
 
-    public static IntegrationMessage createIntegrationMessage(Id participantEnrollmentId,Boolean setAcceptedDate
+    public static IntegrationMessage createIntegrationMessage(Id participantEnrollmentId, Boolean setAcceptedDate
+    ){
+        return createIntegrationMessage(participantEnrollmentId, setAcceptedDate, false);
+    }
+
+    public static IntegrationMessage createIntegrationMessage(Id participantEnrollmentId,Boolean setAcceptedDate, Boolean isSendToSHOrNot
     ) {
         Participant_Enrollment__c pe = [
             SELECT
@@ -292,16 +297,14 @@ public without sharing class IntegrationService {
                 Participant__r.Mailing_Street__c,
                 Participant__r.Preferred_Language__c,
                 Participant__r.Date_of_Birth__c,
-                Participant__r.Birth_Day__c,
-                Participant__r.Birth_Month__c,
-                Participant__r.Birth_Year__c,
                 Participant__r.Gender__c,
                 Referral_ID__c,
                 Referred_Date__c,
                 High_Priority__c,
                 Initial_visit_scheduled_date__c,
                 Initial_visit_scheduled_time__c,
-                Study_Site__r.Participant_DOB_format__c,
+                Clinical_Trial_Profile__r.Promote_to_SH__c,
+                Clinical_Trial_Profile__r.DCT_Platform__c,
                 Study_Site__r.Protocol_ID__c,
                 Study_Site__r.Study_Site_Type__c,
                 Study_Site__r.Study_Site_Number__c,
@@ -328,7 +331,12 @@ public without sharing class IntegrationService {
         
         if (!StudySiteService.SS_TYPE_VT_INTEGRATION.contains(pe.Study_Site__r.Study_Site_Type__c))
             return null;
-
+        if(isSendToSHOrNot == true && 
+            (pe.Clinical_Trial_Profile__r.Promote_to_SH__c != true || 
+            pe.Clinical_Trial_Profile__r.DCT_Platform__c!= 'Study Hub')
+        ) {
+            return null;
+        }
         Address addr = new Address();
         addr.Street = pe.Participant__r.Mailing_Street__c;
         addr.Street2 = pe.Participant__r.Mailing_Street__c;
