@@ -43,6 +43,8 @@ img {
 .summary-date {
     color: #898989;
     padding-bottom: 2%;
+    font-size: 14px;
+    line-height: 17px;
 }
 .resource-icon {
     display: block;
