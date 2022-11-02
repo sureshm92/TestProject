@@ -145,7 +145,7 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
                     return true;
                 }       
         }else{
-            return true;
+           return true;
         }
     }
 
