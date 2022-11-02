@@ -3,7 +3,7 @@
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
   "configurationTags" : [ ],
   "id" : "71e505d5-9038-4f36-8e89-12b57a30bd22",
-  "label" : "Survey",
+  "label" : "survey",
   "pageAccess" : "Public",
   "routeType" : "custom-survey",
   "type" : "route",
