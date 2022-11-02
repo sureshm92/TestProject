@@ -195,7 +195,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
                 this.spinner.hide();
             });
     }
-    showTaskActionMenu(event) {
+    expandtheCard(event) {
         this.popupTaskMenuItems = [];
         var taskId = event.currentTarget.dataset.popup;
         this.popUpTaskId = taskId;
