@@ -35,6 +35,41 @@
                     </lightning-layout>
                 </div>
             </template>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <c-pp-home-page-visits-card></c-pp-home-page-visits-card>
+                </div>
+                <div class="slds-col">
+                    <c-pp-home-page-visits-card></c-pp-home-page-visits-card>
+                </div>
+                <div class="slds-col">
+                    <c-pp-home-page-visits-card></c-pp-home-page-visits-card>
+                </div>
+            </div>
+            <!-- Bottom Congrats Text -->
+            <div class="slds-grid slds-wrap bord-top">
+                <div class="slds-col slds-size_6-of-12">
+                    <div>
+                        <h2 class="slds-p-vertical_medium">
+                            <b>Congratulations You have Reached a new Milestone!</b>
+                        </h2>
+
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                            veniam,
+                        </p>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_3-of-12">
+                    <div>3</div>
+                </div>
+                <div class="slds-col slds-size_3-of-12">
+                    <div>
+                        <h2 class="bc"><b>Learn more about Your journey</b></h2>
+                    </div>
+                </div>
+            </div>
         </template>
         <template if:false={desktop}>
             <!--<template if:true={clinicalrecord}>-->
@@ -56,15 +91,32 @@
                                     ></c-program-overview>
                                 </template>
                                 <template if:false={isProgram}>
-                                    <c-study-overview
-                                        clinicalrecord={clinicalrecord}
-                                    ></c-study-overview>
+                                    <div class="vl"></div>
+                                    <c-study-overview clinicalrecord={clinicalrecord}>
+                                    </c-study-overview>
                                 </template>
                             </template>
                         </lightning-layout-item>
                     </lightning-layout>
                 </div>
             </template>
+
+            <!-- cards -->
+            <div class="slds-grid bg-cards">
+                <div class="slds-col">
+                    <div class="visit"></div>
+                </div>
+                <div class="slds-col">
+                    <div class="tasks"></div>
+                </div>
+                <div class="slds-col">
+                    <div class="updates"></div>
+                </div>
+                <div class="slds-col">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            <c-pp-home-page-visits-card></c-pp-home-page-visits-card>
         </template>
     </template>
 </template>
