@@ -6649,6 +6649,17 @@ Please log in to ##CommunityName to view your clinical research trial matches an
 
 &lt;span style=&quot;color:black;&quot;&gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
+        <labels>
+        <fullName>Email_Body_Visit_Task_Reminder_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Visit Task Reminder Delegate PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;color:black;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+    </labels>
     <labels>
         <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>
         <language>en_US</language>
@@ -7224,6 +7235,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>true</protected>
         <shortDescription>Email_Header_Visit_Task_Reminder_Delegate</shortDescription>
         <value>This is a reminder of your patient&apos;s upcoming visit</value>
+    </labels>
+     <labels>
+        <fullName>Email_Header_Visit_Task_Reminder_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Header_Visit_Task_Reminder_Delegate_PP</shortDescription>
+        <value>This is a reminder of your participant&apos;s upcoming visit</value>
     </labels>
     <labels>
         <fullName>Email_Header_Welcome_to_Study_Delegate</fullName>
@@ -8198,11 +8216,25 @@ Sincerely,
         <value>You have a visit reminder</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Visit_Task_Reminder_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Visit Task Reminder PP</shortDescription>
+        <value>Reminder: You have an upcoming visit</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Visit_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Visit Task Reminder Delegate</shortDescription>
         <value>Your Patient has a visit reminder</value>
+    </labels>
+       <labels>
+        <fullName>Email_Subject_Visit_Task_Reminder_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Visit Task Reminder Delegate PP</shortDescription>
+        <value>Reminder: Your participant has an upcoming visit</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Welcome_To_The_Study</fullName>
