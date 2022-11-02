@@ -577,6 +577,15 @@ lightning-datepicker lightning-button-icon .slds-button svg {
     display: none;
 }
 
+
+[c-ppaddnewdelegate_ppaddnewdelegate] .slds-form-element__label {
+    padding: 0 0 0 5px;
+}
+
+[c-ppaddnewdelegate_ppaddnewdelegate] .slds-checkbox__label {
+    display: flex;
+}
+
 .mr_left_5 > .slds-col {
     padding: .25rem;
 }
