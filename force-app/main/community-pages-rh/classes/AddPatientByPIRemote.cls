@@ -546,8 +546,7 @@ public without sharing class AddPatientByPIRemote {
         }
     }
 
-    @Future
-    @TestVisible
+    @AuraEnabled
     public static void updateParticipant(String participantJSON) {
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
