@@ -2169,6 +2169,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>E_Consent_Vendor__c.Vendor_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ECOA_Study_Schedule__c.Clinical_Trial_Profile__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -2193,6 +2193,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>E_Consent_Vendor__c.Vendor_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>MedicalVendorSettings__c.By_Country__c</field>
         <readable>true</readable>
     </fieldPermissions>

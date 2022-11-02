@@ -2404,6 +2404,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>E_Consent_Vendor__c.Vendor_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Patient_Delegate__c.Attestation__c</field>
         <readable>true</readable>
     </fieldPermissions>
