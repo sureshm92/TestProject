@@ -92,6 +92,7 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
             this.loading=false;
           }
     }
+
     checkValidation(){
         let fname = this.firstName.trim();
         let lname = this.lastName.trim();
@@ -134,7 +135,7 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
                     return true;
                 }
         }else{
-           return true;
+            return true;
         }
     }
 

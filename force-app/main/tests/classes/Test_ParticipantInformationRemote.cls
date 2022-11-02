@@ -745,7 +745,7 @@ private class Test_ParticipantInformationRemote {
                 JSON.serialize(cn)
                 
             );  
-            
+        ParticipantInformationRemote.disconnectDelegateToPatient(patientDelegate.Id);      
         }
         Test.stopTest();
     

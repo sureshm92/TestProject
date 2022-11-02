@@ -310,11 +310,10 @@ export default class Pir_participantEmancipated extends LightningElement {
             let lnameIsValid = addDelNew.ln != undefined && addDelNew.ln !=null && addDelNew.ln != '' && addDelNew.ln.length !=0;
             let emailIsValid = addDelNew.em != undefined && addDelNew.em != '' && addDelNew.em.length != 0;
             let birthYearIsValid = addDelNew.by != undefined && addDelNew.by != '' && addDelNew.by != '--' && addDelNew.by.length != 0;
+
            if((!fnameIsValid && !lnameIsValid && !emailIsValid && !birthYearIsValid && addDelNew.cb != true) || addDelNew.isConnectedOnce === true){
             this.isNewDelValid = false;
-            console.log('@anshufalse1');
            }else{
-            console.log('@anshutrue1');
             this.isNewDelValid = true;
            }
             i++
