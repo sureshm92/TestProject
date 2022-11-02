@@ -36,7 +36,7 @@
     font-family: 'Proxima Nova';
     font-size: 12px;
     letter-spacing: 0;
-    line-height: 16px;
+    line-height: 10px;
 }
 
 .thumnail-img {
@@ -49,4 +49,12 @@
 
 .document-label a:hover {
     overflow: visible;
+}
+
+.version-date-translation {
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 0px;
 }
