@@ -35,6 +35,7 @@ export default class PpResourceEngage extends LightningElement {
         if (this.spinner) {
             this.spinner.show();
         }
+        //get all Articles/Videos together to avoid extra calls
         getResources({ resourceType: 'Article;Video', resourceMode: 'Default' })
             .then((result) => {
                 this.resourcesData = result.wrappers;
@@ -57,6 +58,7 @@ export default class PpResourceEngage extends LightningElement {
             })
         );
     }
+    //dropdown options
     get options() {
         return [
             { label: ALL, value: ALL },
@@ -65,6 +67,7 @@ export default class PpResourceEngage extends LightningElement {
             { label: VIDEOS, value: VIDEO }
         ];
     }
+    //filter cached data on client side based on selected dropdown 
     handleChangeSelection(event) {
         this.selectedOption = event.detail.value;
         this.resourcesFilterData =
@@ -77,6 +80,7 @@ export default class PpResourceEngage extends LightningElement {
                   );
         this.resourcesFilterData = this.resourcesFilterData[0] ? this.resourcesFilterData : false;
     }
+    //change isfavorite field of clicked resource in cached data 
     handleFavorite(event){
         let index=this.resourcesData.findIndex((data) => data.resource.Id == event.detail.resourceId);
         this.resourcesData[index].isFavorite=event.detail.isFavourite;
