@@ -27,6 +27,20 @@
  .slds-button+.slds-button {
     margin-left: 0;
 }
+.alert-box{
+    border: 2px solid #FF9300;
+    border-radius: 5px;
+    background: #fff7eb;
+    font-size: 16px;
+    color: #000000;
+    text-align: left;   
+}
+.alert-box h2{
+    font-weight: 600;
+}
+.alert-box a{
+    color: #297dfd;
+}
  .status-img{
     min-width: 18px;
     min-height: 18px;
@@ -268,6 +282,9 @@
     }
     .hideDesktopView{
         display: block;
+    }
+    .alert-box .alert-img{
+        width: 64px;
     }
     
 }

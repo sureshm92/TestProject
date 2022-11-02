@@ -8,22 +8,26 @@ import getBubbleStatus from '@salesforce/apex/PIR_StatusDetailController.getBubb
 import isSuccessfullyReEngaged from "@salesforce/apex/PIR_StatusDetailController.isSuccessfullyReEngaged";
 import PWS_Received_Name from '@salesforce/label/c.PWS_Received_Name';
 import BTN_Back from '@salesforce/label/c.BTN_Back';
-export default class Pir_participantStatusDetails extends LightningElement {
+import Participant_Re_Consent from '@salesforce/label/c.Participant_Re_Consent';
+import { NavigationMixin } from "lightning/navigation";
+export default class Pir_participantStatusDetails extends NavigationMixin(LightningElement) {
     @api selectedPE_ID;
     @api peCardDetails;
     @api showBubbleMap = false;@api bubbleMapDetails;@api reason='';@api isInitialVisitRequired = false; @api isInitialVisitsPresent = false;
     @api per;@api initialVisitScheduledTime='';@api isFinalConsentRequired = false;@api isVisitPlanRequired = false;@api selectedPlan = '';
     @api saveSpinner = false; @api userDate;@api contSuccessReason ='';@api latestStatusGrp='';
-    @api getisreengaged=false;
+    @api getisreengaged=false;@api Re_consent = false;
+    e_consentConfigured=false;
     count = 0;
     checkIcon = pirResources+'/pirResources/icons/status-good.svg';
     minusIcon = pirResources+'/pirResources/icons/status-negative.svg';
     noneIcon = pirResources+'/pirResources/icons/circle.svg';
     backArrow = pirResources+'/pirResources/icons/triangle-left.svg';
-
+    notification = pirResources+'/pirResources/icons/bell.svg';
     label = {
         PWS_Received_Name,
-        BTN_Back
+        BTN_Back,
+        Participant_Re_Consent
     };
 
     peDetail = [
@@ -63,7 +67,7 @@ export default class Pir_participantStatusDetails extends LightningElement {
         }
         
     }
-
+    redirecturl='';
     @api
     doSelectedPI(){
         
@@ -124,6 +128,18 @@ export default class Pir_participantStatusDetails extends LightningElement {
                     .then((result) => {
                         this.peRec = result.per;
                         this.per = result.per;
+                        if(result.per.Re_consent__c == true){
+                            this.Re_consent = true;
+                        }else{
+                            this.Re_consent = false;
+                        } 
+                        if(result.per.Study_Site__r.E_Consent_Vendor__c != null && result.per.Study_Site__r.E_Consent_Vendor__c !=''){
+                            this.e_consentConfigured = true;
+                            this.redirecturl=result.per.Study_Site__r.E_Consent_Vendor__r.Vendor_URL__c;
+                        }else{
+                            this.e_consentConfigured = false;
+                            this.redirecturl='';
+                        }
                         this.visitPlan = result.visitPlansList;
                         if(this.visitPlan.length != 0){
                             this.isVisitPlanRequired = true;
@@ -276,4 +292,15 @@ export default class Pir_participantStatusDetails extends LightningElement {
           });
           this.dispatchEvent(valueChangeEvent);
     }
+    handleConsentLogin(event) {
+        if(this.redirecturl != null){        
+            let config = {
+              type: 'standard__webPage',
+              attributes: {
+                  url: this.redirecturl
+              }
+            };
+            this[NavigationMixin.Navigate](config);
+        }    
+      }
 }

@@ -2158,6 +2158,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Delegate_Consent_SMS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>User.IsCommunityUserRegistered__c</field>
         <readable>true</readable>
@@ -2165,6 +2170,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Suppress_Physician_Outreach_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>E_Consent_Vendor__c.Vendor_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2768,6 +2778,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Study_Email_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Re_consent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
