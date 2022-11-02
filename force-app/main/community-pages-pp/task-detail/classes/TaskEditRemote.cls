@@ -111,7 +111,12 @@ public without sharing class TaskEditRemote {
     }
 
     @AuraEnabled
-    public static void upsertTask(String wrapper, String paramTask) {
+    public static void upsertTask(String wrapper, String paramTask){
+        upsertTask(wrapper,  paramTask, false);
+    }
+    
+    @AuraEnabled
+    public static void upsertTask(String wrapper, String paramTask, Boolean isNewTaskFromTaskTab) {
         try {
             TaskEditDataWrapper taskWrapper = (TaskEditDataWrapper) JSON.deserialize(
                 wrapper,
@@ -138,8 +143,9 @@ public without sharing class TaskEditRemote {
             //Don't update WhatId for catalog and manual creation panel task
             if (String.isEmpty(taskToUpsert.Task_Code__c) && !taskWrapper.createdByAdmin) {
                 if (
+                    isNewTaskFromTaskTab || (
                     String.isNotBlank(taskToUpsert.Task_Type__c) &&
-                    taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED
+                    taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED)
                 ) {
                     taskToUpsert.WhatId = ParticipantContext.getCurrentPEId();
                 } else {
