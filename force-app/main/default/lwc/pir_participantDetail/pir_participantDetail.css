@@ -87,6 +87,15 @@
 .dropdown-width{
     display:inline-block;
 }
+.check-box-m-topUSError{
+    margin-top: 5px;
+}
+.check-box-m-topUSNoError{
+    margin-top: 0px;
+}
+.margintopdm{
+    margin-top: -2px;
+}
 @media (max-device-width: 767px) {
     .vertical-scroll{
         height: auto;
@@ -106,6 +115,15 @@
     }
     .ltl-r-none{
         padding-right: var(--lwc-spacingSmall,0.75rem)!important;
+    }
+    .check-box-m-topUSError{
+        margin-top: 5px;
+    }
+    .check-box-m-topUSNoError{
+        margin-top: 0px;
+    }
+    .margintopdm{
+        margin-top: 8px;
     }
 }
 .eth .slds-no-flex{
@@ -263,6 +281,9 @@
     letter-spacing: 0;
     line-height: 24px;
 }
+.alignsms{
+    padding-left: 33px; 
+}
 
 .lpad-none,.pl-0{
     padding-left: 0px;
@@ -273,4 +294,81 @@
 }
 .alert-box-dob{
     justify-content: left;
+}
+ /** Participant Tab **/
+ .display-checkbox {
+    display: flex;
+}
+.checkbox_mtop{
+    margin-top: 2px;
+}
+.checkbox_width{
+    font-size: 14px;
+    margin-left: -8px;
+    width: 100%;
+}
+.country-checkbox {
+    font-size: 14px !important;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-left: -2px;
+}
+.checkboxus{
+    margin-top: -62px;
+}
+.checkboxononus{
+    margin-top: -23px;
+}
+.checkboxmargin{
+    margin-top: 10px;
+}
+.label_align_aa{
+    display:flex;
+    align-items: baseline;
+}
+.checkbox_size {
+    max-width: 15px;
+}
+.addParticipantClass {
+    padding-left: 22px;
+}
+.addParticipantCls{
+    padding-left: 17px;
+}
+.paddingsms{
+    padding-left: 10px;
+}
+.addPLeft{
+    padding-left: 9px;
+}
+@media (max-device-width: 767px) {
+    .checkbox_width{
+        margin-left: -4px;
+    }
+    .checkboxone{
+        margin-top: -30px;
+    }
+    .addParticipantClass {
+        padding-left: 29px;
+    }
+    .addPLeft{
+        padding-left: 9px;
+    }
+    .addPleftm{
+        padding-left: 11px;
+    }
+    .label_spacingm{
+        margin-left: 0px;
+    }
+    .labelm{
+        padding-left: 11px;
+    }
+    .paddingsms{
+        padding-left: 11px;
+    }
+    /*.margintopcbtwo{
+        margin-top: -107px;
+    }
+    */
 }

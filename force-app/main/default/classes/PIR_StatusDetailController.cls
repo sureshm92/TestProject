@@ -369,6 +369,7 @@ public without sharing class PIR_StatusDetailController {
         Add_televisit_for_Initial_Visit__c,
         Initial_Visit_Televisit_Created__c,
         Succesfully_Re_Engaged__c,
+        Re_consent__c,
         Participant__r.First_Name__c,
         Participant__r.Last_Name__c,
         Participant_Contact__c,
@@ -380,7 +381,11 @@ public without sharing class PIR_StatusDetailController {
         PI_Contact__c,
         Is_Participant_DOB_Valid__c,
         Clinical_Trial_Profile__r.Promote_to_SH__c,
-        Study_Site__r.Study_Site_Type__c
+        Study_Site__r.Study_Site_Type__c,
+        Study_Site__r.E_Consent_Vendor__r.Vendor_URL__c,
+        Study_Site__r.Clinical_Trial_Profile__r.E_Consent_Configuration__c,
+        Study_Site__r.E_Consent_Vendor__c,
+        Study_Site__r.E_Consent_Vendor__r.Name
       FROM Participant_Enrollment__c
       WHERE Id = :perId
     ];
@@ -1602,7 +1607,7 @@ public without sharing class PIR_StatusDetailController {
   }
   @AuraEnabled
   public static Boolean doSaveStatusDetails(
-    Participant_Enrollment__c perRecord,Participant__c perRec, String visitPlan
+    Participant_Enrollment__c perRecord,Participant__c perRec, String visitPlan, Boolean isDeclinedAndConsentAsYes
   ) {
     Map<String,String> initReasonMap = new Map<String,String>{
                                                             'PIR_Other' => 'Other',
@@ -1792,6 +1797,13 @@ public without sharing class PIR_StatusDetailController {
       }else{
         perRecord.High_Priority__c = false;
       }
+      if(perRecord.Participant_Status__c == 'Declined Consent' ||
+      perRecord.Participant_Status__c == 'Withdrew Consent' ||
+      perRecord.Participant_Status__c == 'Withdrew Consent After Screening' ||
+      perRecord.Participant_Status__c == 'Declined Final Consent'
+      ){
+      perRecord.Re_consent__c=false;
+      }
       update perRecord;
       if(perRecord.Participant__r.Gender__c!=perRec.Gender__c){
         TriggerHandlerExecutor.bypassHandler(
@@ -1836,28 +1848,41 @@ public without sharing class PIR_StatusDetailController {
         //pesh.Non_Enrollment_Reason__c = 'Didn\'t Show For Initial Visit';
         insert pesh;
       } else if (perRecord.Participant_Status__c != null) {
-        Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
-        pesh.Date__c = Datetime.now();
-        pesh.Status__c = perRecord.Participant_Status__c;
-        pesh.Notes__c = perRecord.Last_Status_Changed_Notes__c;
-        pesh.ParticipantEnrollment__c = perRecord.Id;
-        pesh.Non_Enrollment_Reason__c = perRecord.Non_Enrollment_Reason__c;
-        if (
-          perRecord.Clinical_Trial_Profile__r.Initial_Visit_Required__c &&
-          !statusList.contains(perRecord.Participant_Status__c)
-        ) {
-          if(perRecord.Initial_visit_occurred_flag__c==false){
-            pesh.Disabled_PESH__c =true;
+        if(!isDeclinedAndConsentAsYes){ 
+          Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
+          pesh.Date__c = Datetime.now();
+          pesh.Status__c = perRecord.Participant_Status__c;
+          pesh.Notes__c = perRecord.Last_Status_Changed_Notes__c;
+          pesh.ParticipantEnrollment__c = perRecord.Id;
+          pesh.Non_Enrollment_Reason__c = perRecord.Non_Enrollment_Reason__c;
+          if (
+            perRecord.Clinical_Trial_Profile__r.Initial_Visit_Required__c &&
+            !statusList.contains(perRecord.Participant_Status__c)
+          ) {
+            if(perRecord.Initial_visit_occurred_flag__c==false){
+               if(perRecord.Participant_Status__c != 'Declined Consent'){
+                pesh.Disabled_PESH__c =true;
+                }
+            }
+            else{
+            pesh.Disabled_PESH__c = isPESHnotDisabled(
+              perRecord.Initial_visit_scheduled_date__c,
+              perRecord.Initial_visit_scheduled_time__c,
+              perRecord.Initial_visit_occurred_flag__c
+            );
+            }
           }
-          else{
-          pesh.Disabled_PESH__c = isPESHnotDisabled(
-            perRecord.Initial_visit_scheduled_date__c,
-            perRecord.Initial_visit_scheduled_time__c,
-            perRecord.Initial_visit_occurred_flag__c
-          );
+          insert pesh;
+      }else{
+          Participant_Enrollment_Status_History__c ph = new Participant_Enrollment_Status_History__c();
+          ph = [Select Id,Status__c,Name,ParticipantEnrollment__c,Disabled_PESH__c from Participant_Enrollment_Status_History__c where ParticipantEnrollment__c =:perRecord.Id AND Status__c= 'Declined Consent' ORDER By Name DESC limit 1];
+          if(ph != null){
+              ph.Id = ph.Id;
+              ph.Disabled_PESH__c=true;
+              ph.Notes__c=perRecord.Last_Status_Changed_Notes__c;
+              update ph;
           }
-        }
-        insert pesh;
+      }
       } else if (perRecord.Last_Status_Changed_Additional_Notes__c != null && perRecord.Last_Status_Changed_Additional_Notes__c != '') {
         Participant_Enrollment_Status_History__c peshOld = [
           SELECT Additional_Notes__c, Notes__c, ParticipantEnrollment__c
