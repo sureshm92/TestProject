@@ -8,6 +8,7 @@ import ARTICLE from '@salesforce/label/c.Resources_Article';
 import VIDEO from '@salesforce/label/c.Resources_Video';
 import VIDEOS from '@salesforce/label/c.Resources_Card_Title_Videos';
 import FAVORITES from '@salesforce/label/c.Resource_Tab_Favorites';
+import All_EMPTY from '@salesforce/label/c.Resources_All_Empty'
 
 export default class PpResourceEngage extends LightningElement {
     //@api vars
@@ -21,6 +22,10 @@ export default class PpResourceEngage extends LightningElement {
     //Boolean vars
     isInitialized = false;
 
+    label={
+        All_EMPTY
+    };
+
     connectedCallback() {
         this.selectedOption = 'All';
         this.initializeData();
@@ -33,7 +38,7 @@ export default class PpResourceEngage extends LightningElement {
         getResources({ resourceType: 'Article;Video', resourceMode: 'Default' })
             .then((result) => {
                 this.resourcesData = result.wrappers;
-                this.resourcesFilterData = this.resourcesData;
+                this.resourcesFilterData = this.resourcesData[0] ? this.resourcesData : false;
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
@@ -70,5 +75,10 @@ export default class PpResourceEngage extends LightningElement {
                 : this.resourcesData.filter(
                       (data) => data.resource.Content_Type__c == this.selectedOption
                   );
+        this.resourcesFilterData = this.resourcesFilterData[0] ? this.resourcesFilterData : false;
+    }
+    handleFavorite(event){
+        let index=this.resourcesData.findIndex((data) => data.resource.Id == event.detail.resourceId);
+        this.resourcesData[index].isFavorite=event.detail.isFavourite;
     }
 }

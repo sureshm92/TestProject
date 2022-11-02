@@ -28743,4 +28743,11 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Task Ignored Message</shortDescription>
         <value>Task ignored</value>
     </labels>
+    <labels>
+        <fullName>Resources_All_Empty</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources all filter empty</shortDescription>
+        <value>No articles or videos available</value>
+    </labels>
 </CustomLabels>

@@ -55,6 +55,13 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
+            const favourite = new CustomEvent('favourite', {
+                detail: {
+                    isFavourite: this.isFavourite,
+                    resourceId: this.resourceId
+                }
+            });
+            this.dispatchEvent(favourite);
     }
 
     showErrorToast(titleText, messageText, variantType) {
@@ -66,4 +73,18 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
             })
         );
     }
+    handleDate(event) {
+        this.initialDateLoaded = true;
+        this.dt = event.target.value;
+        this.tm = '';
+        if (!this.dt) {
+            this.timeOnlyPresent = true;
+            this.tm = event.target.value;
+            const nulldatetime = new CustomEvent('nulldatetime', {
+                detail: {
+                    compdate: this.dt,
+                    comptime: this.tm
+                }
+            });
+            this.dispatchEvent(nulldatetime);}}
 }

@@ -22,7 +22,7 @@
                     </lightning-layout-item>
                 </lightning-layout>
                 <!-- Second ROW-->
-                <lightning-layout multiple-rows="true">
+                <lightning-layout multiple-rows="true" class="inner-scroll">
                     <!--  Articles/Videos    -->
                     <lightning-layout-item size="12">
                         <!--Iteration -->
@@ -41,9 +41,22 @@
                                     is-voted={Data.isVoted}
                                     key={Data.resource.Id}
                                     data-key={Data.resource.Id}
+                                    onfavourite={handleFavorite}
                                 >
                                 </c-pp-resource-container>
                             </template>
+                        </template>
+                        <template if:false={resourcesFilterData}>
+                            <div class="svg-align">
+                                <span class="center-align"
+                                    ><c-web-icon
+                                        icon-width="185"
+                                        icon-height="160"
+                                        icon-name="all-resources-empty"
+                                    ></c-web-icon
+                                ></span>
+                                <span class="text-colour"> {label.All_EMPTY} </span>
+                            </div>
                         </template>
                     </lightning-layout-item>
                 </lightning-layout>

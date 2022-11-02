@@ -1,3 +1,23 @@
 .resource-gutter {
     margin: 24px 24px 0px 24px;
 }
+.inner-scroll {
+    height: 527px;
+    overflow: auto;
+    margin-right: 15px;
+}
+.ppCombobox {
+    margin: 10px 0 0 5px;
+}
+.center-align {
+    text-align: center;
+}
+.text-colour {
+    color: #a9a9a9;
+}
+.svg-align{
+    margin: auto;
+    display: grid;
+    height: 527px;
+    place-content: center;
+}
