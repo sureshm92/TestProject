@@ -52,6 +52,9 @@
     .mob-checkbox-txt {
         text-align: center;
     }
+    .addDelegateMobile {
+        width: 100% !important;
+    }
 }
 .save-del-btn {
     height: 40px;
@@ -90,7 +93,7 @@
 
 .del-access-rectangle {
     box-sizing: border-box;
-    height: 151px;
+    /* height: 151px; */
     /*width: 768px; */
     border: 1px solid #d9d9d9;
     border-radius: 4px;

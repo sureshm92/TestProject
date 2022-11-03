@@ -580,6 +580,7 @@ lightning-datepicker lightning-button-icon .slds-button svg {
 
 [c-ppaddnewdelegate_ppaddnewdelegate] .slds-form-element__label {
     padding: 0 0 0 5px;
+    text-align: left;
 }
 
 [c-ppaddnewdelegate_ppaddnewdelegate] .slds-checkbox__label {

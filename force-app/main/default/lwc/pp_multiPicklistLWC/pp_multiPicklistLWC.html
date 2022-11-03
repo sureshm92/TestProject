@@ -27,21 +27,15 @@
                         role="none"
                     >
                         <div class="selectedOption">
-                            <template if:true={getFirstSelecedStudy}>
-                                <!-- <span class="selectedValue slds-truncate"> -->
-                                <!-- <span class="selectedValue"> {getFirstSelecedStudy} </span>
+                            <!-- <template if:true={getFirstSelecedStudy}> -->
+                            <!-- <span class="selectedValue slds-truncate"> -->
+                            <!-- <span class="selectedValue"> {getFirstSelecedStudy} </span>
                                 <div class="ethmore">{studyCount}</div> -->
-                                <template
-                                    for:each={selectedStudy}
-                                    for:item="study"
-                                    for:index="index"
-                                >
-                                    <span key={study.id} class="selectedValue">
-                                        {study.label}
-                                    </span>
-                                    <!-- <div key={study.id} class="ethmore">{studyCount}</div> -->
-                                </template>
+                            <template for:each={selectedStudy} for:item="study" for:index="index">
+                                <span key={study.id} class="selectedValue"> {study.label} </span>
+                                <!-- <div key={study.id} class="ethmore">{studyCount}</div> -->
                             </template>
+                            <!-- </template> -->
                         </div>
                         <span
                             class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right"
@@ -82,7 +76,7 @@
                                                         type="checkbox"
                                                         name={item.label}
                                                         value={item.value}
-                                                        class="input-width noclk"
+                                                        class="input-width noclk studyCheckBox"
                                                         onchange={setStudyList}
                                                     />
                                                     <span class="text-for-check">{item.label}</span>

@@ -174,6 +174,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             .then((returnValue) => {
                 console.log('success second', returnValue);
                 this.listPDE = returnValue;
+                this.maskEmail();
                 //this.initializeData();
                 this.spinner = false;
             })
