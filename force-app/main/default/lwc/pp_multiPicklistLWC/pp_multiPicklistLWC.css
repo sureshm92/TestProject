@@ -86,7 +86,7 @@
 .eth .select-all-clear-all {
     cursor: pointer;
     padding-left: 5px;
-    opacity: 0.75;
+    /* opacity: 0.75; */
 }
 .eth .btn {
     font-size: 14px;
