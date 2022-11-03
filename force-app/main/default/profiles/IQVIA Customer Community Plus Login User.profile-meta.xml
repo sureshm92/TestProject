@@ -7267,7 +7267,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Send_Result__c.IsActive__c</field>
+        <field>Send_Result__c.Is_Active__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

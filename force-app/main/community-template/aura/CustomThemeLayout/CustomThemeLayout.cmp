@@ -192,46 +192,36 @@
                                         </c:overLayForCalendar>
                                     </aura:if>
                                     <!--Site Calendar End-->
-                                <aura:if isTrue="{!v.currentMode.userMode == 'PI'}">
-                                    <!--custom bell notifications-->
-                                    <aura:if isTrue="{!not(v.reset)}">
-                                        <c:OverlayForBell class="menu-block menuheight">
-                                            <aura:set attribute="title">
-                                                <div
-                                                    onclick="{!c.onClickBell}"
-                                                    class="bellNavigationCss"
-                                                    title="notifications"
-                                                    onblur="{!c.onBlurBell}"
-                                                >
-                                                    <c:RRIcon
-                                                        iconName="icon-notification"
-                                                        color="white"
-                                                        class="navigation-icon"
-                                                    />
-
+                                    <aura:if isTrue="{!v.currentMode.userMode == 'PI'}">
+                                        <!--custom bell notifications-->
+                                        <aura:if isTrue="{!not(v.reset)}">
+                                            <c:OverlayForBell class="menu-block menuheight">
+                                                <aura:set attribute="title">
                                                     <div
-                                                        class="{!if(v.unreadNotificationsCount != 0,'slds-show','slds-hidden')}"
+                                                        onclick="{!c.onClickBell}"
+                                                        class="bellNavigationCss"
+                                                        title="notifications"
+                                                        onblur="{!c.onBlurBell}"
                                                     >
-                                                        <span
-                                                            aura:id="countDot"
-                                                            aria-hidden="true"
-                                                            class="slds-notification-badge slds-incoming-notification slds-show-notification"
-                                                            >{!v.unreadNotificationsCount}</span
-                                                        >
-                                                    </div>
-                                                </div>
-                                            </aura:set>
-                                            <aura:if isTrue="{!v.isBellEnabled}">
-                                                <c:bellNotifications
-                                                    aura:id="bellNotification"
-                                                    sendResultsDataFromParent="{!v.sendResultsData}"
-                                                    onlazyloadingevent="{!c.lazyLoading}"
-                                                    onupdatereadevent="{!c.updateReadMark}"
-                                                    onremovesendresultevent="{!c.closeSendResult}"
-                                                    isDelete="{!v.isDeleted}"
-                                                ></c:bellNotifications>
+                                                        <c:RRIcon
+                                                            iconName="icon-notification"
+                                                            color="white"
+                                                            class="navigation-icon"
+                                                        />
 
-                                                <aura:set attribute="else">
+                                                        <div
+                                                            class="{!if(v.unreadNotificationsCount != 0,'slds-show','slds-hidden')}"
+                                                        >
+                                                            <span
+                                                                aura:id="countDot"
+                                                                aria-hidden="true"
+                                                                class="slds-notification-badge slds-incoming-notification slds-show-notification"
+                                                                >{!v.unreadNotificationsCount}</span
+                                                            >
+                                                        </div>
+                                                    </div>
+                                                </aura:set>
+                                                <aura:if isTrue="{!v.isBellEnabled}">
                                                     <c:bellNotifications
                                                         aura:id="bellNotification"
                                                         sendResultsDataFromParent="{!v.sendResultsData}"
@@ -240,11 +230,22 @@
                                                         onremovesendresultevent="{!c.closeSendResult}"
                                                         isDelete="{!v.isDeleted}"
                                                     ></c:bellNotifications>
-                                                </aura:set>
-                                            </aura:if>
-                                        </c:OverlayForBell>
+
+                                                    <aura:set attribute="else">
+                                                        <c:bellNotifications
+                                                            aura:id="bellNotification"
+                                                            sendResultsDataFromParent="{!v.sendResultsData}"
+                                                            onlazyloadingevent="{!c.lazyLoading}"
+                                                            onupdatereadevent="{!c.updateReadMark}"
+                                                            onremovesendresultevent="{!c.closeSendResult}"
+                                                            isDelete="{!v.isDeleted}"
+                                                        ></c:bellNotifications>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </c:OverlayForBell>
+                                        </aura:if>
+                                        <!--custom bell notifications-->
                                     </aura:if>
-                                    <!--custom bell notifications-->
                                     <div
                                         onclick="{!c.onClickHelp}"
                                         class="helpNavigationCSS"
