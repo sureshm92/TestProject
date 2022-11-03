@@ -3,6 +3,10 @@ import { NavigationMixin } from 'lightning/navigation';
 import BTN_Add_New_Delegate from '@salesforce/label/c.Add_New_Delegate';
 import PP_ManageDelegates from '@salesforce/label/c.PP_ManageDelegates';
 import PP_Remove from '@salesforce/label/c.PP_Remove';
+import PG_PST_L_Delegates_Remove_Mess_P1 from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Mess_P1';
+import PG_PST_L_Delegates_Remove_Mess_P3 from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Mess_P3';
+import PG_PST_L_Delegates_Remove_Himself_Header from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Himself_Header';
+import PP_Delegate_Updated from '@salesforce/label/c.PP_Delegate_Updated';
 //import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 import { loadScript } from 'lightning/platformResourceLoader';
 import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
@@ -31,11 +35,17 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     spinner = false;
     loaded = false;
     showAddDelegatePage = false;
+    showpopup = false;
+    modalMesstext;
 
     label = {
         BTN_Add_New_Delegate,
         PP_ManageDelegates,
-        PP_Remove
+        PP_Remove,
+        PG_PST_L_Delegates_Remove_Mess_P1,
+        PG_PST_L_Delegates_Remove_Mess_P3,
+        PG_PST_L_Delegates_Remove_Himself_Header,
+        PP_Delegate_Updated
     };
 
     connectedCallback() {
@@ -79,17 +89,15 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     maskEmail() {
         this.listPDE.forEach((pde) => {
             let pdeEmailLength = pde.PatientDelegate.Email__c.length;
-            let emailFirstThreeChars = '';
-            let emailRemainingChars = '';
+            let maskedEmail = '';
             for (let i = 0; i < pdeEmailLength; i++) {
                 if (i <= 2) {
-                    emailFirstThreeChars += pde.PatientDelegate.Email__c.charAt(i);
+                    maskedEmail += pde.PatientDelegate.Email__c.charAt(i);
                 } else {
-                    emailRemainingChars += pde.PatientDelegate.Email__c.charAt(i);
+                    maskedEmail += '*';
                 }
             }
-            pde.PatientDelegate['emailFirstThreeChars'] = emailFirstThreeChars;
-            pde.PatientDelegate['emailRemainingChars'] = emailRemainingChars;
+            pde.PatientDelegate.Email__c = maskedEmail;
         });
     }
     //Subscribe the message channel to read the message published.
@@ -166,23 +174,41 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         alert('TODO: Write Add Assignment Logic');
         //TODO: logic TBD
     }
-    removeDelAssociationFromStudy(event) {
-        let pdeId = event.target.dataset.id;
-        //alert('TODO: remove this PDeId Record:  ' + pdeId);
+    //This method will open Remove Delegate Modal.
+    openRemoveDelegateModal(event) {
+        this.showpopup = true;
+        let pdfn = event.target.dataset.pdfn;
+        let pdln = event.target.dataset.pdln;
+        this.modalMesstext =
+            this.label.PG_PST_L_Delegates_Remove_Mess_P1 +
+            ' ' +
+            pdfn +
+            ' ' +
+            pdln +
+            ' ' +
+            this.label.PG_PST_L_Delegates_Remove_Mess_P3;
+    }
+    //This method will remove the delegate once Confirm button clicked on Remove Delegate Modal.
+    handleConfirmdelete(event) {
         this.spinner = true;
-        removeAssignment({ pDEId: pdeId })
-            .then((returnValue) => {
-                console.log('success second', returnValue);
-                this.listPDE = returnValue;
+        let pdEnrollmentId = event.detail.pdenrollmentid;
+        removeAssignment({
+            pDEId: pdEnrollmentId
+        })
+            .then((result) => {
+                communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
+                this.listPDE = result;
                 this.maskEmail();
-                //this.initializeData();
+                this.showpopup = false;
                 this.spinner = false;
             })
             .catch((error) => {
                 console.log('error');
                 this.spinner = false;
             });
-
-        //TODO: logic TBD
+    }
+    handleModalClose(event) {
+        const showHideModal = event.detail;
+        this.showpopup = showHideModal;
     }
 }
