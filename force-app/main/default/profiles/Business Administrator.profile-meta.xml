@@ -2173,6 +2173,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>E_Consent_Vendor__c.Vendor_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ECOA_Study_Schedule__c.Clinical_Trial_Profile__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2817,6 +2822,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Study_Email_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Re_consent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
