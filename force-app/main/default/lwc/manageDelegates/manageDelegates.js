@@ -38,33 +38,6 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         PP_Remove
     };
 
-    pdEnrollmentsForDel = [
-        {
-            id: '00a2126565999338ADF',
-            label: 'Study A102291'
-        },
-        {
-            id: '00a2126565999338ADG',
-            label: 'Study A102292'
-        },
-        {
-            id: '00a2126565999338ADL',
-            label: 'Study A102293'
-        }
-    ];
-    listOfDelegateOfParticipant = [
-        {
-            id: '0032126565999338ADF',
-            name: 'Krishna Kumar Mahto',
-            email: 'kkm@gmail.com'
-        },
-        {
-            id: '0032126565999338ADG',
-            name: 'Ranjit Ravindranath',
-            email: 'ranjitravindernath@gmai.com'
-        }
-    ];
-
     connectedCallback() {
         //this.spinner = true;
         // Get Initial Load Data
@@ -94,11 +67,30 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 console.log('success', returnValue);
                 this.listPDE = returnValue;
                 this.spinner = false;
+                this.maskEmail();
             })
             .catch((error) => {
                 console.log('error');
                 this.spinner = false;
             });
+    }
+
+    //this method will separate email chars in two parts to partially mask the email address.
+    maskEmail() {
+        this.listPDE.forEach((pde) => {
+            let pdeEmailLength = pde.PatientDelegate.Email__c.length;
+            let emailFirstThreeChars = '';
+            let emailRemainingChars = '';
+            for (let i = 0; i < pdeEmailLength; i++) {
+                if (i <= 2) {
+                    emailFirstThreeChars += pde.PatientDelegate.Email__c.charAt(i);
+                } else {
+                    emailRemainingChars += pde.PatientDelegate.Email__c.charAt(i);
+                }
+            }
+            pde.PatientDelegate['emailFirstThreeChars'] = emailFirstThreeChars;
+            pde.PatientDelegate['emailRemainingChars'] = emailRemainingChars;
+        });
     }
     //Subscribe the message channel to read the message published.
     subscribeToMessageChannel() {

@@ -138,6 +138,9 @@
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     /* margin-top: 16px; */
 }
+.email-masked {
+    -webkit-text-security: disc;
+}
 .delegate-name {
     color: #444444;
     font-size: 18px;
