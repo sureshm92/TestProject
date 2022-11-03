@@ -167,8 +167,10 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             if(dd < 10){
                 ddValue = '0'+dd;
             }
-            //ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
+            string tempBrVar = ipr.BirthDate__c;
+            ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
             Participant__c objParticipant = IprEprTriggerHandler.convertToParticipant(ipr);
+            ipr.BirthDate__c = tempBrVar ;
             objParticipant.Age__c = participantAge;
             if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
                 if(dateOfBirth.size() > 2){
@@ -249,6 +251,15 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                     new List<String>(refSources),
                     ';'
                 );
+                if(participant.Birth_Day__c!=null){
+                    participantDuplicate.Birth_Day__c = participant.Birth_Day__c;
+                }
+                if(participant.Birth_Month__c!=null){
+                    participantDuplicate.Birth_Month__c = participant.Birth_Month__c;
+                }
+                if(participant.Birth_Year__c!=null){
+                    participantDuplicate.Birth_Year__c = participant.Birth_Year__c;
+                }
                 newParticipantsMap.remove(ipr.referralID__c);
                 dupParticipantsMap.put(ipr.referralID__c, participantDuplicate);
                 duplicatePatientsSet.add(participantDuplicate.Id);
@@ -375,7 +386,8 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                                 Completed_Date__c = Datetime.now(),
                                 Participant_enrollment__c = sr.getId(),
                                 Screener_Response__c = ipr.MRR_Survey_Results_URL__c,
-                                Status__c = 'Pass'
+                                Status__c = 'Pass',
+                                MRR_EPR__c = true
                             )
                         );
                     }

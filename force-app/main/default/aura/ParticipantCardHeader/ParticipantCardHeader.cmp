@@ -3,6 +3,7 @@
  -->
 
 <aura:component description="ParticipantCardHeader" extends="c:CommunityContext">
+
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="pe" type="Object" />
@@ -47,7 +48,7 @@
                         </div>
                         <div class="objective-section">
                             <div class="objective-text">
-                                {!v.pe.Clinical_Trial_Profile__r.Brief_Summary__c}
+                                <lightning:formattedRichText class= "briefSummery" value="{!v.pe.Clinical_Trial_Profile__r.Brief_Summary__c}"/>
                             </div>
                         </div>
                         <aura:set attribute="else">

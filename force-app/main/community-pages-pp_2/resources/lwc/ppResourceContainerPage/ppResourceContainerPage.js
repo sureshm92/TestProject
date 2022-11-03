@@ -16,8 +16,11 @@ import EXPLORE from '@salesforce/label/c.PP_Resource_Explore';
 import DOCUMENTS from '@salesforce/label/c.PP_Resource_Documents';
 import FIND_ANSWERS from '@salesforce/label/c.PP_Resource_Answers';
 import RESOURCES from '@salesforce/label/c.PG_SW_Tab_Resources';
+import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
+import basePathName from '@salesforce/community/basePath';
+import { NavigationMixin } from 'lightning/navigation';
 
-export default class PpResourceContainerPage extends LightningElement {
+export default class PpResourceContainerPage extends NavigationMixin(LightningElement) {
     //boolean var
     desktop = true;
     isRTL = false;
@@ -34,10 +37,14 @@ export default class PpResourceContainerPage extends LightningElement {
         EXPLORE,
         DOCUMENTS,
         FIND_ANSWERS,
-        DISCOVER_TITLE
+        DISCOVER_TITLE,
+        CHANGE_PREFERENCES
     };
     @track linksData;
     @track trialdata;
+    redirecturl = '';
+    disableSave = true;
+    @track textValue;
 
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
@@ -90,7 +97,7 @@ export default class PpResourceContainerPage extends LightningElement {
             this.toggleExplore = this.trialdata?.trial?.Video_And_Articles_Are_Available__c;
             this.toggleDocs = this.trialdata?.trial?.Study_Documents_Are_Available__c;
             this.toggleLinks = this.linksData?.linksAvailable;
-            this.isInitialized=true;
+            this.isInitialized = true;
         }
 
         if (this.spinner) {
@@ -105,5 +112,17 @@ export default class PpResourceContainerPage extends LightningElement {
                 variant: variantType
             })
         );
+    }
+    handleChangePreference() {
+        this.redirecturl = window.location.origin + basePathName + '/account-settings?changePref';
+        const config = {
+            type: 'standard__webPage',
+            attributes: {
+                url: this.redirecturl
+            }
+        };
+        this[NavigationMixin.GenerateUrl](config).then((url) => {
+            window.open(url, '_self');
+        });
     }
 }

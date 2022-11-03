@@ -44,6 +44,7 @@
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
     <aura:handler name="onBlurOverlayEvent" event="c:uiEvent" action="{!c.handleComponentEvent}" />
+    <aura:handler event="c:PPMobileMenu" action="{!c.closePPMobileMenu}" />
 
     <!-- methods: -->
     <aura:method name="init" action="{!c.doInit}" access="public" />

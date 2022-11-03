@@ -6386,6 +6386,30 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
+        <labels>
+        <fullName>Email_Body_Task_Reminder_Type_Not_Selected_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Task Reminder Type Not Selected PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of your upcoming task:&lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;##TaskName&lt;/span&gt;
+&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;Please login to update the status of your task.&lt;/span&gt; </value>
+    </labels>
+     <labels>
+        <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Deleg_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Task Reminder Type Not Selected Deleg PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming task:&lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;##TaskName&lt;/span&gt;
+&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;Please login to update the status of this task.&lt;/span&gt; </value>
+    </labels>
     <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</fullName>
         <language>en_US</language>
@@ -6627,6 +6651,17 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
         <value>&lt;span style=&quot;color:black;&quot;&gt;This is a quick email to remind you of ##ParticipantFirstName&apos;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;color:black;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+        <labels>
+        <fullName>Email_Body_Visit_Task_Reminder_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Visit Task Reminder Delegate PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;color:black;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
 
@@ -7207,6 +7242,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>true</protected>
         <shortDescription>Email_Header_Visit_Task_Reminder_Delegate</shortDescription>
         <value>This is a reminder of your patient&apos;s upcoming visit</value>
+    </labels>
+     <labels>
+        <fullName>Email_Header_Visit_Task_Reminder_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Header_Visit_Task_Reminder_Delegate_PP</shortDescription>
+        <value>This is a reminder of your participant&apos;s upcoming visit</value>
     </labels>
     <labels>
         <fullName>Email_Header_Welcome_to_Study_Delegate</fullName>
@@ -8015,12 +8057,26 @@ Sincerely,
         <shortDescription>Email Subject Task Reminder Type Not Selected</shortDescription>
         <value>You have a task reminder</value>
     </labels>
+      <labels>
+        <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Task Reminder Type Not Selected PP</shortDescription>
+        <value>Reminder: You have a task awaiting</value>
+    </labels>
     <labels>
         <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Task Reminder Type Not Selected Delegate</shortDescription>
         <value>Reminder: Your patient has a task</value>
+    </labels>
+      <labels>
+        <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Task Reminder Type Not Selected Delegate PP</shortDescription>
+        <value>Reminder: Your Participant has a task awaiting</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Televisit_Cancelled</fullName>
@@ -8167,11 +8223,25 @@ Sincerely,
         <value>You have a visit reminder</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Visit_Task_Reminder_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Visit Task Reminder PP</shortDescription>
+        <value>Reminder: You have an upcoming visit</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Visit_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Visit Task Reminder Delegate</shortDescription>
         <value>Your Patient has a visit reminder</value>
+    </labels>
+       <labels>
+        <fullName>Email_Subject_Visit_Task_Reminder_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Visit Task Reminder Delegate PP</shortDescription>
+        <value>Reminder: Your participant has an upcoming visit</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Welcome_To_The_Study</fullName>
@@ -8372,6 +8442,13 @@ Release 4.0 includes additional details around the screening process, which has 
         <protected>false</protected>
         <shortDescription>Ethnicity</shortDescription>
         <value>Ethnicity</value>
+    </labels>
+    <labels>
+        <fullName>EPR_Screener_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EPR Screener Name</shortDescription>
+        <value>Digital Recruitment</value>
     </labels>
     <labels>
         <fullName>Export_Excel_Investigator_Name</fullName>
@@ -8731,6 +8808,13 @@ Release 4.0 includes additional details around the screening process, which has 
         <protected>false</protected>
         <shortDescription>Gather Share Know</shortDescription>
         <value>Gather Share Know</value>
+    </labels>
+    <labels>
+        <fullName>General_Screener_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>General Screener Name</shortDescription>
+        <value>Screener</value>
     </labels>
     <labels>
         <fullName>GMap_Not_Available</fullName>
@@ -10554,6 +10638,13 @@ The expected format is REF##### to REF########</value>
         <value>For Patients &amp; Caregivers</value>
     </labels>
     <labels>
+        <fullName>Log_in_and_sign</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Log in and sign</shortDescription>
+        <value>Log in &amp; Sign</value>
+    </labels>
+    <labels>
         <fullName>Lofi_Login_RH_Header</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -10645,6 +10736,13 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Month_Placeholder</shortDescription>
         <value>MM</value>
+    </labels>
+    <labels>
+        <fullName>MRR_Screener_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MRR Screener Name</shortDescription>
+        <value>Medical Record Review</value>
     </labels>
 
     <labels>
@@ -18512,6 +18610,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Learn about your program</value>
     </labels>
     <labels>
+        <fullName>PP_StudyOverview_LearnMore_Mobile</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_StudyOverview_LearnMore_Mobile</shortDescription>
+        <value>Learn about your study</value>
+    </labels>
+    <labels>
         <fullName>PP_Provider_Access</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -20153,11 +20258,11 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Welcome</value>
     </labels>
     <labels>
-        <fullName>PP_We_share_the_vision_to_drive_healthcare_forward</fullName>
+        <fullName>PP_StudyOverview_homePage_shortDecs_DelAlu</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>PP_We_share_the_vision_to_drive_healthcare_forward</shortDescription>
-        <value>We share the vision to drive healthcare forward. We do our part by using breakthroughs in insights, technology and human intelligence to reimagine and deliver ways to help make them a reality. Learn more about clinical trial opportunities and what new hope is on the horizon today!</value>
+        <shortDescription>PP_StudyOverview_homePage_shortDecs_DelAlu</shortDescription>
+        <value>Clinical research participants are vital to the development of medical breakthroughs. Your help and support are truly invaluable. The IQVIA team appreciates your willingness to advance clinical discovery. Together we will drive healthcare forward!</value>
     </labels>
     <labels>
         <fullName>PP_Withdraw_Delegate</fullName>
@@ -20773,6 +20878,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Opening this link is only supported using the web browser experience</value>
     </labels>
     <labels>
+        <fullName>Participant_Re_Consent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participant_Re_Consent</shortDescription>
+        <value>The Participant needs to re-consent the informed consent form. Update the informed consent.</value>
+    </labels>
+    <labels>
         <fullName>Phone</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20876,6 +20988,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Pre-review Passed</shortDescription>
         <value>Pre-review Passed</value>
+    </labels>
+    <labels>
+        <fullName>Prescreener_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Prescreener Name</shortDescription>
+        <value>Prescreener</value>
     </labels>
     <labels>
         <fullName>Prefer_not_to_say</fullName>
@@ -21306,6 +21425,28 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>RH Email Invalid Error</shortDescription>
         <value>You have entered an invalid format</value>
     </labels>
+    <labels>
+        <fullName>RH_DelegateConsentEmail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_DelegateConsentEmail</shortDescription>
+        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with IQVIA and to be contacted at the email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
+    </labels>
+    <labels>
+        <fullName>RH_DelegateConsentEmailTelROW</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_DelegateConsentEmailTelROW</shortDescription>
+        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with IQVIA and to be contacted at the telephone number(s) and/or email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
+    </labels>
+    <labels>
+        <fullName>RH_DelegateConsentEmailTelUS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_DelegateConsentEmailTelUS</shortDescription>
+        <value>By checking this box, you confirm that the participant’s chosen delegate consents to share their personal data with IQVIA, and to be contacted at the telephone number(s) and/or email provided above, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping them updated with important study-related information, according to the terms of the Privacy Policy. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+
     <labels>
         <fullName>RPR_Actions</fullName>
         <language>en_US</language>
@@ -27671,7 +27812,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Last Updated On</shortDescription>
-        <value>Last Updated on:</value>
+        <value>Last updated on:</value>
     </labels>
     <labels>
         <fullName>PP_StudyPrivacyPolicyNote1</fullName>
@@ -28601,5 +28742,119 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Value cannot be in future</shortDescription>
         <value>Value cannot be in future</value>
+    </labels>
+    <labels>
+        <fullName>PP_Enter_New_Password</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EnterNewPassword</shortDescription>
+        <value>Enter New Password</value>
+    </labels>
+    <labels>
+        <fullName>PP_Change_Preferences</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Change Preferences</shortDescription>
+        <value>Change preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_Share_Article</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Share Article</shortDescription>
+        <value>Have an article or a video that you found supportive during your clinical trial experience? Share it with us!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resources_Contribute</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resources Contribute</shortDescription>
+        <value>Contribute</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_URL_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resource URL Placeholder</shortDescription>
+        <value>Paste article or video website URL here</value>
+    </labels>
+    <labels>
+        <fullName>PP_Submit_Button</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Submit Button</shortDescription>
+        <value>Submit</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Submit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resource Submit</shortDescription>
+        <value>Content was submitted successfully. Thank you for your contribution!</value>
+    </labels>
+    <labels>
+        <fullName>Task_PP_Completed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task PP Completed</shortDescription>
+        <value>Completed</value>
+    </labels>
+    <labels>
+        <fullName>Task_PP_Expired</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task PP Expired</shortDescription>
+        <value>Expired</value>
+    </labels>
+    <labels>
+        <fullName>Task_PP_Ignored</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task PP Ignored</shortDescription>
+        <value>Ignored</value>
+    </labels>
+    <labels>
+        <fullName>Task_Ignore_Modal_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Ignore Modal Body</shortDescription>
+        <value>You are about to ignore this task. Once ignored, it will be moved to completed tasks. Would you like to continue?</value>
+    </labels>
+    <labels>
+        <fullName>Task_Ignore_Modal_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Ignore Modal Title</shortDescription>
+        <value>Ignore Task</value>
+    </labels>
+    <labels>
+        <fullName>Task_Ignored_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Ignored Message</shortDescription>
+        <value>Task ignored</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Plain_Summary_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Plain Summary PP</shortDescription>
+        <value>New documents from ##StudyName are now available on the ##ShortCommunityName.   
+
+            Please login to the ##ShortCommunityName to view this information.</value>
+    </labels>
+	<labels>
+        <fullName>Email_Subject_Survey_Reminder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Survey Reminder</shortDescription>
+        <value>Reminder: You have an upcoming task</value>
+    </labels>
+    <labels>
+        <fullName>Email_Instant_Del_Subject_Reminder_Type_Not_Selected_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Instant Del Subject Reminder Type Not Selected PP</shortDescription>
+        <value>Your participant has a new task</value>
     </labels>
 </CustomLabels>

@@ -704,3 +704,14 @@
 }
 
 /* rtl end */
+.econsentlogin{
+    font-size: 14px;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-weight: 500;
+}
+@media (max-device-width: 767px) { 
+    .econsentlogin{
+        width: 100%;
+    }
+}

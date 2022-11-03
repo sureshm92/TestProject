@@ -50,6 +50,7 @@
     overflow-x: hidden;
     max-height: 100%;
     word-break: break-word;
+    padding-right: 0.5rem;
 }
 
 .rr-bottom-bar-area {
@@ -270,6 +271,7 @@
     color: #ffffff;
     box-shadow: none;
     background: #0768fd;
+    font-weight: bold;
 }
 .slds-nav-vertical__item {
     color: #444444;
@@ -286,7 +288,7 @@
     box-shadow: none;
     background: #0768fd;
     border-bottom: none;
-    font-weight: 500;
+    font-weight: bold;
 }
 
 li:last-child {

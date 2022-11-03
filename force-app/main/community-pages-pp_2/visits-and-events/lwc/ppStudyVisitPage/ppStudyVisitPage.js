@@ -70,6 +70,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track upcomingVisitId;
     @track selectedIndex = 0;
     @track initialPageLoad = false;
+    isResultsCard = true;
     initialized = '';
     visitWrappers = [];
     @api icondetails = [];
@@ -160,6 +161,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     this.template.querySelector('c-web-spinner').hide();
                     this.contentLoaded = true;
                 }
+                if (this.isMobile) {
+                    this.getParams();
+                }
             })
             .catch((error) => {
                 this.error = error;
@@ -194,6 +198,18 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             });
     }
 
+    getParams() {
+        if (communityService.getUrlParameter('ispast') === 'true') {
+            this.past = true;
+            this.showUpcomingVisits = false;
+            this.visitid = this.pastVisits[0].visit.Id;
+        } else {
+            this.past = false;
+            this.showUpcomingVisits = true;
+            this.visitid = this.upcomingVisits[0].visit.Id;
+        }
+    }
+
     onUpcomingClick() {
         this.initialPageLoad = false;
         this.showChild = false;
@@ -220,14 +236,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         this.showList = false;
         this.past = true;
         this.showUpcomingVisits = false;
-        if (this.pastVisits.length>0) {
+        if (this.pastVisits.length > 0) {
             this.visitid = this.pastVisitId;
             this.visitName = this.pastVisits[0].visit.Name;
             this.plannedDate = this.pastVisits[0].visit.Planned_Date__c;
             this.visitStatus = this.pastVisits[0].visit.Status__c;
             this.createEditTask();
-        }
-        else{
+        } else {
             this.visitid = this.pastVisitId;
             this.visitName = '';
             this.visitStatus = '';
@@ -246,7 +261,14 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.visitid = this.pastVisits[index].visit.Id;
             this.visitName = this.pastVisits[index].visit.Name;
             this.plannedDate = this.pastVisits[index].visit.Planned_Date__c;
-            this.visitStatus = this.pastVisits[index].visit.Status__c;
+            if(this.pastVisits[index].missedVisit){
+                this.visitStatus = this.label.visitUnavailable;
+                this.isResultsCard = false;
+            }
+            else{
+                this.visitStatus = this.pastVisits[index].visit.Status__c;
+                this.isResultsCard = true;
+            }
         } else {
             this.visitid = this.upcomingVisits[index].visit.Id;
             this.visitName = this.upcomingVisits[index].visit.Name;
