@@ -12,6 +12,25 @@ public without sharing class NotificationTriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
             sendNotificationToRecipient(newList);
+            //Start Change:RH-8945
+            List<Notification__c> bellNotification = new List<Notification__c>();
+            List<Notification__c> emailSMSPushNotification = new List<Notification__c>();
+            for (Notification__c eachRec : (List<Notification__c>) newList) {
+                if (eachRec.Notification_Type__c.startsWith('BELL_')) {
+                    bellNotification.add(eachRec);
+                } else {
+                    emailSMSPushNotification.add(eachRec);
+                }
+            }
+
+            if (bellNotification.size() > 0) {
+                sendBellNotificationToRecipients(bellNotification);
+            }
+
+            if (emailSMSPushNotification.size() > 0) {
+                sendNotificationToRecipient(emailSMSPushNotification);
+            }
+            //End Change:RH-8945
         }
     }
 
@@ -22,9 +41,17 @@ public without sharing class NotificationTriggerHandler {
             Notification_Type__mdt notificationType = NotificationService.getNotificationType(
                 n.Notification_Type__c
             );
+
             if (notificationType == null) {
                 n.addError('Wrong type of Notification ' + n.Notification_Type__c);
+            }
+            //Start Change:RH-8945
+            if (n.Notification_Type__c.startsWith('BELL_')) {
+                if (notificationType != null && n.Recipient__c == null) {
+                    n.addError('Recipient can not be null' + n.Notification_Type__c);
+                }
             } else if (notificationType.Parameters_Provider__c != null && n.WhatId__c == null) {
+                //End Change:RH-8945
                 n.addError(
                     'WhatId can not be null. WhatId must be Id of type: ' +
                     notificationType.Parameters_Provider__r.Source_Object_Type__c
@@ -85,4 +112,15 @@ public without sharing class NotificationTriggerHandler {
             }
         }
     }
+    /*
+     * @description: this method generates Send Result records asynchronously, post creation of notification records
+     * @param: newList - newly inserted notification records
+     */
+    //Start Change:RH-8945
+    public static void sendBellNotificationToRecipients(List<Notification__c> newList) {
+        if (!System.isBatch() && !System.isFuture() && !System.isQueueable()) {
+            Id jobId = System.enqueueJob(new BellNotificationQueueable(newList));
+        }
+    }
+    //End Change:RH-8945
 }
