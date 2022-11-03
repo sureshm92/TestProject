@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Priority_Consent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Priority / Consent</shortDescription>
+        <value>Priority / Consent</value>
+    </labels>
+    <labels>
         <fullName>RH_Show_No_Study_Site</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6379,6 +6386,30 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
+        <labels>
+        <fullName>Email_Body_Task_Reminder_Type_Not_Selected_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Task Reminder Type Not Selected PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of your upcoming task:&lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;##TaskName&lt;/span&gt;
+&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;Please login to update the status of your task.&lt;/span&gt; </value>
+    </labels>
+     <labels>
+        <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Deleg_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Task Reminder Type Not Selected Deleg PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming task:&lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;##TaskName&lt;/span&gt;
+&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;Please login to update the status of this task.&lt;/span&gt; </value>
+    </labels>
     <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</fullName>
         <language>en_US</language>
@@ -6620,6 +6651,17 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
         <value>&lt;span style=&quot;color:black;&quot;&gt;This is a quick email to remind you of ##ParticipantFirstName&apos;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;color:black;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+        <labels>
+        <fullName>Email_Body_Visit_Task_Reminder_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Visit Task Reminder Delegate PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;color:black;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
 
@@ -7200,6 +7242,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>true</protected>
         <shortDescription>Email_Header_Visit_Task_Reminder_Delegate</shortDescription>
         <value>This is a reminder of your patient&apos;s upcoming visit</value>
+    </labels>
+     <labels>
+        <fullName>Email_Header_Visit_Task_Reminder_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Header_Visit_Task_Reminder_Delegate_PP</shortDescription>
+        <value>This is a reminder of your participant&apos;s upcoming visit</value>
     </labels>
     <labels>
         <fullName>Email_Header_Welcome_to_Study_Delegate</fullName>
@@ -8008,12 +8057,26 @@ Sincerely,
         <shortDescription>Email Subject Task Reminder Type Not Selected</shortDescription>
         <value>You have a task reminder</value>
     </labels>
+      <labels>
+        <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Task Reminder Type Not Selected PP</shortDescription>
+        <value>Reminder: You have a task awaiting</value>
+    </labels>
     <labels>
         <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Task Reminder Type Not Selected Delegate</shortDescription>
         <value>Reminder: Your patient has a task</value>
+    </labels>
+      <labels>
+        <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Task Reminder Type Not Selected Delegate PP</shortDescription>
+        <value>Reminder: Your Participant has a task awaiting</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Televisit_Cancelled</fullName>
@@ -8160,11 +8223,25 @@ Sincerely,
         <value>You have a visit reminder</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Visit_Task_Reminder_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Visit Task Reminder PP</shortDescription>
+        <value>Reminder: You have an upcoming visit</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Visit_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Visit Task Reminder Delegate</shortDescription>
         <value>Your Patient has a visit reminder</value>
+    </labels>
+       <labels>
+        <fullName>Email_Subject_Visit_Task_Reminder_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Visit Task Reminder Delegate PP</shortDescription>
+        <value>Reminder: Your participant has an upcoming visit</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Welcome_To_The_Study</fullName>
@@ -28767,10 +28844,10 @@ Please contact the Study Team for further updates or please login for additiona
             Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
 	<labels>
-        <fullName>Email_Subject_Survey_Reminder</fullName>
+        <fullName>Email_Subject_Survey_Reminder_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Email Subject Survey Reminder</shortDescription>
+        <shortDescription>Email Subject Survey Reminder PP</shortDescription>
         <value>Reminder: You have an upcoming task</value>
     </labels>
     <labels>
@@ -28779,5 +28856,39 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>Email Instant Del Subject Reminder Type Not Selected PP</shortDescription>
         <value>Your participant has a new task</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Instant_Task_Reminder_Type_Not_Selected_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Instant Task Reminder Type Not Selected PP</shortDescription>
+        <value>&lt;span&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;
+
+&lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Instant Del Task Reminder Type Not Selected PP</shortDescription>
+        <value>&lt;span &gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Opt_Out_footer_PP</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Opt Out footer PP</shortDescription>
+        <value>To request technical support or opt out of Optional email communications,</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Survey_New_Reminder_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Survey New Reminder PP</shortDescription>
+        <value>This is an email to remind you of your upcoming  task ##SurveyName.
+Due Date and Time: ##expirationDate.</value>
     </labels>
 </CustomLabels>

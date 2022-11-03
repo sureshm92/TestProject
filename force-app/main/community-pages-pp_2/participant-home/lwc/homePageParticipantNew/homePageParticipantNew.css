@@ -68,7 +68,7 @@
   background: linear-gradient(180deg, #00BFB3 0.04%, #077B85 45.44%, #032A2D 100%);
   box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
 }
-.vl {
+.vline {
   border-left: 1px solid #E9E9E9;
   height: 32px;
   width: 1px;
@@ -81,3 +81,36 @@
   color: blue;
   margin-top: 30px;
 }
+.icon-marg {
+  height: 35px;
+  width: 35px;
+  margin-left: 25px !important;
+  margin-top: 25px !important;
+  background-color: #FFFFFF;
+}
+.icon-updates {
+  
+  margin-left: 25px !important;
+    margin-top: 11px !important;
+    background-color: #FFFFFF;
+    width: 25px;
+    height: 25px;
+}
+.p-text{
+  margin-left: 10px;
+    margin-top: 10px;
+    height: 24px;
+    width:68.74px;
+    color: #FFFFFF;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
+
+  .vl {
+    border-left: 4px solid linear-gradient(180deg, #00A3E0 0%, #005587 100%);
+    height: 50px;
+  }

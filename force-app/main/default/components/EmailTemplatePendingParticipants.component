@@ -15,7 +15,7 @@
                       <th style="font-weight: bold;width: 35%;text-align: left;padding: 10px 0 10px 0">{!$Label.Study_Name}</th>
                       <th style="font-weight: bold;width: 20%;text-align: left;padding: 10px 0 10px 0">{!$Label.ID}</th>
                       <th style="font-weight: bold;width: 20%;text-align: left;padding: 10px 0 10px 0">{!$Label.Received_Date}</th>   
-                      <th style="font-weight: bold;width: 15%;text-align: left;padding: 10px 0 10px 0">{!$Label.High_Priority}</th>  
+        			  <th style="font-weight: bold;width: 15%;text-align: left;padding: 10px 0 10px 0">{!$Label.Priority_Consent}</th> 
                       </tr>
         <apex:repeat value="{!participants}" var="studyLevel">
             <tr>
@@ -28,10 +28,17 @@
                 <td style="border-bottom: 0.5px solid #979797;border-top: 0.5px solid #979797; width: 20%; padding: 10px 0 10px 0">
                     {!studyLevel.lastRecievedDate}
                 </td>
+                <apex:outputPanel rendered="{!studyLevel.highPriorityReconsent == true}">
+                    <td style="border-bottom: 0.5px solid #979797;border-top: 0.5px solid #979797; width: 15%; word-wrap: break-word; padding: 10px 0 10px 0">
+                        {!studyLevel.highPriority} <br/> {!studyLevel.reConsent}
+                </td>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!studyLevel.highPriorityReconsent!=true}">
                 <td style="border-bottom: 0.5px solid #979797;border-top: 0.5px solid #979797; width: 15%; padding: 10px 0 10px 0">
                     {!studyLevel.yesNoPriority}
                 </td>
-            </tr>
+                    </apex:outputPanel>
+               </tr>
         </apex:repeat>
     </table>
     </apex:outputPanel>
