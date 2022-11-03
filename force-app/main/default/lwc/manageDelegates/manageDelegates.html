@@ -79,11 +79,8 @@
                                                     <lightning-layout-item
                                                         size="12"
                                                         class="delegate-email"
-                                                        >{del.PatientDelegate.emailFirstThreeChars}<span
-                                                            class="email-masked"
-                                                            >{del.PatientDelegate.emailRemainingChars}</span
-                                                        ></lightning-layout-item
-                                                    >
+                                                        >{del.PatientDelegate.Email__c}
+                                                    </lightning-layout-item>
                                                 </lightning-layout>
                                             </lightning-layout-item>
                                             <!--Delegate Name: Ends-->
@@ -102,6 +99,18 @@
                                             class="slds-m-bottom_small study-rectangle"
                                             key={pdEnrollment.Id}
                                         >
+                                            <!--Remove Delegate Modal: Starts-->
+                                            <template if:true={showpopup}>
+                                                <c-pp-remove-delegate-modal-old
+                                                    pdenrollmentid={pdEnrollment.Id}
+                                                    messtext={modalMesstext}
+                                                    tittext={label.PG_PST_L_Delegates_Remove_Himself_Header}
+                                                    onconfirmmodal={handleConfirmdelete}
+                                                    onmodalclose={handleModalClose}
+                                                >
+                                                </c-pp-remove-delegate-modal-old>
+                                            </template>
+                                            <!--Remove Delegate Modal: Ends-->
                                             <lightning-layout>
                                                 <lightning-layout-item
                                                     size="9"
@@ -117,8 +126,10 @@
                                                     ><button
                                                         class="remove-btn"
                                                         title="Non-primary action"
-                                                        onclick={removeDelAssociationFromStudy}
+                                                        onclick={openRemoveDelegateModal}
                                                         data-id={pdEnrollment.Id}
+                                                        data-pdfn={del.PatientDelegate.First_Name__c}
+                                                        data-pdln={del.PatientDelegate.Last_Name__c}
                                                     >
                                                         {label.PP_Remove}
                                                     </button></lightning-layout-item

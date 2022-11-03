@@ -57,19 +57,19 @@ export default class Pp_multiPicklistLWC extends LightningElement {
             this.picklistValues = message.piclistValues;
             this.totalNoOfStudis = this.picklistValues.length;
             //if Participant is part of only one study then auto select the first study.
-            if (this.totalNoOfStudis == 1) {
-                let tempList = [];
-                tempList.push({
-                    label: this.picklistValues[0].label,
-                    value: this.picklistValues[0].value
-                });
-                this.selectedStudy = tempList;
-                this.sendFilterUpdates();
-                //Set attribute checked="True" in input
-                // let studyElement = this.template.querySelectorAll('.studyCheckBox');
-                // studyElement[0].checked = true;
-                //this.selectAll()
-            }
+            // if (this.totalNoOfStudis == 1) {
+            //     let tempList = [];
+            //     tempList.push({
+            //         label: this.picklistValues[0].label,
+            //         value: this.picklistValues[0].value
+            //     });
+            //     this.selectedStudy = tempList;
+            //     this.sendFilterUpdates();
+            //Set attribute checked="True" in input
+            // let studyElement = this.template.querySelectorAll('.studyCheckBox');
+            // studyElement[0].checked = true;
+            //this.selectAll()
+            // }
         }
     }
     //Subscribe the message channel
