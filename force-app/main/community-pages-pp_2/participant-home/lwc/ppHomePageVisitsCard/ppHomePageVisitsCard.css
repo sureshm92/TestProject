@@ -4,6 +4,7 @@
     background-color: transparent;
     border-style: none;
     padding: 0;
+    width: 350px;
 }
 .container-card {
     background-color: transparent;
@@ -20,6 +21,7 @@
     padding: 0;
     height: 416px;
     border-radius: 8px;
+    width: 415px;
    
 }
 .upcoming {
