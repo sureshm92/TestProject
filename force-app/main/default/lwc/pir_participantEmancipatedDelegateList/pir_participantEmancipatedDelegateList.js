@@ -4,6 +4,9 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
     @api phoneNumber = '';
     @api phoneTypeValue = '';
     @api email = '';
+    @api consent= false;
+    @api consentrow =false;
+    @api consentsms=false ;
     @api indexvalue;
     @track utilLabels = label;
     @api delegateMsgWithName = '';
@@ -12,6 +15,8 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
     @api delegatecontinue;
     @api continuedelegate; 
     @api maindivcls;
+    @api iscountryus;
+    consentValue=false;
     @api
     get options() {
         return [
@@ -19,6 +24,7 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
             { label:  this.utilLabels.Do_Not_Continue, value: "false" },
         ];
     }
+    
     checkFields(event){
         if(event.target.dataset.value === "TelephoneNumber") {
             this.phoneNumber = event.target.value;
@@ -26,6 +32,19 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
             this.phoneTypeValue = event.target.value;
           }else if(event.target.dataset.value === "email"){
             this.email = event.target.value;
+          }
+          else if(event.target.dataset.value === "consentCheckbox"){
+            this.consentsms =false;
+            this.consentrow=false;
+            this.consent = this.template.querySelector('[data-name="consentCheckbox"]').checked;
+          }
+          else if(event.target.dataset.value === "consentCheckboxROW"){
+            this.consent =false;
+            this.consentrow = this.template.querySelector('[data-name="consentCheckboxROW"]').checked;
+          }
+          else if(event.target.dataset.value === "consentCheckboxSMS"){
+            this.consent =false;
+            this.consentsms = this.template.querySelector('[data-name="consentCheckboxSMS"]').checked;
           }
           var delegcont = '';
           if(this.continuedelegate == "true"){
@@ -40,6 +59,9 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
                 email:this.email,
                 iscont:this.continuedelegate,
                 delegcont:delegcont,
+                consent:this.consent,
+                consentrow:this.consentrow,
+                consentsms:this.consentsms,
                 indexvalue:this.indexvalue
             }
           }); 
@@ -60,6 +82,9 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
                 email:this.email,
                 iscont:event.target.value,
                 delegcont:delegcont,
+                consent:this.consent,
+                consentrow:this.consentrow,
+                consentsms:this.consentsms,
                 indexvalue:this.indexvalue
             }
           });  
@@ -73,4 +98,5 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
             return true;
           }
         }
+        
       }
