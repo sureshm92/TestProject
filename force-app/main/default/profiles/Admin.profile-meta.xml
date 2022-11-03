@@ -8193,7 +8193,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Send_Result__c.IsRead__c</field>
+        <field>Send_Result__c.Is_Read__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
