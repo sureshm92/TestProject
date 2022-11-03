@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Priority_Consent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Priority / Consent</shortDescription>
+        <value>Priority / Consent</value>
+    </labels>
+    <labels>
         <fullName>RH_Show_No_Study_Site</fullName>
         <language>en_US</language>
         <protected>false</protected>
