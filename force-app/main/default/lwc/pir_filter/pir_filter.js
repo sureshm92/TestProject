@@ -148,6 +148,7 @@ export default class Filtertest extends LightningElement {
   @api studySiteList;
   @api urlstudyid;
   @api urlsiteid;
+  @api urlstatus;
   @api defaultStudy;
   @api defaultSite;
   selectedStudy;
@@ -201,7 +202,7 @@ export default class Filtertest extends LightningElement {
   set filters(value){
     var presetSellection = value;
     
-    if(!this.filterFetched){
+    if(!this.filterFetched || this.urlstatus){
       this.filterFetched= true;
       let scList;
       if(this.sponser==='janssen'){
@@ -273,7 +274,10 @@ export default class Filtertest extends LightningElement {
             }
           }
           this.createStatusOption();
-          this.defaultStatus = this.selectedstatusvalue;
+          this.defaultStatus = this.urlstatus ? this.urlstatus : this.selectedstatusvalue;
+          if(this.urlstatus){
+            this.urlstatus = undefined;
+          }
           this.selectedStatus = this.selectedstatusvalue;
           if (this.selectedstatusvalue == "All Active Statuses") {
             this.filterWrapper.status = [];
@@ -289,8 +293,9 @@ export default class Filtertest extends LightningElement {
             this.filterWrapper.status = [];
             this.filterWrapper.status.push(this.selectedstatusvalue);
           }
-          
-          this.loaded = !this.loaded;
+          if(!this.loaded){
+            this.loaded = true;
+          }
           const loadComplete = new CustomEvent("loadcomplete", {
             detail: true
           });

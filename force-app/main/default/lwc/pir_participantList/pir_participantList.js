@@ -103,6 +103,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     urlSiteId = null; 
     urlPerName = null;
     urlrefid = null;
+    urlStatus = null;
 
     label = {
         RH_RP_No_Item_To_Display,
@@ -275,6 +276,12 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
           };
         this.filterWrapper.siteList.push(this.urlSiteId);
         this.filterWrapper.studyList.push(this.urlStudyId);
+       }
+       if(this.urlStateParameters.status){
+        this.urlStatus = this.urlStateParameters.status;
+        this.filterWrapper.status = [];
+        this.filterWrapper.status.push(this.urlStatus);
+        this.fetchList();
        }
     }
     totalRecordCount = -1;
