@@ -131,17 +131,4 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             window.open(url, '_self');
         });
     }
-    //refresh toggles on community mode change 
-    @api forceRefresh(){
-        
-        if (communityService.getParticipantState() == 'PARTICIPANT') {
-            this.toggleExplore = this.trialdata?.trial?.Video_And_Articles_Are_Available__c;
-            this.toggleDocs = this.trialdata?.trial?.Study_Documents_Are_Available__c;
-            this.toggleLinks = this.linksData?.linksAvailable;
-        } else {
-            this.toggleExplore = true;
-            this.toggleLinks = true;
-        }
-
-    }
 }
