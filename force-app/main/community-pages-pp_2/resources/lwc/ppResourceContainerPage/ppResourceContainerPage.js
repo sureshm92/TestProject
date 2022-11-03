@@ -2,8 +2,6 @@ import { LightningElement, track } from 'lwc';
 import resourcesDesktop from './ppResourceDesktopPage.html';
 import resourcesMobile from './ppResourceMobilePage.html';
 import DEVICE from '@salesforce/client/formFactor';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import getTrialDetail from '@salesforce/apex/StudyDetailViewController.getTrialDetail';
