@@ -125,7 +125,6 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         }
         this.btnclassName = 'slds-input input-field-container';
     }
-    
     handlepasswordChange(event) {
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="password"]').value = event.target.value;
@@ -266,7 +265,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         return this.btnclassName;
     }
 
-    get PasswordEyeIconTitle(){
+    get PasswordEyeIconTitle() {
         return this.isEyeHidden ? this.label.PP_Login_Form_Show : this.label.PP_Login_Form_Hide;
     }
 
