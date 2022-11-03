@@ -28,6 +28,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Push_Message_Body__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Integration_Log__c</field>
             </layoutItems>
             <layoutItems>
@@ -37,6 +41,26 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Msg_Id__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Is_Active__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Is_Read__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Link_to_Related_Event_or_Object__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>User_Role__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Community_Type__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>
