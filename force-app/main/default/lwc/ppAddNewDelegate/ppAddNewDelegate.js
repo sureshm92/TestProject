@@ -51,6 +51,7 @@ import {
     APPLICATION_SCOPE
 } from 'lightning/messageService';
 export default class PpAddNewDelegate extends LightningElement {
+    @api isDesktop;
     @track delegate = {};
     @api selectedParent;
     isAttested = false;
@@ -164,7 +165,9 @@ export default class PpAddNewDelegate extends LightningElement {
         return savedisabled;
     }
     get saveButtonClass() {
-        return this.validateData ? 'save-del-btn btn-save-opacity' : 'save-del-btn';
+        return this.validateData
+            ? 'save-del-btn btn-save-opacity addDelegateMobile'
+            : 'save-del-btn addDelegateMobile';
     }
     handleDateChange(event) {
         if (event.currentTarget.dataset.id == 'firstNameInput') {

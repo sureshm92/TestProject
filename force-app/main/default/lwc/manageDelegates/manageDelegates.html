@@ -12,7 +12,10 @@
     <c-web-spinner fixed="true"></c-web-spinner>
     <!-- Show Add Delegate Page: Start-->
     <template if:true={showAddDelegatePage}>
-        <c-pp-add-new-delegate selected-parent={participantState.Participant_Contact__c}>
+        <c-pp-add-new-delegate
+            selected-parent={participantState.Participant_Contact__c}
+            is-desktop={isDesktop}
+        >
         </c-pp-add-new-delegate>
     </template>
     <!-- Show Add Delegate Page: Ends-->
