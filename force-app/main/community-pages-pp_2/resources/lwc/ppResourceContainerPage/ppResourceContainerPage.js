@@ -52,13 +52,8 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                this.initializeData();
-            })
-            .catch((error) => {
-                this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-            });
+
+        this.initializeData();
     }
     //template toggle
     render() {
@@ -72,7 +67,6 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         if (communityService.isInitialized()) {
             var recId = communityService.getUrlParameter('id');
             var userMode = communityService.getUserMode();
-            console.log('mode-->' + communityService.getUserMode());
             //language support
             let paramLanguage = communityService.getUrlParameter('language');
             let lanCode = communityService.getUrlParameter('lanCode');
@@ -95,7 +89,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
 
             this.trialdata = JSON.parse(result);
             //cards toggle logic
-            if (communityService.getParticipantState() == 'PARTICIPANT') {
+            if (communityService.getCurrentCommunityMode().participantState == 'PARTICIPANT') {
                 this.toggleExplore = this.trialdata?.trial?.Video_And_Articles_Are_Available__c;
                 this.toggleDocs = this.trialdata?.trial?.Study_Documents_Are_Available__c;
                 this.toggleLinks = this.linksData?.linksAvailable;
