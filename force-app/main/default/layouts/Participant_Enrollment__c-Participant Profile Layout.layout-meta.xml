@@ -459,6 +459,10 @@
                 <behavior>Edit</behavior>
                 <field>Final_Consent_Date__c</field>
             </layoutItems>
+             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Re_consent__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
