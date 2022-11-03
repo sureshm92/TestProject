@@ -54,6 +54,7 @@ export default class Pir_participantEmancipated extends LightningElement {
     @api studySiteId = '';
     @api participant;
     @api siteid='';
+    @api iscountryus=false;
     @api isvirtualsite = false;loading = false;
     @api participantMsgWithName = '';
     @api countryStateInfo=[];
@@ -64,6 +65,7 @@ export default class Pir_participantEmancipated extends LightningElement {
     @api isValid = false;
     @api isDelValid = false;
     @api isNewDelValid = false;
+    isDelConsentValid = true;
     @api pathdetails = [];
     @api finalAgree = false;
     @api participantContact;
@@ -197,6 +199,7 @@ export default class Pir_participantEmancipated extends LightningElement {
                 let participant = result.participant;
                 this.contactstates=[];
                 this.contactstates=this.statesByCountryMap[result.participant.Mailing_Country_Code__c];
+                this.iscountryus=(result.participant.Mailing_Country_Code__c=='US'? true : false);
                 Object.assign(participant, {
                     attributes: {
                         type: 'Participant__c'
@@ -294,12 +297,14 @@ export default class Pir_participantEmancipated extends LightningElement {
         this.addDelegateListNew[indexvalue].cb = event.detail.cb;
         this.addDelegateListNew[indexvalue].val = event.detail.val;
         this.addDelegateListNew[indexvalue].disp = event.detail.disp;
+        this.addDelegateListNew[indexvalue].dispcon = event.detail.dispcon;
         this.addDelegateListNew[indexvalue].isadultdel = event.detail.isadultdel;
         this.addDelegateListNew[indexvalue].usingdupdel = event.detail.usingdupdel;
         this.addDelegateListNew[indexvalue].isConnected = event.detail.connect;
         this.addDelegateListNew[indexvalue].delegateId = event.detail.delegateId;
         this.addDelegateListNew[indexvalue].isConnectedOnce = event.detail.isConnectedOnce;
         this.addDelegateListNew[indexvalue].isDisconnected = event.detail.disconnect;
+        this.addDelegateListNew[indexvalue].cbe = event.detail.cbe;
         let partmsgname = this.utilLabels.PG_Ref_L_Delegate_continue_be_delegate;
         var partmsg = partmsgname.replace("##delegateName",event.detail.fn+' '+event.detail.ln);
         this.addDelegateListNew[indexvalue].continueDelegatenewMsg = partmsg;
@@ -309,12 +314,10 @@ export default class Pir_participantEmancipated extends LightningElement {
             let fnameIsValid = addDelNew.fn != undefined && addDelNew.fn != null && addDelNew.fn != '' && addDelNew.fn.length !=0;
             let lnameIsValid = addDelNew.ln != undefined && addDelNew.ln !=null && addDelNew.ln != '' && addDelNew.ln.length !=0;
             let emailIsValid = addDelNew.em != undefined && addDelNew.em != '' && addDelNew.em.length != 0;
-            let birthYearIsValid = addDelNew.by != undefined && addDelNew.by != '' && addDelNew.by != '--' && addDelNew.by.length != 0;
-           if((!fnameIsValid && !lnameIsValid && !emailIsValid && !birthYearIsValid && addDelNew.cb != true) || addDelNew.isConnectedOnce === true){
+            let birthYearIsValid = addDelNew.by != undefined && addDelNew.by != '' && addDelNew.by != '--' && addDelNew.by.length != 0;    
+            if((!fnameIsValid && !lnameIsValid && !emailIsValid && !birthYearIsValid && addDelNew.cb != true && addDelNew.cbe != true) || addDelNew.isConnectedOnce === true){
             this.isNewDelValid = false;
-            console.log('@anshufalse1');
            }else{
-            console.log('@anshutrue1');
             this.isNewDelValid = true;
            }
             i++
@@ -326,6 +329,10 @@ export default class Pir_participantEmancipated extends LightningElement {
         this.delegates[event.detail.indexvalue].Email__c = event.detail.email;
         this.delegates[event.detail.indexvalue].isCont = event.detail.iscont;
         this.delegates[event.detail.indexvalue].delegcont = event.detail.delegcont;
+        this.delegates[event.detail.indexvalue].consent = event.detail.consent;
+        this.delegates[event.detail.indexvalue].consentrow = event.detail.consentrow;
+        this.delegates[event.detail.indexvalue].consentsms = event.detail.consentsms;
+        this.delegates[event.detail.indexvalue].Delegate_Consent_SMS__c = event.detail.consentsms;
         
         let validationListDelegate = [];
         const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -334,9 +341,16 @@ export default class Pir_participantEmancipated extends LightningElement {
             let iscont = this.delegates[i].isCont;
             let isPhoneEmpty = (this.delegates[i].Phone__c != null && this.delegates[i].Phone__c != '' && this.delegates[i].Phone__c.trim() && this.delegates[i].Phone__c.length !=0);
             let isEmailEmpty = (this.delegates[i].Email__c != null && this.delegates[i].Email__c != '' && this.delegates[i].Email__c.trim() && this.delegates[i].Email__c.length !=0);
+            let isConsentEmpty; //= this.delegates[i].consent ;
+            if(this.iscountryus){
+                isConsentEmpty = this.delegates[i].consent ;
+            }
+            else{
+                isConsentEmpty = this.delegates[i].consentrow ;
+            }
             if (
-                (iscont == "true" && isPhoneEmpty && isEmailEmpty)
-                || (iscont == "false" && isEmailEmpty)
+                (iscont == "true" && isPhoneEmpty && isEmailEmpty && isConsentEmpty)
+                || (iscont == "false" && isEmailEmpty && isConsentEmpty)
             ) {
                 validationListDelegate.push(true);
             }else{
@@ -352,8 +366,10 @@ export default class Pir_participantEmancipated extends LightningElement {
         }
         if(validationListDelegate.includes(false)){ 
             this.isDelValid = true;
+            this.isDelConsentValid=true;
         }else{
             this.isDelValid = false;
+            this.isDelConsentValid=false;
         } 
     }
     handleNewHCP(){
@@ -398,6 +414,7 @@ export default class Pir_participantEmancipated extends LightningElement {
             this.participant.Mailing_State__c ='';
             this.mailingState ='';
             this.setState();
+            this.iscountryus=(this.participant.Mailing_Country_Code__c=='US'? true : false);
         }else if(event.target.dataset.value === "Province"){
             //this.participant.Mailing_State__c = event.target.options.find(opt => opt.value === event.detail.value).label;
             this.mailingState = event.target.options.find(opt => opt.value === event.detail.value).label;
@@ -473,6 +490,11 @@ export default class Pir_participantEmancipated extends LightningElement {
                 const inputEle = this.template.querySelector('.province');
                 inputEle.reportValidity();
             });
+        }
+        if(this.contactstates.length<=0){
+            if(this.currentTab == "2"){
+                this.handleDataChangeOfDelegates();
+            }
         }
     }
     get getAltPhoneNumber(){
@@ -627,7 +649,7 @@ export default class Pir_participantEmancipated extends LightningElement {
     }
     get isValidCheck(){
         if(this.currentTab == "2"){
-            return this.isDelValid || this.isNewDelValid;
+            return this.isDelValid || this.isNewDelValid  || this.isDelConsentValid;
         }
         return this.isValid;
     }
@@ -637,8 +659,16 @@ export default class Pir_participantEmancipated extends LightningElement {
             let validationListDelegate = [];
             const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             for(let i = 0; i < this.delegates.length; i++) {
+                let isConsentEmpty;
+                if(this.iscountryus){
+                    isConsentEmpty = this.delegates[i].consent ;
+                }
+                else{
+                    isConsentEmpty = this.delegates[i].consentrow ;
+                }
                 if(this.delegates[i].Phone__c != null && this.delegates[i].Phone__c != '' && this.delegates[i].Phone__c.trim() && this.delegates[i].Phone__c.length !=0 &&
-                this.delegates[i].Email__c != null && this.delegates[i].Email__c != '' && this.delegates[i].Email__c.trim() && this.delegates[i].Email__c.length !=0
+                this.delegates[i].Email__c != null && this.delegates[i].Email__c != '' && this.delegates[i].Email__c.trim() && this.delegates[i].Email__c.length !=0 &&
+                isConsentEmpty
                 ){
                     validationListDelegate.push(true);
                 }else{
