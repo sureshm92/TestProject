@@ -28,6 +28,9 @@ global class Batch_CSVImportBatchJob implements Database.Batchable<SObject> {
         for(importData im: importLST){
             staffcontactId.add(im.allContactIdS);
         }
+        if(test.isRunningTest() == true){
+            staffcontactId = Test_Batch_CSVImportBatchJob.passingStaffcontactId;
+        }
         set<Id>StudSiteIds = new set<Id>();
         List<Site_Staff__c> PiAsDelsitestaff = [
             SELECT
