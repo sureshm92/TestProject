@@ -216,14 +216,26 @@
                     </aura:if>
                     <!-- Manage Delegates Start -->
                     <aura:if isTrue="{!and((v.compId == '8'),(v.userMode == 'Participant'))}">
-                        <c:manageDelegates
-                            isDelegate="{!v.isDelegate}"
-                            participantState="{!v.participantState}"
-                            isDesktop="{!v.isDesktop}"
-                            consentPreferenceData="{!v.consentPreferenceData}"
-                            userMode="{!v.userMode}"
-                            isRTL="{!v.isRTLLanguage}"
-                        />
+                        <aura:if isTrue="{!v.isDesktop}">
+                            <c:manageDelegates
+                                isDelegate="{!v.isDelegate}"
+                                participantState="{!v.participantState}"
+                                isDesktop="{!v.isDesktop}"
+                                consentPreferenceData="{!v.consentPreferenceData}"
+                                userMode="{!v.userMode}"
+                                isRTL="{!v.isRTLLanguage}"
+                            />
+                            <aura:set attribute="else">
+                                <c:manageDelegatesMob
+                                    isDelegate="{!v.isDelegate}"
+                                    participantState="{!v.participantState}"
+                                    isDesktop="{!v.isDesktop}"
+                                    consentPreferenceData="{!v.consentPreferenceData}"
+                                    userMode="{!v.userMode}"
+                                    isRTL="{!v.isRTLLanguage}"
+                                />
+                            </aura:set>
+                        </aura:if>
                         <!-- <c:ppAddNewDelegate selectedParent="{!v.contact.Id}"> </c:ppAddNewDelegate> -->
                     </aura:if>
                     <!-- Manage Delegates Ends -->
