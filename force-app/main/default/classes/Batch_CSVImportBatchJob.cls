@@ -25,7 +25,6 @@ global class Batch_CSVImportBatchJob implements Database.Batchable<SObject> {
             //impt.allstudySiteIds = inputvalues[1];
             importLST.add(impt);
         }
-        system.debug('importLST>>'+importLST);
         import(importLST);
     } 
     
@@ -33,16 +32,11 @@ global class Batch_CSVImportBatchJob implements Database.Batchable<SObject> {
         
     }
     public static void import(List<importData>importLST){
-         system.debug('INSIDEimportLST>>'+importLST);
         List<importData>gettingImportLST = importLST;
         set<Id>staffcontactId = new set<Id>();
          for(importData im: gettingImportLST){
             staffcontactId.add(im.allContactIdS);
         }
-        /*if(test.isRunningTest() == true){
-            staffcontactId = Test_Batch_CSVImportBatchJob.passingStaffcontactId;
-        }*/
-        system.debug('staffcontactId11>>'+staffcontactId);
         set<Id>StudSiteIds = new set<Id>();
         List<Site_Staff__c> PiAsDelsitestaff = [
             SELECT
@@ -58,7 +52,6 @@ global class Batch_CSVImportBatchJob implements Database.Batchable<SObject> {
             Site_Contact__c = :staffcontactId
             AND is_Invited__c = TRUE
         ];
-       system.debug('PiAsDelsitestaff>>'+PiAsDelsitestaff.size());
         TriggerHandlerExecutor.bypassHandler(
             UserTriggerHandler.AssignPendingTasksHandler.class
         );
