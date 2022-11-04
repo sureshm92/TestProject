@@ -314,6 +314,11 @@
              communityService.navigateToPage('');   
         }
     },
+
+    doGoPatientsTab: function (component) {
+        communityService.navigateToPage('my-patients');
+        window.location.reload();
+    },
     
     doGoFindStudySites: function (component) {
         communityService.navigateToPage('sites-search?id=' + component.get('v.trialId'));
