@@ -13060,6 +13060,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Complete Participant Screener</value>
     </labels>
     <labels>
+        <fullName>RH_ConfirmConsentRP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ConfirmConsentRP</shortDescription>
+        <value>By checking this box, you confirm below consent is reviewed.</value>
+    </labels>
+    <labels>
         <fullName>RH_ScreenerComplete</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -28632,6 +28639,22 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Visit No Upcoming Visit</shortDescription>
         <value>No upcoming visit</value>
+    </labels>
+    <labels>
+        <fullName>Visit_No_Past_Visit</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit No Past Visit</shortDescription>
+        <value>No past visits</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Discover_Help_Text</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Resource Discover Help Text</shortDescription>
+        <value>Links will open in new browser window. IQVIA Patient Portal is not responsible for content provided in external websites.</value>
     </labels>
     <labels>
         <fullName>Resource_Uploaded</fullName>
