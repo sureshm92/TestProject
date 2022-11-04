@@ -17,6 +17,7 @@ import RESOURCES from '@salesforce/label/c.PG_SW_Tab_Resources';
 import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
 import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
+import HELPTEXT from '@salesforce/label/c.Resource_Discover_Help_Text';
 
 export default class PpResourceContainerPage extends NavigationMixin(LightningElement) {
     //boolean var
@@ -26,6 +27,10 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     toggleExplore = false;
     toggleLinks = false;
     toggleDocs = false;
+    docsection = 'doccolumn';
+    engagesection = 'engcolumn';
+    exploresection = 'expcolumn';
+    discoversection = 'disccolumn';
     //labels
     labels = {
         RESOURCES,
@@ -36,13 +41,15 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         DOCUMENTS,
         FIND_ANSWERS,
         DISCOVER_TITLE,
-        CHANGE_PREFERENCES
+        CHANGE_PREFERENCES,
+        HELPTEXT
     };
     @track linksData;
     @track trialdata;
     redirecturl = '';
     disableSave = true;
     @track textValue;
+    @track selectedResourceType;
 
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
@@ -96,6 +103,16 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                 this.toggleLinks = true;
             }
             this.isInitialized = true;
+            if (!this.toggleDocs) {
+                this.template.querySelector('[data-id="' + this.docsection + '"]');
+            }
+            if (!this.toggleExplore) {
+                this.template.querySelector('[data-id="' + this.engagesection + '"]');
+                this.template.querySelector('[data-id="' + this.exploresection + '"]');
+            }
+            if (!this.toggleLinks) {
+                this.template.querySelector('[data-id="' + this.discoversection + '"]');
+            }
         }
 
         if (this.spinner) {
@@ -122,5 +139,26 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         this[NavigationMixin.GenerateUrl](config).then((url) => {
             window.open(url, '_self');
         });
+    }
+    updateResources(event) {
+        this.selectedResourceType = event.target.value;
+    }
+    get exploreVisible() {
+        return this.selectedResourceType == 'explore' ? true : false;
+    }
+    get documentsVisible() {
+        return this.selectedResourceType == 'documents' ? true : false;
+    }
+
+    get discoverVisible() {
+        return this.selectedResourceType == 'discover' ? true : false;
+    }
+
+    get answersVisible() {
+        return this.selectedResourceType == 'answers' ? true : false;
+    }
+
+    get engageVisible() {
+        return this.selectedResourceType == 'engage' ? true : false;
     }
 }

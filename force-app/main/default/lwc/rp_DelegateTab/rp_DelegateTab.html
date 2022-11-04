@@ -105,7 +105,7 @@
                 </lightning-layout-item>
             </lightning-layout>
             <div key={pe.peRecord.Id} style="margin-left: 10px;margin-top: 40px;">
-                <div class="information">
+                <div class="information errormsgDel">
                     <!--<abbr title="required" class="slds-required">*</abbr>-->
                     <lightning-input required="true" disabled={isaccesslevelthree} type="checkbox" label="IsDelegateCertify"
                         name="IsDelegateCertify" variant="label-hidden" checked={pe.peRecord.Is_Delegate_Certify__c}
@@ -115,6 +115,31 @@
                         {label.RH_RP_Delegate_Certify}
                     </div>
                 </div>
+                <div if:true={isCountryus} >
+                    <div class="information errormsgDel">
+                    <lightning-input required="true" disabled={isaccesslevelthree} type="checkbox" label="IsDelegateCertifyUS"
+                        name="IsDelegateCertifyUS" variant="label-hidden" checked={pe.peRecord.Delegate_Consent__c}
+                        data-value="IsDelegateCertifyUS" data-id={pe.peRecord.Id} onchange={changeInputValue}>
+                    </lightning-input>
+                        <div> {label.SS_RH_US_Consent}</div> 
+                    </div> 
+                </div>
+                <div if:false={isCountryus} >
+                    <div class="information errormsgDel">
+                        <lightning-input required="true" disabled={isaccesslevelthree} type="checkbox" label="IsDelegateCertifyROW"
+                        name="IsDelegateCertifyROW" variant="label-hidden" checked={pe.peRecord.Delegate_Consent__c}
+                        data-value="IsDelegateCertifyROW" data-id={pe.peRecord.Id} onchange={changeInputValue}>
+                        </lightning-input>
+                        <div>{label.SS_RH_ROW_Consent_Email} </div>
+                        <div class="smsmargin"> 
+                            <lightning-input  disabled={isaccesslevelthree} type="checkbox" label="IsDelegateCertifySMS"
+                            variant="label-hidden" checked={pe.peRecord.Delegate_SMS_Consent__c}
+                            data-value="IsDelegateCertifySMS" data-id={pe.peRecord.Id} onchange={changeInputValue}>
+                            </lightning-input>
+                                <span class="smsmargin_span">{label.SS_RH_ROW_Consent_SMS}</span> 
+                        </div>
+                    </div>    
+                </div> 
             </div>
         </template>
         <div class="topIcon-control slds-hide_medium" >

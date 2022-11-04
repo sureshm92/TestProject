@@ -350,7 +350,7 @@ export default class Pir_participantEmancipated extends LightningElement {
             }
             if (
                 (iscont == "true" && isPhoneEmpty && isEmailEmpty && isConsentEmpty)
-                || (iscont == "false" && isEmailEmpty && isConsentEmpty)
+                || (iscont == "false" && isEmailEmpty )
             ) {
                 validationListDelegate.push(true);
             }else{
@@ -659,6 +659,7 @@ export default class Pir_participantEmancipated extends LightningElement {
             let validationListDelegate = [];
             const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             for(let i = 0; i < this.delegates.length; i++) {
+                let iscont=this.delegates[i].isCont;
                 let isConsentEmpty;
                 if(this.iscountryus){
                     isConsentEmpty = this.delegates[i].consent ;
@@ -666,9 +667,11 @@ export default class Pir_participantEmancipated extends LightningElement {
                 else{
                     isConsentEmpty = this.delegates[i].consentrow ;
                 }
-                if(this.delegates[i].Phone__c != null && this.delegates[i].Phone__c != '' && this.delegates[i].Phone__c.trim() && this.delegates[i].Phone__c.length !=0 &&
+                if((iscont == "true" && this.delegates[i].Phone__c != null && this.delegates[i].Phone__c != '' && this.delegates[i].Phone__c.trim() && this.delegates[i].Phone__c.length !=0 &&
                 this.delegates[i].Email__c != null && this.delegates[i].Email__c != '' && this.delegates[i].Email__c.trim() && this.delegates[i].Email__c.length !=0 &&
-                isConsentEmpty
+                isConsentEmpty) || 
+                (iscont == "false" && this.delegates[i].Phone__c != null && this.delegates[i].Phone__c != '' && this.delegates[i].Phone__c.trim() && this.delegates[i].Phone__c.length !=0 &&
+                this.delegates[i].Email__c != null && this.delegates[i].Email__c != '' && this.delegates[i].Email__c.trim() && this.delegates[i].Email__c.length !=0)
                 ){
                     validationListDelegate.push(true);
                 }else{

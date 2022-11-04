@@ -7,6 +7,7 @@
         <locationY>1925</locationY>
         <actionName>c:NavigateToRecord</actionName>
         <actionType>component</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>recordId</name>
             <value>
@@ -28,6 +29,7 @@
         <connector>
             <targetReference>BackNnRecord</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>chosenConditions</name>
             <value>
@@ -336,6 +338,7 @@
             <label>StudyDoc</label>
         </rules>
     </decisions>
+    <description>Added Description</description>
     <dynamicChoiceSets>
         <name>ActiveOnStatus</name>
         <dataType>Picklist</dataType>
@@ -685,8 +688,8 @@
     <recordCreates>
         <name>Create_Res_0</name>
         <label>Create Res</label>
-        <locationX>808</locationX>
-        <locationY>1199</locationY>
+        <locationX>974</locationX>
+        <locationY>1309</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res_0_0</targetReference>
@@ -701,6 +704,12 @@
             <field>Countries__c</field>
             <value>
                 <elementReference>Countries_field_RecordType</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description__c</field>
+            <value>
+                <elementReference>RelevantLinksDescription</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1167,6 +1176,7 @@
                     <elementReference>Recources_for_StudyRes</elementReference>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>COIRecordIds</assignToReference>
@@ -1183,6 +1193,7 @@
                     <stringValue>Finish</stringValue>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <showFooter>false</showFooter>
@@ -1375,6 +1386,7 @@
                     <stringValue>Next</stringValue>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <showFooter>false</showFooter>
@@ -1441,6 +1453,7 @@
                     <stringValue>Res_study__c</stringValue>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>Exist_recource_variable</assignToReference>
@@ -1451,6 +1464,7 @@
             <name>FootherForFinish</name>
             <extensionName>c:FooterWithFinishButton</extensionName>
             <fieldType>ComponentInstance</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <showFooter>false</showFooter>
@@ -1543,6 +1557,12 @@
             <isRequired>true</isRequired>
         </fields>
         <fields>
+            <name>RelevantLinksDescription</name>
+            <fieldText>Description</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
             <name>Version_Date2</name>
             <dataType>Date</dataType>
             <fieldText>Version Date</fieldText>
@@ -1559,6 +1579,7 @@
                     <stringValue>Next</stringValue>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <showFooter>false</showFooter>
@@ -1673,6 +1694,7 @@
                     <elementReference>recordId</elementReference>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>recordId</assignToReference>
@@ -1701,6 +1723,7 @@
                     <stringValue>Res_study__c</stringValue>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>ActiveOnStatus_variable</assignToReference>
@@ -1819,6 +1842,7 @@
                     <elementReference>DocIds</elementReference>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>Recources_for_StudyRes</assignToReference>
@@ -1839,6 +1863,7 @@
                     <stringValue>Next</stringValue>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <pausedText>&lt;p&gt;lk&lt;/p&gt;</pausedText>
@@ -2038,6 +2063,7 @@
                     <stringValue>Next</stringValue>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <showFooter>false</showFooter>
