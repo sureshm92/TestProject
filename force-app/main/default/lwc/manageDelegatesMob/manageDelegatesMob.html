@@ -28,18 +28,14 @@
                     <!--Main Layout: Starts -->
                     <lightning-layout multiple-rows="true">
                         <!-- Manage Delegate Header: Starts-->
-                        <lightning-layout-item size="6" class="slds-m-top_small">
+                        <lightning-layout-item size="12" class="slds-m-top_small">
                             <span class="manage-delegates-header">
                                 {label.PP_ManageDelegates}
                             </span>
                         </lightning-layout-item>
                         <!-- Manage Delegate Header: Ends-->
                         <!--Add Del Button: Starts-->
-                        <lightning-layout-item
-                            size="6"
-                            class="slds-m-top_small"
-                            alignment-bump="right"
-                        >
+                        <lightning-layout-item size="12" class="slds-m-top_small">
                             <button
                                 title="Non-primary action"
                                 onclick={navToAddDelegate}
@@ -63,12 +59,12 @@
                                         <!--Delegate Personal Detail Layout: Starts-->
                                         <lightning-layout multiple-rows="true">
                                             <!--Profile Logo: Stats-->
-                                            <lightning-layout-item size="1">
+                                            <lightning-layout-item size="2">
                                                 <span><img src={icon_url} /></span>
                                             </lightning-layout-item>
                                             <!--Profile Logo: Ends-->
                                             <!--Delegate Name: Stats-->
-                                            <lightning-layout-item size="11"
+                                            <lightning-layout-item size="10"
                                                 ><lightning-layout multiple-rows="true">
                                                     <lightning-layout-item
                                                         size="12"
@@ -111,16 +107,16 @@
                                                 </c-pp-remove-delegate-modal-old>
                                             </template>
                                             <!--Remove Delegate Modal: Ends-->
-                                            <lightning-layout>
+                                            <lightning-layout multiple-rows="true">
                                                 <lightning-layout-item
-                                                    size="9"
+                                                    size="12"
                                                     padding="around-medium"
                                                     ><p class="study-code-name">
                                                         {pdEnrollment.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}
                                                     </p></lightning-layout-item
                                                 >
                                                 <lightning-layout-item
-                                                    size="3"
+                                                    size="12"
                                                     padding="around-medium"
                                                     class="slds-align_absolute-center"
                                                     ><button

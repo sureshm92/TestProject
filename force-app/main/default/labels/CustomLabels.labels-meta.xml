@@ -16940,6 +16940,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>from your account. You cannot undo this action. Do you want to proceed?</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Mess_P3</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove_Mess_P1</shortDescription>
+        <value>as your delegate for this study. Are you sure you would like to continue?</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_Save</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -28327,6 +28334,14 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>flase</protected>
         <shortDescription>PP Delegate Deactivated</shortDescription>
         <value>Delegate was successfully deactivated</value>
+    </labels>
+    <labels>
+        <fullName>PP_Delegate_Updated</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP Delegate Updated</shortDescription>
+        <value>Delegate updated successfully.</value>
     </labels>
     <labels>
         <fullName>PP_Delegate_Activated</fullName>
