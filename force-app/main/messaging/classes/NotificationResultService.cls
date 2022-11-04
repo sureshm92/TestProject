@@ -166,6 +166,7 @@ public without sharing class NotificationResultService {
         );
         result.Status__c = status;
         result.Link_to_Related_Event_or_Object__c = redirectURL;
+        result.Community_Type__c = UserContext.getCurrentUserMode().template.templateName;
     }
 
     private void updateNotificationsStatus() {
