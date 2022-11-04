@@ -44,7 +44,7 @@ global without sharing class TermsAndConditions {
         String languageCode,
         String tcType,
         Boolean useDefaultCommunity
-    ) { 
+    ) {
         if (String.isEmpty(languageCode))
             languageCode = UserInfo.getLanguage();
         String query =
@@ -57,11 +57,11 @@ global without sharing class TermsAndConditions {
         String communityName = useDefaultCommunity
             ? CommunityService.IQVIA_NETWORK_NAME
             : UserContext.getCurrentCommunityName();
-            System.debug('communityName: '+communityName);
-            //condition for  registration page links
-            if(communityName.containsIgnoreCase('terms')){
-                communityName='IQVIA Patient Portal';
-            }
+        System.debug('communityName: ' + communityName);
+        //condition for  registration page links
+        if (communityName.containsIgnoreCase('terms') ) {
+            communityName = 'IQVIA Patient Portal';
+        }
         if (tcId != null) {
             query += ' Id =\'' + tcId + '\' ';
         } else {
@@ -160,7 +160,7 @@ global without sharing class TermsAndConditions {
         Terms_And_Conditions__c[] tcList = Database.query(query);
         if (tcList.size() > 0) {
             Terms_And_Conditions__c tc = tcList[0];
-            if (tc.Terms_And_Conditions__r.size() > 0){
+            if (tc.Terms_And_Conditions__r.size() > 0) {
                 tc.T_C_Text__c = tc.Terms_And_Conditions__r[0].T_C_Text__c;
                 tc.Last_Updated_on__c = tc.Terms_And_Conditions__r[0].Last_Updated_on__c;
                 tc.Policy_Headers__c = tc.Terms_And_Conditions__r[0].Policy_Headers__c;
@@ -170,22 +170,31 @@ global without sharing class TermsAndConditions {
         return null;
     }
 
-    public static Terms_And_Conditions__c getOrgDefaultPPTC(Boolean useDefaultCommunity, String ctId) {
+    public static Terms_And_Conditions__c getOrgDefaultPPTC(
+        Boolean useDefaultCommunity,
+        String ctId
+    ) {
         Id ppTcId;
         String query;
-        if(!String.isBlank(ctId) || ctId != null){
-            ppTcId = [SELECT Id, Privacy_Policy_Id__c FROM Clinical_Trial_Profile__c WHERE Id=: ctId LIMIT 1].Privacy_Policy_Id__c;
+        if (!String.isBlank(ctId) || ctId != null) {
+            ppTcId = [
+                SELECT Id, Privacy_Policy_Id__c
+                FROM Clinical_Trial_Profile__c
+                WHERE Id = :ctId
+                LIMIT 1
+            ]
+            .Privacy_Policy_Id__c;
         }
-        if(ppTcId != null){
+        if (ppTcId != null) {
             query = getTCQuery(ppTcId, null, PRIVACY_POLICY, useDefaultCommunity);
-        }else{
+        } else {
             query = getTCQuery(null, null, PRIVACY_POLICY, useDefaultCommunity);
         }
-        
+
         Terms_And_Conditions__c[] tcList = Database.query(query);
         if (tcList.size() > 0) {
             Terms_And_Conditions__c tc = tcList[0];
-            if (tc.Terms_And_Conditions__r.size() > 0){
+            if (tc.Terms_And_Conditions__r.size() > 0) {
                 tc.T_C_Text__c = tc.Terms_And_Conditions__r[0].T_C_Text__c;
                 tc.Last_Updated_on__c = tc.Terms_And_Conditions__r[0].Last_Updated_on__c;
                 tc.Policy_Headers__c = tc.Terms_And_Conditions__r[0].Policy_Headers__c;
