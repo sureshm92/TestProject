@@ -13060,6 +13060,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Complete Participant Screener</value>
     </labels>
     <labels>
+        <fullName>RH_ConfirmConsentRP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ConfirmConsentRP</shortDescription>
+        <value>By checking this box, you confirm below consent is reviewed.</value>
+    </labels>
+    <labels>
         <fullName>RH_ScreenerComplete</fullName>
         <language>en_US</language>
         <protected>false</protected>
