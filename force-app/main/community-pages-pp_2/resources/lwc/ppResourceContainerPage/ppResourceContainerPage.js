@@ -45,6 +45,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     redirecturl = '';
     disableSave = true;
     @track textValue;
+    @track selectedResourceType;
 
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
@@ -124,5 +125,26 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         this[NavigationMixin.GenerateUrl](config).then((url) => {
             window.open(url, '_self');
         });
+    }
+    updateResources(event) {
+        this.selectedResourceType = event.target.value;
+    }
+    get exploreVisible() {
+        return this.selectedResourceType == 'explore' ? true : false;
+    }
+    get documentsVisible() {
+        return this.selectedResourceType == 'documents' ? true : false;
+    }
+
+    get discoverVisible() {
+        return this.selectedResourceType == 'discover' ? true : false;
+    }
+
+    get answersVisible() {
+        return this.selectedResourceType == 'answers' ? true : false;
+    }
+
+    get engageVisible() {
+        return this.selectedResourceType == 'engage' ? true : false;
     }
 }
