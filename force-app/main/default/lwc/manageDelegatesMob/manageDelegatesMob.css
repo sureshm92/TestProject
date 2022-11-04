@@ -162,18 +162,16 @@
     font-size: 18px;
     font-weight: 600;
 }
-.add-assignment-rectangle {
-    box-sizing: border-box;
-    height: 41px;
-    /* width: 765px; */
-    border: 1px solid #e9e9e9;
-    border-radius: 4px;
-}
+
 .slds-box {
     box-shadow: none;
-    border: none;
+    border: 1px solid #e9e9e9;
     font-weight: 600;
     height: 40px;
     min-width: 160px;
     border-radius: 4px;
+    width: 100%;
+}
+.apollo-btn.secondary:hover {
+    border: 1px solid #e9e9e9 !important;
 }
