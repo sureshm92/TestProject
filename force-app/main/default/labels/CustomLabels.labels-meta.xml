@@ -28634,6 +28634,22 @@ Please contact the Study Team for further updates or please login for additiona
         <value>No upcoming visit</value>
     </labels>
     <labels>
+        <fullName>Visit_No_Past_Visit</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit No Past Visit</shortDescription>
+        <value>No past visits</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Discover_Help_Text</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Resource Discover Help Text</shortDescription>
+        <value>Links will open in new browser window. IQVIA Patient Portal is not responsible for content provided in external websites.</value>
+    </labels>
+    <labels>
         <fullName>Resource_Uploaded</fullName>
         <categories></categories>
         <language>en_US</language>

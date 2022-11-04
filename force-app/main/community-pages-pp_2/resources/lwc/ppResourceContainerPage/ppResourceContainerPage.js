@@ -17,6 +17,7 @@ import RESOURCES from '@salesforce/label/c.PG_SW_Tab_Resources';
 import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
 import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
+import HELPTEXT from '@salesforce/label/c.Resource_Discover_Help_Text';
 
 export default class PpResourceContainerPage extends NavigationMixin(LightningElement) {
     //boolean var
@@ -40,7 +41,8 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         DOCUMENTS,
         FIND_ANSWERS,
         DISCOVER_TITLE,
-        CHANGE_PREFERENCES
+        CHANGE_PREFERENCES,
+        HELPTEXT
     };
     @track linksData;
     @track trialdata;
