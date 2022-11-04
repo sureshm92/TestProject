@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Override_PI_Referral_Status__c</fullName>
     <externalId>false</externalId>
-    <label>Override PI Referral Status</label>
+    <label>PI Status</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
@@ -13,19 +13,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>On Hold</fullName>
-                <default>false</default>
-                <label>On Hold</label>
-            </value>
-            <value>
-                <fullName>Accepted</fullName>
-                <default>false</default>
-                <label>Accepted</label>
-            </value>
-            <value>
-                <fullName>Deactivated (Admin)</fullName>
-                <default>false</default>
-                <label>Deactivated (Admin)</label>
+                <fullName>None</fullName>
+                <default>true</default>
+                <label>None</label>
             </value>
             <value>
                 <fullName>Invitation Sent</fullName>
@@ -33,24 +23,20 @@
                 <label>Invitation Sent</label>
             </value>
             <value>
-                <fullName>Non-Responsive (Admin)</fullName>
+                <fullName>Accepted</fullName>
                 <default>false</default>
-                <label>Non-Responsive (Admin)</label>
+                <label>Accepted</label>
             </value>
             <value>
-                <fullName>Declined (Acceptance)</fullName>
+                <fullName>Deactivated</fullName>
                 <default>false</default>
-                <label>Declined (Acceptance)</label>
+                <label>Deactivated</label>
             </value>
             <value>
                 <fullName>Accepted (Admin)</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Accepted (Admin)</label>
-            </value>
-            <value>
-                <fullName>On Hold (Admin)</fullName>
-                <default>false</default>
-                <label>On Hold (Admin)</label>
             </value>
             <value>
                 <fullName>Active</fullName>
@@ -65,10 +51,40 @@
                 <label>Active (Admin)</label>
             </value>
             <value>
+                <fullName>Deactivated (Admin)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Deactivated (Admin)</label>
+            </value>
+            <value>
+                <fullName>Declined (Acceptance)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Declined (Acceptance)</label>
+            </value>
+            <value>
                 <fullName>No Response</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>No Response</label>
+            </value>
+            <value>
+                <fullName>Non-Responsive (Admin)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Non-Responsive (Admin)</label>
+            </value>
+            <value>
+                <fullName>On Hold</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>On Hold</label>
+            </value>
+            <value>
+                <fullName>On Hold (Admin)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>On Hold (Admin)</label>
             </value>
             <value>
                 <fullName>Rejected</fullName>
