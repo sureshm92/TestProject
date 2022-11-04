@@ -40,8 +40,9 @@ global without sharing class EmailActionBtnController {
         String result = buttonURLString;
         String invitationString = surveyIdString;
         if (String.isBlank(caseIdString)) {
-            if (result == null)
+            if (result == null) {
                 result = '';
+            }
 
             if (!result.containsIgnoreCase('http')) {
                 if (String.isNotBlank(result) && !result.startsWith('/'))

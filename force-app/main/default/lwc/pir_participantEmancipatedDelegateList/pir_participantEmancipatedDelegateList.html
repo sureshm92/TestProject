@@ -74,6 +74,57 @@
                 <lightning-input type="email" data-value="email" onchange={checkFields} title={utilLabels.PG_AS_F_Email_address}  label={utilLabels.PG_AS_F_Email_address} value={email} required=""></lightning-input>
             </div>
             </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-2 slds-large-size_4-of-4 outcome-form-element slds-m-bottom_x-small  margin-checkboxtop" >
+                    <div if:true={iscountryus}>
+                        <div class="checkboxalignUSPDelegate">
+                        <div class="label_align">             
+                        <lightning-input 
+                            type="checkbox" 
+                            name="Consent"
+                            varient="label-hidden" 
+                            required 
+                            checked={consent}
+                            data-value="consentCheckbox" 
+                            data-name="consentCheckbox"
+                            onchange={checkFields}
+                            class="checkbox_size slds-form-element"
+                            >
+                        </lightning-input>
+                        <span class="addParticipantClass "><label class="font-checkbox">{utilLabels.PG_Ref_L_Permit_IQVIA_To_Store_And_Contact}</label></span>
+                             </div>   
+                        </div>
+                    </div>
+                    <div if:false={iscountryus}>
+                        <div class="checkboxalignNonUSPDelegate">
+                           <div class="label_align">
+                              <lightning-input 
+                                 type="checkbox" 
+                                 name="ConsentROW"
+                                 required 
+                                 varient="label-hidden" 
+                                 checked={consentrow}
+                                 data-value="consentCheckboxROW" 
+                                 data-name="consentCheckboxROW"
+                                 onchange={checkFields}
+                                 >
+                              </lightning-input>
+                              <span class="addParticipantClass padding-leftusd"><label class="font-checkbox">{utilLabels.PG_Ref_L_Permit_IQVIA_To_Contact_ESP}</label></span>
+                           </div>
+                           <div class="label_align paddingsms">
+                              <lightning-input 
+                                 type="checkbox" 
+                                 varient="label-hidden" 
+                                 name="ConsentSMS"
+                                 checked={consentsms}
+                                 data-value="consentCheckboxSMS" 
+                                 data-name="consentCheckboxSMS"
+                                 onchange={checkFields}
+                                 >
+                              </lightning-input>
+                              <span class="addParticipantClass padding-leftusda"><label class="font-checkbox">{utilLabels.PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US}</label></span>
+                           </div>
+                        </div>
+                     </div> </div>
 </div>
 </div>
 </template>

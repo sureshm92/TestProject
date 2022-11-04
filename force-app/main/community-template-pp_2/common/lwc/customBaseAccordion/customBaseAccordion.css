@@ -1,26 +1,26 @@
 .cardRTL {
-  direction: rtl;
+    direction: rtl;
 }
 
 .accordion_container {
-  width: 100%;
+    width: 100%;
 }
 
 .accordion_head {
-  font-family: "Proxima Nova";
-  font-size: 16px;
-  font-weight: 600;
-  margin-left: 16px;
-  margin-right: 10px;
-  color: #297dfd;
-  cursor: pointer;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 16px;
+    margin-right: 10px;
+    color: #297dfd;
+    cursor: pointer;
 }
 
 .accordion_body_text {
     padding: 10px;
     text-align: justify;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 30px;
@@ -31,75 +31,73 @@
     margin-bottom: 1px;
     padding-bottom: 15px;
     word-break: break-word;
-    max-height: 250px;
     overflow-y: auto;
 }
 
 .accordion_body {
-  padding: 10px;
-  text-align: justify;
-  color: #444444;
-  font-family: "Proxima Nova";
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 30px;
-  display: block;
-  flex-grow: 1;
-  align-items: center;
-  min-width: 0;
-  margin-bottom: 1px;
-  padding-bottom: 15px;
-  word-break: break-word;
-  max-height: 264px;
+    text-align: justify;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 30px;
+    display: block;
+    flex-grow: 1;
+    align-items: center;
+    min-width: 0;
+    margin-bottom: 1px;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    word-break: break-word;
 }
 .accordion-margin {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 .accordion-section {
-  line-height: 36px;
-  box-sizing: border-box;
-  border: 1px solid #d9d9d9;
-  border-radius: 8px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%);
-  margin-right: 32px;
+    line-height: 48px;
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%);
+    margin-right: 32px;
 }
 
 .accordion_body p {
-  padding: 18px 5px;
-  margin: 0px;
-  padding-right: 18px;
-  text-align: justify;
+    padding: 18px 5px;
+    margin: 0px;
+    padding-right: 18px;
+    text-align: justify;
 }
 
 .plusminus {
-  float: right;
-  padding-right: 10px;
+    float: right;
+    padding-right: 20px;
 }
 
 .plusminusRTL {
-  float: left;
-  padding-left: 10px;
+    float: left;
+    padding-left: 10px;
 }
 
 .hide {
-  display: none;
+    display: none;
 }
 
-  
-  /* Scroll bar custom */
-  ::-webkit-scrollbar {
+/* Scroll bar custom */
+::-webkit-scrollbar {
     width: 10px;
-  }
-  
-  ::-webkit-scrollbar-track {
+}
+
+::-webkit-scrollbar-track {
     background-color: #fff;
     -webkit-border-radius: 10px;
     border-radius: 10px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
+}
+
+::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: #999999;
-  }
+}

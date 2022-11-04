@@ -25,6 +25,7 @@ export default class HomePageVisitsCard extends LightningElement {
     iconDetails;
     moreIconsCount;
     @track upcomingVisit;
+    @api desktop;
     userTimeZone = TIME_ZONE;
     isInitialized = false;
     labels = {
@@ -52,7 +53,7 @@ export default class HomePageVisitsCard extends LightningElement {
         getVisitsPreview({})
             .then((result) => {
                 let visitDetails = result;
-                if (visitDetails != null || visitDetails.length != 0 || visitDetails != '') {
+                if (visitDetails != null && visitDetails.length != 0 && visitDetails != '') {
                     this.isUpcomingDetails = true;
                     this.upcomingVisit = visitDetails[0];
                     this.planDateTime = this.upcomingVisit.visitDate

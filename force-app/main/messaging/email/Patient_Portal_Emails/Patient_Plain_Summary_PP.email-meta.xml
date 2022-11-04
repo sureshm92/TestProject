@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <available>true</available>
+    <description>When Document configuration  is updated for Summaries, Documents and Certificates</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Patient Study Document PP</name>
+    <style>none</style>
+    <subject>New information is now available</subject>
+    <type>visualforce</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,14 @@
+<template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner"></c-web-spinner>
+<!-- ****************  ARTICLE  ********************  -->
+    <template if:true={showArticle}>
+        <img src={resourceLink} alt="Image is not available" />
+    </template>
+<!-- ****************  VIDEO  ********************  -->
+    <template if:true={showVideo}>
+        <div class="ah-video-iframe">
+            <iframe class="my_iframe" frameborder="0" src={resourceLink}> </iframe>
+        </div>
+    </template>
+</template>
