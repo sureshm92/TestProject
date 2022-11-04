@@ -15,9 +15,11 @@
                             type="text"
                             data-input="inputval"
                             placeholder={labels.URLLINK}
-                            onblur={handleUrlValidation}
+                            onchange={handleUrlValidation}
                             value={textValue}
-                        ></lightning-input>
+                            data-name="urlvalue"
+                        ></lightning-input
+                        >
                     </div>
                 </lightning-layout-item>
                 <lightning-layout-item size="2">
