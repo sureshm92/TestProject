@@ -3650,7 +3650,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant_Enrollment__c.Delegate_Consent_SMS__c</field>
+        <field>Participant_Enrollment__c.Delegate_SMS_Consent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
