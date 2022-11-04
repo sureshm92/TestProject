@@ -921,6 +921,11 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
 .study-anchor li{
     padding-left: 0px;
+    padding-right: 30px;
+}
+
+.study-anchor .slds-tabs_default__item:after{
+    right: 30px;
 }
 
 .study-anchor .slds-tabs_default__item.slds-is-active:after{

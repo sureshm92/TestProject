@@ -261,11 +261,10 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.visitid = this.pastVisits[index].visit.Id;
             this.visitName = this.pastVisits[index].visit.Name;
             this.plannedDate = this.pastVisits[index].visit.Planned_Date__c;
-            if(this.pastVisits[index].missedVisit){
+            if (this.pastVisits[index].missedVisit) {
                 this.visitStatus = this.label.visitUnavailable;
                 this.isResultsCard = false;
-            }
-            else{
+            } else {
                 this.visitStatus = this.pastVisits[index].visit.Status__c;
                 this.isResultsCard = true;
             }
@@ -402,6 +401,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         this.initialized = 'false';
         this.cblabel = '';
         this.cbdescription = '';
+        this.icondetails = '';
         getIcon({
             visitId: visitid
         })
