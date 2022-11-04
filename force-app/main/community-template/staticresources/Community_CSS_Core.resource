@@ -1505,11 +1505,11 @@ input[type=password]::-ms-clear
 }
 
 .rr-width-limiter{
-    max-width: 1140px;
+    max-width: 1336px;
     margin: auto;
 }
 .rr-width-limiterRTL{
-    max-width: 1140px;
+    max-width: 1336px;
     margin: auto;
 }
 
