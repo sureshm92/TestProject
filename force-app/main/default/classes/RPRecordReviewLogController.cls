@@ -129,7 +129,7 @@ public without sharing class RPRecordReviewLogController {
                                                       Patient_Sex__c,Email__c,YOB__c,Birth_Month__c,Date_of_Birth__c,Postal_Code__c,Legal_Status__c,Patient_Auth__c,Country__c,Mailing_Country_Code__c,State__c,Mailing_State_Code__c,Phone__c,Patient_Phone_Type__c,Participant_Alternative_Phone__c,
                                                       Participant_Alt_Phone_Type__c,Primary_Delegate_First_Name__c,Primary_Delegate_Last_Name__c,Primary_Delegate_Email__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
                                                       Primary_Delegate_Phone_Number__c,Primary_Delegate_Phone_Type__c,Primary_Delegate_YOB__c,Legal_Status_of_Primary_Delegate__c,CreatedDate,Participant_Status__c,Primary_Delegate_s_Alt_Phone__c,Primary_Delegate_s_Alt_Phone_Type__c,
-                                                      RP_Site_Selected__c,Medical_Record_Review_Status__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c,HCP__c,
+                                                      RP_Site_Selected__c,Medical_Record_Review_Status__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c,HCP__c,Delegate_Consent__c,Delegate_SMS_Consent__c,
                                                       Permit_SMS_Text_for_this_study__c,Permit_Voice_Text_contact_for_this_study__c,Permit_Mail_Email_contact_for_this_study__c, Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c,Clinical_Trial_Profile__r.Link_to_ePR_Campaign__c,
                                                       Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c,Outreach_Email_Status__c,
                                                       Participant__c,Participant__r.Mailing_Country_Code__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Participant_Contact__c,Participant_Contact__r.Participant_Opt_In_Status_Emails__c,Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
@@ -318,6 +318,9 @@ public without sharing class RPRecordReviewLogController {
                    peEnrollment.Primary_Delegate_s_Alt_Phone_Type__c = peRecord.Primary_Delegate_s_Alt_Phone_Type__c;
                }
             peEnrollment.Is_Delegate_Certify__c = peRecord.Is_Delegate_Certify__c;
+            peEnrollment.Delegate_Consent__c = peRecord.Delegate_Consent__c;
+            peEnrollment.Delegate_SMS_Consent__c = peRecord.Delegate_SMS_Consent__c;
+            //2 new fields 
             update peEnrollment;
             return peEnrollment;
         } 
