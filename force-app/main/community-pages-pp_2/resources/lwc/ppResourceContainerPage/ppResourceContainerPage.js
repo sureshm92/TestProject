@@ -94,9 +94,14 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
 
             this.trialdata = JSON.parse(result);
             //cards toggle logic
-            this.toggleExplore = this.trialdata?.trial?.Video_And_Articles_Are_Available__c;
-            this.toggleDocs = this.trialdata?.trial?.Study_Documents_Are_Available__c;
-            this.toggleLinks = this.linksData?.linksAvailable;
+            if (communityService.getCurrentCommunityMode().participantState == 'PARTICIPANT') {
+                this.toggleExplore = this.trialdata?.trial?.Video_And_Articles_Are_Available__c;
+                this.toggleDocs = this.trialdata?.trial?.Study_Documents_Are_Available__c;
+                this.toggleLinks = this.linksData?.linksAvailable;
+            } else {
+                this.toggleExplore = true;
+                this.toggleLinks = true;
+            }
             this.isInitialized = true;
         }
 
