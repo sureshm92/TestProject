@@ -79,6 +79,7 @@
     scroll-behavior: auto;
     margin-top: 0;
     z-index: 10010;
+    transform: translateX(150px);
 }
 @media only screen and (min-device-width: 1080px) and (max-device-width: 1920px) {
     /* insert styles here */
@@ -90,18 +91,37 @@
 @media only screen and (min-device-width: 864px) and (max-device-width: 1536px) {
     /* insert styles here */
     .THIS .menu-popup-panel.popupTargetContainer{
-        left: -27px;
+        left: -35px;
         height:820px;
     }
 }
-@media only screen and (min-device-width: 720px) and (max-device-width: 1280px) {
-    /* insert styles here */
+@media (max-width:1422.22px) {
     .THIS .menu-popup-panel.popupTargetContainer{
-        left: -109px;
-        left: -155px;
+        left: -93px;
+    }
+}
+@media (max-width:1396.36px) {
+    .THIS .menu-popup-panel.popupTargetContainer{
+        left: -104px;
+    }
+}
+@media (max-width:1280px) {
+    .THIS .menu-popup-panel.popupTargetContainer{        
+        left: -163px;
     }
     .THIS .menu-popup-panel.starincentive{
         left: -109px;        
+    }
+}
+@media (max-width:1163.64px) {
+    .THIS .menu-popup-panel.popupTargetContainer{
+        left: -211px;
+    }
+}
+@media (max-device-width: 767px) {
+    .THIS .menu-popup-panel.popupTargetContainer{
+        left: -180px;
+        
     }
 }
 @media all and (max-width: 76.25em) {
@@ -113,6 +133,8 @@
     display: block;
     visibility: visible;
     opacity: 1;
+    transform: translateX(0);
+    transition: 0.8s;
 }
 
 .THIS .uiMenuList--default ul {
@@ -170,6 +192,6 @@
         width: 316px;
         height:800px;
         right: -127px;
-        right: -95px;
+        right: -96px;
     }
 }

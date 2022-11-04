@@ -2,8 +2,6 @@ import { LightningElement, track } from 'lwc';
 import resourcesDesktop from './ppResourceDesktopPage.html';
 import resourcesMobile from './ppResourceMobilePage.html';
 import DEVICE from '@salesforce/client/formFactor';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import getTrialDetail from '@salesforce/apex/StudyDetailViewController.getTrialDetail';
@@ -53,13 +51,8 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                this.initializeData();
-            })
-            .catch((error) => {
-                this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-            });
+
+        this.initializeData();
     }
     //template toggle
     render() {
@@ -95,9 +88,14 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
 
             this.trialdata = JSON.parse(result);
             //cards toggle logic
-            this.toggleExplore = this.trialdata?.trial?.Video_And_Articles_Are_Available__c;
-            this.toggleDocs = this.trialdata?.trial?.Study_Documents_Are_Available__c;
-            this.toggleLinks = this.linksData?.linksAvailable;
+            if (communityService.getCurrentCommunityMode().participantState == 'PARTICIPANT') {
+                this.toggleExplore = this.trialdata?.trial?.Video_And_Articles_Are_Available__c;
+                this.toggleDocs = this.trialdata?.trial?.Study_Documents_Are_Available__c;
+                this.toggleLinks = this.linksData?.linksAvailable;
+            } else {
+                this.toggleExplore = true;
+                this.toggleLinks = true;
+            }
             this.isInitialized = true;
         }
 
