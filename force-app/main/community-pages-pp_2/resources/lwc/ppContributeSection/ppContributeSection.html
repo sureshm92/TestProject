@@ -15,9 +15,11 @@
                             type="text"
                             data-input="inputval"
                             placeholder={labels.URLLINK}
-                            onblur={handleUrlValidation}
+                            onchange={handleUrlValidation}
                             value={textValue}
-                        ></lightning-input>
+                            data-name="urlvalue"
+                        ></lightning-input
+                        >
                     </div>
                 </lightning-layout-item>
                 <lightning-layout-item size="2">
@@ -25,7 +27,6 @@
                         <lightning-button
                             variant="brand"
                             label={labels.SUBMIT}
-                            title="Primary action"
                             onclick={handleCreateArticles}
                             class={saveButtonClass}
                             disabled={disableSave}

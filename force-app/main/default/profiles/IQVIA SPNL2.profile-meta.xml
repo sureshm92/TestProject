@@ -2309,6 +2309,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant__c.Delegate_Consent_SMS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_PrescreenerResponse__c.Completed_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2427,6 +2432,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Discussion_Documented_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Delegate_SMS_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Delegate_Consent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -43,7 +43,7 @@
             onblur={doCheckContact}
             required="" disabled={isConnectedAtLeastOnce}></lightning-input>
         </div>
-        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_x-small">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_x-small showDesktop">
             <template if:true={isConnected}>
                 <button class="slds-button apollo-btn secondary connect-patient-btn" title={utilLabels.HealthCare_Provider_Stop_Sharing} onclick={doDisConnect} disabled={doValid}>                                                              
                     {utilLabels.HealthCare_Provider_Stop_Sharing}
@@ -73,20 +73,59 @@
             
                
          </div>
-         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_3-of-4 outcome-form-element slds-m-bottom_x-small" if:true={isDisplay}>
-            <lightning-input 
-                  type="checkbox" 
-                  class="validate checkbox-text" 
-                  label={labels.DelegateAttestation}
-                  name="input2"
-                  required 
-                  data-name="attestCheckbox"
-                  checked={checkBox}
-                  disabled={isAdultDelegate}
-                  onchange={checkFields}
-                  >
-            </lightning-input>
+         
+         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_4-of-4 outcome-form-element slds-m-bottom_x-small margin-checkboxtop" if:true={isDisplay}>
+            
+                <div class="checkboxalignEmancipation">
+                <div class="label_align">             
+                <lightning-input 
+                    type="checkbox" 
+                    name="input2"
+                    varient="label-hidden" 
+                    required 
+                    data-name="attestCheckbox"
+                    checked={checkBox}
+                    disabled={isAdultDelegate}
+                    onchange={checkFields}
+                    class="validate checkbox-text checkbox_size slds-form-element"
+                    >
+                </lightning-input>
+                <span class="addParticipantClass "><label class="font-checkbox">{labels.DelegateAttestation}</label></span>
+                     </div>   
+                </div>
          </div>
+         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_4-of-4 outcome-form-element slds-m-bottom_x-small margin-checkboxtopC" if:true={isDisplayConsent}>
+            
+            <div class="checkboxalignEmancipation">
+                <div class="label_align">             
+                <lightning-input 
+                    type="checkbox" 
+                    name="input3"
+                    varient="label-hidden" 
+                    required 
+                    data-name="attestCheckboxEmail"
+                    checked={checkBoxEmail}
+                    disabled={isAdultDelegate}
+                    onchange={checkFields}
+                    class="validate checkbox-text checkbox_size slds-form-element"
+                    >
+                </lightning-input>
+                <span class="addParticipantClass addParticipantClassm "><label class="font-checkbox">{labels.RH_DelegateConsentEmail}</label></span>
+                     </div>   
+                </div>
+         </div>
+         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_x-small hideDesktop">
+            <template if:true={isConnected}>
+                <button class="slds-button apollo-btn secondary connect-patient-btn" title={utilLabels.HealthCare_Provider_Stop_Sharing} onclick={doDisConnect} disabled={doValid}>                                                              
+                    {utilLabels.HealthCare_Provider_Stop_Sharing}
+                </button>
+            </template>
+            <template if:false={isConnected}>
+                <button class="slds-button apollo-btn secondary connect-patient-btn" title={utilLabels.HealthCare_Provider_Connect} onclick={doConnect} disabled={doValid}>                                                              
+                    {utilLabels.HealthCare_Provider_Connect}
+                </button>
+            </template>
+        </div>
         <template if:false={isDisconnected}> 
             <template if:true={isDuplicate}>
                 <c-pir_participant-emancipated-duplicate-message

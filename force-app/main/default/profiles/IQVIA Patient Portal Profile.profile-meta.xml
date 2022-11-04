@@ -737,11 +737,11 @@
         <field>Clinical_Trial_Profile__c.Orientation__c</field>
         <readable>false</readable>
     </fieldPermissions>
-    <fieldPermissions>
+    <!--   <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Override_Description__c</field>
         <readable>false</readable>
-    </fieldPermissions>
+    </fieldPermissions> -->
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Override_Exclusion_Criteria__c</field>
@@ -4334,6 +4334,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Enrollment__c.Delegate_SMS_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Delegate_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Enrollment__c.Eligible_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -5636,6 +5646,11 @@
         <editable>false</editable>
         <field>Participant__c.Day_of_Birth__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Delegate_Consent_SMS__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
