@@ -72,6 +72,7 @@ span:hover {
     font-family: 'Proxima Nova';
     letter-spacing: 0;
     line-height: 48px;
+    padding-top: 10px;
 }
 
 .po-mt-20 {
