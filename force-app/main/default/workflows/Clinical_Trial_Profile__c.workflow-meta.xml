@@ -9,15 +9,6 @@
         <operation>Formula</operation>
         <protected>false</protected>
     </fieldUpdates>
-<!--   <fieldUpdates>
-        <fullName>Populate_Override_Fields</fullName>
-        <field>Override_Description__c</field>
-        <formula>Detailed_Description__c</formula>
-        <name>Populate Override Fields</name>
-        <notifyAssignee>false</notifyAssignee>
-        <operation>Formula</operation>
-        <protected>false</protected>
-    </fieldUpdates> -->
     <fieldUpdates>
         <fullName>Recruitment_Status_Active_Enrolling</fullName>
         <field>Override_Recruitment_Status__c</field>
@@ -54,16 +45,6 @@
         <operation>Literal</operation>
         <protected>false</protected>
     </fieldUpdates>
-  <!-- <rules>
-        <fullName>Populate Override Fields%3A CTP</fullName>
-        <actions>
-            <name>Populate_Override_Fields</name>
-            <type>FieldUpdate</type>
-        </actions>
-        <active>false</active>
-        <formula>AND(Detailed_Description__c &lt;&gt; NULL, Override_Description__c = NULL)</formula>
-        <triggerType>onAllChanges</triggerType>
-    </rules> -->
     <rules>
         <fullName>Recruitment Status Override By</fullName>
         <actions>
