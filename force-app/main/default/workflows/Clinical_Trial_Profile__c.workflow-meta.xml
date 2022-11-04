@@ -55,7 +55,7 @@
         <protected>false</protected>
     </fieldUpdates>
     <rules>
-        <fullName>Populate Override Fields%3A CTP</fullName>
+        <fullName>PopulateOverride Fields%3A CTP</fullName>
         <actions>
             <name>Populate_Override_Fields</name>
             <type>FieldUpdate</type>
