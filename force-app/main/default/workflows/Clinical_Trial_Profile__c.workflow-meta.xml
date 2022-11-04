@@ -17,7 +17,7 @@
         <notifyAssignee>false</notifyAssignee>
         <operation>Formula</operation>
         <protected>false</protected>
-    </fieldUpdates>
+    </fieldUpdates> 
     <fieldUpdates>
         <fullName>Recruitment_Status_Active_Enrolling</fullName>
         <field>Override_Recruitment_Status__c</field>

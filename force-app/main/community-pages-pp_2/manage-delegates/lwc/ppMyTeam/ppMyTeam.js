@@ -93,7 +93,8 @@ export default class PpMyTeam extends LightningElement {
                 this.delegateOptions = initData.delegateOptions;
                 this.hasStudies = initData.hasStudies;
                 this.currentUserContactId = initData.currentUserContactId;
-                this.IsProgram = initData.ctp.Is_Program__c;
+                if(initData.ctp != null)
+                    this.IsProgram = initData.ctp.Is_Program__c;
 
                 var selectedParent = selectedparent;
                 if (selectedParent === undefined || selectedParent === '') {
