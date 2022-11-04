@@ -98,5 +98,12 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
             return true;
           }
         }
+        get showConsent() {
+          if (this.continuedelegate ==='false') {
+              return false;
+            } else {
+              return true;
+            }
+          }
         
       }

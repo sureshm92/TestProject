@@ -17,6 +17,7 @@ import RESOURCES from '@salesforce/label/c.PG_SW_Tab_Resources';
 import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
 import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
+import HELPTEXT from '@salesforce/label/c.Resource_Discover_Help_Text';
 
 export default class PpResourceContainerPage extends NavigationMixin(LightningElement) {
     //boolean var
@@ -26,6 +27,10 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     toggleExplore = false;
     toggleLinks = false;
     toggleDocs = false;
+    docsection = 'doccolumn';
+    engagesection = 'engcolumn';
+    exploresection = 'expcolumn';
+    discoversection = 'disccolumn';
     //labels
     labels = {
         RESOURCES,
@@ -36,7 +41,8 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         DOCUMENTS,
         FIND_ANSWERS,
         DISCOVER_TITLE,
-        CHANGE_PREFERENCES
+        CHANGE_PREFERENCES,
+        HELPTEXT
     };
     @track linksData;
     @track trialdata;
@@ -97,6 +103,16 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                 this.toggleLinks = true;
             }
             this.isInitialized = true;
+            if (!this.toggleDocs) {
+                this.template.querySelector('[data-id="' + this.docsection + '"]');
+            }
+            if (!this.toggleExplore) {
+                this.template.querySelector('[data-id="' + this.engagesection + '"]');
+                this.template.querySelector('[data-id="' + this.exploresection + '"]');
+            }
+            if (!this.toggleLinks) {
+                this.template.querySelector('[data-id="' + this.discoversection + '"]');
+            }
         }
 
         if (this.spinner) {
