@@ -58,6 +58,10 @@ global without sharing class TermsAndConditions {
             ? CommunityService.IQVIA_NETWORK_NAME
             : UserContext.getCurrentCommunityName();
             System.debug('communityName: '+communityName);
+            //condition for  registration page links
+            if(communityName.containsIgnoreCase('terms')){
+                communityName='IQVIA Patient Portal';
+            }
         if (tcId != null) {
             query += ' Id =\'' + tcId + '\' ';
         } else {
