@@ -28839,7 +28839,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Plain Summary PP</shortDescription>
-        <value>New documents from ##StudyName are now available on the ##ShortCommunityName.   
+        <value>New documents for ##StudyName are now available on the ##ShortCommunityName.   
 
             Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
