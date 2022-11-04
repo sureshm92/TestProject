@@ -53,7 +53,7 @@
                             <!--Delegate Card Section: Starts -->
                             <lightning-layout-item
                                 size="12"
-                                class="del-container m-top-16"
+                                class="del-container slds-m-top_large"
                                 key={del.PatientDelegate.Id}
                             >
                                 <!--Dlegate Info Layout: Starts -->
@@ -139,12 +139,9 @@
                                     </template>
                                     <!--Iterate over each pdEnrollment Associated to the Delegate: Starts-->
                                     <!--Add Assignment Button: Starts-->
-                                    <lightning-layout-item
-                                        size="12"
-                                        class="m-top-8 add-assignment-rectangle"
-                                    >
+                                    <lightning-layout-item size="12">
                                         <button
-                                            class="apollo-btn secondary slds-box width-100"
+                                            class="apollo-btn secondary slds-box"
                                             onclick={addAssignment}
                                         >
                                             <c-web-icon
