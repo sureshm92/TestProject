@@ -100,6 +100,17 @@ overflow: hidden;
   line-height: 30px;
 }
 
+.smsmargin{
+  display: flex;
+  align-items: baseline;
+  margin-top: 10px;
+}
+.smsmargin_span{
+  margin-left: 6px;
+  margin-top: 22px;
+}
+
+
 :dir(rtl) .information > div {
   margin-left: 2.25rem;
   margin-top: -1.45rem;
@@ -110,6 +121,7 @@ overflow: hidden;
   margin-left: 2.25rem;
   margin-top: -1.45rem;
   line-height: 16px;
+  margin-bottom: 8px;
 }
 
 .slds-spinner_container {
@@ -164,6 +176,15 @@ overflow: hidden;
   text-align: left;
   color: #000;
   font-weight: 600;
+}
+@media (max-device-width: 767px) {  
+  .smsmargin_span{
+    margin-left: 15px;
+    margin-top: 34px;
+  }
+  .information > div {
+    margin-bottom: 5px;
+  }
 }
 
 @media screen and (max-width: 486px) {
