@@ -2,135 +2,132 @@
     <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner"></c-web-spinner>
     <template if:true={isInitialized}>
-        <div class={cardRTL}>
-            <div class="res-container">
-                <lightning-layout multiple-rows="true">
-                    <lightning-layout-item size="12">
-                        <div class="res-header">{labels.RESOURCES}</div>
-                    </lightning-layout-item>
-
-                    <!-- Left Column -->
-                    <lightning-layout-item size="3" class="resource-gutter">
-                        <lightning-layout multiple-rows="true">
-                            <lightning-layout-item size="12">
-                                <div class="engage-header mb-8">{labels.ENGAGE}</div>
-                                <div class="left-column">
-                                    <div class="res-box-engage-container crossed">
-                                        <!-- START : COMING SOON -->
-                                        <div class="object">
-                                            <div class="object-rope"></div>
-                                            <div class="object-shape">
-                                                Coming <span class="soon">Soon</span>
-                                            </div>
+        <h1 class="res-header">{labels.RESOURCES}</h1>
+        <div class="slds-grid slds-wrap slds-gutters slds-p-horizontal_x-large">
+            <template if:false={emptyColumn}>
+                <div
+                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_3-of-12 col1"
+                >
+                    <template if:true={toggleExplore}>
+                        <div data-id={engagesection}>
+                            <div class="engage-header mb-8">{labels.ENGAGE}</div>
+                            <div class="left-column">
+                                <div class="res-box-engage-container crossed">
+                                    <!-- START : COMING SOON -->
+                                    <div class="object">
+                                        <div class="object-rope"></div>
+                                        <div class="object-shape">
+                                            Coming <span class="soon">Soon</span>
                                         </div>
-                                        <!-- END : COMING SOON -->
-                                        <!-- ENGAGE LWC COMPONENT PLACEHOLDER -->
                                     </div>
+                                    <!-- END : COMING SOON -->
+                                    <!-- ENGAGE LWC COMPONENT PLACEHOLDER -->
                                 </div>
-                            </lightning-layout-item>
-                            <template if:true={toggleLinks}>
-                                <lightning-layout-item size="12">
-                                    <div class="rel-header mb-8 resPage">
-                                        {labels.DISCOVER_TITLE}
-                                        <span>
-                                            <!-- <lightning-helptext
-                                                class="newColor"
-                                                content={label.PP_AS_F_Preferred_Language_Help_Text}
-                                                icon-name="utility:info"
-                                            >
-                                            </lightning-helptext> -->
-                                            <lightning-helptext
-                                                class="newColor"
-                                                content="Links will open in new browser window. IQVIA Patient Portal
-                                            is not responsible for content provided in external websites."
-                                                icon-name="utility:info"
-                                            >
-                                            </lightning-helptext>
-                                        </span>
-                                    </div>
+                            </div>
+                        </div>
+                    </template>
 
-                                    <div class="left-column">
-                                        <div class="res-box-relLinks-container pad10">
-                                            <!-- START : COMING SOON -->
-                                            <!-- <div class="object">
-                                                <div class="object-rope"></div>
-                                                <div class="object-shape">
-                                                    Coming <span class="soon">Soon</span>
-                                                </div>
-                                            </div> -->
-                                            <!-- END : COMING SOON -->
-                                            <!-- RELEVANT LINKS LWC COMPONENT PLACEHOLDER -->
-                                            <c-pp-discover-links></c-pp-discover-links>
-                                        </div>
-                                    </div>
-                                </lightning-layout-item>
-                            </template>
-                        </lightning-layout>
-                    </lightning-layout-item>
-
-                    <!-- Center Column -->
-                    <lightning-layout-item size="6">
-                        <template if:true={toggleExplore}>
-                            <lightning-layout multiple-rows="true">
-                                <lightning-layout-item size="12">
-                                    <div class="explore-header mb-8">
-                                        {labels.EXPLORE}
+                    <template if:true={toggleLinks}>
+                        <div data-id={discoversection}>
+                            <div class="rel-header mb-8 resPage">
+                                {labels.DISCOVER_TITLE}
+                                <span>
+                                    <!-- <lightning-helptext
+                                        class="newColor"
+                                        content={label.PP_AS_F_Preferred_Language_Help_Text}
+                                        icon-name="utility:info"
+                                    >
+                                    </lightning-helptext> -->
+                                    <lightning-helptext
+                                        class="newColor"
+                                        content="Links will open in new browser window. IQVIA Patient Portal
+                                        is not responsible for content provided in external websites."
+                                        icon-name="utility:info"
+                                    >
+                                    </lightning-helptext>
+                                </span>
+                                <template if:false={toggleExplore}>
+                                    <template if:false={toggleDocs}>
                                         <a
                                             onclick={handleChangePreference}
                                             class="change-preferences"
-                                            style="float: right"
                                         >
                                             {labels.CHANGE_PREFERENCES}
                                         </a>
-                                    </div>
+                                    </template>
+                                </template>
+                            </div>
 
-                                    <div class="center-column">
-                                        <div class="res-explore-container">
-                                            <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
-                                            <c-pp-resource-engage desktop={desktop} is-rtl={isRTL}>
-                                            </c-pp-resource-engage>
-                                        </div>
-                                        <div class="slds-var-p-top_medium">
-                                            <c-pp-contribute-section></c-pp-contribute-section>
-                                        </div>
-                                    </div>
-                                </lightning-layout-item>
-                            </lightning-layout>
-                        </template>
-                    </lightning-layout-item>
-
-                    <!-- Right Column -->
-                    <lightning-layout-item size="3" class="resource-gutter-left">
-                        <lightning-layout multiple-rows="true">
-                            <template if:true={toggleDocs}>
-                                <lightning-layout-item size="12">
-                                    <div class="document-header mb-8">{labels.DOCUMENTS}</div>
-                                    <div class="right-column">
-                                        <div class="res-box-document-container">
-                                            <c-pp-Resource-Document-Container></c-pp-Resource-Document-Container>
-                                        </div>
-                                    </div>
-                                </lightning-layout-item>
-                            </template>
-                            <lightning-layout-item size="12">
-                                <div class="answers-header mb-8">{labels.FIND_ANSWERS}</div>
-                                <div class="left-column">
-                                    <div class="res-box-answers-container crossed">
-                                        <!-- START : COMING SOON -->
-                                        <div class="object">
-                                            <div class="object-rope"></div>
-                                            <div class="object-shape">
-                                                Coming <span class="soon">Soon</span>
-                                            </div>
-                                        </div>
-                                        <!-- END : COMING SOON -->
-                                        <!-- FIND ANSWERS LINKS LWC COMPONENT PLACEHOLDER -->
-                                    </div>
+                            <div class="left-column">
+                                <div class="disc-section res-box-relLinks-container pad10">
+                                    <c-pp-discover-links></c-pp-discover-links>
                                 </div>
-                            </lightning-layout-item>
-                        </lightning-layout>
-                    </lightning-layout-item>
-                </lightning-layout>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:false={toggleExplore}>
+                        <template if:true={toggleLinks}>
+                            <div class="slds-col slds-size_6-of-12">
+                                <div class="slds-var-p-top_medium">
+                                    <c-pp-contribute-section></c-pp-contribute-section>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </template>
+            <template if:true={toggleExplore}>
+                <div
+                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_6-of-12 col2"
+                >
+                    <div data-id={exploresection}>
+                        <div class="explore-header mb-8">
+                            {labels.EXPLORE}
+                            <a onclick={handleChangePreference} class="change-preferences">
+                                {labels.CHANGE_PREFERENCES}
+                            </a>
+                        </div>
+
+                        <div class="center-column">
+                            <div class="res-explore-container">
+                                <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
+                                <c-pp-resource-engage desktop={desktop} is-rtl={isRTL}>
+                                </c-pp-resource-engage>
+                            </div>
+                            <div class="slds-var-p-top_medium">
+                                <c-pp-contribute-section></c-pp-contribute-section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_3-of-12 col3"
+            >
+                <template if:true={toggleDocs}>
+                    <div data-id={docsection}>
+                        <div class="document-header mb-8">
+                            {labels.DOCUMENTS}
+                            <template if:false={toggleExplore}>
+                                <a onclick={handleChangePreference} class="change-preferences">
+                                    {labels.CHANGE_PREFERENCES}
+                                </a>
+                            </template>
+                        </div>
+                        <div class="right-column">
+                            <div class="document-container res-box-document-container">
+                                <c-pp-Resource-Document-Container></c-pp-Resource-Document-Container>
+                            </div>
+                            <template if:false={toggleExplore}>
+                                <template if:false={toggleLinks}>
+                                    <div class="slds-var-p-top_medium">
+                                        <c-pp-contribute-section></c-pp-contribute-section>
+                                    </div>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
     </template>

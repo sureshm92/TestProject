@@ -26,6 +26,10 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     toggleExplore = false;
     toggleLinks = false;
     toggleDocs = false;
+    docsection = 'doccolumn';
+    engagesection = 'engcolumn';
+    exploresection = 'expcolumn';
+    discoversection = 'disccolumn';
     //labels
     labels = {
         RESOURCES,
@@ -97,6 +101,16 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                 this.toggleLinks = true;
             }
             this.isInitialized = true;
+            if (!this.toggleDocs) {
+                this.template.querySelector('[data-id="' + this.docsection + '"]');
+            }
+            if (!this.toggleExplore) {
+                this.template.querySelector('[data-id="' + this.engagesection + '"]');
+                this.template.querySelector('[data-id="' + this.exploresection + '"]');
+            }
+            if (!this.toggleLinks) {
+                this.template.querySelector('[data-id="' + this.discoversection + '"]');
+            }
         }
 
         if (this.spinner) {
