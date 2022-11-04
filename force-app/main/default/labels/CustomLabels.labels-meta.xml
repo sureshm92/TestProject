@@ -28861,4 +28861,80 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Email Instant Del Subject Reminder Type Not Selected PP</shortDescription>
         <value>Your participant has a new task</value>
     </labels>
-</CustomLabels>
+     <labels>
+        <fullName>Program_Header_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Program_Header_PP</shortDescription>
+        <value>program</value>
+    </labels>
+     <labels>
+        <fullName>Study_Header_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study_Header_PP</shortDescription>
+        <value>clinical research study</value>
+    </labels> 
+     <labels>
+        <fullName>Study_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study_PP</shortDescription>
+        <value>study</value>
+    </labels>
+     <labels>
+        <fullName>Events_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Events_PP</shortDescription>
+        <value>events</value>
+    </labels>
+     <labels>
+        <fullName>Visits_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits_PP</shortDescription>
+        <value>visits</value>
+    </labels>
+    
+<labels>
+        <fullName>Email_Body_Initial_Patient_Created_By_PI_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial Patient Created By PI New PP</shortDescription>
+        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in participating in a ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##StudyorProgram team will contact you regarding the next steps in the enrollment process. &lt;/p&gt;&lt;/div&gt;</value>
+    </labels>
+
+ <labels>
+        <fullName>Email_Header_Initial_Patient_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Initial Patient PP</shortDescription>
+        <value>Thank you for your interest in participating in a ##StudyorProgramHeader</value>
+    </labels>
+        <labels>
+        <fullName>Email_Signature_Patient_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Patient New  PP</shortDescription>
+        <value>Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.
+
+Sincerely,
+
+##SignatureFullCommunityNewName</value>
+    </labels>
+     <labels>
+        <fullName>Discover_future_Clinical_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Discover future Clinical PP</shortDescription>
+        <value>information about   ##StudyName ##isEventorVisit and assessment</value>
+    </labels>
+    <labels>
+        <fullName>Track_your_study_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Track your study PP</shortDescription>
+        <value>your ##isStudyorProgram timeline to help you keep track of your progress</value>
+    </labels>
+    </CustomLabels>
