@@ -21,13 +21,14 @@ public class Test_Batch_CSVImportBatchJob {
         ];
         User user_1;
         Test.startTest();
+         List<Batch_CSVImportBatchJob.importData>importLST = new List<Batch_CSVImportBatchJob.importData>();
         System.runAs(admin) {
             Account usraccount = new Account(Name = 'Community');
             insert usraccount;
             Contact usrcontact = new Contact(AccountId = usraccount.Id, LastName = 'xgeek',email = 'yourusername@gmail.com' ,UserCommunityIsDelegate__c = true);
             insert usrcontact;
-            passingStaffcontactId = new set<Id>();
-            passingStaffcontactId.add(usrcontact.Id);   
+            //passingStaffcontactId = new set<Id>();
+           // passingStaffcontactId.add(usrcontact.Id);   
             Document document;
             document = new Document();
             document.Body = Blob.valueOf(usrcontact.Id);
@@ -37,8 +38,11 @@ public class Test_Batch_CSVImportBatchJob {
             document.Name = 'DemoCSV4';
             document.FolderId = [select id,developerName from folder where developerName = 'Mass_email_images'].id;
             insert document;
+           
             Batch_CSVImportBatchJob.importData impt = new Batch_CSVImportBatchJob.importData();
             impt.allContactIdS = usrcontact.Id;
+            importLST.add(impt);
+            
             Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'tt123456790',
                 Override_Recruitment_Status__c = 'Actively Enrolling',
@@ -72,6 +76,7 @@ public class Test_Batch_CSVImportBatchJob {
                 WHERE Type__c = 'Action_AssignContactPermissions' AND CreatedDate >= :timeStamp
             ];
         }
+        Batch_CSVImportBatchJob.import(importLST);
         Database.executeBatch(new Batch_CSVImportBatchJob(), 20);
         Test.stopTest(); 
     }

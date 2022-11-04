@@ -11,26 +11,38 @@ global class Batch_CSVImportBatchJob implements Database.Batchable<SObject> {
     global void execute(Database.BatchableContext context, List<SObject> records) {
         // Cast the first record as a Document object
         String[] filelines = new String[]{};
-            set<Id>staffcontactId = new set<Id>();
+            String[] inputvalues = new String[]{};
+            //set<Id>staffcontactId = new set<Id>();
         set<Id>ssId = new set<Id>();
         List<importData>importLST = new List<importData>();
         Document theDocument = (Document)records.get(0);
         String stringBody = theDocument.body.tostring();
         filelines =  stringBody.split('\n');
         for(Integer i=1;i<filelines.size();i++){
-            String[] inputvalues = new String[]{};
                 inputvalues = filelines[i].split(',');
             importData impt = new importData();
             impt.allContactIdS = inputvalues[0];
             //impt.allstudySiteIds = inputvalues[1];
             importLST.add(impt);
         }
-        for(importData im: importLST){
+        system.debug('importLST>>'+importLST);
+        import(importLST);
+    } 
+    
+    global void finish(Database.BatchableContext context) {
+        
+    }
+    public static void import(List<importData>importLST){
+         system.debug('INSIDEimportLST>>'+importLST);
+        List<importData>gettingImportLST = importLST;
+        set<Id>staffcontactId = new set<Id>();
+         for(importData im: gettingImportLST){
             staffcontactId.add(im.allContactIdS);
         }
-        if(test.isRunningTest() == true){
+        /*if(test.isRunningTest() == true){
             staffcontactId = Test_Batch_CSVImportBatchJob.passingStaffcontactId;
-        }
+        }*/
+        system.debug('staffcontactId11>>'+staffcontactId);
         set<Id>StudSiteIds = new set<Id>();
         List<Site_Staff__c> PiAsDelsitestaff = [
             SELECT
@@ -46,7 +58,7 @@ global class Batch_CSVImportBatchJob implements Database.Batchable<SObject> {
             Site_Contact__c = :staffcontactId
             AND is_Invited__c = TRUE
         ];
-       //system.debug('PiAsDelsitestaff>>'+PiAsDelsitestaff.size());
+       system.debug('PiAsDelsitestaff>>'+PiAsDelsitestaff.size());
         TriggerHandlerExecutor.bypassHandler(
             UserTriggerHandler.AssignPendingTasksHandler.class
         );
@@ -59,7 +71,6 @@ global class Batch_CSVImportBatchJob implements Database.Batchable<SObject> {
         TriggerHandlerExecutor.bypassHandler(
             UserTriggerHandler.CreateCompleteYourProfileTaskHandler.class
         );
-        
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
         if(!staffcontactId.isEmpty()){
             ((CommunityService) ClassFactory.newInstance(CommunityService.class))
@@ -67,7 +78,7 @@ global class Batch_CSVImportBatchJob implements Database.Batchable<SObject> {
         }
         for(Id conTd: staffcontactId){
             for (Site_Staff__c ss : PiAsDelsitestaff) {
-                StudSiteIds.add(ss.Study_Site__c);
+                //StudSiteIds.add(ss.Study_Site__c);
                  String IQVIAREFERRALHUB = 'Default';
                  String GSKPANONCOLOGY = 'GSK';
                  String JANSSEN = 'Janssen';
@@ -80,18 +91,11 @@ global class Batch_CSVImportBatchJob implements Database.Batchable<SObject> {
                     }
                 }
             }
-        }
-                  
+        }         
         TriggerHandlerExecutor.bypassHandler(
             UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class
         );
-        
-    } 
-    
-    global void finish(Database.BatchableContext context) {
-        
     }
-    
       public class importData{
         public Id allContactIdS;
         //public Id allstudySiteIds;  
