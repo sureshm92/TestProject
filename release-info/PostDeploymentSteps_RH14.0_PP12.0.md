@@ -31,3 +31,47 @@ a)Goto - developer console - Debug - open Execute Anonymous Window - Add the bel
     https://gitlabrnds.quintiles.com/e2e-pe/rhpp-project/-/blob/INT14/release-info/images/PP_Community_Email_Top_Background.png
     Click on Save.
     For any quiries related to step, contact rushikesh.kadam@iqvia.com
+
+Create the Screener records based on the Clinical trial profile MRR and Prescreener link. It will create the screener records and clear the screener links from Clinical trial profile. 
+Also, Create the screener response records based on participant enrollment MRR and Prescreener response fields. It will create the screener response records and clear the screener response fields from participant enrollment. 
+This will be one time batch for historical data.
+
+a) Goto - Setup - Object Manager - search "Clinical Trial Profile" Object and Click on it - Validation Rules in left panel
+    Open the below listed validation rules and deactivate those (Click on edit and uncheck the active check box and Save)
+    i)   DCT_Platform_Mandatory
+    ii)  Sync_flag_must_be_checked_before_DR
+    iii) Sync_flag_must_be_checked_before_PP    
+    iv)  Sync_flag_must_be_checked_before_PSS
+    v)   Sync_flag_must_be_checked_before_RNS    
+    vi)  Sync_flag_must_be_checked_before_RPSS    
+    vii) Type_of_NCT_number
+b) Goto - developer console - Debug - open Execute Anonymous Window
+    Remove if any lines already added in the snippet window,Paste the below snippet and Click Execute.
+    Database.executeBatch(new Batch_CreateScreener());
+c) Goto - Quick find - Apex Jobs - Search for "Batch_CreateScreener" - Check the Status (It should be completed)
+d) Once the batch is completed, Goto - Setup - Object Manager - search "Clinical Trial Profile" Object and Click on it - Validation Rules in left panel
+    Open the below listed validation rules and Activate those (Click on edit and check the active check box and Save)
+    i)   DCT_Platform_Mandatory
+    ii)  Sync_flag_must_be_checked_before_DR
+    iii) Sync_flag_must_be_checked_before_PP    
+    iv)  Sync_flag_must_be_checked_before_PSS
+    v)   Sync_flag_must_be_checked_before_RNS    
+    vi)  Sync_flag_must_be_checked_before_RPSS    
+    vii) Type_of_NCT_number
+e) Once the batch is completed, Goto - Setup - Object Manager - search "Participant Enrollment" Object and Click on it - Validation Rules in left panel
+    Open the below listed validation rules and deactivate those (Click on edit and uncheck the active check box and Save)
+    i)   HCP_On_Hold
+    ii)  InitialVisitOccurredDate_InFuture
+    iii) Participant_Workflow_Final_Step_on_CTP    
+    iv)  Revisit_Date_is_available
+f) Goto - developer console - Debug - open Execute Anonymous Window
+    Remove if any lines already added in the snippet window,Paste the below snippet and Click Execute.
+    Database.executeBatch(new Batch_CreateScreenerResponse());
+g) Goto - Quick find - Apex Jobs - Search for "Batch_CreateScreenerResponse" - Check the Status (It should be completed)
+h) Once the batch is completed, Goto - Setup - Object Manager - search "Participant Enrollment" Object and Click on it - Validation Rules in left panel
+    Open the below listed validation rules and Activate those (Click on edit and check the active check box and Save)
+    i)   HCP_On_Hold
+    ii)  InitialVisitOccurredDate_InFuture
+    iii) Participant_Workflow_Final_Step_on_CTP    
+    iv)  Revisit_Date_is_available
+Note : I have attached document FYI. 

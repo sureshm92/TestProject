@@ -43,6 +43,8 @@ const participantEnroll = {};
 participantEnroll.Permit_Mail_Email_contact_for_this_study__c = false;
 participantEnroll.Permit_Voice_Text_contact_for_this_study__c = false;
 participantEnroll.Permit_SMS_Text_for_this_study__c = false;
+participantEnroll.Delegate_Consent__c=false;
+participantEnroll.Delegate_SMS_Consent__c=false;
 
 export default class ConsentManager extends LightningElement {
     PG_Ref_L_Information_Sharing=PG_Ref_L_Information_Sharing;
@@ -327,16 +329,54 @@ export default class ConsentManager extends LightningElement {
     }
 
     updateStudyConsentChecks(){
-        if((this.isCountryUS && this.pe.Permit_Mail_Email_contact_for_this_study__c && this.pe.Permit_Voice_Text_contact_for_this_study__c
-            && this.pe.Permit_SMS_Text_for_this_study__c)
-            ||
-            (!this.isCountryUS && this.pe.Permit_Mail_Email_contact_for_this_study__c && this.pe.Permit_Voice_Text_contact_for_this_study__c)
-            ){
-            this.consentModel.studyConsent = true;
-        }else{
-            this.consentModel.studyConsent = false;
-        }
-        this.consentModel.studySMSConsent = (this.pe.Permit_SMS_Text_for_this_study__c ? true : false);
+            if(this._callSource == "ReferParticipantRP"){
+                if(this.isCountryUS){
+                    if((this.pe.Permit_Mail_Email_contact_for_this_study__c && this.pe.Permit_Voice_Text_contact_for_this_study__c
+                                            && this.pe.Permit_SMS_Text_for_this_study__c) ||( this.pe.Delegate_Consent__c && this.pe.Delegate_SMS_Consent__c)){
+                        this.consentModel.studyConsent = true;
+                        }
+                        else if(this.pe.Delegate_Consent__c && this.pe.Delegate_SMS_Consent__c){
+                            this.consentModel.studyConsent = true;
+                        }
+                        else{
+                            this.consentModel.studyConsent = false;
+                        }
+                    }
+                    else if(!this.isCountryUS ){
+                        if(this.pe.Permit_Mail_Email_contact_for_this_study__c && this.pe.Permit_Voice_Text_contact_for_this_study__c || this.pe.Delegate_Consent__c){
+                            this.consentModel.studyConsent = true;
+                        }
+                        else if(this.pe.Delegate_Consent__c ){
+                            this.consentModel.studyConsent = true;
+                            }
+                            else{
+                                this.consentModel.studyConsent = false;
+                            }
+                    }	
+            }
+            else{
+                if((this.isCountryUS && this.pe.Permit_Mail_Email_contact_for_this_study__c && this.pe.Permit_Voice_Text_contact_for_this_study__c
+                        && this.pe.Permit_SMS_Text_for_this_study__c)
+                        ||
+                         (!this.isCountryUS && this.pe.Permit_Mail_Email_contact_for_this_study__c && this.pe.Permit_Voice_Text_contact_for_this_study__c)
+                       ){
+                        this.consentModel.studyConsent = true;
+                       }
+                    else{
+                        this.consentModel.studyConsent = false;
+                         }
+            }
+            if(this._callSource == "ReferParticipantRP"){
+                if(this.pe.Permit_SMS_Text_for_this_study__c || this.pe.Delegate_SMS_Consent__c){
+                    this.consentModel.studySMSConsent=true;
+                }
+                else{
+                    this.consentModel.studySMSConsent=false;
+                }
+            }
+            else{
+                this.consentModel.studySMSConsent = (this.pe.Permit_SMS_Text_for_this_study__c ? true : false);
+            }
         if(this.template.querySelector('[data-id="studyConsent"]') != undefined){
             this.template.querySelector('[data-id="studyConsent"]').checked = this.consentModel.studyConsent;
         }
@@ -371,7 +411,7 @@ export default class ConsentManager extends LightningElement {
         });
         this.dispatchEvent(filterChangeEvent);
     }
-
+    delgateRPconsent=false;
     handleConsentChange(event){
             let consentType = event.target.name;
             let consent = event.detail.checked;
@@ -380,8 +420,10 @@ export default class ConsentManager extends LightningElement {
                 case 'studyConsent':
                         this.pe.Permit_Mail_Email_contact_for_this_study__c = consent;
                         this.pe.Permit_Voice_Text_contact_for_this_study__c = consent;
+                        this.pe.Delegate_Consent__c = consent;
                         if(this.isCountryUS){
                             this.pe.Permit_SMS_Text_for_this_study__c = consent;
+                            this.pe.Delegate_SMS_Consent__c= consent;
                         }
                         if(consent)
                             this.consentModel.showError = false;
@@ -389,6 +431,7 @@ export default class ConsentManager extends LightningElement {
                         break;
                 case 'studySMSConsent':
                         this.pe.Permit_SMS_Text_for_this_study__c = consent;
+                        this.pe.Delegate_SMS_Consent__c= consent;
                         this.fireConsentChange('study');
                         break;
                 case 'outReachConsent':
@@ -449,6 +492,8 @@ export default class ConsentManager extends LightningElement {
         =this.pe.Permit_Mail_Email_contact_for_this_study__c 
         =this.pe.Permit_Voice_Text_contact_for_this_study__c 
         =this.pe.Permit_SMS_Text_for_this_study__c  
+        =this.pe.Delegate_Consent__c
+        =this.pe.Delegate_SMS_Consent__c
         = false;
         this.isCountryUS = true;
     }

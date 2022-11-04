@@ -5,6 +5,10 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: 22px;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 }
 .summary-text {
     color: #000000;
@@ -13,6 +17,11 @@
     letter-spacing: 0;
     line-height: 17px;
     overflow-wrap: break-word;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-align: justify;
 }
 
 img {
@@ -21,7 +30,7 @@ img {
     border: 1px solid #f2f2f2;
 }
 .summary {
-    padding-left: 2%;
+    padding: 0% 2%;
     margin-left: 1%;
     border: 1px solid #f2f2f2;
     contain: size;
@@ -34,6 +43,8 @@ img {
 .summary-date {
     color: #898989;
     padding-bottom: 2%;
+    font-size: 14px;
+    line-height: 17px;
 }
 .resource-icon {
     display: block;
