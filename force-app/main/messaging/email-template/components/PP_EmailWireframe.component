@@ -44,13 +44,13 @@
                                         font-size: 16px;
                                         background-repeat:no-repeat;
                                         height: 160px;
-                                        width: 560px;
+                                        width: 590px;
                                         transform: scaleX(-1);
                                         font-family:Helvetica, Arial, Sans-Serif',
                                         'color: #ffffff;
                                         font-size: 16px;
                                         height: 160px;
-                                        width: 560px;
+                                        width: 590px;
                                         background-repeat:no-repeat;
                                         font-family:Helvetica, Arial, Sans-Serif')}">
                             <!-- Header / IQVIA Patient Portal-->
