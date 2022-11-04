@@ -9,6 +9,6 @@
     <trackFeedHistory>true</trackFeedHistory>
 <!--    <trackHistory>true</trackHistory>-->
     <trackTrending>false</trackTrending>
-    <type>Html</type>
-    <visibleLines>10</visibleLines>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
 </CustomField>
