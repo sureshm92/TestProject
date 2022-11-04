@@ -6386,7 +6386,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
-        <labels>
+    <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6398,7 +6398,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 
 &lt;span style=&quot;color:black;&quot;&gt;Please login to update the status of your task.&lt;/span&gt; </value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Deleg_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6656,7 +6656,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
 
 &lt;span style=&quot;color:black;&quot;&gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
-        <labels>
+    <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7243,7 +7243,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>Email_Header_Visit_Task_Reminder_Delegate</shortDescription>
         <value>This is a reminder of your patient&apos;s upcoming visit</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Email_Header_Visit_Task_Reminder_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8057,7 +8057,7 @@ Sincerely,
         <shortDescription>Email Subject Task Reminder Type Not Selected</shortDescription>
         <value>You have a task reminder</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8071,7 +8071,7 @@ Sincerely,
         <shortDescription>Email Subject Task Reminder Type Not Selected Delegate</shortDescription>
         <value>Reminder: Your patient has a task</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8236,7 +8236,7 @@ Sincerely,
         <shortDescription>Email Subject Visit Task Reminder Delegate</shortDescription>
         <value>Your Patient has a visit reminder</value>
     </labels>
-       <labels>
+    <labels>
         <fullName>Email_Subject_Visit_Task_Reminder_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -28839,11 +28839,11 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Plain Summary PP</shortDescription>
-        <value>New documents from ##StudyName are now available on the ##ShortCommunityName.   
+        <value>New documents for ##StudyName are now available on the ##ShortCommunityName.   
 
             Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Email_Subject_Survey_Reminder_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -28856,6 +28856,13 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>Email Instant Del Subject Reminder Type Not Selected PP</shortDescription>
         <value>Your participant has a new task</value>
+    </labels>
+    <labels>
+        <fullName>Resources_All_Empty</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources all filter empty</shortDescription>
+        <value>No articles or videos available</value>
     </labels>
     <labels>
         <fullName>Email_Body_Instant_Task_Reminder_Type_Not_Selected_PP</fullName>
