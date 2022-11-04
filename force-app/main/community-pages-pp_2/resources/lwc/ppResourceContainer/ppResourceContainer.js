@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
@@ -55,6 +55,14 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
+        //custom event to avoid refreshing data from server on each favorite/unfavorite
+        const favourite = new CustomEvent('favourite', {
+            detail: {
+                isFavourite: this.isFavourite,
+                resourceId: this.resourceId
+            }
+        });
+        this.dispatchEvent(favourite);
     }
 
     showErrorToast(titleText, messageText, variantType) {
