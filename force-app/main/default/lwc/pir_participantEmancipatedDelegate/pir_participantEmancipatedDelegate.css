@@ -98,7 +98,38 @@
 .hide-save{
     display: none;
 }
-@media (max-device-width: 767px) {    
+.label_align{
+    display:flex;
+    align-items: baseline;
+}
+.checkbox_size {
+    max-width: 15px;
+}
+.addParticipantClass {
+    padding-left: 18px;
+}
+
+.font-checkbox{
+    font-size: .875rem;
+}
+.margin-checkboxtopC{
+    margin-top: 7px;
+    
+}
+.margin-checkboxtop{
+    margin-top: 11px;
+}
+.hideDesktop{
+    display: none;
+}
+
+@media (max-device-width: 767px) {  
+    .hideDesktop{
+        display: unset;
+    }
+    .showDesktop{
+        display: none;
+    }  
     .mobile-view-model{
         margin: 16px;
         padding: 0px;
@@ -133,6 +164,12 @@
     }
     .checkbox-padding{
         padding-left: 0;
+    }
+    .addParticipantClass {
+        padding-left: 18px;
+    }
+    .addParticipantClassm {
+        padding-left: 28px;
     }
     .connect-patient-btn{
         width: 100%;

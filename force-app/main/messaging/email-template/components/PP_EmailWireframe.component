@@ -177,7 +177,7 @@
                         <div style="display:block;
                                     padding: 0.5rem 0 0 0;">
                             <!-- Tech Support -->
-                            {!$Label.Email_Opt_Out_footer}
+                            {!$Label.Email_Opt_Out_footer_PP}
                             <a style="color: #015FF1;
                                     font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">
                                 {!$Label.Email_Opt_Out_footer_here}</a>.
@@ -204,7 +204,7 @@
                         <div style="display:block;
                                     padding: 0.5rem 0 0 0;">
                             <!-- Tech Support -->
-                            {!$Label.Email_Opt_Out_footer}
+                            {!$Label.Email_Opt_Out_footer_PP}
                             <a style="color: #015FF1;
                                     font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">
                                 {!$Label.Email_Opt_Out_footer_here}</a>.

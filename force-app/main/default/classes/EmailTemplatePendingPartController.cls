@@ -39,12 +39,12 @@ global without sharing class EmailTemplatePendingPartController {
                             Name,
                             Clinical_Trial_Profile__r.Study_Code_Name__c,
                             Participant_Status_Last_Changed_Date__c,
-                        	High_Priority__c
+                        	High_Priority__c,Re_consent__c
                         FROM Participant_Enrollment__c
                         WHERE
                             (Participant_Status__c = 'Received' OR 
                              (Participant_Status__c IN ('Contact Attempted','Pre-review Passed','Successfully Contacted') 
-                              AND High_Priority__c = true)
+                              AND High_Priority__c = true) OR Re_consent__c = true
                             )
                             AND (Study_Site__c IN :studySites
                             OR PI_Contact__c = :sourceIdValue)
@@ -59,7 +59,8 @@ global without sharing class EmailTemplatePendingPartController {
                                     pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
                                     pe.Participant_Status_Last_Changed_Date__c,
                                     user[0].timezonesidkey,
-                                    pe.High_Priority__c
+                                    pe.High_Priority__c,
+                                    pe.Re_consent__c
                                 )
                             );	
                     }
@@ -74,8 +75,10 @@ global without sharing class EmailTemplatePendingPartController {
         global String refId { get; set; }
         global String studyName { get; set; }
         global String lastRecievedDate { get; set; }
-        //global boolean highPriorityFlag { get; set; }
         global String yesNoPriority { get; set; }
+        global boolean highPriorityReconsent { get; set; }
+        global String highPriority { get; set; }
+        global String reConsent { get; set; }
         
         public ParticipantInfoWrapper() {
         }
@@ -85,11 +88,11 @@ global without sharing class EmailTemplatePendingPartController {
             String studyCodeName,
             DateTime lastRecievedDate,
             String timezonesidkey,
-            boolean highPriorityFlag
+            boolean highPriorityFlag,
+            boolean reConsentRequiredFlag
         ) {
             this.refId = Name;
             this.studyName = studyCodeName;
-            //this.lastRecievedDate = lastRecievedDate.yearGmt()+'-'+lastRecievedDate.monthGmt()+'-'+lastRecievedDate.dayGmt();//String.valueOfGmt(lastRecievedDate);
             Datetime gmt = Datetime.newInstance(
                 lastRecievedDate.yearGmt(),
                 lastRecievedDate.monthGmt(),
@@ -99,10 +102,15 @@ global without sharing class EmailTemplatePendingPartController {
                 lastRecievedDate.secondGmt()
             );
             this.lastRecievedDate = gmt.format('yyyy-MM-dd', timezonesidkey);
-            //this.highPriorityFlag = highPriorityFlag;
 			this.yesNoPriority = yesNoPriority;
-			if(highPriorityFlag == true){
-                this.yesNoPriority = 'Yes';
+			if(highPriorityFlag == true && reConsentRequiredFlag == false ){
+                this.yesNoPriority = 'High Priority';
+            }else if(reConsentRequiredFlag == true && highPriorityFlag == false){
+                this.yesNoPriority = 'Reconsent Required';
+            }else if(highPriorityFlag == true && reConsentRequiredFlag == true){
+                this.highPriorityReconsent = true;
+                this.highPriority = 'High Priority';   
+                this.reConsent = 'Reconsent Required';
             }else{
                 this.yesNoPriority = '';
             }

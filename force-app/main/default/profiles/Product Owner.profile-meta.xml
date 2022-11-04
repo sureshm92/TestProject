@@ -2147,6 +2147,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Delegate_Consent_SMS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>User.IsCommunityUserRegistered__c</field>
         <readable>true</readable>
@@ -2189,6 +2194,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ECOA_Study_Schedule__c.EproRuleSetGuid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>E_Consent_Vendor__c.Vendor_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2494,6 +2504,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Participant_Acknowledgement__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Re_consent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -17,7 +17,7 @@
 }
 
 .po-custom-card-mobile-no-study {
-    height: 250px;
+    height: 200px;
     background-color: #fff;
     font-family: Proxima Nova Medium;
 }
@@ -68,29 +68,32 @@
 
 .po-text_3 {
     font-size: 16px;
-    line-height: 19px;
+    line-height: 21px;
     text-align: left;
     color: #595959;
     margin-left: 24px;
-    max-width: 366px;
+    margin-right: 24px;
+    max-width: 414px;
     font-family: 'Proxima Nova';
     font-weight: 500;
     letter-spacing: 0;
-    padding-right: 20px;
 }
 
 .po-more {
-    font-size: 16px;
-    color: #0768fd;
+    height: 24px;
+    width: 199px;
+    color: #015ff1;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
     line-height: 24px;
-    margin-left: 24px;
-    cursor: pointer;
 }
 
 .po-more-text {
     height: 24px;
     width: 162px;
-    color: #0768fd;
+    color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 600;

@@ -1,18 +1,20 @@
 <template>
     <template if:true={isInitialized}>
         <article class="slds-card header-card">
-            <div class="slds-card__header slds-grid card-wrap">
-                <header class="slds-has-flexi-truncate">
-                    <h2 class="slds-card__header-title">
-                        <p
-                            class="slds-card__header-link slds-truncate upcoming"
-                            title="Outer Card Header"
-                        >
-                            <span>{labels.UPCOMING}</span>
-                        </p>
-                    </h2>
-                </header>
-            </div>
+            <template if:true={desktop}>
+                <div class="slds-card__header slds-grid card-wrap">
+                    <header class="slds-has-flexi-truncate">
+                        <h2 class="slds-card__header-title">
+                            <p
+                                class="slds-card__header-link slds-truncate upcoming"
+                                title="Outer Card Header"
+                            >
+                                <span>{labels.UPCOMING}</span>
+                            </p>
+                        </h2>
+                    </header>
+                </div>
+            </template>
             <template if:true={isUpcomingDetails}>
                 <div class="slds-card__body slds-card__body_inner card-wrap">
                     <article class="slds-card slds-card_boundary container-card">
@@ -246,9 +248,7 @@
                 </div>
             </template>
             <footer class="slds-card__footer card-wrap">
-                <a
-                    class="slds-card__footer-action slds-align_absolute-center label"
-                    href="pp/s/visits"
+                <a class="slds-card__footer-action slds-align_absolute-center label" href="visits"
                     >{labels.View_Visit_Details}
                     <span class="slds-assistive-text">{labels.View_Visit_Details}</span>
                 </a>
