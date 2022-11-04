@@ -77,10 +77,10 @@
     </rules>
     <rules>
         <fullName>Recruitment Status%3A Enrollment Closed</fullName>
-        <actions>
+        <!-- <actions>
             <name>Recruitment_Status_Enrollment_Closed</name>
             <type>FieldUpdate</type>
-        </actions>
+        </actions> -->
         <active>false</active>
         <criteriaItems>
             <field>Clinical_Trial_Profile__c.Recruitment_Status__c</field>
