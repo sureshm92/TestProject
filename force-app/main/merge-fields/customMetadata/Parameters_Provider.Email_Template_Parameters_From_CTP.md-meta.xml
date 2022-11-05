@@ -10,10 +10,7 @@
         <field>Parameters__c</field>
         <value xsi:type="xsd:string">StudyName = Study_Code_Name__c
             TherapeuticArea = Therapeutic_Area__r.Name
-ShortCommName = ShortCommunityName__c
-StudyorProgramHeader=Is_Program__c
-isStudyorProgram=Is_Program__c
-isEventorVisit=Is_Program__c</value>
+ShortCommName = ShortCommunityName__c</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>

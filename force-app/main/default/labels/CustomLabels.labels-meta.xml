@@ -28988,7 +28988,8 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient New  PP</shortDescription>
-        <value>Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.
+        <value>Your user name is ##UserName.
+        Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.
 
 Sincerely,
 
@@ -29007,5 +29008,5 @@ Sincerely,
         <protected>true</protected>
         <shortDescription>Track your study PP</shortDescription>
         <value>your ##isStudyorProgram timeline to help you keep track of your progress</value>
-    </labels>
+    </labels>     
     </CustomLabels>
