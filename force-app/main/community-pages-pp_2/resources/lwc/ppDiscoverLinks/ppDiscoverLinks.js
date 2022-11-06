@@ -11,8 +11,10 @@ export default class PpDiscoverLinks extends LightningElement {
     isInitialized = false;
     isAvailable = false;
     linksWrappers = [];
+    discoverEmptyState = false;
 
-    open_new_tab = pp_community_icons + '/' + 'Open_New_Tab_Icon.png';
+    open_new_tab = pp_community_icons + '/' + 'open_in_new.png';
+    empty_state = pp_community_icons + '/' + 'discover_empty.png';
 
     connectedCallback(){
 
@@ -47,6 +49,7 @@ export default class PpDiscoverLinks extends LightningElement {
             this.spinner.hide();
             console.log("Links Wrapper Custom");
             console.log(this.linksWrappers);
+            this.linksWrappers.length == 0 ? this.discoverEmptyState = true : this.discoverEmptyState = false;
         })
         .catch((error) => {
             communityService.showToast('', 'error', 'Failed To read the Data111...', 100);
