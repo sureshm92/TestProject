@@ -30,6 +30,14 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
         return FORM_FACTOR !== 'Large' ? true : false;
     }
 
+    get inputGridSize(){
+        return this.isMobile ? "9" : "10";
+    }
+
+    get buttonGridSize(){
+        return this.isMobile ? "3" : "2";
+    }
+
     handleChangePreference() {
         this.redirecturl = window.location.origin + basePathName + '/account-settings?changePref';
         const config = {
