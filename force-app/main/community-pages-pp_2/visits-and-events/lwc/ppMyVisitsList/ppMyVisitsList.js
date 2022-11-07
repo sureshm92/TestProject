@@ -61,7 +61,9 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     cbload = false;
 
     connectedCallback() {
-        this.handleVisitChange();
+        if(!this.past && this.upcomingvisits.length != 0){
+            this.handleVisitChange();
+        }
         this.visitTimezone = TIME_ZONE;
     }
     onPastClick() {
@@ -130,10 +132,10 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
 
                 //update bell icon once reminder is created PEH-7825
                 if (this.taskId) {
-                    this.upcomingVisits[this.selectedIndex].isReminderDate = true;
+                    this.upcomingvisits[this.selectedIndex].isReminderDate = true;
                 }
                 if (!this.past) {
-                    this.upcomingVisits[
+                    this.upcomingvisits[
                         this.selectedIndex
                     ].visit.Planned_Date__c = this.visitdata.visitDate;
                     if (this.visitdata.visitDate && this.showupcomingvisits) {

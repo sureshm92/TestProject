@@ -76,7 +76,7 @@ private class Test_ParticipantVisitsRemote {
         List<Patient_Visit__c> cardPatientVisits;
         System.runAs(participantUser) {
             ssHasVisit = ParticipantVisitsRemote.isStudySiteHasVisits();
-            visitsPreview = ParticipantVisitsRemote.getVisitsPreview();
+            visitsPreview = ParticipantVisitsRemote.getVisitsPreviewAndCount().visitPreviewList;
             // participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
             // cardPatientVisits = ParticipantVisitsRemote.getCardPatientVisits();
         }
