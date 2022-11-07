@@ -17,11 +17,11 @@
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
-    <!--   <displayedFields>
+    <displayedFields>
         <field>Override_Description__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
-    </displayedFields> -->
+    </displayedFields>
     <displayedFields>
         <field>Override_Exclusion_Criteria__c</field>
         <isFieldManaged>false</isFieldManaged>
