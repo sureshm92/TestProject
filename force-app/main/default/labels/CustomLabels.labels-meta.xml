@@ -28980,7 +28980,7 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Created By PI New PP</shortDescription>
-        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in participating in a ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##StudyorProgram team will contact you regarding the next steps in the enrollment process. &lt;/p&gt;&lt;/div&gt;</value>
+        <value>&lt;div&gt;&lt;p&gt;Thank you for your interest in participating in a ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div &gt;&lt;p &gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##StudyorProgram team will contact you regarding the next steps in the enrollment process. &lt;/p&gt;&lt;/div&gt;</value>
     </labels>
 
  <labels>
@@ -29017,6 +29017,5 @@ Sincerely,
         <protected>true</protected>
         <shortDescription>Track your study PP</shortDescription>
         <value>your ##isStudyorProgram timeline to help you keep track of your progress</value>
-    </labels>  
-    
+    </labels>     
     </CustomLabels>
