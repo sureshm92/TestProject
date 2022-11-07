@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <available>true</available>
+    <description>When survey is ready for Participant and Delegate</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Patient Complete Baseline Survey PP</name>
+    <style>none</style>
+    <subject>Some</subject>
+    <type>visualforce</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

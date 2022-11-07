@@ -58,14 +58,11 @@ body {
 
 .res-explore-container {
     box-sizing: border-box;
-    height: 710px;
+    height: 607px;
     width: auto;
     border: 1px solid #e9e9e9;
     border-radius: 16px;
     background-color: #ffffff !important;
-    overflow-y: auto;
-    /* padding: 10px 15px; */
-    overflow-x: hidden;
 }
 
 .engage-header,
@@ -251,4 +248,8 @@ p {
     border-radius: 16px;
     background-color: #ffffff;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+}
+
+.mt-10{
+    margin-top: 10px;
 }

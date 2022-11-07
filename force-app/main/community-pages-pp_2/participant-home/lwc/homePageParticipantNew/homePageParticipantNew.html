@@ -40,15 +40,17 @@
             <!--pp task home page-->
             <div class="slds-grid slds-gutters">
                 <div class="slds-col">
-                    <c-pp-home-page-visits-card></c-pp-home-page-visits-card>
+                    <c-pp-home-page-visits-card desktop={desktop}></c-pp-home-page-visits-card>
                 </div>
                 <div class="slds-col">
-                    <c-pp-home-page-visits-card></c-pp-home-page-visits-card>
+                   
                 </div>
                 <div class="slds-col">
-                    <c-pp-home-page-visits-card></c-pp-home-page-visits-card>
+                   
                 </div>
-            </div>
+              </div>
+              <!-- Bottom Congrats Text -->
+             
         </template>
         <template if:false={desktop}>
             <!--<template if:true={clinicalrecord}>-->
@@ -71,31 +73,82 @@
                                 </template>
                                 <template if:false={isProgram}>
                                     <div class="vl"></div>
-                                    <c-study-overview clinicalrecord={clinicalrecord}>
-                                    </c-study-overview>
+                                    <c-study-overview
+                                        clinicalrecord={clinicalrecord}
+                                    >
+                                </c-study-overview>
                                 </template>
                             </template>
                         </lightning-layout-item>
                     </lightning-layout>
                 </div>
             </template>
-
+           
             <!-- cards -->
-            <div class="slds-grid bg-cards">
+            <div class="slds-grid bg-cards slds-p-vertical_large">
                 <div class="slds-col">
-                    <div class="visit"></div>
+                  <div class="visit">
+                    <div class="icon-marg">
+                    <c-web-icon
+                        class="svg-icon"
+                        icon-size="large"
+                        icon-name="calendar"
+                        data-id="calendar"
+                        icon-color="#ffffff"
+                    >
+                    </c-web-icon>
+                </div>
+                <div class="vertical"></div>
+                </div>
                 </div>
                 <div class="slds-col">
-                    <div class="tasks"></div>
+                    <div class="tasks">
+                        <div class="icon-updates">
+                            <c-web-icon
+                                class="svg-icon"
+                                icon-size="medium"
+                                icon-name="reminderbell_icom"
+                                data-id="reminderbell"
+                                icon-color="#ffffff"  
+                            >
+                            </c-web-icon>
+                        </div>
+                        <p class="p-text">Tasks</p>
+                    </div>
                 </div>
                 <div class="slds-col">
-                    <div class="updates"></div>
+                    <div class="updates">
+                        <div class="icon-updates">
+                            <c-web-icon   
+                            class="svg-icon"
+                            icon-size="medium"
+                            icon-name="reminderbell_icom"
+                            data-id="reminderbell"
+                            icon-color="#ffffff"   
+                            >
+                            </c-web-icon>
+                        </div>
+                        <p class="p-text">Updates</p>
+                    </div>
                 </div>
                 <div class="slds-col">
-                    <div class="progress"></div>
+                    <div class="progress">
+                        <div class="icon-updates">
+                            <c-web-icon
+                                class="svg-icon"
+                                icon-size="medium"
+                                icon-name="reminderbell_icom"
+                                data-id="reminderbell"
+                                icon-color="#ffffff"  
+                            >
+                            </c-web-icon>
+                        </div>
+                        <p class="p-text">Progress</p>
+                    </div>
                 </div>
-            </div>
-            <c-pp-home-page-visits-card></c-pp-home-page-visits-card>
+              </div>
+            <c-pp-home-page-visits-card desktop={desktop}></c-pp-home-page-visits-card>
+            
         </template>
     </template>
 </template>
