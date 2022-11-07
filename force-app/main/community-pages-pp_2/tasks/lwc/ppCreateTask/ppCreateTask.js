@@ -39,6 +39,9 @@ export default class PpCreateTask extends LightningElement {
     taskTypeNotSelected = 'Not Selected';
     taskStatusOpen = 'Open';
     isMobile = false;
+    @api taskId;
+    @api editMode = false;
+    disbaleDateTime = false;
 
     labels = { REMIND_USING_REQUIRED };
     label = {
@@ -50,6 +53,9 @@ export default class PpCreateTask extends LightningElement {
     };
     enableSave = false;
     createTask = true;
+    @api
+    readOnlyMode = false;
+    taskCodeList = ['Complete_Your_Profile', 'Update_Your_Phone_Number', 'Select_COI'];
     connectedCallback() {
         if (formFactor === 'Small') {
             this.isMobile = true;
@@ -81,11 +87,38 @@ export default class PpCreateTask extends LightningElement {
             this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
             getTaskEditData({ taskId: this.taskId })
                 .then((wrapper) => {
+                    if (this.taskId) {
+                        this.template.querySelector('[data-id="taskName"]').value =
+                            wrapper.task.Subject;
+                        if (this.taskCodeList.includes(wrapper.task.Task_Code__c)) {
+                            this.disbaleDateTime = true;
+                        } else {
+                            if (wrapper.task.Originator__c != 'Participant') {
+                                if (!wrapper.task.Activity_Datetime__c) {
+                                    this.disbaleDateTime = true;
+                                }
+                            }
+                        }
+                        this.task = wrapper.task;
+                        this.subject = wrapper.task.Subject;
+                        this.taskDateTime = wrapper.task.Activity_Datetime__c;
+                        this.taskDueDate = wrapper.task.Activity_Datetime__c;
+                        this.taskDueTime =
+                            wrapper.task.Activity_Datetime__c != undefined
+                                ? wrapper.task.Activity_Datetime__c
+                                : false;
+                        const date = new Date(this.taskDueTime);
+                        var visitDateTime = new Date(this.taskDueTime).toLocaleTimeString('en-US', {
+                            timeZone: TIME_ZONE
+                        });
+                    }
                     this.initData = wrapper;
                     this.spinner.hide();
                     var task = wrapper.task;
                     task.Status = this.taskStatusOpen;
-                    task.Task_Type__c = this.taskTypeNotSelected;
+                    task.Task_Type__c = this.task.Task_Type__c
+                        ? this.task.Task_Type__c
+                        : this.taskTypeNotSelected;
                     this.task = task;
                     this.jsonState = JSON.stringify(wrapper) + '' + JSON.stringify(task);
                 })
@@ -105,6 +138,10 @@ export default class PpCreateTask extends LightningElement {
 
     get taskInitData() {
         return this.initData && JSON.stringify(this.initData) != '{}' ? true : false;
+    }
+
+    get disabledFieldCSS() {
+        return this.readOnlyMode ? 'read-only-field' : '';
     }
 
     handletaskNameChange(event) {
@@ -199,12 +236,16 @@ export default class PpCreateTask extends LightningElement {
     handleOnlyDate(event) {
         this.taskDateTime = event.detail.compdatetime;
         this.taskDueDate = event.detail.compdate;
-        this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
+        if (!editMode) {
+            this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange(); //uncommented
+        }
     }
     handleOnlyTime(event) {
         this.taskDateTime = event.detail.compdatetime;
         this.taskDueTime = event.detail.comptime;
-        this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
+        if (!editMode) {
+            this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange(); //uncommented
+        }
     }
     doCreateTask() {
         this.spinner.show();
@@ -260,7 +301,8 @@ export default class PpCreateTask extends LightningElement {
     handleCancelTask() {
         const taskCloseEvent = new CustomEvent('taskclose', {
             detail: {
-                isClose: false
+                isClose: false,
+                taskId: this.taskId
             }
         });
         this.dispatchEvent(taskCloseEvent);
@@ -317,7 +359,7 @@ export default class PpCreateTask extends LightningElement {
             timeZone: TIME_ZONE
         });
         let currentDateTimeObject = new Date(currentDateTime);
-        if (this.subject && this.taskDueTime && this.taskDueDate) {
+        if (this.subject && ((this.taskDueTime && this.taskDueDate) || this.disbaleDateTime)) {
             if (!this.isReminderSelected && selectedTaskDueDateTime >= currentDateTimeObject) {
                 this.enableSave = true;
             } else if (this.isReminderSelected) {
@@ -331,8 +373,9 @@ export default class PpCreateTask extends LightningElement {
                         this.task.Remind_Me__c == 'Custom' &&
                         (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c) &&
                         this.taskReminderDate &&
-                        selectedTaskReminderDateTime <= selectedTaskDueDateTime &&
-                        selectedTaskReminderDateTime >= currentDateTimeObject
+                        ((selectedTaskReminderDateTime <= selectedTaskDueDateTime &&
+                            selectedTaskReminderDateTime >= currentDateTimeObject) ||
+                            this.disbaleDateTime)
                     ) {
                         this.enableSave = true;
                     } else {
