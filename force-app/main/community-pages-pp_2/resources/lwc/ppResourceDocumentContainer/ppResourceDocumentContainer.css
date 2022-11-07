@@ -11,3 +11,20 @@
     font-weight: 500;
     letter-spacing: 0;
 }
+
+.no-links-available{
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    text-align: center;
+}
+
+.center{
+    text-align: center;
+    margin-top: 50%;
+}
+
+
