@@ -921,6 +921,11 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
 .study-anchor li{
     padding-left: 0px;
+    padding-right: 30px;
+}
+
+.study-anchor .slds-tabs_default__item:after{
+    right: 30px;
 }
 
 .study-anchor .slds-tabs_default__item.slds-is-active:after{
@@ -929,6 +934,10 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
 .study-anchor .slds-tabs_default__item.slds-is-active .slds-tabs_default__link{
     font-weight: 600 !important;
+}
+
+.study-anchor lightning-tab-bar ul{
+    margin-right: 33px;
 }
 
 @media all and (max-width: 486px) {
