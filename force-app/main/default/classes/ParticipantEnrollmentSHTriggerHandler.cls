@@ -388,12 +388,24 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                         if (newPE.HCP__c != null)
                             hcpContact = newPE.HCP__r.HCP_Contact__c;
                         toCreateUser.put(participant.Contact__c, hcpContact);
-                        alertsForInsert.add(
-                            new Alert__c(
-                                Contact__c = participant.Contact__c,
-                                Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
-                            )
-                        );
+                        if (
+                            newPE.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                            CommunityTemplateService.TEMPLATE_PP
+                        ) {
+                            alertsForInsert.add(
+                                new Alert__c(
+                                    Contact__c = participant.Contact__c,
+                                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_PP
+                                )
+                            );
+                        } else {
+                            alertsForInsert.add(
+                                new Alert__c(
+                                    Contact__c = participant.Contact__c,
+                                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
+                                )
+                            );
+                        }
                     } else {
                         System.debug('NOTIFY USER');
                         String notificationTypeStr;
@@ -481,7 +493,8 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 ParticipantEnrollment__r.Clinical_Trial_Profile__c,
                 ParticipantEnrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                 Status__c,
-                Date__c
+                Date__c,
+                ParticipantEnrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
             FROM Participant_Enrollment_Status_History__c
             WHERE Id IN :newHistories
         ];
@@ -509,25 +522,51 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         List<Alert__c> alerts = new List<Alert__c>();
         for (Participant_Enrollment__c pe : peSuccess) {
             if (pe.Participant_Contact__c != null) {
-                alerts.add(
-                    new Alert__c(
-                        Contact__c = pe.Participant_Contact__c,
-                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY,
-                        Record_ID__c = pe.Id
-                    )
-                );
+                if (
+                    pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                    CommunityTemplateService.TEMPLATE_PP
+                ) {
+                    alerts.add(
+                        new Alert__c(
+                            Contact__c = pe.Participant_Contact__c,
+                            Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_PP,
+                            Record_ID__c = pe.Id
+                        )
+                    );
+                } else {
+                    alerts.add(
+                        new Alert__c(
+                            Contact__c = pe.Participant_Contact__c,
+                            Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY,
+                            Record_ID__c = pe.Id
+                        )
+                    );
+                }
             }
 
             if (!delegateCntByParticipant.containsKey(pe.Participant__c))
                 continue;
             for (Id contactDelegateId : delegateCntByParticipant.get(pe.Participant__c)) {
-                alerts.add(
-                    new Alert__c(
-                        Contact__c = contactDelegateId,
-                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
-                        Record_ID__c = pe.Id
-                    )
-                );
+                if (
+                    pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                    CommunityTemplateService.TEMPLATE_PP
+                ) {
+                    alerts.add(
+                        new Alert__c(
+                            Contact__c = contactDelegateId,
+                            Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE_PP,
+                            Record_ID__c = pe.Id
+                        )
+                    );
+                } else {
+                    alerts.add(
+                        new Alert__c(
+                            Contact__c = contactDelegateId,
+                            Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
+                            Record_ID__c = pe.Id
+                        )
+                    );
+                }
             }
         }
 
