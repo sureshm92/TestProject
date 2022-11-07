@@ -52,14 +52,18 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     @track selectedResourceType;
     @track options = [];
 
+    selectedOptions = "Engage";
+
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
     }
 
-    connectedCallback() {
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-
+    connectedCallback() {        
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);       
         this.initializeData();
+    }
+    renderedCallback(){
+        window.addEventListener('click', this.closeOptions);
     }
     //template toggle
     render() {
@@ -133,7 +137,29 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         });
     }
     updateResources(event) {
-        this.selectedResourceType = event.target.value;
+        this.selectedResourceType = event.currentTarget.dataset.key;
+        this.getKey(this.selectedResourceType);
+
+        let inputFields = this.template.querySelectorAll('.noselected');
+        inputFields.forEach((ele) => {
+            let key = ele.getAttribute('data-key');
+            if (key == this.selectedResourceType) {
+                ele.classList.add('selected');
+            }
+            else{
+                ele.classList.remove('selected');
+            }
+        });
+    }
+
+    getKey(value){
+            this.options.forEach((obj, index) => {
+                let key = '';
+                if(obj.value == value){
+                    key = obj.label
+                    this.selectedOptions = key;
+                }
+            });      
     }
     get exploreVisible() {
         return this.selectedResourceType == 'explore' ? true : false;
@@ -181,6 +207,16 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             this.documentGridSize = 6;
             this.rightColumnPadding = '';
         }
+    }
 
+    showOptions(event){
+        let ele = this.template.querySelectorAll('.res-options');
+        ele[0].classList.toggle('hidden');
+    }
+
+    closeOptions(event){
+        let ele = this.template.querySelectorAll('.res-options');
+        ele[0].classList.add('hidden');
+      
     }
 }
