@@ -6,15 +6,20 @@ import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
 
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
+import DEVICE from '@salesforce/client/formFactor';
 
 export default class PpDiscoverLinks extends LightningElement {
     isInitialized = false;
     isAvailable = false;
     linksWrappers = [];
+    discoverEmptyState = false;
+    desktop = true;
 
-    open_new_tab = pp_community_icons + '/' + 'Open_New_Tab_Icon.png';
+    open_new_tab = pp_community_icons + '/' + 'open_in_new.png';
+    empty_state = pp_community_icons + '/' + 'discover_empty.png';
 
     connectedCallback(){
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
 
         loadScript(this, RR_COMMUNITY_JS)
         .then(() => {
@@ -47,6 +52,7 @@ export default class PpDiscoverLinks extends LightningElement {
             this.spinner.hide();
             console.log("Links Wrapper Custom");
             console.log(this.linksWrappers);
+            this.linksWrappers.length == 0 ? this.discoverEmptyState = true : this.discoverEmptyState = false;
         })
         .catch((error) => {
             communityService.showToast('', 'error', 'Failed To read the Data111...', 100);

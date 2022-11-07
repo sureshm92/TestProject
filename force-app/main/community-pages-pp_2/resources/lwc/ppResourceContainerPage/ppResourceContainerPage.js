@@ -17,7 +17,6 @@ import RESOURCES from '@salesforce/label/c.PG_SW_Tab_Resources';
 import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
 import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
-import HELPTEXT from '@salesforce/label/c.Resource_Discover_Help_Text';
 
 export default class PpResourceContainerPage extends NavigationMixin(LightningElement) {
     //boolean var
@@ -27,10 +26,12 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     toggleExplore = false;
     toggleLinks = false;
     toggleDocs = false;
-    docsection = 'doccolumn';
-    engagesection = 'engcolumn';
-    exploresection = 'expcolumn';
-    discoversection = 'disccolumn';
+
+    linksGridSize = 3;
+    documentGridSize = 3;
+    hideFirstColumn = false;
+    rightColumnPadding = "resource-gutter-left";
+
     //labels
     labels = {
         RESOURCES,
@@ -41,8 +42,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         DOCUMENTS,
         FIND_ANSWERS,
         DISCOVER_TITLE,
-        CHANGE_PREFERENCES,
-        HELPTEXT
+        CHANGE_PREFERENCES
     };
     @track linksData;
     @track trialdata;
@@ -50,6 +50,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     disableSave = true;
     @track textValue;
     @track selectedResourceType;
+    @track options = [];
 
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
@@ -103,16 +104,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                 this.toggleLinks = true;
             }
             this.isInitialized = true;
-            if (!this.toggleDocs) {
-                this.template.querySelector('[data-id="' + this.docsection + '"]');
-            }
-            if (!this.toggleExplore) {
-                this.template.querySelector('[data-id="' + this.engagesection + '"]');
-                this.template.querySelector('[data-id="' + this.exploresection + '"]');
-            }
-            if (!this.toggleLinks) {
-                this.template.querySelector('[data-id="' + this.discoversection + '"]');
-            }
+            this.createoptions();
         }
 
         if (this.spinner) {
@@ -160,5 +152,35 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
 
     get engageVisible() {
         return this.selectedResourceType == 'engage' ? true : false;
+    }
+
+    createoptions() {
+        if (this.toggleExplore) {
+            let option = { value: 'engage', label: this.labels.ENGAGE };
+            let option1 = { value: 'explore', label: this.labels.EXPLORE };
+            this.options.push(option);
+            this.options.push(option1);
+
+        }
+        if (this.toggleLinks) {
+            let option = { value: 'discover', label: this.labels.DISCOVER_TITLE };
+            this.options.push(option);
+        }
+        if (this.toggleDocs) {
+            let option = { value: 'documents', label: this.labels.DOCUMENTS };
+            this.options.push(option);
+        }
+
+        // Populate Grid size 
+        if(!this.toggleExplore && !this.toggleDocs && this.toggleLinks){
+            this.linksGridSize = 6;
+        }
+
+        if(!this.toggleExplore && !this.toggleLinks && this.toggleDocs){
+            this.hideFirstColumn = true;
+            this.documentGridSize = 6;
+            this.rightColumnPadding = '';
+        }
+
     }
 }
