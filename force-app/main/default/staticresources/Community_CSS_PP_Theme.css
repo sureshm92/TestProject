@@ -80,6 +80,14 @@
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32) !important;
 }
 
+.profile-info-btn-mobile .slds-button {
+    color: #ffffff;
+    height: 2rem !important;
+    border-radius: 16px !important;
+    background-color: #015ff1 !important;
+    box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%), 0 4px 8px 0 rgb(7 104 253 / 32%) !important;
+}
+
 .profile-info-error-input .slds-input {
     border: 1px solid rgba(226, 0, 0, 1) !important;
 }
