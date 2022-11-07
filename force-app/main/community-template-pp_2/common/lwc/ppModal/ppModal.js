@@ -1,10 +1,15 @@
 import { LightningElement, api } from 'lwc';
-
+import MODAL_HEADER_PP from '@salesforce/resourceUrl/Modal_Header_PP';
+import MODAL_HEADER_WELCOME from '@salesforce/resourceUrl/Modal_Header_Welcome';
 export default class PpModal extends LightningElement {
     @api headerText = '';
     @api size = 'medium';
     @api isShow = false;
+    @api isHeaderImage = false;
+    @api isAlertChanged = false;
 
+    headerPP = MODAL_HEADER_PP;
+    headerWelcome = MODAL_HEADER_WELCOME;
     //Public methods:---------------------------------------------------------------------------------------------------
     @api show() {
         this.isShow = true;
@@ -12,6 +17,10 @@ export default class PpModal extends LightningElement {
 
     @api hide() {
         this.isShow = false;
+    }
+
+    get headerImage() {
+        return this.isAlertChanged ? this.headerPP : this.headerWelcome;
     }
 
     //Expressions for html attributes-----------------------------------------------------------------------------------
