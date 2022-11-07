@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "55cd9180-d692-4e98-a306-ac8a4dbe7237",
+  "appPageId" : "ddfe8319-a898-4626-bbb7-c966b46ff5cf",
+  "configurationTags" : [ ],
+  "id" : "ac747128-7433-4a5e-976f-430a94e4c530",
+  "label" : "Terms of Use",
+  "pageAccess" : "Public",
+  "routeType" : "custom-terms-and-conditions",
+  "type" : "route",
+  "urlPrefix" : "terms-and-conditions"
+}
