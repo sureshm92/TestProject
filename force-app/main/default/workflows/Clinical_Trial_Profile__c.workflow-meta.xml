@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <!-- <fieldUpdates>
+    <fieldUpdates>
         <fullName>Override_Status_Changed_By</fullName>
         <field>Override_Status_Updated_By__c</field>
         <formula>$Profile.Name</formula>
@@ -9,7 +9,7 @@
         <operation>Formula</operation>
         <protected>false</protected>
     </fieldUpdates>
-   <fieldUpdates>
+   <!-- <fieldUpdates>
         <fullName>Populate_Override_Fields</fullName>
         <field>Override_Description__c</field>
         <formula>Detailed_Description__c</formula>
@@ -17,7 +17,7 @@
         <notifyAssignee>false</notifyAssignee>
         <operation>Formula</operation>
         <protected>false</protected>
-    </fieldUpdates> 
+    </fieldUpdates>  -->
     <fieldUpdates>
         <fullName>Recruitment_Status_Active_Enrolling</fullName>
         <field>Override_Recruitment_Status__c</field>
@@ -53,7 +53,7 @@
         <notifyAssignee>false</notifyAssignee>
         <operation>Literal</operation>
         <protected>false</protected>
-    </fieldUpdates> -->
+    </fieldUpdates> 
     <rules>
         <fullName>Populate Override Fields%3A CTP</fullName>
         <actions>
@@ -64,7 +64,7 @@
         <formula>AND(Detailed_Description__c &lt;&gt; NULL, Detailed_Description__c = NULL)</formula>
         <triggerType>onAllChanges</triggerType>
     </rules> 
-<!--    <rules>
+    <rules>
         <fullName>Recruitment Status Override By</fullName>
         <actions>
             <name>Override_Status_Changed_By</name>
@@ -128,7 +128,7 @@
         </criteriaItems>
         <description>sets Override Recruitment Status from Recruitment Status (data factory)</description>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
-    </rules> -->
+    </rules> 
     <rules>
         <fullName>Recruitment Status%3A On Hold</fullName>
         <actions>
