@@ -1,93 +1,5 @@
 <template>
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
-    <template if:true={isShowModal}>
-        <section
-            role="dialog"
-            tabindex="-1"
-            aria-labelledby="modal-heading-01"
-            aria-modal="true"
-            aria-describedby="modal-content-id-1"
-            class="slds-modal slds-fade-in-open"
-        >
-            <div class="slds-modal__container complete-mask" data-modalpopup={popUpTaskId}>
-                <div class="complete-mask-margin">
-                    <lightning-layout>
-                        <lightning-layout-item
-                            ><div class="modal-title">
-                                {label.taskMarkCompleteHeader}
-                            </div></lightning-layout-item
-                        >
-                        <lightning-layout-item class="task-modal-complete-close-icon">
-                            <lightning-icon
-                                icon-name="utility:close"
-                                size="small"
-                                onclick={closeModel}
-                            >
-                            </lightning-icon></lightning-layout-item
-                    ></lightning-layout>
-
-                    <div class="modal-body">
-                        {label.taskMarkComplete}
-
-                        <lightning-layout class="task-modal-footer-complete">
-                            <lightning-layout-item class="task-modal-footer-item-cancel">
-                                <a onclick={closeModel}>{label.taskCancel}</a>
-                            </lightning-layout-item>
-                            <lightning-layout-item class="task-modal-footer-item-continue">
-                                <button class="modal-button" onclick={closeTheTask}>
-                                    {label.taskConfirm}
-                                </button>
-                            </lightning-layout-item>
-                        </lightning-layout>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </template>
-    <template if:true={isTaskIgnoreModal}>
-        <section
-            role="dialog"
-            tabindex="-1"
-            aria-labelledby="modal-heading-01"
-            aria-modal="true"
-            aria-describedby="modal-content-id-1"
-            class="slds-modal slds-fade-in-open"
-        >
-            <div class="slds-modal__container complete-mask" data-modalpopup={popUpTaskId}>
-                <div class="complete-mask-margin">
-                    <lightning-layout>
-                        <lightning-layout-item
-                            ><div class="modal-title">
-                                {label.taskIgnoreModalTitle}
-                            </div></lightning-layout-item
-                        >
-                        <lightning-layout-item class="task-modal-ignore-close-icon">
-                            <lightning-icon
-                                icon-name="utility:close"
-                                size="small"
-                                onclick={closeModel}
-                            >
-                            </lightning-icon></lightning-layout-item
-                    ></lightning-layout>
-
-                    <div class="modal-body">
-                        {label.taskIgnoreModalBody}
-
-                        <lightning-layout class="task-modal-footer">
-                            <lightning-layout-item class="task-modal-footer-item-cancel">
-                                <a onclick={closeModel}>{label.taskCancel}</a>
-                            </lightning-layout-item>
-                            <lightning-layout-item class="task-modal-footer-item-continue">
-                                <button class="modal-button" onclick={markTheTaskIgnore}>
-                                    {label.taskIgnoreContinue}
-                                </button>
-                            </lightning-layout-item>
-                        </lightning-layout>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </template>
     <template for:each={tasksList} for:item="item" for:index="index">
         <div key={item} class={containerClass} data-parentdiv={item.task.Id}>
             <lightning-layout-item size="2">
@@ -140,6 +52,28 @@
                             data-status={item.task.Status}
                         >
                         </c-web-icon>
+                    </template>
+                    <template if:true={isShowModal}>
+                        <c-pp-task-complete-modal
+                            contact={contact}
+                            messtext={messText}
+                            tittext={titText}
+                            usermode={usermode}
+                            selectedparent={selectedparent}
+                            onconfirmmodal={closeTheTask}
+                            onmodalclose={hideModalBox}
+                        ></c-pp-task-complete-modal>
+                    </template>
+                    <template if:true={isTaskIgnoreModal}>
+                        <c-pp-task-ignore-modal
+                            contact={contact}
+                            messtext={messText}
+                            tittext={titText}
+                            usermode={usermode}
+                            selectedparent={selectedparent}
+                            onconfirmmodal={markTheTaskIgnore}
+                            onmodalclose={closeModel}
+                        ></c-pp-task-ignore-modal>
                     </template>
                     <template if:true={item.isClosed}>
                         <c-web-icon

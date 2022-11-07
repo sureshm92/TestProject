@@ -145,6 +145,9 @@
         <zip destfile="${dist.dir}/${dist.name}-communities-pp.zip">
             <zipfileset dir="${source.dir}/pp" prefix="${release.version}" includes="**/*.*" />
         </zip>
+        <zip destfile="${dist.dir}/${dist.name}-community-policies.zip">
+            <zipfileset dir="${source.dir}/terms" prefix="${release.version}" includes="**/*.*" />
+        </zip>
 
         <!-- restore forceignore: -->
         <copy file=".forceignore" todir=".." overwrite="true"/>
