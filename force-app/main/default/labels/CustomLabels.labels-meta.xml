@@ -29049,6 +29049,40 @@ Due Date and Time: ##expirationDate.</value>
         <protected>false</protected>
         <shortDescription>Learn more about study PP</shortDescription>
         <value>interesting articles and additional information about research.</value>
+    </labels>  
+      <labels>
+        <fullName>Email_Body_Initial_Patient_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more ##studiesOrPrograms that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
+    </labels>  
+     <labels>
+        <fullName>Programs_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Programs PP</shortDescription>
+        <value>programs</value>
+    </labels>
+     <labels>
+        <fullName>Studies_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies PP</shortDescription>
+        <value>studies</value>
     </labels>    
-   
+    <labels>
+        <fullName>Delegate_learnmore_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delegate learnmore PP</shortDescription>
+        <value>learn more about this ##isStudyorProgram.</value>
+    </labels>
+    <labels>
+        <fullName>Delegate_roadmap_Content_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delegate roadmap Content PP</shortDescription>
+        <value>track the progress of ##ParticipantFirstName in the ##isStudyorProgram</value>
+    </labels>
     </CustomLabels>
