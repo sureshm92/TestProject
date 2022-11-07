@@ -137,10 +137,10 @@
                 component.set('v.pyear',null);
             }
              
-            if( (( pe.Mailing_Country_Code__c == 'US' && pe.Permit_SMS_Text_for_this_study__c) || 
+            if( (( pe.Mailing_Country_Code__c == 'US' && ((pe.Permit_SMS_Text_for_this_study__c)&&  pe.Delegate_SMS_Consent__c)) || 
                    pe.Mailing_Country_Code__c != 'US' ) && 
-                 pe.Permit_Voice_Text_contact_for_this_study__c && 
-                 pe.Permit_Mail_Email_contact_for_this_study__c 
+                 ((pe.Permit_Voice_Text_contact_for_this_study__c && 
+                 pe.Permit_Mail_Email_contact_for_this_study__c ) || pe.Delegate_Consent__c) 
               ){
               component.set('v.agreePolicy',true);   
             }
@@ -200,6 +200,7 @@
             };
             component.set('v.delegateParticipant', delegateParticipant);
             component.set('v.emailDelegateRepeat', '');  
+            component.set('v.confirmConsent', false);  
         }
     },
     
@@ -207,6 +208,13 @@
         let isAdultDel = component.get('v.isAdultDel');
         let attestAge = component.get('v.attestAge');
         let states = component.get('v.states');
+        let confirmConsent;
+        if( component.get('v.isConfirmConsentNeeded')){
+         confirmConsent= component.get('v.confirmConsent');
+        }
+         else{
+            confirmConsent=true;
+         }
         
         if(component.get('v.patientVeiwRedirection')){
             if(component.get('v.hasGaurdian')){
@@ -233,8 +241,9 @@
         let selectedState = participant.Mailing_State_Code__c;        
         component.set('v.agreePolicy',false);
         let per = component.get('v.pEnrollment');
-        if( per != null && per != undefined && per != '' &&
-            (
+        let delegateParticipant = component.get('v.delegateParticipant'); 
+        //RH-8091 
+        if( per != null && per != undefined && per != '' && delegateParticipant == null && delegateParticipant == undefined && delegateParticipant == '' &&  (
                 (component.get('v.participant').Mailing_Country_Code__c == 'US' && per.Permit_SMS_Text_for_this_study__c) || 
                  component.get('v.participant').Mailing_Country_Code__c != 'US' ) && 
                  per.Permit_Voice_Text_contact_for_this_study__c && 
@@ -242,12 +251,24 @@
               ){
               component.set('v.agreePolicy',true);   
             }
-
+            else 
+            if( per != null && per != undefined && per != '' && delegateParticipant != null && delegateParticipant != undefined && delegateParticipant != '' &&
+               (
+                (component.get('v.participant').Mailing_Country_Code__c == 'US' && ((per.Permit_SMS_Text_for_this_study__c) || per.Delegate_SMS_Consent__c)) || 
+                 component.get('v.participant').Mailing_Country_Code__c != 'US' ) && 
+                 ((per.Permit_Voice_Text_contact_for_this_study__c && 
+                 per.Permit_Mail_Email_contact_for_this_study__c ) || per.Delegate_Consent__c)
+              ){
+              component.set('v.agreePolicy',true);   
+            }
+            //RH-8091 
         let agreePolicy = component.get('v.agreePolicy');
 
-        //Guardian (Participant delegate)
-        let delegateParticipant = component.get('v.delegateParticipant');
+        //Guardian (Participant delegate) 
+        
         let emailDelegateRepeat = component.get('v.emailDelegateRepeat');
+        
+         agreePolicy = component.get('v.agreePolicy');
         //REF-3070
         let delegateParticipantemail = component.get('v.delegateParticipant.Email__c')!== undefined ? true : false;
         let emailDelegateCmp = component.find('emailDelegateField');
@@ -324,7 +345,7 @@
                delegateParticipant.Last_Name__c &&
                delegateParticipant.Phone__c &&
                delegateParticipant.Email__c &&
-               
+               confirmConsent &&
                emailDelegateVaild &&
                emailDelegateRepeatValid &&
                delegateParticipant.Email__c == emailDelegateRepeat)) &&
@@ -347,7 +368,7 @@
                emailDelegateVaild &&
                emailDelegateRepeatValid &&
                delegateParticipant.Email__c == emailDelegateRepeat &&
-               agreePolicy && attestAge &&
+               agreePolicy && attestAge && confirmConsent &&
                participant.First_Name__c &&
                participant.Last_Name__c &&
                //participant.Date_of_Birth__c &&
@@ -369,7 +390,7 @@
                emailDelegateVaild &&
                emailDelegateRepeatValid &&
                delegateParticipant.Email__c == emailDelegateRepeat &&
-               agreePolicy && attestAge &&
+               agreePolicy && attestAge && confirmConsent &&
                participant.First_Name__c &&
                participant.Last_Name__c &&
                //participant.Date_of_Birth__c &&
@@ -407,7 +428,7 @@
 
         if(needsDelegate && isNewPrimaryDelegate)
         {
-            if(!(isAdultDel && attestAge))
+            if(!(isAdultDel && attestAge && confirmConsent))
                 isValid = false;
         }
         if(selectedParticipantAge == "null" && selectedParticipantAge == undefined && selectedParticipantAge == ''){
@@ -599,6 +620,14 @@
                         
                     }
                 }
+                //RH-8091 
+                if(!component.get('v.participant.Health_care_proxy_is_needed__c') && component.get('v.participant.Adult__c')){
+                    component.set('v.isConfirmConsentNeeded', true);
+                }
+                else{
+                    component.set('v.isConfirmConsentNeeded', false); 
+                }
+                //RH-8091 
                 helper.checkFields(component, event, helper, true);
                 
                 if(component.get('v.patientVeiwRedirection')){

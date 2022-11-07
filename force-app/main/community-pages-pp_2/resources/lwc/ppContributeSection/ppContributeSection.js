@@ -57,6 +57,7 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
     }
 
     handleCreateArticles(event) {
+        this.disableSave = true;
         var inputurl = this.template.querySelector('lightning-input[data-input]').value;
         if (inputurl) {
             createArticle({
@@ -75,6 +76,7 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
             this.disableSave = true;
             urlField.reportValidity();
         }
+        this.template.querySelector('lightning-input[data-name="urlvalue"]').value = null;
     }
 
     showErrorToast(titleText, messageText, variantType) {

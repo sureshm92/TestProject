@@ -5,7 +5,6 @@ export default class PpDetailPageResourceItem extends LightningElement {
     @api resourceLink;
     showArticle = false;
     showVideo = false;
-    showDocument = false;
     connectedCallback() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
@@ -16,9 +15,6 @@ export default class PpDetailPageResourceItem extends LightningElement {
         }
         if (this.resourceType == 'Video') {
             this.showVideo = true;
-        }
-        if (this.resourceType == 'Document') {
-            this.showDocument = true;
         }
         if (this.spinner) {
             this.spinner.hide();
