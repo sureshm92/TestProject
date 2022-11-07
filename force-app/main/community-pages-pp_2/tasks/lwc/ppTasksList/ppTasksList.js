@@ -3,18 +3,14 @@ import taskCompleted from '@salesforce/label/c.Task_Completed';
 import taskCreateReminder from '@salesforce/label/c.Task_create_reminder';
 import taskEdit from '@salesforce/label/c.Task_Edit';
 import taskIgnore from '@salesforce/label/c.Task_Ignore';
-import taskMarkComplete from '@salesforce/label/c.Task_Mark_Complete_Msg';
 import taskDue from '@salesforce/label/c.Task_Due';
 import taskCancel from '@salesforce/label/c.RH_RP_Cancel';
 import taskConfirm from '@salesforce/label/c.RH_TV_Confirm';
 import taskPriorityCritical from '@salesforce/label/c.Task_priority_critical';
 import notAvailable from '@salesforce/label/c.Not_Available';
-import taskMarkCompleteHeader from '@salesforce/label/c.Task_Mark_Complete';
 import taskReminder from '@salesforce/label/c.Task_Reminder';
 import noOpenTasks from '@salesforce/label/c.No_Open_Tasks';
 import taskPPCompletedLabel from '@salesforce/label/c.Task_PP_Completed';
-import taskIgnoreModalTitle from '@salesforce/label/c.Task_Ignore_Modal_Title';
-import taskIgnoreModalBody from '@salesforce/label/c.Task_Ignore_Modal_Body';
 import taskIgnoreContinue from '@salesforce/label/c.Continue';
 import taskIgnoredMessage from '@salesforce/label/c.Task_Ignored_Message';
 
@@ -27,7 +23,6 @@ import TIME_ZONE from '@salesforce/i18n/timeZone';
 import formFactor from '@salesforce/client/formFactor';
 
 export default class PpTasksList extends NavigationMixin(LightningElement) {
-    isShowModal = false;
     isTaskIgnoreModal = false;
     popUpTaskId;
     userTimeZone = TIME_ZONE;
@@ -35,6 +30,12 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     @api expireTaskAvailable = false;
     @api containerClass;
     @api dueTimeClass;
+    @api isActive;
+
+    @api contact;
+    @api selectedparent;
+    @api usermode;
+
     @api
     get selectedTasks() {
         return this.uppercaseItemName;
@@ -60,8 +61,6 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     taskBtnCompleteClass = 'completed-task inactive-btn';
     taskOpenTab = true;
     label = {
-        taskMarkCompleteHeader,
-        taskMarkComplete,
         taskCancel,
         taskConfirm,
         taskPriorityCritical,
@@ -75,8 +74,6 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         taskCreateReminder,
         taskCompleted,
         taskPPCompletedLabel,
-        taskIgnoreModalTitle,
-        taskIgnoreModalBody,
         taskIgnoreContinue,
         taskIgnoredMessage
     };

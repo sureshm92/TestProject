@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Priority_Consent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Priority / Consent</shortDescription>
+        <value>Priority / Consent</value>
+    </labels>
+    <labels>
         <fullName>RH_Show_No_Study_Site</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6379,7 +6386,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
-        <labels>
+    <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6391,7 +6398,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 
 &lt;span style=&quot;color:black;&quot;&gt;Please login to update the status of your task.&lt;/span&gt; </value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Deleg_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6649,7 +6656,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
 
 &lt;span style=&quot;color:black;&quot;&gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
-        <labels>
+    <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7236,7 +7243,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>Email_Header_Visit_Task_Reminder_Delegate</shortDescription>
         <value>This is a reminder of your patient&apos;s upcoming visit</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Email_Header_Visit_Task_Reminder_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8050,7 +8057,7 @@ Sincerely,
         <shortDescription>Email Subject Task Reminder Type Not Selected</shortDescription>
         <value>You have a task reminder</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8064,7 +8071,7 @@ Sincerely,
         <shortDescription>Email Subject Task Reminder Type Not Selected Delegate</shortDescription>
         <value>Reminder: Your patient has a task</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8229,7 +8236,7 @@ Sincerely,
         <shortDescription>Email Subject Visit Task Reminder Delegate</shortDescription>
         <value>Your Patient has a visit reminder</value>
     </labels>
-       <labels>
+    <labels>
         <fullName>Email_Subject_Visit_Task_Reminder_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -13051,6 +13058,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>RH_Complete_Participant_Screener</shortDescription>
         <value>Complete Participant Screener</value>
+    </labels>
+    <labels>
+        <fullName>RH_ConfirmConsentRP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ConfirmConsentRP</shortDescription>
+        <value>By checking this box, you confirm below consent is reviewed.</value>
     </labels>
     <labels>
         <fullName>RH_ScreenerComplete</fullName>
@@ -28627,6 +28641,22 @@ Please contact the Study Team for further updates or please login for additiona
         <value>No upcoming visit</value>
     </labels>
     <labels>
+        <fullName>Visit_No_Past_Visit</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit No Past Visit</shortDescription>
+        <value>No past visits</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Discover_Help_Text</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Resource Discover Help Text</shortDescription>
+        <value>Links will open in new browser window. IQVIA Patient Portal is not responsible for content provided in external websites.</value>
+    </labels>
+    <labels>
         <fullName>Resource_Uploaded</fullName>
         <categories></categories>
         <language>en_US</language>
@@ -28771,6 +28801,13 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>PP Resource URL Placeholder</shortDescription>
         <value>Paste article or video website URL here</value>
     </labels>
+     <labels>
+        <fullName>PP_Resource_URL_Placeholder_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resource URL Placeholder New</shortDescription>
+        <value>Paste URL here</value>
+    </labels>
     <labels>
         <fullName>PP_Submit_Button</fullName>
         <language>en_US</language>
@@ -28832,15 +28869,15 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Plain Summary PP</shortDescription>
-        <value>New documents from ##StudyName are now available on the ##ShortCommunityName.   
+        <value>New documents for ##StudyName are now available on the ##ShortCommunityName.   
 
             Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
-	<labels>
-        <fullName>Email_Subject_Survey_Reminder</fullName>
+    <labels>
+        <fullName>Email_Subject_Survey_Reminder_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Email Subject Survey Reminder</shortDescription>
+        <shortDescription>Email Subject Survey Reminder PP</shortDescription>
         <value>Reminder: You have an upcoming task</value>
     </labels>
     <labels>
@@ -28849,5 +28886,46 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>Email Instant Del Subject Reminder Type Not Selected PP</shortDescription>
         <value>Your participant has a new task</value>
+    </labels>
+    <labels>
+        <fullName>Resources_All_Empty</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources all filter empty</shortDescription>
+        <value>No articles or videos available</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Instant_Task_Reminder_Type_Not_Selected_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Instant Task Reminder Type Not Selected PP</shortDescription>
+        <value>&lt;span&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;
+
+&lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Instant Del Task Reminder Type Not Selected PP</shortDescription>
+        <value>&lt;span &gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Opt_Out_footer_PP</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Opt Out footer PP</shortDescription>
+        <value>To request technical support or opt out of Optional email communications,</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Survey_New_Reminder_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Survey New Reminder PP</shortDescription>
+        <value>This is an email to remind you of your upcoming  task ##SurveyName.
+Due Date and Time: ##expirationDate.</value>
     </labels>
 </CustomLabels>
