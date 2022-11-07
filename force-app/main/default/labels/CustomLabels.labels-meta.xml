@@ -28995,7 +28995,9 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient New  PP</shortDescription>
-        <value>Your user name is ##UserName.
+        <value>&lt;div&gt;&lt;p&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your ##isStudyorProgram center.
+
+        Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;
         Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.
 
 Sincerely,
@@ -29015,5 +29017,6 @@ Sincerely,
         <protected>true</protected>
         <shortDescription>Track your study PP</shortDescription>
         <value>your ##isStudyorProgram timeline to help you keep track of your progress</value>
-    </labels>     
+    </labels>  
+    
     </CustomLabels>
