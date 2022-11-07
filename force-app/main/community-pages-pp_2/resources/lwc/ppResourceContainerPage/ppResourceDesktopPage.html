@@ -12,21 +12,23 @@
                     <!-- Left Column -->
                     <template if:false={hideFirstColumn}>
                         <lightning-layout-item size={linksGridSize} class="resource-gutter">
-                            <lightning-layout multiple-rows="true">
+                            <lightning-layout multiple-rows="true" vertical-align="center">
                                 <template if:true={toggleExplore}>
                                     <lightning-layout-item size="12">
                                         <div class="engage-header mb-8">{labels.ENGAGE}</div>
                                         <div class="left-column">
-                                            <div class="res-box-engage-container crossed">
+                                            <div class="res-box-engage-container">
                                                 <!-- START : COMING SOON -->
-                                                <div class="object">
+                                                <!-- <div class="object">
                                                     <div class="object-rope"></div>
                                                     <div class="object-shape">
                                                         Coming <span class="soon">Soon</span>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <!-- END : COMING SOON -->
-                                                <!-- ENGAGE LWC COMPONENT PLACEHOLDER -->
+                                                <!-- ENGAGE LWC COMPONENT PLACEHOLDER -->                                               
+                                                <img class="empty-state" src={empty_state}/>
+                                                <p class="no-links-available mt-15">No modules available</p>                                                                                              
                                             </div>
                                         </div>
                                     </lightning-layout-item>

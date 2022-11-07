@@ -18,6 +18,8 @@ import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
 import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
 
+import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
+
 export default class PpResourceContainerPage extends NavigationMixin(LightningElement) {
     //boolean var
     desktop = true;
@@ -53,6 +55,9 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     @track options = [];
 
     selectedOptions = "Engage";
+    containerElement;
+
+    empty_state = pp_community_icons + '/' + 'engage_empty.png';
 
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
@@ -62,9 +67,9 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);       
         this.initializeData();
     }
-    renderedCallback(){
-        window.addEventListener('click', this.closeOptions);
-    }
+    // renderedCallback(){
+    //     window.addEventListener('click', this.closeOptions);
+    // }
     //template toggle
     render() {
         return this.desktop ? resourcesDesktop : resourcesMobile;
@@ -210,13 +215,12 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     }
 
     showOptions(event){
-        let ele = this.template.querySelectorAll('.res-options');
-        ele[0].classList.toggle('hidden');
+        this.containerElement = this.template.querySelectorAll('.res-options');
+        this.containerElement[0].classList.toggle('hidden');
     }
 
-    closeOptions(event){
-        let ele = this.template.querySelectorAll('.res-options');
-        ele[0].classList.add('hidden');
-      
-    }
+    // closeOptions(event){
+    //     if(this.containerElement[0])
+    //         this.containerElement[0].classList.add('hidden');      
+    // }
 }
