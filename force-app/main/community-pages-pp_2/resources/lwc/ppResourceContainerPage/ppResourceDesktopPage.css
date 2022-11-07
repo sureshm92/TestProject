@@ -45,6 +45,7 @@ body {
     overflow-y: auto;
     /* padding: 10px 15px; */
     overflow-x: hidden;
+    position: relative;
 }
 
 .res-box-document-container {
@@ -212,7 +213,6 @@ p {
     font-weight: 500;
     letter-spacing: 0;
     text-decoration: underline;
-    float: right;
 }
 
 .resource-container {
@@ -250,24 +250,33 @@ p {
     background-color: #ffffff;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
 }
-.hide {
-    display: none;
+
+.mt-10{
+    margin-top: 10px;
 }
-.ht607 {
-    box-sizing: border-box;
-    height: 607px;
-    width: auto;
-    border: 1px solid #e9e9e9;
-    border-radius: 16px;
-    background-color: #ffffff !important;
-    overflow-y: auto;
-    overflow-x: hidden;
+
+.mt-15{
+    margin-top: 15px;
 }
-.height-res {
-    box-sizing: border-box;
-    height: 607px;
-    width: auto;
-    border: 1px solid #e9e9e9;
-    border-radius: 16px;
-    background-color: #ffffff !important;
+
+.no-links-available{
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    margin-top: 84%;
+    text-align: center;
+}
+
+.empty-state{
+    max-height: 100%;
+    max-width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }

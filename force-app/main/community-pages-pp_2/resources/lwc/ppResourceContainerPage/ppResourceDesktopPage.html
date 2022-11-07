@@ -2,131 +2,150 @@
     <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner"></c-web-spinner>
     <template if:true={isInitialized}>
-        <h1 class="res-header">{labels.RESOURCES}</h1>
-        <div class="slds-grid slds-wrap slds-gutters slds-p-horizontal_x-large">
-            <template if:false={emptyColumn}>
-                <div
-                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_3-of-12 col1"
-                >
-                    <template if:true={toggleExplore}>
-                        <div data-id={engagesection}>
-                            <div class="engage-header mb-8">{labels.ENGAGE}</div>
-                            <div class="left-column">
-                                <div class="res-box-engage-container crossed">
-                                    <!-- START : COMING SOON -->
-                                    <div class="object">
-                                        <div class="object-rope"></div>
-                                        <div class="object-shape">
-                                            Coming <span class="soon">Soon</span>
+        <div class={cardRTL}>
+            <div class="res-container">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12">
+                        <div class="res-header">{labels.RESOURCES}</div>
+                    </lightning-layout-item>
+
+                    <!-- Left Column -->
+                    <template if:false={hideFirstColumn}>
+                        <lightning-layout-item size={linksGridSize} class="resource-gutter">
+                            <lightning-layout multiple-rows="true" vertical-align="center">
+                                <template if:true={toggleExplore}>
+                                    <lightning-layout-item size="12">
+                                        <div class="engage-header mb-8">{labels.ENGAGE}</div>
+                                        <div class="left-column">
+                                            <div class="res-box-engage-container">
+                                                <!-- START : COMING SOON -->
+                                                <!-- <div class="object">
+                                                    <div class="object-rope"></div>
+                                                    <div class="object-shape">
+                                                        Coming <span class="soon">Soon</span>
+                                                    </div>
+                                                </div> -->
+                                                <!-- END : COMING SOON -->
+                                                <!-- ENGAGE LWC COMPONENT PLACEHOLDER -->                                               
+                                                <img class="empty-state" src={empty_state}/>
+                                                <p class="no-links-available mt-15">No modules available</p>                                                                                              
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!-- END : COMING SOON -->
-                                    <!-- ENGAGE LWC COMPONENT PLACEHOLDER -->
-                                </div>
-                            </div>
-                        </div>
+                                    </lightning-layout-item>
+                                </template>
+                                <template if:true={toggleLinks}>
+                                    <lightning-layout-item size="12">
+                                        <div class="rel-header mb-8 resPage">
+                                            {labels.DISCOVER_TITLE}
+                                            <span>
+                                                <!-- <lightning-helptext
+                                                    class="newColor"
+                                                    content={label.PP_AS_F_Preferred_Language_Help_Text}
+                                                    icon-name="utility:info"
+                                                >
+                                                </lightning-helptext> -->
+                                                <lightning-helptext
+                                                    class="newColor"
+                                                    content="Links will open in new browser window. IQVIA Patient Portal
+                                                is not responsible for content provided in external websites."
+                                                    icon-name="utility:info"
+                                                >
+                                                </lightning-helptext>
+                                            </span>
+                                        </div>
+
+                                        <div class="left-column">
+                                            <div class="res-box-relLinks-container pad10">
+                                                <!-- START : COMING SOON -->
+                                                <!-- <div class="object">
+                                                    <div class="object-rope"></div>
+                                                    <div class="object-shape">
+                                                        Coming <span class="soon">Soon</span>
+                                                    </div>
+                                                </div> -->
+                                                <!-- END : COMING SOON -->
+                                                <!-- RELEVANT LINKS LWC COMPONENT PLACEHOLDER -->
+                                                <c-pp-discover-links></c-pp-discover-links>
+                                            </div>
+                                        </div>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                        </lightning-layout-item>
                     </template>
 
-                    <template if:true={toggleLinks}>
-                        <div data-id={discoversection}>
-                            <div class="rel-header mb-8 resPage">
-                                {labels.DISCOVER_TITLE}
-                                <span>
-                                    <!-- <lightning-helptext
-                                        class="newColor"
-                                        content={label.PP_AS_F_Preferred_Language_Help_Text}
-                                        icon-name="utility:info"
-                                    >
-                                    </lightning-helptext> -->
-                                    <lightning-helptext
-                                        class="new-color"
-                                        content={labels.HELPTEXT}
-                                        icon-name="utility:info"
-                                    >
-                                    </lightning-helptext>
-                                </span>
-                                <template if:false={toggleExplore}>
-                                    <template if:false={toggleDocs}>
+                    <!-- Center Column -->
+                    <template if:true={toggleExplore}>
+                    <lightning-layout-item size="6">                      
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12">
+                                    <div class="explore-header mb-8">
+                                        {labels.EXPLORE}
                                         <a
                                             onclick={handleChangePreference}
                                             class="change-preferences"
+                                            style="float: right"
                                         >
                                             {labels.CHANGE_PREFERENCES}
                                         </a>
-                                    </template>
-                                </template>
-                            </div>
-
-                            <div class="left-column">
-                                <div class="disc-section res-box-relLinks-container pad10">
-                                    <c-pp-discover-links></c-pp-discover-links>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-                    <template if:false={toggleExplore}>
-                        <template if:true={toggleLinks}>
-                            <div class="slds-col slds-size_6-of-12">
-                                <div class="slds-var-p-top_medium">
-                                    <c-pp-contribute-section></c-pp-contribute-section>
-                                </div>
-                            </div>
-                        </template>
-                    </template>
-                </div>
-            </template>
-            <template if:true={toggleExplore}>
-                <div
-                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_6-of-12 col2"
-                >
-                    <div data-id={exploresection}>
-                        <div class="explore-header mb-8">
-                            {labels.EXPLORE}
-                            <a onclick={handleChangePreference} class="change-preferences">
-                                {labels.CHANGE_PREFERENCES}
-                            </a>
-                        </div>
-
-                        <div class="center-column">
-                            <div class="res-explore-container">
-                                <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
-                                <c-pp-resource-engage desktop={desktop} is-rtl={isRTL}>
-                                </c-pp-resource-engage>
-                            </div>
-                            <div class="slds-var-p-top_medium">
-                                <c-pp-contribute-section></c-pp-contribute-section>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </template>
-            <div
-                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_3-of-12 col3"
-            >
-                <template if:true={toggleDocs}>
-                    <div data-id={docsection}>
-                        <div class="document-header mb-8">
-                            {labels.DOCUMENTS}
-                            <template if:false={toggleExplore}>
-                                <a onclick={handleChangePreference} class="change-preferences">
-                                    {labels.CHANGE_PREFERENCES}
-                                </a>
-                            </template>
-                        </div>
-                        <div class="right-column">
-                            <div class="document-container res-box-document-container">
-                                <c-pp-Resource-Document-Container></c-pp-Resource-Document-Container>
-                            </div>
-                            <template if:false={toggleExplore}>
-                                <template if:false={toggleLinks}>
-                                    <div class="slds-var-p-top_medium">
-                                        <c-pp-contribute-section></c-pp-contribute-section>
                                     </div>
-                                </template>
+
+                                    <div class="center-column">
+                                        <div class="res-explore-container">
+                                            <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
+                                            <c-pp-resource-engage desktop={desktop} is-rtl={isRTL}>
+                                            </c-pp-resource-engage>
+                                        </div>
+                                        <div class="slds-var-p-top_medium">
+                                            <c-pp-contribute-section></c-pp-contribute-section>
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>                        
+                    </lightning-layout-item>
+                    </template>
+
+                    <!-- Right Column -->
+                    <template if:true={toggleDocs}>
+                    <lightning-layout-item size={documentGridSize} class={rightColumnPadding}>
+                        <lightning-layout multiple-rows="true">                           
+                                <lightning-layout-item size="12">
+                                    <div class="document-header mb-8">{labels.DOCUMENTS}</div>
+                                    <div class="right-column">
+                                        <div class="res-box-document-container">
+                                            <c-pp-Resource-Document-Container></c-pp-Resource-Document-Container>
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
+                            <template if:true={answersVisible}>
+                                <lightning-layout-item size="12">
+                                    <div class="answers-header mb-8">{labels.FIND_ANSWERS}</div>
+                                    <div class="left-column">
+                                        <div class="res-box-answers-container crossed">
+                                            <!-- START : COMING SOON -->
+                                            <div class="object">
+                                                <div class="object-rope"></div>
+                                                <div class="object-shape">
+                                                    Coming <span class="soon">Soon</span>
+                                                </div>
+                                            </div>
+                                            <!-- END : COMING SOON -->
+                                            <!-- FIND ANSWERS LINKS LWC COMPONENT PLACEHOLDER -->
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
                             </template>
-                        </div>
-                    </div>
-                </template>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                    </template>
+
+                    <template if:false={toggleExplore}>
+                        <lightning-layout-item size="6"></lightning-layout-item>                            
+                        <lightning-layout-item size="6" class="mt-10">
+                                <c-pp-contribute-section></c-pp-contribute-section>  
+                        </lightning-layout-item>                                         
+                    </template>
+                </lightning-layout>
             </div>
         </div>
     </template>
