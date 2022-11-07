@@ -28980,7 +28980,9 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Created By PI New PP</shortDescription>
-        <value>&lt;div&gt;&lt;p&gt;Thank you for your interest in participating in a ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div &gt;&lt;p &gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##StudyorProgram team will contact you regarding the next steps in the enrollment process. &lt;/p&gt;&lt;/div&gt;</value>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the enrollment process.&lt;/span&gt;</value>
     </labels>
 
  <labels>
@@ -28995,21 +28997,44 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient New  PP</shortDescription>
-        <value>&lt;div&gt;&lt;p&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your ##isStudyorProgram center.
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram center.&lt;/span&gt;
 
-        Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;
-        Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.
+&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
 
-Sincerely,
+&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
-##SignatureFullCommunityNewName</value>
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+    </labels>
+      <labels>
+        <fullName>Email_Signature_Patient1_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Patient1 New  PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in clinical research.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
      <labels>
         <fullName>Discover_future_Clinical_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Discover future Clinical PP</shortDescription>
-        <value>information about   ##StudyName ##isEventorVisit and assessment</value>
+        <value>information about ##StudyName ##isEventorVisit and assessments</value>
+    </labels>
+      <labels>
+        <fullName>Discover_future_Clinical_New_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Discover future Clinical New PP</shortDescription>
+        <value>information about ##StudyName ##isEventorVisit and activities</value>
     </labels>
     <labels>
         <fullName>Track_your_study_PP</fullName>
@@ -29017,5 +29042,13 @@ Sincerely,
         <protected>true</protected>
         <shortDescription>Track your study PP</shortDescription>
         <value>your ##isStudyorProgram timeline to help you keep track of your progress</value>
-    </labels>     
+    </labels> 
+     <labels>
+        <fullName>Learn_more_about_study_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Learn more about study PP</shortDescription>
+        <value>interesting articles and additional information about research.</value>
+    </labels>    
+   
     </CustomLabels>
