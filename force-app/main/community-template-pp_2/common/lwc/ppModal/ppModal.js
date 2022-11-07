@@ -7,8 +7,8 @@ export default class PpModal extends LightningElement {
     @api isHeaderImage = false;
     @api isAlertChanged = false;
 
-    headerPP = pp_community_icons + +'/' + 'Modal_Header_PP.png';
-    headerWelcome = pp_community_icons + +'/' + 'Modal_Header_Welcome.png';
+    headerPP = pp_community_icons + '/' + 'Modal_Header_PP.png';
+    headerWelcome = pp_community_icons + '/' + 'Modal_Header_Welcome.png';
     //Public methods:---------------------------------------------------------------------------------------------------
     @api show() {
         this.isShow = true;
