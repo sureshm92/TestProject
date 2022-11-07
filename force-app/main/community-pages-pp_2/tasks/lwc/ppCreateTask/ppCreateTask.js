@@ -116,8 +116,10 @@ export default class PpCreateTask extends LightningElement {
                     this.spinner.hide();
                     var task = wrapper.task;
                     task.Status = this.taskStatusOpen;
-                    task.Task_Type__c = this.task.Task_Type__c
+                    task.Task_Type__c = this.task
                         ? this.task.Task_Type__c
+                            ? this.task.Task_Type__c
+                            : this.taskTypeNotSelected
                         : this.taskTypeNotSelected;
                     this.task = task;
                     this.jsonState = JSON.stringify(wrapper) + '' + JSON.stringify(task);
