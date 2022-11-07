@@ -28812,6 +28812,13 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>PP Resource URL Placeholder</shortDescription>
         <value>Paste article or video website URL here</value>
     </labels>
+     <labels>
+        <fullName>PP_Resource_URL_Placeholder_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resource URL Placeholder New</shortDescription>
+        <value>Paste URL here</value>
+    </labels>
     <labels>
         <fullName>PP_Submit_Button</fullName>
         <language>en_US</language>
