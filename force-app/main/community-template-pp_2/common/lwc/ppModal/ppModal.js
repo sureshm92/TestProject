@@ -1,6 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import MODAL_HEADER_PP from '@salesforce/resourceUrl/Modal_Header_PP.png';
-import MODAL_HEADER_WELCOME from '@salesforce/resourceUrl/Modal_Header_Welcome.png';
+import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 export default class PpModal extends LightningElement {
     @api headerText = '';
     @api size = 'medium';
@@ -8,8 +7,8 @@ export default class PpModal extends LightningElement {
     @api isHeaderImage = false;
     @api isAlertChanged = false;
 
-    headerPP = MODAL_HEADER_PP;
-    headerWelcome = MODAL_HEADER_WELCOME;
+    headerPP = pp_community_icons + +'/' + 'Modal_Header_PP.png';
+    headerWelcome = pp_community_icons + +'/' + 'Modal_Header_Welcome.png';
     //Public methods:---------------------------------------------------------------------------------------------------
     @api show() {
         this.isShow = true;
