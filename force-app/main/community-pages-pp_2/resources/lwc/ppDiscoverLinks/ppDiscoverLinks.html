@@ -35,14 +35,26 @@
             </template>
         </template>
         <template if:true={discoverEmptyState}>
-            <lightning-layout multiple-rows="true" vertical-align="center">
-                    <lightning-layout-item size="12" class="center-empty">
-                        <img src={empty_state}/>
-                    </lightning-layout-item>
-                    <lightning-layout-item size="12" class="mt-15">
-                        <p class="no-links-available">No links available</p>
-                    </lightning-layout-item>
-            </lightning-layout>
+            <template if:true={desktop}>
+                <lightning-layout multiple-rows="true" vertical-align="center">
+                        <lightning-layout-item size="12" class="center-empty">
+                            <img src={empty_state}/>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" class="mt-15">
+                            <p class="no-links-available">No links available</p>
+                        </lightning-layout-item>
+                </lightning-layout>
+            </template>
+            <template if:false={desktop}>
+                <lightning-layout multiple-rows="true" vertical-align="center" class="container-height">
+                        <lightning-layout-item size="12" class="center-empty-mobile">
+                            <img src={empty_state}/>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" class="mt-15">
+                            <p class="no-links-available">No links available</p>
+                        </lightning-layout-item>
+                </lightning-layout>
+            </template>
         </template>
     </template>
 </template>

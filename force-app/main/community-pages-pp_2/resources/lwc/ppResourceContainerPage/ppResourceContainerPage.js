@@ -26,6 +26,12 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     toggleExplore = false;
     toggleLinks = false;
     toggleDocs = false;
+
+    linksGridSize = 3;
+    documentGridSize = 3;
+    hideFirstColumn = false;
+    rightColumnPadding = "resource-gutter-left";
+
     //labels
     labels = {
         RESOURCES,
@@ -151,7 +157,10 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     createoptions() {
         if (this.toggleExplore) {
             let option = { value: 'engage', label: this.labels.ENGAGE };
+            let option1 = { value: 'explore', label: this.labels.EXPLORE };
             this.options.push(option);
+            this.options.push(option1);
+
         }
         if (this.toggleLinks) {
             let option = { value: 'discover', label: this.labels.DISCOVER_TITLE };
@@ -161,5 +170,17 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             let option = { value: 'documents', label: this.labels.DOCUMENTS };
             this.options.push(option);
         }
+
+        // Populate Grid size 
+        if(!this.toggleExplore && !this.toggleDocs && this.toggleLinks){
+            this.linksGridSize = 6;
+        }
+
+        if(!this.toggleExplore && !this.toggleLinks && this.toggleDocs){
+            this.hideFirstColumn = true;
+            this.documentGridSize = 6;
+            this.rightColumnPadding = '';
+        }
+
     }
 }

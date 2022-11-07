@@ -6,17 +6,20 @@ import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
 
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
+import DEVICE from '@salesforce/client/formFactor';
 
 export default class PpDiscoverLinks extends LightningElement {
     isInitialized = false;
     isAvailable = false;
     linksWrappers = [];
     discoverEmptyState = false;
+    desktop = true;
 
     open_new_tab = pp_community_icons + '/' + 'open_in_new.png';
     empty_state = pp_community_icons + '/' + 'discover_empty.png';
 
     connectedCallback(){
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
 
         loadScript(this, RR_COMMUNITY_JS)
         .then(() => {

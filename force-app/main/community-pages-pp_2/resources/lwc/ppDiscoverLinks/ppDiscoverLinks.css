@@ -84,6 +84,14 @@
     margin-top: 25%;
 }
 
+.container-height{
+    height: 335px;
+}
+
+.center-empty-mobile{
+    text-align: center;
+}
+
 .mt-15{
     margin-top: 15px;
 }
