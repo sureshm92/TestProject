@@ -5,11 +5,11 @@
         <div class={cardRTL}>
             <div class="res-container">
                 <lightning-layout multiple-rows="true" vertical-align="center">
-                    <lightning-layout-item size="6">
+                    <lightning-layout-item size="6" class="mb-10">
                         <div class="res-header">{labels.RESOURCES}</div>
                     </lightning-layout-item>
 
-                    <lightning-layout-item size="6">
+                    <lightning-layout-item size="6" class="mb-8">
                         <div class="pref-container">
                             <a
                                 onclick={handleChangePreference}
@@ -22,17 +22,24 @@
                     </lightning-layout-item>
 
                     <lightning-layout-item size="12">
-                        <select
-                            name="selectResources"
-                            class="resourceSelection documents"
-                            onchange={updateResources}
-                        >
-                            <option value="explore">{labels.EXPLORE}</option>
-                            <option value="engage">{labels.ENGAGE}</option>
-                            <option value="documents">{labels.DOCUMENTS}</option>
-                            <option value="discover">{labels.DISCOVER_TITLE}</option>
-                            <option value="answers">{labels.FIND_ANSWERS}</option>
-                        </select>
+                        <div class="selectWrapper">
+                            <select
+                                name="selectResources"
+                                class="resourceSelection dropdown-mobile-res-page minimal"
+                                onchange={updateResources}
+                            >
+                                <!--<option value="explore">{labels.EXPLORE}</option>
+                                <option value="engage">{labels.ENGAGE}</option>
+                                <option value="documents">{labels.DOCUMENTS}</option>
+                                <option value="discover">{labels.DISCOVER_TITLE}</option>
+                                <option value="answers">{labels.FIND_ANSWERS}</option>-->
+                                <template for:each={options} for:item="option">
+                                    <option key={option.value} value={option.value} class="documents">
+                                        { option.label }
+                                    </option>
+                                </template>
+                            </select>
+                        </div>
                     </lightning-layout-item>
                 </lightning-layout>
 
@@ -114,14 +121,13 @@
                         </lightning-layout-item>
                     </lightning-layout>
                 </template>
+           
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12" class="mt-10">                       
+                        <c-pp-contribute-section></c-pp-contribute-section>                       
+                    </lightning-layout-item>
+                </lightning-layout>
             </div>
-            <lightning-layout multiple-rows="true">
-                <lightning-layout-item size="12">
-                    <div class="slds-var-p-top_medium group-2">
-                        <c-pp-contribute-section></c-pp-contribute-section>
-                    </div>
-                </lightning-layout-item>
-            </lightning-layout>
         </div>
     </template>
 </template>
