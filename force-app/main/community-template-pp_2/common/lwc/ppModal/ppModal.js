@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
-import MODAL_HEADER_PP from '@salesforce/resourceUrl/Modal_Header_PP';
-import MODAL_HEADER_WELCOME from '@salesforce/resourceUrl/Modal_Header_Welcome';
+import MODAL_HEADER_PP from '@salesforce/resourceUrl/Modal_Header_PP.png';
+import MODAL_HEADER_WELCOME from '@salesforce/resourceUrl/Modal_Header_Welcome.png';
 export default class PpModal extends LightningElement {
     @api headerText = '';
     @api size = 'medium';
