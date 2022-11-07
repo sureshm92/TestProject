@@ -23,8 +23,6 @@
     <referrerPolicyOriginWhenCrossOrigin>true</referrerPolicyOriginWhenCrossOrigin>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
     <serverIsDown>SNA_Policies_and_Terms1_sf_default_cdn_gzZnA</serverIsDown>
-    <siteAdmin>test-cfny5clunwdi@example.com</siteAdmin>
-    <siteGuestRecordDefaultOwner>test-cfny5clunwdi@example.com</siteGuestRecordDefaultOwner>
     <siteType>ChatterNetwork</siteType>
     <urlPathPrefix>terms</urlPathPrefix>
 </CustomSite>
