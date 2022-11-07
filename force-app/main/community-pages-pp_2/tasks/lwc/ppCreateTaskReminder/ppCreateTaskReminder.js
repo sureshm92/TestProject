@@ -34,6 +34,7 @@ export default class PpCreateTaskReminder extends LightningElement {
     @api currentTime;
     @api isRTL = false;
     @api isMobile = false;
+    @api taskInfo;
 
     isInitialized = false;
     spinner;
@@ -50,6 +51,9 @@ export default class PpCreateTaskReminder extends LightningElement {
     smsReminderOptIn = false;
     emailReminderOptIn = false;
 
+    taskCodeList = ['Complete_Your_Profile', 'Update_Your_Phone_Number', 'Select_COI'];
+    businessTask = false;
+    systemTask = false;
     labels = {
         ERROR_MESSAGE,
         REMINDER,
@@ -105,6 +109,25 @@ export default class PpCreateTaskReminder extends LightningElement {
                         } else {
                             this.isEmailReminderDisabled = !this.initData.emailOptIn;
                             this.isSMSReminderDisabled = !this.initData.smsOptIn;
+                            if (this.taskInfo) {
+                                this.systemTask =
+                                    this.taskInfo.Originator__c != 'Participant'
+                                        ? this.taskCodeList.includes(this.taskInfo.Task_Code__c)
+                                        : false;
+                                this.businessTask =
+                                    this.taskInfo.Originator__c != 'Participant'
+                                        ? !this.systemTask
+                                        : false;
+                                this.emailReminderOptIn = this.initData.task.Remind_Using_Email__c;
+                                this.smsReminderOptIn = this.initData.task.Remind_Using_SMS__c;
+                                if (this.systemTask) {
+                                    this.selectedReminderOption = 'Custom';
+                                } else {
+                                    this.selectedReminderOption = this.initData.task.Remind_Me__c;
+                                }
+                                this.selectedReminderDate = this.initData.reminderDate;
+                                this.selectedReminderDateTime = this.initData.reminderDate;
+                            }
                             this.isInitialized = true;
                         }
                     })
@@ -118,28 +141,47 @@ export default class PpCreateTaskReminder extends LightningElement {
     }
 
     get reminderOptions() {
-        let differenceTimeHours = this.calculateTimezoneDifference();
-        if (differenceTimeHours > 1) {
-            this.initialReminderOptions[0].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
+        try {
+            let differenceTimeHours = this.calculateTimezoneDifference();
+            if (!this.systemTask) {
+                if (differenceTimeHours > 1) {
+                    this.initialReminderOptions[0].itemClass = 'dropdown-li';
+                } else {
+                    this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
+                }
+                if (differenceTimeHours > 4) {
+                    this.initialReminderOptions[1].itemClass = 'dropdown-li';
+                } else {
+                    this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
+                }
+                if (differenceTimeHours > 24) {
+                    this.initialReminderOptions[2].itemClass = 'dropdown-li';
+                } else {
+                    this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
+                }
+                if (differenceTimeHours > 168) {
+                    this.initialReminderOptions[3].itemClass = 'dropdown-li';
+                } else {
+                    this.initialReminderOptions[3].itemClass = 'dropdown-li li-item-disabled';
+                }
+            }
+            if (this.systemTask) {
+                if (this.initialReminderOptions.length > 1) {
+                    let customOption = this.initialReminderOptions[4];
+                    this.initialReminderOptions = [];
+                    this.initialReminderOptions.push(customOption);
+                }
+                this.selectedReminderOption = 'Custom';
+                this.handleReminderDataChange();
+            }
+            return this.initialReminderOptions;
+        } catch (e) {
+            console.error(e);
         }
-        if (differenceTimeHours > 4) {
-            this.initialReminderOptions[1].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
-        }
-        if (differenceTimeHours > 24) {
-            this.initialReminderOptions[2].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
-        }
-        if (differenceTimeHours > 168) {
-            this.initialReminderOptions[3].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[3].itemClass = 'dropdown-li li-item-disabled';
-        }
-        return this.initialReminderOptions;
+    }
+
+    get isDisabledOptions() {
+        return this.systemTask ? true : true;
     }
 
     get minimumReminderTime() {
@@ -172,12 +214,25 @@ export default class PpCreateTaskReminder extends LightningElement {
             timeZone: TIME_ZONE
         });
         let taskDueDateTimeObject = new Date(taskDueDateTime);
-        let taskDueDateTimeString = [
-            taskDueDateTimeObject.getFullYear(),
-            ('0' + (taskDueDateTimeObject.getMonth() + 1)).slice(-2),
-            ('0' + taskDueDateTimeObject.getDate()).slice(-2)
-        ].join('-');
-        return this.selectedReminderDate == taskDueDateTimeString ? this.taskDueTime : null;
+        if (this.taskInfo) {
+            let taskReminderDateTim = new Date(this.selectedReminderDate).toLocaleString('en-US', {
+                timeZone: TIME_ZONE
+            });
+            let taskReminderDateTimeObject = new Date(taskReminderDateTim);
+            if (!isNaN(taskDueDateTimeObject.valueOf())) {
+                this.selectedReminderDate = this.getDateFromDateTime(taskReminderDateTimeObject);
+            }
+        }
+        if (!isNaN(taskDueDateTimeObject.valueOf())) {
+            let taskDueDateTimeString = [
+                taskDueDateTimeObject.getFullYear(),
+                ('0' + (taskDueDateTimeObject.getMonth() + 1)).slice(-2),
+                ('0' + taskDueDateTimeObject.getDate()).slice(-2)
+            ].join('-');
+            return this.selectedReminderDate == taskDueDateTimeString ? this.taskDueTime : null;
+        } else {
+            return this.taskDueDateTime;
+        }
     }
 
     get isReminderOptionSelected() {
@@ -191,6 +246,7 @@ export default class PpCreateTaskReminder extends LightningElement {
     }
 
     get isReminderDisabled() {
+        if (this.taskInfo) return false;
         return this.isTaskDueDateTimeSelected ? false : true;
     }
 
@@ -341,11 +397,13 @@ export default class PpCreateTaskReminder extends LightningElement {
 
     @api
     handleDueDateChange() {
-        this.selectedReminderOption = '';
-        this.selectedReminderDate = '';
-        this.selectedReminderDateTime = '';
-        this.smsReminderOptIn = false;
-        this.emailReminderOptIn = false;
+        if (!this.taskInfo) {
+            this.selectedReminderOption = '';
+            this.selectedReminderDate = '';
+            this.selectedReminderDateTime = '';
+            this.smsReminderOptIn = false;
+            this.emailReminderOptIn = false;
+        }
     }
 
     handleCustomEvent(eventName, reminderType, reminderDateTime) {
@@ -368,5 +426,14 @@ export default class PpCreateTaskReminder extends LightningElement {
                 variant: variantType
             })
         );
+    }
+    getDateFromDateTime(dateTimeObj) {
+        let dbCompDate = new Date(dateTimeObj);
+        let localtimezonedate = dbCompDate.toLocaleString('en-US', { timeZone: TIME_ZONE });
+        let processlocaltimezonedate = new Date(localtimezonedate);
+        let dd = String(processlocaltimezonedate.getDate()).padStart(2, '0');
+        let mm = String(processlocaltimezonedate.getMonth() + 1).padStart(2, '0');
+        let yyyy = processlocaltimezonedate.getFullYear();
+        return yyyy + '-' + mm + '-' + dd;
     }
 }
