@@ -4,16 +4,37 @@
             <div class="slds-grid card-top-bg"></div>
             <div class="slds-modal__content slds-p-around_large">
                 <div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small">
+                    <template if:true={isHeaderImage}>
+                        <div class="slds-col slds-size_11-of-12-custom">
+                            <div class="header-image-container slds-p-bottom_x-small">
+                                <img src={headerImage} class="header-image" />
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-12-custom">
+                            <lightning-icon
+                                icon-name="utility:close"
+                                alternative-text="close"
+                                title="close"
+                                size="x-small"
+                                onclick={handleCloseModal}
+                            >
+                            </lightning-icon>
+                        </div>
+                    </template>
+                </div>
+                <div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small">
                     <div class="slds-col modal-header-text">{headerText}</div>
                     <div class="slds-col close-cursor">
-                        <lightning-icon
-                            icon-name="utility:close"
-                            alternative-text="close"
-                            title="close"
-                            size="x-small"
-                            onclick={handleCloseModal}
-                        >
-                        </lightning-icon>
+                        <template if:false={isHeaderImage}>
+                            <lightning-icon
+                                icon-name="utility:close"
+                                alternative-text="close"
+                                title="close"
+                                size="x-small"
+                                onclick={handleCloseModal}
+                            >
+                            </lightning-icon>
+                        </template>
                     </div>
                 </div>
                 <slot name="body"></slot>
