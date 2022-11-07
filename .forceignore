@@ -54,15 +54,9 @@ force-app/main/tools/staticresources/*
 
 #Uncomment during full package deployment
 #force-app/main/default/staticresources/WalkMeCommunity*
-
 #Ignore State globalValueSet
-force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
-force-app/main/default/profiles
-force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
-force-app/main/onboarding-tour
-force-app/main/messaging/customMetadata
-force-app/communities
-!force-app/communities/community-pp
-force-app/main/tests/classes
-#force-app/main/integration/classes/RemoteCall_GetCardDetails.cls
-**/__tests__
+#force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
+#force-app/main/default/profiles
+#force-app/communities
+#force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
+#force-app/main/default/profiles/PRDBAPI*

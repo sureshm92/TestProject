@@ -207,70 +207,6 @@
                                         icon-name="task_arrow"
                                         onclick={handleonclick}
                                     ></c-web-icon>
-
-                                    <!--img src={taskCard_button} /-->
-
-                                    <!--   <div
-                                    class="slds-dropdown-trigger slds-dropdown-trigger_click"
-                                    data-popup={item.openTask.Id}
-                                    onclick={expandtheCard}
-                                    tabindex="0"
-                                >
-                                    <div
-                                        aria-haspopup="true"
-                                        aria-expanded="true"
-                                        onblur={closeMenu}
-                                        tabindex="0"
-                                    >
-                                        <img src={threedots_imgUrl} class="image-result" />
-                                       
-                                    </div>
-                                    <div
-                                        class="slds-dropdown slds-dropdown_right"
-                                        onblur={closeMenu}
-                                        tabindex="0"
-                                        style="
-                                            margin-bottom: -98px;
-                                            margin-top: -13px;
-                                            margin-left: -65px;
-                                        "
-                                    >
-                                        <template for:each={popupTaskMenuItems} for:item="citem">
-                                            <li
-                                                class="slds-dropdown__item popup-default"
-                                                role="presentation"
-                                                key={citem}
-                                            >
-                                                <a href="#" role="menuitem">
-                                                    <span class="slds-truncate">
-                                                        <template if:true={citem.reminder}>
-                                                            <c-web-icon
-                                                                class="svg-icon"
-                                                                icon-size="small"
-                                                                icon-name="reminderbell_icom"
-                                                                icon-color="#999999"
-                                                            >
-                                                            </c-web-icon
-                                                        ></template>
-                                                        <template if:true={citem.edit}>
-                                                            <img src={editImg} />
-                                                        </template>
-                                                        <template if:true={citem.ignore}>
-                                                            <c-web-icon
-                                                                class="svg-icon"
-                                                                icon-size="small"
-                                                                icon-name="icon-close"
-                                                                icon-color="#999999"
-                                                            >
-                                                            </c-web-icon></template
-                                                        >&nbsp;&nbsp;{citem.name}</span
-                                                    >
-                                                </a>
-                                            </li>
-                                        </template>
-                                    </div>
-                                </div>-->
-                                    <!--End-->
                                 </lightning-layout-item>
                             </div>
                         </template>
@@ -297,4 +233,4 @@
             </lightning-layout>
         </div>
     </div>
-</template>
+</template> 
