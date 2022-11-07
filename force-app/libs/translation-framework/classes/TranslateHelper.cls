@@ -271,8 +271,29 @@ public class TranslateHelper {
         for (String param : params.keySet()) {
             String paramId = paramPrefix + param;
             String paramValue = params.get(param);
+
             if (paramValue == null)
                 paramValue = '';
+            if (param == 'StudyorProgramHeader') {
+                if (paramValue == 'true')
+                    paramValue = System.Label.Program_Header_PP;
+                else
+                    paramValue = System.Label.Study_Header_PP;
+            }
+            if (param == 'isEventorVisit') {
+                if (paramValue == 'true')
+                    paramValue = System.Label.Events_PP;
+                else
+                    paramValue = System.Label.Visits_PP;
+            }
+
+            if (param == 'isStudyorProgram') {
+                if (paramValue == 'true')
+                    paramValue = System.Label.Program_Header_PP;
+                else
+                    paramValue = System.Label.Study_PP;
+            }
+
             result = result.replaceAll(paramId, paramValue);
         }
         return result;
