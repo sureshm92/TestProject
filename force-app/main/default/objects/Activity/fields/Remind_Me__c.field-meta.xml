@@ -18,6 +18,11 @@
                 <default>false</default>
                 <label>1 day before</label>
             </value>
+            <value>
+                <fullName>1 week before</fullName>
+                <default>false</default>
+                <label>1 week before</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
