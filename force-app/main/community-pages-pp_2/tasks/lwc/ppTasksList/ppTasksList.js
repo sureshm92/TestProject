@@ -109,7 +109,8 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     ignoredTasksList = [];
     spinner;
     isMobile = false;
-
+    selectedTaskId;
+    readOnlyMode = false;
     connectedCallback() {
         console.log('tasks 123', this.tasksList);
         if (formFactor === 'Small') {
@@ -149,7 +150,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         let radioTask = this.template.querySelector(
             '[data-parentdiv="' + this.selectedTaskId + '"]'
         );
-        radioTask.classList.add('active-custom-box');
+        if (radioTask) radioTask.classList.add('active-custom-box');
     }
 
     showIgnoreModal(event) {
@@ -180,7 +181,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
                 }
                 this.spinner.hide();
                 this.showToast(this.label.taskCompleted, this.label.taskCompleted, 'success');
-                const taskCloseEvent = new CustomEvent('taskcreated', {
+                const taskCloseEvent = new CustomEvent('taskcompleted', {
                     detail: {
                         tasksList: this.tasksList,
                         taskStatus: taskOldStatus
@@ -192,7 +193,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
                 this.spinner.hide();
             });
     }
-    expandtheCard(event) {
+    showTaskActionMenu(event) {
         this.popupTaskMenuItems = [];
         var taskId = event.currentTarget.dataset.popup;
         this.popUpTaskId = taskId;
@@ -213,12 +214,24 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             this.popupTaskMenuItems.push(this.reminderObj);
         } else {
             if (selectedTask.task.Task_Code__c == 'Complete_Survey') {
-                this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
-            } else {
-                if (selectedTask.task.Originator__c == 'IQVIA Admin') {
+                if (selectedTask.task.Status != 'Ignored') {
                     this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
                 } else {
-                    this.popupTaskMenuItems.push(this.editObj, this.ignoreObj);
+                    this.popupTaskMenuItems.push(this.reminderObj);
+                }
+            } else {
+                if (selectedTask.task.Originator__c == 'IQVIA Admin') {
+                    if (selectedTask.task.Status != 'Ignored') {
+                        this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
+                    } else {
+                        this.popupTaskMenuItems.push(this.reminderObj);
+                    }
+                } else {
+                    if (selectedTask.task.Status != 'Ignored') {
+                        this.popupTaskMenuItems.push(this.editObj, this.ignoreObj);
+                    } else {
+                        this.popupTaskMenuItems.push(this.editObj);
+                    }
                 }
             }
         }
@@ -226,8 +239,17 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         if (cl.includes('slds-is-open')) radioTask.classList.remove('slds-is-open');
     }
     closeMenu() {
-        let radioTask = this.template.querySelector('[data-popup="' + this.popUpTaskId + '"]');
-        radioTask.classList.remove('slds-is-open');
+        try {
+            let radioTask = this.template.querySelector('[data-popup="' + this.popUpTaskId + '"]');
+            if (this.popUpTaskId) {
+                let selectedTask = this.getTaskDetailsById(this.popUpTaskId);
+            }
+            if (radioTask) {
+                radioTask.classList.remove('slds-is-open');
+            }
+        } catch (e) {
+            console.error(e);
+        }
     }
     closeModel() {
         let radioTask = this.template.querySelector('[data-modalpopup="' + this.popUpTaskId + '"]');
@@ -264,10 +286,30 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         event.preventDefault();
     }
     createReminder() {
-        alert('createReminder');
+        try {
+            this.selectedTaskId = '';
+            this.clearAllTaskExpandStatus();
+            let selectedTask = this.getTaskDetailsById(this.popUpTaskId);
+            this.selectedTaskId = this.popUpTaskId;
+            selectedTask.expandCard = true;
+            this.readOnlyMode = true;
+            this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+        } catch (e) {
+            console.error(e);
+        }
     }
     editTask() {
-        alert('editTask');
+        try {
+            this.selectedTaskId = '';
+            this.clearAllTaskExpandStatus();
+            let selectedTask = this.getTaskDetailsById(this.popUpTaskId);
+            this.selectedTaskId = this.popUpTaskId;
+            selectedTask.expandCard = true;
+            this.readOnlyMode = false;
+            this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+        } catch (e) {
+            console.error(e);
+        }
     }
     callMethod(event) {
         if (event.currentTarget.dataset.method == this.label.taskCreateReminder) {
@@ -297,26 +339,40 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
                 );
             })
             .catch((error) => {
+                console.error(error);
                 this.spinner.hide();
             });
     }
     getTaskDetailsById(taskId) {
-        let selectedTask;
+        this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
         for (let i = 0; i < this.tasksList.length; i++) {
             if (this.tasksList[i].task.Id == taskId) {
-                selectedTask = this.tasksList[i];
-                break;
+                return this.tasksList[i];
             }
         }
-        return selectedTask;
+        return '';
+    }
+    clearAllTaskExpandStatus() {
+        this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+        for (let i = 0; i < this.tasksList.length; i++) {
+            if (this.tasksList[i].expandCard) {
+                delete this.tasksList[i].expandCard;
+            }
+        }
     }
     removeTheTaskfromList(taskId) {
         let i;
         for (i = 0; i < this.tasksList.length; i++) {
             if (this.tasksList[i].task.Id == taskId) {
+                this.tasksList[i].task.Status = 'Ignored';
                 break;
             }
         }
-        this.tasksList.splice(i, 1);
+    }
+    handleTaskClose(event) {
+        let taskId = event.detail.taskId;
+        this.clearAllTaskExpandStatus();
+        const taskCreatedEvent = new CustomEvent('taskcreated');
+        this.dispatchEvent(taskCreatedEvent);
     }
 }
