@@ -28833,6 +28833,14 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>PP Resource Submit</shortDescription>
         <value>Content was submitted successfully. Thank you for your contribution!</value>
     </labels>
+     <labels>
+        <fullName>View_All_Tasks</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View All Tasks</shortDescription>
+        <value>View All Tasks</value>
+    </labels>
+</CustomLabels>
     <labels>
         <fullName>Task_PP_Completed</fullName>
         <language>en_US</language>
