@@ -417,7 +417,7 @@ public without sharing class CommunityFacadeRemote {
             ]
             .size() > 0;
     }
-//RH-6579/RH-6581 - Bhagyashri - Bell Notification - Start Changes
+//RH-6579/RH-6581 - Bell Notification - Start Changes
     //Get SessionID
     @AuraEnabled(Cacheable=true)
     public static Map<String,string> getSessionId() {
@@ -436,7 +436,13 @@ public without sharing class CommunityFacadeRemote {
     @AuraEnabled
     public static List<Send_Result__c> getSendResults(Id contactId){
         List<Send_Result__c> listOfResult = new List<Send_Result__c>();
-        String communityType = UserContext.getCurrentUserMode().template.templateName;    
+        String communityType = UserContext.getCurrentUserMode().template.templateName;  
+        String userRole = UserContext.getCurrentUserMode().userMode;
+
+        if(userRole.startsWith('PI')){
+            userRole = 'PI';
+        }
+
         if(contactId != null){
             listOfResult = [SELECT Action__c,CreatedById,CreatedDate,Error__c,Id,Integration_Log__c,
                             IsDeleted,Is_Active__c,Is_Read__c,Link_to_Related_Event_or_Object__c,
@@ -446,7 +452,8 @@ public without sharing class CommunityFacadeRemote {
                             WHERE (Is_Active__c = true) 
                             AND (Notification__r.Recipient__r.Id =:contactId)  
                             AND ( CreatedDate = LAST_N_DAYS:30) 
-                            AND Community_Type__c = :communityType 
+                            AND Community_Type__c = :communityType     
+                            AND User_Role__c = :userRole                
                             ORDER BY CreatedDate DESC];
         }
         
@@ -492,5 +499,5 @@ public without sharing class CommunityFacadeRemote {
             return null;
         }
     }
-//RH-6579/RH-6581 - Bhagyashri - Bell Notification - End Changes
+//RH-6579/RH-6581 - Bell Notification - End Changes
 }

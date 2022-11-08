@@ -2415,6 +2415,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
   /*
    * @description: this method will be used to send bell notification on completion of Bulk Import of participants
    * @created Date: 26 Oct 2022
+   * 
    * @param: bulkImpHistory - instance of Bulk Import History record; used to get the context user details
    * @param: studySiteDetails -  instance of Study Site record; used to get study site details
    */
@@ -2429,7 +2430,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     
     List<Notification__c> notificationList = BellNotificationsHelper.createNotification('BELL_Message_on_Bulk_Import_Success', resultMap, true);
     
-    Id jobId = System.enqueueJob(new BellNotificationQueueable(notificationList, studySiteDetails, selectedStatus));
+    Id jobId = System.enqueueJob(new BellNotificationQueueable(notificationList, studySiteDetails, selectedStatus, BellNotificationsHelper.userRole));
 
     
   }
