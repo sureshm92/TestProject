@@ -737,11 +737,11 @@
         <field>Clinical_Trial_Profile__c.Orientation__c</field>
         <readable>false</readable>
     </fieldPermissions>
-    <!--    <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Override_Description__c</field>
         <readable>false</readable>
-    </fieldPermissions> -->
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Override_Exclusion_Criteria__c</field>
