@@ -48,8 +48,8 @@ public without sharing class NotificationResultService {
         setResultStatus(notificationId, targetType, SEND_RESULT_STATUS_SENT, null);
     }
 
-    public void setSentForBell(Id notificationId, String targetType, String messageBody, String redirectURL){
-        setResultStatusForBell(notificationId, targetType, SEND_RESULT_STATUS_SENT, messageBody, redirectURL);
+    public void setSentForBell(Id notificationId, String targetType, String messageBody, String redirectURL, String userRole, String communityType){
+        setResultStatusForBell(notificationId, targetType, SEND_RESULT_STATUS_SENT, messageBody, redirectURL, userRole, communityType);
     }
 
     public Send_Result__c getSendResult(Id notificationId, String targetType) {
@@ -154,7 +154,9 @@ public without sharing class NotificationResultService {
         String targetType,
         String status,
         String messageBody,
-        String redirectURL
+        String redirectURL,
+        String userRole,
+        String communityType
     ){
         Send_Result__c result = getSendResult(
             notificationId,
@@ -163,10 +165,11 @@ public without sharing class NotificationResultService {
             null,
             messageBody
 
-        );
+        );        
         result.Status__c = status;
-        result.Link_to_Related_Event_or_Object__c = redirectURL;
-        result.Community_Type__c = UserContext.getCurrentUserMode().template.templateName;
+        result.Link_to_Related_Event_or_Object__c = redirectURL;        
+        result.Community_Type__c = communityType;
+        result.User_Role__c = userRole;
     }
 
     private void updateNotificationsStatus() {

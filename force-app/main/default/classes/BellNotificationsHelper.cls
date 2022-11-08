@@ -1,21 +1,21 @@
 /*********************************************************************************************************************
 * @description: This class is created to handle Notifications of type 'BELL'
-* @author: Naman J, Rajat Dadhich
+* 
 * @created: 13 October 2022
 
 **********************************************************************************************************************
 * Modification Log
 * Version			Developer		Date			Remarks
 *---------------------------------------------------------------------------------------------------------------------
-* 1.0				Naman J			13/10/2022		Initial Creation
+*
 **********************************************************************************************************************
 */
 public class BellNotificationsHelper {
-
+    public static String userRole;
 
 /*
     * @description: This Method will return all the Notification Target records for Notification Type
-    * @author: Rajat D
+    * RH-6603
     * @created: 17 Oct 2022
     * @param: notificationType
     * @return: List<Notification_Target__mdt>
@@ -34,7 +34,7 @@ public class BellNotificationsHelper {
 
 /*
     * @description: This Method will return all the Notification Target records for Notification Type in a Map
-    * @author: Rajat D
+    * RH-6603
     * @created: 17 Oct 2022
     * @param: notificationType
     * @return: Map<NotificationType.DeveloperName, List<Notification_Target__mdt>>
@@ -44,7 +44,10 @@ public class BellNotificationsHelper {
         Map<String, List<Notification_Target__mdt>> mapOfTypeVsTarget = new Map<String, List<Notification_Target__mdt>>();
 
         if(!lstnotificationType.isEmpty() && lstnotificationType.size() > 0){
-            lstOfNotificationTarget = [SELECT Message_Body__c, Notification_Type__r.DeveloperName, Notification_Type__r.MasterLabel, Notification_Type__c, Target_Type__c, Title__c, Target_User_Group__c, Is_Redirect__c FROM Notification_Target__mdt WHERE Notification_Type__r.DeveloperName IN :lstnotificationType];
+            lstOfNotificationTarget = [SELECT Message_Body__c, Notification_Type__r.DeveloperName, Notification_Type__r.MasterLabel, 
+                                       Notification_Type__c, Target_Type__c, Title__c, Target_User_Group__c, Is_Redirect__c 
+                                       FROM Notification_Target__mdt 
+                                       WHERE Notification_Type__r.DeveloperName IN :lstnotificationType];
             if(lstOfNotificationTarget.size() > 0){
                 for(Notification_Target__mdt eachRec : lstOfNotificationTarget){
                     if(!mapOfTypeVsTarget.containsKey(eachRec.Notification_Type__r.DeveloperName)){
@@ -60,7 +63,7 @@ public class BellNotificationsHelper {
 
     /*
     * @description: This Method will return all the Contact records to whom Notification have to be sent in a Map Key - TargetUserGroup
-    * @author: Rajat D
+    * RH-6603
     * @created: 17 Oct 2022
     * @param: List of TargetUserGroup, StudySiteId, User who trigerred the process
     * @return: Map<String TargetUserGroup, List<Contact>>
@@ -94,9 +97,13 @@ public class BellNotificationsHelper {
             if(mapofGroupVsContact.containsKey('Self') && !String.isBlank(trigerredBy)){
                 mapofGroupVsContact.get('Self').add(new Contact(Id = trigerredBy));
             }
+            
             if(mapofGroupVsContact.containsKey('PI') && eachRec.Principal_Investigator__c != null && eachRec.Principal_Investigator__c != trigerredBy){
                 mapofGroupVsContact.get('PI').add(new Contact(Id = eachRec.Principal_Investigator__c));
+            }else{
+                userRole = 'PI';
             }
+
             if(eachRec.Site_Staff__r != null){
                 for(Site_Staff__c eachStaff : eachRec.Site_Staff__r){
                     if(eachStaff.Site_Contact__c != trigerredBy){
@@ -109,6 +116,16 @@ public class BellNotificationsHelper {
                         if(eachStaff.Delegate_Level__c == 'Level 3' && mapofGroupVsContact.containsKey('PI Delegate L3')){
                             mapofGroupVsContact.get('PI Delegate L3').add(new Contact(Id = eachStaff.Site_Contact__c));
                         }
+                    }else {
+                        if(eachStaff.Delegate_Level__c == 'Level 1'){
+                            userRole = 'PI Delegate L1';
+                        }
+                        if(eachStaff.Delegate_Level__c == 'Level 2'){
+                            userRole = 'PI Delegate L2';
+                        }
+                        if(eachStaff.Delegate_Level__c == 'Level 3'){
+                            userRole = 'PI Delegate L3';
+                        }
                     }                                            
                 }
             }
@@ -116,10 +133,12 @@ public class BellNotificationsHelper {
                 for(HCP_Enrollment__c eachRP : eachRec.HCP_Enrollments__r){
                     if(eachRP.HCP_Contact__c != trigerredBy){
                         mapofGroupVsContact.get('RP').add(new Contact(Id = eachRP.HCP_Contact__c));
+                    }else{
+                        userRole = 'RP';
                     }                        
                 }
             }
-        }
+        }        
         return mapofGroupVsContact;
     }
 
@@ -131,7 +150,7 @@ public class BellNotificationsHelper {
 
     /*
     * @description: This Method will return all the Notifaction Record created
-    * @author: Rajat D
+    * RH-6603
     * @created: 17 Oct 2022
     * @param: List of NotificationType, Map of TargetUserGroup VS List of Contacts, isInsert
     * @return: List<Notification__c>
@@ -153,7 +172,7 @@ public class BellNotificationsHelper {
 
     /*
     * @description: This Method will return all the Notification Record created
-    * @author: Rajat D
+    * RH-6603
     * @created: 17 Oct 2022
     * @param: NotificationType, recipient COntact, isInsert
     * @return: Notification__c
@@ -174,7 +193,7 @@ public class BellNotificationsHelper {
     
     /*
     * @description: This Method will return all the Notification Record created
-    * @author: Rajat D
+    * RH-6603
     * @created: 17 Oct 2022
     * @param: NotificationType, recipient COntact, whatId, isInsert
     * @return: Notification__c
@@ -196,7 +215,7 @@ public class BellNotificationsHelper {
 
     /*
     * @description: this method will publish platform event message for Bell Notification type
-    * @author: Naman J
+    * RH-6603
     * @created: 17 Oct 2022
     * @param: srList => list of Send Result records getting inserted
     * @return: void
