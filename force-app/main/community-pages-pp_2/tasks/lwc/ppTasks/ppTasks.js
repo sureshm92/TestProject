@@ -431,27 +431,5 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         );
         radioTask.classList.remove('active-custom-box');
     }
-    handleonclick(event) {
-        var taskId = event.currentTarget.dataset.index;
-        console.log('taskId:',taskId);
-        this.redirectPage(taskId);
-    }
-    redirectPage(taskId) {
-        console.log('redirectPage:',window.location.origin);
-        console.log('basePathName:',basePathName);
-
-        this.taskurl = window.location.origin + basePathName + '/tasks'+ '?taskId=' + taskId;
-        console.log('taskurl:', this.taskurl);
-
-        const config = {
-            type: 'standard__webPage',
-
-            attributes: {
-                url: this.taskurl
-            }
-        };
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            window.open(url, '_self');
-        });
-    }
+  
 }

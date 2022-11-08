@@ -31,7 +31,6 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     @api containerClass;
     @api dueTimeClass;
     @api isActive;
-
     @api contact;
     @api selectedparent;
     @api usermode;
@@ -111,12 +110,20 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     isMobile = false;
     selectedTaskId;
     readOnlyMode = false;
+    ishomepage = false;
+
     connectedCallback() {
         console.log('tasks 123', this.tasksList);
         if (formFactor === 'Small') {
             this.isMobile = true;
         } else {
             this.isMobile = false;
+        }
+        var pageurl = communityService.getFullPageName();
+        if(pageurl == 'tasks'){
+            this.ishomepage = false;
+        }else{
+            this.ishomepage = true;
         }
     }
 
@@ -374,5 +381,28 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         this.clearAllTaskExpandStatus();
         const taskCreatedEvent = new CustomEvent('taskcreated');
         this.dispatchEvent(taskCreatedEvent);
+    }
+    handleonclick(event) {
+        var taskId = event.currentTarget.dataset.index;
+        console.log('taskId:',taskId);
+        this.redirectPage(taskId);
+    }
+    redirectPage(taskId) {
+        console.log('redirectPage:',window.location.origin);
+        console.log('basePathName:',basePathName);
+
+        this.taskurl = window.location.origin + basePathName + '/tasks'+ '?taskId=' + taskId;
+        console.log('taskurl:', this.taskurl);
+
+        const config = {
+            type: 'standard__webPage',
+
+            attributes: {
+                url: this.taskurl
+            }
+        };
+        this[NavigationMixin.GenerateUrl](config).then((url) => {
+            window.open(url, '_self');
+        });
     }
 }
