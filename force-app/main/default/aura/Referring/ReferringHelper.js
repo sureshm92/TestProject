@@ -261,7 +261,7 @@
         }else {
             emailDelegateRepeatValid = false;
         }
-            
+
         if(participant.Email__c){
             emailVaild = 
             needsDelegate ||
@@ -467,9 +467,7 @@
         var regexpInvalid = new RegExp($A.get('$Label.c.RH_Email_Invalid_Characters'));
         var invalidCheck = regexpInvalid.test(emailValue);
         if (invalidCheck == false) {
-          //  email.setCustomValidity('');
             if (emailValue.match(regexp)) {
-           // email.setCustomValidity('');
                 isValid = true;
             } else {
                 if(emailValue != ''){
