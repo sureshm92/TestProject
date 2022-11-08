@@ -142,9 +142,10 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         }
                     }
                     //get upcoming visit details onload
-                    this.visitid = this.upcomingVisits[0].visit.Id;
-                    this.taskSubject = this.upcomingVisits[0].visit.Name;
-
+                    if (this.upcomingVisits.length > 0) {
+                        this.visitid = this.upcomingVisits[0].visit.Id;
+                        this.taskSubject = this.upcomingVisits[0].visit.Name;
+                    }
                     if (!this.pastVisitId && this.pastVisits.length > 0) {
                         this.pastVisits = this.pastVisits.reverse();
                         this.pastVisitId = this.pastVisits[0].visit.Id;
@@ -155,8 +156,14 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
                     }
                     this.showList = true;
-                    this.initializeData(this.visitid);
-                    this.createEditTask();
+                    if(this.visitid){
+                        console.log('Inside Visit Id');
+                        this.initializeData(this.visitid);
+                        this.createEditTask();
+                    }
+                    else{
+                        this.template.querySelector('c-web-spinner').hide();
+                    }
                 } else {
                     this.template.querySelector('c-web-spinner').hide();
                     this.contentLoaded = true;
@@ -192,6 +199,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.siteAddress = data.accountAddress;
                 this.siteName = data.accountName;
                 this.sitePhoneNumber = data.accountPhone;
+                this.template.querySelector('c-web-spinner').show();
             })
             .catch((error) => {
                 this.showErrorToast('Error occured', error.message, 'error');

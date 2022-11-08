@@ -29,6 +29,32 @@ public without sharing class ParticipantVisitsRemote {
     }
 
     @AuraEnabled
+    public static VisitAndCountWrapper getVisitsPreviewAndCount() {
+        try {
+            ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(
+                ParticipantService.class
+            ))
+            .getState();
+            VisitAndCountWrapper visitAndCount = new VisitAndCountWrapper();
+            visitAndCount.showVisits = pState.showVisits;
+            visitAndCount.visitPreviewList = ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
+                .getVisitWrappers(PatientVisitService.VISIT_MODE_CURRENT, 5);
+            return visitAndCount;
+
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
+    public class VisitAndCountWrapper {
+        @AuraEnabled
+        public List<PatientVisitService.VisitWrapper>  visitPreviewList;
+        @AuraEnabled
+        public Boolean showVisits;
+    }
+
+    @AuraEnabled
     public static String getSiteAddress() {
         String accountData;
         try {
