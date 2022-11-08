@@ -38,7 +38,9 @@
            
             <div class="slds-grid slds-gutters">
                 <div class="slds-col">
-                    <c-pp-home-page-visits-card desktop={desktop}></c-pp-home-page-visits-card>
+                    <template if:true={showVisitCard}> 
+                        <c-pp-home-page-visits-card desktop={desktop}></c-pp-home-page-visits-card>
+                    </template>
                 </div>
                 <div class="slds-col">
                    
@@ -84,21 +86,25 @@
            
             <!-- cards -->
             <div class="slds-grid bg-cards slds-p-vertical_large">
-                <div class="slds-col">
-                  <div class="visit">
-                    <div class="icon-marg">
-                    <c-web-icon
-                        class="svg-icon"
-                        icon-size="large"
-                        icon-name="calendar"
-                        data-id="calendar"
-                        icon-color="#ffffff"
-                    >
-                    </c-web-icon>
-                </div>
-                <div class="vertical"></div>
-                </div>
-                </div>
+
+                    <div class="slds-col">
+                        <template if:true={showVisitCard}>
+                        <div class="visit">
+                            <div class="icon-marg">
+                            <c-web-icon
+                                class="svg-icon"
+                                icon-size="large"
+                                icon-name="calendar"
+                                data-id="calendar"
+                                icon-color="#ffffff"
+                            >
+                            </c-web-icon>
+                            </div>
+                            <div class="vertical"></div>
+                        </div>
+                    </template>
+                    </div>
+
                 <div class="slds-col">
                     <div class="tasks">
                         <div class="icon-updates">
@@ -145,8 +151,9 @@
                     </div>
                 </div>
               </div>
-            <c-pp-home-page-visits-card desktop={desktop}></c-pp-home-page-visits-card>
-            
+            <template if:true={showVisitCard}>  
+                <c-pp-home-page-visits-card desktop={desktop}></c-pp-home-page-visits-card>
+            </template>
         </template>
     </template>
 </template>
