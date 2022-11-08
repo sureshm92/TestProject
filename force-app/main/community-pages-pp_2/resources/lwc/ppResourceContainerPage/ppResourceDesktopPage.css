@@ -280,3 +280,11 @@ p {
     right: 0;
     margin: auto;
 }
+
+.right-align{
+    float: right;
+}
+
+.newHeight{
+    height: 607px;
+}

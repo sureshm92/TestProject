@@ -213,6 +213,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.siteAddress = data.accountAddress;
                 this.siteName = data.accountName;
                 this.sitePhoneNumber = data.accountPhone;
+                this.template.querySelector('c-web-spinner').show();
             })
             .catch((error) => {
                 this.showErrorToast('Error occured', error.message, 'error');

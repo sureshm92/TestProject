@@ -72,7 +72,9 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     empty_state = pp_community_icons + '/' + 'empty_visits.png';
 
     connectedCallback() {
-        this.handleVisitChange();
+        if (!this.past && this.upcomingvisits.length != 0) {
+            this.handleVisitChange();
+        }
         this.visitTimezone = TIME_ZONE;
     }
 

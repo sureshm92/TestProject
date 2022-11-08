@@ -39,7 +39,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
         'Official_Title__c',
         'Sponsor_Pays_for_Referral_Activity__c',
         'Override_Inclusion_Criteria__c',
-        //    'Override_Description__c',
+        'Override_Description__c',
         'Brief_Summary__c',
         'Therapeutic_Area__r.Name',
         'NCT_Number__c'

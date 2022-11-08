@@ -9,6 +9,7 @@ import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import COMETD_LIB from '@salesforce/resourceUrl/cometd';
 import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import getSessionId from '@salesforce/apex/TelevisitMeetBannerController.getSessionId';
+import checkEmailSMSPreferencesForPPTask from '@salesforce/apex/TaskEditRemote.checkEmailSMSPreferencesForPPTask';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import REMINDER from '@salesforce/label/c.Remind_Me';
 import SELECT_REMINDER from '@salesforce/label/c.PP_SELECT_REMINDER';
@@ -92,6 +93,7 @@ export default class PpCreateTaskReminder extends LightningElement {
         },
         { label: this.labels.CUSTOM, value: 'Custom', itemClass: 'dropdown-li' }
     ];
+    @api editMode = false;
 
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
@@ -110,6 +112,8 @@ export default class PpCreateTaskReminder extends LightningElement {
                             this.isEmailReminderDisabled = !this.initData.emailOptIn;
                             this.isSMSReminderDisabled = !this.initData.smsOptIn;
                             if (this.taskInfo) {
+                                this.taskInfo = JSON.parse(JSON.stringify(this.taskInfo));
+                                this.taskId = this.taskInfo.Id;
                                 this.systemTask =
                                     this.taskInfo.Originator__c != 'Participant'
                                         ? this.taskCodeList.includes(this.taskInfo.Task_Code__c)
@@ -128,6 +132,7 @@ export default class PpCreateTaskReminder extends LightningElement {
                                 this.selectedReminderDate = this.initData.reminderDate;
                                 this.selectedReminderDateTime = this.initData.reminderDate;
                             }
+                            this.handleCommPrefChange();
                             this.isInitialized = true;
                         }
                     })
@@ -283,7 +288,7 @@ export default class PpCreateTaskReminder extends LightningElement {
                 this.cometd.handshake((status) => {
                     if (status.successful) {
                         this.subscription = this.cometd.subscribe(this.channel, (message) => {
-                            this.initializeData();
+                            this.handleCommPrefChange();
                         });
                     } else {
                         this.showToast(status, status, 'error');
@@ -301,6 +306,7 @@ export default class PpCreateTaskReminder extends LightningElement {
         getTaskEditData({ taskId: this.taskId })
             .then((result) => {
                 let initialData = result;
+                this.handleCommPrefChange();
                 this.isEmailReminderDisabled = !initialData.emailOptIn;
                 this.isSMSReminderDisabled = !initialData.smsOptIn;
                 this.emailReminderOptIn = this.isEmailReminderDisabled
@@ -342,6 +348,10 @@ export default class PpCreateTaskReminder extends LightningElement {
         if (this.selectedReminderDateTime) {
             this.handleReminderDataChange();
         }
+    }
+    handleNullTimeReminder(event) {
+        this.selectedReminderDateTime = event.detail.comptime;
+        this.handleReminderDataChange();
     }
 
     handleOnlyDate(event) {
@@ -435,5 +445,21 @@ export default class PpCreateTaskReminder extends LightningElement {
         let mm = String(processlocaltimezonedate.getMonth() + 1).padStart(2, '0');
         let yyyy = processlocaltimezonedate.getFullYear();
         return yyyy + '-' + mm + '-' + dd;
+    }
+    handleCommPrefChange() {
+        this.spinner.show();
+        checkEmailSMSPreferencesForPPTask({ taskId: this.taskId })
+            .then((consentData) => {
+                this.isEmailReminderDisabled = !consentData.emailConsent;
+                this.isSMSReminderDisabled = !consentData.smsConsent;
+                this.emailReminderOptIn = this.isEmailReminderDisabled
+                    ? false
+                    : this.emailReminderOptIn;
+                this.smsReminderOptIn = this.isSMSReminderDisabled ? false : this.smsReminderOptIn;
+                this.spinner.hide();
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 }
