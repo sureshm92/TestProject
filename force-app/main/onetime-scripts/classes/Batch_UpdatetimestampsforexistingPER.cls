@@ -13,7 +13,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
         query += 'Participant__r.Mailing_Country_Code__c,Participant__r.Mailing_Country__c,Permit_IQVIA_to_contact_about_study__c,Permit_SMS_Text_for_this_study__c,Study_Direct_Mail_Consent_Time__c,Permit_Voice_Text_contact_for_this_study__c,Participant_Contact__r.MailingCountry,';
         query = query + '(Select id,parentId,Field, OldValue , NewValue,createddate from Histories where Field IN :filedsList)';
         query = query + ' from Participant_Enrollment__c ';
-        query = query + ' where  ((Participant__r!=null and Participant__r.Mailing_Country__c!=null) or (Participant_Contact__c!=null and Participant_Contact__r.MailingCountry!=null)) ';
+        query = query + ' where  ((Participant__c!=null and Participant__r.Mailing_Country__c!=null) or (Participant_Contact__c!=null and Participant_Contact__r.MailingCountry!=null)) ';
         if(perExcludeIds.size()>0 && perTargetIds.size()>0){
             query = query + '  and ID NOT IN:perExcludeIds and ID IN:perTargetIds';
         }
@@ -25,6 +25,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
         return Database.getQueryLocator(query);
     }
     global void execute(Database.BatchableContext bc, List<Participant_Enrollment__c> scope){
+        system.debug('scope :: '+scope.size());
         List<Participant_Enrollment__c> enrollmentsToUpdate = new List<Participant_Enrollment__c>();
         List<Participant_Enrollment__History> enrollmentHistories = new List<Participant_Enrollment__History>();
         Map<Id,Map<String,DateTime>> enrollmentWithConsentTimestamps = new Map<Id,Map<String,DateTime>>();
@@ -48,6 +49,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
         }
 
         for(Participant_Enrollment__c per:scope){
+            system.debug(per);
                 Participant_Enrollment__c pertoupdate = new Participant_Enrollment__c();
                 pertoupdate.Id = per.Id;
                 Boolean check = false;
