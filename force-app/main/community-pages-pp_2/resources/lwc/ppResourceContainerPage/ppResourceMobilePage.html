@@ -57,16 +57,18 @@
                 <lightning-layout multiple-rows="true">
                     <template if:true={engageVisible}>
                         <lightning-layout-item size="12">
-                            <div class="res-box-engage-container crossed">
+                            <div class="res-box-engage-container">
                                 <!-- START : COMING SOON -->
-                                <div class="object">
+                                <!-- <div class="object">
                                     <div class="object-rope"></div>
                                     <div class="object-shape">
                                         Coming <span class="soon">Soon</span>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- END : COMING SOON -->
                                 <!-- ENGAGE LWC COMPONENT PLACEHOLDER -->
+                                <img class="empty-state" src={empty_state}/>
+                                <p class="no-links-available mt-15">No modules available</p>
                             </div>
                         </lightning-layout-item>
                     </template>
