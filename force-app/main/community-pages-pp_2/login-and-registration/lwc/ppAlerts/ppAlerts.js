@@ -1,4 +1,4 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
@@ -76,6 +76,11 @@ export default class PpAlerts extends LightningElement {
         } else {
             this.isInitialized = false;
         }
+    }
+
+    @api forceRefresh() {
+        this.isInitialized = false;
+        this.initializeData();
     }
 
     showToast(titleText, messageText, variantType) {
