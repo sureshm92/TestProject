@@ -81,7 +81,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         'Update_Your_Phone_Number',
         'Select_COI'
     ];
-    
+
     ishomepage = false;
     isMobile = false;
     isCreateTask = false;
@@ -109,6 +109,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     ignoreObj = { name: this.label.taskIgnore, iconUrl: 'icon-close', ignore: true };
     editImg = pp_icons + '/' + 'Pencil_Icon.svg';
     @api desktop;
+    editMode = false;
     connectedCallback() {
         if (formFactor === 'Small') {
             this.isMobile = true;
@@ -116,9 +117,9 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
             this.isMobile = false;
         }
         var pageurl = communityService.getFullPageName();
-        if(pageurl == 'tasks'){
+        if (pageurl == 'tasks') {
             this.ishomepage = false;
-        }else{
+        } else {
             this.ishomepage = true;
         }
         this.sfdcBaseURL = window.location.origin + basePathName + '/tasks';
@@ -182,6 +183,10 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     handleTaskClose(event) {
         this.isCreateTask = event.detail.isClose;
         this.initializeData();
+    }
+    handleTaskEdit(event) {
+        this.isCreateTask = event.detail.isClose;
+        this.editMode = event.detail.editMode;
     }
     handleTaskCreated(event) {
         this.initializeData();
@@ -431,5 +436,4 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         );
         radioTask.classList.remove('active-custom-box');
     }
-  
 }

@@ -31,6 +31,7 @@
                         selected-tasks={openTasks}
                         ontaskcreated={handleTaskCreated}
                         ontaskcompleted={handleTaskCompleted}
+                        ontaskedit={handleTaskEdit}
                         system-icon-class="home-sys-task curpointer"></c-pp-tasks-list>
                         </template>
                        
@@ -87,8 +88,10 @@
                         <lightning-layout class="slds-align_absolute-center" multiple-rows="true">
                             <lightning-layout-item class="overflow-scroll" size="12"
                                 ><template if:true={isCreateTask}>
+                                    <template if:false={editMode}>
                                     <c-pp-create-task ontaskclose={handleTaskClose}>
                                     </c-pp-create-task>
+                                    </template>
                                 </template>
                                 <template if:false={emptyOpenTasks}>
                                     <c-pp-tasks-list
@@ -97,6 +100,7 @@
                                         due-time-class="due-time"
                                         selected-tasks={openTasks}
                                         ontaskcreated={handleTaskCreated}
+                                        ontaskedit={handleTaskEdit}
                                         system-icon-class="sys-task curpointer"
                                     ></c-pp-tasks-list>
                                 </template>
@@ -147,6 +151,7 @@
                                             due-time-class="due-time ignore-datetime"
                                             selected-tasks={ignoredTasksList}
                                             ontaskcreated={handleTaskCreated}
+                                            ontaskedit={handleTaskEdit}
                                             system-icon-class="sys-task curpointer"
                                         ></c-pp-tasks-list>
                                     </template>
@@ -170,6 +175,7 @@
                                             expire-task-available="true"
                                             system-icon-class="sys-task"
                                             ontaskcreated={handleTaskCreated}
+                                            ontaskedit={handleTaskEdit}
                                         ></c-pp-tasks-list>
                                     </template>
                                 </template>

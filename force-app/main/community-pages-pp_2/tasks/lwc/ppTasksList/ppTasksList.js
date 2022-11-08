@@ -120,9 +120,9 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             this.isMobile = false;
         }
         var pageurl = communityService.getFullPageName();
-        if(pageurl == 'tasks'){
+        if (pageurl == 'tasks') {
             this.ishomepage = false;
-        }else{
+        } else {
             this.ishomepage = true;
         }
     }
@@ -301,6 +301,13 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             selectedTask.expandCard = true;
             this.readOnlyMode = true;
             this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+            const taskEditEvent = new CustomEvent('taskedit', {
+                detail: {
+                    isClose: true,
+                    editMode: true
+                }
+            });
+            this.dispatchEvent(taskEditEvent);
         } catch (e) {
             console.error(e);
         }
@@ -312,6 +319,13 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             let selectedTask = this.getTaskDetailsById(this.popUpTaskId);
             this.selectedTaskId = this.popUpTaskId;
             selectedTask.expandCard = true;
+            const taskEditEvent = new CustomEvent('taskedit', {
+                detail: {
+                    isClose: true,
+                    editMode: true
+                }
+            });
+            this.dispatchEvent(taskEditEvent);
             this.readOnlyMode = false;
             this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
         } catch (e) {
@@ -381,17 +395,20 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         this.clearAllTaskExpandStatus();
         const taskCreatedEvent = new CustomEvent('taskcreated');
         this.dispatchEvent(taskCreatedEvent);
+        const taskEditEvent = new CustomEvent('taskedit', {
+            detail: {
+                isClose: false,
+                editMode: false
+            }
+        });
+        this.dispatchEvent(taskEditEvent);
     }
     handleonclick(event) {
         var taskId = event.currentTarget.dataset.index;
-        console.log('taskId:',taskId);
         this.redirectPage(taskId);
     }
     redirectPage(taskId) {
-        console.log('redirectPage:',window.location.origin);
-        console.log('basePathName:',basePathName);
-
-        this.taskurl = window.location.origin + basePathName + '/tasks'+ '?taskId=' + taskId;
+        this.taskurl = window.location.origin + basePathName + '/tasks' + '?taskId=' + taskId;
         console.log('taskurl:', this.taskurl);
 
         const config = {
