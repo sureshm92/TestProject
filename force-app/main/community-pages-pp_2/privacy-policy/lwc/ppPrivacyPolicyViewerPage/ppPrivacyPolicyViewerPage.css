@@ -10,6 +10,7 @@
 .header-container {
     height: 10vh;
     position: sticky;
+    margin-top: 24px;
 }
 .privacy-header {
     color: #444444;
@@ -24,6 +25,7 @@
 .header-combobox {
     height: 15vh;
     position: relative;
+    margin-top: 16px;
 }
 .sub-header {
     color: #444444;
