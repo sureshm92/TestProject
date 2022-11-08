@@ -6,14 +6,17 @@
     background-color: #ffffff;
 }
 
+.thumbnail-outerbox {
+    padding: 2px 0 0 2px;
+}
+
 .thumbnail-box {
-    margin-top: 8px;
     box-sizing: border-box;
     border: 1px solid #d9d9d9;
     border-radius: 6px;
     height: 58px;
     background-color: #e8e8e8;
-    margin: 2px 0 0 2px;
+    padding: 3px 3px 0px 3px;
 }
 
 .document-label {
@@ -27,9 +30,11 @@
     text-overflow: ellipsis;
     width: 160px;
     white-space: nowrap;
+    width: 100%;
 }
 
 .document-details {
+    padding: 12px 15px 0 15px;
     height: 58px;
 }
 
@@ -42,15 +47,12 @@
 }
 
 .com-icon {
-    margin-top: 8px;
+    padding: 12px 0 0 10px;
 }
 
 .thumnail-img {
     height: 95%;
     width: 100%;
-    padding-left: 3px;
-    padding-right: 3px;
-    padding-top: 3px;
 }
 
 .document-label a:hover {

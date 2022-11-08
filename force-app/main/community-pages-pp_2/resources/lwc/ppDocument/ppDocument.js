@@ -81,7 +81,7 @@ export default class Documents extends NavigationMixin(LightningElement) {
         this.thumbnailPresent = false;
     }
 
-    expandtheCard() {
+    expandClosetheCard() {
         if (this.dropdownOpen) {
             let radioTask = this.template.querySelector('[data-popup="' + this.id + '"]');
             radioTask.classList.remove('slds-is-open');
@@ -91,10 +91,5 @@ export default class Documents extends NavigationMixin(LightningElement) {
             radioTask.classList.add('slds-is-open');
             this.dropdownOpen = true;
         }
-    }
-
-    closeMenu() {
-        let radioTask = this.template.querySelector('[data-popup="' + this.id + '"]');
-        radioTask.classList.remove('slds-is-open');
     }
 }

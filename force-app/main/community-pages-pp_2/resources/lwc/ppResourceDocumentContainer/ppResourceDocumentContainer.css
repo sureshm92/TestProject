@@ -1,9 +1,12 @@
+.scroll-bar-box {
+    padding-top: 16px;
+    height: 100%;
+    margin: 0 10px 0 10px;
+}
+
 .scroll-bar {
-    padding-top: 8px;
     height: 95%;
     border-radius: 4px;
-    margin-left: 5px;
-    margin-right: 5px;
 }
 
 .no-data-is-available {
