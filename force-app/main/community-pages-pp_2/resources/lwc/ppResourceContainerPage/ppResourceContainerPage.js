@@ -33,6 +33,9 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     documentGridSize = 3;
     hideFirstColumn = false;
     rightColumnPadding = "resource-gutter-left";
+    engageHeight = "res-box-engage-container";
+    linkssHeight = "res-box-relLinks-container pad10";
+    docsHeight = "res-box-document-container"
 
     //labels
     labels = {
@@ -208,6 +211,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         if(!this.toggleExplore && !this.toggleDocs && this.toggleLinks){
             this.linksGridSize = 6;
             this.enableChangePref = true;
+            this.linkssHeight += " newHeight";
         }
 
         if(!this.toggleExplore && !this.toggleLinks && this.toggleDocs){
@@ -215,10 +219,18 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             this.documentGridSize = 6;
             this.rightColumnPadding = '';
             this.enableChangePrefOnDocs = true;
+            this.docsHeight += " newHeight";
         }
 
         if(!this.toggleExplore && this.toggleLinks && this.toggleDocs){
             this.enableChangePrefOnDocs = true;
+            this.docsHeight += " newHeight";
+            this.linkssHeight += " newHeight";
+        }
+
+        if(this.toggleExplore && !this.toggleLinks){
+            this.engageHeight += " newHeight";
+
         }
     }
 
