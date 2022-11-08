@@ -9,6 +9,7 @@ import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import taskCreationSuccess from '@salesforce/label/c.PP_TaskCreationSuccess';
+import taskEditSuccess from '@salesforce/label/c.Task_Edit_Success_Message';
 import REMIND_USING_REQUIRED from '@salesforce/label/c.PP_Remind_Using_Required';
 import taskName from '@salesforce/label/c.Task_Name';
 import enterTaskName from '@salesforce/label/c.Enter_Task_Name';
@@ -261,7 +262,12 @@ export default class PpCreateTask extends LightningElement {
                 .then((result) => {
                     this.spinner.hide();
                     this.enableSave = false;
-                    communityService.showToast('', 'success', taskCreationSuccess, 100);
+                    communityService.showToast(
+                        '',
+                        'success',
+                        this.editMode ? taskEditSuccess : taskCreationSuccess,
+                        100
+                    );
                     const taskCloseEvent = new CustomEvent('taskclose', {
                         detail: {
                             isClose: false
