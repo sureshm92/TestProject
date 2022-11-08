@@ -28652,6 +28652,14 @@ Please contact the Study Team for further updates or please login for additiona
         <value>No upcoming visit</value>
     </labels>
     <labels>
+        <fullName>Visit_No_Upcoming_Visits</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit No Upcoming Visits</shortDescription>
+        <value>No upcoming visits</value>
+    </labels>
+    <labels>
         <fullName>Visit_No_Past_Visit</fullName>
         <categories></categories>
         <language>en_US</language>
