@@ -10,6 +10,7 @@
                         src={thumbnail}
                         class="thumnail-img"
                         alt="Image N/A"
+                        onerror={handleError}
                         onclick={handleNavigate}
                     />
                     <div class="com-icon" if:false={thumbnailPresent}>
