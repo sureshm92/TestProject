@@ -153,6 +153,12 @@
             component.set('v.participantDelegate',null);
             component.set('v.delegateDuplicateInfo',null);
         }
+        var sendToSH = false;
+        if(component.get('v.ctp').Promote_to_SH__c == true && 
+            component.get('v.ctp').DCT_Platform__c == 'Study Hub' &&
+            component.get('v.ctp').Initial_Visit_Required__c == false){
+                sendToSH = true;
+        }
                 var action2 = component.get("c.savePER");
                 action2.setParams({
                         participantJSON: JSON.stringify(participant),
@@ -168,7 +174,9 @@
                         allowEmail: component.get('v.isEmail'),
                         allowPhone: component.get('v.isPhone'),
                         allowSMS: component.get('v.isSMS'), 
-                        allowContact: component.get('v.doContact')
+                        allowContact: component.get('v.doContact'),
+                        sendToSH : sendToSH,
+                        ssType : component.get('v.ss').Study_Site_Type__c
                         });
                 action2.setCallback(this, function(response){
                     var state = response.getState();

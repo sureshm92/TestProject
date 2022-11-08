@@ -255,7 +255,10 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         }
         Map<Id, Participant_Enrollment_Status_History__c> lastExitingHistoryMap = new Map<Id, Participant_Enrollment_Status_History__c>();
         for (Participant_Enrollment_Status_History__c pesh : [
-            SELECT Status__c, ParticipantEnrollment__c
+            SELECT Status__c, ParticipantEnrollment__c,
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_to_SH__c,
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.DCT_Platform__c,
+            ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c IN :peIds
             ORDER BY Date__c DESC
@@ -269,11 +272,18 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         }
 
         for (Id peId : peIds) {
-            if (System.IsBatch() == false && System.isFuture() == false) {
-                IntegrationService.sendPEToStudyHubAsync(peId);
-            } else if (UploadParticipantsBatch.isCalloutFromUploadParticipantsBatch != true) {
-                //Added By Krishna For REF-2183
-                IntegrationService.sendPEToStudyHub(peId);
+            Participant_Enrollment_Status_History__c peshToCheck = lastExitingHistoryMap.get(peId);
+            if(peshToCheck==null || (peshToCheck!=null && StudySiteService.SS_TYPE_VT_INTEGRATION.contains(peshToCheck.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c) && 
+            peshToCheck.ParticipantEnrollment__r.Clinical_Trial_Profile__r.DCT_Platform__c =='Study Hub' && 
+            peshToCheck.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_to_SH__c==true
+            )
+            ){
+                if (System.IsBatch() == false && System.isFuture() == false) {
+                    IntegrationService.sendPEToStudyHubAsync(peId);
+                } else if (UploadParticipantsBatch.isCalloutFromUploadParticipantsBatch != true) {
+                    //Added By Krishna For REF-2183
+                    IntegrationService.sendPEToStudyHub(peId);
+                }
             }
         }
     }
