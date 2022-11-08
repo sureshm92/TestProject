@@ -284,3 +284,7 @@ p {
 .right-align{
     float: right;
 }
+
+.newHeight{
+    height: 607px;
+}

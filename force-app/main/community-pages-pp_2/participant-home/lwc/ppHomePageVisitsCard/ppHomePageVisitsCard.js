@@ -1,6 +1,6 @@
 //Created by Chetna Chauhan Sep 9,2022
 import { LightningElement, api, track } from 'lwc';
-import getVisitsPreview from '@salesforce/apex/ParticipantVisitsRemote.getVisitsPreview';
+import getVisitsPreviewAndCount from '@salesforce/apex/ParticipantVisitsRemote.getVisitsPreviewAndCount';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import What_to_Expect from '@salesforce/label/c.Upcoming_Visit_Expect';
@@ -43,6 +43,7 @@ export default class HomePageVisitsCard extends LightningElement {
     };
 
     isUpcomingDetails = false;
+    isVisitAvailable = false;
 
     connectedCallback() {
         this.initializeData();
@@ -50,9 +51,10 @@ export default class HomePageVisitsCard extends LightningElement {
     }
 
     initializeData() {
-        getVisitsPreview({})
+        getVisitsPreviewAndCount({})
             .then((result) => {
-                let visitDetails = result;
+                let visitDetails = result.visitPreviewList;
+                this.isVisitAvailable = result.showVisits;
                 if (visitDetails != null && visitDetails.length != 0 && visitDetails != '') {
                     this.isUpcomingDetails = true;
                     this.upcomingVisit = visitDetails[0];

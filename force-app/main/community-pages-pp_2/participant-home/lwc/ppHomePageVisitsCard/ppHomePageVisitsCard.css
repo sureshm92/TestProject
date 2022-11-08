@@ -128,6 +128,10 @@ hr {
 .card-wrap {
     padding: 0;
 }
+.card-alignment {
+    padding:20px;
+}
+
 .icon-box {
     padding-top: 0;
     padding-bottom: 0;
