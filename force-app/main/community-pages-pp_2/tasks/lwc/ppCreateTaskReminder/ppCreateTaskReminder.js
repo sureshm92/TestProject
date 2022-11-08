@@ -92,6 +92,7 @@ export default class PpCreateTaskReminder extends LightningElement {
         },
         { label: this.labels.CUSTOM, value: 'Custom', itemClass: 'dropdown-li' }
     ];
+    @api editMode = false;
 
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
@@ -342,6 +343,10 @@ export default class PpCreateTaskReminder extends LightningElement {
         if (this.selectedReminderDateTime) {
             this.handleReminderDataChange();
         }
+    }
+    handleNullTimeReminder(event) {
+        this.selectedReminderDateTime = event.detail.comptime;
+        this.handleReminderDataChange();
     }
 
     handleOnlyDate(event) {
