@@ -263,7 +263,6 @@
                 <aura:if
                     isTrue="{!and(v.communityApiName == 'IQVIA_Patient_Portal1',v.currentMode.userMode == 'Participant')}"
                 >
-                    Test Alert
                     <c:ppAlerts></c:ppAlerts>
                     <aura:set attribute="else">
                         <c:Alerts aura:id="alerts" />
