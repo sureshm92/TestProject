@@ -10,16 +10,17 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
     global Database.QueryLocator start(Database.BatchableContext bc) {
         List<String> filedsList = new List<String>{'Permit_Mail_Email_contact_for_this_study__c','Permit_Voice_Text_contact_for_this_study__c','Permit_SMS_Text_for_this_study__c','Permit_IQVIA_to_contact_about_study__c'};
         String query  = 'Select id,CreatedDate,Study_Email_Consent_Time__c,Study_Phone_Consent_Time__c,Study_Pre_recorded_Calls_Consent_Time__c,Study_Artificial_Voice_Consent_Time__c,Study_SMS_Consent_Time__c,Study_Assisted_Dialing_Consent_Time__c,Study_PI_Storage_Consent_Time__c,Permit_Mail_Email_contact_for_this_study__c,';
-        query += 'Participant__r.Mailing_Country_Code__c,Participant__r.Mailing_Country__c,Permit_IQVIA_to_contact_about_study__c,Permit_SMS_Text_for_this_study__c,Study_Direct_Mail_Consent_Time__c,Permit_Voice_Text_contact_for_this_study__c,';
+        query += 'Participant__r.Mailing_Country_Code__c,Participant__r.Mailing_Country__c,Permit_IQVIA_to_contact_about_study__c,Permit_SMS_Text_for_this_study__c,Study_Direct_Mail_Consent_Time__c,Permit_Voice_Text_contact_for_this_study__c,Participant_Contact__r.MailingCountry,';
         query = query + '(Select id,parentId,Field, OldValue , NewValue,createddate from Histories where Field IN :filedsList)';
         query = query + ' from Participant_Enrollment__c ';
+        query = query + ' where  ((Participant__r!=null and Participant__r.Mailing_Country__c!=null) or (Participant_Contact__c!=null and Participant_Contact__r.MailingCountry!=null)) ';
         if(perExcludeIds.size()>0 && perTargetIds.size()>0){
-            query = query + '  where ID NOT IN:perExcludeIds and ID IN:perTargetIds';
+            query = query + '  and ID NOT IN:perExcludeIds and ID IN:perTargetIds';
         }
         else if(perExcludeIds.size()>0){
-            query = query + '  where ID NOT IN:perExcludeIds';
+            query = query + '  and ID NOT IN:perExcludeIds';
         }else if(perTargetIds.size()>0){
-            query = query + '  where ID IN:perExcludeIds';
+            query = query + '  and ID IN:perExcludeIds';
         }
         return Database.getQueryLocator(query);
     }
@@ -51,8 +52,10 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                 pertoupdate.Id = per.Id;
                 Boolean check = false;
                 Boolean hasHistory = enrollmentWithConsentTimestamps.containsKey(per.Id);
-                Boolean isCountryUS = (per.Participant__r.Mailing_Country_Code__c == 'US' || per.Participant__r.Mailing_Country__c == 'United States');
-        
+                Boolean isCountryUS = false;
+                if(per.Participant__r.Mailing_Country__c == 'United States' || (per.Participant_Contact__c!=null && (String.isEmpty(per.Participant__c) || String.isEmpty(per.Participant__r.Mailing_Country__c)) && per.Participant_Contact__r.MailingCountry == 'United States')){
+                    isCountryUS = true;
+                }
                 if(per.Study_PI_Storage_Consent_Time__c == null && hasHistory && 
                 enrollmentWithConsentTimestamps.get(per.Id).keyset().contains('Permit_IQVIA_to_contact_about_study__c')){
                     pertoupdate.Study_PI_Storage_Consent_Time__c = enrollmentWithConsentTimestamps.get(per.Id).get('Permit_IQVIA_to_contact_about_study__c');
