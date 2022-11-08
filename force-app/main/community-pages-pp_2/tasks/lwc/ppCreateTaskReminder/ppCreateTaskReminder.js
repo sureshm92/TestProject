@@ -72,6 +72,11 @@ export default class PpCreateTaskReminder extends LightningElement {
     };
     @track initialReminderOptions = [
         {
+            label: this.labels.PP_NO_REMINDER,
+            value: 'No reminder',
+            itemClass: 'dropdown-li li-item-disabled'
+        },
+        {
             label: this.labels.ONE_HOUR,
             value: '1 hour before',
             itemClass: 'dropdown-li li-item-disabled'
@@ -149,25 +154,28 @@ export default class PpCreateTaskReminder extends LightningElement {
         try {
             let differenceTimeHours = this.calculateTimezoneDifference();
             if (!this.systemTask) {
-                if (differenceTimeHours > 1) {
+                if (this.isReminderOptionSelected) {
                     this.initialReminderOptions[0].itemClass = 'dropdown-li';
-                } else {
-                    this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
                 }
-                if (differenceTimeHours > 4) {
+                if (differenceTimeHours > 1) {
                     this.initialReminderOptions[1].itemClass = 'dropdown-li';
                 } else {
                     this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
                 }
-                if (differenceTimeHours > 24) {
+                if (differenceTimeHours > 4) {
                     this.initialReminderOptions[2].itemClass = 'dropdown-li';
                 } else {
                     this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
                 }
-                if (differenceTimeHours > 168) {
+                if (differenceTimeHours > 24) {
                     this.initialReminderOptions[3].itemClass = 'dropdown-li';
                 } else {
                     this.initialReminderOptions[3].itemClass = 'dropdown-li li-item-disabled';
+                }
+                if (differenceTimeHours > 168) {
+                    this.initialReminderOptions[4].itemClass = 'dropdown-li';
+                } else {
+                    this.initialReminderOptions[4].itemClass = 'dropdown-li li-item-disabled';
                 }
             }
             if (this.systemTask) {
@@ -307,13 +315,6 @@ export default class PpCreateTaskReminder extends LightningElement {
             .then((result) => {
                 let initialData = result;
                 this.handleCommPrefChange();
-                this.isEmailReminderDisabled = !initialData.emailOptIn;
-                this.isSMSReminderDisabled = !initialData.smsOptIn;
-                this.emailReminderOptIn = this.isEmailReminderDisabled
-                    ? false
-                    : this.emailReminderOptIn;
-                this.smsReminderOptIn = this.isSMSReminderDisabled ? false : this.smsReminderOptIn;
-                this.handleReminderDataChange();
                 this.isInitialized = true;
                 this.spinner.hide();
             })
@@ -456,6 +457,7 @@ export default class PpCreateTaskReminder extends LightningElement {
                     ? false
                     : this.emailReminderOptIn;
                 this.smsReminderOptIn = this.isSMSReminderDisabled ? false : this.smsReminderOptIn;
+                this.handleReminderDataChange();
                 this.spinner.hide();
             })
             .catch((error) => {

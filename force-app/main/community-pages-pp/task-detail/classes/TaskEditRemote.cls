@@ -485,7 +485,13 @@ public without sharing class TaskEditRemote {
     public static Map<String, Boolean> checkEmailSMSPreferencesForPPTask(String taskId) {
         Map<String, Boolean> consentTypeValueMap = new Map<String, Boolean>();
         if (taskId == null || taskId == '') {
-            consentTypeValueMap = checkStudyLevelConsents();
+            Boolean isDelegate = ParticipantContext.isCurrentDelegate();
+            Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
+            if ((!isDelegate && currentPE != null) || (isDelegate && currentPE != null)) {
+                consentTypeValueMap = checkStudyLevelConsents();
+            } else if ((!isDelegate && currentPE == null) || (isDelegate && currentPE == null)) {
+                consentTypeValueMap = checkPlatformLevelConsents();
+            }
             return consentTypeValueMap;
         } else {
             List<Task> taskList = [
