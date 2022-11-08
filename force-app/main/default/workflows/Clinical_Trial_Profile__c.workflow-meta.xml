@@ -9,15 +9,15 @@
         <operation>Formula</operation>
         <protected>false</protected>
     </fieldUpdates>
-   <fieldUpdates>
+    <fieldUpdates>
         <fullName>Populate_Override_Fields</fullName>
-        <field>Override_Description__c</field>
+        <field>Detailed_Description__c</field>
         <formula>Detailed_Description__c</formula>
         <name>Populate Override Fields</name>
         <notifyAssignee>false</notifyAssignee>
         <operation>Formula</operation>
         <protected>false</protected>
-    </fieldUpdates> 
+    </fieldUpdates>  
     <fieldUpdates>
         <fullName>Recruitment_Status_Active_Enrolling</fullName>
         <field>Override_Recruitment_Status__c</field>
@@ -53,17 +53,17 @@
         <notifyAssignee>false</notifyAssignee>
         <operation>Literal</operation>
         <protected>false</protected>
-    </fieldUpdates>
-   <rules>
+    </fieldUpdates> 
+    <rules>
         <fullName>Populate Override Fields%3A CTP</fullName>
         <actions>
             <name>Populate_Override_Fields</name>
             <type>FieldUpdate</type>
         </actions>
         <active>false</active>
-        <formula>AND(Detailed_Description__c &lt;&gt; NULL, Override_Description__c = NULL)</formula>
+        <formula>AND(Detailed_Description__c &lt;&gt; NULL, Detailed_Description__c = NULL)</formula>
         <triggerType>onAllChanges</triggerType>
-    </rules>
+    </rules> 
     <rules>
         <fullName>Recruitment Status Override By</fullName>
         <actions>
@@ -128,7 +128,7 @@
         </criteriaItems>
         <description>sets Override Recruitment Status from Recruitment Status (data factory)</description>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
-    </rules>
+    </rules> 
     <rules>
         <fullName>Recruitment Status%3A On Hold</fullName>
         <actions>
@@ -143,5 +143,5 @@
         </criteriaItems>
         <description>sets Override Recruitment Status from Recruitment Status (data factory)</description>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
-    </rules>
+    </rules> 
 </Workflow>
