@@ -20,7 +20,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
         else if(perExcludeIds.size()>0){
             query = query + '  and ID NOT IN:perExcludeIds';
         }else if(perTargetIds.size()>0){
-            query = query + '  and ID IN:perExcludeIds';
+            query = query + '  and ID IN:perTargetIds';
         }
         return Database.getQueryLocator(query);
     }
