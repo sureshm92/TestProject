@@ -48,5 +48,5 @@
         <standardTab>Chatter</standardTab>
     </tabs>
     <urlPathPrefix>pp</urlPathPrefix>
-    <welcomeTemplate>Patient_Portal_Emails/Initial_Email_PP</welcomeTemplate>
+    <welcomeTemplate>unfiled$public/CommunityWelcomeEmailTemplate</welcomeTemplate>
 </Network>
