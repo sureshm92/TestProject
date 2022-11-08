@@ -20,6 +20,7 @@ export default class HomePageParticipantNew extends LightningElement {
     spinner;
     isInitialized = false;
     isProgram = false;
+    showVisitCard = false;
 
     desktop = true;
     isDelegateSelfview = false;
@@ -65,6 +66,7 @@ export default class HomePageParticipantNew extends LightningElement {
                             this.clinicalrecord = this.participantState.pe.Clinical_Trial_Profile__r;
                             // Check if Program toggle is or study workspcae on ctp
                             this.isProgram = this.clinicalrecord.Is_Program__c;
+                            this.showVisitCard = this.clinicalrecord.Visits_are_Available__c;
                         }
                     }
                     //For Delegate Self view
