@@ -224,7 +224,7 @@
                                 </template>
                             </article>
                             <template if:false={desktop}>
-                                <template if:false={isVisitAvailable}>
+                                <template if:true={isVisitAvailable}>
                                     <div class="slds-card__footer-action slds-align_absolute-center label">
                                         <a  href="visits"
                                             >{labels.View_Visit_Details}
