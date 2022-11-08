@@ -13,6 +13,10 @@ import loading from '@salesforce/label/c.Loading';
 import visitdetails from '@salesforce/label/c.Visit_Details';
 import { NavigationMixin } from 'lightning/navigation';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
+import No_Upcoming_Visits from '@salesforce/label/c.Visit_No_Upcoming_Visits';
+import No_Past_Visit from '@salesforce/label/c.Visit_No_Past_Visit';
+import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
+
 export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     label = {
         noVisitsLabel,
@@ -25,7 +29,9 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
         visitUnavailable,
         myVisits,
         loading,
-        visitdetails
+        visitdetails,
+        No_Upcoming_Visits,
+        No_Past_Visit
     };
     status = {
         scheduled: 'Scheduled',
@@ -60,25 +66,39 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     initialized = '';
     cbload = false;
 
+    @api isupcomingvisits;
+    ispastvisits = true;
+
+    empty_state = pp_community_icons + '/' + 'empty_visits.png';
+
     connectedCallback() {
-        if(!this.past && this.upcomingvisits.length != 0){
+        if (!this.past && this.upcomingvisits.length != 0) {
             this.handleVisitChange();
         }
         this.visitTimezone = TIME_ZONE;
     }
+
     onPastClick() {
         this.cbload = true;
+        this.past = true;
         if (this.visitid) {
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-            theDiv.className = 'inactive-custom-box';
+            if (theDiv) {
+                theDiv.className = 'inactive-custom-box';
+            }
         }
         this.showupcomingvisits = false;
-        if (this.pastvisits.length>0) {
+        if (this.pastvisits.length > 0) {
+            this.ispastvisits = true;
             this.visitid = this.pastvisitid;
             this.visitName = this.pastvisits[0].visit.Name;
             this.plannedDate = this.pastvisits[0].visit.Planned_Date__c;
             this.visitStatus = this.pastvisits[0].visit.Status__c;
             this.createEditTask();
+        } else {
+            this.ispastvisits = false;
+            this.contentLoaded = true;
+            this.template.querySelector('c-web-spinner').hide();
         }
         const pastEvent = new CustomEvent('pastclick');
         this.dispatchEvent(pastEvent);
@@ -87,22 +107,31 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
         if (this.visitid) {
             await this.template.querySelector('[data-id="' + this.visitid + '"]');
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-            theDiv.className = 'active-custom-box';
+            if (theDiv) {
+                theDiv.className = 'active-custom-box';
+            }
         }
     }
     onUpcomingClick() {
         this.cbload = true;
         if (this.visitid) {
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-            theDiv.className = 'inactive-custom-box';
+            if (theDiv) {
+                theDiv.className = 'inactive-custom-box';
+            }
         }
         this.showupcomingvisits = true;
         if (this.upcomingvisits.length > 0) {
+            this.isupcomingvisits = true;
             this.visitid = this.upcomingvisitid;
             this.visitName = this.upcomingvisits[0].visit.Name;
             this.plannedDate = this.upcomingvisits[0].visit.Planned_Date__c;
             this.visitStatus = this.upcomingvisits[0].visit.Status__c;
             this.createEditTask();
+        } else {
+            this.isupcomingvisits = false;
+            this.contentLoaded = true;
+            this.template.querySelector('c-web-spinner').hide();
         }
         const upcomingEvent = new CustomEvent('upcomingclick');
         this.dispatchEvent(upcomingEvent);
@@ -131,11 +160,11 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
                 this.taskId = this.visitdata.task.Id;
 
                 //update bell icon once reminder is created PEH-7825
-                if (this.taskId) {
-                    this.upcomingvisits[this.selectedIndex].isReminderDate = true;
+                if (this.taskId && this.upcomingVisits) {
+                    this.upcomingVisits[this.selectedIndex].isReminderDate = true;
                 }
-                if (!this.past) {
-                    this.upcomingvisits[
+                if (!this.past && this.upcomingVisits) {
+                    this.upcomingVisits[
                         this.selectedIndex
                     ].visit.Planned_Date__c = this.visitdata.visitDate;
                     if (this.visitdata.visitDate && this.showupcomingvisits) {
