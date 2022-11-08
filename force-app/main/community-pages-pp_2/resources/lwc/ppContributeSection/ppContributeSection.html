@@ -7,7 +7,7 @@
 
         <lightning-layout-item size="12">
             <lightning-layout>
-                <lightning-layout-item size="10">
+                <lightning-layout-item size={inputGridSize}>
                     <div
                         class="slds-p-top_x-small slds-p-right_small input-section profile-info-input"
                     >
@@ -24,7 +24,7 @@
                         >
                     </div>
                 </lightning-layout-item>
-                <lightning-layout-item size="2">
+                <lightning-layout-item size={buttonGridSize}>
                    <template if:false={isMobile}>
                     <div class="slds-var-p-top_x-small resource-btn profile-info-btn">
                         <lightning-button

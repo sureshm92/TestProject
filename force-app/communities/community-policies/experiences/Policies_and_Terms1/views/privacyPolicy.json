@@ -4,6 +4,14 @@
   "id" : "a06c9b17-ff4a-4db1-97d9-e570d8e131c7",
   "label" : "Privacy Policy",
   "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ppPrivacyPolicyViewerPage",
+      "id" : "216cdd6c-078d-4af7-a876-92bc8ae49923",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
     "id" : "66f9d765-0a6f-4a86-94a8-97789b78500a",
     "regionName" : "column1",
     "type" : "region"

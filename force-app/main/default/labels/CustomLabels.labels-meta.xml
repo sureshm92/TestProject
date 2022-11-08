@@ -29043,6 +29043,35 @@ Due Date and Time: ##expirationDate.</value>
         <shortDescription>Track your study PP</shortDescription>
         <value>your ##isStudyorProgram timeline to help you keep track of your progress</value>
     </labels> 
+    <labels>
+        <fullName>AL_Title_Welcome_To_The_PH_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Title Welcome To The PH PP</shortDescription>
+        <value>Welcome to ##CommunityWelcome!</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_to_PH_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL_Body_Welcome_to_PH_PP</shortDescription>
+        <value>Hello ##UserName, we are very excited to have you here! We aim to provide you with updates about your enrollment process, knowledge articles and other helpful information about your program.
+        </value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_Study_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Body Welcome Study PP</shortDescription>
+        <value>Congratulations ##UserName! You are now enrolled in a clinical research program. We are very excited to accompany you as you progress throughout this journey. </value>
+    </labels>
+    <labels>
+        <fullName>AL_Title_Welcome_Study_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Title Welcome Study PP</shortDescription>
+        <value>Welcome to the ##StudyName!</value>
+    </labels>
      <labels>
         <fullName>Learn_more_about_study_PP</fullName>
         <language>en_US</language>

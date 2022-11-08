@@ -198,7 +198,8 @@
                             <lightning-layout
                                 ><lightning-layout-item size="12"
                                     ><span class={dueTimeClass}
-                                        ><template if:true={item.isClosed}>Completed:</template
+                                        ><template if:true={item.isClosed}
+                                            >{label.taskPPCompletedLabel}</template
                                         ><template if:false={item.isClosed}
                                             >{label.taskDue}</template
                                         >:&nbsp;
