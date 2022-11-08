@@ -111,7 +111,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     isMobile = false;
 
     connectedCallback() {
-        console.log('tasks', this.tasksList);
+        console.log('tasks 123', this.tasksList);
         if (formFactor === 'Small') {
             this.isMobile = true;
         } else {

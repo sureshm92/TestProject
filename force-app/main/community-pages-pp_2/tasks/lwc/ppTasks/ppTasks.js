@@ -108,7 +108,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     editObj = { name: this.label.taskEdit, iconUrl: 'Pencil_Icon', edit: true };
     ignoreObj = { name: this.label.taskIgnore, iconUrl: 'icon-close', ignore: true };
     editImg = pp_icons + '/' + 'Pencil_Icon.svg';
-    
+    @api desktop;
     connectedCallback() {
         if (formFactor === 'Small') {
             this.isMobile = true;
