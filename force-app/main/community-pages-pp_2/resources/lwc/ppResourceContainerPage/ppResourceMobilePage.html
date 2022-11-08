@@ -1,5 +1,6 @@
 <template>
     <!-- Loading Spinner-->
+    <!-- <div class="backdrop" onclick={closeOptions}></div> -->
     <c-web-spinner class="main-spinner"></c-web-spinner>
     <template if:true={isInitialized}>
         <div class={cardRTL}>
@@ -21,24 +22,33 @@
                         </div>
                     </lightning-layout-item>
 
-                    <lightning-layout-item size="12">
+                    <!-- <lightning-layout-item size="12">
                         <div class="selectWrapper">
                             <select
                                 name="selectResources"
                                 class="resourceSelection dropdown-mobile-res-page minimal"
                                 onchange={updateResources}
                             >
-                                <!--<option value="explore">{labels.EXPLORE}</option>
-                                <option value="engage">{labels.ENGAGE}</option>
-                                <option value="documents">{labels.DOCUMENTS}</option>
-                                <option value="discover">{labels.DISCOVER_TITLE}</option>
-                                <option value="answers">{labels.FIND_ANSWERS}</option>-->
+                             
                                 <template for:each={options} for:item="option">
                                     <option key={option.value} value={option.value} class="documents">
                                         { option.label }
                                     </option>
                                 </template>
                             </select>
+                        </div>                       
+                    </lightning-layout-item> -->
+
+                    <lightning-layout-item size="12">
+                         <div class="dropdown" data-key="dropdown" onclick={showOptions}>
+                            <span>{selectedOptions}</span>
+                                <ul class="res-options hidden">
+                                    <template for:each={options} for:item="option">                                       
+                                        <li class="noselected" key={option.value} data-key={option.value} onclick={updateResources}>
+                                            <span>{option.label}</span>
+                                        </li>
+                                    </template>
+                                </ul>
                         </div>
                     </lightning-layout-item>
                 </lightning-layout>
@@ -123,7 +133,7 @@
                 </template>
            
                 <lightning-layout multiple-rows="true">
-                    <lightning-layout-item size="12" class="mt-10">                       
+                    <lightning-layout-item size="12" class="mt-10 mb-10">                       
                         <c-pp-contribute-section></c-pp-contribute-section>                       
                     </lightning-layout-item>
                 </lightning-layout>
