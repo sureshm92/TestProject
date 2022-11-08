@@ -1,12 +1,13 @@
 /*********************************************************************************************************************
 * @description: This class handles insertion of Send Result records for the case of Bell Notification type
+* 
 * @created: 13 October 2022
 
 **********************************************************************************************************************
 * Modification Log
 * Version			Developer		Date			Remarks
 *---------------------------------------------------------------------------------------------------------------------
-* 1.0				Naman J			13/10/2022		Initial Creation
+* 
 **********************************************************************************************************************
 */
 public class BellNotificationQueueable implements Queueable, Database.AllowsCallouts {
@@ -14,15 +15,17 @@ public class BellNotificationQueueable implements Queueable, Database.AllowsCall
     List<Notification__c> notifications;   
     Study_Site__c studySiteDetails;
     String selectedStatus = '';
+    String userRoleComm;
     
     public BellNotificationQueueable(List<Notification__c> notificationList){
         notifications = notificationList;
     }
 
-    public BellNotificationQueueable(List<Notification__c> notificationList, Study_Site__c studySiteDetails, String selectedStatus){
+    public BellNotificationQueueable(List<Notification__c> notificationList, Study_Site__c studySiteDetails, String selectedStatus, String userRole){
         notifications = notificationList;
         this.studySiteDetails = studySiteDetails;
         this.selectedStatus = selectedStatus;
+        userRoleComm = userRole;
     }
     
     public void execute(QueueableContext context){
@@ -58,12 +61,13 @@ public class BellNotificationQueueable implements Queueable, Database.AllowsCall
         parametrizedMessageService.processMessages();
 
         for(Notification__c n : notifications){
+            String userRole = '';
             Notification_type__mdt nType = NotificationService.getNotificationType(n.Notification_Type__c);
             String messageBody = parametrizedMessageService.getMessage(n.Id);            
             for(Notification_Target__mdt target : nType.Notification_Targets__r){
                 if(target.Target_User_Group__c == n.Target_User_Group__c){
                     String redirectTarget = '';                
-                    if(target.Is_Redirect__c){  
+                    if(target.Is_Redirect__c && target.Target_Type__c == 'Bell'){  
                         redirectTarget = target.Redirect_URL__c;                                        
                         if(target.DeveloperName == 'Bulk_Import_Success_Bell'){
                             redirectTarget = redirectTarget.replace('{trialId}',studySiteDetails.Clinical_Trial_Profile__c);
@@ -75,8 +79,12 @@ public class BellNotificationQueueable implements Queueable, Database.AllowsCall
                             redirectTarget = redirectTarget.replace('{status}',selectedStatus);
                         }                    
                     }                    
-                    
-                    service.setSentForBell(n.Id, BELL_NOTIFICATION_TARGET_TYPE , messageBody,target.Is_Redirect__c ? redirectTarget : null);
+                    if(n.Target_User_Group__c == 'Self'){
+                        userRole = userRoleComm;
+                    }else{
+                        userRole = n.Target_User_Group__c;
+                    }
+                    service.setSentForBell(n.Id, BELL_NOTIFICATION_TARGET_TYPE , messageBody,target.Is_Redirect__c ? redirectTarget : null, userRole, studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c);
                 }                
             }
         }
