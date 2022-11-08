@@ -367,26 +367,28 @@ public without sharing class RRChangePasswordController {
         Id ctpId;
 
         ctpId = per?.Clinical_Trial_Profile__c;
+        String baseUrl=Site.getBaseUrl().replace('pp', 'terms');
+
 
         if (
             (ctpId != null) &&
             (per.Clinical_Trial_Profile__r
                 ?.Terms_And_Conditions_ID__c != null)
         ) {
-            tcLink = '/s/terms-and-conditions?id=' + ctpId;
+            tcLink = baseUrl + '/s/terms-and-conditions?id=' + ctpId;
         } else {
-            tcLink = '/s/terms-and-conditions/';
+            tcLink = baseUrl + '/s/terms-and-conditions/';
         }
-        platformPrivacyPolicyUrl = '/s/privacy-policy';
+        platformPrivacyPolicyUrl = baseUrl + '/s/privacy-policy';
 
         if (
             ctpId != null &&
             (per.Clinical_Trial_Profile__r
                 ?.Privacy_Policy_Id__c != null)
         ) {
-            studyPrivacyPolicyUrl = '/s/privacy-policy?id=' + ctpId;
+            studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy?id=' + ctpId;
         } else {
-            studyPrivacyPolicyUrl = '/s/privacy-policy';
+            studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy';
         }
     }
 

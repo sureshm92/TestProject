@@ -59,7 +59,8 @@ public without sharing class EmailService {
 
     public static void send(
         List<Notification__c> notifications,
-        Map<Id, String> orgWideEmailByNotifyMap
+        Map<Id, String> orgWideEmailByNotifyMap,
+        NotificationAvailabilityService availabilityService
     ) {
         NotificationResultService sendResultService = new NotificationResultService(notifications);
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
@@ -75,6 +76,9 @@ public without sharing class EmailService {
                 String emailTemplate = n.IsDelegate__c
                     ? emailTarget.Email_Template_Delegate__c
                     : emailTarget.Email_Template__c;
+                emailTemplate = availabilityService.isUpdatedPPTemplate(n.WhatId__c) == true
+                    ? emailTemplate + '_PP'
+                    : emailTemplate;
                 emailMessages.add(
                     createEmail(
                         getEmailTemplateId(emailTemplate),
@@ -188,7 +192,6 @@ public without sharing class EmailService {
 
         msg.setSaveAsActivity(false);
         Id orgWideEmailAddressId = getOrgWideEmailAddressId(orgWideEmAddress);
-        System.debug('orgWideEmAddress<<<< ' + orgWideEmAddress);
         if (orgWideEmailAddressId != null && !SystemService.isScratchOrg())
             msg.setOrgWideEmailAddressId(orgWideEmailAddressId);
         return msg;

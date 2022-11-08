@@ -3,30 +3,38 @@ import taskCompleted from '@salesforce/label/c.Task_Completed';
 import taskCreateReminder from '@salesforce/label/c.Task_create_reminder';
 import taskEdit from '@salesforce/label/c.Task_Edit';
 import taskIgnore from '@salesforce/label/c.Task_Ignore';
-import taskMarkComplete from '@salesforce/label/c.Task_Mark_Complete_Msg';
 import taskDue from '@salesforce/label/c.Task_Due';
 import taskCancel from '@salesforce/label/c.RH_RP_Cancel';
 import taskConfirm from '@salesforce/label/c.RH_TV_Confirm';
 import taskPriorityCritical from '@salesforce/label/c.Task_priority_critical';
 import notAvailable from '@salesforce/label/c.Not_Available';
-import taskMarkCompleteHeader from '@salesforce/label/c.Task_Mark_Complete';
 import taskReminder from '@salesforce/label/c.Task_Reminder';
 import noOpenTasks from '@salesforce/label/c.No_Open_Tasks';
+import taskPPCompletedLabel from '@salesforce/label/c.Task_PP_Completed';
+import taskIgnoreContinue from '@salesforce/label/c.Continue';
+import taskIgnoredMessage from '@salesforce/label/c.Task_Ignored_Message';
 
 import markAsCompleted from '@salesforce/apex/TaskEditRemote.markAsCompleted';
+import markAsIgnore from '@salesforce/apex/TaskEditRemote.ignoreTask';
 import { NavigationMixin } from 'lightning/navigation';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
+import formFactor from '@salesforce/client/formFactor';
 
 export default class PpTasksList extends NavigationMixin(LightningElement) {
-    isShowModal = false;
+    isTaskIgnoreModal = false;
     popUpTaskId;
     userTimeZone = TIME_ZONE;
     @track tasksList;
     @api expireTaskAvailable = false;
     @api containerClass;
     @api dueTimeClass;
+    @api isActive;
+    @api contact;
+    @api selectedparent;
+    @api usermode;
+
     @api
     get selectedTasks() {
         return this.uppercaseItemName;
@@ -38,6 +46,8 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     }
     @api completedTasks;
     spinner;
+    @api webIconClass;
+    @api systemIconClass;
     taskCodeList = [
         'Complete_Survey',
         'Complete_Your_Profile',
@@ -50,8 +60,6 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     taskBtnCompleteClass = 'completed-task inactive-btn';
     taskOpenTab = true;
     label = {
-        taskMarkCompleteHeader,
-        taskMarkComplete,
         taskCancel,
         taskConfirm,
         taskPriorityCritical,
@@ -63,7 +71,10 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         taskEdit,
         taskIgnore,
         taskCreateReminder,
-        taskCompleted
+        taskCompleted,
+        taskPPCompletedLabel,
+        taskIgnoreContinue,
+        taskIgnoredMessage
     };
     isCreateTask = false;
     isShowModal = false;
@@ -79,8 +90,16 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         iconUrl: 'reminderbell_icom',
         reminder: true
     };
-    editObj = { name: this.label.taskEdit, iconUrl: 'Pencil_Icon', edit: true };
-    ignoreObj = { name: this.label.taskIgnore, iconUrl: 'icon-close', ignore: true };
+    editObj = {
+        name: this.label.taskEdit,
+        iconUrl: 'Pencil_Icon',
+        edit: true
+    };
+    ignoreObj = {
+        name: this.label.taskIgnore,
+        iconUrl: 'icon-close',
+        ignore: true
+    };
     editImg = pp_icons + '/' + 'Pencil_Icon.svg';
     emptyOpenTasks;
     emptyCompletedTasks;
@@ -88,16 +107,35 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     expiredTasksList = [];
     ignoredTasksList = [];
     spinner;
+    isMobile = false;
+    selectedTaskId;
+    readOnlyMode = false;
+    ishomepage = false;
 
     connectedCallback() {
-        console.log('tasks', this.tasksList);
+        console.log('tasks 123', this.tasksList);
+        if (formFactor === 'Small') {
+            this.isMobile = true;
+        } else {
+            this.isMobile = false;
+        }
+        var pageurl = communityService.getFullPageName();
+        if(pageurl == 'tasks'){
+            this.ishomepage = false;
+        }else{
+            this.ishomepage = true;
+        }
     }
 
     taskOpen(event) {
         let selectedTask;
         var taskId = event.currentTarget.dataset.index;
         console.log('sss', event.currentTarget.dataset.status);
-        if (event.currentTarget.dataset.status == 'Expired') return;
+        if (
+            event.currentTarget.dataset.status == 'Expired' ||
+            event.currentTarget.dataset.status == 'Completed'
+        )
+            return;
         if (event.currentTarget.dataset.actionurl != undefined) {
             communityService.navigateToPage(event.currentTarget.dataset.actionurl);
         }
@@ -119,9 +157,12 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         let radioTask = this.template.querySelector(
             '[data-parentdiv="' + this.selectedTaskId + '"]'
         );
-        radioTask.classList.add('active-custom-box');
+        if (radioTask) radioTask.classList.add('active-custom-box');
     }
 
+    showIgnoreModal(event) {
+        this.isTaskIgnoreModal = true;
+    }
     hideModalBox() {
         this.isShowModal = false;
         let radioTask = this.template.querySelector(
@@ -147,7 +188,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
                 }
                 this.spinner.hide();
                 this.showToast(this.label.taskCompleted, this.label.taskCompleted, 'success');
-                const taskCloseEvent = new CustomEvent('taskcreated', {
+                const taskCloseEvent = new CustomEvent('taskcompleted', {
                     detail: {
                         tasksList: this.tasksList,
                         taskStatus: taskOldStatus
@@ -159,7 +200,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
                 this.spinner.hide();
             });
     }
-    expandtheCard(event) {
+    showTaskActionMenu(event) {
         this.popupTaskMenuItems = [];
         var taskId = event.currentTarget.dataset.popup;
         this.popUpTaskId = taskId;
@@ -180,12 +221,24 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             this.popupTaskMenuItems.push(this.reminderObj);
         } else {
             if (selectedTask.task.Task_Code__c == 'Complete_Survey') {
-                this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
-            } else {
-                if (selectedTask.task.Originator__c == 'IQVIA Admin') {
+                if (selectedTask.task.Status != 'Ignored') {
                     this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
                 } else {
-                    this.popupTaskMenuItems.push(this.editObj, this.ignoreObj);
+                    this.popupTaskMenuItems.push(this.reminderObj);
+                }
+            } else {
+                if (selectedTask.task.Originator__c == 'IQVIA Admin') {
+                    if (selectedTask.task.Status != 'Ignored') {
+                        this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
+                    } else {
+                        this.popupTaskMenuItems.push(this.reminderObj);
+                    }
+                } else {
+                    if (selectedTask.task.Status != 'Ignored') {
+                        this.popupTaskMenuItems.push(this.editObj, this.ignoreObj);
+                    } else {
+                        this.popupTaskMenuItems.push(this.editObj);
+                    }
                 }
             }
         }
@@ -193,12 +246,22 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         if (cl.includes('slds-is-open')) radioTask.classList.remove('slds-is-open');
     }
     closeMenu() {
-        let radioTask = this.template.querySelector('[data-popup="' + this.popUpTaskId + '"]');
-        radioTask.classList.remove('slds-is-open');
+        try {
+            let radioTask = this.template.querySelector('[data-popup="' + this.popUpTaskId + '"]');
+            if (this.popUpTaskId) {
+                let selectedTask = this.getTaskDetailsById(this.popUpTaskId);
+            }
+            if (radioTask) {
+                radioTask.classList.remove('slds-is-open');
+            }
+        } catch (e) {
+            console.error(e);
+        }
     }
     closeModel() {
         let radioTask = this.template.querySelector('[data-modalpopup="' + this.popUpTaskId + '"]');
         this.isShowModal = false;
+        this.isTaskIgnoreModal = false;
         let radioTask2 = this.template.querySelector(
             '[data-parentdiv="' + this.selectedTaskId + '"]'
         );
@@ -225,5 +288,121 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             radioTask2.classList.add('fill-oval');
             radioTask2.classList.remove('empty-oval');
         }
+    }
+    stopBlurEvent(event) {
+        event.preventDefault();
+    }
+    createReminder() {
+        try {
+            this.selectedTaskId = '';
+            this.clearAllTaskExpandStatus();
+            let selectedTask = this.getTaskDetailsById(this.popUpTaskId);
+            this.selectedTaskId = this.popUpTaskId;
+            selectedTask.expandCard = true;
+            this.readOnlyMode = true;
+            this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    editTask() {
+        try {
+            this.selectedTaskId = '';
+            this.clearAllTaskExpandStatus();
+            let selectedTask = this.getTaskDetailsById(this.popUpTaskId);
+            this.selectedTaskId = this.popUpTaskId;
+            selectedTask.expandCard = true;
+            this.readOnlyMode = false;
+            this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    callMethod(event) {
+        if (event.currentTarget.dataset.method == this.label.taskCreateReminder) {
+            this.createReminder();
+        }
+        if (event.currentTarget.dataset.method == this.label.taskEdit) {
+            this.editTask();
+        }
+        if (event.currentTarget.dataset.method == this.label.taskIgnore) {
+            this.showIgnoreModal();
+        }
+        event.preventDefault();
+    }
+    markTheTaskIgnore() {
+        this.isTaskIgnoreModal = false;
+        this.spinner = this.template.querySelector('c-web-spinner');
+        this.spinner.show();
+
+        markAsIgnore({ taskId: this.popUpTaskId })
+            .then(() => {
+                this.removeTheTaskfromList(this.popUpTaskId);
+                this.spinner.hide();
+                this.showToast(
+                    this.label.taskIgnoredMessage,
+                    this.label.taskIgnoredMessage,
+                    'success'
+                );
+            })
+            .catch((error) => {
+                console.error(error);
+                this.spinner.hide();
+            });
+    }
+    getTaskDetailsById(taskId) {
+        this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+        for (let i = 0; i < this.tasksList.length; i++) {
+            if (this.tasksList[i].task.Id == taskId) {
+                return this.tasksList[i];
+            }
+        }
+        return '';
+    }
+    clearAllTaskExpandStatus() {
+        this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+        for (let i = 0; i < this.tasksList.length; i++) {
+            if (this.tasksList[i].expandCard) {
+                delete this.tasksList[i].expandCard;
+            }
+        }
+    }
+    removeTheTaskfromList(taskId) {
+        let i;
+        for (i = 0; i < this.tasksList.length; i++) {
+            if (this.tasksList[i].task.Id == taskId) {
+                this.tasksList[i].task.Status = 'Ignored';
+                break;
+            }
+        }
+    }
+    handleTaskClose(event) {
+        let taskId = event.detail.taskId;
+        this.clearAllTaskExpandStatus();
+        const taskCreatedEvent = new CustomEvent('taskcreated');
+        this.dispatchEvent(taskCreatedEvent);
+    }
+    handleonclick(event) {
+        var taskId = event.currentTarget.dataset.index;
+        console.log('taskId:',taskId);
+        this.redirectPage(taskId);
+    }
+    redirectPage(taskId) {
+        console.log('redirectPage:',window.location.origin);
+        console.log('basePathName:',basePathName);
+
+        this.taskurl = window.location.origin + basePathName + '/tasks'+ '?taskId=' + taskId;
+        console.log('taskurl:', this.taskurl);
+
+        const config = {
+            type: 'standard__webPage',
+
+            attributes: {
+                url: this.taskurl
+            }
+        };
+        this[NavigationMixin.GenerateUrl](config).then((url) => {
+            window.open(url, '_self');
+        });
     }
 }

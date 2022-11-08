@@ -378,12 +378,13 @@
                             disabledsavebutton={disabledSaveButton}
                         ></c-rp_-patient-tab>
                     </lightning-tab>
-                    <lightning-tab label={label.RH_RP_Primary_Delegate}>
+                    <lightning-tab label={label.RH_RP_Primary_Delegate} onactive={handlePrimaryDelTab}>
                         <c-rp_-delegate-tab
                             delegaterecordlist={delegatepeRecordList}
                             originaldelegaterecordlist={delegatepeRecordList}
                             isaccesslevelthree={isaccessLevelthree}
                             onrefreshdelegatetabchange={handleDelegateChange}
+                            is-countryus={isCountryus}
                         >
                         </c-rp_-delegate-tab>
                     </lightning-tab>

@@ -7,7 +7,7 @@
         this.allPagesMap = {
             '': {
                 page: '',
-                label: $A.get('$Label.c.Navigation_My_Studies'),
+                label: $A.get('$Label.c.Navigation_Home'),
                 icon: 'clinical-trial'
             },
 

@@ -4,7 +4,6 @@
 }
 
 .slds-grid {
-    margin-bottom: 1rem;
     padding: 0 1rem;
 }
 
@@ -13,7 +12,7 @@
 }
 
 .location-title {
-    padding: 0 1rem 1rem;
+    padding: 0 0 1rem 1.2rem;
 }
 
 .site-name {
@@ -56,7 +55,6 @@
     border: 1px solid #d9d9d9;
     padding-left: 2.25rem;
     background-color: #f2f2f2;
-    padding-left: 55px;
 }
 
 .curve-input:focus-within,
@@ -112,8 +110,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
 }
 
 .comm-checks {
-    margin-top: 26px;
-    padding-left: 1.25rem;
+    margin-top: 1rem;
 }
 
 .comm-checks > div {
@@ -123,13 +120,8 @@ input[type='date']::-webkit-calendar-picker-indicator,
 .comm-link {
     font-size: 13px;
     display: inline-block;
-    margin-top: 0.5rem;
+    margin: 0.5rem 0;
     text-decoration: underline;
-}
-
-.acc-pref {
-    display: flex;
-    justify-content: flex-end;
 }
 
 .btn-footer {
@@ -190,10 +182,10 @@ input[type='date']::-webkit-calendar-picker-indicator,
 
     .acc-pref {
         justify-content: flex-start;
-        padding-left: 1.5rem;
+        padding-left: 1rem;
     }
 
     .slds-grid {
-        padding: 0 0.75rem 0 0.75rem;
+        padding: 0 1rem;
     }
 }

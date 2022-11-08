@@ -9,8 +9,10 @@ public without sharing class PIR_ParticipantDetailController {
           id,
           MRN_Id__c,
           Study_Site__c,
+          Study_Site__r.Site__c,
           Study_Site__r.Participant_DOB_format__c,
           Visit_Plan__c,
+          Permit_IQVIA_to_contact_about_study__c,
           Permit_Mail_Email_contact_for_this_study__c,
           Permit_SMS_Text_for_this_study__c,
           Permit_Voice_Text_contact_for_this_study__c,
@@ -56,7 +58,8 @@ public without sharing class PIR_ParticipantDetailController {
           Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
           Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
                 Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
-          Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c
+          Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+          Study_Site__r.Site__r.BillingCountryCode
         FROM Participant_Enrollment__c
         WHERE id = :PEid
       ]
@@ -68,6 +71,18 @@ public without sharing class PIR_ParticipantDetailController {
           SELECT
             id,
             Contact__c,
+            Contact__r.IQVIA_Contact_info_storage_consent__c,
+            Contact__r.IQVIA_PI_Storage_Consent_Time__c,
+            Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+            Contact__r.IQVIA_Phone_Consent_Time__c,
+            Contact__r.Participant_Opt_In_Status_Emails__c,
+            Contact__r.IQVIA_Email_Consent_Time__c,
+            Contact__r.IQVIA_Assisted_Dialing_Consent__c,
+            Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c,
+            Contact__r.IQVIA_Artificial_Voice_Consent__c,
+            Contact__r.IQVIA_Artificial_Voice_Consent_Time__c,
+            Contact__r.IQVIA_Pre_recorded_Voice_Consent__c,
+            Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c,
             Participant_Delegate__r.First_Name__c,
             Participant_Delegate__r.Last_Name__c,
             Participant_Delegate__r.Phone__c,
@@ -289,16 +304,24 @@ public without sharing class PIR_ParticipantDetailController {
           }
           contactId = parti[0].Contact__c;
           insert pdToupdateAfterInsert;
+          updateDelContact(parti[0].Contact__c,peDeligate,perRecord);
         }else if(delegateCriteria == 'updateParticipant'){
           Participant__c piToUpdateDelegate = new Participant__c();
           piToUpdateDelegate = peDeligate.Participant_Delegate__r;
 
           update piToUpdateDelegate;
+
+          List<Patient_Delegate__c> pd = new List<Patient_Delegate__c>();
+          pd = [Select Id,Participant__c,Contact__c,Participant_Delegate__c,Contact__r.Participant_Opt_In_Status_SMS__c from Patient_Delegate__c where Participant__c=: perRecord.Participant__c and Participant_Delegate__c=:peDeligate.Participant_Delegate__r.Id and Primary_Delegate__c=true];
+          if(pd != null && !pd.isEmpty()){
+            updateDelContact(pd[0].Contact__c,peDeligate,perRecord);  
+          }
+
         }else if(delegateCriteria == 'updateDeligate'){
           if(useDup){
             List<Patient_Delegate__c> pd = new List<Patient_Delegate__c>();
             List<Patient_Delegate__c> pds = new List<Patient_Delegate__c>();
-            pd = [Select Id,Participant__c,Participant_Delegate__c from Patient_Delegate__c where Participant__c=: perRecord.Participant__c and Participant_Delegate__c=:peDeligate.Participant_Delegate__r.Id];
+            pd = [Select Id,Participant__c,Contact__c, Participant_Delegate__c,Contact__r.Participant_Opt_In_Status_SMS__c from Patient_Delegate__c where Participant__c=: perRecord.Participant__c and Participant_Delegate__c=:peDeligate.Participant_Delegate__r.Id];
             if(pd != null && !pd.isEmpty()){
                   Patient_Delegate__c pdToupdateDuplicate = new Patient_Delegate__c(
                   Id = pd[0].Id,
@@ -316,6 +339,7 @@ public without sharing class PIR_ParticipantDetailController {
                     update pdUpd;
                 }
                 update pdToupdateDuplicate;   
+                updateDelContact(pd[0].Contact__c,peDeligate,perRecord);  
             }else{
                 Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
                 Primary_Delegate__c = true,
@@ -325,6 +349,7 @@ public without sharing class PIR_ParticipantDetailController {
                 );
                 contactId = peDeligate.Participant_Delegate__r.Contact__c;
                 insert pdToupdateAfterInsertDuplicate;
+                updateDelContact(contactId,peDeligate,perRecord); 
               }
           }else{
             Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
@@ -335,6 +360,7 @@ public without sharing class PIR_ParticipantDetailController {
             );
             contactId = peDeligate.Participant_Delegate__r.Contact__c;
             insert pdToupdateAfterInsertDuplicate;
+            updateDelContact(contactId,peDeligate,perRecord); 
           }
         }else if(string.isBlank(peDeligate.Participant_Delegate__r.First_Name__c)){//if(delegateCriteria == 'deleteDelegate'){
           Patient_Delegate__c pdToupdate = new Patient_Delegate__c(
@@ -417,5 +443,35 @@ public without sharing class PIR_ParticipantDetailController {
     }
 
     return bol;
+  }
+  public static void updateDelContact(Id delcon, Patient_Delegate__c peDeligate, Participant_Enrollment__c perRecord){
+    contact con = new Contact();
+    con.id =delcon;
+    Contact getsms=[Select id,Participant_Opt_In_Status_SMS__c from Contact where id=:delcon  ];
+    Boolean getSMSValue=getsms.Participant_Opt_In_Status_SMS__c;
+    Study_Site__c ss = [SELECT Id, Site__c from Study_Site__c Where Id =: perRecord.Study_Site__c];
+      con.AccountId = ss.Site__c;
+      con.IQVIA_Contact_info_storage_consent__c =peDeligate.contact__r.IQVIA_Contact_info_storage_consent__c;
+      con.Participant_Phone_Opt_In_Permit_Phone__c =peDeligate.contact__r.Participant_Phone_Opt_In_Permit_Phone__c;
+      con.IQVIA_Assisted_Dialing_Consent__c =peDeligate.contact__r.IQVIA_Assisted_Dialing_Consent__c;
+      con.Participant_Opt_In_Status_Emails__c =peDeligate.contact__r.Participant_Opt_In_Status_Emails__c;
+      con.IQVIA_Artificial_Voice_Consent__c =peDeligate.contact__r.IQVIA_Artificial_Voice_Consent__c;
+      con.IQVIA_Pre_recorded_Voice_Consent__c =peDeligate.contact__r.IQVIA_Pre_recorded_Voice_Consent__c;
+      con.Participant_Opt_In_Status_SMS__c=peDeligate.contact__r.Participant_Opt_In_Status_SMS__c;
+      con.IQVIA_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
+      con.IQVIA_PI_Storage_Consent_Time__c = Datetime.now();
+      con.IQVIA_Phone_Consent_Time__c = Datetime.now();
+      con.IQVIA_Email_Consent_Time__c = Datetime.now();
+      con.IQVIA_Assisted_Dialing_Consent_Time__c = Datetime.now();
+      con.IQVIA_Artificial_Voice_Consent_Time__c = Datetime.now();
+      if(peDeligate.contact__r.Participant_Opt_In_Status_SMS__c){
+        con.IQVIA_SMS_Consent_Time__c = Datetime.now();
+       }
+      else if(getSMSValue!=con.Participant_Opt_In_Status_SMS__c){
+        con.IQVIA_SMS_Consent_Time__c = Datetime.now();
+        }
+      
+      update con;
+    
   }
 }

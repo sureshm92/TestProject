@@ -28,6 +28,9 @@ import icon_chevron_up_white from '@salesforce/resourceUrl/icon_chevron_up_white
 import RH_RP_Select_Phone_Type from '@salesforce/label/c.RH_RP_Select_Phone_Type';
 import RH_RP_Select_Alternative_Type from '@salesforce/label/c.Select_Alternative_Type';
 import RH_RP_Select_Birth_Year from '@salesforce/label/c.RH_RP_Select_Birth_Year';
+import SS_RH_US_Consent from '@salesforce/label/c.SS_RH_US_Consent';
+import SS_RH_ROW_Consent_Email from '@salesforce/label/c.SS_RH_ROW_Consent_Email';
+import SS_RH_ROW_Consent_SMS from '@salesforce/label/c.SS_RH_ROW_Consent_SMS';
 
 
 export default class Rp_DelegateTab extends LightningElement {
@@ -56,7 +59,10 @@ export default class Rp_DelegateTab extends LightningElement {
         RH_RP_Delegate_Email_Format_Error,
         RH_RP_Delegate_Minor_Error,
         RH_RP_Delegate_Successfully_Saved,
-        RH_RP_Select_Phone_Type
+        RH_RP_Select_Phone_Type,
+        SS_RH_US_Consent,
+        SS_RH_ROW_Consent_Email,
+        SS_RH_ROW_Consent_SMS
     };
     topIcon = icon_chevron_up_white;
 
@@ -84,7 +90,8 @@ export default class Rp_DelegateTab extends LightningElement {
     @api requiredFieldList = ['First Name','Phone Number','Last Name','Email ID'];
     @api requiredFieldComboBoxList = ['Phone Type','Birth Year'];
     @api isaccesslevelthree = false;
-    
+    @api isCountryus;
+    getCountry=false;
     isInputValidated = false;
     isComboBoxValidated = false;
     isEmailFormatValidated = false;
@@ -205,7 +212,7 @@ export default class Rp_DelegateTab extends LightningElement {
                     }
                     break; 
                 default:
-                    if( fieldname != 'IsDelegateCertify' && fieldname != 'PDAP' && fieldname != 'PDAT'){
+                    if( fieldname != 'IsDelegateCertify' && fieldname != 'IsDelegateCertifyUS' && fieldname !=='IsDelegateCertifyROW' && fieldname != 'PDAP' && fieldname != 'PDAT'){
                         inpVal = true;
                         inp.setCustomValidity("");
                         inp.reportValidity();
@@ -243,7 +250,7 @@ export default class Rp_DelegateTab extends LightningElement {
         let fieldName = event.target.name;
         this.disabledSaveButton = false;
 
-        if(fieldName && fieldName !=='IsDelegateCertify' && fieldName !=='PDAP' && fieldName !=='PDAT'){
+        if(fieldName && fieldName !=='IsDelegateCertify' && fieldName !=='IsDelegateCertifyUS' && fieldName !=='IsDelegateCertifyROW' && fieldName !=='PDAP' && fieldName !=='PDAT'){
             this.fieldValidation(fieldName);
             this.disabledSaveButton = false;
         }
@@ -278,6 +285,16 @@ export default class Rp_DelegateTab extends LightningElement {
         else if(event.target.dataset.value === 'IsDelegateCertify') {
             record.peRecord.Is_Delegate_Certify__c = event.target.checked;
         }
+        else if(event.target.dataset.value === 'IsDelegateCertifyUS') {
+            record.peRecord.Delegate_Consent__c = event.target.checked;
+            record.peRecord.Delegate_SMS_Consent__c = event.target.checked;
+        }
+         else if(event.target.dataset.value === 'IsDelegateCertifyROW') {
+            record.peRecord.Delegate_Consent__c = event.target.checked;
+        }
+        else if(event.target.dataset.value === 'IsDelegateCertifySMS') {
+            record.peRecord.Delegate_SMS_Consent__c = event.target.checked;
+        }
         else if(event.target.dataset.value === 'PDAP') {
             record.peRecord.Primary_Delegate_s_Alt_Phone__c = event.target.value;
         }
@@ -286,7 +303,7 @@ export default class Rp_DelegateTab extends LightningElement {
         }
         this.delegaterecord = [...this.delegaterecord];
 
-        if(this.delegaterecord[0].peRecord.Is_Delegate_Certify__c == false){
+        if(this.delegaterecord[0].peRecord.Is_Delegate_Certify__c == false || this.delegaterecord[0].peRecord.Delegate_Consent__c==false){
             this.disabledSaveButton = true;
         }
     }

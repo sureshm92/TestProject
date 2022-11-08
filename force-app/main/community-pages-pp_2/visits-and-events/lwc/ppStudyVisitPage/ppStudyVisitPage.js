@@ -70,6 +70,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track upcomingVisitId;
     @track selectedIndex = 0;
     @track initialPageLoad = false;
+    isResultsCard = true;
     initialized = '';
     visitWrappers = [];
     @api icondetails = [];
@@ -141,9 +142,10 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         }
                     }
                     //get upcoming visit details onload
-                    this.visitid = this.upcomingVisits[0].visit.Id;
-                    this.taskSubject = this.upcomingVisits[0].visit.Name;
-
+                    if (this.upcomingVisits.length > 0) {
+                        this.visitid = this.upcomingVisits[0].visit.Id;
+                        this.taskSubject = this.upcomingVisits[0].visit.Name;
+                    }
                     if (!this.pastVisitId && this.pastVisits.length > 0) {
                         this.pastVisits = this.pastVisits.reverse();
                         this.pastVisitId = this.pastVisits[0].visit.Id;
@@ -154,8 +156,14 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
                     }
                     this.showList = true;
-                    this.initializeData(this.visitid);
-                    this.createEditTask();
+                    if(this.visitid){
+                        console.log('Inside Visit Id');
+                        this.initializeData(this.visitid);
+                        this.createEditTask();
+                    }
+                    else{
+                        this.template.querySelector('c-web-spinner').hide();
+                    }
                 } else {
                     this.template.querySelector('c-web-spinner').hide();
                     this.contentLoaded = true;
@@ -191,6 +199,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.siteAddress = data.accountAddress;
                 this.siteName = data.accountName;
                 this.sitePhoneNumber = data.accountPhone;
+                this.template.querySelector('c-web-spinner').show();
             })
             .catch((error) => {
                 this.showErrorToast('Error occured', error.message, 'error');
@@ -260,7 +269,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.visitid = this.pastVisits[index].visit.Id;
             this.visitName = this.pastVisits[index].visit.Name;
             this.plannedDate = this.pastVisits[index].visit.Planned_Date__c;
-            this.visitStatus = this.pastVisits[index].visit.Status__c;
+            if (this.pastVisits[index].missedVisit) {
+                this.visitStatus = this.label.visitUnavailable;
+                this.isResultsCard = false;
+            } else {
+                this.visitStatus = this.pastVisits[index].visit.Status__c;
+                this.isResultsCard = true;
+            }
         } else {
             this.visitid = this.upcomingVisits[index].visit.Id;
             this.visitName = this.upcomingVisits[index].visit.Name;
@@ -394,6 +409,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         this.initialized = 'false';
         this.cblabel = '';
         this.cbdescription = '';
+        this.icondetails = '';
         getIcon({
             visitId: visitid
         })

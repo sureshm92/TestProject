@@ -1,22 +1,24 @@
 <template>
     <template if:true={isInitialized}>
         <article class="slds-card header-card">
-            <div class="slds-card__header slds-grid card-wrap">
-                <header class="slds-has-flexi-truncate">
-                    <h2 class="slds-card__header-title">
-                        <p
-                            class="slds-card__header-link slds-truncate upcoming"
-                            title="Outer Card Header"
-                        >
-                            <span>{labels.UPCOMING}</span>
-                        </p>
-                    </h2>
-                </header>
-            </div>
+            <template if:true={desktop}>
+                <div class="slds-card__header slds-grid card-wrap">
+                    <header class="slds-has-flexi-truncate">
+                        <h2 class="slds-card__header-title">
+                            <p
+                                class="slds-card__header-link slds-truncate upcoming"
+                                title="Outer Card Header"
+                            >
+                                <span>{labels.UPCOMING}</span>
+                            </p>
+                        </h2>
+                    </header>
+                </div>
+            </template>
             <template if:true={isUpcomingDetails}>
-                <div class="slds-card__body slds-card__body_inner card-wrap">
+                <div class="slds-card__body slds-card__body_inner card-wrap card-alignment">
                     <article class="slds-card slds-card_boundary container-card">
-                        <div class="slds-card__body slds-card__body_inner content">
+                        <div class="slds-card__body slds-card__body_inner content card-wrap">
                             <div class="slds-card-wrapper slds-card_boundary visit-card">
                                 <article
                                     class="slds-card slds-has-bottom-magnet slds-has-bottom-magnet"
@@ -221,6 +223,16 @@
                                     <div class="no-expect">{labels.NO_EXPECT}</div>
                                 </template>
                             </article>
+                            <template if:false={desktop}>
+                                <template if:true={isVisitAvailable}>
+                                    <div class="slds-card__footer-action slds-align_absolute-center label">
+                                        <a  href="visits"
+                                            >{labels.View_Visit_Details}
+                                            <span class="slds-assistive-text">{labels.View_Visit_Details}</span>
+                                        </a>
+                                    </div>
+                                </template>
+                            </template>
                         </div>
                     </article>
                 </div>
@@ -228,6 +240,9 @@
             <template if:false={isUpcomingDetails}>
                 <div class="slds-card__body slds-card__body_inner card-wrap">
                     <article class="slds-card slds-card_boundary container-card-upcoming">
+                        <template if:false={desktop}>
+                            <p class="uc-text">UPCOMING VISITS</p>
+                        </template>
                         <div class="slds-card__body slds-card__body_inner content">
                             <div
                                 class="slds-card-wrapper slds-card_boundary slds-align_absolute-center visit-card-upcoming"
@@ -245,14 +260,16 @@
                     </article>
                 </div>
             </template>
-            <footer class="slds-card__footer card-wrap">
-                <a
-                    class="slds-card__footer-action slds-align_absolute-center label"
-                    href="pp/s/visits"
-                    >{labels.View_Visit_Details}
-                    <span class="slds-assistive-text">{labels.View_Visit_Details}</span>
-                </a>
-            </footer>
+            <template if:true={desktop}>
+                <template if:true={isVisitAvailable}>
+                    <footer class="slds-card__footer card-wrap">
+                        <a class="slds-card__footer-action slds-align_absolute-center label" href="visits"
+                            >{labels.View_Visit_Details}
+                            <span class="slds-assistive-text">{labels.View_Visit_Details}</span>
+                        </a>
+                    </footer>
+                </template>
+            </template>
         </article>
     </template>
 </template>

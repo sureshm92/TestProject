@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
@@ -19,28 +19,18 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
     @api resourceSummary;
     @api isVoted = false;
 
-    //Boolean vars
-    isInitialized = false;
     label = {
         Uploaded
     };
 
-    connectedCallback() {
-        this.initializeData();
-    }
-    initializeData() {
-        this.spinner = this.template.querySelector('c-web-spinner');
-        if (this.spinner) {
-            this.spinner.show();
-        }
-        this.isInitialized = true;
-        if (this.spinner) {
-            this.spinner.hide();
-        }
-    }
     handleNavigate() {
         let detailLink =
-            window.location.origin + '/pp/s/resource-detail' + '?resourceid=' + this.resourceId;
+            window.location.origin +
+            '/pp/s/resource-detail' +
+            '?resourceid=' +
+            this.resourceId +
+            '&resourcetype=' +
+            this.resourceType;
 
         const config = {
             type: 'standard__webPage',
@@ -65,6 +55,14 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
+        //custom event to avoid refreshing data from server on each favorite/unfavorite
+        const favourite = new CustomEvent('favourite', {
+            detail: {
+                isFavourite: this.isFavourite,
+                resourceId: this.resourceId
+            }
+        });
+        this.dispatchEvent(favourite);
     }
 
     showErrorToast(titleText, messageText, variantType) {

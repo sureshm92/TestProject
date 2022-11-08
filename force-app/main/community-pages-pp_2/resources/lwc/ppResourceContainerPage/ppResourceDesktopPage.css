@@ -45,6 +45,7 @@ body {
     overflow-y: auto;
     /* padding: 10px 15px; */
     overflow-x: hidden;
+    position: relative;
 }
 
 .res-box-document-container {
@@ -58,14 +59,11 @@ body {
 
 .res-explore-container {
     box-sizing: border-box;
-    height: 710px;
+    height: 607px;
     width: auto;
     border: 1px solid #e9e9e9;
     border-radius: 16px;
     background-color: #ffffff !important;
-    overflow-y: auto;
-    /* padding: 10px 15px; */
-    overflow-x: hidden;
 }
 
 .engage-header,
@@ -204,4 +202,89 @@ p {
             rgba(0, 0, 0, 0) calc(50% + 0.8px),
             rgba(0, 0, 0, 0) 100%
         );
+}
+
+.change-preferences {
+    height: 24px;
+    width: 118px;
+    color: #0768fd;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-decoration: underline;
+}
+
+.resource-container {
+    height: 95px;
+    width: 627px;
+}
+.url-disclaimer {
+    height: 34px;
+    width: 564px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 17px;
+}
+.contribute {
+    height: 17px;
+    width: 68px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 17px;
+}
+.btn {
+    border-radius: 25px;
+}
+.input-container {
+    box-sizing: border-box;
+    height: 32px;
+    width: 503px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+}
+
+.mt-10{
+    margin-top: 10px;
+}
+
+.mt-15{
+    margin-top: 15px;
+}
+
+.no-links-available{
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    margin-top: 84%;
+    text-align: center;
+}
+
+.empty-state{
+    max-height: 100%;
+    max-width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.right-align{
+    float: right;
+}
+
+.newHeight{
+    height: 607px;
 }

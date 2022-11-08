@@ -5,6 +5,7 @@ import { loadScript } from 'lightning/platformResourceLoader';
 import checkSmsOptIn from '@salesforce/apex/TaskEditRemote.checkSmsOptIn';
 import updatePatientVisits from '@salesforce/apex/TaskEditRemote.updatePatientVisits';
 import upsertTaskData from '@salesforce/apex/TaskEditRemote.upsertTaskData';
+import deleteReminder from '@salesforce/apex/TaskEditRemote.deleteReminder';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import date from '@salesforce/label/c.TV_TH_Date';
@@ -12,6 +13,7 @@ import location from '@salesforce/label/c.SS_Location';
 import reminder from '@salesforce/label/c.Home_Page_StudyVisit_Reminder';
 import PREFERENCES from '@salesforce/label/c.PP_TASK_COMM_PREF';
 import saveChanges from '@salesforce/label/c.BTN_Save';
+import REMIND_ME from '@salesforce/label/c.Remind_Me';
 import discard from '@salesforce/label/c.BTN_Cancel';
 import selectreminder from '@salesforce/label/c.Select_reminder';
 import email from '@salesforce/label/c.Email';
@@ -40,7 +42,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         oneweek,
         custom,
         visitdetailsupdated,
-        none
+        none,
+        REMIND_ME
     };
 
     @api visitid;
@@ -289,8 +292,10 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             }
             this.communicationChanged = true;
         }
-        if (this.remindmepub) {
+        if (this.remindmepub && this.remindmepub !== this.label.none) {
             return true;
+        } else if (this.remindmepub === this.label.none) {
+            return false;
         } else {
             return false;
         }
@@ -308,15 +313,18 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 this.showreminderdatepicker = true;
             }
             return this.remindmepub;
-        } else if (!this.remindermepub) {
+        } else if (!this.remindmepub) {
+            this.remindmepub = '';
+            this.showreminderdatepicker = false;
             return null;
         } else {
+            this.remindmepub = '';
             this.showreminderdatepicker = false;
         }
     }
 
     @track initialReminderOptions = [
-        //{ label: this.label.none, value: 'No reminder', itemClass: 'dropdown-li' },
+        { label: this.label.none, value: 'No reminder', itemClass: 'dropdown-li li-item-disabled' },
         {
             label: this.label.onehour,
             value: '1 hour before',
@@ -343,24 +351,29 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     get reminderOptions() {
         let differenceTimeHours = this.calculateTimezoneDifference();
         if (differenceTimeHours > 1) {
-            this.initialReminderOptions[0].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
-        }
-        if (differenceTimeHours > 4) {
             this.initialReminderOptions[1].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
         }
-        if (differenceTimeHours > 24) {
+        if (differenceTimeHours > 4) {
             this.initialReminderOptions[2].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
         }
-        if (differenceTimeHours > 168) {
+        if (differenceTimeHours > 24) {
             this.initialReminderOptions[3].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[3].itemClass = 'dropdown-li li-item-disabled';
+        }
+        if (differenceTimeHours > 168) {
+            this.initialReminderOptions[4].itemClass = 'dropdown-li';
+        } else {
+            this.initialReminderOptions[4].itemClass = 'dropdown-li li-item-disabled';
+        }
+        if (this.remindmepub === '') {
+            this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
+        } else {
+            this.initialReminderOptions[0].itemClass = 'dropdown-li';
         }
         return this.initialReminderOptions;
     }
@@ -462,7 +475,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         } else {
             this.disableButtonSaveCancel = true;
         }
-        if (remindMe !== this.label.custom) {
+        if (remindMe !== this.label.custom && remindMe !== this.label.none) {
             this.showreminderdatepicker = false;
             if (remindMe === this.label.oneweek) {
                 this.selectedReminderDateTime = new Date(dueDateOrplanDate) - 3600 * 1000 * 24 * 7;
@@ -481,10 +494,23 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             }
             this.showreminderdatepicker = true;
         } else if (remindMe === this.label.none) {
-            this.remindmepub = '';
+            this.remindmepub = this.label.none;
             this.selectedReminderDateTime = '';
             this.selectedReminderTime = '';
             this.selectedReminderTime = '';
+            this.showreminderdatepicker = false;
+            this.reminderChanged = true;
+            this.disableButtonSaveCancel = false;
+            if (this.emailOptIn) {
+                this.email = false;
+            } else {
+                this.email = this.visitdata.task.Remind_Using_Email__c;
+            }
+            if (this.smsOptIn) {
+                this.sms = false;
+            } else {
+                this.sms = this.visitdata.task.Remind_Using_SMS__c;
+            }
         }
     }
 
@@ -645,6 +671,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.selectedReminderDateTime = '';
         this.selectedReminderDate = '';
         this.selectedReminderTime = '';
+        this.showreminderdatepicker = false;
+        this.reminderChanged = true;
         this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.showEmailSms = false;
@@ -684,39 +712,40 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 Status__c: 'Pending'
             };
         }
-        var visitTask;
+        var visitTask = '';
 
-        if (this.taskid) {
-            visitTask = {
-                Id: this.taskid,
-                Subject: this.tasksubject,
-                Patient_Visit__c: this.visitid,
-                Remind_Me__c: this.remindmepub,
-                Reminder_Date__c: this.selectedReminderDateTime,
-                Remind_Using_Email__c: this.email,
-                Remind_Using_SMS__c: this.sms,
-                Is_Reminder_Sent__c: false,
-                Task_Type__c: 'Visit'
-            };
-        } else {
-            visitTask = {
-                Subject: this.tasksubject,
-                Patient_Visit__c: this.visitid,
-                Remind_Me__c: this.remindmepub,
-                Reminder_Date__c: this.selectedReminderDateTime,
-                Remind_Using_Email__c: this.email,
-                Remind_Using_SMS__c: this.sms,
-                Is_Reminder_Sent__c: false,
-                Task_Type__c: 'Visit'
-            };
+        if (this.remindmepub !== this.label.none && this.remindmepub !== '') {
+            if (this.taskid) {
+                visitTask = {
+                    Id: this.taskid,
+                    Subject: this.tasksubject,
+                    Patient_Visit__c: this.visitid,
+                    Remind_Me__c: this.remindmepub,
+                    Reminder_Date__c: this.selectedReminderDateTime,
+                    Remind_Using_Email__c: this.email,
+                    Remind_Using_SMS__c: this.sms,
+                    Is_Reminder_Sent__c: false,
+                    Task_Type__c: 'Visit'
+                };
+            } else {
+                visitTask = {
+                    Subject: this.tasksubject,
+                    Patient_Visit__c: this.visitid,
+                    Remind_Me__c: this.remindmepub,
+                    Reminder_Date__c: this.selectedReminderDateTime,
+                    Remind_Using_Email__c: this.email,
+                    Remind_Using_SMS__c: this.sms,
+                    Is_Reminder_Sent__c: false,
+                    Task_Type__c: 'Visit'
+                };
+            }
         }
-
         if (this.visitDateChanged) {
             updatePatientVisits({
                 visit: JSON.stringify(patientVisit)
             })
                 .then((result) => {
-                    if (this.reminderChanged || this.reminderDateChanged) {
+                    if ((this.reminderChanged || this.reminderDateChanged) && visitTask !== '') {
                         upsertTaskData({
                             task: JSON.stringify(visitTask)
                         })
@@ -729,6 +758,25 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                                 this.dispatchEvent(event);
                                 const selectEvent = new CustomEvent('dataupdated');
                                 this.dispatchEvent(selectEvent);
+                            })
+                            .catch((error) => {
+                                this.showErrorToast('Error occured', error.message, 'error');
+                            });
+                    } else if (visitTask === '' && this.taskid !== '') {
+                        deleteReminder({
+                            taskId: this.taskid
+                        })
+                            .then((result) => {
+                                if (result) {
+                                    const event = new ShowToastEvent({
+                                        message: this.label.visitdetailsupdated,
+                                        variant: 'success',
+                                        mode: 'dismissable'
+                                    });
+                                    this.dispatchEvent(event);
+                                    const selectEvent = new CustomEvent('dataupdated');
+                                    this.dispatchEvent(selectEvent);
+                                }
                             })
                             .catch((error) => {
                                 this.showErrorToast('Error occured', error.message, 'error');
@@ -747,7 +795,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 .catch((error) => {
                     this.showErrorToast('Error occured', error.message, 'error');
                 });
-        } else if (this.reminderChanged) {
+        } else if (this.reminderChanged && visitTask !== '') {
             upsertTaskData({
                 task: JSON.stringify(visitTask)
             })
@@ -764,6 +812,34 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 .catch((error) => {
                     this.showErrorToast('Error occured', error.message, 'error');
                 });
+        } else if (visitTask === '' && this.taskid !== '') {
+            deleteReminder({
+                taskId: this.taskid
+            })
+                .then((result) => {
+                    if (result) {
+                        const event = new ShowToastEvent({
+                            message: this.label.visitdetailsupdated,
+                            variant: 'success',
+                            mode: 'dismissable'
+                        });
+                        this.dispatchEvent(event);
+                        const selectEvent = new CustomEvent('dataupdated');
+                        this.dispatchEvent(selectEvent);
+                    }
+                })
+                .catch((error) => {
+                    this.showErrorToast('Error occured', error.message, 'error');
+                });
+        } else {
+            const event = new ShowToastEvent({
+                message: this.label.visitdetailsupdated,
+                variant: 'success',
+                mode: 'dismissable'
+            });
+            this.dispatchEvent(event);
+            const selectEvent = new CustomEvent('dataupdated');
+            this.dispatchEvent(selectEvent);
         }
     }
 

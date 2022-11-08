@@ -15,7 +15,7 @@
     <aura:attribute name="link" type="String" />
     <aura:attribute name="surveyName" type="String" />
     <aura:attribute name="communityName" type="String" />
-
+    <aura:registerEvent name="ppMobileMenuEvent" type="c:PPMobileMenu" />
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
