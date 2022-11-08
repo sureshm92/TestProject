@@ -180,7 +180,7 @@ export default class PpCreateTaskReminder extends LightningElement {
             }
             if (this.systemTask) {
                 if (this.initialReminderOptions.length > 1) {
-                    let customOption = this.initialReminderOptions[4];
+                    let customOption = this.initialReminderOptions[5];
                     this.initialReminderOptions = [];
                     this.initialReminderOptions.push(customOption);
                 }
