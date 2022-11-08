@@ -29114,4 +29114,26 @@ Due Date and Time: ##expirationDate.</value>
         <shortDescription>Delegate roadmap Content PP</shortDescription>
         <value>track the progress of ##ParticipantFirstName in the ##isStudyorProgram</value>
     </labels>
+    <labels>
+        <fullName>Email_Body_Initial_Patient_ePR_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial Patient ePR PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information.A member of the ##isStudyorProgram team will contact you regarding the next steps in the ##isStudyorProgram process.&lt;/span&gt;</value>
+    </labels>
+     <labels>
+        <fullName>Email_Signature_Patient_ePR_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Patient ePR  PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+    </labels>
     </CustomLabels>
