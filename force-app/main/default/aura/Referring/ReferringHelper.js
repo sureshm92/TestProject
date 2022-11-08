@@ -261,6 +261,13 @@
         }else {
             emailDelegateRepeatValid = false;
         }
+            
+        if(participant.Email__c){
+            emailVaild = 
+            needsDelegate ||
+                emailCmp &&
+                helper.checkValidEmail(emailCmp, participant.Email__c);
+        }
         //let emailDelegateVaild = needsDelegate && emailDelegateCmp && emailDelegateCmp.get('v.validity') && emailDelegateCmp.get('v.validity').valid;
         //let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
         
@@ -371,6 +378,8 @@
                participant.Date_of_Birth__c &&
                participant.Date_of_Birth__c <= component.get('v.todayDate')&&
                participant.Email__c &&
+               emailVaild &&
+               emailRepeatValid &&
                participant.Email__c == emailRepeat &&
                participant.Phone__c &&
                participant.Mailing_Zip_Postal_Code__c &&
@@ -415,7 +424,10 @@
                 emailRepeat !== ''
             ) {
                 emailCmp.reportValidity();
+                helper.checkValidEmail(emailCmp,participant.Email__c );
                 emailRepeatCmp.reportValidity();
+                helper.checkValidEmail(emailRepeatCmp, emailRepeat);
+
             }
         }
         if (needsDelegate && delegateParticipant && emailDelegateCmp && emailDelegateRepeatCmp) {
@@ -455,9 +467,9 @@
         var regexpInvalid = new RegExp($A.get('$Label.c.RH_Email_Invalid_Characters'));
         var invalidCheck = regexpInvalid.test(emailValue);
         if (invalidCheck == false) {
-            email.setCustomValidity('');
+          //  email.setCustomValidity('');
             if (emailValue.match(regexp)) {
-                email.setCustomValidity('');
+           // email.setCustomValidity('');
                 isValid = true;
             } else {
                 if(emailValue != ''){
