@@ -12,16 +12,6 @@
     min-height: 316px;
 }
 
-.task-card-mobile {
-    box-sizing: border-box;
-    height: 304px;
-    width: 366px;
-    border: 1px solid #E9E9E9;
-    border-radius: 16px;
-    background-color: #FFFFFF;
-    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
-}
-
 .task-cancel-btn {
     box-sizing: border-box;
     height: 32px;
