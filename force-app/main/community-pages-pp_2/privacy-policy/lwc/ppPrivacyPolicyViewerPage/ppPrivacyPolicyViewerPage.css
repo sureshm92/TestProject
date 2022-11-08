@@ -1,6 +1,7 @@
 .rr-body-content {
     background-color: #f5f6fa;
     height: 100vh;
+    padding: 0% 2%;
 }
 .rr-bottom-bar {
     background-color: #f5f6fa;
@@ -211,10 +212,11 @@
 }
 .tc-content {
     height: 100%;
-    width: 71.666666667%;
+    width: 75%;
 }
 .divider {
-    width: 3.33333%;
+    width: 1%;
+    margin: 0;
 }
 .rich-content {
     background: #ffffff;
@@ -230,7 +232,7 @@
 }
 .last-updated {
     height: 100%;
-    width: 71.6666667%;
+    width: 75%;
     align-items: center;
     color: #444444;
     font-size: 14px;
@@ -266,6 +268,7 @@
 .slds-nav-vertical__action {
     border-top: none;
     border-bottom: none;
+    padding: 4.5%;
 }
 .slds-nav-vertical__action:hover {
     color: #ffffff;
