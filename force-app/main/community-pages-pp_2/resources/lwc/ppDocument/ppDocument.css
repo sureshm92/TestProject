@@ -16,7 +16,6 @@
     border-radius: 6px;
     height: 58px;
     background-color: #e8e8e8;
-    padding: 3px 3px 0px 3px;
 }
 
 .document-label {
@@ -53,6 +52,7 @@
 .thumnail-img {
     height: 95%;
     width: 100%;
+    padding: 3px 3px 0px 3px;
 }
 
 .document-label a:hover {
