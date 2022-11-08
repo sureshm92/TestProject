@@ -391,3 +391,41 @@ a {
         width: 100%;
     }
 }
+.card-wrap {
+    padding: 0;
+}
+.container-card-upcoming {
+    background-color: transparent;
+    border-top-color: #00a3e0;
+    border-top-width: 8px;
+    padding: 0;
+    height: 144px;
+    width: 335px;
+    border-radius: 8px;
+}
+.content {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 15px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+.visit-card-upcoming {
+    height: 144px;
+    width: 335px;
+    display: grid;
+    border-radius: 16px;
+}
+.center-align {
+    text-align: center;
+}
+.text-colour {
+    color: #a9a9a9;
+    margin-top: 8px;
+}
+@media all and (max-width: 486px) {
+    .visit-card-upcoming {
+        height: 213px;
+        width: 326px;
+    }
+}
