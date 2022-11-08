@@ -49,7 +49,7 @@
         else{
             component.find('ppMenu')?.forceRefresh();
             component.find('ppFooter')?.forceRefresh();
-            
+            component.find('ppAlerts')?.forceRefresh();
         }
     },
 
