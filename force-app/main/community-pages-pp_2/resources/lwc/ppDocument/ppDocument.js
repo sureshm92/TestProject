@@ -1,22 +1,28 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
-
+import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 export default class Documents extends NavigationMixin(LightningElement) {
     @api document;
     title;
     versiondate;
     id;
     thumbnail;
+    dropdownOpen = false;
     translations = [];
     multipleTranslations = false;
+    thumbnailPresent = false;
+    thumbnailEmpty = pp_community_icons + '/' + 'image-file-landscape-alternate.png';
 
     connectedCallback() {
         this.id = this.document.resource.Id;
         this.title = this.document.resource.Title__c;
         this.versiondate = this.document.resource.Version_Date__c;
-        this.thumbnail =
-            '/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=' +
-            this.document.thumbnailDocId;
+        if (this.document.thumbnailDocId) {
+            this.thumbnail =
+                '/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=' +
+                this.document.thumbnailDocId;
+            this.thumbnailPresent = true;
+        }
         this.translations = this.document.translations;
         if (this.translations.length > 1) {
             this.multipleTranslations = true;
@@ -71,9 +77,20 @@ export default class Documents extends NavigationMixin(LightningElement) {
         });
     }
 
+    handleError() {
+        this.thumbnailPresent = false;
+    }
+
     expandtheCard() {
-        let radioTask = this.template.querySelector('[data-popup="' + this.id + '"]');
-        radioTask.classList.add('slds-is-open');
+        if (this.dropdownOpen) {
+            let radioTask = this.template.querySelector('[data-popup="' + this.id + '"]');
+            radioTask.classList.remove('slds-is-open');
+            this.dropdownOpen = false;
+        } else {
+            let radioTask = this.template.querySelector('[data-popup="' + this.id + '"]');
+            radioTask.classList.add('slds-is-open');
+            this.dropdownOpen = true;
+        }
     }
 
     closeMenu() {

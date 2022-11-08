@@ -8,8 +8,7 @@ import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 export default class PpResourceDocumentContainer extends LightningElement {
     documentList = [];
     documents = [];
-    documentPresent = false;
-
+    documentPresent;
     label = {
         noDocumentsAvailable
     };
@@ -26,6 +25,8 @@ export default class PpResourceDocumentContainer extends LightningElement {
                 this.documentList = result.wrappers;
                 if (this.documentList.length > 0) {
                     this.documentPresent = true;
+                } else {
+                    this.documentPresent = false;
                 }
             })
             .catch((error) => {

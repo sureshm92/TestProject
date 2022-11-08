@@ -7,11 +7,13 @@
 }
 
 .thumbnail-box {
+    margin-top: 8px;
     box-sizing: border-box;
     border: 1px solid #d9d9d9;
     border-radius: 6px;
     height: 58px;
     background-color: #e8e8e8;
+    margin: 2px 0 0 2px;
 }
 
 .document-label {
@@ -37,6 +39,10 @@
     font-size: 12px;
     letter-spacing: 0;
     line-height: 10px;
+}
+
+.com-icon {
+    margin-top: 8px;
 }
 
 .thumnail-img {

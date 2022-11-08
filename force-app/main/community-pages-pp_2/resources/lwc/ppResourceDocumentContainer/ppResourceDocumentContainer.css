@@ -1,7 +1,9 @@
 .scroll-bar {
-    height: 100%;
+    padding-top: 8px;
+    height: 95%;
     border-radius: 4px;
-    margin-right: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .no-data-is-available {
@@ -12,9 +14,9 @@
     letter-spacing: 0;
 }
 
-.no-links-available{
+.no-links-available {
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     letter-spacing: 0;
     line-height: 24px;
@@ -22,9 +24,7 @@
     text-align: center;
 }
 
-.center{
+.center {
     text-align: center;
     margin-top: 50%;
 }
-
-
