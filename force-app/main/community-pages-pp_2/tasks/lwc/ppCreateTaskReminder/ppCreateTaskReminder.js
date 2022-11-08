@@ -259,7 +259,9 @@ export default class PpCreateTaskReminder extends LightningElement {
     }
 
     get isReminderDisabled() {
-        if (this.taskInfo) return false;
+        if (this.taskInfo.Id) {
+            return false;
+        }
         return this.isTaskDueDateTimeSelected ? false : true;
     }
 
