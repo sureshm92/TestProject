@@ -1,0 +1,37 @@
+{
+  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "componentName" : "c:EmptyLayout",
+  "id" : "5567f8a1-8380-4e14-a6b3-aca1f7fe82e2",
+  "label" : "Add Patient",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:AddPatientByPI",
+      "id" : "d6398954-ed16-4243-b71f-7acfdbe03c71",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "013ced89-cf57-4d93-b9d3-ef92cb0182ee",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Add Patient"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "ce7fb134-57fb-43cb-875b-608ca4cac670",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "76f97040-ed4c-47fd-8ae0-92afa77a3e95",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "OoPK6S0erFtEyweyKxkJhnM5iY2u2F",
+  "type" : "view",
+  "viewType" : "custom-add-patient"
+}

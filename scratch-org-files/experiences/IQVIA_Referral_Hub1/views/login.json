@@ -1,0 +1,37 @@
+{
+  "appPageId" : "68552df3-a219-440b-adcf-4210941952f9",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "58285548-3627-4880-97d1-e17101d40346",
+  "label" : "Login",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:lofiLoginForm",
+      "id" : "b1b75f01-0569-4193-8b8b-2274ff4b277c",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "18bcba13-aa95-49fb-8e74-42d0449d6af2",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Login"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "9438535e-3242-4e71-9f0d-656ed3946d97",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "5d285851-df8d-4772-8e48-2a53169c2b76",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Login",
+  "type" : "view",
+  "viewType" : "login-home"
+}

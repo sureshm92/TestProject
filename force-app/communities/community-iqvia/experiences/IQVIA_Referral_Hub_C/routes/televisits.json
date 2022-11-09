@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "914ebf00-241c-48ce-8e44-27a23fd80ad8",
+  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "configurationTags" : [ ],
+  "id" : "2e2bfab5-8a7c-4174-993a-e10e0c380f03",
+  "label" : "televisits",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-televisits",
+  "type" : "route",
+  "urlPrefix" : "televisits"
+}

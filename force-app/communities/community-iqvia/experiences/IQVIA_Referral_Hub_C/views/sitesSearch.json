@@ -1,0 +1,37 @@
+{
+  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "7e9b8fa8-ddf6-4ba4-bce7-debd996dfbfa",
+  "label" : "Sites search",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:SitesSearch",
+      "id" : "707b92d0-63f1-4ff9-ab52-9deb9fe974a6",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "247b30ee-f7da-417c-be4b-47d0025ee1c2",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Sites search"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "d6420144-8e05-4dd5-88c9-d2ef94a20787",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "b2d0e4f8-1799-4060-b9ef-4322169669fb",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-sites-search"
+}

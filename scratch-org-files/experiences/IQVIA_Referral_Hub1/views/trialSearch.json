@@ -1,0 +1,37 @@
+{
+  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "99394803-b8ca-4d39-88ee-5afbe2ea1c42",
+  "label" : "Trial Search",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:TrialSearchContainer",
+      "id" : "3ad4e1e3-f8c4-4c1f-941e-94b492335e46",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "12cc38c0-2d4e-432e-bc1a-e0a47602765a",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Trial Search"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "65b0ac33-2491-4442-a2c3-8ab71d6398f5",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "4b71f3ef-5260-4f99-ba0d-ed6fbf10b1f8",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-trial-search"
+}

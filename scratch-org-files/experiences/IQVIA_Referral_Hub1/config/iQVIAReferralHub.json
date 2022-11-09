@@ -1,0 +1,18 @@
+{
+  "forgotPasswordRouteId" : "ef7081f3-9ad8-4eef-b382-763133142df0",
+  "isAvailableToGuests" : false,
+  "isFilteredComponentsView" : false,
+  "isProgressiveRenderingEnabled" : false,
+  "loginAppPageId" : "68552df3-a219-440b-adcf-4210941952f9",
+  "mainAppPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "preferredDomain" : "none",
+  "selfRegistrationRouteId" : "99509521-5321-4603-b143-5483b71dd643",
+  "trustedSitesForScript" : [ {
+    "id" : "e2d25e45-bcb0-491f-a76e-4027451148c7",
+    "isActive" : true,
+    "trustedSiteName" : "CDN_WALKME",
+    "trustedSiteUrl" : "https://*.walkme.com",
+    "type" : "trustedSitesForScripts"
+  } ],
+  "type" : "site"
+}

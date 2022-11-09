@@ -1,0 +1,37 @@
+{
+  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "8f7e6a23-4617-4921-932f-85bdd4e7c608",
+  "label" : "Help",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:Help",
+      "id" : "5c05309f-d0fe-4302-a7dc-aa523edbb50c",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "47d06cc4-2e4e-459d-ba25-ceeb6f4f81bd",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Help"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "ffa36022-b1f6-4607-9092-031def0ec899",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "eccf8ddc-42d1-484f-abdb-fe358e0688bc",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-help"
+}

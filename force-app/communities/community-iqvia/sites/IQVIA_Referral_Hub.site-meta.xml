@@ -14,11 +14,11 @@
     <changePasswordPage>RRChangePassword</changePasswordPage>
     <clickjackProtectionLevel>SameOriginOnly</clickjackProtectionLevel>
     <contentSniffingProtection>true</contentSniffingProtection>
-    <!--<customWebAddresses>
+    <customWebAddresses>
         <certificate>clinicalresearch_com</certificate>
         <domainName>cp.clinicalresearch.com</domainName>
         <primary>false</primary>
-    </customWebAddresses>-->
+    </customWebAddresses>
     <enableAuraRequests>true</enableAuraRequests>
     <favoriteIcon>iqvia_favicon</favoriteIcon>
     <fileNotFoundPage>FileNotFound</fileNotFoundPage>

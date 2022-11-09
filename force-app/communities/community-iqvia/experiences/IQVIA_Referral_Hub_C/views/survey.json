@@ -1,0 +1,37 @@
+{
+  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "componentName" : "c:EmptyLayout",
+  "id" : "ea09086e-363e-4e5e-af97-efb526368787",
+  "label" : "Survey",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:BaselineSurvey",
+      "id" : "a13532e8-2e3c-474f-8567-cc1762796b66",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "cae74c3e-c7bd-4660-8353-0db9a8600970",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Survey"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "d319f7cc-a3d0-4438-aeba-4bc0f28adfa4",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "3e2b6663-87e1-4cff-855b-66bc57b40fb8",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "OoPK6S0erFtEyweyKxkJhnM5iY2u2F",
+  "type" : "view",
+  "viewType" : "custom-survey"
+}

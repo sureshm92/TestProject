@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "852ff8b5-3a2a-4e3a-a10e-f7463bbc5526",
+  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "configurationTags" : [ ],
+  "id" : "45bd1791-b6ce-4507-aa59-6b5d9a0dbae5",
+  "label" : "New Team Member",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-new-team-member",
+  "type" : "route",
+  "urlPrefix" : "new-team-member"
+}

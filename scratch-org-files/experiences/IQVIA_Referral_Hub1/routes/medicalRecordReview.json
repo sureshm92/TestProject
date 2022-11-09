@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "ae87d877-2d8c-40fa-a0da-891526beaaa1",
+  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "configurationTags" : [ ],
+  "id" : "4748344b-655c-4666-999a-f622bb21b8fa",
+  "label" : "Medical Record Review",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-medical-record-review",
+  "type" : "route",
+  "urlPrefix" : "medical-record-review"
+}

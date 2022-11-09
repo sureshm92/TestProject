@@ -1,0 +1,37 @@
+{
+  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "92086070-4fc0-4760-8533-ba9e9055094d",
+  "label" : "Incentives",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:incentivePage",
+      "id" : "dd1d392e-4d50-4d38-bc8b-d33d0fccb813",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "53be5046-534a-4baf-8e65-bf50009f30e7",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Incentives"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "480a1127-5a1f-49e1-a36e-11f4f0f368c8",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "c67915c9-3304-4d19-b4eb-c1eefacbbcae",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-incentives"
+}

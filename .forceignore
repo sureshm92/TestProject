@@ -59,4 +59,4 @@ force-app/main/tools/staticresources/*
 #force-app/main/default/profiles
 #force-app/communities
 #force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
-force-app/main/default/profiles/PRDBAPI*
+#force-app/main/default/profiles/PRDBAPI*

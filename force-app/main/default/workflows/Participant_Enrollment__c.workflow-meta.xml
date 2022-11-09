@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
- <!--<alerts>
+ <alerts>
         <fullName>Email_to_VT_ePR_Patient_Clinical_study_referral_NEW</fullName>
         <description>Email_to_VT_ePR_Patient_Clinical_study_referral_NEW</description>
         <protected>false</protected>
@@ -8,10 +8,9 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>updates@mail.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Emails_to_Patients/Email_to_VT_ePR_Patient_Clinical_study_referral_NEW</template>
-    </alerts>-->
+    </alerts>
     <alerts>
         <fullName>Email_to_HCP_Patient_Accepted</fullName>
         <description>Email to HCP- Patient Accepted</description>
@@ -141,7 +140,8 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderType>CurrentUser</senderType>
+        <senderAddress>updates@mail.clinicalresearch.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/Patient15_VT_PI_New_C_S_Referral</template>
     </alerts>
     <alerts>
@@ -177,7 +177,7 @@
         <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient_Welcome_to_the_Study</template>
     </alerts>
-    <!--<alerts>
+    <alerts>
         <fullName>email_to_VT_ePR_Patient_New_Study</fullName>
         <description>email to VT ePR Patient- New Study</description>
         <protected>false</protected>
@@ -185,10 +185,9 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>updates@mail.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient3_VT_ePR_New_C_S_Referral</template>
-    </alerts>-->
+    </alerts>
     <alerts>
         <fullName>Email_to_VT_RP_Patient_New_Study</fullName>
         <description>Email to VT RP Patient- New Study</description>
@@ -197,7 +196,8 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderType>CurrentUser</senderType>
+        <senderAddress>updates@mail.clinicalresearch.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/Patient15_VT_RP_New_C_S_Referral</template>
     </alerts>    
     <fieldUpdates>
@@ -258,20 +258,20 @@
         <description>Patient receives email that they have been referred to a clinical research study by PI - RP refers a participant</description>
           <formula>ISPICKVAL( Participant_Status__c , &quot;Received&quot;) &amp;&amp;  (ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Virtual&quot;) || ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Hybrid&quot;)) &amp;&amp; ISPICKVAL( Referral_Source__c , &quot;PI&quot;) &amp;&amp;  NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp; 
 NOT(ISPICKVAL(Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, &quot;Janssen&quot;))  &amp;&amp;
-Participant__r.Present_Age__c &gt;=18</formula>
+Participant__r.Age__c &gt;=18</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
     <rules>
         <fullName>Email to VT Participant- Self referral Via ePR</fullName>
-        <!--<actions>
+        <actions>
             <name>email_to_VT_ePR_Patient_New_Study</name>
             <type>Alert</type>
-        </actions>-->
+        </actions>
         <active>true</active>
         <description>Participant  (VT) --	New and returning participant self-referral --	Self referral- participant comes in/returns via ePR</description>
         <formula>( ISPICKVAL( Source_Type__c , &quot;Digital Recruitment&quot;) &amp;&amp; ISPICKVAL( Participant_Status__c , &quot;Received&quot;) &amp;&amp; (ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Virtual&quot;) || ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Hybrid&quot;))) &amp;&amp; NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp; 
 NOT(ISPICKVAL(Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, &quot;Janssen&quot;))  &amp;&amp;
-Participant__r.Present_Age__c &gt;=18</formula>
+Participant__r.Age__c &gt;=18</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
     <rules>
@@ -287,7 +287,7 @@ Contacted- not Suitable
 Eligibility Failed</description>
         <formula>(ISPICKVAL( Participant_Status__c , &quot;Contacted - Not Suitable&quot;) || ISPICKVAL( Participant_Status__c , &quot;Eligibility Failed&quot;)) &amp;&amp;   (ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Virtual&quot;) || ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Hybrid&quot;))   &amp;&amp;  NOT(Study_Site__r.Suppress_Participant_Emails__c)  &amp;&amp;    NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;    NOT(Participant__r.IsCountry_NOT_Eligible_for_Emails__c) &amp;&amp; 
 NOT(ISPICKVAL(Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, &quot;Janssen&quot;)) &amp;&amp;
- Participant__r.Present_Age__c &gt;=18</formula>
+ Participant__r.Age__c &gt;=18</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
     <rules>
@@ -472,10 +472,10 @@ NOT(ISPICKVAL(Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, &quo
     </rules>
     <rules>
         <fullName>Email to VT ePR Patient- New Study</fullName>
-        <!--<actions>
+        <actions>
             <name>email_to_VT_ePR_Patient_New_Study</name>
             <type>Alert</type>
-        </actions>-->
+        </actions>
         <active>false</active>
         <description>Patient  receives email that they have been referred to a clinical research study by eRP</description>
         <formula>OR(ISPICKVAL( Participant_Status__c , &quot;Received&quot;),AND(ISPICKVAL( Participant_Status__c , &quot;Received&quot;),IsAutoaccepted__c = True)) &amp;&amp; Is_Virtual_Study_Site__c = True &amp;&amp; NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(ISPICKVAL( Referral_Source__c , &quot;HCP&quot;)) &amp;&amp; NOT(ISPICKVAL( Referral_Source__c , &quot;PI&quot;))</formula>
@@ -510,7 +510,7 @@ NOT(ISPICKVAL(Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, &quo
         </actions>
         <active>true</active>
         <description>Patient receives email that they have been referred to a clinical research study by  RP refers a participant</description>
-        <formula>ISPICKVAL( Participant_Status__c , &quot;Received&quot;) &amp;&amp;  (ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Virtual&quot;) || ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Hybrid&quot;)) &amp;&amp; ISPICKVAL( Referral_Source__c , &quot;HCP&quot;) &amp;&amp;  NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;  NOT(ISPICKVAL(Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, &quot;Janssen&quot;))  &amp;&amp; Participant__r.Present_Age__c &gt;=18</formula>
+        <formula>ISPICKVAL( Participant_Status__c , &quot;Received&quot;) &amp;&amp;  (ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Virtual&quot;) || ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Hybrid&quot;)) &amp;&amp; ISPICKVAL( Referral_Source__c , &quot;HCP&quot;) &amp;&amp;  NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;  NOT(ISPICKVAL(Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, &quot;Janssen&quot;))  &amp;&amp; Participant__r.Age__c &gt;=18</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>    
 </Workflow>

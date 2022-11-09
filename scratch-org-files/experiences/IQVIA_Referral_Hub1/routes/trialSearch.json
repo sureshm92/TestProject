@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "99394803-b8ca-4d39-88ee-5afbe2ea1c42",
+  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "configurationTags" : [ ],
+  "id" : "f332a74a-50dc-4600-9e7a-263a1865bc96",
+  "label" : "Trial Search",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-trial-search",
+  "type" : "route",
+  "urlPrefix" : "trial-search"
+}

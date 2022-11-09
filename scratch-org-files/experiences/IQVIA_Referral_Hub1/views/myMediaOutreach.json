@@ -1,0 +1,37 @@
+{
+  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "b2b23202-bdb1-4e6b-ad83-2083392408bc",
+  "label" : "My Media Outreach",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ViewMediaOutreach",
+      "id" : "d959c346-01de-48fe-a8cc-85b9ee46e003",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "22f53681-a276-4ee9-8410-2d3950ecf20c",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "My Media Outreach"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "f19b9b14-e911-43b5-87c9-240d7b11003a",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "7a77a900-3654-46f8-b1a2-4646a1824830",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-my-mediaoutreach"
+}

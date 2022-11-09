@@ -1,0 +1,37 @@
+{
+  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "componentName" : "c:EmptyLayout",
+  "id" : "852ff8b5-3a2a-4e3a-a10e-f7463bbc5526",
+  "label" : "New Team Member",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:NewTeamMember",
+      "id" : "213a3c56-7e0a-49ed-a435-d6dfba0dc374",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "27767b4a-5add-4600-a3ad-e81d6aa853f3",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "New Team Member"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "f4a0e396-f112-416d-89a3-fb59caaa4923",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "c37dd178-ce4d-4ef0-bb92-5d420686bb79",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-new-team-member"
+}

@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "dcdda320-69c7-4da3-a6eb-6b949def94f9",
+  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "configurationTags" : [ ],
+  "id" : "aa2933bb-5fc8-4698-bbf0-95732289030e",
+  "label" : "Clinic Profile",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-clinic-profile",
+  "type" : "route",
+  "urlPrefix" : "clinic-profile"
+}
