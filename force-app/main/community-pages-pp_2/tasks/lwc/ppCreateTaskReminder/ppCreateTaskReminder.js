@@ -156,6 +156,8 @@ export default class PpCreateTaskReminder extends LightningElement {
             if (!this.systemTask) {
                 if (this.isReminderOptionSelected) {
                     this.initialReminderOptions[0].itemClass = 'dropdown-li';
+                } else {
+                    this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
                 }
                 if (differenceTimeHours > 1) {
                     this.initialReminderOptions[1].itemClass = 'dropdown-li';
@@ -416,6 +418,13 @@ export default class PpCreateTaskReminder extends LightningElement {
             this.selectedReminderDateTime = '';
             this.smsReminderOptIn = false;
             this.emailReminderOptIn = false;
+        } else if (this.taskInfo.Id) {
+            this.selectedReminderOption = 'No reminder';
+            this.selectedReminderDate = '';
+            this.selectedReminderDateTime = '';
+            this.smsReminderOptIn = false;
+            this.emailReminderOptIn = false;
+            this.handleReminderDataChange();
         }
     }
 
