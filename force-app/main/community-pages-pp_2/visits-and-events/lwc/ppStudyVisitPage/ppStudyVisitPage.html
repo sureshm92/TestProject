@@ -23,6 +23,7 @@
                             onvisitchange={onVisitSelect}
                             onpastclick={onPastClick}
                             onupcomingclick={onUpcomingClick}
+                            isupcomingvisits={isUpcomingVisits}
                         >
                         </c-pp-my-visits-list>
                     </template>
@@ -110,6 +111,7 @@
                 </div>
                 <div
                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col3"
+                    data-id={column3}
                 >
                     <img src={visitimage2} class="image-result-visit" />
                     <template if:true={isResultsCard}>
@@ -143,6 +145,7 @@
                             onvisitchange={onVisitSelect}
                             onpastclick={onPastClick}
                             onupcomingclick={onUpcomingClick}
+                            isupcomingvisits={isUpcomingVisits}
                         >
                         </c-pp-my-visits-list>
                     </template>

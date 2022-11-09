@@ -25,7 +25,9 @@
                                         ></lightning-layout-item
                                     >
                                 </lightning-layout>
-                                <div class="profile-info-input taskName-focus {disabledFieldCSS}">
+                                <div
+                                    class="profile-info-input taskName-focus create-task-input-container"
+                                >
                                     <lightning-input
                                         type="text"
                                         data-id="taskName"
@@ -71,6 +73,7 @@
                                                     is-task-due-date-time-selected={isDueDateTimeSelected}
                                                     oncustomreminderdata={handleCustomReminder}
                                                     onreminderdata={handleReminder}
+                                                    edit-mode={editMode}
                                                 ></c-pp-create-task-reminder
                                             ></template>
                                         </lightning-layout-item>
@@ -118,13 +121,14 @@
                                         ></lightning-layout-item
                                     >
                                 </lightning-layout>
-                                <div class="profile-info-input taskName-focus">
+                                <div class="profile-info-input taskName-focus {disabledFieldCSS}">
                                     <lightning-input
                                         type="text"
                                         data-id="taskName"
                                         placeholder={label.enterTaskName}
                                         onkeyup={handletaskNameChange}
                                         maxlength="30"
+                                        disabled={readOnlyMode}
                                     ></lightning-input>
                                 </div>
                                 <lightning-layout-item>
@@ -167,6 +171,7 @@
                                                     oncustomreminderdata={handleCustomReminder}
                                                     onreminderdata={handleReminder}
                                                     task-info={task}
+                                                    edit-mode={editMode}
                                                 ></c-pp-create-task-reminder
                                             ></template>
                                         </lightning-layout-item>

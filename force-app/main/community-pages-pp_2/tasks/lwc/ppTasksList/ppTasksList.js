@@ -31,7 +31,6 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     @api containerClass;
     @api dueTimeClass;
     @api isActive;
-
     @api contact;
     @api selectedparent;
     @api usermode;
@@ -111,12 +110,20 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     isMobile = false;
     selectedTaskId;
     readOnlyMode = false;
+    ishomepage = false;
+
     connectedCallback() {
-        console.log('tasks', this.tasksList);
+        console.log('tasks 123', this.tasksList);
         if (formFactor === 'Small') {
             this.isMobile = true;
         } else {
             this.isMobile = false;
+        }
+        var pageurl = communityService.getFullPageName();
+        if (pageurl == 'tasks') {
+            this.ishomepage = false;
+        } else {
+            this.ishomepage = true;
         }
     }
 
@@ -143,7 +150,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             }
         }
         if (selectedTask.isClosed) return;
-        if (selectedTask.task.Status == 'Expired') return;
+        if (selectedTask.task.Status == 'Expired' || selectedTask.task.Status == 'Ignored') return;
         this.isShowModal = true;
         this.popUpTaskId = taskId;
         this.selectedTaskId = taskId;
@@ -294,6 +301,13 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             selectedTask.expandCard = true;
             this.readOnlyMode = true;
             this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+            const taskEditEvent = new CustomEvent('taskedit', {
+                detail: {
+                    isClose: true,
+                    editMode: true
+                }
+            });
+            this.dispatchEvent(taskEditEvent);
         } catch (e) {
             console.error(e);
         }
@@ -305,6 +319,13 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             let selectedTask = this.getTaskDetailsById(this.popUpTaskId);
             this.selectedTaskId = this.popUpTaskId;
             selectedTask.expandCard = true;
+            const taskEditEvent = new CustomEvent('taskedit', {
+                detail: {
+                    isClose: true,
+                    editMode: true
+                }
+            });
+            this.dispatchEvent(taskEditEvent);
             this.readOnlyMode = false;
             this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
         } catch (e) {
@@ -374,5 +395,31 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         this.clearAllTaskExpandStatus();
         const taskCreatedEvent = new CustomEvent('taskcreated');
         this.dispatchEvent(taskCreatedEvent);
+        const taskEditEvent = new CustomEvent('taskedit', {
+            detail: {
+                isClose: false,
+                editMode: false
+            }
+        });
+        this.dispatchEvent(taskEditEvent);
+    }
+    handleonclick(event) {
+        var taskId = event.currentTarget.dataset.index;
+        this.redirectPage(taskId);
+    }
+    redirectPage(taskId) {
+        this.taskurl = window.location.origin + basePathName + '/tasks' + '?taskId=' + taskId;
+        console.log('taskurl:', this.taskurl);
+
+        const config = {
+            type: 'standard__webPage',
+
+            attributes: {
+                url: this.taskurl
+            }
+        };
+        this[NavigationMixin.GenerateUrl](config).then((url) => {
+            window.open(url, '_self');
+        });
     }
 }

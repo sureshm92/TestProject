@@ -18,6 +18,8 @@ import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
 import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
 
+import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
+
 export default class PpResourceContainerPage extends NavigationMixin(LightningElement) {
     //boolean var
     desktop = true;
@@ -31,6 +33,9 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     documentGridSize = 3;
     hideFirstColumn = false;
     rightColumnPadding = "resource-gutter-left";
+    engageHeight = "res-box-engage-container";
+    linkssHeight = "res-box-relLinks-container pad10";
+    docsHeight = "res-box-document-container"
 
     //labels
     labels = {
@@ -52,15 +57,25 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     @track selectedResourceType;
     @track options = [];
 
+    selectedOptions = "Engage";
+    containerElement;
+    enableChangePref = false;
+    enableChangePrefOnDocs = false;
+
+    empty_state = pp_community_icons + '/' + 'engage_empty.png';
+
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
     }
 
-    connectedCallback() {
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-
+    connectedCallback() {        
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);   
+        this.selectedResourceType = 'engage'; 
         this.initializeData();
     }
+    // renderedCallback(){
+    //     window.addEventListener('click', this.closeOptions);
+    // }
     //template toggle
     render() {
         return this.desktop ? resourcesDesktop : resourcesMobile;
@@ -133,7 +148,29 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         });
     }
     updateResources(event) {
-        this.selectedResourceType = event.target.value;
+        this.selectedResourceType = event.currentTarget.dataset.key;
+        this.getKey(this.selectedResourceType);
+
+        let inputFields = this.template.querySelectorAll('.noselected');
+        inputFields.forEach((ele) => {
+            let key = ele.getAttribute('data-key');
+            if (key == this.selectedResourceType) {
+                ele.classList.add('selected');
+            }
+            else{
+                ele.classList.remove('selected');
+            }
+        });
+    }
+
+    getKey(value){
+            this.options.forEach((obj, index) => {
+                let key = '';
+                if(obj.value == value){
+                    key = obj.label
+                    this.selectedOptions = key;
+                }
+            });      
     }
     get exploreVisible() {
         return this.selectedResourceType == 'explore' ? true : false;
@@ -174,13 +211,37 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         // Populate Grid size 
         if(!this.toggleExplore && !this.toggleDocs && this.toggleLinks){
             this.linksGridSize = 6;
+            this.enableChangePref = true;
+            this.linkssHeight += " newHeight";
         }
 
         if(!this.toggleExplore && !this.toggleLinks && this.toggleDocs){
             this.hideFirstColumn = true;
             this.documentGridSize = 6;
             this.rightColumnPadding = '';
+            this.enableChangePrefOnDocs = true;
+            this.docsHeight += " newHeight";
         }
 
+        if(!this.toggleExplore && this.toggleLinks && this.toggleDocs){
+            this.enableChangePrefOnDocs = true;
+            this.docsHeight += " newHeight";
+            this.linkssHeight += " newHeight";
+        }
+
+        if(this.toggleExplore && !this.toggleLinks){
+            this.engageHeight += " newHeight";
+
+        }
     }
+
+    showOptions(event){
+        this.containerElement = this.template.querySelectorAll('.res-options');
+        this.containerElement[0].classList.toggle('hidden');
+    }
+
+    // closeOptions(event){
+    //     if(this.containerElement[0])
+    //         this.containerElement[0].classList.add('hidden');      
+    // }
 }

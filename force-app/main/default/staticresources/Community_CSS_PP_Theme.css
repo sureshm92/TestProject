@@ -10,7 +10,7 @@
 }
 .rr-width-limiter-pp {
     max-width: 1336px !important;
-    margin: auto;
+    margin: 0 32px;
 }
 
 /* Community_CSS_PP_Theme */
@@ -970,4 +970,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #999999;
+}
+
+/* Edit Task Input Disabled */
+.create-task-input-container .slds-input:disabled,.slds-is-disabled{
+    background: #f2f2f2 !important;  
 }
