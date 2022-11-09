@@ -170,6 +170,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     }
                     this.createEditTask();
                 } else {
+                    this.isUpcomingVisits = false;
                     this.template.querySelector('c-web-spinner').hide();
                     this.contentLoaded = true;
                 }
