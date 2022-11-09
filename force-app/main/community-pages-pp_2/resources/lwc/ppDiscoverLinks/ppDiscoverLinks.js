@@ -47,7 +47,7 @@ export default class PpDiscoverLinks extends LightningElement {
             console.log("InitData New");
             console.log(initData);
             initData.resources.forEach((resObj) => {
-                this.linksWrappers.push(resObj);
+                this.linksWrappers.push(resObj.resource);
             })
             this.spinner.hide();
             console.log("Links Wrapper Custom");
