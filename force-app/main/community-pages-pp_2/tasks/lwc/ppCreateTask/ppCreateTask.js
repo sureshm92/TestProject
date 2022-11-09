@@ -98,8 +98,8 @@ export default class PpCreateTask extends LightningElement {
                             if (wrapper.task.Originator__c != 'Participant') {
                                 if (!wrapper.task.Activity_Datetime__c) {
                                     this.disbaleDateTime = true;
-                                    this.readOnlyMode = true;
                                 }
+                                if (wrapper.task.Activity_Datetime__c) this.readOnlyMode = true;
                             }
                         }
                         this.task = wrapper.task;
