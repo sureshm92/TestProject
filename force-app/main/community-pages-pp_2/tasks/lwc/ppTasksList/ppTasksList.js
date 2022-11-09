@@ -99,7 +99,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     };
     ignoreObj = {
         name: this.label.taskIgnore,
-        iconUrl: 'icon-close',
+        iconUrl: 'pp-close-new',
         ignore: true
     };
     editImg = pp_icons + '/' + 'Pencil_Icon.svg';
