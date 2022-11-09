@@ -38,9 +38,12 @@
            
             <lightning-layout>
 
-                <lightning-layout-item padding="around-small"
-                    ><c-pp-home-page-visits-card desktop={desktop}></c-pp-home-page-visits-card
-                ></lightning-layout-item>
+                <lightning-layout-item padding="around-small">
+                    <template if:true={showVisitCard}>
+                    <c-pp-home-page-visits-card desktop={desktop}>
+                    </c-pp-home-page-visits-card>
+            </template>
+            </lightning-layout-item>
                 <lightning-layout-item padding="around-small"
                     ><c-pp-tasks desktop={desktop}></c-pp-tasks
                 ></lightning-layout-item>
@@ -150,8 +153,10 @@
                     </div>
                 </div>
               </div>
-            <c-pp-home-page-visits-card desktop={desktop}></c-pp-home-page-visits-card>
-            <c-pp-tasks desktop={desktop}></c-pp-tasks>
+            <template if:true={showVisitCard}>  
+                <c-pp-home-page-visits-card desktop={desktop}></c-pp-home-page-visits-card>
+                <c-pp-tasks desktop={desktop}></c-pp-tasks>
+            </template>
         </template>
     </template>
 </template>
