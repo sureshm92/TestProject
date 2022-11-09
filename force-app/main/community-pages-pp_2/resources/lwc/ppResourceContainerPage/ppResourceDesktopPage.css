@@ -17,7 +17,7 @@ body {
 .res-container {
     height: auto;
     background: #f7f8fa;
-    max-width: 1140px;
+    max-width: 1336px;
     margin: auto;
     padding: 15px 0px 15px 0px;
 }
@@ -251,17 +251,17 @@ p {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
 }
 
-.mt-10{
+.mt-10 {
     margin-top: 10px;
 }
 
-.mt-15{
+.mt-15 {
     margin-top: 15px;
 }
 
-.no-links-available{
+.no-links-available {
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     letter-spacing: 0;
     line-height: 24px;
@@ -270,7 +270,7 @@ p {
     text-align: center;
 }
 
-.empty-state{
+.empty-state {
     max-height: 100%;
     max-width: 100%;
     position: absolute;
@@ -281,10 +281,10 @@ p {
     margin: auto;
 }
 
-.right-align{
+.right-align {
     float: right;
 }
 
-.newHeight{
+.newHeight {
     height: 607px;
 }
