@@ -104,6 +104,7 @@ export default class PpCreateTask extends LightningElement {
                         }
                         this.task = wrapper.task;
                         this.subject = wrapper.task.Subject;
+                        this.taskNameLeng = wrapper.task.Subject.length;
                         this.taskDateTime = wrapper.task.Activity_Datetime__c;
                         this.taskDueDate = wrapper.task.Activity_Datetime__c;
                         this.taskDueTime =
