@@ -126,7 +126,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 this.cometd.handshake((status) => {
                     if (status.successful) {
                         this.subscription = this.cometd.subscribe(this.channel, (message) => {
-                            console.log('yeah');
                             this.initializeData(false);
                         });
                     } else {
