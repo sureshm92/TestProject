@@ -75,3 +75,25 @@ h) Once the batch is completed, Goto - Setup - Object Manager - search "Particip
     iii) Participant_Workflow_Final_Step_on_CTP    
     iv)  Revisit_Date_is_available
 Note : I have attached document FYI. 
+
+
+Post Deployment Steps for RH-8326
+
+Step1: Open the developer console and copy the script 1 given below and click on execute
+Script 1
+******************
+public  List<String> perIds = new List<String>();
+public  List<String> perExcludeIds = new List<String>();
+Database.executeBatch(new Batch_UpdatetimestampsexistingContacts(perIds,perExcludeIds));
+
+Step2: Open the developer console and copy the script 2 given below and click on execute
+Script 2
+*******************
+List<Id> perTargetIds = new List<Id>();
+List<Id> perExcludeIds = new List<Id>();
+List<Participant_Enrollment__c >  enrollments = [select id,Participant_Status__c,Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c from Participant_Enrollment__c where ((Participant_Status__c = 'Enrollment Success' AND Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c != 'Enrollment') OR (Participant_Status__c = 'Randomization Success' AND Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c != 'Randomization')) ];
+for(Participant_Enrollment__c per : enrollments){
+    perExcludeIds.add(per.Id);
+}
+
+Database.executeBatch(new Batch_UpdatetimestampsforexistingPER(perExcludeIds,perTargetIds));

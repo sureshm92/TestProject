@@ -170,6 +170,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     }
                     this.createEditTask();
                 } else {
+                    this.isUpcomingVisits = false;
                     this.template.querySelector('c-web-spinner').hide();
                     this.contentLoaded = true;
                 }
@@ -400,11 +401,11 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
 
                 //update bell icon once reminder is created PEH-7825
                 if (this.upcomingVisits.length > 0) {
-                    if (this.taskId) {
-                        if (this.visitdata.task.Reminder_Date__c === undefined) {
-                            this.upcomingVisits[this.selectedIndex].isReminderDate = false;
-                        } else {
+                    if (this.taskId && this.visitdata.task) {
+                        if (this.visitdata.task.Reminder_Date__c != undefined) {
                             this.upcomingVisits[this.selectedIndex].isReminderDate = true;
+                        } else {
+                            this.upcomingVisits[this.selectedIndex].isReminderDate = false;
                         }
                     } else {
                         this.upcomingVisits[this.selectedIndex].isReminderDate = false;
