@@ -81,18 +81,6 @@ public without sharing class ParametrizedMessageService {
                         valueStr = System.Label.Not_Available;
                     }
                 }
-                /*    if (paramName == 'STUDYorPROGRAM') {
-                    if (valueStr == 'true')
-                        valueStr = System.Label.Program_SMS_PP;
-                    else
-                        valueStr = System.Label.Study_SMS_PP;
-                }
-                if (paramName == 'isStudyorProgram') {
-                    if (valueStr == 'true')
-                        valueStr = System.Label.Program_Header_PP;
-                    else
-                        valueStr = System.Label.Study_PP;
-                }*/
                 valuesMap.put(paramName, valueStr);
             }
             resultMessage = sourceMessage;
