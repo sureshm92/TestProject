@@ -11,7 +11,7 @@ export default class PpResourceDocumentContainer extends LightningElement {
     label = {
         noDocumentsAvailable
     };
-
+    spinner;
     empty_state = pp_community_icons + '/' + 'documents_empty.png';
 
     connectedCallback() {
@@ -19,6 +19,10 @@ export default class PpResourceDocumentContainer extends LightningElement {
     }
 
     getDocuments() {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        if (this.spinner) {
+            this.spinner.show();
+        }
         getStudyDocuments()
             .then((result) => {
                 this.documentList = result.wrappers;
@@ -31,6 +35,9 @@ export default class PpResourceDocumentContainer extends LightningElement {
             .catch((error) => {
                 this.showErrorToast('Error occured', error.message, 'error');
             });
+        if (this.spinner) {
+            this.spinner.hide();
+        }
     }
 
     showErrorToast(titleText, messageText, variantType) {
