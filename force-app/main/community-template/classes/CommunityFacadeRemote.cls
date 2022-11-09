@@ -437,11 +437,7 @@ public without sharing class CommunityFacadeRemote {
     public static List<Send_Result__c> getSendResults(Id contactId){
         List<Send_Result__c> listOfResult = new List<Send_Result__c>();
         String communityType = UserContext.getCurrentUserMode().template.templateName;  
-        String userRole = UserContext.getCurrentUserMode().userMode;
-
-        if(userRole.startsWith('PI')){
-            userRole = 'PI';
-        }
+        String userRole = UserContext.getCurrentUserMode().userMode;        
 
         if(contactId != null){
             listOfResult = [SELECT Action__c,CreatedById,CreatedDate,Error__c,Id,Integration_Log__c,

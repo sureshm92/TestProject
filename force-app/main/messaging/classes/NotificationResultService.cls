@@ -49,7 +49,7 @@ public without sharing class NotificationResultService {
     }
 
     public void setSentForBell(Id notificationId, String targetType, String messageBody, String redirectURL, String userRole, String communityType){
-        setResultStatusForBell(notificationId, targetType, SEND_RESULT_STATUS_SENT, messageBody, redirectURL, userRole, communityType);
+        setResultStatusForBell(notificationId, targetType, SEND_RESULT_STATUS_IN_PROGRESS, messageBody, redirectURL, userRole, communityType);
     }
 
     public Send_Result__c getSendResult(Id notificationId, String targetType) {

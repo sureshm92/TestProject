@@ -117,15 +117,9 @@ public class BellNotificationsHelper {
                             mapofGroupVsContact.get('PI Delegate L3').add(new Contact(Id = eachStaff.Site_Contact__c));
                         }
                     }else {
-                        if(eachStaff.Delegate_Level__c == 'Level 1'){
-                            userRole = 'PI Delegate L1';
-                        }
-                        if(eachStaff.Delegate_Level__c == 'Level 2'){
-                            userRole = 'PI Delegate L2';
-                        }
-                        if(eachStaff.Delegate_Level__c == 'Level 3'){
-                            userRole = 'PI Delegate L3';
-                        }
+                        if(eachStaff.Delegate_Level__c == 'Level 1' || eachStaff.Delegate_Level__c == 'Level 2' || eachStaff.Delegate_Level__c == 'Level 3'){
+                            userRole = 'PI';
+                        }                        
                     }                                            
                 }
             }
