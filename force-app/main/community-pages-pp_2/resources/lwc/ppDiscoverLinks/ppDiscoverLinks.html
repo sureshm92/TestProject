@@ -36,11 +36,11 @@
         </template>
         <template if:true={discoverEmptyState}>
             <template if:true={desktop}>
-                <lightning-layout multiple-rows="true" vertical-align="center">
+                <lightning-layout multiple-rows="true" vertical-align="center" class="height">
                         <lightning-layout-item size="12" class="center-empty">
                             <img src={empty_state}/>
                         </lightning-layout-item>
-                        <lightning-layout-item size="12" class="mt-15">
+                        <lightning-layout-item size="12">
                             <p class="no-links-available">No links available</p>
                         </lightning-layout-item>
                 </lightning-layout>
