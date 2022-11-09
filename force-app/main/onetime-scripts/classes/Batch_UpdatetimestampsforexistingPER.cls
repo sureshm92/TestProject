@@ -25,7 +25,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
         return Database.getQueryLocator(query);
     }
     global void execute(Database.BatchableContext bc, List<Participant_Enrollment__c> scope){
-        system.debug('scope :: '+scope.size());
+        
         List<Participant_Enrollment__c> enrollmentsToUpdate = new List<Participant_Enrollment__c>();
         List<Participant_Enrollment__History> enrollmentHistories = new List<Participant_Enrollment__History>();
         Map<Id,Map<String,DateTime>> enrollmentWithConsentTimestamps = new Map<Id,Map<String,DateTime>>();
@@ -49,7 +49,6 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
         }
 
         for(Participant_Enrollment__c per:scope){
-            system.debug(per);
                 Participant_Enrollment__c pertoupdate = new Participant_Enrollment__c();
                 pertoupdate.Id = per.Id;
                 Boolean check = false;
@@ -58,7 +57,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                 if(per.Participant__r.Mailing_Country__c == 'United States' || (per.Participant_Contact__c!=null && (String.isEmpty(per.Participant__c) || String.isEmpty(per.Participant__r.Mailing_Country__c)) && per.Participant_Contact__r.MailingCountry == 'United States')){
                     isCountryUS = true;
                 }
-                if(per.Study_PI_Storage_Consent_Time__c == null && hasHistory && 
+                if(per.Study_PI_Storage_Consent_Time__c == null && hasHistory && per.Permit_IQVIA_to_contact_about_study__c &&
                 enrollmentWithConsentTimestamps.get(per.Id).keyset().contains('Permit_IQVIA_to_contact_about_study__c')){
                     pertoupdate.Study_PI_Storage_Consent_Time__c = enrollmentWithConsentTimestamps.get(per.Id).get('Permit_IQVIA_to_contact_about_study__c');
                     check = true;
@@ -68,7 +67,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                     check = true;
                 }
 
-                if(per.Study_SMS_Consent_Time__c == null && hasHistory && 
+                if(per.Study_SMS_Consent_Time__c == null && hasHistory && per.Permit_SMS_Text_for_this_study__c &&
                 enrollmentWithConsentTimestamps.get(per.Id).keyset().contains('Permit_SMS_Text_for_this_study__c')){
                     pertoupdate.Study_SMS_Consent_Time__c = enrollmentWithConsentTimestamps.get(per.Id).get('Permit_SMS_Text_for_this_study__c');
                     check = true;
@@ -77,7 +76,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                     check = true;
                 }
 
-                if(per.Study_Email_Consent_Time__c == null && hasHistory && 
+                if(per.Study_Email_Consent_Time__c == null && hasHistory && per.Permit_Mail_Email_contact_for_this_study__c &&
                 enrollmentWithConsentTimestamps.get(per.Id).keyset().contains('Permit_Mail_Email_contact_for_this_study__c')){
                     pertoupdate.Study_Email_Consent_Time__c = enrollmentWithConsentTimestamps.get(per.Id).get('Permit_Mail_Email_contact_for_this_study__c');
                     check = true;
@@ -85,13 +84,11 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                     pertoupdate.Study_Email_Consent_Time__c = per.createddate;
                     check = true;
                 }
-                system.debug('pertoupdate.Study_Email_Consent_Time__c :: '+pertoupdate.Study_Email_Consent_Time__c);
-                
                 if(per.Permit_Mail_Email_contact_for_this_study__c){
                     pertoupdate.Study_Direct_Mail_Consent__c = true;
                 }
 
-                if(per.Study_Direct_Mail_Consent_Time__c == null && hasHistory && 
+                if(per.Study_Direct_Mail_Consent_Time__c == null && hasHistory && per.Permit_Mail_Email_contact_for_this_study__c &&
                 enrollmentWithConsentTimestamps.get(per.Id).keyset().contains('Permit_Mail_Email_contact_for_this_study__c')){
                     pertoupdate.Study_Direct_Mail_Consent_Time__c = enrollmentWithConsentTimestamps.get(per.Id).get('Permit_Mail_Email_contact_for_this_study__c');
                     check = true;
@@ -100,7 +97,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                     check = true;
                 }
 
-                if(per.Study_Phone_Consent_Time__c == null && hasHistory && 
+                if(per.Study_Phone_Consent_Time__c == null && hasHistory && per.Permit_Voice_Text_contact_for_this_study__c &&
                 enrollmentWithConsentTimestamps.get(per.Id).keyset().contains('Permit_Voice_Text_contact_for_this_study__c')){
                     pertoupdate.Study_Phone_Consent_Time__c = enrollmentWithConsentTimestamps.get(per.Id).get('Permit_Voice_Text_contact_for_this_study__c');
                    check = true;
@@ -114,7 +111,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                     
                 }
 
-                if(per.Study_Assisted_Dialing_Consent_Time__c == null && hasHistory && 
+                if(per.Study_Assisted_Dialing_Consent_Time__c == null && hasHistory && per.Permit_Voice_Text_contact_for_this_study__c &&
                 enrollmentWithConsentTimestamps.get(per.Id).keyset().contains('Permit_Voice_Text_contact_for_this_study__c')){
                     pertoupdate.Study_Assisted_Dialing_Consent_Time__c = enrollmentWithConsentTimestamps.get(per.Id).get('Permit_Voice_Text_contact_for_this_study__c');
                    check = true;
@@ -128,7 +125,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                         pertoupdate.Study_Artificial_Voice_Consent__c = true;
                         pertoupdate.Study_Pre_recorded_Voice_Consent__c = true;
                     }
-                    if(per.Study_Artificial_Voice_Consent_Time__c == null && hasHistory && 
+                    if(per.Study_Artificial_Voice_Consent_Time__c == null && hasHistory && per.Permit_Voice_Text_contact_for_this_study__c &&
                     enrollmentWithConsentTimestamps.get(per.Id).keyset().contains('Permit_Voice_Text_contact_for_this_study__c')){
                         pertoupdate.Study_Artificial_Voice_Consent_Time__c = enrollmentWithConsentTimestamps.get(per.Id).get('Permit_Voice_Text_contact_for_this_study__c');
                     check = true;
@@ -137,7 +134,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                         check = true;
                     }
 
-                    if(per.Study_Pre_recorded_Calls_Consent_Time__c == null && hasHistory && 
+                    if(per.Study_Pre_recorded_Calls_Consent_Time__c == null && hasHistory && per.Permit_Voice_Text_contact_for_this_study__c &&
                     enrollmentWithConsentTimestamps.get(per.Id).keyset().contains('Permit_Voice_Text_contact_for_this_study__c')){
                         pertoupdate.Study_Pre_recorded_Calls_Consent_Time__c = enrollmentWithConsentTimestamps.get(per.Id).get('Permit_Voice_Text_contact_for_this_study__c');
                     check = true;
@@ -150,10 +147,6 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                 if(check || test.isRunningTest()){
                     enrollmentsToUpdate.add(pertoupdate);
                 }
-        }
-        system.debug('enrollmentsToUpdate :: '+enrollmentsToUpdate.size());
-        for(Participant_Enrollment__c per : enrollmentsToUpdate){
-            system.debug('+++++ update members'+per);
         }
         if(!enrollmentsToUpdate.isEmpty()){
             TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);

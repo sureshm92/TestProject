@@ -90,7 +90,7 @@ global with sharing class Batch_UpdatetimestampsexistingContacts implements Data
 
                 //Timestamp for Phone
                 if(con.IQVIA_Phone_Consent_Time__c == null && recordHistoryExists && 
-                contactWithTimestamps.get(con.Id).keyset().contains('Participant_Phone_Opt_In_Permit_Phone__c')){
+                contactWithTimestamps.get(con.Id).keyset().contains('Participant_Phone_Opt_In_Permit_Phone__c') && con.Participant_Phone_Opt_In_Permit_Phone__c){
                     contoupdate.IQVIA_Phone_Consent_Time__c = contactWithTimestamps.get(con.Id).get('Participant_Phone_Opt_In_Permit_Phone__c');
                     isRecorsUpdated = true;
                 }else if(con.IQVIA_Phone_Consent_Time__c == null && con.Participant_Phone_Opt_In_Permit_Phone__c){
@@ -132,7 +132,7 @@ global with sharing class Batch_UpdatetimestampsexistingContacts implements Data
 
                 //Timestamps for Email
                 if(con.IQVIA_Email_Consent_Time__c == null && recordHistoryExists && 
-                contactWithTimestamps.get(con.Id).keyset().contains('Participant_Opt_In_Status_Emails__c')){
+                contactWithTimestamps.get(con.Id).keyset().contains('Participant_Opt_In_Status_Emails__c') && con.Participant_Opt_In_Status_Emails__c){
                     contoupdate.IQVIA_Email_Consent_Time__c = contactWithTimestamps.get(con.Id).get('Participant_Opt_In_Status_Emails__c');
                     isRecorsUpdated = true;
                 }else if(con.IQVIA_Email_Consent_Time__c == null && con.Participant_Opt_In_Status_Emails__c){
@@ -154,7 +154,7 @@ global with sharing class Batch_UpdatetimestampsexistingContacts implements Data
                 }
                 //Timestamp for SMS
                 if(con.IQVIA_SMS_Consent_Time__c == null && recordHistoryExists && 
-                    contactWithTimestamps.get(con.Id).keyset().contains('Participant_Opt_In_Status_SMS__c')){
+                    contactWithTimestamps.get(con.Id).keyset().contains('Participant_Opt_In_Status_SMS__c') && con.Participant_Opt_In_Status_SMS__c){
                         contoupdate.IQVIA_SMS_Consent_Time__c = contactWithTimestamps.get(con.Id).get('Participant_Opt_In_Status_SMS__c');
                         isRecorsUpdated = true;
                 }else if(con.IQVIA_SMS_Consent_Time__c == null && con.Participant_Opt_In_Status_SMS__c){
