@@ -4,7 +4,6 @@ import momentTZ from '@salesforce/resourceUrl/momenttz';
 import COMETD_LIB from '@salesforce/resourceUrl/cometd';
 import getSessionId from '@salesforce/apex/TelevisitMeetBannerController.getSessionId';
 import { loadScript } from 'lightning/platformResourceLoader';
-import checkSmsOptIn from '@salesforce/apex/TaskEditRemote.checkSmsOptIn';
 import recheckOptIns from '@salesforce/apex/TaskEditRemote.checkSmsEmailOptIn';
 import updatePatientVisits from '@salesforce/apex/TaskEditRemote.updatePatientVisits';
 import upsertTaskData from '@salesforce/apex/TaskEditRemote.upsertTaskData';
