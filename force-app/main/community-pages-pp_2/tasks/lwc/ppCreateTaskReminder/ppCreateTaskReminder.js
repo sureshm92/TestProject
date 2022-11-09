@@ -410,7 +410,7 @@ export default class PpCreateTaskReminder extends LightningElement {
 
     @api
     handleDueDateChange() {
-        if (!this.taskInfo) {
+        if (!this.taskInfo.Id) {
             this.selectedReminderOption = '';
             this.selectedReminderDate = '';
             this.selectedReminderDateTime = '';
