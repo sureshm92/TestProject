@@ -24,13 +24,13 @@
 }
 
 .po-about-program {
-    height: auto;
+    height: 48px;
     color: #444444;
     font-size: 18px;
     font-weight: 600;
     font-family: 'Proxima Nova';
     letter-spacing: 0;
-    line-height: inherit;
+    line-height: 48px;
 }
 
 .po-mt-20 {
