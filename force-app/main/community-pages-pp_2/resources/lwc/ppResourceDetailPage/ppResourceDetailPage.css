@@ -27,6 +27,9 @@
 .title-row {
     padding: 2% 1% 0% 0%;
 }
+.title-row-document {
+    padding: 1% 0% 0% 0%;
+}
 .summary-date {
     color: #898989;
     padding-bottom: 2%;
