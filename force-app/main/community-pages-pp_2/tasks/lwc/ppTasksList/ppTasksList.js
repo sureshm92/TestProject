@@ -133,7 +133,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             this.isMobile = false;
         }
         var pageurl = communityService.getFullPageName();
-        if (pageurl == 'tasks') {
+        if (pageurl.includes('tasks')) {
             this.ishomepage = false;
         } else {
             this.ishomepage = true;

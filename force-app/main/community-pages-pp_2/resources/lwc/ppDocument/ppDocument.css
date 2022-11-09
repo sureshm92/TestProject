@@ -66,3 +66,9 @@
     letter-spacing: 0;
     line-height: 0px;
 }
+
+.translation-dropdown {
+    margin-bottom: -98px;
+    margin-top: -2px;
+    margin-right: -85px;
+}
