@@ -82,7 +82,11 @@ public class BellNotificationQueueable implements Queueable, Database.AllowsCall
                     if(n.Target_User_Group__c == 'Self'){
                         userRole = userRoleComm;
                     }else{
-                        userRole = n.Target_User_Group__c;
+                        if(n.Target_User_Group__c.startsWith('PI')){
+                            userRole = 'PI';
+                        }else{
+                            userRole = n.Target_User_Group__c;
+                        }                        
                     }
                     service.setSentForBell(n.Id, BELL_NOTIFICATION_TARGET_TYPE , messageBody,target.Is_Redirect__c ? redirectTarget : null, userRole, studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c);
                 }                
