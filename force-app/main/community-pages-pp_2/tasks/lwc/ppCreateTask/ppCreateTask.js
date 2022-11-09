@@ -93,10 +93,12 @@ export default class PpCreateTask extends LightningElement {
                             wrapper.task.Subject;
                         if (this.taskCodeList.includes(wrapper.task.Task_Code__c)) {
                             this.disbaleDateTime = true;
+                            this.readOnlyMode = true;
                         } else {
                             if (wrapper.task.Originator__c != 'Participant') {
                                 if (!wrapper.task.Activity_Datetime__c) {
                                     this.disbaleDateTime = true;
+                                    this.readOnlyMode = true;
                                 }
                             }
                         }
@@ -308,6 +310,7 @@ export default class PpCreateTask extends LightningElement {
         }
     }
     handleCancelTask() {
+        communityService.replaceUrlParameter('id', '');
         const taskCloseEvent = new CustomEvent('taskclose', {
             detail: {
                 isClose: false,
