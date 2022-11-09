@@ -29155,7 +29155,7 @@ Due Date and Time: ##expirationDate.</value>
     <labels>
         <fullName>AL_Body_Welcome_Study_Patient_Delegates_PP</fullName>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>AL_Body_Welcome_Study_Patient_Delegates_PP</shortDescription>
         <value>Hi ##UserName! You have been assigned as a Delegate for ##ParticipantUser in a clinical research study. We are excited to be on this journey with you both.</value>
     </labels>
