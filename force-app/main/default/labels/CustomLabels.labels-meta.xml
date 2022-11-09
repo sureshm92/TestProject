@@ -28947,7 +28947,7 @@ Please contact the Study Team for further updates or please login for additiona
     <labels>
         <fullName>Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected_PP</fullName>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>Email Body Instant Del Task Reminder Type Not Selected PP</shortDescription>
         <value>&lt;span &gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName.&lt;/span&gt;
 
