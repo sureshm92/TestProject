@@ -163,31 +163,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 this.showToast('', error.message, 'error');
             });
     }
-/*
-    @wire(checkSmsOptIn)
-    returneddata({ error, data }) {
-        if (data) {
-            if (data[0].Permit_SMS_Text_for_this_study__c) {
-                this.smsOptIn = false;
-            } else {
-                this.smsOptIn = true;
-            }
-            if (data[0].Permit_Mail_Email_contact_for_this_study__c) {
-                this.emailOptIn = false;
-            } else {
-                this.emailOptIn = true;
-            }
-            if (this.emailOptIn) {
-                this.email = false;
-            }
-            if (this.smsOptIn) {
-                this.sms = false;
-            }
-        } else if (error) {
-            this.showErrorToast('Error occured', error.message, 'error');
-        }
-    }
-*/
     @api
     callFromParent() {
         this.visitDate = '';
