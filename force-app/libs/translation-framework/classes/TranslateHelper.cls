@@ -293,6 +293,12 @@ public class TranslateHelper {
                 else
                     paramValue = System.Label.Study_PP;
             }
+            if (param == 'studiesOrPrograms') {
+                if (paramValue == 'true')
+                    paramValue = System.Label.Programs_PP;
+                else
+                    paramValue = System.Label.Studies_PP;
+            }
 
             result = result.replaceAll(paramId, paramValue);
         }

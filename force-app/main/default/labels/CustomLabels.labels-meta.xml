@@ -25458,6 +25458,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Edit</value>
     </labels>
     <labels>
+        <fullName>Task_Edit_Success_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Edit Success Message</shortDescription>
+        <value>Task edited successfully.</value>
+    </labels>
+    <labels>
         <fullName>Task_Ignore</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -28652,6 +28659,14 @@ Please contact the Study Team for further updates or please login for additiona
         <value>No upcoming visit</value>
     </labels>
     <labels>
+        <fullName>Visit_No_Upcoming_Visits</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit No Upcoming Visits</shortDescription>
+        <value>No upcoming visits</value>
+    </labels>
+    <labels>
         <fullName>Visit_No_Past_Visit</fullName>
         <categories></categories>
         <language>en_US</language>
@@ -28833,6 +28848,14 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>PP Resource Submit</shortDescription>
         <value>Content was submitted successfully. Thank you for your contribution!</value>
     </labels>
+     <labels>
+        <fullName>View_All_Tasks</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View All Tasks</shortDescription>
+        <value>View All Tasks</value>
+    </labels>
+</CustomLabels>
     <labels>
         <fullName>Task_PP_Completed</fullName>
         <language>en_US</language>
@@ -28980,7 +29003,9 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Created By PI New PP</shortDescription>
-        <value>&lt;div&gt;&lt;p&gt;Thank you for your interest in participating in a ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div &gt;&lt;p &gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##StudyorProgram team will contact you regarding the next steps in the enrollment process. &lt;/p&gt;&lt;/div&gt;</value>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the enrollment process.&lt;/span&gt;</value>
     </labels>
 
  <labels>
@@ -28995,21 +29020,44 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient New  PP</shortDescription>
-        <value>&lt;div&gt;&lt;p&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your ##isStudyorProgram center.
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram center.&lt;/span&gt;
 
-        Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;
-        Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.
+&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
 
-Sincerely,
+&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
-##SignatureFullCommunityNewName</value>
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+    </labels>
+      <labels>
+        <fullName>Email_Signature_Patient1_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Patient1 New  PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in clinical research.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
      <labels>
         <fullName>Discover_future_Clinical_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Discover future Clinical PP</shortDescription>
-        <value>information about   ##StudyName ##isEventorVisit and assessment</value>
+        <value>information about ##StudyName ##isEventorVisit and assessments</value>
+    </labels>
+      <labels>
+        <fullName>Discover_future_Clinical_New_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Discover future Clinical New PP</shortDescription>
+        <value>information about ##StudyName ##isEventorVisit and activities</value>
     </labels>
     <labels>
         <fullName>Track_your_study_PP</fullName>
@@ -29017,7 +29065,7 @@ Sincerely,
         <protected>true</protected>
         <shortDescription>Track your study PP</shortDescription>
         <value>your ##isStudyorProgram timeline to help you keep track of your progress</value>
-    </labels>     
+    </labels> 
     <labels>
         <fullName>AL_Title_Welcome_To_The_PH_PP</fullName>
         <language>en_US</language>
@@ -29046,5 +29094,47 @@ Sincerely,
         <protected>false</protected>
         <shortDescription>AL Title Welcome Study PP</shortDescription>
         <value>Welcome to the ##StudyName!</value>
+    </labels>
+     <labels>
+        <fullName>Learn_more_about_study_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Learn more about study PP</shortDescription>
+        <value>interesting articles and additional information about research.</value>
+    </labels>  
+      <labels>
+        <fullName>Email_Body_Initial_Patient_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more ##studiesOrPrograms that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
+    </labels>  
+     <labels>
+        <fullName>Programs_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Programs PP</shortDescription>
+        <value>programs</value>
+    </labels>
+     <labels>
+        <fullName>Studies_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies PP</shortDescription>
+        <value>studies</value>
+    </labels>    
+    <labels>
+        <fullName>Delegate_learnmore_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delegate learnmore PP</shortDescription>
+        <value>learn more about this ##isStudyorProgram.</value>
+    </labels>
+    <labels>
+        <fullName>Delegate_roadmap_Content_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delegate roadmap Content PP</shortDescription>
+        <value>track the progress of ##ParticipantFirstName in the ##isStudyorProgram</value>
     </labels>
     </CustomLabels>
