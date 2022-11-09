@@ -3651,6 +3651,13 @@ We are asking all eligible donors to come forward so we can treat as many patien
         <value>Please select the date</value>
     </labels>
     <labels>
+        <fullName>Consent_Signed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Consent Signed</shortDescription>
+        <value>Consent Signed</value>
+    </labels>
+    <labels>
         <fullName>CP_First_Name</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>
