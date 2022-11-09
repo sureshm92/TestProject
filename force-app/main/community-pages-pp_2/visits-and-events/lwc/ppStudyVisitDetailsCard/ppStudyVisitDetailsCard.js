@@ -1,12 +1,16 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import moment from '@salesforce/resourceUrl/moment_js';
 import momentTZ from '@salesforce/resourceUrl/momenttz';
+import COMETD_LIB from '@salesforce/resourceUrl/cometd';
+import getSessionId from '@salesforce/apex/TelevisitMeetBannerController.getSessionId';
 import { loadScript } from 'lightning/platformResourceLoader';
 import checkSmsOptIn from '@salesforce/apex/TaskEditRemote.checkSmsOptIn';
+import recheckOptIns from '@salesforce/apex/TaskEditRemote.checkSmsEmailOptIn';
 import updatePatientVisits from '@salesforce/apex/TaskEditRemote.updatePatientVisits';
 import upsertTaskData from '@salesforce/apex/TaskEditRemote.upsertTaskData';
 import deleteReminder from '@salesforce/apex/TaskEditRemote.deleteReminder';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import DEVICE from '@salesforce/client/formFactor';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import date from '@salesforce/label/c.TV_TH_Date';
 import location from '@salesforce/label/c.SS_Location';
@@ -80,19 +84,88 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     @track communicationChanged = false;
     booleanFalse = false;
     booleanTrue = true;
+    spinner;
+    desktop = true;
+
+    /**Platform Event */
+    cometd;
+    subscription;
+    channel = '/event/Communication_Preference_Change__e';
 
     connectedCallback() {
-        loadScript(this, moment).then(() => {
-            loadScript(this, momentTZ).then(() => {
-                this.currentBrowserTime = window.moment();
-                var localOffset = this.currentBrowserTime.utcOffset();
-                var userTime = this.currentBrowserTime.tz(TIME_ZONE);
-                var centralOffset = userTime.utcOffset();
-                this.diffInMinutes = centralOffset - localOffset;
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        this.spinner = this.template.querySelector('c-web-spinner');     
+                loadScript(this, COMETD_LIB).then(()=>{        
+                    loadScript(this, moment).then(() => {
+                        loadScript(this, momentTZ).then(() => {
+                            this.currentBrowserTime = window.moment();
+                            var localOffset = this.currentBrowserTime.utcOffset();
+                            var userTime = this.currentBrowserTime.tz(TIME_ZONE);
+                            var centralOffset = userTime.utcOffset();
+                            this.diffInMinutes = centralOffset - localOffset;
+                            this.initializeData(true);
+                        });
+                    });
             });
-        });
     }
 
+    loadSessionId() {
+        getSessionId()
+            .then((sessionId) => {
+                this.cometd = new window.org.cometd.CometD();
+                this.cometd.configure({
+                    url:
+                        window.location.protocol +
+                        '//' +
+                        window.location.hostname +
+                        '/cometd/49.0/',
+                    requestHeaders: { Authorization: 'OAuth ' + sessionId },
+                    appendMessageTypeToURL: false
+                });
+                this.cometd.websocketEnabled = false;
+                this.cometd.handshake((status) => {
+                    if (status.successful) {
+                        this.subscription = this.cometd.subscribe(this.channel, (message) => {
+                            console.log('yeah');
+                            this.initializeData(false);
+                        });
+                    } else {
+                        this.showToast(status, status, 'error');
+                    }
+                });
+            })
+            .catch((error) => {
+                let message = error.message || error.body.message;
+                this.showToast(message, message, 'error');
+            });
+    }
+    
+    initializeData(isInitial) {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        if(this.spinner!=null && this.spinner != undefined){
+            this.spinner.show();
+        }
+        recheckOptIns()
+            .then((result) => {
+                let initialData = result[0];
+                this.emailOptIn = !initialData.Permit_Mail_Email_contact_for_this_study__c;
+                this.smsOptIn = !initialData.Permit_SMS_Text_for_this_study__c;
+                this.email = this.emailOptIn
+                    ? false
+                    : this.email;
+                this.sms = this.smsOptIn ? false : this.sms;
+                if(this.spinner!=null && this.spinner != undefined){
+                    this.spinner.hide();
+                }
+                if(isInitial){
+                    this.loadSessionId();
+                }
+            })
+            .catch((error) => {
+                this.showToast('', error.message, 'error');
+            });
+    }
+/*
     @wire(checkSmsOptIn)
     returneddata({ error, data }) {
         if (data) {
@@ -116,7 +189,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             this.showErrorToast('Error occured', error.message, 'error');
         }
     }
-
+*/
     @api
     callFromParent() {
         this.visitDate = '';

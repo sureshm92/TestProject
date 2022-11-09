@@ -383,8 +383,8 @@ public without sharing class TaskEditRemote {
         }
     }
 
-    @AuraEnabled(cacheable=true)
-    public static List<Participant_Enrollment__c> checkSmsOptIn() {
+    @AuraEnabled
+    public static List<Participant_Enrollment__c> checkSmsEmailOptIn() {
         List<Participant_Enrollment__c> availablePEs = new List<Participant_Enrollment__c>();
         try {
             ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
