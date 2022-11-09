@@ -69,7 +69,8 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     }
 
     connectedCallback() {        
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);       
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);   
+        this.selectedResourceType = 'engage'; 
         this.initializeData();
     }
     // renderedCallback(){

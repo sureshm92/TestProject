@@ -302,6 +302,10 @@ a {
     letter-spacing: 0;
 }
 
+.hide {
+    display: none;
+}
+
 .visit-date-time {
     display: flex;
     margin-top: 0.5rem;
