@@ -11,7 +11,7 @@
     </fieldUpdates>
     <fieldUpdates>
         <fullName>Populate_Override_Fields</fullName>
-        <field>Detailed_Description__c</field>
+        <field>Override_Description__c</field>
         <formula>Detailed_Description__c</formula>
         <name>Populate Override Fields</name>
         <notifyAssignee>false</notifyAssignee>
@@ -61,7 +61,7 @@
             <type>FieldUpdate</type>
         </actions>
         <active>false</active>
-        <formula>AND(Detailed_Description__c &lt;&gt; NULL, Detailed_Description__c = NULL)</formula>
+        <formula>AND(Detailed_Description__c &lt;&gt; NULL, Override_Description__c = NULL)</formula>
         <triggerType>onAllChanges</triggerType>
     </rules> 
     <rules>
