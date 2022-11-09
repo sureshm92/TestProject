@@ -10,7 +10,7 @@
 }
 .rr-width-limiter-pp {
     max-width: 1336px !important;
-    margin: 0 32px;
+    /* margin: 0 32px; */
 }
 
 /* Community_CSS_PP_Theme */
@@ -975,4 +975,11 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 /* Edit Task Input Disabled */
 .create-task-input-container .slds-input:disabled,.slds-is-disabled{
     background: #f2f2f2 !important;  
+}
+
+/* Resources */
+.resDiscoverIcon lightning-primitive-icon svg{
+    height: 16px;
+    width: 16px;
+    color: #015FF1;
 }
