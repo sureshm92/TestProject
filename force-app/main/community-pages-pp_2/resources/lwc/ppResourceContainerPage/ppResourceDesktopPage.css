@@ -166,6 +166,7 @@ p {
 
 .pad10 {
     padding: 10px;
+    padding-bottom: 20px;
 }
 
 /* Scroll bar custom */
