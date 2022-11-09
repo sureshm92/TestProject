@@ -286,7 +286,12 @@ export default class PpCreateTask extends LightningElement {
                 .then((result) => {
                     this.spinner.hide();
                     this.enableSave = false;
-                    communityService.showToast('', 'success', taskCreationSuccess, 100);
+                    communityService.showToast(
+                        '',
+                        'success',
+                        this.editMode ? taskEditSuccess : taskCreationSuccess,
+                        100
+                    );
                     const taskCloseEvent = new CustomEvent('taskclose', {
                         detail: {
                             isClose: false
