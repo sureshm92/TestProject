@@ -3651,6 +3651,13 @@ We are asking all eligible donors to come forward so we can treat as many patien
         <value>Please select the date</value>
     </labels>
     <labels>
+        <fullName>Consent_Signed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Consent Signed</shortDescription>
+        <value>Consent Signed</value>
+    </labels>
+    <labels>
         <fullName>CP_First_Name</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>
@@ -25458,6 +25465,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Edit</value>
     </labels>
     <labels>
+        <fullName>Task_Edit_Success_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Edit Success Message</shortDescription>
+        <value>Task edited successfully.</value>
+    </labels>
+    <labels>
         <fullName>Task_Ignore</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -28650,6 +28664,14 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Visit No Upcoming Visit</shortDescription>
         <value>No upcoming visit</value>
+    </labels>
+    <labels>
+        <fullName>Visit_No_Upcoming_Visits</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit No Upcoming Visits</shortDescription>
+        <value>No upcoming visits</value>
     </labels>
     <labels>
         <fullName>Visit_No_Past_Visit</fullName>

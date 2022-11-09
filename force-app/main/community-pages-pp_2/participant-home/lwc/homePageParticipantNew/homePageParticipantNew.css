@@ -115,15 +115,20 @@
     height: 40px;
   }
   @media only screen and (max-width: 600px) {
-    .bg-cards{
+   /* .bg-cards{
       margin-top: 110px !important;
-    }
+    } */
     
   }
+  .svg-icon-with-text {
+    top: 6px;
+    position: relative;
+  }
+
   /*  */
   .vertical {
     border-left: 4px solid #005587;
-    height: 37px;
+    height: 42px;
     position: relative;
     left: 50%;
     margin-top: 26px

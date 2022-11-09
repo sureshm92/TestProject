@@ -383,8 +383,8 @@ public without sharing class TaskEditRemote {
         }
     }
 
-    @AuraEnabled(cacheable=true)
-    public static List<Participant_Enrollment__c> checkSmsOptIn() {
+    @AuraEnabled
+    public static List<Participant_Enrollment__c> checkSmsEmailOptIn() {
         List<Participant_Enrollment__c> availablePEs = new List<Participant_Enrollment__c>();
         try {
             ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
@@ -467,7 +467,7 @@ public without sharing class TaskEditRemote {
 
     private static Map<String, Boolean> checkStudyLevelConsents() {
         Map<String, Boolean> consentTypeValueMap = new Map<String, Boolean>();
-        List<Participant_Enrollment__c> peList = checkSmsOptIn();
+        List<Participant_Enrollment__c> peList = checkSmsEmailOptIn();
         if (peList != null && peList.size() > 0) {
             consentTypeValueMap.put('smsConsent', peList[0].Permit_SMS_Text_for_this_study__c);
             consentTypeValueMap.put(
@@ -485,7 +485,13 @@ public without sharing class TaskEditRemote {
     public static Map<String, Boolean> checkEmailSMSPreferencesForPPTask(String taskId) {
         Map<String, Boolean> consentTypeValueMap = new Map<String, Boolean>();
         if (taskId == null || taskId == '') {
-            consentTypeValueMap = checkStudyLevelConsents();
+            Boolean isDelegate = ParticipantContext.isCurrentDelegate();
+            Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
+            if ((!isDelegate && currentPE != null) || (isDelegate && currentPE != null)) {
+                consentTypeValueMap = checkStudyLevelConsents();
+            } else if ((!isDelegate && currentPE == null) || (isDelegate && currentPE == null)) {
+                consentTypeValueMap = checkPlatformLevelConsents();
+            }
             return consentTypeValueMap;
         } else {
             List<Task> taskList = [
