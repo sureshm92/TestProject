@@ -137,14 +137,14 @@
                 component.set('v.pyear',null);
             }
              
-            if( (( pe.Mailing_Country_Code__c == 'US' && ((pe.Permit_SMS_Text_for_this_study__c)&&  pe.Delegate_SMS_Consent__c)) || 
+          if( (( pe.Mailing_Country_Code__c == 'US' && (pe.Permit_SMS_Text_for_this_study__c || pe.Delegate_Consent__c)) || 
                    pe.Mailing_Country_Code__c != 'US' ) && 
-                 ((pe.Permit_Voice_Text_contact_for_this_study__c && 
-                 pe.Permit_Mail_Email_contact_for_this_study__c ) || pe.Delegate_Consent__c) 
+                ( (pe.Permit_Voice_Text_contact_for_this_study__c && 
+                 pe.Permit_Mail_Email_contact_for_this_study__c) || pe.Delegate_Consent__c)
               ){
               component.set('v.agreePolicy',true);   
             }
-            
+
         }else{
             var participant = {
                 sobjectType: 'Participant__c',
@@ -243,25 +243,16 @@
         let per = component.get('v.pEnrollment');
         let delegateParticipant = component.get('v.delegateParticipant'); 
         //RH-8091 
-        if( per != null && per != undefined && per != '' && delegateParticipant == null && delegateParticipant == undefined && delegateParticipant == '' &&  (
-                (component.get('v.participant').Mailing_Country_Code__c == 'US' && per.Permit_SMS_Text_for_this_study__c) || 
-                 component.get('v.participant').Mailing_Country_Code__c != 'US' ) && 
-                 per.Permit_Voice_Text_contact_for_this_study__c && 
-                 per.Permit_Mail_Email_contact_for_this_study__c 
-              ){
-              component.set('v.agreePolicy',true);   
-            }
-            else 
-            if( per != null && per != undefined && per != '' && delegateParticipant != null && delegateParticipant != undefined && delegateParticipant != '' &&
-               (
-                (component.get('v.participant').Mailing_Country_Code__c == 'US' && ((per.Permit_SMS_Text_for_this_study__c) || per.Delegate_SMS_Consent__c)) || 
+        if( per != null && per != undefined && per != '' &&
+            (
+                (component.get('v.participant').Mailing_Country_Code__c == 'US' &&( per.Permit_SMS_Text_for_this_study__c || per.Delegate_Consent__c)) || 
                  component.get('v.participant').Mailing_Country_Code__c != 'US' ) && 
                  ((per.Permit_Voice_Text_contact_for_this_study__c && 
-                 per.Permit_Mail_Email_contact_for_this_study__c ) || per.Delegate_Consent__c)
+                per.Permit_Mail_Email_contact_for_this_study__c )|| per.Delegate_Consent__c)
               ){
               component.set('v.agreePolicy',true);   
             }
-            //RH-8091 
+        //RH-8091
         let agreePolicy = component.get('v.agreePolicy');
 
         //Guardian (Participant delegate) 
