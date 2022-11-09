@@ -976,3 +976,10 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .create-task-input-container .slds-input:disabled,.slds-is-disabled{
     background: #f2f2f2 !important;  
 }
+
+/* Resources */
+.resDiscoverIcon lightning-primitive-icon svg{
+    height: 16px;
+    width: 16px;
+    color: #015FF1;
+}

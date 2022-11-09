@@ -48,6 +48,11 @@
     margin-bottom: 10px;
 }
 
+.margin{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .open-icon {
     fill: #595959;
     height: 20px;
@@ -111,6 +116,7 @@
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: #999999;
+    background-clip: padding-box;
     padding-right: 10px;
   }
 
