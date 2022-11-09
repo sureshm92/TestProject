@@ -16,8 +16,11 @@
                 </div>
             </template>
             <template if:true={isUpcomingDetails}>
-                <div class="slds-card__body slds-card__body_inner card-wrap card-alignment">
+                <div class="slds-card__body slds-card__body_inner card-wrap">
                     <article class="slds-card slds-card_boundary container-card">
+                        <template if:false={desktop}>
+                            <p class="uc-text">UPCOMING VISITS</p>
+                        </template>
                         <div class="slds-card__body slds-card__body_inner content card-wrap">
                             <div class="slds-card-wrapper slds-card_boundary visit-card">
                                 <article
