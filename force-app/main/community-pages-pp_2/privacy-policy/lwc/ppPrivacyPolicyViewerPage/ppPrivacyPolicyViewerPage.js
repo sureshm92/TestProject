@@ -1,7 +1,7 @@
 import { LightningElement, wire, track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import { loadScript } from 'lightning/platformResourceLoader';
+import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 import getPrivacyPolicy from '@salesforce/apex/TermsAndConditionsRemote.getPPTC';
 import generatePDF from '@salesforce/apex/TermsAndConditionsRemote.generatePDF';
 import formFactor from '@salesforce/client/formFactor';
@@ -11,6 +11,9 @@ import LAST_UPDATED from '@salesforce/label/c.Last_Updated_On';
 import CHAPTER from '@salesforce/label/c.Chapter';
 import DOWNLOAD_AS_PDF from '@salesforce/label/c.Download_PP_as_PDF';
 import { CurrentPageReference } from 'lightning/navigation';
+import PP_Theme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
+import Core_Theme from '@salesforce/resourceUrl/Community_CSS_Core';
+import Proxima_Nova from '@salesforce/resourceUrl/proximanova';
 
 export default class PpPrivacyPolicyViewerPage extends LightningElement {
     lanCode;
@@ -36,7 +39,12 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
     };
 
     connectedCallback() {
-        loadScript(this, RR_COMMUNITY_JS)
+        Promise.all([
+            loadScript(this, RR_COMMUNITY_JS),
+            loadStyle(this, PP_Theme),
+            loadStyle(this, Core_Theme),
+            loadStyle(this, Proxima_Nova + '/proximanova.css')
+        ])
             .then(() => {
                 this.loadPrivacyPolicy();
             })
@@ -266,9 +274,8 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
             let offsetPosition = elementPosition - headerOffset;
             this.isMobile
                 ? (this.template.querySelector('[data-id="ppRichText"]').scrollTop = offsetPosition)
-                : (this.template.querySelector(
-                      '[data-id="ppRichTextD"]'
-                  ).scrollTop = offsetPosition);
+                : (this.template.querySelector('[data-id="ppRichTextD"]').scrollTop =
+                      offsetPosition);
             this.currentHeaderLabel = event.currentTarget.dataset.label;
         }
     }

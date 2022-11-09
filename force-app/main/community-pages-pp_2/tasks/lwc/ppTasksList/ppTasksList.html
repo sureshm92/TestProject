@@ -92,59 +92,113 @@
                 <template if:false={isMobile}>
                     <lightning-layout-item size="8" class="mob-task-sub" padding="around-small">
                         <lightning-layout size="12">
-                            <lightning-layout-item size="10">
-                                <lightning-layout>
-                                    <lightning-layout-item class={item.subjectEllipsisClass}
-                                        ><span
-                                            class={item.subjectClass}
-                                            onclick={taskOpen}
-                                            data-actionurl={item.task.Action_URL__c}
-                                            data-status={item.task.Status}
-                                            data-index={item.task.Id}
-                                            ><lightning-formatted-text
-                                                value={item.task.Subject}
-                                                title={item.task.Subject}
-                                            >
-                                            </lightning-formatted-text
-                                        ></span>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                                <template if:true={item.dueDate}
-                                    ><lightning-layout>
-                                        <lightning-layout-item
-                                            ><span class={dueTimeClass}
-                                                ><template if:true={item.isClosed}
-                                                    >{label.taskPPCompletedLabel}</template
-                                                ><template if:false={item.isClosed}
-                                                    >{label.taskDue}</template
-                                                >:&nbsp;
+                            
+                            <template if:true={ishomepage}>
+                                <lightning-layout-item size="12">
+                                    <lightning-layout>
+                                        <lightning-layout-item class={item.subjectEllipsisClass}
+                                            ><span
+                                                class={item.subjectClass}
+                                                onclick={taskOpen}
+                                                data-actionurl={item.task.Action_URL__c}
+                                                data-status={item.task.Status}
+                                                data-index={item.task.Id}
+                                                ><lightning-formatted-text
+                                                    value={item.task.Subject}
+                                                    title={item.task.Subject}
+                                                >
+                                                </lightning-formatted-text
+                                            ></span>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                    <template if:true={item.dueDate}
+                                        ><lightning-layout>
+                                            <lightning-layout-item
+                                                ><span class={dueTimeClass}
+                                                    ><template if:true={item.isClosed}
+                                                        >{label.taskPPCompletedLabel}</template
+                                                    ><template if:false={item.isClosed}
+                                                        >{label.taskDue}</template
+                                                    >:&nbsp;
+    
+                                                    <lightning-formatted-date-time
+                                                        value={item.task.Activity_Datetime__c}
+                                                        year="numeric"
+                                                        month="short"
+                                                        day="2-digit"
+                                                        time-zone={userTimeZone}
+                                                    ></lightning-formatted-date-time
+                                                    >&nbsp;|&nbsp;
+                                                    <lightning-formatted-date-time
+                                                        value={item.task.Activity_Datetime__c}
+                                                        hour="numeric"
+                                                        minute="numeric"
+                                                        time-zone={userTimeZone}
+                                                    ></lightning-formatted-date-time>
+                                                </span>
+                                            </lightning-layout-item> </lightning-layout
+                                    ></template>
+                                </lightning-layout-item>
+    
+                                
+                            </template>
+                            <template if:false={ishomepage}>
+                                <lightning-layout-item size="10">
+                                    <lightning-layout>
+                                        <lightning-layout-item class={item.subjectEllipsisClass}
+                                            ><span
+                                                class={item.subjectClass}
+                                                onclick={taskOpen}
+                                                data-actionurl={item.task.Action_URL__c}
+                                                data-status={item.task.Status}
+                                                data-index={item.task.Id}
+                                                ><lightning-formatted-text
+                                                    value={item.task.Subject}
+                                                    title={item.task.Subject}
+                                                >
+                                                </lightning-formatted-text
+                                            ></span>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                    <template if:true={item.dueDate}
+                                        ><lightning-layout>
+                                            <lightning-layout-item
+                                                ><span class={dueTimeClass}
+                                                    ><template if:true={item.isClosed}
+                                                        >{label.taskPPCompletedLabel}</template
+                                                    ><template if:false={item.isClosed}
+                                                        >{label.taskDue}</template
+                                                    >:&nbsp;
+    
+                                                    <lightning-formatted-date-time
+                                                        value={item.task.Activity_Datetime__c}
+                                                        year="numeric"
+                                                        month="short"
+                                                        day="2-digit"
+                                                        time-zone={userTimeZone}
+                                                    ></lightning-formatted-date-time
+                                                    >&nbsp;|&nbsp;
+                                                    <lightning-formatted-date-time
+                                                        value={item.task.Activity_Datetime__c}
+                                                        hour="numeric"
+                                                        minute="numeric"
+                                                        time-zone={userTimeZone}
+                                                    ></lightning-formatted-date-time>
+                                                </span>
+                                            </lightning-layout-item> </lightning-layout
+                                    ></template>
+                                </lightning-layout-item>
+    
+                                <lightning-layout-item class="slds-align_absolute-center" size="2"
+                                    ><template if:true={item.criticalTask}
+                                        ><span class="critical-rect"
+                                            >{label.taskPriorityCritical}</span
+                                        ></template
+                                    >
+                                </lightning-layout-item>
+                            </template>
 
-                                                <lightning-formatted-date-time
-                                                    value={item.task.Activity_Datetime__c}
-                                                    year="numeric"
-                                                    month="short"
-                                                    day="2-digit"
-                                                    time-zone={userTimeZone}
-                                                ></lightning-formatted-date-time
-                                                >&nbsp;|&nbsp;
-                                                <lightning-formatted-date-time
-                                                    value={item.task.Activity_Datetime__c}
-                                                    hour="numeric"
-                                                    minute="numeric"
-                                                    time-zone={userTimeZone}
-                                                ></lightning-formatted-date-time>
-                                            </span>
-                                        </lightning-layout-item> </lightning-layout
-                                ></template>
-                            </lightning-layout-item>
-
-                            <lightning-layout-item class="slds-align_absolute-center" size="2"
-                                ><template if:true={item.criticalTask}
-                                    ><span class="critical-rect"
-                                        >{label.taskPriorityCritical}</span
-                                    ></template
-                                >
-                            </lightning-layout-item>
+                                
                         </lightning-layout>
                         <template if:true={item.completed}>
                             <lightning-layout-item
@@ -252,73 +306,86 @@
                 <lightning-layout-item size="2" padding="around-small">
                     <template if:false={expireTaskAvailable}>
                         <template if:false={item.isClosed}>
-                            <div
-                                class="slds-dropdown-trigger slds-dropdown-trigger_click"
-                                data-popup={item.task.Id}
-                                onclick={showTaskActionMenu}
-                                tabindex="0"
-                                onblur={closeMenu}
-                            >
+                            <template if:true={ishomepage}>
+                                <c-web-icon
+                                    icon-name="task_arrow"
+                                    onclick={handleonclick}
+                                    class="svg-icon"
+                                    icon-size="default"
+                                ></c-web-icon>
+                            </template>
+                            <template if:false={ishomepage}>
                                 <div
-                                    aria-haspopup="true"
-                                    aria-expanded="true"
+                                    class="slds-dropdown-trigger slds-dropdown-trigger_click"
+                                    data-popup={item.task.Id}
+                                    onclick={showTaskActionMenu}
                                     tabindex="0"
                                     onblur={closeMenu}
                                 >
-                                    <img src={threedots_imgUrl} class="image-result" />
-                                </div>
-                                <div
-                                    class="slds-dropdown slds-dropdown_right task-action-menu"
-                                    tabindex="0"
-                                    onblur={closeMenu}
-                                >
-                                    <ul
-                                        class="slds-dropdown__list"
-                                        role="menu"
-                                        aria-label="Show More"
+                                    <div
+                                        aria-haspopup="true"
+                                        aria-expanded="true"
+                                        tabindex="0"
+                                        onblur={closeMenu}
                                     >
-                                        <template for:each={popupTaskMenuItems} for:item="citem">
-                                            <li
-                                                class="slds-dropdown__item popup-default"
-                                                role="presentation"
-                                                key={citem}
+                                        <img src={threedots_imgUrl} class="image-result" />
+                                    </div>
+                                    <div
+                                        class="slds-dropdown slds-dropdown_right task-action-menu"
+                                        tabindex="0"
+                                        onblur={closeMenu}
+                                    >
+                                        <ul
+                                            class="slds-dropdown__list"
+                                            role="menu"
+                                            aria-label="Show More"
+                                        >
+                                            <template
+                                                for:each={popupTaskMenuItems}
+                                                for:item="citem"
                                             >
-                                                <a
-                                                    href="#"
-                                                    onclick={callMethod}
-                                                    data-method={citem.name}
-                                                    role="menuitem"
-                                                    onmousedown={stopBlurEvent}
+                                                <li
+                                                    class="slds-dropdown__item popup-default"
+                                                    role="presentation"
+                                                    key={citem}
                                                 >
-                                                    <span class="slds-truncate">
-                                                        <template if:true={citem.reminder}>
-                                                            <c-web-icon
-                                                                class="svg-icon"
-                                                                icon-size="small"
-                                                                icon-name="reminderbell_icom"
-                                                                icon-color="#999999"
-                                                            >
-                                                            </c-web-icon
-                                                        ></template>
-                                                        <template if:true={citem.edit}>
-                                                            <img src={editImg} />
-                                                        </template>
-                                                        <template if:true={citem.ignore}>
-                                                            <c-web-icon
-                                                                class="svg-icon"
-                                                                icon-size="small"
-                                                                icon-name="icon-close"
-                                                                icon-color="#999999"
-                                                            >
-                                                            </c-web-icon></template
-                                                        >&nbsp;&nbsp;{citem.name}</span
+                                                    <a
+                                                        href="#"
+                                                        onclick={callMethod}
+                                                        data-method={citem.name}
+                                                        role="menuitem"
+                                                        onmousedown={stopBlurEvent}
                                                     >
-                                                </a>
-                                            </li>
-                                        </template>
-                                    </ul>
+                                                        <span class="slds-truncate">
+                                                            <template if:true={citem.reminder}>
+                                                                <c-web-icon
+                                                                    class="svg-icon"
+                                                                    icon-size="small"
+                                                                    icon-name="reminderbell_icom"
+                                                                    icon-color="#999999"
+                                                                >
+                                                                </c-web-icon
+                                                            ></template>
+                                                            <template if:true={citem.edit}>
+                                                                <img src={editImg} />
+                                                            </template>
+                                                            <template if:true={citem.ignore}>
+                                                                <c-web-icon
+                                                                    class="svg-icon"
+                                                                    icon-size="small"
+                                                                    icon-name="icon-close"
+                                                                    icon-color="#999999"
+                                                                >
+                                                                </c-web-icon></template
+                                                            >&nbsp;&nbsp;{citem.name}</span
+                                                        >
+                                                    </a>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
+                            </template>
                         </template>
                     </template>
                 </lightning-layout-item>

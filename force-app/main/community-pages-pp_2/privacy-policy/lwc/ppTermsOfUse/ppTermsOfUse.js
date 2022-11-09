@@ -1,7 +1,7 @@
 import { LightningElement, track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import { loadScript } from 'lightning/platformResourceLoader';
+import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import formFactor from '@salesforce/client/formFactor';
 import TU_HEADER from '@salesforce/label/c.CPD_Terms_of_Use';
@@ -10,6 +10,9 @@ import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import CHAPTER from '@salesforce/label/c.Chapter';
 import getPortalTcData from '@salesforce/apex/TermsAndConditionsRemote.getPortalTcData';
 import getTrialTcData from '@salesforce/apex/TermsAndConditionsRemote.getTrialTcData';
+import PP_Theme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
+import Core_Theme from '@salesforce/resourceUrl/Community_CSS_Core';
+import Proxima_Nova from '@salesforce/resourceUrl/proximanova';
 
 export default class PpTermsOfUse extends LightningElement {
     isRTL = false;
@@ -31,7 +34,12 @@ export default class PpTermsOfUse extends LightningElement {
     };
 
     connectedCallback() {
-        loadScript(this, RR_COMMUNITY_JS)
+        Promise.all([
+            loadScript(this, RR_COMMUNITY_JS),
+            loadStyle(this, PP_Theme),
+            loadStyle(this, Core_Theme),
+            loadStyle(this, Proxima_Nova + '/proximanova.css')
+        ])
             .then(() => {
                 this.initializeData();
             })
