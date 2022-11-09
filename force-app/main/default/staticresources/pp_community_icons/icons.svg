@@ -19,6 +19,18 @@
             </g>
         </g>
     </symbol>
+	<symbol id="navigation-menu-horizontal" name="navigation menu horizontal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+		<title>navigation-menu-horizontal</title>
+		<circle cx="3.25" cy="12" r="3.25"/><circle cx="12" cy="12" r="3.25"/><circle cx="20.75" cy="12" r="3.25"/>
+	</symbol>
+	<symbol id="check-circle-1-alternate" name="check circle 1 alternate" width="24px" height="20px" viewBox="0 0 24 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>check-circle-1-alternate</title>
+		<g id="----------?-Home-(empty-states)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+			<g id="check-circle-1-alternate" fill="#FFFFFF" fill-rule="nonzero">
+				<path d="M23.1210322,0.418815274 C22.6624432,0.0807744776 22.0883064,-0.0611492926 21.5250346,0.0242926207 C20.9617628,0.109734534 20.4555408,0.415536434 20.1178282,0.874367115 L9.9340957,14.6956381 L3.45838331,9.51438052 C2.52964948,8.80294554 1.20257255,8.96443705 0.471565309,9.87784533 C-0.259441927,10.7912536 -0.126183345,12.1214622 0.771486981,12.8717116 L8.99376794,19.4488488 C9.45274857,19.8078494 10.0367701,19.9672895 10.6145006,19.8913148 C11.1922311,19.8153402 11.7151748,19.5103283 12.0657345,19.0448688 L23.5834603,3.42373836 C23.9208742,2.96402899 24.061724,2.38905435 23.9749897,1.82544273 C23.8882554,1.26183111 23.5810507,0.755807634 23.1210322,0.418815274 Z" id="Path"></path>
+			</g>
+		</g>
+	</symbol>
     <symbol id="dropdown_arrow" name="Dropdown Arrow" width="11px" height="9px" viewBox="0 0 11 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <path d="M10.476394,0.418493869 C10.3163025,0.159987393 10.0155768,0 9.68952491,0 L0.902970519,0 C0.577103741,0.000143933081 0.276575947,0.159993161 0.116505253,0.418316935 C-0.0435654417,0.676640709 -0.0383689271,0.993400212 0.130104255,1.24725972 L4.52338145,7.85354309 C4.68705418,8.09964723 4.98015686,8.25 5.29624771,8.25 C5.61233857,8.25 5.90544125,8.09964723 6.06911398,7.85354309 L10.4623912,1.24725972 C10.6309149,0.993510933 10.6362654,0.676838392 10.476394,0.418493869 Z" id="path-1"></path>
         <g id="5---Dev-Handoff" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
