@@ -467,7 +467,7 @@ public without sharing class TaskEditRemote {
 
     private static Map<String, Boolean> checkStudyLevelConsents() {
         Map<String, Boolean> consentTypeValueMap = new Map<String, Boolean>();
-        List<Participant_Enrollment__c> peList = checkSmsOptIn();
+        List<Participant_Enrollment__c> peList = checkSmsEmailOptIn();
         if (peList != null && peList.size() > 0) {
             consentTypeValueMap.put('smsConsent', peList[0].Permit_SMS_Text_for_this_study__c);
             consentTypeValueMap.put(
