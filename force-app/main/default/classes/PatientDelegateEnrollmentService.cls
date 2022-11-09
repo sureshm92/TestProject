@@ -100,7 +100,7 @@ public without sharing class PatientDelegateEnrollmentService {
         if (lst.size() > 0) {
             Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
             pde.id = lst[0].Id;
-            pde.Status__c = 'Withdrawn';
+            pde.Status__c = 'Disconnected';
             update pde;
             return PatientDelegateEnrollmentService.getInstance().listPDEWrapper;
         }

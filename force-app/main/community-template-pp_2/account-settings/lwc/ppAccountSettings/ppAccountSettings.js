@@ -23,6 +23,7 @@ export default class PpAccountSettings extends LightningElement {
     @track contactSectionData;
     @track contact;
     componentId = 'asHome';
+    partipantStateInfo;
     userType = '';
     currentEmail = '';
     optInEmail = false;
@@ -53,16 +54,15 @@ export default class PpAccountSettings extends LightningElement {
         { label: LANG_LOCATION, value: 'lang-loc' },
         { label: CUSTOMIZE_EXP, value: 'changePref' },
         { label: COOKIE_SETTINGS, value: 'cookiesSettings' },
-        { label: MEDICAL_RECORD_ACCESS, value: 'medRecAccess' }
+        //{ label: MEDICAL_RECORD_ACCESS, value: 'medRecAccess' }
     ];
-
+    medicalRecordVendorToggle=false;
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 this.spinner = this.template.querySelector('c-web-spinner');
                 this.spinner.show();
                 this.initializeData();
-                this.participantState = communityService.getCurrentCommunityMode().participantState;
                 this.isMobile ? this.isDesktopFlag = false : this.isDesktopFlag = true;
             })
             .catch((error) => {
@@ -165,6 +165,11 @@ export default class PpAccountSettings extends LightningElement {
         getInitData({ userMode: this.userMode })
             .then((result) => {
                 let initialData = JSON.parse(result);
+                this.medicalRecordVendorToggle=initialData.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c;                
+                let hasPastStudies = communityService.getCurrentCommunityMode().hasPastStudies;
+               if(this.medicalRecordVendorToggle ||  hasPastStudies){
+                    this.navHeadersList.push({ label: MEDICAL_RECORD_ACCESS, value: 'medRecAccess' });
+               }
                 initialData.password = {
                     old: '',
                     new: '',
@@ -184,6 +189,7 @@ export default class PpAccountSettings extends LightningElement {
                 this.currentEmail = initialData.myContact.Email;
                 this.consentPreferenceData = initialData.consentPreferenceData;
                 this.isInitialized = true;
+                this.partipantStateInfo = initialData.participantState;
                 this.setComponentId(queryString);
                 this.spinner.hide();
             })
