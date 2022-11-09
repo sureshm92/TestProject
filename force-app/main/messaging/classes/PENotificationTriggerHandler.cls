@@ -150,7 +150,7 @@ public without sharing class PENotificationTriggerHandler {
 
         //get Delegates for Participant
         List<Notification__c> delegateNotifications = new List<Notification__c>();
-        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateService.getDelegatedCntsByParticipantCnt(
+        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateEnrollmentService.getDelegatedCntsByParticipantCnt(
             participantConIds,
             new List<String>{ 'Id' }
         );
@@ -214,7 +214,7 @@ public without sharing class PENotificationTriggerHandler {
             pesByPartCont.get(pe.Participant_Contact__c).add(pe);
         }
 
-        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateService.getDelegatedCntsByParticipantCnt(
+        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateEnrollmentService.getDelegatedCntsByParticipantCnt(
             participantConIds,
             new List<String>{ 'Id' }
         );
@@ -245,7 +245,7 @@ public without sharing class PENotificationTriggerHandler {
                             new Notification__c(
                                 Recipient__c = delegate.Id,
                                 WhatId__c = pe.Id,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,// when existing delegate added to new study
                                 IsDelegate__c = true
                             )
                         );

@@ -180,13 +180,20 @@ public without sharing class StudySiteTriggerHandler {
                     }
                 }
             }
+    
             //Added for Delegate
             if (participantids.size() > 0) {
-                partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+                String fieldFilter = 'Patient_Delegate__r.Participant__c';
+            PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
+                participantIds,fieldFilter
+            );
+            partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
+
+                /*partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
                     participantIds
-                );
+                );*/
             }
-            List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = new List<ParticipantEnrollmentPatientDelJunction__c>();
+            //List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = new List<ParticipantEnrollmentPatientDelJunction__c>();
             if (!peIdMap.isEmpty()) {
                 for (Participant_Enrollment__c pe : peIdMap.values()) {
                     if (
@@ -202,17 +209,17 @@ public without sharing class StudySiteTriggerHandler {
                                 )
                             );
                             //Create jonction object record between PER and Patient Delegate contact records
-                            ParticipantEnrollmentPatientDelJunction__c perPDJunObj = new ParticipantEnrollmentPatientDelJunction__c();
+                           /* ParticipantEnrollmentPatientDelJunction__c perPDJunObj = new ParticipantEnrollmentPatientDelJunction__c();
                             perPDJunObj.Participant_Enrollment__c = pe.Id;
                             perPDJunObj.Patient_Delegate_Contact__c = delegateId;
                             perPDJunObj.Process_Type__c = 'Welcome Message';
-                            perDelJunctionRecList.Add(perPDJunObj);
+                            perDelJunctionRecList.Add(perPDJunObj);*/
                         }
                     }
                 }
-                if (perDelJunctionRecList != null && !perDelJunctionRecList.isEmpty()) {
+                /*if (perDelJunctionRecList != null && !perDelJunctionRecList.isEmpty()) {
                     insert perDelJunctionRecList;
-                }
+                }*/
             }
         }
         return welcomemsgnotifications;

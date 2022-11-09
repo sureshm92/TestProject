@@ -143,18 +143,24 @@ public without sharing class PatientDelegateTriggerHandler {
         }
         //For minor participants Study level
         Map<Id, Participant_Enrollment__c> perEnrollments;
-        Map<Id, ParticipantEnrollmentPatientDelJunction__c> perJunctionIdMap;
+        Map<Id, Patient_Delegate_Enrollment__c> perJunctionIdMap;
         if (!participantsByDelContId.isEmpty() && participantsByDelContId != null) {
-            perJunctionIdMap = new Map<Id, ParticipantEnrollmentPatientDelJunction__c>(
+            perJunctionIdMap = new Map<Id, Patient_Delegate_Enrollment__c>(
                 [
-                    SELECT
-                        Id,
-                        Participant_Enrollment__c,
-                        Welcome_Message_Delivered__c,
-                        Patient_Delegate_Contact__c,
-                        Welcome_Message_Sent__c
-                    FROM ParticipantEnrollmentPatientDelJunction__c
-                    WHERE Patient_Delegate_Contact__c IN :participantsByDelContId.keyset()
+                SELECT
+                    Id,
+                    Participant_Enrollment__c,
+                    Patient_Delegate__c,
+                    Welcome_Message_Delivered__c,
+                    Welcome_Message_Sent__c,
+                    Patient_Delegate__r.Contact__c,
+                    Patient_Delegate__r.Participant__c,
+                    Patient_Delegate__r.Participant__r.Contact__c,
+                    Name,
+                    Status__c,
+                    Participant_Enrollment__r.study__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE Patient_Delegate__r.Contact__c IN : participantsByDelContId.keyset() AND Status__c = 'Active'
                 ]
             );
         }
@@ -182,7 +188,7 @@ public without sharing class PatientDelegateTriggerHandler {
                 ]
             );
             if (perEnrollments != null && perEnrollments.size() > 0) {
-                List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = new List<ParticipantEnrollmentPatientDelJunction__c>();
+               // List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = new List<ParticipantEnrollmentPatientDelJunction__c>();
                 for (Participant_Enrollment__c per : perEnrollments.values()) {
                     if (participantsByDelContId.size() > 0) {
                         /// each del contact will be having list of participants
@@ -202,13 +208,13 @@ public without sharing class PatientDelegateTriggerHandler {
                                                 per.Id,
                                                 NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
                                             )
-                                        );
+                                        ); ///Remove the code
                                         //Create jonction object record between PER and Patient Delegate contact records
-                                        ParticipantEnrollmentPatientDelJunction__c perPDJunObj = new ParticipantEnrollmentPatientDelJunction__c();
+                                        /*ParticipantEnrollmentPatientDelJunction__c perPDJunObj = new ParticipantEnrollmentPatientDelJunction__c();
                                         perPDJunObj.Participant_Enrollment__c = per.Id;
                                         perPDJunObj.Patient_Delegate_Contact__c = conId;
                                         perPDJunObj.Process_Type__c = 'Welcome Message';
-                                        perDelJunctionRecList.Add(perPDJunObj);
+                                        perDelJunctionRecList.Add(perPDJunObj);*/
                                     }
                                     break;
                                 }
@@ -216,12 +222,12 @@ public without sharing class PatientDelegateTriggerHandler {
                         }
                     }
                 }
-                if (perDelJunctionRecList != null) {
+                /*if (perDelJunctionRecList != null) {
                     insert perDelJunctionRecList;
-                }
+                }*/
             }
         } else if (perJunctionIdMap != null && !perJunctionIdMap.isEmpty()) {
-            for (ParticipantEnrollmentPatientDelJunction__c per : perJunctionIdMap.values()) {
+            for (Patient_Delegate_Enrollment__c per : perJunctionIdMap.values()) {
                 if (!per.Welcome_Message_Sent__c) {
                     /*Study Level Welcome Msg to Delegate*/
                     welcomemsgnotifications.addAll(
@@ -241,7 +247,7 @@ public without sharing class PatientDelegateTriggerHandler {
                 WHERE ID IN :participantsByDelContId.keyset()
             ]
         );
-        if (perJunctionIdMap != null && !participantsByDelContId.isEmpty()) {
+        if (!participantsByDelContId.isEmpty() && participantsByDelContId != null) {
             for (Id delCont : participantsByDelContId.keySet()) {
                 if (
                     !proccessedPlatDelCon.contains(delCont) &&

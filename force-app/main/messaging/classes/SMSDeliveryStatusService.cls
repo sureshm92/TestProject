@@ -196,12 +196,12 @@ public with sharing class SMSDeliveryStatusService {
         Map<Id, Boolean> studyLevelSMSPERIdDelStatusForPDMap
     ) {
         //Get list of ParticipantEnrollmentPatientDelJunction records
-        List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = Action_SendSMS.getPERPatientDelJunctionRecords(
+        List<Patient_Delegate_Enrollment__c> perDelJunctionRecList = Action_SendSMS.getPERPatientDelJunctionRecords(
             perIdSetForDel,
             recipientIdSetForDel
         );
 
-        for (ParticipantEnrollmentPatientDelJunction__c perPDJunRec : perDelJunctionRecList) {
+        for (Patient_Delegate_Enrollment__c perPDJunRec : perDelJunctionRecList) {
             Boolean smsDeliveryFlag = studyLevelSMSPERIdDelStatusForPDMap.get(
                 perPDJunRec.Participant_Enrollment__c
             );

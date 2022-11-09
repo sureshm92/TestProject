@@ -1047,13 +1047,13 @@ public without sharing class Action_SendSMS implements Action {
      **/
     public static void populateWelcomMessageFlagsForDel(List<Id> peIdList, Set<Id> recipientIdSet) {
         //Get list of ParticipantEnrollmentPatientDelJunction records
-        List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = getPERPatientDelJunctionRecords(
+        List<Patient_Delegate_Enrollment__c> perDelJunctionRecList = getPERPatientDelJunctionRecords(
             peIdList,
             recipientIdSet
         );
 
         //Populate the Maps for Welome Message Sent and Welcome Message Delevered flags.
-        for (ParticipantEnrollmentPatientDelJunction__c perPdObj : perDelJunctionRecList) {
+        for (Patient_Delegate_Enrollment__c perPdObj : perDelJunctionRecList) {
             String perIdDelContIdKey =
                 perPdObj?.Participant_Enrollment__c +
                 '_' +
@@ -1073,25 +1073,27 @@ public without sharing class Action_SendSMS implements Action {
      * @author: Krishna Mahto
      * @param:  peIdList
      * @param:  recipientIdSet
-     * @return:  List<ParticipantEnrollmentPatientDelJunction__c>
+     * @return:  List<Patient_Delegate_Enrollment__c>
      **/
-    public static List<ParticipantEnrollmentPatientDelJunction__c> getPERPatientDelJunctionRecords(
+    public static List<Patient_Delegate_Enrollment__c> getPERPatientDelJunctionRecords(
         List<Id> peIdList,
         Set<Id> recipientIdSet
     ) {
         //Query to get the Participant Enrollment and Patient Delegate contact junction record. //kk
-        List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = [
+        List<Patient_Delegate_Enrollment__c> perDelJunctionRecList = [
             SELECT
                 Id,
                 Participant_Enrollment__c,
-                Patient_Delegate_Contact__c,
+                Patient_Delegate__c,
+                Patient_Delegate__r.Contact__c,
+                Patient_Delegate__r.Participant__c,
+                Name,
+                Status__c,
+                Participant_Enrollment__r.study__c,
                 Welcome_Message_Sent__c,
                 Welcome_Message_Delivered__c
-            FROM ParticipantEnrollmentPatientDelJunction__c
-            WHERE
-                Process_Type__c = 'Welcome Message'
-                AND Participant_Enrollment__c IN :peIdList
-                AND Patient_Delegate_Contact__c IN :recipientIdSet
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Participant_Enrollment__c IN :peIdList AND Patient_Delegate__r.Contact__c IN :recipientIdSet
         ];
         return perDelJunctionRecList;
     }

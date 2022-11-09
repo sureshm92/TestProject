@@ -452,10 +452,16 @@ public without sharing class ContactTriggerHandler {
                 system.debug('participantcontact:::' + participantcontact);
             }
             if (participantids.size() > 0) {
-                partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+                 partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
                     participantIds
                 );
-                system.debug('partPerDelegateIds:::' + partPerDelegateIds);
+                /*String fieldFilter = 'Patient_Delegate__r.Participant__c';
+                PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
+                    participantIds,fieldFilter
+                );
+               partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
+    
+                system.debug('partPerDelegateIds:::' + partPerDelegateIds);*/
             }
         }
         for (Contact con : newList) {
@@ -478,6 +484,7 @@ public without sharing class ContactTriggerHandler {
                                 )
                             );
                         } else if (con.UserCommunityIsDelegate__c == true) {
+                            //if(partPerDelegateIds != null && partPerDelegateIds.contains(participantcontact.get(con.Id))){ // If condition is not required due to paltform Level
                             //Menans contact is having delegate role, if yes, Send Platform Level SMS to the Same contact for Delegate Type.
                             welcomemsgnotifications.addAll(
                                 ContactService.addwelcomeNotifications(
@@ -487,7 +494,8 @@ public without sharing class ContactTriggerHandler {
                                 )
                             );
                         }
-                    }
+                     }
+                   // }
                     if (!partPerDelegateIds.isEmpty()) {
                         for (
                             Id delegateconId : partPerDelegateIds.get(
@@ -532,7 +540,9 @@ public without sharing class ContactTriggerHandler {
                                     )
                                 );
                             } else if (con.UserCommunityIsDelegate__c == true) {
+                                //if(partPerDelegateIds != null && partPerDelegateIds.contains(participantcontact.get(con.Id))){
                                 //Menans contact is having delegate role, if yes, Send Platform Level SMS to the Same contact for Delegate Type.
+                                // If condition is not required due to paltform lEvel
                                 welcomemsgnotifications.addAll(
                                     ContactService.addwelcomeNotifications(
                                         con.Id,
@@ -540,9 +550,10 @@ public without sharing class ContactTriggerHandler {
                                         NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
                                     )
                                 );
+                              }
                             }
                         }
-                    }
+                    //}
                     if (!partPerDelegateIds.isEmpty()) {
                         for (
                             Id delegateconId : partPerDelegateIds.get(
@@ -653,9 +664,15 @@ public without sharing class ContactTriggerHandler {
                     participantIds.add(per.Participant__c);
                 }
                 if (participantids.size() > 0) {
-                    partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+                    /*partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
                         participantIds
+                    );*/
+                    String fieldFilter = 'Participant__c';
+                    PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
+                        participantIds,fieldFilter
                     );
+                    partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
+            
                 }
                 for (Participant_Enrollment__c per : peIdMap.values()) {
                     if (!per.Welcome_Message_Sent__c && !per.Welcome_Message_Delivered__c) {
@@ -687,23 +704,28 @@ public without sharing class ContactTriggerHandler {
         }
         if (deleConIdSet.size() > 0) {
             /*Sending Study level SMS to delegate for Mobile no update*/
-            Map<Id, ParticipantEnrollmentPatientDelJunction__c> perJunctionIdMap = new Map<Id, ParticipantEnrollmentPatientDelJunction__c>(
+            Map<Id, Patient_Delegate_Enrollment__c> perJunctionIdMap = new Map<Id, Patient_Delegate_Enrollment__c>(
                 [
                     SELECT
                         Id,
                         Participant_Enrollment__c,
+                        Welcome_Message_Sent__c,
                         Welcome_Message_Delivered__c,
-                        Patient_Delegate_Contact__c,
-                        Welcome_Message_Sent__c
-                    FROM ParticipantEnrollmentPatientDelJunction__c
-                    WHERE
-                        Patient_Delegate_Contact__c IN :deleConIdSet
+                        Patient_Delegate__c,
+                        Patient_Delegate__r.Contact__c,
+                        Patient_Delegate__r.Participant__c,
+                        Name,
+                        Status__c,
+                        Participant_Enrollment__r.study__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE 
+                        Patient_Delegate__r.Contact__c IN :deleConIdSet AND Status__c = 'Active'
                         AND Welcome_Message_Sent__c = FALSE
                         AND Welcome_Message_Delivered__c = FALSE
                 ]
             );
             if (!perJunctionIdMap.isEmpty()) {
-                for (ParticipantEnrollmentPatientDelJunction__c per : perJunctionIdMap.values()) {
+                for (Patient_Delegate_Enrollment__c per : perJunctionIdMap.values()) {
                     /*Study Level Welcome Msg to Delegate*/
                     welcomemsgnotifications.addAll(
                         ContactService.addwelcomeNotifications(

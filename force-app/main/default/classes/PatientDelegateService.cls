@@ -622,7 +622,8 @@ public without sharing class PatientDelegateService {
         if(contactIds != null && delContactId != contactIds[0]){
             Map<Id,Patient_Delegate_Enrollment__c> pdeList = new Map<Id,Patient_Delegate_Enrollment__c>([
                 SELECT Id, Participant_Enrollment__c, Participant_Enrollment__r.Participant_Status__c,Patient_Delegate__r.Contact__c,Patient_Delegate__c,Patient_Delegate__r.Participant__c,Name,Status__c,Participant_Enrollment__r.study__c
-                FROM Patient_Delegate_Enrollment__c
+                Welcome_Message_Sent__c,
+                Welcome_Message_Delivered__c FROM Patient_Delegate_Enrollment__c
                 WHERE Patient_Delegate__r.Contact__c =: delContactId AND Status__c = 'Active']);
             if(!pdeList.isEmpty()){
                 for(Patient_Delegate_Enrollment__c pde : pdeList.values()){

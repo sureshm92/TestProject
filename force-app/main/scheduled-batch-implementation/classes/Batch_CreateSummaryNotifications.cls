@@ -88,7 +88,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
         List<Id> partContIds = new List<Id>();
         for (Participant_Enrollment__c pe : enrollment)
             partContIds.add(pe.Participant_Contact__c);
-        Map<Id, List<Contact>> delContactsByParticipant = PatientDelegateService.getDelegatedCntsByParticipantCnt(
+        Map<Id, List<Contact>> delContactsByParticipant = PatientDelegateEnrollmentService.getDelegatedCntsByParticipantCnt(
             partContIds,
             new List<String>{ 'Id', 'userCommunityMode__c', 'Resource_Notifications__c' }
         );

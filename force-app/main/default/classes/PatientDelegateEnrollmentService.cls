@@ -27,6 +27,8 @@ public without sharing class PatientDelegateEnrollmentService {
                 'Id',
                     'Patient_Delegate__r.Participant__r.Full_Name__c',
                     'Patient_Delegate__r.Id',
+                    'Welcome_Message_Sent__c',
+                    'Welcome_Message_Delivered__c',
                     'Patient_Delegate__r.Participant__r.Contact__c',
                     'Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c',
                     'Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c',
@@ -130,7 +132,81 @@ public without sharing class PatientDelegateEnrollmentService {
             insert pdEnrollments;
         }
     }
-    
+    public static Map<Id, List<Id>> getDelegateContactIdsByPAContactIs(
+        List<Id> participantContIds
+    ) {
+        if (participantContIds.size() == 0) {
+            return new Map<Id, List<Id>>();
+        }
+        List<Patient_Delegate_Enrollment__c> patientDelegates = new List<Patient_Delegate_Enrollment__c>();
+        if (!participantContIds.isEmpty()) {
+            patientDelegates = [
+                SELECT
+                Id,
+                Participant_Enrollment__c,
+                Patient_Delegate__c,
+                Patient_Delegate__r.Contact__c,
+                Patient_Delegate__r.Participant__c,
+                Patient_Delegate__r.Participant__r.Contact__c,
+                Name,
+                Status__c,
+                Welcome_Message_Sent__c,
+                Welcome_Message_Delivered__c,
+                Participant_Enrollment__r.study__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Patient_Delegate__r.Participant__r.Contact__c IN : participantContIds AND Status__c = 'Active'            ];
+        }
+        Map<Id, List<Id>> delContIdsByPAContId = new Map<Id, List<Id>>();
+        if (patientDelegates.isEmpty())
+            return delContIdsByPAContId;
+
+        for (Patient_Delegate_Enrollment__c pd : patientDelegates) {
+            Id paConId = pd.Patient_Delegate__r.Participant__r.Contact__c;
+            if (!delContIdsByPAContId.containsKey(paConId))
+                delContIdsByPAContId.put(paConId, new List<Id>());
+
+            delContIdsByPAContId.get(paConId).add(pd.Patient_Delegate__r.Contact__c);
+        }
+
+        return delContIdsByPAContId;
+    }
+     /**
+     * @param partContactsIds List with participant contact ids
+     * @param delegatedCntFields List with required contact fields
+     */
+    public static Map<Id, List<Contact>> getDelegatedCntsByParticipantCnt(
+        List<Id> partContactsIds,
+        List<String> delegatedCntFields
+    ) {
+        if (partContactsIds.isEmpty()) {
+            return new Map<Id, List<Contact>>();
+        }
+        List<String> pdFields = new List<String>();
+        pdFields.add('Patient_Delegate__r.Participant__r.Contact__c');
+        for (String cntField : delegatedCntFields)
+            pdFields.add('Patient_Delegate__r.Contact__r.' + cntField);
+
+        List<Patient_Delegate_Enrollment__c> pdePatientDelegates = (List<Patient_Delegate_Enrollment__c>) DatabaseService.query(
+            pdFields,
+            Patient_Delegate_Enrollment__c.getSObjectType(),
+            DatabaseService.fieldInValues('Patient_Delegate__r.Participant__r.Contact__c', partContactsIds) +
+            ' AND ' +
+            DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
+        );
+
+        Map<Id, List<Contact>> delContactsByPartCnt = new Map<Id, List<Contact>>();
+        for (Patient_Delegate_Enrollment__c pd : pdePatientDelegates) {
+            Id partCntId = pd.Patient_Delegate__r.Participant__r.Contact__c;
+            if (!delContactsByPartCnt.containsKey(partCntId)) {
+                delContactsByPartCnt.put(partCntId, new List<Contact>());
+            }
+
+            delContactsByPartCnt.get(partCntId).add(pd.Patient_Delegate__r.Contact__r.Contact__r);
+        }
+
+        return delContactsByPartCnt;
+    }
+
     public static list<Patient_Delegate_Enrollment__c> getPatientEnrollmentList(List<Id> idlst, String fieldFilter) {
         list<Patient_Delegate_Enrollment__c> pdedelegatesList = new list<Patient_Delegate_Enrollment__c>();
         if(idlst != null){
@@ -139,6 +215,8 @@ public without sharing class PatientDelegateEnrollmentService {
                     'Id',
                         'Patient_Delegate__r.Participant__r.Full_Name__c',
                         'Patient_Delegate__r.Id',
+                        'Welcome_Message_Sent__c',
+                        'Welcome_Message_Delivered__c',
                         'Patient_Delegate__r.Participant__r.Contact__c',
                         'Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c',
                         'Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c',
@@ -213,6 +291,8 @@ public without sharing class PatientDelegateEnrollmentService {
                 Patient_Delegate__r.Participant__c,
                 Name,
                 Status__c,
+                Welcome_Message_Sent__c,
+                Welcome_Message_Delivered__c,
                 Participant_Enrollment__r.study__c
                 FROM Patient_Delegate_Enrollment__c
                 WHERE Patient_Delegate__r.Contact__c = :contactId AND Status__c = 'Active'

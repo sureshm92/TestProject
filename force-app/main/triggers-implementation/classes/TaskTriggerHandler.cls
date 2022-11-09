@@ -137,7 +137,7 @@ public without sharing class TaskTriggerHandler {
             }
             allContactsIds.add(t.WhoId);
         }
-        Map<Id, List<Id>> delConIdsByPACon = PatientDelegateService.getDelegateContactIdsByPAContactIs(
+        Map<Id, List<Id>> delConIdsByPACon = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
             allContactsIds
         );
         for (Id paKey : delConIdsByPACon.keySet())
@@ -180,17 +180,28 @@ public without sharing class TaskTriggerHandler {
         //Adding contacts without user to same list
         partContactsIds.addAll(contactWithoutUser);
 
-        List<Patient_Delegate__c> patientDelegates = [
-            SELECT Contact__c, Status__c, Participant__r.Contact__c
-            FROM Patient_Delegate__c
-            WHERE Participant__r.Contact__c IN :partContactsIds AND Status__c = 'Active'
+        List<Patient_Delegate_Enrollment__c> patientDelegates = [
+            SELECT
+                Id,
+                Participant_Enrollment__c,
+                Patient_Delegate__c,
+                Patient_Delegate__r.Contact__c,
+                Patient_Delegate__r.Participant__c,
+                Patient_Delegate__r.Participant__r.Contact__c,
+                Name,
+                Status__c,
+                Welcome_Message_Sent__c,
+                Welcome_Message_Delivered__c,
+                Participant_Enrollment__r.study__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Patient_Delegate__r.Participant__r.Contact__c IN : partContactsIds AND Status__c = 'Active' 
         ];
         Map<Id, List<Id>> delegatesCntByPartCnt = new Map<Id, List<Id>>();
-        for (Patient_Delegate__c pd : patientDelegates) {
-            if (!delegatesCntByPartCnt.containsKey(pd.Participant__r.Contact__c)) {
-                delegatesCntByPartCnt.put(pd.Participant__r.Contact__c, new List<Id>());
+        for (Patient_Delegate_Enrollment__c pd : patientDelegates) {
+            if (!delegatesCntByPartCnt.containsKey(pd.Patient_Delegate__r.Participant__r.Contact__c)) {
+                delegatesCntByPartCnt.put(pd.Patient_Delegate__r.Participant__r.Contact__c, new List<Id>());
             }
-            delegatesCntByPartCnt.get(pd.Participant__r.Contact__c).add(pd.Contact__c);
+            delegatesCntByPartCnt.get(pd.Patient_Delegate__r.Participant__r.Contact__c).add(pd.Patient_Delegate__r.Contact__c);
         }
 
         for (Task task : tasksWithOwner) {

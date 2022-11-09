@@ -25,7 +25,7 @@ public without sharing class Batch_MassEmailDelegate implements Database.Batchab
         Map<Id, List<Contact>> delegatesContactById = PatientDelegateService.getDelegatedCntsByParticipantCnt(
             processedContacts,
             new List<String>{ 'Email', 'Participant_Opt_In_Status_Emails__c' }
-        );
+        ); // delegate junction objects changes were not required due to ctp notification are platform level and trail search notification is Message_To_PT_Trial_Search_Request is set by delegate prospect view 
 
         List<Notification__c> notificationsForMassEmailDelegate = new List<Notification__c>();
         for (Id delId : delegatesContactById.keySet()) {
