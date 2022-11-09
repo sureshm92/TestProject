@@ -4,7 +4,7 @@
     background-color: transparent;
     border-style: none;
     padding: 0;
-    width: 350px;
+    width: 412px;
 }
 .container-card {
     background-color: transparent;
@@ -21,7 +21,7 @@
     padding: 0;
     height: 416px;
     border-radius: 8px;
-    width: 415px;
+    width: 412px;
    
 }
 .upcoming {
@@ -57,6 +57,7 @@ hr {
     letter-spacing: 0;
     line-height: 21px;
     margin-bottom: 6px;
+    margin-top: 7px;
 }
 .location {
     height: 2.06%;
@@ -128,9 +129,6 @@ hr {
 .card-wrap {
     padding: 0;
 }
-.card-alignment {
-    padding:20px;
-}
 
 .icon-box {
     padding-top: 0;
@@ -187,9 +185,12 @@ hr {
       background-color: #005587 !important;
       border-top-color: #005587; 
      border-top-width: 1px !important;
+     width: 351px;
+     margin-right: 4px;
+     margin-left: 8px;   
     }
     .content{
-        margin-top: 35px !important;
+        margin-top: 1px !important;
     }
     .container-card-upcoming{
         height: 37px;
