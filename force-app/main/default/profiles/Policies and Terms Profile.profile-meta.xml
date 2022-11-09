@@ -7,7 +7,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CommunityFacadeRemote</apexClass>
-        <enabled>true</enabled>
+        <enabled>true</enabled> 
     </classAccesses>
     <custom>true</custom>
     <pageAccesses>
