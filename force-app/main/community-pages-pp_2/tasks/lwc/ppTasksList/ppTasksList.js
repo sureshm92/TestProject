@@ -34,6 +34,8 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     @api contact;
     @api selectedparent;
     @api usermode;
+    @api
+    paramTaskId;
 
     @api
     get selectedTasks() {
@@ -111,6 +113,17 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     selectedTaskId;
     readOnlyMode = false;
     ishomepage = false;
+    @api
+    get passTaskId() {
+        return tthis.selectedTaskId;
+    }
+    set passTaskId(value) {
+        this.selectedTaskId = value;
+    }
+
+    get showTaskCreateCard() {
+        return this.selectedTaskId ? true : false;
+    }
 
     connectedCallback() {
         console.log('tasks 123', this.tasksList);
@@ -317,17 +330,19 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             this.selectedTaskId = '';
             this.clearAllTaskExpandStatus();
             let selectedTask = this.getTaskDetailsById(this.popUpTaskId);
-            this.selectedTaskId = this.popUpTaskId;
-            selectedTask.expandCard = true;
-            const taskEditEvent = new CustomEvent('taskedit', {
-                detail: {
-                    isClose: true,
-                    editMode: true
-                }
-            });
-            this.dispatchEvent(taskEditEvent);
-            this.readOnlyMode = false;
-            this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+            if (selectedTask) {
+                this.selectedTaskId = this.popUpTaskId;
+                selectedTask.expandCard = true;
+                const taskEditEvent = new CustomEvent('taskedit', {
+                    detail: {
+                        isClose: true,
+                        editMode: true
+                    }
+                });
+                this.dispatchEvent(taskEditEvent);
+                this.readOnlyMode = false;
+                this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+            }
         } catch (e) {
             console.error(e);
         }
@@ -365,19 +380,23 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             });
     }
     getTaskDetailsById(taskId) {
-        this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
-        for (let i = 0; i < this.tasksList.length; i++) {
-            if (this.tasksList[i].task.Id == taskId) {
-                return this.tasksList[i];
+        if (this.tasksList) {
+            this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+            for (let i = 0; i < this.tasksList.length; i++) {
+                if (this.tasksList[i].task.Id == taskId) {
+                    return this.tasksList[i];
+                }
             }
+            return '';
         }
-        return '';
     }
     clearAllTaskExpandStatus() {
-        this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
-        for (let i = 0; i < this.tasksList.length; i++) {
-            if (this.tasksList[i].expandCard) {
-                delete this.tasksList[i].expandCard;
+        if (this.tasksList) {
+            this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+            for (let i = 0; i < this.tasksList.length; i++) {
+                if (this.tasksList[i].expandCard) {
+                    delete this.tasksList[i].expandCard;
+                }
             }
         }
     }
@@ -391,6 +410,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         }
     }
     handleTaskClose(event) {
+        this.selectedTaskId = '';
         let taskId = event.detail.taskId;
         this.clearAllTaskExpandStatus();
         const taskCreatedEvent = new CustomEvent('taskcreated');
@@ -408,18 +428,6 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         this.redirectPage(taskId);
     }
     redirectPage(taskId) {
-        this.taskurl = window.location.origin + basePathName + '/tasks' + '?taskId=' + taskId;
-        console.log('taskurl:', this.taskurl);
-
-        const config = {
-            type: 'standard__webPage',
-
-            attributes: {
-                url: this.taskurl
-            }
-        };
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            window.open(url, '_self');
-        });
+        communityService.navigateToPage('tasks?id=' + taskId);
     }
 }
