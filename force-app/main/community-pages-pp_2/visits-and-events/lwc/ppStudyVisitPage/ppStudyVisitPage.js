@@ -105,7 +105,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             .then((result) => {
                 this.template.querySelector('c-web-spinner').show();
                 this.visitTimezone = TIME_ZONE;
-                console.log('result.length:::', result);
                 if (result.length > 0) {
                     for (let i = 0; i < result.length; i++) {
                         if (
