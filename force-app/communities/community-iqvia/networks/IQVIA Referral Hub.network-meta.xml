@@ -40,7 +40,7 @@
         <selfRegProfilePageOverrideSetting>Designer</selfRegProfilePageOverrideSetting>
     </networkPageOverrides>
     <newSenderAddress>patientupdates@mail.clinicalreserach.com</newSenderAddress>
-    <picassoSite>IQVIA_Referral_Hub_C</picassoSite>
+    <picassoSite>IQVIA_Referral_Hub1</picassoSite>
     <selfRegistration>false</selfRegistration>
     <sendWelcomeEmail>true</sendWelcomeEmail>
     <site>IQVIA_Referral_Hub</site>

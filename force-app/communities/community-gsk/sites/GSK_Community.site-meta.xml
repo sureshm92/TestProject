@@ -14,11 +14,11 @@
     <changePasswordPage>RRChangePassword</changePasswordPage>
     <clickjackProtectionLevel>SameOriginOnly</clickjackProtectionLevel>
     <contentSniffingProtection>true</contentSniffingProtection>
-    <customWebAddresses>
+    <!--<customWebAddresses>
         <certificate>clinicalresearch_com</certificate>
         <domainName>hub.clinicalresearch.com</domainName>
         <primary>false</primary>
-    </customWebAddresses>
+    </customWebAddresses>-->
     <enableAuraRequests>true</enableAuraRequests>
     <fileNotFoundPage>FileNotFound</fileNotFoundPage>
     <genericErrorPage>Exception</genericErrorPage>
