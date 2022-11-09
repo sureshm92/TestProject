@@ -27,7 +27,6 @@ export default class PpResourceDetailPage extends LightningElement {
         Uploaded,
         Back_To_Resources
     };
-    spinner;
 
     connectedCallback() {
         //get resource parameters from url
