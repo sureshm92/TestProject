@@ -29144,4 +29144,12 @@ Due Date and Time: ##expirationDate.</value>
         <shortDescription>Delegate roadmap Content PP</shortDescription>
         <value>track the progress of ##ParticipantFirstName in the ##isStudyorProgram</value>
     </labels>
-    </CustomLabels>
+    <labels>
+        <fullName>Email_Submit_Request</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Submit_Request</shortDescription>
+        <value>submit a request</value>
+    </labels>
+</CustomLabels>
