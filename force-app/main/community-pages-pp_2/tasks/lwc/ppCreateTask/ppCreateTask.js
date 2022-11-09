@@ -352,8 +352,9 @@ export default class PpCreateTask extends LightningElement {
         this.task.Remind_Using_SMS__c = event.detail.smsReminderOptIn;
         this.task.Remind_Me__c =
             event.detail.reminderType == 'No reminder' ? '' : event.detail.reminderType;
-        this.initData.reminderDate =
-            event.detail.reminderType == 'No reminder' ? null : event.detail.reminderDateTime;
+        if (event.detail.reminderType == 'No reminder') {
+            this.initData.reminderDate = null;
+        }
         this.isReminderSelected = event.detail.reminderType == 'No reminder' ? false : true;
     }
 
