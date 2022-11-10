@@ -113,7 +113,7 @@ public without sharing class ParametrizedMessageService {
     }
 
     public void processMessages() {
-        //group by provider name rk
+        //group by provider name
         Map<String, List<Id>> idsByProviderMap = new Map<String, List<Id>>();
         for (ParametrizedMessage pm : messagesMap.values()) {
             if (pm.paramProviderName == null || pm.whatId == null)
