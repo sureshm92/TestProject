@@ -181,7 +181,7 @@
                             {!$Label.Email_Opt_Out_footer_PP}
                             <a style="color: #015FF1;
                                     font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">
-                                {!$Label.Email_Opt_Out_footer_here}</a>.
+                                {!$Label.Email_Submit_Request}</a>.
                             <!--Opt Out -->
                             <!-- {!$Label.Email_Opt_Out_footer_here}
                             <a style="color: #015FF1;
@@ -208,7 +208,7 @@
                             {!$Label.Email_Opt_Out_footer_PP}
                             <a style="color: #015FF1;
                                     font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">
-                                {!$Label.Email_Opt_Out_footer_here}</a>.
+                                {!$Label.Email_Submit_Request}</a>.
                             <!--Opt Out -->
                             <!-- {!$Label.PP_Email_Opt_Out}
                             <a style="color: #015FF1;
