@@ -20409,7 +20409,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Has not Login SMS</shortDescription>
-        <value>##ShortCommunityName: We haven’t heard from you in a while. Please log in to view the latest study information ##CommunityURL. Reply STOP to Stop or HELP for help</value>
+        <value>##ShortCommunityName: We haven’t heard from you in a while. Please log in to view the latest ##isStudyorProgram information ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
         <fullName>PT_Instant_Task_Del_SMS</fullName>
@@ -20430,14 +20430,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT New Certificate SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new certificate for ##StudyName Study! Log in to see your certificate: ##CommunityURL. Reply STOP to Stop or HELP for help</value>
+        <value>##ShortCommunityName: You have a new certificate for ##StudyName ##STUDYorPROGRAM! Log in to see your certificate: ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
         <fullName>PT_New_StdDoc_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT New StdDoc SMS</shortDescription>
-        <value>##ShortCommunityName: New study documents have been shared with you! Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
+        <value>##ShortCommunityName: New documents have been shared with you! Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
         <fullName>PT_Televisit_Day_Del_Reminder_SMS</fullName>
@@ -20977,7 +20977,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Platform Level Welcome Msg Body to Del</shortDescription>
-        <value>IQVIA:Your Patient ##PatientFullName opted in or been opted in to receive messages for updates about new clinical trial opportunities. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
+        <value>IQVIA You have opted in or been opted in to receive messages for updates about new clinical trial opportunities. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Platform_Level_Welcome_Msg_SMS_Body_to_PT</fullName>
@@ -24263,14 +24263,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Study Level Welcome Msg Body to Del</shortDescription>
-        <value>##ShortCommunityName: Your Patient ##PatientFullName have opted in or been opted in to receive messages for the ##StudyCodeName Study. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
+        <value>##ShortCommunityName You have opted in or been opted in to receive messages on behalf of your participant for the ##StudyCodeName ##STUDYorPROGRAM. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Study_Level_Welcome_Msg_Body_to_PT</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Study Level Welcome Msg Body to PT</shortDescription>
-        <value>##ShortCommunityName: You have opted in or been opted in to receive messages for the ##StudyCodeName Study. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
+        <value>##ShortCommunityName: You have opted in or been opted in to receive messages for the ##StudyCodeName ##STUDYorPROGRAM. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Study_Version_GUID_Error_Message</fullName>
@@ -28972,7 +28972,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Opt Out footer PP</shortDescription>
-        <value>To request technical support or opt out of optional email communications,</value>
+        <value>To update communication preferences or for technical support,</value>
     </labels>
     <labels>
         <fullName>Email_Body_Survey_New_Reminder_PP</fullName>
@@ -29179,4 +29179,77 @@ Due Date and Time: ##expirationDate.</value>
         <shortDescription>Email_Submit_Request</shortDescription>
         <value>submit a request</value>
     </labels>
+     <labels>
+        <fullName>Email_Body_Initial_Patient_ePR_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial Patient ePR PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information.A member of the ##isStudyorProgram team will contact you regarding the next steps in the ##isStudyorProgram process.&lt;/span&gt;</value>
+    </labels>
+     <labels>
+        <fullName>Email_Signature_Patient_ePR_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Patient ePR  PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+    </labels>
+     <labels>
+        <fullName>Email_Signature_Participant_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Participant Delegate PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
+&lt;span style=&quot;color:#444444;&quot;&gt;Your username is ##UserName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;We are excited to be on this journey with you.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Initial_Patient_RP_Referral_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial Patient RP Referral PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the referral process.&lt;/span&gt;</value>
+    </labels>
+
+    <labels>
+        <fullName>Email_Signature_Patient_RP_Referral_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Patient RP Referral PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Program_SMS_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Program SMS PP</shortDescription>
+        <value>Program</value>
+    </labels>
+     <labels>
+        <fullName>Study_SMS_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study SMS PP</shortDescription>
+        <value>Study</value>
+    </labels> 
     </CustomLabels>
