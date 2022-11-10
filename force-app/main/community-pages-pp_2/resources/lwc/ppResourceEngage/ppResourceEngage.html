@@ -3,10 +3,9 @@
     <c-web-spinner class="main-spinner"></c-web-spinner>
     <template if:true={isInitialized}>
         <lightning-layout multiple-rows="true">
-            <!-- FIRST ROW-->
+        <!-- *************** RESOURCES FILTER  ******************  -->
             <lightning-layout-item size="12">
                 <lightning-layout multiple-rows="true">
-                    <!--   FILTER    -->
                     <lightning-layout-item
                         size="4"
                         class="slds-var-p-around_small round-combobox ppCombobox"
@@ -18,14 +17,14 @@
                             onchange={handleChangeSelection}
                             label={selectedOption}
                             variant="label-hidden"
+                            disabled={isDisabled}
                         ></lightning-combobox>
                     </lightning-layout-item>
                 </lightning-layout>
-                <!-- Second ROW-->
-                <lightning-layout multiple-rows="true">
-                    <!--  Articles/Videos    -->
+            <!-- ************* Articles/Videos*************** -->
+                <lightning-layout multiple-rows="true" class="inner-scroll">
                     <lightning-layout-item size="12">
-                        <!--Iteration -->
+                <!--***********Resource card iteraton************ -->
                         <template if:true={resourcesFilterData}>
                             <template for:each={resourcesFilterData} for:item="Data">
                                 <c-pp-resource-container
@@ -41,9 +40,23 @@
                                     is-voted={Data.isVoted}
                                     key={Data.resource.Id}
                                     data-key={Data.resource.Id}
+                                    onfavourite={handleFavorite}
                                 >
                                 </c-pp-resource-container>
                             </template>
+                        </template>
+            <!--***************** Empty States*******************-->
+                        <template if:false={resourcesFilterData}>
+                            <div class="svg-align">
+                                <span class="center-align"
+                                    ><c-web-icon
+                                        icon-width="185"
+                                        icon-height="160"
+                                        icon-name="all-resources-empty"
+                                    ></c-web-icon
+                                ></span>
+                                <span class="empty-label"> {label.All_EMPTY} </span>
+                            </div>
                         </template>
                     </lightning-layout-item>
                 </lightning-layout>

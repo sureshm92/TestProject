@@ -74,6 +74,7 @@
                 <lightning-input type="email" data-value="email" onchange={checkFields} title={utilLabels.PG_AS_F_Email_address}  label={utilLabels.PG_AS_F_Email_address} value={email} required=""></lightning-input>
             </div>
             </div>
+            <div if:true={showConsent}>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-2 slds-large-size_4-of-4 outcome-form-element slds-m-bottom_x-small  margin-checkboxtop" >
                     <div if:true={iscountryus}>
                         <div class="checkboxalignUSPDelegate">
@@ -125,6 +126,7 @@
                            </div>
                         </div>
                      </div> </div>
+            </div>
 </div>
 </div>
 </template>

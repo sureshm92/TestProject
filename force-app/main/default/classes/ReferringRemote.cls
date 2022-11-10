@@ -974,6 +974,16 @@ return String.join(addressList, ', ');
                 .getCurrentContactId();
             //enrollment.Permit_Mail_Email_contact_for_this_study__c = true;
             enrollment.Permit_IQVIA_to_contact_about_study__c = true;
+            enrollment.Permit_Mail_Email_contact_for_this_study__c=true;
+            enrollment.Permit_Voice_Text_contact_for_this_study__c=true;
+            if(participant.Mailing_Country_Code__c=='US'){
+                enrollment.Permit_SMS_Text_for_this_study__c=true;
+            }
+            else{
+                if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c){
+                    enrollment.Permit_SMS_Text_for_this_study__c=true;
+                }
+            }
             enrollment.Study_Artificial_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
             enrollment.Study_Assisted_Dialing_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
             enrollment.Study_Pre_recorded_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
@@ -1110,6 +1120,16 @@ return String.join(addressList, ', ');
                 .getCurrentContactId();
             //enrollment.Permit_Mail_Email_contact_for_this_study__c = true;
             enrollment.Permit_IQVIA_to_contact_about_study__c = true;
+            enrollment.Permit_Mail_Email_contact_for_this_study__c=true;
+            enrollment.Permit_Voice_Text_contact_for_this_study__c=true;
+            if(participant.Mailing_Country_Code__c=='US'){
+                enrollment.Permit_SMS_Text_for_this_study__c=true;
+            }
+            else{
+                if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c){
+                enrollment.Permit_SMS_Text_for_this_study__c=true;
+                }
+            }
             enrollment.Study_Artificial_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
             enrollment.Study_Assisted_Dialing_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
             enrollment.Study_Pre_recorded_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
@@ -1299,6 +1319,33 @@ FOR UPDATE
                     newContact.MailingCountry = participant.Mailing_Country__c;
                     newContact.MailingState = participant.Mailing_State__c;
                     newContact.MailingPostalCode = participant.Mailing_Zip_Postal_Code__c;
+                        newContact.IQVIA_Contact_info_storage_consent__c =true;
+                        newContact.Participant_Phone_Opt_In_Permit_Phone__c =true;
+                        newContact.IQVIA_Assisted_Dialing_Consent__c =true;
+                        newContact.Participant_Opt_In_Status_Emails__c =true;
+                        newContact.IQVIA_Artificial_Voice_Consent__c =true;
+                        newContact.IQVIA_Pre_recorded_Voice_Consent__c =true;
+                        if(participant.Mailing_Country_Code__c=='US'){
+                            newContact.Participant_Opt_In_Status_SMS__c=true;
+                            newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
+                        }
+                        else{
+                            if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c)
+                            {
+                                newContact.Participant_Opt_In_Status_SMS__c=true;
+                            }
+                            if(newContact.Participant_Opt_In_Status_SMS__c){
+                                newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
+                            }
+                        }
+                        newContact.IQVIA_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
+                        newContact.IQVIA_PI_Storage_Consent_Time__c = Datetime.now();
+                        newContact.IQVIA_Phone_Consent_Time__c = Datetime.now();
+                        newContact.IQVIA_Email_Consent_Time__c = Datetime.now();
+                        newContact.IQVIA_Assisted_Dialing_Consent_Time__c = Datetime.now();
+                        newContact.IQVIA_Artificial_Voice_Consent_Time__c = Datetime.now();
+                        
+                    
                     if ('Home' == participantDelegate.Phone_Type__c) {
                         newContact.HomePhone = participantDelegate.Phone__c;
                     }
@@ -1320,10 +1367,53 @@ FOR UPDATE
                         MailingStateCode,
                         MailingState,
                         MailingPostalCode,
-                        MailingCountry
+                        MailingCountry,
+                        IQVIA_Contact_info_storage_consent__c,
+                        Participant_Phone_Opt_In_Permit_Phone__c,
+                        IQVIA_Assisted_Dialing_Consent__c,
+                        IQVIA_Pre_recorded_Voice_Consent__c,
+                        Participant_Opt_In_Status_SMS__c,
+                        IQVIA_Pre_recorded_Calls_Consent_Time__c,
+                        IQVIA_PI_Storage_Consent_Time__c,
+                        IQVIA_Phone_Consent_Time__c,
+                        IQVIA_Email_Consent_Time__c,
+                        IQVIA_Assisted_Dialing_Consent_Time__c,
+                        IQVIA_Artificial_Voice_Consent_Time__c,
+                        IQVIA_SMS_Consent_Time__c
                         FROM Contact
                         WHERE Id = :delegateDuplicateInfo.contactId
                     ];
+                        Boolean getSms=newContact.Participant_Opt_In_Status_SMS__c;
+                        newContact.IQVIA_Contact_info_storage_consent__c =true;
+                        newContact.Participant_Phone_Opt_In_Permit_Phone__c =true;
+                        newContact.IQVIA_Assisted_Dialing_Consent__c =true;
+                        newContact.Participant_Opt_In_Status_Emails__c =true;
+                        newContact.IQVIA_Artificial_Voice_Consent__c =true;
+                        newContact.IQVIA_Pre_recorded_Voice_Consent__c =true;
+                        if(participant.Mailing_Country_Code__c=='US'){
+                            newContact.Participant_Opt_In_Status_SMS__c=true;
+                            newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
+                        }
+                        else{
+                            if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c)
+                            {
+                                newContact.Participant_Opt_In_Status_SMS__c=true;
+                            }
+                            if(newContact.Participant_Opt_In_Status_SMS__c){
+                                newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
+                               }
+                              else if(getSms!=newContact.Participant_Opt_In_Status_SMS__c){
+                                newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
+                            }
+                            
+                        }
+                        newContact.IQVIA_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
+                        newContact.IQVIA_PI_Storage_Consent_Time__c = Datetime.now();
+                        newContact.IQVIA_Phone_Consent_Time__c = Datetime.now();
+                        newContact.IQVIA_Email_Consent_Time__c = Datetime.now();
+                        newContact.IQVIA_Assisted_Dialing_Consent_Time__c = Datetime.now();
+                        newContact.IQVIA_Artificial_Voice_Consent_Time__c = Datetime.now();
+                        update newContact;
                     createDelegateuser = false;
                 }
                 if (delegateDuplicateInfo == null || delegateDuplicateInfo.participantId == null) {
@@ -1403,12 +1493,27 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                   ){
                       contact con = new contact();
                       con.id = newContact.Id;
-                      con.Participant_Opt_In_Status_Emails__c =enrollment.Participant_Opt_In_Status_Emails__c;
-                      con.Participant_Opt_In_Status_SMS__c = enrollment.Participant_Opt_In_Status_SMS__c;
+                      Contact getCon=[Select id, Participant_Opt_In_Status_Emails__c, Participant_Opt_In_Status_SMS__c,
+                                        Participant_Phone_Opt_In_Permit_Phone__c,IQVIA_Artificial_Voice_Consent__c,
+                                        IQVIA_Pre_recorded_Voice_Consent__c, IQVIA_Assisted_Dialing_Consent__c from Contact where id=:con.id];
+                    if(!getCon.Participant_Opt_In_Status_Emails__c){
+                        con.Participant_Opt_In_Status_Emails__c =enrollment.Participant_Opt_In_Status_Emails__c;
+                    }                 
+                    if(!getCon.Participant_Phone_Opt_In_Permit_Phone__c){
                       con.Participant_Phone_Opt_In_Permit_Phone__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                    }
+                    if(!getCon.IQVIA_Artificial_Voice_Consent__c){
                       con.IQVIA_Artificial_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                    }
+                    if(!getCon.IQVIA_Assisted_Dialing_Consent__c){
                       con.IQVIA_Assisted_Dialing_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                    }
+                    if(!getCon.IQVIA_Pre_recorded_Voice_Consent__c){
                       con.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c; 
+                    }
+                    if(!getCon.Participant_Opt_In_Status_SMS__c){
+                      con.Participant_Opt_In_Status_SMS__c = enrollment.Participant_Opt_In_Status_SMS__c;
+                    }
                       con.IQVIA_Direct_Mail_Consent__c = enrollment.IQVIA_Direct_Mail_Consent__c;
                       
                       //update con; moved to future method

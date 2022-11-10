@@ -2,8 +2,6 @@ import { LightningElement, track } from 'lwc';
 import resourcesDesktop from './ppResourceDesktopPage.html';
 import resourcesMobile from './ppResourceMobilePage.html';
 import DEVICE from '@salesforce/client/formFactor';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import getTrialDetail from '@salesforce/apex/StudyDetailViewController.getTrialDetail';
@@ -20,6 +18,8 @@ import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
 import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
 
+import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
+
 export default class PpResourceContainerPage extends NavigationMixin(LightningElement) {
     //boolean var
     desktop = true;
@@ -28,6 +28,15 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     toggleExplore = false;
     toggleLinks = false;
     toggleDocs = false;
+
+    linksGridSize = 3;
+    documentGridSize = 3;
+    hideFirstColumn = false;
+    rightColumnPadding = "resource-gutter-left";
+    engageHeight = "res-box-engage-container";
+    linkssHeight = "res-box-relLinks-container pad10";
+    docsHeight = "res-box-document-container"
+
     //labels
     labels = {
         RESOURCES,
@@ -45,21 +54,28 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     redirecturl = '';
     disableSave = true;
     @track textValue;
+    @track selectedResourceType;
+    @track options = [];
+
+    selectedOptions = "Engage";
+    containerElement;
+    enableChangePref = false;
+    enableChangePrefOnDocs = false;
+
+    empty_state = pp_community_icons + '/' + 'engage_empty.png';
 
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
     }
 
-    connectedCallback() {
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                this.initializeData();
-            })
-            .catch((error) => {
-                this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-            });
+    connectedCallback() {        
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);   
+        this.selectedResourceType = 'engage'; 
+        this.initializeData();
     }
+    // renderedCallback(){
+    //     window.addEventListener('click', this.closeOptions);
+    // }
     //template toggle
     render() {
         return this.desktop ? resourcesDesktop : resourcesMobile;
@@ -94,10 +110,16 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
 
             this.trialdata = JSON.parse(result);
             //cards toggle logic
-            this.toggleExplore = this.trialdata?.trial?.Video_And_Articles_Are_Available__c;
-            this.toggleDocs = this.trialdata?.trial?.Study_Documents_Are_Available__c;
-            this.toggleLinks = this.linksData?.linksAvailable;
+            if (communityService.getCurrentCommunityMode().participantState == 'PARTICIPANT') {
+                this.toggleExplore = this.trialdata?.trial?.Video_And_Articles_Are_Available__c;
+                this.toggleDocs = this.trialdata?.trial?.Study_Documents_Are_Available__c;
+                this.toggleLinks = this.linksData?.linksAvailable;
+            } else {
+                this.toggleExplore = true;
+                this.toggleLinks = true;
+            }
             this.isInitialized = true;
+            this.createoptions();
         }
 
         if (this.spinner) {
@@ -125,4 +147,101 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             window.open(url, '_self');
         });
     }
+    updateResources(event) {
+        this.selectedResourceType = event.currentTarget.dataset.key;
+        this.getKey(this.selectedResourceType);
+
+        let inputFields = this.template.querySelectorAll('.noselected');
+        inputFields.forEach((ele) => {
+            let key = ele.getAttribute('data-key');
+            if (key == this.selectedResourceType) {
+                ele.classList.add('selected');
+            }
+            else{
+                ele.classList.remove('selected');
+            }
+        });
+    }
+
+    getKey(value){
+            this.options.forEach((obj, index) => {
+                let key = '';
+                if(obj.value == value){
+                    key = obj.label
+                    this.selectedOptions = key;
+                }
+            });      
+    }
+    get exploreVisible() {
+        return this.selectedResourceType == 'explore' ? true : false;
+    }
+    get documentsVisible() {
+        return this.selectedResourceType == 'documents' ? true : false;
+    }
+
+    get discoverVisible() {
+        return this.selectedResourceType == 'discover' ? true : false;
+    }
+
+    get answersVisible() {
+        return this.selectedResourceType == 'answers' ? true : false;
+    }
+
+    get engageVisible() {
+        return this.selectedResourceType == 'engage' ? true : false;
+    }
+
+    createoptions() {
+        if (this.toggleExplore) {
+            let option = { value: 'engage', label: this.labels.ENGAGE };
+            let option1 = { value: 'explore', label: this.labels.EXPLORE };
+            this.options.push(option);
+            this.options.push(option1);
+
+        }
+        if (this.toggleLinks) {
+            let option = { value: 'discover', label: this.labels.DISCOVER_TITLE };
+            this.options.push(option);
+        }
+        if (this.toggleDocs) {
+            let option = { value: 'documents', label: this.labels.DOCUMENTS };
+            this.options.push(option);
+        }
+
+        // Populate Grid size 
+        if(!this.toggleExplore && !this.toggleDocs && this.toggleLinks){
+            this.linksGridSize = 6;
+            this.enableChangePref = true;
+            this.linkssHeight += " newHeight";
+        }
+
+        if(!this.toggleExplore && !this.toggleLinks && this.toggleDocs){
+            this.hideFirstColumn = true;
+            this.documentGridSize = 6;
+            this.rightColumnPadding = '';
+            this.enableChangePrefOnDocs = true;
+            this.docsHeight += " newHeight";
+        }
+
+        if(!this.toggleExplore && this.toggleLinks && this.toggleDocs){
+            this.enableChangePrefOnDocs = true;
+            this.docsHeight += " newHeight";
+            this.linkssHeight += " newHeight";
+        }
+
+        if(this.toggleExplore && !this.toggleLinks){
+            this.engageHeight += " newHeight";
+
+        }
+    }
+
+    showOptions(event){
+        this.containerElement = this.template.querySelectorAll('.res-options');
+        this.containerElement[0].classList.toggle('hidden');
+    }
+
+    // closeOptions(event){
+    //     if(this.containerElement[0])
+    //         this.containerElement[0].classList.add('hidden');      
+    // }
 }
