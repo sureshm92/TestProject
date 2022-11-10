@@ -353,7 +353,8 @@ export default class PpCreateTask extends LightningElement {
         this.initData.reminderDate =
             event.detail.reminderType == 'No reminder' ? null : event.detail.reminderDateTime;
         this.taskReminderDate = event.detail.reminderDateTime;
-        this.isReminderSelected = event.detail.reminderType == 'No reminder' ? false : true;
+        this.isReminderSelected =
+            !event.detail.reminderType || event.detail.reminderType == 'No reminder' ? false : true;
     }
 
     handleReminder(event) {
@@ -364,7 +365,8 @@ export default class PpCreateTask extends LightningElement {
         if (event.detail.reminderType == 'No reminder') {
             this.initData.reminderDate = null;
         }
-        this.isReminderSelected = event.detail.reminderType == 'No reminder' ? false : true;
+        this.isReminderSelected =
+            !event.detail.reminderType || event.detail.reminderType == 'No reminder' ? false : true;
     }
 
     get saveButtonClass() {
