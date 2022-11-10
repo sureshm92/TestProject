@@ -7,13 +7,26 @@ import PG_PST_L_Delegates_Remove_Mess_P1 from '@salesforce/label/c.PG_PST_L_Dele
 import PG_PST_L_Delegates_Remove_Mess_P3 from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Mess_P3';
 import PG_PST_L_Delegates_Remove_Himself_Header from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Himself_Header';
 import PP_Delegate_Updated from '@salesforce/label/c.PP_Delegate_Updated';
+import PP_ActiveDelegates from '@salesforce/label/c.PP_ActiveDelegates';
+import PP_FormerDelegates from '@salesforce/label/c.PP_FormerDelegates';
+import PP_AddAssignment from '@salesforce/label/c.PP_AddAssignment';
+import PP_DelegateWithdrawn from '@salesforce/label/c.PP_DelegateWithdrawn';
+import PP_Delegate_Delegate_Warning from '@salesforce/label/c.PP_Delegate_Delegate_Warning';
+import PP_Delegate_Delegate from '@salesforce/label/c.PP_Delegate_Delegate';
+
 //import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 import { loadScript } from 'lightning/platformResourceLoader';
 import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
+import pirResources from '@salesforce/resourceUrl/pirResources';
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
 import getPDE from '@salesforce/apex/PatientDelegateEnrollmentService.getPDE';
 import removeAssignment from '@salesforce/apex/PatientDelegateEnrollmentService.removeAssignment';
+import deleteDelegates from '@salesforce/apex/PatientDelegateEnrollmentService.deleteDelegates';
+import manageDelegateDesktop from './manageDelegatesDesktop.html';
+import manageDelegateMobile from './manageDelegatesMobile.html';
+import DEVICE from '@salesforce/client/formFactor';
+
 import {
     subscribe,
     unsubscribe,
@@ -23,20 +36,30 @@ import {
 export default class ManageDelegates extends NavigationMixin(LightningElement) {
     @api isDelegate;
     @api participantState;
-    @api isDesktop;
+    isDesktop;
     @api consentPreferenceData;
     @api userMode;
     @api isRTL;
-    @track listPDE;
+    @track listPDE = [];
+    @track formerListPDE = [];
     @wire(MessageContext)
     messageContext;
     subscription = null;
     icon_url = pp_icons + '/Avatar_Delegate.svg';
+    noDelIcon_url = pp_icons + '/Avatar-Delegate-Gray.svg';
+    selectMenuTriagleDown_url = pp_icons + '/SelectMenuTriangleDown_blue.svg';
+    iconTriangleRight_url = pp_icons + '/iconTriangleRight_blue.svg';
+    deleteIcon = pirResources + '/pirResources/icons/trash-delete.svg';
     spinner = false;
     loaded = false;
     showAddDelegatePage = false;
     showpopup = false;
+    showDeletePopup = false;
     modalMesstext;
+    showActiveDelegates = true;
+    showFormerDelegates = true;
+    hasNoActiveDelegate = true;
+    hasNoFormerDelegate = true;
 
     label = {
         BTN_Add_New_Delegate,
@@ -45,13 +68,20 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         PG_PST_L_Delegates_Remove_Mess_P1,
         PG_PST_L_Delegates_Remove_Mess_P3,
         PG_PST_L_Delegates_Remove_Himself_Header,
-        PP_Delegate_Updated
+        PP_Delegate_Updated,
+        PP_ActiveDelegates,
+        PP_FormerDelegates,
+        PP_AddAssignment,
+        PP_DelegateWithdrawn,
+        PP_Delegate_Delegate_Warning,
+        PP_Delegate_Delegate
     };
 
     connectedCallback() {
         //this.spinner = true;
         // Get Initial Load Data
         //this.spinner = false;
+        DEVICE != 'Small' ? (this.isDesktop = true) : (this.isDesktop = false);
 
         if (!this.loaded) {
             loadScript(this, rrCommunity).then(() => {
@@ -70,14 +100,28 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.initializeData();
         this.subscribeToMessageChannel();
     }
+
+    render() {
+        return this.isDesktop ? manageDelegateDesktop : manageDelegateMobile;
+    }
+
     initializeData() {
         this.spinner = true;
         getPDE()
             .then((returnValue) => {
                 console.log('success', returnValue);
-                this.listPDE = returnValue;
+                // this.listPDE = returnValue;
+                this.listPDE = returnValue.activePDEWrapperList;
+                this.formerListPDE = returnValue.formerPDEWrapperList;
                 this.spinner = false;
-                this.maskEmail();
+                this.maskEmail(this.listPDE, true);
+                this.maskEmail(this.formerListPDE, false);
+                if (this.listPDE.length != 0) {
+                    this.hasNoActiveDelegate = false;
+                }
+                if (this.formerListPDE.length != 0) {
+                    this.hasNoFormerDelegate = false;
+                }
             })
             .catch((error) => {
                 console.log('error');
@@ -86,8 +130,8 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     }
 
     //this method will separate email chars in two parts to partially mask the email address.
-    maskEmail() {
-        this.listPDE.forEach((pde) => {
+    maskEmail(pdeList, activeDelegates) {
+        pdeList.forEach((pde) => {
             let pdeEmailLength = pde.PatientDelegate.Email__c.length;
             let maskedEmail = '';
             for (let i = 0; i < pdeEmailLength; i++) {
@@ -98,6 +142,17 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 }
             }
             pde.PatientDelegate.Email__c = maskedEmail;
+
+            //Also check if the Status of PDEnrollment is active or not.
+            if (activeDelegates) {
+                pde.PDEEnrollments.forEach((pden) => {
+                    if (pden.Status__c === 'Active') {
+                        pden['isActive'] = true;
+                    } else {
+                        pden['isActive'] = false;
+                    }
+                });
+            }
         });
     }
     //Subscribe the message channel to read the message published.
@@ -188,6 +243,10 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             ' ' +
             this.label.PG_PST_L_Delegates_Remove_Mess_P3;
     }
+    openDeleteDelegateModal() {
+        this.showDeletePopup = true;
+    }
+
     //This method will remove the delegate once Confirm button clicked on Remove Delegate Modal.
     handleConfirmdelete(event) {
         this.spinner = true;
@@ -196,11 +255,15 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             pDEId: pdEnrollmentId
         })
             .then((result) => {
-                communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
-                this.listPDE = result;
-                this.maskEmail();
                 this.showpopup = false;
+
+                this.listPDE = result;
+                this.listPDE = result.activePDEWrapperList;
+                this.formerListPDE = result.formerPDEWrapperList;
+                this.maskEmail(this.listPDE);
+                this.maskFormerDelEmail(this.formerListPDE);
                 this.spinner = false;
+                communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
             })
             .catch((error) => {
                 console.log('error');
@@ -210,5 +273,41 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     handleModalClose(event) {
         const showHideModal = event.detail;
         this.showpopup = showHideModal;
+    }
+    handleDeleteModalClose(event) {
+        const showHideModal = event.detail;
+        this.showDeletePopup = showHideModal;
+    }
+
+    handleDeleteDelegate(event) {
+        alert('Handle Delete');
+        //TODO: Correct the logic.
+        this.spinner = true;
+        let patientdelegateid = event.detail.patientdelegateid;
+        deleteDelegates({
+            pdId: patientdelegateid
+        })
+            .then((result) => {
+                this.showpopup = false;
+                this.listPDE = result;
+                this.listPDE = result.activePDEWrapperList;
+                this.formerListPDE = result.formerPDEWrapperList;
+                this.maskEmail(this.listPDE);
+                this.maskFormerDelEmail(this.formerListPDE);
+                this.spinner = false;
+                communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
+            })
+            .catch((error) => {
+                console.log('error');
+                this.spinner = false;
+            });
+    }
+    //This method will toggle the Active delegate view
+    toggleActiveDelegateView() {
+        this.showActiveDelegates = this.showActiveDelegates == true ? false : true;
+    }
+    //This method will toggle the Former delegate view
+    toggleFormerDelegateView() {
+        this.showFormerDelegates = this.showFormerDelegates == true ? false : true;
     }
 }

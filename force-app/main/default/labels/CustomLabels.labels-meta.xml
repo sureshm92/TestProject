@@ -18596,6 +18596,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate(s)</value>
     </labels>
     <labels>
+        <fullName>PP_Delegate_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Delegate_Delegate</shortDescription>
+        <value>Delete Delegate</value>
+    </labels>
+    <labels>
+        <fullName>PP_Delegate_Delegate_Warning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Delegate_Delegate_Warning</shortDescription>
+        <value>If you delete a delegate they will no longer remain in your list of delegates. Are you sure you would like to delete this delegate?</value>
+    </labels>
+    <labels>
         <fullName>PP_ProgramOverview_LearnMore_Desktop</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18735,11 +18749,26 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate already exists.</value>
     </labels>
     <labels>
+        <fullName>PP_ActiveDelegates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ActiveDelegates</shortDescription>
+        <value>Active Delegates</value>
+    </labels>
+
+    <labels>
         <fullName>PP_AddPhoto</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AddPhoto</shortDescription>
         <value>Add photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_AddAssignment</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AddAssignment</shortDescription>
+        <value>Add assignment</value>
     </labels>
     <labels>
         <fullName>PP_AddProfilePhoto</fullName>
@@ -19304,6 +19333,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_ForgotPwd</shortDescription>
         <value>Forgot Password?</value>
+    </labels>
+    <labels>
+        <fullName>PP_FormerDelegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_FormerDelegates</shortDescription>
+        <value>Former Delegates</value>
     </labels>
     <labels>
         <fullName>PP_Four_Hours_Before</fullName>
@@ -28342,6 +28378,13 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>flase</protected>
         <shortDescription>PP Delegate Updated</shortDescription>
         <value>Delegate updated successfully.</value>
+    </labels>
+    <labels>
+        <fullName>PP_DelegateWithdrawn</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DelegateWithdrawn</shortDescription>
+        <value>Delegate withdrawn</value>
     </labels>
     <labels>
         <fullName>PP_Delegate_Activated</fullName>
