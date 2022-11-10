@@ -94,20 +94,22 @@
 
                     <div class="slds-col">
                         <template if:true={showVisitCard}>
-                        <div class="visit">
-                            <div class="icon-marg">
-                            <c-web-icon
-                                class="svg-icon"
-                                icon-size="large"
-                                icon-name="calendar"
-                                data-id="calendar"
-                                icon-color="#ffffff"
-                            >
-                            </c-web-icon>
-                            </div>
-                            <div class="vertical"></div>
-                        </div>
-                    </template>
+                            <template if:false={isDelegateSelfview}>
+                                <div class="visit">
+                                    <div class="icon-marg">
+                                    <c-web-icon
+                                        class="svg-icon"
+                                        icon-size="large"
+                                        icon-name="calendar"
+                                        data-id="calendar"
+                                        icon-color="#ffffff"
+                                    >
+                                    </c-web-icon>
+                                    </div>
+                                    <div class="vertical"></div>
+                                </div>
+                            </template>
+                        </template>
                     </div>
 
                 <div class="slds-col">
