@@ -29044,10 +29044,10 @@ Due Date and Time: ##expirationDate.</value>
 &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
       <labels>
-        <fullName>Email_Signature_Patient1_New_PP</fullName>
+        <fullName>Email_Signature_Patient1_PP_New</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Email_Signature_Patient1_New_PP</shortDescription>
+        <shortDescription>Email Signature Patient1 PP New</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;

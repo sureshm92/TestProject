@@ -7,7 +7,7 @@
     <!-- Participant referred by PI -->
     <c:PP_EmailWireframeText rendered="{!userMode == 'Participant referred by PI'}" recipientId="{!recordId}" sourceId="{!sourceId}"
         header="{!$Label.Email_Header_Initial_Patient_PP}" title="{!titleLabel}" greeting="{!$Label.Email_User_Greeting_FirstName}"
-        signature="{!IF(checkVisitedCommunity,$Label.Email_Signature_Patient1_New_PP,$Label.Email_Signature_Patient_New_PP)}">
+        signature="{!IF(checkVisitedCommunity,$Label.Email_Signature_Patient1_PP_New,$Label.Email_Signature_Patient_New_PP)}">
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Created_By_PI_New_PP}" />
         <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}" />
