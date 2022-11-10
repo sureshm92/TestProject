@@ -7,3 +7,8 @@ iframe {
     min-height: 440px;
     min-width: 786px;
 }
+.icon-container{
+    background-color: #E8E8E8;
+    height: 440px;
+    width: 786px;
+}
