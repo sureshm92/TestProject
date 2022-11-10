@@ -294,18 +294,8 @@ public without sharing class TaskService {
 
     public void ignoreTask(Id taskId) {
         Task task = getTask(taskId);
-        if (task.Task_Code__c == 'Complete_Survey') {
-            Id tId = task.Id;
-            Task taskObj = new Task();
-            taskObj.Id = tId;
-            taskObj.Status = TASK_STATUS_IGNORED;
-            taskObj.Completed_Date__c = Datetime.now();
-            task = null;
-            task = taskObj;
-        } else {
         task.Status = TASK_STATUS_IGNORED;
         task.Completed_Date__c = Datetime.now();
-        }
         update task;
     }
 
