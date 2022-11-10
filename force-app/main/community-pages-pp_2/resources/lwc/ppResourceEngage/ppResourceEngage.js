@@ -66,12 +66,13 @@ export default class PpResourceEngage extends LightningElement {
                 this.resourcesData = result.wrappers;
                 this.resourcesFilterData = this.resourcesData[0] ? this.resourcesData : false;
                 this.isDisabled = this.resourcesData[0] ? false : true;
+                this.isInitialized = true;
                 
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
-        this.isInitialized = true;
+        
         if (this.spinner) {
             this.spinner.hide();
         }

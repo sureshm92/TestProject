@@ -9,6 +9,9 @@ export default class PpDetailPageResourceItem extends LightningElement {
 
     connectedCallback() {
         this.spinner = this.template.querySelector('c-web-spinner');
+        if (this.spinner) {
+            this.spinner.show();
+        }
         this.isThumbnailPresent = this.resourceLink ? true : false;
         if (this.spinner) {
             this.spinner.show();

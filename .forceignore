@@ -35,28 +35,44 @@ force-app/main/default/workflows/Case.workflow-meta.xml
 
 
 
-#force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
-#force-app/main/onboarding-tour
-#force-app/main/messaging/customMetadata
-#force-app/unpackaged
-#force-app/libs
+force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
+force-app/main/onboarding-tour
+force-app/main/messaging/customMetadata
+force-app/unpackaged
+force-app/libs
+
+
+
+force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
+force-app/main/onboarding-tour
+force-app/main/messaging/customMetadata
+force-app/unpackaged
+force-app/libs
+
 
 
 #Ignore all onboarding slides, comment line for include
+**/onboarding-tour/staticresources
+force-app/unpackaged/main/default/staticresources/os_*
+force-app/main/onboarding-tour/staticresources/os_*
+force-app/main/default/staticresources/Flags.svg
+force-app/main/default/staticresources/Flags.resource-meta.xml
+force-app/main/tools/staticresources/*
 
-#**/onboarding-tour/staticresources
-#force-app/unpackaged/main/default/staticresources/os_*
-#force-app/main/onboarding-tour/staticresources/os_*
-#force-app/main/default/staticresources/Flags.svg
-#force-app/main/default/staticresources/Flags.resource-meta.xml
-#force-app/main/tools/staticresources/*
 
 
 #Uncomment during full package deployment
 #force-app/main/default/staticresources/WalkMeCommunity*
 #Ignore State globalValueSet
-#force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
-#force-app/main/default/profiles
-#force-app/communities
-#force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
-#force-app/main/default/profiles/PRDBAPI*
+force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
+force-app/main/default/profiles
+force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
+force-app/main/onboarding-tour
+force-app/main/messaging/customMetadata
+force-app/communities
+!force-app/communities/community-pp
+force-app/main/default/flexipages/Clinical_Trial_Profile.flexipage-meta.xml
+force-app/main/messaging/email-template/components/PP_InitialWireframe.component
+force-app/main/messaging/email-template/components/PP_InitialWireframe.component-meta.xml
+
+**/__tests__
