@@ -519,7 +519,10 @@ public without sharing class TaskEditRemote {
                         isTaskStudyLevel = true;
                     }
                 }
-                if (taskList[0].Survey_Invitation__c != null) {
+                if (
+                    taskList[0].Survey_Invitation__c != null &&
+                    taskList[0].Survey_Invitation__r.IsTrialSurvey__c
+                ) {
                     isTaskStudyLevel = true;
                 }
             }
