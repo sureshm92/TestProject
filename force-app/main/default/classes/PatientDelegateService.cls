@@ -391,7 +391,10 @@ public without sharing class PatientDelegateService {
         if (participantState.pe == null)
             return;
         List<Alert__c> alertList = new List<Alert__c>();
-        if (participantState.communityName == CommunityTemplateService.TEMPLATE_PP) {
+        if (
+            participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+            CommunityTemplateService.TEMPLATE_PP
+        ) {
             alertList.add(
                 new Alert__c(
                     Contact__c = contactDelegate.Id,
@@ -410,7 +413,10 @@ public without sharing class PatientDelegateService {
         }
 
         if (participantState.value == ParticipantService.ParticipantStates.PARTICIPANT) {
-            if (participantState.communityName == CommunityTemplateService.TEMPLATE_PP) {
+            if (
+                participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                CommunityTemplateService.TEMPLATE_PP
+            ) {
                 alertList.add(
                     new Alert__c(
                         Contact__c = contactDelegate.Id,
