@@ -153,6 +153,9 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         this.initializeData();
     }
     handleTaskCreated(event) {
+        this.initializeData();
+    }
+    handleTaskCompleted(event) {
         if (event.detail.taskStatus == 'Open') {
             this.openTasks = event.detail.tasksList;
         }

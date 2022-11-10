@@ -5,10 +5,11 @@ import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
 import PP_Share_Article from '@salesforce/label/c.PP_Share_Article';
 import CONTRIBUTE from '@salesforce/label/c.PP_Resources_Contribute';
-import URLLINK from '@salesforce/label/c.PP_Resource_URL_Placeholder';
+import URLLINK from '@salesforce/label/c.PP_Resource_URL_Placeholder_New';
 import SUBMIT from '@salesforce/label/c.PP_Submit_Button';
 import createArticle from '@salesforce/apex/ResourceRemote.createArticlesSubmitted';
 import SUCCESS from '@salesforce/label/c.PP_Resource_Submit';
+import FORM_FACTOR from '@salesforce/client/formFactor';
 
 export default class PpContributeSection extends NavigationMixin(LightningElement) {
     labels = {
@@ -23,6 +24,11 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
     enableSave = false;
     disableSave = true;
     @track textValue;
+
+
+    get isMobile() {
+        return FORM_FACTOR !== 'Large' ? true : false;
+    }
 
     handleChangePreference() {
         this.redirecturl = window.location.origin + basePathName + '/account-settings?changePref';
@@ -57,6 +63,7 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
     }
 
     handleCreateArticles(event) {
+        this.disableSave = true;
         var inputurl = this.template.querySelector('lightning-input[data-input]').value;
         if (inputurl) {
             createArticle({
@@ -75,6 +82,7 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
             this.disableSave = true;
             urlField.reportValidity();
         }
+        this.template.querySelector('lightning-input[data-name="urlvalue"]').value = null;
     }
 
     showErrorToast(titleText, messageText, variantType) {

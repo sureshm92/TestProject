@@ -221,7 +221,9 @@ private class Test_ParticipantInformationRemote {
                     true,
                     null,
                     JSON.serialize(objCon),
-                    true
+                    true,
+                    false,
+                    null
                 );  
                 AddPatientByPIRemote.createParticipantDelegate(
                     JSON.serialize(participantDel1),
@@ -231,7 +233,9 @@ private class Test_ParticipantInformationRemote {
                     true,
                     null,
                     JSON.serialize(objCon),
-                    true
+                    true,
+                    false,
+                    null
                 );
                 ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
             }catch(exception e) {system.debug('teste');}}
@@ -745,7 +749,7 @@ private class Test_ParticipantInformationRemote {
                 JSON.serialize(cn)
                 
             );  
-            
+        ParticipantInformationRemote.disconnectDelegateToPatient(patientDelegate.Id);      
         }
         Test.stopTest();
     

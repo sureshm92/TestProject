@@ -24,6 +24,8 @@ export default class PpDateTimeCombo extends LightningElement {
     @api iconColor = '#00A3E0';
     @api createTask;
     @api taskReminder = false;
+    @api editMode = false;
+    @api readOnlyMode = false;
     @track compDateTime;
     @track dt;
     @track tm;
@@ -31,6 +33,7 @@ export default class PpDateTimeCombo extends LightningElement {
     @track initialDateLoaded = false;
     @track initialTimeLoaded = false;
     @track timeOnlyPresent = true;
+    @api showDateTime;
     label = {
         date,
         time,
@@ -66,13 +69,19 @@ export default class PpDateTimeCombo extends LightningElement {
     }
 
     get dbDate() {
+        if (this.editMode) {
+            var inputField = this.template.querySelector('.timc');
+            if (inputField) {
+                inputField.reportValidity();
+            }
+        }
         if (!this.compdate) {
             this.initialDateLoaded = true;
             this.dt = '';
             return null;
         } else if (this.dt) {
             return this.dt;
-        } else if (!this.initialDateLoaded) {
+        } else if (!this.initialDateLoaded || (this.editMode && this.compdate)) {
             var compdate;
             var dbCompDate = new Date(this.compdate);
             var localtimezonedate = dbCompDate.toLocaleString('en-US', { timeZone: TIME_ZONE });
@@ -82,7 +91,7 @@ export default class PpDateTimeCombo extends LightningElement {
             var yyyy = processlocaltimezonedate.getFullYear();
             compdate = yyyy + '-' + mm + '-' + dd;
             this.initialDateLoaded = true;
-            this.timeOnlyPresent = false;
+            this.timeOnlyPresent = false || this.readOnlyMode;
             this.dt = compdate;
             const dateEvent = new CustomEvent('initialdateload', {
                 detail: {
@@ -94,34 +103,89 @@ export default class PpDateTimeCombo extends LightningElement {
         }
     }
 
+    get dateCSS() {
+        return this.readOnlyMode ? 'read-only-field' : '';
+    }
+
+    get timeCSS() {
+        return this.readOnlyMode ? 'timc  read-only-field' : 'timc';
+    }
+
     get dbTime() {
-        if (!this.comptime) {
+        if (this.editMode) {
+            if (this.dbDate) {
+                let selectedDateArray = this.dbDate.split('-');
+                if (selectedDateArray.length > 0) {
+                    var sdObj = new Date(
+                        selectedDateArray[0],
+                        selectedDateArray[1] - 1,
+                        selectedDateArray[2]
+                    );
+                }
+            }
+            if (this.maxdate) {
+                let maxDateArray = this.maxdate.split('-');
+                if (maxDateArray.length > 0)
+                    var duedObj = new Date(maxDateArray[0], maxDateArray[1] - 1, maxDateArray[2]);
+            }
+            var inputField = this.template.querySelector('.timc');
+            if (duedObj && sdObj && inputField) {
+                if (!(duedObj >= sdObj)) {
+                    inputField.setCustomValidity(this.label.noFutureValues);
+                } else {
+                    inputField.setCustomValidity('');
+                }
+                inputField.reportValidity();
+            }
+        }
+        if (
+            (!this.comptime && !this.editMode) ||
+            (!this.comptime && !this.initialTimeLoaded && this.editMode)
+        ) {
             this.initialTimeLoaded = true;
             this.tm = '';
             return null;
         } else if (this.tm) {
             return this.tm;
-        } else if (!this.initialTimeLoaded) {
+        } else if (
+            (!this.initialTimeLoaded && !this.editMode) ||
+            (this.comptime && this.editMode)
+        ) {
             var comptime;
             var dbCompDate = new Date(this.comptime);
             var localtimezonedate = dbCompDate.toLocaleString('en-US', { timeZone: TIME_ZONE });
             var processlocaltimezonedate = new Date(localtimezonedate);
-            var hh = String(
-                (processlocaltimezonedate.getHours() < 10 ? '0' : '') +
-                    processlocaltimezonedate.getHours()
-            );
-            var mm = String(
-                (processlocaltimezonedate.getMinutes() < 10 ? '0' : '') +
-                    processlocaltimezonedate.getMinutes()
-            );
-            var ss = String(
-                (processlocaltimezonedate.getSeconds() < 10 ? '0' : '') +
-                    processlocaltimezonedate.getSeconds()
-            );
-            comptime = hh + ':' + mm + ':' + ss;
-            this.initialTimeLoaded = true;
-            this.timeOnlyPresent = false;
-            this.tm = comptime;
+            if (!isNaN(processlocaltimezonedate.valueOf())) {
+                var hh = String(
+                    (processlocaltimezonedate.getHours() < 10 ? '0' : '') +
+                        processlocaltimezonedate.getHours()
+                );
+                var mm = String(
+                    (processlocaltimezonedate.getMinutes() < 10 ? '0' : '') +
+                        processlocaltimezonedate.getMinutes()
+                );
+                var ss = String(
+                    (processlocaltimezonedate.getSeconds() < 10 ? '0' : '') +
+                        processlocaltimezonedate.getSeconds()
+                );
+                comptime = hh + ':' + mm + ':' + ss;
+                this.initialTimeLoaded = true;
+                this.timeOnlyPresent = false || this.readOnlyMode;
+                this.tm = comptime;
+            } else {
+                if (this.editMode) {
+                    if (this.comptime) {
+                        this.tm = this.comptime.substring(
+                            0,
+                            this.comptime.includes('.')
+                                ? this.comptime.indexOf('.')
+                                : this.comptime.length
+                        );
+                    } else {
+                        this.tm = '';
+                    }
+                }
+            }
             const dateEvent = new CustomEvent('initialtimeload', {
                 detail: {
                     comptime: this.tm
@@ -158,7 +222,7 @@ export default class PpDateTimeCombo extends LightningElement {
     handleDate(event) {
         this.initialDateLoaded = true;
         this.dt = event.target.value;
-        this.tm = '';
+        if (!this.editMode) this.tm = '';
         if (!this.dt) {
             this.timeOnlyPresent = true;
             this.tm = event.target.value;
@@ -170,7 +234,7 @@ export default class PpDateTimeCombo extends LightningElement {
             });
             this.dispatchEvent(nulldatetime);
         } else if (!this.tm) {
-            this.timeOnlyPresent = false;
+            this.timeOnlyPresent = false || this.readOnlyMode;
             const dateOnly = new CustomEvent('date', {
                 detail: {
                     compdatetime: null,
@@ -180,7 +244,7 @@ export default class PpDateTimeCombo extends LightningElement {
             });
             this.dispatchEvent(dateOnly);
         } else if (this.tm) {
-            this.timeOnlyPresent = false;
+            this.timeOnlyPresent = false || this.readOnlyMode;
             this.compDateTime = this.dt + 'T' + this.tm;
             var date = new Date(this.compDateTime);
             var ms = Date.parse(date);
@@ -202,7 +266,7 @@ export default class PpDateTimeCombo extends LightningElement {
         this.initialTimeLoaded = true;
         this.tm = event.target.value;
         if (!this.tm) {
-            this.timeOnlyPresent = false;
+            this.timeOnlyPresent = false || this.readOnlyMode;
             const timeOnly = new CustomEvent('time', {
                 detail: {
                     comptime: null,
@@ -222,7 +286,7 @@ export default class PpDateTimeCombo extends LightningElement {
             });
             this.dispatchEvent(timeOnly);
         } else if (this.dt) {
-            this.timeOnlyPresent = false;
+            this.timeOnlyPresent = false || this.readOnlyMode;
             this.compDateTime = this.dt + 'T' + this.tm;
             var date = new Date(this.compDateTime);
             var ms = Date.parse(date);

@@ -34,7 +34,10 @@ PIName = Study_Site__r.Principal_Investigator__r.Id</value>
             PIName = Study_Site__r.Principal_Investigator__r.Salutation_With_Name__c
             PILanguage = Study_Site__r.Principal_Investigator__r.Language__c
             PITitle = Study_Site__r.Principal_Investigator__r.Title
-ShortCommName = Study_Site__r.Clinical_Trial_Profile__r.ShortCommunityName__c</value>
+ShortCommName = Study_Site__r.Clinical_Trial_Profile__r.ShortCommunityName__c
+StudyorProgramHeader=Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c
+isEventorVisit=Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c
+isStudyorProgram=Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>

@@ -62,3 +62,12 @@
     background-color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
 }
+.read-only-field input .slds-input {
+    background-color: #f2f2f2 !important;
+}
+input[type='text']:disabled {
+    background: #ffff00;
+}
+.slds-input[disabled] {
+    background: #ffff00;
+}
