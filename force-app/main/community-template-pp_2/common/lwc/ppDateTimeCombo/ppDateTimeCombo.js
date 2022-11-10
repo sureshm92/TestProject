@@ -121,6 +121,7 @@ export default class PpDateTimeCombo extends LightningElement {
                     );
                 }
             }
+            var inputField = this.template.querySelector('.timc');
             if (this.maxdate) {
                 let maxDateArray = this.maxdate.split('-');
                 if (maxDateArray.length > 0)
