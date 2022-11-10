@@ -41,7 +41,6 @@ public class Test_RHeConsentEventTriggerHandler {
         RH_eConsentEventTriggerHandler.updatePERafterInsert(listEvents);
         Participant_Enrollment__c  peRecord2 = [Select Id, Name,Participant_Status__c from Participant_Enrollment__c LIMIT 1];
         peRecord2.Participant_Status__c = 'Declined Consent';
-        //peRecord2.Initial_visit_scheduled_date__c =  Date.valueOf('2015-12-31');
         peRecord2.Initial_visit_scheduled_time__c = Time.newInstance(18, 30, 2, 20);
         peRecord2.Initial_visit_occurred_flag__c = true;
         update peRecord2;
@@ -108,45 +107,37 @@ public class Test_RHeConsentEventTriggerHandler {
         Clinical_Trial_Profile__c ctp = [Select Id, Suppress_PI_Emails__c from Clinical_Trial_Profile__c limit 1];
         ctp.Suppress_PI_Emails__c = true;
         update ctp;
-        
-        
-        
-        
-        
-        Participant_Enrollment__c  peRecord3 = [Select Id, Name,Participant_Status__c from Participant_Enrollment__c LIMIT 1];
-        peRecord3.Participant_Status__c = 'Declined Consent';
-        //peRecord2.Initial_visit_scheduled_date__c =  Date.valueOf('2015-12-31');
-        //peRecord3.Initial_visit_scheduled_time__c = Time.newInstance(18, 30, 2, 20);
-        //peRecord3.Initial_visit_occurred_flag__c = true; 
-        update peRecord3;
+     
+        Participant_Enrollment__c  peRecord1 = [Select Id, Name,Participant_Status__c from Participant_Enrollment__c LIMIT 1];
+        peRecord1.Participant_Status__c = 'Declined Consent';
+        update peRecord1;
         
         Participant_Enrollment_Status_History__c ph = [Select Id, ParticipantEnrollment__c,Status__c from Participant_Enrollment_Status_History__c
                                                       limit 1];
-        //ph.ParticipantEnrollment__c = peRecord3.Id;
         ph.Status__c= 'Declined Consent';
         update ph;
-        RH_eConsent__e newEvent3 = new RH_eConsent__e(Subject_Id__c = peRecord3.Name,
+        RH_eConsent__e newEvent1 = new RH_eConsent__e(Subject_Id__c = peRecord1.Name,
                                                     Subject_Consent_Status__c = 'Consented',
                                                      Subject_Consent_Date__c = '2021-10-10'
                                                     );
         List<RH_eConsent__e> listEvents = new List<RH_eConsent__e>();
-        listEvents.add(newEvent3);
+        listEvents.add(newEvent1);
         RH_eConsentEventTriggerHandler.updatePERafterInsert(listEvents);
         
         
-        Participant_Enrollment__c  peRecord5 = [Select Id, Name,Participant_Status__c from Participant_Enrollment__c 
+        Participant_Enrollment__c  peRecord3 = [Select Id, Name,Participant_Status__c from Participant_Enrollment__c 
                                                 LIMIT 1];
-        peRecord5.Participant_Status__c = 'Enrollment Success';
-        peRecord5.Initial_visit_scheduled_date__c =  Date.valueOf('2015-12-31');
-        peRecord5.Initial_visit_scheduled_time__c = Time.newInstance(18, 30, 2, 20);
-        peRecord5.Initial_visit_occurred_flag__c = true;
-        update peRecord5;
+        peRecord3.Participant_Status__c = 'Enrollment Success';
+        peRecord3.Initial_visit_scheduled_date__c =  Date.valueOf('2015-12-31');
+        peRecord3.Initial_visit_scheduled_time__c = Time.newInstance(18, 30, 2, 20);
+        peRecord3.Initial_visit_occurred_flag__c = true;
+        update peRecord3;
         
-        RH_eConsent__e newEvent6 = new RH_eConsent__e(Subject_Id__c = peRecord5.Name,
+        RH_eConsent__e newEvent3 = new RH_eConsent__e(Subject_Id__c = peRecord3.Name,
                                                     Subject_Consent_Status__c = 'Declined',
                                                      Subject_Consent_Date__c = '2021-10-10'
                                                     );
-        listEvents.add(newEvent6);
+        listEvents.add(newEvent3);
         
         RH_eConsentEventTriggerHandler.updatePERafterInsert(listEvents);
         Participant_Enrollment__c  peRecord2 = [Select Id, Name,Participant_Status__c from Participant_Enrollment__c 
@@ -164,19 +155,19 @@ public class Test_RHeConsentEventTriggerHandler {
         listEvents.add(newEvent2);
         RH_eConsentEventTriggerHandler.updatePERafterInsert(listEvents);
         
-        Participant_Enrollment__c  peRecord9 = [Select Id, Name,Participant_Status__c from Participant_Enrollment__c 
+        Participant_Enrollment__c  peRecord4 = [Select Id, Name,Participant_Status__c from Participant_Enrollment__c 
                                                 LIMIT 1];
-        peRecord9.Participant_Status__c = 'Successfully Contacted';
-        peRecord9.Initial_visit_scheduled_date__c =  Date.valueOf('2015-12-31');
-        peRecord9.Initial_visit_scheduled_time__c = Time.newInstance(18, 30, 2, 20);
-        peRecord9.Initial_visit_occurred_flag__c = true;
-        update peRecord9;
+        peRecord4.Participant_Status__c = 'Successfully Contacted';
+        peRecord4.Initial_visit_scheduled_date__c =  Date.valueOf('2015-12-31');
+        peRecord4.Initial_visit_scheduled_time__c = Time.newInstance(18, 30, 2, 20);
+        peRecord4.Initial_visit_occurred_flag__c = true;
+        update peRecord4;
         
-        RH_eConsent__e newEvent9 = new RH_eConsent__e(Subject_Id__c = peRecord9.Name,
+        RH_eConsent__e newEvent4 = new RH_eConsent__e(Subject_Id__c = peRecord4.Name,
                                                     Subject_Consent_Status__c = 'Consented',
                                                      Subject_Consent_Date__c = '2021-10-10'
                                                     );
-        listEvents.add(newEvent9);
+        listEvents.add(newEvent4);
         RH_eConsentEventTriggerHandler.updatePERafterInsert(listEvents);
     }
 }
