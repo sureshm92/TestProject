@@ -169,7 +169,7 @@ public without sharing class RelevantLinksRemote {
                 );
                 initData.linksWrappers.add(lw);
             }*/
-
+            initDataNew.resources = ResourceService.sortResourcesByCOI(initDataNew.resources);
             return initDataNew;
         } catch (Exception e) {
             return (InitDataNew) AuraHelper.throwException(e);
