@@ -36,26 +36,24 @@
                 </div>
             </template>
            
-            <lightning-layout>
-
-
-                    <template if:true={showVisitCard}>
-                        <template if:false={isDelegateSelfview}>
-                            <lightning-layout-item padding="around-large" class="border-padding">
+            <lightning-layout multiple-rows="true">
+                <template if:true={showVisitCard}>
+                    <template if:false={isDelegateSelfview}>
+                        <lightning-layout-item size="4" class="around-small-custom">
                             <c-pp-home-page-visits-card desktop={desktop}>
                             </c-pp-home-page-visits-card>
                         </lightning-layout-item>
-                        </template>
                     </template>
-                <lightning-layout-item padding="around-large"
-                    ><c-pp-tasks desktop={desktop}></c-pp-tasks
-                ></lightning-layout-item>
-                <lightning-layout-item padding="around-large"
-                    ><!--c-pp-home-page-visits-card desktop={desktop}></c-pp-home-page-visits-card
-                    --></lightning-layout-item>
+                </template>
+                <lightning-layout-item size="4" class="around-small-custom">
+                    <c-pp-tasks desktop={desktop}></c-pp-tasks>                    
+                </lightning-layout-item>
+                <lightning-layout-item size="4" class="around-small-custom around-right-zero">                       
+                    <!-- <c-pp-home-page-visits-card desktop={desktop}></c-pp-home-page-visits-card>-->
+                    <c-pp-updates></c-pp-updates>
+                </lightning-layout-item>
             </lightning-layout>
-              <!-- Bottom Congrats Text -->
-             
+              <!-- Bottom Congrats Text -->             
         </template>
         <template if:false={desktop}>
             <!--<template if:true={clinicalrecord}>-->
@@ -91,7 +89,6 @@
            
             <!-- cards -->
             <div class="slds-grid bg-cards slds-p-vertical_large">
-
                     <div class="slds-col">
                         <template if:true={showVisitCard}>
                             <template if:false={isDelegateSelfview}>
@@ -124,7 +121,8 @@
                             >
                             </c-web-icon>
                         </div>
-                        <p class="p-text">Tasks</p>
+                        <!-- <p class="p-text">Tasks</p> -->
+                        <div class="vertical task-pink"></div>
                     </div>
                 </div>
                 <div class="slds-col">
