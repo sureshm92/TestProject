@@ -228,10 +228,14 @@
                             </article>
                             <template if:false={desktop}>
                                 <template if:true={isVisitAvailable}>
-                                    <div class="slds-card__footer-action slds-align_absolute-center label">
-                                        <a  href="visits"
+                                    <div
+                                        class="slds-card__footer-action slds-align_absolute-center label"
+                                    >
+                                        <a href="visits"
                                             >{labels.View_Visit_Details}
-                                            <span class="slds-assistive-text">{labels.View_Visit_Details}</span>
+                                            <span class="slds-assistive-text"
+                                                >{labels.View_Visit_Details}</span
+                                            >
                                         </a>
                                     </div>
                                 </template>
@@ -250,14 +254,12 @@
                             <div
                                 class="slds-card-wrapper slds-card_boundary slds-align_absolute-center visit-card-upcoming"
                             >
-                                <span class="center-align"
-                                    ><c-web-icon
-                                        icon-size="big"
-                                        icon-name="image_upcoming_visit"
-                                        icon-color="#00A3E0"
-                                    ></c-web-icon
-                                ></span>
-                                <span class="text-colour"> {labels.No_Upcoming_Visit} </span>
+                                <span class="center-align">
+                                    <img class="no-upcoming-img" src={empty_state} />
+                                </span>
+                                <span class="text-colour padding-top">
+                                    {labels.No_Upcoming_Visit}
+                                </span>
                             </div>
                         </div>
                     </article>
@@ -266,7 +268,9 @@
             <template if:true={desktop}>
                 <template if:true={isVisitAvailable}>
                     <footer class="slds-card__footer card-wrap">
-                        <a class="slds-card__footer-action slds-align_absolute-center label" href="visits"
+                        <a
+                            class="slds-card__footer-action slds-align_absolute-center label"
+                            href="visits"
                             >{labels.View_Visit_Details}
                             <span class="slds-assistive-text">{labels.View_Visit_Details}</span>
                         </a>

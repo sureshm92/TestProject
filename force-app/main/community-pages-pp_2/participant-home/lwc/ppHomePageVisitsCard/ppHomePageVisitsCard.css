@@ -8,7 +8,7 @@
 }
 .container-card {
     background-color: transparent;
-    border-top-color: #00a3E0;
+    border-top-color: #00a3e0;
     border-top-width: 8px;
     padding: 0;
     border-radius: 7px;
@@ -16,13 +16,12 @@
 
 .container-card-upcoming {
     background-color: transparent;
-    border-top-color: #00a3E0;
+    border-top-color: #00a3e0;
     border-top-width: 8px;
     padding: 0;
     height: 416px;
     border-radius: 8px;
-    width: 415px;
-   
+    width: 412px;
 }
 .upcoming {
     height: 3.14%;
@@ -150,6 +149,7 @@ hr {
 }
 .text-colour {
     color: #a9a9a9;
+    margin-top: 8px;
 }
 .label {
     height: 24px;
@@ -167,43 +167,50 @@ hr {
     border-top-right-radius: 0;
     border: 1px solid lightgrey;
 }
-.uc-text{
+.padding-top {
+    padding-top: 16px;
+}
+.no-upcoming-img {
+    height: 64px;
+    width: 86px;
+}
+.uc-text {
     margin-top: 3px;
     padding: 0;
-    font-family: "Proxima Nova";
-  font-size: 14px;
-  font-weight: bold;
-  letter-spacing: 0;
-  line-height: 32px;
-  text-align: center;
-  color: #FFFFFF;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 32px;
+    text-align: center;
+    color: #ffffff;
 }
 @media only screen and (max-width: 600px) {
-    .container-card{
-      height: 37px;
-      border-radius: 16px 16px 0 0;
-      background-color: #005587 !important;
-      border-top-color: #005587; 
-     border-top-width: 1px !important;
-     width: 351px;
-     margin-right: 4px;
-     margin-left: 8px;   
+    .container-card {
+        height: 37px;
+        border-radius: 16px 16px 0 0;
+        background-color: #005587 !important;
+        border-top-color: #005587;
+        border-top-width: 1px !important;
+        width: 351px;
+        margin-right: 4px;
+        margin-left: 8px;
     }
-    .content{
+    .content {
         margin-top: 1px !important;
     }
-    .container-card-upcoming{
+    .container-card-upcoming {
         height: 37px;
-      border-radius: 16px 16px 0 0;
-      background-color: #005587 !important;
-      border-top-color: #005587; 
-     border-top-width: 1px !important;
+        border-radius: 16px 16px 0 0;
+        background-color: #005587 !important;
+        border-top-color: #005587;
+        border-top-width: 1px !important;
         width: 360px;
         margin-left: 15px;
-      }
-      .visit-card-upcoming{
+    }
+    .visit-card-upcoming {
         width: 360px;
         margin-left: -17px;
         margin-top: -35px;
-      }
-  }
+    }
+}
