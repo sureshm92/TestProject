@@ -28862,7 +28862,6 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>View All Tasks</shortDescription>
         <value>View All Tasks</value>
     </labels>
-</CustomLabels>
     <labels>
         <fullName>Task_PP_Completed</fullName>
         <language>en_US</language>
@@ -28951,7 +28950,7 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Email Body Instant Del Task Reminder Type Not Selected PP</shortDescription>
         <value>&lt;span &gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
+&lt;div&gt;&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Opt_Out_footer_PP</fullName>
@@ -28959,7 +28958,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Opt Out footer PP</shortDescription>
-        <value>To request technical support or opt out of Optional email communications,</value>
+        <value>To request technical support or opt out of optional email communications,</value>
     </labels>
     <labels>
         <fullName>Email_Body_Survey_New_Reminder_PP</fullName>
@@ -29100,7 +29099,7 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL Title Welcome Study PP</shortDescription>
-        <value>Welcome to the ##StudyName!</value>
+        <value>Welcome to ##StudyName!</value>
     </labels>
      <labels>
         <fullName>Learn_more_about_study_PP</fullName>
@@ -29143,5 +29142,27 @@ Due Date and Time: ##expirationDate.</value>
         <protected>true</protected>
         <shortDescription>Delegate roadmap Content PP</shortDescription>
         <value>track the progress of ##ParticipantFirstName in the ##isStudyorProgram</value>
-    </labels> 
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_to_PH_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Body Welcome to PH Delegate PP</shortDescription>
+        <value>Hi ##UserName! You have been assigned as a Delegate for ##ParticipantFirstName in a clinical research study. We are excited to be on this journey with you both.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_Study_Patient_Delegates_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL_Body_Welcome_Study_Patient_Delegates_PP</shortDescription>
+        <value>Hi ##UserName! You have been assigned as a Delegate for ##ParticipantUser in a clinical research study. We are excited to be on this journey with you both.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Submit_Request</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Submit_Request</shortDescription>
+        <value>submit a request</value>
+    </labels>
     </CustomLabels>
