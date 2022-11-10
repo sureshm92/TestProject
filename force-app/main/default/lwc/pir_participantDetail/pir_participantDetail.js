@@ -380,7 +380,7 @@ export default class Pir_participantDetail extends LightningElement {
         let consentType = event.target.name;
         switch (consentType) {
             case 'outreachPhoneConsent':
-                this.isOutreachUpdated = true;
+                this.isOutreachUpdated = true; 
                 this.pd['pe']['Participant_Contact__r']['Participant_Phone_Opt_In_Permit_Phone__c'] = consent;
                 break;
             case 'outreachEmailConsent':
