@@ -88,11 +88,10 @@
   margin-top: 25px !important;
  
 }
-.icon-updates {
-  
-  margin-left: 30px !important;
+.icon-updates {  
+    margin-left: 30px !important;
     margin-top: 11px !important;
-   
+    text-align: center;
     width: 25px;
     height: 25px;
 }
@@ -132,8 +131,19 @@
   /*  */
   .vertical {
     border-left: 4px solid #005587;
-    height: 42px;
+    height: 38px;
     position: relative;
-    left: 50%;
-    margin-top: 26px
+    margin-top: 50px;
+    margin-left: 46%;
+}
+.task-pink {
+  border-left: 4px solid #C627A6;
+}
+
+.around-small-custom{
+  padding: 12px 22px 12px 0px;
+}
+
+.around-right-zero{
+  padding-right: 0px;
 }
