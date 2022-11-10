@@ -42,3 +42,6 @@
         min-width: 80%;
     }
 }
+.slds-backdrop {
+    background-color: rgba(0, 0, 0, 0.2);
+}
