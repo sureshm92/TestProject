@@ -127,14 +127,6 @@ export default class PpDateTimeCombo extends LightningElement {
                 if (maxDateArray.length > 0)
                     var duedObj = new Date(maxDateArray[0], maxDateArray[1] - 1, maxDateArray[2]);
             }
-            if (duedObj && sdObj && inputField) {
-                if (!(duedObj >= sdObj)) {
-                    inputField.setCustomValidity(this.label.noFutureValues);
-                } else {
-                    inputField.setCustomValidity('');
-                }
-                inputField.reportValidity();
-            }
         }
         if (
             (!this.comptime && !this.editMode) ||
