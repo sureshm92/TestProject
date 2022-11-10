@@ -46,7 +46,7 @@ public with sharing class RH_eConsentEventTriggerHandler{
                             per.Informed_Consent_Date__c = Date.ValueOf(eConsent.Subject_Consent_Date__c);
                         }
                         
-                        if(per.Participant_Status__c == 'Successfully Contacted' || per.Participant_Status__c == 'Successfully re-engaged'){
+                        if(per.Participant_Status__c == 'Successfully Contacted'){
                             if(per.Initial_visit_scheduled_date__c !=null && per.Initial_visit_scheduled_time__c !=null && per.Initial_visit_occurred_flag__c){
                                 histories.add(
                                     new Participant_Enrollment_Status_History__c(

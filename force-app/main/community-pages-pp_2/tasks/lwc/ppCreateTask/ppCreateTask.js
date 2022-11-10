@@ -353,7 +353,8 @@ export default class PpCreateTask extends LightningElement {
         this.initData.reminderDate =
             event.detail.reminderType == 'No reminder' ? null : event.detail.reminderDateTime;
         this.taskReminderDate = event.detail.reminderDateTime;
-        this.isReminderSelected = event.detail.reminderType == 'No reminder' ? false : true;
+        this.isReminderSelected =
+            !event.detail.reminderType || event.detail.reminderType == 'No reminder' ? false : true;
     }
 
     handleReminder(event) {
@@ -364,16 +365,21 @@ export default class PpCreateTask extends LightningElement {
         if (event.detail.reminderType == 'No reminder') {
             this.initData.reminderDate = null;
         }
-        this.isReminderSelected = event.detail.reminderType == 'No reminder' ? false : true;
+        this.isReminderSelected =
+            !event.detail.reminderType || event.detail.reminderType == 'No reminder' ? false : true;
     }
 
     get saveButtonClass() {
         this.enableSave = false;
-        let selectedTaskDueDateTime = new Date(this.taskDateTime);
+
         let selectedTaskReminderDateTime = new Date(this.taskReminderDate);
         let currentDateTime = new Date().toLocaleString('en-US', {
             timeZone: TIME_ZONE
         });
+        let selectedTaskDueDateTimeString = new Date(this.taskDateTime).toLocaleString('en-US', {
+            timeZone: TIME_ZONE
+        });
+        let selectedTaskDueDateTime = new Date(selectedTaskDueDateTimeString);
         let currentDateTimeObject = new Date(currentDateTime);
         if (this.subject && ((this.taskDueTime && this.taskDueDate) || this.disbaleDateTime)) {
             if (!this.isReminderSelected && selectedTaskDueDateTime >= currentDateTimeObject) {
