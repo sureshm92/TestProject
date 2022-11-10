@@ -387,7 +387,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     '{"Id":"","Patient_Visit__c":"","Reminder_Date__c":"","ReminderDateTime":"","Remind_Me__c":"","Remind_Using_Email__c":false,"Remind_Using_SMS__c":false}';
                 var jsonstr = JSON.stringify(result[0]);
                 const obj = JSON.parse(jsonstr);
-                if (typeof result[0].task === 'undefined' && this.upcomingVisits) {
+                if (typeof result[0].task === 'undefined' && this.upcomingVisits.length > 0) {
                     obj.task = JSON.parse(str);
                     this.upcomingVisits[this.selectedIndex].isReminderDate = false;
                 }
