@@ -29242,7 +29242,7 @@ Due Date and Time: ##expirationDate.</value>
         <fullName>Study_SMS_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Study SMS PP</shortDescription>
+        <shortDescription>Study_SMS_PP</shortDescription>
         <value>Study</value>
     </labels> 
     </CustomLabels>
