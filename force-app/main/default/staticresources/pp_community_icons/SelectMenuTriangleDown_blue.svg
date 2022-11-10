@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>triangle-down</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/triangle/down" fill="#0768FD" fill-rule="nonzero">
+            <path d="M17.8683007,8.45653877 C17.6869393,8.1745317 17.3462587,8.00005166 16.9768872,8 L7.0229403,8 C6.65377846,8.00015702 6.31332217,8.17453799 6.13198428,8.45634575 C5.9506464,8.73815349 5.95653333,9.08370932 6.14739007,9.36064697 L11.1243635,16.5675015 C11.309782,16.8359787 11.6418267,17 11.9999137,17 C12.3580008,17 12.6900455,16.8359787 12.875464,16.5675015 L17.8524375,9.36064697 C18.0433515,9.08383011 18.0494128,8.73836915 17.8683007,8.45653877 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>
