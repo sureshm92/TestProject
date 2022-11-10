@@ -163,6 +163,11 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                         this.populateSystemTasksforCompleted(this.completedTasks);
                     } else {
                         this.populateSystemTasks(this.openTasks);
+                        if (this.ishomepage) {
+                            this.openTasks.splice(
+                                this.openTasks.length > 4 ? 4 : this.openTasks.length
+                            );
+                        }
                     }
                     this.spinner.hide();
                 })
