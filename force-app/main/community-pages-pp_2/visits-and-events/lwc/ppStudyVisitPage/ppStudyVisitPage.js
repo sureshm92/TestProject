@@ -387,7 +387,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     '{"Id":"","Patient_Visit__c":"","Reminder_Date__c":"","ReminderDateTime":"","Remind_Me__c":"","Remind_Using_Email__c":false,"Remind_Using_SMS__c":false}';
                 var jsonstr = JSON.stringify(result[0]);
                 const obj = JSON.parse(jsonstr);
-                if (typeof result[0].task === undefined && this.upcomingVisits) {
+                if (typeof result[0].task === 'undefined' && this.upcomingVisits.length > 0) {
                     obj.task = JSON.parse(str);
                     this.upcomingVisits[this.selectedIndex].isReminderDate = false;
                 }
@@ -401,11 +401,11 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
 
                 //update bell icon once reminder is created PEH-7825
                 if (this.upcomingVisits.length > 0) {
-                    if (this.taskId) {
-                        if (this.visitdata.task.Reminder_Date__c === undefined) {
-                            this.upcomingVisits[this.selectedIndex].isReminderDate = false;
-                        } else {
+                    if (this.taskId && this.visitdata.task) {
+                        if (this.visitdata.task.Reminder_Date__c != undefined) {
                             this.upcomingVisits[this.selectedIndex].isReminderDate = true;
+                        } else {
+                            this.upcomingVisits[this.selectedIndex].isReminderDate = false;
                         }
                     } else {
                         this.upcomingVisits[this.selectedIndex].isReminderDate = false;
@@ -413,16 +413,14 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 if (!this.past) {
-                    this.upcomingVisits[
-                        this.selectedIndex
-                    ].visit.Planned_Date__c = this.visitdata.visitDate;
+                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
+                        this.visitdata.visitDate;
                 }
                 if (this.upcomingVisits.length > 0) {
                     if (this.visitdata.visitDate && this.showUpcomingVisits) {
                         this.upcomingVisits[this.selectedIndex].noVisitDate = false;
-                        this.plannedDate = this.upcomingVisits[
-                            this.selectedIndex
-                        ].visit.Planned_Date__c;
+                        this.plannedDate =
+                            this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
                     } else {
                         this.upcomingVisits[this.selectedIndex].noVisitDate = true;
                         this.plannedDate = '';
