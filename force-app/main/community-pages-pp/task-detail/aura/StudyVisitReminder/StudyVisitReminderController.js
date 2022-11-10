@@ -167,7 +167,8 @@
                 'upsertTask',
                 {
                     wrapper: JSON.stringify(component.get('v.initData')),
-                    paramTask: JSON.stringify(task)
+                    paramTask: JSON.stringify(task),
+                    isNewTaskFromTaskTab : component.get('v.isNewTask') && isTaskTab
                 },
                 function () {
                     component.set('v.isSaveOperation', true);
