@@ -110,6 +110,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     editImg = pp_icons + '/' + 'Pencil_Icon.svg';
     @api desktop;
     editMode = false;
+    taskParamId;
     connectedCallback() {
         if (formFactor === 'Small') {
             this.isMobile = true;
@@ -117,7 +118,10 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
             this.isMobile = false;
         }
         var pageurl = communityService.getFullPageName();
-        if (pageurl == 'tasks') {
+        var pageParam = communityService.getUrlParameter('id');
+        this.taskParamId = pageParam;
+        this.selectedTaskId = pageParam;
+        if (pageurl.includes('tasks') || pageParam) {
             this.ishomepage = false;
         } else {
             this.ishomepage = true;
@@ -182,6 +186,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     }
     handleTaskClose(event) {
         this.isCreateTask = event.detail.isClose;
+        this.taskParamId = '';
         this.initializeData();
     }
     handleTaskEdit(event) {
@@ -189,6 +194,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         this.editMode = event.detail.editMode;
     }
     handleTaskCreated(event) {
+        this.taskParamId = '';
         this.initializeData();
     }
     handleTaskCompleted(event) {
@@ -199,14 +205,17 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
 
     populateSystemTasks(tasks) {
         try {
-            console.log('tasks in populateSystemTasks', tasks);
             for (let i = 0; i < tasks.length; i++) {
                 tasks[i].task = tasks[i].openTask;
+
                 tasks[i].isClosed = false;
                 tasks[i].systemTask =
                     tasks[i].openTask.Task_Code__c === undefined
                         ? false
                         : this.taskCodeList.includes(tasks[i].openTask.Task_Code__c);
+                if (tasks[i].task.Id == this.taskParamId) {
+                    tasks[i].expandCard = true;
+                }
                 tasks[i].dueDate = tasks[i].openTask.Activity_Datetime__c ? true : false;
                 tasks[i].startDate =
                     tasks[i].openTask.Start_Date__c &&
