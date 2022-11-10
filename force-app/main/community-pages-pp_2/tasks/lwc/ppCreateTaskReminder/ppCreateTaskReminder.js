@@ -419,12 +419,11 @@ export default class PpCreateTaskReminder extends LightningElement {
             this.smsReminderOptIn = false;
             this.emailReminderOptIn = false;
         } else if (this.taskInfo.Id) {
-            this.selectedReminderOption = 'No reminder';
+            this.selectedReminderOption = '';
             this.selectedReminderDate = '';
             this.selectedReminderDateTime = '';
             this.smsReminderOptIn = false;
             this.emailReminderOptIn = false;
-            this.handleReminderDataChange();
         }
     }
 
