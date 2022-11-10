@@ -29143,7 +29143,8 @@ Due Date and Time: ##expirationDate.</value>
         <shortDescription>Delegate roadmap Content PP</shortDescription>
         <value>track the progress of ##ParticipantFirstName in the ##isStudyorProgram</value>
     </labels>
-    <fullName>AL_Body_Welcome_to_PH_Delegate_PP</fullName>
+    <labels>
+        <fullName>AL_Body_Welcome_to_PH_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL Body Welcome to PH Delegate PP</shortDescription>
