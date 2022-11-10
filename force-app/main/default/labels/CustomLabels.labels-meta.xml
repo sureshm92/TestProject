@@ -29051,10 +29051,10 @@ Due Date and Time: ##expirationDate.</value>
 &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
       <labels>
-        <fullName>Email_Signature_Patient1_New_PP</fullName>
+        <fullName>Email_Signature_Patient1_PP_New</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Email Signature Patient1 New  PP</shortDescription>
+        <shortDescription>Email Signature Patient1 PP New</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
@@ -29119,7 +29119,7 @@ Due Date and Time: ##expirationDate.</value>
         <fullName>Learn_more_about_study_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Learn more about study PP</shortDescription>
+        <shortDescription>Learn_more_about_study_PP</shortDescription>
         <value>interesting articles and additional information about research.</value>
     </labels>  
       <labels>
@@ -29183,7 +29183,7 @@ Due Date and Time: ##expirationDate.</value>
         <fullName>Email_Body_Initial_Patient_ePR_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Email Body Initial Patient ePR PP</shortDescription>
+        <shortDescription>Email_Body_Initial_Patient_ePR_PP</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information.A member of the ##isStudyorProgram team will contact you regarding the next steps in the ##isStudyorProgram process.&lt;/span&gt;</value>
@@ -29192,7 +29192,7 @@ Due Date and Time: ##expirationDate.</value>
         <fullName>Email_Signature_Patient_ePR_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Email Signature Patient ePR  PP</shortDescription>
+        <shortDescription>Email_Signature_Patient_ePR_PP</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
@@ -29205,7 +29205,7 @@ Due Date and Time: ##expirationDate.</value>
         <fullName>Email_Signature_Participant_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Email Signature Participant Delegate PP</shortDescription>
+        <shortDescription>Email_Signature_Participant_Delegate_PP</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
 &lt;span style=&quot;color:#444444;&quot;&gt;Your username is ##UserName.&lt;/span&gt;
 
@@ -29219,7 +29219,7 @@ Due Date and Time: ##expirationDate.</value>
         <fullName>Email_Body_Initial_Patient_RP_Referral_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Email Body Initial Patient RP Referral PP</shortDescription>
+        <shortDescription>Email_Body_Initial_Patient_RP_Referral_PP</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the referral process.&lt;/span&gt;</value>
@@ -29229,7 +29229,7 @@ Due Date and Time: ##expirationDate.</value>
         <fullName>Email_Signature_Patient_RP_Referral_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Email Signature Patient RP Referral PP</shortDescription>
+        <shortDescription>Email_Signature_Patient_RP_Referral_PP</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
@@ -29242,14 +29242,14 @@ Due Date and Time: ##expirationDate.</value>
         <fullName>Program_SMS_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Program SMS PP</shortDescription>
+        <shortDescription>Program_SMS_PP </shortDescription>
         <value>Program</value>
     </labels>
      <labels>
         <fullName>Study_SMS_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Study SMS PP</shortDescription>
+        <shortDescription>Study_SMS_PP</shortDescription>
         <value>Study</value>
     </labels> 
     </CustomLabels>
