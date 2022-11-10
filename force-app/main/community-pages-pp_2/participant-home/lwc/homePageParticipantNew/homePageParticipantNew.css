@@ -125,6 +125,10 @@
     position: relative;
   }
 
+  .border-padding {
+    padding-right: 60px;
+  }
+  
   /*  */
   .vertical {
     border-left: 4px solid #005587;
