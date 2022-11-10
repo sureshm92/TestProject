@@ -9,6 +9,7 @@ import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import taskCreationSuccess from '@salesforce/label/c.PP_TaskCreationSuccess';
+import taskEditSuccess from '@salesforce/label/c.Task_Edit_Success_Message';
 import REMIND_USING_REQUIRED from '@salesforce/label/c.PP_Remind_Using_Required';
 import taskName from '@salesforce/label/c.Task_Name';
 import enterTaskName from '@salesforce/label/c.Enter_Task_Name';
@@ -238,16 +239,12 @@ export default class PpCreateTask extends LightningElement {
     handleOnlyDate(event) {
         this.taskDateTime = event.detail.compdatetime;
         this.taskDueDate = event.detail.compdate;
-        if (!editMode) {
-            this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange(); //uncommented
-        }
+        this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
     }
     handleOnlyTime(event) {
         this.taskDateTime = event.detail.compdatetime;
         this.taskDueTime = event.detail.comptime;
-        if (!editMode) {
-            this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange(); //uncommented
-        }
+        this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
     }
     doCreateTask() {
         this.spinner.show();
@@ -261,7 +258,12 @@ export default class PpCreateTask extends LightningElement {
                 .then((result) => {
                     this.spinner.hide();
                     this.enableSave = false;
-                    communityService.showToast('', 'success', taskCreationSuccess, 100);
+                    communityService.showToast(
+                        '',
+                        'success',
+                        this.editMode ? taskEditSuccess : taskCreationSuccess,
+                        100
+                    );
                     const taskCloseEvent = new CustomEvent('taskclose', {
                         detail: {
                             isClose: false
@@ -284,7 +286,12 @@ export default class PpCreateTask extends LightningElement {
                 .then((result) => {
                     this.spinner.hide();
                     this.enableSave = false;
-                    communityService.showToast('', 'success', taskCreationSuccess, 100);
+                    communityService.showToast(
+                        '',
+                        'success',
+                        this.editMode ? taskEditSuccess : taskCreationSuccess,
+                        100
+                    );
                     const taskCloseEvent = new CustomEvent('taskclose', {
                         detail: {
                             isClose: false
@@ -340,7 +347,7 @@ export default class PpCreateTask extends LightningElement {
         this.task.Remind_Me__c =
             event.detail.reminderType == 'No reminder' ? '' : event.detail.reminderType;
         this.initData.reminderDate =
-            event.detail.reminderType == 'No reminder' ? '' : event.detail.reminderDateTime;
+            event.detail.reminderType == 'No reminder' ? null : event.detail.reminderDateTime;
         this.taskReminderDate = event.detail.reminderDateTime;
         this.isReminderSelected = event.detail.reminderType == 'No reminder' ? false : true;
     }
@@ -350,6 +357,9 @@ export default class PpCreateTask extends LightningElement {
         this.task.Remind_Using_SMS__c = event.detail.smsReminderOptIn;
         this.task.Remind_Me__c =
             event.detail.reminderType == 'No reminder' ? '' : event.detail.reminderType;
+        if (event.detail.reminderType == 'No reminder') {
+            this.initData.reminderDate = null;
+        }
         this.isReminderSelected = event.detail.reminderType == 'No reminder' ? false : true;
     }
 
