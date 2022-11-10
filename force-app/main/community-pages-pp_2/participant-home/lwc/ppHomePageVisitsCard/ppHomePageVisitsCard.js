@@ -47,6 +47,8 @@ export default class HomePageVisitsCard extends LightningElement {
     isVisitAvailable = false;
     empty_state = pp_community_icons + '/' + 'empty_visits.png';
 
+    empty_state = pp_community_icons + '/' + 'empty_visits.png';
+
     connectedCallback() {
         this.initializeData();
         this.isInitialized = true;
