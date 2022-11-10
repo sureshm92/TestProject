@@ -29222,7 +29222,7 @@ Due Date and Time: ##expirationDate.</value>
         <fullName>Email_Signature_Patient_RP_Referral_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Email Signature Patient RP Referral PP</shortDescription>
+        <shortDescription>Email_Signature_Patient_RP_Referral_PP</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
