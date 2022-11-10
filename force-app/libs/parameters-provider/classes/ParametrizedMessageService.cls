@@ -48,7 +48,7 @@ public without sharing class ParametrizedMessageService {
                     sobj,
                     paramsMap.get('ContactID')
                 );
-                if(contactIdValue!=null){
+                if (contactIdValue != null) {
                     userObj = [
                         SELECT Id, LocaleSidKey, TimeZoneSidKey
                         FROM User
@@ -64,7 +64,7 @@ public without sharing class ParametrizedMessageService {
                 if (value instanceof Date) {
                     valueStr = UserService.formatDate((Date) value, language);
                 } else if (value instanceof Datetime) {
-                    if (userObj==null || userObj.size()==0) {
+                    if (userObj == null || userObj.size() == 0) {
                         valueStr = UserService.formatDateTime((Datetime) value, language);
                     } else {
                         valueStr = UserService.formatDateTimebyZone(
