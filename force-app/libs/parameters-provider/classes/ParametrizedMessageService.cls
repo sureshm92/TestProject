@@ -81,7 +81,6 @@ public without sharing class ParametrizedMessageService {
                         valueStr = System.Label.Not_Available;
                     }
                 }
-
                 valuesMap.put(paramName, valueStr);
             }
             resultMessage = sourceMessage;
