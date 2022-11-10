@@ -70,7 +70,7 @@ public without sharing class MedicalHistryTabController {
             medicalHistryWrapper objWrapper = new medicalHistryWrapper();
 
             Participant_Enrollment__c objPer = [SELECT ID,Participant__r.BMI__c,Comorbidities__c,HighRisk_Indicator__c,High_Priority__c,Referral_Source__c,Participant__c
-                                                ,Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,Study_Site__c,Study_Site__r.Medical_Record_Upload__c,Unique_HumanId__c,MRR_Survey_Results_URL__c,Pre_Screener_Survey_Response__c
+                                                ,Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,Study_Site__c,Study_Site__r.Medical_Record_Upload__c,Unique_HumanId__c
                                                 from Participant_Enrollment__c where id=:peid] ;
 
             Id commorbidityRecordType = Schema.SObjectType.Comorbidities__c.getRecordTypeInfosByName().get('Comorbidity').getRecordTypeId();
