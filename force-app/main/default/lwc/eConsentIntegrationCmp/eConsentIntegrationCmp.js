@@ -14,6 +14,7 @@ import selecteconsentvendorLabel from '@salesforce/label/c.Select_E_Consent_Vend
 import studysiteLabel from '@salesforce/label/c.TS_Select_Study_Site';
 import addconsentvendorLabel from '@salesforce/label/c.Add_Consent_Vendor';
 import consentrecvendorLabel from '@salesforce/label/c.E_Consent_Record_Vendor_Name';
+import consentrecvendorURL from '@salesforce/label/c.E_Consent_Record_Vendor_URL';
 
 import countryLabel from '@salesforce/label/c.RH_RP_Country';
 import studysitLabel from '@salesforce/label/c.Study_Site';
@@ -46,6 +47,7 @@ export default class EConsentIntegrationCmp extends LightningElement {
         studysiteLabel,
         addconsentvendorLabel,
         consentrecvendorLabel,
+        consentrecvendorURL,
         countryLabel,
         studysitLabel,
         studysitNumbrLabel,
@@ -60,6 +62,7 @@ export default class EConsentIntegrationCmp extends LightningElement {
     totalstudysitelist = [];
     isModalOpen = false;
     vendername;
+    vendorURL;
     venderdescription;
     countryArray = [];
     countryArraySet = [];
@@ -101,7 +104,7 @@ export default class EConsentIntegrationCmp extends LightningElement {
         this.isSpinnerCheck = true;
         this.getEConsentDetails(this.recordId);
         this.handleSubscribe();
-       
+
     }
     get isDisabled(){
         return this.isreadonly;
@@ -161,7 +164,7 @@ export default class EConsentIntegrationCmp extends LightningElement {
         }).then((result) => {
             this.venders = result.eConsentVendors;
             for(let i=0; i< result.eConsentVendors.length;i++){
-                this.vendoriddescmap.set(result.eConsentVendors[i].Id, result.eConsentVendors[i].Name);
+                this.vendoriddescmap.set(result.eConsentVendors[i].Id, result.eConsentVendors[i].Vendor_URL__c);
             }
             this.eConsentdetails = result.ResponeWrapperList;
             this.totalstudysitelist = result.ResponeWrapperList;
@@ -169,7 +172,7 @@ export default class EConsentIntegrationCmp extends LightningElement {
             if(this.consentLength > 0){
                 this.showpagenation = true;
             }
-            
+
             this.showCountryLookup = true;
             if(!this.vendorArrayupdate){ 
                this.vendorArray = [];
@@ -211,20 +214,20 @@ export default class EConsentIntegrationCmp extends LightningElement {
         this.vendorId = '';
         this.vendername = '';
         this.isModalOpen = true;
-        this.venderdescription = '';
+        this.vendorURL = '';
 
     }
     closeModal() {
         this.vendorId = '';
         this.vendername = '';
         this.isModalOpen = false;
-        this.venderdescription = '';
+        this.vendorURL = '';
     }
     submitDetails(){
 
         createconsentvendor({ 
             name: this.vendername,
-            //description: this.venderdescription,
+            vendorURL: this.vendorURL,
             vendorId:this.vendorId
         }).then((result) => {
 
@@ -250,7 +253,7 @@ export default class EConsentIntegrationCmp extends LightningElement {
             this.vendercreationcheck = true;
             console.log(JSON.stringify(error));
         });
-           
+
         
     } 
     updatevendername(event){
@@ -261,8 +264,22 @@ export default class EConsentIntegrationCmp extends LightningElement {
             this.vendercreationcheck = true;
         }
     }
+    updateVendorDetails(event){
+        this.vendername = this.template.querySelector('[data-name="vendorName"]').value;
+        this.vendorURL =  this.template.querySelector('[data-name="vendorURL"]').value;
+        if(this.vendername != '' && 
+            this.vendername != undefined && 
+            this.vendername.trim() != '' &&
+            this.vendorURL.trim() != '' && 
+            this.vendorURL != undefined &&
+            this.template.querySelector('[data-name="vendorURL"]').checkValidity()){
+            
+            this.vendercreationcheck = false;
+        } else {
+            this.vendercreationcheck = true;
+        }
 
-    
+    }
 
     handleCountryChange(event){
         this.isSpinnerCheck = true;
@@ -414,7 +431,7 @@ export default class EConsentIntegrationCmp extends LightningElement {
             this.isSpinner = false;
         });
 
-       
+        
    
     }
 
@@ -451,7 +468,7 @@ export default class EConsentIntegrationCmp extends LightningElement {
             console.log(JSON.stringify(error));
             this.isSpinner =false;
         });
-       
+        
     }
 
     deselectallstudysites(event){
@@ -493,13 +510,13 @@ export default class EConsentIntegrationCmp extends LightningElement {
         let vendorId = event.currentTarget.dataset.id;
         let vendorName = event.target.dataset.targetId;
         this.vendername = '';
-        this.venderdescription = '';
+        this.vendorURL = '';
         this.toupsertcheck = false;
         this.vendercreationcheck = true;
         if(selectedVal == 'Clone'){
             this.vendorId = '';
             this.vendername = vendorName + selectedVal;
-            this.venderdescription = this.vendoriddescmap.get(vendorId);
+            this.vendorURL = this.vendoriddescmap.get(vendorId);
             this.isModalOpen = true;
             this.vendercreationcheck = false;
         }else if(selectedVal == 'Remove'){
@@ -517,11 +534,11 @@ export default class EConsentIntegrationCmp extends LightningElement {
             this.isModalOpen = true;
             this.toupsertcheck = true;
             this.vendorId = vendorId;
-            this.venderdescription = this.vendoriddescmap.get(vendorId); 
+            this.vendorURL = this.vendoriddescmap.get(vendorId); 
             this.vendercreationcheck = true;
         }      
     }
-   
+    
     
     sortRecs(event){
         this.isSpinnerCheck = true;

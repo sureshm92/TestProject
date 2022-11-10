@@ -18,7 +18,6 @@
             <article class="slds-card slds-card_boundary container-card">
                 <div class="slds-card__body slds-card__body_inner">
                     <template if:true={taskOpenTab}>
-                        <template if:false={emptyCompletedTasks}>
                             <c-pp-tasks-list
                                 container-class="home-inactive-custom-box slds-align_absolute-center"
                                 web-icon-class="home-open-task-icon slds-p-left_medium empty-oval"
@@ -29,7 +28,6 @@
                                 ontaskedit={handleTaskEdit}
                                 system-icon-class="home-sys-task curpointer"
                             ></c-pp-tasks-list>
-                        </template>
                         <template if:true={emptyOpenTasks}>
                             <div class="slds-card__body slds-card__body_inner card-wrap">
                                 <article
@@ -49,7 +47,7 @@
             </article>
         </div>
         <div class="slds-align_absolute-center">
-            <a class="comm-link" href={sfdcBaseURL} target="_blank">
+            <a class="comm-link" href={sfdcBaseURL} target="_self">
                 <span>{label.viewAllTasks}</span>
             </a>
         </div>

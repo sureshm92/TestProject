@@ -27,15 +27,6 @@ public without sharing class MedicalRecordReviewRemote {
                     CommunityService.USER_MODE_HCP,
                     delegateId
                 );
-                //localize MRR
-                if (
-                    hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c !=
-                    null
-                ) {
-                    hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c = CommunityFacadeRemote.getLocalizedURL(
-                        hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c
-                    );
-                }
                 if (hcpEnrollment == null)
                     throw new CommunityServiceException('Data not found');
                 new StudyActionsHCP(hcpEnrollment, delegateId)
@@ -147,7 +138,8 @@ public without sharing class MedicalRecordReviewRemote {
                 peResult.pe.Participant_Status__c ==
                 ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL
             ) {
-                if (trial.Link_to_Medical_Record_Review__c == null) {
+                PreScreener_Survey__c survey = getMRRSurvey(trialId);
+                if (survey == null) {
                     peResult.result = 'PES Fail';
                 } else {
                     peResult.result = 'MRR Pass PES Fail';
@@ -211,7 +203,8 @@ public without sharing class MedicalRecordReviewRemote {
                 peResult.pe.Participant_Status__c ==
                 ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL
             ) {
-                if (trial.Link_to_Medical_Record_Review__c == null) {
+                PreScreener_Survey__c survey = getMRRSurvey(trialId);
+                if (survey == null) {
                     peResult.result = 'PES Fail';
                 } else {
                     peResult.result = 'MRR Pass PES Fail';
