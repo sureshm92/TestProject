@@ -75,6 +75,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api isaccessLevelthree = false;
     disabledOutreachButton = false;
     @api isRTL;
+    @api isCountryus=false;
     label = {
         RH_RP_Primary_Delegate,
         RH_RP_Patient,
@@ -386,6 +387,14 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
 
     handleDelegateChange(event) {
         this.peRecordList = event.detail.patientRecord;
+    }
+    handlePrimaryDelTab(){
+            if(this.peRecordList[0].peRecord.Mailing_Country_Code__c=='US'){
+                this.isCountryus=true;
+            }
+            else{
+                this.isCountryus=false;
+            }    
     }
 
     showSuccessToast(messageRec) {

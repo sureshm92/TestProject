@@ -3658,6 +3658,13 @@ We are asking all eligible donors to come forward so we can treat as many patien
         <value>Please select the date</value>
     </labels>
     <labels>
+        <fullName>Consent_Signed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Consent Signed</shortDescription>
+        <value>Consent Signed</value>
+    </labels>
+    <labels>
         <fullName>CP_First_Name</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>
@@ -6393,29 +6400,29 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
-        <labels>
+    <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected PP</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of your upcoming task:&lt;/span&gt;
+        <value>&lt;span &gt;This is an email to remind you of your upcoming task:&lt;/span&gt;
 
-&lt;span style=&quot;color:black;&quot;&gt;##TaskName&lt;/span&gt;
-&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;
+&lt;span &gt;##TaskName&lt;/span&gt;
+&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##Taskdate.&lt;/span&gt;
 
-&lt;span style=&quot;color:black;&quot;&gt;Please login to update the status of your task.&lt;/span&gt; </value>
+&lt;span &gt;Please login to update the status of your task.&lt;/span&gt; </value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Deleg_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected Deleg PP</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming task:&lt;/span&gt;
+        <value>&lt;span&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming task:&lt;/span&gt;
 
-&lt;span style=&quot;color:black;&quot;&gt;##TaskName&lt;/span&gt;
-&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;
+&lt;span &gt;##TaskName&lt;/span&gt;
+&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;
 
-&lt;span style=&quot;color:black;&quot;&gt;Please login to update the status of this task.&lt;/span&gt; </value>
+&lt;span &gt;Please login to update the status of this task.&lt;/span&gt; </value>
     </labels>
     <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</fullName>
@@ -6652,6 +6659,17 @@ Please log in to ##CommunityName to view your clinical research trial matches an
 
 &lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
+       <labels>
+        <fullName>Email_Body_Visit_Task_Reminder_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Visit Task Reminder PP</shortDescription>
+        <value>&lt;span&gt;This is a an email to remind you of your upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;.&lt;/div&gt;
+
+&lt;span &gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+    </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
@@ -6663,16 +6681,16 @@ Please log in to ##CommunityName to view your clinical research trial matches an
 
 &lt;span style=&quot;color:black;&quot;&gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
-        <labels>
+    <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate PP</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
+        <value>&lt;span &gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;color:black;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;.&lt;/div&gt;
 
-&lt;span style=&quot;color:black;&quot;&gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span &gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>
@@ -7250,7 +7268,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>Email_Header_Visit_Task_Reminder_Delegate</shortDescription>
         <value>This is a reminder of your patient&apos;s upcoming visit</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Email_Header_Visit_Task_Reminder_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8064,7 +8082,7 @@ Sincerely,
         <shortDescription>Email Subject Task Reminder Type Not Selected</shortDescription>
         <value>You have a task reminder</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8078,7 +8096,7 @@ Sincerely,
         <shortDescription>Email Subject Task Reminder Type Not Selected Delegate</shortDescription>
         <value>Reminder: Your patient has a task</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8243,7 +8261,7 @@ Sincerely,
         <shortDescription>Email Subject Visit Task Reminder Delegate</shortDescription>
         <value>Your Patient has a visit reminder</value>
     </labels>
-       <labels>
+    <labels>
         <fullName>Email_Subject_Visit_Task_Reminder_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -13065,6 +13083,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>RH_Complete_Participant_Screener</shortDescription>
         <value>Complete Participant Screener</value>
+    </labels>
+    <labels>
+        <fullName>RH_ConfirmConsentRP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ConfirmConsentRP</shortDescription>
+        <value>By checking this box, you confirm below consent is reviewed.</value>
     </labels>
     <labels>
         <fullName>RH_ScreenerComplete</fullName>
@@ -25447,6 +25472,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Edit</value>
     </labels>
     <labels>
+        <fullName>Task_Edit_Success_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Edit Success Message</shortDescription>
+        <value>Task edited successfully.</value>
+    </labels>
+    <labels>
         <fullName>Task_Ignore</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -28641,6 +28673,30 @@ Please contact the Study Team for further updates or please login for additiona
         <value>No upcoming visit</value>
     </labels>
     <labels>
+        <fullName>Visit_No_Upcoming_Visits</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit No Upcoming Visits</shortDescription>
+        <value>No upcoming visits</value>
+    </labels>
+    <labels>
+        <fullName>Visit_No_Past_Visit</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit No Past Visit</shortDescription>
+        <value>No past visits</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Discover_Help_Text</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Resource Discover Help Text</shortDescription>
+        <value>Links will open in new browser window. IQVIA Patient Portal is not responsible for content provided in external websites.</value>
+    </labels>
+    <labels>
         <fullName>Resource_Uploaded</fullName>
         <categories></categories>
         <language>en_US</language>
@@ -28785,6 +28841,13 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>PP Resource URL Placeholder</shortDescription>
         <value>Paste article or video website URL here</value>
     </labels>
+     <labels>
+        <fullName>PP_Resource_URL_Placeholder_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Resource URL Placeholder New</shortDescription>
+        <value>Paste URL here</value>
+    </labels>
     <labels>
         <fullName>PP_Submit_Button</fullName>
         <language>en_US</language>
@@ -28798,6 +28861,13 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>PP Resource Submit</shortDescription>
         <value>Content was submitted successfully. Thank you for your contribution!</value>
+    </labels>
+     <labels>
+        <fullName>View_All_Tasks</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View All Tasks</shortDescription>
+        <value>View All Tasks</value>
     </labels>
     <labels>
         <fullName>Task_PP_Completed</fullName>
@@ -28846,15 +28916,15 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Plain Summary PP</shortDescription>
-        <value>New documents from ##StudyName are now available on the ##ShortCommunityName.   
+        <value>New documents for ##StudyName are now available on the ##ShortCommunityName.   
 
             Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
-	<labels>
-        <fullName>Email_Subject_Survey_Reminder</fullName>
+    <labels>
+        <fullName>Email_Subject_Survey_Reminder_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Email Subject Survey Reminder</shortDescription>
+        <shortDescription>Email Subject Survey Reminder PP</shortDescription>
         <value>Reminder: You have an upcoming task</value>
     </labels>
     <labels>
@@ -28864,4 +28934,242 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Email Instant Del Subject Reminder Type Not Selected PP</shortDescription>
         <value>Your participant has a new task</value>
     </labels>
-</CustomLabels>
+    <labels>
+        <fullName>Resources_All_Empty</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources all filter empty</shortDescription>
+        <value>No articles or videos available</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Instant_Task_Reminder_Type_Not_Selected_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Instant Task Reminder Type Not Selected PP</shortDescription>
+        <value>&lt;span&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;
+
+&lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Instant Del Task Reminder Type Not Selected PP</shortDescription>
+        <value>&lt;span &gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Opt_Out_footer_PP</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Opt Out footer PP</shortDescription>
+        <value>To request technical support or opt out of optional email communications,</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Survey_New_Reminder_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Survey New Reminder PP</shortDescription>
+        <value>This is an email to remind you of your upcoming  task ##SurveyName.
+Due Date and Time: ##expirationDate.</value>
+    </labels>
+     <labels>
+        <fullName>Program_Header_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Program_Header_PP</shortDescription>
+        <value>program</value>
+    </labels>
+     <labels>
+        <fullName>Study_Header_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study_Header_PP</shortDescription>
+        <value>clinical research study</value>
+    </labels> 
+     <labels>
+        <fullName>Study_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study_PP</shortDescription>
+        <value>study</value>
+    </labels>
+     <labels>
+        <fullName>Events_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Events_PP</shortDescription>
+        <value>events</value>
+    </labels>
+     <labels>
+        <fullName>Visits_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits_PP</shortDescription>
+        <value>visits</value>
+    </labels>
+    
+<labels>
+        <fullName>Email_Body_Initial_Patient_Created_By_PI_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial Patient Created By PI New PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the enrollment process.&lt;/span&gt;</value>
+    </labels>
+
+ <labels>
+        <fullName>Email_Header_Initial_Patient_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Initial Patient PP</shortDescription>
+        <value>Thank you for your interest in participating in a ##StudyorProgramHeader</value>
+    </labels>
+        <labels>
+        <fullName>Email_Signature_Patient_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Patient New  PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram center.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+    </labels>
+      <labels>
+        <fullName>Email_Signature_Patient1_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Patient1 New  PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in clinical research.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+    </labels>
+     <labels>
+        <fullName>Discover_future_Clinical_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Discover future Clinical PP</shortDescription>
+        <value>information about ##StudyName ##isEventorVisit and assessments</value>
+    </labels>
+      <labels>
+        <fullName>Discover_future_Clinical_New_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Discover future Clinical New PP</shortDescription>
+        <value>information about ##StudyName ##isEventorVisit and activities</value>
+    </labels>
+    <labels>
+        <fullName>Track_your_study_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Track your study PP</shortDescription>
+        <value>your ##isStudyorProgram timeline to help you keep track of your progress</value>
+    </labels> 
+    <labels>
+        <fullName>AL_Title_Welcome_To_The_PH_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Title Welcome To The PH PP</shortDescription>
+        <value>Welcome to ##CommunityWelcome!</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_to_PH_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL_Body_Welcome_to_PH_PP</shortDescription>
+        <value>Hello ##UserName, we are very excited to have you here! We aim to provide you with updates about your enrollment process, knowledge articles and other helpful information about your program.
+        </value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_Study_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Body Welcome Study PP</shortDescription>
+        <value>Congratulations ##UserName! You are now enrolled in a clinical research program. We are very excited to accompany you as you progress throughout this journey. </value>
+    </labels>
+    <labels>
+        <fullName>AL_Title_Welcome_Study_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Title Welcome Study PP</shortDescription>
+        <value>Welcome to ##StudyName!</value>
+    </labels>
+     <labels>
+        <fullName>Learn_more_about_study_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Learn more about study PP</shortDescription>
+        <value>interesting articles and additional information about research.</value>
+    </labels>  
+      <labels>
+        <fullName>Email_Body_Initial_Patient_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more ##studiesOrPrograms that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
+    </labels>  
+     <labels>
+        <fullName>Programs_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Programs PP</shortDescription>
+        <value>programs</value>
+    </labels>
+     <labels>
+        <fullName>Studies_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies PP</shortDescription>
+        <value>studies</value>
+    </labels>    
+    <labels>
+        <fullName>Delegate_learnmore_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delegate learnmore PP</shortDescription>
+        <value>learn more about this ##isStudyorProgram.</value>
+    </labels>
+    <labels>
+        <fullName>Delegate_roadmap_Content_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delegate roadmap Content PP</shortDescription>
+        <value>track the progress of ##ParticipantFirstName in the ##isStudyorProgram</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_to_PH_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Body Welcome to PH Delegate PP</shortDescription>
+        <value>Hi ##UserName! You have been assigned as a Delegate for ##ParticipantFirstName in a clinical research study. We are excited to be on this journey with you both.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_Study_Patient_Delegates_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL_Body_Welcome_Study_Patient_Delegates_PP</shortDescription>
+        <value>Hi ##UserName! You have been assigned as a Delegate for ##ParticipantUser in a clinical research study. We are excited to be on this journey with you both.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Submit_Request</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Submit_Request</shortDescription>
+        <value>submit a request</value>
+    </labels>
+    </CustomLabels>

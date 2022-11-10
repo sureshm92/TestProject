@@ -1512,30 +1512,114 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
         console.log(error);
       });
   }
-
+  @api screeningHistorys;
   getScreeningHistorySection(event) {
-    this.historyResults = "";
+    this.historyResults = "";this.screeningHistorys = '';
     this.template
       .querySelectorAll("." + event.currentTarget.dataset.name)
       .forEach(function (R) {
         R.classList.toggle("slds-hide");
       });
-    this.template.querySelectorAll("." + event.currentTarget.dataset.name + "Bg").forEach(function (L) {
-      L.classList.toggle("bg-white");
+      this.template.querySelectorAll("."+event.currentTarget.dataset.name+"Bg").forEach(function (L) {
+        L.classList.toggle("bg-white");
     });
-
-    getScreeningHistory({ pe: this.peid })
+     //historyStarts
+     getScreeningHistory({ pe: this.peid })
       .then((result) => {
         if (result == null || result.length == 0) {
           this.historyNull = true;
         } else {
-          this.historyResults = result;
+          let screenHistory = result;
+          var historyList = [];
+          var obj = {};
+          for (var i = 0; i < result.length; i++) {
+            if (!screenHistory[i].isAdditionalNote) {
+              let detailDate = "";
+              let finalDtTim = "";
+              let ampm = "";
+              let hrs = "";
+              let mns = "";
+              let ms = "";
+              detailDate = screenHistory[i].detailDate.substring(0, 11);
+
+              ampm = screenHistory[i].detailDate.substring(20, 22);
+              hrs = screenHistory[i].detailDate.substring(11, 13);
+              mns = screenHistory[i].detailDate.substring(14, 16);
+              ms = screenHistory[i].detailDate.substring(17, 19);
+              if (ampm.includes("A")) {
+                if (hrs == "12") {
+                  hrs == "00";
+                }
+              } else {
+                if (hrs == "1" || hrs == "01") {
+                  hrs = "13";
+                } else if (hrs == "2" || hrs == "02") {
+                  hrs = "14";
+                } else if (hrs == "3" || hrs == "03") {
+                  hrs = "15";
+                } else if (hrs == "4" || hrs == "04") {
+                  hrs = "16";
+                } else if (hrs == "5" || hrs == "05") {
+                  hrs = "17";
+                } else if (hrs == "6" || hrs == "06") {
+                  hrs = "18";
+                } else if (hrs == "7" || hrs == "07") {
+                  hrs = "19";
+                } else if (hrs == "8" || hrs == "08") {
+                  hrs = "20";
+                } else if (hrs == "9" || hrs == "09") {
+                  hrs = "21";
+                } else if (hrs == "10" || hrs == "010") {
+                  hrs = "22";
+                } else if (hrs == "11" || hrs == "011") {
+                  hrs = "23";
+                }
+              }
+
+              finalDtTim =
+                detailDate + "T" + hrs + ":" + mns + ":" + ms + ".000Z";
+              finalDtTim = finalDtTim.replace(/ /g, "");
+              obj.detailDate = finalDtTim;
+              obj.createdBy = screenHistory[i].createdBy;
+              obj.title = screenHistory[i].historyTitle;
+              obj.number = screenHistory[i].noteKey;
+              obj.isAdditionalNote = false;
+              historyList.push(obj);
+              obj = {};
+            }
+          }
+
+          historyList.sort(function (a, b) {
+            return new Date(a.detailDate) - new Date(b.detailDate);
+          });
+          
+          this.historyResults = historyList.reverse();
+          var historyLists = [];
+          var conts =  this.historyResults;
+          for (var key in conts) {
+                if(conts[key].number != undefined){
+                  for (var i = 0; i < result.length; i++) {
+                    if (result[i].isAdditionalNote && (result[i].noteKey == conts[key].number)) {
+                      historyLists.push(result[i]);
+                    }
+                  }
+                }
+                historyLists.push(conts[key]);
+          }
+          for (var i = 0; i < result.length; i++) {
+            if (result[i].isAdditionalNote){
+                  historyLists.push(result[i]);
+            }
+          }
+          this.screeningHistorys = historyLists;
           this.historyNull = false;
-        }
+        } 
       })
       .catch((error) => {
         console.log(error);
       });
+     
+    //historyEnds
   }
 
   getEnrollmentHistorySection(event) {

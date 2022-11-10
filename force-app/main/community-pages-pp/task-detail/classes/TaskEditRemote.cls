@@ -4,6 +4,7 @@
 
 public without sharing class TaskEditRemote {
     public Boolean isDelegate;
+    private static final String PARTICIPANT_ENROLLMENT_OBJ_NAME = 'Participant_Enrollment__c';
 
     @AuraEnabled
     public static Map<String, Integer> getMaxLength(Sobject so, List<String> fieldNames) {
@@ -382,8 +383,8 @@ public without sharing class TaskEditRemote {
         }
     }
 
-    @AuraEnabled(cacheable=true)
-    public static List<Participant_Enrollment__c> checkSmsOptIn() {
+    @AuraEnabled
+    public static List<Participant_Enrollment__c> checkSmsEmailOptIn() {
         List<Participant_Enrollment__c> availablePEs = new List<Participant_Enrollment__c>();
         try {
             ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
@@ -443,6 +444,86 @@ public without sharing class TaskEditRemote {
             EmailOptinStudyLevel = availablePEs[0].Permit_Mail_Email_contact_for_this_study__c;
         }
         return EmailOptinStudyLevel;
+    }
+
+    private static Map<String, Boolean> checkPlatformLevelConsents() {
+        Map<String, Boolean> consentTypeValueMap = new Map<String, Boolean>();
+        Contact currentParticipantContact = ParticipantContext.getCurrentContact();
+        if (currentParticipantContact != null) {
+            consentTypeValueMap.put(
+                'smsConsent',
+                currentParticipantContact.Participant_Opt_In_Status_SMS__c
+            );
+            consentTypeValueMap.put(
+                'emailConsent',
+                currentParticipantContact.Participant_Opt_In_Status_Emails__c
+            );
+        } else {
+            consentTypeValueMap.put('smsConsent', false);
+            consentTypeValueMap.put('emailConsent', false);
+        }
+        return consentTypeValueMap;
+    }
+
+    private static Map<String, Boolean> checkStudyLevelConsents() {
+        Map<String, Boolean> consentTypeValueMap = new Map<String, Boolean>();
+        List<Participant_Enrollment__c> peList = checkSmsEmailOptIn();
+        if (peList != null && peList.size() > 0) {
+            consentTypeValueMap.put('smsConsent', peList[0].Permit_SMS_Text_for_this_study__c);
+            consentTypeValueMap.put(
+                'emailConsent',
+                peList[0].Permit_Mail_Email_contact_for_this_study__c
+            );
+        } else {
+            consentTypeValueMap.put('smsConsent', false);
+            consentTypeValueMap.put('emailConsent', false);
+        }
+        return consentTypeValueMap;
+    }
+
+    @AuraEnabled
+    public static Map<String, Boolean> checkEmailSMSPreferencesForPPTask(String taskId) {
+        Map<String, Boolean> consentTypeValueMap = new Map<String, Boolean>();
+        if (taskId == null || taskId == '') {
+            Boolean isDelegate = ParticipantContext.isCurrentDelegate();
+            Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
+            if ((!isDelegate && currentPE != null) || (isDelegate && currentPE != null)) {
+                consentTypeValueMap = checkStudyLevelConsents();
+            } else if ((!isDelegate && currentPE == null) || (isDelegate && currentPE == null)) {
+                consentTypeValueMap = checkPlatformLevelConsents();
+            }
+            return consentTypeValueMap;
+        } else {
+            List<Task> taskList = [
+                SELECT Id, WhatId, Survey_Invitation__c
+                FROM Task
+                WHERE Id = :taskId
+                LIMIT 1
+            ];
+            Boolean isTaskStudyLevel = false;
+            if (
+                taskList != null &&
+                taskList.size() > 0 &&
+                (taskList[0].WhatId != null ||
+                taskList[0].Survey_Invitation__c != null)
+            ) {
+                if (taskList[0].WhatId != null) {
+                    String objType = String.valueOf(taskList[0].WhatId.getSobjectType());
+                if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
+                        isTaskStudyLevel = true;
+                    }
+                }
+                if (taskList[0].Survey_Invitation__c != null) {
+                    isTaskStudyLevel = true;
+                }
+            }
+            if (isTaskStudyLevel) {
+                consentTypeValueMap = checkStudyLevelConsents();
+            } else {
+                consentTypeValueMap = checkPlatformLevelConsents();
+            }
+            return consentTypeValueMap;
+        }
     }
 
     private static Boolean checkSMSPreferencesIsOn() {
