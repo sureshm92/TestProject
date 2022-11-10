@@ -125,11 +125,11 @@ public without sharing class RPRecordReviewLogController {
             List<peProfileSection> peProfileSectionWrapperList = new List<peProfileSection>();
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             
-            List<Participant_Enrollment__c> peList = [Select Id,Patient_ID__c,Study_Site__c,Study_Site__r.Name,Participant_Name__c,Participant_Surname__c,Patient_Middle_Name_Initial__c,Pre_screening_Status__c,
+            List<Participant_Enrollment__c> peList = [Select Id,Patient_ID__c,Study_Site__c,Study_Site__r.Name,Participant_Name__c,Participant_Surname__c,Patient_Middle_Name_Initial__c,
                                                       Patient_Sex__c,Email__c,YOB__c,Birth_Month__c,Date_of_Birth__c,Postal_Code__c,Legal_Status__c,Patient_Auth__c,Country__c,Mailing_Country_Code__c,State__c,Mailing_State_Code__c,Phone__c,Patient_Phone_Type__c,Participant_Alternative_Phone__c,
-                                                      Participant_Alt_Phone_Type__c,Primary_Delegate_First_Name__c,Primary_Delegate_Last_Name__c,Primary_Delegate_Email__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
+                                                      Participant_Alt_Phone_Type__c,Primary_Delegate_First_Name__c,Primary_Delegate_Last_Name__c,Primary_Delegate_Email__c,Clinical_Trial_Profile__c,
                                                       Primary_Delegate_Phone_Number__c,Primary_Delegate_Phone_Type__c,Primary_Delegate_YOB__c,Legal_Status_of_Primary_Delegate__c,CreatedDate,Participant_Status__c,Primary_Delegate_s_Alt_Phone__c,Primary_Delegate_s_Alt_Phone_Type__c,
-                                                      RP_Site_Selected__c,Medical_Record_Review_Status__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c,HCP__c,Delegate_Consent__c,Delegate_SMS_Consent__c,
+                                                      RP_Site_Selected__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c,HCP__c,Delegate_Consent__c,Delegate_SMS_Consent__c,
                                                       Permit_SMS_Text_for_this_study__c,Permit_Voice_Text_contact_for_this_study__c,Permit_Mail_Email_contact_for_this_study__c, Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c,Clinical_Trial_Profile__r.Link_to_ePR_Campaign__c,
                                                       Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c,Outreach_Email_Status__c,
                                                       Participant__c,Participant__r.Mailing_Country_Code__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Participant_Contact__c,Participant_Contact__r.Participant_Opt_In_Status_Emails__c,Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
@@ -438,7 +438,7 @@ public without sharing class RPRecordReviewLogController {
             AggregateResult[] groupedResults = [
                 SELECT Included_for_Referring__c,
                 Excluded_for_Referring__c,
-                Patient_Auth__c,Medical_Record_Review_Status__c,Outreach_Mail_Sent__c, Count(Id) total 
+                Patient_Auth__c,Outreach_Mail_Sent__c, Count(Id) total 
                 FROM Participant_Enrollment__c where HCP__r.HCP_Contact__c =:currentContactId  AND
                 (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Excluded from Referring' OR Participant_Status__c = 'Pending Referral') AND
                 Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL
@@ -446,7 +446,6 @@ public without sharing class RPRecordReviewLogController {
                 Included_for_Referring__c,
                 Excluded_for_Referring__c,
                 Patient_Auth__c,
-                Medical_Record_Review_Status__c,
                 Outreach_Mail_Sent__c
             ];
             
@@ -466,9 +465,6 @@ public without sharing class RPRecordReviewLogController {
                 }
                 if(ar.get('Patient_Auth__c') == 'Yes'){
                     PatientAth=PatientAth+Integer.Valueof(ar.get('total'));
-                }
-                if(ar.get('Medical_Record_Review_Status__c') == 'Pass' || ar.get('Medical_Record_Review_Status__c') == 'Fail' ){
-                    MedicalReview=MedicalReview+Integer.Valueof(ar.get('total'));
                 }
                 if(ar.get('Outreach_Mail_Sent__c') == 'Yes'){
                     OutreachMailSent=OutreachMailSent+Integer.Valueof(ar.get('total'));
@@ -498,7 +494,22 @@ public without sharing class RPRecordReviewLogController {
                         HCP__r.HCP_Contact__c =:currentContactId  AND
                         Participant_Status__c = 'Excluded from Referring' AND
                         Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL
-                       ];                    
+                       ]; 
+                       
+            medicalreview = [
+                SELECT count() 
+                FROM  Participant_PrescreenerResponse__c
+                WHERE MRR__c = true
+                    AND Participant_enrollment__r.HCP__r.HCP_Contact__c =:currentContactId  
+                    AND (Participant_enrollment__r.Participant_Status__c = 'Failed Referral' 
+                        OR Participant_enrollment__r.Participant_Status__c = 'Failed Review' 
+                        OR Participant_enrollment__r.Participant_Status__c = 'Excluded from Referring' 
+                        OR Participant_enrollment__r.Participant_Status__c = 'Pending Referral') 
+                    AND Participant_enrollment__r.Study_Site__r.Override_PI_Referral_Status__c != null 
+                    AND Participant_enrollment__r.HCP__c != null 
+                    AND Participant_enrollment__r.HCP__r.Status__c != null 
+                    AND Participant_enrollment__r.HCP__r.Override_PI_Status__c != null
+            ];
             
             Included = total - Excluded;
             wrapPEcount count = new wrapPEcount();
@@ -741,11 +752,19 @@ ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
         try {
             List<Participant_Enrollment__c> PeRecords = new List<Participant_Enrollment__c>();
             List<peExportData> peInitWrapperDataList = new List<peExportData>();
-            PeRecords = [Select id,Name,Patient_ID__c,
-                         MRN_Id__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Site__c,PI_Contact__c,PI_Contact__r.Name,Referred_Date__c,Referral_Completedby_Name__c,Medical_Record_Review_Status__c,Medical_Record_Review_Completed_Date__c,
-                         Participant_Status__c,Non_Referral_Reason__c,Participant_Status_Last_Changed_Date__c,Last_Status_Changed_Notes__c,Study_Site__c,Study_Site__r.Name,
-                         Pre_screening_Status__c,Medical_Record_Review_Completedby_Name__c,Screening_Date__c,Referral_Source__c,RP_Site_Selected__c 
-                         from Participant_Enrollment__c where id IN:participantEnrollmentIds];
+            PeRecords = [
+                SELECT Id, Name, Patient_ID__c, MRN_Id__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Study_Code_Name__c, Site__c,
+                    PI_Contact__c,PI_Contact__r.Name,Referred_Date__c, Referral_Completedby_Name__c, Participant_Status__c,
+                    Non_Referral_Reason__c,Participant_Status_Last_Changed_Date__c, Last_Status_Changed_Notes__c, Study_Site__c,
+                    Study_Site__r.Name, Screening_Date__c,Referral_Source__c, RP_Site_Selected__c,
+                    (SELECT Id, Completed_by__c, Completed_by__r.Name, Completed_Date__c, Status__c 
+                    FROM Participant_PrescreenerResponses__r 
+                    WHERE MRR__c = true 
+                    ORDER BY Completed_Date__c DESC 
+                    LIMIT 1)
+                FROM Participant_Enrollment__c 
+                WHERE Id IN :participantEnrollmentIds
+            ];
             
             Map<Id, Id> mapContentDocId = new Map<Id, Id>();
             Map<Id, string> mapLastNotes = new Map<Id, string>();
@@ -767,7 +786,7 @@ ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
                 String sitename='';
                 String OutreachMail='';
                 String ReferredDt='';
-                String preScreeningDt='';
+                String preScreeningDt='', mrrStatus = '', mrrCompletedBy = '';
                 if(per.Participant_Status_Last_Changed_Date__c !=null)
                 {
                     //dateTimeofStatuschng = per.Participant_Status_Last_Changed_Date__c.format('MM/dd/yyyy, hh:mm a');
@@ -780,10 +799,15 @@ ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
                     Datetime dt = datetime.newInstance(refdt.year(), refdt.month(),refdt.day());
                     ReferredDt = dt.formatGMT('EEE MMM d 00:00:00 zz yyyy');
                 }
-                if(per.Medical_Record_Review_Completed_Date__c!=null)
-                {
-                    preScreeningDt = per.Medical_Record_Review_Completed_Date__c.formatGMT('EEE MMM d HH:mm:ss zz yyyy');
-                    
+                
+                if(per.Participant_PrescreenerResponses__r.isEmpty() == false) {
+
+                    preScreeningDt = per.Participant_PrescreenerResponses__r[0].Completed_Date__c != null 
+                        ? per.Participant_PrescreenerResponses__r[0].Completed_Date__c.formatGMT('EEE MMM d HH:mm:ss zz yyyy')
+                        : '';
+                    mrrStatus = per.Participant_PrescreenerResponses__r[0].Status__c;
+                    mrrCompletedBy = per.Participant_PrescreenerResponses__r[0].Completed_by__c != null 
+                        ? per.Participant_PrescreenerResponses__r[0].Completed_by__r.Name : '';
                 }
                 
                 if(mapLastNotes.containsKey(per.id)){
@@ -794,7 +818,7 @@ ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
                 
                 peInitWrapperDataList.add(new peExportData(per.Name,per.MRN_Id__c,per.Patient_ID__c,ReferredDt,per.Clinical_Trial_Profile__r.Study_Code_Name__c,
                                                            sitename,per.PI_Contact__r.Name,per.Participant_Status__c,per.Non_Referral_Reason__c,dateTimeofStatuschng,
-                                                           per.Last_Status_Changed_Notes__c,per.Medical_Record_Review_Status__c,per.Medical_Record_Review_Completedby_Name__c,
+                                                           per.Last_Status_Changed_Notes__c,mrrStatus,mrrCompletedBy,
                                                            preScreeningDt,per.Referral_Completedby_Name__c,per.Referral_Source__c,lastNotes,OutreachMail
                                                            
                                                           ));
