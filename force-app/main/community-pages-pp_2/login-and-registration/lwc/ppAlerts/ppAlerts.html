@@ -1,0 +1,34 @@
+<template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <template if:true={isInitialized}>
+        <template if:true={currentAlertData}>
+            <c-pp-modal
+                header-text={currentAlert.title}
+                size="default"
+                onclose={handleContinue}
+                is-show={currentAlertData}
+                is-header-image={currentAlertData}
+                is-alert-changed={isAlertChanged}
+            >
+                <div slot="body">
+                    <div class="body-container">
+                        <lightning-formatted-rich-text
+                            value={currentAlert.body}
+                        ></lightning-formatted-rich-text>
+                    </div>
+                </div>
+                <div slot="footer">
+                    <div class="slds-grid slds-gutters slds-grid_align-end">
+                        <div class="slds-col"></div>
+                        <div class="slds-col">
+                            <button class="slds-button button-continue" onclick={handleContinue}>
+                                {labels.CONTINUE}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </c-pp-modal>
+        </template>
+    </template>
+</template>
