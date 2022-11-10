@@ -194,9 +194,11 @@ public without sharing class PIR_BulkActionController {
                Study_Site__r.Name,PI_Contact__r.Full_Name__c,
                Study_Site__r.Include_PII_on_Export__c,High_Priority__c,
                Last_Status_Changed_Notes__c,Participant_Status_Last_Changed_Date__c,
-               Medical_Record_Review_Status__c,Screening_Date__c,Non_Enrollment_Reason__c,
-               Medical_Record_Review_Completedby_Name__c,Medical_Record_Review_Completed_Date__c,
-               Referral_Completedby_Name__c,Referred_Date__c
+               Screening_Date__c,Non_Enrollment_Reason__c,
+               Referral_Completedby_Name__c,Referred_Date__c,
+               (SELECT Id, Completed_by__r.Name, Completed_Date__c, Status__c 
+               FROM Participant_PrescreenerResponses__r 
+               WHERE (MRR__c = true OR MRR_EPR__c = true) ORDER BY Completed_Date__c DESC LIMIT 1)
                FROM Participant_Enrollment__c
                WHERE Id IN :peIdList
            ];
@@ -258,16 +260,18 @@ public without sharing class PIR_BulkActionController {
        List<Participant_Enrollment__c> lstPERs = new List<Participant_Enrollment__c>();
        String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE ';
        String queryString =
-           'SELECT Id,Name,PI_Contact__c,PI_Contact__r.Full_Name__c,Non_Enrollment_Reason__c,Medical_Record_Review_Status__c,Medical_Record_Review_Completed_by__c,Medical_Record_Review_Completedby_Name__c,Medical_Record_Review_Completed_Date__c,Referral_Completedby_Name__c,PerCounter__c,Referred_Date__c,Study_Name__c,Participant_Status_Last_Changed_Date__c,Last_Status_Changed_Notes__c,Referral_Completed_by__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,' +
+           'SELECT Id,Name,PI_Contact__c,PI_Contact__r.Full_Name__c,Non_Enrollment_Reason__c,Referral_Completedby_Name__c,PerCounter__c,Referred_Date__c,Study_Name__c,Participant_Status_Last_Changed_Date__c,Last_Status_Changed_Notes__c,Referral_Completed_by__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,' +
            'Participant__r.Full_Name__c,Participant__r.First_Name__c,Participant__r.Last_Name__c,Participant__r.Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Study_Site__r.Include_PII_on_Export__c,Clinical_Trial_Profile__c,' +
            'Clinical_Trial_Profile__r.Study_Code_Name__c,Study_Site__r.Study_Site_Type__c, Participant__r.Phone__c,Participant__r.Phone_Type__c,Participant__r.Alternative_Phone_Number__c,Participant__r.Alternative_Phone_Type__c,High_Priority__c,Clinical_Trial_Profile__r.Protocol_ID__c,Clinical_Trial_Profile__r.Promote_to_SH__c,Participant__r.Ethnicity__c,' +
            'Source_Type__c,Participant_Status__c,HighRisk_Indicator__c,CreatedDate,Referral_Source_ID__c,' +
-           'Initial_visit_scheduled_flag__c,Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c,Comorbidities__c FROM Participant_Enrollment__c WHERE ';
+           'Initial_visit_scheduled_flag__c,Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c,Comorbidities__c, '
+           + '(SELECT Id, Completed_by__r.Name, Completed_Date__c, Status__c FROM Participant_PrescreenerResponses__r WHERE MRR__c = true OR MRR_EPR__c = true ORDER BY Completed_Date__c DESC LIMIT 1) '
+           + ' FROM Participant_Enrollment__c WHERE ';
 
        String filter = '';
        filter =
            filter + ' Clinical_Trial_Profile__c IN : studies AND Study_Site__c IN : studySites ';
-       String addCondition = '  AND Participant_Status__c  IN (\'Received\',\'Pre-review Passed\',\'In Wash Out Period\',\'Successfully Contacted\',\'Contact Attempted\',\'Eligibility Passed\',\'Screening Passed\',\'Screening In Progress\',\'Screening In Progress - Wash Out Period\',\'Ready to Screen\',\'Enrollment Success\',\'Randomization Success\',\'Pre-review Failed\',\'Unable to Reach\',\'Contacted - Not Suitable\',\'Eligibility Failed\',\'Declined Consent\',\'Unable to Screen\',\'Withdrew Consent\',\'Screening Failed\', \'Withdrew Consent After Screening\', \'Enrollment Failed\', \'Randomization Failed\')';
+       String addCondition = '  AND Participant_Status__c  IN (\'Received\',\'Pre-review Passed\',\'In Wash Out Period\',\'Successfully Contacted\',\'Contact Attempted\',\'Eligibility Passed\',\'Screening Passed\',\'Screening In Progress\',\'Screening In Progress - Wash Out Period\',\'Ready to Screen\',\'Enrollment Success\',\'Randomization Success\',\'Pre-review Failed\',\'Unable to Reach\',\'Contacted - Not Suitable\',\'Eligibility Failed\',\'Declined Consent\',\'Unable to Screen\',\'Withdrew Consent\',\'Screening Failed\', \'Withdrew Consent After Screening\', \'Enrollment Failed\', \'Randomization Failed\', \'Participant No Show\', \'Successfully re-engaged\')';
        filter = filter + addCondition;
        String queryCount = qCountString + filter;
        String strTemp = ' AND PerCounter__c >= :startPos ' + ' AND PerCounter__c <= :endPos ';
