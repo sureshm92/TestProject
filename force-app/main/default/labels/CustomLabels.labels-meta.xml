@@ -29047,7 +29047,7 @@ Due Date and Time: ##expirationDate.</value>
         <fullName>Email_Signature_Patient1_New_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Email Signature Patient1 New  PP</shortDescription>
+        <shortDescription>Email_Signature_Patient1_New_PP</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
