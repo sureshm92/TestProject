@@ -235,7 +235,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         } else {
             if (selectedTask.task.Task_Code__c == 'Complete_Survey') {
                 if (selectedTask.task.Status != 'Ignored') {
-                    this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
+                    this.popupTaskMenuItems.push(this.reminderObj);
                 } else {
                     this.popupTaskMenuItems.push(this.reminderObj);
                 }
