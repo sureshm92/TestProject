@@ -144,7 +144,7 @@ public without sharing class TaskEditRemote {
             //Don't update WhatId for catalog and manual creation panel task
             if (String.isEmpty(taskToUpsert.Task_Code__c) && !taskWrapper.createdByAdmin) {
                 if (
-                    (isNewTaskFromTaskTab && ParticipantContext.getCurrentPEId()!=null) || (
+                    (isNewTaskFromTaskTab == true && ParticipantContext.getCurrentPEId()!=null) || (
                     String.isNotBlank(taskToUpsert.Task_Type__c) &&
                     taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED)
                 ) {
@@ -537,6 +537,7 @@ public without sharing class TaskEditRemote {
                 'smsConsent' => false
             };
             if (isTaskStudyLevel) {
+                if (taskList[0].WhatId != null) {
                 String objType = String.valueOf(taskList[0].WhatId.getSobjectType());
                 if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                     List<Participant_Enrollment__c> peList = [
@@ -553,6 +554,7 @@ public without sharing class TaskEditRemote {
                         }
                         if (peList[0].Permit_SMS_Text_for_this_study__c) {
                             consentMap.put('smsConsent', true);
+                            }
                         }
                     }
                 }
