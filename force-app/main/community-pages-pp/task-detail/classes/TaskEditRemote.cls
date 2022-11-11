@@ -501,7 +501,13 @@ public without sharing class TaskEditRemote {
             return consentTypeValueMap;
         } else {
             List<Task> taskList = [
-                SELECT Id, WhatId, Survey_Invitation__c
+                SELECT
+                    Id,
+                    WhatId,
+                    Survey_Invitation__c,
+                    Survey_Invitation__r.IsTrialSurvey__c,
+                    Survey_Invitation__r.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c,
+                    Survey_Invitation__r.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c
                 FROM Task
                 WHERE Id = :taskId
                 LIMIT 1
@@ -526,8 +532,48 @@ public without sharing class TaskEditRemote {
                     isTaskStudyLevel = true;
                 }
             }
+            Map<String, Boolean> consentMap = new Map<String, Boolean>{
+                'emailConsent' => false,
+                'smsConsent' => false
+            };
             if (isTaskStudyLevel) {
-                consentTypeValueMap = checkStudyLevelConsents();
+                String objType = String.valueOf(taskList[0].WhatId.getSobjectType());
+                if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
+                    List<Participant_Enrollment__c> peList = [
+                        SELECT
+                            Permit_SMS_Text_for_this_study__c,
+                            Permit_Mail_Email_contact_for_this_study__c
+                        FROM Participant_Enrollment__c
+                        WHERE Id = :taskList[0].WhatId
+                        LIMIT 1
+                    ];
+                    if (peList.size() > 0) {
+                        if (peList[0].Permit_Mail_Email_contact_for_this_study__c) {
+                            consentMap.put('emailConsent', true);
+                        }
+                        if (peList[0].Permit_SMS_Text_for_this_study__c) {
+                            consentMap.put('smsConsent', true);
+                        }
+                    }
+                }
+                if (
+                    taskList[0].Survey_Invitation__c != null &&
+                    taskList[0].Survey_Invitation__r.IsTrialSurvey__c
+                ) {
+                    if (
+                        taskList[0]
+                            .Survey_Invitation__r.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c
+                    ) {
+                        consentMap.put('emailConsent', true);
+                    }
+                    if (
+                        taskList[0]
+                            .Survey_Invitation__r.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c
+                    ) {
+                        consentMap.put('smsConsent', true);
+                    }
+                }
+                return consentMap;
             } else {
                 consentTypeValueMap = checkPlatformLevelConsents();
             }
