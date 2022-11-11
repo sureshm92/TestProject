@@ -28979,8 +28979,9 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Survey New Reminder PP</shortDescription>
-        <value>This is an email to remind you of your upcoming  task ##SurveyName.
-Due Date and Time: ##expirationDate.</value>
+        <value>&lt;span&gt;This is an email to remind you of your upcoming  task ##SurveyName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##expirationDate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
      <labels>
         <fullName>Program_Header_PP</fullName>
@@ -29098,15 +29099,14 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AL_Body_Welcome_to_PH_PP</shortDescription>
-        <value>Hello ##UserName, we are very excited to have you here! We aim to provide you with updates about your enrollment process, knowledge articles and other helpful information about your program.
-        </value>
+        <value>Hello ##UserName, we are very excited to have you here! We aim to provide you with updates about your participation journey, engaging content to explore, and other helpful information.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Welcome_Study_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL Body Welcome Study PP</shortDescription>
-        <value>Congratulations ##UserName! You are now enrolled in a clinical research program. We are very excited to accompany you as you progress throughout this journey. </value>
+        <value>Congratulations ##UserName, you are now enrolled! We are very excited to accompany you as you progress throughout this journey.</value>
     </labels>
     <labels>
         <fullName>AL_Title_Welcome_Study_PP</fullName>
@@ -29162,14 +29162,14 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL Body Welcome to PH Delegate PP</shortDescription>
-        <value>Hi ##UserName! You have been assigned as a Delegate for ##ParticipantFirstName in a clinical research study. We are excited to be on this journey with you both.</value>
+        <value>Hello ##UserName, you have been assigned as a delegate for ##ParticipantFirstName! We aim to provide you with updates about your participant’s journey, engaging content to explore, and other helpful information.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Welcome_Study_Patient_Delegates_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AL_Body_Welcome_Study_Patient_Delegates_PP</shortDescription>
-        <value>Hi ##UserName! You have been assigned as a Delegate for ##ParticipantUser in a clinical research study. We are excited to be on this journey with you both.</value>
+        <value>Congratulations ##UserName, you have been assigned as a delegate for ##ParticipantUser! We are very excited to be on this journey with you both.</value>
     </labels>
     <labels>
         <fullName>Email_Submit_Request</fullName>
@@ -29274,4 +29274,13 @@ Due Date and Time: ##expirationDate.</value>
         <value>Add articles and videos to favorites &lt;br /&gt;
              by giving them a star!</value>
     </labels> 
+    <labels>
+        <fullName>Email_Body_Complete_Baseline_Survey_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Complete Baseline Survey New PP</shortDescription>
+        <value>&lt;span&gt;You have a new task awaiting your action: ##SurveyName&lt;/span&gt;
+
+&lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##expirationDate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
     </CustomLabels>
