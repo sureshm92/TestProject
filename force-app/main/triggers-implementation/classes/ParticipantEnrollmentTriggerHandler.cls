@@ -134,6 +134,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
+    /** 
+    * Logic moved to Screener response from PE due to multi screener implementation
     public class CheckReimbursableActivities extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             ProviderPaymentsService.checkPEForReimbursableActivities(
@@ -149,6 +151,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             );
         }
     }
+    **/
 
     public class SendFOVtoAPI extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
