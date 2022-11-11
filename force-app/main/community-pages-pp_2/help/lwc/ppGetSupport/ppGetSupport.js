@@ -9,10 +9,14 @@ import selectYear from '@salesforce/label/c.PP_SelectYear';
 import getSupport from '@salesforce/label/c.PP_Get_Support';
 import submitButton from '@salesforce/label/c.PP_Submit_Button';
 import minorMessage from '@salesforce/label/c.PP_MinorMessage';
+import PP_DuplicateUsernames from '@salesforce/label/c.PP_DuplicateUsernames';
+import PP_UsrNameLabel from '@salesforce/label/c.PP_UsrNameLabel';
 import requestSubmitted from '@salesforce/label/c.PP_Request_Submitted_Success_Message';
 import matchUsernameEmail from '@salesforce/label/c.PP_Username_And_Email_Change_GetSupport';
+import PP_MergeExisting from '@salesforce/label/c.PP_MergeExisting';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import validateAgeOfMajority from '@salesforce/apex/ApplicationHelpRemote.validateAgeOfMajority';
+import validateUsername from '@salesforce/apex/ApplicationHelpRemote.validateUsername';
 import createYOBCase from '@salesforce/apex/ApplicationHelpRemote.createYOBCase';
 import DEVICE from '@salesforce/client/formFactor';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
@@ -27,12 +31,20 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     @api userEmail;
     @api usrName;
     @api userMode;
+    @api currentContactEmail;
     isEditYOB = false;
     isMatchUsernameEmail = false;
     spinner;
     showMinorErrorMsg = false;
     disableSave = true;
     chngUsernameEmailValue;
+    userNamesList = [];
+    usernamesTomerge =[];
+    showUserNames = false;
+    UseremailDuplicate;
+    value;
+    duplicateInfoHeader
+    //changeUserName = username;
 
     isMobile;
     cardRTL;
@@ -48,7 +60,10 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         submitButton,
         minorMessage,
         requestSubmitted,
-        matchUsernameEmail
+        matchUsernameEmail,
+        PP_DuplicateUsernames,
+        PP_UsrNameLabel,
+        PP_MergeExisting
     };
     selectedOption;
     selectedYOB;
@@ -104,10 +119,13 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     get placeholder() {
         return this.placeholder;
     }
+   
     get isDisableSave() {
         return this.disableSave;
     }
-
+    // get message() {
+    //     return this.UseremailDuplicate ? PP_DuplicateUsernames:PP_UsrNameLabel;;
+    // }
     get highlightErrorForYOBClass(){
         return this.showMinorErrorMsg ? "highlight-error mt-5 fadePlaceholder" : "mt-5 fade fadePlaceholder";
     }
@@ -148,8 +166,62 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     }
     doChangeUsernameEmail(event) {
         this.chngUsernameEmailValue = event.target.checked;
-        this.disableSave = !this.chngUsernameEmailValue;
+        this.disableSave = !this.chngUsernameEmailValue; 
+        if(this.chngUsernameEmailValue && this.isDuplicate){
+            this.UseremailDuplicate = true;
+        }
+      else { this.UseremailDuplicate = false;}
+        this.spinner = this.template.querySelector('c-web-spinner');
+        this.spinner.show();
+        if (this.UseremailDuplicate){
+        validateUsername()
+            .then((result) =>{
+                let usernames = result;
+                this.userNamesList = usernames;
+                let usrList =[];
+                for(let key in usernames){
+                  usrList.push(usernames[key].value);
+                }
+                // this.usernamesTomerge = usrList;
+                // if(result.length > 0){
+                //     this.showUserNames = true;
+                //     this.value = this.usrName;
+				// 	this.userEmail = this.value;
+                //     let duplicateInfoHeader = result.length > 1 ? 'duplicate':'empty';
+                //     console.log('@@@duplicateInfoHeader',duplicateInfoHeader);
+                //  let x = usernames.length;
+                //  if(x > 1){
+                //  console.log('@@@@@@@@@'+PP_DuplicateUsernames);
+                //  } 
+                this.duplicateInfoHeader = result.length > 1 ? this.label.PP_DuplicateUsernames:this.label.PP_UsrNameLabel;
+                this.spinner.hide();
+                          
+        })
     }
+    else{
+        this.userNamesList = [];
+        this.spinner.hide();
+    }
+
+   // else{
+       // this.showUserNames = false;
+   // }
+       
+   
+    }
+    handleOnChange(evt) {
+        this.value = this.userNamesList = [1];
+        // how to make the UI select Option one?
+    }
+    setSelectedVal(){
+        this.userEmail = getParam(value);
+		if(!this.chngUsernameEmailValue ){
+		this.disableSave = true;}
+		else{
+            this.disableSave = false;
+		}
+    }
+
     doCreateYOBCase(event) {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
