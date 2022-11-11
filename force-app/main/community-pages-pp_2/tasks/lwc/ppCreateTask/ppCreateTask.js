@@ -417,7 +417,11 @@ export default class PpCreateTask extends LightningElement {
                         }
                     }
                 } else {
-                    this.enableSave = false;
+                    if (!this.isReminderSelected && this.editMode) {
+                        this.enableSave = true;
+                    } else {
+                        this.enableSave = false;
+                    }
                 }
             } else {
                 this.enableSave = false;
