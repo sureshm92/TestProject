@@ -13,7 +13,9 @@ import PP_AddAssignment from '@salesforce/label/c.PP_AddAssignment';
 import PP_DelegateWithdrawn from '@salesforce/label/c.PP_DelegateWithdrawn';
 import PP_Delegate_Delegate_Warning from '@salesforce/label/c.PP_Delegate_Delegate_Warning';
 import PP_Delegate_Delegate from '@salesforce/label/c.PP_Delegate_Delegate';
-
+import BTN_Save from '@salesforce/label/c.BTN_Save';
+import PP_Delegate_Email_Consent from '@salesforce/label/c.PP_Delegate_Email_Consent';
+import PIR_Discard from '@salesforce/label/c.PIR_Discard';
 //import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 import { loadScript } from 'lightning/platformResourceLoader';
 import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
@@ -60,6 +62,8 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     showFormerDelegates = true;
     hasNoActiveDelegate = true;
     hasNoFormerDelegate = true;
+    addNewStudy = false;
+    validateData = false; //TODO: write logic.
 
     label = {
         BTN_Add_New_Delegate,
@@ -74,7 +78,10 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         PP_AddAssignment,
         PP_DelegateWithdrawn,
         PP_Delegate_Delegate_Warning,
-        PP_Delegate_Delegate
+        PP_Delegate_Delegate,
+        BTN_Save,
+        PP_Delegate_Email_Consent,
+        PIR_Discard
     };
 
     connectedCallback() {
@@ -116,12 +123,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 this.spinner = false;
                 this.maskEmail(this.listPDE, true);
                 this.maskEmail(this.formerListPDE, false);
-                if (this.listPDE.length != 0) {
-                    this.hasNoActiveDelegate = false;
-                }
-                if (this.formerListPDE.length != 0) {
-                    this.hasNoFormerDelegate = false;
-                }
+                this.setActiveAndFormerDelegateFlags();
             })
             .catch((error) => {
                 console.log('error');
@@ -129,6 +131,10 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             });
     }
 
+    setActiveAndFormerDelegateFlags() {
+        this.hasNoActiveDelegate = this.listPDE.length == 0 ? true : false;
+        this.hasNoFormerDelegate = this.formerListPDE.length == 0 ? true : false;
+    }
     //this method will separate email chars in two parts to partially mask the email address.
     maskEmail(pdeList, activeDelegates) {
         pdeList.forEach((pde) => {
@@ -141,6 +147,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                     maskedEmail += '*';
                 }
             }
+            pde['addNewStudy'] = false;
             pde.PatientDelegate.Email__c = maskedEmail;
 
             //Also check if the Status of PDEnrollment is active or not.
@@ -219,15 +226,24 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             ? 'slds-align_absolute-center add-assignment-Btn h-40'
             : 'slds-align_absolute-center add-assignment-Btn h-40';
     }
-
+    get saveButtonClass() {
+        return this.validateData
+            ? 'save-del-btn btn-save-opacity addDelegateMobile'
+            : 'save-del-btn addDelegateMobile';
+    }
     //Navigate to Add delegate screen
     navToAddDelegate() {
         //communityService.navigateToPage('new-team-member');
         this.showAddDelegatePage = true;
     }
-    addAssignment() {
-        alert('TODO: Write Add Assignment Logic');
-        //TODO: logic TBD
+    addAssignment(event) {
+        let delId = event.target.dataset.pdid; //ToDO: check why this is coming undefined.
+        this.listPDE.forEach((pden) => {
+            // if (pden.PatientDelegate.Id === 'a0z7g00000Gr7NaAAJ') {
+            if (pden.PatientDelegate.Id === delId) {
+                pden['addNewStudy'] = true;
+            }
+        });
     }
     //This method will open Remove Delegate Modal.
     openRemoveDelegateModal(event) {
@@ -256,12 +272,12 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         })
             .then((result) => {
                 this.showpopup = false;
-
                 this.listPDE = result;
                 this.listPDE = result.activePDEWrapperList;
                 this.formerListPDE = result.formerPDEWrapperList;
-                this.maskEmail(this.listPDE);
-                this.maskFormerDelEmail(this.formerListPDE);
+                this.maskEmail(this.listPDE, true);
+                this.maskEmail(this.formerListPDE, false);
+                this.setActiveAndFormerDelegateFlags();
                 this.spinner = false;
                 communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
             })
@@ -280,7 +296,6 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     }
 
     handleDeleteDelegate(event) {
-        alert('Handle Delete');
         //TODO: Correct the logic.
         this.spinner = true;
         let patientdelegateid = event.detail.patientdelegateid;
@@ -288,14 +303,15 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             pdId: patientdelegateid
         })
             .then((result) => {
-                this.showpopup = false;
                 this.listPDE = result;
                 this.listPDE = result.activePDEWrapperList;
                 this.formerListPDE = result.formerPDEWrapperList;
-                this.maskEmail(this.listPDE);
-                this.maskFormerDelEmail(this.formerListPDE);
+                this.maskEmail(this.listPDE, true);
+                this.maskEmail(this.formerListPDE, false);
+                this.setActiveAndFormerDelegateFlags();
                 this.spinner = false;
                 communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
+                this.showDeletePopup = false;
             })
             .catch((error) => {
                 console.log('error');
@@ -309,5 +325,8 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     //This method will toggle the Former delegate view
     toggleFormerDelegateView() {
         this.showFormerDelegates = this.showFormerDelegates == true ? false : true;
+    }
+    discardAssignment() {
+        this.addNewStudy = false;
     }
 }

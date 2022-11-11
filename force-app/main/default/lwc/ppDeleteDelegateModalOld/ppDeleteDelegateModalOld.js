@@ -31,7 +31,7 @@ export default class PpDeleteDelegateModalOld extends LightningElement {
         this.dispatchEvent(selectedEvent);
     }
     deleteModal() {
-        const selectedEvent = new CustomEvent('deleteModal', {
+        const selectedEvent = new CustomEvent('deletemodal', {
             detail: {
                 patientdelegateid: this.patientdelegateid
             }
