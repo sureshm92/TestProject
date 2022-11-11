@@ -409,7 +409,8 @@ export default class PpCreateTask extends LightningElement {
                             this.taskReminderDate &&
                             ((selectedTaskReminderDateTime <= selectedTaskDueDateTime &&
                                 selectedTaskReminderDateTime >= currentDateTimeObject) ||
-                                this.disbaleDateTime)
+                                (selectedTaskReminderDateTime >= currentDateTimeObject &&
+                                    this.disbaleDateTime))
                         ) {
                             this.enableSave = true;
                         } else {
