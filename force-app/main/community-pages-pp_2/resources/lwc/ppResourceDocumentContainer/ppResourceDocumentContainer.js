@@ -18,12 +18,12 @@ export default class PpResourceDocumentContainer extends LightningElement {
         this.getDocuments();
     }
 
-    getDocuments() {
+    async getDocuments() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
             this.spinner.show();
         }
-        getStudyDocuments()
+        await getStudyDocuments()
             .then((result) => {
                 this.documentList = result.wrappers;
                 if (this.documentList.length > 0) {
