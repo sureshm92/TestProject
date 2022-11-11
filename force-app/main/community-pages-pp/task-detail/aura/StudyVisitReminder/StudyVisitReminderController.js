@@ -168,7 +168,7 @@
                 {
                     wrapper: JSON.stringify(component.get('v.initData')),
                     paramTask: JSON.stringify(task),
-                    isNewTaskFromTaskTab : component.get('v.isNewTask') && isTaskTab
+                    isNewTaskFromTaskTab : (component.get('v.isNewTask') && isTaskTab)?true:false
                 },
                 function () {
                     component.set('v.isSaveOperation', true);
