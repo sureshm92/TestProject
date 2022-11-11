@@ -18603,6 +18603,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Study Overview </value>
     </labels>
     <labels>
+        <fullName>PP_StudyOverview_LearnMore_Mobile</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_StudyOverview_LearnMore_Mobile</shortDescription>
+        <value>Learn more about my study</value>
+    </labels>
+    <labels>
+        <fullName>PP_StudyOverview_homePage_shortDecs_DelAlu</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_StudyOverview_homePage_shortDecs_DelAlu</shortDescription>
+        <value>Clinical research participants are vital to the development of medical breakthroughs. Your help and support are truly invaluable. The IQVIA team appreciates your willingness to advance clinical discovery. Together we will drive healthcare forward!</value>
+    </labels>
+    <labels>
         <fullName>PP_Inclusion_Criteria</fullName>
         <language>en_US</language>
         <protected>true</protected>
