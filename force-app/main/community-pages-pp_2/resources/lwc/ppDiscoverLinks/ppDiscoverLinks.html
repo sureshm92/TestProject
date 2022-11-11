@@ -1,30 +1,38 @@
 <template>
-    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>  
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <template if:true={isInitialized}>
         <template if:false={discoverEmptyState}>
             <template iterator:links={linksWrappers}>
-                <div key={links.value.Id} data-link={links.value.URL__c}>
+                <div key={links.value.Id}>
                     <lightning-layout multiple-rows="true" vertical-align="center">
                         <lightning-layout-item size="12">
                             <lightning-layout multiple-rows="true">
                                 <lightning-layout-item size="12">
                                     <p class="links-type">{links.value.Type__c}</p>
-                                </lightning-layout-item> 
-                                <lightning-layout-item size="11" onclick={openLink} class="links-container">
+                                </lightning-layout-item>
+                                <lightning-layout-item
+                                    size="11"
+                                    data-link={links.value.URL__c}
+                                    onclick={openLink}
+                                    class="links-container"
+                                >
                                     <p class="links-header">{links.value.Title__c}</p>
                                 </lightning-layout-item>
-                                <lightning-layout-item size="1" onclick={openLink} class="links-container">
-                                    <img src={open_new_tab} class="open-tab"/>
+                                <lightning-layout-item
+                                    size="1"
+                                    data-link={links.value.URL__c}
+                                    onclick={openLink}
+                                    class="links-container"
+                                >
+                                    <img src={open_new_tab} class="open-tab" />
                                 </lightning-layout-item>
                                 <lightning-layout-item size="11">
                                     <p class="links-desc">
-                                        <span>
-                                        {links.value.Description__c}
-                                        </span>
+                                        <span> {links.value.Description__c} </span>
                                     </p>
-                                </lightning-layout-item>                                             
+                                </lightning-layout-item>
                             </lightning-layout>
-                        </lightning-layout-item>                  
+                        </lightning-layout-item>
                     </lightning-layout>
                 </div>
                 <lightning-layout key={links.value.Id} if:false={links.last}>
@@ -42,22 +50,26 @@
         <template if:true={discoverEmptyState}>
             <template if:true={desktop}>
                 <lightning-layout multiple-rows="true" vertical-align="center" class="height">
-                        <lightning-layout-item size="12" class="center-empty">
-                            <img src={empty_state}/>
-                        </lightning-layout-item>
-                        <lightning-layout-item size="12">
-                            <p class="no-links-available">No links available</p>
-                        </lightning-layout-item>
+                    <lightning-layout-item size="12" class="center-empty">
+                        <img src={empty_state} />
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12">
+                        <p class="no-links-available">No links available</p>
+                    </lightning-layout-item>
                 </lightning-layout>
             </template>
             <template if:false={desktop}>
-                <lightning-layout multiple-rows="true" vertical-align="center" class="container-height">
-                        <lightning-layout-item size="12" class="center-empty-mobile">
-                            <img src={empty_state}/>
-                        </lightning-layout-item>
-                        <lightning-layout-item size="12" class="mt-15">
-                            <p class="no-links-available">No links available</p>
-                        </lightning-layout-item>
+                <lightning-layout
+                    multiple-rows="true"
+                    vertical-align="center"
+                    class="container-height"
+                >
+                    <lightning-layout-item size="12" class="center-empty-mobile">
+                        <img src={empty_state} />
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" class="mt-15">
+                        <p class="no-links-available">No links available</p>
+                    </lightning-layout-item>
                 </lightning-layout>
             </template>
         </template>

@@ -24,7 +24,8 @@ export default class HomePageParticipantNew extends LightningElement {
 
     desktop = true;
     isDelegateSelfview = false;
-
+    taskList=false;
+    
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
     }
@@ -88,5 +89,10 @@ export default class HomePageParticipantNew extends LightningElement {
         if (this.isInitialized == true) {
             this.spinner = this.template.querySelector('c-web-spinner');
         }
+    }
+
+    showTaskList(){
+        this.showVisitCard=false;
+        this.taskList=true;
     }
 }
