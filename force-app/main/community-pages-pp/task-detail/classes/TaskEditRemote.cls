@@ -143,7 +143,7 @@ public without sharing class TaskEditRemote {
             //Don't update WhatId for catalog and manual creation panel task
             if (String.isEmpty(taskToUpsert.Task_Code__c) && !taskWrapper.createdByAdmin) {
                 if (
-                    (isNewTaskFromTaskTab && ParticipantContext.getCurrentPEId()!=null) || (
+                    (isNewTaskFromTaskTab == true && ParticipantContext.getCurrentPEId()!=null) || (
                     String.isNotBlank(taskToUpsert.Task_Type__c) &&
                     taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED)
                 ) {
