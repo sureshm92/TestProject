@@ -537,6 +537,7 @@ public without sharing class TaskEditRemote {
                 'smsConsent' => false
             };
             if (isTaskStudyLevel) {
+                if (taskList[0].WhatId != null) {
                 String objType = String.valueOf(taskList[0].WhatId.getSobjectType());
                 if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                     List<Participant_Enrollment__c> peList = [
@@ -553,6 +554,7 @@ public without sharing class TaskEditRemote {
                         }
                         if (peList[0].Permit_SMS_Text_for_this_study__c) {
                             consentMap.put('smsConsent', true);
+                            }
                         }
                     }
                 }
