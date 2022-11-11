@@ -28972,8 +28972,9 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Survey New Reminder PP</shortDescription>
-        <value>This is an email to remind you of your upcoming  task ##SurveyName.
-Due Date and Time: ##expirationDate.</value>
+        <value><value>&lt;span&gt;This is an email to remind you of your upcoming  task ##SurveyName&lt;/span&gt;
+
+&lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##expirationDate. &lt;/span&gt;&lt;/div&gt;</value></value>
     </labels>
      <labels>
         <fullName>Program_Header_PP</fullName>
@@ -29266,4 +29267,13 @@ Due Date and Time: ##expirationDate.</value>
         <value>Add articles and videos to favorites &lt;br /&gt;
              by giving them a star!</value>
     </labels> 
+    <labels>
+        <fullName>Email_Body_Complete_Baseline_Survey_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Complete Baseline Survey New PP</shortDescription>
+        <value>&lt;span&gt;You have a new task awaiting your action: ##SurveyName&lt;/span&gt;
+
+&lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##expirationDate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
     </CustomLabels>
