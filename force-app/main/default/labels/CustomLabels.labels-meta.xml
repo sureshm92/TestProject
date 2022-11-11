@@ -28972,7 +28972,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Survey New Reminder PP</shortDescription>
-        <value><value>&lt;span&gt;This is an email to remind you of your upcoming  task ##SurveyName&lt;/span&gt;
+        <value><value>&lt;span&gt;This is an email to remind you of your upcoming  task ##SurveyName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##expirationDate. &lt;/span&gt;&lt;/div&gt;</value></value>
     </labels>
