@@ -163,7 +163,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             }
         }
         if (selectedTask.isClosed) return;
-        if (selectedTask.task.Status == 'Expired' || selectedTask.task.Status == 'Ignored') return;
+        if (selectedTask.task.Status == 'Expired') return;
         this.isShowModal = true;
         this.popUpTaskId = taskId;
         this.selectedTaskId = taskId;
