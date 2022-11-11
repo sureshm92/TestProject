@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitData';
+import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitDataAndCount';
 import DEVICE from '@salesforce/client/formFactor';
 // importing Custom Label
 import PPWELCOME from '@salesforce/label/c.PP_Welcome';
@@ -55,7 +55,8 @@ export default class HomePageParticipantNew extends LightningElement {
             .then((result) => {
                 this.isInitialized = true;
                 if (result) {
-                    this.participantState = JSON.parse(result);
+                    let res = JSON.parse(result);
+                    this.participantState = res.pState;
                     if (this.participantState) {
                         let username = this.currentMode.groupLabel;
                         let firstName = username.substring(0, username.indexOf(' '));
@@ -67,7 +68,10 @@ export default class HomePageParticipantNew extends LightningElement {
                             this.clinicalrecord = this.participantState.pe.Clinical_Trial_Profile__r;
                             // Check if Program toggle is or study workspcae on ctp
                             this.isProgram = this.clinicalrecord.Is_Program__c;
-                            this.showVisitCard = this.clinicalrecord.Visits_are_Available__c && this.participantState.pe.Visit_Plan__c;
+                            this.showVisitCard = this.clinicalrecord.Visits_are_Available__c 
+                                                && this.participantState.pe.Visit_Plan__c 
+                                                && res.pvCount!=null && res.pvCount!=undefined 
+                                                && res.pvCount>0;
                         }
                     }
                     //For Delegate Self view
