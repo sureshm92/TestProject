@@ -151,7 +151,7 @@ public without sharing class PatientDelegateEnrollmentService {
             FROM Patient_Delegate_Enrollment__c
             WHERE Patient_Delegate__r.Participant_Delegate__r.Id = :pdId
         ];
-        if (pdeList.size() > 0) {
+        if (pdeList!=null && !pdeList.isEmpty()) {
             for(Patient_Delegate_Enrollment__c pde: pdeList){
                 pde.Status__c = 'Deleted';
             }

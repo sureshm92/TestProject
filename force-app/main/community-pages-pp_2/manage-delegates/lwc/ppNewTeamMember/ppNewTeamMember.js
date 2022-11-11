@@ -434,8 +434,7 @@ export default class PpNewTeamMember extends LightningElement {
                             return;
                         } else {
                             savePatientDelegate({
-                                delegate: JSON.stringify(delegate.delegateContact),
-                                delegateFilterData: null //Passing Null for now, we can pass actual data when we do Delegate redesign for PP lite.
+                                delegate: JSON.stringify(delegate.delegateContact)
                             })
                                 .then((result) => {
                                     communityService.showToast(

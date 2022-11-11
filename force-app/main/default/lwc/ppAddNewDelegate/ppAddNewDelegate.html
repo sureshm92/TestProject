@@ -14,15 +14,16 @@
         <div class="profile-information-rectangle slds-p-around_medium slds-m-bottom_small">
             <div class="profile-information slds-m-bottom_medium">
                 <!--chevron Icon: Stats-->
-                <lightning-layout-item size="1">
+                <!-- <lightning-layout-item size="1">
                     <span><img src={icon_url} class="icon-chevron-right" /></span>
-                </lightning-layout-item>
+                </lightning-layout-item> -->
                 <!--chevron Icon: Ends-->
                 <button
                     title="Go Back to Manage Delegate"
                     onclick={goBackToManageDelegate}
                     class="back-to-manage-del-btn"
                 >
+                    <span><img src={icon_url} class="icon-chevron-right" /></span>
                     {label.Back_to_Manage_Delegates}
                 </button>
             </div>
