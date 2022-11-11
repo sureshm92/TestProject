@@ -237,7 +237,7 @@ public without sharing class RelevantLinksRemote {
                 Title__c,
                 Type__c,
                 URL__c,
-            	description__c,
+                description__c,
                 CreatedDate,
                 (
                     SELECT Id, Therapeutic_Area__c
@@ -289,6 +289,7 @@ public without sharing class RelevantLinksRemote {
                 Type__c,
                 URL__c,
                 Languages__c,
+                description__c,
                 (
                     SELECT Id, Therapeutic_Area__c
                     FROM Therapeutic_Area_Assignments__r
@@ -296,6 +297,7 @@ public without sharing class RelevantLinksRemote {
                 )
             FROM Resource__c
             WHERE Id IN :coiResIds AND Content_Type__c = :contentType
+            ORDER BY CreatedDate DESC
         ];
 
         for (Resource__c res : resources) {
