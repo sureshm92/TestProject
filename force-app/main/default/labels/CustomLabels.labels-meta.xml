@@ -27735,7 +27735,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Last Updated On</shortDescription>
-        <value>Last Updated on:</value>
+        <value>Last updated on:</value>
     </labels>
     <labels>
         <fullName>PP_StudyPrivacyPolicyNote1</fullName>
@@ -28756,5 +28756,47 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>Task Ignored Message</shortDescription>
         <value>Task ignored</value>
+    </labels>
+    <labels>
+        <fullName>AL_Title_Welcome_To_The_PH_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Title Welcome To The PH PP</shortDescription>
+        <value>Welcome to ##CommunityWelcome!</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_to_PH_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL_Body_Welcome_to_PH_PP</shortDescription>
+        <value>Hello ##UserName, we are very excited to have you here! We aim to provide you with updates about your participation journey, engaging content to explore, and other helpful information.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_Study_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Body Welcome Study PP</shortDescription>
+        <value>Congratulations ##UserName, you are now enrolled! We are very excited to accompany you as you progress throughout this journey.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Title_Welcome_Study_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Title Welcome Study PP</shortDescription>
+        <value>Welcome to ##StudyName!</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_to_PH_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Body Welcome to PH Delegate PP</shortDescription>
+        <value>Hello ##UserName, you have been assigned as a delegate for ##ParticipantFirstName! We aim to provide you with updates about your participant’s journey, engaging content to explore, and other helpful information.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_Study_Patient_Delegates_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL_Body_Welcome_Study_Patient_Delegates_PP</shortDescription>
+        <value>Congratulations ##UserName, you have been assigned as a delegate for ##ParticipantUser! We are very excited to be on this journey with you both.</value>
     </labels>
 </CustomLabels>
