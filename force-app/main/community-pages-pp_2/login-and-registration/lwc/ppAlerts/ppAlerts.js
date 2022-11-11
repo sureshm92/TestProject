@@ -13,7 +13,6 @@ export default class PpAlerts extends LightningElement {
     currentAlert;
     currentAlertIndex = 0;
     userMode;
-    isAlertChanged = false;
 
     spinner;
     isInitialized = false;
@@ -35,6 +34,14 @@ export default class PpAlerts extends LightningElement {
 
     get currentAlertData() {
         return this.currentAlert && this.currentAlert.title ? true : false;
+    }
+
+    get isAlertChanged() {
+        return this.currentAlert &&
+            (this.currentAlert.code == 'Welcome_To_The_PH_PP' ||
+                this.currentAlert.code == 'Welcome_To_The_PH_Delegate_PP')
+            ? false
+            : true;
     }
 
     initializeData() {
@@ -71,7 +78,6 @@ export default class PpAlerts extends LightningElement {
         }
         this.currentAlertIndex++;
         if (this.alerts.length >= this.currentAlertIndex) {
-            this.isAlertChanged = !this.isAlertChanged;
             this.currentAlert = this.alerts[this.currentAlertIndex];
         } else {
             this.isInitialized = false;

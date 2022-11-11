@@ -237,7 +237,7 @@ public without sharing class RelevantLinksRemote {
                 Title__c,
                 Type__c,
                 URL__c,
-            	description__c,
+                description__c,
                 CreatedDate,
                 (
                     SELECT Id, Therapeutic_Area__c
@@ -289,6 +289,7 @@ public without sharing class RelevantLinksRemote {
                 Type__c,
                 URL__c,
                 Languages__c,
+                description__c,
                 (
                     SELECT Id, Therapeutic_Area__c
                     FROM Therapeutic_Area_Assignments__r
