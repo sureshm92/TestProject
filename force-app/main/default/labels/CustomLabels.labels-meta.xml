@@ -28395,8 +28395,8 @@ Please contact the Study Team for further updates or please login for additional
         <fullName>Upcoming_Visit_Expect</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>What you can Expect:</shortDescription>
-        <value>What you can Expect:</value>
+        <shortDescription>What you can expect:</shortDescription>
+        <value>What you can expect:</value>
     </labels>
     <labels>
         <fullName>View_Visit_Details</fullName>
