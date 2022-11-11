@@ -18646,7 +18646,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_StudyOverview_LearnMore_Mobile</shortDescription>
-        <value>Learn about your study</value>
+        <value>Learn more about my study</value>
     </labels>
     <labels>
         <fullName>PP_Provider_Access</fullName>
