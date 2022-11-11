@@ -15,7 +15,7 @@
         <filterItems>
             <field>Resource__c.RecordTypeId</field>
             <operation>equals</operation>
-            <value>Study Document</value>
+            <value>Document</value>
         </filterItems>
         <filterItems>
             <field>Resource__c.RecordTypeId</field>
@@ -26,7 +26,7 @@
         <isOptional>false</isOptional>
     </lookupFilter>
     <referenceTo>Resource__c</referenceTo>
-    <relationshipLabel>Study Resources</relationshipLabel>
+    <relationshipLabel>Resources</relationshipLabel>
     <relationshipName>Study</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>

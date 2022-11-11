@@ -262,7 +262,8 @@ export default class PpCreateTask extends LightningElement {
             this.task.Subject = this.subject;
             upsertTask({
                 wrapper: JSON.stringify(this.initData),
-                paramTask: JSON.stringify(this.task)
+                paramTask: JSON.stringify(this.task),
+                isNewTaskFromTaskTab: !this.editMode
             })
                 .then((result) => {
                     this.spinner.hide();
@@ -290,7 +291,8 @@ export default class PpCreateTask extends LightningElement {
             this.task.Subject = this.subject;
             upsertTask({
                 wrapper: JSON.stringify(this.initData),
-                paramTask: JSON.stringify(this.task)
+                paramTask: JSON.stringify(this.task),
+                isNewTaskFromTaskTab: !this.editMode
             })
                 .then((result) => {
                     this.spinner.hide();

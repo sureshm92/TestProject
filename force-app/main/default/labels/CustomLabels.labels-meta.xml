@@ -28395,8 +28395,8 @@ Please contact the Study Team for further updates or please login for additional
         <fullName>Upcoming_Visit_Expect</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>What you can Expect:</shortDescription>
-        <value>What you can Expect:</value>
+        <shortDescription>What you can expect:</shortDescription>
+        <value>What you can expect:</value>
     </labels>
     <labels>
         <fullName>View_Visit_Details</fullName>
@@ -28972,8 +28972,9 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Survey New Reminder PP</shortDescription>
-        <value>This is an email to remind you of your upcoming  task ##SurveyName.
-Due Date and Time: ##expirationDate.</value>
+        <value>&lt;span&gt;This is an email to remind you of your upcoming  task ##SurveyName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##expirationDate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
      <labels>
         <fullName>Program_Header_PP</fullName>
@@ -29033,7 +29034,7 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient New  PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram center.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram center.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
 
@@ -29048,7 +29049,7 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient1 PP New</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
 
@@ -29091,15 +29092,14 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AL_Body_Welcome_to_PH_PP</shortDescription>
-        <value>Hello ##UserName, we are very excited to have you here! We aim to provide you with updates about your enrollment process, knowledge articles and other helpful information about your program.
-        </value>
+        <value>Hello ##UserName, we are very excited to have you here! We aim to provide you with updates about your participation journey, engaging content to explore, and other helpful information.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Welcome_Study_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL Body Welcome Study PP</shortDescription>
-        <value>Congratulations ##UserName! You are now enrolled in a clinical research program. We are very excited to accompany you as you progress throughout this journey. </value>
+        <value>Congratulations ##UserName, you are now enrolled! We are very excited to accompany you as you progress throughout this journey.</value>
     </labels>
     <labels>
         <fullName>AL_Title_Welcome_Study_PP</fullName>
@@ -29155,14 +29155,14 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL Body Welcome to PH Delegate PP</shortDescription>
-        <value>Hi ##UserName! You have been assigned as a Delegate for ##ParticipantFirstName in a clinical research study. We are excited to be on this journey with you both.</value>
+        <value>Hello ##UserName, you have been assigned as a delegate for ##ParticipantFirstName! We aim to provide you with updates about your participant’s journey, engaging content to explore, and other helpful information.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Welcome_Study_Patient_Delegates_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AL_Body_Welcome_Study_Patient_Delegates_PP</shortDescription>
-        <value>Hi ##UserName! You have been assigned as a Delegate for ##ParticipantUser in a clinical research study. We are excited to be on this journey with you both.</value>
+        <value>Congratulations ##UserName, you have been assigned as a delegate for ##ParticipantUser! We are very excited to be on this journey with you both.</value>
     </labels>
     <labels>
         <fullName>Email_Submit_Request</fullName>
@@ -29177,7 +29177,7 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Initial_Patient_ePR_PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information.A member of the ##isStudyorProgram team will contact you regarding the next steps in the ##isStudyorProgram process.&lt;/span&gt;</value>
     </labels>
@@ -29186,7 +29186,7 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Signature_Patient_ePR_PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
@@ -29199,7 +29199,7 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Signature_Participant_Delegate_PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
 &lt;span style=&quot;color:#444444;&quot;&gt;Your username is ##UserName.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;We are excited to be on this journey with you.&lt;/span&gt;
@@ -29223,7 +29223,7 @@ Due Date and Time: ##expirationDate.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Signature_Patient_RP_Referral_PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
@@ -29267,4 +29267,13 @@ Due Date and Time: ##expirationDate.</value>
         <value>Add articles and videos to favorites &lt;br /&gt;
              by giving them a star!</value>
     </labels> 
+    <labels>
+        <fullName>Email_Body_Complete_Baseline_Survey_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Complete Baseline Survey New PP</shortDescription>
+        <value>&lt;span&gt;You have a new task awaiting your action: ##SurveyName&lt;/span&gt;
+
+&lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##expirationDate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
     </CustomLabels>
