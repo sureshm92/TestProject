@@ -215,7 +215,20 @@
     border-radius: 5px;
     font-weight: 600;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    height: 56px;
+    line-height: 56px;
 }
+
+.pt-8{
+    padding-top: 7px;
+}
+
+.pc-menu-label{
+    width: 100px;
+    line-height: 20px;
+    display: inline-block;
+}
+
 .po-tab-menu:hover {
     cursor: pointer;
 }
@@ -227,13 +240,13 @@
 
 .po-pl-0 {
     padding-left: 0px;
-    line-height: 52px;
+    /* line-height: 52px; */
     font-size: 18px;
 }
 
 .po-pr-12 {
     padding-right: 12px;
-    line-height: 27px;
+    /* line-height: 27px; */
     font-size: 18px;
 }
 .pointer {
