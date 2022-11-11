@@ -1,4 +1,4 @@
-public with sharing class RH_eConsentEventTriggerHandler{
+public without sharing class RH_eConsentEventTriggerHandler{
     
     public class UpdateConsentDetails extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {

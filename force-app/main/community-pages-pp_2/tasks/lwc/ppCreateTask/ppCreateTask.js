@@ -434,7 +434,8 @@ export default class PpCreateTask extends LightningElement {
                             this.taskReminderDate &&
                             ((selectedTaskReminderDateTime <= selectedTaskDueDateTime &&
                                 selectedTaskReminderDateTime >= currentDateTimeObject) ||
-                                this.disbaleDateTime)
+                                (selectedTaskReminderDateTime >= currentDateTimeObject &&
+                                    this.disbaleDateTime))
                         ) {
                             this.enableSave = true;
                         } else {
@@ -442,7 +443,11 @@ export default class PpCreateTask extends LightningElement {
                         }
                     }
                 } else {
-                    this.enableSave = false;
+                    if (!this.isReminderSelected && this.editMode) {
+                        this.enableSave = true;
+                    } else {
+                        this.enableSave = false;
+                    }
                 }
             } else {
                 this.enableSave = false;

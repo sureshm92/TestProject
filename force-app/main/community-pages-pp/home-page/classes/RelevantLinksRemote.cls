@@ -297,6 +297,7 @@ public without sharing class RelevantLinksRemote {
                 )
             FROM Resource__c
             WHERE Id IN :coiResIds AND Content_Type__c = :contentType
+            ORDER BY CreatedDate DESC
         ];
 
         for (Resource__c res : resources) {
