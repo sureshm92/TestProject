@@ -536,7 +536,7 @@ public without sharing class TaskEditRemote {
                 'emailConsent' => false,
                 'smsConsent' => false
             };
-            if (isTaskStudyLevel) {
+            if (isTaskStudyLevel && taskList[0].WhatId != null) {
                 String objType = String.valueOf(taskList[0].WhatId.getSobjectType());
                 if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                     List<Participant_Enrollment__c> peList = [
