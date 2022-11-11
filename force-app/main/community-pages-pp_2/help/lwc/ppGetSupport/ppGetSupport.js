@@ -42,9 +42,8 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     usernamesTomerge =[];
     showUserNames = false;
     UseremailDuplicate;
-    value;
+    userNamesListvalue;
     duplicateInfoHeader
-    //changeUserName = username;
 
     isMobile;
     cardRTL;
@@ -123,9 +122,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     get isDisableSave() {
         return this.disableSave;
     }
-    // get message() {
-    //     return this.UseremailDuplicate ? PP_DuplicateUsernames:PP_UsrNameLabel;;
-    // }
+
     get highlightErrorForYOBClass(){
         return this.showMinorErrorMsg ? "highlight-error mt-5 fadePlaceholder" : "mt-5 fade fadePlaceholder";
     }
@@ -182,18 +179,9 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
                 for(let key in usernames){
                   usrList.push(usernames[key].value);
                 }
-                // this.usernamesTomerge = usrList;
-                // if(result.length > 0){
-                //     this.showUserNames = true;
-                //     this.value = this.usrName;
-				// 	this.userEmail = this.value;
-                //     let duplicateInfoHeader = result.length > 1 ? 'duplicate':'empty';
-                //     console.log('@@@duplicateInfoHeader',duplicateInfoHeader);
-                //  let x = usernames.length;
-                //  if(x > 1){
-                //  console.log('@@@@@@@@@'+PP_DuplicateUsernames);
-                //  } 
-                this.duplicateInfoHeader = result.length > 1 ? this.label.PP_DuplicateUsernames:this.label.PP_UsrNameLabel;
+                this.userNamesListvalue =  usernames[0].value ;
+                console.log('this.userNamesListvalue'+this.userNamesListvalue);
+                 this.usernamesTomerge = usrList;
                 this.spinner.hide();
                           
         })
@@ -202,24 +190,15 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         this.userNamesList = [];
         this.spinner.hide();
     }
-
-   // else{
-       // this.showUserNames = false;
-   // }
-       
    
     }
-    handleOnChange(evt) {
-        this.value = this.userNamesList = [1];
-        // how to make the UI select Option one?
-    }
-    setSelectedVal(){
-        this.userEmail = getParam(value);
-		if(!this.chngUsernameEmailValue ){
-		this.disableSave = true;}
-		else{
-            this.disableSave = false;
-		}
+    handleChange(event) {
+        this.userNamesListvalue = event.detail.value;
+        if(!this.chngUsernameEmailValue ){
+            this.disableSave = true;}
+            else{
+                this.disableSave = false;
+            }
     }
 
     doCreateYOBCase(event) {
@@ -246,10 +225,10 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
             createYOBCase({
                 yob: this.selectedYOB,
                 username: true,
-                userEmail: this.userEmail,
+                userEmail: this.userNamesListvalue,
                 currentYob: this.currentYOB,
                 mergeUserNames: this.isDuplicate,
-                usrList: this.usrName
+                usrList: this.usernamesTomerge
             })
                 .then((result) => {
                     communityService.showToast('', 'success', requestSubmitted, 100);
