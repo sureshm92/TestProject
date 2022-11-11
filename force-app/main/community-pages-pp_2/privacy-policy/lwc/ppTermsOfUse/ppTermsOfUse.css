@@ -1,5 +1,6 @@
 .rr-body-content {
     height: 100vh;
+    padding: 0% 1% 0% 2%;
 }
 .title-content {
     height: 15vh;
@@ -39,10 +40,11 @@
 }
 .tc-content {
     height: 100%;
-    width: 71.666666667%;
+    width: 73%;
 }
 .divider {
-    width: 3.33333%;
+    width: 1%;
+    margin: 0;
 }
 .rich-content {
     background: #ffffff;
@@ -59,7 +61,7 @@
 
 .last-updated {
     height: 100%;
-    width: 71.6666666667%;
+    width:  70.5%;
     display: flex;
     justify-content: right;
     align-items: center;
@@ -90,10 +92,12 @@
 .slds-nav-vertical__action {
     border-top: none;
     border-bottom: none;
+    padding: 4.5%;
 }
 .slds-nav-vertical__action:hover {
     color: #ffffff;
     box-shadow: none;
+    font-weight: bold;
     background: #0768fd;
 }
 .slds-nav-vertical__item {
@@ -111,7 +115,7 @@
     box-shadow: none;
     background: #0768fd;
     border-bottom: none;
-    font-weight: 500;
+    font-weight: bold;
 }
 
 li:last-child {
@@ -176,6 +180,7 @@ li:last-child {
     overflow-x: hidden;
     max-height: 100%;
     word-break: break-word;
+    padding-right: 0.5rem;
 }
 /* style for the css menu dropdown container */
 .dropdown {
