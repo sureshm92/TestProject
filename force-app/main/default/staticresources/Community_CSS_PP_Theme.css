@@ -974,7 +974,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
 /* Edit Task Input Disabled */
 .create-task-input-container .slds-input:disabled,.slds-is-disabled{
-    background: #f2f2f2 !important;  
+    background: #fff !important;  
 }
 
 /* Resources */
