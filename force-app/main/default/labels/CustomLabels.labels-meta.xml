@@ -6405,9 +6405,8 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected PP</shortDescription>
-        <value>&lt;span &gt;This is an email to remind you of your upcoming task:&lt;/span&gt;
+        <value>&lt;span &gt;This is an email to remind you of your upcoming task: ##TaskName&lt;/span&gt;
 
-&lt;span &gt;##TaskName&lt;/span&gt;
 &lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##Taskdate.&lt;/span&gt;
 
 &lt;span &gt;Please login to update the status of your task.&lt;/span&gt; </value>
@@ -28395,8 +28394,8 @@ Please contact the Study Team for further updates or please login for additional
         <fullName>Upcoming_Visit_Expect</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>What you can Expect:</shortDescription>
-        <value>What you can Expect:</value>
+        <shortDescription>What you can expect:</shortDescription>
+        <value>What you can expect:</value>
     </labels>
     <labels>
         <fullName>View_Visit_Details</fullName>
