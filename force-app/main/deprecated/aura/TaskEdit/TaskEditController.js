@@ -118,8 +118,7 @@
             'upsertTask',
             {
                 wrapper: JSON.stringify(component.get('v.initData')),
-                paramTask: JSON.stringify(task),
-                false
+                paramTask: JSON.stringify(task)
             },
             function () {
                 window.history.go(-1);
