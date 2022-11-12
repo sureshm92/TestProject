@@ -1,4 +1,4 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitDataAndCount';
 import DEVICE from '@salesforce/client/formFactor';
 // importing Custom Label
@@ -21,10 +21,11 @@ export default class HomePageParticipantNew extends LightningElement {
     isInitialized = false;
     isProgram = false;
     showVisitCard = false;
+    @track showVisitCardMobile = false;
 
     desktop = true;
     isDelegateSelfview = false;
-    taskList=false;
+    @track taskList=false;
     
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
@@ -72,6 +73,7 @@ export default class HomePageParticipantNew extends LightningElement {
                                                 && this.participantState.pe.Visit_Plan__c 
                                                 && res.pvCount!=null && res.pvCount!=undefined 
                                                 && res.pvCount>0;
+                            this.showVisitCardMobile = this.showVisitCard;                    
                         }
                     }
                     //For Delegate Self view
@@ -96,7 +98,16 @@ export default class HomePageParticipantNew extends LightningElement {
     }
 
     showTaskList(){
-        this.showVisitCard=false;
+        if(this.desktop!=true){
+            this.showVisitCardMobile = false;
+        }
         this.taskList=true;
+    }
+    
+    showVisitCardOnMobile(){
+        if(this.desktop!=true){
+            this.showVisitCardMobile = true;
+        }
+        this.taskList=false;
     }
 }
