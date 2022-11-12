@@ -1,6 +1,6 @@
 {
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
-  "componentName" : "c:pir_OneColumnLayout",
+  "componentName" : "c:PPOneColumnLayout",
   "id" : "ae0865cb-0c66-4b45-b2de-65ce728ac8dc",
   "label" : "tasks",
   "regions" : [ {
