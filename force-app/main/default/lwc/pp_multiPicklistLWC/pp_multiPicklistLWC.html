@@ -2,7 +2,8 @@
     <!-- Ethnicity starts -->
     <div class="eth outcome-form-element slds-m-bottom_medium p-left">
         <label class="slds-form-element__label slds-no-flex disflex"
-            ><span class="text-overflow1" title="Studies">{label.PG_MS_L_Studies_up}</span
+            ><span class="text-overflow1 study-p-bottom" title="Studies"
+                >{label.PG_MS_L_Studies_up}</span
             ><template if:true={showSelectAll}>
                 <span class="btn select-all-clear-all" onclick={selectAll}
                     >{label.Select_All_PI}</span
@@ -13,7 +14,7 @@
             </template>
         </label>
         <div
-            class="slds-form-element__control slds-grow slds-input slds-p-around--none slds-m-top_xx-small eBox dropdown-width"
+            class="slds-form-element__control slds-grow slds-input slds-p-around--none eBox study-box dropdown-width"
             tabindex="0"
             onfocus={openStudy}
             onblur={closeStudy}
@@ -37,7 +38,7 @@
                             </template>
                             <!-- </template> -->
                         </div>
-                        <span
+                        <!-- <span
                             class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right"
                         >
                             <lightning-icon
@@ -46,7 +47,7 @@
                                 alternative-text="down"
                             >
                             </lightning-icon>
-                        </span>
+                        </span> -->
                     </div>
                     <div
                         data-id="studyBox"
@@ -89,6 +90,12 @@
                         </ul>
                     </div>
                 </div>
+                <span
+                    class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right dropdown-icon-alignment"
+                >
+                    <lightning-icon icon-name="utility:down" size="x-small" alternative-text="down">
+                    </lightning-icon>
+                </span>
             </div>
         </div>
     </div>

@@ -121,7 +121,10 @@
     margin-bottom: 5px;
     padding: 0 10px;
     /* max-width: 117px; */
-    max-width: max-content;
+    /* max-width: max-content; */
+    width: 28%;
+    height: 29px;
+    overflow: hidden;
 }
 .eth .ethmore {
     padding: 7px 0px 0px 130px;
@@ -210,4 +213,16 @@
 /*on hover of clear all*/
 .rectangle {
     background-color: #ecf3ff;
+}
+.study-box {
+    margin-top: -1px;
+    height: 40px !important;
+}
+.study-p-bottom {
+    padding-bottom: 6px;
+}
+.dropdown-icon-alignment {
+    margin-top: -30px;
+    text-align: right;
+    padding-right: 10px;
 }

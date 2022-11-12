@@ -1862,3 +1862,7 @@ input[type=password]::-ms-clear
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.add-delegate-input-container .slds-input{
+    height: 40px !important;
+}

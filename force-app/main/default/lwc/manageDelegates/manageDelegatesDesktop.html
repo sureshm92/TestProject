@@ -259,6 +259,7 @@
                                                 <button
                                                     class="apollo-btn secondary box-add-assignment-btn slds-m-bottom_small"
                                                     onclick={discardAssignment}
+                                                    data-pdid={del.PatientDelegate.Id}
                                                 >
                                                     <span class="discard-label"
                                                         >&nbsp; {label.PIR_Discard}</span
@@ -352,16 +353,38 @@
                                                     size="1"
                                                     class="slds-align_absolute-center"
                                                 >
-                                                    <button
-                                                        class="delete-btn"
-                                                        onclick={openDeleteDelegateModal}
-                                                    >
-                                                        <span
-                                                            ><img
-                                                                class="delete-icon"
-                                                                src={deleteIcon}
-                                                        /></span>
-                                                    </button>
+                                                    <template if:false={del.showDeleteRedIcon}>
+                                                        <button
+                                                            class="delete-btn"
+                                                            onclick={openDeleteDelegateModal}
+                                                        >
+                                                            <span
+                                                                ><img
+                                                                    onmouseover={toggleDeleteIcon}
+                                                                    class="delete-icon"
+                                                                    src={deleteIcon}
+                                                                    data-id={del.PatientDelegate.Id}
+                                                            /></span>
+                                                        </button>
+                                                    </template>
+
+                                                    <!--Red Delete Button: Start-->
+                                                    <template if:true={del.showDeleteRedIcon}>
+                                                        <button
+                                                            class="delete-btn"
+                                                            onclick={openDeleteDelegateModal}
+                                                        >
+                                                            <span
+                                                                ><img
+                                                                    onmouseout={toggleDeleteIcon}
+                                                                    class="delete-icon"
+                                                                    src={deleteIconRed}
+                                                                    data-id={del.PatientDelegate.Id}
+                                                            /></span>
+                                                        </button>
+                                                    </template>
+
+                                                    <!--Red Delete Button: Ends-->
                                                 </lightning-layout-item>
                                                 <!--Trash Logo: Ends-->
                                             </lightning-layout>

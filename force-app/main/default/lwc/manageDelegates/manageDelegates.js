@@ -52,6 +52,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     selectMenuTriagleDown_url = pp_icons + '/SelectMenuTriangleDown_blue.svg';
     iconTriangleRight_url = pp_icons + '/iconTriangleRight_blue.svg';
     deleteIcon = pirResources + '/pirResources/icons/trash-delete.svg';
+    deleteIconRed = pirResources + '/pirResources/icons/trash-delete-red.svg';
     spinner = false;
     loaded = false;
     showAddDelegatePage = false;
@@ -64,6 +65,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     hasNoFormerDelegate = true;
     addNewStudy = false;
     validateData = false; //TODO: write logic.
+    //showDeleteRedIcon = false;
 
     label = {
         BTN_Add_New_Delegate,
@@ -159,6 +161,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                         pden['isActive'] = false;
                     }
                 });
+            } else {
+                //Former Delegate
+                pde['showDeleteRedIcon'] = false;
             }
         });
     }
@@ -235,15 +240,6 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     navToAddDelegate() {
         //communityService.navigateToPage('new-team-member');
         this.showAddDelegatePage = true;
-    }
-    addAssignment(event) {
-        let delId = event.target.dataset.pdid; //ToDO: check why this is coming undefined.
-        this.listPDE.forEach((pden) => {
-            // if (pden.PatientDelegate.Id === 'a0z7g00000Gr7NaAAJ') {
-            if (pden.PatientDelegate.Id === delId) {
-                pden['addNewStudy'] = true;
-            }
-        });
     }
     //This method will open Remove Delegate Modal.
     openRemoveDelegateModal(event) {
@@ -326,7 +322,31 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     toggleFormerDelegateView() {
         this.showFormerDelegates = this.showFormerDelegates == true ? false : true;
     }
-    discardAssignment() {
-        this.addNewStudy = false;
+    addAssignment(event) {
+        let delId = event.currentTarget.dataset.pdid;
+        this.listPDE.forEach((pden) => {
+            if (pden.PatientDelegate.Id === delId) {
+                pden.addNewStudy = true;
+            }
+        });
+    }
+    discardAssignment(event) {
+        let delId = event.currentTarget.dataset.pdid;
+        this.listPDE.forEach((pden) => {
+            if (pden.PatientDelegate.Id === delId) {
+                pden.addNewStudy = false;
+            }
+        });
+    }
+
+    //Flipt the delete icon between gray and red.
+    toggleDeleteIcon(event) {
+        let recordId = event.currentTarget.dataset.id;
+        this.formerListPDE.filter(function (del) {
+            if (del.PatientDelegate.Id === recordId) {
+                //del.showDeleteRedIcon = true;
+                del.showDeleteRedIcon = del.showDeleteRedIcon ? false : true;
+            }
+        });
     }
 }
