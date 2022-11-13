@@ -21,7 +21,9 @@
                                     >
                                     <lightning-layout-item size="2"
                                         ><lightning-layout class="slds-grid_align-end"
-                                            >{taskNameLength}/30</lightning-layout
+                                            ><template if:false={readOnlyMode}
+                                                >{taskNameLength}/30</template
+                                            ></lightning-layout
                                         ></lightning-layout-item
                                     >
                                 </lightning-layout>
@@ -117,7 +119,9 @@
                                     >
                                     <lightning-layout-item size="2"
                                         ><lightning-layout class="slds-grid_align-end"
-                                            >{taskNameLength}/30</lightning-layout
+                                            ><template if:false={readOnlyMode}
+                                                >{taskNameLength}/30</template
+                                            ></lightning-layout
                                         ></lightning-layout-item
                                     >
                                 </lightning-layout>

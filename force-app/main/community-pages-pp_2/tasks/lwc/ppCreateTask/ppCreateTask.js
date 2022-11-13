@@ -43,6 +43,8 @@ export default class PpCreateTask extends LightningElement {
     @api taskId;
     @api editMode = false;
     disbaleDateTime = false;
+    initialRecord;
+    updatedRecord;
 
     labels = { REMIND_USING_REQUIRED };
     label = {
@@ -115,6 +117,18 @@ export default class PpCreateTask extends LightningElement {
                         var visitDateTime = new Date(this.taskDueTime).toLocaleTimeString('en-US', {
                             timeZone: TIME_ZONE
                         });
+                        this.initialRecord = {
+                            subject: this.subject,
+                            dueDatetime: this.taskDateTime ? this.taskDateTime : '',
+                            remindme: this.task.Remind_Me__c ? this.task.Remind_Me__c : '',
+                            remindEmail: this.task.Remind_Using_Email__c
+                                ? this.task.Remind_Using_Email__c
+                                : '',
+                            remindSMS: this.task.Remind_Using_SMS__c
+                                ? this.task.Remind_Using_SMS__c
+                                : '',
+                            reminderDateTime: wrapper.reminderDate ? wrapper.reminderDate : ''
+                        };
                     }
                     this.initData = wrapper;
                     this.spinner.hide();
@@ -151,6 +165,7 @@ export default class PpCreateTask extends LightningElement {
     }
 
     handletaskNameChange(event) {
+        this.initialLoad = false;
         let inputvalue = event.target.value;
         if (inputvalue) {
             let tasksubject = inputvalue.trimStart();
@@ -207,6 +222,7 @@ export default class PpCreateTask extends LightningElement {
         return today;
     }
     handleTime(event) {
+        this.initialLoad = false;
         this.taskDateTime = event.detail.compdatetime;
         this.taskDueTime = event.detail.comptime;
         this.taskDueDate = event.detail.compdate;
@@ -221,6 +237,7 @@ export default class PpCreateTask extends LightningElement {
         return this.enableSave;
     }
     handleDate(event) {
+        this.initialLoad = false;
         this.taskDateTime = event.detail.compdatetime;
         this.taskDueDate = event.detail.compdate;
         this.taskDueTime = event.detail.comptime;
@@ -240,11 +257,13 @@ export default class PpCreateTask extends LightningElement {
         this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
     }
     handleOnlyDate(event) {
+        this.initialLoad = false;
         this.taskDateTime = event.detail.compdatetime;
         this.taskDueDate = event.detail.compdate;
         this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
     }
     handleOnlyTime(event) {
+        this.initialLoad = false;
         this.taskDateTime = event.detail.compdatetime;
         this.taskDueTime = event.detail.comptime;
         this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
@@ -256,7 +275,8 @@ export default class PpCreateTask extends LightningElement {
             this.task.Subject = this.subject;
             upsertTask({
                 wrapper: JSON.stringify(this.initData),
-                paramTask: JSON.stringify(this.task)
+                paramTask: JSON.stringify(this.task),
+                isNewTaskFromTaskTab: !this.editMode
             })
                 .then((result) => {
                     this.spinner.hide();
@@ -284,7 +304,8 @@ export default class PpCreateTask extends LightningElement {
             this.task.Subject = this.subject;
             upsertTask({
                 wrapper: JSON.stringify(this.initData),
-                paramTask: JSON.stringify(this.task)
+                paramTask: JSON.stringify(this.task),
+                isNewTaskFromTaskTab: !this.editMode
             })
                 .then((result) => {
                     this.spinner.hide();
@@ -311,6 +332,7 @@ export default class PpCreateTask extends LightningElement {
         }
     }
     handleCancelTask() {
+        this.initialLoad = true;
         communityService.replaceUrlParameter('id', '');
         const taskCloseEvent = new CustomEvent('taskclose', {
             detail: {
@@ -346,6 +368,7 @@ export default class PpCreateTask extends LightningElement {
     }
 
     handleCustomReminder(event) {
+        this.initialLoad = false;
         this.task.Remind_Using_Email__c = event.detail.emailReminderOptIn;
         this.task.Remind_Using_SMS__c = event.detail.smsReminderOptIn;
         this.task.Remind_Me__c =
@@ -358,6 +381,7 @@ export default class PpCreateTask extends LightningElement {
     }
 
     handleReminder(event) {
+        this.initialLoad = false;
         this.task.Remind_Using_Email__c = event.detail.emailReminderOptIn;
         this.task.Remind_Using_SMS__c = event.detail.smsReminderOptIn;
         this.task.Remind_Me__c =
@@ -370,6 +394,18 @@ export default class PpCreateTask extends LightningElement {
     }
 
     get saveButtonClass() {
+        if (this.task) {
+            this.updatedRecord = {
+                subject: this.subject,
+                dueDatetime: this.taskDateTime ? this.taskDateTime : '',
+                remindme: this.task.Remind_Me__c ? this.task.Remind_Me__c : '',
+                remindEmail: this.task.Remind_Using_Email__c ? this.task.Remind_Using_Email__c : '',
+                remindSMS: this.task.Remind_Using_SMS__c ? this.task.Remind_Using_SMS__c : '',
+                reminderDateTime: this.taskReminderDate ? this.taskReminderDate : ''
+            };
+        }
+        var upDateRequired =
+            JSON.stringify(this.initialRecord) == JSON.stringify(this.updatedRecord);
         this.enableSave = false;
 
         let selectedTaskReminderDateTime = new Date(this.taskReminderDate);
@@ -381,24 +417,33 @@ export default class PpCreateTask extends LightningElement {
         });
         let selectedTaskDueDateTime = new Date(selectedTaskDueDateTimeString);
         let currentDateTimeObject = new Date(currentDateTime);
-        if (this.subject && ((this.taskDueTime && this.taskDueDate) || this.disbaleDateTime)) {
-            if (!this.isReminderSelected && selectedTaskDueDateTime >= currentDateTimeObject) {
-                this.enableSave = true;
-            } else if (this.isReminderSelected) {
-                if (this.task.Remind_Me__c) {
-                    if (
-                        this.task.Remind_Me__c != 'Custom' &&
-                        (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c)
-                    ) {
-                        this.enableSave = true;
-                    } else if (
-                        this.task.Remind_Me__c == 'Custom' &&
-                        (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c) &&
-                        this.taskReminderDate &&
-                        ((selectedTaskReminderDateTime <= selectedTaskDueDateTime &&
-                            selectedTaskReminderDateTime >= currentDateTimeObject) ||
-                            this.disbaleDateTime)
-                    ) {
+        if ((!upDateRequired && this.editMode) || !this.editMode) {
+            if (this.subject && ((this.taskDueTime && this.taskDueDate) || this.disbaleDateTime)) {
+                if (!this.isReminderSelected && selectedTaskDueDateTime >= currentDateTimeObject) {
+                    this.enableSave = true;
+                } else if (this.isReminderSelected) {
+                    if (this.task.Remind_Me__c) {
+                        if (
+                            this.task.Remind_Me__c != 'Custom' &&
+                            (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c)
+                        ) {
+                            this.enableSave = true;
+                        } else if (
+                            this.task.Remind_Me__c == 'Custom' &&
+                            (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c) &&
+                            this.taskReminderDate &&
+                            ((selectedTaskReminderDateTime <= selectedTaskDueDateTime &&
+                                selectedTaskReminderDateTime >= currentDateTimeObject) ||
+                                (selectedTaskReminderDateTime >= currentDateTimeObject &&
+                                    this.disbaleDateTime))
+                        ) {
+                            this.enableSave = true;
+                        } else {
+                            this.enableSave = false;
+                        }
+                    }
+                } else {
+                    if (!this.isReminderSelected && this.editMode) {
                         this.enableSave = true;
                     } else {
                         this.enableSave = false;
@@ -407,8 +452,6 @@ export default class PpCreateTask extends LightningElement {
             } else {
                 this.enableSave = false;
             }
-        } else {
-            this.enableSave = false;
         }
         return this.enableSave ? 'task-save-btn' : 'task-save-btn-opacity';
     }
