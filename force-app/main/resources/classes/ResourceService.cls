@@ -83,7 +83,7 @@ public virtual without sharing class ResourceService {
                 CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(resourcesIds)) +
                 ')';
             if (
-                currentPE.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                currentPE?.Clinical_Trial_Profile__r?.CommunityTemplate__c ==
                 CommunityTemplateService.TEMPLATE_PP
             ) {
                 whereClause =
