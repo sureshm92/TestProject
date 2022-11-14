@@ -9,8 +9,9 @@
     }
 }
 .rr-width-limiter-pp {
-   max-width: 1336px !important;
+   max-width: 1366px !important;
    margin: auto;
+   padding: 0 2rem;
 }
 
 /* Community_CSS_PP_Theme */
