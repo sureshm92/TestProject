@@ -5,7 +5,6 @@
     <externalId>false</externalId>
     <label>Resource</label>
     <referenceTo>Resource__c</referenceTo>
-    <relationshipLabel>Study Resources (Resource)</relationshipLabel>
     <relationshipName>Study_Resources</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
