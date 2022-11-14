@@ -30,6 +30,8 @@ public inherited sharing class ResourceTARelatedService extends ResourceService 
 
     protected override List<Id> getResourcesIds() {
         List<String> participantLanguages = ContactService.getPreferredLanguages();
+        List<String> listResourceType= new List<String>();
+            listResourceType=resourceType.split(';');
         if (therapeuticAreaId == null && (therapeuticAreas == null || therapeuticAreas.size() == 0))
             return new List<Id>();
         String filter =
@@ -44,7 +46,7 @@ public inherited sharing class ResourceTARelatedService extends ResourceService 
                 ? ''
                 : ('AND' + DatabaseService.fieldEqual('Resource__c', resourceId))) +
             'AND' +
-            DatabaseService.fieldEqual('Resource__r.RecordType.DeveloperName', resourceType) +
+            DatabaseService.fieldInValues('Resource__r.RecordType.DeveloperName', listResourceType) +
             'AND' +
             DatabaseService.fieldInValues('Resource__r.Language__c', participantLanguages);
         List<Therapeutic_Area_Assignment__c> assignments = (List<Therapeutic_Area_Assignment__c>) DatabaseService.query(
