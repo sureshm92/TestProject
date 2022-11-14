@@ -103,6 +103,25 @@ private class Test_BasePPCommunity {
                     false
                 );
 
+                AddPatientByPIRemote.savePER(
+					participant.Id,
+                    JSON.serialize(pe),
+                    testDataInstance.ss.Id,
+                    JSON.serialize(participantDel),
+                    JSON.serialize(participant),
+                    JSON.serialize(ddInfo),
+                    JSON.serialize(piContact),
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+    				false,
+    				true,
+    				'Virtual'
+                );
+
                 for (Participant_Enrollment__c pe2 : [
                     SELECT Name, Referral_ID__c, Participant_Key__c
                     FROM Participant_Enrollment__c

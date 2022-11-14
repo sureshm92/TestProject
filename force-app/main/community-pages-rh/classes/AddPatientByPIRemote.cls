@@ -789,13 +789,25 @@ public without sharing class AddPatientByPIRemote {
                 insert participantDelegate;
             }
             //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
-            List<Patient_Delegate__c> checkPDel;
-            if (participantId != null && newContact.Id != null) {
-                checkPDel = [
-                    SELECT Id,Primary_Delegate__c,Participant__r.Email__c
-                    FROM Patient_Delegate__c
-                    WHERE Participant__c = :participantId AND Contact__c = :newContact.Id
-                ];
+                List<Patient_Delegate__c> checkPDel;
+                if (participantId != null && newContact.Id != null) { 
+                    checkPDel=new List<Patient_Delegate__c>();
+                    List<Patient_Delegate__c> allPDelList = [
+                        SELECT Id,Primary_Delegate__c,Participant__r.Email__c,Contact__c
+                        FROM Patient_Delegate__c
+                        WHERE Participant__c = :participantId 
+                        //AND Contact__c = :newContact.Id
+                    ];
+                    for(Patient_Delegate__c pDel:allPDelList){
+                        if(pDel.Contact__c==newContact.Id){
+                            pDel.Primary_Delegate__c = True;
+                            checkPDel.add(pDel);         
+                           }else {
+                            pDel.Primary_Delegate__c = false;
+                           }
+                     }
+                     update allPDelList;
+                     
                 List<Participant_Enrollment__c> particpantEnrollList = [
                     SELECT
                         Id,
