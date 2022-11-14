@@ -39,11 +39,11 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     disableSave = true;
     chngUsernameEmailValue;
     userNamesList = [];
-    usernamesTomerge =[];
+    usernamesTomerge = [];
     showUserNames = false;
     UseremailDuplicate;
     userNamesListvalue;
-    duplicateInfoHeader
+    duplicateInfoHeader;
 
     isMobile;
     cardRTL;
@@ -83,19 +83,23 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     }
 
     get marginForDOBEdit() {
-        return (this.isEditYOB || this.isMatchUsernameEmail) ? 'fixed-height' : '';
+        return this.isEditYOB || (this.isMatchUsernameEmail && !this.UseremailDuplicate)
+            ? 'fixed-height'
+            : '';
     }
 
     get marginMatchEmailPass() {
         return this.isMatchUsernameEmail ? 'mb-10' : '';
     }
 
-    get dropDownOpacityClass(){
-        return (this.isEditYOB || this.isMatchUsernameEmail) ? "mb-15 support-combobox" : "mb-15 support-combobox opacity"
+    get dropDownOpacityClass() {
+        return this.isEditYOB || this.isMatchUsernameEmail
+            ? 'mb-15 support-combobox'
+            : 'mb-15 support-combobox opacity';
     }
 
-    get YOBOpacityClass(){
-        return (this.YOBSelected) ? "support-year" : "support-year opacity"
+    get YOBOpacityClass() {
+        return this.YOBSelected ? 'support-year' : 'support-year opacity';
     }
 
     get options() {
@@ -118,13 +122,15 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     get placeholder() {
         return this.placeholder;
     }
-   
+
     get isDisableSave() {
         return this.disableSave;
     }
 
-    get highlightErrorForYOBClass(){
-        return this.showMinorErrorMsg ? "highlight-error mt-5 fadePlaceholder" : "mt-5 fade fadePlaceholder";
+    get highlightErrorForYOBClass() {
+        return this.showMinorErrorMsg
+            ? 'highlight-error mt-5 fadePlaceholder'
+            : 'mt-5 fade fadePlaceholder';
     }
     handleChangeSelection(event) {
         this.disableSave = true;
@@ -132,13 +138,13 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         if (this.selectedOption == edit_Year_of_Birth) {
             this.isEditYOB = true;
             this.isMatchUsernameEmail = false;
+            this.UseremailDuplicate = false;
         } else if (this.selectedOption == match_Username_Email_Option) {
             this.isMatchUsernameEmail = true;
             this.isEditYOB = false;
         }
     }
     doCheckYearOfBith(event) {
-
         this.YOBSelected = true;
         this.selectedYOB = event.detail.value;
         this.spinner = this.template.querySelector('c-web-spinner');
@@ -150,7 +156,6 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
                 if (isAdult == 'true') {
                     this.showMinorErrorMsg = false;
                     this.disableSave = false;
-
                 } else if (isAdult == 'false') {
                     this.showMinorErrorMsg = this.selectedYOB == '' ? false : true;
                     this.disableSave = true;
@@ -163,42 +168,38 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     }
     doChangeUsernameEmail(event) {
         this.chngUsernameEmailValue = event.target.checked;
-        this.disableSave = !this.chngUsernameEmailValue; 
-        if(this.chngUsernameEmailValue && this.isDuplicate){
-            this.UseremailDuplicate = true;
-        }
-      else { this.UseremailDuplicate = false;}
+        this.disableSave = !this.chngUsernameEmailValue;
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
-        if (this.UseremailDuplicate){
-        validateUsername()
-            .then((result) =>{
+        if (this.chngUsernameEmailValue && this.isDuplicate) {
+            this.UseremailDuplicate = true;
+        } else {
+            this.UseremailDuplicate = false;
+        }
+        if (this.UseremailDuplicate) {
+            validateUsername().then((result) => {
                 let usernames = result;
                 this.userNamesList = usernames;
-                let usrList =[];
-                for(let key in usernames){
-                  usrList.push(usernames[key].value);
+                let usrList = [];
+                for (let key in usernames) {
+                    usrList.push(usernames[key].value);
                 }
-                this.userNamesListvalue =  usernames[0].value ;
-                console.log('this.userNamesListvalue'+this.userNamesListvalue);
-                 this.usernamesTomerge = usrList;
+                this.userNamesListvalue = usernames[0].value;
+                this.usernamesTomerge = usrList;
                 this.spinner.hide();
-                          
-        })
-    }
-    else{
-        this.userNamesList = [];
-        this.spinner.hide();
-    }
-   
+            });
+        } else {
+            this.userNamesList = [];
+            this.spinner.hide();
+        }
     }
     handleChange(event) {
         this.userNamesListvalue = event.detail.value;
-        if(!this.chngUsernameEmailValue ){
-            this.disableSave = true;}
-            else{
-                this.disableSave = false;
-            }
+        if (!this.chngUsernameEmailValue) {
+            this.disableSave = true;
+        } else {
+            this.disableSave = false;
+        }
     }
 
     doCreateYOBCase(event) {
