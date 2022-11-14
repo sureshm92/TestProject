@@ -306,7 +306,6 @@ public without sharing class IntegrationService {
                 High_Priority__c,
                 Initial_visit_scheduled_date__c,
                 Initial_visit_scheduled_time__c,
-                Study_Site__r.Participant_DOB_format__c,
                 Clinical_Trial_Profile__r.Promote_to_SH__c,
                 Clinical_Trial_Profile__r.DCT_Platform__c,
                 Study_Site__r.Protocol_ID__c,
