@@ -87,6 +87,7 @@
                                         variant="label-hidden"
                                         name="input3"
                                         class="label-email-pass-match"
+                                        onchange={doChangeUsernameEmail}
                                         checked
                                         disabled
                                     ></lightning-input>
@@ -100,8 +101,22 @@
                         </lightning-layout-item>
                     </lightning-layout>
                 </div>
-            </div>
-
+            </div>  
+            <template if:true={UseremailDuplicate}>
+               <b> {label.PP_MergeExisting}<br></b><br>
+                {label.PP_DuplicateUsernames}<br><br>
+            </template>
+            <template if:true={isDuplicate}>
+                <div class="slds-grid slds-size--1-of-1 ah-item-panel">
+                    <lightning-radio-group name="radioGroup"
+                        variant="label-hidden"
+                        options={userNamesList}
+                        value={userNamesListvalue}
+                        type="radio"
+                        onchange={handleChange}
+                    ></lightning-radio-group>
+                </div>
+            </template>
             <lightning-layout multiple-rows="true" class="">
                 <lightning-layout-item size="12">
                     <!--Disabled Button-->
