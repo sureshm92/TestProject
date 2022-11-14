@@ -210,7 +210,12 @@ public without sharing class TasksRemote {
             }
             if (taskObj.Survey_Invitation__c != null) {
                 // add it to study level surveys
+                if (taskObj.Survey_Invitation__r.IsTrialSurvey__c) {
                 groupATasks.add(taskObj);
+                } else {
+                    // add it to platform level surveys
+                    groupBTasks.add(taskObj);
+                }
             }
             if (taskObj.Task_Type__c == 'Ecoa') {
                 groupATasks.add(taskObj);

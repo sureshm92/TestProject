@@ -3,18 +3,14 @@ import taskCompleted from '@salesforce/label/c.Task_Completed';
 import taskCreateReminder from '@salesforce/label/c.Task_create_reminder';
 import taskEdit from '@salesforce/label/c.Task_Edit';
 import taskIgnore from '@salesforce/label/c.Task_Ignore';
-import taskMarkComplete from '@salesforce/label/c.Task_Mark_Complete_Msg';
 import taskDue from '@salesforce/label/c.Task_Due';
 import taskCancel from '@salesforce/label/c.RH_RP_Cancel';
 import taskConfirm from '@salesforce/label/c.RH_TV_Confirm';
 import taskPriorityCritical from '@salesforce/label/c.Task_priority_critical';
 import notAvailable from '@salesforce/label/c.Not_Available';
-import taskMarkCompleteHeader from '@salesforce/label/c.Task_Mark_Complete';
 import taskReminder from '@salesforce/label/c.Task_Reminder';
 import noOpenTasks from '@salesforce/label/c.No_Open_Tasks';
 import taskPPCompletedLabel from '@salesforce/label/c.Task_PP_Completed';
-import taskIgnoreModalTitle from '@salesforce/label/c.Task_Ignore_Modal_Title';
-import taskIgnoreModalBody from '@salesforce/label/c.Task_Ignore_Modal_Body';
 import taskIgnoreContinue from '@salesforce/label/c.Continue';
 import taskIgnoredMessage from '@salesforce/label/c.Task_Ignored_Message';
 
@@ -27,7 +23,6 @@ import TIME_ZONE from '@salesforce/i18n/timeZone';
 import formFactor from '@salesforce/client/formFactor';
 
 export default class PpTasksList extends NavigationMixin(LightningElement) {
-    isShowModal = false;
     isTaskIgnoreModal = false;
     popUpTaskId;
     userTimeZone = TIME_ZONE;
@@ -35,6 +30,13 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     @api expireTaskAvailable = false;
     @api containerClass;
     @api dueTimeClass;
+    @api isActive;
+    @api contact;
+    @api selectedparent;
+    @api usermode;
+    @api
+    paramTaskId;
+
     @api
     get selectedTasks() {
         return this.uppercaseItemName;
@@ -60,8 +62,6 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     taskBtnCompleteClass = 'completed-task inactive-btn';
     taskOpenTab = true;
     label = {
-        taskMarkCompleteHeader,
-        taskMarkComplete,
         taskCancel,
         taskConfirm,
         taskPriorityCritical,
@@ -75,8 +75,6 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         taskCreateReminder,
         taskCompleted,
         taskPPCompletedLabel,
-        taskIgnoreModalTitle,
-        taskIgnoreModalBody,
         taskIgnoreContinue,
         taskIgnoredMessage
     };
@@ -101,7 +99,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     };
     ignoreObj = {
         name: this.label.taskIgnore,
-        iconUrl: 'icon-close',
+        iconUrl: 'pp-close-new',
         ignore: true
     };
     editImg = pp_icons + '/' + 'Pencil_Icon.svg';
@@ -112,13 +110,33 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     ignoredTasksList = [];
     spinner;
     isMobile = false;
+    selectedTaskId;
+    readOnlyMode = false;
+    ishomepage = false;
+    @api
+    get passTaskId() {
+        return tthis.selectedTaskId;
+    }
+    set passTaskId(value) {
+        this.selectedTaskId = value;
+    }
+
+    get showTaskCreateCard() {
+        return this.selectedTaskId ? true : false;
+    }
 
     connectedCallback() {
-        console.log('tasks', this.tasksList);
+        console.log('tasks 123', this.tasksList);
         if (formFactor === 'Small') {
             this.isMobile = true;
         } else {
             this.isMobile = false;
+        }
+        var pageurl = communityService.getFullPageName();
+        if (pageurl.includes('tasks')) {
+            this.ishomepage = false;
+        } else {
+            this.ishomepage = true;
         }
     }
 
@@ -152,7 +170,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         let radioTask = this.template.querySelector(
             '[data-parentdiv="' + this.selectedTaskId + '"]'
         );
-        radioTask.classList.add('active-custom-box');
+        if (radioTask) radioTask.classList.add('active-custom-box');
     }
 
     showIgnoreModal(event) {
@@ -183,7 +201,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
                 }
                 this.spinner.hide();
                 this.showToast(this.label.taskCompleted, this.label.taskCompleted, 'success');
-                const taskCloseEvent = new CustomEvent('taskcreated', {
+                const taskCloseEvent = new CustomEvent('taskcompleted', {
                     detail: {
                         tasksList: this.tasksList,
                         taskStatus: taskOldStatus
@@ -195,7 +213,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
                 this.spinner.hide();
             });
     }
-    expandtheCard(event) {
+    showTaskActionMenu(event) {
         this.popupTaskMenuItems = [];
         var taskId = event.currentTarget.dataset.popup;
         this.popUpTaskId = taskId;
@@ -216,12 +234,24 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             this.popupTaskMenuItems.push(this.reminderObj);
         } else {
             if (selectedTask.task.Task_Code__c == 'Complete_Survey') {
-                this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
+                if (selectedTask.task.Status != 'Ignored') {
+                    this.popupTaskMenuItems.push(this.reminderObj);
+                } else {
+                    this.popupTaskMenuItems.push(this.reminderObj);
+                }
             } else {
                 if (selectedTask.task.Originator__c == 'IQVIA Admin') {
-                    this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
+                    if (selectedTask.task.Status != 'Ignored') {
+                        this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
+                    } else {
+                        this.popupTaskMenuItems.push(this.reminderObj);
+                    }
                 } else {
-                    this.popupTaskMenuItems.push(this.editObj, this.ignoreObj);
+                    if (selectedTask.task.Status != 'Ignored') {
+                        this.popupTaskMenuItems.push(this.editObj, this.ignoreObj);
+                    } else {
+                        this.popupTaskMenuItems.push(this.editObj);
+                    }
                 }
             }
         }
@@ -229,8 +259,17 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         if (cl.includes('slds-is-open')) radioTask.classList.remove('slds-is-open');
     }
     closeMenu() {
-        let radioTask = this.template.querySelector('[data-popup="' + this.popUpTaskId + '"]');
-        radioTask.classList.remove('slds-is-open');
+        try {
+            let radioTask = this.template.querySelector('[data-popup="' + this.popUpTaskId + '"]');
+            if (this.popUpTaskId) {
+                let selectedTask = this.getTaskDetailsById(this.popUpTaskId);
+            }
+            if (radioTask) {
+                radioTask.classList.remove('slds-is-open');
+            }
+        } catch (e) {
+            console.error(e);
+        }
     }
     closeModel() {
         let radioTask = this.template.querySelector('[data-modalpopup="' + this.popUpTaskId + '"]');
@@ -267,10 +306,46 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         event.preventDefault();
     }
     createReminder() {
-        alert('createReminder');
+        try {
+            this.selectedTaskId = '';
+            this.clearAllTaskExpandStatus();
+            let selectedTask = this.getTaskDetailsById(this.popUpTaskId);
+            this.selectedTaskId = this.popUpTaskId;
+            selectedTask.expandCard = true;
+            this.readOnlyMode = true;
+            this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+            const taskEditEvent = new CustomEvent('taskedit', {
+                detail: {
+                    isClose: true,
+                    editMode: true
+                }
+            });
+            this.dispatchEvent(taskEditEvent);
+        } catch (e) {
+            console.error(e);
+        }
     }
     editTask() {
-        alert('editTask');
+        try {
+            this.selectedTaskId = '';
+            this.clearAllTaskExpandStatus();
+            let selectedTask = this.getTaskDetailsById(this.popUpTaskId);
+            if (selectedTask) {
+                this.selectedTaskId = this.popUpTaskId;
+                selectedTask.expandCard = true;
+                const taskEditEvent = new CustomEvent('taskedit', {
+                    detail: {
+                        isClose: true,
+                        editMode: true
+                    }
+                });
+                this.dispatchEvent(taskEditEvent);
+                this.readOnlyMode = false;
+                this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+            }
+        } catch (e) {
+            console.error(e);
+        }
     }
     callMethod(event) {
         if (event.currentTarget.dataset.method == this.label.taskCreateReminder) {
@@ -300,26 +375,59 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
                 );
             })
             .catch((error) => {
+                console.error(error);
                 this.spinner.hide();
             });
     }
     getTaskDetailsById(taskId) {
-        let selectedTask;
-        for (let i = 0; i < this.tasksList.length; i++) {
-            if (this.tasksList[i].task.Id == taskId) {
-                selectedTask = this.tasksList[i];
-                break;
+        if (this.tasksList) {
+            this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+            for (let i = 0; i < this.tasksList.length; i++) {
+                if (this.tasksList[i].task.Id == taskId) {
+                    return this.tasksList[i];
+                }
+            }
+            return '';
+        }
+    }
+    clearAllTaskExpandStatus() {
+        if (this.tasksList) {
+            this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+            for (let i = 0; i < this.tasksList.length; i++) {
+                if (this.tasksList[i].expandCard) {
+                    delete this.tasksList[i].expandCard;
+                }
             }
         }
-        return selectedTask;
     }
     removeTheTaskfromList(taskId) {
         let i;
         for (i = 0; i < this.tasksList.length; i++) {
             if (this.tasksList[i].task.Id == taskId) {
+                this.tasksList[i].task.Status = 'Ignored';
                 break;
             }
         }
-        this.tasksList.splice(i, 1);
+    }
+    handleTaskClose(event) {
+        this.selectedTaskId = '';
+        let taskId = event.detail.taskId;
+        this.clearAllTaskExpandStatus();
+        const taskCreatedEvent = new CustomEvent('taskcreated');
+        this.dispatchEvent(taskCreatedEvent);
+        const taskEditEvent = new CustomEvent('taskedit', {
+            detail: {
+                isClose: false,
+                editMode: false
+            }
+        });
+        this.dispatchEvent(taskEditEvent);
+    }
+    handleonclick(event) {
+        var taskId = event.currentTarget.dataset.index;
+        this.redirectPage(taskId);
+    }
+    redirectPage(taskId) {
+        communityService.navigateToPage('tasks?id=' + taskId);
     }
 }
