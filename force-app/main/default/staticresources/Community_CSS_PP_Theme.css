@@ -7,9 +7,12 @@
     .toastContainer > .forceToastMessage {
         width: 95% !important;
     }
+    .rr-width-limiter-pp {
+        padding: 0 !important;
+    }
 }
 .rr-width-limiter-pp {
-   max-width: 1366px !important;
+   max-width: 1366px;
    margin: auto;
    padding: 0 2rem;
 }

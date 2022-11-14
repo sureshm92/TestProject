@@ -120,7 +120,7 @@ hr {
     margin: 0;
 }
 .content {
-    margin:10px;
+    margin: 10px;
 }
 .card-wrap {
     padding: 0;
@@ -189,12 +189,13 @@ hr {
         background-color: #005587 !important;
         border-top-color: #005587;
         border-top-width: 1px !important;
-        width: 351px;
-        margin-right: 4px;
-        margin-left: 8px;
+        margin: 0 8px;
     }
     .content {
-        margin-top: 1px !important;
+        margin: 0;
+    }
+    .visit-card {
+        border-radius: 0;
     }
     .container-card-upcoming {
         height: 37px;
