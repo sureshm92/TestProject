@@ -157,7 +157,7 @@
                                 <button class="apollo-btn primary" onclick="{!c.doClearForm}">
                                     {!$Label.c.PG_MRR_BTN_Complete_another_Medical_Record_Review}
                                 </button>
-                                <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
+                                <button class="apollo-btn tertiary" onclick="{!c.doGoPatientsTab}">
                                     {!$Label.c.RH_RP_Back_to_My_Patients}
                                 </button>
                             </div>
@@ -178,7 +178,7 @@
                                 <button class="apollo-btn secondary" onclick="{!c.doStartMRR}">
                                     {!$Label.c.PG_MRR_BTN_Complete_another_Medical_Record_Review_for_this_Study}
                                 </button>
-                                <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
+                                <button class="apollo-btn tertiary" onclick="{!c.doGoPatientsTab}">
                                     {!$Label.c.RH_RP_Back_to_My_Patients}
                                 </button>
                             </div>

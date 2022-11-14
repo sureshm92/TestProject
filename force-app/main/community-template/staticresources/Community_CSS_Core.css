@@ -1841,3 +1841,14 @@ input[type=password]::-ms-clear
         padding: 0;
     }
 }
+
+.briefSummery.slds-rich-text-editor__output {
+    line-height: inherit !important;
+}
+
+.briefSummery p {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

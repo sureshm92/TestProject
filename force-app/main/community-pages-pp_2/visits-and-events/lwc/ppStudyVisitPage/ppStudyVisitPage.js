@@ -261,11 +261,10 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.visitid = this.pastVisits[index].visit.Id;
             this.visitName = this.pastVisits[index].visit.Name;
             this.plannedDate = this.pastVisits[index].visit.Planned_Date__c;
-            if(this.pastVisits[index].missedVisit){
+            if (this.pastVisits[index].missedVisit) {
                 this.visitStatus = this.label.visitUnavailable;
                 this.isResultsCard = false;
-            }
-            else{
+            } else {
                 this.visitStatus = this.pastVisits[index].visit.Status__c;
                 this.isResultsCard = true;
             }
@@ -354,15 +353,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 if (!this.past) {
-                    this.upcomingVisits[
-                        this.selectedIndex
-                    ].visit.Planned_Date__c = this.visitdata.visitDate;
+                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
+                        this.visitdata.visitDate;
                 }
                 if (this.visitdata.visitDate && this.showUpcomingVisits) {
                     this.upcomingVisits[this.selectedIndex].noVisitDate = false;
-                    this.plannedDate = this.upcomingVisits[
-                        this.selectedIndex
-                    ].visit.Planned_Date__c;
+                    this.plannedDate =
+                        this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
                 } else {
                     this.upcomingVisits[this.selectedIndex].noVisitDate = true;
                     this.plannedDate = '';
@@ -402,6 +399,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         this.initialized = 'false';
         this.cblabel = '';
         this.cbdescription = '';
+        this.icondetails = '';
         getIcon({
             visitId: visitid
         })
