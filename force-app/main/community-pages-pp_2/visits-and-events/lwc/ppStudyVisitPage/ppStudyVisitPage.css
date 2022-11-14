@@ -63,7 +63,7 @@
     text-align: justify;
 }
 .my-visits {
-    margin: 2px 0 32px 32px;
+    margin-bottom: 2rem;
     line-height: 48px;
 }
 
@@ -300,6 +300,10 @@ a {
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
+}
+
+.hide {
+    display: none;
 }
 
 .visit-date-time {

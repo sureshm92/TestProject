@@ -5,6 +5,10 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: 22px;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 }
 .summary-text {
     color: #000000;
@@ -13,19 +17,26 @@
     letter-spacing: 0;
     line-height: 17px;
     overflow-wrap: break-word;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-align: left;
 }
 
-img {
+img,
+.empty-icon {
     height: 200px;
     object-fit: fill;
     border: 1px solid #f2f2f2;
+    background-color: #E8E8E8;
 }
 .summary {
-    padding-left: 2%;
+    padding: 0% 2%;
     margin-left: 1%;
     border: 1px solid #f2f2f2;
     contain: size;
-    overflow: auto;
+    overflow: hidden;
     height: 200px;
 }
 .title-row {
@@ -33,11 +44,17 @@ img {
 }
 .summary-date {
     color: #898989;
-    padding-bottom: 2%;
+    padding: 2% 0%;
+    font-size: 14px;
+    line-height: 17px;
 }
 .resource-icon {
     display: block;
+    margin-left: 70%;
 }
 .resource-pointer {
     cursor: pointer;
+}
+.icon-center {
+    margin: 0% 35%;
 }

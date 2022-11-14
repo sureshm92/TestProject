@@ -3,7 +3,7 @@
     <template if:true={contentLoaded}>
         <template if:false={isMobile}>
             <h1 class="my-visits">{label.myVisits}</h1>
-            <div class="slds-grid slds-wrap slds-gutters slds-p-horizontal_x-large">
+            <div class="slds-grid slds-wrap slds-gutters">
                 <div
                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_3-of-12 col1"
                 >
@@ -23,6 +23,7 @@
                             onvisitchange={onVisitSelect}
                             onpastclick={onPastClick}
                             onupcomingclick={onUpcomingClick}
+                            isupcomingvisits={isUpcomingVisits}
                         >
                         </c-pp-my-visits-list>
                     </template>
@@ -30,6 +31,7 @@
 
                 <div
                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col2"
+                    data-id={column2}
                 >
                     <h1 if:false={past} class="visit3">
                         {visitName}
@@ -110,6 +112,7 @@
                 </div>
                 <div
                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col3"
+                    data-id={column3}
                 >
                     <img src={visitimage2} class="image-result-visit" />
                     <template if:true={isResultsCard}>
@@ -143,6 +146,7 @@
                             onvisitchange={onVisitSelect}
                             onpastclick={onPastClick}
                             onupcomingclick={onUpcomingClick}
+                            isupcomingvisits={isUpcomingVisits}
                         >
                         </c-pp-my-visits-list>
                     </template>
