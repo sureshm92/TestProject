@@ -136,3 +136,8 @@
 .ah-item-panel {
     margin-bottom: 1rem;
 }
+:host {
+    --sds-c-radio-mark-color-foreground: #0769fd;
+    --sds-c-radio-color-background-checked: #ffffff;
+    --slds-c-radio-color-border-checked :#0769fd;
+}
