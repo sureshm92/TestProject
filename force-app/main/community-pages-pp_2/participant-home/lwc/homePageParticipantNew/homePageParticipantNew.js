@@ -85,7 +85,8 @@ export default class HomePageParticipantNew extends LightningElement {
                             !this.participantState.isDelegate);
                 }
                 if(this.showVisitCard !=true || this.isDelegateSelfview ==true){
-                    this.taskList = true;    
+                    this.taskList = true;
+                    this.showVisitCardMobile = false;    
                 }
                 this.spinner.hide();
             })
@@ -111,8 +112,10 @@ export default class HomePageParticipantNew extends LightningElement {
 
     showVisitCardOnMobile() {
         if (this.desktop != true) {
-            this.showVisitCardMobile = true;
+            if(!(this.showVisitCard !=true || this.isDelegateSelfview ==true)){
+                this.showVisitCardMobile = true;
+                this.taskList = false;
+            }
         }
-        this.taskList = false;
     }
 }
