@@ -782,8 +782,10 @@ public without sharing class ParticipantInformationRemote {
             }
             Map<id,Boolean> mapContactIdToSMS=new Map<id,Boolean>();
             for (Participant__c delegateParticipant : delegates) {
-                delContact.add(delegateParticipant.Contact__c);
-                mapContactIdToSMS.put(delegateParticipant.Contact__c,delegateParticipant.Delegate_Consent_SMS__c);
+                if(!idsToCheck.contains(delegateParticipant.Contact__c)){
+                    delContact.add(delegateParticipant.Contact__c);
+                    mapContactIdToSMS.put(delegateParticipant.Contact__c,delegateParticipant.Delegate_Consent_SMS__c);
+                }
                 if (
                     !String.isBlank(delegateParticipant.Contact__c) &&
                     !idsToCheck.contains(delegateParticipant.Contact__c) &&

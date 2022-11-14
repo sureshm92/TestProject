@@ -17,9 +17,8 @@ body {
 .res-container {
     height: auto;
     background: #f7f8fa;
-    max-width: 1336px;
     margin: auto;
-    padding: 15px 0px 15px 0px;
+    padding: 0 32px;
 }
 
 .res-header {
@@ -166,6 +165,7 @@ p {
 
 .pad10 {
     padding: 10px;
+    padding-bottom: 20px;
 }
 
 /* Scroll bar custom */
