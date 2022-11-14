@@ -103,6 +103,8 @@ global without sharing class EmailTemplatePendingPartController {
             );
             this.lastRecievedDate = gmt.format('yyyy-MM-dd', timezonesidkey);
 			this.yesNoPriority = yesNoPriority;
+            this.highPriorityReconsent = false;
+            this.highPriority = 'High Priority';   
 			if(highPriorityFlag == true && reConsentRequiredFlag == false ){
                 this.yesNoPriority = 'High Priority';
             }else if(reConsentRequiredFlag == true && highPriorityFlag == false){

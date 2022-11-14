@@ -660,12 +660,12 @@
                                                 <div class="history-item-detail">{utilLabels.None}</div>
                                             </template>
                                             <template if:false={historyNull}>
-                                                <template for:each={historyResults} for:item="results"
+                                                <template for:each={screeningHistorys} for:item="results"
                                                     for:index="index">
                                                     <template if:false={results.isAdditionalNote}>
                                                         <p key={results}>
                                                             <b
-                                                                class="history-item-title">{results.historyTitle}</b><span
+                                                                class="history-item-title">{results.title}</b><span
                                                                 class="history-item-detail">
                                                                 &nbsp;{utilLabels.PE_Status_History_On_Date}&nbsp;
                                                                 <lightning-formatted-date-time
@@ -674,8 +674,7 @@
                                                                     minute="numeric" time-zone="UTC">
                                                                 </lightning-formatted-date-time>
                                                                 &nbsp;{utilLabels.PG_IMI_L_by_user}
-                                                                {results.createdBy}
-                                                            </span>
+                                                                {results.createdBy}</span>
                                                         </p>
                                                     </template>
                                                     <template if:true={results.isAdditionalNote}>

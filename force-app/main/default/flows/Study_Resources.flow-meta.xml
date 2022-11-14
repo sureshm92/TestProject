@@ -1483,7 +1483,7 @@
         </connector>
         <fields>
             <name>ResourceLabel</name>
-            <fieldText>&lt;p&gt;Resource&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;strong&gt;Resources&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
