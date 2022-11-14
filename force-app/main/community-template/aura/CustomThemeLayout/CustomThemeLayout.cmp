@@ -37,13 +37,10 @@
  <aura:attribute name="isPPonPhone" type="Boolean" default="false" />
  <aura:attribute name="communityServ" type="Object" />
  <aura:attribute name="isSitecal" type="Boolean" default="false" />
- <aura:attribute name="isIconVisible" type="Boolean" default="false" />
- <aura:attribute name="notVisibleOnBlur" type="Boolean" default="false" />
  <aura:attribute name="isIncentive" type="Boolean" default="false" />
 
  <!-- events: -->
  <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
- <aura:handler name="onBlurOverlayEvent" event="c:uiEvent" action="{!c.handleComponentEvent}" />
  <aura:handler event="c:PPMobileMenu" action="{!c.closePPMobileMenu}" />
 
  <!-- methods: -->
@@ -132,40 +129,32 @@
                              <aura:if isTrue="{!v.currentMode.userMode != 'Participant'}">
                                  <!--Site Calendar Start-->
                                  <aura:if isTrue="{!AND(not(v.reset),v.currentMode.userMode != 'HCP')}">
-                                    <c:overLayForCalendar
-                                        class="menu-block menuheight"
+                                    <c:overLayForCalendar 
+                                        class="menu-block menuheight" 
                                         isIncentive="{!v.isIncentive}"
                                     >
                                          <aura:set attribute="title">
-                                             <div
-                                                 onclick="{!c.onClickSite}"
-                                                 class="calendarNavigationCss"
-                                                 title="Calendar"
-                                                 onblur="{!c.onBlurSite}"
-                                             >
-                                                <aura:if isTrue="{!v.isIconVisible}">
-                                                    <c:RRIcon 
-                                                        iconName="site-calendar-close"
-                                                        printMode="true"
-                                                    />
-                                                 </aura:if>
-                                                <aura:if isTrue="{!not(v.isIconVisible)}">
-                                                    <c:RRIcon
-                                                        iconName="site-calendar-open"
-                                                        printMode="true"
-                                                    />
-                                                 </aura:if>
+                                            <div
+                                                onclick="{!c.onClickSite}"
+                                                class="calendarNavigationCss"
+                                                title="Calendar"
+                                                onblur="{!c.onBlurSite}"                                                 
+                                            >                                                 
+                                            <c:RRIcon 
+                                                iconName="site-calendar"
+                                                printMode="true"
+                                            />
                                              </div>
                                          </aura:set>
                                          <aura:if isTrue="{!v.isSitecal}">
                                             <c:site_Calender 
-                                                aura:id="site_Calender"
+                                            aura:id="site_Calender"
                                             ></c:site_Calender>                                             
                                          </aura:if>
                                           <aura:if isTrue="{!not(v.isSitecal)}">
                                             <c:site_Calender 
                                                 aura:id="site_Calender"
-                                            ></c:site_Calender>                                              
+                                            ></c:site_Calender>
                                          </aura:if>
                                      </c:overLayForCalendar>
                                 </aura:if>
@@ -192,7 +181,7 @@
                                      src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}"
                                  />
                              </aura:if>
-                         </aura:if>
+                         </aura:if>                         
                          <c:CommunityModeSwitcherMenu
                              currentMode="{!v.currentMode}"
                              onModeChange="{!c.doRefresh}"
