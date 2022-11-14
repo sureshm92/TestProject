@@ -19,16 +19,16 @@
                 <article class="slds-card slds-card_boundary container-card">
                     <div class="slds-card__body slds-card__body_inner">
                         <template if:true={taskOpenTab}>
-                                <c-pp-tasks-list
-                                    container-class="home-inactive-custom-box slds-align_absolute-center"
-                                    web-icon-class="home-open-task-icon slds-p-left_medium empty-oval"
-                                    due-time-class="due-time"
-                                    selected-tasks={openTasks}
-                                    ontaskcreated={handleTaskCreated}
-                                    ontaskcompleted={handleTaskCompleted}
-                                    ontaskedit={handleTaskEdit}
-                                    system-icon-class="home-sys-task curpointer"
-                                ></c-pp-tasks-list>
+                            <c-pp-tasks-list
+                                container-class="home-inactive-custom-box slds-align_absolute-center"
+                                web-icon-class="home-open-task-icon slds-p-left_medium empty-oval"
+                                due-time-class="due-time"
+                                selected-tasks={openTasks}
+                                ontaskcreated={handleTaskCreated}
+                                ontaskcompleted={handleTaskCompleted}
+                                ontaskedit={handleTaskEdit}
+                                system-icon-class="home-sys-task curpointer"
+                            ></c-pp-tasks-list>
                             <template if:true={emptyOpenTasks}>
                                 <div class="slds-card__body slds-card__body_inner card-wrap">
                                     <article
@@ -52,16 +52,16 @@
                     <p class="task-header">Tasks</p>
                     <div class="slds-card__body slds-card__body_inner custom-padding">
                         <template if:true={taskOpenTab}>
-                                <c-pp-tasks-list
-                                    container-class="home-inactive-custom-box slds-align_absolute-center"
-                                    web-icon-class="home-open-task-icon slds-p-left_medium empty-oval"
-                                    due-time-class="due-time"
-                                    selected-tasks={openTasks}
-                                    ontaskcreated={handleTaskCreated}
-                                    ontaskcompleted={handleTaskCompleted}
-                                    ontaskedit={handleTaskEdit}
-                                    system-icon-class="home-sys-task curpointer"
-                                ></c-pp-tasks-list>
+                            <c-pp-tasks-list
+                                container-class="home-inactive-custom-box slds-align_absolute-center"
+                                web-icon-class="home-open-task-icon slds-p-left_medium empty-oval"
+                                due-time-class="due-time"
+                                selected-tasks={openTasks}
+                                ontaskcreated={handleTaskCreated}
+                                ontaskcompleted={handleTaskCompleted}
+                                ontaskedit={handleTaskEdit}
+                                system-icon-class="home-sys-task curpointer"
+                            ></c-pp-tasks-list>
                             <template if:true={emptyOpenTasks}>
                                 <div class="slds-card__body slds-card__body_inner card-wrap">
                                     <article
@@ -79,7 +79,7 @@
                         </template>
                     </div>
                 </article>
-                </template>
+            </template>
         </div>
         <div class="slds-align_absolute-center">
             <a class="comm-link" href={sfdcBaseURL} target="_self">
@@ -94,7 +94,7 @@
         <div class={cardRTL}>
             <div>
                 <lightning-layout multiple-rows="true">
-                    <lightning-layout-item class="slds-p-vertical_small" size="12">
+                    <lightning-layout-item size="12">
                         <div class="tasks">{label.tasksHeader}</div>
                     </lightning-layout-item>
                     <lightning-layout-item padding="around-small" size="12">

@@ -108,7 +108,31 @@
     opacity: 0.8;
 }
 
-.fixed-height{
+.fixed-height {
     height: 70px;
     max-height: 70px;
+}
+
+.merge-existing-usern {
+    width: 350px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+
+.there-are-multiple {
+    width: 350px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    padding: 8px 0;
+}
+
+.ah-item-panel {
+    margin-bottom: 1rem;
 }

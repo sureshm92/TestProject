@@ -260,9 +260,11 @@ export default class PpCustomizeExperience extends LightningElement {
             event.target.checked = false;				
         }
         this.conditionsOfInterestTemp = taList;
-				let a = (this.conditionsOfInterestTemp.length === copy.length);
+        if (conditionsOfInterestTemp.length < 5) {
+				let coiTemp= (this.conditionsOfInterestTemp.length === copy.length);
+        }
 				
-        if (taList.length === 0 || a === true) {
+        if (taList.length === 0 || coiTemp === true) {
             this.isValueChanged = false;
             }
         else{ 
