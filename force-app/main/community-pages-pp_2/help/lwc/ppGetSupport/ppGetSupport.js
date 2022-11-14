@@ -9,7 +9,7 @@ import selectYear from '@salesforce/label/c.PP_SelectYear';
 import getSupport from '@salesforce/label/c.PP_Get_Support';
 import submitButton from '@salesforce/label/c.PP_Submit_Button';
 import minorMessage from '@salesforce/label/c.PP_MinorMessage';
-import PP_DuplicateUsernames from '@salesforce/label/c.PP_DuplicateUsernames';
+import PP_Duplicate_Usernames from '@salesforce/label/c.PP_Duplicate_Usernames';
 import PP_UsrNameLabel from '@salesforce/label/c.PP_UsrNameLabel';
 import requestSubmitted from '@salesforce/label/c.PP_Request_Submitted_Success_Message';
 import matchUsernameEmail from '@salesforce/label/c.PP_Username_And_Email_Change_GetSupport';
@@ -60,7 +60,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         minorMessage,
         requestSubmitted,
         matchUsernameEmail,
-        PP_DuplicateUsernames,
+        PP_Duplicate_Usernames,
         PP_UsrNameLabel,
         PP_MergeExisting
     };
