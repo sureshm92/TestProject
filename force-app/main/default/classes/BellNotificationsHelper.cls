@@ -1,6 +1,6 @@
 /*********************************************************************************************************************
 * @description: This class is created to handle Notifications of type 'BELL'
-* 
+*
 * @created: 13 October 2022
 
 **********************************************************************************************************************
@@ -20,13 +20,13 @@ public class BellNotificationsHelper {
     * @param: notificationType
     * @return: List<Notification_Target__mdt>
     * */
-    public static List<Notification_Target__mdt> getTarget(String notificationType){        
+    public static List<Notification_Target__mdt> getTarget(String notificationType){
         if(!String.isBlank(notificationType)){
             Map<String, List<Notification_Target__mdt>> mapOfTypeVsTarget = new Map<String, List<Notification_Target__mdt>>();
             mapOfTypeVsTarget = getMapOfTypeVsTarget(new List<String>{notificationType});
             if(!mapOfTypeVsTarget.isEmpty() && mapOfTypeVsTarget.containsKey(notificationType)){
                 return mapOfTypeVsTarget.get(notificationType);
-            }             
+            }
         }
         return null;
     }
@@ -44,9 +44,9 @@ public class BellNotificationsHelper {
         Map<String, List<Notification_Target__mdt>> mapOfTypeVsTarget = new Map<String, List<Notification_Target__mdt>>();
 
         if(!lstnotificationType.isEmpty() && lstnotificationType.size() > 0){
-            lstOfNotificationTarget = [SELECT Message_Body__c, Notification_Type__r.DeveloperName, Notification_Type__r.MasterLabel, 
-                                       Notification_Type__c, Target_Type__c, Title__c, Target_User_Group__c, Is_Redirect__c 
-                                       FROM Notification_Target__mdt 
+            lstOfNotificationTarget = [SELECT Message_Body__c, Notification_Type__r.DeveloperName, Notification_Type__r.MasterLabel,
+                                       Notification_Type__c, Target_Type__c, Title__c, Target_User_Group__c, Is_Redirect__c
+                                       FROM Notification_Target__mdt
                                        WHERE Notification_Type__r.DeveloperName IN :lstnotificationType];
             if(lstOfNotificationTarget.size() > 0){
                 for(Notification_Target__mdt eachRec : lstOfNotificationTarget){
@@ -68,12 +68,12 @@ public class BellNotificationsHelper {
     * @param: List of TargetUserGroup, StudySiteId, User who trigerred the process
     * @return: Map<String TargetUserGroup, List<Contact>>
     * */
-    
+
     public static Map<String, List<Contact>> getRecipientVsContact(List<String> userTargetGroup, Id studySite, String trigerredBy){
         Map<String, List<Contact>> mapofGroupVsContact = new Map<String, List<Contact>>();
         List<Study_Site__c> lstOfSite = new List<Study_Site__c>();
-        
-        
+
+
         for(String eachRec : userTargetGroup){
             if(!mapofGroupVsContact.containsKey(eachRec)){
                 mapofGroupVsContact.put(eachRec, new List<Contact>{});
@@ -92,12 +92,12 @@ public class BellNotificationsHelper {
         }
 
         lstOfSite = [SELECT Id, Principal_Investigator__c, (SELECT Id, Site_Contact__c, Delegate_Level__c FROM Site_Staff__r WHERE Delegate_Level__c IN :delegateLevel AND is_Invited__c = TRUE), (SELECT ID, HCP_Contact__c FROM HCP_Enrollments__r WHERE Status__c = 'Activated') FROM Study_Site__c WHERE ID = :studySite];
-        
+
         for (Study_Site__c eachRec: lstOfSite){
             if(mapofGroupVsContact.containsKey('Self') && !String.isBlank(trigerredBy)){
                 mapofGroupVsContact.get('Self').add(new Contact(Id = trigerredBy));
             }
-            
+
             if(mapofGroupVsContact.containsKey('PI') && eachRec.Principal_Investigator__c != null && eachRec.Principal_Investigator__c != trigerredBy){
                 mapofGroupVsContact.get('PI').add(new Contact(Id = eachRec.Principal_Investigator__c));
             }else{
@@ -119,8 +119,8 @@ public class BellNotificationsHelper {
                     }else {
                         if(eachStaff.Delegate_Level__c == 'Level 1' || eachStaff.Delegate_Level__c == 'Level 2' || eachStaff.Delegate_Level__c == 'Level 3'){
                             userRole = 'PI';
-                        }                        
-                    }                                            
+                        }
+                    }
                 }
             }
             if(mapofGroupVsContact.containsKey('RP') && eachRec.HCP_Enrollments__r != null){
@@ -129,10 +129,10 @@ public class BellNotificationsHelper {
                         mapofGroupVsContact.get('RP').add(new Contact(Id = eachRP.HCP_Contact__c));
                     }else{
                         userRole = 'RP';
-                    }                        
+                    }
                 }
             }
-        }        
+        }
         return mapofGroupVsContact;
     }
 
@@ -151,10 +151,25 @@ public class BellNotificationsHelper {
     * */
     public static List<Notification__c> createNotification(String notificationType, Map<String, List<Contact>> mapofGroupVsContact, Boolean isInsert){
         List<Notification__c> lstOfNotification = new List<Notification__c>();
-        
+
         for(String eachKey : mapofGroupVsContact.keySet()){
             for(Contact con : mapofGroupVsContact.get(eachKey)){
                 Notification__c nRec = new Notification__c(Recipient__c = con.Id, Notification_Type__c = notificationType, Target_User_Group__c = eachKey);
+                lstOfNotification.add(nRec);
+            }
+        }
+        if(isInsert){
+            insert lstOfNotification;
+        }
+        return lstOfNotification;
+    }
+
+    public static List<Notification__c> createNotification(String notificationType, Map<String, List<Contact>> mapofGroupVsContact, String communityType, Id whatId, Boolean isInsert){
+        List<Notification__c> lstOfNotification = new List<Notification__c>();
+
+        for(String eachKey : mapofGroupVsContact.keySet()){
+            for(Contact con : mapofGroupVsContact.get(eachKey)){
+                Notification__c nRec = new Notification__c(Recipient__c = con.Id, Notification_Type__c = notificationType, Target_User_Group__c = eachKey, Community_Type__c = communityType, WhatId__c = whatId);
                 lstOfNotification.add(nRec);
             }
         }
@@ -177,14 +192,14 @@ public class BellNotificationsHelper {
             nRec.Recipient__c = contactId;
             nRec.Notification_Type__c = notificationType;
         }
-        
+
         if(isInsert){
             insert nRec;
         }
 
-        return nRec;       
+        return nRec;
     }
-    
+
     /*
     * @description: This Method will return all the Notification Record created
     * RH-6603
@@ -199,12 +214,100 @@ public class BellNotificationsHelper {
             nRec.Notification_Type__c = notificationType;
             nRec.WhatId__c = whatId;
         }
-        
+
         if(isInsert){
             insert nRec;
         }
 
-        return nRec;  
+        return nRec;
+    }
+
+    public static List<Contact> getContactForStudy(Id studyId){
+        List<Study_Site__c> lstOfStaff = new List<Study_Site__c>();
+        List<String> lstOfUniqueContacts = new List<String>();
+        List<Contact> lstOfContacts = new List<Contact>();
+        if(studyId != null){
+            lstOfStaff = [SELECT ID, Principal_Investigator__c,  (SELECT Id, Site_Contact__c, Delegate_Level__c FROM Site_Staff__r WHERE is_Invited__c = TRUE) FROM Study_Site__c WHERE Clinical_Trial_Profile__c = :studyId];
+        }
+
+        for(Study_Site__c eachRec : lstOfStaff){
+            if(!lstOfUniqueContacts.contains(eachRec.Principal_Investigator__c)){
+                lstOfUniqueContacts.add(eachRec.Principal_Investigator__c);
+                Contact con = new Contact(Id = eachRec.Principal_Investigator__c);
+                lstOfContacts.add(con);
+            }
+
+            if(eachRec.Site_Staff__r != null){
+                for(Site_Staff__c eachStaff : eachRec.Site_Staff__r){
+                    if(!lstOfUniqueContacts.contains(eachStaff.Site_Contact__c)){
+                        lstOfUniqueContacts.add(eachStaff.Site_Contact__c);
+                        Contact con = new Contact(Id = eachStaff.Site_Contact__c);
+                        lstOfContacts.add(con);
+                    }
+                }
+            }
+        }
+
+        return lstOfContacts;
+
+    }
+
+    public static Map<String, List<Contact>> getContactForStudy(List<Id> studyIds){
+        List<Study_Site__c> lstOfStaff = new List<Study_Site__c>();    
+        Map<String, List<Contact>> mapOfStudyContact = new Map<String, List<Contact>>();
+
+        if(studyIds != null){
+            lstOfStaff = [SELECT ID, Principal_Investigator__c,  Clinical_Trial_Profile__c, (SELECT Id, Site_Contact__c, Delegate_Level__c FROM Site_Staff__r WHERE is_Invited__c = TRUE) FROM Study_Site__c WHERE Clinical_Trial_Profile__c IN :studyIds];
+        }
+
+        for(Study_Site__c eachRec : lstOfStaff){
+            if(!mapOfStudyContact.containsKey(eachRec.Clinical_Trial_Profile__c)){
+                mapOfStudyContact.put(eachRec.Clinical_Trial_Profile__c, new List<Contact>{});
+            }
+            
+            Contact con = new Contact(Id = eachRec.Principal_Investigator__c);
+            mapOfStudyContact.get(eachRec.Clinical_Trial_Profile__c).add(con);            
+
+            if(eachRec.Site_Staff__r != null){
+                for(Site_Staff__c eachStaff : eachRec.Site_Staff__r){                    
+                    Contact con1 = new Contact(Id = eachStaff.Site_Contact__c);
+                    mapOfStudyContact.get(eachRec.Clinical_Trial_Profile__c).add(con1);                    
+                }
+            }
+        }
+
+        return mapOfStudyContact;
+
+    }
+
+    public static List<Contact> getContactGeneric(){
+        List<Study_Site__c> lstOfStaff = new List<Study_Site__c>();
+        Set<String> setOfUniqueContacts = new Set<String>();
+        List<Site_Staff__c> lstOfSiteStaff = new List<Site_Staff__c>();
+        List<Contact> lstOfContacts = new List<Contact>();
+
+        lstOfStaff = [SELECT ID, Principal_Investigator__c,  (SELECT Id, Site_Contact__c, Delegate_Level__c FROM Site_Staff__r WHERE is_Invited__c = TRUE) FROM Study_Site__c];
+
+
+        for(Study_Site__c eachRec : lstOfStaff){
+            setOfUniqueContacts.add(eachRec.Principal_Investigator__c);            
+
+            if(eachRec.Site_Staff__r != null){
+                lstOfSiteStaff.addAll(eachRec.Site_Staff__r);
+            }
+        }
+
+        for(Site_Staff__c eachRec : lstOfSiteStaff){
+            setOfUniqueContacts.add(eachRec.Site_Contact__c);
+        }
+
+        for(String eachrec : setOfUniqueContacts){
+            Contact con = new Contact(Id = eachrec);
+            lstOfContacts.add(con);
+        }
+
+        return lstOfContacts;
+
     }
 
     /*
@@ -226,16 +329,16 @@ public class BellNotificationsHelper {
             }
         }
 
-        if(srForBellNotification.size() > 0){            
+        if(srForBellNotification.size() > 0){
             Map<Id,Send_Result__c> srMap  = new Map<Id,Send_Result__c>(
                                                     [SELECT Notification__r.Recipient__c FROM Send_Result__c WHERE Id IN :srIds]
                                                 );
-            
+
             for(Send_Result__c srObj : srForBellNotification){
-                eventMessages.add(new bellNotification__e(  ContactId__c = srMap.containsKey(srObj.Id) ? 
-                                                                            srMap.get(srObj.Id).Notification__r.Recipient__c : 
-                                                                            '', 
-                                                            message__c = srObj.Push_Message_Body__c) 
+                eventMessages.add(new bellNotification__e(  ContactId__c = srMap.containsKey(srObj.Id) ?
+                                                                            srMap.get(srObj.Id).Notification__r.Recipient__c :
+                                                                            '',
+                                                            message__c = srObj.Push_Message_Body__c)
                                                         );
             }
 
@@ -251,7 +354,7 @@ public class BellNotificationsHelper {
                                         ' - ' +
                                         err.getMessage());
                         }
-                    }       
+                    }
                 }
         }
     }
