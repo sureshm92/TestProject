@@ -22,7 +22,6 @@
     padding: 0;
     height: 416px;
     border-radius: 8px;
-    width: 412px;
 }
 .upcoming {
     height: 3.14%;
@@ -46,6 +45,7 @@ hr {
     letter-spacing: 0;
     line-height: 32px;
     text-align: center;
+    margin-bottom: 8px;
 }
 .visit-text {
     height: 2.36%;
@@ -112,12 +112,7 @@ hr {
     line-height: 24px;
     text-align: center;
     word-wrap: normal;
-    padding: 15%;
-}
-.content1 {
-    padding-top: 0px;
-    padding-bottom: 0px;
-    margin: 0;
+    padding: 22%;
 }
 .content {
     margin:10px;
@@ -126,10 +121,6 @@ hr {
     padding: 0;
 }
 
-.icon-box {
-    padding-top: 0;
-    padding-bottom: 0;
-}
 .visit-card {
     padding-top: 10px;
     padding-bottom: 0;
@@ -138,7 +129,6 @@ hr {
 }
 .visit-card-upcoming {
     height: 377px;
-    width: 381px;
     display: grid;
 }
 .center-align {
