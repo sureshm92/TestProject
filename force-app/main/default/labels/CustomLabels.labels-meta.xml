@@ -513,6 +513,20 @@ Duration: ##VisitDuration</value>
         <value>Save Changes?</value>
     </labels>
     <labels>
+        <fullName>PIR_Initial_Visit_Signed_Date_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Initial_Visit_Signed_Date_Validation</shortDescription>
+        <value>Initial Visit Attended Date and Consent Signed Date can not be in the future.</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Signed_Date_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Signed_Date_Validation</shortDescription>
+        <value>Consent Signed Date can not be in the future.</value>
+    </labels>
+    <labels>
         <fullName>PIR_Unsaved_Changes</fullName>
         <language>en_US</language>
         <protected>false</protected>
