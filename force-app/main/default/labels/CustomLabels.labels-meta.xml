@@ -6658,7 +6658,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
 
 &lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
-       <labels>
+    <labels>
         <fullName>Email_Body_Visit_Task_Reminder_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18631,7 +18631,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_ProgramOverview_LearnMore_Desktop</shortDescription>
-        <value>Learn more</value>
+        <value>Learn about your program</value>
     </labels>
     <labels>
         <fullName>PP_ProgramOverview_LearnMore_Mobile</fullName>
@@ -28847,7 +28847,7 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>PP Resource URL Placeholder</shortDescription>
         <value>Paste article or video website URL here</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Resource_URL_Placeholder_New</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -28868,7 +28868,7 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>PP Resource Submit</shortDescription>
         <value>Content was submitted successfully. Thank you for your contribution!</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>View_All_Tasks</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -28982,60 +28982,60 @@ Please contact the Study Team for further updates or please login for additional
 
 &lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##expirationDate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Program_Header_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Program_Header_PP</shortDescription>
         <value>program</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Study_Header_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Study_Header_PP</shortDescription>
         <value>clinical research study</value>
-    </labels> 
-     <labels>
+    </labels>
+    <labels>
         <fullName>Study_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Study_PP</shortDescription>
         <value>study</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Events_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Events_PP</shortDescription>
         <value>events</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Visits_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Visits_PP</shortDescription>
         <value>visits</value>
     </labels>
-    
-<labels>
+
+    <labels>
         <fullName>Email_Body_Initial_Patient_Created_By_PI_New_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Created By PI New PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the enrollment process.&lt;/span&gt;</value>
     </labels>
 
- <labels>
+    <labels>
         <fullName>Email_Header_Initial_Patient_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Initial Patient PP</shortDescription>
         <value>Thank you for your interest in participating in a ##StudyorProgramHeader</value>
     </labels>
-        <labels>
+    <labels>
         <fullName>Email_Signature_Patient_New_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -29050,7 +29050,7 @@ Please contact the Study Team for further updates or please login for additional
 
 &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>Email_Signature_Patient1_PP_New</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -29065,14 +29065,14 @@ Please contact the Study Team for further updates or please login for additional
 
 &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Discover_future_Clinical_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Discover future Clinical PP</shortDescription>
         <value>information about ##StudyName ##isEventorVisit and assessments</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>Discover_future_Clinical_New_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -29085,7 +29085,7 @@ Please contact the Study Team for further updates or please login for additional
         <protected>true</protected>
         <shortDescription>Track your study PP</shortDescription>
         <value>your ##isStudyorProgram timeline to help you keep track of your progress</value>
-    </labels> 
+    </labels>
     <labels>
         <fullName>AL_Title_Welcome_To_The_PH_PP</fullName>
         <language>en_US</language>
@@ -29114,34 +29114,34 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>AL Title Welcome Study PP</shortDescription>
         <value>Welcome to ##StudyName!</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Learn_more_about_study_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Learn_more_about_study_PP</shortDescription>
         <value>interesting articles and additional information about research.</value>
-    </labels>  
-      <labels>
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_Patient_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
         <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more ##studiesOrPrograms that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
-    </labels>  
-     <labels>
+    </labels>
+    <labels>
         <fullName>Programs_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Programs PP</shortDescription>
         <value>programs</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Studies_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Studies PP</shortDescription>
         <value>studies</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>Delegate_learnmore_PP</fullName>
         <language>en_US</language>
@@ -29178,16 +29178,16 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email_Submit_Request</shortDescription>
         <value>submit a request</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Email_Body_Initial_Patient_ePR_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Initial_Patient_ePR_PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information.A member of the ##isStudyorProgram team will contact you regarding the next steps in the ##isStudyorProgram process.&lt;/span&gt;</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Email_Signature_Patient_ePR_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -29200,7 +29200,7 @@ Please contact the Study Team for further updates or please login for additional
 
 &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Email_Signature_Participant_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -29219,7 +29219,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Initial_Patient_RP_Referral_PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the referral process.&lt;/span&gt;</value>
     </labels>
@@ -29244,7 +29244,7 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Program_SMS_PP </shortDescription>
         <value>Program</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Study_SMS_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -29272,7 +29272,7 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Resources Favorites filter empty</shortDescription>
         <value>Add articles and videos to favorites &lt;br /&gt;
              by giving them a star!</value>
-    </labels> 
+    </labels>
     <labels>
         <fullName>Email_Body_Complete_Baseline_Survey_New_PP</fullName>
         <language>en_US</language>
@@ -29282,4 +29282,4 @@ Please contact the Study Team for further updates or please login for additional
 
 &lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##expirationDate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
-    </CustomLabels>
+</CustomLabels>
