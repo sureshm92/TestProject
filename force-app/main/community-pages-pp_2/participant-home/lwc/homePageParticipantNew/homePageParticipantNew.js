@@ -85,7 +85,8 @@ export default class HomePageParticipantNew extends LightningElement {
                             !this.participantState.isDelegate);
                 }
                 if(this.showVisitCard !=true || this.isDelegateSelfview ==true){
-                    this.taskList = true;    
+                    this.taskList = true;
+                    this.showVisitCardMobile = false;    
                 }
                 this.spinner.hide();
             })
