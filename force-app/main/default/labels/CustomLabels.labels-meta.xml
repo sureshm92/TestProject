@@ -19209,6 +19209,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>There are multiple usernames associated with your email address. Please choose the username that you would like to use.</value>
     </labels>
     <labels>
+        <fullName>PP_Duplicate_Usernames</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Duplicate_Usernames</shortDescription>
+        <value>There are multiple usernames associated with your email address. Please select the username that you would like to use.</value>
+    </labels>
+    <labels>
         <fullName>PP_EditAllInfo</fullName>
         <language>en_US</language>
         <protected>true</protected>
