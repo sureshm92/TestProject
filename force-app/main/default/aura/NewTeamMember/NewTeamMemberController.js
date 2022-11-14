@@ -230,8 +230,7 @@
                             component,
                             'savePatientDelegate',
                             {
-                                delegate: JSON.stringify(delegate.delegateContact),
-                                delegateFilterData: null //Passing Null for now, we can pass actual data when we do Delegate redesign for PP lite.
+                                delegate: JSON.stringify(delegate.delegateContact)
                             },
                             function () {
                                 communityService.showToast(

@@ -10,6 +10,7 @@ public without sharing class PatientDelegateService {
     private Boolean isDelegate = false;
     public Boolean hasDelegates = false;
     private Participant__c participant;
+    public static Patient_Delegate__c patientDel = new Patient_Delegate__c();
 
     private static PatientDelegateService instance;
 
@@ -301,8 +302,14 @@ public without sharing class PatientDelegateService {
         }
         return (isDelegateExisting && (hasWithdrawn == false));
     }
-
     public void createPatientDelegate(Contact newDelegate,String delegateFilterData) {
+        createPatientDelegate(newDelegate);
+        if(delegateFilterData!=null){
+            PatientDelegateEnrollmentService.getInstance().createPatientDelegateEnrollment(patientDel,delegateFilterData);
+       }
+    }
+
+    public void createPatientDelegate(Contact newDelegate) {
         List<User> delegateUser = [
             SELECT Id
             FROM User
@@ -379,10 +386,11 @@ public without sharing class PatientDelegateService {
             pd.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
             pd.Attested_by__c = participant.get(0).Contact__c;
             insert pd;
-            //@krihsna:- Added null check as method called from PPLight will send null as of now.
-            if(delegateFilterData!=null){
-                 PatientDelegateEnrollmentService.getInstance().createPatientDelegateEnrollment(pd,delegateFilterData);
-            }
+            patientDel = pd;
+            // //@krihsna:- Added null check as method called from PPLight will send null as of now.
+            // if(delegateFilterData!=null){
+            //      PatientDelegateEnrollmentService.getInstance().createPatientDelegateEnrollment(pd,delegateFilterData);
+            // }
         }
     }
 
