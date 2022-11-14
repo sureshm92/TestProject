@@ -8,7 +8,7 @@
                 <div class="slds-align_absolute-center">
                     <lightning-card class="task-card">
                         <lightning-layout>
-                            <lightning-layout-item padding="around-medium" size="3">
+                            <lightning-layout-item padding="around-medium" size="3" class="taskIcon">
                                 <img src={task_icon} />
                             </lightning-layout-item>
                             <lightning-layout-item padding="around-medium" size="9">
@@ -186,20 +186,22 @@
                                 </lightning-layout-item>
                             </lightning-layout-item>
                         </lightning-layout>
-                        <p slot="footer">
-                            <lightning-layout class="slds-grid_align-end">
-                                <lightning-layout-item class="pad-right"
-                                    ><button class="task-cancel-btn" onclick={handleCancelTask}>
-                                        {label.cancel}
-                                    </button>
-                                </lightning-layout-item>
-                                <lightning-layout-item>
-                                    <button class={saveButtonClass} onclick={doCreateTask}>
-                                        {label.save}
-                                    </button></lightning-layout-item
-                                >
-                            </lightning-layout>
-                        </p>
+                        <div class="taskFooter">
+                            <p slot="footer">
+                                <lightning-layout class="slds-grid_align-end">
+                                    <lightning-layout-item class="pad-right"
+                                        ><button class="task-cancel-btn" onclick={handleCancelTask}>
+                                            {label.cancel}
+                                        </button>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item>
+                                        <button class={saveButtonClass} onclick={doCreateTask}>
+                                            {label.save}
+                                        </button></lightning-layout-item
+                                    >
+                                </lightning-layout>
+                            </p>
+                        </div>
                     </lightning-card>
                 </div>
             </lightning-layout-item>
