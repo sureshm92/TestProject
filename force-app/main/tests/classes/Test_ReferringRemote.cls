@@ -49,7 +49,7 @@ private without sharing class Test_ReferringRemote {
                     Language__c = 'en_US',
                     Resource_Visibility__c = 'PI',
                     RecordTypeId = Schema.SObjectType.Resource__c.getRecordTypeInfosByName()
-                        .get('Study Document')
+                        .get('Document')
                         .getRecordTypeId()
                 )
             };
@@ -133,8 +133,9 @@ private without sharing class Test_ReferringRemote {
 
     @IsTest
     static void getInitData() {
-        TestData.loadTestData();
+        
         Test.startTest();
+        TestData.loadTestData();
         TestData testDataInstance = new TestData();
         String initDataStr;
         System.runAs(testDataInstance.hcpUser) {
@@ -157,6 +158,7 @@ private without sharing class Test_ReferringRemote {
 
     @IsTest
     static void deletefile() {
+        Test.startTest();
         TestData.loadTestData();
        
         TestData testDataInstance = new TestData();
@@ -168,7 +170,7 @@ private without sharing class Test_ReferringRemote {
                 Language__c = 'en_US',
                 Resource_Visibility__c = 'PI',
                 RecordTypeId = Schema.SObjectType.Resource__c.getRecordTypeInfosByName()
-                    .get('Study Document')
+                    .get('Document')
                     .getRecordTypeId()
             )
         };
@@ -215,8 +217,8 @@ private without sharing class Test_ReferringRemote {
             contentDocList.add(cdl);
         }
         Insert contentDocList;  
-		
-         Test.startTest();
+        
+         //Test.startTest();
         ReferringRemote.deleteFile(Documents[0].id);
 
         string lang = 'en_US';
