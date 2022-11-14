@@ -45,9 +45,12 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
     );
+    /** 
+     * Logic moved to Screener response from PE due to multi screener implementation
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
     );
+    **/
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class);
     TriggerHandlerExecutor.execute(

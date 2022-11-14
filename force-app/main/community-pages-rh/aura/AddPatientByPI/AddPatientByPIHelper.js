@@ -531,6 +531,7 @@
                 if (returnValue.email) {
                     component.set('v.emailInstance', returnValue.email.toLowerCase());
                     participantDelegate.Email__c = returnValue.email;
+                    component.set('v.emailDelegateRepeat',returnValue.email.toLowerCase());
                 } else {
                     component.set('v.emailInstance', '');
                 }
