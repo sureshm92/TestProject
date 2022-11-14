@@ -15,6 +15,7 @@ import No_Upcoming_Visit from '@salesforce/label/c.Visit_No_Upcoming_Visit';
 import visit_clock from '@salesforce/label/c.Upcoming_Visits_Clock';
 import visit_calendar from '@salesforce/label/c.Upcoming_Visit_calendar';
 import Upcoming_Visit_Location from '@salesforce/label/c.Upcoming_Visit_Location';
+import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class HomePageVisitsCard extends LightningElement {
     planDateTime;
@@ -44,6 +45,7 @@ export default class HomePageVisitsCard extends LightningElement {
 
     isUpcomingDetails = false;
     isVisitAvailable = false;
+    empty_state = pp_community_icons + '/' + 'empty_visits.png';
 
     connectedCallback() {
         this.initializeData();

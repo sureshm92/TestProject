@@ -92,7 +92,6 @@
                 <template if:false={isMobile}>
                     <lightning-layout-item size="8" class="mob-task-sub" padding="around-small">
                         <lightning-layout size="12">
-                            
                             <template if:true={ishomepage}>
                                 <lightning-layout-item size="12">
                                     <lightning-layout>
@@ -120,7 +119,7 @@
                                                     ><template if:false={item.isClosed}
                                                         >{label.taskDue}</template
                                                     >:&nbsp;
-    
+
                                                     <lightning-formatted-date-time
                                                         value={item.task.Activity_Datetime__c}
                                                         year="numeric"
@@ -139,8 +138,6 @@
                                             </lightning-layout-item> </lightning-layout
                                     ></template>
                                 </lightning-layout-item>
-    
-                                
                             </template>
                             <template if:false={ishomepage}>
                                 <lightning-layout-item size="10">
@@ -169,7 +166,7 @@
                                                     ><template if:false={item.isClosed}
                                                         >{label.taskDue}</template
                                                     >:&nbsp;
-    
+
                                                     <lightning-formatted-date-time
                                                         value={item.task.Activity_Datetime__c}
                                                         year="numeric"
@@ -188,7 +185,7 @@
                                             </lightning-layout-item> </lightning-layout
                                     ></template>
                                 </lightning-layout-item>
-    
+
                                 <lightning-layout-item class="slds-align_absolute-center" size="2"
                                     ><template if:true={item.criticalTask}
                                         ><span class="critical-rect"
@@ -197,8 +194,6 @@
                                     >
                                 </lightning-layout-item>
                             </template>
-
-                                
                         </lightning-layout>
                         <template if:true={item.completed}>
                             <lightning-layout-item
@@ -310,6 +305,7 @@
                                 <c-web-icon
                                     icon-name="task_arrow"
                                     onclick={handleonclick}
+                                    data-index={item.task.Id}
                                     class="svg-icon"
                                     icon-size="default"
                                 ></c-web-icon>
@@ -373,7 +369,7 @@
                                                                 <c-web-icon
                                                                     class="svg-icon"
                                                                     icon-size="small"
-                                                                    icon-name="icon-close"
+                                                                    icon-name="pp-close-new"
                                                                     icon-color="#999999"
                                                                 >
                                                                 </c-web-icon></template
@@ -392,14 +388,16 @@
             </div>
         </template>
         <template if:true={item.expandCard}>
-            <c-pp-create-task
-                key={item.task.Id}
-                task-id={selectedTaskId}
-                ontaskclose={handleTaskClose}
-                edit-mode="true"
-                read-only-mode={readOnlyMode}
-            >
-            </c-pp-create-task>
+            <template if:true={showTaskCreateCard}>
+                <c-pp-create-task
+                    key={item.task.Id}
+                    task-id={selectedTaskId}
+                    ontaskclose={handleTaskClose}
+                    edit-mode="true"
+                    read-only-mode={readOnlyMode}
+                >
+                </c-pp-create-task>
+            </template>
         </template>
     </template>
 </template>

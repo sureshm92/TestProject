@@ -386,12 +386,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private static void setChangedDate(List<Participant_Enrollment__c> newList) {
         for (Participant_Enrollment__c pe : newList) {
             if (
-                pe.MRR_Survey_Results_URL__c != null &&
-                pe.Medical_Record_Review_Completed_Date__c == null
-            ) {
-                pe.Medical_Record_Review_Completed_Date__c = Datetime.now();
-            }
-            if (
                 pe.Participant_Status__c != null &&
                 pe.Participant_Status_Last_Changed_Date__c == null
             ) {
