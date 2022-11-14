@@ -369,7 +369,7 @@
 
 .comm-link {
     height: 24px;
-    width: 90px;
+    width: auto;
     color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 14px;
@@ -396,10 +396,37 @@
     border-top-width: 8px;
     padding: 0;
     border-radius: 7px;
-    width: 412px;
+    /* width: 412px; */
     height: 416px;
 }
 
+.container-card-mobile {
+    background-color: rgb(246, 247, 249);
+    border-top-color: #C627A6;
+    border-top-width: 38px;
+    padding: 0;
+    border-radius: 25px;
+    height: 416px;
+    margin: 0px 10px;
+    border-left: 0;
+    border-right: 0;
+}  
+
+.task-header{
+    position: relative;
+    margin-top: -31px;
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Proxima Nova';
+    text-transform: uppercase;
+}
+
+.custom-padding{
+    padding-left: 0px;
+    padding-right: 0px;
+}
 /*.container-card-upcoming {
     background-color: transparent;
     border-top-color: #c42ea5;

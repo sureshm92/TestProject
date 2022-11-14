@@ -38,7 +38,8 @@ ShortCommName = Study_Site__r.Clinical_Trial_Profile__r.ShortCommunityName__c
 StudyorProgramHeader=Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c
 isEventorVisit=Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c
 isStudyorProgram=Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c
-studiesOrPrograms=Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c</value>
+studiesOrPrograms=Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c
+STUDYorPROGRAM=Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>

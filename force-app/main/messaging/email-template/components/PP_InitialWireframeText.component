@@ -1,0 +1,45 @@
+<apex:component id="PP_InitialWireframeText" controller="InitialWireframeController" access="global">
+    <!-- attributes: -->
+    <apex:attribute name="userId" type="Id" assignTo="{!recordId}" description="" access="global" />
+    <apex:attribute name="communityTemplate" type="String" assignTo="{!commTemplate}" description="" access="global" />
+    <apex:attribute name="buttonLabel" type="String" assignTo="{!buttonLabelValue}" description="" access="global" />
+    <apex:attribute name="buttonURL" type="String" description="" access="global" />
+    <!-- Participant referred by PI -->
+    <c:PP_EmailWireframeText rendered="{!userMode == 'Participant referred by PI'}" recipientId="{!recordId}" sourceId="{!sourceId}"
+        header="{!$Label.Email_Header_Initial_Patient_PP}" title="{!titleLabel}" greeting="{!$Label.Email_User_Greeting_FirstName}"
+        signature="{!IF(checkVisitedCommunity,$Label.Email_Signature_Patient1_PP_New,$Label.Email_Signature_Patient_New_PP)}">
+        <!-- Inner body -->
+        <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Created_By_PI_New_PP}" />
+        <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}" />
+    </c:PP_EmailWireframeText>
+
+    <!-- Participant Virtual -->
+    <c:PP_EmailWireframeText rendered="{!userMode == 'Participant Virtual'}" recipientId="{!recordId}" sourceId="{!sourceId}"
+        header="{!$Label.Email_Header_Initial_Patient_PP}" title="{!titleLabel}" greeting="{!$Label.Email_User_Greeting_FirstName}"
+        signature="{!$Label.Email_Signature_Patient_ePR_PP}">
+        <!-- Inner body -->
+        <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_ePR_PP}" />
+        <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}" />
+    </c:PP_EmailWireframeText>
+
+    <!-- Participant Delegate -->
+    <c:PP_EmailWireframeText rendered="{!userMode == 'Participant Delegate'}" recipientId="{!recordId}" sourceId="{!sourceId}"
+        header="{!$Label.Email_Header_Initial_Patient_Delegate}" title="{!titleLabel}" greeting="{!$Label.Email_User_Greeting_FirstName}"
+        signature="{!$Label.Email_Signature_Participant_Delegate_PP}">
+        <!-- Inner body -->
+        <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate_PP}" />
+        <c:EmailTemplateDelegateParticipantText/>
+        <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}" />
+    </c:PP_EmailWireframeText>
+
+    <!-- Participant Delegate -->
+    <c:PP_EmailWireframeText rendered="{!userMode == 'Participant Delegate'}" recipientId="{!recordId}" sourceId="{!sourceId}"
+        header="{!$Label.Email_Header_Initial_Patient_PP}" title="{!titleLabel}" greeting="{!$Label.Email_User_Greeting_FirstName}"
+        signature="{!$Label.Email_Signature_Patient_RP_Referral_PP}">
+        <!-- Inner body -->
+        <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_RP_Referral_PP}" />
+        <c:EmailTemplateDelegateParticipantText/>
+        <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}" />
+    </c:PP_EmailWireframeText>
+
+</apex:component>

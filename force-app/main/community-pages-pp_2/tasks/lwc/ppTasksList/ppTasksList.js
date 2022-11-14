@@ -163,7 +163,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             }
         }
         if (selectedTask.isClosed) return;
-        if (selectedTask.task.Status == 'Expired' || selectedTask.task.Status == 'Ignored') return;
+        if (selectedTask.task.Status == 'Expired') return;
         this.isShowModal = true;
         this.popUpTaskId = taskId;
         this.selectedTaskId = taskId;
@@ -235,7 +235,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         } else {
             if (selectedTask.task.Task_Code__c == 'Complete_Survey') {
                 if (selectedTask.task.Status != 'Ignored') {
-                    this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
+                    this.popupTaskMenuItems.push(this.reminderObj);
                 } else {
                     this.popupTaskMenuItems.push(this.reminderObj);
                 }

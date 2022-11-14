@@ -376,20 +376,23 @@ export default class Pir_participantDetail extends LightningElement {
         this.setVal(val, lvl, field);
     }
     handleCheckboxChange(event) {
-        this.isOutreachUpdated = true;
         let consent = event.detail.checked;
         let consentType = event.target.name;
         switch (consentType) {
             case 'outreachPhoneConsent':
+                this.isOutreachUpdated = true; 
                 this.pd['pe']['Participant_Contact__r']['Participant_Phone_Opt_In_Permit_Phone__c'] = consent;
                 break;
             case 'outreachEmailConsent':
+                this.isOutreachUpdated = true;
                 this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_Emails__c'] = consent;
                 break;
             case 'outreachSMSConsent':
+                this.isOutreachUpdated = true;
                 this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_SMS__c'] = consent;
                 break;
             case 'outreachDirectMailConsent':
+                this.isOutreachUpdated = true;
                 this.pd['pe']['Participant_Contact__r']['IQVIA_Direct_Mail_Consent__c'] = consent;
                 break;
             case 'studyPhoneConsent':
