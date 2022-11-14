@@ -29,6 +29,80 @@ public without sharing class ParticipantVisitsRemote {
     }
 
     @AuraEnabled
+    public static VisitAndCountWrapper getVisitsPreviewAndCount() {
+        try {
+            ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(
+                ParticipantService.class
+            ))
+            .getState();
+            VisitAndCountWrapper visitAndCount = new VisitAndCountWrapper();
+            visitAndCount.showVisits = pState.showVisits;
+            visitAndCount.visitPreviewList = ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
+                .getVisitWrappers(PatientVisitService.VISIT_MODE_CURRENT, 5);
+            return visitAndCount;
+
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
+    public class VisitAndCountWrapper {
+        @AuraEnabled
+        public List<PatientVisitService.VisitWrapper>  visitPreviewList;
+        @AuraEnabled
+        public Boolean showVisits;
+    }
+
+    @AuraEnabled
+    public static String getSiteAddress() {
+        String accountData;
+        try {
+            Id userId = UserInfo.getUserId();
+            Id contactId = [SELECT Id, Contact.Id FROM User WHERE Id = :userId].Contact.Id;
+            List<Contact> siteData = [
+                SELECT
+                    Id,
+                    Account.Name,
+                    Account.Phone,
+                    Account.BillingStreet,
+                    Account.BillingCity,
+                    Account.Billingstate,
+                    Account.BillingCountry,
+                    Account.BillingPostalCode
+                FROM Contact
+                WHERE Id = :contactId
+            ];
+            String[] addr = new List<String>{
+                siteData[0].Account.BillingStreet,
+                siteData[0].Account.BillingCity,
+                siteData[0].Account.Billingstate,
+                siteData[0].Account.BillingCountry,
+                siteData[0].Account.BillingPostalCode
+            };
+            for (Integer i = 4; i >= 0; i--) {
+                if (addr[i] == null) {
+                    addr.remove(i);
+                }
+            }
+            AccountData acc = new AccountData();
+            acc.accountName = siteData[0].Account.Name;
+            acc.accountPhone = siteData[0].Account.Phone;
+            acc.accountAddress = String.join(addr, ',');
+            accountData = JSON.serializePretty(acc);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return accountData;
+    }
+
+    public class AccountData {
+        String accountName;
+        String accountAddress;
+        String accountPhone;
+    }
+
+    @AuraEnabled
     public static List<PatientVisitService.VisitWrapper> getParticipantVisits(String visitMode) {
         try {
             return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
@@ -38,6 +112,7 @@ public without sharing class ParticipantVisitsRemote {
         }
         return null;
     }
+
     @AuraEnabled
     public static List<PatientVisitService.VisitWrapper> getParticipantVisitsDetails(Id visitId) {
         try {
@@ -50,6 +125,17 @@ public without sharing class ParticipantVisitsRemote {
     }
 
     @AuraEnabled
+    public static List<Patient_Visit__c> getPatientVisitsDetails(Id visitId) {
+        try {
+            return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
+                .getPatientVisitDetails(visitId);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+    
+    @AuraEnabled
     public static Boolean getIsRTL() {
         try {
             return (System.Label.RTL_Languages).contains(UserInfo.getLanguage());
@@ -58,9 +144,9 @@ public without sharing class ParticipantVisitsRemote {
         }
         return null;
     }
-    
+
     @AuraEnabled
-    public static Boolean getIsVisitPathEnabled(){
+    public static Boolean getIsVisitPathEnabled() {
         ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
         return state.isVisitPathEnabled;
     }
@@ -87,6 +173,38 @@ public without sharing class ParticipantVisitsRemote {
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
+    }
+
+    @AuraEnabled
+    public static List<Icon_Details__c> getVisitIconsbyName(Id visitId) {
+        
+        Id visitPlanId;
+        List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
+        List<Patient_Visit__c> visits = [
+            SELECT Id, Visit__c, Visit__r.Visit_Plan__c, Completed_Date__c, Visit__r.Icons__c
+            FROM Patient_Visit__c
+            WHERE Id = :visitId
+        ];
+        for (Patient_Visit__c visit : visits) {
+            if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
+                visitPlanId = visit.Visit__r.Visit_Plan__c;
+                break;
+            }
+        }
+        String icons;
+        List<String> iconNames = new List<String>();
+        if (visits[0].Visit__c != null) {
+            icons = visits[0].Visit__r.Icons__c;
+            if (visits[0].Visit__r != null && visits[0].Visit__r.Icons__c != null)
+                iconNames = visits[0].Visit__r.Icons__c.split(';');
+        }
+        iconDetails = [
+            SELECT Id, Name, Label__c, Description__c
+            FROM Icon_Details__c
+            WHERE Name IN :iconNames AND Visit_Plan__c = :visitPlanId
+        ];
+        TranslateHelper.translate(iconDetails);
+        return iconDetails;
     }
 
     @AuraEnabled

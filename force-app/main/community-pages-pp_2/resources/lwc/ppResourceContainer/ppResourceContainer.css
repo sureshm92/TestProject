@@ -1,0 +1,60 @@
+.summary-title {
+    color: #0768fd;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 22px;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+.summary-text {
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 17px;
+    overflow-wrap: break-word;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-align: left;
+}
+
+img,
+.empty-icon {
+    height: 200px;
+    object-fit: fill;
+    border: 1px solid #f2f2f2;
+    background-color: #E8E8E8;
+}
+.summary {
+    padding: 0% 2%;
+    margin-left: 1%;
+    border: 1px solid #f2f2f2;
+    contain: size;
+    overflow: hidden;
+    height: 200px;
+}
+.title-row {
+    padding: 5% 1% 0% 0%;
+}
+.summary-date {
+    color: #898989;
+    padding: 2% 0%;
+    font-size: 14px;
+    line-height: 17px;
+}
+.resource-icon {
+    display: block;
+    margin-left: 70%;
+}
+.resource-pointer {
+    cursor: pointer;
+}
+.icon-center {
+    margin: 0% 35%;
+}

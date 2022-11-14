@@ -39,10 +39,12 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
     protected virtual override List<Id> getResourcesIds() {
         if (resourceId != null)
             return new List<Id>{ resourceId };
+            List<String> listResourceType= new List<String>();
+            listResourceType=resourceType.split(';');
         //Create filter for query:
-        String filter = DatabaseService.fieldEqual(
+        String filter = DatabaseService.fieldInValues(
             'Resource__r.RecordType.DeveloperName',
-            resourceType
+            listResourceType
         );
         if (contentClass != null)
             filter +=

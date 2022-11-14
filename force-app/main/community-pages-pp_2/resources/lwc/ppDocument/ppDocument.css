@@ -1,0 +1,71 @@
+.card-border {
+    box-sizing: border-box;
+    height: 64px;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+.thumbnail-outerbox {
+    padding: 2px 0 0 2px;
+}
+
+.thumbnail-box {
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    height: 58px;
+    background-color: #e8e8e8;
+}
+
+.document-label {
+    color: #0768fd;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 160px;
+    white-space: nowrap;
+    width: 100%;
+    cursor: pointer;
+}
+
+.document-details {
+    padding: 12px 15px 0 15px;
+    height: 58px;
+}
+
+.version-date {
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 10px;
+}
+
+.com-icon {
+    padding: 12px 0 0 8px;
+}
+
+.thumnail-img {
+    height: 95%;
+    width: 100%;
+    padding: 3px 3px 0px 3px;
+}
+
+.version-date-translation {
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 0px;
+}
+
+.translation-dropdown {
+    margin-bottom: -98px;
+    margin-top: -2px;
+    margin-right: -85px;
+}

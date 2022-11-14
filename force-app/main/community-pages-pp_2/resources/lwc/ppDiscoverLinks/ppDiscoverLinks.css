@@ -1,0 +1,126 @@
+.links-type{
+    color: lightgray;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+.links-container:hover{
+    cursor: pointer;
+}
+
+.links-header {
+    color: #015FF1;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 19px;
+    margin-bottom: 6px;
+    padding-right: 5px;
+    padding-top: 2px;
+}
+
+.links-desc {
+    color: #6E6E6E;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 17px;
+    padding-right: 10px;
+    margin-bottom: 5px;
+}
+
+.links-type {
+    height: 16px;
+    color: #757575;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    letter-spacing: 0.1px;
+    line-height: 16px;
+    margin-bottom: 4px;
+}
+
+.separator {
+    box-sizing: border-box;
+    height: 1px;
+    border-bottom: 1px solid rgba(153,153,153,0.59);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.margin{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.open-icon {
+    fill: #595959;
+    height: 20px;
+    width: 20px;
+}
+
+.open-tab{
+    width:14px;
+    height:14px;
+}
+
+.discover-empty-container{
+    height: 335px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #e9e9e9;
+    border-radius: 16px;
+    background-color: #ffffff !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.no-links-available{
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;  
+}
+
+.center-empty{
+    text-align: center;
+}
+
+.container-height{
+    height: 335px;
+}
+
+.center-empty-mobile{
+    text-align: center;
+}
+
+.mt-15{
+    margin-top: 15px;
+}
+
+/* Scroll bar custom */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #fff;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    padding-right: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #999999;
+    background-clip: padding-box;
+    padding-right: 10px;
+  }
+
+  .height{
+      height: 100%;
+  }

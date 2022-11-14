@@ -25,6 +25,8 @@ public with sharing class PIR_SharingOptionsController {
     public List<LabelValueItem> countriesLVList = CountryStateUtil.getCountries();
     @AuraEnabled
     public Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
+    @AuraEnabled
+    public String dobconfig;
   }
   
     @AuraEnabled
@@ -116,7 +118,11 @@ public with sharing class PIR_SharingOptionsController {
                           Nickname__c,
                           Alternative_Phone_Number__c,
                           Preferred_Language__c,
+                          Age__c,
                           Date_of_Birth__c,
+                          Birth_Year__c,
+                          Birth_Month__c,
+                          Birth_Day__c,
                           Gender__c,
                           IsCountry_NOT_Eligible_for_Emails__c,
                           Mailing_State__c,
@@ -135,7 +141,7 @@ public with sharing class PIR_SharingOptionsController {
                     WHERE Id = :participantId LIMIT 1
                 ];
         Participant_Enrollment__c  per = [Select Id,Is_Virtual_Study_Site__c,Study_Site__c,Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
-                                          Study_Site__r.Suppress_Participant_Emails__c,Invited_To_PP_Date__c,Participant_Contact__r.Is_Patient_User_Created__c,
+                                          Study_Site__r.Participant_DOB_format__c,Study_Site__r.Suppress_Participant_Emails__c,Invited_To_PP_Date__c,Participant_Contact__r.Is_Patient_User_Created__c,
                                           Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c FROM Participant_Enrollment__c WHERE Id = :peId];        
         dw.isVirtualSite = per.Is_Virtual_Study_Site__c;
         dw.isPPEnabled = per.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
@@ -149,6 +155,7 @@ public with sharing class PIR_SharingOptionsController {
            dw.isInvited = false;
         }
         dw.getGenderList = getGenderLVList();
+        dw.dobconfig = per.Study_Site__r.Participant_DOB_format__c;
         return dw;           
     }
     public static List<LabelValueItem> getGenderLVList() {

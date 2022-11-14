@@ -17,10 +17,12 @@
                 component.set('v.currentAlertIndex', currentAlertIndex);
                 if (alerts.length > 0) {
                     component.set('v.currentAlert', alerts[currentAlertIndex]);
-                    component.find('alertsDialog').show();
+                    if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                        component.find('alertsDialog').show();
+                    }
                 } else {
                     if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-                    component.find('onboardingSlideTour').initialShow();
+                        component.find('onboardingSlideTour').initialShow();
                     }
                     component.find('motivationalMessages').show();
                 }
@@ -36,7 +38,6 @@
             });
         }
         let currentAlertIndex = component.get('v.currentAlertIndex') + 1;
-        console.log('currentAlertIndex ' + currentAlertIndex);
         let alerts = component.get('v.alerts');
         console.log(
             'alerts.length = ' + alerts.length + ' for that alerts: ' + JSON.stringify(alerts)

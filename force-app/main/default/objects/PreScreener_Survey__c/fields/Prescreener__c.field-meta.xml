@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prescreener__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This field is getting used to display pre screener to RP</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This field must be checked if the study requires pre-screening.</inlineHelpText>
+    <label>Prescreener</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,7 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import setMRRStatus from '@salesforce/apex/PIR_HomepageController.setMRRStatus';
-import setPreScreenerStatus from '@salesforce/apex/PIR_HomepageController.setPreScreenerStatus';
+import createScreenerResponse from '@salesforce/apex/PIR_HomepageController.createScreenerResponse';
 
 export default class Pir_mrrLog extends LightningElement {
     @api peid;
@@ -9,6 +8,7 @@ export default class Pir_mrrLog extends LightningElement {
     @api gizmoData = null; 
     @api gizmosrc='';
     @api mrrorprescreener;
+    @api currentsurvey = '';
     connectedCallback() {
         this._listenForMessage   = this.listenForMessage.bind(this);
         window.addEventListener("message", this._listenForMessage);
@@ -29,22 +29,7 @@ export default class Pir_mrrLog extends LightningElement {
             }else{this.result = false;
                   status ='Fail';
             }
-            if(this.mrrorprescreener === 'prescreener'){
-                setPreScreenerStatus({ peId: this.peid, status: status, surveyGizmoData: this.gizmoData })
-                .then((result) => {
-                    const preScreenerResult = new CustomEvent('prescreenerresult',{
-                        detail:{
-                            result : status
-                        }
-                    });
-                    this.dispatchEvent(preScreenerResult);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    this.showErrorToast(JSON.stringify(error.body.message));
-                });
-            }else{
-            setMRRStatus({ peId: this.peid, status: status, surveyGizmoData: this.gizmoData })
+             createScreenerResponse({ peId: this.peid, status: status, surveyGizmoData: this.gizmoData, strobjScreener : JSON.stringify(this.currentsurvey) })
             .then((result) => {
                 const mrrResult = new CustomEvent('medicalreviewresult',{
                     detail:{
@@ -55,9 +40,9 @@ export default class Pir_mrrLog extends LightningElement {
             })
             .catch((error) => {
                 console.log(error);
+                console.log('>>eerror while calling backend>>'+JSON.stringify(message.data));
                 this.showErrorToast(JSON.stringify(error.body.message));
             });
-        }
        }else{
            console.log('Error'); 
        }

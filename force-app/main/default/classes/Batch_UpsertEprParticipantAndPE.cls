@@ -104,7 +104,8 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             Override_PI_Referral_Status__c,
             Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
             Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
-            Suppress_Participant_Emails__c
+            Suppress_Participant_Emails__c,
+            Participant_DOB_format__c 
             FROM Study_Site__c
             WHERE Primary_Key_ePR__c IN :ssNumbersList
         ];
@@ -127,7 +128,64 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             ParticipantDuplicateService.ParticipantWithDelegate partDelegateWrapper = new ParticipantDuplicateService.ParticipantWithDelegate();
             partDelegateWrapper.participant = new Participant__c();
             Study_Site__c ss = ssByPrimaryKeyEPRMap.get(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
+            
+            //if (!String.isBlank(ipr.BirthDate__c)) {
+            List<String> dateOfBirth = ipr.BirthDate__c.split('-');
+            String mmValue;
+            String ddValue;
+            String yyyyValue;
+            if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                if(dateOfBirth.size() > 2){
+                    ddValue = dateOfBirth[2];
+                    mmValue = dateOfBirth[1];
+                }else if(dateOfBirth.size() > 1){
+                    mmValue = dateOfBirth[1];
+                }
+            }else if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                if(dateOfBirth.size() > 1){
+                    mmValue = dateOfBirth[1];
+                }
+            }
+            yyyyValue = dateOfBirth[0];
+            Integer mm = String.isNotBlank(mmValue) ? Integer.valueof(mmValue) : 12;
+            Integer dd = String.isNotBlank(ddValue) ? Integer.valueof(ddValue) : Date.daysInMonth(Integer.valueOf(yyyyValue), mm);
+            Date birthDate = Date.newInstance( 
+                Integer.valueOf(yyyyValue),mm,dd
+            );
+            Integer participantAge = Date.newInstance(
+                2000,
+                birthDate.month(),
+                birthDate.day()
+            ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
+            ? Date.today().year() - birthDate.year()
+            : Date.today().year() - birthDate.year() - 1;
+            mmValue = String.valueof(mm);
+            ddValue = String.valueof(dd);
+            if(mm < 10){
+               mmValue = '0'+mm;
+            }
+            if(dd < 10){
+                ddValue = '0'+dd;
+            }
+            string tempBrVar = ipr.BirthDate__c;
+            ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
             Participant__c objParticipant = IprEprTriggerHandler.convertToParticipant(ipr);
+            ipr.BirthDate__c = tempBrVar ;
+            objParticipant.Age__c = participantAge;
+            if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                if(dateOfBirth.size() > 2){
+                    objParticipant.Birth_Day__c = ddValue;
+                    objParticipant.Birth_Month__c = mmValue;
+                }else if(dateOfBirth.size() > 1){
+                    objParticipant.Birth_Month__c = mmValue;
+                }
+            }else if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                if(dateOfBirth.size() > 1){
+                    objParticipant.Birth_Month__c = mmValue;
+                }
+            }
+            objParticipant.Birth_Year__c = yyyyValue;
+            objParticipant.Date_of_Birth__c = null;
             Account participantAccount = new Account(Id = ss.Site__c);
             objParticipant.Site__c = ss.Site__c;
             newParticipantsMap.put(ipr.referralID__c, objParticipant);
@@ -193,6 +251,15 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                     new List<String>(refSources),
                     ';'
                 );
+                if(participant.Birth_Day__c!=null){
+                    participantDuplicate.Birth_Day__c = participant.Birth_Day__c;
+                }
+                if(participant.Birth_Month__c!=null){
+                    participantDuplicate.Birth_Month__c = participant.Birth_Month__c;
+                }
+                if(participant.Birth_Year__c!=null){
+                    participantDuplicate.Birth_Year__c = participant.Birth_Year__c;
+                }
                 newParticipantsMap.remove(ipr.referralID__c);
                 dupParticipantsMap.put(ipr.referralID__c, participantDuplicate);
                 duplicatePatientsSet.add(participantDuplicate.Id);
@@ -292,6 +359,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         Set<Id> participantsWithoutErrors = new Set<Id>();
         list<Integration_Patient_Referral__c> iprListToUpdate = new list<Integration_Patient_Referral__c>();
         list<contact> contactsToDelete = new list<contact>();
+        List<Participant_PrescreenerResponse__c> screenerResponseList = new List<Participant_PrescreenerResponse__c>();
         for (Integer i = 0; i < saveResults.size(); i++) {
             Participant_Enrollment__c pe = peList[i];	
             Database.SaveResult sr = saveResults[i];
@@ -312,7 +380,17 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                         dupPartToUpdateList.add(dupPart);   
                         newParticipantsMap.put(ipr.referralID__c, dupPart);                     
                     }
-                    
+                    if(String.isNotBlank(ipr.MRR_Survey_Results_URL__c)) {
+                        screenerResponseList.add(
+                            new Participant_PrescreenerResponse__c(
+                                Completed_Date__c = Datetime.now(),
+                                Participant_enrollment__c = sr.getId(),
+                                Screener_Response__c = ipr.MRR_Survey_Results_URL__c,
+                                Status__c = 'Pass',
+                                MRR_EPR__c = true
+                            )
+                        );
+                    }
 
                 } else {
                     ipr.Batch_consideration__c = 'Completed';
@@ -330,6 +408,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         }
         update iprListToUpdate;
 
+        insert screenerResponseList;
         //REF-4741
         if(!dupPartToUpdateList.isEmpty())
             update dupPartToUpdateList;
@@ -635,7 +714,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         }
         finally {
 			String isAbortJob =Label.Abort_Batch_UpsertEprParticipantAndPE;
-            if(!test.isRunningTest() && isAbortJob!='True')
+           if(!test.isRunningTest() && isAbortJob!='True')
             	Database.executeBatch(new Batch_UpsertEprParticipantAndPE(), 7);
         }
         

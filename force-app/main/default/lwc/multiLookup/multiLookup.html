@@ -31,8 +31,8 @@
             </div>
         </div>
     </div>
-    <div if:true={showSelectedOptions} class="slds-listbox_selection-group">
-        <ul class="slds-listbox slds-listbox_horizontal" role="listbox" aria-label="Selected Options:" aria-orientation="horizontal">
+    <div if:true={showSelectedOptions} class="slds-listbox_selection-group" data-id="selectedOptionsListId" >
+        <ul data-id="optionslist" class="slds-listbox slds-listbox_horizontal" role="listbox" aria-label="Selected Options:" aria-orientation="horizontal">
             <template for:each={selectedOptions} for:item="opt">
                 <li class="slds-listbox-item" role="presentation" key={opt.index}>
                     <span class="slds-pill" role="option" tabindex="0" aria-selected="true">

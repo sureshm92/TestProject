@@ -14,6 +14,8 @@
     <aura:attribute name="codeName" type="String" />
     <aura:attribute name="link" type="String" />
     <aura:attribute name="surveyName" type="String" />
+    <aura:attribute name="communityName" type="String" />
+    <aura:registerEvent name="ppMobileMenuEvent" type="c:PPMobileMenu" />
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
@@ -23,6 +25,9 @@
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true" />
 
     <aura:if isTrue="{!v.initialized}">
+        {!v.communityName}
+        <aura:if isTrue="{!v.communityName != 'IQVIA Patient Portal'}">
+
         <c:RRTopBar
             backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}"
             backPage="{!'study-workspace?tab=tab-tasks'}"
@@ -30,7 +35,16 @@
             bigTitle="{!v.surveyName}"
         >
         </c:RRTopBar>
-
+        </aura:if>
+        <aura:if isTrue="{!v.communityName == 'IQVIA Patient Portal'}">
+        <c:RRTopBar
+            backLabel="Back"
+            backPage="{!'tasks'}"
+            smallTitle="{!v.codeName}"
+            bigTitle="{!v.surveyName}"
+        >
+        </c:RRTopBar>
+    </aura:if>
         <div class="bls-body rr-all-content">
             <iframe
                 id="blsIFrame"

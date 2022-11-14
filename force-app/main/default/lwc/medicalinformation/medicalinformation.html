@@ -396,66 +396,74 @@
                   </div>
                 </section>
               </li>
-
-              <template if:true={displayGizmoResult}>
-                <li class="slds-accordion__list-item">
-                  <section class="slds-accordion__section slds-is-open slds-p-bottom_none accordion-p-top">
-                    <div class="slds-accordion__summary screenerOneAccBg">
-                      <h2 class="slds-accordion__summary-heading">
-                        <button class="slds-button slds-button_reset slds-accordion__summary-action"
-                          data-name="screenerOneAcc" aria-controls="referenceId-43" aria-expanded="true"
-                          onclick={toggleAccordian}>
-                          <lightning-icon class="screenerOneAcc" icon-name="utility:chevronright" size="xx-small"
-                            alternative-text="Home"></lightning-icon>
-                          <lightning-icon class="screenerOneAcc slds-hide" icon-name="utility:chevrondown"
-                            size="xx-small" alternative-text="Home"></lightning-icon>
-                          <span
-                            class="slds-accordion__summary-content active-accordion slds-p-left_x-small">{label.pir_Screener}</span>
-                        </button>
-                      </h2>
-                    </div>
-
-                    <div class="slds-m-top_small screenerOneAcc slds-hide" id="referenceId-43">
-                      <div class="slds-grid slds-wrap slds-gutters">
-                        <div
-                          class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium">
-                          <div class="slds-grid slds-grid_vertical">
-                            <template if:true={returnpervalue.booldisplaymrrgizmo}>
-                              <div
-                                class="slds-col slds-border_bottom slds-border_top slds-border_left slds-border_right">
-                                <template if:true={decodeMRRResult}>
-                                  <!-- <lightning-formatted-rich-text
-                                                          value={decodeResultGizmo}
-                                                      ></lightning-formatted-rich-text> -->
-                                  <div class="screener1" lwc:dom="manual"></div>
-                                </template>
-                                <template if:false={decodeMRRResult}>
-                                  <iframe src={returnpervalue.strMRRSurveyResult} height="500px" width="100%"
-                                    allowfullscreen="true"></iframe>
-                                </template>
+              <template if:true={displaySurveyResult}>
+                <template for:each={returnpervalue.surveyResponses} for:item="response">
+                  <li class="slds-accordion__list-item" key={response}>
+                    <section
+                      class="slds-accordion__section slds-is-open slds-p-bottom_none accordion-p-top"
+                    >
+                      <div class={response.accordianbg}>
+                        <h2 class="slds-accordion__summary-heading">
+                          <button
+                            class="slds-button slds-button_reset slds-accordion__summary-action"
+                            data-name={response.Id}
+                            aria-controls="referenceId-43"
+                            aria-expanded="true"
+                            onclick={toggleAccordian}
+                          >
+                            <lightning-icon
+                              class={response.Id}
+                              icon-name="utility:chevronright"
+                              size="xx-small"
+                              alternative-text="Home"
+                            ></lightning-icon>
+                            <lightning-icon
+                              class={response.accordianHide}
+                              icon-name="utility:chevrondown"
+                              size="xx-small"
+                              alternative-text="Home"
+                            ></lightning-icon>
+                            <span
+                              class="slds-accordion__summary-content active-accordion slds-p-left_x-small"
+                              title={response.screenerTitle}
+                              >{response.screenerName}
+                              <span class="slds-p-left_x-small">
+                                <lightning-formatted-date-time value={response.Completed_Date__c} year="numeric" month="2-digit" day="2-digit"></lightning-formatted-date-time>
+                              </span>
+                            </span>
+                          </button>
+                        </h2>
+                      </div>
+    
+                      <div
+                        class={response.accordianDiv}
+                      >
+                        <div class="slds-grid slds-wrap slds-gutters">
+                          <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium"
+                          >
+                            <div class="slds-grid slds-grid_vertical">
+                              <div class="slds-col slds-border_bottom slds-border_top slds-border_left slds-border_right">
+                                  <template if:true={response.decodePreScreenerResult}>
+                                    
+                                    <div class={response.screenerDiv} lwc:dom="manual"></div>
+                                  </template>
+                                  <template if:false={response.decodePreScreenerResult}>
+                                    <iframe
+                                      src={response.Screener_Response__c}
+                                      height="500px"
+                                      width="100%"
+                                      allowfullscreen="true"
+                                    ></iframe>
+                                  </template>
                               </div>
-                            </template>
-                            <template if:true={returnpervalue.booldisplayprescreenergizmo}>
-                              <div
-                                class="slds-col slds-border_bottom slds-border_top slds-border_left slds-border_right">
-                                <template if:true={decodePreScreenerResult}>
-                                  <!-- <lightning-formatted-rich-text
-                                                          value={decodeResultGizmo}
-                                                      ></lightning-formatted-rich-text> -->
-                                  <div class="screener2" lwc:dom="manual"></div>
-                                </template>
-                                <template if:false={decodePreScreenerResult}>
-                                  <iframe src={returnpervalue.strPreScreenerSurveyResult} height="500px" width="100%"
-                                    allowfullscreen="true"></iframe>
-                                </template>
-                              </div>
-                            </template>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </section>
-                </li>
+                    </section>
+                  </li>
+                </template>
               </template>
               <!---->
               <template if:true={returnpervalue.booliqviaregistry}>

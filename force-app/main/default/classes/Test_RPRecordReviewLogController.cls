@@ -126,6 +126,17 @@ public class Test_RPRecordReviewLogController {
             Primary_Delegate_s_Alt_Phone_Type__c='Home'
         );
         insert pe;
+
+        List<PreScreener_Survey__c> screenerList = new List<PreScreener_Survey__c>();
+        screenerList.add(new PreScreener_Survey__c(
+            Link_to_Pre_screening__c = 'https://link.test',
+            MRR__c = true,
+            ProviderName__c = 'surveygizmo',
+            Study__c = clinical.Id,
+            Survey_Name__c = 'Medical Record Review'
+        ));
+        insert screenerList;
+        
         system.runAs(user_1){
         RPRecordReviewLogController.dateFormatChangeForCreatedDate(system.today());
         RPRecordReviewLogController.getPEDetails('HCP',null); 
@@ -138,7 +149,7 @@ public class Test_RPRecordReviewLogController {
         }
        
         RPRecordReviewLogController.changeStatusToExcludeFromReferring(pe.id);
-        RPRecordReviewLogController.setMRRStatus(pe.id,'Pass',null); 
+        RPRecordReviewLogController.setMRRStatus(pe.id,'Pass',null,screenerList[0].Id); 
         RPRecordReviewLogController.patientValidation('SomePatientId1','SomePatientId1','US','NY','04','2000','Yes');
         RPRecordReviewLogController.patientValidation(participant.id,'SomePatientId1','US','NY','04','2015','Yes');
         RPRecordReviewLogController.checkPatientAge('US','NY','04','2000');

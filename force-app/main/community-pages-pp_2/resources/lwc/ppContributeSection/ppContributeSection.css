@@ -1,0 +1,67 @@
+.change-preferences {
+    height: 24px;
+    color: #0768fd;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-decoration: underline;
+}
+
+.url-disclaimer {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 17px;
+    margin-bottom: 4px;
+}
+.contribute {
+    height: 17px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 17px;
+}
+.input-container {
+    box-sizing: border-box;
+    height: 32px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+}
+.contribute-input-main {
+    display: flex;
+    margin-top: 11px;
+}
+.input-section {
+    width: auto;
+    height: 32px;
+}
+.resource-btn {
+    height: 32px;
+}
+.task-save-btn {
+    box-sizing: border-box;
+    height: 32px;
+    border: 1px solid #d9d9d9;
+    border-radius: 20px;
+    background-color: #0768fd;
+    color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+}
+.task-save-btn-opacity {
+    opacity: 0.4;
+    box-sizing: border-box;
+    height: 32px;
+    border-radius: 20px;
+    background-color: #0768fd;
+    color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    pointer-events: none;
+}

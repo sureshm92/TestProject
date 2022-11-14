@@ -75,6 +75,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api isaccessLevelthree = false;
     disabledOutreachButton = false;
     @api isRTL;
+    @api isCountryus=false;
     label = {
         RH_RP_Primary_Delegate,
         RH_RP_Patient,
@@ -189,7 +190,12 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
         }
         this.medicalReview = false;
 
-        updateMRRStatus({ peId: this.peId, status: status, surveyGizmoData: event.detail.gizmoData })
+        updateMRRStatus({ 
+            peId: this.peId, 
+            status: status, 
+            surveyGizmoData: event.detail.gizmoData,
+            screenerId: this.apexRefreshList[0].mrrScreener.Id
+        })
             .then((result) => {
                 refreshApex(this.peRecordList);
                 this.checkMedicalReviewStatus(status);
@@ -245,9 +251,9 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
                     this.disabledSaveButton = true;
                 }
 
-                if (this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c != undefined) {
+                if (this.peRecordList[0].mrrScreener && this.peRecordList[0].mrrScreener.Link_to_Pre_screening__c) {
                     this.medicalreviewConfigured = true;
-                    this.gizmosrc = this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c;
+                    this.gizmosrc = this.peRecordList[0].mrrScreener.Link_to_Pre_screening__c;
                 } else {
                     this.medicalreviewConfigured = false;
                 }
@@ -260,8 +266,8 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
                     this.disabledOutreachButton = false;
                 }
 
-                this.checkMedicalReviewStatus(this.peRecordList[0].peRecord.Medical_Record_Review_Status__c);
-                this.checkPrescreeningStatus(this.peRecordList[0].peRecord.Pre_screening_Status__c);
+                this.checkMedicalReviewStatus(this.peRecordList[0].mrrScreenerResponse ? this.peRecordList[0].mrrScreenerResponse.Status__c : undefined);
+                this.checkPrescreeningStatus(this.peRecordList[0].prescreenerResponse ? this.peRecordList[0].prescreenerResponse.Status__c : undefined);
                 this.error = undefined;
                 this.states = this.peRecordList[0].statesByCountryMap[this.peRecordList[0].peRecord.Mailing_Country_Code__c];
                 if (this.peRecordList[0].peRecord.Participant_Status__c == 'Excluded from Referring') {
@@ -381,6 +387,14 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
 
     handleDelegateChange(event) {
         this.peRecordList = event.detail.patientRecord;
+    }
+    handlePrimaryDelTab(){
+            if(this.peRecordList[0].peRecord.Mailing_Country_Code__c=='US'){
+                this.isCountryus=true;
+            }
+            else{
+                this.isCountryus=false;
+            }    
     }
 
     showSuccessToast(messageRec) {

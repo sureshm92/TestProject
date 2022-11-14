@@ -72,6 +72,10 @@ public without sharing class PIR_HomepageController {
     public Boolean allowFinalSuccessStatus;
     @AuraEnabled
     public Participant_Enrollment__c per;
+    @AuraEnabled
+    public boolean dobValid;
+    @AuraEnabled
+    public boolean eligibilityInvalid;
     // Implement the compareTo() method
     // public Integer compareTo(Object compareTo) {
     //   ListViewWrapper compareToP = (ListViewWrapper) compareTo;
@@ -115,7 +119,19 @@ public without sharing class PIR_HomepageController {
     @AuraEnabled
     public Datetime sendToSHDate;
     @AuraEnabled
-    public Boolean preScreenAccess;
+    public Boolean preScreenAccess; 
+    @AuraEnabled 
+    public PreScreenerWrapper objScreenerWrapper;
+  }
+
+  public class PreScreenerWrapper{
+    @AuraEnabled
+    public List<PreScreener_Survey__c> lstPrescreenerSurveyPending; 
+    @AuraEnabled
+    public List<PreScreener_Survey__c> lstTotalSurvey;
+    @AuraEnabled
+    public List<PreScreener_Survey__c> lstPreScreenerCompleted;
+
   }
 
   public class PresetWrapper {
@@ -266,9 +282,12 @@ public without sharing class PIR_HomepageController {
         'Source_Type__c,' +
         'Study_Hub_Log__c,' +
         'Screening_ID__c,' +
+        'Re_consent__c,' +
+        'Study_Site__r.E_Consent_Vendor__r.Name,' +
         'IVRS_IWRS__c,' +
         'Visit_Plan__c,' +
         'Study_Hub_Log__r.Response_Status_Code__c,' +
+        'Is_Participant_DOB_Valid__c ,' +
         '(' +
         '  SELECT Id, Date__c, Non_Enrollment_Reason__c ' +
         '  FROM Participant_Enrollment_Status_History__r' +
@@ -1160,7 +1179,14 @@ public without sharing class PIR_HomepageController {
       wrap.siteId = lst.Study_Site__c;
       wrap.studyId = lst.Clinical_Trial_Profile__c;
       wrap.perCounter = lst.PerCounter__c;
-      wrap.actionReq = lst.Participant__r.Emancipation_in_progress__c;
+      if(lst.Participant__r.Emancipation_in_progress__c || !lst.Is_Participant_DOB_Valid__c){
+      wrap.actionReq=true;
+      }else if(lst.Re_consent__c == true && lst.Study_Site__r.E_Consent_Vendor__r.Name !=null && lst.Study_Site__r.E_Consent_Vendor__r.Name !='' ){
+      wrap.actionReq=true;
+      }else{
+      wrap.actionReq=false;
+      }
+      //wrap.actionReq = lst.Participant__r.Emancipation_in_progress__c || !lst.Is_Participant_DOB_Valid__c;
       wrap.status = lst.Participant_Status__c;
       wrap.participantId = lst.Participant__c;
       wrap.promotetoSH = lst.Clinical_Trial_Profile__r.Promote_to_SH__c;
@@ -1176,6 +1202,7 @@ public without sharing class PIR_HomepageController {
       wrap.clinicalPPEnable = lst.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
       wrap.notEligibleEmail = lst.Participant__r.IsCountry_NOT_Eligible_for_Emails__c;
       wrap.permitInfo = lst.Permit_IQVIA_to_contact_about_study__c;
+      wrap.dobValid = lst.Is_Participant_DOB_Valid__c;
       wrap.screeningId = lst.Screening_ID__c;
       wrap.allowScreeningPassed = lst.Clinical_Trial_Profile__r.Tokenization_Support__c 
         ? lst.IVRS_IWRS__c != null : true;
@@ -1184,7 +1211,7 @@ public without sharing class PIR_HomepageController {
             (ssVisitPlanMap.get(lst.Study_Site__c).size() > 1 ? lst.Visit_Plan__c != null : true) :  true))
         ? (lst.Clinical_Trial_Profile__r.Tokenization_Support__c ?  lst.Participant__r.Gender__c != null : true) 
         : false;
-
+      wrap.eligibilityInvalid = lst.Clinical_Trial_Profile__r.Promote_to_SH__c  && (lst.Study_Site__r.Study_Site_Type__c =='Virtual'|| lst.Study_Site__r.Study_Site_Type__c =='Hybrid') && !lst.Is_Participant_DOB_Valid__c;
       listViewWrapper.add(wrap);
     }
 
@@ -1266,6 +1293,7 @@ public without sharing class PIR_HomepageController {
           Clinical_Trial_Profile__r.Initial_Visit_Required__c,
           Status_Order__c,
           Participant__r.Full_Name__c,
+          Is_Participant_DOB_Valid__c,
           (
             SELECT Id, Date__c, Non_Enrollment_Reason__c
             FROM Participant_Enrollment_Status_History__r
@@ -1295,6 +1323,7 @@ public without sharing class PIR_HomepageController {
           AND is_Invited__c = TRUE
       ];
       PeGetInviteWrapper pegetwrp = new PeGetInviteWrapper();
+      pegetwrp.objScreenerWrapper = getPrescrennerSurvey(pe.Clinical_Trial_Profile__c,pe.id,pe.Participant__c);
       if (!piStaffs.isEmpty()) {
         for (Site_Staff__c siteStaff : piStaffs) {
           if (siteStaff.Delegate_Level__c == 'Level 3') {
@@ -1324,6 +1353,51 @@ public without sharing class PIR_HomepageController {
       throw new AuraHandledException(e.getMessage());
     }
   }
+
+  public static PreScreenerWrapper getPrescrennerSurvey(String strCtpId,String strPerId, String strParticipantId){
+    Set<Id> setFilledPrescreenerSurvey = new Set<Id> ();
+    PreScreenerWrapper objWrapper = new PreScreenerWrapper();
+    Boolean boolisComingFromEPR = false;
+    for(Participant_PrescreenerResponse__c objPreScreenerResponse : [SELECT ID,PreScreener_Survey__c,MRR_EPR__c FROM Participant_PrescreenerResponse__c
+                                                                      wHERE Participant_enrollment__c =:strPerId OR  Participant__c=:strParticipantId]) 
+    {
+      if(objPreScreenerResponse.MRR_EPR__c)
+        boolisComingFromEPR = true;
+  
+      setFilledPrescreenerSurvey.add(objPreScreenerResponse.PreScreener_Survey__c);
+    }
+    List<PreScreener_Survey__c> totalScreener = new List<PreScreener_Survey__c> ();
+    if(!boolisComingFromEPR){
+      totalScreener = [SELECT Id,Study__c,Link_to_Pre_screening__c,MRR__c,Prescreener__c FROM PreScreener_Survey__c 
+                                                 Where Study__c=:strCtpId];
+    }
+    else {
+        totalScreener = [SELECT Id,Study__c,Link_to_Pre_screening__c,MRR__c,Prescreener__c FROM PreScreener_Survey__c 
+                         Where Study__c=:strCtpId and MRR__c = false];
+    }
+    List<PreScreener_Survey__c> lstPrescreenerSurveyCompleted = [SELECT ID,Link_to_Pre_screening__c,MRR__c,Primary__c,Prescreener__c,ProviderName__c,Study__c,Survey_Name__c
+                                                                  FROM PreScreener_Survey__c Where ID IN:setFilledPrescreenerSurvey];
+  
+    List<PreScreener_Survey__c> lstPrescreenerSurvey = new List<PreScreener_Survey__c> ();
+    if(!boolisComingFromEPR){
+     lstPrescreenerSurvey = [SELECT ID,Link_to_Pre_screening__c,MRR__c,Primary__c,Prescreener__c,ProviderName__c,Study__c,Survey_Name__c
+                                                        FROM PreScreener_Survey__c Where ID NOT IN:setFilledPrescreenerSurvey 
+                                                        AND  Study__c=:strCtpId  order by CreatedDate asc];
+    }
+    else{
+        lstPrescreenerSurvey = [SELECT ID,Link_to_Pre_screening__c,MRR__c,Primary__c,Prescreener__c,ProviderName__c,Study__c,Survey_Name__c
+                                                        FROM PreScreener_Survey__c Where ID NOT IN:setFilledPrescreenerSurvey AND MRR__c = false
+                                                        AND  Study__c=:strCtpId   order by CreatedDate asc];
+    }
+  
+    objWrapper.lstPreScreenerCompleted = lstPrescreenerSurveyCompleted;
+    objWrapper.lstTotalSurvey = totalScreener;
+    objWrapper.lstPrescreenerSurveyPending = lstPrescreenerSurvey;
+  
+    return objWrapper;
+                                                
+  }
+
   public static Boolean ifAllowedForSH(
     Participant_Enrollment__c pe,
     Boolean eligibilityStatusPresent
@@ -1468,6 +1542,41 @@ public without sharing class PIR_HomepageController {
     }
   }
 
+  @AuraEnabled
+  public static Map<Id, String> getStudyAccessLevelInitParent() {
+    try {
+      Map<Id, String> piStudiesAccessLevel = new Map<Id, String>();
+      List<Site_Staff__c> piStaffs = [
+        SELECT
+          Id,
+          Study_Site__c,
+          Study_Site__r.Principal_Investigator__c,
+          Study_Site__r.Clinical_Trial_Profile__c,
+          Delegate_Level__c,
+          clinical_Trial_Profile__c,
+          Site_Contact__c,
+          is_Invited__c
+        FROM Site_Staff__c
+        WHERE
+          (Site_Contact__c = :CommunityService.getUserContact().Id
+          OR Study_Site__r.Principal_Investigator__c = :CommunityService.getUserContact()
+            .Id)
+          AND is_Invited__c = TRUE
+      ];
+      for (Site_Staff__c siteStaff : piStaffs) {
+        if (siteStaff.Site_Contact__c == CommunityService.getUserContact().Id) {
+          piStudiesAccessLevel.put(
+            siteStaff.Study_Site__c,
+            siteStaff.Delegate_Level__c
+          );
+        }
+      }
+      return piStudiesAccessLevel;
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
   @AuraEnabled(cacheable=true)
   public static Map<Id, String> getStudyAccessLevel() {
     try {
@@ -1594,6 +1703,42 @@ public without sharing class PIR_HomepageController {
       );
     }
   }
+
+  @AuraEnabled
+  public static void createScreenerResponse(
+    String peId,
+    String status,
+    String surveyGizmoData,
+    String strobjScreener
+  ) { 
+    
+    PreScreener_Survey__c objScreener = (PreScreener_Survey__c)JSON.deserialize(strobjScreener,PreScreener_Survey__c.class);
+    
+      Participant_Enrollment__c pe = [SELECT id, Participant__c, Study_Site__c,  Name,  Participant_Status__c FROM Participant_Enrollment__c
+                                       WHERE id = :peId];
+      Participant_PrescreenerResponse__c objScreenerResponse = new Participant_PrescreenerResponse__c();
+       
+      objScreenerResponse.PreScreener_Survey__c = objScreener.Id;
+      objScreenerResponse.Participant__c = objScreener.Study__c != null ? null : pe.Participant__c;
+      objScreenerResponse.Participant_enrollment__c = objScreener.Study__c != null ? pe.id :null;
+      objScreenerResponse.MRR__c = objScreener.MRR__c == true ? true : false;
+      objScreenerResponse.Prescreener__c = objScreener.Prescreener__c == true ? true : false;
+      objScreenerResponse.Screener_Response__c = surveyGizmoData;
+      objScreenerResponse.Completed_by__c = CommunityService.getUserContact().Id;
+      objScreenerResponse.Completed_Date__c = Datetime.now();
+      if (status == 'Pass') {
+        objScreenerResponse.Status__c = 'Pass';
+      } else {
+        objScreenerResponse.Status__c = 'Fail';
+      } 
+      insert objScreenerResponse; 
+      IncentiveProgramService.completeIncentiveTaskCurrentContact(
+        IncentiveTaskCatalog.INCENTIVE_TASK_PRE_SCREENING,
+        pe.Study_Site__c,
+        pe.Name
+      );
+    
+  } 	
 
   public class StudyStudySiteWrapper {
     @AuraEnabled
@@ -2041,7 +2186,8 @@ public without sharing class PIR_HomepageController {
           Initial_visit_occurred_flag__c,
           isBulkUpdate__c,
           ParticipantNoShow__c,
-          Visit_Plan__c
+          Visit_Plan__c,
+          Re_consent__c
         FROM Participant_Enrollment__c
         WHERE Id IN :peIdList
       ]) {
@@ -2049,6 +2195,13 @@ public without sharing class PIR_HomepageController {
         pe.Non_Referral_Notes__c = Notes;
         pe.Last_Status_Changed_Notes__c = Notes;
         pe.Non_Enrollment_Reason__c = initReasonMap.get(reason);
+        if(StatusToUpdate == 'Declined Consent' ||
+        StatusToUpdate == 'Withdrew Consent' ||
+        StatusToUpdate== 'Withdrew Consent After Screening' ||
+        StatusToUpdate == 'Declined Final Consent'
+        ){
+        pe.Re_consent__c=false;
+        }
         if (
           pe.Participant_Status__c ==
           PEStatusState.PE_STATUS_DECLINED_FINAL_CONSENT
@@ -2477,7 +2630,8 @@ public without sharing class PIR_HomepageController {
                 Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,
                 Clinical_Trial_Profile__r.Initial_Visit_Required__c,
                 Clinical_Trial_Profile__r.Final_Consent_Required__c,
-                Clinical_Trial_Profile__r.Tokenization_Support__c
+                Clinical_Trial_Profile__r.Tokenization_Support__c,
+                Clinical_Trial_Profile__r.Promote_to_SH__c
             FROM Study_Site__c
             WHERE Id = :studySiteId
         ];
@@ -2485,9 +2639,19 @@ public without sharing class PIR_HomepageController {
             result.participantStatuses = new List<LabelValueItem>();
             result.visitPlansLVList = new List<LabelValueItem>();
             result.objStudySite = new Study_Site__c();
-        }else{
-            result.participantStatuses = PEStatusState.getParticipantImportStatusesLV(sites[0].Clinical_Trial_Profile__r);
-            result.visitPlansLVList =StudySiteService.getVisitPlansLVList(studySiteId);
+        }else{            
+          List<LabelValueItem> tempParticipantStatuses = PEStatusState.getParticipantImportStatusesLV(sites[0].Clinical_Trial_Profile__r);
+          if(sites[0].Clinical_Trial_Profile__r.Promote_to_SH__c && !sites[0].Clinical_Trial_Profile__r.Initial_Visit_Required__c && (sites[0].Study_Site_Type__c =='Virtual' ||sites[0].Study_Site_Type__c =='Hybrid')){
+            result.participantStatuses = new List<LabelValueItem>();
+            for(LabelValueItem opt : tempParticipantStatuses){
+              if(opt.value == 'Received' || opt.value == 'Successfully Contacted'){
+                result.participantStatuses.add(opt);
+              }
+            }
+          } else{
+            result.participantStatuses = tempParticipantStatuses;
+          }
+          result.visitPlansLVList =StudySiteService.getVisitPlansLVList(studySiteId);
           result.objStudySite = sites[0];
         }
         return result;    

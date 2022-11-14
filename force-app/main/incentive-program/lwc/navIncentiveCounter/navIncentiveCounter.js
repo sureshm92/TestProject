@@ -43,6 +43,13 @@ export default class NavIncentiveCounter extends LightningElement {
                     this.lastPoints = data.lastPoints;
                     this.parOfIncentiveProgram = this.totalPoints > 0 || data.hasEnabledTasks;
                     this.updateSelected();
+                    const notifyIsPartOfIncentiveProgram = new CustomEvent('notifypartofincentive', {
+                        detail: {
+                            parOfIncentiveProgram: this.parOfIncentiveProgram
+                        }
+                    });
+                   
+                    this.dispatchEvent(notifyIsPartOfIncentiveProgram);
                 })
                 .catch((error) => {
                     console.error('Error in getPointsCounter():' + JSON.stringify(error));
@@ -86,5 +93,6 @@ export default class NavIncentiveCounter extends LightningElement {
                 }
             }
         }
+        
     }
 }

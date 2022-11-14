@@ -20,6 +20,21 @@
                 </div>             
             </template>
         </template>
+        <template if:true={e_consentConfigured}>
+            <template if:true={Re_consent}>
+                <div if:true={Re_consent} class="slds-grid slds-wrap slds-gutters">       
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_medium">
+                          <div class="slds-notify_alert alert-box" role="alert">                             
+                                <span class="slds-icon_container slds-icon-utility-warning slds-m-left_x-small slds-m-right_small">
+                                <img class="alert-img" src={eConsentBell}/>
+                                </span>
+                                <h2 title="Need to Reconsent">{label.Participant_Re_Consent}</h2>                          
+                          </div>
+                    </div>                        
+               </div> <!--    Alert  End  -->
+            </template>
+        </template>
+        
         <div class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-3 slds-p-horizontal--medium col-padding C">       
             <div class="list">
             <template if:true={showStatus}>
@@ -51,7 +66,7 @@
                                                     grpicons={groupIcons} isinitialvisit={isInitialVisitRequired} outcome-to-reason-map={outcomeToReasonMap}  currentitems={selectedPeStatus} 
                                                     groupname={groupnme} getreengaged={getisreengaged} isvprequired={isVisitPlanRequired} plan={selectedPlan}  visitplanoptions={visitPlan} peid={selectedPE_ID} latest-status-grp={latestStatusGrp}
                                                     onsaved={doSelectedPI}  onvalidatesavebutton={handleSaveButton} onrecordsave={doShowSpinneronSave}
-                                                    currentuserdate={userDate} outcome-values={outcomeValue} onstatusdetailsvaluechange={doCallParent} oncallparticipantstatusdetail={doCallEvent} set-opt={showStatus}>
+                                                    currentuserdate={userDate} outcome-values={outcomeValue} onstatusdetailsvaluechange={doCallParent} oncallparticipantstatusdetail={doCallEvent} set-opt={showStatus} e_consent-configured={e_consentConfigured}>
                  </c-pir_participant-Sub-Status-Fields > 
            </template> 
         </div>       

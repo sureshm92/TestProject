@@ -1,0 +1,227 @@
+<apex:component id="PP_EmailWireframe" controller="PP_EmailWireframeController" access="global" language="{!userLanguageCode}">
+
+    <!-- Records info -->
+    <apex:attribute name="recipientId" type="Id" assignTo="{!emailRecipientId}" description="" access="global" />
+    <apex:attribute name="recipientName" type="String" assignTo="{!emailRecipientName}" description="" access="global" />
+    <apex:attribute name="recipientLanguage" type="String" assignTo="{!emailRecipientLanguage}" description="" access="global"
+    />
+    <apex:attribute name="sourceId" assignTo="{!sourceRecordId}" type="Id" description="" access="global" />
+
+    <!-- Templates labels -->
+    <apex:attribute name="header" assignTo="{!headerValue}" type="String" description="" />
+    <apex:attribute name="title" assignTo="{!titleValue}" type="String" description="" />
+    <apex:attribute name="greeting" assignTo="{!greetingValue}" type="String" description="" />
+    <apex:attribute name="signature" assignTo="{!signatureValue}" type="String" description="" />
+    <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description="" />
+
+    <!-- Pre Body Button Attributes -->
+    <apex:attribute name="isPreBodyButton" assignTo="{!isPreBodyButtonValue}" type="Boolean" default="false" description="Login Button before Body"
+    />
+    <apex:attribute name="preBodyButtonName" assignTo="{!preBodyButtonNameValue}" type="String" description="" />
+    <apex:attribute name="preBodyButtonURL" assignTo="{!preBodyButtonURLValue}" type="String" description="Pass Register URL From Initial Email"
+    />
+
+    <!-- Other -->
+    <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="HTML" />
+    <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}" description="Community template name"
+    />
+    <apex:attribute name="specificEmailProvider" type="String" assignTo="{!specificEmailProviderValue}" description="If you need specific instance of EmailTemplateProvider set this here"
+    />
+    <apex:attribute name="shareEmailTemplate" assignTo="{!shareTemplate}" type="String" description="" default="No" access="global"
+    />
+    <apex:attribute name="OptOut" assignTo="{!displayOptOut}" type="String" description="" default="Yes" access="global" />
+    <apex:attribute name="surveyId" type="Id" description="" access="global" assignTo="{!surveyIdString}" />
+
+    <!--Parent Container -->
+    <div style="{!IF(isRTL=true,templateMap['emailTemplateBackgroundRTL'], templateMap['emailTemplateBackground'])}">
+        <!-- Top Background-->
+        <div>
+            <table cellpadding="0" cellspacing="0" border="0" style="line-height: 10px;">
+                <tbody>
+                    <tr>
+                        <td background="{!headerBackgroundUrl}" valign="top" style="{!IF(isRTL=true,
+                                        'color: #ffffff;
+                                        font-size: 16px;
+                                        background-repeat:no-repeat;
+                                        height: 160px;
+                                        width: 590px;
+                                        transform: scaleX(-1);
+                                        font-family:Helvetica, Arial, Sans-Serif',
+                                        'color: #ffffff;
+                                        font-size: 16px;
+                                        height: 160px;
+                                        width: 590px;
+                                        background-repeat:no-repeat;
+                                        font-family:Helvetica, Arial, Sans-Serif')}">
+                            <!-- Header / IQVIA Patient Portal-->
+                            <p style="text-align: center;
+                                    color: #444444;
+                                    font-size: 1.5rem;
+                                    display: block;
+                                    margin-top: 8rem;
+                                    letter-spacing: 0;
+                                    ">
+                                {!$Label.RH_Masked_Display_IQVIA_User}
+                                <span style="font-weight: bold;">{!$Label.Community_PP}</span>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Title / Subject-->
+        <p style="text-align: center;
+                font-weight: 500;
+                color: #444444;
+                font-size: 1.25rem;
+                letter-spacing: 0;
+                line-height: 36px;
+                margin-top: 0.5rem;
+                padding: 0 1rem 0 1rem;
+                ">
+            <apex:outputText value="{!headerText}" escape="false" />
+        </p>
+
+        <!-- Button-->
+        <apex:outputPanel rendered="{!isPreBodyButton=true}">
+            <div style="text-align:center;width: fit-content;margin: 0 auto;margin-top:32px;">
+                <c:PP_EmailActionButton rendered="true" buttonLabel="{!preBodyButtonName}" buttonURL="{!preBodyButtonURL}" communityTemplate="{!communityTemplate}"
+                    surveyId="{!surveyId}"></c:PP_EmailActionButton>
+            </div>
+        </apex:outputPanel>
+
+        <!-- Divider-->
+        <div style="width:100%;
+                    height:1px;
+                    background-color:#E9E9E9;
+                    margin:40px 0 0 0;"></div>
+
+        <!--Body Section-->
+        <div style="padding: 1.5rem 2rem 3rem 2rem;
+                    color: #444444;
+                    font-size: 1rem;
+                    font-weight: 500;
+                    letter-spacing: 0;
+                    line-height: 1.5rem;
+                    font-family:Helvetica,Arial,Sans-Serif;">
+            <!-- Greetings-->
+            <apex:outputText value="{!greetingText}" escape="false" />
+            <br/>
+            <!-- Body Paragraph-->
+            <apex:componentBody rendered="{!isInitialized}" />
+            <!-- Pre-Signature Text-->
+            <apex:outputPanel style="display:block; margin: 25px 0" rendered="{!preSignatureText != null}">
+                <apex:outputText value="{!preSignatureText}" escape="false" />
+            </apex:outputPanel>
+            <!-- Signature-->
+            <table style="border-spacing: 0;">
+                <tr>
+                    <td style="width: 90%;
+                            padding-left: 0px;
+                            padding-right: 0px;
+                            font-family:Helvetica,Arial,Sans-Serif;">
+                        <apex:outputText value="{!signatureText}" escape="false" />
+                    </td>
+                    <td style="width: 10%;">
+                        <img style="{!templateMap['emailTemplateBrandLogoCSS']}" src="{!templateMap['emailTemplateBrandLogo']}" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--Footer START-->
+        <!--IQVIA Logo -->
+        <div style="{!templateMap['emailTemplateBottomLogo']}">
+            <img src="{!footerLogoUrl}" />
+        </div>
+
+        <!--IQVIA Address -->
+        <div style="background: #f2f2f2;
+                    padding: 0 1rem 0 1rem;">
+            <div style="color: #6E6E6E;
+                        font-size: 13px;
+                        font-weight: 500;
+                        letter-spacing: 0;
+                        line-height: 24px;
+                        text-align: center;
+                        border-top: 1px solid #D9D9D9;
+                        border-bottom: 1px solid #D9D9D9;
+                        padding: 0.5rem 0 0.5rem 0;">
+                <div style="{!IF(isRTL=true,'display:block', 'display:none')}">
+                    <a style="color: #015FF1;
+                            text-decoration: none;
+                            font-weight: 600;" href="{!emailCommunityURL + '/s/privacy-policy'}">{!$Label.Email_Footer_Privacy_Policy}</a>&nbsp;&nbsp;|&nbsp;&nbsp;{!$Label.Email_Footer_Address}
+                </div>
+                <div style="{!IF(isRTL=false,'display:block;', 'display:none;')}">
+                    {!$Label.Email_Footer_Address}&nbsp;&nbsp;|&nbsp;
+                    <a style="color: #015FF1;
+                            text-decoration: none;
+                            font-weight: 600;" href="{!emailCommunityURL + '/s/privacy-policy'}">{!$Label.Email_Footer_Privacy_Policy}</a>
+                </div>
+            </div>
+        </div>
+
+        <!--Tech Support, Opt Out and Medical Emergency -->
+        <apex:outputPanel rendered="{!displayOptOut!='No'}">
+            <div style="padding-bottom: 27px;
+                        background-color:#F2F2F2;">
+                <apex:outputPanel rendered="{!isRTL=false}">
+                    <div style="color: #6e6e6e;
+                                font-size: 13px;
+                                font-weight: 500;
+                                letter-spacing: 0;
+                                line-height: 20px;
+                                text-align: center;
+                                box-sizing: border-box;
+                                padding: 0 1rem 0 1rem;">
+                        <div style="display:block;
+                                    padding: 0.5rem 0 0 0;">
+                            <!-- Tech Support -->
+                            {!$Label.Email_Opt_Out_footer_PP}
+                            <a style="color: #015FF1;
+                                    font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">
+                                {!$Label.Email_Submit_Request}</a>.
+                            <!--Opt Out -->
+                            <!-- {!$Label.Email_Opt_Out_footer_here}
+                            <a style="color: #015FF1;
+                                    font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">{!$Label.PP_Email_Update_Pref}</a>. -->
+                        </div>
+
+                        <!--Medical Emergency -->
+                        <div style="padding: 0.5rem 0 0.5rem 0;
+                                    border-bottom: 1px solid #d9d9d9;">
+                            {!$Label.Email_Opt_Out_footer_medical_emergency}
+                        </div>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!isRTL=true}">
+                    <div style="color: #6e6e6e;
+                                font-size: 13px;
+                                font-weight: 500;
+                                letter-spacing: 0;
+                                line-height: 20px;
+                                text-align: center;">
+                        <div style="display:block;
+                                    padding: 0.5rem 0 0 0;">
+                            <!-- Tech Support -->
+                            {!$Label.Email_Opt_Out_footer_PP}
+                            <a style="color: #015FF1;
+                                    font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">
+                                {!$Label.Email_Submit_Request}</a>.
+                            <!--Opt Out -->
+                            <!-- {!$Label.PP_Email_Opt_Out}
+                            <a style="color: #015FF1;
+                                    font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">{!$Label.PP_Email_Update_Pref}</a>. -->
+                        </div>
+                        <!--Medical Emergency -->
+                        <div style="padding: 0.5rem 0 0.5rem 0;
+                                    border-bottom: 1px solid #d9d9d9;">
+                            {!$Label.Email_Opt_Out_footer_medical_emergency}
+                        </div>
+                    </div>
+                </apex:outputPanel>
+            </div>
+        </apex:outputPanel>
+    </div>
+</apex:component>

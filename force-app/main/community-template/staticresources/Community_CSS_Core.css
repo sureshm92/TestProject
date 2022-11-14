@@ -67,15 +67,6 @@ a:hover {
     flex-shrink: 0;
     width: 165px;
 }
-.logo-container-pp {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    margin-right: 52px;
-    margin-left: -52px;
-    flex-shrink: 0;
-    width: 165px;
-}
 
 .logo-container .title-logo {
     max-height: 38px;
@@ -1515,11 +1506,6 @@ input[type=password]::-ms-clear
     margin: auto;
 }
 
-.rr-width-limiter-pp{
-    max-width: 1140px;
-    margin-left: auto;
-}
-
 .rr-width-limiterRTL{
     max-width: 1140px;
     margin: auto;
@@ -1849,4 +1835,15 @@ input[type=password]::-ms-clear
     .slds-scope .cp-information-container .slds-input {
         padding: 0;
     }
+}
+
+.briefSummery.slds-rich-text-editor__output {
+    line-height: inherit !important;
+}
+
+.briefSummery p {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

@@ -157,6 +157,10 @@ import BTN_Save from '@salesforce/label/c.BTN_Save';
 import BTN_Next from '@salesforce/label/c.BTN_Next';
 import BTN_Back from '@salesforce/label/c.BTN_Back';
 import Participant_No_Show from '@salesforce/label/c.Participant_No_Show';
+import PG_Ref_L_Permit_IQVIA_To_Store_And_Contact from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Store_And_Contact' 
+import PG_Ref_L_Permit_IQVIA_To_Contact_ESP from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_ESP' 
+import PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US' 
+
 
 
     const label = {
@@ -317,6 +321,9 @@ import Participant_No_Show from '@salesforce/label/c.Participant_No_Show';
         BTN_Save:BTN_Save,
         BTN_Next:BTN_Next,
         BTN_Back:BTN_Back,
-        Participant_No_Show:Participant_No_Show
+        Participant_No_Show:Participant_No_Show,
+        PG_Ref_L_Permit_IQVIA_To_Store_And_Contact:PG_Ref_L_Permit_IQVIA_To_Store_And_Contact,
+        PG_Ref_L_Permit_IQVIA_To_Contact_ESP:PG_Ref_L_Permit_IQVIA_To_Contact_ESP,
+        PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US:PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US
     };
     export {label};

@@ -38,6 +38,10 @@ import pir_BmiHelptext from "@salesforce/label/c.pir_BmiHelptext";
 import RH_MedicalRecords_NoPermitEmail from "@salesforce/label/c.RH_MedicalRecords_NoPermitEmail";
 import PIR_Download from "@salesforce/label/c.PIR_Download";
 import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save'; 
+import Prescreener_Name from '@salesforce/label/c.Prescreener_Name';
+import MRR_Screener_Name from '@salesforce/label/c.MRR_Screener_Name';
+import EPR_Screener_Name from '@salesforce/label/c.EPR_Screener_Name';
+import General_Screener_Name from '@salesforce/label/c.General_Screener_Name';
 
 import LOCALE from "@salesforce/i18n/locale";
 
@@ -73,7 +77,11 @@ export default class Medicalinformation extends LightningElement {
     pir_BmiHelptext,
     RH_MedicalRecords_NoPermitEmail,
     PIR_Download,
-    RH_RP_Record_Saved_Successfully
+    RH_RP_Record_Saved_Successfully,
+    Prescreener_Name,
+    MRR_Screener_Name,
+    EPR_Screener_Name,
+    General_Screener_Name
   };
 
   @api selectedPe;
@@ -249,21 +257,45 @@ export default class Medicalinformation extends LightningElement {
             this.ismediaFileAvailable = true;
           }
         }
-        if (result.booldisplaymrrgizmo) {
-          let result = this.formatgizmoresponse(this.returnpervalue.strMRRSurveyResult);
-          this.decodeMRRResultGizmo = result.data;
-          this.decodeMRRResult = result.decodeResult;
-        }else{
-          this.decodeMRRResultGizmo = '';
-          this.decodeMRRResult = '';
-        }
-        if (result.booldisplayprescreenergizmo) {
-          let result = this.formatgizmoresponse(this.returnpervalue.strPreScreenerSurveyResult);
-          this.decodePreScreenerResultGizmo = result.data;
-          this.decodePreScreenerResult = result.decodeResult;
-        }else{
-          this.decodePreScreenerResultGizmo = '';
-          this.decodePreScreenerResult = '';
+        if(result.surveyResponses && result.surveyResponses.length > 0) {
+
+          for (var i = 0; i < result.surveyResponses.length; i++) {
+
+            this.returnpervalue.surveyResponses[i].accordianbg = 'slds-accordion__summary ' + result.surveyResponses[i].Id + 'Bg';
+            this.returnpervalue.surveyResponses[i].accordianHide = result.surveyResponses[i].Id + ' slds-hide';
+            this.returnpervalue.surveyResponses[i].accordianDiv = 'slds-m-top_small '+ result.surveyResponses[i].Id +' slds-hide';
+            this.returnpervalue.surveyResponses[i].screenerDiv = 'screener'+ result.surveyResponses[i].Id;
+
+            if(this.returnpervalue.surveyResponses[i].PreScreener_Survey__c) {
+              
+              this.returnpervalue.surveyResponses[i].screenerName = this.returnpervalue.surveyResponses[i].PreScreener_Survey__r.Survey_Name__c;
+            } else {
+              var ctpName = '';
+              if(this.returnpervalue.surveyResponses[i].Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c) {
+                ctpName = this.returnpervalue.surveyResponses[i].Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+              }
+              if(this.returnpervalue.surveyResponses[i].MRR_EPR__c) {
+                this.returnpervalue.surveyResponses[i].screenerName = this.label.EPR_Screener_Name + (ctpName ? '_' + ctpName : '');
+              } else if(this.returnpervalue.surveyResponses[i].MRR__c){
+                this.returnpervalue.surveyResponses[i].screenerName =  (ctpName ? ctpName + '_' : '') + this.label.MRR_Screener_Name;
+              } else if(this.returnpervalue.surveyResponses[i].Prescreener__c) {
+                this.returnpervalue.surveyResponses[i].screenerName =  (ctpName ? ctpName + '_' : '') + this.label.Prescreener_Name;
+              } else {
+                this.returnpervalue.surveyResponses[i].screenerName =  (ctpName ? ctpName + '_' : '') + this.label.General_Screener_Name;
+              }
+            }
+            
+            this.returnpervalue.surveyResponses[i].screenerTitle = 
+              this.returnpervalue.surveyResponses[i].screenerName + ' ' 
+              + new Date(this.returnpervalue.surveyResponses[i].Completed_Date__c).toLocaleDateString(LOCALE, { year: 'numeric', month: '2-digit', day: '2-digit' });
+          }
+
+          for (var i = 0; i < result.surveyResponses.length; i++) {
+
+            let response = this.formatgizmoresponse(result.surveyResponses[i].Screener_Response__c);
+            this.returnpervalue.surveyResponses[i].decodePreScreenerResultGizmo = response.data;
+            this.returnpervalue.surveyResponses[i].decodePreScreenerResult = response.decodeResult;
+          }
         }
         this.loadSurvey = true;
         this.isMedicalDataLoaded = true;
@@ -278,11 +310,11 @@ export default class Medicalinformation extends LightningElement {
 
       });
   }
-
-  get displayGizmoResult (){
-    return this.returnpervalue.booldisplaymrrgizmo||this.returnpervalue.booldisplayprescreenergizmo;
-  }
   
+  get displaySurveyResult (){
+    return this.returnpervalue.surveyResponses && this.returnpervalue.surveyResponses.length > 0;
+  }
+
   /*Method for HighRisk and High Priority */
   handlevalueupdateRisk(event) {
     
@@ -792,14 +824,16 @@ export default class Medicalinformation extends LightningElement {
       .forEach(function (L) {
         L.classList.toggle("bg-white");
       });
-    if (event.currentTarget.dataset.name == "screenerOneAcc") {
-      if(this.decodeMRRResultGizmo){
-          this.template.querySelector(".screener1").innerHTML =
-            this.decodeMRRResultGizmo;
-      }
-      if(this.decodePreScreenerResultGizmo){
-          this.template.querySelector(".screener2").innerHTML =
-            this.decodePreScreenerResultGizmo;
+
+    if(this.returnpervalue.surveyResponses && this.returnpervalue.surveyResponses.length > 0) {
+
+      for (var i = 0; i < this.returnpervalue.surveyResponses.length; i++) {
+
+        if (event.currentTarget.dataset.name == this.returnpervalue.surveyResponses[i].Id) {
+
+          this.template.querySelector(".screener"+this.returnpervalue.surveyResponses[i].Id).innerHTML =
+              this.returnpervalue.surveyResponses[i].decodePreScreenerResultGizmo;
+        }
       }
     }
   }

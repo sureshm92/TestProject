@@ -13,6 +13,8 @@ import enterUsernameMsg from '@salesforce/label/c.Lofi_Enter_Username';
 import enterPasswordMsg from '@salesforce/label/c.Lofi_Enter_Password';
 import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
+import PP_Login_Form_Show from '@salesforce/label/c.PP_Login_Form_Show';
+import PP_Login_Form_Hide from '@salesforce/label/c.PP_Login_Form_Hide';
 
 export default class PpLoginForm extends NavigationMixin(LightningElement) {
     @track inError;
@@ -30,12 +32,12 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
 
     passwordInputType = 'password';
     isEyeHidden = true;
-    
+
     eyeHidden = PP_Desktoplogos + '/eye-hidden.svg';
     wave = PP_Desktoplogos + '/wave_desktop.png';
     exclamation = LOFI_LOGIN_ICONS + '/status-exclamation.svg';
     eyeIcon = LOFI_LOGIN_ICONS + '/eye-icon.svg';
-    
+
     label = {
         unableToLogin,
         forgotPassword,
@@ -43,13 +45,15 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         password,
         enterUsernameMsg,
         enterPasswordMsg,
-        login
+        login,
+        PP_Login_Form_Hide,
+        PP_Login_Form_Show
     };
 
     currentPageReference;
     erroContainerPosition = 'margin-left: 13px';
     errorIconPosition = 'margin-left: 8px';
-    
+
     renderedCallback() {
         Promise.all([loadStyle(this, communityPPTheme)])
             .then(() => {
@@ -116,12 +120,18 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="userName"]').value = event.target.value;
         }
+        if (event.which == 13) {
+            this.handleLogin();
+        }
         this.btnclassName = 'slds-input input-field-container';
     }
 
     handlepasswordChange(event) {
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="password"]').value = event.target.value;
+        }
+        if (event.which == 13) {
+            this.handleLogin();
         }
         this.btnclassName = 'slds-input input-field-container';
     }
@@ -255,6 +265,11 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     get className() {
         return this.btnclassName;
     }
+
+    get PasswordEyeIconTitle(){
+        return this.isEyeHidden ? this.label.PP_Login_Form_Show : this.label.PP_Login_Form_Hide;
+    }
+
     changeImgSrc() {
         let isEyeHidden = this.isEyeHidden;
         if (isEyeHidden) {

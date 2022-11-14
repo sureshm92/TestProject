@@ -6,6 +6,8 @@ public without sharing class ParticipantItem {
     @AuraEnabled
     public Participant_Enrollment__c pe;
     @AuraEnabled
+    public List<Participant_PrescreenerResponse__c> screenerResponse;
+    @AuraEnabled
     public Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
     @AuraEnabled
     public List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;

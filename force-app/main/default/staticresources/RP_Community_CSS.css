@@ -1,0 +1,56 @@
+/* RP_Community_CSS */ 
+.studyconsent-checkboxus .slds-form-element__help{
+    top: -14px;
+    width: 200px;
+}
+.studyconsent-checkboxus .slds-checkbox__label{
+    position: absolute;
+    top: 0;
+    padding-left: 10px;
+}
+.studyconsent-checkbox-non-us .slds-form-element__help{
+    top: -14px;
+    width: 200px;
+}
+.studyconsent-checkbox-non-us .slds-checkbox__label{
+    position: absolute;
+    top: 0;
+    padding-left: 10px;
+}
+.errormsgDel .slds-form-element__help{
+    top: -19px;
+    width: 200px;
+}
+.errormsgRPDel .slds-form-element__help{
+    width: 200px;
+}
+
+@media (max-device-width: 767px) {
+    .studyconsent-checkboxus .slds-form-element__help{
+        top: -20px;
+        width: 200px;
+    }
+    .studyconsent-checkboxus{
+        margin-top: 6px;
+    }
+    .studyconsent-checkbox-non-us .slds-form-element__help{
+        top: -20px;
+        width: 200px;
+    }
+    .studyconsent-checkbox-non-us{
+        margin-top: 6px;
+    }
+    .errormsgDel .slds-form-element__help{
+        top: 2px;
+        width: 200px;
+        line-height: 1px;
+    }
+    .errormsgRPDel .slds-form-element__help{
+        width: 200px;
+        margin-top: 10px;
+    }
+    .errormsgRPDelAttest .slds-form-element__help{
+        position: absolute;
+        top: 50px;
+    }
+}

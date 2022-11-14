@@ -46,6 +46,9 @@ public without sharing class RRChangePasswordController {
     public Boolean isAttested { get; set; }
     public Participant__c participant { get; set; }
     public Participant_Enrollment__c per {get;set;}
+    public String tcLink { get; set; }
+    public String studyPrivacyPolicyUrl { get; set; }
+    public String platformPrivacyPolicyUrl { get; set; }
 
     public Translation__c translation { get; set; }
     public String browserLanguage { get; set; }
@@ -190,7 +193,7 @@ public without sharing class RRChangePasswordController {
         contact = userVal.Contact;
         system.debug('userVal.FullPhotoUrl' + userVal.FullPhotoUrl);
 
-        maskUserName = userVal.Username.substring(0,3)+'************';
+        maskUserName = userVal.Username.substring(0, 3) + '************';
         hasProfilePic = !userVal.FullPhotoUrl.contains('profilephoto/005/F');
         system.debug('hasProfilePic-->' + hasProfilePic);
         addPhotoLabel=hasProfilePic?System.Label.PP_AddProfilePhoto:System.Label.PP_AddPhoto;
@@ -279,9 +282,11 @@ public without sharing class RRChangePasswordController {
                     Mailing_Country_Code__c,
                     Mailing_State_Code__c,
                     Birth_Year__c
+
                 FROM Participant__c
                 WHERE Contact__c = :contact.Id
             ];
+            
             updateTranslations();
         }
         countries = new List<SelectOption>();
@@ -308,7 +313,7 @@ public without sharing class RRChangePasswordController {
             if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal && contact.Is_First_Logon__c) {
             
                 List<Participant_Enrollment__c> loginUserPEs = [
-                    SELECT Id,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c,Clinical_Trial_Profile__r.CommunityTemplate__c
+                    SELECT Id,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c, Clinical_Trial_Profile__r.Privacy_Policy_ID__c
                     FROM Participant_Enrollment__c
                     WHERE Participant_Contact__c = :contact.Id AND Clinical_Trial_Profile__r.CommunityTemplate__c ='PatientPortal'
                 ];
@@ -323,7 +328,7 @@ public without sharing class RRChangePasswordController {
                    if(delegatesPDList.size()>0)
                    {
                     List<Participant_Enrollment__c> delegateContactUserPEs = [
-                        SELECT Id,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c,Clinical_Trial_Profile__r.CommunityTemplate__c
+                        SELECT Id,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c, Clinical_Trial_Profile__r.Privacy_Policy_ID__c
                         FROM Participant_Enrollment__c
                         WHERE Participant_Contact__c = :delegatesPDList[0].Participant__r.Contact__c AND Clinical_Trial_Profile__r.CommunityTemplate__c ='PatientPortal'
                     ];
@@ -352,10 +357,39 @@ public without sharing class RRChangePasswordController {
             }
             isSaveButtonDisabled = true;
         }
+        else if(isParticipant){
+            birthYear = participant.Birth_Year__c;
+        }
         if (!String.isBlank(country)) {
             updateStatesAction();
         }
         onLoad = false;
+        Id ctpId;
+
+        ctpId = per?.Clinical_Trial_Profile__c;
+        String baseUrl=Site.getBaseUrl().replace('pp', 'terms');
+
+
+        if (
+            (ctpId != null) &&
+            (per.Clinical_Trial_Profile__r
+                ?.Terms_And_Conditions_ID__c != null)
+        ) {
+            tcLink = baseUrl + '/s/terms-and-conditions?id=' + ctpId;
+        } else {
+            tcLink = baseUrl + '/s/terms-and-conditions/';
+        }
+        platformPrivacyPolicyUrl = baseUrl + '/s/privacy-policy';
+
+        if (
+            ctpId != null &&
+            (per.Clinical_Trial_Profile__r
+                ?.Privacy_Policy_Id__c != null)
+        ) {
+            studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy?id=' + ctpId;
+        } else {
+            studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy';
+        }
     }
 
     public PageReference changePassword() {
@@ -426,8 +460,7 @@ public without sharing class RRChangePasswordController {
         }
     }
 
-    public PageReference ppChangePassword()
-    {
+    public PageReference ppChangePassword() {
         try {
             PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
             contact cont = new contact();
@@ -482,9 +515,7 @@ public without sharing class RRChangePasswordController {
                     );
                     failingPageResponse = m.getDetail();
                 } else {
-                    if (
-                        m.getDetail().contains(System.Label.PP_CantReuseOldPwd) 
-                    ) {
+                    if (m.getDetail().contains(System.Label.PP_CantReuseOldPwd)) {
                         failingPageResponse = System.Label.PP_CantReuseOldPwd;
                     } else {
                         failingPageResponse = null;
@@ -564,6 +595,7 @@ public without sharing class RRChangePasswordController {
             if (isParticipant) {
                 participant.Mailing_Country_Code__c = country;
                 participant.Mailing_State_Code__c = state;
+                participant.Birth_Year__c = birthYear;
                 Boolean noCountry =
                     participant.Mailing_Country_Code__c == '--None--' ||
                     String.isBlank(participant.Mailing_Country_Code__c);
@@ -579,9 +611,7 @@ public without sharing class RRChangePasswordController {
                     ? null
                     : countryCodeByStateCodeByNameMap.get(participant.Mailing_Country_Code__c)
                           .get(participant.Mailing_State_Code__c));
-                if (isDelegate) {
-                    participant.Birth_Year__c = birthYear;
-                }
+
                 contact.MailingCountryCode = participant.Mailing_Country_Code__c;
                 contact.MailingStateCode = participant.Mailing_State_Code__c;
                 // for country or states values update by code

@@ -17,15 +17,18 @@ global without sharing class InitialWireframeController {
         return getTemplateInitial().whatId;
     }
 
-    
-    public Boolean getPhyscian(){
-        User objUser = [SELECT ID,ContactId from User Where Id=:recordId];
-        Contact objCon = [SELECT ID,Suppress_Physician_Outreach_Email__c FROM Contact Where Id=:objUser.ContactId];
-        return objCon.Suppress_Physician_Outreach_Email__c; 
-    }  
-    
-    public String getCommunityUrl(){
-        Network myNetwork = [SELECT Id FROM Network WHERE Name ='IQVIA Referral Hub' ];
+    public Boolean getPhyscian() {
+        User objUser = [SELECT ID, ContactId FROM User WHERE Id = :recordId];
+        Contact objCon = [
+            SELECT ID, Suppress_Physician_Outreach_Email__c
+            FROM Contact
+            WHERE Id = :objUser.ContactId
+        ];
+        return objCon.Suppress_Physician_Outreach_Email__c;
+    }
+
+    public String getCommunityUrl() {
+        Network myNetwork = [SELECT Id FROM Network WHERE Name = 'IQVIA Referral Hub'];
         return Network.getLoginUrl(myNetwork.id);
     }
 
@@ -38,7 +41,9 @@ global without sharing class InitialWireframeController {
             ? Label.Email_Title_Initial_All_IQVIA
             : commTemplate == CommunityTemplateService.TEMPLATE_JANSSEN
                   ? Label.Email_Title_Initial_All_Janssen
-                  : Label.Email_Title_Initial_All_GSK;
+                  : commTemplate == CommunityTemplateService.TEMPLATE_PP
+                        ? Label.Email_Title_PH
+                        : Label.Email_Title_Initial_All_GSK;
     }
 
     public String getSpecificProvider() {
@@ -51,8 +56,7 @@ global without sharing class InitialWireframeController {
             : buttonLabelValue;
     }
 
-    public Boolean getCheckVisitedCommunity()
-    {
+    public Boolean getCheckVisitedCommunity() {
         return ContactService.checkVisitedCommunity(getTemplateInitial().recipientId);
     }
 

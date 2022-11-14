@@ -11,6 +11,9 @@
     <aura:attribute name="trialId" type="String" />
     <aura:attribute name="siteId" type="String" />
     <aura:attribute name="trial" type="Object" />
+    <aura:attribute name="preScreenerSurvey" type="Object" />	
+    <aura:attribute name="preMrrSurvey" type="Object" />	
+    <aura:attribute name="preScreenerResponse" type="Object"/>
     <aura:attribute name="pEnrollment" type="Object" />
     <aura:attribute name="mailingCountryCode" type="String" />
     <aura:attribute name="hcpeId" type="String" />
@@ -50,6 +53,9 @@
     <aura:attribute name="yearofBirth" type="String" />
     <aura:attribute name="birthdate" type="String" />
     <aura:attribute name="participantDate" type="date" />
+    <aura:attribute name="studySiteFormat" type="String" />
+    <aura:attribute name="ageOptions" type="List" />
+    <aura:attribute name="selectedAge" type="string" default="" />
 
     <aura:attribute name="perecordid" type="string" access="global" />
     <aura:attribute name="patientVeiwRedirection" type="Boolean" default="false" access="global" />
@@ -113,6 +119,11 @@
     <aura:attribute name="mrrExist" type="Boolean" default="false" />
     <aura:attribute name="myStudies" type="Boolean" default="false" />
     <aura:attribute name="PeID" type="string" />
+    <aura:attribute name="toggleAge" type="Boolean" default="true" />
+    <!--RH-8091-->
+    <aura:attribute name="confirmConsent" type="Boolean" default="false" />
+    <aura:attribute name="isConfirmConsentNeeded" type="Boolean" default="false" />
+    <!--RH-8091-->
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
@@ -121,8 +132,13 @@
     <!--<aura:handler name="change" value="{!v.participant.Mailing_State_Code__c}" action="{!c.doCheckfields}"/>-->
     <aura:handler name="ddMessageButtonClick" event="c:DDMessageEvent" action="{!c.approveDelegate}" />
     <aura:method name="checkdobMethod" action="{!c.doCheckDateOfBith}" />
+    <aura:method name="dobChangeMethod" action="{!c.doDOBChange}" />
     <aura:method name="checkdoneeedgaurdian" action="{!c.doNeedsGuardian}" />
     <!--<c:ExceptionHandlerPopup aura:id="exceptionHandler" />-->
+
+    <aura:attribute name="futureDate" type="Boolean" />
+    <aura:attribute name="futureDateDDErr" type="String" />
+    <aura:attribute name="futureDateMMErr" type="String" />
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
 
     <aura:if isTrue="{!!empty(v.trial)}">
@@ -145,7 +161,7 @@
                                 <button class="apollo-btn primary" onclick="{!c.doClearForm}">
                                     {!$Label.c.PG_MRR_BTN_Complete_another_Medical_Record_Review}
                                 </button>
-                                <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
+                                <button class="apollo-btn tertiary" onclick="{!c.doGoPatientsTab}">
                                     {!$Label.c.RH_RP_Back_to_My_Patients}
                                 </button>
                             </div>
@@ -166,7 +182,7 @@
                                 <button class="apollo-btn secondary" onclick="{!c.doStartMRR}">
                                     {!$Label.c.PG_MRR_BTN_Complete_another_Medical_Record_Review_for_this_Study}
                                 </button>
-                                <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
+                                <button class="apollo-btn tertiary" onclick="{!c.doGoPatientsTab}">
                                     {!$Label.c.RH_RP_Back_to_My_Patients}
                                 </button>
                             </div>
@@ -462,7 +478,7 @@
 
                                         <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button"
                                             style="{!if(v.isRTL, 'text-align: left;','')}">
-                                            <button data-hcpe-id="{!ss.hcpe.Id}" data-site-id="{!ss.site.Site__c}"
+                                            <button data-hcpe-id="{!ss.hcpe.Id}" data-site-id="{!ss.site.Site__c}" data-ss-format="{!ss.site.Participant_DOB_format__c}"
                                                 class="apollo-btn secondary" style="margin-top: 10px"
                                                 onclick="{!c.doSelectSite}">
                                                 {!$Label.c.BTN_Refer_to_this_Site}
@@ -542,7 +558,7 @@
                 <!-- Questionare -->
                 <aura:if isTrue="{!v.currentStep == $Label.c.PG_Ref_Step_Questionnaire}">
                     <div class="rr-width-limiter">
-                        <iframe src="{!v.trial.Link_to_Pre_screening__c}" class="screening-gizmo-frame"
+                        <iframe src="{!v.preScreenerSurvey.Link_to_Pre_screening__c}" class="screening-gizmo-frame"
                             style="{!'height: '+v.frameHeight + 'px'}" onload="{!c.doFrameLoaded}">
                         </iframe>
                     </div>
@@ -690,8 +706,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="slds-col rr-medium-up-hide" style="height: 20px"></div>
-                                                <div
-                                                    class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign':'slds-col slds-size--1-of-2'}">
+                                                <!--dob changes-->
+                                                <!--div
+                                                    class="{!v.isRTL? 'slds-col slds-size-1-of-2 rightAlign':'slds-col slds-size-1-of-2'}">
                                                     <aura:if isTrue="{!v.patientVeiwRedirection}">
                                                         <div class="slds-grid slds-wrap">
                                                             <div class="slds-col slds-size_1-of-3">
@@ -754,8 +771,104 @@
                                                                 onblur="{!c.doCheckDateOfBith}" dateStyle="medium" />
                                                         </aura:set>
                                                     </aura:if>
+                                                </div dob change ends here-->
+                                            </div>
+                                            <!--dob changes-->
+                                            <div class="slds-grid slds-gutters slds-wrap rr-form-element">
+                                                <aura:if isTrue="{!(v.studySiteFormat != 'YYYY')}">
+                                                    <div
+                                                        class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign slds-m-top_medium':'slds-col slds-size--1-of-2 slds-m-top_medium'}"
+                                                    >
+                                                        <div class="label">
+                                                            <abbr
+                                                                title="required"
+                                                                class="slds-required"
+                                                                >*</abbr
+                                                            >{!$Label.c.RH_MOB}
+                                                        </div>
+                                                        <div>
+                                                            <c:rrSelect
+                                                                options="{!v.months}"
+                                                                value="{!v.pmonth}"
+                                                                placeholder="{!$Label.c.PG_AC_Select}"
+                                                                useSentenceFont="false"
+                                                                onchange="{!c.doDOBChange}"
+                                                                required="true"
+                                                                errorMessage="{!v.futureDateMMErr}"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </aura:if>
+                                                <aura:if isTrue="{!(v.studySiteFormat == 'DD-MM-YYYY') }">
+                                                    <div class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign slds-m-top_medium':'slds-col slds-size--1-of-2 slds-m-top_medium'}">
+                                                        <div class="label" style="padding-left: 2px;">
+                                                            <abbr
+                                                                title="required"
+                                                                class="slds-required"
+                                                                >*</abbr
+                                                            >{!$Label.c.RH_DOB}
+                                                        </div>
+                                                        <div>
+                                                            <aura:if isTrue="{!v.toggleAge}">
+                                                            <c:rrSelect
+                                                                options="{!v.days}"
+                                                                value="{!v.pday}"
+                                                                placeholder="{!$Label.c.PG_AC_Select}"
+                                                                useSentenceFont="false"
+                                                                onchange="{!c.doDayChange}"
+                                                                required="true"
+                                                                errorMessage="{!v.futureDateDDErr}"
+                                                            />
+                                                        </aura:if>
+                                                        </div>
+                                                    </div>
+                                                </aura:if>
+                                                <div class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign slds-m-top_medium':'slds-col slds-size--1-of-2 slds-m-top_medium'}">
+                                                    <div class="label">
+                                                        <abbr
+                                                            title="required"
+                                                            class="slds-required"
+                                                            >*</abbr
+                                                        >{!$Label.c.RH_YearofBirth}
+                                                    </div>
+                                                    <div>
+                                                        <c:rrSelect
+                                                            options="{!v.years}"
+                                                            value="{!v.pyear}"
+                                                            required="true"
+                                                            placeholder="{!$Label.c.PG_AC_Select}"
+                                                            useSentenceFont="false"
+                                                            onchange="{!c.doDOBChange}"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign slds-m-top_medium':'slds-col slds-size--1-of-2 slds-m-top_medium'}">
+                                                    <aura:if isTrue="{!(v.studySiteFormat != 'DD-MM-YYYY')}">
+                                                        <div class="label" >
+                                                            <abbr
+                                                                title="required"
+                                                                class="slds-required"
+                                                                >*</abbr
+                                                            >Age
+                                                        </div>
+                                                        <div>
+                                                            <c:rrSelect
+                                                                options="{!v.ageOptions}"
+                                                                value="{!v.selectedAge}"
+                                                                placeholder="{!$Label.c.PG_AC_Select}"
+                                                                useSentenceFont="false"
+                                                                onchange="{!c.doAgeChange}"
+                                                            />
+                                                        </div>
+                                                        <aura:set attribute="else">
+                                                            <div class="label">Age</div>
+                                                            <div  style="padding-left: 8px; font-size: 17px;">{!v.selectedAge}</div>
+                                                        </aura:set>
+                                                    </aura:if>
                                                 </div>
                                             </div>
+                                            <!--dob changes ends here-->
+
                                             <div class="slds-grid slds-gutters slds-wrap rr-form-element">
                                                 <div class="slds-col slds-size--1-of-2">
                                                     <lightning:input type="text" label="{!$Label.c.PG_AS_F_First_name}"
@@ -1019,7 +1132,7 @@
                                                             {!$Label.c.RH_MinorDelegateErrMsg}
                                                         </aura:if>
                                                     </div>
-                                                    <div class="rr-form-element slds-no-label" style="
+                                                    <div class="rr-form-element slds-no-label errormsgRPDelAttest " style="
                                                             margin-top: 20px;
                                                             margin-left: -0.5rem;
                                                         ">
@@ -1035,6 +1148,22 @@
                                                             {!$Label.c.RH_DelegateAttestation}
                                                         </div>
                                                     </div>
+                                                    
+                                                </aura:if>
+                                                <aura:if isTrue="{!v.isConfirmConsentNeeded}">
+                                                    <div class="rr-form-element slds-no-label errormsgRPDel "
+                                                                style="margin-top: 20px; margin-left:-8px">
+                                                                <div class="rr-cb-container">
+                                                                    <lightning:input type="checkbox" label=""
+                                                                        checked="{!v.confirmConsent}" required="true"
+                                                                        aura:id="confirmConsent"
+                                                                        onchange="{!c.doCheckfields}" />
+                                                                </div>
+                                                                <div class="label rr-cb-label"
+                                                                    style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
+                                                                    {!$Label.c.RH_ConfirmConsentRP}
+                                                                </div>
+                                                        </div>
                                                 </aura:if>
                                             </aura:if>
                                             <aura:if isTrue="{!(!v.authorizationForm)}">
@@ -1191,8 +1320,8 @@
                                                             onchange="{!c.doCheckfields}" />
                                                     </div>
                                                     <div class="slds-col rr-medium-up-hide" style="height: 20px"></div>
-                                                    <div
-                                                        class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign':'slds-col slds-size--1-of-2'}">
+                                                    <!--div
+                                                        class="{!v.isRTL? 'slds-col slds-size-1-of-2 rightAlign':'slds-col slds-size-1-of-2'}">
                                                         <aura:if isTrue="{!v.patientVeiwRedirection}">
                                                             <div class="slds-grid slds-wrap">
                                                                 <div class="slds-col slds-size_1-of-3">
@@ -1291,8 +1420,102 @@
                                                                     dateStyle="medium" />
                                                             </aura:set>
                                                         </aura:if>
+                                                    </div-->
+                                                </div>
+                                            <!--dob changes-->
+                                            <div class="slds-grid slds-gutters slds-wrap rr-form-element">
+                                                <aura:if isTrue="{!(v.studySiteFormat != 'YYYY')}">
+                                                    <div
+                                                        class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign slds-m-top_medium':'slds-col slds-size--1-of-2 slds-m-top_medium'}"
+                                                    >
+                                                        <div class="label">
+                                                            <abbr
+                                                                title="required"
+                                                                class="slds-required"
+                                                                >*</abbr
+                                                            >{!$Label.c.RH_MOB}
+                                                        </div>
+                                                        <div>
+                                                            <c:rrSelect
+                                                                options="{!v.months}"
+                                                                value="{!v.pmonth}"
+                                                                placeholder="{!$Label.c.PG_AC_Select}"
+                                                                useSentenceFont="false"
+                                                                onchange="{!c.doDOBChange}"
+                                                                required="true"
+                                                                errorMessage="{!v.futureDateMMErr}"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </aura:if>
+                                                <aura:if isTrue="{!(v.studySiteFormat == 'DD-MM-YYYY') }">
+                                                    <div class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign slds-m-top_medium':'slds-col slds-size--1-of-2 slds-m-top_medium'}">
+                                                        <div class="label" style="padding-left: 2px;">
+                                                            <abbr
+                                                                title="required"
+                                                                class="slds-required"
+                                                                >*</abbr
+                                                            >{!$Label.c.RH_DOB}
+                                                        </div>
+                                                        <div>
+                                                            <aura:if isTrue="{!v.toggleAge}">
+                                                            <c:rrSelect
+                                                                options="{!v.days}"
+                                                                value="{!v.pday}"
+                                                                placeholder="{!$Label.c.PG_AC_Select}"
+                                                                useSentenceFont="false"
+                                                                onchange="{!c.doDayChange}"
+                                                                required="true"
+                                                                errorMessage="{!v.futureDateDDErr}"
+                                                            />
+                                                            </aura:if>
+                                                        </div>
+                                                    </div>
+                                                </aura:if>
+                                                <div class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign slds-m-top_medium':'slds-col slds-size--1-of-2 slds-m-top_medium'}">
+                                                    <div class="label">
+                                                        <abbr
+                                                            title="required"
+                                                            class="slds-required"
+                                                            >*</abbr
+                                                        >{!$Label.c.RH_YearofBirth}
+                                                    </div>
+                                                    <div>
+                                                        <c:rrSelect
+                                                            options="{!v.years}"
+                                                            value="{!v.pyear}"
+                                                            placeholder="{!$Label.c.PG_AC_Select}"
+                                                            useSentenceFont="false"
+                                                            onchange="{!c.doDOBChange}"
+                                                        />
                                                     </div>
                                                 </div>
+                                                <div class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign slds-m-top_medium':'slds-col slds-size--1-of-2 slds-m-top_medium'}">
+                                                    <aura:if isTrue="{!(v.studySiteFormat != 'DD-MM-YYYY')}">
+                                                        <div class="label" >
+                                                            <abbr
+                                                                title="required"
+                                                                class="slds-required"
+                                                                >*</abbr
+                                                            >Age
+                                                        </div>
+                                                        <div>
+                                                            <c:rrSelect
+                                                                options="{!v.ageOptions}"
+                                                                value="{!v.selectedAge}"
+                                                                placeholder="{!$Label.c.PG_AC_Select}"
+                                                                useSentenceFont="false"
+                                                                onchange="{!c.doAgeChange}"
+                                                            />
+                                                        </div>
+                                                        <aura:set attribute="else">
+                                                            <div class="label">Age</div>
+                                                            <div  style="padding-left: 8px; font-size: 17px;">{!v.selectedAge}</div>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                    </div>
+                                                </div>
+                                            <!--dob changes ends here-->
                                                 <div class="slds-grid slds-gutters slds-wrap rr-form-element">
                                                     <div class="slds-col slds-size--1-of-2">
                                                         <lightning:input type="text"
@@ -1534,7 +1757,7 @@
                                                                 {!$Label.c.RH_MinorDelegateErrMsg}
                                                             </aura:if>
                                                         </div>
-                                                        <div class="rr-form-element slds-no-label"
+                                                        <div class="rr-form-element slds-no-label errormsgRPDelAttest"
                                                             style="margin-top: 20px">
                                                             <div class="rr-cb-container">
                                                                 <lightning:input type="checkbox" label=""
@@ -1546,6 +1769,22 @@
                                                             <div class="label rr-cb-label"
                                                                 style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
                                                                 {!$Label.c.RH_DelegateAttestation}
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!v.isConfirmConsentNeeded}">
+                                                    <div class="rr-form-element slds-no-label errormsgRPDel"
+                                                            style="margin-top: 20px">
+                                                            <div class="rr-cb-container">
+                                                                <lightning:input type="checkbox" label=""
+                                                                    checked="{!v.confirmConsent}" required="true"
+                                                                    aura:id="confirmConsent"
+                                                                    onchange="{!c.doCheckfields}" />
+                                                            </div>
+                                                            <div class="label rr-cb-label"
+                                                                style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
+                                                                {!$Label.c.RH_ConfirmConsentRP}
                                                             </div>
                                                         </div>
                                                     </aura:if>
@@ -1810,7 +2049,7 @@
                             class="{!'slds-col slds-size_1-of-1 slds-large-size_8-of-12 ' + if(v.isRTL,'right-columnRTL','right-column')}">
                             <c:SearchParticipantEnrollment aura:id="searchPECmp" trialId="{!v.trialId}"
                                 trial="{!v.trial}" searchData="{!v.searchData}" searchResult="{!v.searchResult}"
-                                mrrResult="{!v.mrrResult}" />
+                                mrrResult="{!v.mrrResult}" preSurvey="{!v.preMrrSurvey}"/>
                         </div>
                     </div>
                 </aura:if>

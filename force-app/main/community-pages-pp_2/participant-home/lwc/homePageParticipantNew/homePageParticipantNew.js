@@ -1,5 +1,5 @@
-import { LightningElement, api } from 'lwc';
-import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitData';
+import { LightningElement, api, track } from 'lwc';
+import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitDataAndCount';
 import DEVICE from '@salesforce/client/formFactor';
 // importing Custom Label
 import PPWELCOME from '@salesforce/label/c.PP_Welcome';
@@ -19,9 +19,13 @@ export default class HomePageParticipantNew extends LightningElement {
     @api currentMode;
     spinner;
     isInitialized = false;
+    isProgram = false;
+    showVisitCard = false;
+    @track showVisitCardMobile = false;
 
     desktop = true;
     isDelegateSelfview = false;
+    @track taskList = false;
 
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
@@ -52,7 +56,8 @@ export default class HomePageParticipantNew extends LightningElement {
             .then((result) => {
                 this.isInitialized = true;
                 if (result) {
-                    this.participantState = JSON.parse(result);
+                    let res = JSON.parse(result);
+                    this.participantState = res.pState;
                     if (this.participantState) {
                         let username = this.currentMode.groupLabel;
                         let firstName = username.substring(0, username.indexOf(' '));
@@ -61,7 +66,16 @@ export default class HomePageParticipantNew extends LightningElement {
                     }
                     if (this.participantState.pe) {
                         if (this.participantState.pe.Clinical_Trial_Profile__r) {
-                            this.clinicalrecord = this.participantState.pe.Clinical_Trial_Profile__r;
+                            this.clinicalrecord =
+                                this.participantState.pe.Clinical_Trial_Profile__r;
+                            // Check if Program toggle is or study workspcae on ctp
+                            this.isProgram = this.clinicalrecord.Is_Program__c;
+                            this.showVisitCard =
+                                this.clinicalrecord.Visits_are_Available__c &&
+                                res.pvCount != null &&
+                                res.pvCount != undefined &&
+                                res.pvCount > 0;
+                            this.showVisitCardMobile = this.showVisitCard;
                         }
                     }
                     //For Delegate Self view
@@ -69,6 +83,9 @@ export default class HomePageParticipantNew extends LightningElement {
                         this.participantState.value == 'ALUMNI' ||
                         (this.participantState.hasPatientDelegates &&
                             !this.participantState.isDelegate);
+                }
+                if(this.showVisitCard !=true || this.isDelegateSelfview ==true){
+                    this.taskList = true;    
                 }
                 this.spinner.hide();
             })
@@ -83,5 +100,19 @@ export default class HomePageParticipantNew extends LightningElement {
         if (this.isInitialized == true) {
             this.spinner = this.template.querySelector('c-web-spinner');
         }
+    }
+
+    showTaskList() {
+        if (this.desktop != true) {
+            this.showVisitCardMobile = false;
+        }
+        this.taskList = true;
+    }
+
+    showVisitCardOnMobile() {
+        if (this.desktop != true) {
+            this.showVisitCardMobile = true;
+        }
+        this.taskList = false;
     }
 }

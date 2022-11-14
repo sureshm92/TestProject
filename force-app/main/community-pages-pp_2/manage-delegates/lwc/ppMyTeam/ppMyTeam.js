@@ -12,6 +12,8 @@ import PP_AS_LAB_RESULTS from '@salesforce/label/c.PP_AS_LAB_RESULTS';
 import PP_AS_VITALS from '@salesforce/label/c.PP_AS_VITALS';
 import PP_AS_MEASUREMENTS from '@salesforce/label/c.PP_AS_MEASUREMENTS';
 import PP_AS_CONDITIONAL_FEATURE from '@salesforce/label/c.PP_AS_CONDITIONAL_FEATURE';
+import Receive_emails_about_your_study_status from '@salesforce/label/c.PP_Receive_emails_about_your_study_status';
+import all_features_may_not_be_available_for_each_study from '@salesforce/label/c.PP_all_features_may_not_be_available_for_each_study';
 
 import getInitData from '@salesforce/apex/MyTeamRemote.getInitData';
 
@@ -26,6 +28,7 @@ export default class PpMyTeam extends LightningElement {
     spinner = false;
     isLoading = false;
     isInitialized = false;
+    IsProgram;
 
     showppNewTeamMember = false;
     label = {
@@ -40,7 +43,9 @@ export default class PpMyTeam extends LightningElement {
         PP_AS_LAB_RESULTS,
         PP_AS_VITALS,
         PP_AS_MEASUREMENTS,
-        PP_AS_CONDITIONAL_FEATURE
+        PP_AS_CONDITIONAL_FEATURE,
+        Receive_emails_about_your_study_status,
+        all_features_may_not_be_available_for_each_study
     };
 
     connectedCallback() {
@@ -88,6 +93,8 @@ export default class PpMyTeam extends LightningElement {
                 this.delegateOptions = initData.delegateOptions;
                 this.hasStudies = initData.hasStudies;
                 this.currentUserContactId = initData.currentUserContactId;
+                if(initData.ctp != null)
+                    this.IsProgram = initData.ctp.Is_Program__c;
 
                 var selectedParent = selectedparent;
                 if (selectedParent === undefined || selectedParent === '') {
@@ -102,5 +109,6 @@ export default class PpMyTeam extends LightningElement {
                 communityService.showToast('', 'error', 'Failed To read the Data...', 100);
                 this.isLoading = false;
             });
+
     }
 }

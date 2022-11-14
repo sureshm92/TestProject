@@ -69,6 +69,25 @@
     <aura:attribute name="dataStamp" type="String" access="private" />
     <aura:attribute name="visitPlanDisabled" type="Boolean" access="private" />
 
+    <aura:attribute name="ageStart" type="String"  default="0"/>
+	<aura:attribute name="ageEnd" type="String"  default="150"/>
+	<aura:attribute name="valueAge" type="String"/>
+	<aura:attribute name="ageOpt" type="List"/>
+    <aura:attribute name="optionsDD" type="List" />
+    <aura:attribute name="valueDD" type="String"  default="--"/>
+	<aura:attribute name="optionsMM" type="List"/>
+    <aura:attribute name="valueMM" type="String"  default="--"/>
+	<aura:attribute name="optionsYYYY" type="List" />
+    <aura:attribute name="valueYYYY" type="String" default="----"/>
+    <aura:attribute name="dobConfig" type="String" default=""/>
+    <aura:attribute name="lastDay" type="Integer" />
+    <aura:attribute name="showDate" type="Boolean" />
+    <aura:attribute name="showDay" type="Boolean" />
+    <aura:attribute name="showMonth" type="Boolean" />
+    <aura:attribute name="futureDate" type="Boolean" />
+    <aura:attribute name="futureDateDDErr" type="String" />
+    <aura:attribute name="futureDateMMErr" type="String" />
+
     <!-- handlers: -->
     <aura:handler name="change" value="{!v.needsGuardian}" action="{!c.doClearValidity}" />
 
@@ -85,10 +104,11 @@
     <!--RH-5960 -->
     <aura:method name="refreshStateInput" action="{!c.doRefreshStateInput}" access="public" />
     <aura:method name="refreshDOBInput" action="{!c.doRefreshDOBInput}" access="public" />
-
-    <c:RRSpinner aura:id="spinner" size="medium" fixed="true" />
-
-
+    <aura:method name="refreshPartDobInput" action="{!c.refreshPartDobInput}" access="public" />
+    
+    <c:RRSpinner aura:id="spinner" size="medium"  fixed="true" />
+    
+    
     <!-- component body: -->
     <aura:if isTrue="{!!v.isRefreshView}">
         <div>
@@ -174,8 +194,9 @@
                             <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4" />
                         </aura:if>
                     </aura:if>
-                    <div
-                        class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4 container' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8 container'}">
+                    <!-- <div
+                         class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size_1-of-1 slds-large-size_1-of-4' : 'rr-form-element slds-col slds-size_1-of-1 slds-large-size_2-of-8'}"
+                         >
                         <div class="label">
                             <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Date_of_Birth}
                         </div>
@@ -184,7 +205,86 @@
                                 value="{!v.participant.Date_of_Birth__c}" required="true" autocomplete="off"
                                 onchange="{!c.doCheckDateOfBith}" dateStyle="medium" />
                         </div>
-                    </div>
+                    </div> -->
+                    <aura:if isTrue="{!v.showDate}">  
+                        <aura:if isTrue="{!v.showMonth}">
+                            <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}" >
+                                <div class="label">
+                                    <abbr title="required" class="slds-required">*</abbr>Month of Birth
+                                </div>
+                                <!-- <lightning:select label="MM" aura:id="mm" value="{!v.valueMM}" onchange="{!c.MMChange}">
+                                    <aura:iteration items="{!v.optionsMM}" var="option">
+                                        <option text="{!option.label}" value="{!option.value}" selected="{!option.selected}"/>
+                                    </aura:iteration>
+                                </lightning:select> -->
+                                <c:rrSelect
+                                options="{!v.optionsMM}"
+                                placeholder="{!$Label.c.PG_AC_Select}"
+                                value="{!v.valueMM}"
+                                required="true"
+                                useSentenceFont="false"
+                                onchange="{!c.MMChange}"
+                                errorMessage="{!v.futureDateMMErr}"
+                                />
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.showDay}">                
+                            <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}" >
+                                <div class="label">
+                                    <abbr title="required" class="slds-required">*</abbr>Day of Birth
+                                </div>
+                                <!-- <lightning:select label="DD" aura:id="dd" value="{!v.valueDD}" onchange="{!c.DDChange}">
+                                    <aura:iteration items="{!v.optionsDD}" var="option">
+                                        <option text="{!option.label}" value="{!option.value}" selected="{!option.selected}"/>
+                                    </aura:iteration>
+                                </lightning:select> -->
+                                <c:rrSelect
+                                options="{!v.optionsDD}"
+                                placeholder="{!$Label.c.PG_AC_Select}"
+                                value="{!v.valueDD}"
+                                required="true"
+                                useSentenceFont="false"
+                                onchange="{!c.DDChange}"
+                                errorMessage="{!v.futureDateDDErr}"
+                                />
+                            </div>
+                        </aura:if>
+                        <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}" >
+                            <div class="label">
+                                <abbr title="required" class="slds-required">*</abbr>Year of Birth
+                            </div>
+                            <!-- <lightning:select label="YYYY" aura:id="yyyy" value="{!v.valueYYYY}" onchange="{!c.YYYYChange}">
+                                <aura:iteration items="{!v.optionsYYYY}" var="option">
+                                    <option text="{!option.label}" value="{!option.value}" selected="{!option.selected}"/>
+                                </aura:iteration>
+                            </lightning:select> -->
+                            <c:rrSelect
+                            options="{!v.optionsYYYY}"
+                            placeholder="{!$Label.c.PG_AC_Select}"
+                            value="{!v.valueYYYY}"
+                            required="true"
+                            useSentenceFont="false"
+                            onchange="{!c.YYYYChange}"
+                            />
+                        </div>
+                           
+                    </aura:if>
+                    <aura:if isTrue="{!!v.showDay}">
+                        <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}" >
+                            <div class="label">
+                                <abbr title="required" class="slds-required">*</abbr>Age
+                            </div>
+                            <c:rrSelect
+                            options="{!v.ageOpt}"
+                            placeholder="{!$Label.c.PG_AC_Select}"
+                            value="{!v.valueAge}"
+                            onchange="{!c.ageChange}"
+                            required="true"
+                            useSentenceFont="false"
+                            /> 
+                        </div>
+                    </aura:if>
+                    <div class="slds slds-grid slds-size--1-of-1 slds-wrap">
                     <aura:if isTrue="{!v.fromAddParticipantPage}">
                         <div
                             class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}">
@@ -231,6 +331,7 @@
 
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8" />
                 </div>
+            </div>                
             </div>
 
             <!-- contact information: -->

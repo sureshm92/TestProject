@@ -10,6 +10,7 @@ import PP_Condition_of_Interest_title from '@salesforce/label/c.PP_Condition_of_
 import PP_Customize_Exp_Description from '@salesforce/label/c.PP_Customize_Exp_Description';
 import PP_Customize_search_text from '@salesforce/label/c.PP_Customize_search_text';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
+import Task_Subject_Select_COI_PP from '@salesforce/label/c.Task_Subject_Select_COI_PP';
 import BACK from '@salesforce/label/c.Back';
 import PP_Profile_Update_Success from '@salesforce/label/c.PP_Profile_Update_Success';
 
@@ -33,6 +34,7 @@ export default class PpCustomizeExperience extends LightningElement {
 
     spinner;
     isInitialized = false;
+    isValueChanged =  false;
 
     label = {
         PP_Condition_of_Interest_title,
@@ -40,7 +42,8 @@ export default class PpCustomizeExperience extends LightningElement {
         PP_Customize_search_text,
         BTN_Save,
         BACK,
-        PP_Profile_Update_Success
+        PP_Profile_Update_Success,
+        Task_Subject_Select_COI_PP
     };
 
     itemshow = false;
@@ -81,6 +84,17 @@ export default class PpCustomizeExperience extends LightningElement {
     get iconChevron() {
         return 'icon-chevron-left';
     }
+
+    get isSaveDisabled() {
+        if (
+            this.isValueChanged
+        ) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
     renderedCallback() {
         if (this.isInitialized == true) {
             this.spinner = this.template.querySelector('c-web-spinner');
@@ -187,6 +201,7 @@ export default class PpCustomizeExperience extends LightningElement {
         let removedPill = event.currentTarget.getAttribute('data-name');
         //alert(removedPill);
         this.handleClearPill(removedPill);
+        this.isValueChanged = true;
     }
 
     handleClearPill(removedPill) {
@@ -208,6 +223,7 @@ export default class PpCustomizeExperience extends LightningElement {
         console.log('conditionsOfInterestTemp--' + this.conditionsOfInterestTemp);
         let taList = this.conditionsOfInterestTemp;
         let inputValue = event.target.name;
+		let check =this.conditionOfInterestList;
         console.log('inputValue' + inputValue);
         console.log('event.target.checked' + event.target.checked);
         console.log(' event.currentTarget.name--' + event.currentTarget.name);
@@ -215,6 +231,10 @@ export default class PpCustomizeExperience extends LightningElement {
         var selectedCheckBoxes = this.selectedValues;
         let uncheckedValues = [];
         let finalSelectedvalues = [];
+        let copy = JSON.parse(JSON.stringify(this.conditionOfInterestList));
+			if(check.length <5){
+					this.isValueChanged = false;
+			}
         if (!event.target.checked) {
             for (let i = 0; i < taList.length; i++) {
                 if (
@@ -232,14 +252,24 @@ export default class PpCustomizeExperience extends LightningElement {
                     }
                 }
                 taList = finalSelectedvalues;
-            }
+		     }				
         } else if (taList.length < 5) {
             selectedCheckBoxes.push(capturedCheckboxName);
             taList.push(capturedCheckboxName);
         } else {
-            event.target.checked = false;
+            event.target.checked = false;				
         }
         this.conditionsOfInterestTemp = taList;
+        if (conditionsOfInterestTemp.length < 5) {
+				let coiTemp= (this.conditionsOfInterestTemp.length === copy.length);
+        }
+				
+        if (taList.length === 0 || coiTemp === true) {
+            this.isValueChanged = false;
+            }
+        else{ 
+            this.isValueChanged = true;
+        }
     }
 
     showMenuBar(event) {
@@ -254,6 +284,7 @@ export default class PpCustomizeExperience extends LightningElement {
             this.isInitialized = false;
         }
     }
+
     saveElement() {
         const deleteCOI = this.conditionOfInterestList;
         this.conditionsOfInterestTemp.sort(function (a, b) {
@@ -288,6 +319,7 @@ export default class PpCustomizeExperience extends LightningElement {
         this.saveCOIs();
         communityService.showToast('', 'success', this.label.PP_Profile_Update_Success, 100);
         //communityService.navigateToPage('account-settings?changePref');
+        this.isValueChanged = false;
     }
     saveCOIs() {
         let coiWrapperList = this.conditionsOfInterest;

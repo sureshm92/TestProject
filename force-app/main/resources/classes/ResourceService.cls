@@ -77,10 +77,20 @@ public virtual without sharing class ResourceService {
             resourcesIds = getResourcesIds();
         }
         if (resourcesIds.size() > 0) {
+            Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
             String whereClause =
                 'WHERE Id IN (' +
                 CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(resourcesIds)) +
                 ')';
+            if (
+                currentPE?.Clinical_Trial_Profile__r?.CommunityTemplate__c ==
+                CommunityTemplateService.TEMPLATE_PP
+            ) {
+                whereClause =
+                    whereClause +
+                    ' ' +
+                    'AND  (Expiration_Date__c > TODAY OR Expiration_Date__c = NULL)';
+            }
             resources = getResources(whereClause, getOrderByClause());
         }
         return resources;
@@ -183,6 +193,7 @@ public virtual without sharing class ResourceService {
             'Video__c, ' +
             'Body__c, ' +
             'Updated_Date__c, ' +
+            'CreatedDate, ' +
             'RecordType.DeveloperName, ' +
             'Content_Class__c, ' +
             'Content_Type__c, ' +
@@ -210,6 +221,7 @@ public virtual without sharing class ResourceService {
             'Version_Date__c ' +
             'FROM Resource__c ' +
             whereClause +
+            ' ' +
             (String.isBlank(orderByClause) ? '' : orderByClause + ' ');
         System.debug('>>> Resources Query: ' + resourcesQuery);
         return (List<Resource__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))

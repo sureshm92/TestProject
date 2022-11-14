@@ -37,6 +37,8 @@ public without sharing class ParticipantInformationRemote {
         PE_COMMON_FIELDS_PRINT.add('Clinical_Trial_Profile__r.Initial_Visit_Required__c');
         PE_COMMON_FIELDS_PRINT.add('Study_Hub_Log__c');
         PE_COMMON_FIELDS_PRINT.add('Study_Hub_Log__r.Response_Status_Code__c');
+        List<String> PE_COMMON_DOB_FIELDS = new List<String>{'Participant__r.Age__c','Participant__r.Birth_Day__c','Participant__r.Birth_Month__c'};
+        PE_COMMON_FIELDS_PRINT.addAll(PE_COMMON_DOB_FIELDS);
         try {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
                 peId,
@@ -64,7 +66,7 @@ public without sharing class ParticipantInformationRemote {
             }else{
                 pi.containsFile = false;
             }
-            
+            pi.screenerResponse = getMrrScreenerResponse(peId);
             
          List<Participant_Enrollment_Status_History__c> pehistory = new List<Participant_Enrollment_Status_History__c>();
          pehistory = [
@@ -169,6 +171,22 @@ public without sharing class ParticipantInformationRemote {
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
+    }
+
+    public static List<Participant_PrescreenerResponse__c> getMrrScreenerResponse(Id peId) {
+
+        if (peId != null) {
+           
+            return [
+                SELECT Id, Screener_Response__c, Completed_Date__c, PreScreener_Survey__c, MRR_EPR__c, MRR__c,
+                    PreScreener_Survey__r.Survey_Name__c, Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                FROM Participant_PrescreenerResponse__c 
+                WHERE Participant_enrollment__c = :peid 
+                    AND (MRR_EPR__c = true OR MRR__c = true)
+                ORDER BY Completed_Date__c DESC
+            ];
+        }
+        return null;
     }
 
     @AuraEnabled
@@ -572,7 +590,11 @@ public without sharing class ParticipantInformationRemote {
                     Third_Choice_Language__c = '',
                     userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT,
                     userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
-                    userCommunityIsDelegate__c = true
+                    userCommunityIsDelegate__c = true,
+                    IQVIA_Contact_info_storage_consent__c =true,
+                    Participant_Opt_In_Status_Emails__c =true,
+                    IQVIA_PI_Storage_Consent_Time__c =Datetime.now(),
+                    IQVIA_Email_Consent_Time__c =Datetime.now()
                 );
                 /*if (duplicateService.findDuplicateContact(delegateParticipant) != null) {
                     delegateContact.Id = duplicateService.findDuplicateContact(delegateParticipant).Id;
@@ -581,7 +603,13 @@ public without sharing class ParticipantInformationRemote {
                 }*/
                 insert delegateContact;
             } else {
-                delegateContact = new Contact(Id = ddi.contactId);
+                delegateContact = new Contact(Id = ddi.contactId,
+                    IQVIA_Contact_info_storage_consent__c =true,
+                    Participant_Opt_In_Status_Emails__c =true,
+                    IQVIA_PI_Storage_Consent_Time__c =Datetime.now(),
+                    IQVIA_Email_Consent_Time__c =Datetime.now()
+                    );
+                    update delegateContact;
             }
 
             List<Patient_Delegate__c> patientDelegatesEver = [
@@ -694,7 +722,7 @@ public without sharing class ParticipantInformationRemote {
                 delegatesS,
                 List<Participant__c>.class
             );
-
+            List<id> delContact= new List<id> ();
             Study_Site__c studySite = StudySiteService.getStudySiteForPIById(studySiteId);
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
             String permissionSetName = CommunityTemplateService.getTemplate(
@@ -729,7 +757,8 @@ public without sharing class ParticipantInformationRemote {
 
             Set<String> idsToCheck = new Set<String>(doNotContinueIds);
             List<Patient_Delegate__c> patientDelegates = [
-                SELECT Id, Participant__c, Contact__c, Status__c
+                SELECT Id, Participant__c, Contact__c, Status__c, Contact__r.IQVIA_Contact_info_storage_consent__c,
+                contact__r.IQVIA_PI_Storage_Consent_Time__c
                 FROM Patient_Delegate__c
                 WHERE
                     Participant__c = :participant.Id
@@ -751,8 +780,12 @@ public without sharing class ParticipantInformationRemote {
                     patientDelegateByDelegate.put(patientDelegate.Contact__c, patientDelegate);
                 }
             }
-
+            Map<id,Boolean> mapContactIdToSMS=new Map<id,Boolean>();
             for (Participant__c delegateParticipant : delegates) {
+                if(!idsToCheck.contains(delegateParticipant.Contact__c)){
+                    delContact.add(delegateParticipant.Contact__c);
+                    mapContactIdToSMS.put(delegateParticipant.Contact__c,delegateParticipant.Delegate_Consent_SMS__c);
+                }
                 if (
                     !String.isBlank(delegateParticipant.Contact__c) &&
                     !idsToCheck.contains(delegateParticipant.Contact__c) &&
@@ -766,6 +799,16 @@ public without sharing class ParticipantInformationRemote {
                     );
                 }
             }
+            if(!delContact.isEmpty()){
+                if(participant.Mailing_Country_Code__c=='US'){
+                    updateDelContact(delContact, true,mapContactIdToSMS);
+                }
+                else{
+
+                    updateDelContact(delContact, false,mapContactIdToSMS);
+                }
+                
+           }
             if (!delegates.isEmpty() && needsInvite == true) {
                 update delegates;
             }
@@ -822,7 +865,65 @@ public without sharing class ParticipantInformationRemote {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
     }
-
+    public static void updateDelContact(List<id> delContact, Boolean countryUS, Map<id,Boolean> mapContactIdToSMS){
+        try{
+        List<Patient_Delegate__c> updateDelCon=new List<Patient_Delegate__c> ();
+        list<contact> contoUpdate=new list<contact>();
+        Boolean getSMSValue;
+        for(Integer i=0;i<delContact.size();i++){
+            contact con = new Contact();
+                  con.id =delContact[i];
+                  getSMSValue=con.Participant_Opt_In_Status_SMS__c;
+                  if(countryUS){
+                    con.IQVIA_Contact_info_storage_consent__c =true;
+                    con.Participant_Phone_Opt_In_Permit_Phone__c =true;
+                    con.IQVIA_Assisted_Dialing_Consent__c =true;
+                    con.Participant_Opt_In_Status_Emails__c =true;
+                    con.IQVIA_Artificial_Voice_Consent__c =true;
+                    con.IQVIA_Pre_recorded_Voice_Consent__c =true;
+                    con.Participant_Opt_In_Status_SMS__c=true;
+                    con.IQVIA_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
+                    con.IQVIA_PI_Storage_Consent_Time__c = Datetime.now();
+                    con.IQVIA_Phone_Consent_Time__c = Datetime.now();
+                    con.IQVIA_Email_Consent_Time__c = Datetime.now();
+                    con.IQVIA_Assisted_Dialing_Consent_Time__c = Datetime.now();
+                    con.IQVIA_Artificial_Voice_Consent_Time__c = Datetime.now();
+                    con.IQVIA_SMS_Consent_Time__c = Datetime.now();
+                  }
+                  else{
+                      
+                    con.IQVIA_Contact_info_storage_consent__c =true;
+                    con.Participant_Phone_Opt_In_Permit_Phone__c =true;
+                    con.IQVIA_Assisted_Dialing_Consent__c =true;
+                    con.Participant_Opt_In_Status_Emails__c =true;
+                    con.IQVIA_Artificial_Voice_Consent__c =true;
+                    con.IQVIA_Pre_recorded_Voice_Consent__c =true;
+                    con.Participant_Opt_In_Status_SMS__c=mapContactIdToSMS.get(con.id)!=null? mapContactIdToSMS.get(con.id): false;
+                    con.IQVIA_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
+                    con.IQVIA_PI_Storage_Consent_Time__c = Datetime.now();
+                    con.IQVIA_Phone_Consent_Time__c = Datetime.now();
+                    con.IQVIA_Email_Consent_Time__c = Datetime.now();
+                    con.IQVIA_Assisted_Dialing_Consent_Time__c = Datetime.now();
+                    con.IQVIA_Artificial_Voice_Consent_Time__c = Datetime.now();
+                    if(mapContactIdToSMS.get(con.id)!=null &&  mapContactIdToSMS.get(con.id)==true){
+                        con.IQVIA_SMS_Consent_Time__c=Datetime.now();
+                    }
+                    else if(getSMSValue!=mapContactIdToSMS.get(con.id)){
+                        con.IQVIA_SMS_Consent_Time__c = Datetime.now();
+                        }
+                  }
+                  
+                contoUpdate.add(con);
+        }
+        
+        update contoUpdate;
+    }
+    catch (Exception exp) {
+        throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
+    }
+        
+ 
+    }
     @AuraEnabled
     public static List<Participant__c> getParticipantDelegates(String participantId) {
         try {
@@ -840,7 +941,8 @@ public without sharing class ParticipantInformationRemote {
                     Mailing_Country__c,
                     Email__c,
                     Phone__c,
-                    Phone_Type__c
+                    Phone_Type__c,
+                    Delegate_Consent_SMS__c
                 FROM Participant__c
                 WHERE
                     Contact__c IN (

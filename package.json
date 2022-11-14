@@ -17,8 +17,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "prettier": "^2.1.2",
-    "prettier-plugin-apex": "^1.7.0"
+    "prettier": "^2.7.1",
+    "prettier-plugin-apex": "^1.10.0"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

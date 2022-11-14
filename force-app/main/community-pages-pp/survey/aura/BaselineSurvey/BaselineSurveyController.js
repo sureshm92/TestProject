@@ -4,6 +4,7 @@
 ({
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
+        component.set('v.communityName', communityService.getCurrentCommunityName());
 
         if (!communityService.isDummy()) {
             component.find('spinner').show();
@@ -15,6 +16,10 @@
                     invitationId: communityService.getUrlParameter('inv')
                 },
                 function (response) {
+                    if (component.get('v.communityName') == 'IQVIA Patient Portal') {
+                        var ppMobileMenuEvent = $A.get('e.c:PPMobileMenu');
+                        ppMobileMenuEvent.fire();
+                    }
                     if (response === 'expired') {
                         communityService.showInfoToast('', $A.get('$Label.c.Invitation_Expired'));
                         communityService.navigateToHome();

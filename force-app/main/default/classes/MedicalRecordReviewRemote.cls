@@ -7,6 +7,7 @@ public without sharing class MedicalRecordReviewRemote {
         public HCP_Enrollment__c hcpEnrollment;
         public Contact hcpContact;
         public Clinical_Trial_Profile__c trial;
+        public PreScreener_Survey__c preSurvey;
         public Map<String, StudyActions.Action> actions;
         public String delegateAccessLevel;
         public String hcpEnrollmentParticipantName;
@@ -26,15 +27,6 @@ public without sharing class MedicalRecordReviewRemote {
                     CommunityService.USER_MODE_HCP,
                     delegateId
                 );
-                //localize MRR
-                if (
-                    hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c !=
-                    null
-                ) {
-                    hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c = CommunityFacadeRemote.getLocalizedURL(
-                        hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c
-                    );
-                }
                 if (hcpEnrollment == null)
                     throw new CommunityServiceException('Data not found');
                 new StudyActionsHCP(hcpEnrollment, delegateId)
@@ -73,6 +65,7 @@ public without sharing class MedicalRecordReviewRemote {
                 StudyActions sActions = new StudyActionsHCP(hcpEnrollments[0], delegateId);
                 initData.actions = sActions.actions;
             }
+            initData.preSurvey = getMRRSurvey(trialId);
             //check accessibility;
             return JSON.serialize(initData);
         } catch (Exception e) {
@@ -83,6 +76,24 @@ public without sharing class MedicalRecordReviewRemote {
     public class SearchPEResult {
         public Participant_Enrollment__c pe;
         public String result;
+    }
+
+    public static PreScreener_Survey__c getMRRSurvey(Id trialId){
+        try {
+			List<PreScreener_Survey__c> preSurveyList = [
+                SELECT MRR__c, Primary__c, Link_to_Pre_screening__c, ProviderName__c, 
+                    Study__c, Survey_Name__c 
+                FROM PreScreener_Survey__c  
+                WHERE Study__c = :trialId AND MRR__c = true
+            ];
+            if(!preSurveyList.isEmpty()){
+                preSurveyList[0].Link_to_Pre_screening__c = CommunityFacadeRemote.getLocalizedURL(preSurveyList[0].Link_to_Pre_screening__c);
+                return preSurveyList[0];
+            }
+            return null;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
     }
 
     @AuraEnabled
@@ -127,7 +138,8 @@ public without sharing class MedicalRecordReviewRemote {
                 peResult.pe.Participant_Status__c ==
                 ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL
             ) {
-                if (trial.Link_to_Medical_Record_Review__c == null) {
+                PreScreener_Survey__c survey = getMRRSurvey(trialId);
+                if (survey == null) {
                     peResult.result = 'PES Fail';
                 } else {
                     peResult.result = 'MRR Pass PES Fail';
@@ -191,7 +203,8 @@ public without sharing class MedicalRecordReviewRemote {
                 peResult.pe.Participant_Status__c ==
                 ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL
             ) {
-                if (trial.Link_to_Medical_Record_Review__c == null) {
+                PreScreener_Survey__c survey = getMRRSurvey(trialId);
+                if (survey == null) {
                     peResult.result = 'PES Fail';
                 } else {
                     peResult.result = 'MRR Pass PES Fail';
@@ -212,25 +225,30 @@ public without sharing class MedicalRecordReviewRemote {
     }
 
     @AuraEnabled
-    public static String setMRRStatus(String peJSON, String status, String surveyGizmoData) {
+    public static String setMRRStatus(String peJSON, String status, String surveyGizmoData,Id preSurvey) {
         Savepoint sp = Database.setSavepoint();
         try {
             Participant_Enrollment__c participantEnrollment = (Participant_Enrollment__c) JSON.deserialize(
                 peJSON,
                 Participant_Enrollment__c.class
             );
-            participantEnrollment.Medical_Record_Review_Status__c = status;
-            participantEnrollment.MRR_Survey_Results_URL__c = surveyGizmoData;
-            participantEnrollment.Medical_Record_Review_Completed_by__c = CommunityService.getUserContact()
-                .Id;
-            participantEnrollment.Medical_Record_Review_Completed_Date__c = Datetime.now();
             if (status == ParticipantEnrollmentService.MRR_STATUS_PASS) {
                 participantEnrollment.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL;
             } else {
                 participantEnrollment.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW;
             }
-            System.debug('PE: ' + JSON.serialize(participantEnrollment));
             upsert participantEnrollment;
+        
+            Participant_PrescreenerResponse__c prscreenerresponse = new Participant_PrescreenerResponse__c();
+            prscreenerresponse.Participant_enrollment__c = participantEnrollment.Id;
+            prscreenerresponse.Status__c = status;
+            prscreenerresponse.PreScreener_Survey__c = preSurvey;
+            prscreenerresponse.Screener_Response__c = surveyGizmoData;
+            prscreenerresponse.Completed_by__c = CommunityService.getUserContact().Id;
+            prscreenerresponse.Completed_Date__c = Datetime.now();
+            prscreenerresponse.MRR__c = true;
+            insert prscreenerresponse;
+
             return JSON.serialize(participantEnrollment);
         } catch (Exception e) {
             Database.rollback(sp);

@@ -25,10 +25,53 @@
                         component.set('v.sendToSHDate',returnValue.currentPageList[0].sendToSHDate);
                         component.set('v.sendToSHReason',returnValue.currentPageList[0].sendToSHReason);
                     }
+
+                    if(returnValue.screenerResponse && returnValue.screenerResponse.length > 0) {
+
+                        for (var i = 0; i < returnValue.screenerResponse.length; i++) {
+
+                            if(returnValue.screenerResponse[i].PreScreener_Survey__c) {
+                              
+                                returnValue.screenerResponse[i].screenerName = returnValue.screenerResponse[i].PreScreener_Survey__r.Survey_Name__c;
+                            } else {
+                              var ctpName = '';
+                              if(returnValue.screenerResponse[i].Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c) {
+                                ctpName = returnValue.screenerResponse[i].Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                              }
+                              if(returnValue.screenerResponse[i].MRR_EPR__c) {
+                                returnValue.screenerResponse[i].screenerName = $A.get('$Label.c.EPR_Screener_Name') + (ctpName ? '_' + ctpName : '');
+                              } else if(returnValue.screenerResponse[i].MRR__c){
+                                returnValue.screenerResponse[i].screenerName =  (ctpName ? ctpName + '_' : '') + $A.get('$Label.c.Medical_Record_Review');
+                              } 
+                            }
+                        }
+                    }
+
                     component.set('v.isFinalUpdate', true);
                     component.set('v.initialized', true);
                     component.set('v.pe', returnValue.pe);
                     component.set('v.participant', returnValue.pe.Participant__r);
+                    component.set('v.showDay',false);
+                    component.set('v.showMonth',false);
+                    component.set('v.showYear',false);
+                    component.set('v.monthName','');
+                    let monthmap = new Map([
+                            ["01" ,$A.get("$Label.c.January")],["02", $A.get("$Label.c.February")], ["03", $A.get("$Label.c.March")],["04" ,$A.get("$Label.c.April")],
+                            ["05", $A.get("$Label.c.May")], ["06", $A.get("$Label.c.June")],["07" ,$A.get("$Label.c.July")],["08", $A.get("$Label.c.August")],
+                            ["09", $A.get("$Label.c.September")], ["10", $A.get("$Label.c.October")],["11", $A.get("$Label.c.November")], ["12", $A.get("$Label.c.December")]
+                    ]);
+                    if(returnValue.pe.Study_Site__r.Participant_DOB_format__c != 'YYYY' && 
+                       returnValue.pe.Participant__r.Birth_Month__c != undefined && returnValue.pe.Participant__r.Birth_Month__c != null){
+                        component.set('v.monthName',monthmap.get(returnValue.pe.Participant__r.Birth_Month__c));
+                    }
+                    if(returnValue.pe.Study_Site__r.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                        component.set('v.showDay',true);
+                        component.set('v.showMonth',true);
+                    }else if(returnValue.pe.Study_Site__r.Participant_DOB_format__c == 'MM-YYYY'){
+                        component.set('v.showMonth',true);
+                    }else if(returnValue.pe.Study_Site__r.Participant_DOB_format__c == 'YYYY'){
+                        component.set('v.showYear',true);
+                    }
                     component.set('v.pathItems', returnValue.pathItems);
                     component.set('v.containsFile', returnValue.containsFile);//REF-2826
                     component.set('v.peshData',returnValue);

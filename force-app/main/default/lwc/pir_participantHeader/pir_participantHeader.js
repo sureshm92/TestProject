@@ -23,6 +23,10 @@ import PG_MRR_BTN_Back_to_My_Participant from '@salesforce/label/c.PG_MRR_BTN_Ba
 import RH_Referred_by from '@salesforce/label/c.RH_Referred_by';
 import RH_Pre_screen from '@salesforce/label/c.RH_Pre_screen'; 
 import Invited_to_Patient_Portal from '@salesforce/label/c.Invited_to_Patient_Portal';
+import Send_to_Dct_dob_error from '@salesforce/label/c.Send_to_Dct_dob_error';
+import RH_ScreenerComplete from '@salesforce/label/c.RH_ScreenerComplete';
+import of from '@salesforce/label/c.of';
+import RH_Complete_Participant_Screener from '@salesforce/label/c.RH_Complete_Participant_Screener';
 export default class Pir_participantHeader extends LightningElement {
     printIcon = icon_printIcon;
     label = {
@@ -41,7 +45,10 @@ export default class Pir_participantHeader extends LightningElement {
         RH_Referred_by,
         RH_Pre_screen,
         Invited_to_Patient_Portal,
-        PIR_Decentralized_Trials
+        PIR_Decentralized_Trials,
+        RH_ScreenerComplete,
+        of,
+        RH_Complete_Participant_Screener
     };
     mrrPass = rr_community_icons +'/'+'icons.svg'+'#'+'icon-check-circle';
     mrrFail = rr_community_icons +'/'+'icons.svg'+'#'+'icon-close-circle';
@@ -82,6 +89,18 @@ export default class Pir_participantHeader extends LightningElement {
     maindivcls;
     initialsName;
 
+    currentSurvey = '';
+    prescreenerSurvey = '';
+    StudySpecificPrimarySurveyList = [];
+    StudySpecificSecondarySurveyList = [];
+    
+    totalSurveyToComplete = 0;
+    completedSurveyByUser = 0;
+    prescreenerSurveyCompleted = false;
+    surveyInProgress = [];
+    surveyPending =[];
+    surveyCompleted = [];
+
     connectedCallback() {
         loadStyle(this, PIR_Community_CSS)
     }
@@ -105,17 +124,32 @@ export default class Pir_participantHeader extends LightningElement {
         this.referredBy = this.selectedPE.source;
         this.studySiteName = this.selectedPE.studyName + ' - '+this.selectedPE.siteName;
         this.participantName = this.selectedPE.firstName + ' ' + this.selectedPE.lastName;// + ' ' +'('+this.selectedPE.refId+')';
+        //Multiscreener varaibles
+        this.currentSurvey = '';
+        this.prescreenerSurvey = '';
+        this.StudySpecificPrimarySurveyList = [];
+        this.StudySpecificSecondarySurveyList = [];
+        
+        this.totalSurveyToComplete = 0;
+        this.completedSurveyByUser = 0;
+        this.prescreenerSurveyCompleted = false;
+        this.surveyPending = [];
+        this.surveyInProgress = [];
+        this.surveyCompleted = [];
+        this.showPreScreen = false;
+        
         if(this.peId)
         {
              this.showPrinticon = true;
              getPEData({ peId: this.peId })
              .then((result) => {
                  this.preScreenerCompleted = false;
+                 this.showPreScreen = false;
                  this.mrrCompleted = false;
                  this.per = result.per;
                  this.isAllowedForSH = result.isAllowedForSH;
-                 this.mrrLink = this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c;
-                 this.preScreenerLink = this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c;
+                // this.mrrLink = this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c;
+                // this.preScreenerLink = this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c;
                     if(this.per.Participant__r.Adult__c == true && this.per.Participant__r.Email__c != null && this.per.Study_Site__r.Study_Site_Type__c == 'Traditional' && this.per.Clinical_Trial_Profile__r.CommunityTemplate__c != this.label.Janssen_Community_Template_Name && (this.per.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c || this.per.Study_Site__r.Suppress_Participant_Emails__c))
                     {
                         this.showAction = true;
@@ -174,22 +208,100 @@ export default class Pir_participantHeader extends LightningElement {
                         this.showAction = false;
                         this.showActionName = 'NOPP';
                     }
-                 if(((!this.per.MRR_Survey_Results_URL__c && 
-                    this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c) ||
-                    ((this.per.Pre_screening_Status__c!='Pass' && this.per.Pre_screening_Status__c !='Fail') &&
-                        this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c)) && 
-                    result.preScreenAccess){
+
+                if(result.preScreenAccess && result.objScreenerWrapper.lstPrescreenerSurveyPending.length > 0){ 
+                    this.totalSurveyToComplete = result.objScreenerWrapper.lstTotalSurvey.length;
+                    this.completedSurveyByUser = result.objScreenerWrapper.lstPreScreenerCompleted.length;
+                    this.surveyPending = result.objScreenerWrapper.lstPrescreenerSurveyPending;
+                    this.surveyCompleted = result.objScreenerWrapper.lstPreScreenerCompleted;
+                   
+                   
+                    this.showPreScreen = true;
+                   for(var i=0;i<result.objScreenerWrapper.lstPrescreenerSurveyPending.length;i++){
+                       if(result.objScreenerWrapper.lstPrescreenerSurveyPending[i].MRR__c)
+                       {
+                        this.currentSurvey =  result.objScreenerWrapper.lstPrescreenerSurveyPending[i]; 
+                       }
+                       else if(result.objScreenerWrapper.lstPrescreenerSurveyPending[i].Prescreener__c)
+                       {
+                        this.prescreenerSurvey = result.objScreenerWrapper.lstPrescreenerSurveyPending[i];
+                         
+                       }
+                       else if(result.objScreenerWrapper.lstPrescreenerSurveyPending[i].Study__c != null)
+                       {
+                        if(result.objScreenerWrapper.lstPrescreenerSurveyPending[i].Primary__c)
+                        {
+                            this.StudySpecificPrimarySurveyList.push(result.objScreenerWrapper.lstPrescreenerSurveyPending[i]);
+                        }
+                        else {
+                            this.StudySpecificSecondarySurveyList.push(result.objScreenerWrapper.lstPrescreenerSurveyPending[i]);
+                        }
+                       }
+                   }
+                   
+                    
+                   if(!this.currentSurvey && this.prescreenerSurvey)
+                   {
                         
-                      this.showPreScreen = true;
-                 }else{
-                     this.showPreScreen = false;
-                 }
-                 if((this.per.Pre_screening_Status__c!='Pass' && this.per.Pre_screening_Status__c !='Fail') && 
-                    this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c){
-                    this.showPreScreener_Button = true;
-                 }else{
-                    this.showPreScreener_Button = false;
-                 }
+                    this.currentSurvey = this.prescreenerSurvey;
+                    this.prescreenerSurveyCompleted = true;
+                   }
+                   else if(!this.currentSurvey && !this.prescreenerSurvey && this.StudySpecificPrimarySurveyList.length >0)
+                   {
+                    
+                    this.currentSurvey = this.StudySpecificPrimarySurveyList[0];
+                    var index = this.StudySpecificPrimarySurveyList.findIndex(
+                        (x) => x.Id ===this.currentSurvey.Id
+                      );
+                    if(index != -1){
+                      this.StudySpecificPrimarySurveyList =
+                      this.StudySpecificPrimarySurveyList.filter(
+                        (surve) =>
+                        surve.Id !=
+                          this.StudySpecificPrimarySurveyList[index].Id
+                      );
+                    }
+
+                   }
+                   else if(!this.currentSurvey && !this.prescreenerSurvey && this.StudySpecificSecondarySurveyList.length >0)
+                   {
+                    this.currentSurvey = this.StudySpecificSecondarySurveyList[0];
+                    var indexSec = this.StudySpecificSecondarySurveyList.findIndex(
+                        (x) => x.Id ===this.currentSurvey.Id
+                      );
+                    if(indexSec != -1){
+                      this.StudySpecificSecondarySurveyList =
+                      this.StudySpecificSecondarySurveyList.filter(
+                        (surve) =>
+                        surve.Id !=
+                          this.StudySpecificSecondarySurveyList[indexSec].Id
+                      );
+                    }
+
+
+                   }
+                   
+                   this.mrrLink = this.currentSurvey.Link_to_Pre_screening__c;
+                   this.surveyInProgress.push(this.currentSurvey);
+                   var index = this.surveyPending.findIndex(
+                    (x) => x.Id ===this.currentSurvey.Id
+                  );
+                    if(index != -1){
+                    this.surveyPending =
+                    this.surveyPending.filter(
+                        (surve) =>
+                        surve.Id !=
+                        this.surveyPending[index].Id
+                    );
+                    }
+                }
+                else{
+                    this.showPreScreen = false;
+                }
+               
+
+                     
+                 
  
              })
              .catch((error) => {
@@ -217,13 +329,22 @@ export default class Pir_participantHeader extends LightningElement {
     }
 
     doPrescreen(){
-        if(!this.per.MRR_Survey_Results_URL__c && 
-            this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c && this.mrrCompleted === false){
         this.openMRR_Modal = true;
-            }else if ((this.per.Pre_screening_Status__c!='Pass' && this.per.Pre_screening_Status__c !='Fail') && 
-                this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c && this.preScreenerCompleted === false){
-                    this.openPreScreener_Modal = true;
-                }
+        if(this.surveyInProgress.length == 0){
+            this.surveyInProgress.push(this.currentSurvey);
+            var indexSurveyPend = this.surveyPending.findIndex(
+                (x) => x.Id ===this.currentSurvey.Id
+              );
+            if(indexSurveyPend != -1){
+              this.surveyPending =
+              this.surveyPending.filter(
+                (surve) =>
+                surve.Id !=
+                  this.surveyPending[indexSurveyPend].Id
+              );
+            }
+        }
+        
     }
 
     closeMRR_Modal(){
@@ -231,12 +352,98 @@ export default class Pir_participantHeader extends LightningElement {
         this.mrrResults = false;
     }
 
+    @api
+    doMrrResult(event){
+        this.completedSurveyByUser = this.completedSurveyByUser + 1;
+      this.surveyCompleted.push(this.currentSurvey);
+        this.surveyInProgress = [];
+        var index = this.surveyPending.findIndex(
+            (x) => x.Id ===this.currentSurvey.Id
+          );
+        if(index != -1){
+          this.surveyPending =
+          this.surveyPending.filter(
+            (surve) =>
+            surve.Id !=
+              this.surveyPending[index].Id
+          );
+        }
+       this.mrrResults = true;
+
+       if(event.detail.result == 'Pass'){
+          this.mrrPassed = true;
+       }else{
+          this.mrrPassed = false;
+       }
+       if(this.completedSurveyByUser < this.totalSurveyToComplete)
+       {
+            this.showPreScreen = true;
+            this.showPreScreener_Button  =true;
+            if(this.prescreenerSurvey && !this.prescreenerSurveyCompleted)
+            {
+                this.currentSurvey = this.prescreenerSurvey;
+                this.mrrLink = this.currentSurvey.Link_to_Pre_screening__c;
+                this.prescreenerSurveyCompleted = true;
+            }
+            else if(this.StudySpecificPrimarySurveyList.length > 0)
+            {
+                this.currentSurvey =  this.StudySpecificPrimarySurveyList[0];
+                this.mrrLink = this.currentSurvey.Link_to_Pre_screening__c;
+
+                var indexStd = this.StudySpecificPrimarySurveyList.findIndex(
+                    (x) => x.Id ===this.currentSurvey.Id
+                  );
+                if(indexStd != -1){
+                  this.StudySpecificPrimarySurveyList =
+                  this.StudySpecificPrimarySurveyList.filter(
+                    (surveStd) =>
+                    surveStd.Id !=
+                      this.StudySpecificPrimarySurveyList[indexStd].Id
+                  );
+                }
+            }
+            else if(this.StudySpecificSecondarySurveyList.length > 0)
+            {
+                this.currentSurvey =  this.StudySpecificSecondarySurveyList[0];
+                this.mrrLink = this.currentSurvey.Link_to_Pre_screening__c;
+
+                var indexSec = this.StudySpecificSecondarySurveyList.findIndex(
+                    (x) => x.Id ===this.currentSurvey.Id
+                  );
+                if(indexSec != -1){
+                  this.StudySpecificSecondarySurveyList =
+                  this.StudySpecificSecondarySurveyList.filter(
+                    (surve) =>
+                    surve.Id !=
+                      this.StudySpecificSecondarySurveyList[indexSec].Id
+                  );
+                }
+            }
+           
+       }
+       else{
+        this.showPreScreen = false;
+        this.showPreScreener_Button  = false;
+       }
+    }
+
 
     
     pre_Eligibility(){
         this.mrrResults = false;
-        this.openMRR_Modal = false;
-        this.openPreScreener_Modal = true;
+        var indexSurveyPend = this.surveyPending.findIndex(
+            (x) => x.Id ===this.currentSurvey.Id
+          );
+        if(indexSurveyPend != -1){
+          this.surveyPending =
+          this.surveyPending.filter(
+            (surve) =>
+            surve.Id !=
+              this.surveyPending[indexSurveyPend].Id
+          );
+        }
+        
+        this.surveyInProgress.push(this.currentSurvey);
     }
 
     closePreScreener_Modal(){
@@ -250,23 +457,6 @@ export default class Pir_participantHeader extends LightningElement {
             return true;
         }else{
             return false;
-        }
-    }
-    
-    @api
-    doMrrResult(event){
-       this.mrrResults = true;
-       if(event.detail.result == 'Pass'){
-          this.mrrPassed = true;
-       }else{
-          this.mrrPassed = false;
-       }
-       if(event.detail.result == 'Pass' || event.detail.result == 'Fail'){
-           this.mrrCompleted = true;
-       }
-       if((this.per.Pre_screening_Status__c!='Pass' && this.per.Pre_screening_Status__c !='Fail') && 
-        this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c && this.mrrCompleted && this.showPreScreen){
-            this.showPreScreen = true;
         }
     }
 
@@ -321,38 +511,44 @@ export default class Pir_participantHeader extends LightningElement {
             })
         }
         if(this.showActionName == 'SH'){
-            if(!this.mrrResults){
-                const custEventSpinner = new CustomEvent(
-                    'handlespinner', {
-                        detail: true 
-                    });
-                this.dispatchEvent(custEventSpinner);
-            }
-            updateParticipantDataSH({ peId: this.peId })
-            .then((result) => {
-                this.showSuccessToast(this.label.Records_sent_to_SH);
-                this.showActiondateTime = result;
-                this.showAction = true;
-                this.showActionName = 'SH';
-                this.showActionbtnDisabled = true;
-                this.showActionlabel = this.label.RH_Sent_to_DCT_Platform; 
-                this.showActiondt = true; 
-                const selectEventHeader = new CustomEvent('callparticipantparent', {});
-                this.dispatchEvent(selectEventHeader);
-            })
-            .catch((error) => {
-                this.showErrorToast(JSON.stringify(error.body.message));
-                console.log(error);
-            })
-            .finally(() => {
+            if(this.per.Is_Participant_DOB_Valid__c){
                 if(!this.mrrResults){
                     const custEventSpinner = new CustomEvent(
                         'handlespinner', {
-                            detail: false 
+                            detail: true 
                         });
                     this.dispatchEvent(custEventSpinner);
                 }
-            })
+                updateParticipantDataSH({ peId: this.peId })
+                .then((result) => {
+                    this.showSuccessToast(this.label.Records_sent_to_SH);
+                    this.showActiondateTime = result;
+                    this.showAction = true;
+                    this.showActionName = 'SH';
+                    this.showActionbtnDisabled = true;
+                    this.showActionlabel = this.label.RH_Sent_to_DCT_Platform; 
+                    this.showActiondt = true; 
+                    const selectEventHeader = new CustomEvent('callparticipantparent', {});
+                    this.dispatchEvent(selectEventHeader);
+                })
+                .catch((error) => {
+                    this.showErrorToast(JSON.stringify(error.body.message));
+                    console.log(error);
+                })
+                .finally(() => {
+                    if(!this.mrrResults){
+                        const custEventSpinner = new CustomEvent(
+                            'handlespinner', {
+                                detail: false 
+                            });
+                        this.dispatchEvent(custEventSpinner);
+                    }
+                })
+            }
+            else{
+                this.showErrorToast(Send_to_Dct_dob_error);                
+                this.dispatchEvent(new CustomEvent('gotodetail'));
+            }
         }
     }
 
