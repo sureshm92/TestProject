@@ -9,8 +9,9 @@
     }
 }
 .rr-width-limiter-pp {
-   max-width: 1336px !important;
+   max-width: 1366px !important;
    margin: auto;
+   padding: 0 2rem;
 }
 
 /* Community_CSS_PP_Theme */
@@ -973,8 +974,8 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 
 /* Edit Task Input Disabled */
-.create-task-input-container .slds-input:disabled,.slds-is-disabled{
-    background: #fff !important;  
+.create-task-input-container .slds-input:disabled{
+    background: #F2F2F2 !important;  
 }
 
 /* Resources */

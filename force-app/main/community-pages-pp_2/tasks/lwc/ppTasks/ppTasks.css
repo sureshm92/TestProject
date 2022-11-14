@@ -61,7 +61,7 @@
 }
 .tasks {
     color: #444444;
-    font-size: 24px;
+    font-size: 2rem;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 48px;
@@ -402,7 +402,7 @@
 
 .container-card-mobile {
     background-color: rgb(246, 247, 249);
-    border-top-color: #C627A6;
+    border-top-color: #c627a6;
     border-top-width: 38px;
     padding: 0;
     border-radius: 25px;
@@ -410,9 +410,9 @@
     margin: 0px 10px;
     border-left: 0;
     border-right: 0;
-}  
+}
 
-.task-header{
+.task-header {
     position: relative;
     margin-top: -31px;
     text-align: center;
@@ -423,7 +423,7 @@
     text-transform: uppercase;
 }
 
-.custom-padding{
+.custom-padding {
     padding-left: 0px;
     padding-right: 0px;
 }
