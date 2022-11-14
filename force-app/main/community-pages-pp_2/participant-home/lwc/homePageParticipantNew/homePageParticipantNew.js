@@ -112,10 +112,8 @@ export default class HomePageParticipantNew extends LightningElement {
 
     showVisitCardOnMobile() {
         if (this.desktop != true) {
-            if(!(this.showVisitCard !=true || this.isDelegateSelfview ==true)){
-                this.showVisitCardMobile = true;
-                this.taskList = false;
-            }
+            this.showVisitCardMobile = true;
         }
+        this.taskList = false;
     }
 }
