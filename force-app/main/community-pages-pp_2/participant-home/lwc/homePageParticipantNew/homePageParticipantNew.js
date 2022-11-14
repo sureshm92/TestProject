@@ -25,8 +25,8 @@ export default class HomePageParticipantNew extends LightningElement {
 
     desktop = true;
     isDelegateSelfview = false;
-    @track taskList=false;
-    
+    @track taskList = false;
+
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
     }
@@ -66,14 +66,17 @@ export default class HomePageParticipantNew extends LightningElement {
                     }
                     if (this.participantState.pe) {
                         if (this.participantState.pe.Clinical_Trial_Profile__r) {
-                            this.clinicalrecord = this.participantState.pe.Clinical_Trial_Profile__r;
+                            this.clinicalrecord =
+                                this.participantState.pe.Clinical_Trial_Profile__r;
                             // Check if Program toggle is or study workspcae on ctp
                             this.isProgram = this.clinicalrecord.Is_Program__c;
-                            this.showVisitCard = this.clinicalrecord.Visits_are_Available__c 
-                                                && this.participantState.pe.Visit_Plan__c 
-                                                && res.pvCount!=null && res.pvCount!=undefined 
-                                                && res.pvCount>0;
-                            this.showVisitCardMobile = this.showVisitCard;                    
+                            this.showVisitCard =
+                                this.clinicalrecord.Visits_are_Available__c &&
+                                this.participantState.pe.Visit_Plan__c &&
+                                res.pvCount != null &&
+                                res.pvCount != undefined &&
+                                res.pvCount > 0;
+                            this.showVisitCardMobile = this.showVisitCard;
                         }
                     }
                     //For Delegate Self view
@@ -97,17 +100,17 @@ export default class HomePageParticipantNew extends LightningElement {
         }
     }
 
-    showTaskList(){
-        if(this.desktop!=true){
+    showTaskList() {
+        if (this.desktop != true) {
             this.showVisitCardMobile = false;
         }
-        this.taskList=true;
+        this.taskList = true;
     }
-    
-    showVisitCardOnMobile(){
-        if(this.desktop!=true){
+
+    showVisitCardOnMobile() {
+        if (this.desktop != true) {
             this.showVisitCardMobile = true;
         }
-        this.taskList=false;
+        this.taskList = false;
     }
 }
