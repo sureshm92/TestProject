@@ -408,13 +408,19 @@ export default class PpCreateTask extends LightningElement {
             JSON.stringify(this.initialRecord) == JSON.stringify(this.updatedRecord);
         this.enableSave = false;
 
-        let selectedTaskReminderDateTime = new Date(this.taskReminderDate);
         let currentDateTime = new Date().toLocaleString('en-US', {
             timeZone: TIME_ZONE
         });
         let selectedTaskDueDateTimeString = new Date(this.taskDateTime).toLocaleString('en-US', {
             timeZone: TIME_ZONE
         });
+        let selectedTaskReminderDateTimeString = new Date(this.taskReminderDate).toLocaleString(
+            'en-US',
+            {
+                timeZone: TIME_ZONE
+            }
+        );
+        let selectedTaskReminderDateTime = new Date(selectedTaskReminderDateTimeString);
         let selectedTaskDueDateTime = new Date(selectedTaskDueDateTimeString);
         let currentDateTimeObject = new Date(currentDateTime);
         if ((!upDateRequired && this.editMode) || !this.editMode) {
