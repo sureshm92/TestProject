@@ -9,8 +9,9 @@
     }
 }
 .rr-width-limiter-pp {
-    max-width: 1336px !important;
-    margin: auto;
+   max-width: 1366px !important;
+   margin: auto;
+   padding: 0 2rem;
 }
 
 /* Community_CSS_PP_Theme */
@@ -78,6 +79,14 @@
     border-radius: 16px !important;
     background-color: #015ff1 !important;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32) !important;
+}
+
+.profile-info-btn-mobile .slds-button {
+    color: #ffffff;
+    height: 2rem !important;
+    border-radius: 16px !important;
+    background-color: #015ff1 !important;
+    box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%), 0 4px 8px 0 rgb(7 104 253 / 32%) !important;
 }
 
 .profile-info-error-input .slds-input {
@@ -917,6 +926,29 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     margin-left: 5px;
 }
 
+/* Study Overview */
+
+.study-anchor li{
+    padding-left: 0px;
+    padding-right: 30px;
+}
+
+.study-anchor .slds-tabs_default__item:after{
+    right: 30px;
+}
+
+.study-anchor .slds-tabs_default__item.slds-is-active:after{
+    background-color: #0768FD;
+}
+
+.study-anchor .slds-tabs_default__item.slds-is-active .slds-tabs_default__link{
+    font-weight: 600 !important;
+}
+
+.study-anchor lightning-tab-bar ul{
+    margin-right: 33px;
+}
+
 @media all and (max-width: 486px) {
     c-pp-Study-Visit-Details-Card .slds-card {
         width: 100%;
@@ -939,4 +971,16 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #999999;
+}
+
+/* Edit Task Input Disabled */
+.create-task-input-container .slds-input:disabled{
+    background: #F2F2F2 !important;  
+}
+
+/* Resources */
+.resDiscoverIcon lightning-primitive-icon svg{
+    height: 16px;
+    width: 16px;
+    color: #015FF1;
 }
