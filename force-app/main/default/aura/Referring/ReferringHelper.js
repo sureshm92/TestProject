@@ -283,6 +283,13 @@
         }else {
             emailDelegateRepeatValid = false;
         }
+
+        if(participant.Email__c){
+            emailVaild = 
+            needsDelegate ||
+                emailCmp &&
+                helper.checkValidEmail(emailCmp, participant.Email__c);
+        }
         //let emailDelegateVaild = needsDelegate && emailDelegateCmp && emailDelegateCmp.get('v.validity') && emailDelegateCmp.get('v.validity').valid;
         //let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
         
@@ -404,6 +411,8 @@
                //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
                isDobValid &&
                participant.Email__c &&
+               emailVaild &&
+               emailRepeatValid &&
                participant.Email__c == emailRepeat &&
                participant.Phone__c &&
                participant.Mailing_Zip_Postal_Code__c &&
@@ -450,7 +459,10 @@
                 emailRepeat !== ''
             ) {
                 emailCmp.reportValidity();
+                helper.checkValidEmail(emailCmp,participant.Email__c );
                 emailRepeatCmp.reportValidity();
+                helper.checkValidEmail(emailRepeatCmp, emailRepeat);
+
             }
         }
         if (needsDelegate && delegateParticipant && emailDelegateCmp && emailDelegateRepeatCmp) {
@@ -490,9 +502,7 @@
         var regexpInvalid = new RegExp($A.get('$Label.c.RH_Email_Invalid_Characters'));
         var invalidCheck = regexpInvalid.test(emailValue);
         if (invalidCheck == false) {
-            email.setCustomValidity('');
             if (emailValue.match(regexp)) {
-                email.setCustomValidity('');
                 isValid = true;
             } else {
                 if(emailValue != ''){
@@ -540,6 +550,7 @@
                 if (returnValue.email) {
                     participantDelegate.Email__c = returnValue.email;
                     component.set('v.emailInstance', returnValue.email.toLowerCase());
+                    component.set('v.emailDelegateRepeat',returnValue.email.toLowerCase());
                 } else component.set('v.emailInstance', null);
                 if (returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
                 if (returnValue.firstName)
