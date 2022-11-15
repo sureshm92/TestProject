@@ -201,7 +201,7 @@ export default class PpCustomizeExperience extends LightningElement {
         let removedPill = event.currentTarget.getAttribute('data-name');
         //alert(removedPill);
         this.handleClearPill(removedPill);
-        this.isValueChanged = true;
+        this.isValueChanged = JSON.stringify(this.displayedItems) == JSON.stringify(this.conditionOfInterestList) ? false : true;
     }
 
     handleClearPill(removedPill) {
