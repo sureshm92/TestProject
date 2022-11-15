@@ -22,6 +22,7 @@ export default class PpResourceDetailPage extends LightningElement {
     isDocument = false;
     langCode;
     documentLink;
+    subDomain;
     studyTitle = '';
     label = {
         Uploaded,
@@ -88,8 +89,13 @@ export default class PpResourceDetailPage extends LightningElement {
     }
 
     handleDocumentLoad() {
+        this.subDomain = communityService.getSubDomain();
         this.documentLink =
-            '/apex/RRPDFViewer?resourceId=' + this.resourceId + '&language=' + this.langCode;
+            this.subDomain +
+            '/apex/RRPDFViewer?resourceId=' +
+            this.resourceId +
+            '&language=' +
+            this.langCode;
     }
 
     handleBackClick() {
