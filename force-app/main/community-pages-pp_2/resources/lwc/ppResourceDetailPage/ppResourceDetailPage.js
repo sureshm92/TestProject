@@ -7,8 +7,6 @@ import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import Uploaded from '@salesforce/label/c.Resource_Uploaded';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import { loadScript } from 'lightning/platformResourceLoader';
 
 export default class PpResourceDetailPage extends LightningElement {
     userTimezone = TIME_ZONE;
@@ -41,13 +39,7 @@ export default class PpResourceDetailPage extends LightningElement {
             this.isDocument = true;
         }
 
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                this.initializeData();
-            })
-            .catch((error) => {
-                this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-            });
+        this.initializeData();
     }
     async initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
