@@ -23,6 +23,7 @@ export default class PpResourceDetailPage extends LightningElement {
     langCode;
     documentLink;
     studyTitle;
+    subDomain;
     label = {
         Uploaded,
         Back_To_Resources
@@ -46,7 +47,7 @@ export default class PpResourceDetailPage extends LightningElement {
             this.spinner.show();
         }
         //get study Title
-       await getCtpName({})
+        await getCtpName({})
             .then((result) => {
                 let data = JSON.parse(result);
                 this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Title__c;
@@ -55,7 +56,7 @@ export default class PpResourceDetailPage extends LightningElement {
                 this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
         //get clicked resource details
-       await getResourceDetails({
+        await getResourceDetails({
             resourceId: this.resourceId,
             resourceType: this.resourceType
         })
@@ -83,8 +84,13 @@ export default class PpResourceDetailPage extends LightningElement {
     }
 
     handleDocumentLoad() {
+        this.subDomain = communityService.getSubDomain();
         this.documentLink =
-            '/apex/RRPDFViewer?resourceId=' + this.resourceId + '&language=' + this.langCode;
+            this.subDomain +
+            '/apex/RRPDFViewer?resourceId=' +
+            this.resourceId +
+            '&language=' +
+            this.langCode;
     }
 
     handleBackClick() {
