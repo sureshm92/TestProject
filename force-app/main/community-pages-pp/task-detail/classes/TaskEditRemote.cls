@@ -115,7 +115,7 @@ public without sharing class TaskEditRemote {
     public static void upsertTask(String wrapper, String paramTask){
         upsertTask(wrapper,  paramTask, false);
     }
-
+    
     @AuraEnabled
     public static void upsertTask(String wrapper, String paramTask, Boolean isNewTaskFromTaskTab) {
         try {
