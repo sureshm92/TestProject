@@ -188,11 +188,11 @@
       "type" : "region"
     } ],
     "type" : "view"
-  }, {
+  },{
     "componentAttributes" : { },
-    "componentName" : "c:PP_BlankThemeLayout",
+    "componentName" : "c:EmtpyTheme",
     "id" : "5b51892e-e23c-4184-89cc-3f2cbabb0d2e",
-    "label" : "optOut",
+    "label" : "Empty",
     "regions" : [ {
       "components" : [ {
         "componentAttributes" : {
@@ -261,9 +261,9 @@
     "type" : "view"
   },{
     "componentAttributes" : { },
-    "componentName" : "c:EmtpyTheme",
-    "id" : "5b51892e-e23c-4184-89cc-3f2cbabb0d2e",
-    "label" : "Empty",
+    "componentName" : "c:PP_BlankThemeLayout",
+    "id" : "215101dd-cab3-4f14-adbd-d6f12992f8a4",
+    "label" : "optOutPatientPortal",
     "regions" : [ {
       "components" : [ {
         "componentAttributes" : {
@@ -275,11 +275,11 @@
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
-        "id" : "6012833c-f6db-4466-92df-972878a73678",
+        "id" : "e7237903-1cca-4082-8bc7-8aa77155e433",
         "renditionMap" : { },
         "type" : "component"
       } ],
-      "id" : "fe4fe6f9-1c02-442f-9626-2c9e7b551371",
+      "id" : "26a25934-7763-455d-a16f-4df16bc04311",
       "regionName" : "search",
       "type" : "region"
     }, {
@@ -302,11 +302,11 @@
           "viewProfileLabel" : "My Profile"
         },
         "componentName" : "selfService:userProfileMenu",
-        "id" : "c9539797-633c-4bf7-bd62-76afdd9381b3",
+        "id" : "438b8d27-00b0-44f7-8f04-a5ba8398a7e7",
         "renditionMap" : { },
         "type" : "component"
       } ],
-      "id" : "fbbe5021-ac76-4f7b-a501-6bd17434a06c",
+      "id" : "b5028e78-655b-477b-8828-daf024b76433",
       "regionName" : "profileMenu",
       "type" : "region"
     }, {
@@ -317,15 +317,15 @@
           "hideHomeText" : true
         },
         "componentName" : "forceCommunity:globalNavigation",
-        "id" : "16873de2-4e22-44ca-929e-f66149909969",
+        "id" : "19801c3b-c518-485b-bcea-f6fc37ea0124",
         "renditionMap" : { },
         "type" : "component"
       } ],
-      "id" : "04f7dc50-b175-4902-a4bd-165bae8f1150",
+      "id" : "1925fb76-87aa-4a5a-82c9-4d9d43d14d85",
       "regionName" : "navBar",
       "type" : "region"
     }, {
-      "id" : "d11e45cc-52d4-4a8c-85df-f2b3b13b4e46",
+      "id" : "5e649f6c-b29c-42d2-80d2-251777696aa7",
       "regionName" : "sidebarFooter",
       "type" : "region"
     } ],
