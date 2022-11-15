@@ -40,13 +40,13 @@ export default class PpResourceDetailPage extends LightningElement {
         }
         this.initializeData();
     }
-    initializeData() {
+    async initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
             this.spinner.show();
         }
         //get study Title
-        getCtpName({})
+       await getCtpName({})
             .then((result) => {
                 let data = JSON.parse(result);
                 this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Title__c;
@@ -55,7 +55,7 @@ export default class PpResourceDetailPage extends LightningElement {
                 this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
         //get clicked resource details
-        getResourceDetails({
+       await getResourceDetails({
             resourceId: this.resourceId,
             resourceType: this.resourceType
         })
