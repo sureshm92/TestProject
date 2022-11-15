@@ -21,7 +21,7 @@
                 </lightning-layout-item>
 
                 <!-- ***************** Resource Title ******************* -->
-                <lightning-layout-item size="12" class="slds-p-vertical_x-small">
+                <lightning-layout-item size="12" class="slds-p-vertical_medium">
                     <lightning-layout multiple-rows="true">
                         <lightning-layout-item size="12" class="study-title">
                             {studyTitle}</lightning-layout-item
@@ -31,10 +31,11 @@
                         >
                     </lightning-layout>
                     <template if:false={isDocument}>
-                        <hr />
+                        
                     </template>
                 </lightning-layout-item>
             </lightning-layout>
+            <hr />
             <!--****************  Resource Container **********************-->
             <lightning-layout multiple-rows="true">
                 <!--**************  Article/Videos ******************* -->
@@ -88,7 +89,7 @@
                             <!--   Upload Date    -->
                             <lightning-layout-item size="12">
                                 <div class="summary-date">
-                                    {label.Uploaded}
+                                    {label.Uploaded}&nbsp;
                                     <lightning-formatted-date-time
                                         value={resUploadDate}
                                         year="numeric"
