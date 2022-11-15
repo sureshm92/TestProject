@@ -10554,6 +10554,14 @@ The expected format is REF##### to REF########</value>
         <value>Version Date</value>
     </labels>
     <labels>
+        <fullName>Library_Uploaded_document_Success</fullName>
+        <categories>Bell Notification Message</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Library Upload Document Success  Bell Notification PI L1 L2 L3</shortDescription>
+        <value>New resource has been uploaded to Library.{URL}</value>
+    </labels>
+    <labels>
         <fullName>Link_Back_To_Home</fullName>
         <language>en_US</language>
         <protected>true</protected>
