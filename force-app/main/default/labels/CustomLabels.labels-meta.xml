@@ -29287,6 +29287,13 @@ Please contact the Study Team for further updates or please login for additional
              by giving them a star!</value>
     </labels>
     <labels>
+        <fullName>Version_date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Version date</shortDescription>
+        <value>Version date:</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Complete_Baseline_Survey_New_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
