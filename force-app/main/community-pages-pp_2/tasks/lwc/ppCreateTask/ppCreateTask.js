@@ -260,6 +260,7 @@ export default class PpCreateTask extends LightningElement {
         this.initialLoad = false;
         this.taskDateTime = event.detail.compdatetime;
         this.taskDueDate = event.detail.compdate;
+        this.taskDueTime = '';
         this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
     }
     handleOnlyTime(event) {

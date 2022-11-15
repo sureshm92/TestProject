@@ -71,6 +71,7 @@ export default class PpCreateTaskReminder extends LightningElement {
         SMS_TEXT_MESSAGE,
         PP_TASK_COMM_PREF
     };
+    taskPlaceholder = this.labels.SELECT_REMINDER;
     @track initialReminderOptions = [
         {
             label: this.labels.PP_NO_REMINDER,
@@ -132,8 +133,18 @@ export default class PpCreateTaskReminder extends LightningElement {
                                 this.smsReminderOptIn = this.initData.task.Remind_Using_SMS__c;
                                 if (this.systemTask) {
                                     this.oldReminderDateForSystemTask = this.initData.reminderDate;
+                                    if (this.oldReminderDateForSystemTask) {
+                                        this.selectedReminderOption = 'Custom';
+                                        this.taskPlaceholder = this.labels.CUSTOM;
+                                    } else {
+                                        this.taskPlaceholder = this.labels.SELECT_REMINDER;
+                                        this.selectedReminderOption =
+                                            this.initData.task.Remind_Me__c;
+                                    }
+                                } else {
+                                    this.selectedReminderOption = this.initData.task.Remind_Me__c;
                                 }
-                                this.selectedReminderOption = this.initData.task.Remind_Me__c;
+
                                 this.selectedReminderDate = this.initData.reminderDate;
                                 this.selectedReminderDateTime = this.initData.reminderDate;
                             }
@@ -188,8 +199,7 @@ export default class PpCreateTaskReminder extends LightningElement {
                                 label: this.labels.PP_NO_REMINDER,
                                 value: 'No reminder',
                                 itemClass: 'dropdown-li'
-                            },
-                            { label: this.labels.CUSTOM, value: 'Custom', itemClass: 'dropdown-li' }
+                            }
                         ];
                     } else {
                         this.initialReminderOptions = [
@@ -412,6 +422,7 @@ export default class PpCreateTaskReminder extends LightningElement {
         this.selectedReminderDateTime = '';
         this.smsReminderOptIn = false;
         this.emailReminderOptIn = false;
+        this.handleReminderDataChange();
     }
 
     handleCustomEvent(eventName, reminderType, reminderDateTime) {
