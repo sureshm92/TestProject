@@ -7,13 +7,13 @@ global without sharing class OptOutAndTechnicalSupport {
 
     public static List<InitDataWrapper> getOptoutAndTechnicalSupportData(String strlanguage) {
         List<InitDataWrapper> wrapperList = new List<InitDataWrapper>();
-        String communityName = communityService.getCurrentCommunityName();
+        String communityName = UserContext.getCurrentCommunityName();
         Map<Id, Opt_Out_and_Technical_Support_Category__mdt> categoryMap ;
         if(communityName == 'IQVIA Patient Portal'){
             categoryMap = new Map<Id, Opt_Out_and_Technical_Support_Category__mdt>(
                 [
                     SELECT Id, developerName, Title__c, Community_Name__c, Display_Order__c
-                    FROM Opt_Out_and_Technical_Support_Category__mdt where Community_Name__c = : communityName
+                    FROM Opt_Out_and_Technical_Support_Category__mdt where Community_Name__c = communityName
                     ORDER BY Display_Order__c ASC
                 ]
             );
