@@ -7,6 +7,8 @@ import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import Uploaded from '@salesforce/label/c.Resource_Uploaded';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
+import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import { loadScript } from 'lightning/platformResourceLoader';
 
 export default class PpResourceDetailPage extends LightningElement {
     userTimezone = TIME_ZONE;
@@ -22,7 +24,7 @@ export default class PpResourceDetailPage extends LightningElement {
     isDocument = false;
     langCode;
     documentLink;
-    studyTitle;
+    studyTitle = '';
     label = {
         Uploaded,
         Back_To_Resources
@@ -38,24 +40,24 @@ export default class PpResourceDetailPage extends LightningElement {
             this.langCode = urlParams.get('lang');
             this.isDocument = true;
         }
-        this.initializeData();
+
+        loadScript(this, RR_COMMUNITY_JS)
+            .then(() => {
+                this.initializeData();
+            })
+            .catch((error) => {
+                this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
+            });
     }
     async initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
             this.spinner.show();
         }
-        //get study Title
-       await getCtpName({})
-            .then((result) => {
-                let data = JSON.parse(result);
-                this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Title__c;
-            })
-            .catch((error) => {
-                this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-            });
+
         //get clicked resource details
-       await getResourceDetails({
+
+        await getResourceDetails({
             resourceId: this.resourceId,
             resourceType: this.resourceType
         })
@@ -75,6 +77,20 @@ export default class PpResourceDetailPage extends LightningElement {
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
+        //get study Title
+        if (communityService.isInitialized()) {
+            console.log('state' + communityService.getCurrentCommunityMode().participantState);
+            if (communityService.getCurrentCommunityMode().participantState != 'ALUMNI') {
+                await getCtpName({})
+                    .then((result) => {
+                        let data = JSON.parse(result);
+                        this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Title__c;
+                    })
+                    .catch((error) => {
+                        this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
+                    });
+            }
+        }
         this.isInitialized = true;
 
         if (this.spinner) {
