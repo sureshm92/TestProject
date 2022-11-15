@@ -232,6 +232,7 @@ export default class PpCustomizeExperience extends LightningElement {
         let uncheckedValues = [];
         let finalSelectedvalues = [];
         let copy = JSON.parse(JSON.stringify(this.conditionOfInterestList));
+        console.log('@@copy' + copy);
 			if(check.length <5){
 					this.isValueChanged = false;
 			}
@@ -260,11 +261,8 @@ export default class PpCustomizeExperience extends LightningElement {
             event.target.checked = false;				
         }
         this.conditionsOfInterestTemp = taList;
-        if (conditionsOfInterestTemp.length < 5) {
-				let coiTemp= (this.conditionsOfInterestTemp.length === copy.length);
-        }
-				
-        if (taList.length === 0 || coiTemp === true) {
+        const a =  JSON.stringify(this.conditionsOfInterestTemp) == JSON.stringify(copy);
+        if (taList.length === 0 || a === true) {
             this.isValueChanged = false;
             }
         else{ 
