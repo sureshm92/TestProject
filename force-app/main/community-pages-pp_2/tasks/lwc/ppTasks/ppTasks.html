@@ -127,7 +127,7 @@
                                 </div>
                             </template>
                         </lightning-layout-item>
-                        <lightning-layout class="slds-align_absolute-center" multiple-rows="true">
+                        <lightning-layout class="slds-align_absolute-center taskList" multiple-rows="true">
                             <lightning-layout-item class="overflow-scroll" size="12"
                                 ><template if:true={isCreateTask}>
                                     <template if:false={editMode}>
@@ -163,7 +163,7 @@
                         </lightning-layout>
                     </template>
                     <template if:false={taskOpenTab}>
-                        <lightning-layout class="slds-align_absolute-center" multiple-rows="true">
+                        <lightning-layout multiple-rows="true">
                             <lightning-layout-item class="overflow-scroll" size="12">
                                 <template if:false={emptyCompletedTasks}>
                                     <c-pp-tasks-list

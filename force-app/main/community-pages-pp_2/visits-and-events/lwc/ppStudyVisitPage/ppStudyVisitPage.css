@@ -3,6 +3,11 @@
     margin: 10px 0 20px 0;
 }
 
+.slds-col.col2 {
+    padding-inline: 1.5rem;
+    margin-top: -2rem;
+}
+
 .col3 {
     text-align: center;
 }
