@@ -422,6 +422,7 @@ export default class PpCreateTaskReminder extends LightningElement {
         this.selectedReminderDateTime = '';
         this.smsReminderOptIn = false;
         this.emailReminderOptIn = false;
+        this.handleReminderDataChange();
     }
 
     handleCustomEvent(eventName, reminderType, reminderDateTime) {

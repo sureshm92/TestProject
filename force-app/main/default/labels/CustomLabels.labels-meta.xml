@@ -513,6 +513,20 @@ Duration: ##VisitDuration</value>
         <value>Save Changes?</value>
     </labels>
     <labels>
+        <fullName>PIR_Initial_Visit_Signed_Date_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Initial_Visit_Signed_Date_Validation</shortDescription>
+        <value>Initial Visit Attended Date and Consent Signed Date can not be in the future.</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Signed_Date_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Signed_Date_Validation</shortDescription>
+        <value>Consent Signed Date can not be in the future.</value>
+    </labels>
+    <labels>
         <fullName>PIR_Unsaved_Changes</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -28951,7 +28965,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Instant Task Reminder Type Not Selected PP</shortDescription>
-        <value>&lt;span&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;
 
 &lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
@@ -28960,7 +28974,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Instant Del Task Reminder Type Not Selected PP</shortDescription>
-        <value>&lt;span &gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
@@ -28977,9 +28991,9 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Survey New Reminder PP</shortDescription>
-        <value>&lt;span&gt;This is an email to remind you of your upcoming  task ##SurveyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;This is an email to remind you of your upcoming  task ##SurveyName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##expirationDate. &lt;/span&gt;&lt;/div&gt;</value>
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##expirationDate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Program_Header_PP</fullName>
@@ -29277,7 +29291,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Complete Baseline Survey New PP</shortDescription>
-        <value>&lt;span&gt;You have a new task awaiting your action: ##SurveyName&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##SurveyName&lt;/span&gt;
 
 &lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##expirationDate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
