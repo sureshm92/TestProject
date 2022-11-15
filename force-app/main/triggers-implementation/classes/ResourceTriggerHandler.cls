@@ -47,6 +47,7 @@ public with sharing class ResourceTriggerHandler {
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+
             ArticleService articleService = (ArticleService) ClassFactory.newInstance(
                 ArticleService.class
             );
@@ -58,10 +59,27 @@ public with sharing class ResourceTriggerHandler {
                 (List<Resource__c>) newList,
                 (Map<Id, Resource__c>) oldMap
             );
+            notifyPIAndDelegateAboutUpdatedResources((List<Resource__c>) newList,
+            (Map<Id, Resource__c>) oldMap);
         }
-    }
+    }   
 
 // Changes for Bell Notification Upload Document -RH-9018
+    private static void notifyPIAndDelegateAboutUpdatedResources(List<Resource__c> newList, Map<Id, Resource__c> oldMap) {
+        List<Sobject> resourceListForBellNotification = new List<Sobject>();
+        for(Sobject rec : newList){
+            Resource__c res = (Resource__c)rec;
+            if (!oldMap.get(res.Id).Resource_Visibility__c.containsIgnoreCase('PI')
+                && res.Resource_Visibility__c.containsIgnoreCase('PI')) {
+                 resourceListForBellNotification.add(rec);
+            }
+        }
+        if(resourceListForBellNotification.size() > 0 ){
+            notifyPIAndDelegateAboutResources(resourceListForBellNotification);
+        }
+    }    
+    
+    
     private static void notifyPIAndDelegateAboutResources(List<SObject> newList) {
 
         List<Notification__c> allNotificationList = new List<Notification__c>();
