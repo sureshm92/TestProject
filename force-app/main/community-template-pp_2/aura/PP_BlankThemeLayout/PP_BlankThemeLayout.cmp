@@ -15,19 +15,11 @@
             style="{!if(v.isRTL == true, '/* @noflip */  direction: rtl;overflow-x: hidden;', '')}"
         >
             <div class="logo-block">
-                <div class="rr-small-down-hide slds-grid slds-wrap slds-gutters">
-                    <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2">
-                        <img
-                            src="{!$Resource.rr_community_icons + '/rh_logo_subt_black.svg'}"
-                            class="main-logo"
-                        />
+                <div class="rr-small-down-hide slds-grid slds-wrap">
+                    <div class="wave slds-show_small">
+                        <img src="{!$Resource.PP_DesktopLogos + '/wave_desktop.png'}" class="imgMargins"/>
                     </div>
-                    <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2">
-                        <img
-                            src="{!$Resource.PH_logo + '/pp_logo_subt_black.svg'}"
-                            class="main-logo"
-                        />
-                    </div>
+                    <p> IQVIA <strong>Patient Portal</strong></p>
                 </div>
                 <div class="body-components">{!v.body}</div>
             </div>
