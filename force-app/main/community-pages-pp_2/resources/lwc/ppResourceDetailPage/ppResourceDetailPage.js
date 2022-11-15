@@ -22,8 +22,8 @@ export default class PpResourceDetailPage extends LightningElement {
     isDocument = false;
     langCode;
     documentLink;
-    studyTitle;
     subDomain;
+    studyTitle = '';
     label = {
         Uploaded,
         Back_To_Resources
@@ -39,6 +39,7 @@ export default class PpResourceDetailPage extends LightningElement {
             this.langCode = urlParams.get('lang');
             this.isDocument = true;
         }
+
         this.initializeData();
     }
     async initializeData() {
@@ -46,15 +47,6 @@ export default class PpResourceDetailPage extends LightningElement {
         if (this.spinner) {
             this.spinner.show();
         }
-        //get study Title
-        await getCtpName({})
-            .then((result) => {
-                let data = JSON.parse(result);
-                this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Title__c;
-            })
-            .catch((error) => {
-                this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-            });
         //get clicked resource details
         await getResourceDetails({
             resourceId: this.resourceId,
@@ -76,6 +68,19 @@ export default class PpResourceDetailPage extends LightningElement {
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
+        //get study Title
+        if (communityService.isInitialized()) {
+            if (communityService.getCurrentCommunityMode().participantState != 'ALUMNI') {
+                await getCtpName({})
+                    .then((result) => {
+                        let data = JSON.parse(result);
+                        this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Title__c;
+                    })
+                    .catch((error) => {
+                        this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
+                    });
+            }
+        }
         this.isInitialized = true;
 
         if (this.spinner) {
