@@ -171,7 +171,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
     get headerDesktopClass() {
         return this.isRTL
             ? 'slds-col slds-size_3-of-12 tc-text tc-text-rtl slds-p-right_large rtl'
-            : 'slds-col slds-size_3-of-12 tc-text slds-p-left_large';
+            : 'slds-col slds-size_3-of-12 tc-text';
     }
 
     get headerScrollerClass() {

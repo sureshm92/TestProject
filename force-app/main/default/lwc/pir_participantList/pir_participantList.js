@@ -49,6 +49,7 @@ import RH_InvalidAction from '@salesforce/label/c.RH_InvalidAction';
 import RH_ChangeStatusErrorMsg from '@salesforce/label/c.RH_ChangeStatusErrorMsg';
 import pir_Bulk_Import_History from '@salesforce/label/c.pir_Bulk_Import_History';
 import PIR_Import_Participants from '@salesforce/label/c.PIR_Import_Participants';
+import PIR_Signed_Date_Validation from '@salesforce/label/c.PIR_Signed_Date_Validation';
 
 export default class Pir_participantList extends NavigationMixin(LightningElement) {
     filterIcon = pirResources+'/pirResources/icons/filter.svg';
@@ -137,7 +138,8 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         High_Priority,
         High_Risk,
         pir_Bulk_Import_History,
-        PIR_Import_Participants
+        PIR_Import_Participants,
+        PIR_Signed_Date_Validation
     }; 
     @api dropDownLabel=this.label.RPR_Actions;
     @api isCheckboxhidden=false;
@@ -544,6 +546,19 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         }else{
         status = this.filterWrapper.status.toString();
         }
+        let todayDt = new Date();
+        let signedDate = this.signedDateValue;
+        if(signedDate != undefined){
+            let splitDate = signedDate.split('-');
+            signedDate = new Date(splitDate[0],splitDate[1]-1,splitDate[2]);
+        }
+        if(signedDate > todayDt){
+            this.saving = false;
+            const getstatusEvent = new CustomEvent("dateerror");
+            this.dispatchEvent(getstatusEvent);
+            this.showErrorToast(this.label.PIR_Signed_Date_Validation);
+        }
+        else{
         updateParticipantStatus({peIdList : this.selectedCheckboxes, 
             StatusToUpdate: this.newstatus,
             Notes: this.additionalNoteValue,
@@ -572,6 +587,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             console.log('Error : '+error.message);
         });
     }
+}
     setKeyAction(){
         this.template.querySelector('.keyup').addEventListener('keydown', (event) => {                  
             var name = event.key; 
