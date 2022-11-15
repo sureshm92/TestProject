@@ -63,7 +63,7 @@
                         <lightning-layout-item padding="around-small" size="6">
                             <div>
                                 <div class="tooltip">
-                                    <div class="textoverlap telephone">{label.RH_RP_Delegate_Phone_Type}</div>
+                                    <div class="textoverlap telephone"><abbr class="slds-required" title="required">*</abbr>{label.RH_RP_Delegate_Phone_Type}</div>
                                   <lightning-combobox disabled={isaccesslevelthree} 
                                     variant="label-hidden" name="Phone Type" required="true"
                                     placeholder={label.RH_RP_Select_Phone_Type} value={pe.peRecord.Primary_Delegate_Phone_Type__c}
