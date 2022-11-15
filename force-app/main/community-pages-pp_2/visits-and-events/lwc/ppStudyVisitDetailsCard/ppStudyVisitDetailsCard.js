@@ -1,11 +1,15 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import moment from '@salesforce/resourceUrl/moment_js';
 import momentTZ from '@salesforce/resourceUrl/momenttz';
+import COMETD_LIB from '@salesforce/resourceUrl/cometd';
+import getSessionId from '@salesforce/apex/TelevisitMeetBannerController.getSessionId';
 import { loadScript } from 'lightning/platformResourceLoader';
-import checkSmsOptIn from '@salesforce/apex/TaskEditRemote.checkSmsOptIn';
+import recheckOptIns from '@salesforce/apex/TaskEditRemote.checkSmsEmailOptIn';
 import updatePatientVisits from '@salesforce/apex/TaskEditRemote.updatePatientVisits';
 import upsertTaskData from '@salesforce/apex/TaskEditRemote.upsertTaskData';
+import deleteReminder from '@salesforce/apex/TaskEditRemote.deleteReminder';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import DEVICE from '@salesforce/client/formFactor';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import date from '@salesforce/label/c.TV_TH_Date';
 import location from '@salesforce/label/c.SS_Location';
@@ -79,43 +83,84 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     @track communicationChanged = false;
     booleanFalse = false;
     booleanTrue = true;
+    spinner;
+    desktop = true;
+
+    /**Platform Event */
+    cometd;
+    subscription;
+    channel = '/event/Communication_Preference_Change__e';
 
     connectedCallback() {
-        loadScript(this, moment).then(() => {
-            loadScript(this, momentTZ).then(() => {
-                this.currentBrowserTime = window.moment();
-                var localOffset = this.currentBrowserTime.utcOffset();
-                var userTime = this.currentBrowserTime.tz(TIME_ZONE);
-                var centralOffset = userTime.utcOffset();
-                this.diffInMinutes = centralOffset - localOffset;
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        this.spinner = this.template.querySelector('c-web-spinner');
+        loadScript(this, COMETD_LIB).then(() => {
+            loadScript(this, moment).then(() => {
+                loadScript(this, momentTZ).then(() => {
+                    this.currentBrowserTime = window.moment();
+                    var localOffset = this.currentBrowserTime.utcOffset();
+                    var userTime = this.currentBrowserTime.tz(TIME_ZONE);
+                    var centralOffset = userTime.utcOffset();
+                    this.diffInMinutes = centralOffset - localOffset;
+                    this.initializeData(true);
+                });
             });
         });
     }
 
-    @wire(checkSmsOptIn)
-    returneddata({ error, data }) {
-        if (data) {
-            if (data[0].Permit_SMS_Text_for_this_study__c) {
-                this.smsOptIn = false;
-            } else {
-                this.smsOptIn = true;
-            }
-            if (data[0].Permit_Mail_Email_contact_for_this_study__c) {
-                this.emailOptIn = false;
-            } else {
-                this.emailOptIn = true;
-            }
-            if (this.emailOptIn) {
-                this.email = false;
-            }
-            if (this.smsOptIn) {
-                this.sms = false;
-            }
-        } else if (error) {
-            this.showErrorToast('Error occured', error.message, 'error');
-        }
+    loadSessionId() {
+        getSessionId()
+            .then((sessionId) => {
+                this.cometd = new window.org.cometd.CometD();
+                this.cometd.configure({
+                    url:
+                        window.location.protocol +
+                        '//' +
+                        window.location.hostname +
+                        '/cometd/49.0/',
+                    requestHeaders: { Authorization: 'OAuth ' + sessionId },
+                    appendMessageTypeToURL: false
+                });
+                this.cometd.websocketEnabled = false;
+                this.cometd.handshake((status) => {
+                    if (status.successful) {
+                        this.subscription = this.cometd.subscribe(this.channel, (message) => {
+                            this.initializeData(false);
+                        });
+                    } else {
+                        this.showToast(status, status, 'error');
+                    }
+                });
+            })
+            .catch((error) => {
+                let message = error.message || error.body.message;
+                this.showToast(message, message, 'error');
+            });
     }
 
+    initializeData(isInitial) {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        if (this.spinner != null && this.spinner != undefined) {
+            this.spinner.show();
+        }
+        recheckOptIns()
+            .then((result) => {
+                let initialData = result[0];
+                this.emailOptIn = !initialData.Permit_Mail_Email_contact_for_this_study__c;
+                this.smsOptIn = !initialData.Permit_SMS_Text_for_this_study__c;
+                this.email = this.emailOptIn ? false : this.email;
+                this.sms = this.smsOptIn ? false : this.sms;
+                if (this.spinner != null && this.spinner != undefined) {
+                    this.spinner.hide();
+                }
+                if (isInitial) {
+                    this.loadSessionId();
+                }
+            })
+            .catch((error) => {
+                this.showToast('', error.message, 'error');
+            });
+    }
     @api
     callFromParent() {
         this.visitDate = '';
@@ -282,17 +327,21 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             if (this.emailOptIn) {
                 this.email = false;
             } else {
-                this.email = this.visitdata.task.Remind_Using_Email__c;
+                this.email = this.visitdata.task
+                    ? this.visitdata.task.Remind_Using_Email__c
+                    : false;
             }
             if (this.smsOptIn) {
                 this.sms = false;
             } else {
-                this.sms = this.visitdata.task.Remind_Using_SMS__c;
+                this.sms = this.visitdata.task ? this.visitdata.task.Remind_Using_SMS__c : false;
             }
             this.communicationChanged = true;
         }
-        if (this.remindmepub) {
+        if (this.remindmepub && this.remindmepub !== this.label.none) {
             return true;
+        } else if (this.remindmepub === this.label.none) {
+            return false;
         } else {
             return false;
         }
@@ -304,21 +353,28 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 this.showreminderdatepicker = true;
             }
             return this.remindmepub;
-        } else if (this.visitdata.task.Remind_Me__c && !this.reminderChanged) {
+        } else if (
+            this.visitdata.task &&
+            this.visitdata.task.Remind_Me__c &&
+            !this.reminderChanged
+        ) {
             this.remindmepub = this.visitdata.task.Remind_Me__c;
             if (this.remindmepub == this.label.custom) {
                 this.showreminderdatepicker = true;
             }
             return this.remindmepub;
-        } else if (!this.remindermepub) {
+        } else if (!this.remindmepub) {
+            this.remindmepub = '';
+            this.showreminderdatepicker = false;
             return null;
         } else {
+            this.remindmepub = '';
             this.showreminderdatepicker = false;
         }
     }
 
     @track initialReminderOptions = [
-        //{ label: this.label.none, value: 'No reminder', itemClass: 'dropdown-li' },
+        { label: this.label.none, value: 'No reminder', itemClass: 'dropdown-li li-item-disabled' },
         {
             label: this.label.onehour,
             value: '1 hour before',
@@ -345,24 +401,29 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     get reminderOptions() {
         let differenceTimeHours = this.calculateTimezoneDifference();
         if (differenceTimeHours > 1) {
-            this.initialReminderOptions[0].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
-        }
-        if (differenceTimeHours > 4) {
             this.initialReminderOptions[1].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
         }
-        if (differenceTimeHours > 24) {
+        if (differenceTimeHours > 4) {
             this.initialReminderOptions[2].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
         }
-        if (differenceTimeHours > 168) {
+        if (differenceTimeHours > 24) {
             this.initialReminderOptions[3].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[3].itemClass = 'dropdown-li li-item-disabled';
+        }
+        if (differenceTimeHours > 168) {
+            this.initialReminderOptions[4].itemClass = 'dropdown-li';
+        } else {
+            this.initialReminderOptions[4].itemClass = 'dropdown-li li-item-disabled';
+        }
+        if (this.remindmepub === '') {
+            this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
+        } else {
+            this.initialReminderOptions[0].itemClass = 'dropdown-li';
         }
         return this.initialReminderOptions;
     }
@@ -464,7 +525,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         } else {
             this.disableButtonSaveCancel = true;
         }
-        if (remindMe !== this.label.custom) {
+        if (remindMe !== this.label.custom && remindMe !== this.label.none) {
             this.showreminderdatepicker = false;
             if (remindMe === this.label.oneweek) {
                 this.selectedReminderDateTime = new Date(dueDateOrplanDate) - 3600 * 1000 * 24 * 7;
@@ -483,10 +544,23 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             }
             this.showreminderdatepicker = true;
         } else if (remindMe === this.label.none) {
-            this.remindmepub = '';
+            this.remindmepub = this.label.none;
             this.selectedReminderDateTime = '';
             this.selectedReminderTime = '';
             this.selectedReminderTime = '';
+            this.showreminderdatepicker = false;
+            this.reminderChanged = true;
+            this.disableButtonSaveCancel = false;
+            if (this.emailOptIn) {
+                this.email = false;
+            } else {
+                this.email = this.visitdata.task.Remind_Using_Email__c;
+            }
+            if (this.smsOptIn) {
+                this.sms = false;
+            } else {
+                this.sms = this.visitdata.task.Remind_Using_SMS__c;
+            }
         }
     }
 
@@ -688,39 +762,40 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 Status__c: 'Pending'
             };
         }
-        var visitTask;
+        var visitTask = '';
 
-        if (this.taskid) {
-            visitTask = {
-                Id: this.taskid,
-                Subject: this.tasksubject,
-                Patient_Visit__c: this.visitid,
-                Remind_Me__c: this.remindmepub,
-                Reminder_Date__c: this.selectedReminderDateTime,
-                Remind_Using_Email__c: this.email,
-                Remind_Using_SMS__c: this.sms,
-                Is_Reminder_Sent__c: false,
-                Task_Type__c: 'Visit'
-            };
-        } else {
-            visitTask = {
-                Subject: this.tasksubject,
-                Patient_Visit__c: this.visitid,
-                Remind_Me__c: this.remindmepub,
-                Reminder_Date__c: this.selectedReminderDateTime,
-                Remind_Using_Email__c: this.email,
-                Remind_Using_SMS__c: this.sms,
-                Is_Reminder_Sent__c: false,
-                Task_Type__c: 'Visit'
-            };
+        if (this.remindmepub !== this.label.none && this.remindmepub !== '') {
+            if (this.taskid) {
+                visitTask = {
+                    Id: this.taskid,
+                    Subject: this.tasksubject,
+                    Patient_Visit__c: this.visitid,
+                    Remind_Me__c: this.remindmepub,
+                    Reminder_Date__c: this.selectedReminderDateTime,
+                    Remind_Using_Email__c: this.email,
+                    Remind_Using_SMS__c: this.sms,
+                    Is_Reminder_Sent__c: false,
+                    Task_Type__c: 'Visit'
+                };
+            } else {
+                visitTask = {
+                    Subject: this.tasksubject,
+                    Patient_Visit__c: this.visitid,
+                    Remind_Me__c: this.remindmepub,
+                    Reminder_Date__c: this.selectedReminderDateTime,
+                    Remind_Using_Email__c: this.email,
+                    Remind_Using_SMS__c: this.sms,
+                    Is_Reminder_Sent__c: false,
+                    Task_Type__c: 'Visit'
+                };
+            }
         }
-
         if (this.visitDateChanged) {
             updatePatientVisits({
                 visit: JSON.stringify(patientVisit)
             })
                 .then((result) => {
-                    if (this.reminderChanged || this.reminderDateChanged) {
+                    if ((this.reminderChanged || this.reminderDateChanged) && visitTask !== '') {
                         upsertTaskData({
                             task: JSON.stringify(visitTask)
                         })
@@ -733,6 +808,25 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                                 this.dispatchEvent(event);
                                 const selectEvent = new CustomEvent('dataupdated');
                                 this.dispatchEvent(selectEvent);
+                            })
+                            .catch((error) => {
+                                this.showErrorToast('Error occured', error.message, 'error');
+                            });
+                    } else if (visitTask === '' && this.taskid !== '') {
+                        deleteReminder({
+                            taskId: this.taskid
+                        })
+                            .then((result) => {
+                                if (result) {
+                                    const event = new ShowToastEvent({
+                                        message: this.label.visitdetailsupdated,
+                                        variant: 'success',
+                                        mode: 'dismissable'
+                                    });
+                                    this.dispatchEvent(event);
+                                    const selectEvent = new CustomEvent('dataupdated');
+                                    this.dispatchEvent(selectEvent);
+                                }
                             })
                             .catch((error) => {
                                 this.showErrorToast('Error occured', error.message, 'error');
@@ -751,7 +845,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 .catch((error) => {
                     this.showErrorToast('Error occured', error.message, 'error');
                 });
-        } else if (this.reminderChanged) {
+        } else if (this.reminderChanged && visitTask !== '') {
             upsertTaskData({
                 task: JSON.stringify(visitTask)
             })
@@ -768,6 +862,34 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 .catch((error) => {
                     this.showErrorToast('Error occured', error.message, 'error');
                 });
+        } else if (visitTask === '' && this.taskid !== '') {
+            deleteReminder({
+                taskId: this.taskid
+            })
+                .then((result) => {
+                    if (result) {
+                        const event = new ShowToastEvent({
+                            message: this.label.visitdetailsupdated,
+                            variant: 'success',
+                            mode: 'dismissable'
+                        });
+                        this.dispatchEvent(event);
+                        const selectEvent = new CustomEvent('dataupdated');
+                        this.dispatchEvent(selectEvent);
+                    }
+                })
+                .catch((error) => {
+                    this.showErrorToast('Error occured', error.message, 'error');
+                });
+        } else {
+            const event = new ShowToastEvent({
+                message: this.label.visitdetailsupdated,
+                variant: 'success',
+                mode: 'dismissable'
+            });
+            this.dispatchEvent(event);
+            const selectEvent = new CustomEvent('dataupdated');
+            this.dispatchEvent(selectEvent);
         }
     }
 

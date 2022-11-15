@@ -21,22 +21,30 @@
                                     >
                                     <lightning-layout-item size="2"
                                         ><lightning-layout class="slds-grid_align-end"
-                                            >{taskNameLength}/30</lightning-layout
+                                            ><template if:false={readOnlyMode}
+                                                >{taskNameLength}/30</template
+                                            ></lightning-layout
                                         ></lightning-layout-item
                                     >
                                 </lightning-layout>
-                                <div class="profile-info-input taskName-focus">
+                                <div
+                                    class="profile-info-input taskName-focus create-task-input-container"
+                                >
                                     <lightning-input
                                         type="text"
                                         data-id="taskName"
                                         placeholder={label.enterTaskName}
                                         onkeyup={handletaskNameChange}
                                         maxlength="30"
+                                        disabled={readOnlyMode}
                                     ></lightning-input>
                                 </div>
                                 <lightning-layout-item>
                                     <lightning-layout>
-                                        <lightning-layout-item size="12" class="slds-m-top_medium">
+                                        <lightning-layout-item
+                                            size="12"
+                                            class="slds-m-top_medium create-task-input-container"
+                                        >
                                             <c-pp-date-time-combo
                                                 reminder={notReminder}
                                                 mindate={currentDate}
@@ -53,11 +61,15 @@
                                                 oninitialtimeload={handleInitialTimeLoad}
                                                 icon-size="small"
                                                 icon-color="#C42EA5"
+                                                edit-mode={editMode}
+                                                read-only-mode={readOnlyMode}
+                                                show-date-time={disbaleDateTime}
                                             ></c-pp-date-time-combo>
                                             <!--Task Reminder Section-->
                                             <template if:true={taskInitData}
                                                 ><c-pp-create-task-reminder
                                                     init-data={initData}
+                                                    task-info={task}
                                                     current-date={currentDate}
                                                     current-time={todaytime}
                                                     task-due-date-time={taskDateTime}
@@ -66,6 +78,7 @@
                                                     is-task-due-date-time-selected={isDueDateTimeSelected}
                                                     oncustomreminderdata={handleCustomReminder}
                                                     onreminderdata={handleReminder}
+                                                    edit-mode={editMode}
                                                 ></c-pp-create-task-reminder
                                             ></template>
                                         </lightning-layout-item>
@@ -109,24 +122,27 @@
                                     >
                                     <lightning-layout-item size="2"
                                         ><lightning-layout class="slds-grid_align-end"
-                                            >{taskNameLength}/30</lightning-layout
+                                            ><template if:false={readOnlyMode}
+                                                >{taskNameLength}/30</template
+                                            ></lightning-layout
                                         ></lightning-layout-item
                                     >
                                 </lightning-layout>
-                                <div class="profile-info-input taskName-focus">
+                                <div class="profile-info-input taskName-focus {disabledFieldCSS}">
                                     <lightning-input
                                         type="text"
                                         data-id="taskName"
                                         placeholder={label.enterTaskName}
                                         onkeyup={handletaskNameChange}
                                         maxlength="30"
+                                        disabled={readOnlyMode}
                                     ></lightning-input>
                                 </div>
                                 <lightning-layout-item>
                                     <lightning-layout>
                                         <lightning-layout-item
                                             size="12"
-                                            class="slds-m-top_medium"
+                                            class="slds-m-top_medium create-task-input-container"
                                             style="padding-inline: 0"
                                         >
                                             <c-pp-date-time-combo
@@ -145,6 +161,9 @@
                                                 oninitialtimeload={handleInitialTimeLoad}
                                                 icon-size="small"
                                                 icon-color="#C42EA5"
+                                                edit-mode={editMode}
+                                                read-only-mode={readOnlyMode}
+                                                show-date-time={disbaleDateTime}
                                             ></c-pp-date-time-combo>
                                             <!--Task Reminder Section-->
                                             <template if:true={taskInitData}
@@ -158,6 +177,8 @@
                                                     is-task-due-date-time-selected={isDueDateTimeSelected}
                                                     oncustomreminderdata={handleCustomReminder}
                                                     onreminderdata={handleReminder}
+                                                    task-info={task}
+                                                    edit-mode={editMode}
                                                 ></c-pp-create-task-reminder
                                             ></template>
                                         </lightning-layout-item>
