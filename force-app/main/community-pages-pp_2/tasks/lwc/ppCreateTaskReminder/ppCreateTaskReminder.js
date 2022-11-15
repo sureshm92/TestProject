@@ -141,6 +141,8 @@ export default class PpCreateTaskReminder extends LightningElement {
                                         this.selectedReminderOption =
                                             this.initData.task.Remind_Me__c;
                                     }
+                                } else {
+                                    this.selectedReminderOption = this.initData.task.Remind_Me__c;
                                 }
 
                                 this.selectedReminderDate = this.initData.reminderDate;

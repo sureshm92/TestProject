@@ -513,6 +513,20 @@ Duration: ##VisitDuration</value>
         <value>Save Changes?</value>
     </labels>
     <labels>
+        <fullName>PIR_Initial_Visit_Signed_Date_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Initial_Visit_Signed_Date_Validation</shortDescription>
+        <value>Initial Visit Attended Date and Consent Signed Date can not be in the future.</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Signed_Date_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Signed_Date_Validation</shortDescription>
+        <value>Consent Signed Date can not be in the future.</value>
+    </labels>
+    <labels>
         <fullName>PIR_Unsaved_Changes</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6416,12 +6430,11 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected Deleg PP</shortDescription>
-        <value>&lt;span&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming task:&lt;/span&gt;
+        <value>&lt;span&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming task: ##TaskName.&lt;/span&gt;
 
-&lt;span &gt;##TaskName&lt;/span&gt;
 &lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;
 
-&lt;span &gt;Please login to update the status of this task.&lt;/span&gt; </value>
+&lt;span style=&quot;color:#444444;&quot; &gt;Please login to update the status of this task.&lt;/span&gt; </value>
     </labels>
     <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</fullName>
