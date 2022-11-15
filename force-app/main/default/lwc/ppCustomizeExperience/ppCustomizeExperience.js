@@ -220,19 +220,14 @@ export default class PpCustomizeExperience extends LightningElement {
     }
 
     handleChange(event) {
-        console.log('conditionsOfInterestTemp--' + this.conditionsOfInterestTemp);
         let taList = this.conditionsOfInterestTemp;
         let inputValue = event.target.name;
 		let check =this.conditionOfInterestList;
-        console.log('inputValue' + inputValue);
-        console.log('event.target.checked' + event.target.checked);
-        console.log(' event.currentTarget.name--' + event.currentTarget.name);
         var capturedCheckboxName = inputValue;
         var selectedCheckBoxes = this.selectedValues;
         let uncheckedValues = [];
         let finalSelectedvalues = [];
         let copy = JSON.parse(JSON.stringify(this.conditionOfInterestList));
-        console.log('@@copy' + copy);
 			if(check.length <5){
 					this.isValueChanged = false;
 			}
