@@ -13,8 +13,7 @@ global without sharing class OptOutAndTechnicalSupport {
             categoryMap = new Map<Id, Opt_Out_and_Technical_Support_Category__mdt>(
                 [
                     SELECT Id, developerName, Title__c, Community_Name__c, Display_Order__c
-                    FROM Opt_Out_and_Technical_Support_Category__mdt where Community_Name__c = communityName
-                    ORDER BY Display_Order__c ASC
+                    FROM Opt_Out_and_Technical_Support_Category__mdt where Community_Name__c = 'IQVIA Patient Portal' ORDER BY Display_Order__c ASC
                 ]
             );
         }
@@ -22,8 +21,7 @@ global without sharing class OptOutAndTechnicalSupport {
             categoryMap = new Map<Id, Opt_Out_and_Technical_Support_Category__mdt>(
                 [
                     SELECT Id, developerName, Title__c, Community_Name__c, Display_Order__c
-                    FROM Opt_Out_and_Technical_Support_Category__mdt where Community_Name__c != communityName
-                    ORDER BY Display_Order__c ASC
+                    FROM Opt_Out_and_Technical_Support_Category__mdt where Community_Name__c != 'IQVIA Patient Portal' ORDER BY Display_Order__c ASC
                 ]
             );
        }
