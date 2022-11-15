@@ -7,6 +7,7 @@ export default class Documents extends NavigationMixin(LightningElement) {
     versiondate;
     id;
     thumbnail;
+    subDomain;
     dropdownOpen = false;
     translations = [];
     multipleTranslations = false;
@@ -18,7 +19,9 @@ export default class Documents extends NavigationMixin(LightningElement) {
         this.title = this.document.resource.Title__c;
         this.versiondate = this.document.resource.Version_Date__c;
         if (this.document.thumbnailDocId) {
+            this.subDomain = communityService.getSubDomain();
             this.thumbnail =
+                this.subDomain +
                 '/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=' +
                 this.document.thumbnailDocId;
             this.thumbnailPresent = true;
