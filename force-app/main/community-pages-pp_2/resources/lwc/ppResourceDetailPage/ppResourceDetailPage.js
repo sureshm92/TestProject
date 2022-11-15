@@ -22,7 +22,6 @@ export default class PpResourceDetailPage extends LightningElement {
     isDocument = false;
     langCode;
     documentLink;
-    subDomain;
     studyTitle = '';
     label = {
         Uploaded,
@@ -61,9 +60,6 @@ export default class PpResourceDetailPage extends LightningElement {
                     this.resourceType == 'Article' ? resourceData.Image__c : resourceData.Video__c;
                 this.isFavourite = result.wrappers[0].isFavorite;
                 this.isVoted = result.wrappers[0].isVoted;
-                if (this.isDocument) {
-                    this.handleDocumentLoad();
-                }
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
@@ -81,6 +77,9 @@ export default class PpResourceDetailPage extends LightningElement {
                     });
             }
         }
+        if (this.isDocument) {
+            this.handleDocumentLoad();
+        }
         this.isInitialized = true;
 
         if (this.spinner) {
@@ -89,13 +88,8 @@ export default class PpResourceDetailPage extends LightningElement {
     }
 
     handleDocumentLoad() {
-        this.subDomain = communityService.getSubDomain();
         this.documentLink =
-            this.subDomain +
-            '/apex/RRPDFViewer?resourceId=' +
-            this.resourceId +
-            '&language=' +
-            this.langCode;
+            '/pp/apex/RRPDFViewer?resourceId=' + this.resourceId + '&language=' + this.langCode;
     }
 
     handleBackClick() {
