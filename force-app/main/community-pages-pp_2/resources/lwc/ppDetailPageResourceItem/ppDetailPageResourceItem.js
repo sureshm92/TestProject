@@ -5,8 +5,14 @@ export default class PpDetailPageResourceItem extends LightningElement {
     @api resourceLink;
     showArticle = false;
     showVideo = false;
+    isThumbnailPresent = false;
+
     connectedCallback() {
         this.spinner = this.template.querySelector('c-web-spinner');
+        if (this.spinner) {
+            this.spinner.show();
+        }
+        this.isThumbnailPresent = this.resourceLink ? true : false;
         if (this.spinner) {
             this.spinner.show();
         }
@@ -19,5 +25,8 @@ export default class PpDetailPageResourceItem extends LightningElement {
         if (this.spinner) {
             this.spinner.hide();
         }
+    }
+    handleError() {
+        this.isThumbnailPresent = false;
     }
 }
