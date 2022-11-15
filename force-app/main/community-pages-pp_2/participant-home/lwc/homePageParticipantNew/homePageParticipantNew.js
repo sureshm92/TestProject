@@ -72,7 +72,6 @@ export default class HomePageParticipantNew extends LightningElement {
                             this.isProgram = this.clinicalrecord.Is_Program__c;
                             this.showVisitCard =
                                 this.clinicalrecord.Visits_are_Available__c &&
-                                this.participantState.pe.Visit_Plan__c &&
                                 res.pvCount != null &&
                                 res.pvCount != undefined &&
                                 res.pvCount > 0;
@@ -84,6 +83,10 @@ export default class HomePageParticipantNew extends LightningElement {
                         this.participantState.value == 'ALUMNI' ||
                         (this.participantState.hasPatientDelegates &&
                             !this.participantState.isDelegate);
+                }
+                if(this.showVisitCard !=true || this.isDelegateSelfview ==true){
+                    this.taskList = true;
+                    this.showVisitCardMobile = false;    
                 }
                 this.spinner.hide();
             })
