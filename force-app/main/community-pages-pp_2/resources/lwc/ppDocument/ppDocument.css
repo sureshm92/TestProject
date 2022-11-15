@@ -30,6 +30,7 @@
     width: 160px;
     white-space: nowrap;
     width: 100%;
+    cursor: pointer;
 }
 
 .document-details {
@@ -53,10 +54,6 @@
     height: 95%;
     width: 100%;
     padding: 3px 3px 0px 3px;
-}
-
-.document-label a:hover {
-    overflow: visible;
 }
 
 .version-date-translation {

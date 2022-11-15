@@ -51,6 +51,7 @@ export default class PpCreateTaskReminder extends LightningElement {
     isSMSReminderDisabled = false;
     smsReminderOptIn = false;
     emailReminderOptIn = false;
+    oldReminderDateForSystemTask;
 
     taskCodeList = ['Complete_Your_Profile', 'Update_Your_Phone_Number', 'Select_COI'];
     businessTask = false;
@@ -130,10 +131,9 @@ export default class PpCreateTaskReminder extends LightningElement {
                                 this.emailReminderOptIn = this.initData.task.Remind_Using_Email__c;
                                 this.smsReminderOptIn = this.initData.task.Remind_Using_SMS__c;
                                 if (this.systemTask) {
-                                    this.selectedReminderOption = 'Custom';
-                                } else {
-                                    this.selectedReminderOption = this.initData.task.Remind_Me__c;
+                                    this.oldReminderDateForSystemTask = this.initData.reminderDate;
                                 }
+                                this.selectedReminderOption = this.initData.task.Remind_Me__c;
                                 this.selectedReminderDate = this.initData.reminderDate;
                                 this.selectedReminderDateTime = this.initData.reminderDate;
                             }
@@ -182,11 +182,21 @@ export default class PpCreateTaskReminder extends LightningElement {
             }
             if (this.systemTask) {
                 if (this.initialReminderOptions.length > 1) {
-                    let customOption = this.initialReminderOptions[5];
-                    this.initialReminderOptions = [];
-                    this.initialReminderOptions.push(customOption);
+                    if (this.oldReminderDateForSystemTask) {
+                        this.initialReminderOptions = [
+                            {
+                                label: this.labels.PP_NO_REMINDER,
+                                value: 'No reminder',
+                                itemClass: 'dropdown-li'
+                            },
+                            { label: this.labels.CUSTOM, value: 'Custom', itemClass: 'dropdown-li' }
+                        ];
+                    } else {
+                        this.initialReminderOptions = [
+                            { label: this.labels.CUSTOM, value: 'Custom', itemClass: 'dropdown-li' }
+                        ];
+                    }
                 }
-                this.selectedReminderOption = 'Custom';
                 this.handleReminderDataChange();
             }
             return this.initialReminderOptions;

@@ -98,9 +98,7 @@
                                         <lightning-layout-item class={item.subjectEllipsisClass}
                                             ><span
                                                 class={item.subjectClass}
-                                                onclick={taskOpen}
-                                                data-actionurl={item.task.Action_URL__c}
-                                                data-status={item.task.Status}
+                                                onclick={handleonclick}
                                                 data-index={item.task.Id}
                                                 ><lightning-formatted-text
                                                     value={item.task.Subject}
@@ -302,13 +300,17 @@
                     <template if:false={expireTaskAvailable}>
                         <template if:false={item.isClosed}>
                             <template if:true={ishomepage}>
+                                <template if:true={item.systemTask}>
                                 <c-web-icon
                                     icon-name="task_arrow"
-                                    onclick={handleonclick}
+                                        onclick={taskOpen}
+                                        data-actionurl={item.task.Action_URL__c}
+                                        data-status={item.task.Status}
                                     data-index={item.task.Id}
                                     class="svg-icon"
                                     icon-size="default"
                                 ></c-web-icon>
+                            </template>
                             </template>
                             <template if:false={ishomepage}>
                                 <div
