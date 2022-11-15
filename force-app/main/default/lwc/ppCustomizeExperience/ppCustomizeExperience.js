@@ -220,13 +220,9 @@ export default class PpCustomizeExperience extends LightningElement {
     }
 
     handleChange(event) {
-        console.log('conditionsOfInterestTemp--' + this.conditionsOfInterestTemp);
         let taList = this.conditionsOfInterestTemp;
         let inputValue = event.target.name;
 		let check =this.conditionOfInterestList;
-        console.log('inputValue' + inputValue);
-        console.log('event.target.checked' + event.target.checked);
-        console.log(' event.currentTarget.name--' + event.currentTarget.name);
         var capturedCheckboxName = inputValue;
         var selectedCheckBoxes = this.selectedValues;
         let uncheckedValues = [];
@@ -260,11 +256,8 @@ export default class PpCustomizeExperience extends LightningElement {
             event.target.checked = false;				
         }
         this.conditionsOfInterestTemp = taList;
-        if (conditionsOfInterestTemp.length < 5) {
-				let coiTemp= (this.conditionsOfInterestTemp.length === copy.length);
-        }
-				
-        if (taList.length === 0 || coiTemp === true) {
+        const a =  JSON.stringify(this.conditionsOfInterestTemp) == JSON.stringify(copy);
+        if (taList.length === 0 || a === true) {
             this.isValueChanged = false;
             }
         else{ 
