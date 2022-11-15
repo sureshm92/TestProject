@@ -31,6 +31,11 @@ public with sharing class ResStudyTriggerHandler {
               notifyPIAndDelegateAboutStudyResources(resStudyList);
             }
         }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            notifyPIAndDelegateAboutUpdatedStudyResources((List<Res_study__c>) newList,
+            (Map<Id, Res_study__c>) oldMap);
+        }
     }
 
     // Logic: ----------------------------------------------------------------------------------------------------------
@@ -112,6 +117,19 @@ public with sharing class ResStudyTriggerHandler {
                 }
             }
         insert notifications;
+    }
+
+    private static void notifyPIAndDelegateAboutUpdatedStudyResources(List<Res_study__c> newList, Map<Id, Res_study__c> oldMap) {
+        List<SObject> resStudyList = new List<SObject> ();
+        for(Sobject resStudy : newList){
+            Res_study__c resourceStudy = (Res_study__c)resStudy;
+            if (!oldMap.get(resourceStudy.Id).Visible_To_PI__c && resourceStudy.Visible_To_PI__c) {
+                resStudyList.add(resourceStudy);
+            }
+        }
+        if(resStudyList.size() > 0 ){
+            notifyPIAndDelegateAboutStudyResources(resStudyList);
+        }
     }
 
     private static void notifyPIAndDelegateAboutStudyResources(List<SObject> newList) {          
