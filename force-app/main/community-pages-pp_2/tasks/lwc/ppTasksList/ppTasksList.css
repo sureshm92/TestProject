@@ -323,10 +323,10 @@
 }
 @media all and (max-width: 486px) {
     .inactive-custom-box {
-        width: 366px;
+        width: 100%;
     }
     .path-2-copy {
-        width: 301px;
+     /*   width: 301px; */
         margin-left: 0.3rem;
     }
     .open-task {
