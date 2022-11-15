@@ -1,18 +1,18 @@
 /*********************************************************************************************************************
 * @description: This class handles insertion of Send Result records for the case of Bell Notification type
-* 
+*
 * @created: 13 October 2022
 
 **********************************************************************************************************************
 * Modification Log
 * Version			Developer		Date			Remarks
 *---------------------------------------------------------------------------------------------------------------------
-* 
+*
 **********************************************************************************************************************
 */
 public class BellNotificationQueueable implements Queueable, Database.AllowsCallouts {
     private static final string BELL_NOTIFICATION_TARGET_TYPE = 'Bell';
-    List<Notification__c> notifications;   
+    List<Notification__c> notifications;
     Study_Site__c studySiteDetails;
     String selectedStatus = '';
     String userRoleComm;
@@ -27,7 +27,7 @@ public class BellNotificationQueueable implements Queueable, Database.AllowsCall
         this.selectedStatus = selectedStatus;
         userRoleComm = userRole;
     }
-    
+
     public void execute(QueueableContext context){
         NotificationResultService service = new NotificationResultService(notifications);
 		ParametrizedMessageService parametrizedMessageService = new ParametrizedMessageService();
@@ -45,9 +45,9 @@ public class BellNotificationQueueable implements Queueable, Database.AllowsCall
 			Notification_type__mdt nType = NotificationService.getNotificationType(notify.Notification_Type__c);
             
 			for(Notification_Target__mdt target : nType.Notification_Targets__r){
-				if('BELL'.equalsIgnoreCase(target.Target_Type__c) && 
-                    (target.Target_User_Group__c != null && target.Target_User_Group__c.equalsIgnoreCase(notify.Target_User_Group__c) ) 
-                ){                    
+				if(BELL_NOTIFICATION_TARGET_TYPE.equalsIgnoreCase(target.Target_Type__c) &&
+                    (target.Target_User_Group__c != null && target.Target_User_Group__c.equalsIgnoreCase(notify.Target_User_Group__c) )
+                ){
                     parametrizedMessageService.addMessage(
                         notify.Id,
                         target.Message_Body__c,
@@ -63,12 +63,12 @@ public class BellNotificationQueueable implements Queueable, Database.AllowsCall
         for(Notification__c n : notifications){
             String userRole = '';
             Notification_type__mdt nType = NotificationService.getNotificationType(n.Notification_Type__c);
-            String messageBody = parametrizedMessageService.getMessage(n.Id);            
+            String messageBody = parametrizedMessageService.getMessage(n.Id);
             for(Notification_Target__mdt target : nType.Notification_Targets__r){
                 if(target.Target_User_Group__c == n.Target_User_Group__c){
-                    String redirectTarget = '';                
-                    if(target.Is_Redirect__c && target.Target_Type__c == 'Bell'){  
-                        redirectTarget = target.Redirect_URL__c;                                        
+                    String redirectTarget = '';
+                    if(target.Is_Redirect__c && target.Target_Type__c == 'Bell'){
+                        redirectTarget = target.Redirect_URL__c;
                         if(target.DeveloperName == 'Bulk_Import_Success_Bell'){
                             redirectTarget = redirectTarget.replace('{trialId}',studySiteDetails.Clinical_Trial_Profile__c);
                             redirectTarget = redirectTarget.replace('{ssId}',studySiteDetails.Id);
@@ -86,10 +86,16 @@ public class BellNotificationQueueable implements Queueable, Database.AllowsCall
                             userRole = 'PI';
                         }else{
                             userRole = n.Target_User_Group__c;
-                        }                        
+                        }
                     }
-                    service.setSentForBell(n.Id, BELL_NOTIFICATION_TARGET_TYPE , messageBody,target.Is_Redirect__c ? redirectTarget : null, userRole, studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c);
-                }                
+
+                    if(studySiteDetails != null){
+                        service.setSentForBell(n.Id, BELL_NOTIFICATION_TARGET_TYPE , messageBody,target.Is_Redirect__c ? redirectTarget : null, userRole, studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c);
+                    }else if(n.Community_Type__c != null){
+                        service.setSentForBell(n.Id, BELL_NOTIFICATION_TARGET_TYPE , messageBody,target.Is_Redirect__c ? redirectTarget : null, userRole, n.Community_Type__c);
+                    }
+
+                }
             }
         }
 
