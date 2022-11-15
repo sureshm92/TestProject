@@ -54,9 +54,7 @@ export default class PpResourceDetailPage extends LightningElement {
         if (this.spinner) {
             this.spinner.show();
         }
-
         //get clicked resource details
-
         await getResourceDetails({
             resourceId: this.resourceId,
             resourceType: this.resourceType
@@ -79,7 +77,6 @@ export default class PpResourceDetailPage extends LightningElement {
             });
         //get study Title
         if (communityService.isInitialized()) {
-            console.log('state' + communityService.getCurrentCommunityMode().participantState);
             if (communityService.getCurrentCommunityMode().participantState != 'ALUMNI') {
                 await getCtpName({})
                     .then((result) => {
