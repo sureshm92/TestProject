@@ -108,7 +108,7 @@ export default class PpTermsOfUse extends LightningElement {
     get headerDesktopClass() {
         return this.isRTL
             ? 'slds-col slds-size_3-of-12 tc-text slds-p-left_large tc-header rtl'
-            : 'slds-col slds-size_3-of-12 tc-text slds-p-left_large tc-header';
+            : 'slds-col slds-size_3-of-12 tc-text tc-header';
     }
 
     get headerScrollerClass() {
@@ -149,8 +149,8 @@ export default class PpTermsOfUse extends LightningElement {
 
     get chapterClass() {
         return this.isRTL
-            ? 'slds-p-bottom_medium sub-header slds-p-top_small rtl'
-            : 'slds-p-bottom_medium sub-header slds-p-top_small';
+            ? 'slds-p-bottom_x-small sub-header slds-p-top_large rtl'
+            : 'slds-p-bottom_x-small sub-header slds-p-top_large';
     }
 
     get dropdownClass() {
