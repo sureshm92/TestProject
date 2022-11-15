@@ -29,10 +29,21 @@ public with sharing class ResourceTriggerHandler {
         }
 
         public override void afterInsert(List<SObject> newList) {
+            List<Sobject> resourceListForBellNotification = new List<Sobject>();
             ArticleService articleService = (ArticleService) ClassFactory.newInstance(
                 ArticleService.class
             );
             articleService.assignTherapeuticAreas(newList);
+            for(Sobject rec : newList){
+                Resource__c res = (Resource__c)rec;
+                if(String.isNotEmpty(res.Resource_Visibility__c) && res.Resource_Visibility__c.containsIgnoreCase('PI')){
+                    resourceListForBellNotification.add(rec);
+                }
+
+            }
+            if(resourceListForBellNotification.size() > 0 ){
+                notifyPIAndDelegateAboutResources(resourceListForBellNotification);
+            }
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -47,6 +58,37 @@ public with sharing class ResourceTriggerHandler {
                 (List<Resource__c>) newList,
                 (Map<Id, Resource__c>) oldMap
             );
+        }
+    }
+
+// Changes for Bell Notification Upload Document -RH-9018
+    private static void notifyPIAndDelegateAboutResources(List<SObject> newList) {
+
+        List<Notification__c> allNotificationList = new List<Notification__c>();
+        List<Contact> resultMap = new List<Contact>();
+        resultMap = BellNotificationsHelper.getContactGeneric();
+
+        if(resultMap.size() > 0){
+            Map<String,List<Contact>> contactResultMap =  new Map<String,list<Contact>>
+            {'PI' => resultMap};
+
+            List<Notification__c> notificationListForDefault= BellNotificationsHelper.createNotification
+                ('BELL_Message_on_Library_Upload_Document', contactResultMap, 'Default', null, false);
+
+            List<Notification__c> notificationListForJanssen= BellNotificationsHelper.createNotification
+                ('BELL_Message_on_Library_Upload_Document', contactResultMap, 'Janssen', null, false);
+
+            if(notificationListForDefault.size()> 0 || notificationListForJanssen.size() > 0){
+                allNotificationList.addAll(notificationListForDefault);
+                allNotificationList.addAll(notificationListForJanssen);
+            }
+
+            if(allNotificationList.size() > 0 && allNotificationList.size() <= 8000){
+                insert allNotificationList;
+            }else if(allNotificationList.size() > 0 && allNotificationList.size() > 8000){
+                Batch_NotificationInsertion notifyBatch = new Batch_NotificationInsertion(allNotificationList);
+                Database.executeBatch(notifyBatch);
+            }
         }
     }
 }
