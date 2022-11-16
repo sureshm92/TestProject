@@ -256,13 +256,7 @@ export default class PpCustomizeExperience extends LightningElement {
             event.target.checked = false;				
         }
         this.conditionsOfInterestTemp = taList;
-        const a =  JSON.stringify(this.conditionsOfInterestTemp) == JSON.stringify(copy);
-        if (taList.length === 0 || a === true) {
-            this.isValueChanged = false;
-            }
-        else{ 
-            this.isValueChanged = true;
-        }
+        this.isValueChanged =  JSON.stringify(this.conditionsOfInterestTemp) == JSON.stringify(copy)? false : true ;
     }
 
     showMenuBar(event) {
