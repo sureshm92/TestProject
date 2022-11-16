@@ -987,3 +987,34 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     width: 16px;
     color: #015FF1;
 }
+
+/* Opt out page PP 2.0 */
+
+.opt-out-comm-pref, .opt-out-page-tech-support{
+    padding-left: 5px;
+}
+.opt-out-comm-pref span.slds-checkbox{
+    line-height: 28px;
+}
+
+.opt-out-page-tech-support span.slds-checkbox{
+    line-height: 32px;
+}
+
+.opt-out-comm-pref .slds-form-element__label{
+    height: 48px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px !important;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.opt-out-page-tech-support .slds-form-element__label{
+    height: 19px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px !important;
+    letter-spacing: 0;
+    line-height: 19px;
+}

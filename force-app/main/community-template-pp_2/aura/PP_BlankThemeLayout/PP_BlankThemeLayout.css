@@ -49,7 +49,7 @@
     margin-top: 125px;
     margin-bottom: 182px;
     box-sizing: border-box;
-    height: 712px;
+    height: 750px;
     width: 613px;
     border-radius: 39px;
     background-color: #ffffff;
@@ -97,7 +97,7 @@
     height: 60px;
     border-radius: 0 0 24px 24px;
     background-color: #f2f2f2;
-    position: fixed;
+    /* position: fixed; */
     left: 0;
     bottom: 0;
     width: 100%;
@@ -106,11 +106,18 @@
 }
 
 .THIS .poweredBy {
+    height: 24px;
     color: #999999;
-    font-family: 'Proxima Nova';
+    font-family: "Proxima Nova";
     font-size: 13px;
     letter-spacing: 0;
     line-height: 16px;
+}
+
+.THIS .img-dimensions{
+    height: 50%;
+    width: 90px;
+    margin-top: 8px;
 }
 
 @media (max-width: 500px) {
