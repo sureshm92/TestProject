@@ -34,7 +34,7 @@
     margin-bottom: 3px;
 }
 
-.so-mb-17{
+.so-mb-17 {
     margin-bottom: 17px;
 }
 
@@ -80,6 +80,10 @@
 
 .po-ml-3 {
     margin-left: 3px;
+}
+
+.po-mr-6 {
+    margin-right: 6px;
 }
 
 .po-tab a {
@@ -224,11 +228,11 @@
     line-height: 74px;
 }
 
-.pt{
+.pt {
     padding-top: 10px;
 }
 
-.pc-menu-label{
+.pc-menu-label {
     width: 100px;
     line-height: 24px;
     display: inline-block;
