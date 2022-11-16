@@ -114,7 +114,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-        this.spinner = this.template.querySelector('c-web-spinner');
         loadScript(this, COMETD_LIB).then(() => {
             loadScript(this, moment).then(() => {
                 loadScript(this, momentTZ).then(() => {
