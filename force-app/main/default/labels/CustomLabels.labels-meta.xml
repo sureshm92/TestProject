@@ -29367,6 +29367,14 @@ Please contact the Study Team for further updates or please login for additional
          
     </labels>
     <labels>
+        <fullName>PP_Opt_Out_Success_Message</fullName>
+        <categories>PP_Opt_Out_Success_Message</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>Your request has been sent successfully.</value>
+    </labels>
+    <labels>
         <fullName>PP_Technical_Support_Category</fullName>
         <categories>Opt Out And Technical Support</categories>
         <language>en_US</language>
