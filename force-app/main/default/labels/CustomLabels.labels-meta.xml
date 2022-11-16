@@ -674,6 +674,20 @@ Duration: ##VisitDuration</value>
         <value>Send Invites to Not Yet Invited</value>
     </labels>
     <labels>
+        <fullName>Bell_Notification_Link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Bell Notification Link</shortDescription>
+        <value>Click here to view them.</value>
+    </labels>
+    <labels>
+        <fullName>Blank_Bell_Notifications</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Blank Bell Notifications</shortDescription>
+        <value>You don't have any notifications right now.</value>
+    </labels>
+    <labels>
         <fullName>BulkImport_Instructions</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -707,6 +721,27 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>BulkImport_Rejected</shortDescription>
         <value>Rejected</value>
+    </labels>
+    <labels>
+        <fullName>Bulk_Import_Success_Bell_Notification_L1_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Bulk Import Success Bell Notification L1 PI</shortDescription>
+        <value>A new Bulk Import has been processed successfully.{URL}</value>
+    </labels>
+    <labels>
+        <fullName>Bulk_Import_Success_Bell_Notification_L2_L3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Bulk Import Success Bell Notification L2 L3</shortDescription>
+        <value>New Participants were added via bulk import.{URL}</value>
+    </labels>
+    <labels>
+        <fullName>Bulk_Import_Success_Bell_Notification_Self</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Bulk Import Success Bell Notification Self</shortDescription>
+        <value>Your Bulk Import is now complete.{URL}</value>
     </labels>
     <labels>
         <fullName>BulkImport_Uploaded_By</fullName>
@@ -10529,6 +10564,14 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Library Version Date</shortDescription>
         <value>Version Date</value>
+    </labels>
+    <labels>
+        <fullName>Library_Uploaded_document_Success</fullName>
+        <categories>Bell Notification Message</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Library Upload Document Success  Bell Notification PI L1 L2 L3</shortDescription>
+        <value>New resource has been uploaded to Library.{URL}</value>
     </labels>
     <labels>
         <fullName>Link_Back_To_Home</fullName>

@@ -1,0 +1,116 @@
+<template>
+  <div class="notification rtl-code">
+    <div class="slds-grid slds-wrap slds-gutters">
+      <div
+        class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12"
+      >
+        <div
+          data-id="ScrollNode"
+          class="notification-grid"
+          onscroll={handleLazyLoading}
+        >
+        <template if:true={isSaving}>
+          <lightning-spinner alternative-text="Loading..." variant="brand">
+          </lightning-spinner>
+      </template>
+        <template if:false={isSendResult}>
+          <template for:each={notificationWrap} for:item="bNote">
+            <!-- Notification card -->
+            <section
+              key={bNote.Id}
+              class="slds-notification-card"
+              role="dialog"
+              aria-labelledby="noti-100"
+              aria-describedby="dialog-body-id-99"
+            >
+              <div class="slds-notification__body slds-body-border">
+                <div class="slds-notification__target slds-media" onclick={onReadMark}
+                data-id={bNote.Id}>
+                  <template if:false={bNote.Is_Read__c}>
+                    <span
+                      class="slds-media__figure"
+                      title="Read"
+                    >
+                      <a
+                        ><abbr
+                          class="slds-text-link slds-m-horizontal_xxx-small slds-text-color_destructive colorRed"
+                          >●</abbr
+                        >
+                      </a>
+                    </span>
+                  </template>
+                  <template if:true={bNote.Is_Read__c}>
+                    <div class="slds-media__body notification-left">
+                      <h2
+                        class="slds-text-heading_small"
+                      >
+                        {bNote.Push_Message_Body__c}
+                        <a class="notification-link-class" href={bNote.Link_to_Related_Event_or_Object__c} onclick={redirection}> 
+                          {label.Bell_Notification_Link}</a
+                      
+                        >
+                      </h2>
+                      <p><lightning-formatted-date-time class="date-time" value={bNote.CreatedDate} year="numeric" month="2-digit" day="2-digit" hour="numeric" minute="2-digit" time-zone={userTimeZone}></lightning-formatted-date-time></p>
+                    </div>
+                  </template>
+                  <template if:false={bNote.Is_Read__c}>
+                    <div class="slds-media__body">
+                      <h2
+                        class="slds-text-heading_small"
+                      >
+                        {bNote.Push_Message_Body__c}
+                        <a class="notification-link-class" href={bNote.Link_to_Related_Event_or_Object__c} onclick={redirection}
+                          >{label.Bell_Notification_Link}</a
+                        >
+                      </h2>
+                      <!-- <p class="date-time">{bNote.CreatedDate}</p> -->
+                      <p><lightning-formatted-date-time class="date-time" value={bNote.CreatedDate} year="numeric" month="2-digit" day="2-digit" hour="numeric" minute="2-digit" time-zone={userTimeZone}></lightning-formatted-date-time></p>
+                    </div>
+                  </template>
+                  <span class="slds-media__figure" title="event">
+                    <button  data-id={bNote.Id}
+                    onclick={removeNotification} 
+                    class="slds-button slds-button_icon slds-button_icon-container close-center close_btn" 
+                    title="close">
+                        <lightning-icon  icon-name="utility:close" size="xx-small" alternative-text="close" title="close"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </section>
+          </template>
+        </template>
+          <template if:true={isSendResult}>
+            <section class="slds-notification-card" role="dialog" aria-labelledby="noti-93" aria-describedby="dialog-body-id-93">
+              <div class="slds-notification__body" id="dialog-body-id-92">
+                  <div class="slds-notification__target slds-media">
+                      <div class="empty-notification">
+                        {label.Blank_Bell_Notifications}
+                      </div>
+                  </div>
+              </div>
+            </section><!-- Empty Notification card -->
+         </template>
+        </div>
+      </div>
+      <div
+        class="slds-col slds-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12"
+      >
+        <div class="status-icon"></div>
+        <!-- status-icon  -->
+      </div>
+      <!-- slds-large-size_12-of-2  -->
+      <div
+        class="slds-col slds-size_8-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12"
+      ></div>
+      <!-- slds-large-size_12-of-10  -->
+      <div
+        class="slds-col slds-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12"
+      ></div>
+      <!-- slds-large-size_12-of-2  -->
+    </div>
+    <!-- slds-grid slds-wrap slds-gutters  -->
+  </div>
+  <!-- notification  -->
+</template>

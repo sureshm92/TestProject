@@ -417,4 +417,83 @@ public without sharing class CommunityFacadeRemote {
             ]
             .size() > 0;
     }
+//RH-6579/RH-6581 - Bell Notification - Start Changes
+    //Get SessionID
+    @AuraEnabled(Cacheable=true)
+    public static Map<String,string> getSessionId() {
+        Map<string,string> getId = new Map<string,string>();
+        String sessionId = UserInfo.getOrganizationId()+','+UserInfo.getSessionId();
+        getId.put('sessionId',sessionId);
+        String userID = UserInfo.getUserId();        
+        User u = [SELECT u.Id,u.ContactId,u.IsActive 
+                  FROM User u 
+                  WHERE u.Id =: userID AND u.IsActive =: true];       
+        getId.put('userId',u.ContactId);
+        return getId;
+    }
+
+    // Get Send Results records for Logged in User
+    @AuraEnabled
+    public static List<Send_Result__c> getSendResults(Id contactId){
+        List<Send_Result__c> listOfResult = new List<Send_Result__c>();
+        String communityType = UserContext.getCurrentUserMode().template.templateName;  
+        String userRole = UserContext.getCurrentUserMode().userMode;        
+
+        if(contactId != null){
+            listOfResult = [SELECT Action__c,CreatedById,CreatedDate,Error__c,Id,Integration_Log__c,
+                            IsDeleted,Is_Active__c,Is_Read__c,Link_to_Related_Event_or_Object__c,
+                            Msg_Id__c,Name,Notification_Type__c,Notification__c,Push_Message_Body__c,
+                            Push_Message_Title__c,Status__c,Target_Type__c 
+                            FROM Send_Result__c 
+                            WHERE (Is_Active__c = true) 
+                            AND (Notification__r.Recipient__r.Id =:contactId)  
+                            AND ( CreatedDate = LAST_N_DAYS:30) 
+                            AND Community_Type__c = :communityType     
+                            AND User_Role__c = :userRole                
+                            ORDER BY CreatedDate DESC];
+        }
+        
+        if(listOfResult.size() > 0){
+            return listOfResult;
+        }
+        
+        return null;
+    }
+
+    // Update the Send Result for soft delete for a user
+    @AuraEnabled
+    public static Send_Result__c isActivate(Id sendResultId){
+        try{            
+            if(sendResultId != null){
+                Send_Result__c sendRes = new Send_Result__c(Id = sendResultId, Is_Active__c = false, Is_Read__c = true);
+                update sendRes;
+                return sendRes;
+            }else {
+                return null;
+            }
+        }
+        catch(Exception e){
+            System.debug('Error Occured while Updation==' + e.getMessage());
+            return null;
+        }        
+    }
+
+    // Update the Send Result Record as Read by the user
+    @AuraEnabled
+    public static Send_Result__c updateReadNotification(Id sendResultId){
+        try{            
+            if(sendResultId != null){
+                Send_Result__c sendRes = new Send_Result__c(Id = sendResultId, Is_Read__c = true, Is_Active__c = true);                
+                update sendRes;
+                return sendRes;
+            }else{
+                return null;
+            } 
+        }
+        catch(Exception e){
+            System.debug('Error Occured while Updation==' + e.getMessage());
+            return null;
+        }
+    }
+//RH-6579/RH-6581 - Bell Notification - End Changes
 }
