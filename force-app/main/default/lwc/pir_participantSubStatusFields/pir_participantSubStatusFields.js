@@ -1879,9 +1879,16 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
     let outcome = this.selectedOutcome;
 
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
-    //let tdyDt = this.todaydate();
+    let signedDate = this.participantrecord.Informed_Consent_Date__c;
+    if(signedDate != undefined){
+      let splitDate = signedDate.split('-');
+     signedDate = new Date(splitDate[0],splitDate[1]-1,splitDate[2]);
+    }
+    
+    let todayDt = new Date();
+    let intVistDt;
     let tdyDt = this.currentuserdate;
-    if(occuredDt != undefined){
+     if(occuredDt != undefined){
       let splitDate = occuredDt.split('-');
       intVistDt = new Date(splitDate[0],splitDate[1]-1,splitDate[2]);
     }
