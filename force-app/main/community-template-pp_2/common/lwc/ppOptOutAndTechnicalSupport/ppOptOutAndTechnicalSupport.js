@@ -54,6 +54,7 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
     }
     connectedCallback(){
         this.disabled = true;
+		this.showSpinner = true;
         let language = communityService.getUrlParameter('language');
         if (!language || language === '') {
             language = 'en_US';
@@ -70,9 +71,12 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
                     this.techSupportSubCategoryList = item.labelValueItemList;
                 }
             }
+			 this.showSpinner = false;
            })
         .catch(function (error) {
             console.error(JSON.stringify(error));
+			this.showSpinner = false;
+
         });
     }
     handleChange(event) {
