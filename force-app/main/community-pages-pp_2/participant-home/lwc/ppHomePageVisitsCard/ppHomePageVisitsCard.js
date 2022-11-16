@@ -3,8 +3,6 @@ import { LightningElement, api, track } from 'lwc';
 import getVisitsPreviewAndCount from '@salesforce/apex/ParticipantVisitsRemote.getVisitsPreviewAndCount';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
-import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import What_to_Expect from '@salesforce/label/c.Upcoming_Visit_Expect';
 import UPCOMING from '@salesforce/label/c.Televisit_Upcoming';
 import MORE from '@salesforce/label/c.PIR_more';
@@ -49,17 +47,11 @@ export default class HomePageVisitsCard extends LightningElement {
     isVisitAvailable = false;
     empty_state = pp_community_icons + '/' + 'empty_visits.png';
     spinner;
-    connectedCallback() {
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                console.log('NEW RR_COMMUNITY_JS loaded');
-                this.spinner = this.template.querySelector('c-web-spinner');
-                this.initializeData();
-                this.isInitialized = true;
-            })
-            .catch((error) => {
-                console.error('Error in loading RR Community JS: ' + JSON.stringify(error));
-            });
+    renderedCallback() {
+        if(this.isInitialized != true){
+            this.initializeData();
+            this.isInitialized = true;
+        }
     }
 
     initializeData() {
