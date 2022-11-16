@@ -5,6 +5,18 @@
 .padding-for-techSupportGroup {
     padding-top: 50px;
 }
+.spins::after {
+    position: absolute;
+    content: 'Loading......';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+		font-size :14px;
+}
+.slds-spinner_container{
+    position :fixed !important;
+}
 .slds-checkbox {
     margin-top: 16px;
     line-height: 1;
@@ -60,6 +72,18 @@
         margin-left: 0%;
         text-align: center;
     }
+}
+.spins::after {
+    position: absolute;
+    content: 'Loading......';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+		font-size :14px;
+}
+.slds-spinner_container{
+    position :fixed !important;
 }
 
 .opt-out-header {
