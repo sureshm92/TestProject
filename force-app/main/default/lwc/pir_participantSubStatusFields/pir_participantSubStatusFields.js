@@ -2075,16 +2075,7 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
   }
   
   handleConsentLogin(event) {
-    if(this.pe_record.Study_Site__r.Clinical_Trial_Profile__r.E_Consent_Configuration__c &&
-        this.pe_record.Study_Site__r.E_Consent_Vendor__r.Vendor_URL__c != null) {
-          this.redirecturl = this.pe_record.Study_Site__r.E_Consent_Vendor__r.Vendor_URL__c;
-        let config = {
-          type: 'standard__webPage',
-          attributes: {
-              url: this.pe_record.Study_Site__r.E_Consent_Vendor__r.Vendor_URL__c
-          }
-        };
-        this[NavigationMixin.Navigate](config);
-    }    
+    window.open(this.pe_record.Study_Site__r.E_Consent_Vendor__r.Vendor_URL__c,'popup','toolbar=no,scrollbars=no,resizable=no,top=2000,left=10000,width=600,height=500'); 
+    return false;    
   }
 }

@@ -19,9 +19,29 @@
                     <div class="wave slds-show_small">
                         <img src="{!$Resource.PP_DesktopLogos + '/wave_desktop.png'}" class="imgMargins"/>
                     </div>
-                    <p> IQVIA <strong>Patient Portal</strong></p>
                 </div>
-                <div class="body-components">{!v.body}</div>
+                <div class="page-content"> 
+                    <lightning:layout multipleRows="true">
+
+                        <lightning:layoutItem size="12" class="mb-16">
+                            <p class="iqvia"> {!$Label.c.RH_Masked_IQVIA_User} <span class="patient-portal">{!$Label.c.Community_PP}</span></p>
+                        </lightning:layoutItem>
+
+                        <lightning:layoutItem size="12" class="mb-16">
+                            <p class="for-participants-c">{!$Label.c.OptOut_PP_Subheader}</p>
+                        </lightning:layoutItem>
+
+                        <lightning:layoutItem size="12" class="cusContentMargin">
+                            <div class="body-components">{!v.body}</div>
+                        </lightning:layoutItem>
+
+                        <lightning:layoutItem size="12" class="footerOptOut">                                                    
+                            <span class="poweredBy">{!$Label.c.PP_Powered_by_Footer}</span>                           
+                            <span> <img src="{!$Resource.PP_DesktopLogos + '/iqvia_logo.svg'}" /></span>
+                        </lightning:layoutItem>                       
+
+                    </lightning:layout>
+                </div>
             </div>
         </div>
     </div>

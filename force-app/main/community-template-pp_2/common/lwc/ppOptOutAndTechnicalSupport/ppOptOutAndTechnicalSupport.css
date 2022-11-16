@@ -5,7 +5,19 @@
 .padding-for-techSupportGroup {
     padding-top: 50px;
 }
- .slds-checkbox {
+.spins::after {
+    position: absolute;
+    content: 'Loading......';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+		font-size :14px;
+}
+.slds-spinner_container{
+    position :fixed !important;
+}
+.slds-checkbox {
     margin-top: 16px;
     line-height: 1;
 }
@@ -48,11 +60,11 @@
     margin-top: 45px;
     margin-left: 80%;
 }
- .checkLogo {
+.checkLogo {
     height: 25px;
     width: 30px;
 }
- .success-message-padding {
+.success-message-padding {
     padding-top: 25px;
 }
 @media (max-width: 500px) {
@@ -61,18 +73,36 @@
         text-align: center;
     }
 }
+.spins::after {
+    position: absolute;
+    content: 'Loading......';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+		font-size :14px;
+}
+.slds-spinner_container{
+    position :fixed !important;
+}
 
 .opt-out-header {
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 0.25px;
+    height: 24px;
     color: #444444;
-    float: none !important;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-bottom: 16px;
 }
 
 .comm-italics {
-    font-style: italic;
-    font-size: 15px;
-    margin-bottom: 17px;
+    height: 48px;
     color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
 }
