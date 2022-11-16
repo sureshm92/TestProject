@@ -62,7 +62,7 @@ export default class HomePageParticipantNew extends LightningElement {
                         let username = this.currentMode.groupLabel;
                         let firstName = username.substring(0, username.indexOf(' '));
 
-                        this.userName = this.label.PPWELCOME + ', ' + firstName;
+                        this.userName = this.label.PPWELCOME + ', ' + firstName +'!';
                     }
                     if (this.participantState.pe) {
                         if (this.participantState.pe.Clinical_Trial_Profile__r) {
