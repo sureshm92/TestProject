@@ -90,8 +90,10 @@ public virtual without sharing class ResourceService {
                     whereClause +
                     ' ' +
                     'AND  (Expiration_Date__c > TODAY OR Expiration_Date__c = NULL)';
+                resources = getResources(whereClause, getPPOrderByClause());
+            } else {
+                resources = getResources(whereClause, getOrderByClause());
             }
-            resources = getResources(whereClause, getOrderByClause());
         }
         return resources;
     }
@@ -102,6 +104,10 @@ public virtual without sharing class ResourceService {
 
     protected virtual String getOrderByClause() {
         return 'ORDER BY Posting_Date__c DESC NULLS LAST';
+    }
+
+    protected virtual String getPPOrderByClause() {
+        return 'ORDER BY CreatedDate DESC NULLS LAST';
     }
 
     protected virtual ResourceService.ResourceWrapperContainer getErrorNoResources() {

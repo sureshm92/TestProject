@@ -30,9 +30,7 @@
                             {resourceTitle}</lightning-layout-item
                         >
                     </lightning-layout>
-                    <template if:false={isDocument}>
-                        
-                    </template>
+                    <template if:false={isDocument}> </template>
                 </lightning-layout-item>
             </lightning-layout>
             <hr />
@@ -115,7 +113,7 @@
                                 frameborder="0"
                                 src={documentLink}
                                 height="1000px"
-                                width="1336px"
+                                width="1250px"
                             >
                             </iframe>
                         </div>
@@ -126,7 +124,7 @@
         </div>
 
         <!--   FOOTER    -->
-        <div class="rr-width-limiter-pp side-padding footer-resource">
+        <div style="margin:-4px 0;" class="rr-width-limiter-pp side-padding footer-resource">
             <c-pp-community-footer> </c-pp-community-footer>
         </div>
     </template>
