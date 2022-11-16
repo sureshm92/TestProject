@@ -904,18 +904,18 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     studyAll=[];
     siteAll=[];
     startPos=0;
-    endPos=45000;
-    totalCount=45000;
-    counterLimit=45000;
+    endPos=20000;
+    totalCount=20000;
+    counterLimit=20000;
     isFirstTime=true;
     csvList=[];
     
     @api getExportAll(){ //resetexportall
         this.csvList=[];
         this.startPos=0;
-        this.endPos=45000;
-        this.totalCount=45000;
-        this.counterLimit=45000;
+        this.endPos=20000;
+        this.totalCount=20000;
+        this.counterLimit=20000;
         this.isFirstTime=true;
         this.handleExportall();
     }
@@ -942,12 +942,12 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                     finaltotalCount = 100000;
                 }
                 if (currentCount < finaltotalCount) {
-                    counterLimit = counterLimit + 45000;
+                    counterLimit = counterLimit + 20000;
                     this.counterLimit= counterLimit;
                 }
                 if (this.exportAllDatatemp.endPos < counterLimit && currentCount < finaltotalCount) {
                     this.startPos = this.endPos + 1;
-                    this.endPos = this.endPos + 45000;
+                    this.endPos = this.endPos + 20000;
                     this.startPos= this.startPos;
                     this.endPos= this.endPos;
                     this.handleExportall();
@@ -1330,33 +1330,40 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                     csvStringResult += '" "' + ',';
                 }
                 if (
-                    partList[i]['Medical_Record_Review_Status__c'] != undefined
+                    partList[i]['Participant_PrescreenerResponses__r'] != undefined
+                    && partList[i]['Participant_PrescreenerResponses__r'][0] != undefined
+                    && partList[i]['Participant_PrescreenerResponses__r'][0]['Status__c'] != undefined
                 ) {
                     csvStringResult +=
                         '"' +
-                        partList[i]['Medical_Record_Review_Status__c'] +
+                        partList[i]['Participant_PrescreenerResponses__r'][0]['Status__c'] +
                         '"' +
                         ',';
                 } else {
                     csvStringResult += '" "' + ',';
                 }
                 if (
-                    partList[i]['Medical_Record_Review_Completedby_Name__c'] != undefined
+                    partList[i]['Participant_PrescreenerResponses__r'] != undefined
+                    && partList[i]['Participant_PrescreenerResponses__r'][0] != undefined
+                    && partList[i]['Participant_PrescreenerResponses__r'][0]['Completed_by__r'] != undefined
+                    && partList[i]['Participant_PrescreenerResponses__r'][0]['Completed_by__r']['Name'] != undefined
                 ) {
                     csvStringResult +=
                         '"' +
-                        partList[i]['Medical_Record_Review_Completedby_Name__c'] +
+                        partList[i]['Participant_PrescreenerResponses__r'][0]['Completed_by__r']['Name'] +
                         '"' +
                         ',';
                 } else {
                     csvStringResult += '" "' + ',';
                 }
                 if (
-                    partList[i]['Medical_Record_Review_Completed_Date__c'] != undefined
+                    partList[i]['Participant_PrescreenerResponses__r'] != undefined
+                    && partList[i]['Participant_PrescreenerResponses__r'][0] != undefined
+                    && partList[i]['Participant_PrescreenerResponses__r'][0]['Completed_Date__c'] != undefined
                 ) {
                     csvStringResult +=
                         '"' +
-                        partList[i]['Medical_Record_Review_Completed_Date__c'] +
+                        partList[i]['Participant_PrescreenerResponses__r'][0]['Completed_Date__c'] +
                         '"' +
                         ',';
                 } else {
