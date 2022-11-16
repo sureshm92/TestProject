@@ -5,8 +5,7 @@ import createSupportCases from '@salesforce/apex/OptOutAndTechnicalSupportRemote
 import PPOPTOUTCOMMUNICATIONPREF from '@salesforce/label/c.Opt_Out_Update_Communication_Pref';
 import PPOPTOUTCOMMUNICATIONPREFHELP from '@salesforce/label/c.Opt_Out_Update_Communication_Pref_Help';
 import PPCPSUBMITBTN from '@salesforce/label/c.CP_Submit_Button';
-import PPOPTOUTSUCCESSMSG from '@salesforce/label/c.Opt_Out_Success_Message';
-
+import PPOPTOUTSUCCESSMSG from '@salesforce/label/c.PP_Opt_Out_Success_Message';
 
 
 export default class PpOptOutAndTechnicalSupport extends LightningElement {
