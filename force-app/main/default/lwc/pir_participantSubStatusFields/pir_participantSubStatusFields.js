@@ -16,6 +16,8 @@ import Task_Type_Not_Selected from '@salesforce/label/c.Task_Type_Not_Selected';
 import PG_RP_L_Not_selected from '@salesforce/label/c.PG_RP_L_Not_selected';
 import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
 import PIR_Initial_Visit_Validation from '@salesforce/label/c.PIR_Initial_Visit_Validation';
+import PIR_Initial_Visit_Signed_Date_Validation from '@salesforce/label/c.PIR_Initial_Visit_Signed_Date_Validation';
+import PIR_Signed_Date_Validation from '@salesforce/label/c.PIR_Signed_Date_Validation';
 import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save';
 import BTN_Yes from '@salesforce/label/c.BTN_Yes';
 import BTN_No from '@salesforce/label/c.BTN_No';
@@ -90,6 +92,8 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
     Task_Type_Not_Selected,
     PG_AC_Select,
     PIR_Initial_Visit_Validation,
+    PIR_Initial_Visit_Signed_Date_Validation,
+    PIR_Signed_Date_Validation,
     RH_RP_Record_Saved_Successfully,
     BTN_No,
     BTN_Yes,
@@ -1875,10 +1879,25 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
     let outcome = this.selectedOutcome;
 
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
-    //let tdyDt = this.todaydate();
+    let signedDate = this.participantrecord.Informed_Consent_Date__c;
+    if(signedDate != undefined){
+      let splitDate = signedDate.split('-');
+     signedDate = new Date(splitDate[0],splitDate[1]-1,splitDate[2]);
+    }
+    
+    let todayDt = new Date();
+    let intVistDt;
     let tdyDt = this.currentuserdate;
-    if (tdyDt < occuredDt) {
+     if(occuredDt != undefined){
+      let splitDate = occuredDt.split('-');
+      intVistDt = new Date(splitDate[0],splitDate[1]-1,splitDate[2]);
+    }
+    if((signedDate > todayDt) && (intVistDt > todayDt)){
+      this.showErrorToast(this.label.PIR_Initial_Visit_Signed_Date_Validation);
+    }else if (tdyDt < occuredDt) {
       this.showErrorToast(this.label.PIR_Initial_Visit_Validation);
+    }else if(signedDate > todayDt){
+      this.showErrorToast(this.label.PIR_Signed_Date_Validation);
     } else {
       let visitPln = 'null';
       if (this.participantrecord.Visit_Plan__c) {

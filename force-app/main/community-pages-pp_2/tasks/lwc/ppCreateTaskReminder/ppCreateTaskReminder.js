@@ -141,6 +141,8 @@ export default class PpCreateTaskReminder extends LightningElement {
                                         this.selectedReminderOption =
                                             this.initData.task.Remind_Me__c;
                                     }
+                                } else {
+                                    this.selectedReminderOption = this.initData.task.Remind_Me__c;
                                 }
 
                                 this.selectedReminderDate = this.initData.reminderDate;
@@ -420,6 +422,7 @@ export default class PpCreateTaskReminder extends LightningElement {
         this.selectedReminderDateTime = '';
         this.smsReminderOptIn = false;
         this.emailReminderOptIn = false;
+        this.handleReminderDataChange();
     }
 
     handleCustomEvent(eventName, reminderType, reminderDateTime) {

@@ -1,3 +1,78 @@
-body{
-    margin: 0;
+.main-content-div {
+    padding-left: 24px;
+    padding-right: 24px;
+}
+.padding-for-techSupportGroup {
+    padding-top: 50px;
+}
+ .slds-checkbox {
+    margin-top: 16px;
+    line-height: 1;
+}
+.slds-form-element__legend {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.25px;
+    color: #444444;
+    margin-bottom: 17px;
+    float: none !important;
+}
+.success-message-text {
+    font-size: 20px;
+    font-weight: 600;
+    color: #444444;
+    text-align: center;
+}
+.slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    color: #444444;
+    font-size: 16px;
+    letter-spacing: 0;
+    padding-top: 0;
+    line-height: 1.5rem;
+}
+.slds-checkbox .slds-checkbox__label {
+    display: flex;
+    align-items: flex-start;
+}
+.slds-checkbox .slds-checkbox__label .slds-checkbox_faux {
+    min-width: 16px;
+    margin-top: 4px;
+}
+
+.submit {
+    min-width: 80px;
+    height: 40px;
+    margin-bottom: 20px;
+}
+.submit-button-div {
+    margin-top: 45px;
+    margin-left: 80%;
+}
+ .checkLogo {
+    height: 25px;
+    width: 30px;
+}
+ .success-message-padding {
+    padding-top: 25px;
+}
+@media (max-width: 500px) {
+    .submit-button-div {
+        margin-left: 0%;
+        text-align: center;
+    }
+}
+
+.opt-out-header {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.25px;
+    color: #444444;
+    float: none !important;
+}
+
+.comm-italics {
+    font-style: italic;
+    font-size: 15px;
+    margin-bottom: 17px;
+    color: #444444;
 }

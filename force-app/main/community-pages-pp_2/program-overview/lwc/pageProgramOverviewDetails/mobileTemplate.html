@@ -5,7 +5,7 @@
                 <lightning-layout multiple-rows="true" vertical-align="center" horizontal-align="center" class="po-custom-card">
 
                     <lightning-layout-item size="12" class={breadCrumMobile}>
-                        <div id="variants" class="slds-p-vertical_x-small slds-grid slds-grid_vertical-align-center">                                
+                        <div id="variants" class="po-mb-17 slds-grid slds-grid_vertical-align-center">                                
                             <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="com-icon pointer">
@@ -22,19 +22,19 @@
 
                     <lightning-layout-item size="6" class="po-pl-0" padding="around-small">
                         <div class={overviewCss} onclick={overViewHandler}>
-                            <span>Overview</span>
+                            <span>{label.PPOVERVIEW}</span>
                         </div>
                     </lightning-layout-item>
                     <lightning-layout-item size="6" class="po-pr-12">
                         <div class={pcCss} onclick={participationHandler}>
-                            <span style="width: 100px;">Participation Criteria</span>
+                            <span class="pc-menu-label">{label.PPPARTICIPATIONCRITERIA}</span>
                         </div>
                     </lightning-layout-item>
 
                     <template if:true={tabContent}>
                         <lightning-layout-item size="12">
                         <div class="po-tab-overview"> 
-                            <p class="po-pb-10"><lightning-formatted-text value="Objective" class="po-tab-header"></lightning-formatted-text></p>   
+                            <p class="po-pb-10"><lightning-formatted-text value={label.PPOBJECTIVE}  class="po-tab-header"></lightning-formatted-text></p>   
                             <div class="po-tab-content">
                                 <template if:true={clinicaltrailrecrd.Brief_Summary__c}>
                                     <lightning-formatted-rich-text value={clinicaltrailrecrd.Brief_Summary__c}></lightning-formatted-rich-text>
@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="po-tab-overview po-mt-10"> 
-                            <p class="po-pb-10"><lightning-formatted-text value="Program Overview" class="po-tab-header"></lightning-formatted-text></p>   
+                            <p class="po-pb-10"><lightning-formatted-text value={label.PPPROGRAMOVERVIEW} class="po-tab-header"></lightning-formatted-text></p>   
                             <div class="po-tab-content">
                                 <template if:true={clinicaltrailrecrd.Detailed_Description__c}>
                                     <lightning-formatted-rich-text value={clinicaltrailrecrd.Detailed_Description__c}></lightning-formatted-rich-text>
@@ -56,7 +56,7 @@
                     <template if:false={tabContent}>
                         <lightning-layout-item size="12">
                         <div class="po-tab-pc">
-                            <p class={parCriterionMRight}><lightning-formatted-text value="To be eligible to participate in the program, one must meet the following criteria:" class="po-pc-text"></lightning-formatted-text></p>   
+                            <p class={parCriterionMRight}><lightning-formatted-text value={label.PPELIGIBLECRITERIA} class="po-pc-text"></lightning-formatted-text></p>   
                             <div class={accordianMargin}>
                             <c-custom-base-accordion  clinicaltrailrecrd ={clinicaltrailrecrd} clinicaltrail-accordion-data ={ctpAccordionData} allow-all-section-default-open =false allow-only-one-section-at-time =false ></c-custom-base-accordion>  
                             </div>

@@ -260,6 +260,7 @@ export default class PpCreateTask extends LightningElement {
         this.initialLoad = false;
         this.taskDateTime = event.detail.compdatetime;
         this.taskDueDate = event.detail.compdate;
+        this.taskDueTime = '';
         this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
     }
     handleOnlyTime(event) {
@@ -403,6 +404,11 @@ export default class PpCreateTask extends LightningElement {
                 remindSMS: this.task.Remind_Using_SMS__c ? this.task.Remind_Using_SMS__c : '',
                 reminderDateTime: this.taskReminderDate ? this.taskReminderDate : ''
             };
+        }
+        if (this.initialRecord) {
+            if (this.initialRecord.remindme != 'Custom') {
+                this.initialRecord.reminderDateTime = '';
+            }
         }
         var upDateRequired =
             JSON.stringify(this.initialRecord) == JSON.stringify(this.updatedRecord);
