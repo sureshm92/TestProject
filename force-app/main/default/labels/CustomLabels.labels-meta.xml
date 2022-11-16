@@ -10733,6 +10733,47 @@ The expected format is REF##### to REF########</value>
         <value>Hide</value>
     </labels>
     <labels>
+        <fullName>PP_Can_t_rembeber_my_username</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Can&apos;t rembeber my username</shortDescription>
+        <value>I cannot remember my username</value>
+    </labels>
+    <labels>
+        <fullName>PP_Don_t_want_to_receive</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Don&apos;t want to receive email</shortDescription>
+        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to a specific user request, e.g. password reset email) from IQVIA Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>PP_Don_t_want_to_be_contacted_via_SMS</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Don_t_want_to_be_contacted_via_SMS</shortDescription>
+        <value>I do not want to be contacted via SMS/text messages from IQVIA Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>PP_Don_t_want_to_be_contacted</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Don&apos;t want to be contacted</shortDescription>
+        <value>I do not want to be contacted via phone(voice call) from IQVIA Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>PP_Additional_Tech_Support</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription> PP Additional Tech Support</shortDescription>
+        <value>I need additional technical support</value>
+    </labels>
+
+    <labels>
         <fullName>PP_Login_Form_Show</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19156,7 +19197,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Date_Unavailable</shortDescription>
-        <value>No Date Entered</value>
+        <value>No date entered</value>
     </labels>
     <labels>
         <fullName>PP_Daytime_Phone</fullName>
@@ -20068,7 +20109,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Time_Unavailable</shortDescription>
-        <value>No Time Entered</value>
+        <value>No time entered</value>
     </labels>
     <labels>
         <fullName>PP_TimeZone_Location</fullName>
@@ -29301,5 +29342,22 @@ Please contact the Study Team for further updates or please login for additional
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##SurveyName&lt;/span&gt;
 
 &lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##expirationDate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>PP_Opt_Out_Category</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>Opt Out of communication</value>
+         
+    </labels>
+    <labels>
+        <fullName>PP_Technical_Support_Category</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Technical Support</shortDescription>
+        <value>Get Technical Support</value>
     </labels>
 </CustomLabels>
