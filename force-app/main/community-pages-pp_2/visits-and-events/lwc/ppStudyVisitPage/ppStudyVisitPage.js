@@ -234,39 +234,39 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     }
 
     onUpcomingClick() {
-            this.initialPageLoad = false;
-            this.showChild = false;
-            this.cbload = true;
-            this.showList = false;
-            this.past = false;
-            this.showUpcomingVisits = true;
-            if (this.upcomingVisits.length > 0) {
-                this.isUpcomingVisits = true;
-                this.visitid = this.upcomingVisitId;
-                this.visitName = this.upcomingVisits[0].visit.Name;
-                this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
-                this.visitStatus = this.upcomingVisits[0].visit.Status__c;
-                if (this.isMobile == false) {
-                    this.template
-                        .querySelector('[data-id="' + this.column2 + '"]')
-                        .classList.remove('hide');
-                    this.template
-                        .querySelector('[data-id="' + this.column3 + '"]')
-                        .classList.remove('hide');
-                }
-                this.createEditTask();
-            } else {
-                this.isUpcomingVisits = false;
-                this.visitid = '';
-                this.visitName = '';
-                this.plannedDate = '';
-                this.visitStatus = '';
+        this.initialPageLoad = false;
+        this.showChild = false;
+        this.cbload = true;
+        this.showList = false;
+        this.past = false;
+        this.showUpcomingVisits = true;
+        if (this.upcomingVisits.length > 0) {
+            this.isUpcomingVisits = true;
+            this.visitid = this.upcomingVisitId;
+            this.visitName = this.upcomingVisits[0].visit.Name;
+            this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
+            this.visitStatus = this.upcomingVisits[0].visit.Status__c;
+            if (this.isMobile == false) {
+                this.template
+                    .querySelector('[data-id="' + this.column2 + '"]')
+                    .classList.remove('hide');
+                this.template
+                    .querySelector('[data-id="' + this.column3 + '"]')
+                    .classList.remove('hide');
             }
-            const objChild = this.template.querySelector('c-pp-r-r-icon-splitter');
-            if(objChild != null){
-                objChild.resetValues();
-                objChild.handleOnVisitClick();
-            }
+            this.createEditTask();
+        } else {
+            this.isUpcomingVisits = false;
+            this.visitid = '';
+            this.visitName = '';
+            this.plannedDate = '';
+            this.visitStatus = '';
+        }
+        const objChild = this.template.querySelector('c-pp-r-r-icon-splitter');
+        if (objChild != null) {
+            objChild.resetValues();
+            objChild.handleOnVisitClick();
+        }
     }
 
     onPastClick() {
@@ -417,14 +417,16 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 if (!this.past) {
-                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c = 
-                    this.visitdata.visitDate;
+                    this.upcomingVisits[
+                        this.selectedIndex
+                    ].visit.Planned_Date__c = this.visitdata.visitDate;
                 }
                 if (this.upcomingVisits.length > 0) {
                     if (this.visitdata.visitDate && this.showUpcomingVisits) {
                         this.upcomingVisits[this.selectedIndex].noVisitDate = false;
-                        this.plannedDate = 
-                        this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
+                        this.plannedDate = this.upcomingVisits[
+                            this.selectedIndex
+                        ].visit.Planned_Date__c;
                     } else {
                         this.upcomingVisits[this.selectedIndex].noVisitDate = true;
                         this.plannedDate = '';
