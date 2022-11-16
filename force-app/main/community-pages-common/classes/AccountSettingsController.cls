@@ -3,6 +3,7 @@
  */
 public without sharing class AccountSettingsController {
     public static String loggedInUserMode;
+    public static ParticipantService.ParticipantState participantState;
     public static final String USER_MODE_HCP = 'HCP';
     public static Boolean isAdultParticipant = false;
     public static Boolean isEmailAvailabelForParticipant = false;
@@ -92,7 +93,7 @@ public without sharing class AccountSettingsController {
                     );
                     ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
                         .getState();
-
+                        initData.participantState = participantState;
                     List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>();
                     List<Id> peIds = new List<Id>();
                     peIds = PatientDelegateService.getAvailablePEIdsForContact(
@@ -725,6 +726,9 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public ConsentPreferenceData consentPreferenceData = new ConsentPreferenceData();
         @AuraEnabled
         public ProgramOverViewData programOverViewData = new ProgramOverViewData();
+        @AuraEnabled
+        public ParticipantService.ParticipantState participantState;
+
     }
 
     public class ContactSectionData {
