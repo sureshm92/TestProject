@@ -1,4 +1,5 @@
 <template>
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <template if:true={isInitialized}>
         <article class="slds-card header-card">
             <template if:true={desktop}>
@@ -16,12 +17,13 @@
                 </div>
             </template>
             <template if:true={isUpcomingDetails}>
+                <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
                 <div class="slds-card__body slds-card__body_inner card-wrap">
                     <article class="slds-card slds-card_boundary container-card">
                         <template if:false={desktop}>
                             <p class="uc-text">UPCOMING VISITS</p>
                         </template>
-                        <div class="slds-card__body slds-card__body_inner content card-wrap">
+                        <div class="content card-wrap">
                             <div class="slds-card-wrapper slds-card_boundary visit-card">
                                 <article
                                     class="slds-card slds-has-bottom-magnet slds-has-bottom-magnet"
@@ -47,15 +49,12 @@
                                     >
                                         <div class="slds-media__figure icon">
                                             <c-web-icon
-                                                icon-size="medium"
+                                                icon-size="small"
                                                 icon-name="calendar"
                                                 data-id="calendar"
                                                 icon-color="#00A3E0"
                                             >
                                             </c-web-icon>
-                                            <span class="slds-assistive-text"
-                                                >{labels.visit_calendar}</span
-                                            >
                                         </div>
                                         <div class="slds-media__body">
                                             <div class="slds-card__header-title">
@@ -92,15 +91,12 @@
                                         >
                                             <div class="slds-media__figure icon">
                                                 <c-web-icon
-                                                    icon-size="medium"
+                                                    icon-size="small"
                                                     icon-name="time_clock"
                                                     data-id="clock"
                                                     icon-color="#00A3E0"
                                                 >
                                                 </c-web-icon>
-                                                <span class="slds-assistive-text"
-                                                    >{labels.visit_clock}</span
-                                                >
                                             </div>
                                             <div class="slds-media__body">
                                                 <div class="slds-card__header-title">
@@ -133,94 +129,60 @@
                                     class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
                                 >
                                     <div class="slds-card__header slds-grid card-wrap">
-                                        <header
-                                            class="slds-media slds-media_center slds-has-flexi-truncate"
-                                        >
-                                            <div class="slds-media__figure icon">
-                                                <c-web-icon
-                                                    icon-size="medium"
+                                       
+                                            <div style="display:inline-flex">
+                                                <div>                                            
+                                                    <c-web-icon
+                                                    icon-size="small"
                                                     icon-name="location_pin"
                                                     data-id="location"
                                                     icon-color="#00A3E0"
                                                 >
-                                                </c-web-icon>
-                                                <span class="slds-assistive-text"
-                                                    >{labels.Upcoming_Visit_Location}</span
-                                                >
-                                            </div>
-                                            <div class="slds-media__body">
-                                                <div class="slds-card__header-title">
-                                                    <div
-                                                        class="slds-card__header-link slds-truncate visit-text"
-                                                        title="location"
-                                                    >
-                                                        <span>{siteTitle}</span>
-                                                        <p class="location">{siteLocation}</p>
-                                                        <p class="location">{sitePhone}</p>
-                                                    </div>
+                                                </c-web-icon></div>
+                                                <div class="slds-m-left_small">
+                                                    <p class="site-title-text">{siteTitle}</p>
+                                                    <p>{siteLocation}</p>
+                                                    <p>{sitePhone}</p>
                                                 </div>
                                             </div>
-                                        </header>
+                                        
                                     </div>
                                 </article>
                             </div>
                             <hr />
-                            <article class="slds-card icon-card">
+                            <article class="icon-card">
                                 <template if:true={iconDetails}>
-                                    <div class="slds-card__header slds-grid content1">
-                                        <div class="slds-col expect-text content1">
-                                            {labels.What_to_Expect}
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="slds-card__header slds-grid slds-wrap slds-grid_align-spread"
-                                    >
-                                        <template for:each={iconDetails} for:item="icon">
-                                            <div class="slds-col slds-size_5-of-12" key={icon.Name}>
-                                                <div
-                                                    class="slds-media slds-media_center slds-has-flexi-truncate"
+                                <div class="site-title-text slds-m-left_large slds-m-top_small" style="margin-bottom: 5px;">
+                                    {labels.What_to_Expect}
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <template for:each={iconDetails} for:item="icon">
+                                        <div class="slds-col slds-size_6-of-12 slds-p-around_x-small" style="display:inline-flex" key={icon.Name}>
+                                            <div style="padding-right: 10px;">   
+                                                <c-web-icon
+                                                icon-size="medium-large"
+                                                icon-name={icon.Name}
+                                                data-id={icon.Label__c}
+                                                data-name={icon.Name}
+                                                icon-color="#00A3E0"
                                                 >
-                                                    <div class="slds-media__figure expect-icon">
-                                                        <c-web-icon
-                                                            icon-size="medium"
-                                                            icon-name={icon.Name}
-                                                            data-id={icon.Label__c}
-                                                            data-name={icon.Name}
-                                                            icon-color="#00A3E0"
-                                                        >
-                                                        </c-web-icon>
-                                                        <span class="slds-assistive-text"
-                                                            >{icon.Label__c}</span
-                                                        >
-                                                    </div>
-                                                    <div class="slds-media__body">
-                                                        <p
-                                                            class="slds-card__header-link slds-truncate icon-name"
-                                                            title="name"
-                                                        >
-                                                            <span>{icon.Label__c}</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
+                                                </c-web-icon>
                                             </div>
-                                        </template>
+                                            <div class="slds-card__header-link slds-truncate icon-name">
+                                                {icon.Label__c}
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                                <template if:true={moreIconsCount}>
+                                <div class="slds-m-top_xx-small more" style="text-align:center">
+                                    + {moreIconsCount} {labels.MORE}
+                                </div>
+                                </template>
+                                <template if:false={moreIconsCount}>
+                                    <div class="slds-m-top_xx-small more" style="text-align:center">
                                     </div>
-                                    <template if:true={moreIconsCount}>
-                                        <div
-                                            class="slds-card__body slds-card__body_inner slds-grid"
-                                        >
-                                            <div class="slds-col more">
-                                                + {moreIconsCount} {labels.MORE}
-                                            </div>
-                                        </div>
-                                    </template>
-                                    <template if:false={moreIconsCount}>
-                                        <div
-                                            class="slds-card__body slds-card__body_inner slds-grid"
-                                        >
-                                            <div class="slds-col more"></div>
-                                        </div>
-                                    </template>
+                                </template>
                                 </template>
                                 <template if:false={iconDetails}>
                                     <div class="no-expect">{labels.NO_EXPECT}</div>
@@ -233,9 +195,6 @@
                                     >
                                         <a href="visits"
                                             >{labels.View_Visit_Details}
-                                            <span class="slds-assistive-text"
-                                                >{labels.View_Visit_Details}</span
-                                            >
                                         </a>
                                     </div>
                                 </template>
@@ -245,12 +204,13 @@
                 </div>
             </template>
             <template if:false={isUpcomingDetails}>
+                <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
                 <div class="slds-card__body slds-card__body_inner card-wrap">
                     <article class="slds-card slds-card_boundary container-card-upcoming">
                         <template if:false={desktop}>
                             <p class="uc-text">UPCOMING VISITS</p>
                         </template>
-                        <div class="slds-card__body slds-card__body_inner content">
+                        <div class="slds-card__body slds-card__body_inner upcoming-m-top">
                             <div
                                 class="slds-card-wrapper slds-card_boundary slds-align_absolute-center visit-card-upcoming"
                             >
@@ -272,7 +232,6 @@
                             class="slds-card__footer-action slds-align_absolute-center label"
                             href="visits"
                             >{labels.View_Visit_Details}
-                            <span class="slds-assistive-text">{labels.View_Visit_Details}</span>
                         </a>
                     </footer>
                 </template>

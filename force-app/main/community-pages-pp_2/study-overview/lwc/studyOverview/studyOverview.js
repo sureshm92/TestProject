@@ -78,7 +78,6 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
 
         getisRTL()
             .then((data) => {
-                debugger;
                 this.isRTL = data;
             })
             .catch(function (error) {
