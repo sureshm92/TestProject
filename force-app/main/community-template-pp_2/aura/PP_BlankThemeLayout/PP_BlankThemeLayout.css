@@ -46,14 +46,14 @@
 .THIS .logo-block {
     font-size: 30px;
     margin: auto;
-    margin-top: 113px;
-    margin-bottom: 113px;
-    width: 650px;
+    margin-top: 125px;
+    margin-bottom: 182px;
     box-sizing: border-box;
-    border: 1px solid #e9e9e9;
-    border-radius: 4px;
+    height: 712px;
+    width: 613px;
+    border-radius: 39px;
     background-color: #ffffff;
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    box-shadow: 0 0 64px 0 rgb(0 0 0 / 25%);
 }
 
 .THIS .rr-link {
@@ -79,6 +79,40 @@
     background-color: #213e7e;
 }
 
+.THIS .imgMargins {
+    margin-top: -1px;
+}
+
+.THIS .page-content {
+    color: #000;
+    margin-top: -203px;
+    padding-left: 48px;
+}
+
+.THIS .cusContentMargin {
+    margin-left: -24px;
+}
+
+.THIS .footerOptOut {
+    height: 60px;
+    border-radius: 0 0 24px 24px;
+    background-color: #f2f2f2;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: right;
+}
+
+.THIS .poweredBy {
+    color: #999999;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+
 @media (max-width: 500px) {
     .THIS .logo-block {
         width: 80%;
@@ -91,4 +125,37 @@
         padding: 0 20px;
         margin-top: 10px;
     }
+}
+
+.THIS .iqvia {
+    height: 38px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 32px;
+    letter-spacing: 0;
+    line-height: 38px;
+}
+
+.THIS .patient-portal {
+    height: 38px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 35px;
+}
+
+.THIS .for-participants-c {
+    height: 22px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 22px;
+}
+
+.THIS .mb-16 {
+    margin-bottom: 16px;
 }
