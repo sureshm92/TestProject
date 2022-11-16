@@ -29343,4 +29343,21 @@ Please contact the Study Team for further updates or please login for additional
 
 &lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##expirationDate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
+    <labels>
+        <fullName>PP_Opt_Out_Category</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>Opt Out of communication</value>
+         
+    </labels>
+    <labels>
+        <fullName>PP_Technical_Support_Category</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Technical Support</shortDescription>
+        <value>Get Technical Support</value>
+    </labels>
 </CustomLabels>
