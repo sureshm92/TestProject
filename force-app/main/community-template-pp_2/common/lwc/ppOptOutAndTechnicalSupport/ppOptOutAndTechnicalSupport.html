@@ -1,4 +1,11 @@
 <template>
+	 <div class="spinner">
+      <template if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading" variant="brand" size="medium" class="spins">
+        </lightning-spinner>
+      </template>
+    </div>
+
     <div class={displayLabel}>
         <h3 class="opt-out-header">{label.PPOPTOUTCOMMUNICATIONPREF}</h3>
         <p class="comm-italics">{label.PPOPTOUTCOMMUNICATIONPREFHELP}</p>

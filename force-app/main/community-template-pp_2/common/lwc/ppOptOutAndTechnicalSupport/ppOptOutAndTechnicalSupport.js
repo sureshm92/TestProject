@@ -5,8 +5,7 @@ import createSupportCases from '@salesforce/apex/OptOutAndTechnicalSupportRemote
 import PPOPTOUTCOMMUNICATIONPREF from '@salesforce/label/c.Opt_Out_Update_Communication_Pref';
 import PPOPTOUTCOMMUNICATIONPREFHELP from '@salesforce/label/c.Opt_Out_Update_Communication_Pref_Help';
 import PPCPSUBMITBTN from '@salesforce/label/c.CP_Submit_Button';
-import PPOPTOUTSUCCESSMSG from '@salesforce/label/c.Opt_Out_Success_Message';
-
+import PPOPTOUTSUCCESSMSG from '@salesforce/label/c.PP_Opt_Out_Success_Message';
 
 
 export default class PpOptOutAndTechnicalSupport extends LightningElement {
@@ -54,6 +53,7 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
     }
     connectedCallback(){
         this.disabled = true;
+		this.showSpinner = true;
         let language = communityService.getUrlParameter('language');
         if (!language || language === '') {
             language = 'en_US';
@@ -70,9 +70,12 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
                     this.techSupportSubCategoryList = item.labelValueItemList;
                 }
             }
+			 this.showSpinner = false;
            })
         .catch(function (error) {
             console.error(JSON.stringify(error));
+			this.showSpinner = false;
+
         });
     }
     handleChange(event) {
