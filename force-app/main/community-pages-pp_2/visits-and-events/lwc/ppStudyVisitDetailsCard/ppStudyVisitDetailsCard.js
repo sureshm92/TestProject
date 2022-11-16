@@ -6,7 +6,7 @@ import getSessionId from '@salesforce/apex/TelevisitMeetBannerController.getSess
 import { loadScript } from 'lightning/platformResourceLoader';
 import recheckOptIns from '@salesforce/apex/TaskEditRemote.checkSmsEmailOptIn';
 import updatePatientVisits from '@salesforce/apex/TaskEditRemote.updatePatientVisits';
-import upsertTaskData from '@salesforce/apex/TaskEditRemote.upsertTaskData';
+import createTask from '@salesforce/apex/TaskEditRemote.upsertTaskForVisit';
 import deleteReminder from '@salesforce/apex/TaskEditRemote.deleteReminder';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import DEVICE from '@salesforce/client/formFactor';
@@ -81,6 +81,27 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     @track diffInMinutes;
     @track currentBrowserTime;
     @track communicationChanged = false;
+    @track initData = {
+        reminderDate: null,
+        emailOptIn: false,
+        smsOptIn: false,
+        reminderOption: null,
+        planDate: null,
+        createdByAdmin: false
+    };
+    @track paramTask = {
+        sobjectType: 'Task',
+        Task_Type__c: 'Visit',
+        Remind_Me__c: null,
+        Remind_Using_Email__c: false,
+        Remind_Using_SMS__c: false,
+        ReminderDateTime: null,
+        Subject: null,
+        Task_Code__c: null,
+        Id: null,
+        CronTriggerId__c: null,
+        Is_Reminder_Sent__c: false
+    };
     booleanFalse = false;
     booleanTrue = true;
     spinner;
@@ -93,19 +114,19 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-        this.spinner = this.template.querySelector('c-web-spinner');     
-                loadScript(this, COMETD_LIB).then(()=>{        
-                    loadScript(this, moment).then(() => {
-                        loadScript(this, momentTZ).then(() => {
-                            this.currentBrowserTime = window.moment();
-                            var localOffset = this.currentBrowserTime.utcOffset();
-                            var userTime = this.currentBrowserTime.tz(TIME_ZONE);
-                            var centralOffset = userTime.utcOffset();
-                            this.diffInMinutes = centralOffset - localOffset;
-                            this.initializeData(true);
-                        });
-                    });
+        this.spinner = this.template.querySelector('c-web-spinner');
+        loadScript(this, COMETD_LIB).then(() => {
+            loadScript(this, moment).then(() => {
+                loadScript(this, momentTZ).then(() => {
+                    this.currentBrowserTime = window.moment();
+                    var localOffset = this.currentBrowserTime.utcOffset();
+                    var userTime = this.currentBrowserTime.tz(TIME_ZONE);
+                    var centralOffset = userTime.utcOffset();
+                    this.diffInMinutes = centralOffset - localOffset;
+                    this.initializeData(true);
+                });
             });
+        });
     }
 
     loadSessionId() {
@@ -137,10 +158,10 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 this.showToast(message, message, 'error');
             });
     }
-    
+
     initializeData(isInitial) {
         this.spinner = this.template.querySelector('c-web-spinner');
-        if(this.spinner!=null && this.spinner != undefined){
+        if (this.spinner != null && this.spinner != undefined) {
             this.spinner.show();
         }
         recheckOptIns()
@@ -148,14 +169,12 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 let initialData = result[0];
                 this.emailOptIn = !initialData.Permit_Mail_Email_contact_for_this_study__c;
                 this.smsOptIn = !initialData.Permit_SMS_Text_for_this_study__c;
-                this.email = this.emailOptIn
-                    ? false
-                    : this.email;
+                this.email = this.emailOptIn ? false : this.email;
                 this.sms = this.smsOptIn ? false : this.sms;
-                if(this.spinner!=null && this.spinner != undefined){
+                if (this.spinner != null && this.spinner != undefined) {
                     this.spinner.hide();
                 }
-                if(isInitial){
+                if (isInitial) {
                     this.loadSessionId();
                 }
             })
@@ -767,30 +786,20 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         var visitTask = '';
 
         if (this.remindmepub !== this.label.none && this.remindmepub !== '') {
-            if (this.taskid) {
-                visitTask = {
-                    Id: this.taskid,
-                    Subject: this.tasksubject,
-                    Patient_Visit__c: this.visitid,
-                    Remind_Me__c: this.remindmepub,
-                    Reminder_Date__c: this.selectedReminderDateTime,
-                    Remind_Using_Email__c: this.email,
-                    Remind_Using_SMS__c: this.sms,
-                    Is_Reminder_Sent__c: false,
-                    Task_Type__c: 'Visit'
-                };
-            } else {
-                visitTask = {
-                    Subject: this.tasksubject,
-                    Patient_Visit__c: this.visitid,
-                    Remind_Me__c: this.remindmepub,
-                    Reminder_Date__c: this.selectedReminderDateTime,
-                    Remind_Using_Email__c: this.email,
-                    Remind_Using_SMS__c: this.sms,
-                    Is_Reminder_Sent__c: false,
-                    Task_Type__c: 'Visit'
-                };
-            }
+            if (this.selectedReminderDateTime)
+                this.initData.reminderDate = this.selectedReminderDateTime;
+            if (this.email) this.initData.emailOptIn = this.email;
+            if (this.sms) this.initData.smsOptIn = this.sms;
+            if (this.remindmepub) this.initData.reminderOption = this.remindmepub;
+            if (this.visitDateTime) this.initData.planDate = this.visitDateTime;
+            if (this.visitid) this.initData.visitId = this.visitid;
+            if (this.email) this.paramTask.Remind_Using_Email__c = this.email;
+            if (this.sms) this.paramTask.Remind_Using_SMS__c = this.sms;
+            if (this.selectedReminderDateTime)
+                this.paramTask.ReminderDateTime = this.selectedReminderDateTime;
+            this.paramTask.Subject = this.tasksubject;
+            if (this.taskid) this.paramTask.Id = this.taskid;
+            visitTask = this.initData + this.paramTask;
         }
         if (this.visitDateChanged) {
             updatePatientVisits({
@@ -798,8 +807,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             })
                 .then((result) => {
                     if ((this.reminderChanged || this.reminderDateChanged) && visitTask !== '') {
-                        upsertTaskData({
-                            task: JSON.stringify(visitTask)
+                        createTask({
+                            wrapper: JSON.stringify(this.initData),
+                            paramTask: JSON.stringify(this.paramTask)
                         })
                             .then((result) => {
                                 const event = new ShowToastEvent({
@@ -848,8 +858,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                     this.showErrorToast('Error occured', error.message, 'error');
                 });
         } else if (this.reminderChanged && visitTask !== '') {
-            upsertTaskData({
-                task: JSON.stringify(visitTask)
+            createTask({
+                wrapper: JSON.stringify(this.initData),
+                paramTask: JSON.stringify(this.paramTask)
             })
                 .then((result) => {
                     const event = new ShowToastEvent({
