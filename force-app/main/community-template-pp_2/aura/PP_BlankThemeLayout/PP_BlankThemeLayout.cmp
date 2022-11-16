@@ -24,11 +24,11 @@
                     <lightning:layout multipleRows="true">
 
                         <lightning:layoutItem size="12" class="mb-16">
-                            <p class="iqvia"> IQVIA <span class="patient-portal">Patient Portal</span></p>
+                            <p class="iqvia"> {!$Label.c.RH_Masked_IQVIA_User} <span class="patient-portal">{!$Label.c.Community_PP}</span></p>
                         </lightning:layoutItem>
 
                         <lightning:layoutItem size="12" class="mb-16">
-                            <p class="for-participants-c"> For Participants &amp; Caregivers</p>
+                            <p class="for-participants-c">{!$Label.c.OptOut_PP_Subheader}</p>
                         </lightning:layoutItem>
 
                         <lightning:layoutItem size="12" class="cusContentMargin">
@@ -36,7 +36,7 @@
                         </lightning:layoutItem>
 
                         <lightning:layoutItem size="12" class="footerOptOut">                                                    
-                            <span class="poweredBy">Powered by</span>                           
+                            <span class="poweredBy">{!$Label.c.PP_Powered_by_Footer}</span>                           
                             <span> <img src="{!$Resource.PP_DesktopLogos + '/iqvia_logo.svg'}" /></span>
                         </lightning:layoutItem>                       
 
