@@ -108,9 +108,9 @@
                             </template>
                             <template if:false={showVisitCardMobile}>
                                 <div class="visit">
-                                    <div class="icon-marg taskIconPosition">
+                                    <div class="icon-updates">
                                         <c-web-icon
-                                            class="svg-icon"
+                                            class="svg-icon svg-icon-with-text"
                                             icon-size="medium"
                                             icon-name="calendar"
                                             data-id="calendar"
@@ -128,23 +128,6 @@
 
                 <div class="slds-col">
                     <div class="tasks">
-                        <template if:false={taskList}>
-                            <template if:true={showVisitCardMobile}>
-                                <div class="icon-updates">
-                                    <c-web-icon
-                                        class="svg-icon svg-icon-with-text"
-                                        icon-size="medium"
-                                        icon-name="check-circle-1-alternate"
-                                        data-id="checkcirclealternate"
-                                        icon-color="#ffffff"
-                                        onclick={showTaskList}
-                                    >
-                                    </c-web-icon>
-                                </div>
-
-                                <p class="p-text">Tasks</p>
-                            </template>
-                        </template>
                         <template if:true={taskList}>
                             <template if:false={showVisitCardMobile}>
                                 <div class="icon-updates taskIconPosition">

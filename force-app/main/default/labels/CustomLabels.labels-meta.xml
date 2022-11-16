@@ -19197,7 +19197,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Date_Unavailable</shortDescription>
-        <value>No Date Entered</value>
+        <value>No date entered</value>
     </labels>
     <labels>
         <fullName>PP_Daytime_Phone</fullName>
@@ -20109,7 +20109,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Time_Unavailable</shortDescription>
-        <value>No Time Entered</value>
+        <value>No time entered</value>
     </labels>
     <labels>
         <fullName>PP_TimeZone_Location</fullName>
