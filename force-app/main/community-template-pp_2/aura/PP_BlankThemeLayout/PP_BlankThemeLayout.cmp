@@ -34,14 +34,14 @@
                         <lightning:layoutItem size="12" class="cusContentMargin">
                             <div class="body-components">{!v.body}</div>
                         </lightning:layoutItem>
-
-                        <lightning:layoutItem size="12" class="footerOptOut">                                                    
-                            <span class="poweredBy">{!$Label.c.PP_Powered_by_Footer}</span>                           
-                            <span> <img src="{!$Resource.PP_DesktopLogos + '/iqvia_logo.svg'}" /></span>
-                        </lightning:layoutItem>                       
-
                     </lightning:layout>
                 </div>
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="footerOptOut">                                                    
+                        <span class="poweredBy">{!$Label.c.PP_Powered_by_Footer}</span>                           
+                        <span> <img class="img-dimensions" src="{!$Resource.IQVIA_Logo + '/IQVIALogo.png'}" /></span>
+                    </lightning:layoutItem>   
+                </lightning:layout>                 
             </div>
         </div>
     </div>

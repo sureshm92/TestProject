@@ -52,13 +52,16 @@
 }
 
 .submit {
-    min-width: 80px;
-    height: 40px;
-    margin-bottom: 20px;
+    height: 32px;
+    width: 132px;
+    border-radius: 16px;
+    background-color: #0768FD;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04), 0 4px 8px 0 rgba(7,104,253,0.32);
+    margin-bottom: 32px;
 }
 .submit-button-div {
-    margin-top: 45px;
-    margin-left: 80%;
+    /* margin-top: 45px;
+    margin-left: 80%; */
 }
 .checkLogo {
     height: 25px;
@@ -105,4 +108,26 @@
     font-weight: 500;
     letter-spacing: 0;
     line-height: 24px;
+}
+
+.get-technical-suppor {
+    height: 24px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 24px;
+  }
+
+.mb-16{
+    margin-bottom: 16px;
+}
+
+.mb-12{
+    margin-bottom: 12px;
+}
+
+.ml-24{
+    margin-left: 24px;
 }
