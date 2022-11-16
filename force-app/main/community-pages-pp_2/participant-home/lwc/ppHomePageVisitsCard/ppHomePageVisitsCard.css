@@ -85,7 +85,19 @@ hr {
     height: 1.57%;
 } */
 .expect-icon {
-    height: 2.32%;
+    padding-right: 10px;
+}
+
+.text-centre {
+    text-align:center;
+}
+
+.detail-section{
+    display:inline-flex;
+}
+
+.bottom-margin{
+    margin-bottom: 5px;
 }
 .expect-text {
     height: 2.36%;

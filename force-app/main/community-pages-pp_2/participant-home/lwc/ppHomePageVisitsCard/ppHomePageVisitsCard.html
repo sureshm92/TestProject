@@ -130,7 +130,7 @@
                                 >
                                     <div class="slds-card__header slds-grid card-wrap">
                                        
-                                            <div style="display:inline-flex">
+                                            <div class="detail-section">
                                                 <div>                                            
                                                     <c-web-icon
                                                     icon-size="small"
@@ -152,13 +152,13 @@
                             
                             <article class="icon-card">
                                 <template if:true={iconDetails}>
-                                <div class="site-title-text slds-m-left_large slds-m-top_small" style="margin-bottom: 5px;">
+                                <div class="site-title-text slds-m-left_large slds-m-top_small bottom-margin">
                                     {labels.What_to_Expect}
                                 </div>
                                 <div class="slds-grid slds-wrap">
                                     <template for:each={iconDetails} for:item="icon">
-                                        <div class="slds-col slds-size_6-of-12 slds-p-around_x-small" style="display:inline-flex" key={icon.Name}>
-                                            <div style="padding-right: 10px;">   
+                                        <div class="slds-col slds-size_6-of-12 slds-p-around_x-small detail-section" key={icon.Name}>
+                                            <div class="expect-icon">   
                                                 <c-web-icon
                                                 icon-size="medium-large"
                                                 icon-name={icon.Name}
@@ -175,12 +175,12 @@
                                     </template>
                                 </div>
                                 <template if:true={moreIconsCount}>
-                                <div class="slds-m-top_xx-small more" style="text-align:center">
+                                <div class="slds-m-top_xx-small more text-centre">
                                     + {moreIconsCount} {labels.MORE}
                                 </div>
                                 </template>
                                 <template if:false={moreIconsCount}>
-                                    <div class="slds-m-top_xx-small more" style="text-align:center">
+                                    <div class="slds-m-top_xx-small more text-centre">
                                     </div>
                                 </template>
                                 </template>
