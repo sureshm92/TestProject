@@ -8833,6 +8833,13 @@ Release 4.0 includes additional details around the screening process, which has 
         <value>Powered by IQVIA © 2022. All rights reserved.</value>
     </labels>
     <labels>
+        <fullName>PP_Powered_by_Footer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Footer T Copyright</shortDescription>
+        <value>Powered by</value>
+    </labels>
+    <labels>
         <fullName>Fulfilled</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -10673,6 +10680,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Lofi Login PP Subheader</shortDescription>
         <value>For Patients &amp; Caregivers</value>
+    </labels>
+    <labels>
+        <fullName>OptOut_PP_Subheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Login PP Subheader</shortDescription>
+        <value>For Participants &amp; Caregivers</value>
     </labels>
     <labels>
         <fullName>Log_in_and_sign</fullName>
