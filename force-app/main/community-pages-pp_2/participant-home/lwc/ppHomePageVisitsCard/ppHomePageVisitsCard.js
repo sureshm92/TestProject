@@ -46,13 +46,19 @@ export default class HomePageVisitsCard extends LightningElement {
     isUpcomingDetails = false;
     isVisitAvailable = false;
     empty_state = pp_community_icons + '/' + 'empty_visits.png';
-
-    connectedCallback() {
-        this.initializeData();
-        this.isInitialized = true;
+    spinner;
+    renderedCallback() {
+        if(this.isInitialized != true){
+            this.initializeData();
+            this.isInitialized = true;
+        }
     }
 
     initializeData() {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        if(this.spinner){
+            this.spinner.show();
+        }
         getVisitsPreviewAndCount({})
             .then((result) => {
                 let visitDetails = result.visitPreviewList;
@@ -84,6 +90,9 @@ export default class HomePageVisitsCard extends LightningElement {
                     this.iconDetails = icons.length > 0 ? icons?.slice(0, 4) : false;
                 } else {
                     this.isUpcomingDetails = false;
+                }
+                if(this.spinner){
+                    this.spinner.hide();
                 }
             })
             .catch((error) => {

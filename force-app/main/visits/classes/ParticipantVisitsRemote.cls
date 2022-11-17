@@ -37,8 +37,12 @@ public without sharing class ParticipantVisitsRemote {
             .getState();
             VisitAndCountWrapper visitAndCount = new VisitAndCountWrapper();
             visitAndCount.showVisits = pState.showVisits;
+            List<String> additionalFields = new List<String>();
+            additionalFields.add('Participant_Enrollment__r.Study_Site__r.Site__r.BillingAddress');
+            additionalFields.add('Participant_Enrollment__r.Study_Site__r.Site__r.Name');
+            additionalFields.add('Participant_Enrollment__r.Study_Site__r.Site__r.Phone');
             visitAndCount.visitPreviewList = ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
-                .getVisitWrappers(PatientVisitService.VISIT_MODE_CURRENT, 5);
+                .getVisitWrappers(PatientVisitService.VISIT_MODE_CURRENT, 5, additionalFields);
             return visitAndCount;
 
         } catch (Exception e) {
