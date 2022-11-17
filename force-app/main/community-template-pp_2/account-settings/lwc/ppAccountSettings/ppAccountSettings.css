@@ -121,7 +121,8 @@
     border-radius: 1rem;
     /* padding: 1.5rem; */
     background-color: #ffffff;
-    width: 105%;
+    /* width: 105%; */
+    width: 100%;
 }
 
 .nav-component-mobile {
