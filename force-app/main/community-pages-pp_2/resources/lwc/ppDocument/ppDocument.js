@@ -1,6 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
+import versionDate from '@salesforce/label/c.Version_date';
 export default class Documents extends NavigationMixin(LightningElement) {
     @api document;
     title;
@@ -13,6 +14,9 @@ export default class Documents extends NavigationMixin(LightningElement) {
     multipleTranslations = false;
     thumbnailPresent = false;
     thumbnailEmpty = pp_community_icons + '/' + 'image-file-landscape-alternate.png';
+    label = {
+        versionDate
+    };
 
     connectedCallback() {
         this.id = this.document.resource.Id;
