@@ -13,6 +13,7 @@ import PP_Duplicate_Usernames from '@salesforce/label/c.PP_Duplicate_Usernames';
 import PP_UsrNameLabel from '@salesforce/label/c.PP_UsrNameLabel';
 import requestSubmitted from '@salesforce/label/c.PP_Request_Submitted_Success_Message';
 import matchUsernameEmail from '@salesforce/label/c.PP_Username_And_Email_Change_GetSupport';
+import PP_Merge_Username from '@salesforce/label/c.PP_Merge_Username';
 import PP_MergeExisting from '@salesforce/label/c.PP_MergeExisting';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import validateAgeOfMajority from '@salesforce/apex/ApplicationHelpRemote.validateAgeOfMajority';
@@ -62,6 +63,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         matchUsernameEmail,
         PP_Duplicate_Usernames,
         PP_UsrNameLabel,
+        PP_Merge_Username,
         PP_MergeExisting
     };
     selectedOption;

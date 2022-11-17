@@ -73,7 +73,7 @@
                                 <template if:false={isShowUserMatch}>
                                     <lightning-input
                                         type="checkbox"
-                                        label={label.matchUsernameEmail}
+                                        label={label.PP_Merge_Username}
                                         variant="label-hidden"
                                         value={chngUsernameEmailValue}
                                         onchange={doChangeUsernameEmail}
@@ -96,7 +96,7 @@
                         </lightning-layout-item>
                         <lightning-layout-item size="11">
                             <template if:true={isMatchUsernameEmail}>
-                                <span class="matchEmailText">{label.matchUsernameEmail}</span>
+                                <span class="matchEmailText">{label.PP_Merge_Username}</span>
                             </template>
                         </lightning-layout-item>
                     </lightning-layout>
