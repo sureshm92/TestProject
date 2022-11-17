@@ -45,8 +45,10 @@
             </button>
         </div>
         <div class={displayLogo}>
-            <!--<img src="{!$Resource.rr_community_icons + '/check.svg'}" class="checkLogo" />-->
-            <p class="success-message-padding">Your request is successfully submitted.</p>
+            <p class="success-message-padding success-label-desktop">{label.PPOPTOUTSUCCESSMSG}</p>
+            <button class="apollo-btn primary submit mb-30 customWidth" onclick={closeWindow}>
+                <span class="submit-opt-out-mobile">Close window</span>
+            </button>
         </div>
     </template>
 
@@ -64,23 +66,33 @@
                     data-id="checkbox1">
                 </lightning-checkbox-group>
             </div>
+            <h3 class="get-technical-suppor mb-12">{techSupportTranslatedTitle}</h3>
+            <div class="opt-out-page-tech-support mb-30">
+                <lightning-checkbox-group
+                    name={techSupportTranslatedTitle}
+                    label={techSupportTranslatedTitle}
+                    options={techSupportSubCategoryList}
+                    value={selectedTechSupportSubCategory}
+                    variant = "label-hidden"
+                    class=""
+                    onchange= {handleChange}
+                    data-id="checkbox2">
+                </lightning-checkbox-group>
+            </div>
         </div>
         <div class={buttonDisplay}>
-            <button
-                class="apollo-btn primary submit-mobile"
-                disabled={disabled}
-                onclick={handleSubmit}
-            >
-                <!-- {PPCPSUBMITBTN} -->
-                <span class="submit-opt-out-mobile">Submit</span>
+            <button class="apollo-btn primary submit-mobile mb-30" disabled={disabled} onclick={handleSubmit}>
+                <span class="submit-opt-out-mobile">{label.PPCPSUBMITBTN}</span>
             </button>
         </div>
-        <div class="need-additional-info">
+        <!-- <div class="need-additional-info">
             <p>Need additional support?</p>
-        </div>
+        </div> -->
         <div class={displayLogo}>
-            <!--<img src="{!$Resource.rr_community_icons + '/check.svg'}" class="checkLogo" />-->
-            <p class="success-message-padding">Your request is successfully submitted.</p>
+            <p class="success-message-padding success-label">{label.PPOPTOUTSUCCESSMSG}</p>
+            <button class="apollo-btn primary submit-mobile mb-30" onclick={closeWindow}>
+                <span class="submit-opt-out-mobile">Close window</span>
+            </button>
         </div>
     </template>
 </template>
