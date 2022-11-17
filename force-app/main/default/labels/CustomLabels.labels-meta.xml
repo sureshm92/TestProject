@@ -6676,11 +6676,11 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder PP</shortDescription>
-        <value>&lt;span&gt;This is a an email to remind you of your upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot; &gt;This is a an email to remind you of your upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;.&lt;/div&gt;
+&lt;div&gt;&lt;span  style=&quot;color:black;&quot; &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt;##PlannedDate&lt;/span&gt;.&lt;/div&gt;
 
-&lt;span &gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot; &gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
@@ -6698,11 +6698,11 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate PP</shortDescription>
-        <value>&lt;span &gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot; &gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;.&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot; &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
 
-&lt;span &gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot; &gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>
