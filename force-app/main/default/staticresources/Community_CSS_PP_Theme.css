@@ -1016,12 +1016,12 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 
 .opt-out-comm-pref-mobile .slds-form-element__label{
-    height: 34px;
+    height: 120px;
     color: #444444;
     font-family: "Proxima Nova";
-    font-size: 14px !important;
+    font-size: 16px !important;
     letter-spacing: 0;
-    line-height: 16px;
+    line-height: 24px;
 }
 
 .opt-out-comm-pref-mobile span.slds-checkbox{
@@ -1036,3 +1036,4 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     letter-spacing: 0;
     line-height: 19px;
 }
+  
