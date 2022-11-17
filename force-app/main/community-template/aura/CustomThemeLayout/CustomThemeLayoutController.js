@@ -119,16 +119,6 @@
             component.set('v.isSitecal', false);
         }
     },
-     handleComponentEvent : function(component, event, helper) {
-         
-        if(!component.get('v.isIconVisible')) {
-            if(!component.get('v.notVisibleOnBlur'))
-                component.set('v.isIconVisible', true);
-        } else {
-             component.set('v.notVisibleOnBlur', false);
-            component.set('v.isIconVisible', false);
-        }
-    },
     updateReadMark : function(component, event, helper) {
         var notificationId = event.getParam('notificationId');
         component.set("v.unreadSendResultId", notificationId);
