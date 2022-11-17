@@ -107,6 +107,11 @@ hr {
     justify-items: center;
 }
 
+.mobile-padding {
+    padding:5px; 
+    padding-top:12px;
+}
+
 .expect-text {
     height: 2.36%;
     color: #444444;
@@ -198,6 +203,7 @@ hr {
 .icon-card {
     border: 1px solid lightgrey;
     height: 160px;
+    background-color: #FFFFFF;
 }
 
 .icon-card-mobile {
