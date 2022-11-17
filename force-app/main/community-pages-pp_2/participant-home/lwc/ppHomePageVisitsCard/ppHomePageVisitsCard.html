@@ -29,7 +29,7 @@
                                                         <p
                                                             class="slds-card__header-link slds-truncate visit-title"
                                                         >
-                                                            <span>{visitName}</span>
+                                                            <span title={visitName}>{visitName}</span>
                                                         </p>
                                                     </h2>
                                                 </header>
@@ -134,7 +134,9 @@
                                                         <div class="slds-m-left_small">
                                                             <p class="site-title-text">{siteTitle}</p>
                                                             <div class="slds-size_10-of-12">                                                    
-                                                                <p class="slds-truncate  font-color">{siteLocation}</p>
+                                                                <p class="slds-truncate  font-color" title={siteLocation}>
+                                                                    {siteLocation}
+                                                                </p>
                                                             </div>
                                                             <p class="font-color">{sitePhone}</p>
                                                         </div>
@@ -162,7 +164,7 @@
                                                         >
                                                         </c-web-icon>
                                                     </div>
-                                                    <div class="slds-card__header-link slds-truncate icon-name">
+                                                    <div class="slds-card__header-link slds-truncate icon-name" title={icon.Label__c}>
                                                         {icon.Label__c}
                                                     </div>
                                                 </div>
@@ -235,7 +237,7 @@
             <template if:true={isUpcomingDetails}>
                 <div style="padding:5px; padding-top:12px;">
                 <div class="slds-truncate visit-title-mobile slds-p-vertical_small">
-                <h2>{visitName}</h2>
+                <h2 title={visitName}>{visitName}</h2>
                 </div>
                 <div class="slds-grid slds-wrap">
                 <div class="slds-col slds-size_1-of-12 info-icon-mobile">
@@ -314,7 +316,7 @@
                     <div class="slds-col slds-size_11-of-12">
                         <p class="site-title-text">{siteTitle}</p>
                         <div class="slds-size_11-of-12">                                                    
-                            <p class="slds-truncate font-color">{siteLocation}</p>
+                            <p class="slds-truncate font-color" title={siteLocation}>{siteLocation}</p>
                         </div>
                         <p class="font-color">{sitePhone}</p>
                     </div>
@@ -340,7 +342,7 @@
                                     >
                                     </c-web-icon>
                                 </div>
-                                <div class="slds-card__header-link slds-truncate icon-name">
+                                <div class="slds-card__header-link slds-truncate icon-name" title={icon.Label__c}>
                                     {icon.Label__c}
                                 </div>
                             </div>
