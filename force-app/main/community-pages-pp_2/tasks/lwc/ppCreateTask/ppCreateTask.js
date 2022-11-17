@@ -405,6 +405,11 @@ export default class PpCreateTask extends LightningElement {
                 reminderDateTime: this.taskReminderDate ? this.taskReminderDate : ''
             };
         }
+        if (this.initialRecord) {
+            if (this.initialRecord.remindme != 'Custom') {
+                this.initialRecord.reminderDateTime = '';
+            }
+        }
         var upDateRequired =
             JSON.stringify(this.initialRecord) == JSON.stringify(this.updatedRecord);
         this.enableSave = false;
