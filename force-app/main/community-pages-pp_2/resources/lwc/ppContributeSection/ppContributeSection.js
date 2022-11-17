@@ -5,7 +5,7 @@ import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
 import PP_Share_Article from '@salesforce/label/c.PP_Share_Article';
 import CONTRIBUTE from '@salesforce/label/c.PP_Resources_Contribute';
-import URLLINK from '@salesforce/label/c.PP_Resource_URL_Placeholder_New';
+import URLLINK from '@salesforce/label/c.PP_Resource_URL_Placeholder';
 import SUBMIT from '@salesforce/label/c.PP_Submit_Button';
 import createArticle from '@salesforce/apex/ResourceRemote.createArticlesSubmitted';
 import SUCCESS from '@salesforce/label/c.PP_Resource_Submit';
@@ -25,17 +25,16 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
     disableSave = true;
     @track textValue;
 
-
     get isMobile() {
         return FORM_FACTOR !== 'Large' ? true : false;
     }
 
-    get inputGridSize(){
-        return this.isMobile ? "9" : "10";
+    get inputGridSize() {
+        return this.isMobile ? '9' : '10';
     }
 
-    get buttonGridSize(){
-        return this.isMobile ? "3" : "2";
+    get buttonGridSize() {
+        return this.isMobile ? '3' : '2';
     }
 
     handleChangePreference() {
