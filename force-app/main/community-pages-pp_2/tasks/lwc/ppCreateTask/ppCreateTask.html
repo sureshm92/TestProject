@@ -8,7 +8,7 @@
                 <div class="slds-align_absolute-center">
                     <lightning-card class="task-card">
                         <lightning-layout>
-                            <lightning-layout-item padding="around-medium" size="3">
+                            <lightning-layout-item padding="around-medium" size="3" class="taskIcon">
                                 <img src={task_icon} />
                             </lightning-layout-item>
                             <lightning-layout-item padding="around-medium" size="9">
@@ -21,7 +21,9 @@
                                     >
                                     <lightning-layout-item size="2"
                                         ><lightning-layout class="slds-grid_align-end"
-                                            >{taskNameLength}/30</lightning-layout
+                                            ><template if:false={readOnlyMode}
+                                                >{taskNameLength}/30</template
+                                            ></lightning-layout
                                         ></lightning-layout-item
                                     >
                                 </lightning-layout>
@@ -39,7 +41,10 @@
                                 </div>
                                 <lightning-layout-item>
                                     <lightning-layout>
-                                        <lightning-layout-item size="12" class="slds-m-top_medium">
+                                        <lightning-layout-item
+                                            size="12"
+                                            class="slds-m-top_medium create-task-input-container"
+                                        >
                                             <c-pp-date-time-combo
                                                 reminder={notReminder}
                                                 mindate={currentDate}
@@ -117,11 +122,15 @@
                                     >
                                     <lightning-layout-item size="2"
                                         ><lightning-layout class="slds-grid_align-end"
-                                            >{taskNameLength}/30</lightning-layout
+                                            ><template if:false={readOnlyMode}
+                                                >{taskNameLength}/30</template
+                                            ></lightning-layout
                                         ></lightning-layout-item
                                     >
                                 </lightning-layout>
-                                <div class="profile-info-input taskName-focus {disabledFieldCSS}">
+                                <div
+                                    class="profile-info-input taskName-focus create-task-input-container"
+                                >
                                     <lightning-input
                                         type="text"
                                         data-id="taskName"
@@ -135,7 +144,7 @@
                                     <lightning-layout>
                                         <lightning-layout-item
                                             size="12"
-                                            class="slds-m-top_medium"
+                                            class="slds-m-top_medium create-task-input-container"
                                             style="padding-inline: 0"
                                         >
                                             <c-pp-date-time-combo
@@ -179,20 +188,22 @@
                                 </lightning-layout-item>
                             </lightning-layout-item>
                         </lightning-layout>
-                        <p slot="footer">
-                            <lightning-layout class="slds-grid_align-end">
-                                <lightning-layout-item class="pad-right"
-                                    ><button class="task-cancel-btn" onclick={handleCancelTask}>
-                                        {label.cancel}
-                                    </button>
-                                </lightning-layout-item>
-                                <lightning-layout-item>
-                                    <button class={saveButtonClass} onclick={doCreateTask}>
-                                        {label.save}
-                                    </button></lightning-layout-item
-                                >
-                            </lightning-layout>
-                        </p>
+                        <div class="taskFooter">
+                            <p slot="footer">
+                                <lightning-layout class="slds-grid_align-end">
+                                    <lightning-layout-item class="pad-right"
+                                        ><button class="task-cancel-btn" onclick={handleCancelTask}>
+                                            {label.cancel}
+                                        </button>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item>
+                                        <button class={saveButtonClass} onclick={doCreateTask}>
+                                            {label.save}
+                                        </button></lightning-layout-item
+                                    >
+                                </lightning-layout>
+                            </p>
+                        </div>
                     </lightning-card>
                 </div>
             </lightning-layout-item>

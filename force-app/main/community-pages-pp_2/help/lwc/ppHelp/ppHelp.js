@@ -17,7 +17,6 @@ import updateProfileResponse from '@salesforce/label/c.PP_UpdateProfileResponse'
 import helpFAQlabel from '@salesforce/label/c.Help_FAQ';
 import helpEmergencyLabel from '@salesforce/label/c.Help_Emergency_Contact';
 
-
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import DEVICE from '@salesforce/client/formFactor';
@@ -45,9 +44,7 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
         updateProfileResponse,
         helpFAQlabel,
         helpEmergencyLabel
-
     };
-
 
     //exclamation_green = rr_community_icons + '/' + 'status-exclamation.svg';
     help_section_icon = pp_icons + '/' + 'help-section-icon.png';
@@ -59,9 +56,11 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
     }
 
     get headerPanelClass() {
+        return this.isMobile ? 'header-panel-mobile' : '';
+    }
+    get rightColumnClass() {
         return this.isMobile ? 'header-panel-mobile' : 'header-panel';
     }
-
     get leftColPadding() {
         return this.isRTL ? 'mb-15 leftColumn-RTL' : 'mb-15 leftColumn';
     }

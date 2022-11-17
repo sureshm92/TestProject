@@ -10,8 +10,8 @@
 
   doMenuCollapse: function (component, event, helper) {
     component.set("v.isOpened", false);
-    var compEvent = component.getEvent("onBlurOverlayEvent");
-    compEvent.fire();
+    /*var compEvent = component.getEvent("onBlurOverlayEvent");
+    compEvent.fire();*/
     //component.getEvent('onblur').fire();
   },
 

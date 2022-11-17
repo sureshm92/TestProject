@@ -1,0 +1,37 @@
+{
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "componentName" : "c:EmptyLayout",
+  "id" : "8f6d13a7-a501-4136-82a5-ca724cf852f4",
+  "label" : "About Study And Overview",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:pageStudyOverviewDetails",
+      "id" : "f40c4cb3-6413-4349-a00c-5afdf340ab11",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "213591c1-6224-4bc6-9b23-3c841ab24b9b",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "About Study And Overview"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "c02b991f-7af4-4244-989a-8589fb735f72",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "41456d6d-b71c-4c89-92b9-f7827732ffcd",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-about-study-and-overview"
+}

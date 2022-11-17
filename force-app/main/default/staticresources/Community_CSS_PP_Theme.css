@@ -7,10 +7,14 @@
     .toastContainer > .forceToastMessage {
         width: 95% !important;
     }
+    .rr-width-limiter-pp {
+        padding: 0 !important;
+    }
 }
 .rr-width-limiter-pp {
-   max-width: 1336px !important;
+   max-width: 1366px;
    margin: auto;
+   padding: 0 2rem;
 }
 
 /* Community_CSS_PP_Theme */
@@ -925,26 +929,26 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     margin-left: 5px;
 }
 
-/* Study Overview */
+/* Study/program Overview */
 
-.study-anchor li{
+.study-program-anchor li{
     padding-left: 0px;
     padding-right: 30px;
 }
 
-.study-anchor .slds-tabs_default__item:after{
+.study-program-anchor .slds-tabs_default__item:after{
     right: 30px;
 }
 
-.study-anchor .slds-tabs_default__item.slds-is-active:after{
+.study-program-anchor .slds-tabs_default__item.slds-is-active:after{
     background-color: #0768FD;
 }
 
-.study-anchor .slds-tabs_default__item.slds-is-active .slds-tabs_default__link{
+.study-program-anchor .slds-tabs_default__item.slds-is-active .slds-tabs_default__link{
     font-weight: 600 !important;
 }
 
-.study-anchor lightning-tab-bar ul{
+.study-program-anchor lightning-tab-bar ul{
     margin-right: 33px;
 }
 
@@ -973,8 +977,8 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 
 /* Edit Task Input Disabled */
-.create-task-input-container .slds-input:disabled,.slds-is-disabled{
-    background: #f2f2f2 !important;  
+.create-task-input-container .slds-input:disabled{
+    background: #F2F2F2 !important;  
 }
 
 /* Resources */

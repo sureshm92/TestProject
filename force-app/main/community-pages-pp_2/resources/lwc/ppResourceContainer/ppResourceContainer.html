@@ -10,14 +10,29 @@
                 horizontal-align="center"
             >
             <!-- *************  Thumbnail  ********************  -->
+            <template if:true={isThumbnailPresent}>
                 <lightning-layout-item size="5" flexibility="auto">
                     <img
                         src={thumbnail}
                         alt="Image is not available"
                         onclick={handleNavigate}
+                        onerror={handleError}
                         class="resource-pointer"
                     />
                 </lightning-layout-item>
+            </template>
+            <template if:false={isThumbnailPresent}>
+                <lightning-layout-item size="5" flexibility="auto" class="empty-icon">
+                    <div class="icon-center">
+                    <c-web-icon
+                            icon-color="#b5b5b5"
+                            icon-width="120"
+                            icon-height="200"
+                            icon-name="empty-thumbnail"
+                        ></c-web-icon>
+                    </div>
+                </lightning-layout-item>
+            </template>
             <!-- *******************  Description  ***********************  -->
                 <lightning-layout-item size="6" flexibility="auto" class="summary">
                     <lightning-layout multiple-rows="true">
@@ -33,7 +48,7 @@
                                     </div>
                                 </lightning-layout-item>
                                 <!--   STARICON    -->
-                                <lightning-layout-item size="2">
+                                <lightning-layout-item size="2" alignment-bump="right">
                                     <div
                                         class="resource-icon resource-pointer"
                                         onclick={handleFavourite}
@@ -62,7 +77,7 @@
                         <!--   Upload Date    -->
                         <lightning-layout-item size="12">
                             <div class="summary-date">
-                                {label.Uploaded}
+                                {label.Uploaded}&nbsp;
                                 <lightning-formatted-date-time
                                     value={resUploadDate}
                                     year="numeric"
