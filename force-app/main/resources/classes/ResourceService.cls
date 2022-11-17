@@ -77,15 +77,11 @@ public virtual without sharing class ResourceService {
             resourcesIds = getResourcesIds();
         }
         if (resourcesIds.size() > 0) {
-            Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
             String whereClause =
                 'WHERE Id IN (' +
                 CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(resourcesIds)) +
                 ')';
-            if (
-                currentPE?.Clinical_Trial_Profile__r?.CommunityTemplate__c ==
-                CommunityTemplateService.TEMPLATE_PP
-            ) {
+            if (Site.getMasterLabel() == 'IQVIA Patient Portal') {
                 whereClause =
                     whereClause +
                     ' ' +
