@@ -72,10 +72,11 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     empty_state = pp_community_icons + '/' + 'empty_visits.png';
 
     connectedCallback() {
-        if (!this.past && this.upcomingvisits.length != 0) {
-            this.handleVisitChange();
-        }
         this.visitTimezone = TIME_ZONE;
+    }
+
+    renderedCallback() {
+        this.handleVisitChange();
     }
 
     onPastClick() {
@@ -103,9 +104,9 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
         const pastEvent = new CustomEvent('pastclick');
         this.dispatchEvent(pastEvent);
     }
-    async handleVisitChange() {
+    handleVisitChange() {
         if (this.visitid) {
-            await this.template.querySelector('[data-id="' + this.visitid + '"]');
+            this.template.querySelector('[data-id="' + this.visitid + '"]');
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
             if (theDiv) {
                 theDiv.className = 'active-custom-box';
@@ -175,7 +176,6 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
                         this.plannedDate = '';
                     }
                 }
-                this.handleVisitChange();
                 this.contentLoaded = true;
                 this.template.querySelector('c-web-spinner').hide();
             });

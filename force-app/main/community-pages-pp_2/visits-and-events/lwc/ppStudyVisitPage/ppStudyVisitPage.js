@@ -246,12 +246,14 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.visitName = this.upcomingVisits[0].visit.Name;
             this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
             this.visitStatus = this.upcomingVisits[0].visit.Status__c;
-            this.template
-                .querySelector('[data-id="' + this.column2 + '"]')
-                .classList.remove('hide');
-            this.template
-                .querySelector('[data-id="' + this.column3 + '"]')
-                .classList.remove('hide');
+            if (this.isMobile == false) {
+                this.template
+                    .querySelector('[data-id="' + this.column2 + '"]')
+                    .classList.remove('hide');
+                this.template
+                    .querySelector('[data-id="' + this.column3 + '"]')
+                    .classList.remove('hide');
+            }
             this.createEditTask();
         } else {
             this.isUpcomingVisits = false;
@@ -261,8 +263,10 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.visitStatus = '';
         }
         const objChild = this.template.querySelector('c-pp-r-r-icon-splitter');
-        objChild.resetValues();
-        objChild.handleOnVisitClick();
+        if (objChild != null) {
+            objChild.resetValues();
+            objChild.handleOnVisitClick();
+        }
     }
 
     onPastClick() {
@@ -413,13 +417,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 if (!this.past) {
-                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
+                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c = 
                         this.visitdata.visitDate;
                 }
                 if (this.upcomingVisits.length > 0) {
                     if (this.visitdata.visitDate && this.showUpcomingVisits) {
                         this.upcomingVisits[this.selectedIndex].noVisitDate = false;
-                        this.plannedDate =
+                        this.plannedDate = 
                             this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
                     } else {
                         this.upcomingVisits[this.selectedIndex].noVisitDate = true;
