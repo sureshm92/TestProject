@@ -237,7 +237,7 @@
             <template if:true={isUpcomingDetails}>
                 <div class="mobile-padding">
                 <div class="slds-truncate visit-title-mobile slds-p-vertical_small">
-                <h2 title={visitName}>{visitName}</h2>
+                <span title={visitName}>{visitName}</span>
                 </div>
                 <div class="slds-grid slds-wrap">
                 <div class="slds-col slds-size_1-of-12 info-icon-mobile">
@@ -315,9 +315,7 @@
                     </div>
                     <div class="slds-col slds-size_11-of-12">
                         <p class="site-title-text">{siteTitle}</p>
-                        <div class="slds-size_11-of-12">                                                    
-                            <p class="slds-truncate font-color" title={siteLocation}>{siteLocation}</p>
-                        </div>
+                        <p class="slds-truncate font-color" title={siteLocation}>{siteLocation}</p>
                         <p class="font-color">{sitePhone}</p>
                     </div>
                 </div>
