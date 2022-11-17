@@ -70,11 +70,11 @@
                     </lightning:layout>
                 </div>
                 <lightning:layout multipleRows="true">
-                    <lightning:layoutItem size="12" class="footerOptOut center">                                                    
+                    <lightning:layoutItem size="12" class="mob-footerOptOut center">                                                    
                         <span class="powered-by-mobile">{!$Label.c.PP_Powered_by_Footer}</span>                           
-                        <span> <img class="img-dimensions-mobile" src="{!$Resource.IQVIA_Logo + '/IQVIALogo.png'}" /></span>
+                        <span> <img class="img-dimensions-mobile" src="{!$Resource.IQVIA_Logo + '/IQVIA_DarkBlue_Logo.png'}" /></span>
                     </lightning:layoutItem>   
-                </lightning:layout>     
+                </lightning:layout>   
             </div>
         </aura:if>
 
