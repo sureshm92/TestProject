@@ -77,21 +77,19 @@ public virtual without sharing class ResourceService {
             resourcesIds = getResourcesIds();
         }
         if (resourcesIds.size() > 0) {
-            Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
             String whereClause =
                 'WHERE Id IN (' +
                 CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(resourcesIds)) +
                 ')';
-            if (
-                currentPE?.Clinical_Trial_Profile__r?.CommunityTemplate__c ==
-                CommunityTemplateService.TEMPLATE_PP
-            ) {
+            if (Site.getMasterLabel() == 'IQVIA Patient Portal') {
                 whereClause =
                     whereClause +
                     ' ' +
                     'AND  (Expiration_Date__c > TODAY OR Expiration_Date__c = NULL)';
+                resources = getResources(whereClause, getPPOrderByClause());
+            } else {
+                resources = getResources(whereClause, getOrderByClause());
             }
-            resources = getResources(whereClause, getOrderByClause());
         }
         return resources;
     }
@@ -102,6 +100,10 @@ public virtual without sharing class ResourceService {
 
     protected virtual String getOrderByClause() {
         return 'ORDER BY Posting_Date__c DESC NULLS LAST';
+    }
+
+    protected virtual String getPPOrderByClause() {
+        return 'ORDER BY CreatedDate DESC NULLS LAST';
     }
 
     protected virtual ResourceService.ResourceWrapperContainer getErrorNoResources() {
