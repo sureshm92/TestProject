@@ -191,6 +191,7 @@
 }
 .and{
     padding-left: 5px;
+    width:47px;
 }
 @media (max-device-width: 767px) {
     .filter-area{
