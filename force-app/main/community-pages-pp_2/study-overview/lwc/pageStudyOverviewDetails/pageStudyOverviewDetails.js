@@ -62,11 +62,11 @@ export default class ProgramOverviewDetails extends LightningElement {
     }
 
     get parCriterionMRight(){
-        return this.isRTL ? 'po-pb-10 po-mr-16plus' : 'po-pb-10 po-ml-3';
+        return this.isRTL ? 'po-pb-10 po-mr-16plus' : 'po-pb-10 po-ml-3 po-mr-6';
     }
 
     get parCriterionMRightDesktop(){
-        return this.isRTL ? 'po-pb-10 po-mr-16' : 'po-pb-10 po-ml-3';
+        return this.isRTL ? 'po-pb-10 po-mr-16' : 'po-pb-10 po-ml-3 po-mr-6';
     }
 
     get accordianMargin(){

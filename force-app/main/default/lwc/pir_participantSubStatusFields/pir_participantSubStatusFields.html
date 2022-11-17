@@ -332,8 +332,12 @@
                         <template if:true={e_consentConfigured}>
                             <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
                                 <div class="step-card-title">
-                                    <button class="slds-button apollo-btn primary slds-p-around_x-medium econsentlogin"
-                                        onclick={handleConsentLogin}>{label.Log_in_and_sign}</button>
+                                    <a class="slds-button apollo-btn primary" 
+                                        href={pe_record.Study_Site__r.E_Consent_Vendor__r.Vendor_URL__c} 
+                                        target="popup"
+                                        onclick={handleConsentLogin}>
+                                        {label.Log_in_and_sign}
+                                    </a>
                                 </div>
                             </div>
                         </template>
