@@ -10,7 +10,7 @@ import createSupportCases from '@salesforce/apex/OptOutAndTechnicalSupportRemote
 import PPOPTOUTCOMMUNICATIONPREF from '@salesforce/label/c.Opt_Out_Update_Communication_Pref';
 import PPOPTOUTCOMMUNICATIONPREFHELP from '@salesforce/label/c.Opt_Out_Update_Communication_Pref_Help';
 import PPCPSUBMITBTN from '@salesforce/label/c.CP_Submit_Button';
-// import PPOPTOUTSUCCESSMSG from '@salesforce/label/c.PP_Opt_Out_Success_Message';
+import PPOPTOUTSUCCESSMSG from '@salesforce/label/c.PP_Opt_Out_Success_Message';
 
 
 export default class PpOptOutAndTechnicalSupport extends LightningElement {
@@ -28,7 +28,7 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
         PPOPTOUTCOMMUNICATIONPREF,
         PPOPTOUTCOMMUNICATIONPREFHELP,
         PPCPSUBMITBTN,
-        // PPOPTOUTSUCCESSMSG
+        PPOPTOUTSUCCESSMSG
     };
 
     isMobile = false;
@@ -152,6 +152,10 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
         .catch(function (error) {
             console.error(JSON.stringify(error));
         });
+    }
+
+    closeWindow(){
+        window.close();
     }
 
 
