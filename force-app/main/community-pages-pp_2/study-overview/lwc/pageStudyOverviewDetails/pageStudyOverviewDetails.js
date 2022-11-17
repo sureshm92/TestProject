@@ -37,7 +37,7 @@ export default class ProgramOverviewDetails extends LightningElement {
     desktop = true;
     tabContent = true;
     overviewCss = 'po-tab-menu active';
-    pcCss = 'po-tab-menu pt-8';
+    pcCss = 'po-tab-menu pt';
 
     isRTL = false;
 
@@ -168,12 +168,12 @@ export default class ProgramOverviewDetails extends LightningElement {
     overViewHandler() {
         this.tabContent = true;
         this.overviewCss = 'po-tab-menu active';
-        this.pcCss = 'po-tab-menu pt-8';
+        this.pcCss = 'po-tab-menu pt';
     }
 
     participationHandler() {
         this.tabContent = false;
         this.overviewCss = 'po-tab-menu';
-        this.pcCss = 'po-tab-menu pt-8 active';
+        this.pcCss = 'po-tab-menu pt active';
     }
 }

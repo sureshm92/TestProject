@@ -31,6 +31,11 @@
     font-family: 'Proxima Nova';
     letter-spacing: 0;
     line-height: inherit;
+    margin-bottom: 3px;
+}
+
+.so-mb-17{
+    margin-bottom: 17px;
 }
 
 .po-mt-20 {
@@ -215,17 +220,17 @@
     border-radius: 5px;
     font-weight: 600;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
-    height: 56px;
-    line-height: 56px;
+    height: 74px;
+    line-height: 74px;
 }
 
-.pt-8{
-    padding-top: 7px;
+.pt{
+    padding-top: 10px;
 }
 
 .pc-menu-label{
     width: 100px;
-    line-height: 20px;
+    line-height: 24px;
     display: inline-block;
 }
 

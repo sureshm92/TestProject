@@ -183,15 +183,14 @@
                                             </lightning-layout-item> </lightning-layout
                                     ></template>
                                 </lightning-layout-item>
-
-                                <lightning-layout-item class="slds-align_absolute-center" size="2"
-                                    ><template if:true={item.criticalTask}
-                                        ><span class="critical-rect"
-                                            >{label.taskPriorityCritical}</span
-                                        ></template
-                                    >
-                                </lightning-layout-item>
                             </template>
+                            <lightning-layout-item class="slds-align_absolute-center" size="2"
+                                ><template if:true={item.criticalTask}
+                                    ><span class="critical-rect"
+                                        >{label.taskPriorityCritical}</span
+                                    ></template
+                                >
+                            </lightning-layout-item>
                         </lightning-layout>
                         <template if:true={item.completed}>
                             <lightning-layout-item
@@ -222,9 +221,7 @@
                             <lightning-layout-item size="10" class={item.subjectEllipsisClass}
                                 ><span
                                     class={item.subjectClass}
-                                    onclick={taskOpen}
-                                    data-actionurl={item.task.Action_URL__c}
-                                    data-status={item.task.Status}
+                                    onclick={handleonclick}
                                     data-index={item.task.Id}
                                     ><lightning-formatted-text
                                         value={item.task.Subject}
@@ -301,16 +298,16 @@
                         <template if:false={item.isClosed}>
                             <template if:true={ishomepage}>
                                 <template if:true={item.systemTask}>
-                                <c-web-icon
-                                    icon-name="task_arrow"
+                                    <c-web-icon
+                                        icon-name="task_arrow"
                                         onclick={taskOpen}
                                         data-actionurl={item.task.Action_URL__c}
                                         data-status={item.task.Status}
-                                    data-index={item.task.Id}
-                                    class="svg-icon"
-                                    icon-size="default"
-                                ></c-web-icon>
-                            </template>
+                                        data-index={item.task.Id}
+                                        class="svg-icon"
+                                        icon-size="default"
+                                    ></c-web-icon>
+                                </template>
                             </template>
                             <template if:false={ishomepage}>
                                 <div
