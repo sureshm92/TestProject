@@ -112,11 +112,20 @@
     height: 60px;
     border-radius: 0 0 24px 24px;
     background-color: #f2f2f2;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+    position: absolute;
+    top:50.938rem;
+    width: 38.313rem;
     color: white;
     text-align: right;
+}
+.THIS .mob-footerOptOut{
+    height: 60px;
+    border-radius: 0 0 24px 24px;
+    background-color: #f2f2f2;
+    position: absolute;
+    bottom:0;
+    width: 95%;
+    color: white;
 }
 
 .THIS .center {
