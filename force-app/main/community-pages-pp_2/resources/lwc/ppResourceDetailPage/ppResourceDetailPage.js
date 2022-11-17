@@ -23,6 +23,7 @@ export default class PpResourceDetailPage extends LightningElement {
     langCode;
     documentLink;
     studyTitle = '';
+    state;
     label = {
         Uploaded,
         Back_To_Resources
@@ -34,19 +35,22 @@ export default class PpResourceDetailPage extends LightningElement {
         const urlParams = new URLSearchParams(queryString);
         this.resourceId = urlParams.get('resourceid');
         this.resourceType = urlParams.get('resourcetype');
+        this.state = urlParams.get('state');
         if (this.resourceType == 'Study_Document') {
             this.langCode = urlParams.get('lang');
             this.isDocument = true;
         }
 
-        this.initializeData();
+                this.initializeData();
     }
     async initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
             this.spinner.show();
         }
+
         //get clicked resource details
+
         await getResourceDetails({
             resourceId: this.resourceId,
             resourceType: this.resourceType
@@ -60,13 +64,16 @@ export default class PpResourceDetailPage extends LightningElement {
                     this.resourceType == 'Article' ? resourceData.Image__c : resourceData.Video__c;
                 this.isFavourite = result.wrappers[0].isFavorite;
                 this.isVoted = result.wrappers[0].isVoted;
+                if (this.isDocument) {
+                    this.handleDocumentLoad();
+                }
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
         //get study Title
-        if (communityService.isInitialized()) {
-            if (communityService.getCurrentCommunityMode().participantState != 'ALUMNI') {
+        if (this.state!= 'ALUMNI' ) {
+           
                 await getCtpName({})
                     .then((result) => {
                         let data = JSON.parse(result);
@@ -75,10 +82,7 @@ export default class PpResourceDetailPage extends LightningElement {
                     .catch((error) => {
                         this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
                     });
-            }
-        }
-        if (this.isDocument) {
-            this.handleDocumentLoad();
+            
         }
         this.isInitialized = true;
 

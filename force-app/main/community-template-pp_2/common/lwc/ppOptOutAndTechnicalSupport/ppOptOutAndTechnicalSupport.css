@@ -39,11 +39,12 @@
     float: none !important;
 }
 
-.success-message-text {
+.success-message-text {    
     font-size: 20px;
     font-weight: 600;
     color: #444444;
-    text-align: center;
+    text-align: left;
+    padding-left: 24px;
 }
 
 .slds-checkbox .slds-checkbox__label .slds-form-element__label {
@@ -117,6 +118,27 @@
 .success-message-padding {
     padding-top: 25px;
 }
+.success-label{
+    height: 72px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 30px;
+    margin-bottom: 70px;
+}
+
+.success-label-desktop{
+    height: 72px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 30px;
+    margin-bottom: 35px;
+}
 @media (max-width: 500px) {
     .submit-button-div {
         margin-left: 0%;
@@ -187,4 +209,12 @@
 
 .ml-24{
     margin-left: 24px;
+}
+
+.mb-30{
+    margin-bottom: 30px;
+}
+
+.customWidth{
+    width: 170px;
 }
