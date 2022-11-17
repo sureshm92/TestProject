@@ -109,7 +109,7 @@
 
 .fixed-height {
     height: 70px;
-    max-height: 70px;
+    max-height: 50px;
 }
 
 .merge-existing-usern {
