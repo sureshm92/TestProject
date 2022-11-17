@@ -965,7 +965,8 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 
 ::-webkit-scrollbar-track {
-    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
+    /* box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08); */
+    box-shadow: none;
     border-radius: 8px;
 }
 
