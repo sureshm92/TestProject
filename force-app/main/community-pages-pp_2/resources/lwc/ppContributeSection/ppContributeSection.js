@@ -25,16 +25,17 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
     disableSave = true;
     @track textValue;
 
+
     get isMobile() {
         return FORM_FACTOR !== 'Large' ? true : false;
     }
 
-    get inputGridSize() {
-        return this.isMobile ? '9' : '10';
+    get inputGridSize(){
+        return this.isMobile ? "9" : "10";
     }
 
-    get buttonGridSize() {
-        return this.isMobile ? '3' : '2';
+    get buttonGridSize(){
+        return this.isMobile ? "3" : "2";
     }
 
     handleChangePreference() {
