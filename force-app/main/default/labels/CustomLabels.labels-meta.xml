@@ -19601,6 +19601,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I would like to merge my existing username</value>
     </labels>
     <labels>
+        <fullName>PP_Merge_Username</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Merge_Username</shortDescription>
+        <value>I would like to merge my existing Username</value>
+    </labels>
+    <labels>
         <fullName>PP_MergeDntTranslate</fullName>
         <language>en_US</language>
         <protected>true</protected>
