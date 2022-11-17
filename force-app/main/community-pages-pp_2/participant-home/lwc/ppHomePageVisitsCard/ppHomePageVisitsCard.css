@@ -96,9 +96,6 @@ hr {
     display:inline-flex;
 }
 
-.bottom-margin{
-    margin-bottom: 5px;
-}
 .expect-text {
     height: 2.36%;
     color: #444444;
@@ -131,6 +128,11 @@ hr {
 }
 .card-wrap {
     padding: 0;
+}
+
+.padding-desktop {
+    padding-left: 7px;
+    padding-right: 7px;
 }
 
 .visit-card {
