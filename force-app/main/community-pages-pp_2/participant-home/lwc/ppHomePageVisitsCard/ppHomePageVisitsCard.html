@@ -141,7 +141,9 @@
                                                 </c-web-icon></div>
                                                 <div class="slds-m-left_small">
                                                     <p class="site-title-text">{siteTitle}</p>
-                                                    <p>{siteLocation}</p>
+                                                    <div class="slds-size_10-of-12">                                                    
+                                                        <p class="slds-truncate">{siteLocation}</p>
+                                                    </div>
                                                     <p>{sitePhone}</p>
                                                 </div>
                                             </div>
@@ -152,10 +154,10 @@
                             
                             <article class="icon-card">
                                 <template if:true={iconDetails}>
-                                <div class="site-title-text slds-m-left_large slds-m-top_small bottom-margin">
+                                <div class="site-title-text slds-m-left_medium slds-m-top_small">
                                     {labels.What_to_Expect}
                                 </div>
-                                <div class="slds-grid slds-wrap">
+                                <div class="slds-grid slds-wrap  padding-desktop">
                                     <template for:each={iconDetails} for:item="icon">
                                         <div class="slds-col slds-size_6-of-12 slds-p-around_x-small detail-section" key={icon.Name}>
                                             <div class="expect-icon">   
