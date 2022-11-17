@@ -49,6 +49,7 @@ import RH_InvalidAction from '@salesforce/label/c.RH_InvalidAction';
 import RH_ChangeStatusErrorMsg from '@salesforce/label/c.RH_ChangeStatusErrorMsg';
 import pir_Bulk_Import_History from '@salesforce/label/c.pir_Bulk_Import_History';
 import PIR_Import_Participants from '@salesforce/label/c.PIR_Import_Participants';
+import PIR_Signed_Date_Validation from '@salesforce/label/c.PIR_Signed_Date_Validation';
 
 export default class Pir_participantList extends NavigationMixin(LightningElement) {
     filterIcon = pirResources+'/pirResources/icons/filter.svg';
@@ -137,7 +138,8 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         High_Priority,
         High_Risk,
         pir_Bulk_Import_History,
-        PIR_Import_Participants
+        PIR_Import_Participants,
+        PIR_Signed_Date_Validation
     }; 
     @api dropDownLabel=this.label.RPR_Actions;
     @api isCheckboxhidden=false;
@@ -544,6 +546,19 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         }else{
         status = this.filterWrapper.status.toString();
         }
+        let todayDt = new Date();
+        let signedDate = this.signedDateValue;
+        if(signedDate != undefined){
+            let splitDate = signedDate.split('-');
+            signedDate = new Date(splitDate[0],splitDate[1]-1,splitDate[2]);
+        }
+        if(signedDate > todayDt){
+            this.saving = false;
+            const getstatusEvent = new CustomEvent("dateerror");
+            this.dispatchEvent(getstatusEvent);
+            this.showErrorToast(this.label.PIR_Signed_Date_Validation);
+        }
+        else{
         updateParticipantStatus({peIdList : this.selectedCheckboxes, 
             StatusToUpdate: this.newstatus,
             Notes: this.additionalNoteValue,
@@ -572,6 +587,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             console.log('Error : '+error.message);
         });
     }
+}
     setKeyAction(){
         this.template.querySelector('.keyup').addEventListener('keydown', (event) => {                  
             var name = event.key; 
@@ -904,18 +920,18 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     studyAll=[];
     siteAll=[];
     startPos=0;
-    endPos=45000;
-    totalCount=45000;
-    counterLimit=45000;
+    endPos=20000;
+    totalCount=20000;
+    counterLimit=20000;
     isFirstTime=true;
     csvList=[];
     
     @api getExportAll(){ //resetexportall
         this.csvList=[];
         this.startPos=0;
-        this.endPos=45000;
-        this.totalCount=45000;
-        this.counterLimit=45000;
+        this.endPos=20000;
+        this.totalCount=20000;
+        this.counterLimit=20000;
         this.isFirstTime=true;
         this.handleExportall();
     }
@@ -942,12 +958,12 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                     finaltotalCount = 100000;
                 }
                 if (currentCount < finaltotalCount) {
-                    counterLimit = counterLimit + 45000;
+                    counterLimit = counterLimit + 20000;
                     this.counterLimit= counterLimit;
                 }
                 if (this.exportAllDatatemp.endPos < counterLimit && currentCount < finaltotalCount) {
                     this.startPos = this.endPos + 1;
-                    this.endPos = this.endPos + 45000;
+                    this.endPos = this.endPos + 20000;
                     this.startPos= this.startPos;
                     this.endPos= this.endPos;
                     this.handleExportall();
@@ -1330,33 +1346,40 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                     csvStringResult += '" "' + ',';
                 }
                 if (
-                    partList[i]['Medical_Record_Review_Status__c'] != undefined
+                    partList[i]['Participant_PrescreenerResponses__r'] != undefined
+                    && partList[i]['Participant_PrescreenerResponses__r'][0] != undefined
+                    && partList[i]['Participant_PrescreenerResponses__r'][0]['Status__c'] != undefined
                 ) {
                     csvStringResult +=
                         '"' +
-                        partList[i]['Medical_Record_Review_Status__c'] +
+                        partList[i]['Participant_PrescreenerResponses__r'][0]['Status__c'] +
                         '"' +
                         ',';
                 } else {
                     csvStringResult += '" "' + ',';
                 }
                 if (
-                    partList[i]['Medical_Record_Review_Completedby_Name__c'] != undefined
+                    partList[i]['Participant_PrescreenerResponses__r'] != undefined
+                    && partList[i]['Participant_PrescreenerResponses__r'][0] != undefined
+                    && partList[i]['Participant_PrescreenerResponses__r'][0]['Completed_by__r'] != undefined
+                    && partList[i]['Participant_PrescreenerResponses__r'][0]['Completed_by__r']['Name'] != undefined
                 ) {
                     csvStringResult +=
                         '"' +
-                        partList[i]['Medical_Record_Review_Completedby_Name__c'] +
+                        partList[i]['Participant_PrescreenerResponses__r'][0]['Completed_by__r']['Name'] +
                         '"' +
                         ',';
                 } else {
                     csvStringResult += '" "' + ',';
                 }
                 if (
-                    partList[i]['Medical_Record_Review_Completed_Date__c'] != undefined
+                    partList[i]['Participant_PrescreenerResponses__r'] != undefined
+                    && partList[i]['Participant_PrescreenerResponses__r'][0] != undefined
+                    && partList[i]['Participant_PrescreenerResponses__r'][0]['Completed_Date__c'] != undefined
                 ) {
                     csvStringResult +=
                         '"' +
-                        partList[i]['Medical_Record_Review_Completed_Date__c'] +
+                        partList[i]['Participant_PrescreenerResponses__r'][0]['Completed_Date__c'] +
                         '"' +
                         ',';
                 } else {

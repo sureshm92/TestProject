@@ -78,6 +78,11 @@ public class Batch_CreateScreenerResponse implements Database.Batchable<SObject>
             }
         }
         
+        TriggerHandlerExecutor.bypassHandler(ScreenerResponseTriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ScreenerResponseTriggerHandler.CheckReimbursableActivities.class
+        );
+
         List<Database.SaveResult> saveResults = Database.insert(responseRecords, false);
         Map<Id, Participant_Enrollment__c> peToUpdate = new Map<Id, Participant_Enrollment__c>();
         for (Integer i = 0; i < saveResults.size(); i++) {

@@ -17,9 +17,6 @@ body {
 .res-container {
     height: auto;
     background: #f7f8fa;
-    max-width: 1336px;
-    margin: auto;
-    padding: 15px 0px 15px 0px;
 }
 
 .res-header {

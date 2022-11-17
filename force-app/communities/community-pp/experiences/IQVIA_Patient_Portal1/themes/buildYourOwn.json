@@ -8,7 +8,8 @@
     "Inner" : "1b8ddcd2-07c2-4ea5-80d7-bf1f80d4ebda",
     "Login" : "4d082a76-e011-4396-8d50-ff6f0d44da85",
     "ServiceNotAvailable" : "fab669f2-d38a-43fc-9e0c-60894e4b2367",
-    "plAm3nHzp9j4TqsN4DBW97xONJ8WJG" : "5b51892e-e23c-4184-89cc-3f2cbabb0d2e"
+    "plAm3nHzp9j4TqsN4DBW97xONJ8WJG" : "5b51892e-e23c-4184-89cc-3f2cbabb0d2e",
+    "sooFrYP56xGvXL795EwMy34MaWMEe2" : "215101dd-cab3-4f14-adbd-d6f12992f8a4"
   },
   "type" : "theme",
   "views" : [ {
@@ -188,7 +189,7 @@
       "type" : "region"
     } ],
     "type" : "view"
-  }, {
+  },{
     "componentAttributes" : { },
     "componentName" : "c:EmtpyTheme",
     "id" : "5b51892e-e23c-4184-89cc-3f2cbabb0d2e",
@@ -255,6 +256,77 @@
       "type" : "region"
     }, {
       "id" : "d11e45cc-52d4-4a8c-85df-f2b3b13b4e46",
+      "regionName" : "sidebarFooter",
+      "type" : "region"
+    } ],
+    "type" : "view"
+  },{
+    "componentAttributes" : { },
+    "componentName" : "c:PP_BlankThemeLayout",
+    "id" : "215101dd-cab3-4f14-adbd-d6f12992f8a4",
+    "label" : "optOutPatientPortal",
+    "regions" : [ {
+      "components" : [ {
+        "componentAttributes" : {
+          "maxAutoCompleteResults" : 5,
+          "searchLabel" : "Search...",
+          "searchObjects" : [ {
+            "isPublic" : true,
+            "name" : "Account"
+          } ]
+        },
+        "componentName" : "forceCommunity:globalSearchInput",
+        "id" : "e7237903-1cca-4082-8bc7-8aa77155e433",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
+      "id" : "26a25934-7763-455d-a16f-4df16bc04311",
+      "regionName" : "search",
+      "type" : "region"
+    }, {
+      "components" : [ {
+        "componentAttributes" : {
+          "accountManagementLabel" : "Account Management",
+          "communityBuilderLabel" : "Experience Builder",
+          "communitySetupLabel" : "Salesforce Setup",
+          "contactSupportLabel" : "Contact Support",
+          "filterName" : "MyCases",
+          "homeLabel" : "Home",
+          "includeContactSupport" : true,
+          "includeMessages" : false,
+          "loginLabel" : "Login",
+          "logoutLabel" : "Logout",
+          "myAccountLabel" : "My Account",
+          "showAccountManagement" : true,
+          "showUserSettings" : true,
+          "userSettingsLabel" : "My Settings",
+          "viewProfileLabel" : "My Profile"
+        },
+        "componentName" : "selfService:userProfileMenu",
+        "id" : "438b8d27-00b0-44f7-8f04-a5ba8398a7e7",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
+      "id" : "b5028e78-655b-477b-8828-daf024b76433",
+      "regionName" : "profileMenu",
+      "type" : "region"
+    }, {
+      "components" : [ {
+        "componentAttributes" : {
+          "NavigationMenuEditorRefresh" : "",
+          "hideAppLauncher" : true,
+          "hideHomeText" : true
+        },
+        "componentName" : "forceCommunity:globalNavigation",
+        "id" : "19801c3b-c518-485b-bcea-f6fc37ea0124",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
+      "id" : "1925fb76-87aa-4a5a-82c9-4d9d43d14d85",
+      "regionName" : "navBar",
+      "type" : "region"
+    }, {
+      "id" : "5e649f6c-b29c-42d2-80d2-251777696aa7",
       "regionName" : "sidebarFooter",
       "type" : "region"
     } ],
