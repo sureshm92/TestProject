@@ -709,6 +709,9 @@ c-pp-study-visit-details-card .slds-card__header {
 
 .cCustomThemeLayout .slds-combobox__input {
     padding-left: 1rem;
+    height: 40px;
+    padding-top: 0.3rem;
+    width: 350px;
 }
 
 c-pp-Study-Visit-Details-Card .slds-form-element:nth-child(2) .slds-checkbox .slds-checkbox__label {
