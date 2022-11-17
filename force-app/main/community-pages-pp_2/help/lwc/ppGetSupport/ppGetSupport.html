@@ -23,7 +23,7 @@
                     </lightning-layout-item>
                 </lightning-layout>
                 <div class={marginForDOBEdit}>
-                <!-- Edit Year of Birth Elements  -->
+                    <!-- Edit Year of Birth Elements  -->
                     <lightning-layout multiple-rows="true">
                         <template if:true={isEditYOB}>
                             <lightning-layout-item size="5" class="mt-10">
@@ -73,7 +73,7 @@
                                 <template if:false={isShowUserMatch}>
                                     <lightning-input
                                         type="checkbox"
-                                        label={label.matchUsernameEmail}
+                                        label={label.PP_Merge_Username}
                                         variant="label-hidden"
                                         value={chngUsernameEmailValue}
                                         onchange={doChangeUsernameEmail}
@@ -87,6 +87,7 @@
                                         variant="label-hidden"
                                         name="input3"
                                         class="label-email-pass-match"
+                                        onchange={doChangeUsernameEmail}
                                         checked
                                         disabled
                                     ></lightning-input>
@@ -95,13 +96,32 @@
                         </lightning-layout-item>
                         <lightning-layout-item size="11">
                             <template if:true={isMatchUsernameEmail}>
-                                <span class="matchEmailText">{label.matchUsernameEmail}</span>
+                                <span class="matchEmailText">{label.PP_Merge_Username}</span>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                    <!-- Merge multiple usernames-->
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="12" class={marginMatchEmailPass}>
+                            <template if:true={UseremailDuplicate}>
+                                <div class="merge-existing-usern">{label.PP_MergeExisting}</div>
+                                <div class="there-are-multiple">{label.PP_Duplicate_Usernames}</div>
+                                <div class="slds-grid slds-size--1-of-1 ah-item-panel">
+                                    <lightning-radio-group
+                                        name="radioGroup"
+                                        variant="label-hidden"
+                                        options={userNamesList}
+                                        value={userNamesListvalue}
+                                        type="radio"
+                                        onchange={handleChange}
+                                    ></lightning-radio-group>
+                                </div>
                             </template>
                         </lightning-layout-item>
                     </lightning-layout>
                 </div>
             </div>
-
             <lightning-layout multiple-rows="true" class="">
                 <lightning-layout-item size="12">
                     <!--Disabled Button-->

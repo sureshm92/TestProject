@@ -2,17 +2,19 @@
                          recipientType="User"
                          language="{!recipient.LanguageLocaleKey}">
 
-    <messaging:htmlEmailBody >
-    <!--    <c:PP_InitialWireframe userId="{!recipient.Id}"
+    <messaging:htmlEmailBody >   
+   <c:PP_InitialWireframe userId="{!recipient.Id}"
                             communityTemplate="PatientPortal"
                             buttonLabel="{!IF(recipient.Contact.userCommunityMode__c=='Participant',$Label.Email_Action_Register,$Label.Email_Action_Enroll_Now)}" 
                             buttonURL="{!$Network.NetworkUrlForUserEmails}">
-        </c:PP_InitialWireframe>-->
-        <!--    <c:PP_InitialWireframe userId="{!recipient.Id}"
-                            communityTemplate="PatientPortal"
-                            buttonLabel="{!$Label.Email_Action_Register}" 
-                            buttonURL="{!$Network.NetworkUrlForUserEmails}">
-        </c:PP_InitialWireframe>-->
+        </c:PP_InitialWireframe>
     </messaging:htmlEmailBody>   
+      <messaging:plainTextEmailBody >
+        <c:PP_InitialWireframeText userId="{!recipient.Id}"
+                                communityTemplate="PatientPortal"
+                                buttonLabel="{!IF(recipient.Contact.userCommunityMode__c=='Participant',$Label.Email_Action_Register,$Label.Email_Action_Enroll_Now)}"
+                                buttonURL="{!$Network.NetworkUrlForUserEmails}">
+        </c:PP_InitialWireframeText>
+    </messaging:plainTextEmailBody>    
 
 </messaging:emailTemplate>

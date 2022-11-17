@@ -7,10 +7,14 @@
     .toastContainer > .forceToastMessage {
         width: 95% !important;
     }
+    .rr-width-limiter-pp {
+        padding: 0 !important;
+    }
 }
 .rr-width-limiter-pp {
-    max-width: 1336px !important;
-    margin: auto;
+   max-width: 1366px;
+   margin: auto;
+   padding: 0 2rem;
 }
 
 /* Community_CSS_PP_Theme */
@@ -705,6 +709,8 @@ c-pp-study-visit-details-card .slds-card__header {
 
 .cCustomThemeLayout .slds-combobox__input {
     padding-left: 1rem;
+    height: 40px;
+    padding-top: 0.3rem;
 }
 
 c-pp-Study-Visit-Details-Card .slds-form-element:nth-child(2) .slds-checkbox .slds-checkbox__label {
@@ -925,26 +931,26 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     margin-left: 5px;
 }
 
-/* Study Overview */
+/* Study/program Overview */
 
-.study-anchor li{
+.study-program-anchor li{
     padding-left: 0px;
     padding-right: 30px;
 }
 
-.study-anchor .slds-tabs_default__item:after{
+.study-program-anchor .slds-tabs_default__item:after{
     right: 30px;
 }
 
-.study-anchor .slds-tabs_default__item.slds-is-active:after{
+.study-program-anchor .slds-tabs_default__item.slds-is-active:after{
     background-color: #0768FD;
 }
 
-.study-anchor .slds-tabs_default__item.slds-is-active .slds-tabs_default__link{
+.study-program-anchor .slds-tabs_default__item.slds-is-active .slds-tabs_default__link{
     font-weight: 600 !important;
 }
 
-.study-anchor lightning-tab-bar ul{
+.study-program-anchor lightning-tab-bar ul{
     margin-right: 33px;
 }
 
@@ -971,3 +977,65 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 ::-webkit-scrollbar-thumb:hover {
     background: #999999;
 }
+
+/* Edit Task Input Disabled */
+.create-task-input-container .slds-input:disabled{
+    background: #F2F2F2 !important;  
+}
+
+/* Resources */
+.resDiscoverIcon lightning-primitive-icon svg{
+    height: 16px;
+    width: 16px;
+    color: #015FF1;
+}
+
+/* Opt out page PP 2.0 */
+
+.logo-block-mobile .rr-width-limiter{
+    padding: 0px !important;
+    background-color: transparent;
+}
+
+.opt-out-comm-pref, .opt-out-page-tech-support{
+    padding-left: 5px;
+}
+.opt-out-comm-pref span.slds-checkbox{
+    line-height: 28px;
+}
+
+.opt-out-page-tech-support span.slds-checkbox{
+    line-height: 32px;
+}
+
+.opt-out-comm-pref .slds-form-element__label{
+    height: 48px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px !important;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.opt-out-comm-pref-mobile .slds-form-element__label{
+    height: 120px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px !important;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.opt-out-comm-pref-mobile span.slds-checkbox{
+    line-height: 26px;
+}
+
+.opt-out-page-tech-support .slds-form-element__label{
+    height: 19px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px !important;
+    letter-spacing: 0;
+    line-height: 19px;
+}
+  

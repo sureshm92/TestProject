@@ -24,13 +24,18 @@
 }
 
 .po-about-program {
-    height: 48px;
+    height: auto;
     color: #444444;
     font-size: 18px;
     font-weight: 600;
     font-family: 'Proxima Nova';
     letter-spacing: 0;
-    line-height: 48px;
+    line-height: inherit;
+    margin-bottom: 3px;
+}
+
+.so-mb-17 {
+    margin-bottom: 17px;
 }
 
 .po-mt-20 {
@@ -75,6 +80,10 @@
 
 .po-ml-3 {
     margin-left: 3px;
+}
+
+.po-mr-6 {
+    margin-right: 6px;
 }
 
 .po-tab a {
@@ -215,7 +224,20 @@
     border-radius: 5px;
     font-weight: 600;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    height: 74px;
+    line-height: 74px;
 }
+
+.pt {
+    padding-top: 10px;
+}
+
+.pc-menu-label {
+    width: 100px;
+    line-height: 24px;
+    display: inline-block;
+}
+
 .po-tab-menu:hover {
     cursor: pointer;
 }
@@ -227,13 +249,13 @@
 
 .po-pl-0 {
     padding-left: 0px;
-    line-height: 52px;
+    /* line-height: 52px; */
     font-size: 18px;
 }
 
 .po-pr-12 {
     padding-right: 12px;
-    line-height: 27px;
+    /* line-height: 27px; */
     font-size: 18px;
 }
 .pointer {

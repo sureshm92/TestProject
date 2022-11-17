@@ -121,37 +121,11 @@ export default class PpDateTimeCombo extends LightningElement {
                     );
                 }
             }
+            var inputField = this.template.querySelector('.timc');
             if (this.maxdate) {
                 let maxDateArray = this.maxdate.split('-');
                 if (maxDateArray.length > 0)
                     var duedObj = new Date(maxDateArray[0], maxDateArray[1] - 1, maxDateArray[2]);
-            }
-            var inputField = this.template.querySelector('.timc');
-            try {
-                if (inputField != null) {
-                    if (inputField.value == '') {
-                        inputField.setCustomValidity(this.label.validTimeFormat);
-                        const timeOnly = new CustomEvent('nulltimechange', {
-                            detail: {
-                                comptime: ''
-                            }
-                        });
-                        this.dispatchEvent(timeOnly);
-                    } else {
-                        inputField.setCustomValidity('');
-                    }
-                    inputField.reportValidity();
-                }
-            } catch (e) {
-                console.error(e);
-            }
-            if (duedObj && sdObj && inputField) {
-                if (!(duedObj >= sdObj)) {
-                    inputField.setCustomValidity(this.label.noFutureValues);
-                } else {
-                    inputField.setCustomValidity('');
-                }
-                inputField.reportValidity();
             }
         }
         if (
@@ -238,7 +212,7 @@ export default class PpDateTimeCombo extends LightningElement {
     handleDate(event) {
         this.initialDateLoaded = true;
         this.dt = event.target.value;
-        if (!this.editMode) this.tm = '';
+        this.tm = '';
         if (!this.dt) {
             this.timeOnlyPresent = true;
             this.tm = event.target.value;

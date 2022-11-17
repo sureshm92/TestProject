@@ -332,8 +332,12 @@
                         <template if:true={e_consentConfigured}>
                             <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
                                 <div class="step-card-title">
-                                    <button class="slds-button apollo-btn primary slds-p-around_x-medium econsentlogin"
-                                        onclick={handleConsentLogin}>{label.Log_in_and_sign}</button>
+                                    <a class="slds-button apollo-btn primary" 
+                                        href={pe_record.Study_Site__r.E_Consent_Vendor__r.Vendor_URL__c} 
+                                        target="popup"
+                                        onclick={handleConsentLogin}>
+                                        {label.Log_in_and_sign}
+                                    </a>
                                 </div>
                             </div>
                         </template>
@@ -475,7 +479,7 @@
                             </div>
                             <div
                                 class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
-                                <lightning-combobox name="reason" label={utilLabels.PG_ACPE_L_Reason}
+                                <lightning-combobox name="reason" label={reasonLabel}
                                     title={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
                                     disabled={reasonDisabled} placeholder=" " data-value="Reason"
                                     onchange={changeInputValue}></lightning-combobox>
@@ -660,12 +664,12 @@
                                                 <div class="history-item-detail">{utilLabels.None}</div>
                                             </template>
                                             <template if:false={historyNull}>
-                                                <template for:each={historyResults} for:item="results"
+                                                <template for:each={screeningHistorys} for:item="results"
                                                     for:index="index">
                                                     <template if:false={results.isAdditionalNote}>
                                                         <p key={results}>
                                                             <b
-                                                                class="history-item-title">{results.historyTitle}</b><span
+                                                                class="history-item-title">{results.title}</b><span
                                                                 class="history-item-detail">
                                                                 &nbsp;{utilLabels.PE_Status_History_On_Date}&nbsp;
                                                                 <lightning-formatted-date-time
@@ -674,8 +678,7 @@
                                                                     minute="numeric" time-zone="UTC">
                                                                 </lightning-formatted-date-time>
                                                                 &nbsp;{utilLabels.PG_IMI_L_by_user}
-                                                                {results.createdBy}
-                                                            </span>
+                                                                {results.createdBy}</span>
                                                         </p>
                                                     </template>
                                                     <template if:true={results.isAdditionalNote}>

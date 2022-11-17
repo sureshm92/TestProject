@@ -17,7 +17,7 @@
                                     <lightning-layout-item size="12">
                                         <div class="engage-header mb-8">{labels.ENGAGE}</div>
                                         <div class="left-column">
-                                            <div class="res-box-engage-container">
+                                            <div class={engageHeight}>
                                                 <!-- START : COMING SOON -->
                                                 <!-- <div class="object">
                                                     <div class="object-rope"></div>
@@ -41,7 +41,7 @@
                                                     {labels.DISCOVER_TITLE}
                                                     <span>                                              
                                                         <lightning-helptext
-                                                            class="newColor"
+                                                            class="newColor resDiscoverIcon"
                                                             content="Links will open in new browser window. IQVIA Patient Portal
                                                         is not responsible for content provided in external websites."
                                                             icon-name="utility:info"
@@ -64,7 +64,7 @@
                                         </div>
 
                                         <div class="left-column">
-                                            <div class="res-box-relLinks-container pad10">
+                                            <div class={linkssHeight}>
                                                 <!-- START : COMING SOON -->
                                                 <!-- <div class="object">
                                                     <div class="object-rope"></div>
@@ -137,7 +137,7 @@
                                     </lightning-layout>
                                     
                                     <div class="right-column">
-                                        <div class="res-box-document-container">
+                                            <div class={docsHeight}>
                                             <c-pp-Resource-Document-Container></c-pp-Resource-Document-Container>
                                         </div>
                                     </div>

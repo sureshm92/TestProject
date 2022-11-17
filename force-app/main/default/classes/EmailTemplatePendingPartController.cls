@@ -43,7 +43,7 @@ global without sharing class EmailTemplatePendingPartController {
                         FROM Participant_Enrollment__c
                         WHERE
                             (Participant_Status__c = 'Received' OR 
-                             (Participant_Status__c IN ('Contact Attempted','Pre-review Passed','Successfully Contacted') 
+                             (Participant_Status__c IN ('Contact Attempted','Pre-review Passed','Successfully Contacted','Successfully re-engaged')
                               AND High_Priority__c = true) OR Re_consent__c = true
                             )
                             AND (Study_Site__c IN :studySites
@@ -103,6 +103,8 @@ global without sharing class EmailTemplatePendingPartController {
             );
             this.lastRecievedDate = gmt.format('yyyy-MM-dd', timezonesidkey);
 			this.yesNoPriority = yesNoPriority;
+            this.highPriorityReconsent = false;
+            this.highPriority = 'High Priority';   
 			if(highPriorityFlag == true && reConsentRequiredFlag == false ){
                 this.yesNoPriority = 'High Priority';
             }else if(reConsentRequiredFlag == true && highPriorityFlag == false){

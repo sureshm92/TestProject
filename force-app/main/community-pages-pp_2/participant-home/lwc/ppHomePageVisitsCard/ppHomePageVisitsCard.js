@@ -15,6 +15,7 @@ import No_Upcoming_Visit from '@salesforce/label/c.Visit_No_Upcoming_Visit';
 import visit_clock from '@salesforce/label/c.Upcoming_Visits_Clock';
 import visit_calendar from '@salesforce/label/c.Upcoming_Visit_calendar';
 import Upcoming_Visit_Location from '@salesforce/label/c.Upcoming_Visit_Location';
+import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class HomePageVisitsCard extends LightningElement {
     planDateTime;
@@ -44,13 +45,20 @@ export default class HomePageVisitsCard extends LightningElement {
 
     isUpcomingDetails = false;
     isVisitAvailable = false;
-
-    connectedCallback() {
-        this.initializeData();
-        this.isInitialized = true;
+    empty_state = pp_community_icons + '/' + 'empty_visits.png';
+    spinner;
+    renderedCallback() {
+        if(this.isInitialized != true){
+            this.initializeData();
+            this.isInitialized = true;
+        }
     }
 
     initializeData() {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        if(this.spinner){
+            this.spinner.show();
+        }
         getVisitsPreviewAndCount({})
             .then((result) => {
                 let visitDetails = result.visitPreviewList;
@@ -82,6 +90,9 @@ export default class HomePageVisitsCard extends LightningElement {
                     this.iconDetails = icons.length > 0 ? icons?.slice(0, 4) : false;
                 } else {
                     this.isUpcomingDetails = false;
+                }
+                if(this.spinner){
+                    this.spinner.hide();
                 }
             })
             .catch((error) => {

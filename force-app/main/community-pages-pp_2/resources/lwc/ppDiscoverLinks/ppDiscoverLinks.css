@@ -9,7 +9,6 @@
 }
 
 .links-header {
-    height: 19px;
     color: #015FF1;
     font-family: "Proxima Nova";
     font-size: 16px;
@@ -17,6 +16,8 @@
     letter-spacing: 0;
     line-height: 19px;
     margin-bottom: 6px;
+    padding-right: 5px;
+    padding-top: 2px;
 }
 
 .links-desc {
@@ -44,6 +45,11 @@
     box-sizing: border-box;
     height: 1px;
     border-bottom: 1px solid rgba(153,153,153,0.59);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.margin{
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -81,7 +87,6 @@
 
 .center-empty{
     text-align: center;
-    margin-top: 25%;
 }
 
 .container-height{
@@ -112,5 +117,10 @@
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: #999999;
+    background-clip: padding-box;
     padding-right: 10px;
+  }
+
+  .height{
+      height: 100%;
   }

@@ -22,7 +22,8 @@ export default class PpResourceDetailPage extends LightningElement {
     isDocument = false;
     langCode;
     documentLink;
-    studyTitle;
+    studyTitle = '';
+    state;
     label = {
         Uploaded,
         Back_To_Resources
@@ -34,28 +35,23 @@ export default class PpResourceDetailPage extends LightningElement {
         const urlParams = new URLSearchParams(queryString);
         this.resourceId = urlParams.get('resourceid');
         this.resourceType = urlParams.get('resourcetype');
+        this.state = urlParams.get('state');
         if (this.resourceType == 'Study_Document') {
             this.langCode = urlParams.get('lang');
             this.isDocument = true;
         }
-        this.initializeData();
+
+                this.initializeData();
     }
-    initializeData() {
+    async initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
             this.spinner.show();
         }
-        //get study Title
-        getCtpName({})
-            .then((result) => {
-                let data = JSON.parse(result);
-                this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Title__c;
-            })
-            .catch((error) => {
-                this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-            });
+
         //get clicked resource details
-        getResourceDetails({
+
+        await getResourceDetails({
             resourceId: this.resourceId,
             resourceType: this.resourceType
         })
@@ -75,6 +71,19 @@ export default class PpResourceDetailPage extends LightningElement {
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
+        //get study Title
+        if (this.state!= 'ALUMNI' ) {
+           
+                await getCtpName({})
+                    .then((result) => {
+                        let data = JSON.parse(result);
+                        this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Title__c;
+                    })
+                    .catch((error) => {
+                        this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
+                    });
+            
+        }
         this.isInitialized = true;
 
         if (this.spinner) {
@@ -84,7 +93,7 @@ export default class PpResourceDetailPage extends LightningElement {
 
     handleDocumentLoad() {
         this.documentLink =
-            '/apex/RRPDFViewer?resourceId=' + this.resourceId + '&language=' + this.langCode;
+            '/pp/apex/RRPDFViewer?resourceId=' + this.resourceId + '&language=' + this.langCode;
     }
 
     handleBackClick() {

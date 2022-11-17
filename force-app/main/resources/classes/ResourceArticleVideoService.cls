@@ -26,11 +26,12 @@ public virtual inherited sharing class ResourceArticleVideoService extends Resou
         for (Therapeutic_Area_Patient__c tap : ParticipantDecoupler.getTherapeuticAreaPatients()) {
             therapeuticAreas.add(tap.Therapeutic_Area__c);
         }
+        if (pState.value == ParticipantService.ParticipantStates.ALUMNI){
         sortedResources.addAll(
             ResourceTARelatedService.getInstance()
                 .init(resourceType, resourceId, contentClass, therapeuticAreas)
                 .getResources()
-        );
+        );}
         return sortedResources;
     }
 

@@ -32,7 +32,10 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     linksGridSize = 3;
     documentGridSize = 3;
     hideFirstColumn = false;
-    rightColumnPadding = "resource-gutter-left";
+    rightColumnPadding = 'resource-gutter-left';
+    engageHeight = 'res-box-engage-container';
+    linkssHeight = 'res-box-relLinks-container pad10';
+    docsHeight = 'res-box-document-container';
 
     //labels
     labels = {
@@ -54,7 +57,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     @track selectedResourceType;
     @track options = [];
 
-    selectedOptions = "Engage";
+    selectedOptions = 'Engage';
     containerElement;
     enableChangePref = false;
     enableChangePrefOnDocs = false;
@@ -65,8 +68,9 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         return this.isRTL ? 'cardRTL' : '';
     }
 
-    connectedCallback() {        
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);       
+    connectedCallback() {
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        this.selectedResourceType = 'engage';
         this.initializeData();
     }
     // renderedCallback(){
@@ -106,7 +110,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
 
             this.trialdata = JSON.parse(result);
             //cards toggle logic
-            if (communityService.getCurrentCommunityMode().participantState == 'PARTICIPANT') {
+            if (communityService.getCurrentCommunityMode().participantState != 'ALUMNI') {
                 this.toggleExplore = this.trialdata?.trial?.Video_And_Articles_Are_Available__c;
                 this.toggleDocs = this.trialdata?.trial?.Study_Documents_Are_Available__c;
                 this.toggleLinks = this.linksData?.linksAvailable;
@@ -152,21 +156,20 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             let key = ele.getAttribute('data-key');
             if (key == this.selectedResourceType) {
                 ele.classList.add('selected');
-            }
-            else{
+            } else {
                 ele.classList.remove('selected');
             }
         });
     }
 
-    getKey(value){
-            this.options.forEach((obj, index) => {
-                let key = '';
-                if(obj.value == value){
-                    key = obj.label
-                    this.selectedOptions = key;
-                }
-            });      
+    getKey(value) {
+        this.options.forEach((obj, index) => {
+            let key = '';
+            if (obj.value == value) {
+                key = obj.label;
+                this.selectedOptions = key;
+            }
+        });
     }
     get exploreVisible() {
         return this.selectedResourceType == 'explore' ? true : false;
@@ -193,7 +196,6 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             let option1 = { value: 'explore', label: this.labels.EXPLORE };
             this.options.push(option);
             this.options.push(option1);
-
         }
         if (this.toggleLinks) {
             let option = { value: 'discover', label: this.labels.DISCOVER_TITLE };
@@ -204,31 +206,39 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             this.options.push(option);
         }
 
-        // Populate Grid size 
-        if(!this.toggleExplore && !this.toggleDocs && this.toggleLinks){
+        // Populate Grid size
+        if (!this.toggleExplore && !this.toggleDocs && this.toggleLinks) {
             this.linksGridSize = 6;
             this.enableChangePref = true;
+            this.linkssHeight += ' newHeight';
         }
 
-        if(!this.toggleExplore && !this.toggleLinks && this.toggleDocs){
+        if (!this.toggleExplore && !this.toggleLinks && this.toggleDocs) {
             this.hideFirstColumn = true;
             this.documentGridSize = 6;
             this.rightColumnPadding = '';
             this.enableChangePrefOnDocs = true;
+            this.docsHeight += ' newHeight';
         }
 
-        if(!this.toggleExplore && this.toggleLinks && this.toggleDocs){
+        if (!this.toggleExplore && this.toggleLinks && this.toggleDocs) {
             this.enableChangePrefOnDocs = true;
+            this.docsHeight += ' newHeight';
+            this.linkssHeight += ' newHeight';
+        }
+
+        if (this.toggleExplore && !this.toggleLinks) {
+            this.engageHeight += ' newHeight';
         }
     }
 
-    showOptions(event){
+    showOptions(event) {
         this.containerElement = this.template.querySelectorAll('.res-options');
         this.containerElement[0].classList.toggle('hidden');
     }
 
     // closeOptions(event){
     //     if(this.containerElement[0])
-    //         this.containerElement[0].classList.add('hidden');      
+    //         this.containerElement[0].classList.add('hidden');
     // }
 }

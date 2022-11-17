@@ -81,7 +81,15 @@ public virtual without sharing class ResourceService {
                 'WHERE Id IN (' +
                 CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(resourcesIds)) +
                 ')';
-            resources = getResources(whereClause, getOrderByClause());
+            if (Site.getMasterLabel() == 'IQVIA Patient Portal') {
+                whereClause =
+                    whereClause +
+                    ' ' +
+                    'AND  (Expiration_Date__c > TODAY OR Expiration_Date__c = NULL)';
+                resources = getResources(whereClause, getPPOrderByClause());
+            } else {
+                resources = getResources(whereClause, getOrderByClause());
+            }
         }
         return resources;
     }
@@ -92,6 +100,10 @@ public virtual without sharing class ResourceService {
 
     protected virtual String getOrderByClause() {
         return 'ORDER BY Posting_Date__c DESC NULLS LAST';
+    }
+
+    protected virtual String getPPOrderByClause() {
+        return 'ORDER BY CreatedDate DESC NULLS LAST';
     }
 
     protected virtual ResourceService.ResourceWrapperContainer getErrorNoResources() {
@@ -183,6 +195,7 @@ public virtual without sharing class ResourceService {
             'Video__c, ' +
             'Body__c, ' +
             'Updated_Date__c, ' +
+            'CreatedDate, ' +
             'RecordType.DeveloperName, ' +
             'Content_Class__c, ' +
             'Content_Type__c, ' +
@@ -210,6 +223,7 @@ public virtual without sharing class ResourceService {
             'Version_Date__c ' +
             'FROM Resource__c ' +
             whereClause +
+            ' ' +
             (String.isBlank(orderByClause) ? '' : orderByClause + ' ');
         System.debug('>>> Resources Query: ' + resourcesQuery);
         return (List<Resource__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))

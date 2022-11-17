@@ -974,6 +974,16 @@ return String.join(addressList, ', ');
                 .getCurrentContactId();
             //enrollment.Permit_Mail_Email_contact_for_this_study__c = true;
             enrollment.Permit_IQVIA_to_contact_about_study__c = true;
+            enrollment.Permit_Mail_Email_contact_for_this_study__c=true;
+            enrollment.Permit_Voice_Text_contact_for_this_study__c=true;
+            if(participant.Mailing_Country_Code__c=='US'){
+                enrollment.Permit_SMS_Text_for_this_study__c=true;
+            }
+            else{
+                if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c){
+                    enrollment.Permit_SMS_Text_for_this_study__c=true;
+                }
+            }
             enrollment.Study_Artificial_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
             enrollment.Study_Assisted_Dialing_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
             enrollment.Study_Pre_recorded_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
@@ -1110,6 +1120,16 @@ return String.join(addressList, ', ');
                 .getCurrentContactId();
             //enrollment.Permit_Mail_Email_contact_for_this_study__c = true;
             enrollment.Permit_IQVIA_to_contact_about_study__c = true;
+            enrollment.Permit_Mail_Email_contact_for_this_study__c=true;
+            enrollment.Permit_Voice_Text_contact_for_this_study__c=true;
+            if(participant.Mailing_Country_Code__c=='US'){
+                enrollment.Permit_SMS_Text_for_this_study__c=true;
+            }
+            else{
+                if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c){
+                enrollment.Permit_SMS_Text_for_this_study__c=true;
+                }
+            }
             enrollment.Study_Artificial_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
             enrollment.Study_Assisted_Dialing_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
             enrollment.Study_Pre_recorded_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
@@ -1305,16 +1325,18 @@ FOR UPDATE
                         newContact.Participant_Opt_In_Status_Emails__c =true;
                         newContact.IQVIA_Artificial_Voice_Consent__c =true;
                         newContact.IQVIA_Pre_recorded_Voice_Consent__c =true;
-                        newContact.Participant_Opt_In_Status_SMS__c=true;
                         if(participant.Mailing_Country_Code__c=='US'){
                             newContact.Participant_Opt_In_Status_SMS__c=true;
                             newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
                         }
                         else{
-                        newContact.Participant_Opt_In_Status_SMS__c=enrollment.Permit_SMS_Text_for_this_study__c;
-                         if(newContact.Participant_Opt_In_Status_SMS__c){
-                            newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
-                         }
+                            if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c)
+                            {
+                                newContact.Participant_Opt_In_Status_SMS__c=true;
+                            }
+                            if(newContact.Participant_Opt_In_Status_SMS__c){
+                                newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
+                            }
                         }
                         newContact.IQVIA_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
                         newContact.IQVIA_PI_Storage_Consent_Time__c = Datetime.now();
@@ -1373,7 +1395,13 @@ FOR UPDATE
                             newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
                         }
                         else{
-                            newContact.Participant_Opt_In_Status_SMS__c=enrollment.Permit_SMS_Text_for_this_study__c;
+                            if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c)
+                            {
+                                newContact.Participant_Opt_In_Status_SMS__c=true;
+                            }
+                            else{
+                                newContact.Participant_Opt_In_Status_SMS__c=false;
+                            }
                             if(newContact.Participant_Opt_In_Status_SMS__c){
                                 newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
                                }

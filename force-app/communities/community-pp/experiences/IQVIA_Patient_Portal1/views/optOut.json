@@ -1,0 +1,37 @@
+{
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "componentName" : "c:pir_OneColumnLayout",
+  "id" : "274f00fa-9754-4f7e-b825-73996fe0fba0",
+  "label" : "Opt Out",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ppOptOutAndTechnicalSupport",
+      "id" : "f4628877-6f39-40d6-91d0-eb179776573a",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "5675b638-140c-4f95-b620-a14896fa2dea",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Opt Out"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "bfa276e2-6f4e-4b4e-9f66-b34cefa6f2bb",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "e4de5404-b95c-47c0-8187-d7502319a576",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "sooFrYP56xGvXL795EwMy34MaWMEe2",
+  "type" : "view",
+  "viewType" : "custom-opt-out"
+}

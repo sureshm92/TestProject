@@ -20,7 +20,7 @@ public without sharing class StudyTrialService {
         'Official_Title__c',
         'Sponsor_Pays_for_Referral_Activity__c',
         'Override_Inclusion_Criteria__c',
-        //    'Override_Description__c',
+        'Override_Description__c',
         'Brief_Summary__c',
         'Therapeutic_Area__r.Name',
         'NCT_Number__c'
@@ -746,7 +746,7 @@ public without sharing class StudyTrialService {
                 Detailed_Description__c,
                 Override_Recruitment_Status__c,
                 Brief_Summary__c,
-                //    Override_Description__c,
+                Override_Description__c,
                 Override_Inclusion_Criteria__c,
                 Override_Exclusion_Criteria__c,
                 Condition_s_Therapeutic_Area__c,

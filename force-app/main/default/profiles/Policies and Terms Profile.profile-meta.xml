@@ -5,6 +5,10 @@
         <apexClass>TermsAndConditionsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>CommunityFacadeRemote</apexClass>
+        <enabled>true</enabled> 
+    </classAccesses>
     <custom>true</custom>
     <pageAccesses>
         <apexPage>BandwidthExceeded</apexPage>

@@ -137,14 +137,14 @@
                 component.set('v.pyear',null);
             }
              
-            if( (( pe.Mailing_Country_Code__c == 'US' && ((pe.Permit_SMS_Text_for_this_study__c)&&  pe.Delegate_SMS_Consent__c)) || 
+          if( (( pe.Mailing_Country_Code__c == 'US' && (pe.Permit_SMS_Text_for_this_study__c || pe.Delegate_Consent__c)) || 
                    pe.Mailing_Country_Code__c != 'US' ) && 
-                 ((pe.Permit_Voice_Text_contact_for_this_study__c && 
-                 pe.Permit_Mail_Email_contact_for_this_study__c ) || pe.Delegate_Consent__c) 
+                ( (pe.Permit_Voice_Text_contact_for_this_study__c && 
+                 pe.Permit_Mail_Email_contact_for_this_study__c) || pe.Delegate_Consent__c)
               ){
               component.set('v.agreePolicy',true);   
             }
-            
+
         }else{
             var participant = {
                 sobjectType: 'Participant__c',
@@ -243,25 +243,16 @@
         let per = component.get('v.pEnrollment');
         let delegateParticipant = component.get('v.delegateParticipant'); 
         //RH-8091 
-        if( per != null && per != undefined && per != '' && delegateParticipant == null && delegateParticipant == undefined && delegateParticipant == '' &&  (
-                (component.get('v.participant').Mailing_Country_Code__c == 'US' && per.Permit_SMS_Text_for_this_study__c) || 
-                 component.get('v.participant').Mailing_Country_Code__c != 'US' ) && 
-                 per.Permit_Voice_Text_contact_for_this_study__c && 
-                 per.Permit_Mail_Email_contact_for_this_study__c 
-              ){
-              component.set('v.agreePolicy',true);   
-            }
-            else 
-            if( per != null && per != undefined && per != '' && delegateParticipant != null && delegateParticipant != undefined && delegateParticipant != '' &&
-               (
-                (component.get('v.participant').Mailing_Country_Code__c == 'US' && ((per.Permit_SMS_Text_for_this_study__c) || per.Delegate_SMS_Consent__c)) || 
+        if( per != null && per != undefined && per != '' &&
+            (
+                (component.get('v.participant').Mailing_Country_Code__c == 'US' &&( per.Permit_SMS_Text_for_this_study__c || per.Delegate_Consent__c)) || 
                  component.get('v.participant').Mailing_Country_Code__c != 'US' ) && 
                  ((per.Permit_Voice_Text_contact_for_this_study__c && 
-                 per.Permit_Mail_Email_contact_for_this_study__c ) || per.Delegate_Consent__c)
+                per.Permit_Mail_Email_contact_for_this_study__c )|| per.Delegate_Consent__c)
               ){
               component.set('v.agreePolicy',true);   
             }
-            //RH-8091 
+        //RH-8091
         let agreePolicy = component.get('v.agreePolicy');
 
         //Guardian (Participant delegate) 
@@ -291,6 +282,13 @@
                 helper.checkValidEmail(emailDelegateRepeatCmp, emailDelegateRepeat);
         }else {
             emailDelegateRepeatValid = false;
+        }
+
+        if(participant.Email__c){
+            emailVaild = 
+            needsDelegate ||
+                emailCmp &&
+                helper.checkValidEmail(emailCmp, participant.Email__c);
         }
         //let emailDelegateVaild = needsDelegate && emailDelegateCmp && emailDelegateCmp.get('v.validity') && emailDelegateCmp.get('v.validity').valid;
         //let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
@@ -413,6 +411,8 @@
                //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
                isDobValid &&
                participant.Email__c &&
+               emailVaild &&
+               emailRepeatValid &&
                participant.Email__c == emailRepeat &&
                participant.Phone__c &&
                participant.Mailing_Zip_Postal_Code__c &&
@@ -459,7 +459,10 @@
                 emailRepeat !== ''
             ) {
                 emailCmp.reportValidity();
+                helper.checkValidEmail(emailCmp,participant.Email__c );
                 emailRepeatCmp.reportValidity();
+                helper.checkValidEmail(emailRepeatCmp, emailRepeat);
+
             }
         }
         if (needsDelegate && delegateParticipant && emailDelegateCmp && emailDelegateRepeatCmp) {
@@ -499,9 +502,7 @@
         var regexpInvalid = new RegExp($A.get('$Label.c.RH_Email_Invalid_Characters'));
         var invalidCheck = regexpInvalid.test(emailValue);
         if (invalidCheck == false) {
-            email.setCustomValidity('');
             if (emailValue.match(regexp)) {
-                email.setCustomValidity('');
                 isValid = true;
             } else {
                 if(emailValue != ''){
@@ -549,6 +550,7 @@
                 if (returnValue.email) {
                     participantDelegate.Email__c = returnValue.email;
                     component.set('v.emailInstance', returnValue.email.toLowerCase());
+                    component.set('v.emailDelegateRepeat',returnValue.email.toLowerCase());
                 } else component.set('v.emailInstance', null);
                 if (returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
                 if (returnValue.firstName)
