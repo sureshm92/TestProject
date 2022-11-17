@@ -20465,6 +20465,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Match Username &amp; Email</value>
     </labels>
     <labels>
+        <fullName>PP_Username_Email_in_GetSupport</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Username_Email_in_GetSupport</shortDescription>
+        <value>Username &amp; Email</value>
+    </labels>
+    <labels>
         <fullName>PP_Select_Support_Topic</fullName>
         <language>en_US</language>
         <protected>true</protected>
