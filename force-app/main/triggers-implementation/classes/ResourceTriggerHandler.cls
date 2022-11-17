@@ -69,9 +69,11 @@ public with sharing class ResourceTriggerHandler {
         List<Sobject> resourceListForBellNotification = new List<Sobject>();
         for(Sobject rec : newList){
             Resource__c res = (Resource__c)rec;
-            if (!oldMap.get(res.Id).Resource_Visibility__c.containsIgnoreCase('PI')
-                && res.Resource_Visibility__c.containsIgnoreCase('PI')) {
-                 resourceListForBellNotification.add(rec);
+            if ((oldMap.get(res.Id).Resource_Visibility__c != res.Resource_Visibility__c) 
+                && ((res.Resource_Visibility__c != null && res.Resource_Visibility__c.containsIgnoreCase('PI') && oldMap.get(res.Id).Resource_Visibility__c != null && !oldMap.get(res.Id).Resource_Visibility__c.containsIgnoreCase('PI'))
+                    || (res.Resource_Visibility__c != null && res.Resource_Visibility__c.containsIgnoreCase('PI') && oldMap.get(res.Id).Resource_Visibility__c == null)) 
+                ) {                    
+                resourceListForBellNotification.add(rec);
             }
         }
         if(resourceListForBellNotification.size() > 0 ){
