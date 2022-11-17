@@ -12,13 +12,13 @@ public class Test_LibraryPIRemote {
         List<Resource__c> resources = new List<Resource__c>{
             new Resource__c(Resource_Visibility__c = 'PI', Language__c = 'en_US',
                            RecordTypeId = Schema.SObjectType.Resource__c.getRecordTypeInfosByName()
-                    .get('Study Document')
+                    .get('Document')
                     .getRecordTypeId()),
             new Resource__c(
                 Language__c = 'en_US',
                 Resource_Visibility__c = 'PI',
                 RecordTypeId = Schema.SObjectType.Resource__c.getRecordTypeInfosByName()
-                    .get('Study Document')
+                    .get('Document')
                     .getRecordTypeId()
             )
         };
@@ -53,7 +53,7 @@ public class Test_LibraryPIRemote {
                 Language__c = 'en_US',
                 Resource_Visibility__c = 'PI',
                 RecordTypeId = Schema.SObjectType.Resource__c.getRecordTypeInfosByName()
-                    .get('Study Document')
+                    .get('Document')
                     .getRecordTypeId()
             )
         };
