@@ -94,7 +94,7 @@
 }
 
 .sys-task {
-    margin-left: 6px;
+    margin-left: 2px;
 }
 
 .curpointer {
@@ -162,8 +162,8 @@
     border: none;
     float: right;
 }
-.home-inactive-custom-box{
-    margin-bottom:8px !important;
+.home-inactive-custom-box {
+    margin-bottom: 8px !important;
     box-sizing: border-box;
     height: 88px;
     /* width: 380px; */
@@ -200,6 +200,7 @@
     font-size: 13px;
     font-weight: 600;
     color: #ffffff;
+    border-radius: 2px;
 }
 .no-task-list-view {
     height: 152px !important;
@@ -281,6 +282,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.home-crit-subject-ellipsis {
+    width: 215px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .subject-ellipsis {
     width: 320px;
     white-space: nowrap;
@@ -326,7 +333,7 @@
         width: 100%;
     }
     .path-2-copy {
-     /*   width: 301px; */
+        /*   width: 301px; */
         margin-left: 0.3rem;
     }
     .open-task {
@@ -343,12 +350,14 @@
         overflow-y: unset !important;
     }
     .critical-rect {
-        right: -15px;
+        right: -10px;
         float: none;
-        bottom: -4px !important;
     }
     .crit-mob-subject-ellipsis {
         width: 165px;
+    }
+    .home-crit-mob-subject-ellipsis {
+        width: 225px;
     }
     .mob-subject-ellipsis {
         width: 230px;
@@ -377,5 +386,3 @@
     height: 40px;
     width: 20px;
 }
-
-
