@@ -29386,7 +29386,15 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Opt Out</shortDescription>
-        <value>Your request has been sent successfully.</value>
+        <value>Your request has been submitted successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Opt_Out_Close_window</fullName>
+        <categories>PP_Opt_Out_Close_window</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>Close window</value>
     </labels>
     <labels>
         <fullName>PP_Technical_Support_Category</fullName>
