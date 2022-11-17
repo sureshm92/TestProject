@@ -314,16 +314,40 @@
 }
 
 @media all and (max-width: 486px) {
+
+    .page-header {
+        margin-inline: 1rem;
+    }
+
+    .newTaskBtn {
+        width: 100%;
+        padding: .75rem 1.5rem 1rem;
+    }
+
+    .taskCard {
+        padding-inline: 1.5rem;
+        width: 100%;
+    }
+
+    .taskList {
+        display: block;
+        width: 100%;
+        padding-inline: 1.5rem;
+    }
+
+    .create-task {
+        width: 100%;
+        margin-inline: 1rem;
+    }
+
     .inactive-custom-box {
-        width: 366px;
+        width: 100%;
     }
     .path-2-copy {
         width: 301px;
         margin-left: 0.3rem;
     }
-    .open-task {
-        margin-left: 10px;
-    }
+
     .mob-task-sub {
         margin-left: 0.75rem;
     }
@@ -331,9 +355,9 @@
         margin-left: 1rem;
     }
     .overflow-scroll {
-        height: unset !important;
-        overflow-y: unset !important;
-        padding: unset !important;
+        height: unset;
+        overflow-y: unset;
+        padding: unset;
     }
 }
 /* Scroll bar custom */

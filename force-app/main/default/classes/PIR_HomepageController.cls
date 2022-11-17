@@ -2198,7 +2198,9 @@ public without sharing class PIR_HomepageController {
         if(StatusToUpdate == 'Declined Consent' ||
         StatusToUpdate == 'Withdrew Consent' ||
         StatusToUpdate== 'Withdrew Consent After Screening' ||
-        StatusToUpdate == 'Declined Final Consent'
+        StatusToUpdate == 'Declined Final Consent' ||
+        oParticipantStatus == 'Withdrew Consent' ||
+        oParticipantStatus == 'Declined Consent'
         ){
         pe.Re_consent__c=false;
         }

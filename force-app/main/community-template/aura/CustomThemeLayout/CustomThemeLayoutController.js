@@ -49,7 +49,7 @@
         else{
             component.find('ppMenu')?.forceRefresh();
             component.find('ppFooter')?.forceRefresh();
-            component.find('ppAlerts')?.forceRefresh();
+            component.find('ppAlerts')?.forceRefresh();            
         }
     },
 
@@ -117,22 +117,6 @@
             component.set('v.isSitecal', true);
         } else {
             component.set('v.isSitecal', false);
-        }
-        if(!component.get('v.isIconVisible')) {
-            component.set('v.isIconVisible', true);
-        } else {
-            component.set('v.isIconVisible', false);
-             component.set('v.notVisibleOnBlur', true);
-        }
-    },
-     handleComponentEvent : function(component, event, helper) {
-         
-        if(!component.get('v.isIconVisible')) {
-            if(!component.get('v.notVisibleOnBlur'))
-                component.set('v.isIconVisible', true);
-        } else {
-             component.set('v.notVisibleOnBlur', false);
-            component.set('v.isIconVisible', false);
         }
     },
     updateReadMark : function(component, event, helper) {
