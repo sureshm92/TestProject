@@ -19381,7 +19381,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_EnterNewPassword</shortDescription>
-        <value>Enter new password</value>
+        <value>Enter New Password</value>
     </labels>
     <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
@@ -20463,6 +20463,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Username_Email_GetSupport</shortDescription>
         <value>Match Username &amp; Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_Username_Email_in_GetSupport</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Username_Email_in_GetSupport</shortDescription>
+        <value>Username &amp; Email</value>
     </labels>
     <labels>
         <fullName>PP_Select_Support_Topic</fullName>
