@@ -68,6 +68,10 @@ hr {
     font-weight: 600;
 }
 
+.hide-overflow{
+    overflow: hidden;
+}
+
 .location {
     height: 2.06%;
     /*width: 19.11%;*/
@@ -218,8 +222,8 @@ hr {
     padding-top: 16px;
 }
 .no-upcoming-img {
-    height: 64px;
-    width: 86px;
+    height: 47px;
+    width: 60px;
 }
 
 .upcoming-card{
