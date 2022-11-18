@@ -10,6 +10,15 @@
     padding-right: 5px;
 }
 
+.card-container-height-small{
+    height: 320px;
+}
+
+.card-container-height-medium{
+    height: 560px;
+}
+
+
 .links-container:hover{
     cursor: pointer;
 }
