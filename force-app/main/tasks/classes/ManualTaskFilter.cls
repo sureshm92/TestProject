@@ -222,8 +222,8 @@ public without sharing class ManualTaskFilter {
                 } 
             }
         }
-        set<Id> delconIds = new Set<Id>();
         if(!studyDelegateContactsIds.isEmpty()){
+            set<Id> delconIds = new Set<Id>();
             for(Id parId : studyDelegateContactsIds.keySet()){
                 if(participantwithContact.containskey(parId)){
                     Map<Id, Participant_Enrollment__c> peMap = new Map<Id, Participant_Enrollment__c>(
@@ -231,7 +231,12 @@ public without sharing class ManualTaskFilter {
                     );
                     delconIds.addAll(studyDelegateContactsIds.get(parId));
                     for(Id delcon : delconIds){
-                        studyDelContactPerIds.put(delcon, new List<Id>(peMap.keySet()));
+                        if (!studyDelContactPerIds.containsKey(delcon)) {
+                            studyDelContactPerIds.put(delcon, new List<Id>());
+                        }
+                        if(peMap != null && !peMap.isEmpty()){
+                            studyDelContactPerIds.get(delcon).addAll(peMap.keyset());
+                        }
                     }
                     system.debug('studyDelContactPerIds:::'+studyDelContactPerIds);
                 }
