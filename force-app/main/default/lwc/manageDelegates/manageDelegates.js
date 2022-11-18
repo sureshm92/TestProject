@@ -149,11 +149,12 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                     maskedEmail += '*';
                 }
             }
-            pde['addNewStudy'] = false;
+            // pde['addNewStudy'] = false;
             pde.PatientDelegate.Email__c = maskedEmail;
 
             //Also check if the Status of PDEnrollment is active or not.
             if (activeDelegates) {
+                pde['addNewStudy'] = false;
                 pde.PDEEnrollments.forEach((pden) => {
                     if (pden.Status__c === 'Active') {
                         pden['isActive'] = true;
@@ -164,6 +165,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             } else {
                 //Former Delegate
                 pde['showDeleteRedIcon'] = false;
+                pde['addNewStudyFormer'] = false;
             }
         });
     }
@@ -235,6 +237,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         return this.validateData
             ? 'save-del-btn btn-save-opacity addDelegateMobile'
             : 'save-del-btn addDelegateMobile';
+    }
+    get delInfoFormer(){
+        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
     }
     //Navigate to Add delegate screen
     navToAddDelegate() {
@@ -322,6 +327,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     toggleFormerDelegateView() {
         this.showFormerDelegates = this.showFormerDelegates == true ? false : true;
     }
+    //Add assignment from Active delegate section
     addAssignment(event) {
         let delId = event.currentTarget.dataset.pdid;
         this.listPDE.forEach((pden) => {
@@ -330,11 +336,31 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             }
         });
     }
+    
+    //Add assignment from Former delegate section.
+    addAssignmentFormer(event) {
+        let delId = event.currentTarget.dataset.pdid;
+        this.formerListPDE.forEach((pden) => {
+            if (pden.PatientDelegate.Id === delId) {
+                pden.addNewStudyFormer = true;
+            }
+        });
+    }
+    //Discard Assignment from Active delegate section.
     discardAssignment(event) {
         let delId = event.currentTarget.dataset.pdid;
         this.listPDE.forEach((pden) => {
             if (pden.PatientDelegate.Id === delId) {
                 pden.addNewStudy = false;
+            }
+        });
+    }
+     //Discard Assignment from Former delegate section.
+    discardAssignmentFormer(event) {
+        let delId = event.currentTarget.dataset.pdid;
+        this.formerListPDE.forEach((pden) => {
+            if (pden.PatientDelegate.Id === delId) {
+                pden.addNewStudyFormer = false;
             }
         });
     }
