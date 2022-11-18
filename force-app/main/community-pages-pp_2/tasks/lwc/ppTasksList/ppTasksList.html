@@ -566,15 +566,13 @@
                         <template if:false={item.isClosed}>
                             <template if:true={ishomepage}>
                                 <template if:true={item.systemTask}>
-                                    <c-web-icon
-                                        icon-name="task_arrow"
+                                    <img
+                                        src={task_arrow}
                                         onclick={taskOpen}
                                         data-actionurl={item.task.Action_URL__c}
                                         data-status={item.task.Status}
                                         data-index={item.task.Id}
-                                        class="svg-icon"
-                                        icon-size="default"
-                                    ></c-web-icon>
+                                    />
                                 </template>
                             </template>
                             <template if:false={ishomepage}>
