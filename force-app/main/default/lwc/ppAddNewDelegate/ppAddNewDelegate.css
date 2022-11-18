@@ -6,7 +6,7 @@
     top: 5rem;
     */
     background-color: #ffffff;
-    margin-left: 24px;
+    /* margin-left: 24px; */
     position: absolute;
     width: 62%;
 }
@@ -87,8 +87,8 @@
 }
 
 .icon-chevron-right {
-    height: 11px;
-    width: 20px;
+    height: 13px;
+    width: 13px;
     transform: rotate(180deg);
     margin-left: -8px;
 }
