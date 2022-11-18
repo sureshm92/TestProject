@@ -110,7 +110,7 @@
                             <template if:true={UseremailDuplicate}>
                                 <div class="merge-existing-usern">{label.PP_MergeExisting}</div>
                                 <div class="there-are-multiple">{label.PP_Duplicate_Usernames}</div>
-                                <div class="slds-grid slds-size--1-of-1 ah-item-panel">
+                                <div class="slds-grid slds-size--1-of-1 ah-item-panel help-match-username-radio-options">
                                     <lightning-radio-group
                                         name="radioGroup"
                                         variant="label-hidden"
@@ -132,7 +132,7 @@
                         <button
                             onclick={doCreateYOBCase}
                             disabled={disableSave}
-                            class="updateButtonMobile disabled"
+                            class={submitDisabledButtonMargin}
                         >
                             {label.submitButton}
                         </button>
