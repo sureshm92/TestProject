@@ -222,9 +222,9 @@ public without sharing class ManualTaskFilter {
                 } 
             }
         }
-        if(!studyDelegateContactsIds.isEmpty()){
-            set<Id> delconIds = new Set<Id>();
+        if(!studyDelegateContactsIds.isEmpty()){ 
             for(Id parId : studyDelegateContactsIds.keySet()){
+                set<Id> delconIds = new Set<Id>();
                 if(participantwithContact.containskey(parId)){
                     Map<Id, Participant_Enrollment__c> peMap = new Map<Id, Participant_Enrollment__c>(
                         sObjectsByContact.get(participantwithContact.get(parId))
