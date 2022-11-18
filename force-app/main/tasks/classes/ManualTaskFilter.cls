@@ -231,12 +231,7 @@ public without sharing class ManualTaskFilter {
                     );
                     delconIds.addAll(studyDelegateContactsIds.get(parId));
                     for(Id delcon : delconIds){
-                        if (!studyDelContactPerIds.containsKey(delcon)) {
-                            studyDelContactPerIds.put(delcon, new List<Id>());
-                        }
-                        if(peMap != null && !peMap.isEmpty()){
-                            studyDelContactPerIds.get(delcon).addAll(peMap.keyset());
-                        }
+                        studyDelContactPerIds.put(delcon, new List<Id>(peMap.keySet()));
                     }
                     system.debug('studyDelContactPerIds:::'+studyDelContactPerIds);
                 }
