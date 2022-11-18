@@ -95,8 +95,11 @@
                             </template>
                         </lightning-layout-item>
                         <lightning-layout-item size="11">
-                            <template if:true={isMatchUsernameEmail}>
+                            <template if:true={checkMergeUsernameEmail}>
                                 <span class="matchEmailText">{label.PP_Merge_Username}</span>
+                            </template>
+                            <template if:true={checkMatchUsernameEmail}>
+                                <span class="matchEmailText">{label.matchUsernameEmail}</span>
                             </template>
                         </lightning-layout-item>
                     </lightning-layout>

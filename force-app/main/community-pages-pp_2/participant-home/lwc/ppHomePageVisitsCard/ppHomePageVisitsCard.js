@@ -50,7 +50,7 @@ export default class HomePageVisitsCard extends LightningElement {
     renderedCallback() {
         if(this.isInitialized != true){
             this.initializeData();
-            this.isInitialized = true;
+            
         }
     }
 
@@ -94,6 +94,7 @@ export default class HomePageVisitsCard extends LightningElement {
                 if(this.spinner){
                     this.spinner.hide();
                 }
+                this.isInitialized = true;
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
