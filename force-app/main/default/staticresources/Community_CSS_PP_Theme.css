@@ -414,6 +414,23 @@
     padding-left: 1rem !important;
     font-weight: 600 !important;
 }
+/* Get Support */
+
+.help-match-username-radio-options .slds-form-element__label{
+    height: 24px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    max-width: 91%;
+    width: auto;
+    display: inline-block;
+    height: auto;
+    word-break: break-word;
+    text-align: left;
+    margin-top: -2px;
+}
 
 .logo-container-pp {
     height: 50px;

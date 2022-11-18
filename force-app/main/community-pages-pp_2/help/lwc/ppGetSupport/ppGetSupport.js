@@ -106,6 +106,18 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         return this.YOBSelected ? 'support-year' : 'support-year opacity';
     }
 
+    get submitDisabledButtonMargin(){
+        if(this.isMatchUsernameEmail){
+            return "updateButtonMobile disabled customMatchUNMargin";
+        }
+        else if(this.isEditYOB){
+            return "updateButtonMobile disabled customEditYOBMargin";
+        }
+        else{
+            return "updateButtonMobile";
+        }
+    }
+
     get options() {
         return [
             { label: edit_Year_of_Birth, value: edit_Year_of_Birth },
