@@ -36,16 +36,12 @@ hr {
     margin: -1px;
 }
 .more {
-    height: 2.36%;
-    width: 14.64%;
     color: #757575;
-    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0;
-    line-height: 32px;
+    line-height: 5px;
     text-align: center;
-    margin-bottom: 8px;
 }
 .visit-text {
     height: 2.36%;
@@ -53,12 +49,29 @@ hr {
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0;
     line-height: 21px;
     margin-bottom: 6px;
     margin-top: 7px;
 }
+
+.visit-text-mobile{
+    color: #444444;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.site-title-text {
+    color: #444444;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.hide-overflow{
+    overflow: hidden;
+}
+
 .location {
     height: 2.06%;
     /*width: 19.11%;*/
@@ -82,8 +95,27 @@ hr {
     height: 1.57%;
 } */
 .expect-icon {
-    height: 2.32%;
+    padding-right: 10px;
 }
+
+.text-centre {
+    text-align:center;
+}
+
+.detail-section{
+    display:inline-flex;
+}
+
+.dis-block {
+    display: inline-grid;
+    justify-items: center;
+}
+
+.mobile-padding {
+    padding:5px; 
+    padding-top:12px;
+}
+
 .expect-text {
     height: 2.36%;
     color: #444444;
@@ -102,17 +134,35 @@ hr {
     letter-spacing: 0;
     line-height: 32px;
 }
-.no-expect {
-    height: 4.71%;
-    color: #999999;
+
+.visit-title {
+    color: #444444;
     font-family: 'Proxima Nova';
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+
+.visit-title-mobile{
+    padding-left: 10px;
+    font-size: 24px;
+    font-weight: 600;
+}    
+
+.padding-desktop {
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+.no-expect {
+    color: #999999;
     font-size: 16px;
     font-weight: 500;
-    letter-spacing: 0;
-    line-height: 24px;
+
     text-align: center;
     word-wrap: normal;
-    padding: 22%;
+    padding: 15%;
 }
 .content {
     margin: 10px;
@@ -121,11 +171,17 @@ hr {
     padding: 0;
 }
 
+.padding-desktop {
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
 .visit-card {
     padding-top: 10px;
     padding-bottom: 0;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    height: 220px;
 }
 .visit-card-upcoming {
     height: 377px;
@@ -136,7 +192,6 @@ hr {
 }
 .text-colour {
     color: #a9a9a9;
-    margin-top: 8px;
 }
 .label {
     height: 24px;
@@ -150,17 +205,39 @@ hr {
     text-align: center;
 }
 .icon-card {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
     border: 1px solid lightgrey;
+    height: 160px;
+    background-color: #FFFFFF;
 }
+
+.icon-card-mobile {
+    height: 160px;
+}
+
+.info-icon-mobile{
+    padding-left:10px;
+}
+
 .padding-top {
     padding-top: 16px;
 }
 .no-upcoming-img {
-    height: 64px;
-    width: 86px;
+    height: 47px;
+    width: 60px;
 }
+
+.upcoming-card{
+    height: 419px;
+    border: 1px solid lightgrey;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-top-color: #005587;
+    background: linear-gradient( to bottom, #005587 32px, #005587 32px, #FFFFFF 0%, #FFFFFF 100% );
+        
+}
+
 .uc-text {
     margin-top: 3px;
     padding: 0;
@@ -172,6 +249,17 @@ hr {
     text-align: center;
     color: #ffffff;
 }
+.uc-text-mobile {
+    margin-top: 6px;
+    padding: 0;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    text-align: center;
+    color: #ffffff;
+}
+
 @media only screen and (max-width: 600px) {
     .container-card {
         height: 37px;
@@ -196,9 +284,18 @@ hr {
         width: 360px;
         margin-left: 15px;
     }
+
+    .container-card-no-upcoming {
+        box-sizing: border-box;
+        height: 376px;
+    }
+
     .visit-card-upcoming {
         width: 360px;
         margin-left: -17px;
-        margin-top: -35px;
+    }
+    .text-colour {
+        color: #a9a9a9;
+        margin-top: 8px;
     }
 }

@@ -1399,6 +1399,9 @@ FOR UPDATE
                             {
                                 newContact.Participant_Opt_In_Status_SMS__c=true;
                             }
+                            else{
+                                newContact.Participant_Opt_In_Status_SMS__c=false;
+                            }
                             if(newContact.Participant_Opt_In_Status_SMS__c){
                                 newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
                                }

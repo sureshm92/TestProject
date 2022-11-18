@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import edit_Year_of_Birth from '@salesforce/label/c.PP_Edit_Year_of_Birth';
-import match_Username_Email_Option from '@salesforce/label/c.PP_Username_Email_GetSupport';
+import match_Username_Email_Option from '@salesforce/label/c.PP_Username_Email_in_GetSupport';
 import select_Support_Topic from '@salesforce/label/c.PP_Select_Support_Topic';
 import ppFrom from '@salesforce/label/c.PP_From';
 import ppTo from '@salesforce/label/c.PP_To_Year';
@@ -13,6 +13,7 @@ import PP_Duplicate_Usernames from '@salesforce/label/c.PP_Duplicate_Usernames';
 import PP_UsrNameLabel from '@salesforce/label/c.PP_UsrNameLabel';
 import requestSubmitted from '@salesforce/label/c.PP_Request_Submitted_Success_Message';
 import matchUsernameEmail from '@salesforce/label/c.PP_Username_And_Email_Change_GetSupport';
+import PP_Merge_Username from '@salesforce/label/c.PP_Merge_Username';
 import PP_MergeExisting from '@salesforce/label/c.PP_MergeExisting';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import validateAgeOfMajority from '@salesforce/apex/ApplicationHelpRemote.validateAgeOfMajority';
@@ -44,6 +45,8 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     UseremailDuplicate;
     userNamesListvalue;
     duplicateInfoHeader;
+    checkMatchUsernameEmail = false;
+    checkMergeUsernameEmail = false;
 
     isMobile;
     cardRTL;
@@ -62,6 +65,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         matchUsernameEmail,
         PP_Duplicate_Usernames,
         PP_UsrNameLabel,
+        PP_Merge_Username,
         PP_MergeExisting
     };
     selectedOption;
@@ -139,10 +143,14 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
             this.isEditYOB = true;
             this.isMatchUsernameEmail = false;
             this.UseremailDuplicate = false;
+            this.checkMergeUsernameEmail = false;
         } else if (this.selectedOption == match_Username_Email_Option) {
             this.isMatchUsernameEmail = true;
             this.isEditYOB = false;
+            this.checkMergeUsernameEmail =  this.isMatchUsernameEmail && this.isDuplicate? true  : false ;
+            this.checkMatchUsernameEmail =   this.isDuplicate? false  : true ;
         }
+        console.log('showusermatch'+this.showUserMatch);
     }
     doCheckYearOfBith(event) {
         this.YOBSelected = true;

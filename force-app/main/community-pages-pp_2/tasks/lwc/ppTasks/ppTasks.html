@@ -50,7 +50,7 @@
             <template if:false={desktop}>
                 <article class="slds-card slds-card_boundary container-card-mobile">
                     <p class="task-header">Tasks</p>
-                    <div class="slds-card__body slds-card__body_inner custom-padding">
+                    <div class="custom-padding">
                         <template if:true={taskOpenTab}>
                             <c-pp-tasks-list
                                 container-class="home-inactive-custom-box slds-align_absolute-center"
@@ -63,9 +63,9 @@
                                 system-icon-class="home-sys-task curpointer"
                             ></c-pp-tasks-list>
                             <template if:true={emptyOpenTasks}>
-                                <div class="slds-card__body slds-card__body_inner card-wrap">
+                                <div class="card-wrap">
                                     <article
-                                        class="slds-card slds-card_boundary slds-align_absolute-center container-card-upcoming"
+                                        class="slds-align_absolute-center container-card-upcoming"
                                     >
                                         <div class="dis-block">
                                             <span class="center"><img src={systemTaskImg} /></span>
@@ -127,7 +127,10 @@
                                 </div>
                             </template>
                         </lightning-layout-item>
-                        <lightning-layout class="slds-align_absolute-center taskList" multiple-rows="true">
+                        <lightning-layout
+                            class="slds-align_absolute-center taskList"
+                            multiple-rows="true"
+                        >
                             <lightning-layout-item class="overflow-scroll" size="12"
                                 ><template if:true={isCreateTask}>
                                     <template if:false={editMode}>
@@ -163,7 +166,10 @@
                         </lightning-layout>
                     </template>
                     <template if:false={taskOpenTab}>
-                        <lightning-layout multiple-rows="true">
+                        <lightning-layout
+                            class="slds-align_absolute-center taskList"
+                            multiple-rows="true"
+                        >
                             <lightning-layout-item class="overflow-scroll" size="12">
                                 <template if:false={emptyCompletedTasks}>
                                     <c-pp-tasks-list
