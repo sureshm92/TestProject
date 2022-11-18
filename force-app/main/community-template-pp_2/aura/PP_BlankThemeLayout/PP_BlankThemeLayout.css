@@ -56,12 +56,12 @@
     box-shadow: 0 0 64px 0 rgb(0 0 0 / 25%);
 }
 
-.THIS .logo-block-mobile{
+.THIS .logo-block-mobile {
     height: 687px;
     /* width: 382px; */
     border-radius: 24px;
-    background-color: #FFFFFF;
-    box-shadow: 0 0 64px 0 rgba(0,0,0,0.25);   
+    background-color: #ffffff;
+    box-shadow: 0 0 64px 0 rgba(0, 0, 0, 0.25);
     margin: 10px;
     margin-top: 122px;
 }
@@ -113,18 +113,18 @@
     border-radius: 0 0 24px 24px;
     background-color: #f2f2f2;
     position: absolute;
-    top:50.938rem;
+    top: 50.938rem;
     width: 38.313rem;
     color: white;
     text-align: right;
 }
-.THIS .mob-footerOptOut{
+.THIS .mob-footerOptOut {
     height: 60px;
     border-radius: 0 0 24px 24px;
     background-color: #f2f2f2;
     /* position: absolute; */
-    bottom:0;
-    /* width: 95%; */
+    bottom: 0;
+    width: 100%;
     color: white;
 }
 
@@ -136,7 +136,7 @@
 .THIS .poweredBy {
     height: 24px;
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     letter-spacing: 0;
     line-height: 16px;
@@ -145,19 +145,19 @@
 .THIS .powered-by-mobile {
     height: 24px;
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     letter-spacing: 0;
     line-height: 14px;
-  }
+}
 
-.THIS .img-dimensions{
+.THIS .img-dimensions {
     height: 50%;
     width: 90px;
     margin-top: 8px;
 }
 
-.THIS .img-dimensions-mobile{
+.THIS .img-dimensions-mobile {
     height: 50%;
     line-height: 60px;
 }
@@ -188,11 +188,11 @@
 .THIS .iqvia-mobile {
     height: 34px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 28px;
     letter-spacing: 0;
     line-height: 30px;
-  }
+}
 
 .THIS .patient-portal {
     height: 38px;
@@ -207,12 +207,12 @@
 .THIS .patient-portal-mobile {
     height: 34px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 28px;
     font-weight: bold;
     letter-spacing: 0;
     line-height: 30px;
-  }
+}
 
 .THIS .for-participants-c {
     height: 22px;
@@ -227,12 +227,12 @@
 .THIS .for-participants-c-mobile {
     height: 22px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 20px;
-  }
+}
 
 .THIS .mb-16 {
     margin-bottom: 16px;
