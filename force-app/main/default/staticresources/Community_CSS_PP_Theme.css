@@ -987,3 +987,11 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     width: 16px;
     color: #015FF1;
 }
+.home-page .slds-backdrop {
+    background-color: rgba(0,0,0,0.56);
+    opacity: 0.4;
+}
+.task-page .slds-backdrop {
+    background-color: rgba(0,0,0,0.56) !important;
+    opacity: 0.12;
+}

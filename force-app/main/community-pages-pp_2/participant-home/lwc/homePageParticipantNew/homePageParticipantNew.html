@@ -45,7 +45,7 @@
                         </lightning-layout-item>
                     </template>
                 </template>
-                <lightning-layout-item size="4" class="around-small-custom">
+                <lightning-layout-item size="4" class="around-small-custom home-page">
                     <c-pp-tasks desktop={desktop}></c-pp-tasks>
                 </lightning-layout-item>
                 <lightning-layout-item size="4" class="around-small-custom around-right-zero">
@@ -219,7 +219,9 @@
             </template>
             <template if:true={taskList}>
                 <template if:false={showVisitCardMobile}>
+                    <div class="home-page">
                     <c-pp-tasks desktop={desktop}></c-pp-tasks>
+                    </div>
                 </template>
             </template>
         </template>

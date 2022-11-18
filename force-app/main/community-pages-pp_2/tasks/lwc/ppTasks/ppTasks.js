@@ -179,7 +179,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         }
     }
     get cardRTL() {
-        return this.isRTL ? 'cardRTL' : '';
+        return this.isRTL ? 'cardRTL task-page' : 'task-page';
     }
     doCreateTask() {
         this.isCreateTask = !this.isCreateTask;
