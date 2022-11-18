@@ -69,13 +69,25 @@
                                         </c-web-icon>
                                     </template>
                                 </template>
-                                <template if:true={item.businessTask}>
-                                    <c-web-icon
-                                        class={systemIconClass}
-                                        icon-name="task-survey"
-                                        icon-size="big"
-                                    >
-                                    </c-web-icon>
+                                <template if:true={isMobile}>
+                                    <template if:true={item.businessTask}>
+                                        <c-web-icon
+                                            class={systemIconClass}
+                                            icon-name="task-survey"
+                                            icon-size="big-custom"
+                                        >
+                                        </c-web-icon>
+                                    </template>
+                                </template>
+                                <template if:false={isMobile}>
+                                    <template if:true={item.businessTask}>
+                                        <c-web-icon
+                                            class={systemIconClass}
+                                            icon-name="task-survey"
+                                            icon-size="big"
+                                        >
+                                        </c-web-icon>
+                                    </template>
                                 </template>
                             </div>
                         </template>
@@ -469,7 +481,10 @@
                             </template> </lightning-layout-item
                     ></template>
                     <template if:false={ishomepage}>
-                        <lightning-layout-item size="8" class="mob-task-sub slds-p-around_x-small">
+                        <lightning-layout-item
+                            size="8"
+                            class="mob-task-sub slds-p-around_xxx-small"
+                        >
                             <lightning-layout size="12">
                                 <lightning-layout-item size="10" class={item.subjectEllipsisClass}
                                     ><span
