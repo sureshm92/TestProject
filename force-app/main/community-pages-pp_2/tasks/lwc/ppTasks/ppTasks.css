@@ -434,6 +434,7 @@
     margin: 0px 10px;
     border-left: 0;
     border-right: 0;
+    border-bottom: none;
 }
 
 .task-header {
