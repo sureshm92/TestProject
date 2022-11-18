@@ -122,9 +122,9 @@
     height: 60px;
     border-radius: 0 0 24px 24px;
     background-color: #f2f2f2;
-    position: absolute;
+    /* position: absolute; */
     bottom:0;
-    width: 95%;
+    /* width: 95%; */
     color: white;
 }
 
