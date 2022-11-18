@@ -508,3 +508,7 @@
     text-align: center;
     color: #ffffff;
 }
+.no-task-img-size {
+    width: 82px;
+    height: 64px;
+}
