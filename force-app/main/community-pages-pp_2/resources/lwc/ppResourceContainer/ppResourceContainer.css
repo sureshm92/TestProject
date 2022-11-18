@@ -58,14 +58,9 @@ img,
 .icon-center {
     margin: 0% 35%;
 }
-.explorer-box{
-    height: 120px;
-    width: auto;
-    border-radius: 8px;
-}
 .empty-icon-mobile{
     height: 120px;
-    width: 112px;
+    width: 33%;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
 }
@@ -79,13 +74,9 @@ img,
     flex: 1;
 }
 .resource-pointer-mobile{
-    width: 112px;
     height: 120px;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
-}
-.explorer-vertical-box{
-    width: 100%;
 }
 .summary-text-mobile{
     -webkit-line-clamp: 3;
@@ -107,5 +98,5 @@ img,
     padding: 0;
 }
 .icon-center-mobile{
-    margin: 0% 21%;
+    margin: 0% 22%;
 }
