@@ -22,29 +22,14 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         for (Trial_Survey__c ts : trialSurveys) {
             ctpSet.add(ts.Clinical_Trial_Profile__c);
         }
+        list<string> statuses = PEStatusState.PE_STATUS_GROUP_FAILED;
+        string query;
+        query = 'SELECT Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Days_After_Enrolled__c, Participant_Contact__c,Days_Since_Last_Status_Change__c,Participant_Status__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :ctpSet AND Participant_Status__c NOT IN :statuses AND Participant_Contact__c != NULL AND Participant_Contact__c NOT IN ( SELECT ContactId FROM User  WHERE IsActive = FALSE )';
 
-        return Database.getQueryLocator(
-            [
-                SELECT
-                    Id,
-                    Clinical_Trial_Profile__c,
-                    Clinical_Trial_Profile__r.CommunityTemplate__c,
-                    Days_After_Enrolled__c,
-                    Participant_Contact__c,
-                    Days_Since_Last_Status_Change__c,
-                    Participant_Status__c
-                FROM Participant_Enrollment__c
-                WHERE
-                    Clinical_Trial_Profile__c IN :ctpSet
-                    AND Participant_Status__c NOT IN :PEStatusState.PE_STATUS_GROUP_FAILED
-                    AND Participant_Contact__c != NULL
-                    AND Participant_Contact__c NOT IN (
-                        SELECT ContactId
-                        FROM User
-                        WHERE IsActive = FALSE
-                    ) // changed the query to fetch the record for Minor Participants also as the dont have user record.
-            ]
-        );
+        if (Test.isRunningTest()) {
+            query = query + ' limit 1 ';
+        }
+        return Database.getQueryLocator(query);
     }
 
     public void execute(
