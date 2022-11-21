@@ -344,8 +344,8 @@
                delegateParticipant.Email__c &&
                confirmConsent &&
                emailDelegateVaild &&
-               emailDelegateRepeatValid &&
-             agreePolicy)));
+               emailDelegateRepeatValid)) &&
+             agreePolicy);
         
          if(component.get('v.patientVeiwRedirection')){
               
