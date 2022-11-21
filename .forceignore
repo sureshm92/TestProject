@@ -60,3 +60,15 @@ force-app/main/default/workflows/Case.workflow-meta.xml
 #force-app/communities
 #force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
 #force-app/main/default/profiles/PRDBAPI*
+force-app/communities/community-gsk
+force-app/communities/community-janssen
+force-app/communities/community-iqvia
+force-app/communities/community-iqvia/experiences/IQVIA_Referral_Hub_C.site-meta.xml
+force-app/main/default/profiles
+force-app/main/default/labels
+force-app/main/default/lwc/pir_participantSubStatusFields
+force-app/main/default/lwc/pir_participantList
+force-app/main/community-pages-pp_2/resources/lwc/ppDocument
+force-app/main/community-template-pp_2/aura/PP_BlankThemeLayout
+force-app/main/community-template-pp_2/common/lwc/ppOptOutAndTechnicalSupport
+force-app/main/community-pages-pp_2/help/lwc/ppGetSupport
