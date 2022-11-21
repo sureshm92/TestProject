@@ -19,15 +19,17 @@
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     color: #297dfd;
     font-weight: 600;
+    margin-top: 20px; 
+
 }
 
-.customMatchUNMargin{
-    margin-top: 10px; 
-}
+ /* .customMatchUNMargin{
+    margin-top: 8px; 
+} */
 
-.customEditYOBMargin{
+/* .customEditYOBMargin{
     margin-top: 20px;
-}
+} */ 
 
 .mb-10 {
     margin-bottom: 10px;

@@ -106,17 +106,17 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         return this.YOBSelected ? 'support-year' : 'support-year opacity';
     }
 
-    get submitDisabledButtonMargin(){
-        if(this.isMatchUsernameEmail){
-            return "updateButtonMobile disabled customMatchUNMargin";
-        }
-        else if(this.isEditYOB){
-            return "updateButtonMobile disabled customEditYOBMargin";
-        }
-        else{
-            return "updateButtonMobile";
-        }
-    }
+    // get submitDisabledButtonMargin(){
+    //     if(this.isMatchUsernameEmail){
+    //         return "updateButtonMobile disabled customMatchUNMargin";
+    //     }
+    //     else if(this.isEditYOB){
+    //         return "updateButtonMobile disabled customEditYOBMargin";
+    //     }
+    //     else{
+    //         return "updateButtonMobile";
+    //     }
+    // }
 
     get options() {
         return [
@@ -156,6 +156,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
             this.isMatchUsernameEmail = false;
             this.UseremailDuplicate = false;
             this.checkMergeUsernameEmail = false;
+            this.checkMatchUsernameEmail = false;
         } else if (this.selectedOption == match_Username_Email_Option) {
             this.isMatchUsernameEmail = true;
             this.isEditYOB = false;
