@@ -41,6 +41,12 @@
     border: 1px solid #d9d9d9;
     max-height: 400px;
 }
+
+.scroll-position{
+    max-height: 400px;
+    min-height: inherit;
+}
+
 .check-for-results-on {
     height: 32px;
     color: #999999;
