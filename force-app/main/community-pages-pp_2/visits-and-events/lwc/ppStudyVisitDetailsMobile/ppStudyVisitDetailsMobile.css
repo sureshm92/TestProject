@@ -47,6 +47,10 @@
     min-height: inherit;
 }
 
+.scroll-position::-webkit-scrollbar{
+    height: 9px;
+}
+
 .check-for-results-on {
     height: 32px;
     color: #999999;
