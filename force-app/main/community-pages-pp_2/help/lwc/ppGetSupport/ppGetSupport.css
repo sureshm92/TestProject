@@ -21,6 +21,14 @@
     font-weight: 600;
 }
 
+.customMatchUNMargin{
+    margin-top: 10px; 
+}
+
+.customEditYOBMargin{
+    margin-top: 20px;
+}
+
 .mb-10 {
     margin-bottom: 10px;
 }
@@ -99,12 +107,13 @@
 
 .matchEmailText {
     height: 48px;
-    color: #000000;
+    color: #444;
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
-    opacity: 0.8;
+    /* opacity: 0.8; */
+    font-weight: 600;
 }
 
 .fixed-height {
@@ -113,21 +122,24 @@
 }
 
 .merge-existing-usern {
+    height: 32px;
     color: #444444;
-    font-family: 'Proxima Nova';
+    font-family: "Proxima Nova";
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 32px;
+    margin-top: 7px;
 }
 
 .there-are-multiple {
+    height: 72px;
     color: #444444;
-    font-family: 'Proxima Nova';
+    font-family: "Proxima Nova";
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
-    padding: 8px 0;
+    margin-bottom: 10px;
 }
 
 .ah-item-panel {

@@ -193,7 +193,6 @@
 }
 .critical-rect {
     position: relative;
-    bottom: -2px;
     float: right;
     padding: 0px 6px 0 6px;
     background-color: #e20000;
