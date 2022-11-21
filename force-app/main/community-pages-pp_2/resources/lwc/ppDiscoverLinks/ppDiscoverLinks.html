@@ -2,7 +2,7 @@
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <template if:true={isInitialized}>
         <template if:false={discoverEmptyState}>
-            <div class="card-container">
+            <div class={cardContainerHeight}>
                 <template iterator:links={linksWrappers}>
                     <div key={links.value.Id}>
                         <lightning-layout multiple-rows="true" vertical-align="center">

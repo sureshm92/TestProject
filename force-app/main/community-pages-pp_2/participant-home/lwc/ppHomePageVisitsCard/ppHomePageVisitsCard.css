@@ -62,6 +62,10 @@ hr {
     font-weight: 600;
 }
 
+.text-padding{
+    padding-left: 9px;
+}
+
 .site-title-text {
     color: #444444;
     font-size: 16px;
@@ -222,8 +226,8 @@ hr {
     padding-top: 16px;
 }
 .no-upcoming-img {
-    height: 47px;
-    width: 60px;
+    width: 82px;
+    height: 64px;
 }
 
 .upcoming-card{
