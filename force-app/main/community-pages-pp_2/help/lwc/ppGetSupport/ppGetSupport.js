@@ -92,30 +92,14 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
             : '';
     }
 
-    get marginMatchEmailPass() {
-        return this.isMatchUsernameEmail ? 'mb-10' : '';
-    }
-
     get dropDownOpacityClass() {
         return this.isEditYOB || this.isMatchUsernameEmail
             ? 'mb-15 support-combobox'
-            : 'mb-15 support-combobox opacity';
+            : 'support-combobox opacity';
     }
 
     get YOBOpacityClass() {
         return this.YOBSelected ? 'support-year' : 'support-year opacity';
-    }
-
-    get submitDisabledButtonMargin(){
-        if(this.isMatchUsernameEmail){
-            return "updateButtonMobile disabled customMatchUNMargin";
-        }
-        else if(this.isEditYOB){
-            return "updateButtonMobile disabled customEditYOBMargin";
-        }
-        else{
-            return "updateButtonMobile";
-        }
     }
 
     get options() {
@@ -156,13 +140,14 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
             this.isMatchUsernameEmail = false;
             this.UseremailDuplicate = false;
             this.checkMergeUsernameEmail = false;
+            this.checkMatchUsernameEmail = false;
         } else if (this.selectedOption == match_Username_Email_Option) {
             this.isMatchUsernameEmail = true;
             this.isEditYOB = false;
-            this.checkMergeUsernameEmail =  this.isMatchUsernameEmail && this.isDuplicate? true  : false ;
-            this.checkMatchUsernameEmail =   this.isDuplicate? false  : true ;
+            this.checkMergeUsernameEmail =
+                this.isMatchUsernameEmail && this.isDuplicate ? true : false;
+            this.checkMatchUsernameEmail = this.isDuplicate ? false : true;
         }
-        console.log('showusermatch'+this.showUserMatch);
     }
     doCheckYearOfBith(event) {
         this.YOBSelected = true;
