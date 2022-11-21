@@ -39,7 +39,7 @@
                             alignment-bump="right"
                         >
                             <button
-                                title="Non-primary action"
+                                title="Add new Delete"
                                 onclick={navToAddDelegate}
                                 class={addDelBtnMarin}
                             >
@@ -233,7 +233,7 @@
                                                         size="2"
                                                         class="save-button-aligment"
                                                         ><button
-                                                            title="Add Delegate"
+                                                            title="Save"
                                                             onclick={doSaveChanges}
                                                             class={saveButtonClass}
                                                             disabled={validateData}
@@ -314,120 +314,256 @@
                                         </c-pp-delete-delegate-modal-old>
                                     </template>
                                     <!--Delete Delegate Modal: Ends-->
-                                    <!--Dlegate Info Layout: Starts -->
-                                    <lightning-layout>
-                                        <!--Delegate Profile Logo and Name Section: Starts-->
-                                        <lightning-layout-item
-                                            size="8"
-                                            class="former-del-card-border"
-                                        >
-                                            <!--Delegate Personal Detail Layout: Starts-->
-                                            <lightning-layout
-                                                multiple-rows="true"
-                                                class="manage-del-items"
+                                    <template if:false={del.addNewStudyFormer}>
+                                        <!--Dlegate Info Layout: Starts -->
+                                        <lightning-layout>
+                                            <!--Delegate Profile Logo and Name Section: Starts-->
+                                            <lightning-layout-item
+                                                size="8"
+                                                class="former-del-card-border"
                                             >
-                                                <!--Profile Logo: Stats-->
-                                                <lightning-layout-item size="1">
-                                                    <span><img src={icon_url} /></span>
-                                                </lightning-layout-item>
-                                                <!--Profile Logo: Ends-->
-                                                <!--Delegate Name: Stats-->
-                                                <lightning-layout-item size="10"
-                                                    ><lightning-layout multiple-rows="true">
-                                                        <lightning-layout-item
-                                                            size="12"
-                                                            class="delegate-name"
-                                                            >{del.PatientDelegate.First_Name__c}
-                                                            {del.PatientDelegate.Last_Name__c}
-                                                        </lightning-layout-item>
-                                                        <lightning-layout-item
-                                                            size="12"
-                                                            class="delegate-email"
-                                                            >{del.PatientDelegate.Email__c}
-                                                        </lightning-layout-item>
-                                                    </lightning-layout>
-                                                </lightning-layout-item>
-                                                <!--Delegate Name: Ends-->
-                                                <!--Trash Logo: Stats-->
-                                                <lightning-layout-item
-                                                    size="1"
-                                                    class="slds-align_absolute-center"
+                                                <!--Delegate Personal Detail Layout: Starts-->
+                                                <lightning-layout
+                                                    multiple-rows="true"
+                                                    class="manage-del-items"
                                                 >
-                                                    <template if:false={del.showDeleteRedIcon}>
-                                                        <button
-                                                            class="delete-btn"
-                                                            onclick={openDeleteDelegateModal}
-                                                        >
-                                                            <span
-                                                                ><img
-                                                                    onmouseover={toggleDeleteIcon}
-                                                                    class="delete-icon"
-                                                                    src={deleteIcon}
-                                                                    data-id={del.PatientDelegate.Id}
-                                                            /></span>
-                                                        </button>
-                                                    </template>
+                                                    <!--Profile Logo: Stats-->
+                                                    <lightning-layout-item size="1">
+                                                        <span><img src={icon_url} /></span>
+                                                    </lightning-layout-item>
+                                                    <!--Profile Logo: Ends-->
+                                                    <!--Delegate Name: Stats-->
+                                                    <lightning-layout-item size="10" class={delInfoFormer}
+                                                        ><lightning-layout multiple-rows="true">
+                                                            <lightning-layout-item
+                                                                size="12"
+                                                                class="delegate-name"
+                                                                >{del.PatientDelegate.First_Name__c}
+                                                                {del.PatientDelegate.Last_Name__c}
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item
+                                                                size="12"
+                                                                class="delegate-email"
+                                                                >{del.PatientDelegate.Email__c}
+                                                            </lightning-layout-item>
+                                                        </lightning-layout>
+                                                    </lightning-layout-item>
+                                                    <!--Delegate Name: Ends-->
+                                                    <!--Trash Logo: Stats-->
+                                                    <lightning-layout-item
+                                                        size="1"
+                                                        class="slds-align_absolute-center"
+                                                    >
+                                                        <template if:false={del.showDeleteRedIcon}>
+                                                            <button
+                                                                class="delete-btn"
+                                                                onclick={openDeleteDelegateModal}
+                                                            >
+                                                                <span
+                                                                    ><img
+                                                                        onmouseover={toggleDeleteIcon}
+                                                                        class="delete-icon"
+                                                                        src={deleteIcon}
+                                                                        data-id={del.PatientDelegate.Id}
+                                                                /></span>
+                                                            </button>
+                                                        </template>
 
-                                                    <!--Red Delete Button: Start-->
-                                                    <template if:true={del.showDeleteRedIcon}>
-                                                        <button
-                                                            class="delete-btn"
-                                                            onclick={openDeleteDelegateModal}
-                                                        >
-                                                            <span
-                                                                ><img
-                                                                    onmouseout={toggleDeleteIcon}
-                                                                    class="delete-icon"
-                                                                    src={deleteIconRed}
-                                                                    data-id={del.PatientDelegate.Id}
-                                                            /></span>
-                                                        </button>
-                                                    </template>
+                                                        <!--Red Delete Button: Start-->
+                                                        <template if:true={del.showDeleteRedIcon}>
+                                                            <button
+                                                                class="delete-btn"
+                                                                onclick={openDeleteDelegateModal}
+                                                            >
+                                                                <span
+                                                                    ><img
+                                                                        onmouseout={toggleDeleteIcon}
+                                                                        class="delete-icon"
+                                                                        src={deleteIconRed}
+                                                                        data-id={del.PatientDelegate.Id}
+                                                                /></span>
+                                                            </button>
+                                                        </template>
 
-                                                    <!--Red Delete Button: Ends-->
-                                                </lightning-layout-item>
-                                                <!--Trash Logo: Ends-->
-                                            </lightning-layout>
-                                            <!--Delegate Personal Detail Layout: Ends-->
-                                        </lightning-layout-item>
-                                        <!--Delegate Profile Logo and Name Section: Ends-->
-                                        <!--Add Assignment Button: Starts-->
-                                        <lightning-layout-item
-                                            size="4"
-                                            class="slds-align_absolute-center"
-                                            padding="around-large"
-                                        >
-                                            <template if:false={del.isWithdrawn}
-                                                ><button
+                                                        <!--Red Delete Button: Ends-->
+                                                    </lightning-layout-item>
+                                                    <!--Trash Logo: Ends-->
+                                                </lightning-layout>
+                                                <!--Delegate Personal Detail Layout: Ends-->
+                                            </lightning-layout-item>
+                                            <!--Delegate Profile Logo and Name Section: Ends-->
+                                            <!--Add Assignment Button: Starts-->
+                                            <lightning-layout-item
+                                                size="4"
+                                                class="slds-align_absolute-center"
+                                                padding="around-large"
+                                            >
+                                                <template if:false={del.isWithdrawn}
+                                                    ><button
+                                                        class="apollo-btn secondary box-add-assignment-btn"
+                                                        onclick={addAssignmentFormer}
+                                                        data-pdid={del.PatientDelegate.Id}
+                                                    >
+                                                        <c-web-icon
+                                                            icon-name="icon-plus"
+                                                            icon-color="#0768fd"
+                                                            icon-height="25"
+                                                            icon-width="18"
+                                                        ></c-web-icon>
+                                                        <span class="add-assignment-label"
+                                                            >&nbsp; {label.PP_AddAssignment}</span
+                                                        >
+                                                    </button></template
+                                                >
+                                                <template if:true={del.isWithdrawn}
+                                                    ><button
+                                                        disabled
+                                                        class="box-Withdraw-del-btn"
+                                                        onclick={addAssignment}
+                                                    >
+                                                        <span class="withdrawn-del-label"
+                                                            >{label.PP_DelegateWithdrawn}</span
+                                                        >
+                                                    </button></template
+                                                >
+                                            </lightning-layout-item>
+                                            <!--Add Assignment Button: Ends-->
+                                        </lightning-layout>
+                                        <!--Dlegate Info Layout: Ends -->
+                                    </template>
+                                    <!--When Add Assignment Button clicked - Start -->
+                                    <template if:true={del.addNewStudyFormer}>
+                                        <!--Dlegate Info Layout: Starts -->
+                                        <!-- <lightning-layout  multiple-rows="true"> -->
+                                            <!--Delegate Profile Logo and Name Section: Starts-->
+                                            <lightning-layout-item
+                                                size="12"
+                                            >
+                                                <!--Delegate Personal Detail Layout: Starts-->
+                                                <lightning-layout
+                                                    multiple-rows="true"
+                                                    class="manage-del-items"
+                                                >
+                                                    <!--Profile Logo: Stats-->
+                                                    <lightning-layout-item size="1">
+                                                        <span><img src={icon_url} /></span>
+                                                    </lightning-layout-item>
+                                                    <!--Profile Logo: Ends-->
+                                                    <!--Delegate Name: Stats-->
+                                                    <lightning-layout-item size="10"
+                                                        ><lightning-layout multiple-rows="true">
+                                                            <lightning-layout-item
+                                                                size="12"
+                                                                class="delegate-name"
+                                                                >{del.PatientDelegate.First_Name__c}
+                                                                {del.PatientDelegate.Last_Name__c}
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item
+                                                                size="12"
+                                                                class="delegate-email"
+                                                                >{del.PatientDelegate.Email__c}
+                                                            </lightning-layout-item>
+                                                        </lightning-layout>
+                                                    </lightning-layout-item>
+                                                    <!--Delegate Name: Ends-->
+                                                    <!--Trash Logo: Stats-->
+                                                    <lightning-layout-item
+                                                        size="1"
+                                                        class="slds-align_absolute-center"
+                                                    >
+                                                        <template if:false={del.showDeleteRedIcon}>
+                                                            <button
+                                                                class="delete-btn"
+                                                                onclick={openDeleteDelegateModal}
+                                                            >
+                                                                <span
+                                                                    ><img
+                                                                        onmouseover={toggleDeleteIcon}
+                                                                        class="delete-icon"
+                                                                        src={deleteIcon}
+                                                                        data-id={del.PatientDelegate.Id}
+                                                                /></span>
+                                                            </button>
+                                                        </template>
+
+                                                        <!--Red Delete Button: Start-->
+                                                        <template if:true={del.showDeleteRedIcon}>
+                                                            <button
+                                                                class="delete-btn"
+                                                                onclick={openDeleteDelegateModal}
+                                                            >
+                                                                <span
+                                                                    ><img
+                                                                        onmouseout={toggleDeleteIcon}
+                                                                        class="delete-icon"
+                                                                        src={deleteIconRed}
+                                                                        data-id={del.PatientDelegate.Id}
+                                                                /></span>
+                                                            </button>
+                                                        </template>
+
+                                                        <!--Red Delete Button: Ends-->
+                                                    </lightning-layout-item>
+                                                    <!--Trash Logo: Ends-->
+                                                    <!-- Add Delegate Section : Starts -->
+                                            <lightning-layout-item
+                                                size="12"
+                                                class="slds-m-top_medium slds-m-bottom_small add-assignment-former-rectangle"
+                                            >
+                                                <lightning-layout multiple-rows="true">
+                                                    <lightning-layout-item
+                                                        size="10"
+                                                        class="study-picklist"
+                                                        ><c-pp_multi-picklist-l-w-c></c-pp_multi-picklist-l-w-c
+                                                    ></lightning-layout-item>
+                                                    <lightning-layout-item
+                                                        size="2"
+                                                        class="save-button-aligment"
+                                                        ><button
+                                                            title="Save"
+                                                            onclick={doSaveChanges}
+                                                            class={saveButtonClass}
+                                                            disabled={validateData}
+                                                        >
+                                                            {label.BTN_Save}
+                                                        </button></lightning-layout-item
+                                                    >
+                                                    <lightning-layout-item
+                                                        class="e-consent-aligment"
+                                                        ><lightning-input
+                                                            data-id="emailconsentcheck"
+                                                            class="taps mob-checkbox-txt validate"
+                                                            type="checkbox"
+                                                            label={label.PP_Delegate_Email_Consent}
+                                                            checked={isEmailConsentChecked}
+                                                            onchange={handleDateChange}
+                                                        ></lightning-input
+                                                    ></lightning-layout-item>
+                                                </lightning-layout>
+                                            </lightning-layout-item>
+                                            <!--Discard Button: Starts-->
+                                            <lightning-layout-item size="12">
+                                                <button
                                                     class="apollo-btn secondary box-add-assignment-btn"
-                                                    onclick={addAssignment}
+                                                    onclick={discardAssignmentFormer}
+                                                    data-pdid={del.PatientDelegate.Id}
                                                 >
-                                                    <c-web-icon
-                                                        icon-name="icon-plus"
-                                                        icon-color="#0768fd"
-                                                        icon-height="25"
-                                                        icon-width="18"
-                                                    ></c-web-icon>
-                                                    <span class="add-assignment-label"
-                                                        >&nbsp; {label.PP_AddAssignment}</span
+                                                    <span class="discard-label"
+                                                        >&nbsp; {label.PIR_Discard}</span
                                                     >
-                                                </button></template
-                                            >
-                                            <template if:true={del.isWithdrawn}
-                                                ><button
-                                                    disabled
-                                                    class="box-Withdraw-del-btn"
-                                                    onclick={addAssignment}
-                                                >
-                                                    <span class="withdrawn-del-label"
-                                                        >{label.PP_DelegateWithdrawn}</span
-                                                    >
-                                                </button></template
-                                            >
-                                        </lightning-layout-item>
-                                        <!--Add Assignment Button: Ends-->
-                                    </lightning-layout>
-                                    <!--Dlegate Info Layout: Ends -->
+                                                </button>
+                                            </lightning-layout-item>
+                                            <!--Discard Button: Ends-->
+                                            <!-- Add Delegate Section : Starts -->
+                                                </lightning-layout>
+                                                <!--Delegate Personal Detail Layout: Ends-->
+                                            </lightning-layout-item>
+                                            <!--Delegate Profile Logo and Name Section: Ends-->
+                                            
+                                        <!-- </lightning-layout> -->
+                                        <!--Dlegate Info Layout: Ends -->
+                                    </template>
+                                    <!--When Add Assignment Button clicked - Ends -->
                                 </lightning-layout-item>
                                 <!--Delegate Card SectionL: Ends -->
                             </template>
