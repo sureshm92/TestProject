@@ -58,3 +58,45 @@ img,
 .icon-center {
     margin: 0% 35%;
 }
+.empty-icon-mobile{
+    height: 120px;
+    width: 33%;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.summary-mobile{
+    padding: 10px;
+    height: 120px;
+    margin-left: 0;
+    border-left: none;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    flex: 1;
+}
+.resource-pointer-mobile{
+    height: 120px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.summary-text-mobile{
+    -webkit-line-clamp: 3;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+.resource-star-mobile{
+    text-align: right;
+}
+.star-icon-m{
+    width: auto;
+}
+.summary-title-mobile{
+    font-size: 16px;
+    font-weight: 600;
+    -webkit-line-clamp: 2;
+}
+.title-row-mobile{
+    padding: 0;
+}
+.icon-center-mobile{
+    margin: 0% 22%;
+}
