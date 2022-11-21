@@ -1,100 +1,202 @@
 <template>
     <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner"></c-web-spinner>
-    <lightning-layout multiple-rows="true" class="slds-p-vertical_xx-small">
-        <lightning-layout-item size="12">
-            <lightning-layout
-                multiple-rows="true"
-                vertical-align="stretch"
-                class="container"
-                horizontal-align="center"
-            >
-            <!-- *************  Thumbnail  ********************  -->
-            <template if:true={isThumbnailPresent}>
-                <lightning-layout-item size="5" flexibility="auto">
-                    <img
-                        src={thumbnail}
-                        alt="Image is not available"
-                        onclick={handleNavigate}
-                        onerror={handleError}
-                        class="resource-pointer"
-                    />
-                </lightning-layout-item>
-            </template>
-            <template if:false={isThumbnailPresent}>
-                <lightning-layout-item size="5" flexibility="auto" class="empty-icon">
-                    <div class="icon-center">
-                    <c-web-icon
-                            icon-color="#b5b5b5"
-                            icon-width="120"
-                            icon-height="200"
-                            icon-name="empty-thumbnail"
-                        ></c-web-icon>
-                    </div>
-                </lightning-layout-item>
-            </template>
-            <!-- *******************  Description  ***********************  -->
-                <lightning-layout-item size="6" flexibility="auto" class="summary">
-                    <lightning-layout multiple-rows="true">
-                        <lightning-layout-item size="12" class="title-row">
-                            <lightning-layout multiple-rows="true">
-                                <!--   TITLE    -->
-                                <lightning-layout-item size="10">
-                                    <div
-                                        class="summary-title resource-pointer"
-                                        onclick={handleNavigate}
-                                    >
-                                        {resourceTitle}
-                                    </div>
-                                </lightning-layout-item>
-                                <!--   STARICON    -->
-                                <lightning-layout-item size="2" alignment-bump="right">
-                                    <div
-                                        class="resource-icon resource-pointer"
-                                        onclick={handleFavourite}
-                                    >
-                                        <template if:false={isFavourite}>
-                                            <c-web-icon
-                                                icon-size="small"
-                                                icon-name="icon-star"
-                                                data-id="star"
-                                                data-name="star"
-                                            ></c-web-icon>
-                                        </template>
-                                        <template if:true={isFavourite}>
-                                            <c-web-icon
-                                                icon-size="small"
-                                                icon-name="icon-star-solid"
-                                                data-id="fav-star"
-                                                data-name="fav-star"
-                                                icon-color="#595959"
-                                            ></c-web-icon>
-                                        </template>
-                                    </div>
-                                </lightning-layout-item>
-                            </lightning-layout>
+    <!-- ************************  Desktop View  ****************************************  -->
+    <template if:true={desktop}>
+        <lightning-layout multiple-rows="true" class="slds-p-vertical_xx-small">
+            <lightning-layout-item size="12">
+                <lightning-layout
+                    multiple-rows="true"
+                    vertical-align="stretch"
+                    class="container"
+                    horizontal-align="center"
+                >
+                    <!-- *************  Thumbnail  ********************  -->
+                    <template if:true={isThumbnailPresent}>
+                        <lightning-layout-item size="5" flexibility="auto">
+                            <img
+                                src={thumbnail}
+                                alt="Image is not available"
+                                onclick={handleNavigate}
+                                onerror={handleError}
+                                class="resource-pointer"
+                            />
                         </lightning-layout-item>
-                        <!--   Upload Date    -->
-                        <lightning-layout-item size="12">
-                            <div class="summary-date">
-                                {label.Uploaded}&nbsp;
-                                <lightning-formatted-date-time
-                                    value={resUploadDate}
-                                    year="numeric"
-                                    month="2-digit"
-                                    day="2-digit"
-                                    time-zone={userTimeZone}
-                                >
-                                </lightning-formatted-date-time>
+                    </template>
+                    <template if:false={isThumbnailPresent}>
+                        <lightning-layout-item size="5" flexibility="auto" class="empty-icon">
+                            <div class="icon-center">
+                                <c-web-icon
+                                    icon-color="#b5b5b5"
+                                    icon-width="120"
+                                    icon-height="200"
+                                    icon-name="empty-thumbnail"
+                                ></c-web-icon>
                             </div>
                         </lightning-layout-item>
-                        <!--   SUMMARY    -->
-                        <lightning-layout-item size="12">
-                            <div class="summary-text">{resourceSummary}</div>
+                    </template>
+                    <!-- *******************  Description  ***********************  -->
+                    <lightning-layout-item size="6" flexibility="auto" class="summary">
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item size="12" class="title-row">
+                                <lightning-layout multiple-rows="true">
+                                    <!--   TITLE    -->
+                                    <lightning-layout-item size="10">
+                                        <div
+                                            class="summary-title resource-pointer"
+                                            onclick={handleNavigate}
+                                        >
+                                            {resourceTitle}
+                                        </div>
+                                    </lightning-layout-item>
+                                    <!--   STARICON    -->
+                                    <lightning-layout-item size="2" alignment-bump="right">
+                                        <div
+                                            class="resource-icon resource-pointer"
+                                            onclick={handleFavourite}
+                                        >
+                                            <template if:false={isFavourite}>
+                                                <c-web-icon
+                                                    icon-size="small"
+                                                    icon-name="icon-star"
+                                                    data-id="star"
+                                                    data-name="star"
+                                                ></c-web-icon>
+                                            </template>
+                                            <template if:true={isFavourite}>
+                                                <c-web-icon
+                                                    icon-size="small"
+                                                    icon-name="icon-star-solid"
+                                                    data-id="fav-star"
+                                                    data-name="fav-star"
+                                                    icon-color="#595959"
+                                                ></c-web-icon>
+                                            </template>
+                                        </div>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                            <!--   Upload Date    -->
+                            <lightning-layout-item size="12">
+                                <div class="summary-date">
+                                    {label.Uploaded}&nbsp;
+                                    <lightning-formatted-date-time
+                                        value={resUploadDate}
+                                        year="numeric"
+                                        month="2-digit"
+                                        day="2-digit"
+                                        time-zone={userTimeZone}
+                                    >
+                                    </lightning-formatted-date-time>
+                                </div>
+                            </lightning-layout-item>
+                            <!--   SUMMARY    -->
+                            <lightning-layout-item size="12">
+                                <div class="summary-text">{resourceSummary}</div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+    <!-- ************************  Mobile View  ****************************************  -->
+    <template if:false={desktop}>
+        <lightning-layout multiple-rows="true" class="slds-p-bottom_medium">
+            <lightning-layout-item size="12">
+                <lightning-layout
+                    multiple-rows="true"
+                    vertical-align="stretch"
+                    class="container"
+                    horizontal-align="center"
+                >
+                    <!-- *************  Thumbnail  ********************  -->
+                    <template if:true={isThumbnailPresent}>
+                        <lightning-layout-item size="5" flexibility="auto" class="empty-icon-mobile">
+                            <img
+                                src={thumbnail}
+                                alt="Image is not available"
+                                onclick={handleNavigate}
+                                onerror={handleError}
+                                class="resource-pointer resource-pointer-mobile"
+                            />
                         </lightning-layout-item>
-                    </lightning-layout>
-                </lightning-layout-item>
-            </lightning-layout>
-        </lightning-layout-item>
-    </lightning-layout>
+                    </template>
+                    <template if:false={isThumbnailPresent}>
+                        <lightning-layout-item size="5" flexibility="auto" class="empty-icon empty-icon-mobile">
+                            <div class="icon-center icon-center-mobile">
+                                <c-web-icon
+                                    icon-color="#b5b5b5"
+                                    icon-width="100"
+                                    icon-height="120"
+                                    icon-name="empty-thumbnail"
+                                ></c-web-icon>
+                            </div>
+                        </lightning-layout-item>
+                    </template>
+                    <!-- *******************  Description  ***********************  -->
+                    <lightning-layout-item size="6" flexibility="auto" class="summary summary-mobile">
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item size="12" class="title-row title-row-mobile">
+                                <lightning-layout multiple-rows="true">
+                                    <!--   TITLE    -->
+                                    <lightning-layout-item size="10">
+                                        <div
+                                            class="summary-title summary-title-mobile resource-pointer"
+                                            onclick={handleNavigate}
+                                        >
+                                            {resourceTitle}
+                                        </div>
+                                    </lightning-layout-item>
+                                    <!--   STARICON    -->
+                                    <lightning-layout-item size="2" alignment-bump="right" class="star-icon-m">
+                                        <div
+                                            class="resource-icon resource-pointer resource-star-mobile"
+                                            onclick={handleFavourite}
+                                        >
+                                            <template if:false={isFavourite}>
+                                                <c-web-icon
+                                                    icon-size="small"
+                                                    icon-name="icon-star"
+                                                    data-id="star"
+                                                    data-name="star"
+                                                ></c-web-icon>
+                                            </template>
+                                            <template if:true={isFavourite}>
+                                                <c-web-icon
+                                                    icon-size="small"
+                                                    icon-name="icon-star-solid"
+                                                    data-id="fav-star"
+                                                    data-name="fav-star"
+                                                    icon-color="#595959"
+                                                ></c-web-icon>
+                                            </template>
+                                        </div>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                            <!--   Upload Date    -->
+                            <lightning-layout-item size="12">
+                                <div class="summary-date">
+                                    {label.Uploaded}&nbsp;
+                                    <lightning-formatted-date-time
+                                        value={resUploadDate}
+                                        year="numeric"
+                                        month="2-digit"
+                                        day="2-digit"
+                                        time-zone={userTimeZone}
+                                    >
+                                    </lightning-formatted-date-time>
+                                </div>
+                            </lightning-layout-item>
+                            <!--   SUMMARY    -->
+                            <lightning-layout-item size="12">
+                                <div class="summary-text summary-text-mobile">{resourceSummary}</div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
 </template>
