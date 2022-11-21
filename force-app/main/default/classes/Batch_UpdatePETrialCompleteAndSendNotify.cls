@@ -54,6 +54,7 @@ public with sharing class Batch_UpdatePETrialCompleteAndSendNotify implements Da
         Map<Id, List<Id>> partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
 
         List<Notification__c> notifications = new List<Notification__c>();
+        ///Study Level Notification
         for (Id ctp : ctpIdsByPE.keySet()) {
             for (Participant_Enrollment__c pe : ctpIdsByPE.get(ctp)) {
                 if (pe.Participant__r.Contact__c != null) {

@@ -127,13 +127,13 @@ public without sharing class PENotificationTriggerHandler {
                         checkVisitedCommunity = visitedCommunities.contains(currentCommunityName);
                     if (checkVisitedCommunity) {
                         participantConIds.add(pe.Participant__r.Contact__c);
-                        notificationTypePT = NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE;
+                        notificationTypePT = NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE; // study Level
                     }
                 }
 
                 //Forming additional notification for Drop Out
                 if (pe.Participant_Status__c == PEStatusState.PE_STATUS_DROP_OUT) {
-                    notificationTypePT = NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE;
+                    notificationTypePT = NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE; // study Level
                 }
                 if (notificationTypePT != null) {
                     notifications.add(
@@ -150,11 +150,12 @@ public without sharing class PENotificationTriggerHandler {
 
         //get Delegates for Participant
         List<Notification__c> delegateNotifications = new List<Notification__c>();
-        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateEnrollmentService.getDelegatedCntsByParticipantCnt(
+        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateService.getDelegatedCntsByParticipantCnt(
             participantConIds,
             new List<String>{ 'Id' }
         );
-        for (Notification__c n : notifications) {
+        // !skipNotifyTypesDel -- all are hcp or virual study Notifications .
+        for (Notification__c n : notifications) { //
             if (
                 !skipNotifyTypesDel.contains(n.Notification_Type__c) &&
                 delegateContactsByPartCnt.containsKey(n.Recipient__c)
