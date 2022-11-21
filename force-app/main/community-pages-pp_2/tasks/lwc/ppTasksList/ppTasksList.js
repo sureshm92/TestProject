@@ -83,6 +83,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     selectedTaskId;
     cssClass;
     @track popupTaskMenuItems;
+    task_arrow = pp_icons + '/' + 'Arrow_Icon_Final.svg';
     threedots_imgUrl = pp_icons + '/' + 'three_dots.png';
     systemTaskImg = pp_icons + '/' + 'Task_Illustration.svg';
     openTaskImg = pp_icons + '/' + 'Oval.svg';
