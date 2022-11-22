@@ -125,7 +125,11 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                     if (result.length === 0 || result == null || result == '') {
                         this.isError = true;
                     } else {
-                        this.isError = false;
+                        this.isError = false;       
+                        this.icondetails = [];
+                        for(let i=0;i<5;i++){
+                            this.icondetails.push(result[0]); 
+                        }
                         this.cblabel = this.icondetails[0].Label__c;
                         this.cbdescription = this.icondetails[0].Description__c;
                     }
