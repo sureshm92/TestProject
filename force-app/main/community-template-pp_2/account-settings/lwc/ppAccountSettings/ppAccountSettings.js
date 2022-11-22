@@ -169,10 +169,12 @@ export default class PpAccountSettings extends LightningElement {
                     ? initialData.participantState.pe.Clinical_Trial_Profile__r
                           .Medical_Vendor_is_Available__c
                     : false;
-                let hasPastStudies = communityService.getCurrentCommunityMode().hasPastStudies;
-               if(this.medicalRecordVendorToggle ||  hasPastStudies){
-                    this.navHeadersList.push({ label: MEDICAL_RECORD_ACCESS, value: 'medRecAccess' });
-               }
+                if (this.medicalRecordVendorToggle) {
+                    this.navHeadersList.push({
+                        label: MEDICAL_RECORD_ACCESS,
+                        value: 'medRecAccess'
+                    });
+                }
                 initialData.password = {
                     old: '',
                     new: '',
