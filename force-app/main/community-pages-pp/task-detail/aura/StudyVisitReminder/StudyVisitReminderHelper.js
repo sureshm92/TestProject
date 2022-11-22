@@ -77,7 +77,7 @@
                             },
                             {
                                 label: $A.get('$Label.c.PP_One_Week_Before'),
-                                value: '1 Week before'
+                                value: '1 week before'
                             },
                             {
                                 label: $A.get('$Label.c.PP_Custom'),
