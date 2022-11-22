@@ -4,6 +4,13 @@
         var idParamValue = helper.getURLParameterValue().pdfData;
         var resId = helper.getURLParameterValue().resId;
         var lang = helper.getURLParameterValue().lang;
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const updates = urlParams.get('updates');
+        if (updates) {
+            var button = component.find('button');
+            $A.util.addClass(button, 'button-hide');
+        }
         console.log('idParamValue' + idParamValue);
         console.log('resId::' + resId + 'lang::' + lang);
         console.log('idParamValue' + idParamValue);
