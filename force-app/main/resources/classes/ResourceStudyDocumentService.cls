@@ -7,7 +7,7 @@ public virtual inherited sharing class ResourceStudyDocumentService extends Reso
 
     protected override String getOrderByClause() {
         Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
-        if (
+        if (currentPE != null && 
             currentPE.Clinical_Trial_Profile__r.CommunityTemplate__c ==
             CommunityTemplateService.TEMPLATE_PP
         ) {

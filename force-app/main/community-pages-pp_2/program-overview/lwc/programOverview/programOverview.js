@@ -60,9 +60,11 @@ export default class ProgramOverview extends LightningElement {
         if(this.clinicalrecord){
 			console.log('this.clinicalrecord:::'+this.clinicalrecord);
             if(this.clinicalrecord.Brief_Summary__c){
-                if(this.clinicalrecord.Brief_Summary__c.length > 204) {
-                    let firsttext = this.clinicalrecord.Brief_Summary__c.substring(0, 203);
-                    let secondtext = this.clinicalrecord.Brief_Summary__c.substring(203, 204);
+                let briefsummary = this.clinicalrecord.Brief_Summary__c;
+                if(briefsummary.length > 204) {
+                    briefsummary = briefsummary.replace(/<[^>]*>?/gm, '');
+                    let firsttext = briefsummary.substring(3, 203);
+                    let secondtext = briefsummary.substring(203, 204);
                     if(secondtext == " "){
                         this.shortOverview = firsttext;
                     }
