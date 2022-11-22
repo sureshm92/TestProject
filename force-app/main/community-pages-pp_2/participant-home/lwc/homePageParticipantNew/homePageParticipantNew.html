@@ -86,8 +86,8 @@
             </template>
 
             <!-- cards -->
-            <div class="slds-grid bg-cards slds-p-vertical_large slds-p-horizontal_small">
-                <div class="slds-col">
+            <div class="slds-grid slds-grid_align-center slds-p-vertical_large slds-p-horizontal_small">
+                <div class="slds-col slds-m-horizontal_xxx-small">
                     <template if:true={showVisitCard}>
                         <template if:false={isDelegateSelfview}>
                             <template if:true={showVisitCardMobile}>
@@ -126,7 +126,7 @@
                     </template>
                 </div>
 
-                <div class="slds-col">
+                <div class="slds-col slds-m-horizontal_xxx-small">
                     <div class="tasks">
                         <template if:true={taskList}>
                             <template if:false={showVisitCardMobile}>
@@ -162,7 +162,7 @@
                         </template>
                     </div>
                 </div>
-                <div class="slds-col">
+                <div class="slds-col slds-m-horizontal_xxx-small">
                     <div class="updates">
                         <div class="icon-updates svg-icon-with-text">
                             <c-web-icon
@@ -177,7 +177,7 @@
                         <p class="p-text">Updates</p>
                     </div>
                 </div>
-                <div class="slds-col">
+                <div class="slds-col slds-m-horizontal_xxx-small">
                     <div class="progress">
                         <div class="icon-updates">
                             <c-web-icon
