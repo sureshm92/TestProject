@@ -132,14 +132,14 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
             this.UseremailDuplicate = false;
             this.checkMergeUsernameEmail = false;
             this.checkMatchUsernameEmail = false;
+            this.selectedYOB = undefined;
+            this.showMinorErrorMsg = false;
         } else if (this.selectedOption == match_Username_Email_Option) {
             this.isMatchUsernameEmail = true;
             this.isEditYOB = false;
             this.checkMergeUsernameEmail =
                 this.isMatchUsernameEmail && this.isDuplicate ? true : false;
             this.checkMatchUsernameEmail = this.isDuplicate ? false : true;
-            this.selectedYOB = false;
-            this.showMinorErrorMsg = false;
         }
     }
     doCheckYOB(event) {
