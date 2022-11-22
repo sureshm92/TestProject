@@ -10752,7 +10752,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Can&apos;t rembeber my username</shortDescription>
-        <value>I cannot remember my username</value>
+        <value>I can not remember my username</value>
     </labels>
     <labels>
         <fullName>PP_Don_t_want_to_receive</fullName>
@@ -10760,7 +10760,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Don&apos;t want to receive email</shortDescription>
-        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to a specific user request, e.g. password reset email) from IQVIA Patient Portal</value>
+        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to specific user request, e.g.: password reset email) from IQVIA Patient Portal</value>
     </labels>
     <labels>
         <fullName>PP_Don_t_want_to_be_contacted_via_SMS</fullName>
@@ -10768,7 +10768,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Don_t_want_to_be_contacted_via_SMS</shortDescription>
-        <value>I do not want to be contacted via SMS/text messages from IQVIA Patient Portal</value>
+        <value>I do not want to be contacted via SMS/Text messages from IQVIA Patient Portal</value>
     </labels>
     <labels>
         <fullName>PP_Don_t_want_to_be_contacted</fullName>
@@ -10776,7 +10776,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Don&apos;t want to be contacted</shortDescription>
-        <value>I do not want to be contacted via phone(voice call) from IQVIA Patient Portal</value>
+        <value>I do not want to be contacted via phone (voice call) from IQVIA Patient Portal</value>
     </labels>
     <labels>
         <fullName>PP_Additional_Tech_Support</fullName>
@@ -12622,6 +12622,22 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Opt Out</shortDescription>
         <value>If you have previously opted in to any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Opt_Out_Update_Communication_Pref</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>Update Communication Preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_Opt_Out_Update_Communication_Pref_Help</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>If you have already opted in to any of the following contact methods, you can opt-out of that method by checking the relevant box below.</value>
     </labels>
     <labels>
         <fullName>Originator</fullName>
@@ -18699,14 +18715,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_ProgramOverview_LearnMore_Desktop</shortDescription>
-        <value>Learn about your program</value>
+        <value>Learn more about my program</value>
     </labels>
     <labels>
         <fullName>PP_ProgramOverview_LearnMore_Mobile</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_ProgramOverview_LearnMore_Mobile</shortDescription>
-        <value>Learn about your program</value>
+        <value>Learn more about my program</value>
     </labels>
     <labels>
         <fullName>PP_StudyOverview_LearnMore_Mobile</fullName>
