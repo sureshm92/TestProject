@@ -9,7 +9,6 @@
 
 .task-card {
     width: 510px;
-    min-height: 316px;
 }
 
 .task-cancel-btn {
@@ -54,15 +53,6 @@
     font-size: 16px;
     font-weight: bold;
 }
-.task-card-mobile {
-    box-sizing: border-box;
-    max-height: 304px;
-    width: 366px;
-    border: 1px solid #e9e9e9;
-    border-radius: 16px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
-}
 .read-only-field input .slds-input {
     background-color: #f2f2f2 !important;
 }
@@ -77,9 +67,14 @@ input[type='text']:disabled {
     .taskIcon {
         display: none;
     }
-
     .task-card-mobile {
+        box-sizing: border-box;
+        height: auto;
         width: 100%;
+        border: 1px solid #e9e9e9;
+        border-radius: 16px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     }
 
     .taskFooter {
