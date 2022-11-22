@@ -149,8 +149,8 @@ export default class PpTermsOfUse extends LightningElement {
 
     get chapterClass() {
         return this.isRTL
-            ? 'slds-p-bottom_x-small sub-header slds-p-top_large rtl'
-            : 'slds-p-bottom_x-small sub-header slds-p-top_large';
+            ? 'slds-p-bottom_x-small sub-header slds-p-top_medium rtl'
+            : 'slds-p-bottom_x-small sub-header slds-p-top_medium';
     }
 
     get dropdownClass() {

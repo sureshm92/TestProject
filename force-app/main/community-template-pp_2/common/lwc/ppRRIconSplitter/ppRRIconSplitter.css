@@ -8,6 +8,10 @@
     display: none;
 }
 
+.static-position{
+    position: absolute;
+}
+
 .icon {
     position: relative;
     display: flex;

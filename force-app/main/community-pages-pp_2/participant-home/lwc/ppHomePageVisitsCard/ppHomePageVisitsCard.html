@@ -120,9 +120,9 @@
                                         <article
                                             class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
                                         >
-                                            <div class="slds-card__header slds-grid card-wrap">
+                                            <div class="slds-card__header slds-grid card-wrap hide-overflow">
                                             
-                                                    <div class="detail-section">
+                                                    <div class="detail-section slds-truncate hide-overflow">
                                                         <div>                                        
                                                             <c-web-icon
                                                             icon-size="small"
@@ -131,12 +131,12 @@
                                                             icon-color="#00A3E0"
                                                         >
                                                         </c-web-icon></div>
-                                                        <div class="slds-m-left_small">
+                                                        <div class="slds-m-left_small hide-overflow">
                                                             <p class="site-title-text">{siteTitle}</p>
-                                                            <div class="slds-size_10-of-12">                                                    
-                                                                <p class="slds-truncate  font-color" title={siteLocation}>
+                                                            <div class="slds-truncate">                                                    
+                                                                <span class="font-color" title={siteLocation}>
                                                                     {siteLocation}
-                                                                </p>
+                                                                </span>
                                                             </div>
                                                             <p class="font-color">{sitePhone}</p>
                                                         </div>
@@ -219,14 +219,14 @@
             </article>
         </template>
         <template if:false={desktop}>
-            <div class="upcoming-card slds-m-around_small">
-                <div class = "uc-text-mobile">UPCOMING VISIT</div>
+        <div class="upcoming-card slds-m-around_small">
+            <div class = "uc-text-mobile">UPCOMING VISIT</div>
             <template if:false={isUpcomingDetails}>
                     <article
                         class="slds-align_absolute-center container-card-no-upcoming"
                     >
                         <div class="dis-block">
-                            <span class="center"><img src={empty_state} /></span>
+                            <span class="center"><img class="no-upcoming-img" src={empty_state} /></span>
                             <span class="text-colour slds-m-top_medium"
                                 >{labels.No_Upcoming_Visit}</span
                             >
@@ -237,7 +237,7 @@
             <template if:true={isUpcomingDetails}>
                 <div class="mobile-padding">
                 <div class="slds-truncate visit-title-mobile slds-p-vertical_small">
-                <h2 title={visitName}>{visitName}</h2>
+                <span title={visitName}>{visitName}</span>
                 </div>
                 <div class="slds-grid slds-wrap">
                 <div class="slds-col slds-size_1-of-12 info-icon-mobile">
@@ -249,7 +249,7 @@
                         >
                         </c-web-icon>
                 </div>
-                <div class="slds-col slds-size_11-of-12 slds-m-top_xxx-small">
+                <div class="slds-col slds-size_11-of-12 slds-m-top_xxx-small text-padding">
                     <p
                     class="slds-truncate visit-text-mobile"
                 >
@@ -281,7 +281,7 @@
                     >
                     </c-web-icon>
                     </div>
-                    <div class="slds-col slds-size_11-of-12 slds-m-top_xxx-small">
+                    <div class="slds-col slds-size_11-of-12 slds-m-top_xxx-small text-padding">
                         <p
                         class="slds-truncate visit-text-mobile"
                     >
@@ -313,11 +313,9 @@
                     >
                     </c-web-icon>
                     </div>
-                    <div class="slds-col slds-size_11-of-12">
+                    <div class="slds-col slds-size_11-of-12  text-padding">
                         <p class="site-title-text">{siteTitle}</p>
-                        <div class="slds-size_11-of-12">                                                    
-                            <p class="slds-truncate font-color" title={siteLocation}>{siteLocation}</p>
-                        </div>
+                        <p class="slds-truncate font-color" title={siteLocation}>{siteLocation}</p>
                         <p class="font-color">{sitePhone}</p>
                     </div>
                 </div>
