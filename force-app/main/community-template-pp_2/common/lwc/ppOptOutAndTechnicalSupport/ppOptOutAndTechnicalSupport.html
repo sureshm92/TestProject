@@ -47,7 +47,7 @@
         <div class={displayLogo}>
             <p class="success-message-padding success-label-desktop">{label.PPOPTOUTSUCCESSMSG}</p>
             <button class="apollo-btn primary submit mb-30 customWidth" onclick={closeWindow}>
-                <span class="submit-opt-out-mobile">Close window</span>
+                <span class="submit-opt-out-mobile">{label.PPOptOutCloseWindow}</span>
             </button>
         </div>
     </template>
@@ -66,7 +66,7 @@
                     data-id="checkbox1">
                 </lightning-checkbox-group>
             </div>
-            <h3 class="get-technical-suppor mb-12">{techSupportTranslatedTitle}</h3>
+            <h3 class="get-technical-suppor mb-12 mt-48">{techSupportTranslatedTitle}</h3>
             <div class="opt-out-page-tech-support mb-30">
                 <lightning-checkbox-group
                     name={techSupportTranslatedTitle}
@@ -91,7 +91,7 @@
         <div class={displayLogo}>
             <p class="success-message-padding success-label">{label.PPOPTOUTSUCCESSMSG}</p>
             <button class="apollo-btn primary submit-mobile mb-30" onclick={closeWindow}>
-                <span class="submit-opt-out-mobile">Close window</span>
+                <span class="submit-opt-out-mobile">{label.PPOptOutCloseWindow}</span>
             </button>
         </div>
     </template>

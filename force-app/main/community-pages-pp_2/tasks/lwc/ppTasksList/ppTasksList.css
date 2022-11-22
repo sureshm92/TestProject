@@ -163,7 +163,7 @@
     float: right;
 }
 .home-inactive-custom-box {
-    margin-bottom: 8px !important;
+    margin-top: 10px !important;
     box-sizing: border-box;
     height: 88px;
     /* width: 380px; */
@@ -193,7 +193,6 @@
 }
 .critical-rect {
     position: relative;
-    bottom: -2px;
     float: right;
     padding: 0px 6px 0 6px;
     background-color: #e20000;
@@ -363,7 +362,7 @@
         width: 230px;
     }
     .open-task-icon {
-        margin-left: 14px !important;
+        margin-left: 9px !important;
     }
 }
 /* Scroll bar custom */

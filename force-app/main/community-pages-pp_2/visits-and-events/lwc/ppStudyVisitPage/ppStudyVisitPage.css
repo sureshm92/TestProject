@@ -12,6 +12,14 @@
     text-align: center;
 }
 
+.scroll-position {
+    min-height: 185px;
+}
+
+.scroll-position::-webkit-scrollbar{
+    height: 9px;
+}
+
 .large {
     height: 10px;
 }

@@ -412,7 +412,6 @@
 }
 .card-wrap {
     padding: 0;
-    margin-top: 4px;
 }
 .container-card {
     background-color: rgb(246, 247, 249);
@@ -434,6 +433,7 @@
     margin: 0px 10px;
     border-left: 0;
     border-right: 0;
+    border-bottom: none;
 }
 
 .task-header {
@@ -506,4 +506,8 @@
     line-height: 32px;
     text-align: center;
     color: #ffffff;
+}
+.no-task-img-size {
+    width: 82px;
+    height: 64px;
 }
