@@ -451,15 +451,6 @@
     padding-left: 0px;
     padding-right: 0px;
 }
-/*.container-card-upcoming {
-    background-color: transparent;
-    border-top-color: #c42ea5;
-    border-top-width: 8px;
-    padding: 0;
-    height: 416px;
-    border-radius: 8px;
-    width: 412px;
-}*/
 .content {
     padding-top: 0px;
     padding-bottom: 0px;
@@ -510,4 +501,12 @@
 .no-task-img-size {
     width: 82px;
     height: 64px;
+}
+@media all and (max-width: 486px) {
+    .container-card-upcoming {
+        height: 425px !important;
+        border: 1px solid #d9d9d9 !important;
+        border-bottom-left-radius: 32px !important;
+        border-bottom-right-radius: 32px !important;
+    }
 }

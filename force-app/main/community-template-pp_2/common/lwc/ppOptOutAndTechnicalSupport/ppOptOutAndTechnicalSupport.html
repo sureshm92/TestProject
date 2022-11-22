@@ -8,7 +8,7 @@
     <template if:false={isMobile}>
         <div class={displayLabel}>
             <h3 class="opt-out-header">{label.PPOPTOUTCOMMUNICATIONPREF}</h3>
-            <p class="comm-italics mb-12">{label.PPOPTOUTCOMMUNICATIONPREFHELP}</p>
+            <p class="comm-italics mb-30">{label.PPOPTOUTCOMMUNICATIONPREFHELP}</p>
             <div class="opt-out-comm-pref mb-16">
                 <lightning-checkbox-group
                     name={optOutTranslatedTitle}
@@ -66,7 +66,7 @@
                     data-id="checkbox1">
                 </lightning-checkbox-group>
             </div>
-            <h3 class="get-technical-suppor mb-12 mt-48">{techSupportTranslatedTitle}</h3>
+            <h3 class="get-technical-suppor mb-12 mt-70">{techSupportTranslatedTitle}</h3>
             <div class="opt-out-page-tech-support mb-30">
                 <lightning-checkbox-group
                     name={techSupportTranslatedTitle}
@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class={buttonDisplay}>
-            <button class="apollo-btn primary submit-mobile mb-30" disabled={disabled} onclick={handleSubmit}>
+            <button class="apollo-btn primary submit-mobile mb-20" disabled={disabled} onclick={handleSubmit}>
                 <span class="submit-opt-out-mobile">{label.PPCPSUBMITBTN}</span>
             </button>
         </div>
