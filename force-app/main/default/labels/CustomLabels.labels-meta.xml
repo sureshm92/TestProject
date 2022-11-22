@@ -21562,6 +21562,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You have entered an invalid format</value>
     </labels>
     <labels>
+        <fullName>RH_MedicalRecords_NoPermitEmail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_MedicalRecords_NoPermitEmail</shortDescription>
+        <value>Please confirm participant/caregiver consent to be contacted on the Participant Details tab</value>
+    </labels>
+    <labels>
         <fullName>RH_DelegateConsentEmail</fullName>
         <language>en_US</language>
         <protected>false</protected>

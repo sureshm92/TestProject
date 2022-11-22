@@ -283,7 +283,9 @@
                                             <lightning-layout-item class={item.subjectEllipsisClass}
                                                 ><span
                                                     class={item.subjectClass}
-                                                    onclick={handleonclick}
+                                                    onclick={taskOpen}
+                                                    data-actionurl={item.task.Action_URL__c}
+                                                    data-status={item.task.Status}
                                                     data-index={item.task.Id}
                                                     ><lightning-formatted-text
                                                         value={item.task.Subject}
@@ -489,7 +491,9 @@
                                 <lightning-layout-item size="10" class={item.subjectEllipsisClass}
                                     ><span
                                         class={item.subjectClass}
-                                        onclick={handleonclick}
+                                        onclick={taskOpen}
+                                        data-actionurl={item.task.Action_URL__c}
+                                        data-status={item.task.Status}
                                         data-index={item.task.Id}
                                         ><lightning-formatted-text
                                             value={item.task.Subject}

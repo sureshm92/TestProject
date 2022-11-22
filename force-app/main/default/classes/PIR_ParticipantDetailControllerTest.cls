@@ -87,6 +87,9 @@ public with sharing class PIR_ParticipantDetailControllerTest {
             Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
             Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
             Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
+            Participant_Contact__r.IQVIA_Artificial_Voice_Consent__c,
+            Participant_Contact__r.IQVIA_Assisted_Dialing_Consent__c,
+            Participant_Contact__r.IQVIA_Pre_recorded_Voice_Consent__c,
             Participant_Status__c,
             Participant_Contact__r.Visit_Results_OptIn__c,
             Initial_visit_scheduled_date__c,
@@ -144,20 +147,70 @@ public with sharing class PIR_ParticipantDetailControllerTest {
             Contact__c = delegate.Id
         );
         insert p;
+          Participant_Enrollment__c pe = [
+            SELECT
+            Id,
+            Name,
+            External_Key__c,
+            Participant_Contact__c,
+            Participant_Contact__r.Id,
+            Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
+            Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
+            Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+            Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
+            Participant_Contact__r.IQVIA_Artificial_Voice_Consent__c,
+            Participant_Contact__r.IQVIA_Assisted_Dialing_Consent__c,
+            Participant_Contact__r.IQVIA_Pre_recorded_Voice_Consent__c,
+            Participant_Status__c,
+            Participant_Contact__r.Visit_Results_OptIn__c,
+            Initial_visit_scheduled_date__c,
+            Initial_visit_occurred_date__c,
+            Initial_visit_scheduled_time__c,
+            Initial_visit_occurred_flag__c,
+            Initial_visit_scheduled_flag__c,
+            Screening_ID__c,
+            Participant__c,
+            Medical_Record_Review_Completed_Date__c,
+            Study_Site__r.Principal_Investigator__c,
+            Study_Site__r.Principal_Investigator__r.Name,
+            Study_Site__r.Principal_Investigator__r.Title,
+            Permit_Mail_Email_contact_for_this_study__c,
+            Permit_SMS_Text_for_this_study__c,
+            Permit_Voice_Text_contact_for_this_study__c,
+            Study_Direct_Mail_Consent__c,
+            MRN_Id__c,
+            Participant__r.Email__c,
+            Participant__r.First_Name__c,
+            Participant__r.Last_Name__c
+            FROM Participant_Enrollment__c
+            LIMIT 1
+        ];
         
+        pe.Participant__r.Email__c = null;
+        update pe;
         Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
             Contact__c = delegate.Id,
             Contact__r = delegate,
             Participant__c = testData.participant.Id,
             Participant__r = testData.participant,
             Participant_Delegate__c = p.Id,
-            Participant_Delegate__r = p
+            Participant_Delegate__r = p,
+            Primary_Delegate__c = true
         );
         
         insert patientDelegate;
         String delegateIdString = '{ "Id": "'+patientDelegate.Id+'","Contact__c":"'+delegate.Id+'","Participant_Delegate__c": "'+patientDelegate.Participant_Delegate__r.Id+'","Participant_Delegate__r": {"Id":"'+patientDelegate.Participant_Delegate__r.Id+'","Contact__c":"'+delegate.Id+'","First_Name__c": "test1","Last_Name__c": "'+patientDelegate.Participant_Delegate__r.Last_Name__c+'","Email__c": "'+patientDelegate.Participant_Delegate__r.Email__c+'","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
+         String delegateIdString1 = '{ "Id": "'+patientDelegate.Id+'","Contact__c":"'+delegate.Id+'","Participant_Delegate__c": "'+pe.Id+'","Participant_Delegate__r": {"Id":"'+patientDelegate.Participant_Delegate__r.Id+'","Contact__c":"'+delegate.Id+'","First_Name__c": "test1","Last_Name__c": "'+patientDelegate.Participant_Delegate__r.Last_Name__c+'","Email__c": "'+patientDelegate.Participant_Delegate__r.Email__c+'","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
+        
         Test.startTest();
-        Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,false,'updateDeligate','',false);
+        Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,false,'updateDeligate','',true);
+          Boolean isSavePrDetails1 = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,false,'updateDeligate','',false);
+        
+          Boolean isSavePrDetails4 = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString1,false, false,true,false,'updateDeligate','',true);
+        
+          Boolean isSavePrDetails2 = PIR_ParticipantDetailController.doSaveParticipantDetails(pe,delegateIdString,false, false,true,true,'updateDeligate','',false);
+      
+          Boolean isSavePrDetails3 = PIR_ParticipantDetailController.doSaveParticipantDetails(pe,delegateIdString,false, false,false,true,'updateDeligate','',false);
         System.assertEquals(true,isSavePrDetails);
         PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,false,'updateParticipant','',false);
         try{
