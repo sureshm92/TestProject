@@ -55,6 +55,7 @@
     <aura:attribute name="showAccountNavigation" type="Boolean" default="false" />
     <aura:attribute name="isSaveOperation" type="Boolean" default="false" />
     <aura:attribute name="deleteVisitReminder" type="Boolean" default="false" />
+    <aura:attribute name="clearReminderValue" type="Boolean" default="false" />
     <aura:attribute name="parent" type="Aura.Component" />
     <!--Validation Message-->
     <aura:attribute
