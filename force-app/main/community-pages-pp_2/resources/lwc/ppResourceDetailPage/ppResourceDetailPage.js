@@ -7,7 +7,7 @@ import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import Uploaded from '@salesforce/label/c.Resource_Uploaded';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
-
+import FORM_FACTOR from '@salesforce/client/formFactor';
 export default class PpResourceDetailPage extends LightningElement {
     userTimezone = TIME_ZONE;
     isInitialized = false;
@@ -41,7 +41,7 @@ export default class PpResourceDetailPage extends LightningElement {
             this.isDocument = true;
         }
 
-                this.initializeData();
+        this.initializeData();
     }
     async initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
@@ -72,17 +72,15 @@ export default class PpResourceDetailPage extends LightningElement {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
         //get study Title
-        if (this.state!= 'ALUMNI' ) {
-           
-                await getCtpName({})
-                    .then((result) => {
-                        let data = JSON.parse(result);
-                        this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Title__c;
-                    })
-                    .catch((error) => {
-                        this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-                    });
-            
+        if (this.state != 'ALUMNI') {
+            await getCtpName({})
+                .then((result) => {
+                    let data = JSON.parse(result);
+                    this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Title__c;
+                })
+                .catch((error) => {
+                    this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
+                });
         }
         this.isInitialized = true;
 
@@ -92,8 +90,19 @@ export default class PpResourceDetailPage extends LightningElement {
     }
 
     handleDocumentLoad() {
-        this.documentLink =
-            '/pp/apex/RRPDFViewer?resourceId=' + this.resourceId + '&language=' + this.langCode;
+        if (FORM_FACTOR == 'Large') {
+            this.documentLink =
+                '/pp/apex/RRPDFViewer?resourceId=' + this.resourceId + '&language=' + this.langCode;
+        } else {
+            let updates = true;
+            this.documentLink =
+                'mobile-pdf-viewer?resId=' +
+                this.resourceId +
+                '&lang=' +
+                this.langCode +
+                '&updates=' +
+                updates;
+        }
     }
 
     handleBackClick() {

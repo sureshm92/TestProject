@@ -1,26 +1,32 @@
 <template>
     <c-web-spinner class="main-spinner"></c-web-spinner>
-    <div class="scroll-bar-box">
-        <div class="slds-scrollable_y scroll-bar">
-            <template if:true={documentPresent}>
-                <template for:each={documentList} for:item="docs" for:index="index">
-                    <c-pp-Document key={docs} document={docs}></c-pp-Document>
+    <template if:true={loaded}>
+        <div class="scroll-bar-box">
+            <div class="slds-scrollable_y scroll-bar">
+                <template if:true={documentPresent}>
+                    <template for:each={documentList} for:item="docs" for:index="index">
+                        <c-pp-Document key={docs} document={docs}></c-pp-Document>
+                    </template>
                 </template>
-            </template>
-            <template if:false={documentPresent}>
-                <div class="slds-align_absolute-center no-data-is-available">
-                    <lightning-layout multiple-rows="true" vertical-align="center" class="center">
-                        <lightning-layout-item size="12">
-                            <div>
-                                <img src={empty_state} />
-                            </div>
-                        </lightning-layout-item>
-                        <lightning-layout-item size="12">
-                            <p class="no-links-available mt-15">{label.noDocumentsAvailable}</p>
-                        </lightning-layout-item>
-                    </lightning-layout>
-                </div>
-            </template>
+                <template if:false={documentPresent}>
+                    <div class="slds-align_absolute-center no-data-is-available">
+                        <lightning-layout
+                            multiple-rows="true"
+                            vertical-align="center"
+                            class="center"
+                        >
+                            <lightning-layout-item size="12">
+                                <div>
+                                    <img src={empty_state} />
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12">
+                                <p class="no-links-available mt-15">{label.noDocumentsAvailable}</p>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </template>
+            </div>
         </div>
-    </div>
+    </template>
 </template>
