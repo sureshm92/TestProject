@@ -261,7 +261,7 @@
         
          agreePolicy = component.get('v.agreePolicy');
         //REF-3070
-        let delegateParticipantemail = component.get('v.delegateParticipant.Email__c')!== undefined ? true : false;
+        let delegateParticipantemail = component.get('v.delegateParticipant.Email__c');
         let emailDelegateCmp = component.find('emailDelegateField');
         let emailDelegateRepeatCmp = component.find('emailDelegateRepeatField');
         //REF-3070

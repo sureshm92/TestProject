@@ -61,11 +61,12 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
             if(this.clinicalrecord.Brief_Summary__c){ 
                 let briefsummary = this.clinicalrecord.Brief_Summary__c;
                 console.log('this.clinicalrecord.Brief_Summary__c::'+this.clinicalrecord.Brief_Summary__c);
-                if(briefsummary.length > 204) {
+                if(briefsummary.length > 200) {
                     briefsummary = briefsummary.replace(/<[^>]*>?/gm, '');
-                    let firsttext = briefsummary.substring(3, 203);
+                    console.log('briefsummary::'+briefsummary);
+                    let firsttext = briefsummary.substring(0, 200);
                     console.log('firsttext'+firsttext); 
-                    let secondtext = briefsummary.substring(203, 204);
+                    let secondtext = briefsummary.substring(200, 201);
                     console.log('secondtext'+secondtext);
                     if(secondtext == " "){
                         this.shortOverview = firsttext;
