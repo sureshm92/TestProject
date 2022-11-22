@@ -27,8 +27,8 @@
     line-height: 17px;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 160px;
     white-space: nowrap;
+    width: 160px;
     width: 100%;
     cursor: pointer;
 }
