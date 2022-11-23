@@ -126,6 +126,22 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         return this.selectedTaskId ? true : false;
     }
 
+    get subjectSize() {
+        return this.ishomepage ? 8 : this.isMobile ? 8 : 9;
+    }
+
+    get actionButtonSize() {
+        return this.ishomepage ? 2 : this.isMobile ? 2 : 1;
+    }
+
+    get actionButtonCssClass() {
+        return this.ishomepage
+            ? 'slds-p-around_small slds-size_2-of-12'
+            : this.isMobile
+            ? 'slds-p-right_medium slds-size_2-of-12'
+            : 'slds-p-right_large slds-size_1-of-12';
+    }
+
     connectedCallback() {
         console.log('tasks 123', this.tasksList);
         if (formFactor === 'Small') {
