@@ -452,10 +452,23 @@ public without sharing class TaskService {
                 }
             }
 
-            String subject = Label.Task_Subject_Complete_Survey.replace(
-                '##SurveyName',
-                inv.Survey.Name
-            );
+            /**PEH-8833 */
+            String subject;
+            if (
+                inv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                CommunityTemplateService.TEMPLATE_PP
+            ) {
+                subject = Label.Task_Subject_Complete_Survey_PP.replace(
+                    '##SurveyName',
+                    inv.Survey.Name
+                );
+            } else {
+                subject = Label.Task_Subject_Complete_Survey.replace(
+                    '##SurveyName',
+                    inv.Survey.Name
+                );
+            }
+
             for (TaskConfig tsc : tmpConfigs) {
                 tsc.code = TASK_CODE_COMPLETE_SURVEY;
                 tsc.communityTemplateName = CommunityTemplateService.getTemplate(
