@@ -12105,6 +12105,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>OT H Account Settings</shortDescription>
         <value>Account Settings</value>
     </labels>
+     <labels>
+        <fullName>Trail_Search_Update_Account_Setting</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trail Search Update Account Setting</shortDescription>
+        <value>If necessary, you may update your contact information in your</value>
+    </labels>
     <labels>
         <fullName>OT_H_Dashboard</fullName>
         <language>en_US</language>
