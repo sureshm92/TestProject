@@ -95,6 +95,10 @@
                     if (component.get('v.initData.createdByAdmin')) {
                         var reminderFrequencyForAdmintask = [
                             {
+                                label: $A.get('$Label.c.PP_NO_REMINDER'),
+                                value: 'No reminder'
+                            },
+                            {
                                 label: $A.get('$Label.c.PP_Custom'),
                                 value: 'Custom'
                             }
