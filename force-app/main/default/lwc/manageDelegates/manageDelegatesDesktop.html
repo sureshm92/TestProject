@@ -161,10 +161,10 @@
                                                     <!--Remove Delegate Modal: Starts-->
                                                     <template if:true={showpopup}>
                                                         <c-pp-remove-delegate-modal-old
-                                                            pdenrollmentid={pdEnrollment.Id}
+                                                            pdenrollmentid={removeStudyPDEId}
                                                             messtext={modalMesstext}
                                                             tittext={label.PG_PST_L_Delegates_Remove_Himself_Header}
-                                                            onconfirmmodal={handleConfirmdelete}
+                                                            onconfirmmodal={handleRemoveDelegate}
                                                             onmodalclose={handleModalClose}
                                                         >
                                                         </c-pp-remove-delegate-modal-old>
@@ -185,7 +185,7 @@
                                                                 class="remove-btn"
                                                                 title="Remove Delegate"
                                                                 onclick={openRemoveDelegateModal}
-                                                                data-id={pdEnrollment.Id}
+                                                                data-pdeid={pdEnrollment.Id}
                                                                 data-pdfn={del.PatientDelegate.First_Name__c}
                                                                 data-pdln={del.PatientDelegate.Last_Name__c}
                                                             >
@@ -196,28 +196,30 @@
                                                 </lightning-layout-item>
                                             </template>
                                         </template>
-                                        <!--Iterate over each pdEnrollment Associated to the Delegate: Starts-->
-                                        <template if:false={del.addNewStudy}>
-                                            <!--Add Assignment Button: Starts-->
-                                            <lightning-layout-item size="12">
-                                                <button
-                                                    class="apollo-btn secondary box-add-assignment-btn slds-m-bottom_small"
-                                                    title="Add Assignment"
-                                                    onclick={addAssignment}
-                                                    data-pdid={del.PatientDelegate.Id}
-                                                >
-                                                    <c-web-icon
-                                                        icon-name="icon-plus"
-                                                        icon-color="#0768fd"
-                                                        icon-height="25"
-                                                        icon-width="18"
-                                                    ></c-web-icon>
-                                                    <span class="add-assignment-label"
-                                                        >&nbsp; {label.PP_AddAssignment}</span
+                                        <!--Iterate over each pdEnrollment Associated to the Delegate: Ends-->
+                                        <template if:true={del.showAddAssignmentButton}>
+                                            <template if:false={del.addNewStudy}>
+                                                <!--Add Assignment Button: Starts-->
+                                                <lightning-layout-item size="12">
+                                                    <button
+                                                        class="apollo-btn secondary box-add-assignment-btn slds-m-bottom_small"
+                                                        title="Add Assignment"
+                                                        onclick={addAssignment}
+                                                        data-pdid={del.PatientDelegate.Id}
                                                     >
-                                                </button>
-                                            </lightning-layout-item>
-                                            <!--Add Assignment Button: Ends-->
+                                                        <c-web-icon
+                                                            icon-name="icon-plus"
+                                                            icon-color="#0768fd"
+                                                            icon-height="25"
+                                                            icon-width="18"
+                                                        ></c-web-icon>
+                                                        <span class="add-assignment-label"
+                                                            >&nbsp; {label.PP_AddAssignment}</span
+                                                        >
+                                                    </button>
+                                                </lightning-layout-item>
+                                                <!--Add Assignment Button: Ends-->
+                                            </template>
                                         </template>
 
                                         <template if:true={del.addNewStudy}>

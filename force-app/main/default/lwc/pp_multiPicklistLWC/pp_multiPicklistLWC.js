@@ -109,7 +109,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
 
     get studyCount() {
         if (this.selectedStudy) {
-            if(!this.isDesktop){
+            if(this.isDesktop){
                 if (this.selectedStudy.length > 3) {
                     return ' + ' + (this.selectedStudy.length - 3) + ' ' + this.label.More;
                 }
