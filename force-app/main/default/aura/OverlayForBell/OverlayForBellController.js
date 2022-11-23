@@ -1,26 +1,33 @@
 ({
     doMenuExpand: function (component, event, helper) {
-        component.set('v.isOpened', true);
-        component.getEvent('onshow').fire();
+        if(!component.get('v.isOpened')) {
+            component.set('v.isOpened', true);
+            component.getEvent('onshow').fire();
+        }
     },
 
     doMenuCollapse: function (component, event, helper) {
-        component.set('v.isOpened', false);
-        let blurEvent = component.getEvent('onblur');
-        blurEvent.setParams({
-            "message" : "onblur","identifier":"sitecal" });
-        blurEvent.fire();
-        var compEvent = component.getEvent("sampleComponentEvent");
-        compEvent.fire();
-        //component.getEvent('onblur').fire();
+        if(component.get('v.isOpened')) {
+        	component.set('v.isOpened', false);
+            var compEvent = component.getEvent("onBlurOverlayBellEvent");
+            compEvent.fire();
+        }
     },
 
     doClose: function (component) {
         component.set('v.isOpened', false);
-        
+
     },
 
     doOpen: function (component) {
         component.set('v.isOpened', true);
+    },
+
+    closeBell : function(component,event, helper){
+        if(component.get('v.isOpened')) {
+        	component.set('v.isOpened', false);
+            var compEvent = component.getEvent("onBlurOverlayBellEvent");
+            compEvent.fire();
+        }
     }
 });

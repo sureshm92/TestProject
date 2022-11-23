@@ -253,7 +253,7 @@ public class BellNotificationsHelper {
     }
 
     public static Map<String, List<Contact>> getContactForStudy(List<Id> studyIds){
-        List<Study_Site__c> lstOfStaff = new List<Study_Site__c>();    
+        List<Study_Site__c> lstOfStaff = new List<Study_Site__c>();
         Map<String, List<Contact>> mapOfStudyContact = new Map<String, List<Contact>>();
 
         if(studyIds != null){
@@ -264,14 +264,14 @@ public class BellNotificationsHelper {
             if(!mapOfStudyContact.containsKey(eachRec.Clinical_Trial_Profile__c)){
                 mapOfStudyContact.put(eachRec.Clinical_Trial_Profile__c, new List<Contact>{});
             }
-            
+
             Contact con = new Contact(Id = eachRec.Principal_Investigator__c);
-            mapOfStudyContact.get(eachRec.Clinical_Trial_Profile__c).add(con);            
+            mapOfStudyContact.get(eachRec.Clinical_Trial_Profile__c).add(con);
 
             if(eachRec.Site_Staff__r != null){
-                for(Site_Staff__c eachStaff : eachRec.Site_Staff__r){                    
+                for(Site_Staff__c eachStaff : eachRec.Site_Staff__r){
                     Contact con1 = new Contact(Id = eachStaff.Site_Contact__c);
-                    mapOfStudyContact.get(eachRec.Clinical_Trial_Profile__c).add(con1);                    
+                    mapOfStudyContact.get(eachRec.Clinical_Trial_Profile__c).add(con1);
                 }
             }
         }
@@ -290,7 +290,7 @@ public class BellNotificationsHelper {
 
 
         for(Study_Site__c eachRec : lstOfStaff){
-            setOfUniqueContacts.add(eachRec.Principal_Investigator__c);            
+            setOfUniqueContacts.add(eachRec.Principal_Investigator__c);
 
             if(eachRec.Site_Staff__r != null){
                 lstOfSiteStaff.addAll(eachRec.Site_Staff__r);
@@ -357,6 +357,47 @@ public class BellNotificationsHelper {
                     }
                 }
         }
+    }
+
+    /*
+    * @description: this method will return the Access level of current logged in User for a particular Study Site
+    * RH-9210
+    * @created: 10 Nov 2022
+    * @param: contactId (String) => Current user Contact Id
+    * @param: studySiteId (String) => Study Site Id
+    * @return: (String) current users access level: PI/Level 1/Level 2/ Level 3
+    * */
+    public static String getCurrentUserLevelByStudySite(String contactId,String studySiteId){
+
+        List<Study_Site__c> ssList = [SELECT Id, Principal_Investigator__c,
+                                        (SELECT Id, Site_Contact__c, Delegate_Level__c
+                                            FROM Site_Staff__r
+                                            WHERE is_Invited__c = TRUE)
+                                        FROM Study_Site__c
+                                        WHERE Id = :studySiteId];
+        for(Study_Site__c ss : ssList){
+            if(String.valueOf(ss.Principal_Investigator__c)?.containsIgnoreCase(contactId) ){
+                return 'PI';
+            }
+            else{
+                for(Site_Staff__c staff : ss.Site_Staff__r){
+                    if(String.valueOf(staff.Site_Contact__c)?.containsIgnoreCase(contactId) && String.isNotEmpty(staff.Delegate_Level__c) ){
+                        switch on staff.Delegate_Level__c {
+                            when 'Level 1' {
+                                return 'PI Delegate L1';
+                            }
+                            when 'Level 2' {
+                                return 'PI Delegate L2';
+                            }
+                            when 'Level 3' {
+                                return 'PI Delegate L3';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return 'None';
     }
 
 

@@ -11,11 +11,13 @@
   <!-- methods: -->
   <aura:method name="close" action="{!c.doClose}" access="public" />
   <aura:method name="open" action="{!c.doOpen}" access="public" />
+  <aura:method name="closeBellOverlay" action="{!c.closeBell}" access="PUBLIC" />
 
   <!-- events: -->
   <aura:registerEvent access="global" name="onblur" type="c:uiEvent" />
   <aura:registerEvent access="global" name="onshow" type="c:uiEvent" />
   <aura:registerEvent name="sampleComponentEvent" type="c:uiEvent" />
+  <aura:registerEvent name="onBlurOverlayBellEvent" type="c:uiEvent" />
   <!-- component body: -->
   <ui:menu class="{!if(v.isOpened, 'popup-visible ', ' ') + v.class}">
     <ui:menuTriggerLink aura:id="trigger" class="header-menu-link">
