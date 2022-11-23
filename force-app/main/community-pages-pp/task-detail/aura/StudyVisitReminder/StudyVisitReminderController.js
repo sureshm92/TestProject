@@ -239,7 +239,7 @@
             ? component.get('v.visitData.visitDate')
             : component.get('v.initData.activityDate');
         var today = moment();
-
+        var task = component.get('v.task');
         //component.set('v.initData.activityDate',new Date(new Date(component.get('v.initData.activityDate')) - (-(3600 *1000))));
         //console.log(component.get('v.initData.activityDate'));
         component.set('v.initData.today', new Date(new Date() + 60 * 1000));
