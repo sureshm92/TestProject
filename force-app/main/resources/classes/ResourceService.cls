@@ -247,6 +247,21 @@ public virtual without sharing class ResourceService {
         }
         return rwSorted;
     }
+    public static List<ResourceWrapper> sortResourcesByCreatedDate(
+        List<ResourceWrapper> resourceWrappers
+    ) {
+        List<ResourceSorting> resourceSortings = new List<ResourceSorting>();
+        for (ResourceWrapper rw : resourceWrappers) {
+            resourceSortings.add(new ResourceSorting(rw));
+        }
+        resourceSortings.sort();
+
+        List<ResourceWrapper> rwSorted = new List<ResourceWrapper>();
+        for (ResourceSorting rc : resourceSortings) {
+            rwSorted.add(rc.res1);
+        }
+        return rwSorted;
+    }
 
     public static List<ResourceWrapper> removeTranslations(List<ResourceWrapper> resourceWrappers) {
         List<String> availableLanForUser = ContactService.getPreferredLanguages();
@@ -328,6 +343,46 @@ public virtual without sharing class ResourceService {
 
             return returnValue;
         }
+    }
+    public virtual class ResourceSorting implements Comparable {
+        public ResourceService.ResourceWrapper res1;
+
+        public ResourceSorting(ResourceService.ResourceWrapper res1) {
+            this.res1 = res1;
+        }
+
+        public Integer compareTo(Object param1) {
+            ResourceSorting res2 = (ResourceSorting) param1;
+
+            Integer returnValue = 0; // The return value of 0 indicates that both elements are equal.
+            if (res1.resource.CreatedDate < res2.res1.resource.CreatedDate) {
+                returnValue = 1; // Set return value to a positive value.
+            } else if (res1.resource.CreatedDate > res2.res1.resource.CreatedDate) {
+                returnValue = -1; // Set return value to a negative value.
+            }
+
+            return returnValue;
+        }
+    }
+    public static Integer getUpdatesCounter(List<ResourceWrapper> resourceWrappers) {
+        Integer counter = 0;
+        List<LoginHistory> lastLoginList = [
+            SELECT loginTime
+            FROM LoginHistory
+            WHERE userId = :UserInfo.getUserId()
+            ORDER BY LoginTime DESC
+            LIMIT 2
+        ];
+        if (lastLoginList.size() > 1) {
+            Datetime lastlogin = lastLoginList[1].loginTime;
+            for (ResourceWrapper rw : resourceWrappers) {
+                if (rw.resource.CreatedDate > lastlogin) {
+                    counter++;
+                }
+            }
+        }
+
+        return counter;
     }
 
     public virtual class ResourceWrapper {
