@@ -312,6 +312,18 @@
     margin-top: 10px;
     margin-left: -17px;
 }
+.badge {
+    padding: 3px 8px 3px 8px;
+    border-radius: 50%;
+    background-color: red;
+    margin-left: 0.6rem;
+}
+.update-count {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+}
 
 @media all and (max-width: 486px) {
     .inactive-custom-box {
@@ -402,7 +414,7 @@
 
 .container-card-mobile {
     background-color: rgb(246, 247, 249);
-    border-top-color: #C627A6;
+    border-top-color: #c627a6;
     border-top-width: 38px;
     padding: 0;
     border-radius: 25px;
@@ -410,9 +422,9 @@
     margin: 0px 10px;
     border-left: 0;
     border-right: 0;
-}  
+}
 
-.task-header{
+.task-header {
     position: relative;
     margin-top: -31px;
     text-align: center;
@@ -423,7 +435,7 @@
     text-transform: uppercase;
 }
 
-.custom-padding{
+.custom-padding {
     padding-left: 0px;
     padding-right: 0px;
 }
@@ -484,20 +496,20 @@
 }
 
 /* RELEVANT LINKS */
- 
-.links-type{
+
+.links-type {
     color: lightgray;
     text-transform: uppercase;
     font-size: 10px;
 }
 
-.links-container:hover{
+.links-container:hover {
     cursor: pointer;
 }
 
 .links-header {
-    color: #015FF1;
-    font-family: "Proxima Nova";
+    color: #015ff1;
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0;
@@ -508,8 +520,8 @@
 }
 
 .links-desc {
-    color: #6E6E6E;
-    font-family: "Proxima Nova";
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0;
@@ -521,7 +533,7 @@
 .links-type {
     height: 16px;
     color: #757575;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     letter-spacing: 0.1px;
     line-height: 16px;
@@ -531,12 +543,12 @@
 .separator {
     box-sizing: border-box;
     height: 1px;
-    border-bottom: 1px solid rgba(153,153,153,0.59);
+    border-bottom: 1px solid rgba(153, 153, 153, 0.59);
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.margin{
+.margin {
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -547,12 +559,12 @@
     width: 20px;
 }
 
-.open-tab{
-    width:14px;
-    height:14px;
+.open-tab {
+    width: 14px;
+    height: 14px;
 }
 
-.discover-empty-container{
+.discover-empty-container {
     height: 335px;
     width: 100%;
     box-sizing: border-box;
@@ -563,51 +575,51 @@
     overflow-x: hidden;
 }
 
-.no-links-available{
+.no-links-available {
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     letter-spacing: 0;
     line-height: 24px;
-    text-align: center;  
-}
-
-.center-empty{
     text-align: center;
 }
 
-.container-height{
+.center-empty {
+    text-align: center;
+}
+
+.container-height {
     height: 335px;
 }
 
-.center-empty-mobile{
+.center-empty-mobile {
     text-align: center;
 }
 
-.mt-15{
+.mt-15 {
     margin-top: 15px;
 }
 
 /* Scroll bar custom */
 ::-webkit-scrollbar {
     width: 10px;
-  }
-  
-  ::-webkit-scrollbar-track {
+}
+
+::-webkit-scrollbar-track {
     background-color: #fff;
     -webkit-border-radius: 10px;
     border-radius: 10px;
     padding-right: 10px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
+}
+
+::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: #999999;
     background-clip: padding-box;
     padding-right: 10px;
-  }
+}
 
-  .height{
-      height: 100%;
-  }
+.height {
+    height: 100%;
+}
