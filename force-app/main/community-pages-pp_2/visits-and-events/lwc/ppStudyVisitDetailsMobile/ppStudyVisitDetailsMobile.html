@@ -37,8 +37,8 @@
             </h1>
             <h1 class="what-to-expect">{label.WTELabel}</h1>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 icon-cont-mobile">
-                <div class="slds-clearfix slds-scrollable_x scroll-position">
-                    <div class="slds-float_left rem-border">
+                <div class="slds-clearfix">
+                    <div class="rem-border">
                         <template if:false={isError}>
                             <c-pp-r-r-icon-splitter
                                 icons={icondetails}
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <template if:true={isError}
-                    ><span class="slds-align_absolute-center" style="height: 185px">
+                    ><span class="slds-align_absolute-center no-data-mobile">
                         {label.noDataAvailable}
                     </span></template
                 >

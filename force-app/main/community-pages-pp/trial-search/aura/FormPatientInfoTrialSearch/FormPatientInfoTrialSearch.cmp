@@ -78,6 +78,9 @@
             <div class="{!if(v.isRTL, 'ap-section-titleRTL' , 'ap-section-title' )}">
                 {!$Label.c.PG_AP_H_Contact_Information}
             </div>
+            <div class="fpi_container_margin">
+                If necessary, you may update your contact information in your <span class="fpi-as" onclick="{!c.navigateToAccoutSettingsPage}">Acccount Settings.</span>
+            </div>
             <div class="slds-grid slds-gutters slds-wrap">
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label">

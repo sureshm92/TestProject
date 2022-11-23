@@ -18715,14 +18715,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_ProgramOverview_LearnMore_Desktop</shortDescription>
-        <value>Learn about your program</value>
+        <value>Learn more about my program</value>
     </labels>
     <labels>
         <fullName>PP_ProgramOverview_LearnMore_Mobile</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_ProgramOverview_LearnMore_Mobile</shortDescription>
-        <value>Learn about your program</value>
+        <value>Learn more about my program</value>
     </labels>
     <labels>
         <fullName>PP_StudyOverview_LearnMore_Mobile</fullName>
@@ -29419,5 +29419,12 @@ Please contact the Study Team for further updates or please login for additional
         <protected>true</protected>
         <shortDescription>Technical Support</shortDescription>
         <value>Get Technical Support</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Complete_Survey_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Subject Complete Survey PP</shortDescription>
+        <value>##SurveyName</value>
     </labels>
 </CustomLabels>

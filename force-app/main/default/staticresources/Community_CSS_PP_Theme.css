@@ -1038,6 +1038,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     line-height: 24px;
     margin-top: -7px !important;
     margin-bottom: 16px;
+    margin-left: 3px;
 }
 
 .opt-out-comm-pref .slds-checkbox__label{
@@ -1052,6 +1053,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     letter-spacing: 0;
     line-height: 24px;
     margin-top: -7px !important;
+    margin-left: 3px;
 }
 
 .opt-out-comm-pref-mobile .slds-checkbox__label{
@@ -1069,5 +1071,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     font-size: 16px !important;
     letter-spacing: 0;
     line-height: 19px;
+    margin-left: 3px;
 }
   
