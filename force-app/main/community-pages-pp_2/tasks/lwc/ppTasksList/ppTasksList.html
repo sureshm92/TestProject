@@ -4,6 +4,7 @@
         <template if:false={item.expandCard}>
             <div key={item} class={containerClass} data-parentdiv={item.task.Id}>
                 <lightning-layout-item size="2">
+                    <!--System Tasks at Home-->
                     <template if:true={ishomepage}>
                         <template if:true={item.systemTask}>
                             <div
@@ -13,6 +14,7 @@
                                 data-status={item.task.Status}
                                 data-index={item.task.Id}
                             >
+                                <!--System Non-Business Tasks at Home-->
                                 <template if:false={item.businessTask}>
                                     <template if:true={isMobile}>
                                         <c-web-icon
@@ -31,6 +33,7 @@
                                         </c-web-icon>
                                     </template>
                                 </template>
+                                <!--System Business Tasks at Home-->
                                 <template if:true={item.businessTask}>
                                     <c-web-icon
                                         class={systemIconClass}
@@ -42,6 +45,7 @@
                             </div>
                         </template>
                     </template>
+                    <!--System Tasks at Task Page-->
                     <template if:false={ishomepage}>
                         <template if:true={item.systemTask}>
                             <div
@@ -51,6 +55,7 @@
                                 data-status={item.task.Status}
                                 data-index={item.task.Id}
                             >
+                                <!--System Non-Business Tasks at Task Page-->
                                 <template if:false={item.businessTask}>
                                     <template if:true={isMobile}>
                                         <c-web-icon
@@ -69,6 +74,7 @@
                                         </c-web-icon>
                                     </template>
                                 </template>
+                                <!--System Business Tasks at Task Page-->
                                 <template if:true={isMobile}>
                                     <template if:true={item.businessTask}>
                                         <c-web-icon
@@ -107,6 +113,7 @@
                             >
                             </c-web-icon>
                         </template>
+                        <!--Mark Task as Complete Modal-->
                         <template if:true={isShowModal}>
                             <c-pp-task-complete-modal
                                 contact={contact}
@@ -118,6 +125,7 @@
                                 onmodalclose={hideModalBox}
                             ></c-pp-task-complete-modal>
                         </template>
+                        <!--Mark Task as Ignore Modal-->
                         <template if:true={isTaskIgnoreModal}>
                             <c-pp-task-ignore-modal
                                 contact={contact}
@@ -142,12 +150,15 @@
                         </template>
                     </template>
                 </lightning-layout-item>
+                <!--Desktop View for Task List Subject, Critical and Due Date Section-->
                 <template if:false={isMobile}>
+                    <!--Task List Subject, Critical and Due Date Section for Home Page-->
                     <template if:true={ishomepage}>
                         <lightning-layout-item size="8" class="">
                             <lightning-layout size="12">
                                 <template if:true={ishomepage}>
                                     <lightning-layout-item size="12">
+                                        <!--Subject-->
                                         <lightning-layout>
                                             <lightning-layout-item
                                                 class={item.homeSubjectEllipsisClass}
@@ -163,6 +174,7 @@
                                                 ></span>
                                             </lightning-layout-item>
                                         </lightning-layout>
+                                        <!--Due Date-->
                                         <template if:true={item.dueDate}
                                             ><lightning-layout>
                                                 <lightning-layout-item
@@ -193,6 +205,7 @@
                                 </template>
                                 <template if:false={ishomepage}>
                                     <lightning-layout-item size="10">
+                                        <!--Subject-->
                                         <lightning-layout>
                                             <lightning-layout-item class={item.subjectEllipsisClass}
                                                 ><span
@@ -203,12 +216,12 @@
                                                     data-index={item.task.Id}
                                                     ><lightning-formatted-text
                                                         value={item.task.Subject}
-                                                        title={item.task.Subject}
                                                     >
                                                     </lightning-formatted-text
                                                 ></span>
                                             </lightning-layout-item>
                                         </lightning-layout>
+                                        <!--Due Date-->
                                         <template if:true={item.dueDate}
                                             ><lightning-layout>
                                                 <lightning-layout-item
@@ -238,6 +251,7 @@
                                         ></template>
                                     </lightning-layout-item>
                                 </template>
+                                <!--Critical Label if any-->
                                 <lightning-layout-item class="slds-align_absolute-center" size="2"
                                     ><template if:true={item.criticalTask}
                                         ><span class="critical-rect"
@@ -269,9 +283,10 @@
                             </template>
                         </lightning-layout-item>
                     </template>
+                    <!--Task List Subject, Critical and Due Date Section for Task Page-->
                     <template if:false={ishomepage}
                         ><lightning-layout-item
-                            size="8"
+                            size="9"
                             class="mob-task-sub"
                             padding="around-small"
                         >
@@ -288,7 +303,6 @@
                                                     data-index={item.task.Id}
                                                     ><lightning-formatted-text
                                                         value={item.task.Subject}
-                                                        title={item.task.Subject}
                                                     >
                                                     </lightning-formatted-text
                                                 ></span>
@@ -335,7 +349,6 @@
                                                     data-index={item.task.Id}
                                                     ><lightning-formatted-text
                                                         value={item.task.Subject}
-                                                        title={item.task.Subject}
                                                     >
                                                     </lightning-formatted-text
                                                 ></span>
@@ -401,6 +414,7 @@
                             </template> </lightning-layout-item
                     ></template>
                 </template>
+                <!--Mobile View for Task List Subject, Critical and Due Date Section-->
                 <template if:true={isMobile}>
                     <template if:true={ishomepage}>
                         <lightning-layout-item size="8">
@@ -481,7 +495,7 @@
                     ></template>
                     <template if:false={ishomepage}>
                         <lightning-layout-item
-                            size="8"
+                            size={subjectSize}
                             class="mob-task-sub slds-p-around_xxx-small"
                         >
                             <lightning-layout size="12">
@@ -492,14 +506,11 @@
                                         data-actionurl={item.task.Action_URL__c}
                                         data-status={item.task.Status}
                                         data-index={item.task.Id}
-                                        ><lightning-formatted-text
-                                            value={item.task.Subject}
-                                            title={item.task.Subject}
-                                        >
+                                        ><lightning-formatted-text value={item.task.Subject}>
                                         </lightning-formatted-text
                                     ></span>
                                 </lightning-layout-item>
-                                <lightning-layout-item size="2"
+                                <lightning-layout-item size="2" class="slds-align_absolute-center"
                                     ><template if:true={item.criticalTask}
                                         ><span class="critical-rect"
                                             >{label.taskPriorityCritical}</span
@@ -562,9 +573,11 @@
                             </template> </lightning-layout-item
                     ></template>
                 </template>
-                <lightning-layout-item size="2" padding="around-small">
+                <!--Action Section for Task List-->
+                <lightning-layout-item size={actionButtonSizess} class={actionButtonCssClass}>
                     <template if:false={expireTaskAvailable}>
                         <template if:false={item.isClosed}>
+                            <!--Arrow Icon for System Tasks as Home Page-->
                             <template if:true={ishomepage}>
                                 <template if:true={item.systemTask}>
                                     <img
@@ -577,9 +590,10 @@
                                     />
                                 </template>
                             </template>
+                            <!--Three Dots for Tasks as Task Page-->
                             <template if:false={ishomepage}>
                                 <div
-                                    class="slds-dropdown-trigger slds-dropdown-trigger_click"
+                                    class="slds-dropdown-trigger slds-dropdown-trigger_click slds-float_right"
                                     data-popup={item.task.Id}
                                     onclick={showTaskActionMenu}
                                     tabindex="0"
@@ -654,6 +668,7 @@
                 </lightning-layout-item>
             </div>
         </template>
+        <!--Edit Task Section-->
         <template if:true={item.expandCard}>
             <template if:true={showTaskCreateCard}>
                 <c-pp-create-task
