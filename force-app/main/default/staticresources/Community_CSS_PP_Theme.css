@@ -3,7 +3,10 @@
         padding: 0px !important;
         background-color: #f6f7fb;
     }
-
+    .rr-min-body-height .rr-min-body-height {
+        height: auto !important;
+    }
+    
     .toastContainer > .forceToastMessage {
         width: 95% !important;
     }
