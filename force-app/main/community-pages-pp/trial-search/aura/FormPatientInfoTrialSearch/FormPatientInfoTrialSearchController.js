@@ -152,5 +152,9 @@
     },
     closePpPopup: function (component) {
         component.set('v.showPpPopup', false);
+    },
+    navigateToAccoutSettingsPage : function (component){
+        window.open('account-settings?profileInformation', '_blank');
+        window.focus();
     }
 });
