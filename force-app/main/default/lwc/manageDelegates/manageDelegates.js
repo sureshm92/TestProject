@@ -60,6 +60,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     showAddDelegatePage = false;
     showpopup = false;
     removeStudyPDEId;
+    deletePatientDelId;
     showDeletePopup = false;
     modalMesstext;
     showActiveDelegates = true;
@@ -347,8 +348,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.showpopup = true;
         //this.removeStudyPDEId = event.currentTarget.dataset.pdeid;
     }
-    openDeleteDelegateModal() {
+    openDeleteDelegateModal(event) {
         this.showDeletePopup = true;
+        this.deletePatientDelId = event.currentTarget.dataset.id;
     }
 
     //This method will remove the delegate once Confirm button clicked on Remove Delegate Modal.
@@ -378,6 +380,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     handleDeleteModalClose(event) {
         const showHideModal = event.detail;
         this.showDeletePopup = showHideModal;
+        this.deletePatientDelId='';
     }
 
     handleDeleteDelegate(event) {
@@ -455,9 +458,11 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
 
     //Flipt the delete icon between gray and red.
     toggleDeleteIcon(event) {
-        let recordId = event.currentTarget.dataset.id;
+        let recordId = event.currentTarget.dataset.pdid;
+        let a =  event.target.dataset.pdid;
+
         this.formerListPDE.filter(function (del) {
-            if (del.PatientDelegate.Id === recordId) {
+            if (del.pdId === recordId) {
                 del.showDeleteRedIcon = del.showDeleteRedIcon ? false : true;
             }
         });
