@@ -15,6 +15,8 @@
         <c-pp-add-new-delegate
             selected-parent={participantState.Participant_Contact__c}
             is-desktop={isDesktop}
+            delegate-filter-data={availableStudyData}
+            total-no-of-studies={totalNoOfStudies}
         >
         </c-pp-add-new-delegate>
     </template>
@@ -227,16 +229,24 @@
                                                     <lightning-layout-item
                                                         size="10"
                                                         class="study-picklist"
-                                                        ><c-pp_multi-picklist-l-w-c></c-pp_multi-picklist-l-w-c
+                                                        ><c-pp_multi-picklist-l-w-c
+                                                        picklist-values={studyToAssing}
+                                                        total-no-of-studies = {totalNoOfStudiesToAssign}
+                                                        is-desktop={isDesktop}
+                                                        ></c-pp_multi-picklist-l-w-c
                                                     ></lightning-layout-item>
                                                     <lightning-layout-item
                                                         size="2"
                                                         class="save-button-aligment"
                                                         ><button
                                                             title="Save"
-                                                            onclick={doSaveChanges}
+                                                            onclick={doSave}
                                                             class={saveButtonClass}
                                                             disabled={validateData}
+                                                            data-id={del.PatientDelegate.Id}
+                                                            data-pdid={del.pdId}
+                                                            data-attestedtimestmp={del.delAttestationTimeStamp}
+                                                            data-attestedby={del.delAttestedBy}
                                                         >
                                                             {label.BTN_Save}
                                                         </button></lightning-layout-item
@@ -305,7 +315,7 @@
                                     <!--Delete Delegate Modal: Starts-->
                                     <template if:true={showDeletePopup}>
                                         <c-pp-delete-delegate-modal-old
-                                            patientdelegateid={del.PatientDelegate.Id}
+                                            patientdelegateid={del.pdId}
                                             messtext={label.PP_Delegate_Delegate_Warning}
                                             tittext={label.PP_Delegate_Delegate}
                                             ondeletemodal={handleDeleteDelegate}
@@ -514,16 +524,21 @@
                                                     <lightning-layout-item
                                                         size="10"
                                                         class="study-picklist"
-                                                        ><c-pp_multi-picklist-l-w-c></c-pp_multi-picklist-l-w-c
+                                                        ><c-pp_multi-picklist-l-w-c
+                                                            picklist-values={availableStudyData.studies}
+                                                            total-no-of-studies = {totalNoOfStudies}
+                                                            is-desktop={isDesktop}
+                                                        ></c-pp_multi-picklist-l-w-c
                                                     ></lightning-layout-item>
                                                     <lightning-layout-item
                                                         size="2"
                                                         class="save-button-aligment"
                                                         ><button
                                                             title="Save"
-                                                            onclick={doSaveChanges}
+                                                            onclick={doSave}
                                                             class={saveButtonClass}
                                                             disabled={validateData}
+                                                            data-pdid={del.PatientDelegate.Id}
                                                         >
                                                             {label.BTN_Save}
                                                         </button></lightning-layout-item
