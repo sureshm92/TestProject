@@ -58,13 +58,12 @@ export default class ProgramOverview extends LightningElement {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
 
         if(this.clinicalrecord){
-			console.log('this.clinicalrecord:::'+this.clinicalrecord);
             if(this.clinicalrecord.Brief_Summary__c){
                 let briefsummary = this.clinicalrecord.Brief_Summary__c;
-                if(briefsummary.length > 204) {
-                    briefsummary = briefsummary.replace(/<[^>]*>?/gm, '');
-                    let firsttext = briefsummary.substring(3, 203);
-                    let secondtext = briefsummary.substring(203, 204);
+                briefsummary = briefsummary.replace(/<[^>]*>?/gm, '');
+                if(briefsummary.length > 200) {
+                    let firsttext = briefsummary.substring(0, 200);
+                    let secondtext = briefsummary.substring(200, 201);
                     if(secondtext == " "){
                         this.shortOverview = firsttext;
                     }
@@ -74,7 +73,7 @@ export default class ProgramOverview extends LightningElement {
                     }
                 }
 				else{
-					this.shortOverview = this.clinicalrecord.Brief_Summary__c;
+					this.shortOverview = briefsummary;
 				}
             }
         }
