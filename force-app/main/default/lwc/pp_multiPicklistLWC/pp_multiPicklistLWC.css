@@ -208,6 +208,9 @@
     .rtl .rtl-width {
         right: -50%;
     }
+    .eth .study-thmore {
+    padding: 6px 0px 0px 175px;;
+}
 }
 
 /*on hover of clear all*/
