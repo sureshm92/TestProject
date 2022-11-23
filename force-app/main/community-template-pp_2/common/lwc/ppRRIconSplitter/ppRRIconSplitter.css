@@ -69,6 +69,7 @@
 
 .bio-icons {
     position: relative;
+    padding-left: 3px;
 }
 
 .bio-icons:hover {
@@ -82,7 +83,7 @@
     height: 5px;
     border-radius: 3px;
     background: #009dd6;
-    left: -2px;
+    left: 0px;
     bottom: -13px;
 }
 
