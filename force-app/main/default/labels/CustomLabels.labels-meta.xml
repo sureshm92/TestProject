@@ -12105,6 +12105,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>OT H Account Settings</shortDescription>
         <value>Account Settings</value>
     </labels>
+     <labels>
+        <fullName>Trail_Search_Update_Account_Setting</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trail Search Update Account Setting</shortDescription>
+        <value>If necessary, you may update your contact information in your</value>
+    </labels>
     <labels>
         <fullName>OT_H_Dashboard</fullName>
         <language>en_US</language>
@@ -29419,5 +29426,12 @@ Please contact the Study Team for further updates or please login for additional
         <protected>true</protected>
         <shortDescription>Technical Support</shortDescription>
         <value>Get Technical Support</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Complete_Survey_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Subject Complete Survey PP</shortDescription>
+        <value>##SurveyName</value>
     </labels>
 </CustomLabels>

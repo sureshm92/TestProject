@@ -22,7 +22,7 @@
 
                 <!-- ***************** Resource Title ******************* -->
                 <lightning-layout-item size="12" class="slds-p-vertical_medium">
-                    <lightning-layout multiple-rows="true">
+                    <lightning-layout multiple-rows="true" class="study-title-mobile">
                         <lightning-layout-item size="12" class="study-title">
                             {studyTitle}</lightning-layout-item
                         >
@@ -109,13 +109,7 @@
                 <template if:true={isDocument}>
                     <lightning-layout-item size="12" class="title-row-document">
                         <div class="ah-video-iframe">
-                            <iframe
-                                frameborder="0"
-                                src={documentLink}
-                                height="1000px"
-                                width="1250px"
-                            >
-                            </iframe>
+                            <iframe frameborder="0" src={documentLink} class="my_iframe"> </iframe>
                         </div>
                     </lightning-layout-item>
                 </template>
@@ -124,7 +118,7 @@
         </div>
 
         <!--   FOOTER    -->
-        <div style="margin:-4px 0;" class="rr-width-limiter-pp side-padding footer-resource">
+        <div style="margin: -4px 0" class="rr-width-limiter-pp side-padding footer-resource">
             <c-pp-community-footer> </c-pp-community-footer>
         </div>
     </template>
