@@ -1004,8 +1004,8 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 /* Edit Task Input Disabled */
 .create-task-input-container .slds-input:disabled{
     background: #F2F2F2 !important;
-    color: #747474 !important;
-    -webkit-text-fill-color: #747474 !important;
+    color: #595959 !important;
+    -webkit-text-fill-color: #595959 !important;
     opacity: 1 !important; /* required on iOS */
 }
 
