@@ -362,4 +362,47 @@ private class Test_ParticipantVisitsRemote {
         Test.stopTest();
         System.assert(true, isExceptionThrown);
     }
+
+    @IsTest
+    static void getIconDetails_test(){
+        List<Patient_Visit__c> vl = [select Id FROM Patient_Visit__c];
+        PatientVisitService.getVisitIcons(vl[0].Id);
+        PatientVisitService.getVisitIconsbyName(vl[0].Id);
+        PatientVisitService pvs = new PatientVisitService();
+        pvs.getPatientVisitDetails(vl[0].Id);
+                Participant__c participant = [
+            SELECT
+                Id,
+                Name,
+                First_Name__c,
+                Last_Name__c,
+                Email__c,
+                Status__c,
+                Balance__c,
+                Contact__c,
+                Mailing_Country_Code__c,
+                Mailing_Country__c,
+                Contact__r.AccountId
+            FROM Participant__c
+            WHERE Last_Name__c = 'ParticipantTD'
+        ];
+        User participantUser = [
+            SELECT Id, ContactId, LastName
+            FROM User
+            WHERE LastName = :participant.Name
+        ];
+        Boolean ssHasVisit;
+        List<PatientVisitService.VisitWrapper> visitsPreview;
+        List<PatientVisitService.VisitWrapper> participantVisits;
+        List<Patient_Visit__c> cardPatientVisits;
+        Test.startTest();
+        System.runAs(participantUser) {
+            PatientVisitService pvsl = new PatientVisitService();
+            pvsl.getVisitWrappers('Scheduled',5);
+        }
+        Test.stopTest();
+
+    }
+ 
+    
 }

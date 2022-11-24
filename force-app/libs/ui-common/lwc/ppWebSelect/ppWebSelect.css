@@ -183,7 +183,7 @@
 }
 
 .custom-no-border .dropdown-span {
-    padding-left: .5rem;
+    padding-left: 0.5rem;
     padding-right: unset;
 }
 
@@ -208,4 +208,9 @@
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: #999999;
+}
+@media all and (max-width: 486px) {
+    .dropdown-menu {
+        max-height: 15rem !important;
+    }
 }

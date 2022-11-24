@@ -216,8 +216,12 @@
     margin-bottom: 30px;
 }
 
-.mt-48 {
-    margin-top: 48px !important;
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mt-70 {
+    margin-top: 70px !important;
 }
 
 .customWidth {
