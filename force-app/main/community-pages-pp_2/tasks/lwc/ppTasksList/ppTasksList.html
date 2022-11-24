@@ -201,6 +201,18 @@
                                                     </span>
                                                 </lightning-layout-item> </lightning-layout
                                         ></template>
+                                        <!--If Due Date is not available - Keep text 'Completed' when task completed in Home page-->
+                                        <template if:false={item.dueDate}
+                                            ><lightning-layout>
+                                                <lightning-layout-item
+                                                    ><span class={dueTimeClass}
+                                                        ><template if:true={item.isClosed}
+                                                            >{label.taskPPCompletedLabel}</template
+                                                        >
+                                                    </span>
+                                                </lightning-layout-item>
+                                            </lightning-layout></template
+                                        >
                                     </lightning-layout-item>
                                 </template>
                                 <template if:false={ishomepage}>
@@ -467,7 +479,18 @@
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </template>
-
+                            <!--If Due Date is not available - Keep text 'Completed' when task completed in Home page-->
+                            <template if:false={item.dueDate}
+                                ><lightning-layout>
+                                    <lightning-layout-item
+                                        ><span class={dueTimeClass}
+                                            ><template if:true={item.isClosed}
+                                                >{label.taskPPCompletedLabel}</template
+                                            >
+                                        </span>
+                                    </lightning-layout-item>
+                                </lightning-layout></template
+                            >
                             <template if:true={item.completed}>
                                 <lightning-layout
                                     ><lightning-layout-item size="12"
