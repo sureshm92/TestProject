@@ -128,6 +128,10 @@
     color: white;
 }
 
+.THIS .mb-261 {
+    margin-top: 261px;
+}
+
 .THIS .center {
     text-align: center;
     line-height: 60px;
@@ -159,7 +163,7 @@
 }
 
 .THIS .img-dimensions-mobile {
-    height: 50%;
+    height: 80%;
     line-height: 60px;
 }
 
