@@ -262,7 +262,14 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
        this.urlStudyId = this.urlStateParameters.id || null;
        this.urlSiteId = this.urlStateParameters.siteId || null;
        this.urlrefid = this.urlStateParameters.perName || null ;
-       this.urlPerName = this.urlStateParameters.Pname || null;
+       const fNameAndLName = this.urlStateParameters.Pname || null;
+       let result = null;
+       if(fNameAndLName){
+        result = decodeURI(fNameAndLName);
+        result = decodeURI(result);
+       }
+
+       this.urlPerName = result || null;
        if(this.urlStudyId != null && this.urlSiteId != null){
         setselectedFilterasDefault ({selectedPresetId :"no preset"})
         .then((result) => {
@@ -305,7 +312,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         if( this.srchTxt){
             this.fetchList();
         }
-        const data = {"activeTab": this.urlStateParameters.activeTab, "searchText" : this.urlStateParameters.Pname};
+        const data = {"activeTab": this.urlStateParameters.activeTab, "searchText" : this.urlPerName};
         const selectEvent = new CustomEvent('resetactivetab', {
             detail: data
         });
@@ -1858,13 +1865,6 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
 
     handleMessage(message) {
         this.setParametersBasedOnUrl();
-    }
-
-    decodeURLRecursively(url) {
-        if(url.indexOf('%') != -1) {
-            return decodeURLRecursively(decodeURIComponent(url));
-        }
-        return url;
     }
 
     @api
