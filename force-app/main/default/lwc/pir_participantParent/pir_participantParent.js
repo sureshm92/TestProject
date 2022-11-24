@@ -300,15 +300,14 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.template.querySelector("c-pir_participant-Status-Details").selectedPE_ID = this.selectedPE.id;
     this.template.querySelector("c-pir_participant-Status-Details").doSelectedPI();
     this.template.querySelector("lightning-tabset").activeTabValue = (this.isRedirectedFromBellCmp) ? "Televisit" : "Status Details";
-    if(this.template.querySelector("c-pir_sharing-Option"))
-      this.template.querySelector("c-pir_sharing-Option").selectedPE =this.selectedPE;
+    if(this.template.querySelector("c-pir_sharing-option"))
+      this.template.querySelector("c-pir_sharing-option").selectedPE =this.selectedPE;
     this.fetchAccessLevel();
     this.discardTab = false;
     this.statusDetailValueChanged = false;
     this.template.querySelector("lightning-tabset").activeTabValue = (this.isRedirectedFromBellCmp) ? "Televisit" : "Status Details";
     this.selectedTab = this.isRedirectedFromBellCmp ? "Televisit" : "Status Details";
     this.isRedirectedFromBellCmp = false;
-    this.template.querySelector("c-pir_participant-list").setSearchText(this.searchtext);
     this.template.querySelector("c-pir_participant-list").searchValue = this.searchtext;
     this.template.querySelector("c-pir_participant-list").renderSearch();
   }
@@ -532,7 +531,7 @@ gotoPartTab(){
         this.isParticipantDetail = false;
         this.discardSharingTab = false;
         this.fetchAccessLevel();
-        this.template.querySelector("c-pir_sharing-Option").fetchInitialDetails();
+        this.template.querySelector("c-pir_sharing-option").fetchInitialDetails();
 
       }
 
