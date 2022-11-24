@@ -367,14 +367,22 @@ public virtual without sharing class ResourceService {
     public static Integer getUpdatesCounter(List<ResourceWrapper> resourceWrappers) {
         Integer counter = 0;
         List<LoginHistory> lastLoginList = [
-            SELECT loginTime
+            SELECT loginTime,Status
             FROM LoginHistory
             WHERE userId = :UserInfo.getUserId()
             ORDER BY LoginTime DESC
-            LIMIT 2
+            LIMIT 7
         ];
+        Datetime lastLogin;
         if (lastLoginList.size() > 1) {
-            Datetime lastlogin = lastLoginList[1].loginTime;
+            //get last successful logintime as we can't filter on status field 
+            for(Integer i=1;i<lastLoginList.size();i++){
+                if(lastLoginList[i].Status=='Success')
+                {
+                     lastlogin = lastLoginList[i].loginTime;
+                }
+                break;
+            }
             for (ResourceWrapper rw : resourceWrappers) {
                 if (rw.resource.CreatedDate > lastlogin) {
                     counter++;

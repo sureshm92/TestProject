@@ -239,7 +239,7 @@
             ? component.get('v.visitData.visitDate')
             : component.get('v.initData.activityDate');
         var today = moment();
-
+        var task = component.get('v.task');
         //component.set('v.initData.activityDate',new Date(new Date(component.get('v.initData.activityDate')) - (-(3600 *1000))));
         //console.log(component.get('v.initData.activityDate'));
         component.set('v.initData.today', new Date(new Date() + 60 * 1000));
@@ -307,7 +307,8 @@
                 }
             } else {
                 if (
-                    $A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) ||
+                    ($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) &&
+                        remindMe !== 'No reminder') ||
                     helper.doValidateReminder(component) === false
                 ) {
                     component.set('v.isValidFields', false);
@@ -326,6 +327,9 @@
                 taskName.setCustomValidity('');
                 taskName.reportValidity();
             }
+        }
+        if (remindMe === 'No reminder') {
+            component.set('v.isValidFields', true);
         }
         var isValidFields =
             helper.doValidateDueDate(component, helper) && helper.doValidateReminder(component);

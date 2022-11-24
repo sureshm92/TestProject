@@ -93,6 +93,12 @@ hr {
         font-size: 24px;
         padding-top: 8px;
     }
+    .study-title-mobile{
+        margin-right: 32px;
+    }
+    .study-title{
+        padding-right: 32px;
+    }
     }
 .my_iframe {
     position: absolute;
