@@ -332,7 +332,6 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     keyScope = '';
     yesHighPriority=[];
     noHighPriority=[];
-    @api renderSearchInput = false;
 
     connectedCallback(){
        if(this.urlStudyId !== null && this.urlSiteId !== null){
@@ -1870,7 +1869,6 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
 
     @api
     renderSearch() {
-        this.renderSearchInput = false;
         var srval = this.searchValue;
         this.srchTxt = srval+' ';
     }
