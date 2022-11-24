@@ -10,7 +10,8 @@ public without sharing class MyTeamRemote {
     private static final String HAS_NOT_DELEGATE_LEVELS = 'False';
     private static final String OLD_VALUES_DELEGATE_LEVELS = 'OldMap';
     private static final List<String> fields = new List<String>{'Id', 'Email', 'FirstName', 'LastName', 'Name', 'Language__c', 'Library_Primary_Language__c', 'Full_Name__c', 'Salutation', 'Suffix', 'HCP_Opt_In_Referral_Status_Emails__c'};
-    
+    private static Contact delContact = New Contact();
+    private static Boolean hasStudyFilter = false;
      @AuraEnabled
     public static Map<String,Integer> getMaxLength(Sobject so,List<String> fieldNames) {
         return CommunityService.getMaxLength(so,fieldNames);
@@ -809,23 +810,25 @@ public without sharing class MyTeamRemote {
 
     @AuraEnabled
     public static void savePatientDelegate(String delegate, String delegateFilterData) {
+        savePatientDelegate(delegate);
+        if(delegateFilterData!=null){
+            //Read the list of selected studies for Delegate.
+            //PEFilterData filterData = (PEFilterData) JSON.deserialize(delegateFilterData, PEFilterData.class);
+            //List<LabelValueItem> studiesSelected = filterData.studiesSelected;
+            // System.debug('studiesSelected[0].Value: '+studiesSelected[0].Value);  
+            // System.debug('studiesSelected[0].Label: '+studiesSelected[0].Label);
+            hasStudyFilter = true;
+            PatientDelegateService.getInstance().createPatientDelegate(delContact,delegateFilterData);  
+        }
+    }
+
+    @AuraEnabled
+    public static void savePatientDelegate(String delegate) {
         try {
             System.debug('savePatientDelegate:');
-            System.debug('studiesSelected: '+delegateFilterData);            
             List<User> existingUserPatientDelegate = new List<User>();
             User user;
             Contact contactDelegate = (Contact) JSON.deserialize(delegate, Contact.class);
-            //@krihsna:- Added null check as method called from PPLight will send null as of now.
-            if(delegateFilterData!=null){
-                //Read the list of selected studies for Delegate.
-                PEFilterData filterData = (PEFilterData) JSON.deserialize(delegateFilterData, PEFilterData.class);
-                List<LabelValueItem> studiesSelected = filterData.studiesSelected;
-                System.debug('studiesSelected[0].Value: '+studiesSelected[0].Value);  
-                System.debug('studiesSelected[0].Label: '+studiesSelected[0].Label);  
-            }
-            
-            //TODO: @Ranjit - Iterate over the list Of studiesSelected and get the Values as PER Ids for your reference for backend logic. 
-
             user = [
                     SELECT Contact.AccountId, ContactId, TimeZoneSidKey
                     FROM User
@@ -952,7 +955,13 @@ public without sharing class MyTeamRemote {
                     PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                 );
             }
-            PatientDelegateService.getInstance().createPatientDelegate(contactDelegate,delegateFilterData);
+            //If Study filter is not sent as parameter in the method.
+            if(!hasStudyFilter){
+                PatientDelegateService.getInstance().createPatientDelegate(contactDelegate);
+            }
+            delContact = contactDelegate;
+            
+            
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -1179,6 +1188,19 @@ public without sharing class MyTeamRemote {
         public List<LabelValueItem> studies;
         @AuraEnabled
         public List<LabelValueItem> studiesSelected;
+        
+    }
+    public class SelectedStudiesData {
+        @AuraEnabled
+        public String label;
+        @AuraEnabled
+        public String value;
+        @AuraEnabled
+        public Boolean assigned = false;
+        @AuraEnabled
+        public Boolean active = false;
+        @AuraEnabled
+        public String pdEnrollmentId;
         
     }
     

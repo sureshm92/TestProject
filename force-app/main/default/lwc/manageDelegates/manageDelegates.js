@@ -13,7 +13,9 @@ import PP_AddAssignment from '@salesforce/label/c.PP_AddAssignment';
 import PP_DelegateWithdrawn from '@salesforce/label/c.PP_DelegateWithdrawn';
 import PP_Delegate_Delegate_Warning from '@salesforce/label/c.PP_Delegate_Delegate_Warning';
 import PP_Delegate_Delegate from '@salesforce/label/c.PP_Delegate_Delegate';
-
+import BTN_Save from '@salesforce/label/c.BTN_Save';
+import PP_Delegate_Email_Consent from '@salesforce/label/c.PP_Delegate_Email_Consent';
+import PIR_Discard from '@salesforce/label/c.PIR_Discard';
 //import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 import { loadScript } from 'lightning/platformResourceLoader';
 import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
@@ -22,7 +24,9 @@ import pirResources from '@salesforce/resourceUrl/pirResources';
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
 import getPDE from '@salesforce/apex/PatientDelegateEnrollmentService.getPDE';
 import removeAssignment from '@salesforce/apex/PatientDelegateEnrollmentService.removeAssignment';
+import doAddAssignment from '@salesforce/apex/PatientDelegateEnrollmentService.doAddAssignment';
 import deleteDelegates from '@salesforce/apex/PatientDelegateEnrollmentService.deleteDelegates';
+import getFilterData from '@salesforce/apex/MyTeamRemote.getFilterData';
 import manageDelegateDesktop from './manageDelegatesDesktop.html';
 import manageDelegateMobile from './manageDelegatesMobile.html';
 import DEVICE from '@salesforce/client/formFactor';
@@ -50,16 +54,28 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     selectMenuTriagleDown_url = pp_icons + '/SelectMenuTriangleDown_blue.svg';
     iconTriangleRight_url = pp_icons + '/iconTriangleRight_blue.svg';
     deleteIcon = pirResources + '/pirResources/icons/trash-delete.svg';
+    deleteIconRed = pirResources + '/pirResources/icons/trash-delete-red.svg';
     spinner = false;
     loaded = false;
     showAddDelegatePage = false;
     showpopup = false;
+    removeStudyPDEId;
+    deletePatientDelId;
     showDeletePopup = false;
     modalMesstext;
     showActiveDelegates = true;
     showFormerDelegates = true;
     hasNoActiveDelegate = true;
     hasNoFormerDelegate = true;
+    addNewStudy = false;
+    validateData = false; //TODO: write logic.
+    @track availableStudyData = [];
+    @track studyToAssing = [];
+    @track studiesSelected = [];
+    totalNoOfStudies;
+    totalNoOfStudiesToAssign = 0;
+    totalNoOfStudiesActivelyAssigned = 0;
+    isAtLeastOneStudySelected=false;
 
     label = {
         BTN_Add_New_Delegate,
@@ -74,13 +90,13 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         PP_AddAssignment,
         PP_DelegateWithdrawn,
         PP_Delegate_Delegate_Warning,
-        PP_Delegate_Delegate
+        PP_Delegate_Delegate,
+        BTN_Save,
+        PP_Delegate_Email_Consent,
+        PIR_Discard
     };
 
     connectedCallback() {
-        //this.spinner = true;
-        // Get Initial Load Data
-        //this.spinner = false;
         DEVICE != 'Small' ? (this.isDesktop = true) : (this.isDesktop = false);
 
         if (!this.loaded) {
@@ -107,21 +123,35 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
 
     initializeData() {
         this.spinner = true;
-        getPDE()
-            .then((returnValue) => {
-                console.log('success', returnValue);
-                // this.listPDE = returnValue;
-                this.listPDE = returnValue.activePDEWrapperList;
-                this.formerListPDE = returnValue.formerPDEWrapperList;
+
+        //get Available list of studies of participant
+        getFilterData({
+            userMode: this.userMode
+        })
+            .then((result) => {
+                this.availableStudyData = result;
+                // console.log('Delegate fileter data: '+JSON.stringify(result));
+                this.totalNoOfStudies = result.studies.length;
+                // this.isLoading = false;
+                // this.spinner = false;
+            })
+            .catch((error) => {
+                this.isLoading = false;
+                communityService.showToast(
+                    '',
+                    'error',
+                    'Failed To read the Data(study Filter)...',
+                    100
+                );
                 this.spinner = false;
-                this.maskEmail(this.listPDE, true);
-                this.maskEmail(this.formerListPDE, false);
-                if (this.listPDE.length != 0) {
-                    this.hasNoActiveDelegate = false;
-                }
-                if (this.formerListPDE.length != 0) {
-                    this.hasNoFormerDelegate = false;
-                }
+            });
+
+        //Get Patient Delegate Enrollment records.
+        getPDE()
+            .then((result) => {
+                console.log('success', result);
+                this.setInitializedData(result);
+                this.spinner = false;
             })
             .catch((error) => {
                 console.log('error');
@@ -129,10 +159,72 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             });
     }
 
+    setInitializedData(result){
+        this.listPDE = result.activePDEWrapperList;
+        this.formerListPDE = result.formerPDEWrapperList;
+        this.setDefaultValuesToInItData(this.listPDE, true);
+        this.setDefaultValuesToInItData(this.formerListPDE, false);
+        this.setActiveAndFormerDelegateFlags();
+    }
+
+    setActiveAndFormerDelegateFlags() {
+        this.hasNoActiveDelegate = this.listPDE.length == 0 ? true : false;
+        this.hasNoFormerDelegate = this.formerListPDE.length == 0 ? true : false;
+    }
     //this method will separate email chars in two parts to partially mask the email address.
-    maskEmail(pdeList, activeDelegates) {
+    setDefaultValuesToInItData(pdeList, activeDelegates) {
         pdeList.forEach((pde) => {
-            let pdeEmailLength = pde.PatientDelegate.Email__c.length;
+            this.maskEmail(pde);
+            //Add Additional default flags in the list of PDEnrollments.
+            if (activeDelegates) {
+                //For Active Delegates.
+                pde['addNewStudy'] = false;
+                this.totalNoOfStudiesActivelyAssigned = 0;
+                pde.PDEEnrollments.forEach((pden) => {
+                    if (pden.Status__c === 'Active') {
+                        pden['isActive'] = true;
+                        this.totalNoOfStudiesActivelyAssigned += 1;
+                    } else {
+                        pden['isActive'] = false;
+                    }
+                });
+                pde['showAddAssignmentButton'] = this.showAddAssignmentButton();
+                //Filter studies which are not assigned to patient Delegates.
+                 pde['studieToAssign'] = [];
+                this.availableStudyData.studies.forEach((std) => {
+                    std['assigned'] = false;
+                    std['active'] = false;  
+                    std['pdEnrollmentId'] = '';  
+                    //let tempStudy = [];                
+                    pde.PDEEnrollments.forEach((pden) => {
+                        if(std.value===pden.Participant_Enrollment__c){  
+                            std.assigned = true;
+                            std.pdEnrollmentId = pden.Id;
+                            //If Study is assinged to delege and also active.
+                             if (pden.Status__c === 'Active') {
+                                 std.active = true;
+                             }
+                        }
+                    });
+                    pde.studieToAssign.push({
+                        label: std.label,
+                        value: std.value,
+                        assigned: std.assigned,
+                        active: std.active,
+                        pdEnrollmentId: std.pdEnrollmentId
+                    });
+                });
+            } else {
+                //for Former Delegate.
+                pde['showDeleteRedIcon'] = false;
+                pde['addNewStudyFormer'] = false;
+            }
+        });
+    }
+
+    //mask Email for active/former delegate
+    maskEmail(pde) {
+        let pdeEmailLength = pde.PatientDelegate.Email__c.length;
             let maskedEmail = '';
             for (let i = 0; i < pdeEmailLength; i++) {
                 if (i <= 2) {
@@ -143,17 +235,6 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             }
             pde.PatientDelegate.Email__c = maskedEmail;
 
-            //Also check if the Status of PDEnrollment is active or not.
-            if (activeDelegates) {
-                pde.PDEEnrollments.forEach((pden) => {
-                    if (pden.Status__c === 'Active') {
-                        pden['isActive'] = true;
-                    } else {
-                        pden['isActive'] = false;
-                    }
-                });
-            }
-        });
     }
     //Subscribe the message channel to read the message published.
     subscribeToMessageChannel() {
@@ -168,14 +249,26 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     }
     //Handler for message received by Aura component
     handleMessage(message) {
-        //If we backToManageDelegate = false when we click on back to Manage delegate button.
-        if (message.showAddDelegatePage == false) {
+        //If backToManageDelegate = false when we click on back to Manage delegate button.
+        if (message != undefined && message.showAddDelegatePage != undefined && message.showAddDelegatePage == false) {
             //this.spinner = true;
             this.initializeData();
             this.showAddDelegatePage = false;
-
             //this.spinner = false;
         }
+        //handle selected studies from the child component.
+        if (message != undefined && message.selectedListOfStudies != undefined) {
+            this.studiesSelected = [];
+            //this.delegateFilterData.studiesSelected = message.selectedListOfStudies;
+            this.studiesSelected = message.selectedListOfStudies;
+            console.log('studiesSelected: ',this.studiesSelected);
+            if (message.selectedListOfStudies.length > 0) {
+                this.isAtLeastOneStudySelected = true;
+            } else if (message.selectedListOfStudies.length == 0) {
+                this.isAtLeastOneStudySelected = false;
+            }
+        }
+
     }
     //Subscribe the message channel
     unsubscribeToMessageChannel() {
@@ -219,21 +312,31 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             ? 'slds-align_absolute-center add-assignment-Btn h-40'
             : 'slds-align_absolute-center add-assignment-Btn h-40';
     }
+    get saveButtonClass() {
+        return this.validateData
+            ? 'save-del-btn btn-save-opacity addDelegateMobile'
+            : 'save-del-btn addDelegateMobile';
+    }
+    get delInfoFormer(){
+        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
+    }
 
+    showAddAssignmentButton(){
+        return this.totalNoOfStudies != this.totalNoOfStudiesActivelyAssigned ? true : false;
+    }
     //Navigate to Add delegate screen
     navToAddDelegate() {
         //communityService.navigateToPage('new-team-member');
         this.showAddDelegatePage = true;
     }
-    addAssignment() {
-        alert('TODO: Write Add Assignment Logic');
-        //TODO: logic TBD
-    }
     //This method will open Remove Delegate Modal.
     openRemoveDelegateModal(event) {
-        this.showpopup = true;
+        this.removeStudyPDEId = '';
         let pdfn = event.target.dataset.pdfn;
         let pdln = event.target.dataset.pdln;
+        this.removeStudyPDEId = event.currentTarget.dataset.pdeid;
+        console.log('removeStudyPDEId:',this.removeStudyPDEId);
+
         this.modalMesstext =
             this.label.PG_PST_L_Delegates_Remove_Mess_P1 +
             ' ' +
@@ -242,26 +345,25 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             pdln +
             ' ' +
             this.label.PG_PST_L_Delegates_Remove_Mess_P3;
+        this.showpopup = true;
+        //this.removeStudyPDEId = event.currentTarget.dataset.pdeid;
     }
-    openDeleteDelegateModal() {
+    openDeleteDelegateModal(event) {
         this.showDeletePopup = true;
+        this.deletePatientDelId = event.currentTarget.dataset.id;
     }
 
     //This method will remove the delegate once Confirm button clicked on Remove Delegate Modal.
-    handleConfirmdelete(event) {
+    handleRemoveDelegate(event) {
         this.spinner = true;
         let pdEnrollmentId = event.detail.pdenrollmentid;
+        //console.log('m-del pdEnrollmentId: ',this.removeStudyPDEId);
         removeAssignment({
             pDEId: pdEnrollmentId
         })
             .then((result) => {
                 this.showpopup = false;
-
-                this.listPDE = result;
-                this.listPDE = result.activePDEWrapperList;
-                this.formerListPDE = result.formerPDEWrapperList;
-                this.maskEmail(this.listPDE);
-                this.maskFormerDelEmail(this.formerListPDE);
+                this.setInitializedData(result);
                 this.spinner = false;
                 communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
             })
@@ -273,27 +375,23 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     handleModalClose(event) {
         const showHideModal = event.detail;
         this.showpopup = showHideModal;
+        this.removeStudyPDEId='';
     }
     handleDeleteModalClose(event) {
         const showHideModal = event.detail;
         this.showDeletePopup = showHideModal;
+        this.deletePatientDelId='';
     }
 
     handleDeleteDelegate(event) {
-        alert('Handle Delete');
-        //TODO: Correct the logic.
         this.spinner = true;
         let patientdelegateid = event.detail.patientdelegateid;
         deleteDelegates({
             pdId: patientdelegateid
         })
             .then((result) => {
-                this.showpopup = false;
-                this.listPDE = result;
-                this.listPDE = result.activePDEWrapperList;
-                this.formerListPDE = result.formerPDEWrapperList;
-                this.maskEmail(this.listPDE);
-                this.maskFormerDelEmail(this.formerListPDE);
+                this.showDeletePopup = false;
+                this.setInitializedData(result);
                 this.spinner = false;
                 communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
             })
@@ -309,5 +407,120 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     //This method will toggle the Former delegate view
     toggleFormerDelegateView() {
         this.showFormerDelegates = this.showFormerDelegates == true ? false : true;
+    }
+    //Add assignment from Active delegate section
+    addAssignment(event) {
+        let delId = event.currentTarget.dataset.pdid;
+        this.studyToAssing= [];
+        this.totalNoOfStudiesToAssign = 0;
+        this.listPDE.forEach((pden) => {
+            if (pden.PatientDelegate.Id === delId) {
+                pden.addNewStudy = true;
+                pden.studieToAssign.forEach((std) => {   
+                    //if studie is not assinged or it is assinged but not active.   
+                    if(std.assigned==false || (std.assigned==true && std.active==false)){
+                        this.studyToAssing.push({ label: std.label, value: std.value });
+                }  
+                });      
+            }
+        });
+        this.totalNoOfStudiesToAssign = this.studyToAssing.length;
+        console.log('studytoassing: ',JSON.stringify(this.studyToAssing));
+    }
+    
+    //Add assignment from Former delegate section.
+    addAssignmentFormer(event) {
+        let delId = event.currentTarget.dataset.pdid;
+        this.formerListPDE.forEach((pden) => {
+            if (pden.PatientDelegate.Id === delId) {
+                pden.addNewStudyFormer = true;
+            }
+        });
+    }
+    //Discard Assignment from Active delegate section.
+    discardAssignment(event) {
+        let delId = event.currentTarget.dataset.pdid;
+        this.listPDE.forEach((pden) => {
+            if (pden.PatientDelegate.Id === delId) {
+                pden.addNewStudy = false;
+            }
+        });
+    }
+     //Discard Assignment from Former delegate section.
+    discardAssignmentFormer(event) {
+        let delId = event.currentTarget.dataset.pdid;
+        this.formerListPDE.forEach((pden) => {
+            if (pden.PatientDelegate.Id === delId) {
+                pden.addNewStudyFormer = false;
+            }
+        });
+    }
+
+    //Flipt the delete icon between gray and red.
+    toggleDeleteIcon(event) {
+        let recordId = event.currentTarget.dataset.pdid;
+        let a =  event.target.dataset.pdid;
+
+        this.formerListPDE.filter(function (del) {
+            if (del.pdId === recordId) {
+                del.showDeleteRedIcon = del.showDeleteRedIcon ? false : true;
+            }
+        });
+    }
+
+    //Assign study/Studies to delegate.
+    doSave(event){
+        this.spinner = true;
+        let id = event.currentTarget.dataset.id;
+        let pdid = event.currentTarget.dataset.pdid;
+        let attestedtimestmp = event.currentTarget.dataset.attestedtimestmp;
+        let attestedby = event.currentTarget.dataset.attestedby; 
+        let patientDelegate = {
+            pdId: pdid,
+            attestedby: attestedby,
+            attestedtimestmp: attestedtimestmp
+        };       
+        
+        var studiesSelected = this.studiesSelected;
+        let tudyToAssing= [];
+        //Iterate over list of PDE list.
+        this.listPDE.forEach((pde) => {
+            //check if the Delegate is the current Delegate.
+            if (pde.PatientDelegate.Id === id) {
+                //Iterate over the list of selected studies for current Delegate.
+                studiesSelected.forEach((stdSelected) => { 
+                    //Iterate over the list of studies to assign for current delegate.
+                    pde.studieToAssign.forEach((pdStdToAssign) => { 
+                        if((stdSelected.value === pdStdToAssign.value)){
+                            tudyToAssing.push({
+                                label: pdStdToAssign.label,
+                                value: pdStdToAssign.value,
+                                assigned: pdStdToAssign.assigned,
+                                active: pdStdToAssign.active,
+                                pdEnrollmentId: pdStdToAssign.pdEnrollmentId
+                            });
+                        }  
+                    });  
+                });      
+            }
+        });
+        // console.log('tudyToAssing: ',JSON.stringify(tudyToAssing));
+
+        //Assign studies to the delegate.
+        doAddAssignment({
+            delegateStr: JSON.stringify(patientDelegate),
+            studyPERData: JSON.stringify(tudyToAssing)
+        })
+            .then((result) => {
+                //this.setInitializedData(result);
+                this.initializeData();
+                this.spinner = false;
+                communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
+            })
+            .catch((error) => {
+                console.log('error');
+                this.spinner = false;
+            });
+    
     }
 }

@@ -3,33 +3,39 @@ import Clear_All from '@salesforce/label/c.RPR_Clear_All';
 import Select_All_PI from '@salesforce/label/c.Select_All_PI';
 import More from '@salesforce/label/c.PIR_more';
 import PG_MS_L_Studies_up from '@salesforce/label/c.PG_MS_L_Studies_up';
+import Select from '@salesforce/label/c.Select';
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
 import {
-    publish,
+    publish, 
     subscribe,
     unsubscribe,
     MessageContext,
     APPLICATION_SCOPE
-} from 'lightning/messageService';
+} from 'lightning/messageService'; 
 export default class Pp_multiPicklistLWC extends LightningElement {
     label = {
         Select_All_PI,
         Clear_All,
         More,
-        PG_MS_L_Studies_up
+        PG_MS_L_Studies_up,
+        Select
     };
-    /* @api*/ picklistValues = [];
+    @api picklistValues = [];
     @api selectedStudy = [];
     @api studyListStr = '';
+    @api totalNoOfStudies;
+    @api isDesktop;
+
+    @track firstThreeselectedStudyies = [];
     subscription = null;
     //resetAll;
-    totalNoOfStudis;
+   
 
     @wire(MessageContext)
     messageContext;
 
     connectedCallback() {
-        this.subscribeToMessageChannel();
+        this.subscribeToMessageChannel(); 
     }
     disconnectedCallback() {
         this.unsubscribeToMessageChannel();
@@ -52,25 +58,11 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         if (message.ResetAll) {
             this.removeAll();
         }
-        //If we recieve Piclist Value from Parent component.
-        if (message.piclistValues) {
-            this.picklistValues = message.piclistValues;
-            this.totalNoOfStudis = this.picklistValues.length;
-            //if Participant is part of only one study then auto select the first study.
-            // if (this.totalNoOfStudis == 1) {
-            //     let tempList = [];
-            //     tempList.push({
-            //         label: this.picklistValues[0].label,
-            //         value: this.picklistValues[0].value
-            //     });
-            //     this.selectedStudy = tempList;
-            //     this.sendFilterUpdates();
-            //Set attribute checked="True" in input
-            // let studyElement = this.template.querySelectorAll('.studyCheckBox');
-            // studyElement[0].checked = true;
-            //this.selectAll()
-            // }
-        }
+        // //If we recieve Piclist Value from Parent component.
+        // if (message.piclistValues) {
+        //     this.picklistValues = message.piclistValues;
+        //     this.totalNoOfStudies = this.picklistValues.length;
+        // }
     }
     //Subscribe the message channel
     unsubscribeToMessageChannel() {
@@ -114,27 +106,46 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         }
         return null;
     }
+
     get studyCount() {
         if (this.selectedStudy) {
-            if (this.selectedStudy.length > 1) {
-                //return "+" + (this.selectedStudy.length-1)+" more" ;
-                return '+' + (this.selectedStudy.length - 1) + ' ' + this.label.More;
+            if(this.isDesktop){
+                if (this.selectedStudy.length > 3) {
+                    return ' + ' + (this.selectedStudy.length - 3) + ' ' + this.label.More;
+                }
+            }else{
+                if (this.selectedStudy.length > 1) {
+                    return ' + ' + (this.selectedStudy.length - 1) + ' ' + this.label.More;
+                }
             }
+            
         }
         return '';
     }
 
+    //Return if no Study selected.
+    get isNoStudySelected(){
+        return this.selectedStudy.length==0 ? true: false;
+    }
     //Show Select All if all the studies are selected.
     get showSelectAll() {
         const totalSelectedStudies = this.selectedStudy.length;
-        return totalSelectedStudies != 0 && totalSelectedStudies != this.totalNoOfStudis
+        console.log('Show All totalSelectedStudies: ',totalSelectedStudies);
+        console.log('Show All totalNoOfStudies: ',this.totalNoOfStudies);
+        return totalSelectedStudies != this.totalNoOfStudies
             ? true
             : false;
+    }
+
+    get getSelectLable(){
+        return this.label.Select;
     }
     //Show clear All if at least one sutudy is not selected.
     get showClearAll() {
         const totalSelectedStudies = this.selectedStudy.length;
-        return totalSelectedStudies != 0 && totalSelectedStudies == this.totalNoOfStudis
+        console.log('clear All totalSelectedStudies: ',totalSelectedStudies);
+        console.log('Clear All totalNoOfStudies: ',this.totalNoOfStudies);
+        return totalSelectedStudies != 0 && totalSelectedStudies == this.totalNoOfStudies
             ? true
             : false;
     }
@@ -145,6 +156,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     }
     setStudyList() {
         let tempList = [];
+        let tempFirstThreeList = [];
         let studyElement = this.template.querySelector('[data-id="studyBox"]');
         let opts = studyElement.getElementsByTagName('input');
         let studyOpts = [];
@@ -152,15 +164,22 @@ export default class Pp_multiPicklistLWC extends LightningElement {
             if (opts[i].checked) {
                 tempList.push({ label: opts[i].name, value: opts[i].value });
                 studyOpts.push(opts[i].value);
+                //Store First Three selected Studies in separate List.
+                if(i<=2){
+                    tempFirstThreeList.push({ label: opts[i].name, value: opts[i].value });
+                }
             }
+            
         }
         this.studyListStr = studyOpts.join(';');
         this.selectedStudy = [];
         this.selectedStudy = this.selectedStudy.concat(tempList);
+        this.firstThreeselectedStudyies = [];
+        this.firstThreeselectedStudyies = this.firstThreeselectedStudyies.concat(tempFirstThreeList);
         this.template.querySelector('.eBox').focus();
         this.sendFilterUpdates();
     }
-    //Send Data to Parent coponent by LMS.
+    //Send Data to Parent component by LMS.
     sendFilterUpdates() {
         const payLoad = {
             selectedListOfStudies: this.selectedStudy

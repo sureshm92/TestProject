@@ -2,7 +2,8 @@
     <!-- Ethnicity starts -->
     <div class="eth outcome-form-element slds-m-bottom_medium p-left">
         <label class="slds-form-element__label slds-no-flex disflex"
-            ><span class="text-overflow1" title="Studies">{label.PG_MS_L_Studies_up}</span
+            ><span class="text-overflow1 study-p-bottom" title="Studies"
+                >{label.PG_MS_L_Studies_up}</span
             ><template if:true={showSelectAll}>
                 <span class="btn select-all-clear-all" onclick={selectAll}
                     >{label.Select_All_PI}</span
@@ -13,7 +14,7 @@
             </template>
         </label>
         <div
-            class="slds-form-element__control slds-grow slds-input slds-p-around--none slds-m-top_xx-small eBox dropdown-width"
+            class="slds-form-element__control slds-grow slds-input slds-p-around--none eBox study-box dropdown-width"
             tabindex="0"
             onfocus={openStudy}
             onblur={closeStudy}
@@ -27,17 +28,25 @@
                         role="none"
                     >
                         <div class="selectedOption">
-                            <!-- <template if:true={getFirstSelecedStudy}> -->
-                            <!-- <span class="selectedValue slds-truncate"> -->
-                            <!-- <span class="selectedValue"> {getFirstSelecedStudy} </span>
-                                <div class="ethmore">{studyCount}</div> -->
-                            <template for:each={selectedStudy} for:item="study" for:index="index">
-                                <span key={study.id} class="selectedValue"> {study.label} </span>
-                                <!-- <div key={study.id} class="ethmore">{studyCount}</div> -->
+                            <template if:true={isNoStudySelected}>
+                                <div class="padding-placeholder" contenteditable="true" placeholder={getSelectLable}></div>
                             </template>
-                            <!-- </template> -->
+                            <template if:false={isDesktop}>
+                                <template if:true={getFirstSelecedStudy}>
+                                    <span class="selectedValue slds-truncate_container_50 slds-truncate" title={getFirstSelecedStudy}> {getFirstSelecedStudy} </span>
+                                </template>
+                                
+                            </template>
+                            
+                            <template if:true={isDesktop}>
+                               <template for:each={firstThreeselectedStudyies} for:item="study" for:index="index">
+                                    <span key={study.id} class="selectedValue slds-truncate_container_25 slds-truncate" title={study.label}> {study.label} </span>
+                                </template>
+                            </template>
+                                
+                            <div key={study.id} class="study-thmore">{studyCount}</div>
                         </div>
-                        <span
+                         <span
                             class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right"
                         >
                             <lightning-icon
@@ -46,7 +55,7 @@
                                 alternative-text="down"
                             >
                             </lightning-icon>
-                        </span>
+                        </span> 
                     </div>
                     <div
                         data-id="studyBox"
@@ -89,6 +98,12 @@
                         </ul>
                     </div>
                 </div>
+                <!-- <span
+                    class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right dropdown-icon-alignment"
+                >
+                    <lightning-icon icon-name="utility:down" size="x-small" alternative-text="down">
+                    </lightning-icon>
+                </span> -->
             </div>
         </div>
     </div>

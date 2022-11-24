@@ -6,7 +6,7 @@
     top: 5rem;
     */
     background-color: #ffffff;
-    margin-left: 24px;
+    /* margin-left: 24px; */
     position: absolute;
     width: 62%;
 }
@@ -83,12 +83,14 @@
     line-height: 24px;
     background-color: #ffffff;
     border-color: rgba(0, 0, 0, 0) transparent transparent;
+    padding: 0px;
 }
 
 .icon-chevron-right {
-    height: 13.5px;
-    width: 14.25px;
+    height: 13px;
+    width: 13px;
     transform: rotate(180deg);
+    margin-left: -8px;
 }
 
 .del-access-rectangle {
