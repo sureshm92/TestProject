@@ -3,7 +3,10 @@
         padding: 0px !important;
         background-color: #f6f7fb;
     }
-
+    .rr-min-body-height .rr-min-body-height {
+        height: auto !important;
+    }
+    
     .toastContainer > .forceToastMessage {
         width: 95% !important;
     }
@@ -299,6 +302,10 @@
     opacity: 1;
 }
 
+.help-support{
+    height: 40px;
+    padding-top: 0.3rem;
+}
 /* getSupport Year css */
 
 .support-year button {
@@ -726,8 +733,6 @@ c-pp-study-visit-details-card .slds-card__header {
 
 .cCustomThemeLayout .slds-combobox__input {
     padding-left: 1rem;
-    height: 40px;
-    padding-top: 0.3rem;
 }
 
 c-pp-Study-Visit-Details-Card .slds-form-element:nth-child(2) .slds-checkbox .slds-checkbox__label {
