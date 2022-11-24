@@ -106,7 +106,18 @@ export default class PpResourceDetailPage extends LightningElement {
     }
 
     handleBackClick() {
-        let pageLink = window.location.origin + '/pp/s/resources';
+        let pageLink;
+        if (FORM_FACTOR == 'Large') {
+            pageLink = window.location.origin + '/pp/s/resources';
+        } else {
+            let resType;
+            if (this.resourceType == 'Study_Document') {
+                resType = 'documents';
+            } else if (this.resourceType == 'Video' || this.resourceType == 'Article') {
+                resType = 'explore';
+            }
+            pageLink = window.location.origin + '/pp/s/resources?resType=' + resType;
+        }
         window.location.assign(pageLink);
     }
 

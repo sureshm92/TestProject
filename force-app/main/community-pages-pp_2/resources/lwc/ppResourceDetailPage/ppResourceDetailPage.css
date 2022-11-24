@@ -86,20 +86,21 @@ hr {
     margin: 0% 35%;
 }
 @media (max-width: 486px) {
-    .back-link{
+    .back-link {
         padding: 36px 0 24px 0;
     }
-    .resource-heading{
+    .resource-heading {
         font-size: 24px;
         padding-top: 8px;
-    }
-    .study-title-mobile{
         margin-right: 32px;
     }
-    .study-title{
+    .study-title-mobile {
+        margin-right: 32px;
+    }
+    .study-title {
         padding-right: 32px;
     }
-    }
+}
 .my_iframe {
     position: absolute;
     top: 0;
