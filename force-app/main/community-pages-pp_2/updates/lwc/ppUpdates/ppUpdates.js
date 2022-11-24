@@ -1,5 +1,4 @@
 import { LightningElement, track } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
 import getUpdateResources from '@salesforce/apex/ResourceRemote.getUpdateResources';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
@@ -30,42 +29,23 @@ export default class PpUpdates extends LightningElement {
     }
 
     initializeData() {
-        getInitDataNew().then((returnValue) => {
-            this.isInitialized = true;
-            let initData = JSON.parse(JSON.stringify(returnValue));
-            console.log('initData----->' + JSON.stringify(initData));
-            initData.resources.forEach((resObj) => {
-                this.linksWrappers.push(resObj.resource);
-            });
-            this.linksWrappers.length == 0
-                ? (this.discoverEmptyState = true)
-                : (this.discoverEmptyState = false);
-            let therapeuticAssignmentsList = [];
-            let therapeuticAssignments = {
-                resource: '',
-                id: '',
-                therapeuticArea: ''
-            };
-
-            initData.resources.forEach((resObj) => {
-                resObj.resource.Therapeutic_Area_Assignments__r?.forEach((therapeuticArea) => {
-                    therapeuticAssignments.resource = therapeuticArea.Resource__c;
-                    therapeuticAssignments.id = therapeuticArea.Id;
-                    therapeuticAssignments.therapeuticArea = therapeuticArea.Therapeutic_Area__c;
-                    therapeuticAssignmentsList.push(therapeuticAssignments);
+        getInitDataNew()
+            .then((returnValue) => {
+                this.isInitialized = true;
+                let initData = JSON.parse(JSON.stringify(returnValue));
+                initData.resources.forEach((resObj) => {
+                    this.linksWrappers.push(resObj.resource);
                 });
-
-                resObj.therapeuticAssignments = therapeuticAssignmentsList;
-                therapeuticAssignmentsList = [];
-                delete resObj.resource.Therapeutic_Area_Assignments__r;
+                this.linksWrappers.length == 0
+                    ? (this.discoverEmptyState = true)
+                    : (this.discoverEmptyState = false);
+                this.getUpdates(JSON.stringify(returnValue));
+                this.spinner.hide();
+            })
+            .catch((error) => {
+                communityService.showToast('', 'error', 'Failed To read the Data111...', 100);
+                this.spinner.hide();
             });
-            this.getUpdates(JSON.stringify(initData));
-            this.spinner.hide();
-        })
-        .catch((error) => {
-            communityService.showToast('', 'error', 'Failed To read the Data111...', 100);
-            this.spinner.hide();
-        });
     }
 
     openLink(event) {

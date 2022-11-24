@@ -25,7 +25,7 @@ public without sharing class ResourceRemote {
                 linkWrapperText,
                 RelevantLinksRemote.InitDataNew.class
             );
-            List<ResourceService.ResourceWrapper> resUpdates = linkWrapper?.resources;
+            List<ResourceService.ResourceWrapper> resUpdates = linkWrapper.resources;
             ResourceDelegate rDelegate = ResourceDelegate.getInstance();
             //Article/Video Data
             ResourceService.ResourceWrapperContainer contExplore = rDelegate.getResources(
