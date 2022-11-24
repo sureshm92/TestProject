@@ -77,14 +77,14 @@
                             },
                             {
                                 label: $A.get('$Label.c.PP_One_Week_Before'),
-                                value: '1 Week before'
+                                value: '1 week before'
                             },
                             {
                                 label: $A.get('$Label.c.PP_Custom'),
                                 value: 'Custom'
                             }
                         ];
-                        if (taskType === 'Visit' && wrapper.reminderDate) {
+                        if (!component.get('v.initData.createdByAdmin') && wrapper.reminderDate) {
                             component.set(
                                 'v.initData.reminderFrequencyList',
                                 reminderFrequencyVisits
@@ -93,12 +93,25 @@
                     }
                     component.set('v.task', task);
                     if (component.get('v.initData.createdByAdmin')) {
-                        var reminderFrequencyForAdmintask = [
-                            {
-                                label: $A.get('$Label.c.PP_Custom'),
-                                value: 'Custom'
-                            }
-                        ];
+                        if (wrapper.reminderDate) {
+                            var reminderFrequencyForAdmintask = [
+                                {
+                                    label: $A.get('$Label.c.PP_NO_REMINDER'),
+                                    value: 'No reminder'
+                                },
+                                {
+                                    label: $A.get('$Label.c.PP_Custom'),
+                                    value: 'Custom'
+                                }
+                            ];
+                        } else {
+                            var reminderFrequencyForAdmintask = [
+                                {
+                                    label: $A.get('$Label.c.PP_Custom'),
+                                    value: 'Custom'
+                                }
+                            ];
+                        }
                         component.set(
                             'v.initData.reminderFrequencyList',
                             reminderFrequencyForAdmintask

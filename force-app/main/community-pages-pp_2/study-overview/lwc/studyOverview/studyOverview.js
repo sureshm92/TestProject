@@ -60,25 +60,20 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
         if(this.clinicalrecord){ 
             if(this.clinicalrecord.Brief_Summary__c){ 
                 let briefsummary = this.clinicalrecord.Brief_Summary__c;
-                console.log('this.clinicalrecord.Brief_Summary__c::'+this.clinicalrecord.Brief_Summary__c);
+                briefsummary = briefsummary.replace(/<[^>]*>?/gm, '');
                 if(briefsummary.length > 200) {
-                    briefsummary = briefsummary.replace(/<[^>]*>?/gm, '');
-                    console.log('briefsummary::'+briefsummary);
                     let firsttext = briefsummary.substring(0, 200);
-                    console.log('firsttext'+firsttext); 
                     let secondtext = briefsummary.substring(200, 201);
-                    console.log('secondtext'+secondtext);
                     if(secondtext == " "){
                         this.shortOverview = firsttext;
                     }
                     else {
                         let result = firsttext.substring(0, Math.min(firsttext.length,firsttext.lastIndexOf(" ")));
-                        console.log('result::'+result);
                         this.shortOverview  = result+'...';
                     }
                 }
 				else{
-					this.shortOverview = this.clinicalrecord.Brief_Summary__c;
+					this.shortOverview = briefsummary;
 				}
             } 
         }

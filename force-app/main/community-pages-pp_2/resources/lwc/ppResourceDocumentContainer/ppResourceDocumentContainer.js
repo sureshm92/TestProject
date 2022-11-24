@@ -12,18 +12,21 @@ export default class PpResourceDocumentContainer extends LightningElement {
         noDocumentsAvailable
     };
     spinner;
+    isRendered = false;
+    loaded = false;
     empty_state = pp_community_icons + '/' + 'documents_empty.png';
 
-    connectedCallback() {
-        this.getDocuments();
+    renderedCallback() {
+        if (!this.isRendered) {
+            this.isRendered = true;
+            this.getDocuments();
+        }
     }
 
-    async getDocuments() {
+    getDocuments() {
         this.spinner = this.template.querySelector('c-web-spinner');
-        if (this.spinner) {
-            this.spinner.show();
-        }
-        await getStudyDocuments()
+        this.spinner.show();
+        getStudyDocuments()
             .then((result) => {
                 this.documentList = result.wrappers;
                 if (this.documentList.length > 0) {
@@ -31,13 +34,14 @@ export default class PpResourceDocumentContainer extends LightningElement {
                 } else {
                     this.documentPresent = false;
                 }
+                this.loaded = true;
             })
             .catch((error) => {
+                this.loaded = true;
                 this.showErrorToast('Error occured', error.message, 'error');
             });
-        if (this.spinner) {
-            this.spinner.hide();
-        }
+
+        this.spinner.hide();
     }
 
     showErrorToast(titleText, messageText, variantType) {

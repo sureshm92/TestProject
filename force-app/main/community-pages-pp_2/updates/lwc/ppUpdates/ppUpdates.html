@@ -1,94 +1,93 @@
 <template>
     <!-- Loading Spinner-->
-        <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <template if:true={desktop}>
+        <div class="slds-grid card-wrap">
+            <header class="slds-has-flexi-truncate">
+                <h2 class="slds-card__header-title">
+                    <p class="slds-card__header-link slds-truncate taskHeader">
+                        <span>Updates</span>
+                        <span class="badge update-count">3</span>
+                    </p>
+                </h2>
+            </header>
+        </div>
+    </template>
+    <div class="slds-card__body slds-card__body_inner card-wrap">
         <template if:true={desktop}>
-            <div class="slds-grid card-wrap">
-                <header class="slds-has-flexi-truncate">
-                    <h2 class="slds-card__header-title">
-                        <p class="slds-card__header-link slds-truncate taskHeader">
-                            <span>Updates</span>
-                        </p>
-                    </h2>
-                </header>
-            </div>
-        </template>
-        <div class="slds-card__body slds-card__body_inner card-wrap">
-            <template if:true={desktop}>
-                <article class="slds-card slds-card_boundary container-card">
-                    <div class="slds-card__body slds-card__body_inner">
-                          <!-- Cards Display Logic goes here for desktop -->
+            <article class="slds-card slds-card_boundary container-card">
+                <div class="slds-card__body slds-card__body_inner">
+                    <!-- Cards Display Logic goes here for desktop -->
 
-                          <!-- START: RELEVANT LINKS ITERATOR -->
-                          <template iterator:links={linksWrappers}>
-                            <div key={links.value.Id}>
-                                <lightning-layout multiple-rows="true" vertical-align="center">
-                                    <lightning-layout-item size="12">
-                                        <lightning-layout multiple-rows="true">
-                                            <lightning-layout-item size="12">
-                                                <p class="links-type">{links.value.Type__c}</p>
-                                            </lightning-layout-item>
-                                            <lightning-layout-item
-                                                size="11"
-                                                data-link={links.value.URL__c}
-                                                onclick={openLink}
-                                                class="links-container"
-                                            >
-                                                <p class="links-header">{links.value.Title__c}</p>
-                                            </lightning-layout-item>
-                                            <lightning-layout-item
-                                                size="1"
-                                                data-link={links.value.URL__c}
-                                                onclick={openLink}
-                                                class="links-container"
-                                            >
-                                                <img src={open_new_tab} class="open-tab" />
-                                            </lightning-layout-item>
-                                            <lightning-layout-item size="11">
-                                                <p class="links-desc">
-                                                    <span> {links.value.Description__c} </span>
-                                                </p>
-                                            </lightning-layout-item>
-                                            <lightning-layout-item size="12">
-                                                <div class="separator"></div>
-                                            </lightning-layout-item>
-                                        </lightning-layout>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </div>
-                            <!-- <lightning-layout key={links.value.Id} if:false={links.last}>
+                    <!-- START: RELEVANT LINKS ITERATOR -->
+                    <template iterator:links={linksWrappers}>
+                        <div key={links.value.Id}>
+                            <lightning-layout multiple-rows="true" vertical-align="center">
+                                <lightning-layout-item size="12">
+                                    <lightning-layout multiple-rows="true">
+                                        <lightning-layout-item size="12">
+                                            <p class="links-type">{links.value.Type__c}</p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item
+                                            size="11"
+                                            data-link={links.value.URL__c}
+                                            onclick={openLink}
+                                            class="links-container"
+                                        >
+                                            <p class="links-header">{links.value.Title__c}</p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item
+                                            size="1"
+                                            data-link={links.value.URL__c}
+                                            onclick={openLink}
+                                            class="links-container"
+                                        >
+                                            <img src={open_new_tab} class="open-tab" />
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="11">
+                                            <p class="links-desc">
+                                                <span> {links.value.Description__c} </span>
+                                            </p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="12">
+                                            <div class="separator"></div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                        <!-- <lightning-layout key={links.value.Id} if:false={links.last}>
                                 <lightning-layout-item size="12">
                                     <div class="separator"></div>
                                 </lightning-layout-item>
                             </lightning-layout> -->
-                          </template>
-                          <!-- END: RELEVANT LINKS ITERATOR -->
+                    </template>
+                    <!-- END: RELEVANT LINKS ITERATOR -->
 
-                          <!-- START: DOCUMENTS ITERATOR -->
-                          <template if:true={documentPresent}>
-                            <template for:each={documentList} for:item="docs" for:index="index">
-                                <lightning-layout key={docs} multiple-rows="true">
-                                    <lightning-layout-item size="12">
-                                        <c-pp-Document key={docs} document={docs}></c-pp-Document>
-                                    </lightning-layout-item>
-                                </lightning-layout>                              
-                            </template>
-                          </template>
-                          <!-- END: DOCUMENTS ITERATOR -->
-                    </div>
-                </article>
-            </template>
-            <template if:false={desktop}>
-                <article class="slds-card slds-card_boundary container-card-mobile">
-                    <p class="task-header">Updates</p>
-                    <div class="slds-card__body slds-card__body_inner custom-padding">
-                    
-                    </div>
-                </article>
-            </template>
-        </div>
-        <div class="slds-align_absolute-center">
-            <a class="comm-link" href="#" target="_self">
-                <span>View All Resources</span>
-            </a>
-        </div>
- </template>
+                    <!-- START: DOCUMENTS ITERATOR -->
+                    <template if:true={documentPresent}>
+                        <template for:each={documentList} for:item="docs" for:index="index">
+                            <lightning-layout key={docs} multiple-rows="true">
+                                <lightning-layout-item size="12">
+                                    <c-pp-Document key={docs} document={docs}></c-pp-Document>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                    </template>
+                    <!-- END: DOCUMENTS ITERATOR -->
+                </div>
+            </article>
+        </template>
+        <template if:false={desktop}>
+            <article class="slds-card slds-card_boundary container-card-mobile">
+                <p class="task-header">Updates</p>
+                <div class="slds-card__body slds-card__body_inner custom-padding"></div>
+            </article>
+        </template>
+    </div>
+    <div class="slds-align_absolute-center">
+        <a class="comm-link" href="#" target="_self">
+            <span>View All Resources</span>
+        </a>
+    </div>
+</template>
