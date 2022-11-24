@@ -157,13 +157,13 @@ public without sharing class PatientDelegateEnrollmentService {
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain removeAssignment(String pDEId) {
         list<Patient_Delegate_Enrollment__c> lst = [
-            SELECT id, Status__c
+            SELECT Id, Status__c
             FROM Patient_Delegate_Enrollment__c
-            WHERE id = :pDEId
+            WHERE Id = :pDEId
         ];
         if (lst.size() > 0) {
             Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
-            pde.id = lst[0].Id;
+            pde.Id = lst[0].Id;
             pde.Status__c = 'Disconnected';
             update pde;
             return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
@@ -173,19 +173,23 @@ public without sharing class PatientDelegateEnrollmentService {
 
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain deleteDelegates(String pdId) {
-        list<Patient_Delegate_Enrollment__c> pdeList = [
-            SELECT id, Status__c
-            FROM Patient_Delegate_Enrollment__c
-            WHERE Patient_Delegate__c = :pdId
-        ];
-        if (pdeList!=null && !pdeList.isEmpty()) {
-            for(Patient_Delegate_Enrollment__c pde: pdeList){
-                pde.Status__c = 'Deleted';
+        try {
+            list<Patient_Delegate_Enrollment__c> pdeList = [
+                SELECT id, Status__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Patient_Delegate__c = :pdId
+            ];
+            if (pdeList!=null && !pdeList.isEmpty()) {
+                for(Patient_Delegate_Enrollment__c pde: pdeList){
+                    pde.Status__c = 'Deleted';
+                }
+                update pdeList;
+                return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
             }
-            update pdeList;
             return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
         }
-        return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
     }
     
     @AuraEnabled
