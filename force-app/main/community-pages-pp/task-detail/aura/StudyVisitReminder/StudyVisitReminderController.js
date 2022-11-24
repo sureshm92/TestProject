@@ -328,6 +328,9 @@
                 taskName.reportValidity();
             }
         }
+        if (remindMe === 'No reminder') {
+            component.set('v.isValidFields', true);
+        }
         var isValidFields =
             helper.doValidateDueDate(component, helper) && helper.doValidateReminder(component);
         //component.set('v.isValidFields', isValidFields);
