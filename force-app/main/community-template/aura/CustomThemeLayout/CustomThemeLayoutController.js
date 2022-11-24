@@ -34,7 +34,7 @@
                 }
             }else{
                 console.error(response);
-            }   
+            }
         });
         $A.enqueueAction(action);
     },
@@ -49,7 +49,7 @@
         else{
             component.find('ppMenu')?.forceRefresh();
             component.find('ppFooter')?.forceRefresh();
-            component.find('ppAlerts')?.forceRefresh();            
+            component.find('ppAlerts')?.forceRefresh();
         }
     },
 
@@ -77,7 +77,7 @@
             component.set('v.isBellEnabled', true);
         } else {
             component.set('v.isBellEnabled', false);
-        }  
+        }
     },
 
     onBlurBell: function(component){
@@ -85,7 +85,7 @@
             component.set('v.isBellEnabled', true);
         } else {
             component.set('v.isBellEnabled', false);
-        }  
+        }
    },
 
     handleClick: function (component, event, helper) {
@@ -109,7 +109,7 @@
             offsetHeight + scrollTop + 10 >=
            scrollHeight
           ) {
-            helper.loadMoreNotifications(component);   
+            helper.loadMoreNotifications(component);
           }
     },
     onClickSite: function (component, event) {
@@ -134,5 +134,9 @@
 
         var closeSendResIndex = event.getParam('closeSendResIndex');
         helper.removeSendResult(component, closeSendResIndex);
-    }
+    },
+    closeBell: function(component, event) {
+        let overlayCmp = component.find("overlay");
+        overlayCmp.closeBellOverlay();
+    },
 });
