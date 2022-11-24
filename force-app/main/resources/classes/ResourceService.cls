@@ -331,12 +331,24 @@ public virtual without sharing class ResourceService {
             Integer returnValue = 0; // The return value of 0 indicates that both elements are equal.
             if (
                 res1.resource.Therapeutic_Area_Assignments__r.size() <
-                res2.res1.resource.Therapeutic_Area_Assignments__r.size()
+                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
+                res1.therapeuticAssignments?.size() <
+                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
+                res1.resource.Therapeutic_Area_Assignments__r.size() <
+                res2.res1.therapeuticAssignments?.size()||
+                res1.therapeuticAssignments?.size() <
+                res2.res1.therapeuticAssignments?.size()
             ) {
                 returnValue = 1; // Set return value to a positive value.
             } else if (
                 res1.resource.Therapeutic_Area_Assignments__r.size() >
-                res2.res1.resource.Therapeutic_Area_Assignments__r.size()
+                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
+                res1.therapeuticAssignments?.size() >
+                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
+                res1.resource.Therapeutic_Area_Assignments__r.size() >
+                res2.res1.therapeuticAssignments?.size()||
+                res1.therapeuticAssignments?.size() >
+                res2.res1.therapeuticAssignments?.size()
             ) {
                 returnValue = -1; // Set return value to a negative value.
             }
@@ -392,10 +404,21 @@ public virtual without sharing class ResourceService {
 
         return counter;
     }
+    public virtual class TherapeuticAssignments {
+        @AuraEnabled
+        public String resource = '';
+         @AuraEnabled
+        public String id = '';
+         @AuraEnabled
+        public String therapeuticArea = '';
+    }
+
 
     public virtual class ResourceWrapper {
         @AuraEnabled
         public Resource__c resource;
+        @AuraEnabled
+        public List<TherapeuticAssignments> therapeuticAssignments;
         @AuraEnabled
         public Boolean isFavorite = false;
         @AuraEnabled
@@ -430,6 +453,8 @@ public virtual without sharing class ResourceService {
             }
         }
     }
+       
+
 
     public class ResourceDetailWrapper extends ResourceWrapper {
         @AuraEnabled

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This Lightning Message Channel sends information from lwc to aura for optout page</description>
+    <isExposed>true</isExposed>
+    <lightningMessageFields>
+        <description>to identify whether success message is getting displyed</description>
+        <fieldName>SuccessMessage</fieldName>
+    </lightningMessageFields>
+    <masterLabel>ppOptOut</masterLabel>
+</LightningMessageChannel>
