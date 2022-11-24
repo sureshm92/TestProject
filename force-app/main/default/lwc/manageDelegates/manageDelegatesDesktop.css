@@ -25,6 +25,12 @@
     font-size: 14px;
     font-weight: 600;
 }
+.remove-btn:disabled {
+    opacity: .4;
+    box-shadow: none;
+    cursor: not-allowed;
+    pointer-events: none;
+}
 .remove-btn:hover {
     background-color: rgba(226, 0, 0, 0.1);
     border: 1px solid #e20000;
@@ -215,9 +221,17 @@
     cursor: pointer;
 }
 
-.delete-btn:hover {
+/* .delete-btn:hover {
     fill: #e20000;
+} */
+
+.delete-btn:disabled {
+    opacity: .4;
+    box-shadow: none;
+    cursor: not-allowed;
+    pointer-events: none;
 }
+
 .box-Withdraw-del-btn {
     box-sizing: border-box;
     border: 1px solid #d9d9d9;

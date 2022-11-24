@@ -40,11 +40,11 @@
                             
                             <template if:true={isDesktop}>
                                <template for:each={firstThreeselectedStudyies} for:item="study" for:index="index">
-                                    <span key={study.id} class="selectedValue slds-truncate_container_25 slds-truncate" title={study.label}> {study.label} </span>
+                                    <span key={study.value} class="selectedValue slds-truncate_container_25 slds-truncate" title={study.label}> {study.label} </span>
                                 </template>
                             </template>
                                 
-                            <div key={study.id} class="study-thmore">{studyCount}</div>
+                            <div key={study.value} class="study-thmore">{studyCount}</div>
                         </div>
                          <span
                             class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right"
