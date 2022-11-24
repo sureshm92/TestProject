@@ -101,6 +101,18 @@
     line-height: 20px;
     padding-bottom: 2px;
 }
+.flag-width{
+    flex-wrap: wrap;
+    align-items: flex-start;
+    display: flex;
+}
+.actionwidth{
+    width: 33%;	
+    font-size: 11px;
+}
+.actionReconsent{
+   color:blueviolet;
+}
 .flags img{
     height: 14px;
     background-color: rgba(158,84,176,0.08);
