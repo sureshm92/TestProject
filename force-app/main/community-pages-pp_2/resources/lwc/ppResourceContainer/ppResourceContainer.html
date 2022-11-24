@@ -112,7 +112,11 @@
                 >
                     <!-- *************  Thumbnail  ********************  -->
                     <template if:true={isThumbnailPresent}>
-                        <lightning-layout-item size="5" flexibility="auto" class="empty-icon-mobile">
+                        <lightning-layout-item
+                            size="5"
+                            flexibility="auto"
+                            class="empty-icon-mobile"
+                        >
                             <img
                                 src={thumbnail}
                                 alt="Image is not available"
@@ -123,7 +127,11 @@
                         </lightning-layout-item>
                     </template>
                     <template if:false={isThumbnailPresent}>
-                        <lightning-layout-item size="5" flexibility="auto" class="empty-icon empty-icon-mobile">
+                        <lightning-layout-item
+                            size="5"
+                            flexibility="auto"
+                            class="empty-icon empty-icon-mobile"
+                        >
                             <div class="icon-center icon-center-mobile">
                                 <c-web-icon
                                     icon-color="#b5b5b5"
@@ -135,7 +143,11 @@
                         </lightning-layout-item>
                     </template>
                     <!-- *******************  Description  ***********************  -->
-                    <lightning-layout-item size="6" flexibility="auto" class="summary summary-mobile">
+                    <lightning-layout-item
+                        size="6"
+                        flexibility="auto"
+                        class="summary summary-mobile"
+                    >
                         <lightning-layout multiple-rows="true">
                             <lightning-layout-item size="12" class="title-row title-row-mobile">
                                 <lightning-layout multiple-rows="true">
@@ -149,7 +161,11 @@
                                         </div>
                                     </lightning-layout-item>
                                     <!--   STARICON    -->
-                                    <lightning-layout-item size="2" alignment-bump="right" class="star-icon-m">
+                                    <lightning-layout-item
+                                        size="2"
+                                        alignment-bump="right"
+                                        class="star-icon-m"
+                                    >
                                         <div
                                             class="resource-icon resource-pointer resource-star-mobile"
                                             onclick={handleFavourite}
@@ -175,6 +191,13 @@
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
+
+                            <!--   SUMMARY    -->
+                            <lightning-layout-item size="12">
+                                <div class="summary-text summary-text-mobile">
+                                    {resourceSummary}
+                                </div>
+                            </lightning-layout-item>
                             <!--   Upload Date    -->
                             <lightning-layout-item size="12">
                                 <div class="summary-date">
@@ -188,10 +211,6 @@
                                     >
                                     </lightning-formatted-date-time>
                                 </div>
-                            </lightning-layout-item>
-                            <!--   SUMMARY    -->
-                            <lightning-layout-item size="12">
-                                <div class="summary-text summary-text-mobile">{resourceSummary}</div>
                             </lightning-layout-item>
                         </lightning-layout>
                     </lightning-layout-item>
