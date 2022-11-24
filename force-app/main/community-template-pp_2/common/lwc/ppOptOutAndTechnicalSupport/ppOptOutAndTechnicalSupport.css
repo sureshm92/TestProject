@@ -137,7 +137,8 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: 30px;
-    margin-bottom: 35px;
+    margin-bottom: 55px;
+    margin-top: 35px;
 }
 @media (max-width: 500px) {
     .submit-button-div {
@@ -166,7 +167,7 @@
     font-weight: bold;
     letter-spacing: 0;
     line-height: 24px;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
 }
 
 .opt-out-header-mobile {
@@ -216,6 +217,10 @@
     margin-bottom: 30px;
 }
 
+.mb-14 {
+    margin-bottom: 30px;
+}
+
 .mb-20 {
     margin-bottom: 20px;
 }
@@ -226,4 +231,8 @@
 
 .customWidth {
     width: 170px;
+}
+
+.mb-5 {
+    margin-bottom: 5px;
 }
