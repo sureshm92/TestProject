@@ -188,6 +188,7 @@
                                                                 data-pdeid={pdEnrollment.Id}
                                                                 data-pdfn={del.PatientDelegate.First_Name__c}
                                                                 data-pdln={del.PatientDelegate.Last_Name__c}
+                                                                disabled={pdEnrollment.disableRemoveButton}
                                                             >
                                                                 {label.PP_Remove}
                                                             </button></lightning-layout-item
@@ -206,6 +207,7 @@
                                                         title="Add Assignment"
                                                         onclick={addAssignment}
                                                         data-pdid={del.PatientDelegate.Id}
+                                                        disabled={del.disableAddAssignmentButton}
                                                     >
                                                         <c-web-icon
                                                             icon-name="icon-plus"
@@ -371,6 +373,7 @@
                                                                 class="delete-btn"
                                                                 onclick={openDeleteDelegateModal}
                                                                 data-id={del.pdId}
+                                                                disabled={del.disableDeleteButton}
                                                             >
                                                                 <span
                                                                     ><img
@@ -388,6 +391,7 @@
                                                                 class="delete-btn"
                                                                 onclick={openDeleteDelegateModal}
                                                                 data-id={del.pdId}
+                                                                disabled={del.disableDeleteButton}
                                                             >
                                                                 <span
                                                                     ><img
@@ -417,6 +421,7 @@
                                                         class="apollo-btn secondary box-add-assignment-btn"
                                                         onclick={addAssignmentFormer}
                                                         data-pdid={del.PatientDelegate.Id}
+                                                        disabled={del.disableAddAssignmentButton}
                                                     >
                                                         <c-web-icon
                                                             icon-name="icon-plus"

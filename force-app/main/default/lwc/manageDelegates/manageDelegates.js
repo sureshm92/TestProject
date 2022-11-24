@@ -179,8 +179,10 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             if (activeDelegates) {
                 //For Active Delegates.
                 pde['addNewStudy'] = false;
+                pde['disableAddAssignmentButton'] = false;
                 this.totalNoOfStudiesActivelyAssigned = 0;
                 pde.PDEEnrollments.forEach((pden) => {
+                    pden['disableRemoveButton'] = false;
                     if (pden.Status__c === 'Active') {
                         pden['isActive'] = true;
                         this.totalNoOfStudiesActivelyAssigned += 1;
@@ -215,9 +217,11 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                     });
                 });
             } else {
-                //for Former Delegate.
+                //for Former Delegate, set flag default value to false.
                 pde['showDeleteRedIcon'] = false;
                 pde['addNewStudyFormer'] = false;
+                pde['disableAddAssignmentButton'] = false;
+                pde['disableDeleteButton'] = false;
             }
         });
     }
@@ -413,45 +417,70 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         let delId = event.currentTarget.dataset.pdid;
         this.studyToAssing= [];
         this.totalNoOfStudiesToAssign = 0;
-        this.listPDE.forEach((pden) => {
-            if (pden.PatientDelegate.Id === delId) {
-                pden.addNewStudy = true;
-                pden.studieToAssign.forEach((std) => {   
+        this.listPDE.forEach((pde) => {
+            if (pde.PatientDelegate.Id === delId) {
+                pde.addNewStudy = true;
+                pde.studieToAssign.forEach((std) => {   
                     //if studie is not assinged or it is assinged but not active.   
                     if(std.assigned==false || (std.assigned==true && std.active==false)){
                         this.studyToAssing.push({ label: std.label, value: std.value });
                 }  
-                });      
+                });    
+            }else{
+                //Disable Add Assignment button for other delegates.
+                pde.disableAddAssignmentButton = true; 
+                //Disable Remove buttons for other delegates.
+                pde.PDEEnrollments.forEach((pden) => {
+                    pden.disableRemoveButton = true;
+                });  
             }
         });
         this.totalNoOfStudiesToAssign = this.studyToAssing.length;
-        console.log('studytoassing: ',JSON.stringify(this.studyToAssing));
+
+        //Disbale all the buttons at former delegate section.
+        this.formerListPDE.forEach((pde) => {
+            pde.disableAddAssignmentButton = true;
+            pde.disableDeleteButton = true;
+        });
+        
     }
     
     //Add assignment from Former delegate section.
     addAssignmentFormer(event) {
         let delId = event.currentTarget.dataset.pdid;
-        this.formerListPDE.forEach((pden) => {
-            if (pden.PatientDelegate.Id === delId) {
-                pden.addNewStudyFormer = true;
+        this.formerListPDE.forEach((pde) => {
+            if (pde.PatientDelegate.Id === delId) {
+                pde.addNewStudyFormer = true;
             }
         });
     }
     //Discard Assignment from Active delegate section.
     discardAssignment(event) {
         let delId = event.currentTarget.dataset.pdid;
-        this.listPDE.forEach((pden) => {
-            if (pden.PatientDelegate.Id === delId) {
-                pden.addNewStudy = false;
+        this.listPDE.forEach((pde) => {
+            if (pde.PatientDelegate.Id === delId) {
+                pde.addNewStudy = false;
+            }else{
+                //Re Enable Add Assignment button for other delegates.
+                pde.disableAddAssignmentButton = false; 
+                //Re Enable Remove buttons for other delegates.
+                pde.PDEEnrollments.forEach((pden) => {
+                    pden.disableRemoveButton = false;
+                });  
             }
+        });
+        //Re Enable all the buttons at former delegate section.
+        this.formerListPDE.forEach((pde) => {
+            pde.disableAddAssignmentButton = false;
+            pde.disableDeleteButton = false;
         });
     }
      //Discard Assignment from Former delegate section.
     discardAssignmentFormer(event) {
         let delId = event.currentTarget.dataset.pdid;
-        this.formerListPDE.forEach((pden) => {
-            if (pden.PatientDelegate.Id === delId) {
-                pden.addNewStudyFormer = false;
+        this.formerListPDE.forEach((pde) => {
+            if (pde.PatientDelegate.Id === delId) {
+                pde.addNewStudyFormer = false;
             }
         });
     }
