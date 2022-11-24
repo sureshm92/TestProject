@@ -91,6 +91,7 @@
         </aura:if>
 
         <aura:if isTrue="{!v.showModal}">
+         <!-- <div class="trialItemPopUpContainer"> -->
             <c:Popup
                 aura:id="contactModal"
                 title="{!'Contact ' + v.trialTDO.ctp.Study_Code_Name__c}"
@@ -125,6 +126,7 @@
                     </button>
                 </aura:set>
             </c:Popup>
+            <!-- </div> -->
         </aura:if>
     </div>
     <c:RRSpinner aura:id="mainSpinner" showSpinner="false" size="medium" fixed="true" />
