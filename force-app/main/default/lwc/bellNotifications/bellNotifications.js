@@ -3,19 +3,37 @@ import TIME_ZONE from '@salesforce/i18n/timeZone';
 import Blank_Bell_Notifications from "@salesforce/label/c.Blank_Bell_Notifications";
 import Bell_Notification_Link from "@salesforce/label/c.Bell_Notification_Link";
 import { NavigationMixin } from 'lightning/navigation';
+import { publish, MessageContext } from 'lightning/messageService';
+import messagingChannel from '@salesforce/messageChannel/rhrefresh__c';
+import { CurrentPageReference } from 'lightning/navigation';
 
 export default class BellNotifications extends NavigationMixin(LightningElement) {
   @api channel = "/event/bellNotification__e";
+  currentPageReference;
+  urlStateParameters;
+
   label = {Blank_Bell_Notifications,
            Bell_Notification_Link};
-           
+
   @api get sendResultsDataFromParent(){
     return this.notificationWrap;
   }
+
+  @wire(MessageContext)
+  messageContext;
+
+@wire(CurrentPageReference)
+getStateParameters(currentPageReference) {
+   if (currentPageReference) {
+    this.currentPageReference = currentPageReference;
+      this.urlStateParameters = currentPageReference.state;
+   }
+}
+
   set sendResultsDataFromParent(value){
     if(value.length > 0 ){
       this.notificationWrap = value;
-    }else{      
+    }else{
       this.isSendResult = true;
     }
   }
@@ -50,12 +68,12 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
 
   onReadMark(event) {
    if(!this.isDelete){
-      const keyEl = event.currentTarget.dataset.id;  
+      const keyEl = event.currentTarget.dataset.id;
       const index = this.notificationWrap.findIndex((item) => item.Id == keyEl);
-   
+
     if (this.notificationWrap[index].Is_Read__c == false){
         const readEvent = new CustomEvent("updatereadevent", {
-          detail: { 
+          detail: {
           notificationIndex: index,
           notificationId: this.notificationWrap[index].Id
           }
@@ -65,11 +83,11 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
   }
 
   }
- 
+
   handleLazyLoading(event) {
    this.isSaving = true;
     const lazyLoadingevent = new CustomEvent("lazyloadingevent", {
-      detail: { 
+      detail: {
         scrollTop: event.target.scrollTop ,
         offsetHeight: event.target.offsetHeight,
         scrollHeight: event.target.scrollHeight,
@@ -83,18 +101,18 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
 
   removeNotification(event) {
     this.isDelete = true;
-    const noteKey = event.currentTarget.dataset.id;  
+    const noteKey = event.currentTarget.dataset.id;
     const index = this.notificationWrap.findIndex((item) => item.Id == noteKey);
 
     const removeNotifyEvent = new CustomEvent("removesendresultevent", {
-      detail: { 
+      detail: {
         closeSendResIndex: index,
         closeSendResId: this.notificationWrap[index].Id
       }
     });
     this.dispatchEvent(removeNotifyEvent);
 
-    
+
   }
 
  /*
@@ -113,7 +131,7 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
       attributes:{},
       state:{}
     };
-    
+
     var temp = {};
     temp['name'] = linkStr.substring(linkStr.indexOf("/s/")+3, linkStr.indexOf("__c")+3 );//get communitypage API Name;
     result['attributes'] = temp;
@@ -121,22 +139,29 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
     if(linkStr.indexOf("?") > 0 ){//check if params are present in link
       let paramStr = linkStr.substring(linkStr.indexOf("?")+1,linkStr.length );
       let params = paramStr.split("&");
-      
+
       for(let i=0;i<params.length; i++){
         let a = params[i].split("=");
         stateObj[a[0]] = a[1];
       }
     }
-    result['state'] = stateObj;
 
-    //window.location.reload();
+    result['state'] = stateObj;
 
     this[NavigationMixin.Navigate]({
       type: 'comm__namedPage',
       attributes: {
           name: result.attributes.name
-      }, 
+      },
       state : result.state
   });
+
+  if(this.urlStateParameters.activeTab == 'Televisit' && this.currentPageReference.attributes && this.currentPageReference.attributes.name == 'My_Referrals__c'){
+    let payload = {};
+    publish(this.messageContext, messagingChannel, payload);
+  }
+  const closeOverlay = new CustomEvent("closebelloverlayevent", {});
+  this.dispatchEvent(closeOverlay);
+
   }
 }

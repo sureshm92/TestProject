@@ -24,7 +24,7 @@
     font-size: 18px;
     font-weight: 600;
     letter-spacing: 0;
-    line-height: 32px;
+    line-height: 40px;
     padding: 15px 0 0 24px;
 }
 
@@ -121,13 +121,27 @@
     font-family: 'Proxima Nova';
     font-size: 16px;
     text-align: justify;
-    margin: 0 16px 16px 24px;
-    overflow-y: auto;
-    max-height: 100px;
-    padding-right: 8px;
+    padding-bottom: 16px;
+    height: 70px;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.scrollbar{
+    overflow-x: auto;
+    margin: 0px 0 24px 0px;
+}
+
+::-webkit-scrollbar{
+    height: 8px;
+}
+
+@media (max-width: 468px) {
+    .before-your-visits {
+        height: 100px!important;
+    }
 }
 .icons-pad {
-    padding-left: 24px;
     padding-top: 15px;
 }
 .slds-p-around_medium,
@@ -143,8 +157,3 @@
     fill: yellow;
 }
 
-@media all and (max-width: 786px) {
-    .before-your-visits {
-        max-height: unset;
-    }
-}

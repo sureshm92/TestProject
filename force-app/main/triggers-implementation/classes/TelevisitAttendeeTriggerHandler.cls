@@ -5,6 +5,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
         }
         public override void afterInsert(List<SObject> newList) {
             notifyNewAttendees(newList);
+            sendBellNotificationToNewAttendees(newList);
         }
     }
 
@@ -66,7 +67,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
     @TestVisible
     private static void notifyAttendeesRemoved(List<Televisit_Attendee__c> attendeeList) {
         /*
-         
+
          * Scenarios :
          * --------------------------------------------------------------------
          * 1. Participant as attendee (For minor) - will not occur
@@ -130,7 +131,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
 
     @TestVisible
     private static void notifyTelevisitAttendees(List<Televisit_Attendee__c> attendeeList) {
-        List<Televisit_Attendee__c> listAttendee = [Select id,Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Contact__c,Attendee_Type__c from Televisit_Attendee__c 
+        List<Televisit_Attendee__c> listAttendee = [Select id,Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Contact__c,Attendee_Type__c from Televisit_Attendee__c
                                                     where Televisit__r.Status__c = 'Scheduled' AND Id IN:attendeeList AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff')];
         try{
             List<Notification__c> notifications = new List<Notification__c>();
@@ -138,7 +139,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                 Notification__c notification = new Notification__c();
                 notification.Recipient__c = attendee.Contact__c;
                 notification.WhatId__c = attendee.Id;
-                if(attendee.Televisit__c != null && attendee.Televisit__r.Participant_Enrollment__c != null && 
+                if(attendee.Televisit__c != null && attendee.Televisit__r.Participant_Enrollment__c != null &&
                    attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
                     if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
                         notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation_Janssen';
@@ -156,17 +157,17 @@ public without sharing class TelevisitAttendeeTriggerHandler {
         }catch(exception ex){
             system.debug('++++++++++++++++'+ex.getMessage());
         }
-        
+
     }
     @TestVisible
     private static void notifyRemovedAttendees(List<Televisit_Attendee__c> attendeeList) {
         List<Notification__c> notifications = new List<Notification__c>();
-        for(Televisit_Attendee__c tvAttendeeRecord : [Select id,Televisit__c,Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Contact__c,Attendee_Type__c from Televisit_Attendee__c 
-                                                      where Televisit__r.Status__c = 'Scheduled' AND Id IN:attendeeList AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff') AND isDeleted = TRUE ALL ROWS]){ 
+        for(Televisit_Attendee__c tvAttendeeRecord : [Select id,Televisit__c,Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Contact__c,Attendee_Type__c from Televisit_Attendee__c
+                                                      where Televisit__r.Status__c = 'Scheduled' AND Id IN:attendeeList AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff') AND isDeleted = TRUE ALL ROWS]){
             Notification__c notification = new Notification__c();
             notification.Recipient__c = tvAttendeeRecord.Contact__c;
             notification.WhatId__c = tvAttendeeRecord.Televisit__c;
-            if(tvAttendeeRecord.Televisit__c != null && tvAttendeeRecord.Televisit__r.Participant_Enrollment__c != null && 
+            if(tvAttendeeRecord.Televisit__c != null && tvAttendeeRecord.Televisit__r.Participant_Enrollment__c != null &&
                 tvAttendeeRecord.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
                 if(tvAttendeeRecord.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
                     notification.Notification_Type__c = 'Message_to_PI_Televisit_Remove_Janssen';
@@ -175,11 +176,64 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                 }
 
             }
-              notifications.add(notification);                          
+              notifications.add(notification);
         }
         if(notifications != null && notifications.size() > 0){
            insert notifications;
         }
-        
+
+    }
+
+    /*
+     * @description: This will be used to trigger Bell Notification when Televisit Attendee is added/ Televisit is created
+     *                  created for RH-9302
+     * @created: November 09, 2022
+     * @param: attendeeList - list of Tele visit attendee that triggered
+     */
+    @TestVisible
+    private static void sendBellNotificationToNewAttendees(List<Televisit_Attendee__c> attendeeList){
+        Set<Id> attendeeIdSet =  (new Map<Id,Televisit_Attendee__c>(attendeeList) ).keySet();
+        Set<Id> ssIdSet = new Set<Id>();
+        Televisit_Attendee__c tva ;
+        Map<Id,Televisit_Attendee__c> attendeeMap = new Map<Id,Televisit_Attendee__c>([SELECT Id,Televisit__r.Participant_Enrollment__c,
+                                                                                                Televisit__r.Participant_Enrollment__r.Study_Site__c,
+                                                                                                Televisit__r.Participant_Enrollment__r.Name,
+                                                                                                Televisit__r.Participant_Enrollment__r.Participant__r.First_Name__c,
+                                                                                                Televisit__r.Participant_Enrollment__r.Participant__r.Last_Name__c,
+                                                                                                Televisit__r.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+                                                                                                 FROM Televisit_Attendee__c
+                                                                                                WHERE Id IN :attendeeIdSet]);
+
+        for(Televisit_Attendee__c attendee : attendeeMap.values() ){
+            tva = attendee;
+            if(attendee.Televisit__r.Participant_Enrollment__r != null && attendee.Televisit__r.Participant_Enrollment__r.Study_Site__c != null){
+                ssIdSet.add(attendee.Televisit__r.Participant_Enrollment__r.Study_Site__c);
+            }
+        }
+        if(ssIdSet.size() > 0){
+            List<Notification_Target__mdt> notificationMdt = BellNotificationsHelper.getTarget('BELL_Message_on_TeleVisit');
+            List<String> userGroupList = new List<String>();
+
+            for(Notification_target__mdt mdt : notificationMdt){
+                usergroupList.add(mdt.Target_User_Group__c);
+            }
+            Map<String,List<Contact> > resMap = BellNotificationsHelper.getRecipientVsContact(usergroupList,new List<Id>(ssIdSet).get(0),null);
+            //remove current user contact from above map
+            Id currentUserContactId = UserContext.getUserContactId();
+            String key = BellNotificationsHelper.getCurrentUserLevelByStudySite(String.valueOf(currentUserContactId),
+                                                                                String.valueOf(new List<Id>(ssIdSet).get(0) )
+                                                                                );
+            if(resMap.containsKey(key)){
+                Integer index = resMap.get(key).indexOf(new Contact(Id = currentUserContactId) );
+                resMap.get(key).remove(index);
+            }
+
+            List<Notification__c> notificationList = BellNotificationsHelper.createNotification('BELL_Message_on_TeleVisit',
+                                                                                                    resMap,
+                                                                                                    tva.Televisit__r.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                                                                                                    tva.Televisit__r.Participant_Enrollment__c,
+                                                                                                    true);
+
+        }
     }
 }
