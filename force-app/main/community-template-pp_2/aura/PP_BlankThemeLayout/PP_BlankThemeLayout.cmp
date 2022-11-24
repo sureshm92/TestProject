@@ -62,7 +62,7 @@
                     <lightning:layout multipleRows="true">
 
                         <lightning:layoutItem size="12" class="mb-16">
-                            <p class="iqvia-mobile"> {!$Label.c.RH_Masked_IQVIA_User} <span class="patient-portal-mobile">{!$Label.c.Community_PP}</span></p>
+                            <p class="iqvia-mobile"> {!$Label.c.RH_Masked_IQVIA_User}&nbsp;<span class="patient-portal-mobile">{!$Label.c.Community_PP}</span></p>
                         </lightning:layoutItem>
 
                         <lightning:layoutItem size="12" class="mb-16">
