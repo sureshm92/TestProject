@@ -1,66 +1,65 @@
 <template>
     <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner"></c-web-spinner>
-    <template if:true={isInitialized}>
-        <lightning-layout multiple-rows="true">
-            <!-- *************** RESOURCES FILTER  ******************  -->
-            <lightning-layout-item size="12">
-                <lightning-layout multiple-rows="true">
-                    <lightning-layout-item
-                        size="4"
-                        class="slds-var-p-around_medium round-combobox ppCombobox ppcombo-dropdown-all"
-                    >
-                        <lightning-combobox
-                            value={selectedOption}
-                            placeholder={selectedOption}
-                            options={options}
-                            onchange={handleChangeSelection}
-                            label={selectedOption}
-                            variant="label-hidden"
-                            disabled={isDisabled}
-                        ></lightning-combobox>
-                    </lightning-layout-item>
-                </lightning-layout>
-                <!-- ************* Articles/Videos*************** -->
-                <lightning-layout multiple-rows="true" class="inner-scroll">
-                    <lightning-layout-item size="12">
-                        <!--***********Resource card iteraton************ -->
-                        <template if:true={resourcesFilterData}>
-                            <template for:each={resourcesFilterData} for:item="Data">
-                                <c-pp-resource-container
-                                    desktop={desktop}
-                                    is-rtl={isRTL}
-                                    thumbnail={Data.resource.Image__c}
-                                    resource-type={Data.resource.Content_Type__c}
-                                    resource-id={Data.resource.Id}
-                                    resource-title={Data.resource.Title__c}
-                                    res-upload-date={Data.resource.Version_Date__c}
-                                    is-favourite={Data.isFavorite}
-                                    resource-summary={Data.resource.Body__c}
-                                    is-voted={Data.isVoted}
-                                    key={Data.resource.Id}
-                                    data-key={Data.resource.Id}
-                                    onfavourite={handleFavorite}
-                                >
-                                </c-pp-resource-container>
-                            </template>
+
+    <lightning-layout multiple-rows="true">
+        <!-- *************** RESOURCES FILTER  ******************  -->
+        <lightning-layout-item size="12">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item
+                    size="4"
+                    class="slds-var-p-around_medium round-combobox ppCombobox ppcombo-dropdown-all"
+                >
+                    <lightning-combobox
+                        value={selectedOption}
+                        placeholder={selectedOption}
+                        options={options}
+                        onchange={handleChangeSelection}
+                        label={selectedOption}
+                        variant="label-hidden"
+                        disabled={isDisabled}
+                    ></lightning-combobox>
+                </lightning-layout-item>
+            </lightning-layout>
+            <!-- ************* Articles/Videos*************** -->
+            <lightning-layout multiple-rows="true" class="inner-scroll">
+                <lightning-layout-item size="12">
+                    <!--***********Resource card iteraton************ -->
+                    <template if:true={resourcesFilterData}>
+                        <template for:each={resourcesFilterData} for:item="Data">
+                            <c-pp-resource-container
+                                desktop={desktop}
+                                is-rtl={isRTL}
+                                thumbnail={Data.resource.Image__c}
+                                resource-type={Data.resource.Content_Type__c}
+                                resource-id={Data.resource.Id}
+                                resource-title={Data.resource.Title__c}
+                                res-upload-date={Data.resource.Version_Date__c}
+                                is-favourite={Data.isFavorite}
+                                resource-summary={Data.resource.Body__c}
+                                is-voted={Data.isVoted}
+                                key={Data.resource.Id}
+                                data-key={Data.resource.Id}
+                                onfavourite={handleFavorite}
+                            >
+                            </c-pp-resource-container>
                         </template>
-                        <!--***************** Empty States*******************-->
-                        <template if:false={resourcesFilterData}>
-                            <div class="svg-align">
-                                <div class="center-align">
-                                    <img class="empty-state" src={icondetail.pngLink} />
-                                </div>
-                                <div class="empty-label">
-                                    <lightning-formatted-rich-text
-                                        value={icondetail.emptyLabel}
-                                    ></lightning-formatted-rich-text>
-                                </div>
+                    </template>
+                    <!--***************** Empty States*******************-->
+                    <template if:false={resourcesFilterData}>
+                        <div class="svg-align">
+                            <div class="center-align">
+                                <img class="empty-state" src={icondetail.pngLink} />
                             </div>
-                        </template>
-                    </lightning-layout-item>
-                </lightning-layout>
-            </lightning-layout-item>
-        </lightning-layout>
-    </template>
+                            <div class="empty-label">
+                                <lightning-formatted-rich-text
+                                    value={icondetail.emptyLabel}
+                                ></lightning-formatted-rich-text>
+                            </div>
+                        </div>
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>
 </template>

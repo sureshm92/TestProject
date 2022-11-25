@@ -208,7 +208,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr.referralID__c                         = 'rid-'+'1230011';
         ipr.sex__c                                = 'Male';
         ipr.siteSelected__c                       = '123';
-        ipr.acceptedTermsAndConditions__c	      = '2020-01-01 10:52:39 AM';
+        ipr.acceptedTermsAndConditions__c         = '2020-01-01 10:52:39 AM';
         ipr.Referred_Date__c                      = '2020-01-01 10:52:39 AM';
         
         iprList.add(ipr);
@@ -238,7 +238,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr1.referralID__c                         = 'rid-'+'123001';
         ipr1.sex__c                                = 'Male';
         ipr1.siteSelected__c                       = '123';
-        ipr1.acceptedTermsAndConditions__c	      = '2020-01-01 10:52:39 AM';
+        ipr1.acceptedTermsAndConditions__c        = '2020-01-01 10:52:39 AM';
         ipr1.Referred_Date__c                      = '2020-01-01 10:52:39 AM';
         ipr1.Delegate_Alternative_Phone_Number__c      ='232423242';
         iprList.add(ipr1);
@@ -267,9 +267,9 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr2.referralID__c                         = 'rid-'+'123001';
         ipr2.sex__c                                = 'Male';
         ipr2.siteSelected__c                       = '123';
-        ipr2.acceptedTermsAndConditions__c	      = '2020-01-01 10:52:39 AM';
+        ipr2.acceptedTermsAndConditions__c        = '2020-01-01 10:52:39 AM';
         ipr2.Referred_Date__c                      = '2020-01-01 10:52:39 AM';
-		ipr2.Delegate_Phone_Number_Type__c            ='Mobile';
+        ipr2.Delegate_Phone_Number_Type__c            ='Mobile';
         ipr2.Delegate_Alternative_Phone_Number__c      ='232423242';
         iprList.add(ipr2);
         
@@ -298,9 +298,9 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr3.referralID__c                         = 'rid-'+'123001';
         ipr3.sex__c                                = 'Male';
         ipr3.siteSelected__c                       = '123';
-        ipr3.acceptedTermsAndConditions__c	      = '2020-01-01 10:52:39 AM';
+        ipr3.acceptedTermsAndConditions__c        = '2020-01-01 10:52:39 AM';
         ipr3.Referred_Date__c                      = '2020-01-01 10:52:39 AM';
-		ipr3.Delegate_Phone_Number_Type__c            ='Home';
+        ipr3.Delegate_Phone_Number_Type__c            ='Home';
         ipr3.Delegate_Alternative_Phone_Number__c      ='232423242';
         iprList.add(ipr3);
             
@@ -320,7 +320,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         Integration_Patient_Referral__c iprprocessed = [SELECT Id, Error_Message__c, Participant_Enrollment__c FROM Integration_Patient_Referral__c where id=:ipr.id];
         system.assert(iprprocessed.Error_Message__c == null);//No errors is processring ipr records
         system.assert(iprprocessed.Participant_Enrollment__c != null);//participant enrollment record created
-		
+        
     
     }
     @IsTest
@@ -354,7 +354,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr.referralID__c                         = 'rid-'+'1230011';
         ipr.sex__c                                = 'Male';
         ipr.siteSelected__c                       = '123';
-        ipr.acceptedTermsAndConditions__c	      = '2020-01-01 10:52:39 AM';
+        ipr.acceptedTermsAndConditions__c         = '2020-01-01 10:52:39 AM';
         ipr.Referred_Date__c                      = '2020-01-01 10:52:39 AM';
         
         iprList.add(ipr);
@@ -384,7 +384,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr1.referralID__c                         = 'rid-'+'123001';
         ipr1.sex__c                                = 'Male';
         ipr1.siteSelected__c                       = '123';
-        ipr1.acceptedTermsAndConditions__c	      = '2020-01-01 10:52:39 AM';
+        ipr1.acceptedTermsAndConditions__c        = '2020-01-01 10:52:39 AM';
         ipr1.Referred_Date__c                      = '2020-01-01 10:52:39 AM';
         ipr1.Delegate_Alternative_Phone_Number__c      ='232423242';
         ipr1.Delegate_Phone_Number_Type__c            ='Home';
@@ -407,7 +407,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         Integration_Patient_Referral__c iprprocessed = [SELECT Id, Error_Message__c, Participant_Enrollment__c FROM Integration_Patient_Referral__c where id=:ipr.id];
         system.assert(iprprocessed.Error_Message__c == null);//No errors is processring ipr records
         system.assert(iprprocessed.Participant_Enrollment__c != null);//participant enrollment record created
-		
+        
     
     }
     @IsTest
@@ -441,7 +441,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr.referralID__c                         = 'rid-'+'1230011';
         ipr.sex__c                                = 'Male';
         ipr.siteSelected__c                       = '123';
-        ipr.acceptedTermsAndConditions__c	      = '2020-01-01 10:52:39 AM';
+        ipr.acceptedTermsAndConditions__c         = '2020-01-01 10:52:39 AM';
         ipr.Referred_Date__c                      = '2020-01-01 10:52:39 AM';
         
         iprList.add(ipr);
@@ -471,7 +471,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr1.referralID__c                         = 'rid-'+'123001';
         ipr1.sex__c                                = 'Male';
         ipr1.siteSelected__c                       = '123';
-        ipr1.acceptedTermsAndConditions__c	      = '2020-01-01 10:52:39 AM';
+        ipr1.acceptedTermsAndConditions__c        = '2020-01-01 10:52:39 AM';
         ipr1.Referred_Date__c                      = '2020-01-01 10:52:39 AM';
         ipr1.Delegate_Alternative_Phone_Number__c      ='232423242';
         ipr1.Delegate_Phone_Number_Type__c            ='Mobile';
@@ -494,9 +494,11 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         Integration_Patient_Referral__c iprprocessed = [SELECT Id, Error_Message__c, Participant_Enrollment__c FROM Integration_Patient_Referral__c where id=:ipr.id];
         system.assert(iprprocessed.Error_Message__c == null);//No errors is processring ipr records
         system.assert(iprprocessed.Participant_Enrollment__c != null);//participant enrollment record created
-		
+        
     
     }
+    
+    
     @IsTest
     private static void testParticipantExisitingInRH() {
         
@@ -557,7 +559,196 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr.referralID__c                         = 'rid-'+'1230011';
         ipr.sex__c                                = 'Male';
         ipr.siteSelected__c                       = '123';
-        ipr.acceptedTermsAndConditions__c	      = '2020-01-01 10:52:39 AM';
+        ipr.acceptedTermsAndConditions__c         = '2020-01-01 10:52:39 AM';
+        ipr.Referred_Date__c                      = '2020-01-01 10:52:39 AM';
+        ipr.UTM_campaignName__c                   = pe1.Name;
+        iprList.add(ipr);
+        
+        Insert iprList;
+        
+        Test.startTest();
+        Database.executeBatch(new Batch_UpsertEprParticipantAndPE(), 7);      
+        test.stopTest();
+        Integration_Patient_Referral__c iprprocessed = [SELECT Id, Error_Message__c, Participant_Enrollment__c FROM Integration_Patient_Referral__c where id=:ipr.id];
+        system.assert(iprprocessed.Error_Message__c == null);//No errors is processring ipr records
+        system.assert(iprprocessed.Participant_Enrollment__c != null);//participant enrollment record created
+    }
+    
+    
+    @IsTest
+    private static void testParticipantExisitingInRH1() {
+        
+        integer i =1;
+        string randomStr = 'IPRUser'+i; 
+        String test1 = 'Test';
+        
+        Account piAccount = new Account(
+            Name = 'PI Account'
+        );
+        insert piAccount;
+        
+        Contact piContact = new Contact(
+            FirstName = 'PI',
+            LastName = 'PI',
+            Email = '04ipremail@gmtesstail.com',
+            AccountId = piAccount.Id,
+            Birthdate = Date.valueOf('1987-03-01')
+        );
+        
+        insert piContact;
+        
+        Study_Site__c studySite = [select Id,Principal_Investigator__c,Site__c from Study_Site__c limit 1];
+        Participant__c participant4 = new Participant__c(
+            First_Name__c = 'PI',
+            Last_Name__c = 'PI',
+            Phone__c = '8343212',
+            Email__c = '04ipremail@gmtesstail.com',
+            Mailing_Country_Code__c = 'US',
+            Mailing_State_Code__c = 'AL',
+            Adult__c = true,
+            Site__c = studySite.Site__c,
+            Date_of_Birth__c = '1987-03-01',
+            Contact__c = piContact.Id,
+            Mailing_Zip_Postal_Code__c = '12345'
+        );
+        insert participant4;
+        
+        Participant_Enrollment__c pe1 = new Participant_Enrollment__c(
+            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+            //PI_Contact__c = studySite.Principal_Investigator__c,
+            PI_Contact__c = piContact.Id,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId2',
+            Referral_Source__c = 'PI',
+            Initial_visit_scheduled_date__c = Date.today(),
+            Initial_visit_occurred_flag__c = true,
+            Participant_Status__c = DashboardRemoteNew.PE_STATUS_SUCCESSFULLY_CONTACTED,
+            Participant__c = participant4.Id,
+            Screening_ID__c = 'PESCR2'
+        );
+        //insert pe1;
+        pe1 = [select Id,Name from Participant_Enrollment__c limit 1];
+        List<Integration_Patient_Referral__c> iprList = new List<Integration_Patient_Referral__c>();
+        Integration_Patient_Referral__c ipr = new Integration_Patient_Referral__c();
+        
+        ipr.Batch_consideration__c                = 'Not completed';
+        ipr.Address_Country__c                    = 'US';
+        ipr.Address_State__c                      = 'New York';
+        ipr.Address_ZipCode__c                    = '12345';
+        ipr.BirthDate__c                          = '1987-03-01';
+        ipr.birthYear__c                          = '1987';
+        ipr.Data_Source__c                        = 'ePR';
+        ipr.Delegate_Daytime_Phone_Number__c      = (system.now().millisecond()+''+system.now().month()+i+''+system.now().hour()+''+system.now().minute()+''+system.now().day()).substring(0,7);
+        ipr.Delegate_Email_Address__c             = test1+'@dltestm.com';
+        ipr.Delegate_First_Name__c                = 'dfn'+test1;
+        ipr.Delegate_Last_Name__c                 = 'dln'+test1;
+        ipr.Delegate_Mailing_State__c             = 'New York';
+        ipr.Delegate_Zip_Postal_Code__c           = '10001';
+        ipr.email__c                              = '04ipremail@gmtesstail.com';
+        ipr.firstName__c                          = 'PI';
+        ipr.Language_Preference__c                = 'en_US';
+        ipr.lastName__c                           = 'PI';
+        ipr.phone__c                              = '8343212';
+        ipr.protocolId__c                         = 'tt123456789';
+        ipr.referralID__c                         = 'rid-'+'1230011';
+        ipr.sex__c                                = 'Male';
+        ipr.siteSelected__c                       = '123';
+        ipr.acceptedTermsAndConditions__c         = '2020-01-01 10:52:39 AM';
+        ipr.Referred_Date__c                      = '2020-01-01 10:52:39 AM';
+        ipr.UTM_campaignName__c                   = pe1.Name;
+        iprList.add(ipr);
+        
+        Insert iprList;
+        
+        Test.startTest();
+        Database.executeBatch(new Batch_UpsertEprParticipantAndPE(), 7);      
+        test.stopTest();
+        Integration_Patient_Referral__c iprprocessed = [SELECT Id, Error_Message__c, Participant_Enrollment__c FROM Integration_Patient_Referral__c where id=:ipr.id];
+        system.assert(iprprocessed.Error_Message__c == null);//No errors is processring ipr records
+        system.assert(iprprocessed.Participant_Enrollment__c != null);//participant enrollment record created
+    }
+    
+     @IsTest
+    private static void testParticipantExisitingInRH2() {
+        
+        integer i =1;
+        string randomStr = 'IPRUser'+i; 
+        String test1 = 'Test';
+        
+        Account piAccount = new Account(
+            Name = 'PI Account'
+        );
+        insert piAccount;
+        
+        Contact piContact = new Contact(
+            FirstName = 'PI1',
+            LastName = 'PI1',
+            Email = '04ipremail@gmtesstail.com1',
+            AccountId = piAccount.Id,
+            Birthdate = Date.valueOf('1987-04-01')
+        );
+        
+        insert piContact;
+        
+        Study_Site__c studySite = [select Id,Principal_Investigator__c,Site__c from Study_Site__c limit 1];
+        Participant__c participant4 = new Participant__c(
+            First_Name__c = 'PI',
+            Last_Name__c = 'PI',
+            Phone__c = '8343212',
+            Email__c = '04ipremail@gmtesstail.com',
+            Mailing_Country_Code__c = 'US',
+            Mailing_State_Code__c = 'AL',
+            Adult__c = true,
+            Site__c = studySite.Site__c,
+            Date_of_Birth__c = '1987-03-01',
+            Contact__c = null,
+            Mailing_Zip_Postal_Code__c = '12345'
+        );
+        insert participant4;
+        
+        Participant_Enrollment__c pe1 = new Participant_Enrollment__c(
+            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+            //PI_Contact__c = studySite.Principal_Investigator__c,
+            PI_Contact__c = null,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId2',
+            Referral_Source__c = 'PI',
+            Initial_visit_scheduled_date__c = Date.today(),
+            Initial_visit_occurred_flag__c = true,
+            Participant_Status__c = DashboardRemoteNew.PE_STATUS_SUCCESSFULLY_CONTACTED,
+            Participant__c = participant4.Id,
+            Screening_ID__c = 'PESCR2'
+        );
+        //insert pe1;
+        pe1 = [select Id,Name from Participant_Enrollment__c limit 1];
+        List<Integration_Patient_Referral__c> iprList = new List<Integration_Patient_Referral__c>();
+        Integration_Patient_Referral__c ipr = new Integration_Patient_Referral__c();
+        
+        ipr.Batch_consideration__c                = 'Not completed';
+        ipr.Address_Country__c                    = 'US';
+        ipr.Address_State__c                      = 'New York';
+        ipr.Address_ZipCode__c                    = '12345';
+        ipr.BirthDate__c                          = '1987-03-01';
+        ipr.birthYear__c                          = '1987';
+        ipr.Data_Source__c                        = 'ePR';
+        ipr.Delegate_Daytime_Phone_Number__c      = (system.now().millisecond()+''+system.now().month()+i+''+system.now().hour()+''+system.now().minute()+''+system.now().day()).substring(0,7);
+        ipr.Delegate_Email_Address__c             = test1+'@dltestm.com';
+        ipr.Delegate_First_Name__c                = 'dfn'+test1;
+        ipr.Delegate_Last_Name__c                 = 'dln'+test1;
+        ipr.Delegate_Mailing_State__c             = 'New York';
+        ipr.Delegate_Zip_Postal_Code__c           = '10001';
+        ipr.email__c                              = '04ipremail@gmtesstail.com';
+        ipr.firstName__c                          = 'PI';
+        ipr.Language_Preference__c                = 'en_US';
+        ipr.lastName__c                           = 'PI';
+        ipr.phone__c                              = '8343212';
+        ipr.protocolId__c                         = 'tt123456789';
+        ipr.referralID__c                         = 'rid-'+'1230011';
+        ipr.sex__c                                = 'Male';
+        ipr.siteSelected__c                       = '123';
+        ipr.acceptedTermsAndConditions__c         = '2020-01-01 10:52:39 AM';
         ipr.Referred_Date__c                      = '2020-01-01 10:52:39 AM';
         ipr.UTM_campaignName__c                   = pe1.Name;
         iprList.add(ipr);

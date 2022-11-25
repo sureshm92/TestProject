@@ -7,6 +7,10 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
     @api desktop;
     noExploreImage = false;
 
+    connectedCallback() {
+        this.noExploreImage = this.exploreData.resource.Image__c ? false : true;
+    }
+
     handleNoExploreImageError() {
         this.noExploreImage = true;
     }
