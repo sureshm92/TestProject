@@ -1,5 +1,6 @@
 .scroll-bar-box {
     padding-top: 16px;
+    padding-bottom: 8px;
     height: 100%;
     margin: 0 10px 0 10px;
 }
@@ -31,4 +32,19 @@
 
 .center {
     text-align: center;
+}
+
+@media (max-width: 486px) {
+    .scroll-bar-box {
+        padding-top: 16px;
+        padding-bottom: 8px;
+        max-height: auto;
+        margin: 0 10px 0 10px;
+    }
+    .scroll-bar-box-empty {
+        padding-top: 16px;
+        padding-bottom: 8px;
+        height: 335px;
+        margin: 0 10px 0 10px;
+    }
 }

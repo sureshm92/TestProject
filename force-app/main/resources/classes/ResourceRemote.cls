@@ -15,6 +15,76 @@ public without sharing class ResourceRemote {
             return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
         }
     }
+    @AuraEnabled
+    public static UpdateWrapper getUpdateResources(String linkWrapperText) {
+        //get all resources //get counter // send wrapper // check for toggles for participant
+        try {
+            Integer counter = 0;
+            //Relevant links data
+            RelevantLinksRemote.InitDataNew linkWrapper = (RelevantLinksRemote.InitDataNew) JSON.deserialize(
+                linkWrapperText,
+                RelevantLinksRemote.InitDataNew.class
+            );
+            List<ResourceService.ResourceWrapper> resUpdates = linkWrapper?.resources;
+            ResourceDelegate rDelegate = ResourceDelegate.getInstance();
+            //Article/Video Data
+            //for delegate in participant view
+            if (
+                linkWrapper.isDelegate &&
+                linkWrapper.participantStateValue ==
+                String.valueOf(ParticipantService.ParticipantStates.ALUMNI)
+            ) {
+                if (linkWrapper.VideoAndArticlesAreAvailable) {
+                    ResourceService.ResourceWrapperContainer contExplore = rDelegate.getResources(
+                        'Article;Video'
+                    );
+                    resUpdates.addAll(contExplore.wrappers);
+                }
+            } else if (
+                linkWrapper.participantStateValue ==
+                String.valueOf(ParticipantService.ParticipantStates.ALUMNI)
+            ) {
+                //for delegate and alumni view
+                ResourceService.ResourceWrapperContainer contExplore = rDelegate.getResources(
+                    'Article;Video'
+                );
+                resUpdates.addAll(contExplore.wrappers);
+            } else if (linkWrapper.VideoAndArticlesAreAvailable) {
+                //for participant view
+                ResourceService.ResourceWrapperContainer contExplore = rDelegate.getResources(
+                    'Article;Video'
+                );
+                resUpdates.addAll(contExplore.wrappers);
+            }
+
+            //Documents Data
+            if (linkWrapper.StudyDocumentsAreAvailable) {
+                ResourceService.ResourceWrapperContainer contDocs = rDelegate.getStudyDocuments();
+                contDocs.wrappers = ResourceService.removeTranslations(contDocs.wrappers);
+
+                resUpdates.addAll(contDocs.wrappers);
+            }
+
+            if (resUpdates.size() > 0) {
+                resUpdates = ResourceService.sortResourcesByCreatedDate(resUpdates);
+                resUpdates = ResourceService.sortResourcesByCOI(resUpdates);
+                if (
+                    linkWrapper.participantStateValue !=
+                    String.valueOf(ParticipantService.ParticipantStates.ALUMNI) ||
+                    !linkWrapper.isDelegate
+                ) {
+                    counter = ResourceService.getUpdatesCounter(resUpdates);
+                }
+            }
+            UpdateWrapper up = new UpdateWrapper();
+            up.resources = resUpdates;
+            up.counter = counter;
+
+            return up;
+        } catch (Exception e) {
+            return (UpdateWrapper) AuraHelper.throwException(e);
+        }
+    }
 
     @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getStudyDocuments() {
@@ -134,5 +204,11 @@ public without sharing class ResourceRemote {
         submittedArticles.add(res);
         if (!submittedArticles.isEmpty())
             insert submittedArticles;
+    }
+    public class UpdateWrapper {
+        @AuraEnabled
+        public Integer counter = 0;
+        @AuraEnabled
+        public List<ResourceService.ResourceWrapper> resources = new List<ResourceService.ResourceWrapper>();
     }
 }

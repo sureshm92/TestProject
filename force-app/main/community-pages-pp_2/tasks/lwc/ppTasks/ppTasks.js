@@ -102,7 +102,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     closeTaskImg = pp_icons + '/' + 'Oval_Completed.svg';
     reminderObj = {
         name: this.label.taskCreateReminder,
-        iconUrl: 'reminderbell_icom',
+        iconUrl: 'reminderbell_icon',
         reminder: true
     };
     editObj = { name: this.label.taskEdit, iconUrl: 'Pencil_Icon', edit: true };
@@ -245,7 +245,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                     : 'subject-ellipsis mob-subject-ellipsis';
                 tasks[i].homeSubjectEllipsisClass = tasks[i].criticalTask
                     ? 'home-crit-subject-ellipsis home-crit-mob-subject-ellipsis curpointer'
-                    : 'subject-ellipsis mob-subject-ellipsis curpointer';
+                    : 'home-subject-ellipsis mob-subject-ellipsis curpointer';
                 tasks[i].businessTask = tasks[i].systemTask
                     ? tasks[i].openTask.Task_Code__c == 'Complete_Survey'
                     : true;

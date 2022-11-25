@@ -35,13 +35,13 @@ export default class PpResourceDocumentContainer extends LightningElement {
                     this.documentPresent = false;
                 }
                 this.loaded = true;
+                this.spinner.hide();
             })
             .catch((error) => {
+                this.spinner.hide();
                 this.loaded = true;
                 this.showErrorToast('Error occured', error.message, 'error');
             });
-
-        this.spinner.hide();
     }
 
     showErrorToast(titleText, messageText, variantType) {
