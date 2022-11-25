@@ -60,14 +60,18 @@ private class Test_ParticipantInformationRemote {
     public static void testPeshRecordforSuccesfulyengaed(){
         TestData testData = new TestData();
         List<Participant_Enrollment_Status_History__c> lstPESH  = new List<Participant_Enrollment_Status_History__c> ();
+        List<Participant_Enrollment_Status_History__c> lstPESHs  = new List<Participant_Enrollment_Status_History__c> ();
         Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
         pesh.Date__c = Datetime.now();
         pesh.Status__c = 'Successfully re-engaged'; 
         pesh.ParticipantEnrollment__c =  testData.pe.Id;
         insert pesh;
+        testData.pe.Last_Status_Changed_Notes__c='test';
+        update testData.pe;
         Test.startTest();
         System.runAs(testData.piUser) {
             // ParticipantInformationRemote.getPESH(testData.pe.id);
+            lstPESHs  = ParticipantWorkflowService.createHistoryRecordsForPE(testData.pe,testData.ctp);
             ParticipantInformationRemote.getPrintInformation(
                 testData.pe.Id, 
                 CommunityService.USER_MODE_PI,
@@ -108,6 +112,19 @@ private class Test_ParticipantInformationRemote {
                 JSON.serialize(path),
                 testData.pe.Id
             );
+             List<String> PE_Status = new List<String>();
+             PE_Status.add('Contact Attempted');
+             PE_Status.add('Declined Consent');
+             PE_Status.add('Declined Final Consent');
+             PE_Status.add('Eligibility Failed');
+             PE_Status.add('Randomization Success');
+             PE_Status.add('Randomization Failed');
+             PE_Status.add('Enrollment Success');
+             PE_Status.add('Enrollment Failed');
+             PE_Status.add('Withdrew Consent');
+             PE_Status.add('Screening Passed');
+             List<String> PE_StatusResult = ParticipantWorkflowService.filterStatusesForCTPSettings(PE_Status,testData.ctp);
+             
         }
         Test.stopTest();
     } 
@@ -1038,6 +1055,9 @@ true);
         participantDel.Contact__c = cn.Id;
         participantDel.Delegate_Consent_SMS__c = false; 
         insert participantDel;
+        Set<Id> partId = new Set<Id>();
+        partId.add(participant.Id);
+        partId.add(participantDel.Id);
         List<Participant__c> pdList = new List<Participant__c>();
         pdList.add(participantDel);
         
@@ -1048,8 +1068,13 @@ true);
         insert pd;
         List<String> pList = new List<String>();
         pList.add(pd.id);
+        Map<Id,String> piContact = new Map<Id,String>();
+        Map<Id,Participant__c> piCon = new Map<Id,Participant__c>();
         System.runAs(testData.piUser) {
-            
+            piContact = ParticipantWorkflowService.getPIContactSalutationAndNames(partId);
+            piContact = ParticipantWorkflowService.getPIContactNames(partId);
+            piContact = ParticipantWorkflowService.getContactFullNamesFromParticipants(partId);
+            piCon = ParticipantWorkflowService.getPIContactNameDetails(partId);
             ParticipantInformationRemote.updateParticipantAndDelegates(testData.pe.Id,
                                                                        JSON.serialize(participant),
                                                                        JSON.serialize(cn),
