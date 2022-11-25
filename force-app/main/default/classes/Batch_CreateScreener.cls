@@ -49,8 +49,8 @@ public class Batch_CreateScreener implements Database.Batchable<SObject> {
     }
     
     public void finish(Database.BatchableContext bc){
-        
-        system.debug('Batch Create Screener is completed');
+         // execute any post-processing operations
+        system.debug('Batch for creating screeners completed successfully');
     }
 
    
