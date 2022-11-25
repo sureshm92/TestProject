@@ -2,9 +2,15 @@
     padding-left: 24px;
     padding-right: 24px;
 }
+
+.main-content-div-mobile {
+    padding-left: 24px;
+}
+
 .padding-for-techSupportGroup {
     padding-top: 50px;
 }
+
 .spins::after {
     position: absolute;
     content: 'Loading......';
@@ -12,15 +18,18 @@
     text-align: center;
     top: calc(50% + 3em);
     font-weight: bold;
-		font-size :14px;
+    font-size: 14px;
 }
-.slds-spinner_container{
-    position :fixed !important;
+
+.slds-spinner_container {
+    position: fixed !important;
 }
+
 .slds-checkbox {
     margin-top: 16px;
     line-height: 1;
 }
+
 .slds-form-element__legend {
     font-size: 20px;
     font-weight: 600;
@@ -29,12 +38,15 @@
     margin-bottom: 17px;
     float: none !important;
 }
+
 .success-message-text {
     font-size: 20px;
     font-weight: 600;
     color: #444444;
-    text-align: center;
+    text-align: left;
+    padding-left: 24px;
 }
+
 .slds-checkbox .slds-checkbox__label .slds-form-element__label {
     color: #444444;
     font-size: 16px;
@@ -42,23 +54,62 @@
     padding-top: 0;
     line-height: 1.5rem;
 }
+
 .slds-checkbox .slds-checkbox__label {
     display: flex;
     align-items: flex-start;
 }
+
 .slds-checkbox .slds-checkbox__label .slds-checkbox_faux {
     min-width: 16px;
     margin-top: 4px;
 }
 
 .submit {
-    min-width: 80px;
-    height: 40px;
+    height: 32px;
+    width: 132px;
+    border-radius: 16px;
+    background-color: #0768fd;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+    margin-bottom: 35px;
+}
+
+.submit-mobile {
+    height: 32px;
+    width: 100%;
+    border-radius: 16px;
+    background-color: #0768fd;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+}
+
+.submit-opt-out-mobile {
+    height: 24px;
+    transform: rotate(-360deg);
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
+
+.need-additional-info {
+    height: 24px;
+    color: #015ff1;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    margin-top: 20px;
     margin-bottom: 20px;
 }
+
 .submit-button-div {
-    margin-top: 45px;
-    margin-left: 80%;
+    /* margin-top: 45px;
+    margin-left: 80%; */
 }
 .checkLogo {
     height: 25px;
@@ -66,6 +117,27 @@
 }
 .success-message-padding {
     padding-top: 25px;
+}
+.success-label {
+    height: 72px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 30px;
+    margin-bottom: 70px;
+}
+
+.success-label-desktop {
+    height: 72px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 30px;
+    margin-bottom: 35px;
 }
 @media (max-width: 500px) {
     .submit-button-div {
@@ -80,10 +152,10 @@
     text-align: center;
     top: calc(50% + 3em);
     font-weight: bold;
-		font-size :14px;
+    font-size: 14px;
 }
-.slds-spinner_container{
-    position :fixed !important;
+.slds-spinner_container {
+    position: fixed !important;
 }
 
 .opt-out-header {
@@ -97,6 +169,16 @@
     margin-bottom: 16px;
 }
 
+.opt-out-header-mobile {
+    height: 24px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
 .comm-italics {
     height: 48px;
     color: #444444;
@@ -105,4 +187,43 @@
     font-weight: 500;
     letter-spacing: 0;
     line-height: 24px;
+}
+
+.get-technical-suppor {
+    height: 24px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-top: 30px !important;
+}
+
+.mb-16 {
+    margin-bottom: 16px;
+}
+
+.mb-12 {
+    margin-bottom: 12px;
+}
+
+.ml-24 {
+    margin-left: 24px;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mt-70 {
+    margin-top: 70px !important;
+}
+
+.customWidth {
+    width: 170px;
 }

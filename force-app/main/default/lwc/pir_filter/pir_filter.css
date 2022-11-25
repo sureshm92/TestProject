@@ -9,7 +9,6 @@
     z-index: 9;
     padding: 0 15px;
 }
-
 .text-overflow{
     white-space: nowrap;
   overflow: hidden;
@@ -66,6 +65,9 @@
     margin-top:4px;
   }
 
+.active-p-top{
+    padding-top: 4px;
+}
 .edit .close-icon-pop{
     display: none;
 }

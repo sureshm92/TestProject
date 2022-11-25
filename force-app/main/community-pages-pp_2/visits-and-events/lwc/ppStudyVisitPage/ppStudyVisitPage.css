@@ -12,6 +12,14 @@
     text-align: center;
 }
 
+.scroll-position {
+    min-height: 185px;
+}
+
+.scroll-position::-webkit-scrollbar{
+    height: 9px;
+}
+
 .large {
     height: 10px;
 }
@@ -29,7 +37,7 @@
 
 .icon-cont {
     box-sizing: border-box;
-    min-height: 185px;
+    height: 180px;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);

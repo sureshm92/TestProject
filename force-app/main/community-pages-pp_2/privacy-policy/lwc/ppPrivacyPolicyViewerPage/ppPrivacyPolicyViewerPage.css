@@ -7,10 +7,6 @@
     background-color: #f5f6fa;
     height: 100%;
 }
-.header-container {
-    position: sticky;
-    margin-top: 24px;
-}
 .privacy-header {
     color: #444444;
     font-size: 32px;
@@ -22,9 +18,7 @@
 }
 
 .header-combobox {
-    height: 10vh;
     position: relative;
-    margin-top: 16px;
 }
 .sub-header {
     color: #444444;
@@ -44,7 +38,6 @@
     height: 72vh;
     border-radius: 16px;
     background-color: #ffffff;
-    /* position: fixed; */
 }
 .pp-content {
     overflow: scroll;
@@ -100,7 +93,6 @@
     height: 300px;
     overflow-y: scroll;
     margin: 0;
-    /* padding: 2rem 0 0.5rem; */
     position: absolute;
     z-index: 1;
     top: 2rem;
@@ -250,6 +242,7 @@
     border-top: none;
     border-bottom: none;
     padding: 4.5%;
+    width: 295px;
 }
 .slds-nav-vertical__action:hover {
     color: #ffffff;

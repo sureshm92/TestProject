@@ -131,7 +131,7 @@ public class Test_ListViewParticipantController {
         Study_Site__c studySite = [SELECT ID,Override_PI_Referral_Status__c  FROM Study_Site__c LIMIT 1];
         studySite.Override_PI_Referral_Status__c ='Accepted';
         update studySite;
-        Participant_Enrollment__c pe = [SELECT ID FROM Participant_Enrollment__c LIMIT 1];
+        Participant_Enrollment__c pe = [SELECT ID, PerCounter__c FROM Participant_Enrollment__c LIMIT 1];
         
         participant__c p = [SELECT Age__c FROM participant__c LIMIT 1];
         Incentive_Plan__c ip = new Incentive_Plan__c(
@@ -164,6 +164,7 @@ public class Test_ListViewParticipantController {
         List<Id> peList = new List<Id>{ pe.id };
         List<List_View_Status__mdt> lvs =[ SELECT Managed_in_SH__c, Initial_Visit__c, Available_Statuses__c
         FROM List_View_Status__mdt ];
+        Integer perCount = Integer.valueOf(pe.PerCounter__c);
         ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
         lw.SelectedIds = new List<Id>{ pe.id };
         lw.pageSize = 5;
@@ -186,7 +187,41 @@ public class Test_ListViewParticipantController {
         lw.startPos = 1;
         lw.endPos = 45000;
 
-        System.runAs(u) {
+        PIR_BulkActionController.ListWrapper lw1 = new PIR_BulkActionController.ListWrapper();
+        lw1.SelectedIds = new List<Id>{ pe.id };
+        lw1.pageSize = 5;
+        lw1.pageNumber = 3;
+        lw1.Sortby = 'Ascending';
+        lw1.Status = 'Active';
+        lw1.Study = clinical.id;
+        lw1.StudySites = '';
+        lw1.Source = '';
+        lw1.isHighRiskOccupation = 'true';
+        lw1.isComorbidities = 'false';
+        lw1.Ethnicity = '';
+        lw1.AgeFrom = '0';
+        lw1.AgeTo = '25';
+        lw1.highPrioritySelected_YesIds = new List<Id>{ pe.id };
+        lw1.highPrioritySelected_NoIds = new List<id>();
+        lw1.isInitialVisitScheduled = 'true';
+        lw1.Sex = '';
+        lw1.isExport = 'true';
+        lw1.startPos = 1;
+        lw1.endPos = 45000;
+
+        PIR_BulkActionController.PeDataTableWrapper lw2 = new PIR_BulkActionController.PeDataTableWrapper();
+        lw2.pageSize = 5;
+        lw2.pageNumber = 3;
+        lw2.totalRecords = 45000;
+        lw2.recordStart = 1;
+        lw2.recordEnd = 45000;
+        lw2.IsPromoteToSH=true;
+        lw2.IsPromoteToSHLimit=1.1;
+        lw2.enableSH=true;
+        lw2.enablePP=false;
+        lw2.bulkStatusUpdate=false;
+
+       System.runAs(u) {
             ListViewParticipantController.getInitData(
                 clinical.ID,
                 studySite.Id,
@@ -268,6 +303,19 @@ public class Test_ListViewParticipantController {
                 new List<String>{ 'Test' },
                 new List<String>{ 'Test' }
             );
+            ListViewParticipantController.fetchData(
+                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),null,null
+            );
+            try{
+                PIR_BulkActionController.fetchData('Invite to Patient Portal',null,null
+            );
+            }
+            catch(Exception ex){
+
+            }
+
+            lw.startPos = perCount;
+            lw.endPos = perCount + 45000;
             ListViewParticipantController.fetchData(
                 JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),null,null
             );
@@ -393,16 +441,200 @@ public class Test_ListViewParticipantController {
             
         }
     }
+
+    @IsTest
+    public static void fetchDataTest() {
+        Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
+        Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
+        Participant_Enrollment__c pe = [SELECT ID, PerCounter__c FROM Participant_Enrollment__c LIMIT 1];
+        participant__c p = [SELECT Age__c FROM participant__c LIMIT 1];
+        system.debug(p.Age__c);
+        contact con = [SELECT id FROM contact LIMIT 1];
+        user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
+        Integer perCount = Integer.valueOf(pe.PerCounter__c);
+        ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
+        lw.SelectedIds = new List<Id>();
+        lw.pageSize = 5;
+        lw.pageNumber = 3;
+        //lw.Sortby = 'Ascending';
+        //lw.Status = 'Active';
+        lw.Study = clinical.id;
+        lw.StudySites = '';
+        lw.Source = '';
+        lw.isHighRiskOccupation = 'true';
+        lw.isComorbidities = 'false';
+        lw.Ethnicity = '';
+        //lw.AgeFrom = '0';
+        //lw.AgeTo = '25';
+        lw.highPrioritySelected_YesIds = new List<Id>{ pe.id };
+        lw.highPrioritySelected_NoIds = new List<id>();
+        lw.isInitialVisitScheduled = 'true';
+        lw.Sex = '';
+        lw.isExport = 'false';
+        lw.startPos = perCount;
+        lw.endPos = perCount + 45000;
+
+        System.runAs(u) {
+
+            ListViewParticipantController.fetchData(
+                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),null,null
+            );
+            ListViewParticipantController.fetchData(
+                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),'Invite to Patient Portal',null
+            );
+        }
+    }
+
+    @IsTest
+    public static void fetchDataTest2() {
+        Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
+        Study_Site__c studySite = [SELECT ID,Override_PI_Referral_Status__c  FROM Study_Site__c LIMIT 1];
+        studySite.Override_PI_Referral_Status__c ='Accepted';
+        update studySite;
+        Participant_Enrollment__c pe = [SELECT ID, PerCounter__c FROM Participant_Enrollment__c LIMIT 1];
+        
+        participant__c p = [SELECT Age__c FROM participant__c LIMIT 1];
+        Incentive_Plan__c ip = new Incentive_Plan__c(
+        Clinical_Trial_Profile__c = clinical.id,
+            Plan_Name__c = 'test'
+        );
+        insert ip;
+        Study_Incentive_Plan__c si = new Study_Incentive_Plan__c(
+            Clinical_Trial_Profile__c = clinical.id,
+            Study_Site__c = studySite.id,
+            Incentive_Plan__c = ip.id
+        );
+        insert si;
+        
+        Incentive_Plan_Task__c ipt = new Incentive_Plan_Task__c(
+            Incentive_Task_Catalog__c = 'PI_TASK03',
+            Enabled__c=TRUE,
+            Incentive_Plan__c= ip.id
+        );
+        insert ipt;
+        Participant_Enrollment__c pen = [SELECT ID,Participant_Status__c FROM Participant_Enrollment__c LIMIT 1];
+        pen.Participant_Status__c ='Enrollment Success';
+        update pen;
+        Clinical_Trial_Profile__c clinical1 = [SELECT ID,Promote_to_SH__c FROM Clinical_Trial_Profile__c LIMIT 1];
+        clinical1.Promote_to_SH__c=true;
+        clinical1.DCT_Platform__c='Study Hub';
+        update clinical1;
+        contact con = [SELECT id FROM contact LIMIT 1];
+        user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
+        List<Id> peList = new List<Id>{ pe.id };
+        List<List_View_Status__mdt> lvs =[ SELECT Managed_in_SH__c, Initial_Visit__c, Available_Statuses__c
+        FROM List_View_Status__mdt ];
+        Integer perCount = Integer.valueOf(pe.PerCounter__c);
+        ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
+        lw.SelectedIds = new List<Id>();
+        lw.pageSize = 5;
+        lw.pageNumber = 3;
+        lw.Sortby = 'Received Date(Newest First)';
+        lw.Status = 'Active';
+        lw.Study = clinical.id;
+        lw.StudySites = '';
+        lw.Source = '';
+        lw.isHighRiskOccupation = 'true';
+        lw.isComorbidities = 'false';
+        lw.Ethnicity = '';
+        //lw.AgeFrom = '0';
+        //lw.AgeTo = '25';
+        lw.highPrioritySelected_YesIds = new List<Id>{ pe.id };
+        lw.highPrioritySelected_NoIds = new List<id>();
+        lw.isInitialVisitScheduled = 'true';
+        lw.Sex = '';
+        lw.isExport = 'true';
+        lw.startPos = perCount;
+        lw.endPos = perCount + 45000;
+
+        System.runAs(u) {
+            
+            Test.startTest();
+            
+                ListViewParticipantController.fetchData(
+                    JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),null,null
+                );
+
+                lw.SelectedIds = new List<Id>{clinical.Id};
+                ListViewParticipantController.fetchData(
+                    JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),null,null
+                );
+
+                pen = [ 
+                    SELECT
+                    Id,
+                    Name,
+                    External_Key__c,
+                    Participant_Contact__c,
+                    Participant_Status__c,
+                    Participant_Contact__r.Visit_Results_OptIn__c,
+                    Clinical_Trial_Profile__r.Shareback_Availability_Timing__c,
+                    Initial_visit_scheduled_date__c,
+                    Initial_visit_occurred_date__c,
+                    Initial_visit_scheduled_time__c,
+                    Initial_visit_occurred_flag__c,
+                    Initial_visit_scheduled_flag__c,
+                    Screening_ID__c,
+                    Participant__c,
+                    Medical_Record_Review_Completed_Date__c,
+                    Study_Site__c,
+                    Referral_Source__c,
+                    Study_Site__r.Name,
+                    Study_Site__r.Principal_Investigator__c,
+                    Study_Site__r.Principal_Investigator__r.Name,
+                    Study_Site__r.Principal_Investigator__r.Title,
+                    Study_Site__r.Clinical_Trial_Profile__c,
+                    Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                    Participant__r.Mailing_Country_Code__c,
+                    Participant__r.Mailing_Country__c,
+                    Participant__r.Emancipation_in_progress__c,
+                    HCP__r.HCP_Contact__c,
+                    HCP__r.Status__c,
+                    PI_Contact__c,
+                    Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                    Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,
+                    Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
+                    Clinical_Trial_Profile__r.Link_to_Pre_screening__c,
+                    Study_Site__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                    Study_Site__r.Clinical_Trial_Profile__r.Override_Recruitment_Status__c,
+                    Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Study_Site__r.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,
+                    Study_Site__r.Override_PI_Referral_Status__c,
+                    Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
+                    Study_Site__r.Clinical_Trial_Profile__r.Link_to_Pre_screening__c,
+                    Study_Hub_Log__c,
+                    Study_Hub_Log__r.Response_Status_Code__c,
+                    Clinical_Trial_Profile__r.Promote_to_SH__c,
+                    Study_Site__r.Study_Site_Type__c,
+                    Informed_Consent__c
+                    FROM Participant_Enrollment__c
+                    LIMIT 1
+                ];
+                new ListViewParticipantController.PEWrapper(
+                    pen,
+                    new Map<String, StudyActions.Action>(),
+                    false
+                );
+                new ListViewParticipantController.PEWrapper(
+                    pen,
+                    new Map<String, StudyActions.Action>()
+                );
+
+            Test.stopTest();
+        }
+    }
     
     @IsTest
     public static void runTest2() {
         Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
         Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
-        Participant_Enrollment__c pe = [SELECT ID,Study_Hub_Log__c,Participant_Status__c,Clinical_Trial_Profile__r.Promote_to_SH__c FROM Participant_Enrollment__c LIMIT 1];
+        Participant_Enrollment__c pe = [SELECT ID,Study_Hub_Log__c,Participant_Status__c,Clinical_Trial_Profile__r.Promote_to_SH__c, PerCounter__c FROM Participant_Enrollment__c LIMIT 1];
         participant__c p = [SELECT Age__c FROM participant__c LIMIT 1];
         system.debug(p.Age__c);
         contact con = [SELECT id FROM contact LIMIT 1];
         user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
+        Integer perCount = Integer.valueOf(pe.PerCounter__c);
         ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
         lw.SelectedIds = new List<Id>{pe.id};
         lw.pageSize = 5;
@@ -437,6 +669,7 @@ public class Test_ListViewParticipantController {
             List<String> strList =new List<String>{'Received'};
             
             ListViewParticipantController.ifAllowedForSH(pe,strList);
+            PIR_BulkActionController.ifAllowedForSH(pe,strList);
 
             
             ListViewParticipantController.fetchData(
@@ -454,6 +687,24 @@ public class Test_ListViewParticipantController {
             
             }
             catch(Exception ex) {System.assertEquals(ex.getMessage(),'Script-thrown exception' );}
+
+            lw.startPos = perCount;
+            lw.endPos = perCount + 45000;
+            ListViewParticipantController.fetchData(
+                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),'Invite to Patient Portal',null
+            );
+            try{
+                ListViewParticipantController.fetchData(
+                    '',null,null
+                );
+                ListViewParticipantController.updateParticipantData(
+                    new List<String>{ 'null'},
+                    new List<String>{  'null'},
+                    new List<String>{  ''}
+                );
+            } catch(Exception ex) {
+                System.assertEquals(ex.getMessage(),'Script-thrown exception' );
+            }
 
             LabelValueItem lv = new LabelValueItem(Label.Referring_Provider, 'Referring Provider');
 

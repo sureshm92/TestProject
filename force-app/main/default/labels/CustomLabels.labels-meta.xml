@@ -6676,11 +6676,11 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder PP</shortDescription>
-        <value>&lt;span&gt;This is a an email to remind you of your upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot; &gt;This is a an email to remind you of your upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;.&lt;/div&gt;
+&lt;div&gt;&lt;span  style=&quot;color:black;&quot; &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt;##PlannedDate&lt;/span&gt;.&lt;/div&gt;
 
-&lt;span &gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot; &gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
@@ -6698,11 +6698,11 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate PP</shortDescription>
-        <value>&lt;span &gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot; &gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;.&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot; &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
 
-&lt;span &gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot; &gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>
@@ -10752,7 +10752,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Can&apos;t rembeber my username</shortDescription>
-        <value>I cannot remember my username</value>
+        <value>I can not remember my username</value>
     </labels>
     <labels>
         <fullName>PP_Don_t_want_to_receive</fullName>
@@ -10760,7 +10760,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Don&apos;t want to receive email</shortDescription>
-        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to a specific user request, e.g. password reset email) from IQVIA Patient Portal</value>
+        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to specific user request, e.g.: password reset email) from IQVIA Patient Portal</value>
     </labels>
     <labels>
         <fullName>PP_Don_t_want_to_be_contacted_via_SMS</fullName>
@@ -10768,7 +10768,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Don_t_want_to_be_contacted_via_SMS</shortDescription>
-        <value>I do not want to be contacted via SMS/text messages from IQVIA Patient Portal</value>
+        <value>I do not want to be contacted via SMS/Text messages from IQVIA Patient Portal</value>
     </labels>
     <labels>
         <fullName>PP_Don_t_want_to_be_contacted</fullName>
@@ -10776,7 +10776,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Don&apos;t want to be contacted</shortDescription>
-        <value>I do not want to be contacted via phone(voice call) from IQVIA Patient Portal</value>
+        <value>I do not want to be contacted via phone (voice call) from IQVIA Patient Portal</value>
     </labels>
     <labels>
         <fullName>PP_Additional_Tech_Support</fullName>
@@ -11394,14 +11394,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Final Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
+        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Message_PT_Survey_Reminder_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
+        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Message_Studies_Length</fullName>
@@ -12105,6 +12105,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>OT H Account Settings</shortDescription>
         <value>Account Settings</value>
     </labels>
+     <labels>
+        <fullName>Trail_Search_Update_Account_Setting</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trail Search Update Account Setting</shortDescription>
+        <value>If necessary, you may update your contact information in your</value>
+    </labels>
     <labels>
         <fullName>OT_H_Dashboard</fullName>
         <language>en_US</language>
@@ -12622,6 +12629,22 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Opt Out</shortDescription>
         <value>If you have previously opted in to any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Opt_Out_Update_Communication_Pref</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>Update Communication Preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_Opt_Out_Update_Communication_Pref_Help</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>If you have already opted in to any of the following contact methods, you can opt-out of that method by checking the relevant box below.</value>
     </labels>
     <labels>
         <fullName>Originator</fullName>
@@ -18699,14 +18722,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_ProgramOverview_LearnMore_Desktop</shortDescription>
-        <value>Learn about your program</value>
+        <value>Learn more about my program</value>
     </labels>
     <labels>
         <fullName>PP_ProgramOverview_LearnMore_Mobile</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_ProgramOverview_LearnMore_Mobile</shortDescription>
-        <value>Learn about your program</value>
+        <value>Learn more about my program</value>
     </labels>
     <labels>
         <fullName>PP_StudyOverview_LearnMore_Mobile</fullName>
@@ -19381,7 +19404,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_EnterNewPassword</shortDescription>
-        <value>Enter new password</value>
+        <value>Enter New Password</value>
     </labels>
     <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
@@ -19599,6 +19622,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Merge</shortDescription>
         <value>I would like to merge my existing username</value>
+    </labels>
+    <labels>
+        <fullName>PP_Merge_Username</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Merge_Username</shortDescription>
+        <value>I would like to merge my existing Username</value>
     </labels>
     <labels>
         <fullName>PP_MergeDntTranslate</fullName>
@@ -20441,7 +20471,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Complete BL Survey SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new task ##SurveyName to complete, due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
+        <value>##ShortCommunityName: You have a new task ##SurveyName to complete, due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>PP_Edit_Year_of_Birth</fullName>
@@ -20456,6 +20486,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Username_Email_GetSupport</shortDescription>
         <value>Match Username &amp; Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_Username_Email_in_GetSupport</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Username_Email_in_GetSupport</shortDescription>
+        <value>Username &amp; Email</value>
     </labels>
     <labels>
         <fullName>PP_Select_Support_Topic</fullName>
@@ -20490,14 +20527,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Instant Task Del SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new task  ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
+        <value>##ShortCommunityName: You have a new task  ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>PT_Instant_Task_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Instant Task SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new task ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
+        <value>##ShortCommunityName: You have a new task ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>PT_New_Certificate_SMS</fullName>
@@ -21051,7 +21088,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Platform Level Welcome Msg Body to Del</shortDescription>
-        <value>IQVIA You have opted in or been opted in to receive messages for updates about new clinical trial opportunities. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
+        <value>IQVIA: You have opted in or been opted in to receive messages for updates about new clinical trial opportunities. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Platform_Level_Welcome_Msg_SMS_Body_to_PT</fullName>
@@ -24330,7 +24367,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Study Level Welcome Msg Body to Del</shortDescription>
-        <value>##ShortCommunityName You have opted in or been opted in to receive messages on behalf of your participant for the ##StudyCodeName ##STUDYorPROGRAM. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
+        <value>##ShortCommunityName: You have opted in or been opted in to receive messages on behalf of your participant for the ##StudyCodeName ##STUDYorPROGRAM. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Study_Level_Welcome_Msg_Body_to_PT</fullName>
@@ -24671,14 +24708,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SMS Body Task Reminder</shortDescription>
-        <value>##ShortCommunityName: Reminder! ##ShortTaskName due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
+        <value>##ShortCommunityName: Reminder! ##ShortTaskName due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>SMS_Body_Visit_Task_Reminder</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SMS Body Visit Task Reminder</shortDescription>
-        <value>##ShortCommunityName: You have a ##StudyName visit on ##PlannedDate. Log in for details ##CommunityURL. Reply STOP to Stop or HELP for help</value>
+        <value>##ShortCommunityName: You have a ##StudyName visit on ##PlannedDate. Log in for details ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Sodium</fullName>
@@ -29372,7 +29409,15 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Opt Out</shortDescription>
-        <value>Your request has been sent successfully.</value>
+        <value>Your request has been submitted successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Opt_Out_Close_window</fullName>
+        <categories>PP_Opt_Out_Close_window</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>Close window</value>
     </labels>
     <labels>
         <fullName>PP_Technical_Support_Category</fullName>
@@ -29381,5 +29426,12 @@ Please contact the Study Team for further updates or please login for additional
         <protected>true</protected>
         <shortDescription>Technical Support</shortDescription>
         <value>Get Technical Support</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Complete_Survey_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Subject Complete Survey PP</shortDescription>
+        <value>##SurveyName</value>
     </labels>
 </CustomLabels>

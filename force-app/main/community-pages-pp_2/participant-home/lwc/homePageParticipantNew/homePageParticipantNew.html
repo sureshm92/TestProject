@@ -14,7 +14,7 @@
                                         <!--<img src={w3webSlider1}>-->
                                     </div>
                                 </lightning-layout-item>
-                                <lightning-layout-item padding="around-small" size="9">
+                                <lightning-layout-item  size="9">
                                     <h2 class="po-fontsize">{userName}</h2>
                                     <!--<template if:true={clinicalrecord}>-->
                                     <template if:true={showProgramOverview}>
@@ -86,8 +86,8 @@
             </template>
 
             <!-- cards -->
-            <div class="slds-grid bg-cards slds-p-vertical_large">
-                <div class="slds-col">
+            <div class="slds-grid slds-grid_align-center slds-p-vertical_large slds-p-horizontal_small">
+                <div class="slds-col slds-m-horizontal_xxx-small">
                     <template if:true={showVisitCard}>
                         <template if:false={isDelegateSelfview}>
                             <template if:true={showVisitCardMobile}>
@@ -126,7 +126,7 @@
                     </template>
                 </div>
 
-                <div class="slds-col">
+                <div class="slds-col slds-m-horizontal_xxx-small">
                     <div class="tasks">
                         <template if:true={taskList}>
                             <template if:false={showVisitCardMobile}>
@@ -162,7 +162,7 @@
                         </template>
                     </div>
                 </div>
-                <div class="slds-col">
+                <div class="slds-col slds-m-horizontal_xxx-small">
                     <div class="updates">
                         <div class="icon-updates svg-icon-with-text">
                             <c-web-icon
@@ -177,7 +177,7 @@
                         <p class="p-text">Updates</p>
                     </div>
                 </div>
-                <div class="slds-col">
+                <div class="slds-col slds-m-horizontal_xxx-small">
                     <div class="progress">
                         <div class="icon-updates">
                             <c-web-icon

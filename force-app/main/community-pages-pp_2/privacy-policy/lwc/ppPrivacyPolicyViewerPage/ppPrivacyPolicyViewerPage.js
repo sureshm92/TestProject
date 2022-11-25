@@ -206,8 +206,8 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
 
     get chapterClass() {
         return this.isRTL
-            ? 'slds-p-bottom_x-small sub-header rtl'
-            : 'slds-p-bottom_x-small sub-header';
+            ? 'slds-p-top_small slds-p-bottom_x-small sub-header rtl'
+            : 'slds-p-top_small slds-p-bottom_x-small sub-header';
     }
 
     get dropdownClass() {

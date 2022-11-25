@@ -9,6 +9,7 @@ export default class Documents extends NavigationMixin(LightningElement) {
     id;
     thumbnail;
     subDomain;
+    state;
     dropdownOpen = false;
     translations = [];
     multipleTranslations = false;
@@ -30,9 +31,13 @@ export default class Documents extends NavigationMixin(LightningElement) {
                 this.document.thumbnailDocId;
             this.thumbnailPresent = true;
         }
+
         this.translations = this.document.translations;
         if (this.translations.length > 1) {
             this.multipleTranslations = true;
+        }
+        if (communityService.isInitialized()) {
+            this.state = communityService.getCurrentCommunityMode().participantState;
         }
     }
 
@@ -43,7 +48,9 @@ export default class Documents extends NavigationMixin(LightningElement) {
             '?resourceid=' +
             this.id +
             '&resourcetype=' +
-            this.document.resource.RecordType.DeveloperName;
+            this.document.resource.RecordType.DeveloperName +
+            '&state=' +
+            this.state;
 
         const config = {
             type: 'standard__webPage',

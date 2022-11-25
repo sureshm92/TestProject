@@ -1,5 +1,6 @@
 .scroll-bar-box {
     padding-top: 16px;
+    padding-bottom: 8px;
     height: 100%;
     margin: 0 10px 0 10px;
 }
@@ -7,6 +8,7 @@
 .scroll-bar {
     height: 95%;
     border-radius: 4px;
+    background-color: #fff;
 }
 
 .no-data-is-available {

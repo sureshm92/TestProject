@@ -4,7 +4,7 @@
   "configurationTags" : [ ],
   "id" : "62394c11-5e55-460f-b543-5eafe2e20d3d",
   "label" : "Opt Out",
-  "pageAccess" : "UseParent",
+  "pageAccess" : "Public",
   "routeType" : "custom-opt-out",
   "type" : "route",
   "urlPrefix" : "opt-out"

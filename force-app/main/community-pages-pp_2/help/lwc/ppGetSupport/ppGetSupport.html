@@ -47,7 +47,7 @@
                                             value={selectedYOB}
                                             placeholder={label.selectYear}
                                             options={yearOptions}
-                                            onchange={doCheckYearOfBith}
+                                            onchange={doCheckYOB}
                                             label="YOB"
                                             variant="label-hidden"
                                             class={highlightErrorForYOBClass}
@@ -73,7 +73,7 @@
                                 <template if:false={isShowUserMatch}>
                                     <lightning-input
                                         type="checkbox"
-                                        label={label.matchUsernameEmail}
+                                        label={label.PP_Merge_Username}
                                         variant="label-hidden"
                                         value={chngUsernameEmailValue}
                                         onchange={doChangeUsernameEmail}
@@ -95,7 +95,10 @@
                             </template>
                         </lightning-layout-item>
                         <lightning-layout-item size="11">
-                            <template if:true={isMatchUsernameEmail}>
+                            <template if:true={checkMergeUsernameEmail}>
+                                <span class="matchEmailText">{label.PP_Merge_Username}</span>
+                            </template>
+                            <template if:true={checkMatchUsernameEmail}>
                                 <span class="matchEmailText">{label.matchUsernameEmail}</span>
                             </template>
                         </lightning-layout-item>
@@ -103,11 +106,13 @@
 
                     <!-- Merge multiple usernames-->
                     <lightning-layout multiple-rows="true">
-                        <lightning-layout-item size="12" class={marginMatchEmailPass}>
+                        <lightning-layout-item size="12">
                             <template if:true={UseremailDuplicate}>
                                 <div class="merge-existing-usern">{label.PP_MergeExisting}</div>
                                 <div class="there-are-multiple">{label.PP_Duplicate_Usernames}</div>
-                                <div class="slds-grid slds-size--1-of-1 ah-item-panel">
+                                <div
+                                    class="slds-grid slds-size--1-of-1 help-match-username-radio-options"
+                                >
                                     <lightning-radio-group
                                         name="radioGroup"
                                         variant="label-hidden"

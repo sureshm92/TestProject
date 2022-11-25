@@ -261,7 +261,7 @@
         
          agreePolicy = component.get('v.agreePolicy');
         //REF-3070
-        let delegateParticipantemail = component.get('v.delegateParticipant.Email__c')!== undefined ? true : false;
+        let delegateParticipantemail = component.get('v.delegateParticipant.Email__c');
         let emailDelegateCmp = component.find('emailDelegateField');
         let emailDelegateRepeatCmp = component.find('emailDelegateRepeatField');
         //REF-3070
@@ -269,7 +269,7 @@
         if(delegateParticipantemail){
             emailDelegateVaild = needsDelegate &&
                 emailDelegateCmp &&
-                helper.checkValidEmail(emailCmp, delegateParticipant.Email__c);
+                helper.checkValidEmail(emailDelegateCmp, delegateParticipant.Email__c);
         }else{
             emailDelegateVaild = false;
         }    
@@ -330,7 +330,6 @@
              (needsDelegate || participant.Email__c) &&
              (needsDelegate || emailVaild) &&
              (needsDelegate || emailRepeatValid) &&
-             participant.Email__c == emailRepeat &&
              (needsDelegate || participant.Phone__c) &&
              participant.Mailing_Zip_Postal_Code__c &&
              selectedCountry &&
@@ -345,8 +344,7 @@
                delegateParticipant.Email__c &&
                confirmConsent &&
                emailDelegateVaild &&
-               emailDelegateRepeatValid &&
-               delegateParticipant.Email__c == emailDelegateRepeat)) &&
+               emailDelegateRepeatValid)) &&
              agreePolicy);
         
          if(component.get('v.patientVeiwRedirection')){
@@ -365,7 +363,6 @@
                delegateParticipant.Email__c &&
                emailDelegateVaild &&
                emailDelegateRepeatValid &&
-               delegateParticipant.Email__c == emailDelegateRepeat &&
                agreePolicy && attestAge && confirmConsent &&
                participant.First_Name__c &&
                participant.Last_Name__c &&
@@ -387,7 +384,6 @@
                delegateParticipant.Email__c &&
                emailDelegateVaild &&
                emailDelegateRepeatValid &&
-               delegateParticipant.Email__c == emailDelegateRepeat &&
                agreePolicy && attestAge && confirmConsent &&
                participant.First_Name__c &&
                participant.Last_Name__c &&
@@ -395,7 +391,6 @@
                //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
                isDobValid &&
                participant.Email__c &&
-               participant.Email__c == emailRepeat &&
                participant.Phone__c &&
                participant.Mailing_Zip_Postal_Code__c &&
               selectedCountry &&
@@ -413,7 +408,6 @@
                participant.Email__c &&
                emailVaild &&
                emailRepeatValid &&
-               participant.Email__c == emailRepeat &&
                participant.Phone__c &&
                participant.Mailing_Zip_Postal_Code__c &&
               selectedCountry &&
@@ -488,7 +482,9 @@
                 emailDelegateRepeat !== ''
             ) {
                 emailDelegateCmp.reportValidity();
+                helper.checkValidEmail(emailDelegateCmp, delegateParticipant.Email__c);
                 emailDelegateRepeatCmp.reportValidity();
+                helper.checkValidEmail(emailDelegateRepeatCmp, emailDelegateRepeat);
             }
         }
         

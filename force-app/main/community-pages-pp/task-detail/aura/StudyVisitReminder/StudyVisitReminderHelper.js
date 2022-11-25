@@ -77,7 +77,7 @@
                             },
                             {
                                 label: $A.get('$Label.c.PP_One_Week_Before'),
-                                value: '1 Week before'
+                                value: '1 week before'
                             },
                             {
                                 label: $A.get('$Label.c.PP_Custom'),
@@ -94,6 +94,10 @@
                     component.set('v.task', task);
                     if (component.get('v.initData.createdByAdmin')) {
                         var reminderFrequencyForAdmintask = [
+                            {
+                                label: $A.get('$Label.c.PP_NO_REMINDER'),
+                                value: 'No reminder'
+                            },
                             {
                                 label: $A.get('$Label.c.PP_Custom'),
                                 value: 'Custom'

@@ -244,8 +244,8 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                     ? 'crit-subject-ellipsis crit-mob-subject-ellipsis'
                     : 'subject-ellipsis mob-subject-ellipsis';
                 tasks[i].homeSubjectEllipsisClass = tasks[i].criticalTask
-                    ? 'home-crit-subject-ellipsis home-crit-mob-subject-ellipsis'
-                    : 'subject-ellipsis mob-subject-ellipsis';
+                    ? 'home-crit-subject-ellipsis home-crit-mob-subject-ellipsis curpointer'
+                    : 'home-subject-ellipsis mob-subject-ellipsis curpointer';
                 tasks[i].businessTask = tasks[i].systemTask
                     ? tasks[i].openTask.Task_Code__c == 'Complete_Survey'
                     : true;

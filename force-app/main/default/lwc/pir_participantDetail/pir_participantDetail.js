@@ -192,7 +192,7 @@ export default class Pir_participantDetail extends LightningElement {
         getParticipantData({ PEid: value })
             .then(result => {
                 this.pd = result;
-                var disableSaveOn = ['Randomization Success', 'Treatment Period Started', 'Follow-Up Period Started', 'Participation Complete', 'Trial Complete', 'Enrollment Success'];
+                var disableSaveOn = ['Treatment Period Started', 'Follow-Up Period Started', 'Participation Complete', 'Trial Complete'];
                 this.disableEdit = disableSaveOn.includes(this.pd.pe.Participant_Status__c);
                 if (!this.pd['delegate']) {
                     this.pd.delegate = {"Id":"","Participant_Delegate__c":"","Participant_Delegate__r":{},"Contact__c":"","Contact__r":{} };

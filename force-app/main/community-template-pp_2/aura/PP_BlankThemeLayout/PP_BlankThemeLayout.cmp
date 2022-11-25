@@ -14,6 +14,7 @@
             class="body-cell"
             style="{!if(v.isRTL == true, '/* @noflip */  direction: rtl;overflow-x: hidden;', '')}"
         >
+        <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
             <div class="logo-block">
                 <div class="rr-small-down-hide slds-grid slds-wrap">
                     <div class="wave slds-show_small">
@@ -24,7 +25,7 @@
                     <lightning:layout multipleRows="true">
 
                         <lightning:layoutItem size="12" class="mb-16">
-                            <p class="iqvia"> {!$Label.c.RH_Masked_IQVIA_User} <span class="patient-portal">{!$Label.c.Community_PP}</span></p>
+                            <p class="iqvia"> {!$Label.c.RH_Masked_IQVIA_User}&nbsp;<span class="patient-portal">{!$Label.c.Community_PP}</span></p>
                         </lightning:layoutItem>
 
                         <lightning:layoutItem size="12" class="mb-16">
@@ -34,15 +35,49 @@
                         <lightning:layoutItem size="12" class="cusContentMargin">
                             <div class="body-components">{!v.body}</div>
                         </lightning:layoutItem>
-
-                        <lightning:layoutItem size="12" class="footerOptOut">                                                    
-                            <span class="poweredBy">{!$Label.c.PP_Powered_by_Footer}</span>                           
-                            <span> <img src="{!$Resource.PP_DesktopLogos + '/iqvia_logo.svg'}" /></span>
-                        </lightning:layoutItem>                       
-
                     </lightning:layout>
                 </div>
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="footerOptOut">                                                    
+                        <span class="poweredBy">{!$Label.c.PP_Powered_by_Footer}</span>                           
+                        <span> <img class="img-dimensions" src="{!$Resource.IQVIA_Logo + '/IQVIA_DarkBlue_Logo.png'}" /></span>
+                    </lightning:layoutItem>   
+                </lightning:layout>                 
             </div>
+        </aura:if>
+
+        <aura:if isTrue="{!$Browser.formFactor != 'DESKTOP'}">
+            <div class="logo-block-mobile">
+                <div class="slds-grid slds-wrap">
+                    <div class="wave">
+                        <img src="{!$Resource.PP_DesktopLogos + '/wave_desktop.png'}" class="imgMargins"/>
+                    </div>
+                </div>
+                <div class="page-content-mobile"> 
+                    <lightning:layout multipleRows="true">
+
+                        <lightning:layoutItem size="12" class="mb-16">
+                            <p class="iqvia-mobile"> {!$Label.c.RH_Masked_IQVIA_User} <span class="patient-portal-mobile">{!$Label.c.Community_PP}</span></p>
+                        </lightning:layoutItem>
+
+                        <lightning:layoutItem size="12" class="mb-16">
+                            <p class="for-participants-c-mobile">{!$Label.c.OptOut_PP_Subheader}</p>
+                        </lightning:layoutItem>
+
+                        <lightning:layoutItem size="12" class="cusContentMargin">
+                            <div class="body-components">{!v.body}</div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="mob-footerOptOut center">                                                    
+                        <span class="powered-by-mobile">{!$Label.c.PP_Powered_by_Footer}</span>                           
+                        <span> <img class="img-dimensions-mobile" src="{!$Resource.IQVIA_Logo + '/IQVIA_DarkBlue_Logo.png'}" /></span>
+                    </lightning:layoutItem>   
+                </lightning:layout>   
+            </div>
+        </aura:if>
+
         </div>
     </div>
 </aura:component>

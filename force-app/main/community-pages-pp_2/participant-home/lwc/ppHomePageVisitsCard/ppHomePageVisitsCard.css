@@ -56,10 +56,24 @@ hr {
     margin-top: 7px;
 }
 
+.visit-text-mobile{
+    color: #444444;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.text-padding{
+    padding-left: 9px;
+}
+
 .site-title-text {
     color: #444444;
     font-size: 16px;
     font-weight: 600;
+}
+
+.hide-overflow{
+    overflow: hidden;
 }
 
 .location {
@@ -96,9 +110,16 @@ hr {
     display:inline-flex;
 }
 
-.bottom-margin{
-    margin-bottom: 5px;
+.dis-block {
+    display: inline-grid;
+    justify-items: center;
 }
+
+.mobile-padding {
+    padding:5px; 
+    padding-top:12px;
+}
+
 .expect-text {
     height: 2.36%;
     color: #444444;
@@ -117,6 +138,27 @@ hr {
     letter-spacing: 0;
     line-height: 32px;
 }
+
+.visit-title {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+
+.visit-title-mobile{
+    padding-left: 10px;
+    font-size: 24px;
+    font-weight: 600;
+}    
+
+.padding-desktop {
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
 .no-expect {
     color: #999999;
     font-size: 16px;
@@ -131,6 +173,11 @@ hr {
 }
 .card-wrap {
     padding: 0;
+}
+
+.padding-desktop {
+    padding-left: 7px;
+    padding-right: 7px;
 }
 
 .visit-card {
@@ -164,14 +211,37 @@ hr {
 .icon-card {
     border: 1px solid lightgrey;
     height: 160px;
+    background-color: #FFFFFF;
 }
+
+.icon-card-mobile {
+    height: 160px;
+}
+
+.info-icon-mobile{
+    padding-left:10px;
+}
+
 .padding-top {
     padding-top: 16px;
 }
 .no-upcoming-img {
+    width: 82px;
     height: 64px;
-    width: 86px;
 }
+
+.upcoming-card{
+    height: 419px;
+    border: 1px solid lightgrey;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-top-color: #005587;
+    background: linear-gradient( to bottom, #005587 32px, #005587 32px, #FFFFFF 0%, #FFFFFF 100% );
+        
+}
+
 .uc-text {
     margin-top: 3px;
     padding: 0;
@@ -183,6 +253,17 @@ hr {
     text-align: center;
     color: #ffffff;
 }
+.uc-text-mobile {
+    margin-top: 6px;
+    padding: 0;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    text-align: center;
+    color: #ffffff;
+}
+
 @media only screen and (max-width: 600px) {
     .container-card {
         height: 37px;
@@ -207,6 +288,12 @@ hr {
         width: 360px;
         margin-left: 15px;
     }
+
+    .container-card-no-upcoming {
+        box-sizing: border-box;
+        height: 376px;
+    }
+
     .visit-card-upcoming {
         width: 360px;
         margin-left: -17px;

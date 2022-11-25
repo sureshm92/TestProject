@@ -11,7 +11,7 @@
             <lightning-button variant="base" label={label.BTN_Back}></lightning-button>
         </div>
         <div class="mVisitContent">
-            <h1 if:false={past} class="visit3">
+            <h1 if:false={past} class="visit3 slds-truncate" title={visitName}>
                 {visitName}
                 <div class="visit-date-time">
                     <template if:true={plannedDate}>
@@ -32,13 +32,13 @@
                     <template if:false={plannedDate}> {label.noVisitsLabel} </template>
                 </div>
             </h1>
-            <h1 if:true={past} class="visit3">
+            <h1 if:true={past} class="visit3 slds-truncate" title={visitName}>
                 {visitName}<span class="visit-date-time">{visitStatus}</span>
             </h1>
             <h1 class="what-to-expect">{label.WTELabel}</h1>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 icon-cont-mobile">
                 <div class="slds-clearfix">
-                    <div class="slds-float_left rem-border">
+                    <div class="rem-border">
                         <template if:false={isError}>
                             <c-pp-r-r-icon-splitter
                                 icons={icondetails}
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <template if:true={isError}
-                    ><span class="slds-align_absolute-center" style="height: 185px">
+                    ><span class="slds-align_absolute-center no-data-mobile">
                         {label.noDataAvailable}
                     </span></template
                 >
