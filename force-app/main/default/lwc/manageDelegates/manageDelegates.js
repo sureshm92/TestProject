@@ -76,6 +76,8 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     totalNoOfStudiesToAssign = 0;
     totalNoOfStudiesActivelyAssigned = 0;
     isAtLeastOneStudySelected=false;
+    diabledAddNewButton=false;
+    dataInitialized = false;
 
     label = {
         BTN_Add_New_Delegate,
@@ -152,6 +154,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 console.log('success', result);
                 this.setInitializedData(result);
                 this.spinner = false;
+                this.dataInitialized = true;
             })
             .catch((error) => {
                 console.log('error');
@@ -222,6 +225,11 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 pde['addNewStudyFormer'] = false;
                 pde['disableAddAssignmentButton'] = false;
                 pde['disableDeleteButton'] = false;
+                // pde.PDEEnrollmentsFormer.forEach((pdenFormer) => {
+                //     //If not withdrawn delegate.
+                //     if(!std.isWithdrawn){  
+                //     }
+                // });
             }
         });
     }
@@ -368,6 +376,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             .then((result) => {
                 this.showpopup = false;
                 this.setInitializedData(result);
+                // window.scrollTo({ top: 0, behavior: 'smooth' });
                 this.spinner = false;
                 communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
             })
@@ -417,6 +426,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         let delId = event.currentTarget.dataset.pdid;
         this.studyToAssing= [];
         this.totalNoOfStudiesToAssign = 0;
+        this.diabledAddNewButton = true;
         this.listPDE.forEach((pde) => {
             if (pde.PatientDelegate.Id === delId) {
                 pde.addNewStudy = true;
@@ -447,15 +457,31 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     
     //Add assignment from Former delegate section.
     addAssignmentFormer(event) {
+        this.diabledAddNewButton = true;
         let delId = event.currentTarget.dataset.pdid;
         this.formerListPDE.forEach((pde) => {
             if (pde.PatientDelegate.Id === delId) {
                 pde.addNewStudyFormer = true;
+            }else{
+                //Disable Add assignment and Delete buttons for other former delegates.
+                pde.disableAddAssignmentButton = true;
+                pde.disableDeleteButton = true;
             }
+        });
+
+        //Disable Add Assignment and Remove buttons for all the Active delegates.
+        this.listPDE.forEach((pde) => {
+            //Disable Add Assignment button 
+            pde.disableAddAssignmentButton = true; 
+            //Disable Remove buttons 
+            pde.PDEEnrollments.forEach((pden) => {
+                pden.disableRemoveButton = true;
+            });  
         });
     }
     //Discard Assignment from Active delegate section.
     discardAssignment(event) {
+        this.diabledAddNewButton = false;
         let delId = event.currentTarget.dataset.pdid;
         this.listPDE.forEach((pde) => {
             if (pde.PatientDelegate.Id === delId) {
@@ -477,11 +503,25 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     }
      //Discard Assignment from Former delegate section.
     discardAssignmentFormer(event) {
+        this.diabledAddNewButton = false;
         let delId = event.currentTarget.dataset.pdid;
         this.formerListPDE.forEach((pde) => {
             if (pde.PatientDelegate.Id === delId) {
                 pde.addNewStudyFormer = false;
+            }else{
+                //Re enable Add assignment and Delete buttons for other former delegates.
+                pde.disableAddAssignmentButton = false;
+                pde.disableDeleteButton = false;
             }
+        });
+        //Re Enable Add Assignment and Remove buttons for all the Active delegates.
+        this.listPDE.forEach((pde) => {
+            //Re Enable Add Assignment button 
+            pde.disableAddAssignmentButton = false; 
+            //Re Enable Remove buttons 
+            pde.PDEEnrollments.forEach((pden) => {
+                pden.disableRemoveButton = false;
+            });  
         });
     }
 
@@ -497,9 +537,10 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         });
     }
 
-    //Assign study/Studies to delegate.
+    //Assign study/Studies to Active delegates.
     doSave(event){
         this.spinner = true;
+        this.diabledAddNewButton = false;
         let id = event.currentTarget.dataset.id;
         let pdid = event.currentTarget.dataset.pdid;
         let attestedtimestmp = event.currentTarget.dataset.attestedtimestmp;
@@ -542,9 +583,12 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         })
             .then((result) => {
                 //this.setInitializedData(result);
+                this.studiesSelected= [];
                 this.initializeData();
                 this.spinner = false;
-                communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
+                if(this.dataInitialized){
+                    communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
+                }  
             })
             .catch((error) => {
                 console.log('error');
@@ -552,4 +596,67 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             });
     
     }
+     //Assign study/Studies to former delegates.
+     doSaveFormer(event){
+        this.spinner = true;
+        this.diabledAddNewButton = false;
+        let id = event.currentTarget.dataset.id;
+        let pdid = event.currentTarget.dataset.pdid;
+        let attestedtimestmp = event.currentTarget.dataset.attestedtimestmp;
+        let attestedby = event.currentTarget.dataset.attestedby; 
+        let patientDelegate = {
+            pdId: pdid,
+            attestedby: attestedby,
+            attestedtimestmp: attestedtimestmp
+        };       
+        
+        var studiesSelected = this.studiesSelected;
+        let tudyToAssing= [];
+        //Iterate over list of PDE list.
+        this.formerListPDE.forEach((pde) => {
+            //check if the Delegate is the current Delegate.
+            if (pde.PatientDelegate.Id === id) {
+                    //Iterate over the list of selected studies for current Delegate.
+                    studiesSelected.forEach((stdSelected) => { 
+                    let assigned = false;
+                    let pdEnrollmentId = '';
+                    //Iterate over the list of studies to assign for current delegate.
+                    pde.PDEEnrollmentsFormer.forEach((pden) => { 
+                        //If Selected study is already assigned to delegate in past but active now.
+                        if(stdSelected.value === pden.Participant_Enrollment__c){
+                            assigned = true;
+                            pdEnrollmentId = pden.Id;
+                        }  
+                    });  
+                    tudyToAssing.push({
+                        label: stdSelected.label,
+                        value: stdSelected.value,
+                        assigned: assigned,
+                        active: false,
+                        pdEnrollmentId: pdEnrollmentId
+                    });
+                });      
+            }
+        });
+        //Assign studies to the former delegate.
+        doAddAssignment({
+            delegateStr: JSON.stringify(patientDelegate),
+            studyPERData: JSON.stringify(tudyToAssing)
+        })
+            .then((result) => {
+                //this.setInitializedData(result);
+                this.studiesSelected= [];
+                this.initializeData();
+                this.spinner = false;
+                if(this.dataInitialized){
+                    communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
+                }  
+            })
+            .catch((error) => {
+                console.log('error');
+                this.spinner = false;
+            });
+    
+    }
+
 }
