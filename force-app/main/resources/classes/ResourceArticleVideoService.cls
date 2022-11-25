@@ -22,16 +22,20 @@ public virtual inherited sharing class ResourceArticleVideoService extends Resou
         String contentClass = ResourceService.RESOURCE_SOURCE_PLATFORM;
         if (pState.value == ParticipantService.ParticipantStates.ALUMNI)
             contentClass = ResourceService.RESOURCE_SOURCE_THIRD_PARTY;
-        List<String> therapeuticAreas = new List<String>();
-        for (Therapeutic_Area_Patient__c tap : ParticipantDecoupler.getTherapeuticAreaPatients()) {
-            therapeuticAreas.add(tap.Therapeutic_Area__c);
+
+        if (pState.value == ParticipantService.ParticipantStates.ALUMNI) {
+            List<String> therapeuticAreas = new List<String>();
+            for (
+                Therapeutic_Area_Patient__c tap : ParticipantDecoupler.getTherapeuticAreaPatients()
+            ) {
+                therapeuticAreas.add(tap.Therapeutic_Area__c);
+            }
+            sortedResources.addAll(
+                ResourceTARelatedService.getInstance()
+                    .init(resourceType, resourceId, contentClass, therapeuticAreas)
+                    .getResources()
+            );
         }
-        if (pState.value == ParticipantService.ParticipantStates.ALUMNI){
-        sortedResources.addAll(
-            ResourceTARelatedService.getInstance()
-                .init(resourceType, resourceId, contentClass, therapeuticAreas)
-                .getResources()
-        );}
         return sortedResources;
     }
 
