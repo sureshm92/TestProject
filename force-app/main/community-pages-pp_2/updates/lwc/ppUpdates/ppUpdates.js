@@ -1,7 +1,5 @@
-import { LightningElement, track, api } from 'lwc';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
-import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
+import { LightningElement, track } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
 import getUpdateResources from '@salesforce/apex/ResourceRemote.getUpdateResources';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
@@ -31,35 +29,40 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                Promise.all([loadStyle(this, communityPPTheme)])
-                    .then(() => {
-                        this.initializeData();
-                    })
-                    .catch((error) => {
-                        communityService.showToast('', 'error', error.message, 100);
-                    });
-            })
-            .catch((error) => {
-                communityService.showToast('', 'error', error.message, 100);
-            });
+
+        this.initializeData();
     }
 
     initializeData() {
-        this.spinner = this.template.querySelector('c-web-spinner');
-        this.spinner.show();
         getInitDataNew()
             .then((returnValue) => {
                 this.isInitialized = true;
                 let initData = JSON.parse(JSON.stringify(returnValue));
+                let therapeuticAssignmentsList = [];
+                let therapeuticAssignments = {
+                    resource: '',
+                    id: '',
+                    therapeuticArea: ''
+                };
+
                 initData.resources.forEach((resObj) => {
-                    this.linksWrappers.push(resObj.resource);
+                    resObj.resource.Therapeutic_Area_Assignments__r?.forEach((therapeuticArea) => {
+                        therapeuticAssignments.resource = therapeuticArea.Resource__c;
+                        therapeuticAssignments.id = therapeuticArea.Id;
+                        therapeuticAssignments.therapeuticArea =
+                            therapeuticArea.Therapeutic_Area__c;
+                        therapeuticAssignmentsList.push(therapeuticAssignments);
+                    });
+
+                    resObj.therapeuticAssignments = therapeuticAssignmentsList;
+                    therapeuticAssignmentsList = [];
+                    delete resObj.resource.Therapeutic_Area_Assignments__r;
                 });
-                this.getUpdates(JSON.stringify(returnValue));
+                this.getUpdates(JSON.stringify(initData));
+                this.spinner.hide();
             })
             .catch((error) => {
-                communityService.showToast('', 'error', 'Failed To read the Data111...', 100);
+                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                 this.spinner.hide();
             });
     }
