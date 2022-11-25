@@ -366,33 +366,47 @@
                                                 ></span>
                                             </lightning-layout-item>
                                         </lightning-layout>
-                                        <template if:true={item.dueDate}
-                                            ><lightning-layout>
-                                                <lightning-layout-item
-                                                    ><span class={dueTimeClass}
-                                                        ><template if:true={item.isClosed}
-                                                            >{label.taskPPCompletedLabel}</template
-                                                        ><template if:false={item.isClosed}
-                                                            >{label.taskDue}</template
-                                                        >:&nbsp;
+                                        <template if:false={item.completed}>
+                                            <template if:true={item.dueDate}
+                                                ><lightning-layout>
+                                                    <lightning-layout-item
+                                                        ><span class={dueTimeClass}
+                                                            ><template if:true={item.isClosed}
+                                                                >{label.taskPPCompletedLabel}</template
+                                                            ><template if:false={item.isClosed}
+                                                                >{label.taskDue}</template
+                                                            >:&nbsp;
 
-                                                        <lightning-formatted-date-time
-                                                            value={item.task.Activity_Datetime__c}
-                                                            year="numeric"
-                                                            month="short"
-                                                            day="2-digit"
-                                                            time-zone={userTimeZone}
-                                                        ></lightning-formatted-date-time
-                                                        >&nbsp;|&nbsp;
-                                                        <lightning-formatted-date-time
-                                                            value={item.task.Activity_Datetime__c}
-                                                            hour="numeric"
-                                                            minute="numeric"
-                                                            time-zone={userTimeZone}
-                                                        ></lightning-formatted-date-time>
-                                                    </span>
-                                                </lightning-layout-item> </lightning-layout
-                                        ></template>
+                                                            <lightning-formatted-date-time
+                                                                value={item.task.Activity_Datetime__c}
+                                                                year="numeric"
+                                                                month="short"
+                                                                day="2-digit"
+                                                                time-zone={userTimeZone}
+                                                            ></lightning-formatted-date-time
+                                                            >&nbsp;|&nbsp;
+                                                            <lightning-formatted-date-time
+                                                                value={item.task.Activity_Datetime__c}
+                                                                hour="numeric"
+                                                                minute="numeric"
+                                                                time-zone={userTimeZone}
+                                                            ></lightning-formatted-date-time>
+                                                        </span>
+                                                    </lightning-layout-item> </lightning-layout
+                                            ></template>
+                                            <!--If Due Date is not available - Keep text 'Completed' when task completed in Task Tab-->
+                                            <template if:false={item.dueDate}
+                                                ><lightning-layout>
+                                                    <lightning-layout-item
+                                                        ><span class={dueTimeClass}
+                                                            ><template if:true={item.isClosed}
+                                                                >{label.taskPPCompletedLabel}</template
+                                                            >
+                                                        </span>
+                                                    </lightning-layout-item>
+                                                </lightning-layout></template
+                                            ></template
+                                        >
                                     </lightning-layout-item>
                                 </template>
                                 <lightning-layout-item class="slds-align_absolute-center" size="2"
@@ -541,35 +555,48 @@
                                     ></lightning-layout-item
                                 >
                             </lightning-layout>
-                            <template if:true={item.dueDate}>
-                                <lightning-layout
-                                    ><lightning-layout-item size="12"
-                                        ><span class={dueTimeClass}
-                                            ><template if:true={item.isClosed}
-                                                >{label.taskPPCompletedLabel}</template
-                                            ><template if:false={item.isClosed}
-                                                >{label.taskDue}</template
-                                            >:&nbsp;
+                            <template if:false={item.completed}>
+                                <template if:true={item.dueDate}>
+                                    <lightning-layout
+                                        ><lightning-layout-item size="12"
+                                            ><span class={dueTimeClass}
+                                                ><template if:true={item.isClosed}
+                                                    >{label.taskPPCompletedLabel}:<br/></template
+                                                ><template if:false={item.isClosed}
+                                                    >{label.taskDue}:&nbsp;</template
+                                                >
 
-                                            <lightning-formatted-date-time
-                                                value={item.task.Activity_Datetime__c}
-                                                year="numeric"
-                                                month="short"
-                                                day="2-digit"
-                                                time-zone={userTimeZone}
-                                            ></lightning-formatted-date-time
-                                            >&nbsp;|&nbsp;
-                                            <lightning-formatted-date-time
-                                                value={item.task.Activity_Datetime__c}
-                                                hour="numeric"
-                                                minute="numeric"
-                                                time-zone={userTimeZone}
-                                            ></lightning-formatted-date-time>
-                                        </span>
-                                    </lightning-layout-item>
-                                </lightning-layout>
+                                                <lightning-formatted-date-time
+                                                    value={item.task.Activity_Datetime__c}
+                                                    year="numeric"
+                                                    month="short"
+                                                    day="2-digit"
+                                                    time-zone={userTimeZone}
+                                                ></lightning-formatted-date-time
+                                                >&nbsp;|&nbsp;
+                                                <lightning-formatted-date-time
+                                                    value={item.task.Activity_Datetime__c}
+                                                    hour="numeric"
+                                                    minute="numeric"
+                                                    time-zone={userTimeZone}
+                                                ></lightning-formatted-date-time>
+                                            </span>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </template>
+                                <!--If Due Date is not available - Keep text 'Completed' when task completed in Task Tab-->
+                                <template if:false={item.dueDate}
+                                    ><lightning-layout>
+                                        <lightning-layout-item
+                                            ><span class={dueTimeClass}
+                                                ><template if:true={item.isClosed}
+                                                    >{label.taskPPCompletedLabel}</template
+                                                >
+                                            </span>
+                                        </lightning-layout-item>
+                                    </lightning-layout></template
+                                >
                             </template>
-
                             <template if:true={item.completed}>
                                 <lightning-layout
                                     ><lightning-layout-item size="12"
