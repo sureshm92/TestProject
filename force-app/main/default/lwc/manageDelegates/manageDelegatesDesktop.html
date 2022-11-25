@@ -44,6 +44,7 @@
                                 title="Add new Delete"
                                 onclick={navToAddDelegate}
                                 class={addDelBtnMarin}
+                                disabled={diabledAddNewButton}
                             >
                                 {label.BTN_Add_New_Delegate}
                             </button>
@@ -546,10 +547,13 @@
                                                         class="save-button-aligment"
                                                         ><button
                                                             title="Save"
-                                                            onclick={doSave}
+                                                            onclick={doSaveFormer}
                                                             class={saveButtonClass}
                                                             disabled={validateData}
-                                                            data-pdid={del.PatientDelegate.Id}
+                                                            data-id={del.PatientDelegate.Id}
+                                                            data-pdid={del.pdId}
+                                                            data-attestedtimestmp={del.delAttestationTimeStamp}
+                                                            data-attestedby={del.delAttestedBy}
                                                         >
                                                             {label.BTN_Save}
                                                         </button></lightning-layout-item

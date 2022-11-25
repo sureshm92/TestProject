@@ -14,7 +14,12 @@
     border-radius: 4px;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
 }
-
+.add-Delegate-Btn:disabled {
+    opacity: .4;
+    box-shadow: none;
+    cursor: not-allowed;
+    pointer-events: none;
+}
 .remove-btn {
     border: 1px solid #d9d9d9;
     border-radius: 4px;
@@ -280,4 +285,10 @@
 }
 .e-consent-aligment {
     padding: 0px 0px 25px 25px;
+}
+.slds-form-element__label{
+    margin-top: -6px !important;
+}
+.slds-checkbox__label{
+    display: flex !important;
 }
