@@ -89,6 +89,21 @@
     width: 25px;
     height: 25px;
 }
+.icon-update-section-small {
+    margin-left: 32px !important;
+    margin-top: 11px !important;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+}
+.icon-update-section-large {
+    margin-left: 28px !important;
+    margin-top: 11px !important;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+}
+
 .p-text {
     margin-left: 10px;
     margin-top: 10px;
@@ -129,7 +144,10 @@
     border-left: 4px solid #c627a6;
     margin-top: 50px;
 }
-
+.updates-darkblue {
+    border-left: 4px solid #003346;
+    margin-top: 50px;
+}
 .around-small-custom {
     padding: 12px 22px 12px 0px;
 }

@@ -19,33 +19,66 @@ public without sharing class ResourceRemote {
     public static UpdateWrapper getUpdateResources(String linkWrapperText) {
         //get all resources //get counter // send wrapper // check for toggles for participant
         try {
-            Integer counter=0;
+            Integer counter = 0;
             //Relevant links data
             RelevantLinksRemote.InitDataNew linkWrapper = (RelevantLinksRemote.InitDataNew) JSON.deserialize(
                 linkWrapperText,
                 RelevantLinksRemote.InitDataNew.class
             );
-            List<ResourceService.ResourceWrapper> resUpdates = linkWrapper.resources;
+            List<ResourceService.ResourceWrapper> resUpdates = linkWrapper?.resources;
             ResourceDelegate rDelegate = ResourceDelegate.getInstance();
             //Article/Video Data
-            ResourceService.ResourceWrapperContainer contExplore = rDelegate.getResources(
-                'Article;Video'
-            );
+            //for delegate in participant view
+            if (
+                linkWrapper.isDelegate &&
+                linkWrapper.participantStateValue ==
+                String.valueOf(ParticipantService.ParticipantStates.ALUMNI)
+            ) {
+                if (linkWrapper.VideoAndArticlesAreAvailable) {
+                    ResourceService.ResourceWrapperContainer contExplore = rDelegate.getResources(
+                        'Article;Video'
+                    );
+                    resUpdates.addAll(contExplore.wrappers);
+                }
+            } else if (
+                linkWrapper.participantStateValue ==
+                String.valueOf(ParticipantService.ParticipantStates.ALUMNI)
+            ) {
+                //for delegate and alumni view
+                ResourceService.ResourceWrapperContainer contExplore = rDelegate.getResources(
+                    'Article;Video'
+                );
+                resUpdates.addAll(contExplore.wrappers);
+            } else if (linkWrapper.VideoAndArticlesAreAvailable) {
+                //for participant view
+                ResourceService.ResourceWrapperContainer contExplore = rDelegate.getResources(
+                    'Article;Video'
+                );
+                resUpdates.addAll(contExplore.wrappers);
+            }
 
             //Documents Data
-            ResourceService.ResourceWrapperContainer contDocs = rDelegate.getStudyDocuments();
-            contDocs.wrappers = ResourceService.removeTranslations(contDocs.wrappers);
+            if (linkWrapper.StudyDocumentsAreAvailable) {
+                ResourceService.ResourceWrapperContainer contDocs = rDelegate.getStudyDocuments();
+                contDocs.wrappers = ResourceService.removeTranslations(contDocs.wrappers);
 
-            resUpdates.addAll(contDocs.wrappers);
-            resUpdates.addAll(contExplore.wrappers);
+                resUpdates.addAll(contDocs.wrappers);
+            }
+
             if (resUpdates.size() > 0) {
                 resUpdates = ResourceService.sortResourcesByCreatedDate(resUpdates);
                 resUpdates = ResourceService.sortResourcesByCOI(resUpdates);
-                counter = ResourceService.getUpdatesCounter(resUpdates);
+                if (
+                    linkWrapper.participantStateValue !=
+                    String.valueOf(ParticipantService.ParticipantStates.ALUMNI) ||
+                    !linkWrapper.isDelegate
+                ) {
+                    counter = ResourceService.getUpdatesCounter(resUpdates);
+                }
             }
             UpdateWrapper up = new UpdateWrapper();
             up.resources = resUpdates;
-            up.counter=counter;
+            up.counter = counter;
 
             return up;
         } catch (Exception e) {
@@ -173,12 +206,6 @@ public without sharing class ResourceRemote {
             insert submittedArticles;
     }
     public class UpdateWrapper {
-        @AuraEnabled
-        public Boolean linkToggle = false;
-        @AuraEnabled
-        public Boolean docToggle = false;
-        @AuraEnabled
-        public Boolean exploreToggle = false;
         @AuraEnabled
         public Integer counter = 0;
         @AuraEnabled
