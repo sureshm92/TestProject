@@ -50,6 +50,12 @@
     padding: 12px 0 0 8px;
 }
 
+@media (max-width: 486px) {
+    .com-icon {
+        padding: 12px 0 0 12px;
+    }
+}
+
 .thumnail-img {
     height: 95%;
     width: 100%;

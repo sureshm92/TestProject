@@ -33,3 +33,12 @@
 .center {
     text-align: center;
 }
+
+@media (max-width: 486px) {
+    .scroll-bar-box {
+        padding-top: 16px;
+        padding-bottom: 8px;
+        min-height: 335px;
+        margin: 0 10px 0 10px;
+    }
+}

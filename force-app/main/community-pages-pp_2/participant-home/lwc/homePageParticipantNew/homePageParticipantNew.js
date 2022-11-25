@@ -21,8 +21,9 @@ export default class HomePageParticipantNew extends LightningElement {
     isInitialized = false;
     isProgram = false;
     showVisitCard = false;
+    updatesSection = false;
     @track showVisitCardMobile = false;
-
+    updateSize;
     desktop = true;
     isDelegateSelfview = false;
     @track taskList = false;
@@ -62,7 +63,7 @@ export default class HomePageParticipantNew extends LightningElement {
                         let username = this.currentMode.groupLabel;
                         let firstName = username.substring(0, username.indexOf(' '));
 
-                        this.userName = this.label.PPWELCOME + ', ' + firstName +'!';
+                        this.userName = this.label.PPWELCOME + ', ' + firstName + '!';
                     }
                     if (this.participantState.pe) {
                         if (this.participantState.pe.Clinical_Trial_Profile__r) {
@@ -84,9 +85,9 @@ export default class HomePageParticipantNew extends LightningElement {
                         (this.participantState.hasPatientDelegates &&
                             !this.participantState.isDelegate);
                 }
-                if(this.showVisitCard !=true || this.isDelegateSelfview ==true){
+                if (this.showVisitCard != true || this.isDelegateSelfview == true) {
                     this.taskList = true;
-                    this.showVisitCardMobile = false;    
+                    this.showVisitCardMobile = false;
                 }
                 this.spinner.hide();
             })
@@ -106,6 +107,7 @@ export default class HomePageParticipantNew extends LightningElement {
     showTaskList() {
         if (this.desktop != true) {
             this.showVisitCardMobile = false;
+            this.updatesSection = false;
         }
         this.taskList = true;
     }
@@ -113,7 +115,16 @@ export default class HomePageParticipantNew extends LightningElement {
     showVisitCardOnMobile() {
         if (this.desktop != true) {
             this.showVisitCardMobile = true;
+            this.updatesSection = false;
         }
         this.taskList = false;
+    }
+
+    showUpdatesOnMobile() {
+        if (this.desktop != true) {
+            this.updatesSection = true;
+        }
+        this.taskList = false;
+        this.showVisitCardMobile = false;
     }
 }
