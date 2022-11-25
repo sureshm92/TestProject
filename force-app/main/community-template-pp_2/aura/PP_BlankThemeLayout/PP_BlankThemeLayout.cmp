@@ -25,7 +25,7 @@
                     <lightning:layout multipleRows="true">
 
                         <lightning:layoutItem size="12" class="mb-16">
-                            <p class="iqvia"> {!$Label.c.RH_Masked_IQVIA_User} <span class="patient-portal">{!$Label.c.Community_PP}</span></p>
+                            <p class="iqvia"> {!$Label.c.RH_Masked_IQVIA_User}&nbsp;<span class="patient-portal">{!$Label.c.Community_PP}</span></p>
                         </lightning:layoutItem>
 
                         <lightning:layoutItem size="12" class="mb-16">

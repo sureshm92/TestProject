@@ -193,9 +193,32 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         markAsCompleted({ taskId: this.selectedTaskId })
             .then(() => {
                 this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+                var localtimezonedate = new Date().toLocaleString('en-US', {
+                    timeZone: 'UTC'
+                });
+                var processlocaltimezonedate = new Date(localtimezonedate);
+                var dd = String(processlocaltimezonedate.getDate()).padStart(2, '0');
+                var mm = String(processlocaltimezonedate.getMonth() + 1).padStart(2, '0');
+                var yyyy = processlocaltimezonedate.getFullYear();
+                var currentdate = yyyy + '-' + mm + '-' + dd;
+                var hh = String(
+                    (processlocaltimezonedate.getHours() < 10 ? '0' : '') +
+                        processlocaltimezonedate.getHours()
+                );
+                var mm = String(
+                    (processlocaltimezonedate.getMinutes() < 10 ? '0' : '') +
+                        processlocaltimezonedate.getMinutes()
+                );
+                var ss = String(
+                    (processlocaltimezonedate.getSeconds() < 10 ? '0' : '') +
+                        processlocaltimezonedate.getSeconds()
+                );
+                var currentTime = hh + ':' + mm + ':' + ss;
+                var currentDatetime = currentdate + 'T' + currentTime;
                 for (let i = 0; i < this.tasksList.length; i++) {
                     if (this.tasksList[i].task.Id == this.selectedTaskId) {
                         this.tasksList[i].isClosed = true;
+                        this.tasksList[i].task.Activity_Datetime__c = currentDatetime;
                         taskOldStatus = this.tasksList[i].task.Status;
                         break;
                     }

@@ -37,6 +37,14 @@
         <apexClass>LightningForgotPasswordController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>OptOutAndTechnicalSupport</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>OptOutAndTechnicalSupportRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Account_Name_2__c</field>

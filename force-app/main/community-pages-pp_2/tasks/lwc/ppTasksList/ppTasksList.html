@@ -170,23 +170,22 @@
                                                         ><template if:true={item.isClosed}
                                                             >{label.taskPPCompletedLabel}</template
                                                         ><template if:false={item.isClosed}
-                                                            >{label.taskDue}</template
-                                                        >:&nbsp;
-
-                                                        <lightning-formatted-date-time
-                                                            value={item.task.Activity_Datetime__c}
-                                                            year="numeric"
-                                                            month="short"
-                                                            day="2-digit"
-                                                            time-zone={userTimeZone}
-                                                        ></lightning-formatted-date-time
-                                                        >&nbsp;|&nbsp;
-                                                        <lightning-formatted-date-time
-                                                            value={item.task.Activity_Datetime__c}
-                                                            hour="numeric"
-                                                            minute="numeric"
-                                                            time-zone={userTimeZone}
-                                                        ></lightning-formatted-date-time>
+                                                            >{label.taskDue}:&nbsp;
+                                                            <lightning-formatted-date-time
+                                                                value={item.task.Activity_Datetime__c}
+                                                                year="numeric"
+                                                                month="short"
+                                                                day="2-digit"
+                                                                time-zone={userTimeZone}
+                                                            ></lightning-formatted-date-time
+                                                            >&nbsp;|&nbsp;
+                                                            <lightning-formatted-date-time
+                                                                value={item.task.Activity_Datetime__c}
+                                                                hour="numeric"
+                                                                minute="numeric"
+                                                                time-zone={userTimeZone}
+                                                            ></lightning-formatted-date-time>
+                                                        </template>
                                                     </span>
                                                 </lightning-layout-item> </lightning-layout
                                         ></template>
@@ -283,7 +282,9 @@
                                             <lightning-layout-item class={item.subjectEllipsisClass}
                                                 ><span
                                                     class={item.subjectClass}
-                                                    onclick={handleonclick}
+                                                    onclick={taskOpen}
+                                                    data-actionurl={item.task.Action_URL__c}
+                                                    data-status={item.task.Status}
                                                     data-index={item.task.Id}
                                                     ><lightning-formatted-text
                                                         value={item.task.Subject}
@@ -433,23 +434,21 @@
                                             ><template if:true={item.isClosed}
                                                 >{label.taskPPCompletedLabel}</template
                                             ><template if:false={item.isClosed}
-                                                >{label.taskDue}</template
-                                            >:&nbsp;
-
-                                            <lightning-formatted-date-time
-                                                value={item.task.Activity_Datetime__c}
-                                                year="numeric"
-                                                month="short"
-                                                day="2-digit"
-                                                time-zone={userTimeZone}
-                                            ></lightning-formatted-date-time
-                                            >&nbsp;|&nbsp;
-                                            <lightning-formatted-date-time
-                                                value={item.task.Activity_Datetime__c}
-                                                hour="numeric"
-                                                minute="numeric"
-                                                time-zone={userTimeZone}
-                                            ></lightning-formatted-date-time>
+                                                >{label.taskDue}:&nbsp;<lightning-formatted-date-time
+                                                    value={item.task.Activity_Datetime__c}
+                                                    year="numeric"
+                                                    month="short"
+                                                    day="2-digit"
+                                                    time-zone={userTimeZone}
+                                                ></lightning-formatted-date-time
+                                                >&nbsp;|&nbsp;
+                                                <lightning-formatted-date-time
+                                                    value={item.task.Activity_Datetime__c}
+                                                    hour="numeric"
+                                                    minute="numeric"
+                                                    time-zone={userTimeZone}
+                                                ></lightning-formatted-date-time
+                                            ></template>
                                         </span>
                                     </lightning-layout-item>
                                 </lightning-layout>
@@ -489,7 +488,9 @@
                                 <lightning-layout-item size="10" class={item.subjectEllipsisClass}
                                     ><span
                                         class={item.subjectClass}
-                                        onclick={handleonclick}
+                                        onclick={taskOpen}
+                                        data-actionurl={item.task.Action_URL__c}
+                                        data-status={item.task.Status}
                                         data-index={item.task.Id}
                                         ><lightning-formatted-text
                                             value={item.task.Subject}

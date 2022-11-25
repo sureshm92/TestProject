@@ -18,11 +18,11 @@
     text-align: center;
     top: calc(50% + 3em);
     font-weight: bold;
-		font-size :14px;
+    font-size: 14px;
 }
 
-.slds-spinner_container{
-    position :fixed !important;
+.slds-spinner_container {
+    position: fixed !important;
 }
 
 .slds-checkbox {
@@ -39,7 +39,7 @@
     float: none !important;
 }
 
-.success-message-text {    
+.success-message-text {
     font-size: 20px;
     font-weight: 600;
     color: #444444;
@@ -69,8 +69,8 @@
     height: 32px;
     width: 132px;
     border-radius: 16px;
-    background-color: #0768FD;
-    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04), 0 4px 8px 0 rgba(7,104,253,0.32);
+    background-color: #0768fd;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
     margin-bottom: 35px;
 }
 
@@ -78,15 +78,15 @@
     height: 32px;
     width: 100%;
     border-radius: 16px;
-    background-color: #0768FD;
-    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04), 0 4px 8px 0 rgba(7,104,253,0.32);
+    background-color: #0768fd;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
 }
 
-.submit-opt-out-mobile{
+.submit-opt-out-mobile {
     height: 24px;
     transform: rotate(-360deg);
-    color: #FFFFFF;
-    font-family: "Proxima Nova";
+    color: #ffffff;
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0;
@@ -94,10 +94,10 @@
     text-align: center;
 }
 
-.need-additional-info{
+.need-additional-info {
     height: 24px;
-    color: #015FF1;
-    font-family: "Proxima Nova";
+    color: #015ff1;
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0;
@@ -118,10 +118,10 @@
 .success-message-padding {
     padding-top: 25px;
 }
-.success-label{
+.success-label {
     height: 72px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 20px;
     font-weight: 600;
     letter-spacing: 0;
@@ -129,10 +129,10 @@
     margin-bottom: 70px;
 }
 
-.success-label-desktop{
+.success-label-desktop {
     height: 72px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 20px;
     font-weight: 600;
     letter-spacing: 0;
@@ -152,10 +152,10 @@
     text-align: center;
     top: calc(50% + 3em);
     font-weight: bold;
-		font-size :14px;
+    font-size: 14px;
 }
-.slds-spinner_container{
-    position :fixed !important;
+.slds-spinner_container {
+    position: fixed !important;
 }
 
 .opt-out-header {
@@ -172,7 +172,7 @@
 .opt-out-header-mobile {
     height: 24px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: bold;
     letter-spacing: 0;
@@ -192,29 +192,38 @@
 .get-technical-suppor {
     height: 24px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: bold;
     letter-spacing: 0;
     line-height: 24px;
-  }
+    margin-top: 30px !important;
+}
 
-.mb-16{
+.mb-16 {
     margin-bottom: 16px;
 }
 
-.mb-12{
+.mb-12 {
     margin-bottom: 12px;
 }
 
-.ml-24{
+.ml-24 {
     margin-left: 24px;
 }
 
-.mb-30{
+.mb-30 {
     margin-bottom: 30px;
 }
 
-.customWidth{
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mt-70 {
+    margin-top: 70px !important;
+}
+
+.customWidth {
     width: 170px;
 }

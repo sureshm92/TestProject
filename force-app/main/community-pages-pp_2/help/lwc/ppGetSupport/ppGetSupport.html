@@ -47,7 +47,7 @@
                                             value={selectedYOB}
                                             placeholder={label.selectYear}
                                             options={yearOptions}
-                                            onchange={doCheckYearOfBith}
+                                            onchange={doCheckYOB}
                                             label="YOB"
                                             variant="label-hidden"
                                             class={highlightErrorForYOBClass}
@@ -106,11 +106,13 @@
 
                     <!-- Merge multiple usernames-->
                     <lightning-layout multiple-rows="true">
-                        <lightning-layout-item size="12" class={marginMatchEmailPass}>
+                        <lightning-layout-item size="12">
                             <template if:true={UseremailDuplicate}>
                                 <div class="merge-existing-usern">{label.PP_MergeExisting}</div>
                                 <div class="there-are-multiple">{label.PP_Duplicate_Usernames}</div>
-                                <div class="slds-grid slds-size--1-of-1 ah-item-panel help-match-username-radio-options">
+                                <div
+                                    class="slds-grid slds-size--1-of-1 help-match-username-radio-options"
+                                >
                                     <lightning-radio-group
                                         name="radioGroup"
                                         variant="label-hidden"
@@ -132,7 +134,7 @@
                         <button
                             onclick={doCreateYOBCase}
                             disabled={disableSave}
-                            class={submitDisabledButtonMargin}
+                            class="updateButtonMobile disabled"
                         >
                             {label.submitButton}
                         </button>

@@ -19,13 +19,6 @@
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     color: #297dfd;
     font-weight: 600;
-}
-
-.customMatchUNMargin{
-    margin-top: 10px; 
-}
-
-.customEditYOBMargin{
     margin-top: 20px;
 }
 
@@ -124,7 +117,7 @@
 .merge-existing-usern {
     height: 32px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0;
@@ -135,7 +128,7 @@
 .there-are-multiple {
     height: 72px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
@@ -148,5 +141,5 @@
 :host {
     --sds-c-radio-mark-color-foreground: #0769fd;
     --sds-c-radio-color-background-checked: #ffffff;
-    --slds-c-radio-color-border-checked :#0769fd;
+    --slds-c-radio-color-border-checked: #0769fd;
 }

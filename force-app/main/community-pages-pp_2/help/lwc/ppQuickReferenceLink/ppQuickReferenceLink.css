@@ -42,7 +42,7 @@
     box-sizing: border-box;
     padding: 16px 16px 24px 16px;
     height: auto;
-    width: 382px;
+    width: 100%;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
@@ -51,11 +51,11 @@
 .mb-15 {
     margin-bottom: 15px;
 }
-@media (max-width:486px) {
-    .custom-btn{
+@media (max-width: 486px) {
+    .custom-btn {
         width: 100% !important;
     }
-    .get-support-container{
+    .get-support-container {
         width: 100%;
     }
 }

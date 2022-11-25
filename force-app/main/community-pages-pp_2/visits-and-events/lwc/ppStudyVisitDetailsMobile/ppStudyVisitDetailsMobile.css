@@ -47,6 +47,16 @@
     min-height: inherit;
 }
 
+.no-data-mobile{
+    height: 207px;
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
+
 .check-for-results-on {
     height: 32px;
     color: #999999;
