@@ -208,7 +208,12 @@ public class Test_ParticipantEnrollmentService {
         ParticipantEnrollmentService.getMRRAllByTrial();
         ParticipantEnrollmentService.getMRRPassedByTrial();
         ParticipantEnrollmentService.getReferredByTrial();
-
+		ParticipantEnrollmentService.getHealthcareProviderPE();
+        ParticipantEnrollmentService.getParticipantEnrollments(filter,
+            new PaginationData(15),
+            delegateId,
+            sponsorName);
+        
         //getPreScreeningsPassedByTrial
         Test.stopTest();
         System.assertEquals(new List<Id>{ ctpId }, filterData.trialIds);
@@ -217,5 +222,65 @@ public class Test_ParticipantEnrollmentService {
 
         System.assertEquals(testData.pe.Id, filterPe[0].Id);
         System.assertEquals(0, pendingPe.size());
+    }
+
+    @IsTest
+    public static void testImproveCoverage2() {
+        TestData testData = new TestData();
+        testData.createPatientDelegate();
+
+        
+        Id ctpId = testData.ctp.Id;
+        String userMode = CommunityService.USER_MODE_PARTICIPANT;
+        String status = ParticipantEnrollmentService.PART_STATUS_RECEIVED;
+        String reason = ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED;
+        String sponsorName = 'Janssen';
+        Id delegateId;
+        System.runAs(testData.participantUser) {
+            delegateId = PatientDelegateService.getInstance().getPDelegates().get(0).Id;
+        }
+        ParticipantEnrollmentService.PEFilterData filterData = ParticipantEnrollmentService.getPEFilterData(
+            ctpId,
+            userMode,
+            false
+        );
+        ParticipantEnrollmentService.PEFilter filter = new ParticipantEnrollmentService.PEFilter(
+            filterData
+        );
+        Test.startTest();
+        try {
+            ParticipantEnrollmentService.getParticipantEnrollmentsCustomFields(
+                new List<String>{ 'Id' },
+                filter,
+                new PaginationData(15),
+                delegateId,            
+                sponsorName
+            );
+        }catch(Exception ex) {}
+        ParticipantEnrollmentService ser = new ParticipantEnrollmentService();
+
+        try{
+            ser.getPEnrolmentsCommonCustomFieldsImpl(                
+                userMode,
+                new List<String>{ status },
+                ''
+            );
+        }catch(Exception ex) {}
+        
+        ser.getPendingParticipantEnrollmentsImpl( filter.trialIds[0],testData.hcpEnrollment.Id);
+        ParticipantEnrollmentService.getReferredPEList(usermode,'');
+        try {
+                ParticipantEnrollmentService.getPEnrolmentsCommonCustomFields( userMode,
+                new List<String>{ status },
+                ''
+                );
+        }catch(Exception e){}
+
+        /*ParticipantEnrollmentService.getParticipantEnrollments(
+            filter,
+            new PaginationData(1),
+            sponsorName
+        );*/
+        Test.stopTest();
     }
 }
