@@ -134,8 +134,7 @@ public without sharing class RelevantLinksRemote {
 
             List<Resource__c> resourcesVisibleForParticipant = new List<Resource__c>();
             if (
-                (ps.value != ParticipantService.ParticipantStates.ALUMNI &&
-                initDataNew.relevantLinksAreAvailable) ||
+                initDataNew.relevantLinksAreAvailable ||
                 ps.value == ParticipantService.ParticipantStates.ALUMNI
             ) {
                 //study specific relevant links
