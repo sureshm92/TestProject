@@ -1,9 +1,11 @@
-import { LightningElement ,track} from 'lwc';
+import { LightningElement ,track, wire} from 'lwc';
 
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import formFactor from '@salesforce/client/formFactor';
+import ppOptoutchannel from '@salesforce/messageChannel/ppOptout__c';
+import { subscribe, publish, MessageContext } from 'lightning/messageService';
 
 import getInitData from '@salesforce/apex/OptOutAndTechnicalSupportRemote.getInitData';
 import createSupportCases from '@salesforce/apex/OptOutAndTechnicalSupportRemote.createSupportCases';
@@ -31,8 +33,10 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
         PPOPTOUTSUCCESSMSG,
         PPOptOutCloseWindow
     };
-
     isMobile = false;
+
+    @wire(MessageContext)
+    messageContext;
 
 
     get displayLabel(){
@@ -138,7 +142,7 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
             this.disabled = true;
         }
     }
-    handleSubmit() {
+    handleSubmit(event) {
         var recipientId = communityService.getUrlParameter('recipientId');
         this.showSpinner = true;
         createSupportCases({                 
@@ -149,10 +153,25 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
         .then((data) => {
             this.showSpinner =  false;
             this.showSuccessMessage =  true;
+            //message service
+                const message = { SuccessMessage: this.showSuccessMessage };
+                publish(this.messageContext, ppOptoutchannel, message);
         })
         .catch(function (error) {
             console.error(JSON.stringify(error));
         });
+
+        // console.log('dataToSend 1');
+        //     //passing value to aura
+        //     let dataToSend = true;
+        //     console.log('dataToSend 2');
+        //     const sendDataEvent = new CustomEvent('senddata', {
+        //         detail: {dataToSend},
+        //     });
+        //     console.log('dataToSend 3');
+        //     this.dispatchEvent(sendDataEvent);
+        //     console.log('dataToSend 4');
+        
     }
 
     closeWindow(){

@@ -1,0 +1,202 @@
+.icon-container {
+    margin-top: 20px;
+}
+
+.document-label {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 10px;
+    line-height: 24px;
+    letter-spacing: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 30px;
+}
+
+.document-label-desktop {
+    color: #444444;
+    height: 52px;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 10px;
+    line-height: 24px;
+    letter-spacing: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 10px;
+}
+
+.card-border {
+    box-sizing: border-box;
+    height: 88px;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin-top: 8px;
+}
+
+.link-img {
+    height: 48px;
+}
+
+.data-section-helpful {
+    width: 100%;
+    height: 29px;
+}
+
+.data-section {
+    width: 100%;
+    height: 58px;
+}
+
+.card-border-desktop {
+    box-sizing: border-box;
+    height: 88px;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin-top: 8px;
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
+.card-element-links {
+    box-sizing: border-box;
+    background-color: #fff;
+    height: 88px;
+    border-radius: 8px 0 0 8px;
+}
+
+.card-element {
+    box-sizing: border-box;
+    border-right: 1px solid #d9d9d9;
+    background-color: #f2f2f2;
+    height: 88px;
+    border-radius: 8px 0 0 8px;
+}
+
+.date {
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-left: 10px;
+}
+
+.open-tab {
+    width: 14px;
+    height: 14px;
+}
+
+.helpful-links {
+    height: 16px;
+    width: 93px;
+    color: #757575;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    letter-spacing: 0.1px;
+    line-height: 24px;
+    margin-left: 10px;
+}
+
+.links-title {
+    color: #015ff1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 26px;
+    margin-left: 10px;
+    cursor: pointer;
+    margin-right: 30px;
+}
+
+.link-image-section-horizontal {
+    height: 120px;
+}
+
+.open-tab-link-section {
+    width: 100%;
+    height: 20px;
+}
+
+.open-tab-image {
+    margin-bottom: 12px;
+    margin-left: 10px;
+    height: 16px;
+    width: 16px;
+}
+
+.icon-section {
+    height: 20px;
+}
+
+.empty-space {
+    height: 48px;
+}
+
+.open-tab-data-icon-container {
+    height: 68px;
+}
+
+.title-section-horizontal {
+    height: 48px;
+}
+
+.link-title-horizontal {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #015ff1;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-left: 16px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.helpful-link-title {
+    width: 93px;
+    color: #757575;
+    font-size: 13px;
+    letter-spacing: 0.1px;
+    line-height: 16px;
+    margin-left: 16px;
+    margin-top: 10px;
+}
+
+.helpful-link-horizontal {
+    width: 100%;
+    height: 16px;
+}
+
+.link-image {
+    margin-top: 20px;
+    height: 72px;
+    width: 105px;
+}
+
+.horizontal-card {
+    height: 216px;
+    border: 1px solid #f2f2f2;
+    border-radius: 7px 7px 7px 7px;
+}

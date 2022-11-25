@@ -597,6 +597,8 @@ public without sharing class PIR_HomePageControllerTest {
             Delegate_Level__c = 'Level 3',
             is_Invited__c = true);
         insert s;
+        List <String> csv= new List<String>();
+        csv.add('test');
         
         System.runAs(testData.piUser) {
             PIR_HomepageController.getStudyStudySiteDetails();
@@ -604,7 +606,9 @@ public without sharing class PIR_HomePageControllerTest {
             PIR_HomepageController.LabelValueItemISO la= new PIR_HomepageController.LabelValueItemISO('IND','IND');
             PIR_HomepageController.getISOLanguage();
             PIR_HomepageController.getParticipantsStatusesAndVisitPlans(ssn.Id);
+            PIR_HomepageController.getParticipantsStatusesAndVisitPlans(null);
             PIR_HomepageController.getSite(ssn.Id);
+            PIR_HomepageController.uploadParticipants(csv,'Test','','',false,false,false,false,false,false,false,false,false,null);
         }
         
         Test.stopTest();
@@ -903,7 +907,12 @@ public without sharing class PIR_HomePageControllerTest {
             Notes__c='Test Notes testing testclass code on this date by test user'
         );
         insert pehistory1;
+
         
+        List<Participant_PrescreenerResponse__c> responseList = [
+            SELECT Id,Participant__c  FROM Participant_PrescreenerResponse__c WHERE Participant_enrollment__c = :testData.pe.Id 
+        ];
+       
         System.runAs(testData.piUser){
             PIR_HomepageController.getPEData(testData.pe.Id);
             
@@ -1039,6 +1048,30 @@ public without sharing class PIR_HomePageControllerTest {
                                                            'Other',
                                                            ctpList[0].Id,
                                                            'Contact Attempted',
+                                                           True,
+                                                           True,date.today());
+             PIR_HomepageController.updateParticipantStatus(peList,
+                                                           'Received',
+                                                           'Test Notes',
+                                                           'Other',
+                                                           ctpList[0].Id,
+                                                           'Participant No Show',
+                                                           True,
+                                                           True,date.today());
+            PIR_HomepageController.updateParticipantStatus(peList,
+                                                           'Received',
+                                                           'Test Notes',
+                                                           'Other',
+                                                           ctpList[0].Id,
+                                                           'Successfully Contacted',
+                                                           True,
+                                                              True,date.today());
+            PIR_HomepageController.updateParticipantStatus(peList,
+                                                           'Successfully Contacted',
+                                                           'Test Notes',
+                                                           'Other',
+                                                           ctpList[0].Id,
+                                                           'Declined Consent',
                                                            True,
                                                            True,date.today());
             PIR_HomepageController.updateParticipantStatus(peList,

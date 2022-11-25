@@ -63,7 +63,7 @@
     padding: 1.5% 19%;
 }
 .back-link {
-    margin: 12px 8% 0 28px;
+    margin: 12px 84% 0 28px;
     font-size: 16px;
     font-weight: 600;
     display: flex;
@@ -86,20 +86,30 @@ hr {
     margin: 0% 35%;
 }
 @media (max-width: 486px) {
-    .back-link{
+    .back-link {
         padding: 36px 0 24px 0;
+        margin: 20px 40% 0 28px;
     }
-    .resource-heading{
+    .resource-heading {
         font-size: 24px;
         padding-top: 8px;
     }
-    .study-title-mobile{
+    .study-title-mobile {
         margin-right: 32px;
     }
-    .study-title{
+    .study-title {
         padding-right: 32px;
     }
+    .resource-container {
+        padding: 3.86%;
     }
+    .title-row {
+        padding: 16px 16px 0 0;
+    }
+    .page-container {
+        background-color: #f6f7fb;
+    }
+}
 .my_iframe {
     position: absolute;
     top: 0;

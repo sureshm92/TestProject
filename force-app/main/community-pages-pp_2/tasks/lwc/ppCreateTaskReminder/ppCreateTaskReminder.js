@@ -131,7 +131,7 @@ export default class PpCreateTaskReminder extends LightningElement {
                                         : false;
                                 this.emailReminderOptIn = this.initData.task.Remind_Using_Email__c;
                                 this.smsReminderOptIn = this.initData.task.Remind_Using_SMS__c;
-                                if (this.systemTask) {
+                                if (this.systemTask || this.businessTask) {
                                     this.oldReminderDateForSystemTask = this.initData.reminderDate;
                                     if (this.oldReminderDateForSystemTask) {
                                         this.selectedReminderOption = 'Custom';
@@ -164,7 +164,7 @@ export default class PpCreateTaskReminder extends LightningElement {
     get reminderOptions() {
         try {
             let differenceTimeHours = this.calculateTimezoneDifference();
-            if (!this.systemTask) {
+            if (!this.systemTask && !this.businessTask) {
                 if (this.isReminderOptionSelected) {
                     this.initialReminderOptions[0].itemClass = 'dropdown-li';
                 } else {
@@ -191,7 +191,7 @@ export default class PpCreateTaskReminder extends LightningElement {
                     this.initialReminderOptions[4].itemClass = 'dropdown-li li-item-disabled';
                 }
             }
-            if (this.systemTask) {
+            if (this.systemTask || this.businessTask) {
                 if (this.initialReminderOptions.length > 1) {
                     if (this.oldReminderDateForSystemTask) {
                         this.initialReminderOptions = [

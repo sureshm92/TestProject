@@ -182,6 +182,15 @@ public class Test_ContactTriggerHandler {
         //ContactTriggerHandler.createTaskToUpdatePhoneNumber(contactList,contactOldMap);
         //ContactTriggerHandler.retryWelcomeMsg(contactList,contactOldMap);
         //ContactTriggerHandler.createUserForDelegateContact(contactList);
+        contactList[0].Participant_Phone_Opt_In_Permit_Phone__c = false;
+        ContactTriggerHandler.updateParticipantConsent(contactList,null);
+        pcon.Participant_Phone_Opt_In_Permit_Phone__c = true;
+        contactOldMap.put(partContact.Id, pcon);
+        ContactTriggerHandler.updateParticipantConsent(contactList,contactOldMap);
+        contactList[0].Participant_Phone_Opt_In_Permit_Phone__c = true;
+        contactOldMap.get(partContact.Id).Participant_Phone_Opt_In_Permit_Phone__c = false;
+        ContactTriggerHandler.updateParticipantConsent(contactList,contactOldMap);
+        
         Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
         //system.assertNOtEquals(contactOldMap.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
@@ -400,5 +409,177 @@ public class Test_ContactTriggerHandler {
         Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
         //system.assertNOtEquals(contactOldMap.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
+    }
+
+    @isTest
+    private static void test4(){ 
+
+        List<Contact> contactList = new List<Contact>();
+        Map<Id, Contact> contactOldMap = new  Map<Id, Contact>();
+        Contact partContact = new Contact(
+            FirstName = 'PITD',
+            LastName = 'PITD',
+            Email = 'pi@emil.com',
+            Language__c = 'en_US',
+            MailingCountry = 'United States',
+            Participant_Opt_In_Status_SMS__c=true,
+            MailingCountryCode='US',
+            Phone='123',
+            UserCommunityIsDelegate__c=true,
+            MobilePhone='1223',
+            is_Invalid_number__c=false,
+            Participant_Phone_Opt_In_Permit_Phone__c=false
+        );
+        contactList.add(partContact);
+        insert partContact;
+        Participant__c participant = new Participant__c(
+            First_Name__c = 'ParticipantTD',
+            Last_Name__c = 'ParticipantTD',
+            Phone__c = '55313535',
+            Email__c = 'pi@emil.com',
+            Preferred_Language__c = 'en_US',
+            Mailing_Country_Code__c = 'US',
+            Mailing_State_Code__c = 'AL',
+            Mailing_Zip_Postal_Code__c = '2733',
+            Adult__c = true,
+            Contact__c = partContact.Id
+        );
+        insert participant;
+        Test.startTest();
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.createNotificationsHandler.class);
+        partContact.is_Invalid_number__c=true;
+        try {
+            update partContact;
+        } catch (Exception e) {
+            System.debug('error');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    private static void test5(){ 
+        List<Contact> contactList = new List<Contact>();
+        Map<Id, Contact> contactOldMap = new  Map<Id, Contact>();
+        Contact partContact = new Contact(
+            FirstName = 'PITD',
+            LastName = 'PITD',
+            Email = 'pi@emil.com',
+            Language__c = 'en_US',
+            MailingCountry = 'United States',
+            Participant_Opt_In_Status_SMS__c=true,
+            MailingCountryCode='US',
+            Phone='123',
+            UserCommunityIsDelegate__c=true,
+            MobilePhone='1223',
+            is_Invalid_number__c=false,
+            Participant_Phone_Opt_In_Permit_Phone__c=false
+        );
+        contactList.add(partContact);
+        insert partContact;
+        Participant__c participant = new Participant__c(
+            First_Name__c = 'ParticipantTD',
+            Last_Name__c = 'ParticipantTD',
+            Phone__c = '55313535',
+            Email__c = 'pi@emil.com',
+            Preferred_Language__c = 'en_US',
+            Mailing_Country_Code__c = 'US',
+            Mailing_State_Code__c = 'AL',
+            Mailing_Zip_Postal_Code__c = '2733',
+            Adult__c = true,
+            Contact__c = partContact.Id
+        );
+        insert participant;
+
+        Account  account_1 = new Account(Name = 'Community', BillingCountry = 'United States');
+        insert account_1;
+
+        Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
+            Protocol_ID__c = 'tt123456790',
+            Override_Recruitment_Status__c = 'Actively Enrolling',
+            NCT_Number__c = 'NCT00000002',
+            Link_to_Pre_screening__c = 'some link',
+            Study_Title__c = 'Some Title',
+            Study_Code_Name__c = 'Some Code Name',
+            Suppress_Participant_Emails__c = false
+        );
+        insert clinical;
+
+        Study_Site__c studySite = new Study_Site__c(
+            Name = 'Test',
+            Study_Site_Phone__c = '0000034445',
+            Clinical_Trial_Profile__c = clinical.Id,
+            Site__c = account_1.Id,
+            Study_Site_Type__c = 'Traditional',
+            Suppress_Participant_Emails__c = false
+        );
+        insert studySite;
+        Participant_Enrollment__c pe = new Participant_Enrollment__c(
+            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+            Initial_visit_scheduled_date__c = date.today(),
+            Patient_ID__c = 'SomePatientId1',
+            Referral_Source__c = 'HCP',
+            Study_Site__c=studySite.id,
+            Source_Type__c = 'Referring Provider',
+            HighRisk_Indicator__c = 'Yes',
+            Participant__c = participant.Id,
+            Screening_ID__c = 'PESCR1',
+            Comorbidities__c = 'Yes'
+        );
+        insert pe;
+
+        Contact pcon = new Contact(
+            FirstName = 'PTest',
+            LastName = 'PTest',
+            Email = 'PTest@emil.com',
+            Language__c = 'en_US',
+            MailingCountry = 'United States'
+        );
+        insert pcon;
+        
+        Participant__c p = new Participant__c(
+            First_Name__c = 'Patient',
+            Last_Name__c = 'Delegate',
+            Email__c = 'delegate@somemail.com',
+            Contact__c = pcon.Id
+        );
+        insert p;  
+
+        Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
+            Contact__c = partContact.Id,
+            Contact__r = partContact,
+            Participant__c = participant.Id,
+            Participant__r = participant,
+            Participant_Delegate__c = p.Id,
+            Participant_Delegate__r = p,
+            Primary_Delegate__c = true,
+            Status__c='Active'
+        );
+        
+        insert patientDelegate;
+
+        ParticipantEnrollmentPatientDelJunction__c peJun = new ParticipantEnrollmentPatientDelJunction__c(
+            Patient_Delegate_Contact__c=patientDelegate.Contact__c,
+            Welcome_Message_Sent__c=false,
+            Welcome_Message_Delivered__c=false,
+            Participant_Enrollment__c=pe.id
+        );
+        insert peJun;
+
+        Test.startTest();
+        partContact.MobilePhone='12223';
+        partContact.is_Invalid_number__c=true;
+        update partContact;
+        try {
+            insert new Contact(
+                FirstName = 'PTest001',
+                LastName = 'PTest001',
+                Email = 'PTest001@emil.com',
+                Language__c = 'en_US',
+                MailingCountry = 'United States',
+                primaryContact__c = partContact.Id
+            );
+        } catch(Exception ex){}
+        Test.stopTest();
     }
 }
