@@ -90,7 +90,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     closeTaskImg = pp_icons + '/' + 'Oval_Completed.svg';
     reminderObj = {
         name: this.label.taskCreateReminder,
-        iconUrl: 'reminderbell_icom',
+        iconUrl: 'reminderbell_icon',
         reminder: true
     };
     editObj = {

@@ -29441,4 +29441,32 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Task Subject Complete Survey PP</shortDescription>
         <value>##SurveyName</value>
     </labels>
+    <labels>
+        <fullName>Updates_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Updates</shortDescription>
+        <value>Updates</value>
+    </labels>
+    <labels>
+        <fullName>View_All_Resource</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View All Resources</shortDescription>
+        <value>View All Resources</value>
+    </labels>
+    <labels>
+        <fullName>Helpful_Links</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HELPFUL LINKS</shortDescription>
+        <value>HELPFUL LINKS</value>
+    </labels>
+    <labels>
+        <fullName>Caught_up</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>You are all caught up</shortDescription>
+        <value>You are all caught up</value>
+    </labels>
 </CustomLabels>
