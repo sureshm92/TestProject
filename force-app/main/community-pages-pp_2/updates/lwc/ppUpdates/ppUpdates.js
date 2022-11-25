@@ -72,6 +72,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     }
 
     async getUpdates(returnValue) {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        this.spinner ? this.spinner.show() : '';
         await getUpdateResources({ linkWrapperText: returnValue })
             .then((result) => {
                 var counterForLoop = 0;
