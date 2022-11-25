@@ -61,14 +61,18 @@ export default class PpResourceEngage extends LightningElement {
 
     async initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
-        this.spinner.show();
+        if (this.spinner) {
+            this.spinner.show();
+        }
         //get all Articles/Videos together to avoid extra calls
         await getResources({ resourceType: 'Article;Video', resourceMode: 'Default' })
             .then((result) => {
                 this.resourcesData = result.wrappers;
                 this.resourcesFilterData = this.resourcesData[0] ? this.resourcesData : false;
                 this.isDisabled = this.resourcesData[0] ? false : true;
-                this.spinner.hide();
+                if (this.spinner) {
+                    this.spinner.hide();
+                }
                 this.isInitialized = true;
             })
             .catch((error) => {
