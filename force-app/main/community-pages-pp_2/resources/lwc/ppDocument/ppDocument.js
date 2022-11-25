@@ -20,6 +20,10 @@ export default class Documents extends NavigationMixin(LightningElement) {
     };
 
     connectedCallback() {
+        this.processData();
+    }
+
+    processData() {
         this.id = this.document.resource.Id;
         this.title = this.document.resource.Title__c;
         this.versiondate = this.document.resource.Version_Date__c;

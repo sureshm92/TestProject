@@ -57,7 +57,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     @track selectedResourceType;
     @track options = [];
 
-    selectedOptions = 'Engage';
+    selectedOptions;
     containerElement;
     enableChangePref = false;
     enableChangePrefOnDocs = false;
@@ -70,7 +70,31 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-        this.selectedResourceType = 'engage';
+        if (!this.desktop) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            let resType = urlParams.get('resType');
+            if (resType) {
+                this.selectedResourceType = resType;
+                if (resType == 'engage') {
+                    this.selectedOptions = this.labels.ENGAGE;
+                } else if (resType == 'documents') {
+                    this.selectedOptions = this.labels.DOCUMENTS;
+                } else if (resType == 'explore') {
+                    this.selectedOptions = this.labels.EXPLORE;
+                } else if (resType == 'discover') {
+                    this.selectedOptions = this.labels.DISCOVER_TITLE;
+                } else if (resType == 'answers') {
+                    this.selectedOptions = this.labels.FIND_ANSWERS;
+                }
+            } else {
+                this.selectedResourceType = 'engage';
+                this.selectedOptions = 'Engage';
+            }
+        } else {
+            this.selectedOptions = 'Engage';
+            this.selectedResourceType = 'engage';
+        }
         this.initializeData();
     }
     // renderedCallback(){
