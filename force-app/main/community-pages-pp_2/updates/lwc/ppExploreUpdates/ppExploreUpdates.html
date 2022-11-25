@@ -2,13 +2,15 @@
     <template if:false={desktop}>
         <div class="slds-grid slds-wrap card-border">
             <div class="slds-col slds-size_2-of-6 card-element">
+                <template if:false={noExploreImage}>
                 <img
                     class="explore-image"
-                    if:false={noExploreImage}
+                    onclick={navigateResourceDetail}
                     src={exploreData.resource.Image__c}
                     onerror={handleNoExploreImageError}
                 />
-                <div if:true={noExploreImage} class="slds-align_absolute-center icon-container">
+            </template>
+                <div if:true={noExploreImage} class="slds-align_absolute-center icon-container" onclick={navigateResourceDetail}>
                     <c-web-icon
                         icon-color="#b5b5b5"
                         icon-width="35"
@@ -43,13 +45,15 @@
         <template if:true={showVisitSection}>
             <div class="slds-grid slds-wrap card-border-desktop">
                 <div class="slds-col slds-size_2-of-6 card-element">
-                    <img
-                        if:false={noExploreImage}
-                        src={exploreData.resource.Image__c}
-                        class="explore-image"
-                        onerror={handleNoExploreImageError}
-                    />
-                    <div if:true={noExploreImage} class="slds-align_absolute-center icon-container">
+                    <template if:false={noExploreImage}>
+                        <img
+                            class="explore-image"
+                            onclick={navigateResourceDetail}
+                            src={exploreData.resource.Image__c}
+                            onerror={handleNoExploreImageError}
+                        />
+                    </template>
+                    <div if:true={noExploreImage} class="slds-align_absolute-center icon-container" onclick={navigateResourceDetail}>
                         <c-web-icon
                             icon-color="#b5b5b5"
                             icon-width="35"
@@ -82,13 +86,15 @@
         </template>
         <template if:false={showVisitSection}>
             <div class="slds-align_absolute-center explore-section-horizontal">
-                <img
-                    if:false={noExploreImage}
-                    src={exploreData.resource.Image__c}
-                    class="explore-image"
-                    onerror={handleNoExploreImageError}
-                />
-                <div if:true={noExploreImage} class="slds-align_absolute-center">
+                <template if:false={noExploreImage}>
+                    <img
+                        class="explore-image"
+                        onclick={navigateResourceDetail}
+                        src={exploreData.resource.Image__c}
+                        onerror={handleNoExploreImageError}
+                    />
+                    </template>
+                <div if:true={noExploreImage} class="slds-align_absolute-center" onclick={navigateResourceDetail}>
                     <c-web-icon
                         icon-color="#b5b5b5"
                         icon-width="55"
