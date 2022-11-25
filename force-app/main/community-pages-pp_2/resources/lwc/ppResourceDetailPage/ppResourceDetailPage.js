@@ -108,8 +108,10 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
     handleBackClick() {
         let pageLink;
+        let subDomain=communityService.getSubDomain();
         if (FORM_FACTOR == 'Large') {
-            pageLink = window.location.origin + '/pp/s/resources';
+            
+            pageLink = window.location.origin + subDomain + '/s/resources';
         } else {
             let resType;
             if (this.resourceType == 'Study_Document') {
@@ -117,7 +119,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
             } else if (this.resourceType == 'Video' || this.resourceType == 'Article') {
                 resType = 'explore';
             }
-            pageLink = window.location.origin + '/pp/s/resources?resType=' + resType;
+            pageLink = window.location.origin + subDomain +'/s/resources?resType=' + resType;
         }
         const config = {
             type: 'standard__webPage',
