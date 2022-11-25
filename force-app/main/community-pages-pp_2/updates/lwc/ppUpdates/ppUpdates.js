@@ -29,7 +29,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-
+        this.spinner = this.template.querySelector('c-web-spinner');
+        this.spinner ? this.spinner.show() : '';
         this.initializeData();
     }
 
@@ -59,7 +60,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                     delete resObj.resource.Therapeutic_Area_Assignments__r;
                 });
                 this.getUpdates(JSON.stringify(initData));
-                this.spinner.hide();
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');

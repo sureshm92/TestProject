@@ -44,11 +44,11 @@ export default class HomePageParticipantNew extends LightningElement {
                         this.initializeData();
                     })
                     .catch((error) => {
-                        console.log(error.body.message);
+                        this.showErrorToast('Error occured', error.message, 'error');
                     });
             })
             .catch((error) => {
-                communityService.showToast('', 'error', error.message, 100);
+                this.showErrorToast('Error occured', error.message, 'error');
             });
     }
 
@@ -92,8 +92,7 @@ export default class HomePageParticipantNew extends LightningElement {
                 this.spinner.hide();
             })
             .catch((error) => {
-                console.log('error::' + JSON.stringify(error));
-                this.error = error;
+                this.showErrorToast('Error occured', error.message, 'error');
                 this.spinner.hide();
             });
     }

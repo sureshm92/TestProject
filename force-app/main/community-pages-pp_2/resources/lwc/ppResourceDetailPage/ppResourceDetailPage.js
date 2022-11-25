@@ -8,7 +8,8 @@ import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import Uploaded from '@salesforce/label/c.Resource_Uploaded';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
 import FORM_FACTOR from '@salesforce/client/formFactor';
-export default class PpResourceDetailPage extends LightningElement {
+import { NavigationMixin } from 'lightning/navigation';
+export default class PpResourceDetailPage extends NavigationMixin(LightningElement) {
     userTimezone = TIME_ZONE;
     isInitialized = false;
     resourceType;
@@ -118,7 +119,17 @@ export default class PpResourceDetailPage extends LightningElement {
             }
             pageLink = window.location.origin + '/pp/s/resources?resType=' + resType;
         }
-        window.location.assign(pageLink);
+        const config = {
+            type: 'standard__webPage',
+
+            attributes: {
+                url: pageLink
+            }
+        };
+
+        this[NavigationMixin.GenerateUrl](config).then((url) => {
+            window.open(url, '_self');
+        });
     }
 
     handleFavourite() {
