@@ -33,7 +33,7 @@
                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col2 slds-p-horizontal_large"
                     data-id={column2}
                 >
-                    <h1 if:false={past} class="visit3">
+                    <h1 if:false={past} class="visit3 slds-truncate" title={visitName}>
                         {visitName}
                         <div class="visit-date-time">
                             <template if:true={plannedDate}>
@@ -54,7 +54,7 @@
                             <template if:false={plannedDate}> {label.noVisitsLabel} </template>
                         </div>
                     </h1>
-                    <h1 if:true={past} class="visit3">
+                    <h1 if:true={past} class="visit3 slds-truncate" title={visitName}>
                         {visitName}
                         <div class="visit-date-time">{visitStatus}</div>
                     </h1>
@@ -64,7 +64,7 @@
                             <div class="slds-clearfix">
                                 <template if:false={isError}>
                                     <!--<template if:true={contentLoaded}>-->
-                                    <div class="slds-float_left rem-border">
+                                    <div class="rem-border">
                                         <c-pp-r-r-icon-splitter
                                             icons={icondetails}
                                             label={cblabel}

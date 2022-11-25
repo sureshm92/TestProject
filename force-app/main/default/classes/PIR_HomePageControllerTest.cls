@@ -624,6 +624,22 @@ public without sharing class PIR_HomePageControllerTest {
         
         Test.stopTest();
     }
+
+    @isTest
+    static void testCreateScreener(){
+        TestData testData = new TestData();
+        PreScreener_Survey__c objScreener = new PreScreener_Survey__c(Link_to_Pre_screening__c ='https://surveytest.com',
+                                                                     MRR__c = false,Prescreener__c = false,Primary__c=false,
+                                                                     Survey_Name__c ='testScreenerNew',Study__c=testData.ctp.id);
+        insert objScreener;
+         System.runAs(testData.piUser) {
+        test.startTest();
+        PIR_HomepageController.createScreenerResponse(testData.pe.Id,'Pass','https://surveytest.com',JSON.serialize(objScreener));
+        
+         }
+        test.stopTest(); 
+        
+    }
     @isTest
     static void testsetMRRStatus() {        
         TestData testData = new TestData();

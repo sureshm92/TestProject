@@ -62,7 +62,6 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                     pertoupdate.Study_PI_Storage_Consent_Time__c = enrollmentWithConsentTimestamps.get(per.Id).get('Permit_IQVIA_to_contact_about_study__c');
                     check = true;
                 }else if(per.Study_PI_Storage_Consent_Time__c == null && per.Permit_IQVIA_to_contact_about_study__c){
-                    pertoupdate.IQVIA_Contact_info_storage_consent__c = true;
                     pertoupdate.Study_PI_Storage_Consent_Time__c = per.createddate;
                     check = true;
                 }

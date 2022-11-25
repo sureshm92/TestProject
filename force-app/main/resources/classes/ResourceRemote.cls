@@ -15,6 +15,43 @@ public without sharing class ResourceRemote {
             return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
         }
     }
+    @AuraEnabled
+    public static UpdateWrapper getUpdateResources(String linkWrapperText) {
+        //get all resources //get counter // send wrapper // check for toggles for participant
+        try {
+            Integer counter=0;
+            //Relevant links data
+            RelevantLinksRemote.InitDataNew linkWrapper = (RelevantLinksRemote.InitDataNew) JSON.deserialize(
+                linkWrapperText,
+                RelevantLinksRemote.InitDataNew.class
+            );
+            List<ResourceService.ResourceWrapper> resUpdates = linkWrapper.resources;
+            ResourceDelegate rDelegate = ResourceDelegate.getInstance();
+            //Article/Video Data
+            ResourceService.ResourceWrapperContainer contExplore = rDelegate.getResources(
+                'Article;Video'
+            );
+
+            //Documents Data
+            ResourceService.ResourceWrapperContainer contDocs = rDelegate.getStudyDocuments();
+            contDocs.wrappers = ResourceService.removeTranslations(contDocs.wrappers);
+
+            resUpdates.addAll(contDocs.wrappers);
+            resUpdates.addAll(contExplore.wrappers);
+            if (resUpdates.size() > 0) {
+                resUpdates = ResourceService.sortResourcesByCreatedDate(resUpdates);
+                resUpdates = ResourceService.sortResourcesByCOI(resUpdates);
+                counter = ResourceService.getUpdatesCounter(resUpdates);
+            }
+            UpdateWrapper up = new UpdateWrapper();
+            up.resources = resUpdates;
+            up.counter=counter;
+
+            return up;
+        } catch (Exception e) {
+            return (UpdateWrapper) AuraHelper.throwException(e);
+        }
+    }
 
     @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getStudyDocuments() {
@@ -134,5 +171,17 @@ public without sharing class ResourceRemote {
         submittedArticles.add(res);
         if (!submittedArticles.isEmpty())
             insert submittedArticles;
+    }
+    public class UpdateWrapper {
+        @AuraEnabled
+        public Boolean linkToggle = false;
+        @AuraEnabled
+        public Boolean docToggle = false;
+        @AuraEnabled
+        public Boolean exploreToggle = false;
+        @AuraEnabled
+        public Integer counter = 0;
+        @AuraEnabled
+        public List<ResourceService.ResourceWrapper> resources = new List<ResourceService.ResourceWrapper>();
     }
 }

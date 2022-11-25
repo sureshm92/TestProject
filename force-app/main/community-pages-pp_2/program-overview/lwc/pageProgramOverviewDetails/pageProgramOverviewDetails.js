@@ -137,7 +137,6 @@ export default class ProgramOverviewDetails extends LightningElement {
 
             getisRTL()
                 .then((data) => {
-                    debugger;
                     this.isRTL = data;
                 })
                 .catch(function (error) {

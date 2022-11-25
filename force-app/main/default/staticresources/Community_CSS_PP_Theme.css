@@ -3,7 +3,10 @@
         padding: 0px !important;
         background-color: #f6f7fb;
     }
-
+    .rr-min-body-height .rr-min-body-height {
+        height: auto !important;
+    }
+    
     .toastContainer > .forceToastMessage {
         width: 95% !important;
     }
@@ -299,6 +302,10 @@
     opacity: 1;
 }
 
+.help-support{
+    height: 40px;
+    padding-top: 0.3rem;
+}
 /* getSupport Year css */
 
 .support-year button {
@@ -413,6 +420,23 @@
     line-height: 1.5rem !important;
     padding-left: 1rem !important;
     font-weight: 600 !important;
+}
+/* Get Support */
+
+.help-match-username-radio-options .slds-form-element__label{
+    height: 24px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    max-width: 91%;
+    width: auto;
+    display: inline-block;
+    height: auto;
+    word-break: break-word;
+    text-align: left;
+    margin-top: -2px;
 }
 
 .logo-container-pp {
@@ -963,7 +987,8 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 
 ::-webkit-scrollbar-track {
-    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
+    /* box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08); */
+    box-shadow: none;
     border-radius: 8px;
 }
 
@@ -987,3 +1012,67 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     width: 16px;
     color: #015FF1;
 }
+
+/* Opt out page PP 2.0 */
+
+.logo-block-mobile .rr-width-limiter{
+    padding: 0px !important;
+    background-color: transparent;
+}
+
+.opt-out-comm-pref, .opt-out-page-tech-support{
+    padding-left: 5px;
+}
+.opt-out-comm-pref span.slds-checkbox{
+    line-height: 28px;
+}
+
+.opt-out-page-tech-support span.slds-checkbox{
+    line-height: 32px;
+}
+
+.opt-out-comm-pref .slds-form-element__label{
+    height: 48px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px !important;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-top: -7px !important;
+    margin-bottom: 16px;
+    margin-left: 3px;
+}
+
+.opt-out-comm-pref .slds-checkbox__label{
+    display: flex;
+}
+
+.opt-out-comm-pref-mobile .slds-form-element__label{
+    height: 64px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px !important;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-top: -7px !important;
+    margin-left: 3px;
+}
+
+.opt-out-comm-pref-mobile .slds-checkbox__label{
+    display: flex;
+}
+
+.opt-out-comm-pref-mobile span.slds-checkbox{
+    line-height: 26px;
+}
+
+.opt-out-page-tech-support .slds-form-element__label{
+    height: 19px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px !important;
+    letter-spacing: 0;
+    line-height: 19px;
+    margin-left: 3px;
+}
+  

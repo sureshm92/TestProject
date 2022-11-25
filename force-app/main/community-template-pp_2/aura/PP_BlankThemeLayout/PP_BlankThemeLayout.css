@@ -49,11 +49,21 @@
     margin-top: 125px;
     margin-bottom: 182px;
     box-sizing: border-box;
-    height: 712px;
+    height: 750px;
     width: 613px;
     border-radius: 39px;
     background-color: #ffffff;
     box-shadow: 0 0 64px 0 rgb(0 0 0 / 25%);
+}
+
+.THIS .logo-block-mobile {
+    height: 687px;
+    /* width: 382px; */
+    border-radius: 24px;
+    background-color: #ffffff;
+    box-shadow: 0 0 64px 0 rgba(0, 0, 0, 0.25);
+    margin: 10px;
+    margin-top: 122px;
 }
 
 .THIS .rr-link {
@@ -89,6 +99,11 @@
     padding-left: 48px;
 }
 
+.THIS .page-content-mobile {
+    margin-top: -94px;
+    padding-left: 24px;
+}
+
 .THIS .cusContentMargin {
     margin-left: -24px;
 }
@@ -97,15 +112,29 @@
     height: 60px;
     border-radius: 0 0 24px 24px;
     background-color: #f2f2f2;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+    position: absolute;
+    top: 50.938rem;
+    width: 38.313rem;
     color: white;
     text-align: right;
 }
+.THIS .mob-footerOptOut {
+    height: 60px;
+    border-radius: 0 0 24px 24px;
+    background-color: #f2f2f2;
+    /* position: absolute; */
+    bottom: 0;
+    width: 100%;
+    color: white;
+}
+
+.THIS .center {
+    text-align: center;
+    line-height: 60px;
+}
 
 .THIS .poweredBy {
+    height: 24px;
     color: #999999;
     font-family: 'Proxima Nova';
     font-size: 13px;
@@ -113,7 +142,28 @@
     line-height: 16px;
 }
 
-@media (max-width: 500px) {
+.THIS .powered-by-mobile {
+    height: 24px;
+    color: #999999;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 14px;
+}
+
+.THIS .img-dimensions {
+    height: 70%;
+    width: 110px;
+    margin-top: 8px;
+    margin-right: 8px;
+}
+
+.THIS .img-dimensions-mobile {
+    height: 50%;
+    line-height: 60px;
+}
+
+/* @media (max-width: 500px) {
     .THIS .logo-block {
         width: 80%;
         margin-top: 20px;
@@ -125,7 +175,7 @@
         padding: 0 20px;
         margin-top: 10px;
     }
-}
+} */
 
 .THIS .iqvia {
     height: 38px;
@@ -134,6 +184,15 @@
     font-size: 32px;
     letter-spacing: 0;
     line-height: 38px;
+}
+
+.THIS .iqvia-mobile {
+    height: 34px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 28px;
+    letter-spacing: 0;
+    line-height: 30px;
 }
 
 .THIS .patient-portal {
@@ -146,6 +205,16 @@
     line-height: 35px;
 }
 
+.THIS .patient-portal-mobile {
+    height: 34px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 30px;
+}
+
 .THIS .for-participants-c {
     height: 22px;
     color: #444444;
@@ -154,6 +223,16 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: 22px;
+}
+
+.THIS .for-participants-c-mobile {
+    height: 22px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 20px;
 }
 
 .THIS .mb-16 {

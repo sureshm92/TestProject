@@ -107,11 +107,7 @@
     border-left: 4px solid #005587;
     height: 40px;
 }
-@media only screen and (max-width: 600px) {
-    /* .bg-cards{
-      margin-top: 110px !important;
-    } */
-}
+
 .svg-icon-with-text {
     top: 6px;
     position: relative;

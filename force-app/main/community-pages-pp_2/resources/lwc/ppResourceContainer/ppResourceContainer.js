@@ -19,6 +19,7 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
     @api isFavourite = false;
     @api resourceSummary;
     @api isVoted = false;
+    state;
     isThumbnailPresent = false;
 
     label = {
@@ -27,6 +28,9 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
 
     connectedCallback() {
         this.isThumbnailPresent = this.thumbnail ? true : false;
+        if (communityService.isInitialized()) {
+            this.state=communityService.getCurrentCommunityMode().participantState;
+        }
     }
 
     handleNavigate() {
@@ -36,7 +40,9 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
             '?resourceid=' +
             this.resourceId +
             '&resourcetype=' +
-            this.resourceType;
+            this.resourceType +
+            '&state=' +
+            this.state;
 
         const config = {
             type: 'standard__webPage',

@@ -40,15 +40,20 @@
                     </lightning-layout-item> -->
 
                     <lightning-layout-item size="12">
-                         <div class="dropdown" data-key="dropdown" onclick={showOptions}>
+                        <div class="dropdown" data-key="dropdown" onclick={showOptions}>
                             <span>{selectedOptions}</span>
-                                <ul class="res-options hidden">
-                                    <template for:each={options} for:item="option">                                       
-                                        <li class="noselected" key={option.value} data-key={option.value} onclick={updateResources}>
-                                            <span>{option.label}</span>
-                                        </li>
-                                    </template>
-                                </ul>
+                            <ul class="res-options hidden">
+                                <template for:each={options} for:item="option">
+                                    <li
+                                        class="noselected"
+                                        key={option.value}
+                                        data-key={option.value}
+                                        onclick={updateResources}
+                                    >
+                                        <span>{option.label}</span>
+                                    </li>
+                                </template>
+                            </ul>
                         </div>
                     </lightning-layout-item>
                 </lightning-layout>
@@ -67,23 +72,23 @@
                                 </div> -->
                                 <!-- END : COMING SOON -->
                                 <!-- ENGAGE LWC COMPONENT PLACEHOLDER -->
-                                <img class="empty-state" src={empty_state}/>
+                                <img class="empty-state" src={empty_state} />
                                 <p class="no-links-available mt-15">No modules available</p>
                             </div>
                         </lightning-layout-item>
                     </template>
 
                     <template if:true={exploreVisible}>
-                        <lightning-layout multiple-rows="true">
+                       
                             <lightning-layout-item size="12">
                                 <!--Explore Section starts here-->
-                                <div class="res-explore-container">
+                                <div class="res-explore-container res-explore-mobile">
                                     <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
                                     <c-pp-resource-engage desktop={desktop} is-rtl={isRTL}>
                                     </c-pp-resource-engage>
                                 </div>
                             </lightning-layout-item>
-                        </lightning-layout>
+                     
                     </template>
 
                     <template if:true={discoverVisible}>
@@ -91,7 +96,7 @@
                             <lightning-layout-item size="12">
                                 <div class="links-will-open-in-a">
                                     Links will open in a new browser window. IQVIA Patient Portal is
-                                    not responsible for content provided in externa, websites
+                                    not responsible for content provided in external websites.
                                 </div>
                                 <!--Discover Section starts here-->
                             </lightning-layout-item>
@@ -133,9 +138,9 @@
                         </lightning-layout-item>
                     </lightning-layout>
                 </template>
-           
+
                 <lightning-layout multiple-rows="true">
-                    <lightning-layout-item size="12" class="mt-10 mb-10">                       
+                    <lightning-layout-item size="12" class="mt-16 mb-10">                       
                         <c-pp-contribute-section></c-pp-contribute-section>                       
                     </lightning-layout-item>
                 </lightning-layout>

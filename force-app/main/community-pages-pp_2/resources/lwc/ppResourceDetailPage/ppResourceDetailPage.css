@@ -53,15 +53,17 @@
     font-weight: 600;
     margin-left: 32px;
 }
-.page-container {
-    background-color: #f6f7fb;
+.rr-all-content .page-container {
+    background-color: #f6f7fb !important;
+}
+.page-margin {
     margin: -30px 0 0 0;
 }
 .resource-container {
     padding: 1.5% 19%;
 }
 .back-link {
-    margin: 12px 84% 0 28px;
+    margin: 12px 8% 0 28px;
     font-size: 16px;
     font-weight: 600;
     display: flex;
@@ -72,7 +74,7 @@
 .ah-video-iframe {
     position: relative;
     padding-bottom: 56.25%;
-    height: 0;
+    height: 620px;
     overflow: hidden;
     margin-top: -1%;
 }
@@ -80,6 +82,28 @@ hr {
     margin: 0%;
     margin-top: 2px;
 }
-.icon-center{
+.icon-center {
     margin: 0% 35%;
+}
+@media (max-width: 486px) {
+    .back-link{
+        padding: 36px 0 24px 0;
+    }
+    .resource-heading{
+        font-size: 24px;
+        padding-top: 8px;
+    }
+    .study-title-mobile{
+        margin-right: 32px;
+    }
+    .study-title{
+        padding-right: 32px;
+    }
+    }
+.my_iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }

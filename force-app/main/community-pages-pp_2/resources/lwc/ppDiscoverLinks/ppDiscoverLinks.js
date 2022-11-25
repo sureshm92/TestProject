@@ -1,4 +1,4 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
@@ -15,8 +15,22 @@ export default class PpDiscoverLinks extends LightningElement {
     discoverEmptyState = false;
     desktop = true;
 
+    @api toggleExplore = false;
+
     open_new_tab = pp_community_icons + '/' + 'open_in_new.png';
     empty_state = pp_community_icons + '/' + 'discover_empty.png';
+
+    get cardContainerHeight(){
+        if(!this.toggleExplore){
+            return "card-container card-container-height-medium";
+        }
+        else if(this.toggleExplore){
+            return "card-container card-container-height-small";
+        }
+        else{
+            return "card-container";
+        }
+    }
 
     connectedCallback(){
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);

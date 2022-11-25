@@ -82,6 +82,7 @@
     border-top: none;
     border-bottom: none;
     padding: 4.5%;
+    width: 295px;
 }
 .slds-nav-vertical__action:hover {
     color: #ffffff;
@@ -121,10 +122,6 @@ li:last-child {
     width: 100%;
     text-align: left;
 }
-.header-container {
-    height: 10vh;
-    position: sticky;
-}
 .header-combobox {
     position: relative;
 }
@@ -139,7 +136,6 @@ li:last-child {
     height: 72vh;
     border-radius: 1rem;
     background-color: #ffffff;
-    /* position: fixed; */
 }
 .tc-container {
     overflow: scroll;

@@ -151,6 +151,10 @@
 
         //init items for every type
         let participantTabs = [];
+        if (communityService.getCurrentCommunityTemplateName() == 'PatientPortal') {
+            let homepage = this.allPagesMap[''];
+            homepage.label =  $A.get('$Label.c.Navigation_Home');
+        }
         participantTabs.push(this.allPagesMap['participant-home']);
         if (communityService.getCurrentCommunityMode().currentPE) {
             if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {

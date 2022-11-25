@@ -1,12 +1,17 @@
 import { LightningElement ,track} from 'lwc';
 
+import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
+import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
+import formFactor from '@salesforce/client/formFactor';
+
 import getInitData from '@salesforce/apex/OptOutAndTechnicalSupportRemote.getInitData';
 import createSupportCases from '@salesforce/apex/OptOutAndTechnicalSupportRemote.createSupportCases';
-import PPOPTOUTCOMMUNICATIONPREF from '@salesforce/label/c.Opt_Out_Update_Communication_Pref';
-import PPOPTOUTCOMMUNICATIONPREFHELP from '@salesforce/label/c.Opt_Out_Update_Communication_Pref_Help';
+import PPOPTOUTCOMMUNICATIONPREF from '@salesforce/label/c.PP_Opt_Out_Update_Communication_Pref';
+import PPOPTOUTCOMMUNICATIONPREFHELP from '@salesforce/label/c.PP_Opt_Out_Update_Communication_Pref_Help';
 import PPCPSUBMITBTN from '@salesforce/label/c.CP_Submit_Button';
 import PPOPTOUTSUCCESSMSG from '@salesforce/label/c.PP_Opt_Out_Success_Message';
-
+import PPOptOutCloseWindow from '@salesforce/label/c.PP_Opt_Out_Close_window';
 
 export default class PpOptOutAndTechnicalSupport extends LightningElement {
 
@@ -23,8 +28,11 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
         PPOPTOUTCOMMUNICATIONPREF,
         PPOPTOUTCOMMUNICATIONPREFHELP,
         PPCPSUBMITBTN,
-        PPOPTOUTSUCCESSMSG
+        PPOPTOUTSUCCESSMSG,
+        PPOptOutCloseWindow
     };
+
+    isMobile = false;
 
 
     get displayLabel(){
@@ -35,12 +43,20 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
           return 'slds-show main-content-div';
         }
     }
-    get buttonDisplay(){
+    get displayLabelMobile(){
         if(this.showSuccessMessage){
             return 'slds-hide';
         }
         else{
-            return 'slds-show submit-button-div';
+          return 'slds-show main-content-div-mobile';
+        }
+    }
+    get buttonDisplay(){
+        if(this.showSuccessMessage){
+            return 'slds-hide ml-24';
+        }
+        else{
+            return 'slds-show submit-button-div ml-24';
         }
     }
     get displayLogo(){
@@ -54,10 +70,31 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
     connectedCallback(){
         this.disabled = true;
 		this.showSpinner = true;
+
+        if (formFactor === 'Small') {
+            this.isMobile = true;
+        } else {
+            this.isMobile = false;
+        }
+
         let language = communityService.getUrlParameter('language');
         if (!language || language === '') {
             language = 'en_US';
         }
+
+        loadScript(this, RR_COMMUNITY_JS)
+        .then(() => {
+            Promise.all([loadStyle(this, communityPPTheme)])
+                .then(() => {
+
+                })
+                .catch((error) => {
+                    console.log(error.body.message);
+                });
+        })
+        .catch((error) => {
+            communityService.showToast('', 'error', error.message, 100);
+        });  
 
         getInitData({ strLanguage: language })
         .then((data) => {
@@ -116,6 +153,10 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
         .catch(function (error) {
             console.error(JSON.stringify(error));
         });
+    }
+
+    closeWindow(){
+        window.close();
     }
 
 
