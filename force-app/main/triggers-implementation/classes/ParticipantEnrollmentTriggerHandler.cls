@@ -926,7 +926,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     ContactService.addwelcomeNotifications(
                         pe.Participant_Contact__c,
                         pe.Participant__c,
-                        NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG
+                        NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG,
+                        false
                     )
                 );
             }
@@ -954,7 +955,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         ContactService.addwelcomeNotifications(
                             pe.Participant_Contact__c,
                             pe.Id,
-                            NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG
+                            NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG,
+                            false
                         )
                     );
                 }
@@ -1001,7 +1003,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         ContactService.addwelcomeNotifications(
                             delegateId,
                             pe.Id,
-                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
+                            true
                         )
                     );
                     //Create jonction object record between PER and Patient Delegate contact records
@@ -1024,7 +1027,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             ContactService.addwelcomeNotifications(
                                 delegateId,
                                 pe.Participant__c,
-                                NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG,
+                                true
                             )
                         );
                     }

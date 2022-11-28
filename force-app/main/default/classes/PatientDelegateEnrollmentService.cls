@@ -307,7 +307,10 @@ public without sharing class PatientDelegateEnrollmentService {
         List<Patient_Delegate_Enrollment__c> pdePatientDelegates = (List<Patient_Delegate_Enrollment__c>) DatabaseService.query(
             pdFields,
             Patient_Delegate_Enrollment__c.getSObjectType(),
-            DatabaseService.fieldInValues('Patient_Delegate__r.Participant__r.Contact__c', partContactsIds) 
+            DatabaseService.fieldInValues('Patient_Delegate__r.Participant__r.Contact__c', partContactsIds) +
+            ' AND ' +
+            DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
+        
         );
 
         Map<Id, List<Contact>> delContactsByPartCnt = new Map<Id, List<Contact>>();

@@ -103,6 +103,7 @@ public without sharing class MessageTriggerHandler {
                             new Notification__c(
                                 Recipient__c = delConId,
                                 WhatId__c = conversation.Participant_Enrollment__c,
+                                IsDelegate__c = true;
                                 Notification_Type__c = notType //Message to PT when there is a new message	
                             )
                         );

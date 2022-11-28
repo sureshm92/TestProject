@@ -150,7 +150,7 @@ public without sharing class PENotificationTriggerHandler {
 
         //get Delegates for Participant
         List<Notification__c> delegateNotifications = new List<Notification__c>();
-        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateService.getDelegatedCntsByParticipantCnt(
+        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateEnrollmentService.getDelegatedCntsByParticipantCnt(
             participantConIds,
             new List<String>{ 'Id' }
         );

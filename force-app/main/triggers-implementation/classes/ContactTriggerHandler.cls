@@ -480,7 +480,8 @@ public without sharing class ContactTriggerHandler {
                                 ContactService.addwelcomeNotifications(
                                     con.Id,
                                     participantcontact.get(con.Id).Id,
-                                    NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG
+                                    NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG,
+                                    false
                                 )
                             );
                         } else if (con.UserCommunityIsDelegate__c == true) {
@@ -490,7 +491,8 @@ public without sharing class ContactTriggerHandler {
                                 ContactService.addwelcomeNotifications(
                                     con.Id,
                                     participantcontact.get(con.Id).Id,
-                                    NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                    NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG,
+                                    true
                                 )
                             );
                         }
@@ -519,7 +521,8 @@ public without sharing class ContactTriggerHandler {
                                     ContactService.addwelcomeNotifications(
                                         delegateconId,
                                         participantcontact.get(con.Id).Id,
-                                        NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                        NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG,
+                                        true
                                     )
                                 );
                             }
@@ -536,7 +539,8 @@ public without sharing class ContactTriggerHandler {
                                     ContactService.addwelcomeNotifications(
                                         con.Id,
                                         participantcontact.get(con.Id).Id,
-                                        NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG
+                                        NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG,
+                                        false
                                     )
                                 );
                             } else if (con.UserCommunityIsDelegate__c == true) {
@@ -547,7 +551,8 @@ public without sharing class ContactTriggerHandler {
                                     ContactService.addwelcomeNotifications(
                                         con.Id,
                                         participantcontact.get(con.Id).Id,
-                                        NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                        NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG,
+                                        true
                                     )
                                 );
                               }
@@ -572,7 +577,8 @@ public without sharing class ContactTriggerHandler {
                                     ContactService.addwelcomeNotifications(
                                         delegateconId,
                                         participantcontact.get(con.Id).Id,
-                                        NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                        NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG,
+                                        true
                                     )
                                 );
                             }
@@ -682,7 +688,8 @@ public without sharing class ContactTriggerHandler {
                                 ContactService.addwelcomeNotifications(
                                     per.Participant_Contact__c,
                                     per.Id,
-                                    NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG
+                                    NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG,
+                                    false
                                 )
                             );
                         }
@@ -693,7 +700,8 @@ public without sharing class ContactTriggerHandler {
                                     ContactService.addwelcomeNotifications(
                                         delegateconId,
                                         per.Id,
-                                        NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                                        NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
+                                        true
                                     )
                                 );
                             }
@@ -731,7 +739,8 @@ public without sharing class ContactTriggerHandler {
                         ContactService.addwelcomeNotifications(
                             per.Patient_Delegate_Contact__c,
                             per.Participant_Enrollment__c,
-                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
+                            true
                         )
                     );
                 }

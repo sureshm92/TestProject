@@ -170,7 +170,8 @@ public without sharing class StudySiteTriggerHandler {
                             ContactService.addwelcomeNotifications(
                                 per.Participant_Contact__c,
                                 per.Id,
-                                NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG
+                                NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG,
+                                false
                             )
                         );
                     }
@@ -205,7 +206,8 @@ public without sharing class StudySiteTriggerHandler {
                                 ContactService.addwelcomeNotifications(
                                     delegateId,
                                     pe.Id,
-                                    NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                                    NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
+                                    true
                                 )
                             );
                             //Create jonction object record between PER and Patient Delegate contact records

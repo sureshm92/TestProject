@@ -206,7 +206,8 @@ public without sharing class PatientDelegateTriggerHandler {
                                             ContactService.addwelcomeNotifications(
                                                 conId,
                                                 per.Id,
-                                                NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                                                NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
+                                                true
                                             )
                                         ); ///Remove the code
                                         //Create jonction object record between PER and Patient Delegate contact records
@@ -234,7 +235,8 @@ public without sharing class PatientDelegateTriggerHandler {
                         ContactService.addwelcomeNotifications(
                             per.Patient_Delegate_Contact__c,
                             per.Participant_Enrollment__c,
-                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
+                            true
                         )
                     );
                 }
@@ -269,7 +271,8 @@ public without sharing class PatientDelegateTriggerHandler {
                                 ContactService.addwelcomeNotifications(
                                     delCont,
                                     parId,
-                                    NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                    NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG,
+                                    true
                                 )
                             );
                         }
