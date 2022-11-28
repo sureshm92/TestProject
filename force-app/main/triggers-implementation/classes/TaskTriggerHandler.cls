@@ -237,7 +237,7 @@ public without sharing class TaskTriggerHandler {
                                     notifications.add(
                                         new Notification__c(
                                             Recipient__c = delContact.Id,
-                                            IsDelegate__c = true;
+                                            IsDelegate__c = true,
                                             WhatId__c = whatId,
                                             Notification_Type__c = card.Immediate_Notification_Type__c,
                                             RemindUsing__c = 'Email'
@@ -276,7 +276,7 @@ public without sharing class TaskTriggerHandler {
                             notifications.add(
                                 new Notification__c(
                                     Recipient__c = delContact.Id,
-                                    IsDelegate__c = true;
+                                    IsDelegate__c = true,
                                     Task_Id__c = task.Id,
                                     WhatId__c = task.Id,
                                     Notification_Type__c = 'Message_To_PT_Ecoa_Task_Instant_Del_Type',
