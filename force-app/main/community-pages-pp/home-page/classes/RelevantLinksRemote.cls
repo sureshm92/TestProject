@@ -133,7 +133,10 @@ public without sharing class RelevantLinksRemote {
                 COIsOfParticipant.add(tap.Therapeutic_Area__c);
 
             List<Resource__c> resourcesVisibleForParticipant = new List<Resource__c>();
-            if (initDataNew.relevantLinksAreAvailable) {
+            if (
+                initDataNew.relevantLinksAreAvailable ||
+                ps.value == ParticipantService.ParticipantStates.ALUMNI
+            ) {
                 //study specific relevant links
                 resourcesVisibleForParticipant = getStudySpecificResources(
                     contentType,
@@ -143,9 +146,9 @@ public without sharing class RelevantLinksRemote {
                     ps.isDelegate
                 );
             }
+
             if (
-                (ps.value == ParticipantService.ParticipantStates.ALUMNI &&
-                ps.isDelegate == false) || !initDataNew.relevantLinksAreAvailable
+                (ps.value == ParticipantService.ParticipantStates.ALUMNI )
             ) {
                 //platform level relevant links
                 resourcesVisibleForParticipant.addAll(
@@ -232,7 +235,7 @@ public without sharing class RelevantLinksRemote {
                 }
             }
 
-             resourcesVisibleForParticipant = [
+            resourcesVisibleForParticipant = [
                 SELECT
                     Id,
                     Title__c,
