@@ -21,20 +21,24 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     open_new_tab = pp_community_icons + '/' + 'open_in_new.png';
     empty_state = pp_community_icons + '/' + 'empty_updates.PNG';
     link_state = pp_community_icons + '/' + 'linkssvg.svg';
+    isRendered = false;
     label = {
         updatesLabel,
         viewAllResource,
         caughtup
     };
 
-    connectedCallback() {
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-        this.spinner = this.template.querySelector('c-web-spinner');
-        this.spinner ? this.spinner.show() : '';
-        this.initializeData();
+    renderedCallback() {
+        if (!this.isRendered) {
+            this.isRendered = true;
+            this.initializeData();
+        }
     }
 
     initializeData() {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        this.spinner.show();
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
         getInitDataNew()
             .then((returnValue) => {
                 this.isInitialized = true;
@@ -74,12 +78,16 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     async getUpdates(returnValue) {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner ? this.spinner.show() : '';
+        let state;
+        if (communityService.isInitialized()) {
+            state = communityService.getCurrentCommunityMode().participantState;
+        }
         await getUpdateResources({ linkWrapperText: returnValue })
             .then((result) => {
                 var counterForLoop = 0;
                 let data = JSON.parse(JSON.stringify(result));
                 this.counter = data.counter;
-                if (this.counter > 0) {
+                if (this.counter > 0 && state == 'PARTICIPANT') {
                     this.displayCounter = true;
                 }
                 data.resources.every((resObj) => {

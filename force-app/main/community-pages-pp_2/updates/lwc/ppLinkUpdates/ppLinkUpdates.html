@@ -4,13 +4,24 @@
             <div class="slds-col slds-size_2-of-6 card-element">
                 <div class="slds-align_absolute-center icon-container">
                     <div class="slds-align_absolute-center">
-                        <img src={link_state} class="link-img" />
+                        <img
+                            data-link={linkData.resource.URL__c}
+                            onclick={openLink}
+                            src={link_state}
+                            class="link-img"
+                        />
                     </div>
                 </div>
             </div>
             <div class="slds-col slds-size_4-of-6">
                 <div class="slds-grid data-section-helpful">
-                    <p class="helpful-links">{label.helpfulLinks}</p>
+                    <p
+                        data-link={linkData.resource.URL__c}
+                        class="helpful-links"
+                        onclick={openLink}
+                    >
+                        {label.helpfulLinks}
+                    </p>
                 </div>
                 <div class="slds-grid data-section">
                     <div class="slds-col slds-size_11-of-12">
@@ -45,13 +56,24 @@
                 <div class="slds-col slds-size_2-of-6 card-element">
                     <div class="slds-align_absolute-center icon-container">
                         <div class="slds-align_absolute-center">
-                            <img src={link_state} class="link-img" />
+                            <img
+                                data-link={linkData.resource.URL__c}
+                                onclick={openLink}
+                                src={link_state}
+                                class="link-img"
+                            />
                         </div>
                     </div>
                 </div>
                 <div class="slds-col slds-size_4-of-6">
                     <div class="slds-grid data-section-helpful">
-                        <p class="helpful-links">{label.helpfulLinks}</p>
+                        <p
+                            data-link={linkData.resource.URL__c}
+                            onclick={openLink}
+                            class="helpful-links"
+                        >
+                            {label.helpfulLinks}
+                        </p>
                     </div>
                     <div class="slds-grid data-section">
                         <div class="slds-col slds-size_11-of-12">
@@ -82,14 +104,29 @@
         </template>
         <template if:false={showVisitSection}>
             <div class="slds-align_absolute-center link-image-section-horizontal">
-                <img src={link_state} class="link-image" />
+                <img
+                    data-link={linkData.resource.URL__c}
+                    onclick={openLink}
+                    src={link_state}
+                    class="link-image"
+                />
             </div>
             <div class="helpful-link-horizontal">
-                <p class="helpful-link-title">{label.helpfulLinks}</p>
+                <p
+                    data-link={linkData.resource.URL__c}
+                    onclick={openLink}
+                    class="helpful-link-title"
+                >
+                    {label.helpfulLinks}
+                </p>
             </div>
             <div class="slds-grid open-tab-data-icon-container">
                 <div class="slds-col slds-size_10-of-12 title-section-horizontal">
-                    <p class="link-title-horizontal" onclick={openLink}>
+                    <p
+                        class="link-title-horizontal"
+                        data-link={linkData.resource.URL__c}
+                        onclick={openLink}
+                    >
                         {linkData.resource.Title__c}
                     </p>
                 </div>
