@@ -370,6 +370,10 @@ public without sharing class Action_SendSMS implements Action {
         }
     }
 
+    public Boolean isSMSAtStudyLevel(){
+
+    }
+
     public Map<Id, PinpointWrapper> processPlatformLevelCheck(
         List<Notification__c> notificationsList
     ) {
@@ -493,6 +497,36 @@ public without sharing class Action_SendSMS implements Action {
                 WHERE Id IN :participantIdList
             ]
         );
+        Map<Id, Patient_Delegate_Enrollment__c> pdelIdMap = new Map<Id, Patient_Delegate_Enrollment__c>(
+            [
+                SELECT
+                    Id,
+                        Patient_Delegate__r.Participant__r.Full_Name__c,
+                        Patient_Delegate__r.Id,
+                        Welcome_Message_Sent__c,
+                        Welcome_Message_Delivered__c,
+                        Patient_Delegate__r.Participant__r.Contact__c,
+                        Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                        Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                        Patient_Delegate__r.Participant__r.First_Name__c,
+                        Patient_Delegate__r.Participant__r.Last_Name__c,
+                        Patient_Delegate__r.Contact__c,
+                        Patient_Delegate__r.Participant__c,   
+                        Patient_Delegate__r.Participant_Delegate__r.Id,
+                        Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
+                        Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
+                        Patient_Delegate__r.Participant_Delegate__r.Email__c,
+                        Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                        Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                        Status__c,
+                        Participant_Enrollment__c,
+                        Participant_Enrollment__r.Name,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE (Participant_Enrollment__c IN :peIdList OR Participant_Enrollment__r.Clinical_Trial_Profile__c IN :ctpIdList)
+                AND Patient_Delegate__r.Contact__c IN : recipientIdSet
+            ]
+        );
         Map<Id, Participant_Enrollment__c> peIdMap = new Map<Id, Participant_Enrollment__c>(
             [
                 SELECT
@@ -542,6 +576,12 @@ public without sharing class Action_SendSMS implements Action {
             ]
         );
         system.debug('peIdMap:::' + peIdMap);
+        Map<Id,Patient_Delegate_Enrollment__c> pdEnrollMap = new Map<Id,Patient_Delegate_Enrollment__c>();
+        for(Patient_Delegate_Enrollment__c pdelEnrollment : pdelIdMap){
+            if (!pdEnrollMap.contains(pdelEnrollment.Patient_Delegate__r.Contact__c))
+            pdEnrollMap.put(pdelEnrollment.Patient_Delegate__r.Contact__c,pdelEnrollment);
+
+        }
         for (Participant_Enrollment__c peObj : peIdMap.values()) {
             Clinical_Trial_Profile__c ctpObj = new Clinical_Trial_Profile__c();
             ctpObj.Pin_Point_ProjectId__c = peObj.Study_Site__r.Pin_Point_ProjectId__c;
@@ -662,9 +702,10 @@ public without sharing class Action_SendSMS implements Action {
                         fromNumber = peOBJ.Study_Site__r.From_Number__c; //Added by Anitha
                         welcomemsgsent = peOBJ.Welcome_Message_Sent__c; //Added by Anitha
                         welcomemsgDelivered = peOBJ.Welcome_Message_Delivered__c; //Added by Anitha
-                        isSMSAvailableForPER =
-                            peOBJ.Permit_SMS_Text_for_this_study__c &&
-                            peOBJ.Study_Site__r.SMS_Are_Available__c;
+                        if(notObj.IsDelegate__c && pdEnrollMap.containsKey(recipientID)){
+                            isSMSAvailableForPER = pdEnrollMap.get(recipientID).Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c && pdEnrollMap.get(recipientID).SMS_consent__c; 
+                        }
+                        else isSMSAvailableForPER = peOBJ.Permit_SMS_Text_for_this_study__c && peOBJ.Study_Site__r.SMS_Are_Available__c;
                         studySiteToFromNoMap.put(studySiteId, peOBJ.Study_Site__r.From_Number__c);
                         //If this method is called from platform Event
                         if (isPlatFormEvent) {
@@ -686,7 +727,10 @@ public without sharing class Action_SendSMS implements Action {
                         ) {
                             if (per.Clinical_Trial_Profile__c == whatId) {
                                 studySiteId = per.Study_Site__c;
-                                isSMSAvailableForPER =
+                                if(notObj.IsDelegate__c && pdEnrollMap.containsKey(recipientID)){
+                                    isSMSAvailableForPER = pdEnrollMap.get(recipientID).Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c && pdEnrollMap.get(recipientID).SMS_consent__c; 
+                                }
+                                else isSMSAvailableForPER =
                                     per.Permit_SMS_Text_for_this_study__c &&
                                     per.Study_Site__r.SMS_Are_Available__c;
                                 studySiteToFromNoMap.put(
@@ -732,8 +776,10 @@ public without sharing class Action_SendSMS implements Action {
                             studySiteId = peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__c;
                             fromNumber = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Study_Site__r.From_Number__c; //Added by Anitha
-
-                            isSMSAvailableForPER =
+                            if(notObj.IsDelegate__c && pdEnrollMap.containsKey(recipientID)){
+                                isSMSAvailableForPER = pdEnrollMap.get(recipientID).Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c && pdEnrollMap.get(recipientID).SMS_consent__c; 
+                            }  
+                            else isSMSAvailableForPER =
                                 peIdMap.get(taskMap.get(whatId).WhatId)
                                     .Permit_SMS_Text_for_this_study__c &&
                                 peIdMap.get(taskMap.get(whatId).WhatId)
@@ -782,8 +828,10 @@ public without sharing class Action_SendSMS implements Action {
                                 .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Sent__c;
                             welcomemsgDelivered = taskMap.get(whatId)
                                 .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Delivered__c;
-
-                            isSMSAvailableForPER =
+                            if(notObj.IsDelegate__c && pdEnrollMap.containsKey(recipientID)){
+                                //isSMSAvailableForPER = pdEnrollMap.get(recipientID).Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c && pdEnrollMap.get(recipientID).SMS_consent__c; 
+                            }  
+                           else isSMSAvailableForPER =
                                 taskMap.get(whatId)
                                     .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
                                     .Permit_SMS_Text_for_this_study__c &&
@@ -825,7 +873,10 @@ public without sharing class Action_SendSMS implements Action {
                             sponsorNameSms = tvOBJ.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c;
                             ctpTemplateName = tvOBJ.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
                             studyName = tvOBJ.Participant_Enrollment__r.Study_Site__r.Study_AWS__c;
-                            isSMSAvailableForPER =
+                            if(notObj.IsDelegate__c && pdEnrollMap.containsKey(recipientID)){
+                                isSMSAvailableForPER = pdEnrollMap.get(recipientID).Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c && pdEnrollMap.get(recipientID).SMS_consent__c; 
+                            }
+                            else isSMSAvailableForPER =
                                 tvOBJ.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c &&
                                 tvOBJ.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
                             fromNumber = tvOBJ.Participant_Enrollment__r.Study_Site__r.From_Number__c;
@@ -852,7 +903,10 @@ public without sharing class Action_SendSMS implements Action {
                                     .Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
                                 studySiteId = surveyInvitationMap.get(whatId)
                                     .Participant_Enrollment__r.Study_Site__c;
-                                isSMSAvailableForPER =
+                                if(notObj.IsDelegate__c){
+
+                                }
+                                else isSMSAvailableForPER =
                                     surveyInvitationMap.get(whatId)
                                         .Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c &&
                                     surveyInvitationMap.get(whatId)
@@ -902,7 +956,10 @@ public without sharing class Action_SendSMS implements Action {
                             ctpTemplateName = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Clinical_Trial_Profile__r.CommunityTemplate__c;
                             studySiteId = peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__c;
-                            isSMSAvailableForPER =
+                            if(notObj.IsDelegate__c){
+
+                            }
+                            else isSMSAvailableForPER =
                                 peIdMap.get(taskMap.get(whatId).WhatId)
                                     .Permit_SMS_Text_for_this_study__c &&
                                 peIdMap.get(taskMap.get(whatId).WhatId)
