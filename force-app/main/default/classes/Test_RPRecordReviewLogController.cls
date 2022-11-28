@@ -335,6 +335,9 @@ public class Test_RPRecordReviewLogController {
         RPRecordReviewLogController.bulkUndoChangeStatusToExcludeFromReferring(piIds);
         RPRecordReviewLogController.getExportRecords(piIds);
         List<RPRecordReviewLogController.peNoteData> notes = RPRecordReviewLogController.getNotesDetails(piIds[0]);
+        RPRecordReviewLogController.checkDelegateRole();
+        RPRecordReviewLogController.createNotes('Test',piIds[0],null);
+        RPRecordReviewLogController.peNoteData pen =  new RPRecordReviewLogController.peNoteData(null,null,null);
         system.assert(notes!=null);
     }
     
