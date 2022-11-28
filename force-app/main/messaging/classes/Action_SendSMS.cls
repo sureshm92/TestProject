@@ -369,7 +369,7 @@ public without sharing class Action_SendSMS implements Action {
             return new MessagegResponseWrapper();
         }
     }
-    
+
     public Map<Id, PinpointWrapper> processPlatformLevelCheck(
         List<Notification__c> notificationsList
     ) {
@@ -699,7 +699,8 @@ public without sharing class Action_SendSMS implements Action {
                         welcomemsgsent = peOBJ.Welcome_Message_Sent__c; //Added by Anitha
                         welcomemsgDelivered = peOBJ.Welcome_Message_Delivered__c; //Added by Anitha
                         if(notObj.IsDelegate__c && pdEnrollMap.containsKey(recipientID)){
-                            isSMSAvailableForPER = pdEnrollMap.get(recipientID).Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c && pdEnrollMap.get(recipientID).SMS_consent__c; 
+                            Id perid = pdEnrollMap.get(recipientID).Participant_Enrollment__c;
+                            isSMSAvailableForPER = whatId == perid ? peOBJ.Permit_SMS_Text_for_this_study__c && peOBJ.Study_Site__r.SMS_Are_Available__c : false;
                         }
                         else isSMSAvailableForPER = peOBJ.Permit_SMS_Text_for_this_study__c && peOBJ.Study_Site__r.SMS_Are_Available__c;
                         studySiteToFromNoMap.put(studySiteId, peOBJ.Study_Site__r.From_Number__c);
