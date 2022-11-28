@@ -93,7 +93,8 @@ public class Test_UploadParticipantsDelegateHelper {
                 Link_to_Pre_screening__c = 'some link',
                 Study_Title__c = 'Some Title',
                 Study_Code_Name__c = 'Some Code Name',
-                Suppress_Participant_Emails__c = false
+                Suppress_Participant_Emails__c = false,
+                IQVIA_Outreach__c = true
             );
             insert clinical;
 
@@ -591,7 +592,8 @@ public class Test_UploadParticipantsDelegateHelper {
                 Link_to_Pre_screening__c = 'some link',
                 Study_Title__c = 'Some Title',
                 Study_Code_Name__c = 'Some Code Name',
-                Suppress_Participant_Emails__c = false
+                Suppress_Participant_Emails__c = false,
+                IQVIA_Outreach__c = true
             );
             insert clinical;
 
@@ -619,6 +621,21 @@ public class Test_UploadParticipantsDelegateHelper {
                 Ethnicity__c = ''
             );
             insert participant;
+            
+            Participant__c participant1 = new Participant__c(
+                First_Name__c = 'ParticipantTD33',
+                Last_Name__c = 'ParticipantTD34',
+                Phone__c = '9611637898',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                age__c = 23,
+                site__c = SiteAccount.id,
+                Contact__c = con.Id,
+                Gender_Technical__c = 'Male',
+                Adult__c = false,
+                Ethnicity__c = ''
+            );
+            insert participant1;
             TriggerHandlerExecutor.bypassHandler(
                 ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class
             );
@@ -659,6 +676,15 @@ public class Test_UploadParticipantsDelegateHelper {
                 Is_Created_by_Bulk_Import__c = true
             );
             insert patientDelegate;
+            Patient_Delegate__c patientDelegate1 = new Patient_Delegate__c(
+                Contact__c = delegatecontact.Id,
+                Contact__r = delegatecontact,
+                Participant__c = participant1.Id,
+                Participant__r = participant1,
+                Status__c = 'Disconnected',
+                Is_Created_by_Bulk_Import__c = true
+            );
+            insert patientDelegate1;
 
             Account minorSiteAccount = new Account(
                 Name = 'Study Site Account',
@@ -944,7 +970,18 @@ public class Test_UploadParticipantsDelegateHelper {
             pWrapper.mainparticipant.Adult__c = participant.Adult__c;
             pWrapper.isParticipantAdult = true;
             delegateWrpaaerLST.add(pWrapper);
-
+            
+            UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper pWrapper1 = new UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper();
+            pWrapper1.DelegateYOB = delparticipant.Email__c;
+            pWrapper1.DelegateFirstName = delparticipant.First_Name__c;
+            pWrapper1.DelegateLastName = delparticipant.Last_Name__c;
+            pWrapper1.DelegatePhoneType = 'Home';
+            //pWrapper.DelegatePhoneNo = delparticipant.Phone__c;
+            pWrapper1.mainparticipant = participant1;
+            pWrapper1.mainparticipant.Adult__c = participant.Adult__c;
+            pWrapper1.isParticipantAdult = true;
+            delegateWrpaaerLST.add(pWrapper1);
+            
             UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper minorpWrapper = new UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper();
             minorpWrapper.DelegateEmail = minorPhBlankDelegate.Email__c;
             minorpWrapper.DelegateFirstName = minorPhBlankDelegate.First_Name__c;
@@ -978,7 +1015,7 @@ public class Test_UploadParticipantsDelegateHelper {
             // participantdelegate.mainparticipant.Adult__c = minorParticipant.Adult__c;
             participantdelegate.isParticipantAdult = false;
             delegateWrpaaerLST.add(participantdelegate);           
-            
+            delegateWrpaaerLST.add(participantdelegate); 
             List<List<String>> csvLines = new List<List<String>>();
             List<String> csvFileLines = new List<String>();
             csvFileLines.add('a');

@@ -27,6 +27,8 @@ public without sharing class PIR_HomepageController {
     @AuraEnabled
     public Boolean actionReq;
     @AuraEnabled
+    public Boolean actionReq_Reconsent;
+    @AuraEnabled
     public Id id;
     @AuraEnabled
     public Id siteId;
@@ -1179,14 +1181,12 @@ public without sharing class PIR_HomepageController {
       wrap.siteId = lst.Study_Site__c;
       wrap.studyId = lst.Clinical_Trial_Profile__c;
       wrap.perCounter = lst.PerCounter__c;
-      if(lst.Participant__r.Emancipation_in_progress__c || !lst.Is_Participant_DOB_Valid__c){
-      wrap.actionReq=true;
-      }else if(lst.Re_consent__c == true && lst.Study_Site__r.E_Consent_Vendor__r.Name !=null && lst.Study_Site__r.E_Consent_Vendor__r.Name !='' ){
-      wrap.actionReq=true;
+      if(lst.Re_consent__c == true && lst.Study_Site__r.E_Consent_Vendor__r.Name !=null && lst.Study_Site__r.E_Consent_Vendor__r.Name !='' ){
+        wrap.actionReq_Reconsent=true;
       }else{
-      wrap.actionReq=false;
+        wrap.actionReq_Reconsent=false;
       }
-      //wrap.actionReq = lst.Participant__r.Emancipation_in_progress__c || !lst.Is_Participant_DOB_Valid__c;
+      wrap.actionReq = lst.Participant__r.Emancipation_in_progress__c;
       wrap.status = lst.Participant_Status__c;
       wrap.participantId = lst.Participant__c;
       wrap.promotetoSH = lst.Clinical_Trial_Profile__r.Promote_to_SH__c;
