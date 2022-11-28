@@ -3,6 +3,10 @@
         padding: 0px !important;
         background-color: #f6f7fb;
     }
+    .pp-survey .rr-width-limiter.side-padding {
+        padding: 0 1rem !important;
+        background-color: #ffffff;
+    }
     .rr-min-body-height .rr-min-body-height {
         height: auto !important;
     }
@@ -14,6 +18,11 @@
         padding: 0 !important;
     }
 }
+
+.task-modal-background .slds-backdrop {
+    background:rgba(0, 0, 0, 0.1) !important;
+}
+
 .rr-width-limiter-pp {
    max-width: 1366px;
    margin: auto;
@@ -302,6 +311,10 @@
     opacity: 1;
 }
 
+.help-support{
+    height: 40px;
+    padding-top: 0.3rem;
+}
 /* getSupport Year css */
 
 .support-year button {
@@ -729,8 +742,6 @@ c-pp-study-visit-details-card .slds-card__header {
 
 .cCustomThemeLayout .slds-combobox__input {
     padding-left: 1rem;
-    height: 40px;
-    padding-top: 0.3rem;
 }
 
 c-pp-Study-Visit-Details-Card .slds-form-element:nth-child(2) .slds-checkbox .slds-checkbox__label {
@@ -1001,7 +1012,10 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
 /* Edit Task Input Disabled */
 .create-task-input-container .slds-input:disabled{
-    background: #F2F2F2 !important;  
+    background: #F2F2F2 !important;
+    color: #595959 !important;
+    -webkit-text-fill-color: #595959 !important;
+    opacity: 1 !important; /* required on iOS */
 }
 
 /* Resources */

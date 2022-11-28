@@ -128,7 +128,9 @@ public without sharing class ParticipantService {
                     participantState.pe,
                     IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id)
                 );
-                participantState.showTerms = showTerms();
+                if (Site.getMasterLabel() != 'IQVIA Patient Portal') {
+                    participantState.showTerms = showTerms();
+                }
                 participantState.medicalVendors = MedicalRecordVendorPanelRemote.getVendors(
                     participantState.pe.Study_Site__c
                 );
@@ -487,7 +489,7 @@ public without sharing class ParticipantService {
                 system.debug('>>AfterInsertPart>' + limits.getQueries());
                 ParticipantID = participant.Id;
             }
-            return new list<String>{ParticipantID,dupPart};
+            return new List<String>{ ParticipantID, dupPart };
         } catch (Exception e) {
             System.debug('ERROR: ' + e);
             AuraHelper.throwException(e);

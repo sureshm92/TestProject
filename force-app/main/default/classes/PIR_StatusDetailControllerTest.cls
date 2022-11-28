@@ -195,7 +195,8 @@ public without sharing class PIR_StatusDetailControllerTest {
             Participant_Status__c = 'Pending Referral',
             Screening_ID__c = 'PESCR1',
             Birth_Month__c='04',
-            YOB__c='2000'
+            YOB__c='2000',
+            Informed_Consent__c=false
         );
         insert parList;
         List<Participant_Enrollment__History> parHistoryList = new List<Participant_Enrollment__History>();
@@ -220,6 +221,16 @@ public without sharing class PIR_StatusDetailControllerTest {
         history4.Field = 'High_Priority__c';
         history4.ParentId = parList.Id;
         parHistoryList.add(history4);
+
+        Participant_Enrollment__History history5 = new Participant_Enrollment__History();
+        history5.Field = 'Informed_Consent__c';
+        history5.ParentId = parList.Id;
+        parHistoryList.add(history5);
+        
+        Participant_Enrollment__History history6 = new Participant_Enrollment__History();
+        history6.Field = 'Informed_Consent__c';
+        history6.ParentId = parList.Id;
+        parHistoryList.add(history6);
 
         List<Participant_Enrollment_Status_History__c> peshList = new List<Participant_Enrollment_Status_History__c>();
         Participant_Enrollment_Status_History__c pehistory1 = new Participant_Enrollment_Status_History__c(
@@ -267,6 +278,7 @@ public without sharing class PIR_StatusDetailControllerTest {
        
         System.runAs(testData.piUser) {
             PIR_StatusDetailController.getContactHistory(parList.Id,'PWS_Contact_Name');
+            PIR_StatusDetailController.getScreeningHistory(testData.pe.Id);
         }
         Test.stopTest();
 
@@ -291,6 +303,7 @@ public without sharing class PIR_StatusDetailControllerTest {
         try{
             System.runAs(usrList[0]) {            
                 PIR_StatusDetailController.getContactHistory(testData.pe.Id,null);
+                 PIR_StatusDetailController.getScreeningHistory(testData.pe.Id);
             }
         }catch(Exception ex){}
         Test.stopTest();
@@ -300,11 +313,12 @@ public without sharing class PIR_StatusDetailControllerTest {
     @isTest
     static void testGetContactHistory2() {
         TestData testData = new TestData();
-        Participant_Enrollment__c parList = [SELECT Id, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c FROM Participant_Enrollment__c LIMIT 1];
+        Participant_Enrollment__c parList = [SELECT Id, Initial_visit_scheduled_date__c,Informed_Consent__c,Initial_visit_scheduled_time__c FROM Participant_Enrollment__c LIMIT 1];
         List<Participant_Enrollment__History> historyList = new List<Participant_Enrollment__History>();
         Time myTime = Time.newInstance(1, 2, 3, 0);
         parList.Initial_visit_scheduled_date__c = system.today();
         parList.Initial_visit_scheduled_time__c = myTime;
+        parList.Informed_Consent__c=true;
         Participant_Enrollment__History history1 = new Participant_Enrollment__History();
         history1.Field = 'Initial_visit_scheduled_date__c';
         history1.ParentId = parList.Id;
@@ -315,10 +329,21 @@ public without sharing class PIR_StatusDetailControllerTest {
         history2.ParentId = parList.Id;
         historyList.add(history2);
         
-         Participant_Enrollment__History history3 = new Participant_Enrollment__History();
+        Participant_Enrollment__History history3 = new Participant_Enrollment__History();
         history3.Field = 'Initial_visit_scheduled_time__c';
         history3.ParentId = parList.Id;
         insert history3;
+        
+        Participant_Enrollment__History history4 = new Participant_Enrollment__History();
+        history4.Field = 'Informed_Consent__c';
+        history4.ParentId = parList.Id;
+        insert history4;
+        
+        Participant_Enrollment__History history5= new Participant_Enrollment__History();
+        history5.Field = 'Informed_Consent__c';
+        history5.ParentId = parList.Id;
+        insert history5;
+        
         
         //update history3;
          
@@ -388,6 +413,7 @@ public without sharing class PIR_StatusDetailControllerTest {
         
         System.runAs(testData.piUser) {
             PIR_StatusDetailController.getContactHistory(parList.Id,'PWS_Contact_Name');
+            PIR_StatusDetailController.getScreeningHistory(testData.pe.Id);
         }
         Test.stopTest();
 
@@ -754,7 +780,9 @@ public without sharing class PIR_StatusDetailControllerTest {
         Last_Status_Changed_Additional_Notes__c FROM
         Participant_Enrollment__c
         ];
-
+      
+       
+        
         byPassTriggersMethod();
         parList[0].ParticipantNoShow__c = true;
         parList[0].Add_televisit_for_Initial_Visit__c = true;

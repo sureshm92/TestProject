@@ -247,6 +247,21 @@ public virtual without sharing class ResourceService {
         }
         return rwSorted;
     }
+    public static List<ResourceWrapper> sortResourcesByCreatedDate(
+        List<ResourceWrapper> resourceWrappers
+    ) {
+        List<ResourceSorting> resourceSortings = new List<ResourceSorting>();
+        for (ResourceWrapper rw : resourceWrappers) {
+            resourceSortings.add(new ResourceSorting(rw));
+        }
+        resourceSortings.sort();
+
+        List<ResourceWrapper> rwSorted = new List<ResourceWrapper>();
+        for (ResourceSorting rc : resourceSortings) {
+            rwSorted.add(rc.res1);
+        }
+        return rwSorted;
+    }
 
     public static List<ResourceWrapper> removeTranslations(List<ResourceWrapper> resourceWrappers) {
         List<String> availableLanForUser = ContactService.getPreferredLanguages();
@@ -316,12 +331,24 @@ public virtual without sharing class ResourceService {
             Integer returnValue = 0; // The return value of 0 indicates that both elements are equal.
             if (
                 res1.resource.Therapeutic_Area_Assignments__r.size() <
-                res2.res1.resource.Therapeutic_Area_Assignments__r.size()
+                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
+                res1.therapeuticAssignments?.size() <
+                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
+                res1.resource.Therapeutic_Area_Assignments__r.size() <
+                res2.res1.therapeuticAssignments?.size()||
+                res1.therapeuticAssignments?.size() <
+                res2.res1.therapeuticAssignments?.size()
             ) {
                 returnValue = 1; // Set return value to a positive value.
             } else if (
                 res1.resource.Therapeutic_Area_Assignments__r.size() >
-                res2.res1.resource.Therapeutic_Area_Assignments__r.size()
+                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
+                res1.therapeuticAssignments?.size() >
+                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
+                res1.resource.Therapeutic_Area_Assignments__r.size() >
+                res2.res1.therapeuticAssignments?.size()||
+                res1.therapeuticAssignments?.size() >
+                res2.res1.therapeuticAssignments?.size()
             ) {
                 returnValue = -1; // Set return value to a negative value.
             }
@@ -329,10 +356,69 @@ public virtual without sharing class ResourceService {
             return returnValue;
         }
     }
+    public virtual class ResourceSorting implements Comparable {
+        public ResourceService.ResourceWrapper res1;
+
+        public ResourceSorting(ResourceService.ResourceWrapper res1) {
+            this.res1 = res1;
+        }
+
+        public Integer compareTo(Object param1) {
+            ResourceSorting res2 = (ResourceSorting) param1;
+
+            Integer returnValue = 0; // The return value of 0 indicates that both elements are equal.
+            if (res1.resource.CreatedDate < res2.res1.resource.CreatedDate) {
+                returnValue = 1; // Set return value to a positive value.
+            } else if (res1.resource.CreatedDate > res2.res1.resource.CreatedDate) {
+                returnValue = -1; // Set return value to a negative value.
+            }
+
+            return returnValue;
+        }
+    }
+    public static Integer getUpdatesCounter(List<ResourceWrapper> resourceWrappers) {
+        Integer counter = 0;
+        List<LoginHistory> lastLoginList = [
+            SELECT loginTime,Status
+            FROM LoginHistory
+            WHERE userId = :UserInfo.getUserId()
+            ORDER BY LoginTime DESC
+            LIMIT 7
+        ];
+        Datetime lastLogin;
+        if (lastLoginList.size() > 1) {
+            //get last successful logintime as we can't filter on status field 
+            for(Integer i=1;i<lastLoginList.size();i++){
+                if(lastLoginList[i].Status=='Success')
+                {
+                     lastlogin = lastLoginList[i].loginTime;
+                }
+                break;
+            }
+            for (ResourceWrapper rw : resourceWrappers) {
+                if (rw.resource.CreatedDate > lastlogin) {
+                    counter++;
+                }
+            }
+        }
+
+        return counter;
+    }
+    public virtual class TherapeuticAssignments {
+        @AuraEnabled
+        public String resource = '';
+         @AuraEnabled
+        public String id = '';
+         @AuraEnabled
+        public String therapeuticArea = '';
+    }
+
 
     public virtual class ResourceWrapper {
         @AuraEnabled
         public Resource__c resource;
+        @AuraEnabled
+        public List<TherapeuticAssignments> therapeuticAssignments;
         @AuraEnabled
         public Boolean isFavorite = false;
         @AuraEnabled
@@ -367,6 +453,8 @@ public virtual without sharing class ResourceService {
             }
         }
     }
+       
+
 
     public class ResourceDetailWrapper extends ResourceWrapper {
         @AuraEnabled

@@ -160,5 +160,7 @@
 }
 
 .THIS .fpi_container_margin{
-    margin: 10px 0px 20px 0px
+    margin: 10px 0px 20px 0px;
+    font-size: 16px;
+    line-height: 24px;
 }

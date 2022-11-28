@@ -13,8 +13,19 @@ public without sharing class RelevantLinksRemote {
     public class InitDataNew {
         @AuraEnabled
         public Boolean linksAvailable = false;
+
+        @AuraEnabled
+        public Boolean relevantLinksAreAvailable = false;
+        @AuraEnabled
+        public Boolean studyDocumentsAreAvailable = false;
+        @AuraEnabled
+        public Boolean videoAndArticlesAreAvailable = false;
         @AuraEnabled
         public List<ResourceService.ResourceWrapper> resources = new List<ResourceService.ResourceWrapper>();
+        @AuraEnabled
+        public Boolean isDelegate = false;
+        @AuraEnabled
+        public string participantStateValue;
     }
 
     public class LinksWrapper {
@@ -106,6 +117,13 @@ public without sharing class RelevantLinksRemote {
             List<Participant_Enrollment__c> enrollments = getEnrollments(ps);
             List<String> preferredLanguages = ContactService.getPreferredLanguages();
 
+            //getting ctp value from ParticipantState for ctp toggles
+            initDataNew.relevantLinksAreAvailable = ps.ctp.Relevant_Links_Are_Available__c;
+            initDataNew.studyDocumentsAreAvailable = ps.ctp.Study_Documents_Are_Available__c;
+            initDataNew.videoAndArticlesAreAvailable = ps.ctp.Video_And_Articles_Are_Available__c;
+            initDataNew.isDelegate = ps.isDelegate;
+            initDataNew.participantStateValue = String.valueOf(ps.value);
+
             List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = [
                 SELECT Id, Therapeutic_Area__c
                 FROM Therapeutic_Area_Patient__c
@@ -114,14 +132,25 @@ public without sharing class RelevantLinksRemote {
             for (Therapeutic_Area_Patient__c tap : therapeuticAreaPatients)
                 COIsOfParticipant.add(tap.Therapeutic_Area__c);
 
-            List<Resource__c> resourcesVisibleForParticipant = getStudySpecificResources(
-                contentType,
-                enrollments,
-                preferredLanguages,
-                COIsOfParticipant,
-                ps.isDelegate
-            );
-            if (ps.value == ParticipantService.ParticipantStates.ALUMNI) {
+            List<Resource__c> resourcesVisibleForParticipant = new List<Resource__c>();
+            if (
+                initDataNew.relevantLinksAreAvailable ||
+                ps.value == ParticipantService.ParticipantStates.ALUMNI
+            ) {
+                //study specific relevant links
+                resourcesVisibleForParticipant = getStudySpecificResources(
+                    contentType,
+                    enrollments,
+                    preferredLanguages,
+                    COIsOfParticipant,
+                    ps.isDelegate
+                );
+            }
+
+            if (
+                (ps.value == ParticipantService.ParticipantStates.ALUMNI )
+            ) {
+                //platform level relevant links
                 resourcesVisibleForParticipant.addAll(
                     getCOIResources(contentType, COIsOfParticipant, preferredLanguages)
                 );
@@ -136,39 +165,12 @@ public without sharing class RelevantLinksRemote {
             List<LabelValueItem> typeLabelValues = getTranslatedTypes(
                 Resource__c.Type__c.getDescribe().getPicklistValues()
             );
-            /*for (LabelValueItem t : typeLabelValues) {
-                LinksWrapper lw = new LinksWrapper();
-                for (Resource__c res : resourcesVisibleForParticipant) {
-                    if (res.Type__c.equals(t.value)) {
-                        lw.resources.add(new ResourceService.ResourceWrapper(res));
-                    }
-                }
 
-                if (!lw.resources.isEmpty()) {
-                    lw.type = new LabelValueItem(
-                        TranslateHelper.getPickListLabel(Resource__c.Type__c, 'Relevant Links'),
-                        'Relevant Links'
-                    );
-                    lw.resources = ResourceService.sortResourcesByCOI(lw.resources);
-                    initData.linksWrappers.add(lw);
-                }
-            }*/
             for (Resource__c res : resourcesVisibleForParticipant) {
-                //LinksWrapper lw = new LinksWrapper();
                 ResourceService.ResourceWrapper rw = new ResourceService.ResourceWrapper(res);
-                //lw.resources.add(new ResourceService.ResourceWrapper(res));
-                //lw.resources = ResourceService.sortResourcesByCOI(lw.resources);
                 initDataNew.resources.add(rw);
             }
 
-            /*if (initData.linksAvailable && initData.linksWrappers.isEmpty()) {
-                LinksWrapper lw = new LinksWrapper();
-                lw.type = new LabelValueItem(
-                    TranslateHelper.getPickListLabel(Resource__c.Type__c, 'Relevant Links'),
-                    'Relevant Links'
-                );
-                initData.linksWrappers.add(lw);
-            }*/
             initDataNew.resources = ResourceService.sortResourcesByCOI(initDataNew.resources);
             return initDataNew;
         } catch (Exception e) {
@@ -183,71 +185,74 @@ public without sharing class RelevantLinksRemote {
         List<Id> coiIds,
         Boolean isDelegate
     ) {
+        List<Resource__c> resourcesVisibleForParticipant = new List<Resource__c>();
         List<Id> ctpIds = new List<Id>();
         for (Participant_Enrollment__c pe : enrollments)
             ctpIds.add(pe.Clinical_Trial_Profile__c);
 
-        List<Res_study__c> resStudies = [
-            SELECT
-                Id,
-                Clinical_Trial_Profile__c,
-                Resource__c,
-                Resource__r.URL__c,
-                Resource__r.Title__c,
-                Resource__r.Type__c,
-                Resource__r.Content_Type__c,
-                Resource__r.Countries__c,
-                Resource__r.Languages__c,
-                Visible_To_Participant__c,
-                Visible_To_Delegates__c,
-                Visible_To_PI__c,
-                Visible_To_RP__c,
-                Visible_In_Alumni__c,
-                Expires_After_Days__c,
-                Expires_On_Status__c,
-                Active_On_Status__c,
-                Active_After_Days__c
-            FROM Res_study__c
-            WHERE
-                Clinical_Trial_Profile__c IN :ctpIds
-                AND Resource__r.Content_Type__c = :contentType
-        ];
+        if (ctpIds != null && ctpIds.size() > 0) {
+            List<Res_study__c> resStudies = [
+                SELECT
+                    Id,
+                    Clinical_Trial_Profile__c,
+                    Resource__c,
+                    Resource__r.URL__c,
+                    Resource__r.Title__c,
+                    Resource__r.Type__c,
+                    Resource__r.Content_Type__c,
+                    Resource__r.Countries__c,
+                    Resource__r.Languages__c,
+                    Visible_To_Participant__c,
+                    Visible_To_Delegates__c,
+                    Visible_To_PI__c,
+                    Visible_To_RP__c,
+                    Visible_In_Alumni__c,
+                    Expires_After_Days__c,
+                    Expires_On_Status__c,
+                    Active_On_Status__c,
+                    Active_After_Days__c
+                FROM Res_study__c
+                WHERE
+                    Clinical_Trial_Profile__c IN :ctpIds
+                    AND Resource__r.Content_Type__c = :contentType
+            ];
 
-        List<Id> resourceIdsVisibleForParticipant = new List<Id>();
-        for (Res_study__c rs : resStudies) {
-            for (Participant_Enrollment__c pe : enrollments) {
-                if (
-                    rs.Clinical_Trial_Profile__c == pe.Clinical_Trial_Profile__c &&
-                    StudyResourceVisibilityService.isResourceVisibleForPE(
-                        rs,
-                        pe,
-                        preferredLanguages,
-                        CommunityService.getUserContact().userCommunityMode__c,
-                        isDelegate
-                    )
-                ) {
-                    resourceIdsVisibleForParticipant.add(rs.Resource__c);
+            List<Id> resourceIdsVisibleForParticipant = new List<Id>();
+            for (Res_study__c rs : resStudies) {
+                for (Participant_Enrollment__c pe : enrollments) {
+                    if (
+                        rs.Clinical_Trial_Profile__c == pe.Clinical_Trial_Profile__c &&
+                        StudyResourceVisibilityService.isResourceVisibleForPE(
+                            rs,
+                            pe,
+                            preferredLanguages,
+                            CommunityService.getUserContact().userCommunityMode__c,
+                            isDelegate
+                        )
+                    ) {
+                        resourceIdsVisibleForParticipant.add(rs.Resource__c);
+                    }
                 }
             }
-        }
 
-        List<Resource__c> resourcesVisibleForParticipant = [
-            SELECT
-                Id,
-                Title__c,
-                Type__c,
-                URL__c,
-                description__c,
-                CreatedDate,
-                (
-                    SELECT Id, Therapeutic_Area__c
-                    FROM Therapeutic_Area_Assignments__r
-                    WHERE Therapeutic_Area__c IN :coiIds
-                )
-            FROM Resource__c
-            WHERE Id IN :resourceIdsVisibleForParticipant
-            ORDER BY CreatedDate DESC
-        ];
+            resourcesVisibleForParticipant = [
+                SELECT
+                    Id,
+                    Title__c,
+                    Type__c,
+                    URL__c,
+                    description__c,
+                    CreatedDate,
+                    (
+                        SELECT Id, Therapeutic_Area__c
+                        FROM Therapeutic_Area_Assignments__r
+                        WHERE Therapeutic_Area__c IN :coiIds
+                    )
+                FROM Resource__c
+                WHERE Id IN :resourceIdsVisibleForParticipant
+                ORDER BY CreatedDate DESC
+            ];
+        }
         return resourcesVisibleForParticipant;
     }
 
