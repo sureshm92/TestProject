@@ -71,7 +71,7 @@ public with sharing class Batch_UpdatePETrialCompleteAndSendNotify implements Da
                         notifications.add(
                             new Notification__c(
                                 Recipient__c = delegateId,
-                                IsDelegate__c = true;
+                                IsDelegate__c = true,
                                 WhatId__c = pe.Id,
                                 Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE_DGT
                             )

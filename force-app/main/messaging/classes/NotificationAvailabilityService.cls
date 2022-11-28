@@ -569,10 +569,13 @@ public without sharing class NotificationAvailabilityService {
                 Name,
                 Status__c,
                 Participant_Enrollment__r.study__c,
+                Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
+                Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
                 Welcome_Message_Sent__c,
                 Welcome_Message_Delivered__c
                 FROM Patient_Delegate_Enrollment__c
-                WHERE Participant_Enrollment__c = :pe AND Patient_Delegate__r.Contact__c = :contactId
+                WHERE Participant_Enrollment__c = :pe.Id AND Patient_Delegate__r.Contact__c = :contactId
         ];
         Boolean perEmailToSend = false;
         for(Patient_Delegate_Enrollment__c pe : perDelJunctionRecList){

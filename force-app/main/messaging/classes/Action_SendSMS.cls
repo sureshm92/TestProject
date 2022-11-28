@@ -574,7 +574,7 @@ public without sharing class Action_SendSMS implements Action {
         system.debug('peIdMap:::' + peIdMap);
         Map<Id,Patient_Delegate_Enrollment__c> pdEnrollMap = new Map<Id,Patient_Delegate_Enrollment__c>();
         for(Patient_Delegate_Enrollment__c pdelEnrollment : pdelIdMap){
-            if (!pdEnrollMap.contains(pdelEnrollment.Patient_Delegate__r.Contact__c))
+            if (!pdEnrollMap.containskey(pdelEnrollment.Patient_Delegate__r.Contact__c))
             pdEnrollMap.put(pdelEnrollment.Patient_Delegate__r.Contact__c,pdelEnrollment);
 
         }

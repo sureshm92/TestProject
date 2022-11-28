@@ -32,7 +32,7 @@ public without sharing class Batch_MassEmailDelegate implements Database.Batchab
                 new Notification__c(
                     WhatId__c = notification.WhatId__c,
                     Recipient__c = delId,
-                    IsDelegate__c = true;
+                    IsDelegate__c = true,
                     Notification_Type__c = notification.Notification_Type__c,
                     Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                 )

@@ -737,7 +737,7 @@ public without sharing class ContactTriggerHandler {
                     /*Study Level Welcome Msg to Delegate*/
                     welcomemsgnotifications.addAll(
                         ContactService.addwelcomeNotifications(
-                            per.Patient_Delegate_Contact__c,
+                            per.Patient_Delegate__r.Contact__c,
                             per.Participant_Enrollment__c,
                             NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
                             true
