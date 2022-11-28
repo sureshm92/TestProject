@@ -320,13 +320,18 @@
 
         if (isTaskTab) {
             var taskName = component.find('taskName');
-            if ($A.util.isUndefinedOrNull(component.get('v.task.Subject'))) {
-                taskName.setCustomValidity($A.get('$Label.c.PP_RequiredErrorMessage'));
-                taskName.reportValidity();
-            } else {
-                taskName.setCustomValidity('');
-                taskName.reportValidity();
+            if (taskName) {
+                if ($A.util.isUndefinedOrNull(component.get('v.task.Subject'))) {
+                    taskName.setCustomValidity($A.get('$Label.c.PP_RequiredErrorMessage'));
+                    taskName.reportValidity();
+                } else {
+                    taskName.setCustomValidity('');
+                    taskName.reportValidity();
+                }
             }
+        }
+        if (remindMe === 'No reminder') {
+            component.set('v.isValidFields', true);
         }
         var isValidFields =
             helper.doValidateDueDate(component, helper) && helper.doValidateReminder(component);

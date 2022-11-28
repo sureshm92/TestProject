@@ -1,28 +1,34 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
 import getUpdateResources from '@salesforce/apex/ResourceRemote.getUpdateResources';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import DEVICE from '@salesforce/client/formFactor';
-
-export default class PpUpdates extends LightningElement {
-    isInitialized = false;
-    isAvailable = false;
-    @track linksWrappers = [];
-    discoverEmptyState = false;
+import { NavigationMixin } from 'lightning/navigation';
+import updatesLabel from '@salesforce/label/c.Updates_Label';
+import viewAllResource from '@salesforce/label/c.View_All_Resource';
+import caughtup from '@salesforce/label/c.Caught_up';
+export default class PpUpdates extends NavigationMixin(LightningElement) {
+    @api desktop;
+    @api showvisitsection;
+    linksWrappers = [];
+    resourcedData = [];
+    resourcePresent = false;
     desktop = true;
-    @track updateData = [];
-
-    // documents
-    documentList = [];
-    documents = [];
-    documentPresent;
-
+    isInitialized = false;
+    counter;
+    displayCounter = false;
     open_new_tab = pp_community_icons + '/' + 'open_in_new.png';
-    empty_state = pp_community_icons + '/' + 'discover_empty.png';
+    empty_state = pp_community_icons + '/' + 'empty_updates.PNG';
+    link_state = pp_community_icons + '/' + 'linkssvg.svg';
+    label = {
+        updatesLabel,
+        viewAllResource,
+        caughtup
+    };
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner ? this.spinner.show() : '';
         this.initializeData();
@@ -33,17 +39,30 @@ export default class PpUpdates extends LightningElement {
             .then((returnValue) => {
                 this.isInitialized = true;
                 let initData = JSON.parse(JSON.stringify(returnValue));
+                let therapeuticAssignmentsList = [];
+                let therapeuticAssignments = {
+                    resource: '',
+                    id: '',
+                    therapeuticArea: ''
+                };
+
                 initData.resources.forEach((resObj) => {
-                    this.linksWrappers.push(resObj.resource);
+                    resObj.resource.Therapeutic_Area_Assignments__r?.forEach((therapeuticArea) => {
+                        therapeuticAssignments.resource = therapeuticArea.Resource__c;
+                        therapeuticAssignments.id = therapeuticArea.Id;
+                        therapeuticAssignments.therapeuticArea =
+                            therapeuticArea.Therapeutic_Area__c;
+                        therapeuticAssignmentsList.push(therapeuticAssignments);
+                    });
+
+                    resObj.therapeuticAssignments = therapeuticAssignmentsList;
+                    therapeuticAssignmentsList = [];
+                    delete resObj.resource.Therapeutic_Area_Assignments__r;
                 });
-                this.linksWrappers.length == 0
-                    ? (this.discoverEmptyState = true)
-                    : (this.discoverEmptyState = false);
-                this.getUpdates(JSON.stringify(returnValue));
-                this.spinner.hide();
+                this.getUpdates(JSON.stringify(initData));
             })
             .catch((error) => {
-                communityService.showToast('', 'error', 'Failed To read the Data111...', 100);
+                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                 this.spinner.hide();
             });
     }
@@ -54,33 +73,43 @@ export default class PpUpdates extends LightningElement {
 
     async getUpdates(returnValue) {
         this.spinner = this.template.querySelector('c-web-spinner');
-        if (this.spinner) {
-            this.spinner.show();
-        }
+        this.spinner ? this.spinner.show() : '';
         await getUpdateResources({ linkWrapperText: returnValue })
             .then((result) => {
-                console.log('updates-->' + JSON.stringify(result, null, 2));
+                var counterForLoop = 0;
                 let data = JSON.parse(JSON.stringify(result));
-                data.resources.forEach((resObj) => {
-                    this.updateData.push(resObj.resource);
+                this.counter = data.counter;
+                if (this.counter > 0) {
+                    this.displayCounter = true;
+                }
+                data.resources.every((resObj) => {
+                    ++counterForLoop;
+                    this.resourcedData.push(resObj);
+                    if (counterForLoop >= 4) {
+                        return false;
+                    }
+                    return true;
                 });
-                this.updateData.forEach((resObj) => {
-                    if (resObj.Content_Type__c == 'Article' || resObj.Content_Type__c == 'Video') {
+                if (counterForLoop > 0) {
+                    this.resourcePresent = true;
+                }
+                this.resourcedData.forEach((resObj) => {
+                    if (
+                        resObj.resource.Content_Type__c == 'Article' ||
+                        resObj.resource.Content_Type__c == 'Video'
+                    ) {
                         resObj.isExplore = true;
-                    } else if (resObj.Content_Type__c == 'Study_Document') {
+                    } else if (resObj.resource.Content_Type__c == 'Study_Document') {
                         resObj.isDoc = true;
                     } else {
                         resObj.isLink = true;
                     }
                 });
-                console.log('updates2-->' + JSON.stringify(this.updateData, null, 2));
+                this.spinner.hide();
             })
             .catch((error) => {
                 this.showErrorToast('Error occured', error.message, 'error');
             });
-        if (this.spinner) {
-            this.spinner.hide();
-        }
     }
 
     showErrorToast(titleText, messageText, variantType) {
@@ -91,5 +120,22 @@ export default class PpUpdates extends LightningElement {
                 variant: variantType
             })
         );
+    }
+
+    navigateResources() {
+        let subDomain = communityService.getSubDomain();
+        let detailLink = window.location.origin + subDomain + '/s/resources';
+
+        const config = {
+            type: 'standard__webPage',
+
+            attributes: {
+                url: detailLink
+            }
+        };
+
+        this[NavigationMixin.GenerateUrl](config).then((url) => {
+            window.open(url, '_self');
+        });
     }
 }
