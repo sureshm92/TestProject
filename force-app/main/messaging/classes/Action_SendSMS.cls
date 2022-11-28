@@ -369,11 +369,7 @@ public without sharing class Action_SendSMS implements Action {
             return new MessagegResponseWrapper();
         }
     }
-
-    public Boolean isSMSAtStudyLevel(){
-
-    }
-
+    
     public Map<Id, PinpointWrapper> processPlatformLevelCheck(
         List<Notification__c> notificationsList
     ) {
