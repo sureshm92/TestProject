@@ -338,8 +338,7 @@ public virtual without sharing class ResourceService {
                     res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
                 ) {
                     returnValue = 1;
-                }
-                else if (
+                } else if (
                     res1.resource.Therapeutic_Area_Assignments__r?.size() <
                     res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
                 ) {
@@ -353,8 +352,7 @@ public virtual without sharing class ResourceService {
                     res1.therapeuticAssignments?.size() < res2.res1.therapeuticAssignments?.size()
                 ) {
                     returnValue = 1;
-                }
-                else if (
+                } else if (
                     res1.therapeuticAssignments?.size() < res2.res1.therapeuticAssignments?.size()
                 ) {
                     returnValue = -1;
@@ -365,8 +363,7 @@ public virtual without sharing class ResourceService {
                     res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
                 ) {
                     returnValue = 1;
-                }
-                else if (
+                } else if (
                     res1.therapeuticAssignments?.size() <
                     res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
                 ) {
@@ -378,17 +375,13 @@ public virtual without sharing class ResourceService {
                     res2.res1.therapeuticAssignments?.size()
                 ) {
                     returnValue = 1;
-                }
-                else if (
+                } else if (
                     res1.resource.Therapeutic_Area_Assignments__r?.size() <
                     res2.res1.therapeuticAssignments?.size()
                 ) {
                     returnValue = -1;
                 }
             }
-
-            
-           
 
             return returnValue;
         }
