@@ -70,7 +70,8 @@ public without sharing class ResourceRemote {
                 resUpdates = ResourceService.sortResourcesByCOI(resUpdates);
                 if (
                     linkWrapper.participantStateValue !=
-                    String.valueOf(ParticipantService.ParticipantStates.ALUMNI)
+                    String.valueOf(ParticipantService.ParticipantStates.ALUMNI) ||
+                    !linkWrapper.isDelegate
                 ) {
                     counter = ResourceService.getUpdatesCounter(resUpdates);
                 }

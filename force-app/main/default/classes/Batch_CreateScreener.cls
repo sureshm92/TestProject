@@ -45,45 +45,13 @@ public class Batch_CreateScreener implements Database.Batchable<SObject> {
         }
         
         List<Database.SaveResult> saveResults = Database.insert(surveyRecords, false);
-        Map<Id, Clinical_Trial_Profile__c> ctpToUpdate = new Map<Id, Clinical_Trial_Profile__c>();
-        for (Integer i = 0; i < saveResults.size(); i++) {
-            
-            if (saveResults[i].isSuccess()) {
-                
-                PreScreener_Survey__c surveyRec = surveyRecords[i];
-                Clinical_Trial_Profile__c ctpRecord = new Clinical_Trial_Profile__c(Id = surveyRec.Study__c);
-                if(ctpToUpdate.containsKey(surveyRec.Study__c)) { 
-                    ctpRecord = ctpToUpdate.get(surveyRec.Study__c);
-                } 
-                if(surveyRec.MRR__c) { 
-                    ctpRecord.Link_to_Medical_Record_Review__c = null;
-                } else if(surveyRec.Prescreener__c){
-                    ctpRecord.Link_to_Pre_screening__c = null;
-                }
-                ctpToUpdate.put(ctpRecord.Id, ctpRecord);
-            } 
-        }
-        bypassTriggers();
-        update ctpToUpdate.values();
+       
     }
     
     public void finish(Database.BatchableContext bc){
-        
-        system.debug('Batch Create Screener is completed');
+         // execute any post-processing operations
+        system.debug('Batch for creating screeners successfully completed ');
     }
 
-    public static void bypassTriggers() {
-
-        TriggerHandlerExecutor.bypassHandler(ClinicalTrialProfileTriggerHandler.class);
-        TriggerHandlerExecutor.bypassHandler(CTPNotificationTriggerHandler.class);
-        TriggerHandlerExecutor.bypassHandler(
-            ClinicalTrialProfileTriggerHandler.UpdateClinicalTrialProfile.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ClinicalTrialProfileTriggerHandler.manageBypassedFieldsForTMDH.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            CTPNotificationTriggerHandler.CreateNotificationHandler.class
-        );
-    }
+   
 }

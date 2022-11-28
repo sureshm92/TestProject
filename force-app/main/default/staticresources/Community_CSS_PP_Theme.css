@@ -3,6 +3,10 @@
         padding: 0px !important;
         background-color: #f6f7fb;
     }
+    .pp-survey .rr-width-limiter.side-padding {
+        padding: 0 1rem !important;
+        background-color: #ffffff;
+    }
     .rr-min-body-height .rr-min-body-height {
         height: auto !important;
     }
@@ -14,6 +18,11 @@
         padding: 0 !important;
     }
 }
+
+.task-modal-background .slds-backdrop {
+    background:rgba(0, 0, 0, 0.1) !important;
+}
+
 .rr-width-limiter-pp {
    max-width: 1366px;
    margin: auto;
