@@ -67,7 +67,7 @@ public without sharing class ResourceRemote {
 
             if (resUpdates.size() > 0) {
                 resUpdates = ResourceService.sortResourcesByCreatedDate(resUpdates);
-                resUpdates = ResourceService.sortResourcesByCOI(resUpdates);
+                resUpdates = ResourceService.sortUpdateResourcesByCOI(resUpdates);
                 if (
                     linkWrapper.participantStateValue !=
                     String.valueOf(ParticipantService.ParticipantStates.ALUMNI) ||

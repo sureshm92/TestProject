@@ -247,6 +247,19 @@ public virtual without sharing class ResourceService {
         }
         return rwSorted;
     }
+    public static List<ResourceWrapper> sortUpdateResourcesByCOI(List<ResourceWrapper> resourceWrappers) {
+        List<ResourceUpdateComparing> resourceComparings = new List<ResourceUpdateComparing>();
+        for (ResourceWrapper rw : resourceWrappers) {
+            resourceComparings.add(new ResourceUpdateComparing(rw));
+        }
+        resourceComparings.sort();
+
+        List<ResourceWrapper> rwSorted = new List<ResourceWrapper>();
+        for (ResourceUpdateComparing rc : resourceComparings) {
+            rwSorted.add(rc.res1);
+        }
+        return rwSorted;
+    }
     public static List<ResourceWrapper> sortResourcesByCreatedDate(
         List<ResourceWrapper> resourceWrappers
     ) {
@@ -327,6 +340,32 @@ public virtual without sharing class ResourceService {
 
         public Integer compareTo(Object param1) {
             ResourceComparing res2 = (ResourceComparing) param1;
+
+            Integer returnValue = 0; // The return value of 0 indicates that both elements are equal.
+            if (
+                res1.resource.Therapeutic_Area_Assignments__r.size() <
+                res2.res1.resource.Therapeutic_Area_Assignments__r.size()
+            ) {
+                returnValue = 1; // Set return value to a positive value.
+            } else if (
+                res1.resource.Therapeutic_Area_Assignments__r.size() >
+                res2.res1.resource.Therapeutic_Area_Assignments__r.size()
+            ) {
+                returnValue = -1; // Set return value to a negative value.
+            }
+
+            return returnValue;
+        }
+    }
+    public virtual class ResourceUpdateComparing implements Comparable {
+        public ResourceService.ResourceWrapper res1;
+
+        public ResourceUpdateComparing(ResourceService.ResourceWrapper res1) {
+            this.res1 = res1;
+        }
+
+        public Integer compareTo(Object param1) {
+            ResourceUpdateComparing res2 = (ResourceUpdateComparing) param1;
 
             Integer returnValue = 0; // The return value of 0 indicates that both elements are equal.
             if (
