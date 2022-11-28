@@ -330,28 +330,65 @@ public virtual without sharing class ResourceService {
 
             Integer returnValue = 0; // The return value of 0 indicates that both elements are equal.
             if (
-                res1.resource.Therapeutic_Area_Assignments__r.size() <
-                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
-                res1.therapeuticAssignments?.size() <
-                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
-                res1.resource.Therapeutic_Area_Assignments__r.size() <
-                res2.res1.therapeuticAssignments?.size()||
-                res1.therapeuticAssignments?.size() <
-                res2.res1.therapeuticAssignments?.size()
+                res1.resource.Content_Type__c != RESOURCE_TYPE_RELEVANT_LINK &&
+                res2.res1.resource.Content_Type__c != RESOURCE_TYPE_RELEVANT_LINK
             ) {
-                returnValue = 1; // Set return value to a positive value.
+                if (
+                    res1.resource.Therapeutic_Area_Assignments__r?.size() <
+                    res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
+                ) {
+                    returnValue = 1;
+                }
+                else if (
+                    res1.resource.Therapeutic_Area_Assignments__r?.size() <
+                    res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
+                ) {
+                    returnValue = -1;
+                }
             } else if (
-                res1.resource.Therapeutic_Area_Assignments__r.size() >
-                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
-                res1.therapeuticAssignments?.size() >
-                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
-                res1.resource.Therapeutic_Area_Assignments__r.size() >
-                res2.res1.therapeuticAssignments?.size()||
-                res1.therapeuticAssignments?.size() >
-                res2.res1.therapeuticAssignments?.size()
+                res1.resource.Content_Type__c == RESOURCE_TYPE_RELEVANT_LINK &&
+                res2.res1.resource.Content_Type__c == RESOURCE_TYPE_RELEVANT_LINK
             ) {
-                returnValue = -1; // Set return value to a negative value.
+                if (
+                    res1.therapeuticAssignments?.size() < res2.res1.therapeuticAssignments?.size()
+                ) {
+                    returnValue = 1;
+                }
+                else if (
+                    res1.therapeuticAssignments?.size() < res2.res1.therapeuticAssignments?.size()
+                ) {
+                    returnValue = -1;
+                }
+            } else if (res1.resource.Content_Type__c == RESOURCE_TYPE_RELEVANT_LINK) {
+                if (
+                    res1.therapeuticAssignments?.size() <
+                    res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
+                ) {
+                    returnValue = 1;
+                }
+                else if (
+                    res1.therapeuticAssignments?.size() <
+                    res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
+                ) {
+                    returnValue = -1;
+                }
+            } else {
+                if (
+                    res1.resource.Therapeutic_Area_Assignments__r?.size() <
+                    res2.res1.therapeuticAssignments?.size()
+                ) {
+                    returnValue = 1;
+                }
+                else if (
+                    res1.resource.Therapeutic_Area_Assignments__r?.size() <
+                    res2.res1.therapeuticAssignments?.size()
+                ) {
+                    returnValue = -1;
+                }
             }
+
+            
+           
 
             return returnValue;
         }
@@ -379,7 +416,7 @@ public virtual without sharing class ResourceService {
     public static Integer getUpdatesCounter(List<ResourceWrapper> resourceWrappers) {
         Integer counter = 0;
         List<LoginHistory> lastLoginList = [
-            SELECT loginTime,Status
+            SELECT loginTime, Status
             FROM LoginHistory
             WHERE userId = :UserInfo.getUserId()
             ORDER BY LoginTime DESC
@@ -387,11 +424,10 @@ public virtual without sharing class ResourceService {
         ];
         Datetime lastLogin;
         if (lastLoginList.size() > 1) {
-            //get last successful logintime as we can't filter on status field 
-            for(Integer i=1;i<lastLoginList.size();i++){
-                if(lastLoginList[i].Status=='Success')
-                {
-                     lastlogin = lastLoginList[i].loginTime;
+            //get last successful logintime as we can't filter on status field
+            for (Integer i = 1; i < lastLoginList.size(); i++) {
+                if (lastLoginList[i].Status == 'Success') {
+                    lastlogin = lastLoginList[i].loginTime;
                 }
                 break;
             }
@@ -407,12 +443,11 @@ public virtual without sharing class ResourceService {
     public virtual class TherapeuticAssignments {
         @AuraEnabled
         public String resource = '';
-         @AuraEnabled
+        @AuraEnabled
         public String id = '';
-         @AuraEnabled
+        @AuraEnabled
         public String therapeuticArea = '';
     }
-
 
     public virtual class ResourceWrapper {
         @AuraEnabled
@@ -453,8 +488,6 @@ public virtual without sharing class ResourceService {
             }
         }
     }
-       
-
 
     public class ResourceDetailWrapper extends ResourceWrapper {
         @AuraEnabled
