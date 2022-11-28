@@ -97,7 +97,11 @@
             <div
                 class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large"
             >
-                <c-pp_multi-picklist-l-w-c></c-pp_multi-picklist-l-w-c>
+                <c-pp_multi-picklist-l-w-c 
+                picklist-values={delegateFilterData.studies}
+                total-no-of-studies = {totalNoOfStudies}
+                is-desktop={isDesktop}
+                ></c-pp_multi-picklist-l-w-c>
             </div>
             <!--Stidu Multip Piclist End-->
             <div class="checkbox-container slds-m-vertical_large">

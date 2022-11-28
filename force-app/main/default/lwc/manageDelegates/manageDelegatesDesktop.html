@@ -15,6 +15,8 @@
         <c-pp-add-new-delegate
             selected-parent={participantState.Participant_Contact__c}
             is-desktop={isDesktop}
+            delegate-filter-data={availableStudyData}
+            total-no-of-studies={totalNoOfStudies}
         >
         </c-pp-add-new-delegate>
     </template>
@@ -42,6 +44,7 @@
                                 title="Add new Delete"
                                 onclick={navToAddDelegate}
                                 class={addDelBtnMarin}
+                                disabled={diabledAddNewButton}
                             >
                                 {label.BTN_Add_New_Delegate}
                             </button>
@@ -159,10 +162,10 @@
                                                     <!--Remove Delegate Modal: Starts-->
                                                     <template if:true={showpopup}>
                                                         <c-pp-remove-delegate-modal-old
-                                                            pdenrollmentid={pdEnrollment.Id}
+                                                            pdenrollmentid={removeStudyPDEId}
                                                             messtext={modalMesstext}
                                                             tittext={label.PG_PST_L_Delegates_Remove_Himself_Header}
-                                                            onconfirmmodal={handleConfirmdelete}
+                                                            onconfirmmodal={handleRemoveDelegate}
                                                             onmodalclose={handleModalClose}
                                                         >
                                                         </c-pp-remove-delegate-modal-old>
@@ -183,9 +186,10 @@
                                                                 class="remove-btn"
                                                                 title="Remove Delegate"
                                                                 onclick={openRemoveDelegateModal}
-                                                                data-id={pdEnrollment.Id}
+                                                                data-pdeid={pdEnrollment.Id}
                                                                 data-pdfn={del.PatientDelegate.First_Name__c}
                                                                 data-pdln={del.PatientDelegate.Last_Name__c}
+                                                                disabled={pdEnrollment.disableRemoveButton}
                                                             >
                                                                 {label.PP_Remove}
                                                             </button></lightning-layout-item
@@ -194,28 +198,31 @@
                                                 </lightning-layout-item>
                                             </template>
                                         </template>
-                                        <!--Iterate over each pdEnrollment Associated to the Delegate: Starts-->
-                                        <template if:false={del.addNewStudy}>
-                                            <!--Add Assignment Button: Starts-->
-                                            <lightning-layout-item size="12">
-                                                <button
-                                                    class="apollo-btn secondary box-add-assignment-btn slds-m-bottom_small"
-                                                    title="Add Assignment"
-                                                    onclick={addAssignment}
-                                                    data-pdid={del.PatientDelegate.Id}
-                                                >
-                                                    <c-web-icon
-                                                        icon-name="icon-plus"
-                                                        icon-color="#0768fd"
-                                                        icon-height="25"
-                                                        icon-width="18"
-                                                    ></c-web-icon>
-                                                    <span class="add-assignment-label"
-                                                        >&nbsp; {label.PP_AddAssignment}</span
+                                        <!--Iterate over each pdEnrollment Associated to the Delegate: Ends-->
+                                        <template if:true={del.showAddAssignmentButton}>
+                                            <template if:false={del.addNewStudy}>
+                                                <!--Add Assignment Button: Starts-->
+                                                <lightning-layout-item size="12">
+                                                    <button
+                                                        class="apollo-btn secondary box-add-assignment-btn slds-m-bottom_small"
+                                                        title="Add Assignment"
+                                                        onclick={addAssignment}
+                                                        data-pdid={del.PatientDelegate.Id}
+                                                        disabled={del.disableAddAssignmentButton}
                                                     >
-                                                </button>
-                                            </lightning-layout-item>
-                                            <!--Add Assignment Button: Ends-->
+                                                        <c-web-icon
+                                                            icon-name="icon-plus"
+                                                            icon-color="#0768fd"
+                                                            icon-height="25"
+                                                            icon-width="18"
+                                                        ></c-web-icon>
+                                                        <span class="add-assignment-label"
+                                                            >&nbsp; {label.PP_AddAssignment}</span
+                                                        >
+                                                    </button>
+                                                </lightning-layout-item>
+                                                <!--Add Assignment Button: Ends-->
+                                            </template>
                                         </template>
 
                                         <template if:true={del.addNewStudy}>
@@ -227,16 +234,24 @@
                                                     <lightning-layout-item
                                                         size="10"
                                                         class="study-picklist"
-                                                        ><c-pp_multi-picklist-l-w-c></c-pp_multi-picklist-l-w-c
+                                                        ><c-pp_multi-picklist-l-w-c
+                                                        picklist-values={studyToAssing}
+                                                        total-no-of-studies = {totalNoOfStudiesToAssign}
+                                                        is-desktop={isDesktop}
+                                                        ></c-pp_multi-picklist-l-w-c
                                                     ></lightning-layout-item>
                                                     <lightning-layout-item
                                                         size="2"
                                                         class="save-button-aligment"
                                                         ><button
                                                             title="Save"
-                                                            onclick={doSaveChanges}
+                                                            onclick={doSave}
                                                             class={saveButtonClass}
                                                             disabled={validateData}
+                                                            data-id={del.PatientDelegate.Id}
+                                                            data-pdid={del.pdId}
+                                                            data-attestedtimestmp={del.delAttestationTimeStamp}
+                                                            data-attestedby={del.delAttestedBy}
                                                         >
                                                             {label.BTN_Save}
                                                         </button></lightning-layout-item
@@ -305,7 +320,7 @@
                                     <!--Delete Delegate Modal: Starts-->
                                     <template if:true={showDeletePopup}>
                                         <c-pp-delete-delegate-modal-old
-                                            patientdelegateid={del.PatientDelegate.Id}
+                                            patientdelegateid={deletePatientDelId}
                                             messtext={label.PP_Delegate_Delegate_Warning}
                                             tittext={label.PP_Delegate_Delegate}
                                             ondeletemodal={handleDeleteDelegate}
@@ -358,13 +373,15 @@
                                                             <button
                                                                 class="delete-btn"
                                                                 onclick={openDeleteDelegateModal}
+                                                                data-id={del.pdId}
+                                                                disabled={del.disableDeleteButton}
                                                             >
                                                                 <span
                                                                     ><img
                                                                         onmouseover={toggleDeleteIcon}
                                                                         class="delete-icon"
                                                                         src={deleteIcon}
-                                                                        data-id={del.PatientDelegate.Id}
+                                                                        data-pdid={del.pdId}
                                                                 /></span>
                                                             </button>
                                                         </template>
@@ -374,13 +391,15 @@
                                                             <button
                                                                 class="delete-btn"
                                                                 onclick={openDeleteDelegateModal}
+                                                                data-id={del.pdId}
+                                                                disabled={del.disableDeleteButton}
                                                             >
                                                                 <span
                                                                     ><img
                                                                         onmouseout={toggleDeleteIcon}
                                                                         class="delete-icon"
                                                                         src={deleteIconRed}
-                                                                        data-id={del.PatientDelegate.Id}
+                                                                        data-pdid={del.pdId}
                                                                 /></span>
                                                             </button>
                                                         </template>
@@ -403,6 +422,7 @@
                                                         class="apollo-btn secondary box-add-assignment-btn"
                                                         onclick={addAssignmentFormer}
                                                         data-pdid={del.PatientDelegate.Id}
+                                                        disabled={del.disableAddAssignmentButton}
                                                     >
                                                         <c-web-icon
                                                             icon-name="icon-plus"
@@ -475,13 +495,14 @@
                                                             <button
                                                                 class="delete-btn"
                                                                 onclick={openDeleteDelegateModal}
+                                                                data-id={del.pdId}
                                                             >
                                                                 <span
                                                                     ><img
                                                                         onmouseover={toggleDeleteIcon}
                                                                         class="delete-icon"
                                                                         src={deleteIcon}
-                                                                        data-id={del.PatientDelegate.Id}
+                                                                        data-pdid={del.pdId}
                                                                 /></span>
                                                             </button>
                                                         </template>
@@ -491,13 +512,14 @@
                                                             <button
                                                                 class="delete-btn"
                                                                 onclick={openDeleteDelegateModal}
+                                                                data-id={del.pdId}
                                                             >
                                                                 <span
                                                                     ><img
                                                                         onmouseout={toggleDeleteIcon}
                                                                         class="delete-icon"
                                                                         src={deleteIconRed}
-                                                                        data-id={del.PatientDelegate.Id}
+                                                                        data-pdid={del.pdId}
                                                                 /></span>
                                                             </button>
                                                         </template>
@@ -514,16 +536,24 @@
                                                     <lightning-layout-item
                                                         size="10"
                                                         class="study-picklist"
-                                                        ><c-pp_multi-picklist-l-w-c></c-pp_multi-picklist-l-w-c
+                                                        ><c-pp_multi-picklist-l-w-c
+                                                            picklist-values={availableStudyData.studies}
+                                                            total-no-of-studies = {totalNoOfStudies}
+                                                            is-desktop={isDesktop}
+                                                        ></c-pp_multi-picklist-l-w-c
                                                     ></lightning-layout-item>
                                                     <lightning-layout-item
                                                         size="2"
                                                         class="save-button-aligment"
                                                         ><button
                                                             title="Save"
-                                                            onclick={doSaveChanges}
+                                                            onclick={doSaveFormer}
                                                             class={saveButtonClass}
                                                             disabled={validateData}
+                                                            data-id={del.PatientDelegate.Id}
+                                                            data-pdid={del.pdId}
+                                                            data-attestedtimestmp={del.delAttestationTimeStamp}
+                                                            data-attestedby={del.delAttestedBy}
                                                         >
                                                             {label.BTN_Save}
                                                         </button></lightning-layout-item

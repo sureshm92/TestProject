@@ -28,14 +28,23 @@
                         role="none"
                     >
                         <div class="selectedOption">
-                                <template if:true={isNoStudySelected}>
-                                    <div class="padding-placeholder" contenteditable="true" placeholder={getSelectLable}></div>
+                            <template if:true={isNoStudySelected}>
+                                <div class="padding-placeholder" contenteditable="true" placeholder={getSelectLable}></div>
+                            </template>
+                            <template if:false={isDesktop}>
+                                <template if:true={getFirstSelecedStudy}>
+                                    <span class="selectedValue slds-truncate_container_50 slds-truncate" title={getFirstSelecedStudy}> {getFirstSelecedStudy} </span>
                                 </template>
                                 
-                            <template for:each={firstThreeselectedStudyies} for:item="study" for:index="index">
-                                <span key={study.id} class="selectedValue slds-truncate_container_25 slds-truncate" title={study.label}> {study.label} </span>
                             </template>
-                            <div key={study.id} class="study-thmore">{studyCount}</div>
+                            
+                            <template if:true={isDesktop}>
+                               <template for:each={firstThreeselectedStudyies} for:item="study" for:index="index">
+                                    <span key={study.value} class="selectedValue slds-truncate_container_25 slds-truncate" title={study.label}> {study.label} </span>
+                                </template>
+                            </template>
+                                
+                            <div key={study.value} class="study-thmore">{studyCount}</div>
                         </div>
                          <span
                             class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right"

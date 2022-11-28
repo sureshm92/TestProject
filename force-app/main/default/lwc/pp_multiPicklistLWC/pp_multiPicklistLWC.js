@@ -20,19 +20,22 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         PG_MS_L_Studies_up,
         Select
     };
-    /* @api*/ picklistValues = [];
+    @api picklistValues = [];
     @api selectedStudy = [];
     @api studyListStr = '';
+    @api totalNoOfStudies;
+    @api isDesktop;
+
     @track firstThreeselectedStudyies = [];
     subscription = null;
     //resetAll;
-    totalNoOfStudies;
+   
 
     @wire(MessageContext)
     messageContext;
 
     connectedCallback() {
-        this.subscribeToMessageChannel();
+        this.subscribeToMessageChannel(); 
     }
     disconnectedCallback() {
         this.unsubscribeToMessageChannel();
@@ -55,25 +58,11 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         if (message.ResetAll) {
             this.removeAll();
         }
-        //If we recieve Piclist Value from Parent component.
-        if (message.piclistValues) {
-            this.picklistValues = message.piclistValues;
-            this.totalNoOfStudies = this.picklistValues.length;
-            //if Participant is part of only one study then auto select the first study.
-            // if (this.totalNoOfStudies == 1) {
-            //     let tempList = [];
-            //     tempList.push({
-            //         label: this.picklistValues[0].label,
-            //         value: this.picklistValues[0].value
-            //     });
-            //     this.selectedStudy = tempList;
-            //     this.sendFilterUpdates();
-            //Set attribute checked="True" in input
-            // let studyElement = this.template.querySelectorAll('.studyCheckBox');
-            // studyElement[0].checked = true;
-            //this.selectAll()
-            // }
-        }
+        // //If we recieve Piclist Value from Parent component.
+        // if (message.piclistValues) {
+        //     this.picklistValues = message.piclistValues;
+        //     this.totalNoOfStudies = this.picklistValues.length;
+        // }
     }
     //Subscribe the message channel
     unsubscribeToMessageChannel() {
@@ -109,20 +98,27 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     closeStudy() {
         this.template.querySelector('.eBoxOpen').classList.remove('slds-is-open');
     }
-    // get getFirstSelecedStudy() {
-    //     if (this.selectedStudy) {
-    //         if (this.selectedStudy.length > 0) {
-    //             return this.selectedStudy[0].label;
-    //         }
-    //     }
-    //     return null;
-    // }
+    get getFirstSelecedStudy() {
+        if (this.selectedStudy) {
+            if (this.selectedStudy.length > 0) {
+                return this.selectedStudy[0].label;
+            }
+        }
+        return null;
+    }
+
     get studyCount() {
         if (this.selectedStudy) {
-            if (this.selectedStudy.length > 3) {
-                //return "+" + (this.selectedStudy.length-1)+" more" ;
-                return ' + ' + (this.selectedStudy.length - 3) + ' ' + this.label.More;
+            if(this.isDesktop){
+                if (this.selectedStudy.length > 3) {
+                    return ' + ' + (this.selectedStudy.length - 3) + ' ' + this.label.More;
+                }
+            }else{
+                if (this.selectedStudy.length > 1) {
+                    return ' + ' + (this.selectedStudy.length - 1) + ' ' + this.label.More;
+                }
             }
+            
         }
         return '';
     }
@@ -134,7 +130,8 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     //Show Select All if all the studies are selected.
     get showSelectAll() {
         const totalSelectedStudies = this.selectedStudy.length;
-        //return totalSelectedStudies != 0 && totalSelectedStudies != this.totalNoOfStudies
+        console.log('Show All totalSelectedStudies: ',totalSelectedStudies);
+        console.log('Show All totalNoOfStudies: ',this.totalNoOfStudies);
         return totalSelectedStudies != this.totalNoOfStudies
             ? true
             : false;
@@ -146,6 +143,8 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     //Show clear All if at least one sutudy is not selected.
     get showClearAll() {
         const totalSelectedStudies = this.selectedStudy.length;
+        console.log('clear All totalSelectedStudies: ',totalSelectedStudies);
+        console.log('Clear All totalNoOfStudies: ',this.totalNoOfStudies);
         return totalSelectedStudies != 0 && totalSelectedStudies == this.totalNoOfStudies
             ? true
             : false;
@@ -161,12 +160,13 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         let studyElement = this.template.querySelector('[data-id="studyBox"]');
         let opts = studyElement.getElementsByTagName('input');
         let studyOpts = [];
+        let checkedCount = 0;
         for (var i = 0; i < opts.length; i++) {
             if (opts[i].checked) {
                 tempList.push({ label: opts[i].name, value: opts[i].value });
                 studyOpts.push(opts[i].value);
                 //Store First Three selected Studies in separate List.
-                if(i<=2){
+                if(tempFirstThreeList.length<=2){
                     tempFirstThreeList.push({ label: opts[i].name, value: opts[i].value });
                 }
             }

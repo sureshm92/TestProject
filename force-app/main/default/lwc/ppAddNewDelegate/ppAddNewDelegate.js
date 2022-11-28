@@ -72,10 +72,12 @@ export default class PpAddNewDelegate extends LightningElement {
     currentTab = 'by-study';
     @track changedLevelsAll = [];
     @track maxLengthData = {};
+    @track studiesSelected = [];
     isDelegateActive = false;
     spinner = false;
     isLoading = false;
-    @track delegateFilterData = [];
+    @api delegateFilterData = [];
+    @api totalNoOfStudies;
     @wire(MessageContext)
     messageContext;
     subscription = null;
@@ -261,26 +263,27 @@ export default class PpAddNewDelegate extends LightningElement {
                         this.spinner = false;
                     });
                 //get Available list of studies of participant
-                getFilterData({
-                    userMode: this.userMode
-                })
-                    .then((result) => {
-                        this.delegateFilterData = result;
-                        //Sent the List of studies via LMS to child component.
-                        this.sendpiclistValues();
-                        this.isLoading = false;
-                        this.spinner = false;
-                    })
-                    .catch((error) => {
-                        this.isLoading = false;
-                        communityService.showToast(
-                            '',
-                            'error',
-                            'Failed To read the Data(study Filter)...',
-                            100
-                        );
-                        this.spinner = false;
-                    });
+                // getFilterData({
+                //     userMode: this.userMode
+                // })
+                //     .then((result) => {
+                //         this.delegateFilterData = result;
+                //         //Sent the List of studies via LMS to child component.
+                //         // this.sendpiclistValues();
+                //         this.totalNoOfStudies = result.studies.length;
+                //         this.isLoading = false;
+                //         this.spinner = false;
+                //     })
+                //     .catch((error) => {
+                //         this.isLoading = false;
+                //         communityService.showToast(
+                //             '',
+                //             'error',
+                //             'Failed To read the Data(study Filter)...',
+                //             100
+                //         );
+                //         this.spinner = false;
+                //     });
             }
             this.subscribeToMessageChannel();
         } else {
@@ -305,8 +308,10 @@ export default class PpAddNewDelegate extends LightningElement {
     }
     //Handler for message received from child component.
     handleMessage(message) {
+         //handle selected studies from the child component.
         if (message != undefined && message.selectedListOfStudies != undefined) {
-            this.delegateFilterData.studiesSelected = message.selectedListOfStudies;
+            //this.delegateFilterData.studiesSelected = message.selectedListOfStudies;
+            this.studiesSelected = message.selectedListOfStudies;
             if (message.selectedListOfStudies.length > 0) {
                 this.isAtLeastOneStudySelected = true;
             } else if (message.selectedListOfStudies.length == 0) {
@@ -513,9 +518,10 @@ export default class PpAddNewDelegate extends LightningElement {
                             this.isLoading = false;
                             return;
                         } else {
+                            //consol.log('delegateFilterData: ',JSON.stringify(this.studiesSelected));
                             savePatientDelegate({
                                 delegate: JSON.stringify(delegate.delegateContact),
-                                delegateFilterData: JSON.stringify(this.delegateFilterData)
+                                delegateFilterData: JSON.stringify(this.studiesSelected)
                             })
                                 .then((result) => {
                                     communityService.showToast(
@@ -587,12 +593,12 @@ export default class PpAddNewDelegate extends LightningElement {
     }
     //Send Study Picklist value to Child component.
     //This LMS will be subscribe in connectedCallback in PP_MultiPickistLWC LWC comp.
-    sendpiclistValues() {
-        const returnPayload = {
-            piclistValues: this.delegateFilterData.studies
-        };
-        publish(this.messageContext, messageChannel, returnPayload);
-    }
+    // sendpiclistValues() {
+    //     const returnPayload = {
+    //         piclistValues: this.delegateFilterData.studies
+    //     };
+    //     publish(this.messageContext, messageChannel, returnPayload);
+    // }
 
     //Go back to manage delegate page
     //This LMS will be subscribe in connectedCallback in ManageDelegate LWC comp.
