@@ -50,6 +50,7 @@ import RH_InvalidAction from '@salesforce/label/c.RH_InvalidAction';
 import RH_ChangeStatusErrorMsg from '@salesforce/label/c.RH_ChangeStatusErrorMsg';
 import pir_Bulk_Import_History from '@salesforce/label/c.pir_Bulk_Import_History';
 import PIR_Import_Participants from '@salesforce/label/c.PIR_Import_Participants';
+import PIR_Signed_Date_Validation from '@salesforce/label/c.PIR_Signed_Date_Validation';
 import Need_to_Re_consent from '@salesforce/label/c.Need_to_Re_consent';
 
 export default class Pir_participantList extends NavigationMixin(LightningElement) {
@@ -140,6 +141,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         High_Risk,
         pir_Bulk_Import_History,
         PIR_Import_Participants,
+        PIR_Signed_Date_Validation,
         Need_to_Re_consent
     }; 
     @api dropDownLabel=this.label.RPR_Actions;
