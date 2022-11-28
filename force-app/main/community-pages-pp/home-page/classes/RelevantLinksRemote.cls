@@ -148,8 +148,7 @@ public without sharing class RelevantLinksRemote {
             }
 
             if (
-                (ps.value == ParticipantService.ParticipantStates.ALUMNI &&
-                ps.isDelegate == false) || !initDataNew.relevantLinksAreAvailable
+                (ps.value == ParticipantService.ParticipantStates.ALUMNI )
             ) {
                 //platform level relevant links
                 resourcesVisibleForParticipant.addAll(
