@@ -39,7 +39,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-        [];
         getInitDataNew()
             .then((returnValue) => {
                 this.isInitialized = true;
