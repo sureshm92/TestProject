@@ -38,7 +38,13 @@
     .scroll-bar-box {
         padding-top: 16px;
         padding-bottom: 8px;
-        min-height: 335px;
+        max-height: auto;
+        margin: 0 10px 0 10px;
+    }
+    .scroll-bar-box-empty {
+        padding-top: 16px;
+        padding-bottom: 8px;
+        height: 335px;
         margin: 0 10px 0 10px;
     }
 }
