@@ -362,8 +362,7 @@ public without sharing class NotificationAvailabilityService {
         String notificationTarget,
         Id contactId,
         Notification_Type__mdt notificationType,
-        String objType,
-        Boolean isDelegatestudylevel
+        String objType
     ) {
         Boolean isEmailAvailableAtPER = false;
         if (notificationType.IsStudyLevel__c) {
@@ -371,13 +370,7 @@ public without sharing class NotificationAvailabilityService {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                     Id.valueOf(whatId)
                 );
-                Boolean perEmailToSend = false;
-                if(isDelegatestudylevel){
-                    perEmailToSend = isDELStudyPEREmailtoSend(pe);
-                }
-                else{
-                 perEmailToSend = isPEREmailtoSend(pe);
-                }
+                Boolean perEmailToSend = isPEREmailtoSend(pe);
                 if (perEmailToSend) {
                     isEmailAvailableAtPER = true;
                 }
@@ -558,44 +551,12 @@ public without sharing class NotificationAvailabilityService {
         }
         return perEmailToSend;
     }
-    public Boolean isDELStudyPEREmailtoSend(Participant_Enrollment__c pe) {
-        List<Patient_Delegate_Enrollment__c> perDelJunctionRecList = [
-            SELECT
-                Id,
-                Participant_Enrollment__c,
-                Patient_Delegate__c,
-                Patient_Delegate__r.Contact__c,
-                Patient_Delegate__r.Participant__c,
-                Name,
-                Status__c,
-                Participant_Enrollment__r.study__c,
-                Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
-                Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
-                Welcome_Message_Sent__c,
-                Welcome_Message_Delivered__c
-                FROM Patient_Delegate_Enrollment__c
-                WHERE Participant_Enrollment__c = :pe.Id AND Patient_Delegate__r.Contact__c = :contactId
-        ];
-        Boolean perEmailToSend = false;
-        for(Patient_Delegate_Enrollment__c pe : perDelJunctionRecList){
-            perEmailToSend =
-                pe.Permit_Mail_Email_contact_for_this_study__c &&
-                !pe.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
-                !pe.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                !pe.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c;
-            if(perEmailToSend) break;
-       
-        }
-        return perEmailToSend;
-    }
     public Boolean isAvailable(
         String whatId,
         String recipientType,
         String notificationTarget,
         Id contactId,
-        Notification_Type__mdt notificationType,
-        Boolean isDelegatestudylevel
+        Notification_Type__mdt notificationType
     ) {
         if (whatId != null && objectsByIds.get(Id.valueOf(whatId)) == null)
             return false;
@@ -613,8 +574,7 @@ public without sharing class NotificationAvailabilityService {
                 notificationTarget,
                 contactId,
                 notificationType,
-                objType,
-                isDelegatestudylevel
+                objType
             );
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_HCP) {

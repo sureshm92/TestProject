@@ -403,7 +403,6 @@ public without sharing class NotificationService {
                                     nt.Target_Type__c,
                                     n.Recipient__c,
                                     notificationType,
-                                    n.isDelegatestudylevel
                                 )
                             ) {
                                 if (
