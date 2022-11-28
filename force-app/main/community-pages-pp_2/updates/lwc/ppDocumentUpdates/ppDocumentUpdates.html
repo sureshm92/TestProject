@@ -1,12 +1,15 @@
 <template>
     <template if:false={desktop}>
         <div class="slds-grid slds-wrap card-border">
-            <div class="slds-col slds-size_2-of-6 card-element">
-                <div class="slds-align_absolute-center icon-container">
+            <div class="slds-col slds-size_2-of-6 card-element" onclick={navigateResourceDetail}>
+                <div
+                    class="slds-align_absolute-center icon-container"
+                    onclick={navigateResourceDetail}
+                >
                     <div if:true={thumbnailPresent} class="thumbnail-image">
                         <img
                             src={thumbnail}
-                            class="thumnail-img"
+                            class="thumnail-img-mobile"
                             alt="Image N/A"
                             onerror={handleNoThumnnailError}
                             onclick={navigateResourceDetail}
@@ -47,12 +50,18 @@
     <template if:true={desktop}>
         <template if:true={showVisitSection}>
             <div class="slds-grid slds-wrap card-border-desktop">
-                <div class="slds-col slds-size_2-of-6 card-element">
-                    <div class="slds-align_absolute-center icon-container">
+                <div
+                    class="slds-col slds-size_2-of-6 card-element"
+                    onclick={navigateResourceDetail}
+                >
+                    <div
+                        class="slds-align_absolute-center icon-container"
+                        onclick={navigateResourceDetail}
+                    >
                         <div if:true={thumbnailPresent} class="thumbnail-image">
                             <img
                                 src={thumbnail}
-                                class="thumnail-img"
+                                class="thumnail-img-desktop-vertical"
                                 alt="Image N/A"
                                 onerror={handleNoThumnnailError}
                                 onclick={navigateResourceDetail}
@@ -92,7 +101,11 @@
         </template>
         <template if:false={showVisitSection}>
             <div class="slds-align_absolute-center thumbnail-section-horizontal">
-                <div if:true={thumbnailPresent} class="thumbnail-image">
+                <div
+                    if:true={thumbnailPresent}
+                    class="thumbnail-image-desktop-horizontal-section"
+                    onclick={navigateResourceDetail}
+                >
                     <img
                         src={thumbnail}
                         class="thumnail-img"
@@ -101,14 +114,16 @@
                         onclick={navigateResourceDetail}
                     />
                 </div>
-                <c-web-icon
-                    if:false={thumbnailPresent}
-                    icon-color="#b5b5b5"
-                    icon-width="55"
-                    icon-height="55"
-                    icon-size="large"
-                    icon-name="empty-thumbnail-updates"
-                ></c-web-icon>
+                <div onclick={navigateResourceDetail}>
+                    <c-web-icon
+                        if:false={thumbnailPresent}
+                        icon-color="#b5b5b5"
+                        icon-width="55"
+                        icon-height="55"
+                        icon-size="large"
+                        icon-name="empty-thumbnail-updates"
+                    ></c-web-icon>
+                </div>
             </div>
             <div
                 class="slds-grid slds-wrap document-label-desktop document-label-section-horizontal"
