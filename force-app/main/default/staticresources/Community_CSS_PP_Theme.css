@@ -18,6 +18,11 @@
         padding: 0 !important;
     }
 }
+
+.task-modal-background .slds-backdrop {
+    background:rgba(0, 0, 0, 0.1) !important;
+}
+
 .rr-width-limiter-pp {
    max-width: 1366px;
    margin: auto;

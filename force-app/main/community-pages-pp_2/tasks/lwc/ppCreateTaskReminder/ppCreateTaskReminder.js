@@ -126,8 +126,9 @@ export default class PpCreateTaskReminder extends LightningElement {
                                         ? this.taskCodeList.includes(this.taskInfo.Task_Code__c)
                                         : false;
                                 this.businessTask =
-                                    this.taskInfo.Originator__c != 'Participant'
-                                        ? !this.systemTask
+                                    this.taskInfo.Originator__c == 'IQVIA Admin' &&
+                                    !this.taskCodeList.includes(this.taskInfo.Task_Code__c)
+                                        ? true
                                         : false;
                                 this.emailReminderOptIn = this.initData.task.Remind_Using_Email__c;
                                 this.smsReminderOptIn = this.initData.task.Remind_Using_SMS__c;
