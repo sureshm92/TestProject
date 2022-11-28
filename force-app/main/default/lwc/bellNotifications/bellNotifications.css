@@ -106,3 +106,9 @@
   text-align: center;
   padding: 10px 10px;
 }
+@media only screen and (min-device-width: 1080px) and (max-device-width: 1920px) {
+  .vertical-scroll {
+       height: 47vh;
+       max-height: 47vh;
+   }
+}
