@@ -478,15 +478,21 @@ public without sharing class TaskEditRemote {
         return consentTypeValueMap;
     }
 
-    private static Map<String, Boolean> checkStudyLevelConsents() {
+    private static Map<String, Boolean> checkStudyLevelConsents(
+        Participant_Enrollment__c currentPE
+    ) {
         Map<String, Boolean> consentTypeValueMap = new Map<String, Boolean>();
         List<Participant_Enrollment__c> peList = checkSmsEmailOptIn();
         if (peList != null && peList.size() > 0) {
-            consentTypeValueMap.put('smsConsent', peList[0].Permit_SMS_Text_for_this_study__c);
-            consentTypeValueMap.put(
-                'emailConsent',
-                peList[0].Permit_Mail_Email_contact_for_this_study__c
-            );
+            for (Participant_Enrollment__c pe : peList) {
+                if (pe.Id == currentPE.Id) {
+                    consentTypeValueMap.put('smsConsent', pe.Permit_SMS_Text_for_this_study__c);
+                    consentTypeValueMap.put(
+                        'emailConsent',
+                        pe.Permit_Mail_Email_contact_for_this_study__c
+                    );
+                }
+            }
         } else {
             consentTypeValueMap.put('smsConsent', false);
             consentTypeValueMap.put('emailConsent', false);
@@ -501,7 +507,7 @@ public without sharing class TaskEditRemote {
             Boolean isDelegate = ParticipantContext.isCurrentDelegate();
             Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
             if ((!isDelegate && currentPE != null) || (isDelegate && currentPE != null)) {
-                consentTypeValueMap = checkStudyLevelConsents();
+                consentTypeValueMap = checkStudyLevelConsents(currentPE);
             } else if ((!isDelegate && currentPE == null) || (isDelegate && currentPE == null)) {
                 consentTypeValueMap = checkPlatformLevelConsents();
             }
