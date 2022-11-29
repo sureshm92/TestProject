@@ -254,7 +254,7 @@ export default class VisitsPath extends LightningElement {
                 { label: this.labels.OneHourBefore, value: '1 hour before' },
                 { label: this.labels.FourHoursBefore, value: '4 hours before' },
                 { label: this.labels.Onedaybefore, value: '1 day before' },
-                { label: this.labels.OneWeekBefore, value: '1 Week before' },
+                { label: this.labels.OneWeekBefore, value: '1 week before' },
                 { label: this.labels.CustomDate, value: 'Custom' }
             ];
         } else {
@@ -262,7 +262,7 @@ export default class VisitsPath extends LightningElement {
                 { label: this.labels.OneHourBefore, value: '1 hour before' },
                 { label: this.labels.FourHoursBefore, value: '4 hours before' },
                 { label: this.labels.Onedaybefore, value: '1 day before' },
-                { label: this.labels.OneWeekBefore, value: '1 Week before' },
+                { label: this.labels.OneWeekBefore, value: '1 week before' },
                 { label: this.labels.CustomDate, value: 'Custom' }
             ];
         }
@@ -347,8 +347,8 @@ export default class VisitsPath extends LightningElement {
             ) {
                 reminderdate = visitPlanDate - 4 * 3600 * 1000;
             } else if (
-                event.target.value == '1 Week before' ||
-                this.reminderOption == '1 Week before'
+                event.target.value == '1 week before' ||
+                this.reminderOption == '1 week before'
             ) {
                 reminderdate = visitPlanDate - 7 * 24 * 3600 * 1000;
             }

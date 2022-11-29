@@ -84,107 +84,14 @@ public class Batch_CreateScreenerResponse implements Database.Batchable<SObject>
         );
 
         List<Database.SaveResult> saveResults = Database.insert(responseRecords, false);
-        Map<Id, Participant_Enrollment__c> peToUpdate = new Map<Id, Participant_Enrollment__c>();
-        for (Integer i = 0; i < saveResults.size(); i++) {
-            
-            if (saveResults[i].isSuccess()) {
-                
-                Participant_PrescreenerResponse__c surveyResponseRec = responseRecords[i];
-                Participant_Enrollment__c peRecord = new Participant_Enrollment__c(Id = surveyResponseRec.Participant_enrollment__c);
-                if(peToUpdate.containsKey(surveyResponseRec.Participant_enrollment__c)) { 
-                    peRecord = peToUpdate.get(surveyResponseRec.Participant_enrollment__c);
-                } 
-                if(surveyResponseRec.MRR__c == true || surveyResponseRec.MRR_EPR__c == true) { 
-                    peRecord.Medical_Record_Review_Completed_by__c = null;
-                    peRecord.Medical_Record_Review_Completed_Date__c = null;
-                    peRecord.MRR_Survey_Results_URL__c = null;
-                    peRecord.Medical_Record_Review_Status__c = null;
-                } else if(surveyResponseRec.Prescreener__c == true){
-                    peRecord.Pre_Screener_Completed_by__c = null;
-                    peRecord.Pre_Screener_Completed_Date__c = null;
-                    peRecord.Pre_Screener_Survey_Response__c = null;
-                    peRecord.Pre_screening_Status__c = null;
-                }
-                peToUpdate.put(peRecord.Id, peRecord);
-            } 
-        }
-        bypassTriggers();
-        update peToUpdate.values();
+      
     }
     
     public void finish(Database.BatchableContext bc){
+         // execute any post-processing operations
+        system.debug('Batch for Creating Screener Responses successfully  completed');
         
-        system.debug('Batch Create Screener Response is completed');
-    }
+    } 
 
-    public static void bypassTriggers() {
-
-        TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.createNotifications.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.EcoaEvents.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.UpdatePatientConsent.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            PENotificationTriggerHandler.CreateNotificationHandler.class
-        );
-    }
+  
 }

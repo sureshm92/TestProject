@@ -3,20 +3,16 @@
     <c-web-spinner fixed="true"></c-web-spinner>
     <template if:true={isInitialized}>
         <template if:true={desktop}>
-            <!--<template if:true={clinicalrecord}>-->
             <template if:true={showProgramOverview}>
                 <div class="po-container">
                     <lightning-layout multiple-rows="true">
                         <lightning-layout-item padding="around-small" size="12">
                             <lightning-layout>
                                 <lightning-layout-item padding="around-small" size="3">
-                                    <div class="page-right">
-                                        <!--<img src={w3webSlider1}>-->
-                                    </div>
+                                    <div class="page-right"></div>
                                 </lightning-layout-item>
-                                <lightning-layout-item  size="9">
+                                <lightning-layout-item size="9">
                                     <h2 class="po-fontsize">{userName}</h2>
-                                    <!--<template if:true={clinicalrecord}>-->
                                     <template if:true={showProgramOverview}>
                                         <template if:true={isProgram}>
                                             <c-program-overview
@@ -48,10 +44,16 @@
                 <lightning-layout-item size="4" class="around-small-custom">
                     <c-pp-tasks desktop={desktop}></c-pp-tasks>
                 </lightning-layout-item>
-                <lightning-layout-item size="4" class="around-small-custom around-right-zero">
-                    <!-- <c-pp-home-page-visits-card desktop={desktop}></c-pp-home-page-visits-card>-->
-                    <c-pp-updates></c-pp-updates>
-                </lightning-layout-item>
+                <template if:true={showVisitCard}>
+                    <lightning-layout-item size="4" class="around-small-custom around-right-zero">
+                        <c-pp-updates showvisitsection={showVisitCard}></c-pp-updates>
+                    </lightning-layout-item>
+                </template>
+                <template if:false={showVisitCard}>
+                    <lightning-layout-item size="8" class="around-small-custom around-right-zero">
+                        <c-pp-updates showvisitsection={showVisitCard}></c-pp-updates>
+                    </lightning-layout-item>
+                </template>
             </lightning-layout>
             <!-- Bottom Congrats Text -->
         </template>
@@ -86,7 +88,9 @@
             </template>
 
             <!-- cards -->
-            <div class="slds-grid slds-grid_align-center slds-p-vertical_large slds-p-horizontal_small">
+            <div
+                class="slds-grid slds-grid_align-center slds-p-vertical_large slds-p-horizontal_small"
+            >
                 <div class="slds-col slds-m-horizontal_xxx-small">
                     <template if:true={showVisitCard}>
                         <template if:false={isDelegateSelfview}>
@@ -129,52 +133,65 @@
                 <div class="slds-col slds-m-horizontal_xxx-small">
                     <div class="tasks">
                         <template if:true={taskList}>
-                            <template if:false={showVisitCardMobile}>
-                                <div class="icon-updates taskIconPosition">
-                                    <c-web-icon
-                                        class="svg-icon svg-icon-with-text"
-                                        icon-size="task_mobile"
-                                        icon-name="check-circle-1-alternate"
-                                        data-id="checkcirclealternate"
-                                        icon-color="#ffffff"
-                                        onclick={showTaskList}
-                                    >
-                                    </c-web-icon>
-                                </div>
-                                <div class="vertical task-pink"></div>
-                            </template>
+                            <div class="icon-updates taskIconPosition">
+                                <c-web-icon
+                                    class="svg-icon svg-icon-with-text"
+                                    icon-size="task_mobile"
+                                    icon-name="check-circle-1-alternate"
+                                    data-id="checkcirclealternate"
+                                    icon-color="#ffffff"
+                                    onclick={showTaskList}
+                                >
+                                </c-web-icon>
+                            </div>
+                            <div class="vertical task-pink"></div>
                         </template>
                         <template if:false={taskList}>
-                            <template if:true={showVisitCardMobile}>
-                                <div class="icon-updates">
-                                    <c-web-icon
-                                        class="svg-icon svg-icon-with-text"
-                                        icon-size="medium"
-                                        icon-name="check-circle-1-alternate"
-                                        data-id="checkcirclealternate"
-                                        icon-color="#ffffff"
-                                        onclick={showTaskList}
-                                    >
-                                    </c-web-icon>
-                                </div>
-                                <p class="p-text">Tasks</p>
-                            </template>
+                            <div class="icon-updates">
+                                <c-web-icon
+                                    class="svg-icon svg-icon-with-text"
+                                    icon-size="medium"
+                                    icon-name="check-circle-1-alternate"
+                                    data-id="checkcirclealternate"
+                                    icon-color="#ffffff"
+                                    onclick={showTaskList}
+                                >
+                                </c-web-icon>
+                            </div>
+                            <p class="p-text">Tasks</p>
                         </template>
                     </div>
                 </div>
                 <div class="slds-col slds-m-horizontal_xxx-small">
                     <div class="updates">
-                        <div class="icon-updates svg-icon-with-text">
-                            <c-web-icon
-                                class="svg-icon"
-                                icon-size="medium"
-                                icon-name="reminderbell_icom"
-                                data-id="reminderbell"
-                                icon-color="#ffffff"
-                            >
-                            </c-web-icon>
-                        </div>
-                        <p class="p-text">Updates</p>
+                        <template if:true={updatesSection}>
+                            <div class="icon-update-section-large svg-icon-with-text">
+                                <c-web-icon
+                                    class="svg-icon"
+                                    icon-size="large"
+                                    icon-name="reminderbell_icon"
+                                    data-id="reminderbell"
+                                    icon-color="#ffffff"
+                                    onclick={showUpdatesOnMobile}
+                                >
+                                </c-web-icon>
+                            </div>
+                            <div class="vertical updates-darkblue"></div>
+                        </template>
+                        <template if:false={updatesSection}>
+                            <div class="icon-update-section-small">
+                                <c-web-icon
+                                    class="svg-icon svg-icon-with-text"
+                                    icon-size="medium"
+                                    icon-name="reminderbell_icon"
+                                    data-id="reminderbell"
+                                    icon-color="#ffffff"
+                                    onclick={showUpdatesOnMobile}
+                                >
+                                </c-web-icon>
+                            </div>
+                            <p class="p-text">Updates</p>
+                        </template>
                     </div>
                 </div>
                 <div class="slds-col slds-m-horizontal_xxx-small">
@@ -204,6 +221,9 @@
                 <template if:false={showVisitCardMobile}>
                     <c-pp-tasks desktop={desktop}></c-pp-tasks>
                 </template>
+            </template>
+            <template if:true={updatesSection}>
+                <c-pp-updates desktop={desktop}></c-pp-updates>
             </template>
         </template>
     </template>

@@ -25,7 +25,8 @@ export default class PpResourceEngage extends LightningElement {
         pngLink: pp_icons + '/' + 'all_resources_empty.png' + '#' + 'all-resources-empty',
         emptyLabel: All_EMPTY
     };
-
+    spinner;
+    isRendered = false;
     //Boolean vars
     isInitialized = false;
     isDisabled = false;
@@ -33,7 +34,7 @@ export default class PpResourceEngage extends LightningElement {
     //vars to get emptystate label/icons dynamically
     emptyState = {
         All: {
-            pngLink: pp_icons + '/' + 'all_resources_empty.png' ,
+            pngLink: pp_icons + '/' + 'all_resources_empty.png',
             emptyLabel: All_EMPTY
         },
         Video: {
@@ -45,37 +46,41 @@ export default class PpResourceEngage extends LightningElement {
             emptyLabel: ARTICLES_EMPTY
         },
         Favorites: {
-            pngLink:
-                pp_icons + '/' + 'favorites_resources_empty.png',
+            pngLink: pp_icons + '/' + 'favorites_resources_empty.png',
             emptyLabel: FAVORITE_EMPTY
         }
     };
 
-    connectedCallback() {
-        this.selectedOption = 'All';
-        this.initializeData();
+    renderedCallback() {
+        if (!this.isRendered) {
+            this.selectedOption = 'All';
+            this.isRendered = true;
+            this.initializeData();
+        }
     }
-    initializeData() {
+
+    async initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
             this.spinner.show();
         }
         //get all Articles/Videos together to avoid extra calls
-        getResources({ resourceType: 'Article;Video', resourceMode: 'Default' })
+        await getResources({ resourceType: 'Article;Video', resourceMode: 'Default' })
             .then((result) => {
                 this.resourcesData = result.wrappers;
                 this.resourcesFilterData = this.resourcesData[0] ? this.resourcesData : false;
                 this.isDisabled = this.resourcesData[0] ? false : true;
+                if (this.spinner) {
+                    this.spinner.hide();
+                }
                 this.isInitialized = true;
-                
             })
             .catch((error) => {
+                if (this.spinner) {
+                    this.spinner.hide();
+                }
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
-        
-        if (this.spinner) {
-            this.spinner.hide();
-        }
     }
     showErrorToast(titleText, messageText, variantType) {
         this.dispatchEvent(

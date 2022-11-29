@@ -1,99 +1,123 @@
-import { LightningElement, track } from 'lwc';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
-import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
-
+import { LightningElement, track, api } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
-import getStudyDocuments from '@salesforce/apex/ResourceRemote.getStudyDocuments';
-
+import getUpdateResources from '@salesforce/apex/ResourceRemote.getUpdateResources';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import DEVICE from '@salesforce/client/formFactor';
-
-export default class PpUpdates extends LightningElement {
-    isInitialized = false;
-    isAvailable = false;
-    @track linksWrappers = [];
-    discoverEmptyState = false;
+import { NavigationMixin } from 'lightning/navigation';
+import updatesLabel from '@salesforce/label/c.Updates_Label';
+import viewAllResource from '@salesforce/label/c.View_All_Resource';
+import caughtup from '@salesforce/label/c.Caught_up';
+export default class PpUpdates extends NavigationMixin(LightningElement) {
+    @api desktop;
+    @api showvisitsection;
+    linksWrappers = [];
+    resourcedData = [];
+    resourcePresent = false;
     desktop = true;
-
-    // documents
-    documentList = [];
-    documents = [];
-    documentPresent;
-
+    isInitialized = false;
+    counter;
+    displayCounter = false;
     open_new_tab = pp_community_icons + '/' + 'open_in_new.png';
-    empty_state = pp_community_icons + '/' + 'discover_empty.png';
+    empty_state = pp_community_icons + '/' + 'empty_updates.PNG';
+    link_state = pp_community_icons + '/' + 'linkssvg.svg';
+    isRendered = false;
+    label = {
+        updatesLabel,
+        viewAllResource,
+        caughtup
+    };
 
-    connectedCallback(){
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-
-        loadScript(this, RR_COMMUNITY_JS)
-        .then(() => {
-            Promise.all([loadStyle(this, communityPPTheme)])
-                .then(() => {
-                    this.spinner = this.template.querySelector('c-web-spinner');
-                    this.spinner ? this.spinner.show() : '';
-                    // Getting data for Updates section. For now only Links data is fetched 
-                    // Need backend work to filter data as per AC on rel links, articles, videos, documents
-                    this.initializeData();
-                    this.getDocuments();
-                })
-                .catch((error) => {
-                    console.log(error.body.message);
-                });
-        })
-        .catch((error) => {
-            communityService.showToast('', 'error', error.message, 100);
-        });       
-    }
-
-    initializeData(){
-        getInitDataNew()
-        .then((returnValue) => {
-            this.isInitialized = true;
-            
-            let initData = JSON.parse(JSON.stringify(returnValue));
-            console.log("InitData New");
-            console.log(initData);
-            initData.resources.forEach((resObj) => {
-                this.linksWrappers.push(resObj.resource);
-            })
-            this.spinner.hide();
-            console.log("Links Wrapper Custom");
-            console.log(this.linksWrappers);
-            this.linksWrappers.length == 0 ? this.discoverEmptyState = true : this.discoverEmptyState = false;
-        })
-        .catch((error) => {
-            communityService.showToast('', 'error', 'Failed To read the Data111...', 100);
-            this.spinner.hide();
-        });
-    }
-
-    openLink(event){
-        window.open(event.currentTarget.dataset.link, "_blank");
-    }
-
-    // Documents
-    async getDocuments() {
-        this.spinner = this.template.querySelector('c-web-spinner');
-        if (this.spinner) {
-            this.spinner.show();
+    renderedCallback() {
+        if (!this.isRendered) {
+            this.isRendered = true;
+            this.initializeData();
         }
-        await getStudyDocuments()
+    }
+
+    initializeData() {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        this.spinner.show();
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        getInitDataNew()
+            .then((returnValue) => {
+                this.isInitialized = true;
+                let initData = JSON.parse(JSON.stringify(returnValue));
+                let therapeuticAssignmentsList = [];
+                let therapeuticAssignments = {
+                    resource: '',
+                    id: '',
+                    therapeuticArea: ''
+                };
+
+                initData.resources.forEach((resObj) => {
+                    resObj.resource.Therapeutic_Area_Assignments__r?.forEach((therapeuticArea) => {
+                        therapeuticAssignments.resource = therapeuticArea.Resource__c;
+                        therapeuticAssignments.id = therapeuticArea.Id;
+                        therapeuticAssignments.therapeuticArea =
+                            therapeuticArea.Therapeutic_Area__c;
+                        therapeuticAssignmentsList.push(therapeuticAssignments);
+                    });
+
+                    resObj.therapeuticAssignments = therapeuticAssignmentsList;
+                    therapeuticAssignmentsList = [];
+                    delete resObj.resource.Therapeutic_Area_Assignments__r;
+                });
+                this.getUpdates(JSON.stringify(initData));
+            })
+            .catch((error) => {
+                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                this.spinner.hide();
+            });
+    }
+
+    openLink(event) {
+        window.open(event.currentTarget.dataset.link, '_blank');
+    }
+
+    async getUpdates(returnValue) {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        this.spinner ? this.spinner.show() : '';
+        let state;
+        if (communityService.isInitialized()) {
+            state = communityService.getCurrentCommunityMode().participantState;
+        }
+        await getUpdateResources({ linkWrapperText: returnValue })
             .then((result) => {
-                this.documentList = result.wrappers;
-                if (this.documentList.length > 0) {
-                    this.documentPresent = true;
-                } else {
-                    this.documentPresent = false;
+                var counterForLoop = 0;
+                let data = JSON.parse(JSON.stringify(result));
+                this.counter = data.counter;
+                if (this.counter > 0 && state == 'PARTICIPANT') {
+                    this.displayCounter = true;
                 }
+                data.resources.every((resObj) => {
+                    ++counterForLoop;
+                    this.resourcedData.push(resObj);
+                    if (counterForLoop >= 4) {
+                        return false;
+                    }
+                    return true;
+                });
+                if (counterForLoop > 0) {
+                    this.resourcePresent = true;
+                }
+                this.resourcedData.forEach((resObj) => {
+                    if (
+                        resObj.resource.Content_Type__c == 'Article' ||
+                        resObj.resource.Content_Type__c == 'Video'
+                    ) {
+                        resObj.isExplore = true;
+                    } else if (resObj.resource.Content_Type__c == 'Study_Document') {
+                        resObj.isDoc = true;
+                    } else {
+                        resObj.isLink = true;
+                    }
+                });
+                this.spinner.hide();
             })
             .catch((error) => {
                 this.showErrorToast('Error occured', error.message, 'error');
             });
-        if (this.spinner) {
-            this.spinner.hide();
-        }
     }
 
     showErrorToast(titleText, messageText, variantType) {
@@ -106,4 +130,20 @@ export default class PpUpdates extends LightningElement {
         );
     }
 
+    navigateResources() {
+        let subDomain = communityService.getSubDomain();
+        let detailLink = window.location.origin + subDomain + '/s/resources';
+
+        const config = {
+            type: 'standard__webPage',
+
+            attributes: {
+                url: detailLink
+            }
+        };
+
+        this[NavigationMixin.GenerateUrl](config).then((url) => {
+            window.open(url, '_self');
+        });
+    }
 }

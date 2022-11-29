@@ -1,0 +1,171 @@
+.icon-container {
+    height: 100%;
+}
+
+.title-section {
+    width: 100%;
+    height: 54px;
+}
+
+.date-section {
+    width: 100%;
+    height: 27px;
+}
+
+.date-section {
+    width: 100%;
+    height: 27px;
+}
+
+.title-section-mobile {
+    width: 100%;
+    height: 58px;
+}
+
+.horizontal-card {
+    height: 216px;
+    border: 1px solid #f2f2f2;
+    border-radius: 7px 7px 7px 7px;
+}
+
+.document-label {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 10px;
+    margin-top: 5px;
+    line-height: 24px;
+    letter-spacing: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.thumbnail-image {
+    height: 100%;
+    width: 100%;
+}
+
+.thumbnail-image-desktop-horizontal-section {
+    height: 100%;
+    width: 100%;
+}
+
+.thumnail-img {
+    height: 105px;
+    width: 158px;
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+.thumnail-img-mobile {
+    height: 75px;
+    width: 96px;
+    margin-top: 12px;
+    margin-left: 13px;
+}
+
+.thumnail-img-desktop-vertical {
+    height: 75px;
+    width: 87px;
+    margin-top: 12px;
+    margin-left: 12px;
+}
+
+.document-label-section-horizontal {
+    width: 90%;
+    height: 52px;
+    cursor: pointer;
+}
+
+.thumbnail-section-horizontal {
+    width: 100%;
+    height: 120px;
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+.date-desktop {
+    height: 30px;
+    width: 85%;
+    color: #999999;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-left: 10px;
+    margin-top: 9px;
+}
+
+.document-label-desktop {
+    color: #444444;
+    height: 52px;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 10px;
+    line-height: 24px;
+    letter-spacing: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.card-border {
+    box-sizing: border-box;
+    height: 88px;
+    border: 1px solid #e9e9e9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin-top: 8px;
+}
+
+.card-border-desktop {
+    box-sizing: border-box;
+    height: 88px;
+    border: 1px solid #e9e9e9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin-top: 8px;
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
+.card-element-links {
+    box-sizing: border-box;
+    background-color: #fff;
+    height: 88px;
+    border-radius: 8px 0 0 8px;
+}
+
+.card-element {
+    box-sizing: border-box;
+    border-right: 1px solid #e8e8e8;
+    background-color: #f2f2f2;
+    height: 88px;
+    border-radius: 8px 0 0 8px;
+    cursor: pointer;
+}
+
+.date {
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-left: 10px;
+}
+
+.open-tab {
+    width: 14px;
+    height: 14px;
+}

@@ -37,14 +37,16 @@
         </c:RRTopBar>
         </aura:if>
         <aura:if isTrue="{!v.communityName == 'IQVIA Patient Portal'}">
-        <c:RRTopBar
-            backLabel="Back"
-            backPage="{!'tasks'}"
-            smallTitle="{!v.codeName}"
-            bigTitle="{!v.surveyName}"
-        >
-        </c:RRTopBar>
-    </aura:if>
+            <div class="pp-survey">
+                <c:RRTopBar
+                    backLabel="Back"
+                    backPage="{!'tasks'}"
+                    smallTitle="{!v.codeName}"
+                    bigTitle="{!v.surveyName}"
+                >
+                </c:RRTopBar>
+            </div>
+        </aura:if>
         <div class="bls-body rr-all-content">
             <iframe
                 id="blsIFrame"

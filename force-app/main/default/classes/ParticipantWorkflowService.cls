@@ -48,7 +48,7 @@ public without sharing class ParticipantWorkflowService {
             ParticipantWorkflowWrapper partWFwrap = new ParticipantWorkflowWrapper();
             partWFwrap = ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe);
             
-            if(peId !=null && peId!=''){
+         /**   if(peId !=null && peId!=''){
                 List<Participant_Enrollment__History> peh = new List<Participant_Enrollment__History>();
                 List<Participant_Enrollment__History> pehstinitial = new List<Participant_Enrollment__History>();
                 List<String> lstFOVhistory = new List<String>();
@@ -210,7 +210,7 @@ public without sharing class ParticipantWorkflowService {
                 }
             }else{
                   partWFwrap.fovhistory='null';
-                }
+                } **/
             
             return partWFwrap;
         } catch (Exception e) {
