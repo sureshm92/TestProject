@@ -758,6 +758,220 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
+
+    @IsTest
+    static void getInitDataTest() {
+
+        TestData testData = new TestData();
+        List<Contact> conRec = [SELECT Id FROM Contact WHERE FirstName = 'HCPDelTD' LIMIT 1];
+        HCP_Enrollment__c hcpEnrollment = new HCP_Enrollment__c(
+            Study_Site__c = testData.ss.Id,
+            HCP_Contact__c = conRec[0].Id,
+            Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT
+        );
+        insert hcpEnrollment;
+        hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+        update hcpEnrollment;
+        
+        Test.startTest();
+        System.runAs(testData.hcpUser) {
+
+            String jsonResult = MedicalRecordReviewRemote.getInitData(
+                testData.ctp.Id,
+                null,
+                conRec[0].Id
+            );
+            MedicalRecordReviewRemote.updatePESurveyGizmoInfo();
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void getInitDataFailTest() {
+
+        TestData testData = new TestData();
+        List<Contact> conRec = [SELECT Id FROM Contact WHERE FirstName = 'HCPDelTD' LIMIT 1];
+        
+        Test.startTest();
+        System.runAs(testData.hcpUser) {
+
+            try {
+                String jsonResult = MedicalRecordReviewRemote.getInitData(
+                    testData.ctp.Id,
+                    null,
+                    conRec[0].Id
+                );
+            } catch (Exception e) {
+                System.debug('error');
+            }
+
+            try {
+                String jsonResult = MedicalRecordReviewRemote.getInitData(
+                    testData.ctp.Id,
+                    conRec[0].Id,
+                    null
+                );
+            } catch (Exception e) {
+                System.debug('error');
+            }
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void createParticipantEnrollmentHcpeTest() {
+        TestData testData = new TestData();
+
+        Test.startTest();
+        System.runAs(testData.hcpUser) {
+            String jsonResult = MedicalRecordReviewRemote.createParticipantEnrollmentHcpe(
+                testData.ctp.Id,
+                testData.hcpEnrollment.Id,
+                testData.participant.Id,
+                'Test Part First Name',
+                'Test Part last name',
+                null
+            );
+
+            String jsonResult1 = MedicalRecordReviewRemote.createParticipantEnrollmentHcpe(
+                testData.ctp.Id,
+                testData.hcpEnrollment.Id,
+                'SomePatientId1',
+                null,
+                null,
+                null
+            );
+
+            testData.pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW;
+            update testData.pe;
+
+            String jsonResult2 = MedicalRecordReviewRemote.createParticipantEnrollmentHcpe(
+                testData.ctp.Id,
+                testData.hcpEnrollment.Id,
+                'SomePatientId1',
+                null,
+                null,
+                null
+            );
+
+            testData.pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL;
+            update testData.pe;
+
+            String jsonResult3 = MedicalRecordReviewRemote.createParticipantEnrollmentHcpe(
+                testData.ctp.Id,
+                testData.hcpEnrollment.Id,
+                'SomePatientId1',
+                null,
+                null,
+                null
+            );
+
+            insert new PreScreener_Survey__c(
+                Link_to_Pre_screening__c = 'https://link.test',
+                MRR__c = true,
+                ProviderName__c = 'surveygizmo',
+                Study__c = testData.ctp.Id,
+                Survey_Name__c = 'Medical Record Review'
+            );
+            
+            String jsonResult4 = MedicalRecordReviewRemote.createParticipantEnrollmentHcpe(
+                testData.ctp.Id,
+                testData.hcpEnrollment.Id,
+                'SomePatientId1',
+                null,
+                null,
+                null
+            );
+
+            testData.pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL;
+            update testData.pe;
+
+            String jsonResult5 = MedicalRecordReviewRemote.createParticipantEnrollmentHcpe(
+                testData.ctp.Id,
+                testData.hcpEnrollment.Id,
+                'SomePatientId1',
+                null,
+                null,
+                null
+            );
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void createParticipantEnrollmentTest() {
+        TestData testData = new TestData();
+
+        Test.startTest();
+        System.runAs(testData.hcpUser) {
+            String jsonResult = MedicalRecordReviewRemote.createParticipantEnrollment(
+                testData.ctp.Id,
+                'participan01',
+                'AAA',
+                'BBB',
+                null
+            );
+
+            String jsonResult1 = MedicalRecordReviewRemote.createParticipantEnrollment(
+                testData.ctp.Id,
+                'SomePatientId1',
+                'AAA',
+                'BBB',
+                null
+            );
+
+            testData.pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW;
+            update testData.pe;
+
+            String jsonResult2 = MedicalRecordReviewRemote.createParticipantEnrollment(
+                testData.ctp.Id,
+                'SomePatientId1',
+                'AAA',
+                'BBB',
+                null
+            );
+
+            testData.pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL;
+            update testData.pe;
+
+            String jsonResult3 = MedicalRecordReviewRemote.createParticipantEnrollment(
+                testData.ctp.Id,
+                'SomePatientId1',
+                'AAA',
+                'BBB',
+                null
+            );
+
+            insert new PreScreener_Survey__c(
+                Link_to_Pre_screening__c = 'https://link.test',
+                MRR__c = true,
+                ProviderName__c = 'surveygizmo',
+                Study__c = testData.ctp.Id,
+                Survey_Name__c = 'Medical Record Review'
+            );
+            
+            String jsonResult4 = MedicalRecordReviewRemote.createParticipantEnrollment(
+                testData.ctp.Id,
+                'SomePatientId1',
+                'AAA',
+                'BBB',
+                null
+            );
+
+            testData.pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL;
+            update testData.pe;
+
+            String jsonResult5 = MedicalRecordReviewRemote.createParticipantEnrollment(
+                testData.ctp.Id,
+                'SomePatientId1',
+                'AAA',
+                'BBB',
+                null
+            );
+        }
+        Test.stopTest();
+    }
+
     @IsTest
     static void mrrAndReferringTest1() {
         TestData testData = new TestData();
@@ -788,6 +1002,13 @@ private class Test_BaseCRCPCommunity {
             MedicalRecordReviewRemote.setMRRStatus(
                 peJSON,
                 ParticipantEnrollmentService.PES_STATUS_PASS,
+                'https://link.test',
+                screener.Id
+            );
+
+            MedicalRecordReviewRemote.setMRRStatus(
+                peJSON,
+                'Fail',
                 'https://link.test',
                 screener.Id
             );
@@ -1012,6 +1233,13 @@ private class Test_BaseCRCPCommunity {
         //     ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
         List<Id> studies = new List<Id>();
         List<Id> studySites = new List<Id>();
+        testData.pe.Participant_Status__c = 'Received';
+        update testData.pe;
+
+        List<Participant_Enrollment__c> peList = [
+            SELECT Id, PerCounter__c FROM Participant_Enrollment__c WHERE Id = :testData.pe.Id
+        ];
+        Integer perCount = Integer.valueOf(peList[0].PerCounter__c);
 
         // for(LabelValueItem li : vpResult.peFilterData.studies){
         //     studies.add(li.value);
@@ -1023,10 +1251,211 @@ private class Test_BaseCRCPCommunity {
         ViewPatientsRemote.CsvWrapper wrap = new ViewPatientsRemote.CsvWrapper();
         studies.add(testData.ctp.Id);
         studySites.add(testData.ss.Id);
-        wrap = ViewPatientsRemote.getExportAllList(studies, studySites, 1, 4500);
-        System.assertEquals(1, wrap.startPos);
+        wrap = ViewPatientsRemote.getExportAllList(studies, studySites, perCount, perCount + 4500);
+        System.assertEquals(perCount, wrap.startPos);
         Test.stopTest();
     }
+
+    @IsTest
+    static void getInterdependentFilterDataTest() {
+        TestData testData = new TestData();
+        
+        Test.startTest();
+        List<Participant_Enrollment__c> pe = [
+            SELECT
+                Id,
+                Name,
+                External_Key__c,
+                Participant_Contact__c,
+                Participant_Status__c,
+                Participant_Contact__r.Visit_Results_OptIn__c,
+                Clinical_Trial_Profile__r.Shareback_Availability_Timing__c,
+                Initial_visit_scheduled_date__c,
+                Initial_visit_occurred_date__c,
+                Initial_visit_scheduled_time__c,
+                Initial_visit_occurred_flag__c,
+                Initial_visit_scheduled_flag__c,
+                Screening_ID__c,
+                Participant__c,
+                Medical_Record_Review_Completed_Date__c,
+                Study_Site__c,
+                Referral_Source__c,
+                Study_Site__r.Name,
+                Study_Site__r.Principal_Investigator__c,
+                Study_Site__r.Principal_Investigator__r.Name,
+                Study_Site__r.Principal_Investigator__r.Title,
+                Study_Site__r.Clinical_Trial_Profile__c,
+                Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                Participant__r.Mailing_Country_Code__c,
+                Participant__r.Mailing_Country__c,
+                Participant__r.Emancipation_in_progress__c,
+                HCP__r.HCP_Contact__c,
+                HCP__r.Status__c,
+                PI_Contact__c,
+                Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,
+                Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
+                Clinical_Trial_Profile__r.Link_to_Pre_screening__c,
+                Study_Site__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                Study_Site__r.Clinical_Trial_Profile__r.Override_Recruitment_Status__c,
+                Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Study_Site__r.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,
+                Study_Site__r.Override_PI_Referral_Status__c,
+                Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
+                Study_Site__r.Clinical_Trial_Profile__r.Link_to_Pre_screening__c,
+                Study_Hub_Log__c,
+                Study_Hub_Log__r.Response_Status_Code__c,
+                Clinical_Trial_Profile__r.Promote_to_SH__c,
+                Study_Site__r.Study_Site_Type__c,
+                Informed_Consent__c,
+                (SELECT Id, Non_Enrollment_Reason__c, Date__c FROM Participant_Enrollment_Status_History__r)
+            FROM Participant_Enrollment__c
+            WHERE Id = :testData.pe.Id
+        ];
+
+        List<Clinical_Trial_Profile__c> ctpRecords = [
+            SELECT Terms_And_Conditions_ID__c FROM Clinical_Trial_Profile__c WHERE Id =:testData.ctp.Id LIMIT 1
+        ];
+        testData.ctp.Terms_And_Conditions_ID__c = ctpRecords[0].Terms_And_Conditions_ID__c;
+
+        List<Study_Site__c> ssRecords = [
+            SELECT Override_PI_Referral_Status__c FROM Study_Site__c WHERE Id =:testData.ss.Id LIMIT 1
+        ];
+        testData.ss.Override_PI_Referral_Status__c = ssRecords[0].Override_PI_Referral_Status__c;
+        List<SObject> recordsList = new List<SObject>();
+        recordsList.add(pe[0]);
+        ViewPatientsRemote.getInterdependentFilterData(recordsList, ParticipantEnrollmentService.FILTER_FIELD_MAP);
+        ViewPatientsRemote.getPIRefRevNames(new List<Id>{testData.piContact.Id});
+        ViewPatientsRemote.getPINames(new List<Id>{testData.piContact.Id});
+
+        List<Contact> conRec = [SELECT Id FROM Contact WHERE FirstName = 'HCPDelTD' LIMIT 1];
+        System.runAs(testData.piUser) {
+            
+            Account testAcc = [SELECT Id FROM Account WHERE Name = 'PI Account' LIMIT 1];
+            Participant__c participant = new Participant__c(
+                First_Name__c = 'ParticipantTD1',
+                Middle_Name__c = 'Midd Name',
+                Suffix__c = 'Mr',
+                Last_Name__c = 'ParticipantTD1',
+                Phone__c = '55313536',
+                Email__c = 'part0002@email.com',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true,
+                Site__c = testAcc.Id,
+                Contact__c = pe[0].Study_Site__r.Principal_Investigator__c
+            );
+            insert participant;
+
+            try {
+                new ViewPatientsRemote.PEWrapper(
+                    pe[0],
+                    new Map<String, StudyActions.Action>(),
+                    false
+                );
+                new ViewPatientsRemote.PEWrapper(
+                    pe[0],
+                    new Map<String, StudyActions.Action>(),
+                    'Test'
+                );
+                new ViewPatientsRemote.PEWrapper(
+                    pe[0],
+                    new Map<String, StudyActions.Action>()
+                );
+            } catch (Exception e) {
+                System.debug('error');
+            }
+            
+            try {
+                ViewPatientsRemote.convertToPEWrapperList(pe, CommunityService.USER_MODE_PI, conRec[0].Id);
+            } catch (Exception e) {
+                System.debug('error');
+            }
+        }
+
+        System.runAs(testData.hcpUser) {
+            
+           ViewPatientsRemote.convertToPEWrapperList(pe, CommunityService.USER_MODE_HCP, conRec[0].Id);
+        }
+        ViewPatientsRemote.getDelAcceslevel(conRec[0].Id);
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void getRecordsTest() {
+        
+        TestData testData = new TestData();
+        Account studySiteAccount = [SELECT Id FROM Account WHERE Name = 'Study Site Account'];
+        Test.startTest();
+        System.runAs(testData.piUser) {
+            String vpResultJSON = ViewPatientsRemote.getInitData(
+                testData.ctp.Id,
+                testData.ss.Id,
+                CommunityService.USER_MODE_PI,
+                null,
+                'Janssen'
+            );
+            ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(
+                vpResultJSON,
+                ViewPatientsRemote.InitData.class
+            );
+
+            vpResult.peFilter.participantStatus = 'Sent to Study Hub';
+            ViewPatientsRemote.getRecords(
+                JSON.serialize(vpResult.peFilter),
+                JSON.serialize(vpResult.paginationData),
+                CommunityService.USER_MODE_PI,
+                'active',
+                null,
+                false,
+                'Janssen'
+            );
+
+            vpResult.peFilter.participantStatus = 'Eligibility Passed';
+            ViewPatientsRemote.getRecords(
+                JSON.serialize(vpResult.peFilter),
+                JSON.serialize(vpResult.paginationData),
+                CommunityService.USER_MODE_PI,
+                'study',
+                null,
+                false,
+                'Janssen'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void getRecordsAsHcpTest() {
+        TestData testData = new TestData();
+        Account studySiteAccount = [SELECT Id FROM Account WHERE Name = 'Study Site Account'];
+        Test.startTest();
+        System.runAs(testData.hcpUser) {
+            String vpResultJSON = ViewPatientsRemote.getInitData(
+                testData.ctp.Id,
+                testData.ss.Id,
+                CommunityService.USER_MODE_HCP,
+                null,
+                'Janssen'
+            );
+            ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(
+                vpResultJSON,
+                ViewPatientsRemote.InitData.class
+            );
+            ViewPatientsRemote.getRecords(
+                JSON.serialize(vpResult.peFilter),
+                JSON.serialize(vpResult.paginationData),
+                CommunityService.USER_MODE_HCP,
+                'active',
+                null,
+                false,
+                'Janssen'
+            );
+        }
+        Test.stopTest();
+    }
+
     @IsTest
     static void helpRemoteTest() {
         TestData testData = new TestData();

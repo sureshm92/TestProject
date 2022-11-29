@@ -78,7 +78,7 @@
         var smsOptIn = component.get('v.smsOptIn');
         var reminderOption = component.get('v.task.Remind_Me__c');
         var deleteVisitTask = component.get('v.deleteVisitReminder');
-
+        var clearTask = component.get('v.task.clearReminderValue');
         if (new Date(dueDateOrplanDate) < new Date()) {
             communityService.showErrorToast('', $A.get('$Label.c.PP_ReminderUnderFlowError'), 3000);
             return;
@@ -87,7 +87,8 @@
             !$A.util.isUndefinedOrNull(reminderOption) &&
             !(smsOptIn && smsPeferenceSelected) &&
             !(emailOptIn && emailPeferenceSelected) &&
-            !deleteVisitTask
+            !deleteVisitTask &&
+            !clearTask
         ) {
             communityService.showErrorToast('', $A.get('$Label.c.PP_Remind_Using_Required'), 3000);
             return;
@@ -155,7 +156,8 @@
                 !$A.util.isUndefinedOrNull(reminderOption)) &&
             !(smsPeferenceSelected && smsOptIn) &&
             !(emailPeferenceSelected && emailOptIn) &&
-            !deleteVisitTask
+            !deleteVisitTask &&
+            !clearTask
         ) {
             communityService.showErrorToast('', $A.get('$Label.c.PP_Remind_Using_Required'), 3000);
             return;
@@ -237,7 +239,7 @@
             ? component.get('v.visitData.visitDate')
             : component.get('v.initData.activityDate');
         var today = moment();
-
+        var task = component.get('v.task');
         //component.set('v.initData.activityDate',new Date(new Date(component.get('v.initData.activityDate')) - (-(3600 *1000))));
         //console.log(component.get('v.initData.activityDate'));
         component.set('v.initData.today', new Date(new Date() + 60 * 1000));
@@ -254,11 +256,18 @@
                 var reminderdate = new Date(dueDateOrplanDate) - 4 * 3600 * 1000;
                 isGreaterThanToday = new Date() > new Date(reminderdate);
             }
-            if (remindMe === 'No reminder') {
+            if (remindMe === 'No reminder' && task.Task_Type__c === 'Visit') {
                 component.set('v.initData.reminderDate', null);
                 component.set('v.deleteVisitReminder', true);
                 component.set('v.task.Remind_Using_Email__c', false);
                 component.set('v.task.Remind_Using_SMS__c', false);
+                component.set('v.task.clearReminderValue', true);
+            } else if (remindMe === 'No reminder') {
+                component.set('v.initData.reminderDate', null);
+                component.set('v.deleteVisitReminder', false);
+                component.set('v.task.Remind_Using_Email__c', false);
+                component.set('v.task.Remind_Using_SMS__c', false);
+                component.set('v.task.clearReminderValue', true);
             }
             if (isGreaterThanToday) {
                 if (!$A.util.isUndefinedOrNull(reminderOptionValid)) {
@@ -298,7 +307,8 @@
                 }
             } else {
                 if (
-                    $A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) ||
+                    ($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) &&
+                        remindMe !== 'No reminder') ||
                     helper.doValidateReminder(component) === false
                 ) {
                     component.set('v.isValidFields', false);
@@ -310,13 +320,18 @@
 
         if (isTaskTab) {
             var taskName = component.find('taskName');
-            if ($A.util.isUndefinedOrNull(component.get('v.task.Subject'))) {
-                taskName.setCustomValidity($A.get('$Label.c.PP_RequiredErrorMessage'));
-                taskName.reportValidity();
-            } else {
-                taskName.setCustomValidity('');
-                taskName.reportValidity();
+            if (taskName) {
+                if ($A.util.isUndefinedOrNull(component.get('v.task.Subject'))) {
+                    taskName.setCustomValidity($A.get('$Label.c.PP_RequiredErrorMessage'));
+                    taskName.reportValidity();
+                } else {
+                    taskName.setCustomValidity('');
+                    taskName.reportValidity();
+                }
             }
+        }
+        if (remindMe === 'No reminder') {
+            component.set('v.isValidFields', true);
         }
         var isValidFields =
             helper.doValidateDueDate(component, helper) && helper.doValidateReminder(component);

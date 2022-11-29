@@ -3,28 +3,35 @@
  */
 
 public without sharing class ParticipantTriggerHandler {
-	
     // Handlers: -------------------------------------------------------------------------------------------------------
 
     public class CreateContactsForParticipantsHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
-            if(!Batch_UpsertEprParticipantAndPE.eprBatchRunning)createContactsForParticipants(newList);
+            if (!Batch_UpsertEprParticipantAndPE.eprBatchRunning)
+                createContactsForParticipants(newList);
         }
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            if(!Batch_UpsertEprParticipantAndPE.eprBatchRunning)createContactsForParticipants(newList);
+            if (!Batch_UpsertEprParticipantAndPE.eprBatchRunning)
+                createContactsForParticipants(newList);
         }
     }
 
     public class UpdateContactDetailsFromParticipant extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateContactDetailsFromParticipant((List<Participant__c>)newList, (Map<Id, Participant__c>)oldMap);
+            updateContactDetailsFromParticipant(
+                (List<Participant__c>) newList,
+                (Map<Id, Participant__c>) oldMap
+            );
         }
         public override void afterInsert(List<SObject> newList) {
-            updateContactDetailsFromParticipant((List<Participant__c>)newList, new Map<Id, Participant__c>());
+            updateContactDetailsFromParticipant(
+                (List<Participant__c>) newList,
+                new Map<Id, Participant__c>()
+            );
         }
     }
-    
+
     public class UpdatePEAndContactLastNameHandler extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             updatePEAndContactLastName(newList);
@@ -111,7 +118,7 @@ public without sharing class ParticipantTriggerHandler {
                 newContact.Third_Choice_Language__c = '';
                 newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
                 newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
-				newContact.MailingCity = participant.Mailing_City__c;
+                newContact.MailingCity = participant.Mailing_City__c;
                 newContact.MailingCountryCode = participant.Mailing_Country_Code__c;
                 newContact.MailingStateCode = participant.Mailing_State_Code__c;
                 newContact.MailingPostalCode = participant.Mailing_Zip_Postal_Code__c;
@@ -130,108 +137,178 @@ public without sharing class ParticipantTriggerHandler {
     }
 
     @TestVisible
-    private static void updateContactDetailsFromParticipant(List<Participant__c> newList, Map<Id,Participant__c> oldMap){
+    private static void updateContactDetailsFromParticipant(
+        List<Participant__c> newList,
+        Map<Id, Participant__c> oldMap
+    ) {
         List<Contact> updateContacts = new List<Contact>();
         List<User> updateUsers = new List<User>();
-        Map<Id,Participant__c> updateContactsMap = new Map<Id,Participant__c>();
-        Map<Id,Participant__c> updateUsersMap = new Map<Id,Participant__c>();
-        Map<Id,String> contIdoldLanguageMap = new Map<Id,String>();
+        Map<Id, Participant__c> updateContactsMap = new Map<Id, Participant__c>();
+        Map<Id, Participant__c> updateUsersMap = new Map<Id, Participant__c>();
+        Map<Id, String> contIdoldLanguageMap = new Map<Id, String>();
         Boolean isOldMapEmpty = oldMap.isEmpty();
-        for(Participant__c part : newList){
-            if(part.Contact__c!=null){
-                if(isOldMapEmpty){
-                    updateContactsMap.put(part.Contact__c,part);
-                }else {
-                    if(!oldMap.containsKey(part.Id)){
-                        updateContactsMap.put(part.Contact__c,part);
-                    }else if(oldMap.get(part.Id)!=null && part.Mailing_Country_Code__c != oldMap.get(part.Id).Mailing_Country_Code__c){
-                        updateContactsMap.put(part.Contact__c,part);
-                    }else if(oldMap.get(part.Id)!=null && part.Mailing_Country__c != oldMap.get(part.Id).Mailing_Country__c){
-                        updateContactsMap.put(part.Contact__c,part);
-                    }else if(oldMap.get(part.Id)!=null && part.Mailing_State_Code__c != oldMap.get(part.Id).Mailing_State_Code__c){
-                        updateContactsMap.put(part.Contact__c,part);
-                    }else if(oldMap.get(part.Id)!=null && part.Mailing_State__c != oldMap.get(part.Id).Mailing_State__c){
-                        updateContactsMap.put(part.Contact__c,part);
-                    }else if(oldMap.get(part.Id)!=null && part.Mailing_Zip_Postal_Code__c != oldMap.get(part.Id).Mailing_Zip_Postal_Code__c){
-                        updateContactsMap.put(part.Contact__c,part);
-                    }else if(oldMap.get(part.Id)!=null && part.Phone__c != oldMap.get(part.Id).Phone__c){
-                        updateContactsMap.put(part.Contact__c,part);
+        for (Participant__c part : newList) {
+            if (part.Contact__c != null) {
+                if (isOldMapEmpty) {
+                    updateContactsMap.put(part.Contact__c, part);
+                } else {
+                    if (!oldMap.containsKey(part.Id)) {
+                        updateContactsMap.put(part.Contact__c, part);
+                    } else if (
+                        oldMap.get(part.Id) != null &&
+                        part.Mailing_Country_Code__c != oldMap.get(part.Id).Mailing_Country_Code__c
+                    ) {
+                        updateContactsMap.put(part.Contact__c, part);
+                    } else if (
+                        oldMap.get(part.Id) != null &&
+                        part.Mailing_Country__c != oldMap.get(part.Id).Mailing_Country__c
+                    ) {
+                        updateContactsMap.put(part.Contact__c, part);
+                    } else if (
+                        oldMap.get(part.Id) != null &&
+                        part.Mailing_State_Code__c != oldMap.get(part.Id).Mailing_State_Code__c
+                    ) {
+                        updateContactsMap.put(part.Contact__c, part);
+                    } else if (
+                        oldMap.get(part.Id) != null &&
+                        part.Mailing_State__c != oldMap.get(part.Id).Mailing_State__c
+                    ) {
+                        updateContactsMap.put(part.Contact__c, part);
+                    } else if (
+                        oldMap.get(part.Id) != null &&
+                        part.Mailing_Zip_Postal_Code__c !=
+                        oldMap.get(part.Id).Mailing_Zip_Postal_Code__c
+                    ) {
+                        updateContactsMap.put(part.Contact__c, part);
+                    } else if (
+                        oldMap.get(part.Id) != null &&
+                        part.Phone__c != oldMap.get(part.Id).Phone__c
+                    ) {
+                        updateContactsMap.put(part.Contact__c, part);
                     }
-                    if(oldMap.get(part.Id)!=null && part.Email__c != oldMap.get(part.Id).Email__c){
-                        updateContactsMap.put(part.Contact__c,part);
+                    if (
+                        oldMap.get(part.Id) != null &&
+                        part.Email__c != oldMap.get(part.Id).Email__c
+                    ) {
+                        updateContactsMap.put(part.Contact__c, part);
                     }
-                    if(oldMap.get(part.Id)!=null && part.First_Name__c != oldMap.get(part.Id).First_Name__c){
-                        updateUsersMap.put(part.Contact__c,part);
-                    }else if(oldMap.get(part.Id)!=null && part.Last_Name__c != oldMap.get(part.Id).Last_Name__c){
-                        updateUsersMap.put(part.Contact__c,part);
+                    if (
+                        oldMap.get(part.Id) != null &&
+                        part.First_Name__c != oldMap.get(part.Id).First_Name__c
+                    ) {
+                        updateUsersMap.put(part.Contact__c, part);
+                    } else if (
+                        oldMap.get(part.Id) != null &&
+                        part.Last_Name__c != oldMap.get(part.Id).Last_Name__c
+                    ) {
+                        updateUsersMap.put(part.Contact__c, part);
                     }
-                     if(oldMap.get(part.Id)!=null && part.Preferred_Language__c != oldMap.get(part.Id).Preferred_Language__c){
-                        updateContactsMap.put(part.Contact__c,part);
-                        contIdoldLanguageMap.put(part.Contact__c,oldMap.get(part.Id).Preferred_Language__c);
+                    if (
+                        oldMap.get(part.Id) != null &&
+                        part.Preferred_Language__c != oldMap.get(part.Id).Preferred_Language__c
+                    ) {
+                        updateContactsMap.put(part.Contact__c, part);
+                        contIdoldLanguageMap.put(
+                            part.Contact__c,
+                            oldMap.get(part.Id).Preferred_Language__c
+                        );
                     }
                 }
             }
         }
 
-        if(!updateContactsMap.isEmpty()){
-			for(Contact con: [SELECT Id,MailingStateCode,MailingCountryCode,MailingPostalCode,Email,Phone,Language__c,Second_Choice_Language__c,Third_Choice_Language__c FROM Contact WHERE Id IN:updateContactsMap.keySet()]){
-					Boolean updateNeeded= false;
-					if(con.MailingCountryCode != updateContactsMap.get(con.Id).Mailing_Country_Code__c){
-						con.MailingCountryCode = updateContactsMap.get(con.Id).Mailing_Country_Code__c;
-						updateNeeded= true;
-					}if(con.MailingStateCode != updateContactsMap.get(con.Id).Mailing_State_Code__c){
-						con.MailingStateCode = updateContactsMap.get(con.Id).Mailing_State_Code__c;
-						updateNeeded= true;
-					}if(con.MailingPostalCode != updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c){
-						con.MailingPostalCode = updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c;
-						updateNeeded= true;
-					}if(con.Phone != updateContactsMap.get(con.Id).Phone__c){
-						con.Phone = updateContactsMap.get(con.Id).Phone__c;
-						updateNeeded= true;
-					}if(con.Email != updateContactsMap.get(con.Id).Email__c){
-						con.Email = updateContactsMap.get(con.Id).Email__c;
-						updateNeeded= true;
-					}
-                     if(con.Language__c != updateContactsMap.get(con.Id).Preferred_Language__c && String.isEmpty(con.Second_Choice_Language__c)){
-                        con.Language__c = updateContactsMap.get(con.Id).Preferred_Language__c;
-                        con.Second_Choice_Language__c = contIdoldLanguageMap.get(con.Id);
-						updateNeeded= true;
-                    }
-                    if(con.Language__c != updateContactsMap.get(con.Id).Preferred_Language__c && !String.isEmpty(con.Second_Choice_Language__c)){
-                        con.Language__c = updateContactsMap.get(con.Id).Preferred_Language__c;
-                        con.Third_Choice_Language__c = con.Second_Choice_Language__c;
-                        con.Second_Choice_Language__c = contIdoldLanguageMap.get(con.Id);
-						updateNeeded= true;
-					}
-					if(updateNeeded == true){
-						updateContacts.add(con);
-					}
-				}
-			if(updateContacts.size()>0){
-				update updateContacts;   
-			}
+        if (!updateContactsMap.isEmpty()) {
+            for (Contact con : [
+                SELECT
+                    Id,
+                    MailingStateCode,
+                    MailingCountryCode,
+                    MailingPostalCode,
+                    Email,
+                    Phone,
+                    Language__c,
+                    Second_Choice_Language__c,
+                    Third_Choice_Language__c
+                FROM Contact
+                WHERE Id IN :updateContactsMap.keySet()
+            ]) {
+                Boolean updateNeeded = false;
+                if (
+                    con.MailingCountryCode != updateContactsMap.get(con.Id).Mailing_Country_Code__c
+                ) {
+                    con.MailingCountryCode = updateContactsMap.get(con.Id).Mailing_Country_Code__c;
+                    updateNeeded = true;
+                }
+                if (con.MailingStateCode != updateContactsMap.get(con.Id).Mailing_State_Code__c) {
+                    con.MailingStateCode = updateContactsMap.get(con.Id).Mailing_State_Code__c;
+                    updateNeeded = true;
+                }
+                if (
+                    con.MailingPostalCode !=
+                    updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c
+                ) {
+                    con.MailingPostalCode = updateContactsMap.get(con.Id)
+                        .Mailing_Zip_Postal_Code__c;
+                    updateNeeded = true;
+                }
+                if (con.Phone != updateContactsMap.get(con.Id).Phone__c) {
+                    con.Phone = updateContactsMap.get(con.Id).Phone__c;
+                    updateNeeded = true;
+                }
+                if (con.Email != updateContactsMap.get(con.Id).Email__c) {
+                    con.Email = updateContactsMap.get(con.Id).Email__c;
+                    updateNeeded = true;
+                }
+                if (
+                    con.Language__c != updateContactsMap.get(con.Id).Preferred_Language__c &&
+                    String.isEmpty(con.Second_Choice_Language__c)
+                ) {
+                    con.Language__c = updateContactsMap.get(con.Id).Preferred_Language__c;
+                    con.Second_Choice_Language__c = contIdoldLanguageMap.get(con.Id);
+                    updateNeeded = true;
+                }
+                if (
+                    con.Language__c != updateContactsMap.get(con.Id).Preferred_Language__c &&
+                    !String.isEmpty(con.Second_Choice_Language__c)
+                ) {
+                    con.Language__c = updateContactsMap.get(con.Id).Preferred_Language__c;
+                    con.Third_Choice_Language__c = con.Second_Choice_Language__c;
+                    con.Second_Choice_Language__c = contIdoldLanguageMap.get(con.Id);
+                    updateNeeded = true;
+                }
+                if (updateNeeded == true) {
+                    updateContacts.add(con);
+                }
+            }
+            if (updateContacts.size() > 0) {
+                update updateContacts;
+            }
         }
-        if(!updateUsersMap.isEmpty()){
-			for(User u: [SELECT Id,ContactId,FirstName,LastName FROM User WHERE ContactId IN:updateUsersMap.keySet()]){
-					Boolean updateNeeded= false;
-					if(u.FirstName != updateUsersMap.get(u.ContactId).First_Name__c){
-						u.FirstName = updateUsersMap.get(u.ContactId).First_Name__c;
-						updateNeeded= true;
-					}if(u.LastName != updateUsersMap.get(u.ContactId).Last_Name__c){
-						u.LastName = updateUsersMap.get(u.ContactId).Last_Name__c;
-						updateNeeded= true;
-					}
-					if(updateNeeded == true){
-						updateUsers.add(u);
-					}
-				}
-			if(updateUsers.size()>0){
-				update updateUsers;   
-			}
+        if (!updateUsersMap.isEmpty()) {
+            for (User u : [
+                SELECT Id, ContactId, FirstName, LastName
+                FROM User
+                WHERE ContactId IN :updateUsersMap.keySet()
+            ]) {
+                Boolean updateNeeded = false;
+                if (u.FirstName != updateUsersMap.get(u.ContactId).First_Name__c) {
+                    u.FirstName = updateUsersMap.get(u.ContactId).First_Name__c;
+                    updateNeeded = true;
+                }
+                if (u.LastName != updateUsersMap.get(u.ContactId).Last_Name__c) {
+                    u.LastName = updateUsersMap.get(u.ContactId).Last_Name__c;
+                    updateNeeded = true;
+                }
+                if (updateNeeded == true) {
+                    updateUsers.add(u);
+                }
+            }
+            if (updateUsers.size() > 0) {
+                update updateUsers;
+            }
         }
-        
     }
-    
+
     @TestVisible
     private static void updatePEAndContactLastName(List<Participant__c> newList) {
         List<Contact> contacts = new List<Contact>();
@@ -250,12 +327,13 @@ public without sharing class ParticipantTriggerHandler {
         if (!contacts.isEmpty()) {
             update contacts;
         }
-        List<Participant_Enrollment__c> peList = new  List<Participant_Enrollment__c>();
-        if(!newList.isEmpty()){         
-           peList =[ SELECT Id, Participant__c, Participant_Name__c, Participant_Surname__c
-            FROM Participant_Enrollment__c 
-            WHERE Participant__c IN :newList
-        ];
+        List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
+        if (!newList.isEmpty()) {
+            peList = [
+                SELECT Id, Participant__c, Participant_Name__c, Participant_Surname__c
+                FROM Participant_Enrollment__c
+                WHERE Participant__c IN :newList
+            ];
         }
         if (!peList.isEmpty()) {
             for (Participant_Enrollment__c pe : peList) {
@@ -268,13 +346,21 @@ public without sharing class ParticipantTriggerHandler {
 
     @TestVisible
     private static void copyNameToPE(List<Participant__c> newList, Map<Id, Participant__c> oldMap) {
-        Map<Id, Participant_Enrollment__c> partcipantIdEnrollmentMap = new Map<Id, Participant_Enrollment__c>();
+        Map<Id, list<Participant_Enrollment__c>> partcipantIdEnrollmentMap = new Map<Id, list<Participant_Enrollment__c>>();
+        list<Participant_Enrollment__c> updatePElist = new List<Participant_Enrollment__c>();
         for (Participant_Enrollment__c pe : [
             SELECT Id, Participant__c, Participant_Name__c, Participant_Surname__c
             FROM Participant_Enrollment__c
             WHERE Participant__c IN :newList
         ]) {
-            partcipantIdEnrollmentMap.put(pe.Participant__c, pe);
+            if (partcipantIdEnrollmentMap.containsKey(pe.Participant__c)) {
+                partcipantIdEnrollmentMap.get(pe.Participant__c).add(pe);
+            } else {
+                partcipantIdEnrollmentMap.put(
+                    pe.Participant__c,
+                    new List<Participant_Enrollment__c>{ pe }
+                );
+            }
         }
         Boolean updateRecords = false;
         for (Participant__c part : newList) {
@@ -282,15 +368,17 @@ public without sharing class ParticipantTriggerHandler {
                 (part.First_Name__c != oldMap.get(part.Id).First_Name__c ||
                 part.Last_Name__c != oldMap.get(part.Id).Last_Name__c) &&
                 partcipantIdEnrollmentMap.containsKey(part.Id)
-            ) {
-                partcipantIdEnrollmentMap.get(part.Id).Participant_Name__c = part.First_Name__c;
-                partcipantIdEnrollmentMap.get(part.Id).Participant_Surname__c = part.Last_Name__c;
-                updateRecords = true;
-            }
+            )
+                for (Participant_Enrollment__c peI : partcipantIdEnrollmentMap.get(part.Id)) {
+                    peI.Participant_Name__c = part.First_Name__c;
+                    peI.Participant_Surname__c = part.Last_Name__c;
+                    updateRecords = true;
+                    updatePElist.add(peI);
+                }
         }
 
         if (!partcipantIdEnrollmentMap.isEmpty() && updateRecords) {
-            update partcipantIdEnrollmentMap.values();
+            update updatePElist;
         }
     }
 
@@ -364,51 +452,96 @@ public without sharing class ParticipantTriggerHandler {
             String countryCode = participant.Mailing_Country_Code__c;
             String stateName = participant.Mailing_State__c;
             String stateCode = participant.Mailing_State_Code__c;
-			//Changes are done to fetch the country Code VS Country Name and State Code VS State name
-			//From Custome meta data to fix the language translation issue for State and country
+            //Changes are done to fetch the country Code VS Country Name and State Code VS State name
+            //From Custome meta data to fix the language translation issue for State and country
             if (oldMap == null) {
-                if(countryCode == null && countryName != null) {
-                    if(CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.containsKey(countryName)){ 
-                        participant.Mailing_Country_Code__c = CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.get(countryName);
+                if (countryCode == null && countryName != null) {
+                    if (CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.containsKey(countryName)) {
+                        participant.Mailing_Country_Code__c = CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.get(
+                            countryName
+                        );
                     }
-					if(participant.Mailing_Country_Code__c == null) {
-						participant.addError('Invalid Country');
-					}
-				}else if (countryCode != null && countryName == null) {
-                    if(CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(countryCode)){  
-                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(countryCode); 
+                    if (participant.Mailing_Country_Code__c == null) {
+                        participant.addError('Invalid Country');
                     }
-					if(participant.Mailing_Country__c == null) {
-						participant.addError('Invalid Country Code');
-					}
-				}else if (countryCode != null && countryName != null) {
-					if(CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.containsKey(countryName) && countryCode != CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.get(countryName)) { 
-						participant.addError('Invalid County and Country Code');
-					}
-				}
-                if(stateCode == null && stateName != null) {
-                    if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(participant.Mailing_Country_Code__c) && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).containsKey(stateName)){
-                        participant.Mailing_State_Code__c =CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(stateName);
+                } else if (countryCode != null && countryName == null) {
+                    if (CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(countryCode)) {
+                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(
+                            countryCode
+                        );
                     }
-                    if(participant.Mailing_State_Code__c == null) {
+                    if (participant.Mailing_Country__c == null) {
+                        participant.addError('Invalid Country Code');
+                    }
+                } else if (countryCode != null && countryName != null) {
+                    if (
+                        CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.containsKey(countryName) &&
+                        countryCode !=
+                        CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.get(countryName)
+                    ) {
+                        participant.addError('Invalid County and Country Code');
+                    }
+                }
+                if (stateCode == null && stateName != null) {
+                    if (
+                        CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(
+                            participant.Mailing_Country_Code__c
+                        ) &&
+                        CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(
+                                participant.Mailing_Country_Code__c
+                            )
+                            .containsKey(stateName)
+                    ) {
+                        participant.Mailing_State_Code__c = CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(
+                                participant.Mailing_Country_Code__c
+                            )
+                            .get(stateName);
+                    }
+                    if (participant.Mailing_State_Code__c == null) {
                         participant.addError('Invalid State Province');
                     }
-                    
-				}else if (stateCode != null && stateName == null) {
-					if(CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.containsKey(participant.Mailing_Country_Code__c) && CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).containsKey(stateCode)){ 
-                        participant.Mailing_State__c =CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(stateCode);
+                } else if (stateCode != null && stateName == null) {
+                    if (
+                        CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.containsKey(
+                            participant.Mailing_Country_Code__c
+                        ) &&
+                        CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(
+                                participant.Mailing_Country_Code__c
+                            )
+                            .containsKey(stateCode)
+                    ) {
+                        participant.Mailing_State__c = CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(
+                                participant.Mailing_Country_Code__c
+                            )
+                            .get(stateCode);
                     }
-					if(participant.Mailing_State__c == null) {
-						participant.addError('Invalid State Province Code');
-					}
-				}else if (stateCode != null && stateName != null) {
-					 if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(participant.Mailing_Country_Code__c) && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).containsKey(stateName) && stateCode != CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(stateName)){
-						participant.addError('Invalid State Province and State Province Code');
-					}
-                    if(participant.Mailing_State_Code__c != null){
-                    participant.Mailing_State__c =CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(participant.Mailing_State_Code__c);
+                    if (participant.Mailing_State__c == null) {
+                        participant.addError('Invalid State Province Code');
                     }
-				}
+                } else if (stateCode != null && stateName != null) {
+                    if (
+                        CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(
+                            participant.Mailing_Country_Code__c
+                        ) &&
+                        CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(
+                                participant.Mailing_Country_Code__c
+                            )
+                            .containsKey(stateName) &&
+                        stateCode !=
+                        CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(
+                                participant.Mailing_Country_Code__c
+                            )
+                            .get(stateName)
+                    ) {
+                        participant.addError('Invalid State Province and State Province Code');
+                    }
+                    if (participant.Mailing_State_Code__c != null) {
+                        participant.Mailing_State__c = CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(
+                                participant.Mailing_Country_Code__c
+                            )
+                            .get(participant.Mailing_State_Code__c);
+                    }
+                }
             }
             if (oldMap != null) {
                 String countryCodeTemp = CountryStateUtil.getCountryCode(countryName);
@@ -419,40 +552,54 @@ public without sharing class ParticipantTriggerHandler {
                 Boolean stateNameChanged = oldMap.get(participant.Id).Mailing_State__c != stateName;
                 Boolean stateCodeChanged =
                     oldMap.get(participant.Id).Mailing_State_Code__c != stateCode;
-                
+
                 if (countryCodeChanged && !countryNameChanged) {
-                    if(CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(countryCode)){
-                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(countryCode);
+                    if (CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(countryCode)) {
+                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(
+                            countryCode
+                        );
                         //participant.Mailing_Country_Code__c = CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.get(CountryStateUtil.getCountryName(countryCode));
-                    }else{
+                    } else {
                         if (participant.Mailing_Country__c == null && countryCode != null) {
-                        participant.addError('Invalid Country Code');
+                            participant.addError('Invalid Country Code');
                         }
                     }
                 } else if (!countryCodeChanged && countryNameChanged) {
-                    if(CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(countryCodeTemp)){
-                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(countryCodeTemp);
+                    if (
+                        CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(countryCodeTemp)
+                    ) {
+                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(
+                            countryCodeTemp
+                        );
                         participant.Mailing_Country_Code__c = countryCodeTemp;
-                    }else{
+                    } else {
                         if (participant.Mailing_Country_Code__c == null && countryName != null) {
-                        participant.addError('Invalid Country');
-                    }
+                            participant.addError('Invalid Country');
+                        }
                     }
                 } else if (countryCodeChanged && countryNameChanged) {
                     if (countryCode != CountryStateUtil.getCountryCode(countryName)) {
                         participant.addError('Invalid County and Country Code');
-                    }else{
-                        if(CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(countryCodeTemp)) { 
-                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(countryCodeTemp);
+                    } else {
+                        if (
+                            CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(
+                                countryCodeTemp
+                            )
+                        ) {
+                            participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(
+                                countryCodeTemp
+                            );
                         }
-                        
                     }
                 }
-                
+
                 // state change has started
                 if (stateCodeChanged && !stateNameChanged) {
-                    if(participant.Mailing_State_Code__c != null){
-                    participant.Mailing_State__c =CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(participant.Mailing_State_Code__c);
+                    if (participant.Mailing_State_Code__c != null) {
+                        participant.Mailing_State__c = CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(
+                                participant.Mailing_Country_Code__c
+                            )
+                            .get(participant.Mailing_State_Code__c);
                     }
                     if (participant.Mailing_State__c == null && stateCode != null) {
                         participant.addError('Invalid State Province Code');
@@ -463,8 +610,11 @@ public without sharing class ParticipantTriggerHandler {
                         stateName
                     );
                     //Getting the mailing state code by passing the state Name
-                    if(participant.Mailing_State_Code__c != null){
-                    participant.Mailing_State__c =CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(participant.Mailing_State_Code__c);
+                    if (participant.Mailing_State_Code__c != null) {
+                        participant.Mailing_State__c = CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(
+                                participant.Mailing_Country_Code__c
+                            )
+                            .get(participant.Mailing_State_Code__c);
                     }
                     if (participant.Mailing_State_Code__c == null && stateName != null) {
                         participant.addError('Invalid State Province');
@@ -483,8 +633,6 @@ public without sharing class ParticipantTriggerHandler {
             }
         }
     }
-
-
 
     @TestVisible
     private static Id getParticipantAccountId() {
@@ -508,20 +656,23 @@ public without sharing class ParticipantTriggerHandler {
         }
     }
 
-    public Static Boolean updatePartAge = false;
-    
+    public static Boolean updatePartAge = false;
+
     @TestVisible
     private static void updateAge(List<Participant__c> newList, Map<Id, Participant__c> oldMap) {
-        
         //List<Participant__c> pList = new List<Participant__c>();
         Date today = Date.today();
-        if(Test.isRunningTest()){
+        if (Test.isRunningTest()) {
             today = date.newinstance(2000, 12, 31);
         }
         for (Participant__c p : newList) {
             if (!String.isBlank(p.Birth_Year__c) && updatePartAge) {
-                String dd = !String.isBlank(p.Birth_Day__c) ? p.Birth_Day__c : String.valueOf(today.day());
-                String mm = !String.isBlank(p.Birth_Month__c) ? p.Birth_Month__c : String.valueOf(today.month());
+                String dd = !String.isBlank(p.Birth_Day__c)
+                    ? p.Birth_Day__c
+                    : String.valueOf(today.day());
+                String mm = !String.isBlank(p.Birth_Month__c)
+                    ? p.Birth_Month__c
+                    : String.valueOf(today.month());
                 Date birthDate = Date.newInstance(
                     Integer.valueOf(p.Birth_Year__c),
                     Integer.valueOf(mm),
@@ -535,7 +686,7 @@ public without sharing class ParticipantTriggerHandler {
                     ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
                     ? Date.today().year() - birthDate.year()
                     : Date.today().year() - birthDate.year() - 1;
-                
+
                 p.Age__c = participantAge;
             }
             if (p.Gender__c == 'Male')
@@ -545,7 +696,6 @@ public without sharing class ParticipantTriggerHandler {
             else
                 p.Gender_Technical__c = '';
             //pList.add(p);
-            
         }
     }
 
@@ -609,14 +759,28 @@ public without sharing class ParticipantTriggerHandler {
     @TestVisible
     private static void updateDOBData(List<Participant__c> newList) {
         for (Participant__c p : newList) {
-            if (!String.isBlank(p.Date_of_Birth__c) && (String.isEmpty(p.Birth_Day__c) || String.isBlank(p.Birth_Month__c) || String.isBlank(p.Birth_Year__c))) {
+            if (
+                !String.isBlank(p.Date_of_Birth__c) &&
+                (String.isEmpty(p.Birth_Day__c) ||
+                String.isBlank(p.Birth_Month__c) ||
+                String.isBlank(p.Birth_Year__c))
+            ) {
                 List<String> dateOfBirth = p.Date_of_Birth__c.split('-');
                 p.Birth_Day__c = dateOfBirth[2];
                 p.Birth_Month__c = dateOfBirth[1];
                 p.Birth_Year__c = dateOfBirth[0];
-            }//before Insert
-            if (String.isNotBlank(p.Birth_Day__c) && String.isNotBlank(p.Birth_Month__c) && String.isNotBlank(p.Birth_Year__c) ) {
-                p.Date_of_Birth__c = p.Birth_Year__c+'-'+p.Birth_Month__c+'-'+p.Birth_Day__c;
+            } //before Insert
+            if (
+                String.isNotBlank(p.Birth_Day__c) &&
+                String.isNotBlank(p.Birth_Month__c) &&
+                String.isNotBlank(p.Birth_Year__c)
+            ) {
+                p.Date_of_Birth__c =
+                    p.Birth_Year__c +
+                    '-' +
+                    p.Birth_Month__c +
+                    '-' +
+                    p.Birth_Day__c;
             }
         }
     }

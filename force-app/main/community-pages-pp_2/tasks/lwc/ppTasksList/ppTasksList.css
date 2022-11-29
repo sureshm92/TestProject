@@ -338,6 +338,10 @@
     margin-top: 2rem;
     cursor: pointer;
 }
+.vertical-padding {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
 @media all and (max-width: 486px) {
     .inactive-custom-box {
         width: 100%;

@@ -85,8 +85,8 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
 
     get dropDownOpacityClass() {
         return this.isEditYOB || this.isMatchUsernameEmail
-            ? 'mb-15 support-combobox'
-            : 'support-combobox opacity';
+            ? 'mb-15 support-combobox help-support'
+            : 'support-combobox opacity help-support';
     }
 
     get YOBOpacityClass() {
