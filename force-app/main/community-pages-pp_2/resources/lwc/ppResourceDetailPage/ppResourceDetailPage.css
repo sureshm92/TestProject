@@ -93,12 +93,14 @@ hr {
     .resource-heading {
         font-size: 24px;
         padding-top: 8px;
+        margin-left: 18px;
     }
     .study-title-mobile {
         margin-right: 32px;
     }
     .study-title {
         padding-right: 32px;
+        margin-left: 18px;
     }
     .resource-container {
         padding: 3.86%;

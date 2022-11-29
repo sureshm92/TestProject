@@ -10,6 +10,7 @@ import SUBMIT from '@salesforce/label/c.PP_Submit_Button';
 import createArticle from '@salesforce/apex/ResourceRemote.createArticlesSubmitted';
 import SUCCESS from '@salesforce/label/c.PP_Resource_Submit';
 import FORM_FACTOR from '@salesforce/client/formFactor';
+import PASTE_URL from '@salesforce/label/c.PP_Paste_URL';
 
 export default class PpContributeSection extends NavigationMixin(LightningElement) {
     labels = {
@@ -18,14 +19,19 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
         CONTRIBUTE,
         URLLINK,
         SUBMIT,
-        SUCCESS
+        SUCCESS,
+        PASTE_URL
     };
     redirecturl = '';
     enableSave = false;
     disableSave = true;
     @track textValue;
+    labelPasteURL;
 
-
+    connectedCallback() {
+        this.labelPasteURL= FORM_FACTOR !== 'Large' ? PASTE_URL : URLLINK;
+    }
+    
     get isMobile() {
         return FORM_FACTOR !== 'Large' ? true : false;
     }
