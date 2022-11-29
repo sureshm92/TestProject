@@ -26,7 +26,11 @@
             </div>
             <div class="slds-col slds-size_4-of-6">
                 <div class="slds-grid slds-wrap title-section-mobile">
-                    <p class="document-label" onclick={navigateResourceDetail}>
+                    <p
+                        class="document-label"
+                        onclick={navigateResourceDetail}
+                        title={exploreData.resource.Title__c}
+                    >
                         {exploreData.resource.Title__c}
                     </p>
                 </div>
@@ -76,7 +80,11 @@
                 </div>
                 <div class="slds-col slds-size_4-of-6">
                     <div class="slds-grid slds-wrap title-section">
-                        <p class="document-label" onclick={navigateResourceDetail}>
+                        <p
+                            class="document-label"
+                            onclick={navigateResourceDetail}
+                            title={exploreData.resource.Title__c}
+                        >
                             {exploreData.resource.Title__c}
                         </p>
                     </div>
@@ -122,7 +130,11 @@
                     ></c-web-icon>
                 </div>
             </div>
-            <div class="article-title" onclick={navigateResourceDetail}>
+            <div
+                class="article-title"
+                onclick={navigateResourceDetail}
+                title={exploreData.resource.Title__c}
+            >
                 {exploreData.resource.Title__c}
             </div>
             <div class="date-desktop">
