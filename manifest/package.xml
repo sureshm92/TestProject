@@ -1,33 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>TrialSurveyContainer</members>
-		<name>AuraDefinitionBundle</name>
-	</types>
-	<types>
-		<members>Trial_Survey__c.Active_After_Days__c</members>
-		<members>Trial_Survey__c.Active_On_Status__c</members>
-		<members>Trial_Survey__c.Clinical_Trial_Profile__c</members>
-		<members>Trial_Survey__c.Expires_After_Days__c</members>
-		<members>Trial_Survey__c.Is_Midpoint__c</members>
-		<members>Trial_Survey__c.Last_Occurrence_Date__c</members>
-		<members>Trial_Survey__c.Last_Occurrence_Reminder__c</members>
-		<members>Trial_Survey__c.Next_Occurrence_Date__c</members>
-		<members>Trial_Survey__c.Next_Occurrence_Reminder__c</members>
-		<members>Trial_Survey__c.Next_Task_Due_Date__c</members>
-		<members>Trial_Survey__c.Recurrence_Frequency__c</members>
-		<members>Trial_Survey__c.Reminder_Schedule__c</members>
-		<members>Trial_Survey__c.Reminder_in_days_before_the_end_date__c</members>
-		<members>Trial_Survey__c.Survey__c</members>
-		<members>Trial_Survey__c.Survey_end_date__c</members>
-		<members>Trial_Survey__c.Survey_start_date__c</members>
-		<members>Trial_Survey__c.Whose_response_needed__c</members>
-		<members>Trial_Survey__c.is_Recurrence_Survey__c</members>
+		<members>Patient_Delegate_Enrollment__c.Welcome_Message_Sent__c</members>
+		<members>Patient_Delegate_Enrollment__c.Welcome_Message_Delivered__c</members>
 		<name>CustomField</name>
-	</types>
-	<types>
-		<members>trialSurvey</members>
-		<name>LightningComponentBundle</name>
 	</types>
 	<version>51.0</version>
 </Package>
