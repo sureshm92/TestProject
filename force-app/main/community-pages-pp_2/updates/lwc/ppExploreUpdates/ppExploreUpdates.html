@@ -1,16 +1,20 @@
 <template>
     <template if:false={desktop}>
         <div class="slds-grid slds-wrap card-border">
-            <div class="slds-col slds-size_2-of-6 card-element">
+            <div class="slds-col slds-size_2-of-6 card-element" onclick={navigateResourceDetail}>
                 <template if:false={noExploreImage}>
-                <img
-                    class="explore-image"
+                    <img
+                        class="explore-image"
+                        onclick={navigateResourceDetail}
+                        src={exploreData.resource.Image__c}
+                        onerror={handleNoExploreImageError}
+                    />
+                </template>
+                <div
+                    if:true={noExploreImage}
+                    class="slds-align_absolute-center icon-container"
                     onclick={navigateResourceDetail}
-                    src={exploreData.resource.Image__c}
-                    onerror={handleNoExploreImageError}
-                />
-            </template>
-                <div if:true={noExploreImage} class="slds-align_absolute-center icon-container" onclick={navigateResourceDetail}>
+                >
                     <c-web-icon
                         icon-color="#b5b5b5"
                         icon-width="35"
@@ -22,7 +26,11 @@
             </div>
             <div class="slds-col slds-size_4-of-6">
                 <div class="slds-grid slds-wrap title-section-mobile">
-                    <p class="document-label" onclick={navigateResourceDetail}>
+                    <p
+                        class="document-label"
+                        onclick={navigateResourceDetail}
+                        title={exploreData.resource.Title__c}
+                    >
                         {exploreData.resource.Title__c}
                     </p>
                 </div>
@@ -44,7 +52,10 @@
     <template if:true={desktop}>
         <template if:true={showVisitSection}>
             <div class="slds-grid slds-wrap card-border-desktop">
-                <div class="slds-col slds-size_2-of-6 card-element">
+                <div
+                    class="slds-col slds-size_2-of-6 card-element"
+                    onclick={navigateResourceDetail}
+                >
                     <template if:false={noExploreImage}>
                         <img
                             class="explore-image"
@@ -53,7 +64,11 @@
                             onerror={handleNoExploreImageError}
                         />
                     </template>
-                    <div if:true={noExploreImage} class="slds-align_absolute-center icon-container" onclick={navigateResourceDetail}>
+                    <div
+                        if:true={noExploreImage}
+                        class="slds-align_absolute-center icon-container"
+                        onclick={navigateResourceDetail}
+                    >
                         <c-web-icon
                             icon-color="#b5b5b5"
                             icon-width="35"
@@ -65,7 +80,11 @@
                 </div>
                 <div class="slds-col slds-size_4-of-6">
                     <div class="slds-grid slds-wrap title-section">
-                        <p class="document-label" onclick={navigateResourceDetail}>
+                        <p
+                            class="document-label"
+                            onclick={navigateResourceDetail}
+                            title={exploreData.resource.Title__c}
+                        >
                             {exploreData.resource.Title__c}
                         </p>
                     </div>
@@ -85,7 +104,10 @@
             </div>
         </template>
         <template if:false={showVisitSection}>
-            <div class="slds-align_absolute-center explore-section-horizontal">
+            <div
+                class="slds-align_absolute-center explore-section-horizontal"
+                onclick={navigateResourceDetail}
+            >
                 <template if:false={noExploreImage}>
                     <img
                         class="explore-image"
@@ -93,8 +115,12 @@
                         src={exploreData.resource.Image__c}
                         onerror={handleNoExploreImageError}
                     />
-                    </template>
-                <div if:true={noExploreImage} class="slds-align_absolute-center" onclick={navigateResourceDetail}>
+                </template>
+                <div
+                    if:true={noExploreImage}
+                    class="slds-align_absolute-center empty-image-horizontal"
+                    onclick={navigateResourceDetail}
+                >
                     <c-web-icon
                         icon-color="#b5b5b5"
                         icon-width="55"
@@ -104,7 +130,11 @@
                     ></c-web-icon>
                 </div>
             </div>
-            <div class="article-title" onclick={navigateResourceDetail}>
+            <div
+                class="article-title"
+                onclick={navigateResourceDetail}
+                title={exploreData.resource.Title__c}
+            >
                 {exploreData.resource.Title__c}
             </div>
             <div class="date-desktop">
