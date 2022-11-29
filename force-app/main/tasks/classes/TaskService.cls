@@ -505,6 +505,7 @@ public without sharing class TaskService {
                 }else {
                     Id userId;
                      TimeZone tz;
+                     if(!patientDelContactIds.isEmpty() && tsc.ownerId == null){
                      for (Id pdId : patientDelContactIds) {
                         userId = userTimezoneMap.get(delContactUser.get(pdId)) != null
                             ? delContactUser.get(pdId)
@@ -531,6 +532,7 @@ public without sharing class TaskService {
                         tsc.reminderDatetime = inv.ReminderDateTime__c;
                         tsc.reminderGMT = inv.ReminderDateTime__c;
                     }
+                  }
                 }
                 tsc.subject = subject;
                 tsc.type = TASK_TYPE_SURVEY;
