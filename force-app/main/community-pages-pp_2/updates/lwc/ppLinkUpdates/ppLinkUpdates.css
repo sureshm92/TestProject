@@ -98,6 +98,7 @@
     width: 14px;
     height: 14px;
     cursor: pointer;
+    margin-left: 18px;
 }
 
 .helpful-links {
@@ -129,10 +130,10 @@
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0;
-    line-height: 26px;
+    line-height: 24px;
     margin-left: 10px;
     cursor: pointer;
-    margin-right: 30px;
+    margin-right: 10px;
 }
 
 .link-image-section-horizontal {
@@ -185,7 +186,6 @@
 }
 
 .helpful-link-title {
-    width: 100%;
     color: #757575;
     font-size: 13px;
     letter-spacing: 0.1px;
