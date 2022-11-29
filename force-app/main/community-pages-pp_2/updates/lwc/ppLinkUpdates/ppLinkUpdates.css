@@ -102,7 +102,7 @@
 
 .helpful-links {
     height: 16px;
-    width: 93px;
+    width: 100%;
     color: #757575;
     font-family: 'Proxima Nova';
     font-size: 13px;
@@ -110,7 +110,7 @@
     line-height: 24px;
     margin-left: 10px;
     margin-top: 5px;
-    cursor: pointer;
+    text-transform: uppercase;
 }
 
 .links-title {
@@ -180,14 +180,14 @@
 }
 
 .helpful-link-title {
-    width: 93px;
+    width: 100%;
     color: #757575;
     font-size: 13px;
     letter-spacing: 0.1px;
     line-height: 16px;
     margin-left: 16px;
     margin-top: 10px;
-    cursor: pointer;
+    text-transform: uppercase;
 }
 
 .helpful-link-horizontal {
