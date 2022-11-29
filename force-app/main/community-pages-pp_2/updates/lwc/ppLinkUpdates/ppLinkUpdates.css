@@ -5,6 +5,7 @@
 .document-label {
     color: #444444;
     font-family: 'Proxima Nova';
+    margin-top: 5px;
     font-size: 16px;
     font-weight: 600;
     margin-left: 10px;
@@ -38,7 +39,7 @@
 .card-border {
     box-sizing: border-box;
     height: 88px;
-    border: 1px solid #d9d9d9;
+    border: 1px solid #e9e9e9;
     border-radius: 8px;
     background-color: #ffffff;
     margin-top: 8px;
@@ -46,6 +47,7 @@
 
 .link-img {
     height: 48px;
+    cursor: pointer;
 }
 
 .data-section-helpful {
@@ -61,7 +63,7 @@
 .card-border-desktop {
     box-sizing: border-box;
     height: 88px;
-    border: 1px solid #d9d9d9;
+    border: 1px solid #e9e9e9;
     border-radius: 8px;
     background-color: #ffffff;
     margin-top: 8px;
@@ -78,8 +80,7 @@
 
 .card-element {
     box-sizing: border-box;
-    border-right: 1px solid #d9d9d9;
-    background-color: #f2f2f2;
+    background-color: #fff;
     height: 88px;
     border-radius: 8px 0 0 8px;
 }
@@ -96,6 +97,7 @@
 .open-tab {
     width: 14px;
     height: 14px;
+    cursor: pointer;
 }
 
 .helpful-links {
@@ -107,6 +109,7 @@
     letter-spacing: 0.1px;
     line-height: 24px;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 .links-title {
@@ -137,17 +140,18 @@
 
 .open-tab-image {
     margin-bottom: 12px;
-    margin-left: 10px;
+    margin-left: 6px;
     height: 16px;
     width: 16px;
+    cursor: pointer;
 }
 
 .icon-section {
-    height: 20px;
+    height: 26px;
 }
 
 .empty-space {
-    height: 48px;
+    height: 42px;
 }
 
 .open-tab-data-icon-container {
@@ -182,6 +186,7 @@
     line-height: 16px;
     margin-left: 16px;
     margin-top: 10px;
+    cursor: pointer;
 }
 
 .helpful-link-horizontal {
@@ -193,6 +198,7 @@
     margin-top: 20px;
     height: 72px;
     width: 105px;
+    cursor: pointer;
 }
 
 .horizontal-card {

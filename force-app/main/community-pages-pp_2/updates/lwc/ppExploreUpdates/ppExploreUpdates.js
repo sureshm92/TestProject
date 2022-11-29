@@ -17,6 +17,10 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
 
     navigateResourceDetail() {
         let subDomain = communityService.getSubDomain();
+        let state;
+        if (communityService.isInitialized()) {
+            state = communityService.getCurrentCommunityMode().participantState;
+        }
         let detailLink =
             window.location.origin +
             subDomain +
@@ -24,7 +28,9 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
             '?resourceid=' +
             this.exploreData.resource.Id +
             '&resourcetype=' +
-            this.exploreData.resource.RecordType.DeveloperName;
+            this.exploreData.resource.RecordType.DeveloperName +
+            '&state=' +
+            state;
 
         const config = {
             type: 'standard__webPage',
