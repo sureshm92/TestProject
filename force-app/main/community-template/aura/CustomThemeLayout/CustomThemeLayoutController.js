@@ -19,6 +19,24 @@
         } else {
             communityService.initialize(component);
         }
+
+          // Retrieve session id
+        var action = component.get('c.getSessionId');
+        action.setCallback(this, function (response) {
+            var key = JSON.parse(JSON.stringify(response.getReturnValue()));
+            if(response.getState() === 'SUCCESS'){
+                var res = key['sessionId'].split(",")[1];
+                component.set("v.sessionId",res);
+                component.set("v.contactId", key['userId']);
+                if (component.get('v.sessionId') != null){
+                    helper.connectCometd(component,event);
+                    helper.getSendResult(component,event);
+                }
+            }else{
+                console.error(response);
+            }
+        });
+        $A.enqueueAction(action);
     },
 
     doRefresh: function (component, event, helper) {
@@ -31,7 +49,7 @@
         else{
             component.find('ppMenu')?.forceRefresh();
             component.find('ppFooter')?.forceRefresh();
-            component.find('ppAlerts')?.forceRefresh();            
+            component.find('ppAlerts')?.forceRefresh();
         }
     },
 
@@ -54,6 +72,22 @@
     onClickHelp: function () {
         communityService.navigateToPage('help');
     },
+    onClickBell: function(component){
+        if(!component.get('v.isBellEnabled')) {
+            component.set('v.isBellEnabled', true);
+        } else {
+            component.set('v.isBellEnabled', false);
+        }
+    },
+
+    onBlurBell: function(component){
+        if(!component.get('v.isBellEnabled')) {
+            component.set('v.isBellEnabled', true);
+        } else {
+            component.set('v.isBellEnabled', false);
+        }
+   },
+
     handleClick: function (component, event, helper) {
         var showHide = component.get('v.isPPonPhone');
         if (showHide == false) {
@@ -67,11 +101,42 @@
             component.set('v.isPPonPhone', false);
         }
     },
-    onClickSite: function (component, event) {        
+    lazyLoading : function(component, event, helper) {
+        var scrollTop = event.getParam('scrollTop');
+        var offsetHeight = event.getParam('offsetHeight');
+        var scrollHeight = event.getParam('scrollHeight');
+        if (
+            offsetHeight + scrollTop + 10 >=
+           scrollHeight
+          ) {
+            helper.loadMoreNotifications(component);
+          }
+    },
+    onClickSite: function (component, event) {
         if (!component.get('v.isSitecal')) {
             component.set('v.isSitecal', true);
         } else {
             component.set('v.isSitecal', false);
         }
+    },
+    updateReadMark : function(component, event, helper) {
+        var notificationId = event.getParam('notificationId');
+        component.set("v.unreadSendResultId", notificationId);
+
+        var notificationIndex = event.getParam('notificationIndex');
+        helper.updateReadtoUnRead(component, notificationIndex);
+
+    },
+
+    closeSendResult: function(component, event, helper) {
+        var closeSendResId = event.getParam('closeSendResId');
+        component.set("v.closeSendResultId", closeSendResId);
+
+        var closeSendResIndex = event.getParam('closeSendResIndex');
+        helper.removeSendResult(component, closeSendResIndex);
+    },
+    closeBell: function(component, event) {
+        let overlayCmp = component.find("overlay");
+        overlayCmp.closeBellOverlay();
     },
 });

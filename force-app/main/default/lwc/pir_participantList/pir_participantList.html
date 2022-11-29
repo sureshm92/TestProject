@@ -50,7 +50,7 @@
         </div> -->
             <div if:true={showFilter} class="slds-col slds-size_12-of-12 filter-relative slds-hide">
                 <c-pir_filter maindivcls={maindivcls} sponser={communityTemplate} onpresetcreated={refreshAllPreset}
-                    ongetdefaultfilter={setDefaultFilter} urlstudyid={urlStudyId} urlsiteid={urlSiteId}
+                    ongetdefaultfilter={setDefaultFilter} urlstudyid={urlStudyId} urlsiteid={urlSiteId} urlstatus={urlStatus}
                     onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue}
                     filters={filterWrapper} onclosefilter={toggleFilter}></c-pir_filter>
             </div>

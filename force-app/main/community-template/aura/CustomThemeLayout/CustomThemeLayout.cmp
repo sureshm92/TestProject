@@ -9,9 +9,12 @@
 >
  <ltng:require
      styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Stub, $Resource.proximanova + '/proximanova.css')}"
-     scripts="{!$Resource.rr_community_js}"
+     scripts="{!join(',', $Resource.rr_community_js, $Resource.cometd)}"
      afterScriptsLoaded="{!c.doInit}"
  />
+ <!-- scripts="{!$Resource.rr_community_js}, " -->
+ <!-- <ltng:require scripts="{!$Resource.cometd}" afterScriptsLoaded="{!c.onCometdLoaded}"/> -->
+
 
  <!-- attributes: -->
  <aura:attribute name="search" type="Aura.Component[]" />
@@ -39,9 +42,26 @@
  <aura:attribute name="isSitecal" type="Boolean" default="false" />
  <aura:attribute name="isIncentive" type="Boolean" default="false" />
 
+    <aura:attribute name="isBellEnabled" type="Boolean" default="false" />
+    <aura:attribute name="cometd" type="Object" />
+    <aura:attribute name="cometdSubscriptions" type="Object[]" />
+    <aura:attribute name="sessionId" type="String" />
+    <aura:attribute name="userId" type="String" />
+    <aura:attribute name="contactId" type="String" />
+    <aura:attribute name="sendResultsData" type="object[]" />
+    <aura:attribute name="allNotificationData" type="object[]" />
+    <aura:attribute name="unreadNotificationsCount" type="Integer" default="0" />
+    <aura:attribute name="unreadNotifyCount" type="Integer" default="0" />
+    <aura:attribute name="unreadSendResultId" type="String" />
+    <aura:attribute name="closeSendResultId" type="String" />
+    <aura:attribute name="isDeleted" type="Boolean" default="false" />
+
+
+
  <!-- events: -->
  <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
  <aura:handler event="c:PPMobileMenu" action="{!c.closePPMobileMenu}" />
+ <aura:handler name="onBlurOverlayBellEvent" event="c:uiEvent" action="{!c.onBlurBell}"/>
 
  <!-- methods: -->
  <aura:method name="init" action="{!c.doInit}" access="public" />
@@ -57,7 +77,7 @@
              <aura:if isTrue="{!v.isInitialized}">
                  <div
                      class="{!'layout-header' + if(v.template == 'PatientPortal', ' rr-width-limiter-pp', ' rr-width-limiter') + ' side-padding' + if(v.isRTL, ' rtl', '')}"
-                 >                     
+                 >
                      <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
                          <aura:if
                              isTrue="{!and(v.template == 'PatientPortal',v.currentMode.userMode == 'Participant')}"
@@ -95,7 +115,7 @@
                              <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
                          </aura:if>
                      </aura:if>
-                    <aura:if 
+                    <aura:if
                         isTrue="{!and(v.communityApiName == 'IQVIA_Patient_Portal1',$Browser.formFactor != 'PHONE')}"
                     >
                         <!--new pp navigation-->
@@ -129,8 +149,8 @@
                              <aura:if isTrue="{!v.currentMode.userMode != 'Participant'}">
                                  <!--Site Calendar Start-->
                                  <aura:if isTrue="{!AND(not(v.reset),v.currentMode.userMode != 'HCP')}">
-                                    <c:overLayForCalendar 
-                                        class="menu-block menuheight" 
+                                    <c:overLayForCalendar
+                                        class="menu-block menuheight"
                                         isIncentive="{!v.isIncentive}"
                                     >
                                          <aura:set attribute="title">
@@ -138,27 +158,71 @@
                                                 onclick="{!c.onClickSite}"
                                                 class="calendarNavigationCss"
                                                 title="Calendar"
-                                                onblur="{!c.onBlurSite}"                                                 
-                                            >                                                 
-                                            <c:RRIcon 
+                                                onblur="{!c.onBlurSite}"
+                                            >
+                                            <c:RRIcon
                                                 iconName="site-calendar"
                                                 printMode="true"
                                             />
                                              </div>
                                          </aura:set>
                                          <aura:if isTrue="{!v.isSitecal}">
-                                            <c:site_Calender 
+                                            <c:site_Calender
                                             aura:id="site_Calender"
-                                            ></c:site_Calender>                                             
+                                            ></c:site_Calender>
                                          </aura:if>
                                           <aura:if isTrue="{!not(v.isSitecal)}">
-                                            <c:site_Calender 
+                                            <c:site_Calender
                                                 aura:id="site_Calender"
                                             ></c:site_Calender>
                                          </aura:if>
                                      </c:overLayForCalendar>
                                 </aura:if>
                                  <!--Site Calendar End-->
+                                 <aura:if isTrue="{!v.currentMode.userMode == 'PI'}">
+                                        <!--custom bell notifications-->
+                                        <aura:if isTrue="{!not(v.reset)}">
+                                            <c:OverlayForBell class="menu-block menuheight" aura:id="overlay">
+                                                <aura:set attribute="title">
+                                                    <div
+                                                        onclick="{!c.onClickBell}"
+                                                        class="bellNavigationCss"
+                                                        title="notifications"
+                                                    >
+                                                        <c:RRIcon
+                                                            iconName="icon-notification"
+                                                            color="white"
+                                                            class="navigation-icon"
+                                                        />
+
+                                                        <div
+                                                            class="{!if(v.unreadNotificationsCount != 0,'slds-show','slds-hidden')}"
+                                                        >
+                                                            <span
+                                                                aura:id="countDot"
+                                                                aria-hidden="true"
+                                                                class="slds-notification-badge slds-incoming-notification slds-show-notification"
+                                                                >{!v.unreadNotificationsCount}</span
+                                                            >
+                                                        </div>
+                                                    </div>
+                                                </aura:set>
+                                                <aura:if isTrue="{!v.isBellEnabled}">
+                                                    <c:bellNotifications
+                                                        aura:id="bellNotification"
+                                                        sendResultsDataFromParent="{!v.sendResultsData}"
+                                                        onlazyloadingevent="{!c.lazyLoading}"
+                                                        onupdatereadevent="{!c.updateReadMark}"
+                                                        onremovesendresultevent="{!c.closeSendResult}"
+                                                        isDelete="{!v.isDeleted}"
+                                                        onclosebelloverlayevent="{!c.closeBell}"
+                                                    ></c:bellNotifications>
+
+                                                </aura:if>
+                                            </c:OverlayForBell>
+                                        </aura:if>
+                                        <!--custom bell notifications-->
+                                    </aura:if>
                                  <div
                                      onclick="{!c.onClickHelp}"
                                      class="helpNavigationCSS"
@@ -181,7 +245,7 @@
                                      src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}"
                                  />
                              </aura:if>
-                         </aura:if>                         
+                         </aura:if>
                          <c:CommunityModeSwitcherMenu
                              currentMode="{!v.currentMode}"
                              onModeChange="{!c.doRefresh}"
