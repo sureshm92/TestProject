@@ -110,7 +110,6 @@
     line-height: 24px;
     margin-left: 10px;
     margin-top: 5px;
-    cursor: pointer;
     text-transform: uppercase;
 }
 
@@ -189,7 +188,6 @@
     margin-left: 16px;
     margin-top: 10px;
     text-transform: uppercase;
-    cursor: pointer;
 }
 
 .helpful-link-horizontal {
