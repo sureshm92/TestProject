@@ -247,6 +247,19 @@ public virtual without sharing class ResourceService {
         }
         return rwSorted;
     }
+    public static List<ResourceWrapper> sortUpdateResourcesByCOI(List<ResourceWrapper> resourceWrappers) {
+        List<ResourceUpdateComparing> resourceComparings = new List<ResourceUpdateComparing>();
+        for (ResourceWrapper rw : resourceWrappers) {
+            resourceComparings.add(new ResourceUpdateComparing(rw));
+        }
+        resourceComparings.sort();
+
+        List<ResourceWrapper> rwSorted = new List<ResourceWrapper>();
+        for (ResourceUpdateComparing rc : resourceComparings) {
+            rwSorted.add(rc.res1);
+        }
+        return rwSorted;
+    }
     public static List<ResourceWrapper> sortResourcesByCreatedDate(
         List<ResourceWrapper> resourceWrappers
     ) {
@@ -331,26 +344,82 @@ public virtual without sharing class ResourceService {
             Integer returnValue = 0; // The return value of 0 indicates that both elements are equal.
             if (
                 res1.resource.Therapeutic_Area_Assignments__r.size() <
-                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
-                res1.therapeuticAssignments?.size() <
-                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
-                res1.resource.Therapeutic_Area_Assignments__r.size() <
-                res2.res1.therapeuticAssignments?.size()||
-                res1.therapeuticAssignments?.size() <
-                res2.res1.therapeuticAssignments?.size()
+                res2.res1.resource.Therapeutic_Area_Assignments__r.size()
             ) {
                 returnValue = 1; // Set return value to a positive value.
             } else if (
                 res1.resource.Therapeutic_Area_Assignments__r.size() >
-                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
-                res1.therapeuticAssignments?.size() >
-                res2.res1.resource.Therapeutic_Area_Assignments__r.size() ||
-                res1.resource.Therapeutic_Area_Assignments__r.size() >
-                res2.res1.therapeuticAssignments?.size()||
-                res1.therapeuticAssignments?.size() >
-                res2.res1.therapeuticAssignments?.size()
+                res2.res1.resource.Therapeutic_Area_Assignments__r.size()
             ) {
                 returnValue = -1; // Set return value to a negative value.
+            }
+
+            return returnValue;
+        }
+    }
+    public virtual class ResourceUpdateComparing implements Comparable {
+        public ResourceService.ResourceWrapper res1;
+
+        public ResourceUpdateComparing(ResourceService.ResourceWrapper res1) {
+            this.res1 = res1;
+        }
+
+        public Integer compareTo(Object param1) {
+            ResourceUpdateComparing res2 = (ResourceUpdateComparing) param1;
+
+            Integer returnValue = 0; // The return value of 0 indicates that both elements are equal.
+            if (
+                res1.resource.Content_Type__c != RESOURCE_TYPE_RELEVANT_LINK &&
+                res2.res1.resource.Content_Type__c != RESOURCE_TYPE_RELEVANT_LINK
+            ) {
+                if (
+                    res1.resource.Therapeutic_Area_Assignments__r?.size() <
+                    res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
+                ) {
+                    returnValue = 1;
+                } else if (
+                    res1.resource.Therapeutic_Area_Assignments__r?.size() <
+                    res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
+                ) {
+                    returnValue = -1;
+                }
+            } else if (
+                res1.resource.Content_Type__c == RESOURCE_TYPE_RELEVANT_LINK &&
+                res2.res1.resource.Content_Type__c == RESOURCE_TYPE_RELEVANT_LINK
+            ) {
+                if (
+                    res1.therapeuticAssignments?.size() < res2.res1.therapeuticAssignments?.size()
+                ) {
+                    returnValue = 1;
+                } else if (
+                    res1.therapeuticAssignments?.size() < res2.res1.therapeuticAssignments?.size()
+                ) {
+                    returnValue = -1;
+                }
+            } else if (res1.resource.Content_Type__c == RESOURCE_TYPE_RELEVANT_LINK) {
+                if (
+                    res1.therapeuticAssignments?.size() <
+                    res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
+                ) {
+                    returnValue = 1;
+                } else if (
+                    res1.therapeuticAssignments?.size() <
+                    res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
+                ) {
+                    returnValue = -1;
+                }
+            } else {
+                if (
+                    res1.resource.Therapeutic_Area_Assignments__r?.size() <
+                    res2.res1.therapeuticAssignments?.size()
+                ) {
+                    returnValue = 1;
+                } else if (
+                    res1.resource.Therapeutic_Area_Assignments__r?.size() <
+                    res2.res1.therapeuticAssignments?.size()
+                ) {
+                    returnValue = -1;
+                }
             }
 
             return returnValue;
@@ -379,7 +448,7 @@ public virtual without sharing class ResourceService {
     public static Integer getUpdatesCounter(List<ResourceWrapper> resourceWrappers) {
         Integer counter = 0;
         List<LoginHistory> lastLoginList = [
-            SELECT loginTime,Status
+            SELECT loginTime, Status
             FROM LoginHistory
             WHERE userId = :UserInfo.getUserId()
             ORDER BY LoginTime DESC
@@ -387,11 +456,10 @@ public virtual without sharing class ResourceService {
         ];
         Datetime lastLogin;
         if (lastLoginList.size() > 1) {
-            //get last successful logintime as we can't filter on status field 
-            for(Integer i=1;i<lastLoginList.size();i++){
-                if(lastLoginList[i].Status=='Success')
-                {
-                     lastlogin = lastLoginList[i].loginTime;
+            //get last successful logintime as we can't filter on status field
+            for (Integer i = 1; i < lastLoginList.size(); i++) {
+                if (lastLoginList[i].Status == 'Success') {
+                    lastlogin = lastLoginList[i].loginTime;
                 }
                 break;
             }
@@ -407,12 +475,11 @@ public virtual without sharing class ResourceService {
     public virtual class TherapeuticAssignments {
         @AuraEnabled
         public String resource = '';
-         @AuraEnabled
+        @AuraEnabled
         public String id = '';
-         @AuraEnabled
+        @AuraEnabled
         public String therapeuticArea = '';
     }
-
 
     public virtual class ResourceWrapper {
         @AuraEnabled
@@ -453,8 +520,6 @@ public virtual without sharing class ResourceService {
             }
         }
     }
-       
-
 
     public class ResourceDetailWrapper extends ResourceWrapper {
         @AuraEnabled
