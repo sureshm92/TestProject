@@ -31,6 +31,10 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
 
     navigateResourceDetail() {
         let subDomain = communityService.getSubDomain();
+        let state;
+        if (communityService.isInitialized()) {
+            state = communityService.getCurrentCommunityMode().participantState;
+        }
         let detailLink =
             window.location.origin +
             subDomain +
@@ -38,7 +42,9 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
             '?resourceid=' +
             this.documentData.resource.Id +
             '&resourcetype=' +
-            this.documentData.resource.RecordType.DeveloperName;
+            this.documentData.resource.RecordType.DeveloperName +
+            '&state=' +
+            state;
 
         const config = {
             type: 'standard__webPage',
