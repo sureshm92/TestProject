@@ -628,13 +628,42 @@ public without sharing class PatientDelegateService {
         system.debug('ownPEFilter:::'+ownPEFilter); //Participant__r.Contact__c IN ('0037g00001B2uZ8AAJ')
 
         if(contactIds != null && delContactId != contactIds[0]){
-            Map<Id,Patient_Delegate_Enrollment__c> pdeList = new Map<Id,Patient_Delegate_Enrollment__c>([
-                SELECT Id, Participant_Enrollment__c, Participant_Enrollment__r.Participant_Status__c,Patient_Delegate__r.Contact__c,Patient_Delegate__c,Patient_Delegate__r.Participant__c,Name,Status__c,Participant_Enrollment__r.study__c
-                Welcome_Message_Sent__c,
-                Welcome_Message_Delivered__c FROM Patient_Delegate_Enrollment__c
-                WHERE Patient_Delegate__r.Contact__c =: delContactId AND Status__c = 'Active']);
-            if(!pdeList.isEmpty()){
-                for(Patient_Delegate_Enrollment__c pde : pdeList.values()){
+            Map<Id, Patient_Delegate_Enrollment__c> pdelIdMap = new Map<Id, Patient_Delegate_Enrollment__c>(
+                [
+                    SELECT
+                        Id,
+                            Patient_Delegate__r.Participant__r.Full_Name__c,
+                            Patient_Delegate__r.Id,
+                            Welcome_Message_Sent__c,
+                            Study_Email_Consent__c,
+                            Study_SMS_Consent__c,
+                            Welcome_Message_Delivered__c,
+                            Patient_Delegate__r.Participant__r.Contact__c,
+                            Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                            Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                            Patient_Delegate__r.Participant__r.First_Name__c,
+                            Patient_Delegate__r.Participant__r.Last_Name__c,
+                            Patient_Delegate__r.Contact__c,
+                            Patient_Delegate__r.Participant__c,   
+                            Patient_Delegate__r.Participant_Delegate__r.Id,
+                            Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
+                            Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
+                            Patient_Delegate__r.Participant_Delegate__r.Email__c,
+                            Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                            Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                            Status__c,
+                            Participant_Enrollment__c,
+                            Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                            Participant_Enrollment__r.Name,
+                            Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                            Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE Patient_Delegate__r.Contact__c =: delContactId
+                    AND Status__c = 'Active'
+                ]
+            );    
+            if(!pdelIdMap.isEmpty()){
+                for(Patient_Delegate_Enrollment__c pde : pdelIdMap.values()){
                     delPeidsset.add(pde.Participant_Enrollment__c);
                 }    
             }
