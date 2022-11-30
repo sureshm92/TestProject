@@ -1,5 +1,11 @@
 public with sharing class PatientDelegateEnrolTriggerHandler {
 
+    public class CreateNewAssignmentNotification extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            createDelegateAssignmentNotification(newList);
+        }
+    }
+
     @TestVisible
     private static void createDelegateAssignmentNotification(
         List<Patient_Delegate_Enrollment__c> newPatientDelegateEnrollments
@@ -21,7 +27,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         Map<Id, Patient_Delegate_Enrollment__c> patientdelegateslist = new Map<Id, Patient_Delegate_Enrollment__c>();
         List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
         Map<Id, Map<Id,Patient_Delegate_Enrollment__c>> delContIdMapOfPerIdPDEnromentMap = new Map<Id, Map<Id,Patient_Delegate_Enrollment__c>>();
-        if (patientDelegateEnrollRecrds != null && !patientDelegateEnrollRecrds.isEmpty()) {
+       /* if (patientDelegateEnrollRecrds != null && !patientDelegateEnrollRecrds.isEmpty()) {
             for (Patient_Delegate_Enrollment__c delegate : patientDelegateEnrollRecrds) {
                 if (!delContIdMapOfPerIdPDEnromentMap.containskey(pdelEnrollment.Patient_Delegate__r.Contact__c)){
                     Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = delContIdMapOfPerIdPDEnromentMap.get(pdelEnrollment.Patient_Delegate__r.Contact__c);
@@ -74,9 +80,9 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
                 ) {
                     proccessedPlatDelCon.add(delCont);
                         
-                     }
-                    }
-        }
+                }
+            }
+        }*/
         
         return welcomemsgnotifications;
     }

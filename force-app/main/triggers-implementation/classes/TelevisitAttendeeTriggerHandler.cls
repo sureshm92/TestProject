@@ -36,27 +36,11 @@ public without sharing class TelevisitAttendeeTriggerHandler {
         for (Televisit_Attendee__c teleAttendee : attendeeList) {
             allContactIds.add(teleAttendee.Contact__c);
         }
-        List<Patient_Delegate_Enrollment__c> patientDelegates = [
-                        SELECT
-                        Id,
-                        Participant_Enrollment__c,
-                        Patient_Delegate__c,
-                        Patient_Delegate__r.Contact__c,
-                        Patient_Delegate__r.Participant__c,
-                        Patient_Delegate__r.Participant__r.Contact__c,
-                        Name,
-                        Status__c,
-                        Welcome_Message_Sent__c,
-                        Welcome_Message_Delivered__c,
-                        Participant_Enrollment__r.study__c
-                        FROM Patient_Delegate_Enrollment__c
-                        WHERE Patient_Delegate__r.Participant__r.Contact__c IN : allContactIds AND Status__c = 'Active'
-        ];
-        /*List<Patient_Delegate__c> patientDelegates = [
+        List<Patient_Delegate__c> patientDelegates = [
             SELECT Participant__r.Contact__c, Contact__c, Primary_Delegate__c
             FROM Patient_Delegate__c
             WHERE Participant__r.Contact__c IN :allContactIds
-        ];*/
+        ];
         for (Id conId : allContactIds) {
             if (!participantIdsByDelegates.containsKey(conId)) {
                 participantIdsByDelegates.put(conId, new List<Patient_Delegate__c>());
@@ -108,7 +92,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
         if (!delConTeleMap.isEmpty()) {
             createAttendeeNotifications(
                 delConTeleMap,
-                NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE /// Delegate  
+                NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE
             );
         }
     }
