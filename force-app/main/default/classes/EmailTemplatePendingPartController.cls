@@ -108,11 +108,11 @@ global without sharing class EmailTemplatePendingPartController {
 			if(highPriorityFlag == true && reConsentRequiredFlag == false ){
                 this.yesNoPriority = 'High Priority';
             }else if(reConsentRequiredFlag == true && highPriorityFlag == false){
-                this.yesNoPriority = 'Reconsent Required';
+                this.yesNoPriority = 'Consent Required';
             }else if(highPriorityFlag == true && reConsentRequiredFlag == true){
                 this.highPriorityReconsent = true;
                 this.highPriority = 'High Priority';   
-                this.reConsent = 'Reconsent Required';
+                this.reConsent = 'Consent Required';
             }else{
                 this.yesNoPriority = '';
             }
