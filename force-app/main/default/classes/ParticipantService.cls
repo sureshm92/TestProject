@@ -210,9 +210,17 @@ public without sharing class ParticipantService {
                     participantState.participant = getParticipant(participant.Id);
             }
         }
-        participantState.welcomeMessage = getWelcomeMessage();
+        List<Participant__c> participants = new List<Participant__c>();
+        if (String.isNotBlank(CommunityService.getInstance().getCurrentContactId())) {
+            participants = [
+                SELECT Full_Name__c, First_Name__c
+                FROM Participant__c
+                WHERE Contact__c = :CommunityService.getInstance().getCurrentContactId()
+            ];
+        }
+        participantState.welcomeMessage = getWelcomeMessage(participants);
         participantState.communityName = UserContext.getCurrentCommunityName();
-        participantState.loggedInUserName = getLoggedInUserName();
+        participantState.loggedInUserName = getLoggedInUserName(participants);
     }
 
     public static Participant__c getParticipant(Id sourceId) {
@@ -334,16 +342,8 @@ public without sharing class ParticipantService {
     }
 
     @TestVisible
-    private String getLoggedInUserName() {
+    private String getLoggedInUserName(List<Participant__c> participants) {
         String userName;
-        List<Participant__c> participants = new List<Participant__c>();
-        if (String.isNotBlank(CommunityService.getInstance().getCurrentContactId())) {
-            participants = [
-                SELECT First_Name__c
-                FROM Participant__c
-                WHERE Contact__c = :CommunityService.getInstance().getCurrentContactId()
-            ];
-        }
         if (participants.size() == 0) {
             userName = (String) CommunityService.getUserContact().get('Name');
         } else {
@@ -353,16 +353,8 @@ public without sharing class ParticipantService {
     }
 
     @TestVisible
-    private String getWelcomeMessage() {
+    private String getWelcomeMessage(List<Participant__c> participants) {
         String userName;
-        List<Participant__c> participants = new List<Participant__c>();
-        if (String.isNotBlank(CommunityService.getInstance().getCurrentContactId())) {
-            participants = [
-                SELECT Full_Name__c
-                FROM Participant__c
-                WHERE Contact__c = :CommunityService.getInstance().getCurrentContactId()
-            ];
-        }
         if (participants.size() == 0) {
             userName = (String) CommunityService.getUserContact().get('Name');
         } else {
