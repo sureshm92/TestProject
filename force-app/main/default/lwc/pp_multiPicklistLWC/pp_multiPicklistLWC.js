@@ -160,12 +160,13 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         let studyElement = this.template.querySelector('[data-id="studyBox"]');
         let opts = studyElement.getElementsByTagName('input');
         let studyOpts = [];
+        let checkedCount = 0;
         for (var i = 0; i < opts.length; i++) {
             if (opts[i].checked) {
                 tempList.push({ label: opts[i].name, value: opts[i].value });
                 studyOpts.push(opts[i].value);
                 //Store First Three selected Studies in separate List.
-                if(i<=2){
+                if(tempFirstThreeList.length<=2){
                     tempFirstThreeList.push({ label: opts[i].name, value: opts[i].value });
                 }
             }

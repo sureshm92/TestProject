@@ -44,6 +44,7 @@
                                 title="Add new Delete"
                                 onclick={navToAddDelegate}
                                 class={addDelBtnMarin}
+                                disabled={diabledAddNewButton}
                             >
                                 {label.BTN_Add_New_Delegate}
                             </button>
@@ -188,6 +189,7 @@
                                                                 data-pdeid={pdEnrollment.Id}
                                                                 data-pdfn={del.PatientDelegate.First_Name__c}
                                                                 data-pdln={del.PatientDelegate.Last_Name__c}
+                                                                disabled={pdEnrollment.disableRemoveButton}
                                                             >
                                                                 {label.PP_Remove}
                                                             </button></lightning-layout-item
@@ -206,6 +208,7 @@
                                                         title="Add Assignment"
                                                         onclick={addAssignment}
                                                         data-pdid={del.PatientDelegate.Id}
+                                                        disabled={del.disableAddAssignmentButton}
                                                     >
                                                         <c-web-icon
                                                             icon-name="icon-plus"
@@ -371,6 +374,7 @@
                                                                 class="delete-btn"
                                                                 onclick={openDeleteDelegateModal}
                                                                 data-id={del.pdId}
+                                                                disabled={del.disableDeleteButton}
                                                             >
                                                                 <span
                                                                     ><img
@@ -388,6 +392,7 @@
                                                                 class="delete-btn"
                                                                 onclick={openDeleteDelegateModal}
                                                                 data-id={del.pdId}
+                                                                disabled={del.disableDeleteButton}
                                                             >
                                                                 <span
                                                                     ><img
@@ -417,6 +422,7 @@
                                                         class="apollo-btn secondary box-add-assignment-btn"
                                                         onclick={addAssignmentFormer}
                                                         data-pdid={del.PatientDelegate.Id}
+                                                        disabled={del.disableAddAssignmentButton}
                                                     >
                                                         <c-web-icon
                                                             icon-name="icon-plus"
@@ -541,10 +547,13 @@
                                                         class="save-button-aligment"
                                                         ><button
                                                             title="Save"
-                                                            onclick={doSave}
+                                                            onclick={doSaveFormer}
                                                             class={saveButtonClass}
                                                             disabled={validateData}
-                                                            data-pdid={del.PatientDelegate.Id}
+                                                            data-id={del.PatientDelegate.Id}
+                                                            data-pdid={del.pdId}
+                                                            data-attestedtimestmp={del.delAttestationTimeStamp}
+                                                            data-attestedby={del.delAttestedBy}
                                                         >
                                                             {label.BTN_Save}
                                                         </button></lightning-layout-item

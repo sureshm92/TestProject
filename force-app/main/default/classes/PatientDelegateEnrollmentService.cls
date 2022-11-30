@@ -116,15 +116,17 @@ public without sharing class PatientDelegateEnrollmentService {
                 fpdw.pdId = mapIdPDE.get(ide)[0].Patient_Delegate__c;
                 fpdw.delAttestationTimeStamp = mapIdPDE.get(ide)[0].Patient_Delegate__r.Attestation_TimeStamp__c;
                 fpdw.delAttestedBy = mapIdPDE.get(ide)[0].Patient_Delegate__r.Attested_by__c;
+                //fpdw.PDEEnrollmentsFormer = mapIdPDE.get(ide);
                 formerListPDEWrapper.add(fpdw);
             }else {
-                //If Disconected/OnHold
+                //If Disconected/OnHold/Mixed among withdrawn/Disconnected
                 FormerPatientDelegateEnrollmentsWrapper fpdw = new FormerPatientDelegateEnrollmentsWrapper();
                 fpdw.PatientDelegate = del;
                 fpdw.isWithdrawn = false;
                 fpdw.pdId = mapIdPDE.get(ide)[0].Patient_Delegate__c;
                 fpdw.delAttestationTimeStamp = mapIdPDE.get(ide)[0].Patient_Delegate__r.Attestation_TimeStamp__c;
                 fpdw.delAttestedBy = mapIdPDE.get(ide)[0].Patient_Delegate__r.Attested_by__c;
+                fpdw.PDEEnrollmentsFormer = mapIdPDE.get(ide);
                 formerListPDEWrapper.add(fpdw);
             }
         }
@@ -138,7 +140,61 @@ public without sharing class PatientDelegateEnrollmentService {
         //return listPDEWrapper;
         return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
     }
-    
+       
+    @AuraEnabled
+    public static PatientDelegateEnrollmentsWrapperMain doAddAssignment(String delegateStr, String studyPERData){
+        try {
+            PatientDelegateWrapper pdData = (PatientDelegateWrapper) JSON.deserialize(
+                delegateStr,
+                PatientDelegateWrapper.class
+            );
+            Patient_Delegate__c pd= pdData.convertToPD();
+            //Assign Studies.
+            PatientDelegateEnrollmentService.getInstance().createPatientDelegateEnrollment(pd,studyPERData);
+            return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
+            
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    public void createPatientDelegateEnrollment(
+        Patient_Delegate__c newDelegate,
+        String studyPERData
+    ) {
+        //get the list of selected studies for Delegate.
+        List<MyTeamRemote.SelectedStudiesData> SelectedStudiesData = (List<MyTeamRemote.SelectedStudiesData>) JSON.deserialize(
+            studyPERData,
+            List<MyTeamRemote.SelectedStudiesData>.class
+        );
+        //List<LabelValueItem> studiesSelected = SelectedStudiesData;
+        List<Patient_Delegate_Enrollment__c> pdEnrollments = new List<Patient_Delegate_Enrollment__c>();
+        list<Id> pDEIdList =  New List<Id>();
+        for (MyTeamRemote.SelectedStudiesData studyPER : SelectedStudiesData) {
+            //if Study is not assigned then create new PDEnrollment Record otherwise reactive the existing PDEnrollment record.
+            if(studyPER.assigned ==null || (studyPER.assigned!=null && !studyPER.assigned)){
+                Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
+                pde.Participant_Enrollment__c = studyPER.Value; //PER val
+                pde.Patient_Delegate__c = newDelegate.Id;
+                //pde.Attestation_c__c = newDelegate.Attestation__c;
+                pde.Attestation_TimeStamp__c = newDelegate.Attestation_TimeStamp__c;
+                pde.Attested_by__c = newDelegate.Attested_by__c;
+                pde.Status__c = 'Active';
+                pdEnrollments.add(pde);
+            } else if(studyPER.assigned!=null && studyPER.assigned && !studyPER.active){
+                //if Study is assigned to delegate but it is not active. 
+                pDEIdList.Add(studyPER.pdEnrollmentId);
+
+            }
+        }
+        if (pdEnrollments.size() > 0) {
+            insert pdEnrollments;
+        }
+        //Re activate the study assignment.
+        if (pDEIdList.size() > 0) {
+            reActivateAssignment(pDEIdList);
+        }
+    }
+
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain reActivateAssignment(List<String> pDEIdList) {
         list<Patient_Delegate_Enrollment__c> pdeList = [
@@ -189,60 +245,6 @@ public without sharing class PatientDelegateEnrollmentService {
             return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
-        }
-    }
-    
-    @AuraEnabled
-    public static PatientDelegateEnrollmentsWrapperMain doAddAssignment(String delegateStr, String studyPERData){
-        try {
-            PatientDelegateWrapper pdData = (PatientDelegateWrapper) JSON.deserialize(
-                delegateStr,
-                PatientDelegateWrapper.class
-            );
-            Patient_Delegate__c pd= pdData.convertToPD();
-            //Assign Studies.
-            PatientDelegateEnrollmentService.getInstance().createPatientDelegateEnrollment(pd,studyPERData);
-            return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
-            
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
-    }
-    public void createPatientDelegateEnrollment(
-        Patient_Delegate__c newDelegate,
-        String studyPERData
-    ) {
-        //get the list of selected studies for Delegate.
-        List<MyTeamRemote.SelectedStudiesData> SelectedStudiesData = (List<MyTeamRemote.SelectedStudiesData>) JSON.deserialize(
-            studyPERData,
-            List<MyTeamRemote.SelectedStudiesData>.class
-        );
-        //List<LabelValueItem> studiesSelected = SelectedStudiesData;
-        List<Patient_Delegate_Enrollment__c> pdEnrollments = new List<Patient_Delegate_Enrollment__c>();
-        list<Id> pDEIdList =  New List<Id>();
-        for (MyTeamRemote.SelectedStudiesData studyPER : SelectedStudiesData) {
-            //if Study is not assigned then create new PDEnrollment Record.
-            if(studyPER.assigned ==null || (studyPER!=null && !studyPER.assigned)){
-                Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
-                pde.Participant_Enrollment__c = studyPER.Value; //PER val
-                pde.Patient_Delegate__c = newDelegate.Id;
-                //pde.Attestation_c__c = newDelegate.Attestation__c;
-                pde.Attestation_TimeStamp__c = newDelegate.Attestation_TimeStamp__c;
-                pde.Attested_by__c = newDelegate.Attested_by__c;
-                pde.Status__c = 'Active';
-                pdEnrollments.add(pde);
-            } else if(studyPER!=null && studyPER.assigned && !studyPER.active){
-                //if Study is assigned to delegate but it is not active. 
-                pDEIdList.Add(studyPER.pdEnrollmentId);
-
-            }
-        }
-        if (pdEnrollments.size() > 0) {
-            insert pdEnrollments;
-        }
-        //Re activate the study assignment.
-        if (pDEIdList.size() > 0) {
-            reActivateAssignment(pDEIdList);
         }
     }
     
@@ -389,6 +391,8 @@ public without sharing class PatientDelegateEnrollmentService {
         public String delAttestedBy;
         @AuraEnabled
         public String pdId;
+        @AuraEnabled
+        public list<Patient_Delegate_Enrollment__c> PDEEnrollmentsFormer;
 
     }
     public class PatientDelegateEnrollmentsWrapperMain {
