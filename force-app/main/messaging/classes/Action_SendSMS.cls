@@ -523,7 +523,7 @@ public without sharing class Action_SendSMS implements Action {
                         Participant_Enrollment__r.Clinical_Trial_Profile__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
                 FROM Patient_Delegate_Enrollment__c
-                WHERE (Participant_Enrollment__c IN :peIdList OR Participant_Enrollment__r.Clinical_Trial_Profile__c IN :ctpIdList)
+                WHERE (Participant_Enrollment__c IN : peIdList OR Participant_Enrollment__r.Clinical_Trial_Profile__c IN :ctpIdList)
                 AND Patient_Delegate__r.Contact__c IN : recipientIdSet
             ]
         );
@@ -576,11 +576,11 @@ public without sharing class Action_SendSMS implements Action {
             ]
         );
         system.debug('peIdMap:::' + peIdMap);
-        Map<Id,Patient_Delegate_Enrollment__c> pdEnrollMap = new Map<Id,Patient_Delegate_Enrollment__c>();
+        Map<Id,List<Patient_Delegate_Enrollment__c>> pdEnrollMap = new Map<Id,List<Patient_Delegate_Enrollment__c>>();
         for(Patient_Delegate_Enrollment__c pdelEnrollment : pdelIdMap.values()){
             if (!pdEnrollMap.containskey(pdelEnrollment.Patient_Delegate__r.Contact__c))
-            pdEnrollMap.put(pdelEnrollment.Patient_Delegate__r.Contact__c,pdelEnrollment);
-
+                pdEnrollMap.put(pdelEnrollment.Patient_Delegate__r.Contact__c,new List<Patient_Delegate_Enrollment__c>());
+                pdEnrollMap.get(pdelEnrollment.Patient_Delegate__r.Contact__c).add(pdelEnrollment);
         }
         for (Participant_Enrollment__c peObj : peIdMap.values()) {
             Clinical_Trial_Profile__c ctpObj = new Clinical_Trial_Profile__c();
@@ -703,8 +703,10 @@ public without sharing class Action_SendSMS implements Action {
                         welcomemsgsent = peOBJ.Welcome_Message_Sent__c; //Added by Anitha
                         welcomemsgDelivered = peOBJ.Welcome_Message_Delivered__c; //Added by Anitha
                         if(notObj.IsDelegate__c && pdEnrollMap.containsKey(recipientID)){
-                            Id perid = pdEnrollMap.get(recipientID).Participant_Enrollment__c;
-                            isSMSAvailableForPER = whatId == perid ? pdEnrollMap.get(recipientID).Study_SMS_Consent__c	&& peOBJ.Study_Site__r.SMS_Are_Available__c : false;
+                            List<Patient_Delegate_Enrollment__c> pdelEnrollmentrecrds = pdEnrollMap.get(recipientID);
+                            if(pdelEnrollmentrecrds.contains(whatId))
+                            Integer result = myStrings.indexOf(whatId);
+                            isSMSAvailableForPER = pdelEnrollmentrecrds[result].Study_SMS_Consent__c && peOBJ.Study_Site__r.SMS_Are_Available__c : false;
                         }
                         else isSMSAvailableForPER = peOBJ.Permit_SMS_Text_for_this_study__c && peOBJ.Study_Site__r.SMS_Are_Available__c;
                         studySiteToFromNoMap.put(studySiteId, peOBJ.Study_Site__r.From_Number__c);

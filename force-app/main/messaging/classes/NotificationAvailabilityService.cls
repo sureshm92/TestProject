@@ -362,11 +362,17 @@ public without sharing class NotificationAvailabilityService {
         String notificationTarget,
         Id contactId,
         Notification_Type__mdt notificationType,
-        String objType
+        String objType,
+        Map<Id,Patient_Delegate_Enrollment__c> pdEnrollMap,
+        Notification__c not
     ) {
         Boolean isEmailAvailableAtPER = false;
         if (notificationType.IsStudyLevel__c) {
             if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
+                if(notObj.IsDelegate__c && pdEnrollMap.containsKey(recipientID)){
+
+
+                }
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                     Id.valueOf(whatId)
                 );
@@ -556,7 +562,9 @@ public without sharing class NotificationAvailabilityService {
         String recipientType,
         String notificationTarget,
         Id contactId,
-        Notification_Type__mdt notificationType
+        Notification_Type__mdt notificationType,
+        Map<Id,Patient_Delegate_Enrollment__c> pdEnrollMap,
+        Notification__c not
     ) {
         if (whatId != null && objectsByIds.get(Id.valueOf(whatId)) == null)
             return false;
@@ -574,7 +582,9 @@ public without sharing class NotificationAvailabilityService {
                 notificationTarget,
                 contactId,
                 notificationType,
-                objType
+                objType,
+                pdEnrollMap,
+                not
             );
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_HCP) {

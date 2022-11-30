@@ -320,7 +320,7 @@ public without sharing class PatientDelegateEnrollmentService {
                 delContactsByPartCnt.put(partCntId, new List<Contact>());
             }
 
-            delContactsByPartCnt.get(partCntId).add(pd.Patient_Delegate__r.Contact__r.Contact__r);
+            delContactsByPartCnt.get(partCntId).add(pd.Patient_Delegate__r.Contact__r);
         }
 
         return delContactsByPartCnt;
