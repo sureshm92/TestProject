@@ -364,7 +364,7 @@ public without sharing class NotificationAvailabilityService {
         Notification_Type__mdt notificationType,
         String objType,
         Map<Id,Patient_Delegate_Enrollment__c> pdEnrollMap,
-        Notification__c not
+        Notification__c notificationrecrd
     ) {
         Boolean isEmailAvailableAtPER = false;
         if (notificationType.IsStudyLevel__c) {
@@ -564,7 +564,7 @@ public without sharing class NotificationAvailabilityService {
         Id contactId,
         Notification_Type__mdt notificationType,
         Map<Id,Patient_Delegate_Enrollment__c> pdEnrollMap,
-        Notification__c not
+        Notification__c notificationrecrd
     ) {
         if (whatId != null && objectsByIds.get(Id.valueOf(whatId)) == null)
             return false;
@@ -584,7 +584,7 @@ public without sharing class NotificationAvailabilityService {
                 notificationType,
                 objType,
                 pdEnrollMap,
-                not
+                notificationrecrd
             );
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_HCP) {
