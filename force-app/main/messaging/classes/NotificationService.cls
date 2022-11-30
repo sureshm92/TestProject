@@ -12,7 +12,6 @@ public without sharing class NotificationService {
     public static Map<Id, Boolean> welcomemsgDelivered = new Map<Id, Boolean>();
     public static Map<String, Boolean> perIdDelConIdWelcomeMessageSentMap = new Map<String, Boolean>();
     public static Map<String, Boolean> perIdDelConIdWelcomeMessageDeleveredMap = new Map<String, Boolean>();
-    Map<Id, Patient_Delegate_Enrollment__c> pdelIdMap  = new Map<Id, Patient_Delegate_Enrollment__c>();
 
     static public List<String> participantStatusListForHCP = new List<String>{
         PEStatusState.PE_STATUS_RECEIVED,
@@ -344,48 +343,6 @@ public without sharing class NotificationService {
                 welcomeMessageRecipientIds.add(n.Recipient__c);
             }
         }
-        if(!recipientIds.isEmpty()){
-            pdelIdMap = new Map<Id, Patient_Delegate_Enrollment__c>(
-                [
-                    SELECT
-                        Id,
-                            Patient_Delegate__r.Participant__r.Full_Name__c,
-                            Patient_Delegate__r.Id,
-                            Welcome_Message_Sent__c,
-                            Study_Email_Consent__c,
-                            Study_SMS_Consent__c,
-                            Welcome_Message_Delivered__c,
-                            Patient_Delegate__r.Participant__r.Contact__c,
-                            Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                            Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
-                            Patient_Delegate__r.Participant__r.First_Name__c,
-                            Patient_Delegate__r.Participant__r.Last_Name__c,
-                            Patient_Delegate__r.Contact__c,
-                            Patient_Delegate__r.Participant__c,   
-                            Patient_Delegate__r.Participant_Delegate__r.Id,
-                            Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
-                            Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
-                            Patient_Delegate__r.Participant_Delegate__r.Email__c,
-                            Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                            Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
-                            Status__c,
-                            Participant_Enrollment__c,
-                            Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
-                            Participant_Enrollment__r.Name,
-                            Participant_Enrollment__r.Clinical_Trial_Profile__c,
-                            Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
-                    FROM Patient_Delegate_Enrollment__c
-                    WHERE (Participant_Enrollment__c IN :whatIds AND Patient_Delegate__r.Contact__c IN : recipientIds)
-                ]
-            );    
-        }
-        Map<Id,Patient_Delegate_Enrollment__c> pdEnrollMap = new Map<Id,Patient_Delegate_Enrollment__c>();
-        for(Patient_Delegate_Enrollment__c pdelEnrollment : pdelIdMap.values()){
-            if (!pdEnrollMap.containskey(pdelEnrollment.Patient_Delegate__r.Contact__c))
-            pdEnrollMap.put(pdelEnrollment.Patient_Delegate__r.Contact__c,pdelEnrollment);
-
-        }
-
         if (!taskIds.isEmpty()) {
             taskMap = new Map<Id, Task>(
                 [
@@ -445,9 +402,7 @@ public without sharing class NotificationService {
                                     notificationType.Recipient_Type__c,
                                     nt.Target_Type__c,
                                     n.Recipient__c,
-                                    notificationType,
-                                    pdEnrollMap,
-                                    n
+                                    notificationType
                                 )
                             ) {
                                 if (
