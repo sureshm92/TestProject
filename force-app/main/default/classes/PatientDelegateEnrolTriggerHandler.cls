@@ -1,4 +1,7 @@
 public with sharing class PatientDelegateEnrolTriggerHandler {
+    public static final String PATIENT_DELEGATE_ACTIVE_STATUS = 'Active';
+    public static final String PATIENT_DELEGATE_ONHOLD_STATUS = 'On Hold';
+    public static final String PATIENT_DELEGATE_DISCONNECTED_STATUS = 'Disconnected';
 
     public class CreateNewAssignmentNotification extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
