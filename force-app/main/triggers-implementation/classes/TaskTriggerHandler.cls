@@ -316,7 +316,7 @@ public without sharing class TaskTriggerHandler {
                                 new Notification__c(
                                     Recipient__c = delContact.Id,
                                     WhatId__c = task.Id,
-                                    IsDelegate__c = true;
+                                    IsDelegate__c = true,
                                     Notification_Type__c = 'Message_To_PT_Task_Instant_Del_Type',
                                     StartDate__c = task.Start_Date__c,
                                     RemindUsing__c = 'Email'
