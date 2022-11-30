@@ -1,7 +1,5 @@
 public with sharing class PatientDelegateEnrolTriggerHandler {
-    public PatientDelegateEnrolTriggerHandler() {
 
-    }
     @TestVisible
     private static void createDelegateAssignmentNotification(
         List<Patient_Delegate_Enrollment__c> newPatientDelegateEnrollments
@@ -23,7 +21,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         Map<Id, Patient_Delegate_Enrollment__c> patientdelegateslist = new Map<Id, Patient_Delegate_Enrollment__c>();
         List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
         Map<Id, Map<Participant_Enrollment__c,Patient_Delegate_Enrollment__c>> delContIdMapOfPerIdPDEnromentMap = new Map<Participant_Enrollment__c, Map<Id,Patient_Delegate_Enrollment__c>>();
-        if (patientDelegateEnrollRecrds != null && !patientDelegateEnrollRecrds.isEmpty()) {
+       /* if (patientDelegateEnrollRecrds != null && !patientDelegateEnrollRecrds.isEmpty()) {
             for (Patient_Delegate_Enrollment__c delegate : patientDelegateEnrollRecrds) {
                 if (!delContIdMapOfPerIdPDEnromentMap.containskey(pdelEnrollment.Patient_Delegate__r.Contact__c)){
                     Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = delContIdMapOfPerIdPDEnromentMap.get(pdelEnrollment.Patient_Delegate__r.Contact__c);
@@ -40,11 +38,10 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         if (delContIdMapOfPerIdPDEnromentMap != null && !delContIdMapOfPerIdPDEnromentMap.isEmpty()) {
                // List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = new List<ParticipantEnrollmentPatientDelJunction__c>();
                 for (Id delcon : delContIdMapOfPerIdPDEnromentMap.keyset()) {
-                    Map<Patient_Delegate_Enrollment__c, Patient_Delegate_Enrollment__c> perPdEnroll = delContIdMapOfPerIdPDEnromentMap.get(delcon);
-                    for (Patient_Delegate_Enrollment__c per : perPdEnroll.keyset()){
+                    Map<Participant_Enrollment__c, Patient_Delegate_Enrollment__c> perPdEnroll = delContIdMapOfPerIdPDEnromentMap.get(delcon);
+                    for (Participant_Enrollment__c per : perPdEnroll.keyset()){
                         if (
-                            perPdEnroll.get(per).SMS_Consent__c && !perPdEnroll.get(per).Welcome_Message_Sent__c &&
-                            per.Study_Site__r.SMS_Are_Available__c
+                            perPdEnroll.get(per.Id).SMS_Consent__c && !perPdEnroll.get(per.Id).Welcome_Message_Sent__c 
                         ) {
                             welcomemsgnotifications.addAll(
                                 ContactService.addwelcomeNotifications(
@@ -58,7 +55,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
                         }
                     }
                 }
-         
+            }
         Map<Id, Contact> delconMaplst = new Map<Id, Contact>(
             [
                 SELECT Id, Welcome_Message_Sent__c, Welcome_Message_Delivered__c
@@ -78,9 +75,8 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
                         
                      }
                     }
-                }
-            }
-        }
+        }*/
+        
         return welcomemsgnotifications;
     }
     private static void createNotifications(
