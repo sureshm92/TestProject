@@ -126,7 +126,8 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: 30px;
-    margin-bottom: 70px;
+    margin-bottom: 85px;
+    margin-top: 25px;
 }
 
 .success-label-desktop {
@@ -235,4 +236,8 @@
 
 .mb-5 {
     margin-bottom: 5px;
+}
+
+.mt-9 {
+    padding-top: 9px;
 }
