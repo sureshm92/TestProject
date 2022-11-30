@@ -20,33 +20,34 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         Set<Id> proccessedStudyDelCon = new Set<Id>();
         Map<Id, Patient_Delegate_Enrollment__c> patientdelegateslist = new Map<Id, Patient_Delegate_Enrollment__c>();
         List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
-        Map<Id, Map<Participant_Enrollment__c,Patient_Delegate_Enrollment__c>> delContIdMapOfPerIdPDEnromentMap = new Map<Participant_Enrollment__c, Map<Id,Patient_Delegate_Enrollment__c>>();
-       /* if (patientDelegateEnrollRecrds != null && !patientDelegateEnrollRecrds.isEmpty()) {
+        Map<Id, Map<Id,Patient_Delegate_Enrollment__c>> delContIdMapOfPerIdPDEnromentMap = new Map<Id, Map<Id,Patient_Delegate_Enrollment__c>>();
+        if (patientDelegateEnrollRecrds != null && !patientDelegateEnrollRecrds.isEmpty()) {
             for (Patient_Delegate_Enrollment__c delegate : patientDelegateEnrollRecrds) {
                 if (!delContIdMapOfPerIdPDEnromentMap.containskey(pdelEnrollment.Patient_Delegate__r.Contact__c)){
                     Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = delContIdMapOfPerIdPDEnromentMap.get(pdelEnrollment.Patient_Delegate__r.Contact__c);
-                    perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__r, pdelEnrollment);
+                    perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
                     delContIdMapOfPerIdPDEnromentMap.put(pdelEnrollment.Patient_Delegate__r.Contact__c, perIdPDEnrollment);
                 }
                 else{
                     Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = new Map<Id, Patient_Delegate_Enrollment__c>();
-                    perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__r, pdelEnrollment);
+                    perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
                     delContIdMapOfPerIdPDEnromentMap.put(pdelEnrollment.Patient_Delegate__r.Contact__c, perIdPDEnrollment);
                 }
             }
         }
         if (delContIdMapOfPerIdPDEnromentMap != null && !delContIdMapOfPerIdPDEnromentMap.isEmpty()) {
                // List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = new List<ParticipantEnrollmentPatientDelJunction__c>();
-                for (Id delcon : delContIdMapOfPerIdPDEnromentMap.keyset()) {
-                    Map<Participant_Enrollment__c, Patient_Delegate_Enrollment__c> perPdEnroll = delContIdMapOfPerIdPDEnromentMap.get(delcon);
-                    for (Participant_Enrollment__c per : perPdEnroll.keyset()){
+                for (Id delcon : delContIdMapOfPerIdPDEnromentMap.keyset()) { // Each del con
+                    Map<Id, Patient_Delegate_Enrollment__c> perIdPdEnrollMap = delContIdMapOfPerIdPDEnromentMap.get(delcon);
+                    for (Id perId : perIdPdEnrollMap.keyset()){
                         if (
-                            perPdEnroll.get(per.Id).SMS_Consent__c && !perPdEnroll.get(per.Id).Welcome_Message_Sent__c 
+                            perIdPdEnrollMap.get(perId).SMS_Consent__c && !perIdPdEnrollMap.get(per).Welcome_Message_Sent__c 
+                            && perIdPdEnrollMap.get(perId).Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c
                         ) {
                             welcomemsgnotifications.addAll(
                                 ContactService.addwelcomeNotifications(
                                     delcon,
-                                    per.Id,
+                                    perId,
                                     NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
                                     true
                                 )
@@ -75,7 +76,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
                         
                      }
                     }
-        }*/
+        }
         
         return welcomemsgnotifications;
     }

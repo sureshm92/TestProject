@@ -711,7 +711,7 @@ public without sharing class Action_SendSMS implements Action {
                         welcomemsgDelivered = peOBJ.Welcome_Message_Delivered__c; //Added by Anitha
                         if(notObj.IsDelegate__c && delContIdMapOfPerIdPDEnromentMap.containsKey(recipientID)){
                             Patient_Delegate_Enrollment__c pdelEnrollmentrecrd = DelContIdMapOfPerIdPDEnromentMap.get(recipientID).get(whatId);
-                            isSMSAvailableForPER = pdelEnrollmentrecrd.Participant_Enrollment__c  == whatId ? pdelEnrollmentrecrd.Study_SMS_Consent__c && peOBJ.Study_Site__r.SMS_Are_Available__c : false;
+                            isSMSAvailableForPER = pdelEnrollmentrecrd.Study_SMS_Consent__c && pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c : false;
                         }
                         else {
                             isSMSAvailableForPER =
@@ -741,7 +741,7 @@ public without sharing class Action_SendSMS implements Action {
                                 studySiteId = per.Study_Site__c;
                                 if(notObj.IsDelegate__c && delContIdMapOfPerIdPDEnromentMap.containsKey(recipientID)){
                                     Patient_Delegate_Enrollment__c pdelEnrollmentrecrd = DelContIdMapOfPerIdPDEnromentMap.get(recipientID).get(per.Id);
-                                    isSMSAvailableForPER = pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__c  == whatId ? pdelEnrollmentrecrd.Study_SMS_Consent__c && pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c : false;
+                                    isSMSAvailableForPER =  pdelEnrollmentrecrd.Study_SMS_Consent__c && pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c ;
                                 }
                                 else{
                                     isSMSAvailableForPER =
@@ -793,7 +793,7 @@ public without sharing class Action_SendSMS implements Action {
                                 .Study_Site__r.From_Number__c; //Added by Anitha
                             if(notObj.IsDelegate__c && delContIdMapOfPerIdPDEnromentMap.containsKey(recipientID)){
                                 Patient_Delegate_Enrollment__c pdelEnrollmentrecrd = DelContIdMapOfPerIdPDEnromentMap.get(recipientID).get(taskMap.get(whatId).WhatId);
-                                isSMSAvailableForPER = pdelEnrollmentrecrd.Participant_Enrollment__c == taskMap.get(whatId).WhatId ? pdelEnrollmentrecrd.Study_SMS_Consent__c && pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c : false;
+                                isSMSAvailableForPER = pdelEnrollmentrecrd.Study_SMS_Consent__c && pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c : false;
                             }
                             else{
                                 isSMSAvailableForPER =
@@ -848,7 +848,7 @@ public without sharing class Action_SendSMS implements Action {
                                 .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Delivered__c;
                             if(notObj.IsDelegate__c && delContIdMapOfPerIdPDEnromentMap.containsKey(recipientID)){
                                 Patient_Delegate_Enrollment__c pdelEnrollmentrecrd = DelContIdMapOfPerIdPDEnromentMap.get(recipientID).get(taskMap.get(whatId).Ecoa_Task_Configuration_del__r.Participant_Enrollment__c);
-                                isSMSAvailableForPER = pdelEnrollmentrecrd.Participant_Enrollment__c == taskMap.get(whatId).Ecoa_Task_Configuration_del__r.Participant_Enrollment__c ? pdelEnrollmentrecrd.Study_SMS_Consent__c && pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c : false;
+                                isSMSAvailableForPER =  pdelEnrollmentrecrd.Study_SMS_Consent__c && pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c ;
                             }
                             else{
                                 isSMSAvailableForPER =
@@ -896,7 +896,7 @@ public without sharing class Action_SendSMS implements Action {
                             studyName = tvOBJ.Participant_Enrollment__r.Study_Site__r.Study_AWS__c;
                             if(notObj.IsDelegate__c && delContIdMapOfPerIdPDEnromentMap.containsKey(recipientID)){
                                 Patient_Delegate_Enrollment__c pdelEnrollmentrecrd = DelContIdMapOfPerIdPDEnromentMap.get(recipientID).get(tvOBJ.Participant_Enrollment__c);
-                                isSMSAvailableForPER = pdelEnrollmentrecrd.Participant_Enrollment__c == tvOBJ.Participant_Enrollment__c ? pdelEnrollmentrecrd.Study_SMS_Consent__c && pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c : false;
+                                isSMSAvailableForPER = pdelEnrollmentrecrd.Study_SMS_Consent__c && pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c ;
                             }
                             else{
                                 isSMSAvailableForPER =
@@ -929,7 +929,7 @@ public without sharing class Action_SendSMS implements Action {
                                     .Participant_Enrollment__r.Study_Site__c;
                                 if(notObj.IsDelegate__c && delContIdMapOfPerIdPDEnromentMap.containsKey(recipientID)){
                                     Patient_Delegate_Enrollment__c pdelEnrollmentrecrd = DelContIdMapOfPerIdPDEnromentMap.get(recipientID).get(surveyInvitationMap.get(whatId).Participant_Enrollment__c);
-                                    isSMSAvailableForPER = pdelEnrollmentrecrd.Participant_Enrollment__c == surveyInvitationMap.get(whatId).Participant_Enrollment__c ? pdelEnrollmentrecrd.Study_SMS_Consent__c && pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c : false;
+                                    isSMSAvailableForPER = pdelEnrollmentrecrd.Study_SMS_Consent__c && pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
                                 }
                                 else{
                                     isSMSAvailableForPER =
@@ -985,7 +985,7 @@ public without sharing class Action_SendSMS implements Action {
                             studySiteId = peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__c;
                             if(notObj.IsDelegate__c && delContIdMapOfPerIdPDEnromentMap.containsKey(recipientID)){
                                 Patient_Delegate_Enrollment__c pdelEnrollmentrecrd = DelContIdMapOfPerIdPDEnromentMap.get(recipientID).get(taskMap.get(whatId).WhatId);
-                                isSMSAvailableForPER = pdelEnrollmentrecrd.Participant_Enrollment__c == taskMap.get(whatId).WhatId ? pdelEnrollmentrecrd.Study_SMS_Consent__c && pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c : false;
+                                isSMSAvailableForPER = pdelEnrollmentrecrd.Study_SMS_Consent__c && pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
                             }
                             else{
                                 isSMSAvailableForPER =
