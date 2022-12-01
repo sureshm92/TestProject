@@ -81,16 +81,11 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
             this.isMobile = false;
         }
 
-        let language = communityService.getUrlParameter('language');
-        if (!language || language === '') {
-            language = 'en_US';
-        }
-
         loadScript(this, RR_COMMUNITY_JS)
         .then(() => {
             Promise.all([loadStyle(this, communityPPTheme)])
                 .then(() => {
-
+                   
                 })
                 .catch((error) => {
                     console.log(error.body.message);
@@ -99,6 +94,11 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
         .catch((error) => {
             communityService.showToast('', 'error', error.message, 100);
         });  
+
+        let language = communityService.getUrlParameter('language');
+        if (!language || language === '') {
+            language = 'en_US';
+        }
 
         getInitData({ strLanguage: language })
         .then((data) => {
