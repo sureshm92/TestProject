@@ -452,10 +452,10 @@ public without sharing class ContactTriggerHandler {
                 system.debug('participantcontact:::' + participantcontact);
             }
             if (participantids.size() > 0) {
-                 partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+                 /*partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
                     participantIds
-                );
-                /*String fieldFilter = 'Patient_Delegate__r.Participant__c';
+                );*/
+                String fieldFilter = 'Patient_Delegate__r.Participant__c';
                 PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
                     participantIds,fieldFilter
                 );
@@ -673,7 +673,7 @@ public without sharing class ContactTriggerHandler {
                     /*partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
                         participantIds
                     );*/
-                    String fieldFilter = 'Participant__c';
+                    String fieldFilter = 'Patient_Delegate__r.Participant__c';
                     PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
                         participantIds,fieldFilter
                     );

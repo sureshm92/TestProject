@@ -7,10 +7,10 @@ trigger PatientDelegateEnrollmentTrigger on Patient_Delegate_Enrollment__c (
     after delete,
     after undelete
 ) {
-    /*TriggerHandlerExecutor.execute(
+    TriggerHandlerExecutor.execute(
         PatientDelegateEnrolTriggerHandler.CreateNewAssignmentNotification.class
-    );*/
-    /*TriggerHandlerExecutor.execute(
+    );
+    TriggerHandlerExecutor.execute(
         PatientDelegateEnrolTriggerHandler.CreateReactivatedNotification.class
-    );*/
+    );
 }

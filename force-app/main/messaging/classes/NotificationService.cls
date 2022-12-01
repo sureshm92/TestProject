@@ -402,7 +402,8 @@ public without sharing class NotificationService {
                                     notificationType.Recipient_Type__c,
                                     nt.Target_Type__c,
                                     n.Recipient__c,
-                                    notificationType
+                                    notificationType,
+                                    n
                                 )
                             ) {
                                 if (
