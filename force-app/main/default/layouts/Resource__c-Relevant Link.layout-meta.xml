@@ -42,7 +42,7 @@
                 <field>Languages__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Version_Date__c</field>
             </layoutItems>
         </layoutColumns>

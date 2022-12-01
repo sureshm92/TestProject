@@ -1,54 +1,58 @@
 <template>
-    <lightning-layout multiple-rows="true">
-        <lightning-layout-item size="12">
-            <div class="contribute">{labels.CONTRIBUTE}</div>
-            <div class="url-disclaimer slds-var-p-top_xx-small">{labels.PP_Share_Article}</div>
-        </lightning-layout-item>
+    <template if:true={showSection}>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12">
+                <div class="contribute">{labels.CONTRIBUTE}</div>
+                <div class="url-disclaimer slds-var-p-top_xx-small">{labels.PP_Share_Article}</div>
+            </lightning-layout-item>
 
-        <lightning-layout-item size="12">
-            <lightning-layout>
-                <lightning-layout-item size={inputGridSize}>
-                    <div
-                        class="slds-p-top_x-small slds-p-right_small input-section profile-info-input"
-                    >
-                        <lightning-input
-                            type="text"
-                            data-input="inputval"
-                            placeholder={labelPasteURL}
-                            onchange={handleUrlValidation}
-                            value={textValue}
-                            data-name="urlvalue"
-                            label="Contribute"
-                            variant="label-hidden"
-                        ></lightning-input
+            <lightning-layout-item size="12">
+                <lightning-layout>
+                    <lightning-layout-item size={inputGridSize}>
+                        <div
+                            class="slds-p-top_x-small slds-p-right_small input-section profile-info-input"
                         >
-                    </div>
-                </lightning-layout-item>
-                <lightning-layout-item size={buttonGridSize}>
-                   <template if:false={isMobile}>
-                    <div class="slds-var-p-top_x-small resource-btn profile-info-btn">
-                        <lightning-button
-                            variant="brand"
-                            label={labels.SUBMIT}
-                            onclick={handleCreateArticles}
-                            class={saveButtonClass}
-                            disabled={disableSave}
-                        ></lightning-button>
-                    </div>
-                    </template>
-                    <template if:true={isMobile}>
-                        <div class="slds-var-p-top_x-small resource-btn profile-info-btn-mobile">
-                            <lightning-button
-                                variant="brand"
-                                label={labels.SUBMIT}
-                                onclick={handleCreateArticles}
-                                class={saveButtonClass}
-                                disabled={disableSave}
-                            ></lightning-button>
+                            <lightning-input
+                                type="text"
+                                data-input="inputval"
+                                placeholder={labelPasteURL}
+                                onchange={handleUrlValidation}
+                                onblur={handleUrlValidationBlur}
+                                value={textValue}
+                                data-name="urlvalue"
+                                label="Contribute"
+                                variant="label-hidden"
+                            ></lightning-input>
                         </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size={buttonGridSize}>
+                        <template if:false={isMobile}>
+                            <div class="slds-var-p-top_x-small resource-btn profile-info-btn">
+                                <lightning-button
+                                    variant="brand"
+                                    label={labels.SUBMIT}
+                                    onclick={handleCreateArticles}
+                                    class={saveButtonClass}
+                                    disabled={disableSave}
+                                ></lightning-button>
+                            </div>
                         </template>
-                </lightning-layout-item>
-            </lightning-layout>
-        </lightning-layout-item>
-    </lightning-layout>
+                        <template if:true={isMobile}>
+                            <div
+                                class="slds-var-p-top_x-small resource-btn profile-info-btn-mobile"
+                            >
+                                <lightning-button
+                                    variant="brand"
+                                    label={labels.SUBMIT}
+                                    onclick={handleCreateArticles}
+                                    class={saveButtonClass}
+                                    disabled={disableSave}
+                                ></lightning-button>
+                            </div>
+                        </template>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
 </template>
