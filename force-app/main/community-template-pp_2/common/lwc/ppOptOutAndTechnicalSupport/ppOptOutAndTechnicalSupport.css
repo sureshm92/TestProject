@@ -226,8 +226,8 @@
     margin-bottom: 20px;
 }
 
-.mt-70 {
-    margin-top: 70px !important;
+.mt-60 {
+    margin-top: 60px !important;
 }
 
 .customWidth {
@@ -238,6 +238,6 @@
     margin-bottom: 5px;
 }
 
-.mt-9 {
-    padding-top: 9px;
+.mt-minus55 {
+    margin-top: -55px;
 }

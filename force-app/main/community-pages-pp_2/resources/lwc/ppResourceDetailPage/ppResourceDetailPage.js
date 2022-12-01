@@ -5,7 +5,7 @@ import getCtpName from '@salesforce/apex/ParticipantStateRemote.getInitData';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
-import Uploaded from '@salesforce/label/c.Resource_Uploaded';
+import VERSION from '@salesforce/label/c.Resource_Uploaded';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
@@ -26,7 +26,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     studyTitle = '';
     state;
     label = {
-        Uploaded,
+        VERSION,
         Back_To_Resources
     };
 

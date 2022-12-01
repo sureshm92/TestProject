@@ -28826,8 +28826,8 @@ Please contact the Study Team for further updates or please login for additional
         <categories></categories>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>uploaded</shortDescription>
-        <value>Uploaded: </value>
+        <shortDescription>version date</shortDescription>
+        <value>Version: </value>
     </labels>
     <labels>
         <fullName>PP_Email_Tech_Support</fullName>
@@ -29475,5 +29475,12 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>You are all caught up</shortDescription>
         <value>You are all caught up</value>
+    </labels>
+    <labels>
+        <fullName>Discover_Links_Empty</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No links available</shortDescription>
+        <value>No links available</value>
     </labels>
 </CustomLabels>
