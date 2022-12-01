@@ -179,6 +179,9 @@
                             <div class="vertical updates-darkblue"></div>
                         </template>
                         <template if:false={updatesSection}>
+                            <div class="update-circle">
+                                <span class="update-count-font">{counter}</span>
+                            </div>
                             <div class="icon-update-section-small">
                                 <c-web-icon
                                     class="svg-icon svg-icon-with-text"
