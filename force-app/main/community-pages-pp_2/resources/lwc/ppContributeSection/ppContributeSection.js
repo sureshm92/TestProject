@@ -35,7 +35,7 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
         this.labelPasteURL = FORM_FACTOR !== 'Large' ? PASTE_URL : URLLINK;
         if (communityService.isInitialized()) {
             if (
-                communityService.getCurrentCommunityMode().participantState == 'ALUMNI' &&
+                communityService.getCurrentCommunityMode().participantState == 'PARTICIPANT' &&
                 communityService.getCurrentCommunityMode().isDelegate
             ) {
                 this.showSection = false;
@@ -49,12 +49,12 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
         return FORM_FACTOR !== 'Large' ? true : false;
     }
 
-    get inputGridSize(){
-        return this.isMobile ? "9" : "10";
+    get inputGridSize() {
+        return this.isMobile ? '9' : '10';
     }
 
-    get buttonGridSize(){
-        return this.isMobile ? "3" : "2";
+    get buttonGridSize() {
+        return this.isMobile ? '3' : '2';
     }
 
     handleChangePreference() {
