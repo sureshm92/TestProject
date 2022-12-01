@@ -40,29 +40,33 @@
                     </span>
                   </template>
                   <template if:true={bNote.Is_Read__c}>
-                    <div class="slds-media__body notification-left">
+                   
+                    <div class="slds-media__body notification-left" >
+                      <div class="slds-media__figure" title="event">
                       <h2
                         class="slds-text-heading_small"
                       >
                         {bNote.Push_Message_Body__c}
-                        <a class="notification-link-class" href={bNote.Link_to_Related_Event_or_Object__c} onclick={redirection}> 
-                          {label.Bell_Notification_Link}</a
-                      
-                        >
-                      </h2>
+                    
+                        <a data-id={bNote.Id} class="notification-link-class" href={bNote.Link_to_Related_Event_or_Object__c} onclick={redirection}> 
+                          {label.Bell_Notification_Link}</a>
+                      </h2></div>
+                   
                       <p><lightning-formatted-date-time class="date-time" value={bNote.CreatedDate} year="numeric" month="2-digit" day="2-digit" hour="numeric" minute="2-digit" time-zone={userTimeZone}></lightning-formatted-date-time></p>
                     </div>
                   </template>
                   <template if:false={bNote.Is_Read__c}>
                     <div class="slds-media__body">
+                      <div class="slds-media__figure" title="event">
                       <h2
                         class="slds-text-heading_small"
                       >
                         {bNote.Push_Message_Body__c}
-                        <a class="notification-link-class" href={bNote.Link_to_Related_Event_or_Object__c} onclick={redirection}
+                        <a data-id={bNote.Id} class="notification-link-class" href={bNote.Link_to_Related_Event_or_Object__c} onclick={redirection}
                           >{label.Bell_Notification_Link}</a
                         >
                       </h2>
+                    </div>
                       <!-- <p class="date-time">{bNote.CreatedDate}</p> -->
                       <p><lightning-formatted-date-time class="date-time" value={bNote.CreatedDate} year="numeric" month="2-digit" day="2-digit" hour="numeric" minute="2-digit" time-zone={userTimeZone}></lightning-formatted-date-time></p>
                     </div>
