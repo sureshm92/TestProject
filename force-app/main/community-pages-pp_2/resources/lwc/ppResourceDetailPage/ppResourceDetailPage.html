@@ -87,7 +87,7 @@
                             <!--   Upload Date    -->
                             <lightning-layout-item size="12">
                                 <div class="summary-date">
-                                    {label.Uploaded}&nbsp;
+                                    {label.VERSION}&nbsp;
                                     <lightning-formatted-date-time
                                         value={resUploadDate}
                                         year="numeric"
@@ -100,7 +100,11 @@
                             </lightning-layout-item>
                             <!--   SUMMARY    -->
                             <lightning-layout-item size="12">
-                                <div class="summary-text">{resourceSummary}</div>
+                                <div class="summary-text">
+                                    <lightning-formatted-rich-text
+                                        value={resourceSummary}
+                                    ></lightning-formatted-rich-text>
+                                </div>
                             </lightning-layout-item>
                         </lightning-layout>
                     </lightning-layout-item>
