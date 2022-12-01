@@ -1,8 +1,9 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api} from 'lwc';
 import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import DEVICE from '@salesforce/client/formFactor';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import LINKS_EMPTY from '@salesforce/label/c.Discover_Links_Empty';
 
 export default class PpDiscoverLinks extends LightningElement {
     isInitialized = false;
@@ -12,6 +13,9 @@ export default class PpDiscoverLinks extends LightningElement {
     desktop = true;
     isRendered = false;
     @api toggleExplore = false;
+    labels = {
+        LINKS_EMPTY
+    };
 
     open_new_tab = pp_community_icons + '/' + 'open_in_new.png';
     empty_state = pp_community_icons + '/' + 'discover_empty.png';
