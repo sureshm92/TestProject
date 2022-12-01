@@ -1,0 +1,150 @@
+<template>
+    <template if:false={desktop}>
+        <div class="slds-grid slds-wrap card-border">
+            <div class="slds-col slds-size_2-of-6 card-element" onclick={navigateResourceDetail}>
+                <template if:false={noExploreImage}>
+                    <img
+                        class="explore-image"
+                        onclick={navigateResourceDetail}
+                        src={exploreData.resource.Image__c}
+                        onerror={handleNoExploreImageError}
+                    />
+                </template>
+                <div
+                    if:true={noExploreImage}
+                    class="slds-align_absolute-center icon-container"
+                    onclick={navigateResourceDetail}
+                >
+                    <c-web-icon
+                        icon-color="#b5b5b5"
+                        icon-width="35"
+                        icon-height="40"
+                        icon-name="empty-thumbnail-updates"
+                    ></c-web-icon>
+                </div>
+                <div></div>
+            </div>
+            <div class="slds-col slds-size_4-of-6">
+                <div class="slds-grid slds-wrap title-section-mobile">
+                    <p
+                        class="document-label"
+                        onclick={navigateResourceDetail}
+                        title={exploreData.resource.Title__c}
+                    >
+                        {exploreData.resource.Title__c}
+                    </p>
+                </div>
+                <div class="slds-grid date-section-mobile">
+                    <div class="slds-col slds-size_11-of-12">
+                        <p class="date">
+                            <lightning-formatted-date-time
+                                value={exploreData.resource.Version_Date__c}
+                                year="numeric"
+                                month="short"
+                                day="2-digit"
+                            ></lightning-formatted-date-time>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={desktop}>
+        <template if:true={showVisitSection}>
+            <div class="slds-grid slds-wrap card-border-desktop">
+                <div
+                    class="slds-col slds-size_2-of-6 card-element"
+                    onclick={navigateResourceDetail}
+                >
+                    <template if:false={noExploreImage}>
+                        <img
+                            class="explore-image"
+                            onclick={navigateResourceDetail}
+                            src={exploreData.resource.Image__c}
+                            onerror={handleNoExploreImageError}
+                        />
+                    </template>
+                    <div
+                        if:true={noExploreImage}
+                        class="slds-align_absolute-center icon-container"
+                        onclick={navigateResourceDetail}
+                    >
+                        <c-web-icon
+                            icon-color="#b5b5b5"
+                            icon-width="35"
+                            icon-height="40"
+                            icon-name="empty-thumbnail-updates"
+                        ></c-web-icon>
+                    </div>
+                    <div></div>
+                </div>
+                <div class="slds-col slds-size_4-of-6">
+                    <div class="slds-grid slds-wrap title-section">
+                        <p
+                            class="document-label"
+                            onclick={navigateResourceDetail}
+                            title={exploreData.resource.Title__c}
+                        >
+                            {exploreData.resource.Title__c}
+                        </p>
+                    </div>
+                    <div class="slds-grid date-section">
+                        <div class="slds-col slds-size_11-of-12">
+                            <p class="date">
+                                <lightning-formatted-date-time
+                                    value={exploreData.resource.Version_Date__c}
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
+                                ></lightning-formatted-date-time>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template if:false={showVisitSection}>
+            <div
+                class="slds-align_absolute-center explore-section-horizontal"
+                onclick={navigateResourceDetail}
+            >
+                <template if:false={noExploreImage}>
+                    <img
+                        class="explore-image"
+                        onclick={navigateResourceDetail}
+                        src={exploreData.resource.Image__c}
+                        onerror={handleNoExploreImageError}
+                    />
+                </template>
+                <div
+                    if:true={noExploreImage}
+                    class="slds-align_absolute-center empty-image-horizontal"
+                    onclick={navigateResourceDetail}
+                >
+                    <c-web-icon
+                        icon-color="#b5b5b5"
+                        icon-width="55"
+                        icon-height="55"
+                        icon-size="large"
+                        icon-name="empty-thumbnail-updates"
+                    ></c-web-icon>
+                </div>
+            </div>
+            <div
+                class="article-title"
+                onclick={navigateResourceDetail}
+                title={exploreData.resource.Title__c}
+            >
+                {exploreData.resource.Title__c}
+            </div>
+            <div class="date-desktop">
+                <lightning-formatted-date-time
+                    value={exploreData.resource.Version_Date__c}
+                    year="numeric"
+                    month="short"
+                    day="2-digit"
+                ></lightning-formatted-date-time>
+            </div>
+        </template>
+    </template>
+</template>

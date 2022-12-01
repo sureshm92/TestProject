@@ -8,7 +8,8 @@ import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import Uploaded from '@salesforce/label/c.Resource_Uploaded';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
 import FORM_FACTOR from '@salesforce/client/formFactor';
-export default class PpResourceDetailPage extends LightningElement {
+import { NavigationMixin } from 'lightning/navigation';
+export default class PpResourceDetailPage extends NavigationMixin(LightningElement) {
     userTimezone = TIME_ZONE;
     isInitialized = false;
     resourceType;
@@ -106,8 +107,31 @@ export default class PpResourceDetailPage extends LightningElement {
     }
 
     handleBackClick() {
-        let pageLink = window.location.origin + '/pp/s/resources';
-        window.location.assign(pageLink);
+        let pageLink;
+        let subDomain=communityService.getSubDomain();
+        if (FORM_FACTOR == 'Large') {
+            
+            pageLink = window.location.origin + subDomain + '/s/resources';
+        } else {
+            let resType;
+            if (this.resourceType == 'Study_Document') {
+                resType = 'documents';
+            } else if (this.resourceType == 'Video' || this.resourceType == 'Article') {
+                resType = 'explore';
+            }
+            pageLink = window.location.origin + subDomain +'/s/resources?resType=' + resType;
+        }
+        const config = {
+            type: 'standard__webPage',
+
+            attributes: {
+                url: pageLink
+            }
+        };
+
+        this[NavigationMixin.GenerateUrl](config).then((url) => {
+            window.open(url, '_self');
+        });
     }
 
     handleFavourite() {

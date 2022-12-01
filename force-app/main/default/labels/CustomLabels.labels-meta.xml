@@ -21025,7 +21025,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Participant_Re_Consent</shortDescription>
-        <value>The Participant needs to re-consent the informed consent form. Update the informed consent.</value>
+        <value>A new informed consent document has been assigned. Please obtain the Participant's consent.</value>
     </labels>
     <labels>
         <fullName>Phone</fullName>
@@ -29440,5 +29440,33 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>Task Subject Complete Survey PP</shortDescription>
         <value>##SurveyName</value>
+    </labels>
+    <labels>
+        <fullName>Updates_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Updates</shortDescription>
+        <value>Updates</value>
+    </labels>
+    <labels>
+        <fullName>View_All_Resource</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View All Resources</shortDescription>
+        <value>View All Resources</value>
+    </labels>
+    <labels>
+        <fullName>Helpful_Links</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HELPFUL LINKS</shortDescription>
+        <value>HELPFUL LINKS</value>
+    </labels>
+    <labels>
+        <fullName>Caught_up</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>You are all caught up</shortDescription>
+        <value>You are all caught up</value>
     </labels>
 </CustomLabels>

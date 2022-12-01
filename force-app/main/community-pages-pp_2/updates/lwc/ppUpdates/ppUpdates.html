@@ -1,93 +1,168 @@
 <template>
-    <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <template if:true={desktop}>
         <div class="slds-grid card-wrap">
             <header class="slds-has-flexi-truncate">
-                <h2 class="slds-card__header-title">
-                    <p class="slds-card__header-link slds-truncate taskHeader">
-                        <span>Updates</span>
-                        <span class="badge update-count">3</span>
-                    </p>
-                </h2>
+                <div style="display: inline-flex">
+                    <div class="updates">{label.updatesLabel}</div>
+                    <div if:true={displayCounter} class="update-counter-oval">
+                        <span class="update-count">{counter}</span>
+                    </div>
+                </div>
             </header>
         </div>
     </template>
     <div class="slds-card__body slds-card__body_inner card-wrap">
         <template if:true={desktop}>
-            <article class="slds-card slds-card_boundary container-card">
-                <div class="slds-card__body slds-card__body_inner">
-                    <!-- Cards Display Logic goes here for desktop -->
-
-                    <!-- START: RELEVANT LINKS ITERATOR -->
-                    <template iterator:links={linksWrappers}>
-                        <div key={links.value.Id}>
-                            <lightning-layout multiple-rows="true" vertical-align="center">
-                                <lightning-layout-item size="12">
-                                    <lightning-layout multiple-rows="true">
-                                        <lightning-layout-item size="12">
-                                            <p class="links-type">{links.value.Type__c}</p>
-                                        </lightning-layout-item>
-                                        <lightning-layout-item
-                                            size="11"
-                                            data-link={links.value.URL__c}
-                                            onclick={openLink}
-                                            class="links-container"
-                                        >
-                                            <p class="links-header">{links.value.Title__c}</p>
-                                        </lightning-layout-item>
-                                        <lightning-layout-item
-                                            size="1"
-                                            data-link={links.value.URL__c}
-                                            onclick={openLink}
-                                            class="links-container"
-                                        >
-                                            <img src={open_new_tab} class="open-tab" />
-                                        </lightning-layout-item>
-                                        <lightning-layout-item size="11">
-                                            <p class="links-desc">
-                                                <span> {links.value.Description__c} </span>
-                                            </p>
-                                        </lightning-layout-item>
-                                        <lightning-layout-item size="12">
-                                            <div class="separator"></div>
-                                        </lightning-layout-item>
-                                    </lightning-layout>
-                                </lightning-layout-item>
-                            </lightning-layout>
-                        </div>
-                        <!-- <lightning-layout key={links.value.Id} if:false={links.last}>
-                                <lightning-layout-item size="12">
-                                    <div class="separator"></div>
-                                </lightning-layout-item>
-                            </lightning-layout> -->
-                    </template>
-                    <!-- END: RELEVANT LINKS ITERATOR -->
-
-                    <!-- START: DOCUMENTS ITERATOR -->
-                    <template if:true={documentPresent}>
-                        <template for:each={documentList} for:item="docs" for:index="index">
-                            <lightning-layout key={docs} multiple-rows="true">
-                                <lightning-layout-item size="12">
-                                    <c-pp-Document key={docs} document={docs}></c-pp-Document>
-                                </lightning-layout-item>
-                            </lightning-layout>
+            <template if:true={showvisitsection}>
+                <article class="slds-card slds-card_boundary container-card">
+                    <div
+                        if:true={resourcePresent}
+                        class="slds-card__body slds-card__body_inner custom-padding"
+                    >
+                        <template for:each={resourcedData} for:item="res">
+                            <div if:true={res.isExplore} key={res}>
+                                <c-pp-explore-updates
+                                    explore-data={res}
+                                    desktop={desktop}
+                                    show-visit-section={showvisitsection}
+                                ></c-pp-explore-updates>
+                            </div>
+                            <div if:true={res.isDoc} key={res}>
+                                <c-pp-document-updates
+                                    document-data={res}
+                                    desktop={desktop}
+                                    show-visit-section={showvisitsection}
+                                ></c-pp-document-updates>
+                            </div>
+                            <div if:true={res.isLink} key={res}>
+                                <c-pp-link-updates
+                                    link-data={res}
+                                    desktop={desktop}
+                                    show-visit-section={showvisitsection}
+                                ></c-pp-link-updates>
+                            </div>
                         </template>
+                    </div>
+                    <div
+                        class="slds-align_absolute-center slds-card__body slds-card__body_inner custom-padding-empty"
+                        if:false={resourcePresent}
+                    >
+                        <div>
+                            <div class="slds-align_absolute-center">
+                                <img src={empty_state} class="empty-state-img-horizontal" />
+                            </div>
+                            <p class="empty-state-text">{label.caughtup}</p>
+                        </div>
+                    </div>
+                </article>
+            </template>
+            <template if:false={showvisitsection}>
+                <article class="slds-card slds-card_boundary container-card-horizontal">
+                    <div
+                        if:true={resourcePresent}
+                        class="slds-p-left_xx-small slds-p-right_xx-small resouce-container-horizontal"
+                    >
+                        <div class="slds-grid">
+                            <template for:each={resourcedData} for:item="res">
+                                <div
+                                    key={res}
+                                    if:true={res.isExplore}
+                                    class="slds-col slds-size_3-of-12 slds-m-left_xx-small slds-m-right_xx-small horizontal-card"
+                                >
+                                    <c-pp-explore-updates
+                                        explore-data={res}
+                                        desktop={desktop}
+                                        show-visit-section={showvisitsection}
+                                    ></c-pp-explore-updates>
+                                </div>
+                                <div
+                                    key={res}
+                                    if:true={res.isDoc}
+                                    class="slds-col slds-size_3-of-12 slds-m-left_xx-small slds-m-right_xx-small horizontal-card"
+                                >
+                                    <c-pp-document-updates
+                                        document-data={res}
+                                        desktop={desktop}
+                                        show-visit-section={showvisitsection}
+                                    ></c-pp-document-updates>
+                                </div>
+                                <div
+                                    key={res}
+                                    if:true={res.isLink}
+                                    class="slds-col slds-size_3-of-12 slds-m-left_xx-small slds-m-right_xx-small horizontal-card"
+                                >
+                                    <c-pp-link-updates
+                                        link-data={res}
+                                        desktop={desktop}
+                                        show-visit-section={showvisitsection}
+                                    ></c-pp-link-updates>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <div
+                        class="slds-align_absolute-center empty-img-section"
+                        if:false={resourcePresent}
+                    >
+                        <div>
+                            <div class="slds-align_absolute-center">
+                                <img src={empty_state} class="empty-state-img-horizontal" />
+                            </div>
+                            <p class="empty-state-text">{label.caughtup}</p>
+                        </div>
+                    </div>
+                </article>
+            </template>
+        </template>
+        <template if:false={desktop}>
+            <article
+                if:true={resourcePresent}
+                class="slds-card slds-card_boundary container-card-mobile"
+            >
+                <p class="task-header-mobile">{label.updatesLabel}</p>
+                <div class="slds-card__body slds-card__body_inner custom-padding">
+                    <template for:each={resourcedData} for:item="res" for:index="index">
+                        <div if:true={res.isExplore} key={res}>
+                            <c-pp-explore-updates
+                                explore-data={res}
+                                desktop={desktop}
+                                show-visit-section={showvisitsection}
+                            ></c-pp-explore-updates>
+                        </div>
+                        <div if:true={res.isDoc} key={res}>
+                            <c-pp-document-updates
+                                document-data={res}
+                                desktop={desktop}
+                                show-visit-section={showvisitsection}
+                            ></c-pp-document-updates>
+                        </div>
+                        <div if:true={res.isLink} key={res}>
+                            <c-pp-link-updates
+                                link-data={res}
+                                desktop={desktop}
+                                show-visit-section={showvisitsection}
+                            ></c-pp-link-updates>
+                        </div>
                     </template>
-                    <!-- END: DOCUMENTS ITERATOR -->
+                </div>
+            </article>
+            <article
+                if:false={resourcePresent}
+                class="slds-card slds-card_boundary container-card-mobile-empty slds-align_absolute-center"
+            >
+                <div>
+                    <div class="slds-align_absolute-center">
+                        <img src={empty_state} class="empty-state-img-horizontal" />
+                    </div>
+                    <p class="empty-state-text">{label.caughtup}</p>
                 </div>
             </article>
         </template>
-        <template if:false={desktop}>
-            <article class="slds-card slds-card_boundary container-card-mobile">
-                <p class="task-header">Updates</p>
-                <div class="slds-card__body slds-card__body_inner custom-padding"></div>
-            </article>
-        </template>
     </div>
-    <div class="slds-align_absolute-center">
-        <a class="comm-link" href="#" target="_self">
-            <span>View All Resources</span>
+    <div class="slds-card__body slds-align_absolute-center">
+        <a class="comm-link" href="#" target="_self" onclick={navigateResources}>
+            <span>{label.viewAllResource}</span>
         </a>
     </div>
 </template>

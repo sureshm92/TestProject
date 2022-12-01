@@ -3,6 +3,10 @@
         padding: 0px !important;
         background-color: #f6f7fb;
     }
+    .pp-survey .rr-width-limiter.side-padding {
+        padding: 0 1rem !important;
+        background-color: #ffffff;
+    }
     .rr-min-body-height .rr-min-body-height {
         height: auto !important;
     }
@@ -14,6 +18,14 @@
         padding: 0 !important;
     }
 }
+
+.task-modal-background .slds-backdrop {
+    background:rgba(0, 0, 0, 0.1) !important;
+}
+.task-ignore-modal-background .slds-backdrop {
+    background:rgba(0, 0, 0, 0.1) !important;
+}
+
 .rr-width-limiter-pp {
    max-width: 1366px;
    margin: auto;
@@ -691,6 +703,10 @@ c-pp-study-visit-details-card .slds-card__header {
 .slds-input[type='time']::-webkit-calendar-picker-indicator {
     display: none;
 }
+.slds-input[type='time']::-webkit-date-and-time-value {
+    text-align: left;
+    padding-left: 1rem;
+}
 
 .cCustomThemeLayout .curve-input .slds-input[type='time'],
 .cCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input,
@@ -1004,8 +1020,8 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 /* Edit Task Input Disabled */
 .create-task-input-container .slds-input:disabled{
     background: #F2F2F2 !important;
-    color: #747474 !important;
-    -webkit-text-fill-color: #747474 !important;
+    color: #595959 !important;
+    -webkit-text-fill-color: #595959 !important;
     opacity: 1 !important; /* required on iOS */
 }
 
@@ -1063,6 +1079,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
 .opt-out-comm-pref-mobile .slds-checkbox__label{
     display: flex;
+    margin-bottom: 10px;
 }
 
 .opt-out-comm-pref-mobile span.slds-checkbox{
