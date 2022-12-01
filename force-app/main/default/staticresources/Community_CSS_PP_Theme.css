@@ -1074,7 +1074,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 
 .opt-out-comm-pref-mobile .slds-checkbox__label{
-    display: flex;
+    display: inline-flex;
     margin-bottom: 10px;
 }
 
