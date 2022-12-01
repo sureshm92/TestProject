@@ -20,15 +20,15 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
   }
 
   @wire(MessageContext)
-  messageContext;
+    messageContext;
 
-@wire(CurrentPageReference)
-getStateParameters(currentPageReference) {
-   if (currentPageReference) {
-    this.currentPageReference = currentPageReference;
-      this.urlStateParameters = currentPageReference.state;
-   }
-}
+  @wire(CurrentPageReference)
+  getStateParameters(currentPageReference) {
+     if (currentPageReference) {
+      this.currentPageReference = currentPageReference;
+        this.urlStateParameters = currentPageReference.state;
+     }
+  }
 
   set sendResultsDataFromParent(value){
     if(value.length > 0 ){
@@ -70,7 +70,6 @@ getStateParameters(currentPageReference) {
    if(!this.isDelete){
       const keyEl = event.currentTarget.dataset.id;
       const index = this.notificationWrap.findIndex((item) => item.Id == keyEl);
-
     if (this.notificationWrap[index].Is_Read__c == false){
         const readEvent = new CustomEvent("updatereadevent", {
           detail: {
@@ -123,6 +122,8 @@ getStateParameters(currentPageReference) {
     @author: Naman J
   */
   redirection(event){
+    const keyEl = event.currentTarget.dataset.id;
+    const index = this.notificationWrap.findIndex((item) => item.Id == keyEl);
     event.preventDefault();
     let linkStr = event.target.href;
 
@@ -154,14 +155,25 @@ getStateParameters(currentPageReference) {
           name: result.attributes.name
       },
       state : result.state
-  });
+    });
 
-  if(this.urlStateParameters.activeTab == 'Televisit' && this.currentPageReference.attributes && this.currentPageReference.attributes.name == 'My_Referrals__c'){
-    let payload = {};
-    publish(this.messageContext, messagingChannel, payload);
-  }
-  const closeOverlay = new CustomEvent("closebelloverlayevent", {});
-  this.dispatchEvent(closeOverlay);
+    if(this.urlStateParameters.activeTab == 'Televisit' && this.currentPageReference.attributes && this.currentPageReference.attributes.name == 'My_Referrals__c'){
+      let payload = {};
+      publish(this.messageContext, messagingChannel, payload);
+    }
+
+    if (this.notificationWrap[index].Is_Read__c == false){
+        const readEvent = new CustomEvent("updatereadevent", {
+          detail: {
+          notificationIndex: index,
+          notificationId: this.notificationWrap[index].Id
+          }
+        });
+       this.dispatchEvent(readEvent);
+    }
+
+    const closeOverlay = new CustomEvent("closebelloverlayevent", {});
+    this.dispatchEvent(closeOverlay);
 
   }
 }
