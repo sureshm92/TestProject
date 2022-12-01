@@ -228,11 +228,11 @@ public without sharing class PreferenceManagementController {
         }
 
         //Get list of ParticipantEnrollmentPatientDelJunction records
-        List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = Action_SendSMS.getPERPatientDelJunctionRecords(
+        List<Patient_Delegate_Enrollment__c> perDelJunctionRecList = Action_SendSMS.getPERPatientDelJunctionRecords(
             perIdList,
             delContactIdSet
         );
-        for (ParticipantEnrollmentPatientDelJunction__c pdJunObj : perDelJunctionRecList) {
+        for (Patient_Delegate_Enrollment__c pdJunObj : perDelJunctionRecList) {
             pdJunObj.Welcome_Message_Sent__c = false;
             pdJunObj.Welcome_Message_Delivered__c = false;
         }
