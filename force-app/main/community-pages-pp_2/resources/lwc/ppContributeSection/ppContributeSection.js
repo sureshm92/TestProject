@@ -50,11 +50,11 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
     }
 
     get inputGridSize() {
-        return this.isMobile ? '9' : '10';
+        return this.isMobile ? "9" : "10";
     }
 
     get buttonGridSize() {
-        return this.isMobile ? '3' : '2';
+        return this.isMobile ? "3" : "2";
     }
 
     handleChangePreference() {
