@@ -22,6 +22,9 @@
 .task-modal-background .slds-backdrop {
     background:rgba(0, 0, 0, 0.1) !important;
 }
+.task-ignore-modal-background .slds-backdrop {
+    background:rgba(0, 0, 0, 0.1) !important;
+}
 
 .rr-width-limiter-pp {
    max-width: 1366px;
@@ -700,6 +703,10 @@ c-pp-study-visit-details-card .slds-card__header {
 .slds-input[type='time']::-webkit-calendar-picker-indicator {
     display: none;
 }
+.slds-input[type='time']::-webkit-date-and-time-value {
+    text-align: left;
+    padding-left: 1rem;
+}
 
 .cCustomThemeLayout .curve-input .slds-input[type='time'],
 .cCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input,
@@ -1071,7 +1078,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 
 .opt-out-comm-pref-mobile .slds-checkbox__label{
-    display: flex;
+    display: inline-flex;
     margin-bottom: 10px;
 }
 
