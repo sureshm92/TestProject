@@ -6,7 +6,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Tele visit Scheduled</shortDescription>
-        <value>You have been added to a new televisit appointment(s)</value>
+        <value>You have been added to a new televisit appointment</value>
     </labels>
     <labels>
         <fullName>E_Consent_Record_Vendor_URL</fullName>
