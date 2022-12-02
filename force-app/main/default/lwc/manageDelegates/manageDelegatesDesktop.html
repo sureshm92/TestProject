@@ -41,7 +41,7 @@
                             alignment-bump="right"
                         >
                             <button
-                                title="Add new Delete"
+                                title="Add New Delegate"
                                 onclick={navToAddDelegate}
                                 class={addDelBtnMarin}
                                 disabled={diabledAddNewButton}
@@ -272,7 +272,7 @@
                                             <!--Discard Button: Starts-->
                                             <lightning-layout-item size="12">
                                                 <button
-                                                    class="apollo-btn secondary box-add-assignment-btn slds-m-bottom_small"
+                                                    class="btn-discard apollo-btn secondary box-discard-btn slds-m-bottom_small"
                                                     onclick={discardAssignment}
                                                     data-pdid={del.PatientDelegate.Id}
                                                 >
@@ -496,6 +496,7 @@
                                                                 class="delete-btn"
                                                                 onclick={openDeleteDelegateModal}
                                                                 data-id={del.pdId}
+                                                                disabled={del.disableDeleteButton}
                                                             >
                                                                 <span
                                                                     ><img
@@ -513,6 +514,7 @@
                                                                 class="delete-btn"
                                                                 onclick={openDeleteDelegateModal}
                                                                 data-id={del.pdId}
+                                                                disabled={del.disableDeleteButton}
                                                             >
                                                                 <span
                                                                     ><img
@@ -574,7 +576,7 @@
                                             <!--Discard Button: Starts-->
                                             <lightning-layout-item size="12">
                                                 <button
-                                                    class="apollo-btn secondary box-add-assignment-btn"
+                                                    class="btn-discard apollo-btn secondary box-discard-btn"
                                                     onclick={discardAssignmentFormer}
                                                     data-pdid={del.PatientDelegate.Id}
                                                 >

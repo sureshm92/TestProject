@@ -93,7 +93,36 @@
                     </div>
                 </div>
             </div>
-            <!--Stidu Multip Piclist Start-->
+            <!--Existing delegate Error: Start-->
+            <template if:true={isDelegateExisting}>
+                <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large"
+            >
+                    <lightning-layout
+                        multiple-rows="true"
+                        class="ad-error-container"
+                        vertical-align="center"
+                    > 
+                        <lightning-layout-item size="1" class="ad-errorIconPosition">
+                            <span>
+                                <img src={exclamation} />
+                            </span>
+                        </lightning-layout-item>
+                    <lightning-layout-item size="11" class="ad-error-text-padding">
+                                        <span class="ad-text-red">{label.PP_Warning} </span>
+                                        <span>{errorLabelText}</span>
+                                        <span
+                                            class="blue-highlight-text-color"
+                                            onclick={goBackToManageDelegate}
+                                            >&nbsp;{label.PP_ManageDelegates}</span
+                                        >.
+                    </lightning-layout-item>
+
+                    </lightning-layout>
+                </div>
+            </template>
+            <!--Existing delegate Error: End-->
+            <!--Study Multip Piclist Start-->
             <div
                 class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large"
             >
@@ -101,6 +130,7 @@
                 picklist-values={delegateFilterData.studies}
                 total-no-of-studies = {totalNoOfStudies}
                 is-desktop={isDesktop}
+                is-delegate-existing={isDelegateExisting}
                 ></c-pp_multi-picklist-l-w-c>
             </div>
             <!--Stidu Multip Piclist End-->
@@ -112,6 +142,7 @@
                     label={label.PP_Attestation_Confirmation_Message_For_Teams}
                     checked={isAttested}
                     onchange={handleDateChange}
+                    disabled=(isDelegateExisting)
                 ></lightning-input>
             </div>
             <div class="checkbox-container slds-m-vertical_large">
@@ -122,6 +153,7 @@
                     label={label.PP_Delegate_Email_Consent}
                     checked={isEmailConsentChecked}
                     onchange={handleDateChange}
+                    disabled=(isDelegateExisting)
                 ></lightning-input>
             </div>
             <button
