@@ -99,8 +99,10 @@ public without sharing class ParticipantService {
     public ParticipantService() {
         participantState = new ParticipantState();
         Contact userContact = CommunityService.getUserContact();
-        participantState.currentContactId = userContact.userCommunityDelegateId__c;
-        if (participantState.currentContactId == null)
+        if(userContact != null || userContact.userCommunityDelegateId__c != null){
+            participantState.currentContactId = userContact.userCommunityDelegateId__c;
+        }
+        if (participantState.currentContactId == null || userContact!= null)
             participantState.currentContactId = userContact.Id;
         participantState.isDelegate = userContact.userCommunityDelegateId__c != null;
         participantState.hasPatientDelegates = PatientDelegateService.getInstance().hasDelegates;
