@@ -55,7 +55,7 @@
     <template if:true={isMobile}>
         <div class={displayLabelMobile}>
             <h3 class="opt-out-header-mobile mb-5">{label.PPOPTOUTCOMMUNICATIONPREF}</h3>
-            <div class="opt-out-comm-pref-mobile mb-16 mt-minus55">
+            <div class="opt-out-comm-pref-mobile mb-16 mt-minus55 optoutcheckbox-alignment">
                 <lightning-checkbox-group
                     name={optOutTranslatedTitle}
                     label={optOutTranslatedTitle}
@@ -64,7 +64,7 @@
                     onchange={handleChange}
                     variant = "label-inline"
                     data-id="checkbox1">
-                </lightning-checkbox-group>
+                </lightning-checkbox-group> 
             </div>
             <h3 class="get-technical-suppor mb-5 mt-60">{techSupportTranslatedTitle}</h3>
             <div class="opt-out-page-tech-support mb-30">
