@@ -87,7 +87,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 var counterForLoop = 0;
                 let data = JSON.parse(JSON.stringify(result));
                 this.counter = data.counter;
-                if (this.counter > 0 && state == 'PARTICIPANT') {
+                if (this.counter > 0 && state != 'ALUMNI') {
                     this.displayCounter = true;
                     const counterUpdateEvent = new CustomEvent('counterupdate', {
                         detail: {

@@ -94,8 +94,8 @@ public without sharing class RelevantLinksRemote {
             if (initData.linksAvailable && initData.linksWrappers.isEmpty()) {
                 LinksWrapper lw = new LinksWrapper();
                 lw.type = new LabelValueItem(
-                    TranslateHelper.getPickListLabel(Resource__c.Type__c, 'Relevant Link'),
-                    'Relevant Link'
+                    TranslateHelper.getPickListLabel(Resource__c.Type__c, 'Relevant Links'),
+                    'Relevant Links'
                 );
                 initData.linksWrappers.add(lw);
             }
