@@ -59,9 +59,12 @@ public without sharing class NotificationAvailabilityService {
                 Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
                 Status__c,
                 Participant_Enrollment__c,
+                Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
                 Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
                 Participant_Enrollment__r.Name,
                 Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
                 FROM Patient_Delegate_Enrollment__c
                 WHERE (Participant_Enrollment__c IN : whatIds AND Patient_Delegate__r.Contact__c IN : recipientIds)
