@@ -112,11 +112,16 @@ public without sharing class TelevisitTriggerHandler {
                             teleAttendee.Attendee_Type__c != 'Site Staff' &&
                             teleAttendee.Attendee_Type__c != 'PI'
                         ) {
+                            Boolean isdelegate = false;
+                            if(teleAttendee.Attendee_Type__c == 'Participant Delegate'){
+                                isdelegate = true;
+                            }
                         notificationsList.add(
                             new Notification__c(
                                 Recipient__c = teleAttendee.Contact__c,
                                 WhatId__c = teleObj.Id,
-                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE,
+                                IsDelegate__c = isdelegate
                             )
                         );
                     }
@@ -132,11 +137,18 @@ public without sharing class TelevisitTriggerHandler {
                             teleAttendee.Attendee_Type__c != 'Site Staff' &&
                             teleAttendee.Attendee_Type__c != 'PI'
                         ) {
+                            Boolean isdelegate = false;
+                            if(teleAttendee.Attendee_Type__c == 'Participant Delegate'){
+                                isdelegate = true;
+                            }
+   
                         notificationsList.add(
                             new Notification__c(
                                 Recipient__c = teleAttendee.Contact__c,
                                 WhatId__c = teleObj.Id,
-                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE,
+                                IsDelegate__c = isdelegate
+
                             )
                         );
                         teleAttendee.Is_First_Reminder_Sent__c = false;
