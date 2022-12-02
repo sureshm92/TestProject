@@ -11,7 +11,6 @@ export default class HomePageParticipantNew extends LightningElement {
     label = {
         PPWELCOME
     };
-    counter=5;
     participantState;
     clinicalrecord;
     error;
