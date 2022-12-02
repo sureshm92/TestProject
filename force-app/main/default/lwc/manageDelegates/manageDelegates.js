@@ -436,14 +436,13 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                         this.studyToAssing.push({ label: std.label, value: std.value });
                 }  
                 });    
-            }else{
-                //Disable Add Assignment button for other delegates.
-                pde.disableAddAssignmentButton = true; 
-                //Disable Remove buttons for other delegates.
-                pde.PDEEnrollments.forEach((pden) => {
-                    pden.disableRemoveButton = true;
-                });  
             }
+            //Disable Add Assignment button for active delegates.
+            pde.disableAddAssignmentButton = true; 
+            //Disable Remove buttons for other delegates.
+            pde.PDEEnrollments.forEach((pden) => {
+                pden.disableRemoveButton = true;
+            });  
         });
         this.totalNoOfStudiesToAssign = this.studyToAssing.length;
 
@@ -462,11 +461,10 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.formerListPDE.forEach((pde) => {
             if (pde.PatientDelegate.Id === delId) {
                 pde.addNewStudyFormer = true;
-            }else{
-                //Disable Add assignment and Delete buttons for other former delegates.
-                pde.disableAddAssignmentButton = true;
-                pde.disableDeleteButton = true;
             }
+            //Disable Add assignment and Delete buttons for former delegates.
+            pde.disableAddAssignmentButton = true;
+            pde.disableDeleteButton = true;
         });
 
         //Disable Add Assignment and Remove buttons for all the Active delegates.
@@ -486,14 +484,13 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.listPDE.forEach((pde) => {
             if (pde.PatientDelegate.Id === delId) {
                 pde.addNewStudy = false;
-            }else{
-                //Re Enable Add Assignment button for other delegates.
-                pde.disableAddAssignmentButton = false; 
-                //Re Enable Remove buttons for other delegates.
-                pde.PDEEnrollments.forEach((pden) => {
-                    pden.disableRemoveButton = false;
-                });  
             }
+            //Re Enable Add Assignment button for active delegates.
+            pde.disableAddAssignmentButton = false; 
+            //Re Enable Remove buttons for active delegates.
+            pde.PDEEnrollments.forEach((pden) => {
+                pden.disableRemoveButton = false;
+            });  
         });
         //Re Enable all the buttons at former delegate section.
         this.formerListPDE.forEach((pde) => {
@@ -508,11 +505,10 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.formerListPDE.forEach((pde) => {
             if (pde.PatientDelegate.Id === delId) {
                 pde.addNewStudyFormer = false;
-            }else{
-                //Re enable Add assignment and Delete buttons for other former delegates.
-                pde.disableAddAssignmentButton = false;
-                pde.disableDeleteButton = false;
             }
+            //Re enable Add assignment and Delete buttons for former delegates.
+            pde.disableAddAssignmentButton = false;
+            pde.disableDeleteButton = false;
         });
         //Re Enable Add Assignment and Remove buttons for all the Active delegates.
         this.listPDE.forEach((pde) => {
