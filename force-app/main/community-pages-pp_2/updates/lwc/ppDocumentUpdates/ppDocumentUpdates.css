@@ -88,6 +88,8 @@
     height: 120px;
     background-color: #f2f2f2;
     cursor: pointer;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
 }
 
 .date-desktop {

@@ -21,7 +21,7 @@ public class Test_RelevantLinksRemote {
             initData = RelevantLinksRemote.getInitData();
         }
         Test.stopTest();
-        System.assertEquals('Relevant Link', initData.linksWrappers[0].type.value);
+        System.assertEquals('Relevant Links', initData.linksWrappers[0].type.value);
     }
 	
     @IsTest
@@ -31,7 +31,7 @@ public class Test_RelevantLinksRemote {
         Resource__c relLink = new Resource__c(
             Content_Type__c = 'Relevant_Link',
             Title__c = 'Test',
-            Type__c = 'Helpful Link',
+            Type__c = 'Helpful Links',
             URL__c = 'https://www.google.com/',
             Languages__c = 'en_US'
         );
@@ -73,7 +73,7 @@ public class Test_RelevantLinksRemote {
         Resource__c relLink = new Resource__c(
             Content_Type__c = 'Relevant_Link',
             Title__c = 'Test',
-            Type__c = 'Helpful Link',
+            Type__c = 'Helpful Links',
             URL__c = 'https://www.google.com/',
             Languages__c = 'en_US'
         );

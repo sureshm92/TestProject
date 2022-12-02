@@ -31,10 +31,20 @@
     border-bottom-left-radius: 8px;
 }
 
+.explore-image-desktop-horizontal {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
 .explore-section-horizontal {
     width: 100%;
     height: 120px;
     background-color: #f2f2f2;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
 }
 
 .document-label {
