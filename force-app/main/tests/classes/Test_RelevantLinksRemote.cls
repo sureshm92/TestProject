@@ -23,7 +23,7 @@ public class Test_RelevantLinksRemote {
         Test.stopTest();
         System.assertEquals('Relevant Links', initData.linksWrappers[0].type.value);
     }
-
+	
     @IsTest
     public static void visibleResource_Test() {
         TestData td = new TestData();
@@ -117,5 +117,39 @@ public class Test_RelevantLinksRemote {
         }
         Test.stopTest();
         System.assertEquals(true, isExceptionThrown);
+    }
+	
+    @IsTest
+    public static void visibleResourceNew_Test() {
+        TestData td = new TestData();
+        RelevantLinksRemote.InitDataNew InitDataNew = new RelevantLinksRemote.InitDataNew();
+        System.debug('InitDataNew:::' +InitDataNew);
+        Resource__c relLink = new Resource__c(
+            Content_Type__c = 'Relevant_Link',
+            Title__c = 'Test',
+            Type__c = 'Helpful Link',
+            URL__c = 'https://www.google.com/',
+            Languages__c = 'en_US'
+        );
+        insert relLink;
+
+        List<Resource__c> resources = [
+            SELECT Id
+            FROM Resource__c
+            WHERE Content_Type__c = 'Relevant_Link'
+        ];
+        Res_study__c resStudy = new Res_study__c(
+            Resource__c = resources[0].Id,
+            Clinical_Trial_Profile__c = td.ctp.Id,
+            Visible_To_Participant__c = true
+        );
+        insert resStudy;
+
+        Test.startTest();
+        System.runAs(td.participantUser) {
+            InitDataNew = RelevantLinksRemote.getInitDataNew();
+        }
+        Test.stopTest();
+        System.assertEquals(False, InitDataNew.resources[0].isFavorite);
     }
 }
