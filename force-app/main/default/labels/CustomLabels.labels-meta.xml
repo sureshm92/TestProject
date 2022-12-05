@@ -21076,7 +21076,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Participant_Re_Consent</shortDescription>
-        <value>The Participant needs to re-consent the informed consent form. Update the informed consent.</value>
+        <value>A new informed consent document has been assigned. Please obtain the Participant's consent.</value>
     </labels>
     <labels>
         <fullName>Phone</fullName>

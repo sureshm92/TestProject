@@ -81,7 +81,7 @@
 .card-element {
     box-sizing: border-box;
     background-color: #fff;
-    height: 88px;
+    height: 86px;
     border-radius: 8px 0 0 8px;
 }
 
@@ -98,18 +98,25 @@
     width: 14px;
     height: 14px;
     cursor: pointer;
+    margin-left: 18px;
 }
 
 .helpful-links {
     height: 16px;
-    width: 93px;
+    width: 100%;
     color: #757575;
     font-family: 'Proxima Nova';
     font-size: 13px;
     letter-spacing: 0.1px;
     line-height: 24px;
     margin-left: 10px;
-    cursor: pointer;
+    margin-top: 5px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
 }
 
 .links-title {
@@ -123,10 +130,10 @@
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0;
-    line-height: 26px;
+    line-height: 24px;
     margin-left: 10px;
     cursor: pointer;
-    margin-right: 30px;
+    margin-right: 10px;
 }
 
 .link-image-section-horizontal {
@@ -179,14 +186,18 @@
 }
 
 .helpful-link-title {
-    width: 93px;
     color: #757575;
     font-size: 13px;
     letter-spacing: 0.1px;
     line-height: 16px;
     margin-left: 16px;
     margin-top: 10px;
-    cursor: pointer;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
 }
 
 .helpful-link-horizontal {

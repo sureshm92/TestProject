@@ -22,6 +22,9 @@
 .task-modal-background .slds-backdrop {
     background:rgba(0, 0, 0, 0.1) !important;
 }
+.task-ignore-modal-background .slds-backdrop {
+    background:rgba(0, 0, 0, 0.1) !important;
+}
 
 .rr-width-limiter-pp {
    max-width: 1366px;
@@ -1072,6 +1075,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
 .opt-out-comm-pref-mobile .slds-checkbox__label{
     display: flex;
+    margin-bottom: 10px;
 }
 
 .opt-out-comm-pref-mobile span.slds-checkbox{
