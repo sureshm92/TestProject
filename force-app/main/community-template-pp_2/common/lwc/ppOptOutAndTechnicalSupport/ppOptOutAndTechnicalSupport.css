@@ -126,7 +126,8 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: 30px;
-    margin-bottom: 70px;
+    margin-bottom: 85px;
+    margin-top: 25px;
 }
 
 .success-label-desktop {
@@ -225,8 +226,8 @@
     margin-bottom: 20px;
 }
 
-.mt-70 {
-    margin-top: 70px !important;
+.mt-60 {
+    margin-top: 60px !important;
 }
 
 .customWidth {
@@ -235,4 +236,8 @@
 
 .mb-5 {
     margin-bottom: 5px;
+}
+
+.mt-minus55 {
+    margin-top: -55px;
 }

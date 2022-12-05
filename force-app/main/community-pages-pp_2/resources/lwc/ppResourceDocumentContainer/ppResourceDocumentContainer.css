@@ -34,6 +34,10 @@
     text-align: center;
 }
 
+.scroll-bar-box-empty {
+    height: 335px;
+}
+
 @media (max-width: 486px) {
     .scroll-bar-box {
         padding-top: 16px;

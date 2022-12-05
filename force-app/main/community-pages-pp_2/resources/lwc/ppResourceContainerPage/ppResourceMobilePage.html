@@ -9,7 +9,7 @@
                         <div class="res-header">{labels.RESOURCES}</div>
                     </lightning-layout-item>
 
-                    <lightning-layout-item size="6" class="mb-8">
+                    <lightning-layout-item if:true={resourcesAvailable} size="6" class="mb-8">
                         <div class="pref-container">
                             <a
                                 onclick={handleChangePreference}
@@ -21,7 +21,7 @@
                         </div>
                     </lightning-layout-item>
 
-                    <lightning-layout-item size="12">
+                    <lightning-layout-item if:true={resourcesAvailable} size="12">
                         <div class="dropdown" data-key="dropdown" onclick={showOptions}>
                             <span>{selectedOptions}</span>
                             <ul class="res-options hidden">

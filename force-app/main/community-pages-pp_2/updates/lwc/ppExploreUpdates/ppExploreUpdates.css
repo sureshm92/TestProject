@@ -1,5 +1,6 @@
 .icon-container {
     margin-top: 24px;
+    cursor: pointer;
 }
 
 .title-section {
@@ -24,13 +25,26 @@
 
 .explore-image {
     width: 100%;
+    height: 86.5px;
+    cursor: pointer;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.explore-image-desktop-horizontal {
+    width: 100%;
     height: 100%;
+    cursor: pointer;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
 }
 
 .explore-section-horizontal {
     width: 100%;
     height: 120px;
     background-color: #f2f2f2;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
 }
 
 .document-label {
@@ -38,6 +52,7 @@
     font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
+    margin-top: 5px;
     margin-left: 10px;
     line-height: 24px;
     letter-spacing: 0;
@@ -71,18 +86,23 @@
 .card-border {
     box-sizing: border-box;
     height: 88px;
-    border: 1px solid #d9d9d9;
+    border: 1px solid #e9e9e9;
     border-radius: 8px;
-    background-color: #ffffff;
     margin-top: 8px;
+}
+
+.card-data-element {
+    background-color: #fff;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    height: 100%;
 }
 
 .card-border-desktop {
     box-sizing: border-box;
     height: 88px;
-    border: 1px solid #d9d9d9;
+    border: 1px solid #e9e9e9;
     border-radius: 8px;
-    background-color: #ffffff;
     margin-top: 8px;
     margin-left: 16px;
     margin-right: 16px;
@@ -97,7 +117,7 @@
 
 .card-element {
     box-sizing: border-box;
-    border-right: 1px solid #d9d9d9;
+    border-right: 1px solid #e8e8e8;
     background-color: #f2f2f2;
     height: 88px;
     border-radius: 8px 0 0 8px;
@@ -121,6 +141,10 @@
     height: 216px;
     border: 1px solid #f2f2f2;
     border-radius: 7px 7px 7px 7px;
+}
+
+.empty-image-horizontal {
+    cursor: pointer;
 }
 
 .article-title {
