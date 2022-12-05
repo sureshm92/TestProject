@@ -352,6 +352,13 @@
               let needsGuardian = false;
               if(component.get('v.needsGuardian')){
                   needsGuardian = true;
+                emailCmp.setCustomValidity('');
+                emailRepeatCmp.setCustomValidity('');
+                emailCmp.reportValidity();
+                emailRepeatCmp.reportValidity();
+                var PhoneField = component.find('PhoneName');
+                PhoneField.setCustomValidity('');
+                PhoneField.reportValidity();
               }
             
               if(needsDelegate && needsGuardian &&
@@ -424,6 +431,13 @@
         {
             if(!(isAdultDel && attestAge && confirmConsent))
                 isValid = false;
+                emailCmp.setCustomValidity('');
+                emailRepeatCmp.setCustomValidity('');
+                emailCmp.reportValidity();
+                emailRepeatCmp.reportValidity();
+                var PhoneField = component.find('PhoneName');
+                PhoneField.setCustomValidity('');
+                PhoneField.reportValidity();
         }
         if(selectedParticipantAge == "null" && selectedParticipantAge == undefined && selectedParticipantAge == ''){
             isValid = false; 
