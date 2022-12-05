@@ -11,7 +11,8 @@ export default class HomePageParticipantNew extends LightningElement {
     label = {
         PPWELCOME
     };
-
+    counter;
+    displayCounter = false;
     participantState;
     clinicalrecord;
     error;
@@ -125,5 +126,10 @@ export default class HomePageParticipantNew extends LightningElement {
         }
         this.taskList = false;
         this.showVisitCardMobile = false;
+    }
+
+    updateCounter(event) {
+        this.counter = event.detail.counter;
+        this.displayCounter = event.detail.displayCounter;
     }
 }
