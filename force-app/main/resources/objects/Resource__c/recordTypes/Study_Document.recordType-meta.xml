@@ -1125,30 +1125,30 @@
     </picklistValues>
     <picklistValues>
     <picklist>Type__c</picklist>
-    <values>
-        <fullName>Article for caregivers</fullName>
-        <default>false</default>
-    </values>
-    <values>
-        <fullName>None</fullName>
-        <default>false</default>
-    </values>
-    <values>
-        <fullName>Patient advocacy group</fullName>
-        <default>false</default>
-    </values>
-    <values>
-        <fullName>For Caregivers and Families</fullName>
-        <default>false</default>
-    </values>
-    <values>
-        <fullName>Relevant Link</fullName>
-        <default>false</default>
-    </values>
-    <values>
-        <fullName>Helpful Link	</fullName>
-        <default>false</default>
-    </values>
+        <values>
+            <fullName>Articles for caregivers</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>None</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Patient advocacy groups</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>For Caregivers and Families</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Relevant Links</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Helpful Links	</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>X3rd_Party_Source__c</picklist>
