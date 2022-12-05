@@ -1,7 +1,7 @@
 /**
- * Created by D.Yasinskyi on 05.05.2018
- * Refactored by Leonid Bartenev
- */
+* Created by D.Yasinskyi on 05.05.2018
+* Refactored by Leonid Bartenev
+*/
 
 public without sharing class ContactTriggerHandler {
     // Handlers: -------------------------------------------------------------------------------------------------------
@@ -11,17 +11,17 @@ public without sharing class ContactTriggerHandler {
             updateParticipantAndUserEmailsOnEmailChange(newList, (Map<Id, Contact>) oldMap);
         }
     }
-
+    
     public class CreateUserForDelegateContactHandler extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             createUserForDelegateContact(newList);
         }
-
+        
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createUserForDelegateContact(newList);
         }
     }
-
+    
     public class UpdatePhoneNumberContactsHandler extends TriggerHandler {
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createTaskToUpdatePhoneNumber(newList, (Map<Id, Contact>) oldMap);
@@ -34,41 +34,41 @@ public without sharing class ContactTriggerHandler {
             createNotificationforWelcomemsg(newList, (Map<Id, Contact>) oldMap);
         }
     }
-
+    
     public class SetShowTourDefaultHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             setShowTourDefault(newList);
         }
     }
-
+    
     public class PopulateOverrideFields extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             populateOverrideFields(newList);
         }
-
+        
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             populateOverrideFields(newList);
         }
     }
-
+    
     public class CreateUserForCCContactHandler extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             createUserForCCContact(newList);
         }
-
+        
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             if (!Test.isrunningTest()) {
                 createUserForCCContact(newList);
             }
         }
     }
-
+    
     public class UpdateParticipantDetailsHandler extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updateParticipantDetailsHandler((List<Contact>) newList, (Map<Id, Contact>) oldMap);
         }
     }
-
+    
     public class UpdateConsentTimeStamps extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             updateConsentTimeStamps((List<Contact>) newList);
@@ -91,9 +91,9 @@ public without sharing class ContactTriggerHandler {
             }
         }
     }
-
+    
     // Logic: ----------------------------------------------------------------------------------------------------------
-
+    
     @TestVisible
     private static void updateParticipantDetailsHandler(
         List<Contact> newList,
@@ -142,17 +142,17 @@ public without sharing class ContactTriggerHandler {
             List<Participant__c> participantsToUpdate = new List<Participant__c>();
             for (Participant__c participant : [
                 SELECT
-                    Id,
-                    Contact__c,
-                    Mailing_Country_Code__c,
-                    Preferred_Language__c,
-                    Phone__c,
-                    Mailing_State_Code__c,
-                    Mailing_Zip_Postal_Code__c
+                Id,
+                Contact__c,
+                Mailing_Country_Code__c,
+                Preferred_Language__c,
+                Phone__c,
+                Mailing_State_Code__c,
+                Mailing_Zip_Postal_Code__c
                 FROM Participant__c
                 WHERE
-                    Contact__c IN :updatedContactsMap.keySet()
-                    OR Contact__c IN :updatedContactsForNameMap.keySet()
+                Contact__c IN :updatedContactsMap.keySet()
+                OR Contact__c IN :updatedContactsForNameMap.keySet()
             ]) {
                 Boolean isUpdateNeeded = false;
                 if (updatedContactsMap.containsKey(participant.Contact__c)) {
@@ -161,8 +161,8 @@ public without sharing class ContactTriggerHandler {
                         updatedContactsMap.get(participant.Contact__c).MailingCountryCode
                     ) {
                         participant.Mailing_Country_Code__c = updatedContactsMap.get(
-                                participant.Contact__c
-                            )
+                            participant.Contact__c
+                        )
                             .MailingCountryCode;
                         isUpdateNeeded = true;
                     }
@@ -171,8 +171,8 @@ public without sharing class ContactTriggerHandler {
                         updatedContactsMap.get(participant.Contact__c).MailingStateCode
                     ) {
                         participant.Mailing_State_Code__c = updatedContactsMap.get(
-                                participant.Contact__c
-                            )
+                            participant.Contact__c
+                        )
                             .MailingStateCode;
                         isUpdateNeeded = true;
                     }
@@ -181,8 +181,8 @@ public without sharing class ContactTriggerHandler {
                         updatedContactsMap.get(participant.Contact__c).MailingPostalCode
                     ) {
                         participant.Mailing_Zip_Postal_Code__c = updatedContactsMap.get(
-                                participant.Contact__c
-                            )
+                            participant.Contact__c
+                        )
                             .MailingPostalCode;
                         isUpdateNeeded = true;
                     }
@@ -191,8 +191,8 @@ public without sharing class ContactTriggerHandler {
                         updatedContactsMap.get(participant.Contact__c).Language__c
                     ) {
                         participant.Preferred_Language__c = updatedContactsMap.get(
-                                participant.Contact__c
-                            )
+                            participant.Contact__c
+                        )
                             .Language__c;
                         isUpdateNeeded = true;
                     }
@@ -243,7 +243,7 @@ public without sharing class ContactTriggerHandler {
             }
         }
     }
-
+    
     @TestVisible
     private static void updateParticipantAndUserEmailsOnEmailChange(
         List<Contact> newList,
@@ -252,7 +252,7 @@ public without sharing class ContactTriggerHandler {
         Boolean needUpdate = false;
         for (Contact cnt : newList) {
             needUpdate = ((oldMap.get(cnt.Id).Email != cnt.Email) ||
-            (oldMap.get(cnt.Id).Language__c != cnt.Language__c));
+                          (oldMap.get(cnt.Id).Language__c != cnt.Language__c));
             if (needUpdate)
                 break;
         }
@@ -312,11 +312,11 @@ public without sharing class ContactTriggerHandler {
             }
         }
     }
-
+    
     @TestVisible
     private static void createUserForDelegateContact(List<Contact> newList) {
         Map<Id, Contact> filteredContactsByIds = new Map<Id, Contact>();
-
+        
         for (Contact cont : newList) {
             if (cont.Email != null && cont.primaryContact__c != null) {
                 filteredContactsByIds.put(cont.Id, cont);
@@ -324,7 +324,7 @@ public without sharing class ContactTriggerHandler {
         }
         if (filteredContactsByIds.isEmpty())
             return;
-
+        
         //get users if exist
         Map<Id, User> communityUsers = new Map<Id, User>();
         for (
@@ -344,20 +344,20 @@ public without sharing class ContactTriggerHandler {
         }
         if (!toCreateUser.isEmpty())
             ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                .createPortalUsers(toCreateUser);
+            .createPortalUsers(toCreateUser);
     }
-
+    
     @TestVisible
     private static void setShowTourDefault(List<Contact> newList) {
         List<String> defaultModes = new List<String>{
             CommunityService.USER_MODE_PI,
-            CommunityService.USER_MODE_HCP,
-            CommunityService.USER_MODE_PARTICIPANT
-        };
-        for (Contact contact : newList)
-            contact.userCommunity_ShowTour__c = String.join(defaultModes, ';');
+                CommunityService.USER_MODE_HCP,
+                CommunityService.USER_MODE_PARTICIPANT
+                };
+                    for (Contact contact : newList)
+                    contact.userCommunity_ShowTour__c = String.join(defaultModes, ';');
     }
-
+    
     private static void populateOverrideFields(List<Contact> newList) {
         for (Contact contact : newList) {
             if (contact.LastName != null && String.isBlank(contact.Override_Mailing_Address__c)) {
@@ -380,12 +380,12 @@ public without sharing class ContactTriggerHandler {
             contact.Next_Profile_Update_DT__c = Datetime.now().addYears(1);
         }
     }
-
+    
     @TestVisible
     private static void createUserForCCContact(List<Contact> newList) {
         Map<Id, Contact> filteredCCContactsByIds = new Map<Id, Contact>();
         List<Id> DeactivateCCContact = new List<Id>();
-
+        
         for (Contact cont : newList) {
             if (cont.userCommunityMode__c == 'CC') {
                 if (cont.Email != null && cont.CC_Staff_Status__c) {
@@ -398,7 +398,7 @@ public without sharing class ContactTriggerHandler {
         }
         if (!DeactivateCCContact.isEmpty())
             CommunityService.deactivateUsers(DeactivateCCContact);
-
+        
         //get users if exist
         Map<Id, User> communityUsers = new Map<Id, User>();
         for (
@@ -412,7 +412,7 @@ public without sharing class ContactTriggerHandler {
                 communityUsers.put(usr.ContactId, usr);
             }
         }
-
+        
         Set<Id> toActivateUser = new Set<Id>();
         Set<Id> toCreateUser = new Set<Id>();
         for (Id contactId : filteredCCContactsByIds.keySet()) {
@@ -423,12 +423,12 @@ public without sharing class ContactTriggerHandler {
         }
         if (!toCreateUser.isEmpty())
             ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                .createCCPortalUsers(toCreateUser);
-
+            .createCCPortalUsers(toCreateUser);
+        
         if (!toActivateUser.isEmpty())
             CommunityService.ActivateUsers(toActivateUser);
     }
-
+    
     @TestVisible
     private static List<Notification__c> platformLevelNotifications(
         Set<ID> conlst,
@@ -452,16 +452,13 @@ public without sharing class ContactTriggerHandler {
                 system.debug('participantcontact:::' + participantcontact);
             }
             if (participantids.size() > 0) {
-                 partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
-                    participantIds
-                );
-                /*String fieldFilter = 'Patient_Delegate__r.Participant__c';
+                String fieldFilter = 'Patient_Delegate__r.Participant__c';
                 PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
                     participantIds,fieldFilter
                 );
-               partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
-    
-                system.debug('partPerDelegateIds:::' + partPerDelegateIds);*/
+                partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
+                
+                system.debug('partPerDelegateIds:::' + partPerDelegateIds);
             }
         }
         for (Contact con : newList) {
@@ -496,8 +493,8 @@ public without sharing class ContactTriggerHandler {
                                 )
                             );
                         }
-                     }
-                   // }
+                    }
+                    // }
                     if (!partPerDelegateIds.isEmpty()) {
                         for (
                             Id delegateconId : partPerDelegateIds.get(
@@ -511,11 +508,11 @@ public without sharing class ContactTriggerHandler {
                             Boolean isDelegateretryNotification =
                                 ContactService.patientdelList.containskey(delegateconId) &&
                                 ContactService.patientdelList.get(delegateconId)
-                                    .Contact__r.Participant_Opt_In_Status_SMS__c &&
+                                .Contact__r.Participant_Opt_In_Status_SMS__c &&
                                 !(ContactService.patientdelList.get(delegateconId)
-                                    .Contact__r.Welcome_Message_Sent__c) &&
+                                  .Contact__r.Welcome_Message_Sent__c) &&
                                 !(ContactService.patientdelList.get(delegateconId)
-                                    .Contact__r.Welcome_Message_Delivered__c);
+                                  .Contact__r.Welcome_Message_Delivered__c);
                             if (isDelegateretryNotification) {
                                 welcomemsgnotifications.addAll(
                                     ContactService.addwelcomeNotifications(
@@ -555,9 +552,9 @@ public without sharing class ContactTriggerHandler {
                                         true
                                     )
                                 );
-                              }
                             }
                         }
+                    }
                     //}
                     if (!partPerDelegateIds.isEmpty()) {
                         for (
@@ -568,9 +565,9 @@ public without sharing class ContactTriggerHandler {
                             Boolean isDelegateOptInNotification =
                                 ContactService.patientdelList.containskey(delegateconId) &&
                                 ContactService.patientdelList.get(delegateconId)
-                                    .Contact__r.Participant_Opt_In_Status_SMS__c &&
+                                .Contact__r.Participant_Opt_In_Status_SMS__c &&
                                 !(ContactService.patientdelList.get(delegateconId)
-                                    .Contact__r.Welcome_Message_Sent__c);
+                                  .Contact__r.Welcome_Message_Sent__c);
                             if (isDelegateOptInNotification) {
                                 /*Platform Level Delegate*/
                                 welcomemsgnotifications.addAll(
@@ -589,7 +586,7 @@ public without sharing class ContactTriggerHandler {
         }
         return welcomemsgnotifications;
     }
-
+    
     @TestVisible
     //This method is used When the sms consent goes from off to on send welcome message at contact
     private static void createNotificationforWelcomemsg(
@@ -611,8 +608,8 @@ public without sharing class ContactTriggerHandler {
                 oldMap != null &&
                 !con.Welcome_Message_Sent__c &&
                 ((con.Participant_Opt_In_Status_SMS__c !=
-                oldMap.get(con.Id).Participant_Opt_In_Status_SMS__c &&
-                con.Participant_Opt_In_Status_SMS__c))
+                  oldMap.get(con.Id).Participant_Opt_In_Status_SMS__c &&
+                  con.Participant_Opt_In_Status_SMS__c))
             ) {
                 booleanupdateconidslst.add(con.Id);
             }
@@ -637,7 +634,7 @@ public without sharing class ContactTriggerHandler {
         List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
         Map<Id, List<Id>> partPerDelegateIds = new Map<Id, List<Id>>();
         List<Task> taskForUpdatePhoneNumber = new List<Task>();
-
+        
         for (contact cont : newList) {
             if (cont.is_Invalid_number__c && cont.MobilePhone != oldMap.get(cont.Id).MobilePhone) {
                 contMapForStatusUpdate.put(cont.Id, cont);
@@ -655,12 +652,12 @@ public without sharing class ContactTriggerHandler {
             Map<Id, Participant_Enrollment__c> peIdMap = new Map<Id, Participant_Enrollment__c>(
                 [
                     SELECT
-                        Id,
-                        Participant_Contact__c,
-                        Welcome_Message_Delivered__c,
-                        Participant__c,
-                        Welcome_Message_Sent__c,
-                        Participant__r.Adult__c
+                    Id,
+                    Participant_Contact__c,
+                    Welcome_Message_Delivered__c,
+                    Participant__c,
+                    Welcome_Message_Sent__c,
+                    Participant__r.Adult__c
                     FROM Participant_Enrollment__c
                     WHERE Participant_Contact__c IN :mbleupdateconidslst
                 ]
@@ -671,14 +668,14 @@ public without sharing class ContactTriggerHandler {
                 }
                 if (participantids.size() > 0) {
                     /*partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
-                        participantIds
-                    );*/
-                    String fieldFilter = 'Participant__c';
+participantIds
+);*/
+                    String fieldFilter = 'Patient_Delegate__r.Participant__c';
                     PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
                         participantIds,fieldFilter
                     );
                     partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
-            
+                    
                 }
                 for (Participant_Enrollment__c per : peIdMap.values()) {
                     if (!per.Welcome_Message_Sent__c && !per.Welcome_Message_Delivered__c) {
@@ -715,21 +712,21 @@ public without sharing class ContactTriggerHandler {
             Map<Id, Patient_Delegate_Enrollment__c> perJunctionIdMap = new Map<Id, Patient_Delegate_Enrollment__c>(
                 [
                     SELECT
-                        Id,
-                        Participant_Enrollment__c,
-                        Welcome_Message_Sent__c,
-                        Welcome_Message_Delivered__c,
-                        Patient_Delegate__c,
-                        Patient_Delegate__r.Contact__c,
-                        Patient_Delegate__r.Participant__c,
-                        Name,
-                        Status__c,
-                        Participant_Enrollment__r.study__c
+                    Id,
+                    Participant_Enrollment__c,
+                    Welcome_Message_Sent__c,
+                    Welcome_Message_Delivered__c,
+                    Patient_Delegate__c,
+                    Patient_Delegate__r.Contact__c,
+                    Patient_Delegate__r.Participant__c,
+                    Name,
+                    Status__c,
+                    Participant_Enrollment__r.study__c
                     FROM Patient_Delegate_Enrollment__c
                     WHERE 
-                        Patient_Delegate__r.Contact__c IN :deleConIdSet AND Status__c = 'Active'
-                        AND Welcome_Message_Sent__c = FALSE
-                        AND Welcome_Message_Delivered__c = FALSE
+                    Patient_Delegate__r.Contact__c IN :deleConIdSet AND Status__c = 'Active'
+                    AND Welcome_Message_Sent__c = FALSE
+                    AND Welcome_Message_Delivered__c = FALSE
                 ]
             );
             if (!perJunctionIdMap.isEmpty()) {
@@ -757,9 +754,9 @@ public without sharing class ContactTriggerHandler {
                 SELECT Id, WhoId, Status
                 FROM task
                 WHERE
-                    WhoId IN :contMapForStatusUpdate.keySet()
-                    AND subject = :TaskService.TASK_CODE_UPDATE_YOUR_PHONE_NUMBER
-                    AND status = 'Open'
+                WhoId IN :contMapForStatusUpdate.keySet()
+                AND subject = :TaskService.TASK_CODE_UPDATE_YOUR_PHONE_NUMBER
+                AND status = 'Open'
             ];
             for (task tl : taskList) {
                 tl.Status = TaskService.TASK_STATUS_COMPLETED;
@@ -823,55 +820,55 @@ public without sharing class ContactTriggerHandler {
         }
         insert taskForUpdatePhoneNumber;
     }
-
+    
     @TestVisible
     //This method check what consents where given and stamps the current time
     private static void updateConsentTimeStamps(List<Contact> newList) {
         for (Contact con : newList) {
             if(!con.IQVIA_Contact_info_storage_consent__c){
                 con.IQVIA_Contact_info_storage_consent__c = (con.Participant_Opt_In_Status_SMS__c || con.IQVIA_Pre_recorded_Voice_Consent__c ||
-                con.Participant_Phone_Opt_In_Permit_Phone__c || con.Participant_Opt_In_Status_Emails__c || con.IQVIA_Direct_Mail_Consent__c ||
-                con.IQVIA_Assisted_Dialing_Consent__c || con.IQVIA_Artificial_Voice_Consent__c );
+                                                             con.Participant_Phone_Opt_In_Permit_Phone__c || con.Participant_Opt_In_Status_Emails__c || con.IQVIA_Direct_Mail_Consent__c ||
+                                                             con.IQVIA_Assisted_Dialing_Consent__c || con.IQVIA_Artificial_Voice_Consent__c );
             }
             con.IQVIA_SMS_Consent_Time__c = (con.Participant_Opt_In_Status_SMS__c
-                ? Datetime.now()
-                : null);
+                                             ? Datetime.now()
+                                             : null);
             con.IQVIA_Pre_recorded_Calls_Consent_Time__c = (con.IQVIA_Pre_recorded_Voice_Consent__c
-                ? Datetime.now()
-                : null);
+                                                            ? Datetime.now()
+                                                            : null);
             con.IQVIA_PI_Storage_Consent_Time__c = (con.IQVIA_Contact_info_storage_consent__c
-                ? Datetime.now()
-                : null);
+                                                    ? Datetime.now()
+                                                    : null);
             con.IQVIA_Phone_Consent_Time__c = (con.Participant_Phone_Opt_In_Permit_Phone__c
-                ? Datetime.now()
-                : null);
+                                               ? Datetime.now()
+                                               : null);
             con.IQVIA_Email_Consent_Time__c = (con.Participant_Opt_In_Status_Emails__c
-                ? Datetime.now()
-                : null);
+                                               ? Datetime.now()
+                                               : null);
             con.IQVIA_Direct_Mail_Consent_Time__c = (con.IQVIA_Direct_Mail_Consent__c
-                ? Datetime.now()
-                : null);
+                                                     ? Datetime.now()
+                                                     : null);
             con.IQVIA_Assisted_Dialing_Consent_Time__c = (con.IQVIA_Assisted_Dialing_Consent__c
-                ? Datetime.now()
-                : null);
+                                                          ? Datetime.now()
+                                                          : null);
             con.IQVIA_Artificial_Voice_Consent_Time__c = (con.IQVIA_Artificial_Voice_Consent__c
-                ? Datetime.now()
-                : null);
+                                                          ? Datetime.now()
+                                                          : null);
         }
     }
-
+    
     @TestVisible
     //This method check what consents where given and stamps the current time
     private static void updateConsentTimeStamps(List<Contact> newList, Map<Id, Contact> oldMap) {
         for (Contact con : newList) {
             contact oldContact = oldMap.get(con.Id);
-
+            
             if(!oldContact.IQVIA_Contact_info_storage_consent__c){
                 con.IQVIA_Contact_info_storage_consent__c = (con.Participant_Opt_In_Status_SMS__c || con.IQVIA_Pre_recorded_Voice_Consent__c ||
-                con.Participant_Phone_Opt_In_Permit_Phone__c || con.Participant_Opt_In_Status_Emails__c || con.IQVIA_Direct_Mail_Consent__c ||
-                con.IQVIA_Assisted_Dialing_Consent__c || con.IQVIA_Artificial_Voice_Consent__c );
+                                                             con.Participant_Phone_Opt_In_Permit_Phone__c || con.Participant_Opt_In_Status_Emails__c || con.IQVIA_Direct_Mail_Consent__c ||
+                                                             con.IQVIA_Assisted_Dialing_Consent__c || con.IQVIA_Artificial_Voice_Consent__c );
             }
-
+            
             if (
                 con.Participant_Opt_In_Status_SMS__c != oldContact.Participant_Opt_In_Status_SMS__c
             ) {
@@ -918,20 +915,20 @@ public without sharing class ContactTriggerHandler {
             }
         }
     }
-
+    
     @TestVisible
     private static void updateParticipantConsent(List<Contact> newList, Map<Id, Contact> oldMap) {
         for (Contact con : newList) {
             if (oldMap == null) {
                 con.IQVIA_Assisted_Dialing_Consent__c = (con.Participant_Phone_Opt_In_Permit_Phone__c
-                    ? true
-                    : false);
+                                                         ? true
+                                                         : false);
                 con.IQVIA_Artificial_Voice_Consent__c = (con.Participant_Phone_Opt_In_Permit_Phone__c
-                    ? true
-                    : false);
+                                                         ? true
+                                                         : false);
                 con.IQVIA_Pre_recorded_Voice_Consent__c = (con.Participant_Phone_Opt_In_Permit_Phone__c
-                    ? true
-                    : false);
+                                                           ? true
+                                                           : false);
             } else {
                 contact oldContact = oldMap.get(con.Id);
                 if (

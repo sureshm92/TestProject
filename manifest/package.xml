@@ -1,9 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-	<types>
-		<members>Patient_Delegate_Enrollment__c.Welcome_Message_Sent__c</members>
-		<members>Patient_Delegate_Enrollment__c.Welcome_Message_Delivered__c</members>
-		<name>CustomField</name>
-	</types>
+    <types>
+        <members>Action_SendSMS</members>
+        <members>Batch_CreateSummaryNotifications</members>
+        <members>Batch_MassEmailDelegate</members>
+        <members>Batch_PatientTaskReminder</members>
+        <members>Batch_TrialMatchNotify</members>
+        <members>Batch_UpdatePETrialCompleteAndSendNotify</members>
+        <members>ContactService</members>
+        <members>ContactTriggerHandler</members>
+        <members>CTPNotificationTriggerHandler</members>
+        <members>MessageTriggerHandler</members>
+        <members>NotificationAvailabilityService</members>
+        <members>NotificationService</members>
+        <members>ParticipantEnrollmentTriggerHandler</members>
+        <members>PatientDelegateEnrollmentService</members>
+        <members>PatientDelegateService</members>
+        <members>PENotificationTriggerHandler</members>
+        <members>PreferenceManagementController</members>
+        <members>ResStudyTriggerHandler</members>
+        <members>SendEmailToParticipant</members>
+        <members>SendResultTriggerHandler</members>
+        <members>SMSDeliveryStatusService</members>
+        <members>StudySiteTriggerHandler</members>
+        <members>TaskTriggerHandler</members>
+        <members>TelevisitAttendeeTriggerHandler</members>
+        <name>ApexClass</name>
+    </types>
 	<version>51.0</version>
 </Package>
