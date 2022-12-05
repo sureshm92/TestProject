@@ -261,6 +261,7 @@ public without sharing class PatientDelegateTriggerHandler {
                             !(ContactService.patientdelList.get(delCont)
                                 .Contact__r.Welcome_Message_Sent__c);
                         if (isDelegateActiveNotification) {
+                            //changes as part of PEH-7633
                             welcomemsgnotifications.addAll(
                                 ContactService.addwelcomeNotifications(
                                     delCont,
