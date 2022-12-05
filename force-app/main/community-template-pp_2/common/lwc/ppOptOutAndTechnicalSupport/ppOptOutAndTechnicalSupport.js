@@ -92,10 +92,23 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
                 });
         })
         .catch((error) => {
-            communityService.showToast('', 'error', error.message, 100);
+            console.log('error', error.message);
         });  
 
-        let language = communityService.getUrlParameter('language');
+        let language = '';
+            let sParam = 'language';
+            let sPageURL = document.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] === sParam) {
+                    language = sParameterName[1] === undefined ? '' : sParameterName[1];
+                }
+            }
+
+        //let language = communityService.getUrlParameter('language');
         if (!language || language === '') {
             language = 'en_US';
         }
