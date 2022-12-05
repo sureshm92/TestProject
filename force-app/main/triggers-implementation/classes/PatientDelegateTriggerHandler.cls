@@ -200,7 +200,8 @@ public without sharing class PatientDelegateTriggerHandler {
                                             ContactService.addwelcomeNotifications(
                                                 conId,
                                                 per.Id,
-                                                NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                                                NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
+                                                true
                                             )
                                         );
                                         //Create jonction object record between PER and Patient Delegate contact records
@@ -228,7 +229,8 @@ public without sharing class PatientDelegateTriggerHandler {
                         ContactService.addwelcomeNotifications(
                             per.Patient_Delegate_Contact__c,
                             per.Participant_Enrollment__c,
-                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
+                            true
                         )
                     );
                 }
@@ -259,11 +261,13 @@ public without sharing class PatientDelegateTriggerHandler {
                             !(ContactService.patientdelList.get(delCont)
                                 .Contact__r.Welcome_Message_Sent__c);
                         if (isDelegateActiveNotification) {
+                            //changes as part of PEH-7633
                             welcomemsgnotifications.addAll(
                                 ContactService.addwelcomeNotifications(
                                     delCont,
                                     parId,
-                                    NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                    NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG,
+                                    true
                                 )
                             );
                         }
