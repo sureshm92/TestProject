@@ -94,8 +94,8 @@ public without sharing class RelevantLinksRemote {
             if (initData.linksAvailable && initData.linksWrappers.isEmpty()) {
                 LinksWrapper lw = new LinksWrapper();
                 lw.type = new LabelValueItem(
-                    TranslateHelper.getPickListLabel(Resource__c.Type__c, 'Relevant Links'),
-                    'Relevant Links'
+                    TranslateHelper.getPickListLabel(Resource__c.Type__c, 'Relevant Link'),
+                    'Relevant Link'
                 );
                 initData.linksWrappers.add(lw);
             }
@@ -243,6 +243,7 @@ public without sharing class RelevantLinksRemote {
                     URL__c,
                     description__c,
                     CreatedDate,
+                    Content_Type__c,
                     (
                         SELECT Id, Therapeutic_Area__c
                         FROM Therapeutic_Area_Assignments__r
@@ -295,6 +296,8 @@ public without sharing class RelevantLinksRemote {
                 URL__c,
                 Languages__c,
                 description__c,
+                CreatedDate,
+                Content_Type__c,
                 (
                     SELECT Id, Therapeutic_Area__c
                     FROM Therapeutic_Area_Assignments__r
