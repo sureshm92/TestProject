@@ -180,7 +180,7 @@ public without sharing class PatientDelegateEnrollmentService {
                 Participant_Enrollment__r.Clinical_Trial_Profile__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
           FROM Patient_Delegate_Enrollment__c
-        WHERE (Participant__r.Adult__c = false OR Participant__r.Email__c = null)
+        WHERE (Participant_Enrollment__r.Participant__r.Adult__c = false OR Participant_Enrollment__r.Participant__r.Email__c = null)
            AND Patient_Delegate__r.Contact__c = : pdContactId
         ];
         return pdList;
