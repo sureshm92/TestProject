@@ -113,14 +113,14 @@ public without sharing class SendResultTriggerHandler {
                 recipientIdSetForDel != null &&
                 !recipientIdSetForDel.isEmpty()
             ) {
-                //Get list of ParticipantEnrollmentPatientDelJunction records
-                List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = Action_SendSMS.getPERPatientDelJunctionRecords(
+                //Get list of Patient_Delegate_Enrollment__c records
+                List<Patient_Delegate_Enrollment__c> perDelJunctionRecList = Action_SendSMS.getPERPatientDelJunctionRecords(
                     perIdSetForDel,
                     recipientIdSetForDel
                 );
                 //Update welcome message flag for Patient Delegate to true.
                 for (
-                    ParticipantEnrollmentPatientDelJunction__c perPDJunRec : perDelJunctionRecList
+                    Patient_Delegate_Enrollment__c perPDJunRec : perDelJunctionRecList
                 ) {
                     perPDJunRec.Welcome_Message_Sent__c = true;
                 }

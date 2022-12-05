@@ -130,6 +130,29 @@
     font-style: italic;
     font-size: 14px;
 }
+
+.ad-text-red {
+    color: #d43e33;
+    font-weight: 600;
+}
+.blue-highlight-text-color {
+    color: #0f6efd;
+}
+
+.blue-highlight-text-color:hover {
+    cursor: pointer;
+}
+.ad-error-container {
+    background: #FDE5E5;
+    border-radius: 4px;
+}
+.ad-errorIconPosition{
+    border-right: 1px solid #FFFFFF;
+    padding: 20px;
+}
+.ad-error-text-padding{
+    padding: 0 6px 0 9px;
+}
 /* .input-border-radius {
     border-radius: 20px;
 }

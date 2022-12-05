@@ -41,7 +41,9 @@ import PG_PST_L_Delegates_See_Lab_Result from '@salesforce/label/c.PG_PST_L_Dele
 import PG_PST_L_Delegates_My_Measur from '@salesforce/label/c.PG_PST_L_Delegates_My_Measur';
 import PP_AS_CONDITIONAL_FEATURE from '@salesforce/label/c.PP_AS_CONDITIONAL_FEATURE';
 import PP_Delegates_Permitted_Actions from '@salesforce/label/c.PP_Delegates_Permitted_Actions';
-
+import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
+import PP_Warning from '@salesforce/label/c.PP_Communication_Pref_Warning';
+import PP_ManageDelegates from '@salesforce/label/c.PP_ManageDelegates';
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
 import {
     publish,
@@ -82,6 +84,10 @@ export default class PpAddNewDelegate extends LightningElement {
     messageContext;
     subscription = null;
     icon_url = pp_icons + '/Chevron-Right-Blue.svg';
+    exclamation = LOFI_LOGIN_ICONS + '/status-exclamation.svg';
+    //errorIconPosition = 'margin-left: 0px';
+    existingDelegateWarning  = false;
+    errorLabelText = 'The user associated with email address provided is already assigned as your delegate. You may add assignments to existing delegates in';
     label = {
         PG_NTM_L_Personal_Information,
         PG_NTM_L_Team_member,
@@ -112,7 +118,9 @@ export default class PpAddNewDelegate extends LightningElement {
         PG_PST_L_Delegates_See_Lab_Result,
         PG_PST_L_Delegates_My_Measur,
         PP_AS_CONDITIONAL_FEATURE,
-        PP_Delegates_Permitted_Actions
+        PP_Delegates_Permitted_Actions,
+        PP_Warning,
+        PP_ManageDelegates
     };
     backToDelegates(event) {
         const selectedEvent = new CustomEvent('backtodelegates', {
@@ -394,8 +402,6 @@ export default class PpAddNewDelegate extends LightningElement {
         })
             .then((result) => {
                 let contactData = JSON.parse(result);
-                //let userMode = this.userMode;
-                //let parentId = this.parentId;
                 this.delegate = contactData.delegates[0];
                 //Partially mask first Name
                 let firstNameElement = this.template.querySelector('[data-id="firstNameInput"]');
@@ -452,13 +458,60 @@ export default class PpAddNewDelegate extends LightningElement {
                 }
                 this.changedLevels = [];
                 this.changedLevelsAll = [];
-                this.isLoading = false;
+                this.checkeExistingDelegate();
+                //this.isLoading = false;
             })
             .catch((error) => {
                 this.isLoading = false;
 
                 console.log('error' + error);
             });
+    }
+
+    checkeExistingDelegate(){
+        //Check if it is existing delegate: Starts
+        let delegate = this.delegate;
+                isExistingDelegate({
+                    delegate: JSON.stringify(delegate.delegateContact)
+                })
+                    .then((result) => {
+                        this.isDelegateExisting = result;
+                        // if (this.isDelegateExisting) {
+                            // console.log('this.delegate.isActive' + this.delegate.isActive);
+                            // if (!this.delegate.isActive) {
+                            //     communityService.showToast(
+                            //         '',
+                            //         'error',
+                            //         this.label.PP_DelegateAlreadyExists,
+                            //         100
+                            //     );
+                            // } else {
+                            //     communityService.showToast(
+                            //         '',
+                            //         'error',
+                            //         this.label.PP_ActiveDelegateError,
+                            //         100
+                            //     );
+                            // }
+                            //component.find('mainSpinner').hide();
+                            
+                        // }
+                        // this.existingDelegateWarning = true;
+                        this.isLoading = false;
+                        return;
+
+                })
+                    .catch((error) => {
+                        communityService.showToast(
+                            '',
+                            'error',
+                            'Failed To read the Data(existing Delegate)...',
+                            100
+                        );
+                        this.spinner = false;
+                        this.isLoading = false;
+                    });
+                //Check  if it is existing delegate: Ends
     }
     isInputValid() {
         let isValid = true;
@@ -489,37 +542,8 @@ export default class PpAddNewDelegate extends LightningElement {
                 console.log('isAttested' + this.isAttested);
                 console.log('isEmailConsentChecked' + this.isEmailConsentChecked);
 
-                isExistingDelegate({
-                    delegate: JSON.stringify(delegate.delegateContact)
-                })
-                    .then((result) => {
-                        this.isDelegateExisting = result;
-                        console.log('inside save-->' + this.delegate.isActive);
-                        console.log('isDelegateExisting' + this.isDelegateExisting);
-
-                        if (this.isDelegateExisting) {
-                            console.log('this.delegate.isActive' + this.delegate.isActive);
-                            if (!this.delegate.isActive) {
-                                communityService.showToast(
-                                    '',
-                                    'error',
-                                    this.label.PP_DelegateAlreadyExists,
-                                    100
-                                );
-                            } else {
-                                communityService.showToast(
-                                    '',
-                                    'error',
-                                    this.label.PP_ActiveDelegateError,
-                                    100
-                                );
-                            }
-                            //component.find('mainSpinner').hide();
-                            this.isLoading = false;
-                            return;
-                        } else {
-                            //consol.log('delegateFilterData: ',JSON.stringify(this.studiesSelected));
-                            savePatientDelegate({
+                //Save Delegate
+                savePatientDelegate({
                                 delegate: JSON.stringify(delegate.delegateContact),
                                 delegateFilterData: JSON.stringify(this.studiesSelected)
                             })
@@ -548,18 +572,78 @@ export default class PpAddNewDelegate extends LightningElement {
                                     this.isLoading = false;
                                     //alert('error:::' + error);
                                 });
-                        }
-                    })
-                    .catch((error) => {
-                        communityService.showToast(
-                            '',
-                            'error',
-                            'Failed To read the Data(existing Delegate)...',
-                            100
-                        );
-                        this.spinner = false;
-                        this.isLoading = false;
-                    });
+
+                // isExistingDelegate({
+                //     delegate: JSON.stringify(delegate.delegateContact)
+                // })
+                //     .then((result) => {
+                //         this.isDelegateExisting = result;
+                //         console.log('inside save-->' + this.delegate.isActive);
+                //         console.log('isDelegateExisting' + this.isDelegateExisting);
+
+                //         if (this.isDelegateExisting) {
+                //             console.log('this.delegate.isActive' + this.delegate.isActive);
+                //             if (!this.delegate.isActive) {
+                //                 communityService.showToast(
+                //                     '',
+                //                     'error',
+                //                     this.label.PP_DelegateAlreadyExists,
+                //                     100
+                //                 );
+                //             } else {
+                //                 communityService.showToast(
+                //                     '',
+                //                     'error',
+                //                     this.label.PP_ActiveDelegateError,
+                //                     100
+                //                 );
+                //             }
+                //             //component.find('mainSpinner').hide();
+                //             this.isLoading = false;
+                //             return;
+                //         } else {
+                //             //consol.log('delegateFilterData: ',JSON.stringify(this.studiesSelected));
+                //             savePatientDelegate({
+                //                 delegate: JSON.stringify(delegate.delegateContact),
+                //                 delegateFilterData: JSON.stringify(this.studiesSelected)
+                //             })
+                //                 .then((result) => {
+                //                     communityService.showToast(
+                //                         '',
+                //                         'success',
+                //                         this.label.PP_Delegate_Added_Successfully,
+                //                         100
+                //                     );
+                //                     this.isAttested = false;
+                //                     this.isEmailConsentChecked = false;
+                //                     this.template.querySelector(
+                //                         '[data-id="firstNameInput"]'
+                //                     ).value = '';
+                //                     this.template.querySelector('[data-id="lastNameInput"]').value =
+                //                         '';
+
+                //                     this.template.querySelector('[data-id="emailInput"]').value =
+                //                         '';
+                //                     this.sendFilterUpdates();
+                //                     this.goBackToManageDelegate();
+                //                     this.isLoading = false;
+                //                 })
+                //                 .catch((error) => {
+                //                     this.isLoading = false;
+                //                     //alert('error:::' + error);
+                //                 });
+                //         }
+                //     })
+                //     .catch((error) => {
+                //         communityService.showToast(
+                //             '',
+                //             'error',
+                //             'Failed To read the Data(existing Delegate)...',
+                //             100
+                //         );
+                //         this.spinner = false;
+                //         this.isLoading = false;
+                //     });
             } else {
                 this.isLoading = false;
                 /*component

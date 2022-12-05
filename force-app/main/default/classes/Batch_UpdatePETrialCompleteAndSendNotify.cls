@@ -44,11 +44,17 @@ public with sharing class Batch_UpdatePETrialCompleteAndSendNotify implements Da
         }
         update participantEnrollments;
 
-        Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+        /*Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
             participantIds
+        );*/
+        String fieldFilter = 'Patient_Delegate__r.Participant__c';
+        PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
+            participantIds,fieldFilter
         );
+        Map<Id, List<Id>> partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
 
         List<Notification__c> notifications = new List<Notification__c>();
+        ///Study Level Notification
         for (Id ctp : ctpIdsByPE.keySet()) {
             for (Participant_Enrollment__c pe : ctpIdsByPE.get(ctp)) {
                 if (pe.Participant__r.Contact__c != null) {
@@ -65,6 +71,7 @@ public with sharing class Batch_UpdatePETrialCompleteAndSendNotify implements Da
                         notifications.add(
                             new Notification__c(
                                 Recipient__c = delegateId,
+                                IsDelegate__c = true,
                                 WhatId__c = pe.Id,
                                 Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE_DGT
                             )
