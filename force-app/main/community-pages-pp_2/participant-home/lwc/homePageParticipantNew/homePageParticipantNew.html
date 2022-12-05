@@ -94,6 +94,11 @@
                 <div class="slds-col slds-m-horizontal_xxx-small">
                     <div class="updates">
                         <template if:true={updatesSection}>
+                            <template if:true={displayCounter}>
+                                <div class="update-circle">
+                                    <span class="update-count-font">{counter}</span>
+                                </div>
+                            </template>
                             <div class="icon-update-section-large svg-icon-with-text">
                                 <c-web-icon
                                     class="svg-icon"
