@@ -76,7 +76,7 @@
                 </div>
                 <lightning:layout multipleRows="true">
                     <aura:if isTrue="{!v.showSuccessMessage}">
-                        <lightning:layoutItem size="12" class="mob-footerOptOut center mb-261">                                                     
+                        <lightning:layoutItem size="12" class="mob-footerOptOut center mb-222">                                                     
                             <span class="powered-by-mobile">{!$Label.c.PP_Powered_by_Footer}</span>                           
                             <span> <img class="img-dimensions-mobile" src="{!$Resource.IQVIA_Logo + '/IQVIA_DarkBlue_Logo.png'}" /></span>
                         </lightning:layoutItem> 
