@@ -1135,6 +1135,10 @@
     <picklistValues>
         <picklist>Type__c</picklist>
         <values>
+            <fullName>Article for caregivers</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>None</fullName>
             <default>false</default>
         </values>
@@ -1151,7 +1155,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Helpful Link</fullName>
+            <fullName>Helpful Link	</fullName>
             <default>false</default>
         </values>
     </picklistValues>
