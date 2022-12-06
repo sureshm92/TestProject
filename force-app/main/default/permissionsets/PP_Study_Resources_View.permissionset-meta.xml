@@ -284,6 +284,10 @@
         <recordType>Resource__c.Video</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Resource__c.Multimedia</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <tabSettings>
         <tab>Res_study__c</tab>
         <visibility>Visible</visibility>
