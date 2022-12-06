@@ -1133,43 +1133,9 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Resource_Type__c</picklist>
-            <values>
-                <fullName>Patient Authorization Template</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Study Document</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Training</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Resource_Visibility__c</picklist>
-            <values>
-                <fullName>PI</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>RP</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
             <picklist>Type__c</picklist>
             <values>
                 <fullName>Article for caregivers</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>For Caregivers and Families</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Helpful Link</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -1181,7 +1147,15 @@
                 <default>false</default>
             </values>
             <values>
+                <fullName>For Caregivers and Families</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Relevant Link</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Helpful Link	</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
