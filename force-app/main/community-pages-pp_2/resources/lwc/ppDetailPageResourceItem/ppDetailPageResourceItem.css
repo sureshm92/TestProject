@@ -4,8 +4,8 @@ img {
 }
 
 iframe {
-    min-height: 440px;
-    min-width: 786px;
+    min-height: 600px;
+    width:100%
 }
 .icon-container {
     background-color: #e8e8e8;
