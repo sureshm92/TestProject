@@ -6645,7 +6645,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
 
 &lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
-       <labels>
+    <labels>
         <fullName>Email_Body_Visit_Task_Reminder_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19062,6 +19062,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Your consent is not required as a condition of purchasing any property, goods, or services.</value>
     </labels>
     <labels>
+        <fullName>PP_Confirm_Selection</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Confirm_Selection</shortDescription>
+        <value>Confirm Selection</value>
+    </labels>
+    <labels>
         <fullName>PP_ContactInfo_Change</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19337,6 +19344,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_EnterNewPassword</shortDescription>
         <value>Enter new password</value>
+    </labels>
+    <labels>
+        <fullName>PP_ExistingDelError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ExistingDelError</shortDescription>
+        <value>The user associated with email address provided is already assigned as your delegate. You may add assignments to existing delegates in</value>
     </labels>
     <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
@@ -20010,6 +20024,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Select a FAQ</value>
     </labels>
     <labels>
+        <fullName>PP_Select_User</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Select_User</shortDescription>
+        <value>Select the user you would like to assign as delegate.</value>
+    </labels>
+    <labels>
         <fullName>PP_SendBtn</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20072,6 +20093,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Task Success Toast</shortDescription>
         <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.;Visit scheduled successfully.</value>
+    </labels>
+    <labels>
+        <fullName>PP_There_Are</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_There_Are</shortDescription>
+        <value>There are</value>
     </labels>
     <labels>
         <fullName>PP_Third_Lang</fullName>
@@ -20219,6 +20247,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_UsefulInfo</shortDescription>
         <value>Create tickets here for changing useful information</value>
+    </labels>
+    <labels>
+        <fullName>PP_Users_Associated</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Users_Associated</shortDescription>
+        <value>user(s) associated with the email address you have
+            provided.</value>
     </labels>
     <labels>
         <fullName>PP_User_Email</fullName>
@@ -28899,7 +28935,7 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>PP Resource URL Placeholder</shortDescription>
         <value>Paste article or video website URL here</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Resource_URL_Placeholder_New</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -29026,43 +29062,43 @@ Please contact the Study Team for further updates or please login for additiona
         <value>This is an email to remind you of your upcoming  task ##SurveyName.
 Due Date and Time: ##expirationDate.</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Program_Header_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Program_Header_PP</shortDescription>
         <value>program</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Study_Header_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Study_Header_PP</shortDescription>
         <value>clinical research study</value>
-    </labels> 
-     <labels>
+    </labels>
+    <labels>
         <fullName>Study_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Study_PP</shortDescription>
         <value>study</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Events_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Events_PP</shortDescription>
         <value>events</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Visits_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Visits_PP</shortDescription>
         <value>visits</value>
     </labels>
-    
-<labels>
+
+    <labels>
         <fullName>Email_Body_Initial_Patient_Created_By_PI_New_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -29070,14 +29106,14 @@ Due Date and Time: ##expirationDate.</value>
         <value>&lt;div&gt;&lt;p&gt;Thank you for your interest in participating in a ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div &gt;&lt;p &gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##StudyorProgram team will contact you regarding the next steps in the enrollment process. &lt;/p&gt;&lt;/div&gt;</value>
     </labels>
 
- <labels>
+    <labels>
         <fullName>Email_Header_Initial_Patient_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Initial Patient PP</shortDescription>
         <value>Thank you for your interest in participating in a ##StudyorProgramHeader</value>
     </labels>
-        <labels>
+    <labels>
         <fullName>Email_Signature_Patient_New_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -29091,7 +29127,7 @@ Sincerely,
 
 ##SignatureFullCommunityNewName</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Discover_future_Clinical_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -29104,5 +29140,5 @@ Sincerely,
         <protected>true</protected>
         <shortDescription>Track your study PP</shortDescription>
         <value>your ##isStudyorProgram timeline to help you keep track of your progress</value>
-    </labels>     
-    </CustomLabels>
+    </labels>
+</CustomLabels>

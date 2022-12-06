@@ -74,6 +74,66 @@ public without sharing class MyTeamRemote {
     }
 
     @AuraEnabled
+	public static String getDelegateContactData(String userMode, String contactEmail, String parentId) {
+        try {
+            List<Contact> delegateContacts = new List<Contact>();
+            List<Contact> contactsToProcess = new List<Contact>();
+
+            if (contactEmail != '') {
+                delegateContacts = [
+                    SELECT Id, FirstName, LastName, Name, Email
+                    FROM Contact
+                    WHERE Email = :contactEmail AND userCommunityMode__c != 'CC'
+                ];
+            }
+
+            if (delegateContacts.isEmpty()) {
+                //if contact is not existing contact. 
+                contactsToProcess.add(
+                    new Contact(FirstName = '', LastName = '', Email = contactEmail)
+                );
+            } else {
+                Set<Id> contactIdSet = new Set<Id>();
+                for (Contact c : delegateContacts) {
+                        contactIdSet.add(c.Id);
+                }
+
+                if (contactsToProcess.isEmpty())
+                    contactsToProcess.addAll(delegateContacts);
+
+                //Id contactId = delegateContacts[0].Id;
+                List<Participant__c> participants = [
+                    SELECT Id, First_Name__c, Last_Name__c,Contact__c
+                    FROM Participant__c
+                    WHERE Contact__c = :contactIdSet
+                ];
+                Map<Id, Participant__c> parConIdParticipantMap = new Map<Id, Participant__c>();  
+                for(Participant__c par: participants){
+                    parConIdParticipantMap.put(par.Contact__c, par);    
+                }
+                
+                
+                if (!participants.isEmpty()) {
+                    for(Contact con: delegateContacts){
+                        con.FirstName = parConIdParticipantMap.get(con.Id).First_Name__c;
+                        con.LastName = parConIdParticipantMap.get(con.Id).Last_Name__c;
+                    }
+                }
+            }
+
+            MyTeamRemote.MyTeamDetail detail = new MyTeamRemote.MyTeamDetail();
+            detail.currentUserContactId = CommunityService.getUserContact().Id;
+            detail.delegates = getDelegates(userMode, false, contactsToProcess, parentId);
+            detail.delegateOptions = getDelegateOptions(userMode);
+            detail.hasStudies = true;
+            
+            return JSON.serialize(detail);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+    
+    @AuraEnabled
 	public static String getContactData(String userMode, String contactEmail, String parentId) {
         try {
             List<Contact> delegateContacts = new List<Contact>();
@@ -226,24 +286,36 @@ public without sharing class MyTeamRemote {
             WHERE
                 Contact__c IN :delegateContactsMap.keySet()
                 AND Participant__c = :ParticipantContext.getCurrentParticipant().Id
-                AND Status__c != 'Withdrawn'
+                //AND Status__c != 'Withdrawn'
         ];
         List<DelegateWrapper> delegates = new List<DelegateWrapper>();
+        Set<Id> isPatientDelegateCont = new Set<Id>();
         for (Patient_Delegate__c pd : patientDelegates) {
             if (delegateContactsMap.containsKey(pd.Contact__c)) {
                 DelegateWrapper dw = new DelegateWrapper();
                 dw.delegateContact = delegateContactsMap.get(pd.Contact__c);
                 dw.isActive =
                     pd.Status__c == PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS;
+                dw.patientDelegateId = pd.Id;
+                dw.status = pd.Status__c;
                 delegates.add(dw);
+                isPatientDelegateCont.add(pd.Contact__c);
             }
         }
 
         if (useProvidedContacts) {
-            if (delegates.isEmpty() && delegatesToProcess != null) {
-                DelegateWrapper dw = new DelegateWrapper();
-                dw.delegateContact = delegateContacts.get(0);
-                delegates.add(dw);
+            //When contact is not a delegate for current participant.
+            //if (delegates.isEmpty() && delegatesToProcess != null) {
+            if (delegatesToProcess != null) {
+                for(Contact con: delegatesToProcess){
+                    if(!isPatientDelegateCont.contains(con.Id)){
+                        DelegateWrapper dw = new DelegateWrapper();
+                		dw.delegateContact = con;
+                		delegates.add(dw);
+                    }
+                    
+                }
+                
             }
         }
 
@@ -1123,6 +1195,8 @@ public without sharing class MyTeamRemote {
         public List<TrialDelegateWrapper> delegateTrials;
         public List<DelegateLevelWrapper> trialLevels;
         public DelegateLevelWrapper trialLevel;
+        public string patientDelegateId;
+        public String status;
         public DelegateWrapper() {
             delegateTrials = new List<TrialDelegateWrapper>();
         }
