@@ -156,7 +156,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         PIR_Import_Participants,
         PIR_Signed_Date_Validation,
         Need_to_Re_consent
-    }; 
+    };
     @api dropDownLabel=this.label.RPR_Actions;
     @api isCheckboxhidden=false;
     activeCheckboxesCount=0;
@@ -169,7 +169,9 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     getStateParameters(currentPageReference) {
        if (currentPageReference) {
           this.urlStateParameters = currentPageReference.state;
-          this.setParametersBasedOnUrl();
+          if(! JSON.parse(sessionStorage.getItem("callFetchList") ) ){
+            this.setParametersBasedOnUrl();
+          }
        }
     }
     @api showAddParticipant = false;
@@ -302,7 +304,16 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             presetId: "",
             presetName:""
           };
-        this.filterWrapper.siteList.push(this.urlSiteId);
+        if(this.urlSiteId && this.urlSiteId.includes('+') ){
+            let siteArr = this.urlSiteId.split('+');
+            siteArr.forEach(element => {
+                this.filterWrapper.siteList.push(element);
+            });
+        }
+        else{
+            this.filterWrapper.siteList.push(this.urlSiteId);
+        }
+
         this.filterWrapper.studyList.push(this.urlStudyId);
        }
        if(this.urlStateParameters.status){
@@ -330,7 +341,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     siteIdlist=null;
     iconHighRisk =pirResources+'/pirResources/icons/status-alert.svg';
     iconHighPriority = pirResources+'/pirResources/icons/arrow-up.svg';
-    iconActionReq = pirResources+'/pirResources/icons/bell.svg';   
+    iconActionReq = pirResources+'/pirResources/icons/bell.svg';
     iconActionReqeConsent = econsentRes+'/econsentRes/Icon/Bell_Icon.svg';
     err='';
     peMap = new Map();
@@ -1868,7 +1879,55 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     }
 
     handleMessage(message) {
-        this.setParametersBasedOnUrl();
+        let stateObj = JSON.parse( sessionStorage.getItem("stateObj") );
+        if(stateObj && stateObj.id && stateObj.siteId){
+            this.urlStudyId = stateObj.id;
+            this.urlSiteId = stateObj.siteId;
+            setselectedFilterasDefault ({selectedPresetId :"no preset"})
+            .then((result) => {
+
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+            this.filterWrapper.siteList = [];
+            this.filterWrapper.studyList = [];
+            this.filterWrapper = {
+                activeInactive: "Active",
+                studyList: [],
+                siteList: [],
+                status: [],
+                source: [],
+                ageTo: "0",
+                ageFrom: "150",
+                ethnicityList: [],
+                sex: "",
+                highRisk: false,
+                highPriority: false,
+                comorbidities: false,
+                initialVisit: "All",
+                initialVisitStartDate: "",
+                initialVisitEndDate: "",
+                presetId: "",
+                presetName:""
+              };
+              if(this.urlSiteId && this.urlSiteId.includes('+') ){
+                let siteArr = this.urlSiteId.split('+');
+                siteArr.forEach(element => {
+                    this.filterWrapper.siteList.push(element);
+                });
+              }
+            else{
+                this.filterWrapper.siteList.push(this.urlSiteId);
+            }
+
+            this.filterWrapper.studyList.push(this.urlStudyId);
+            this.totalRecordCount =-1;
+            this.fetchList();
+        }
+        else{
+            this.setParametersBasedOnUrl();
+        }
     }
 
     @api

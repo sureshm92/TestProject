@@ -18,9 +18,15 @@ public class BellNotificationQueueable implements Queueable, Database.AllowsCall
     String userRoleComm;
     Participant_Enrollment__c perObj;
     private static boolean excecuteOnce = true;
+    Map<String, String> mapOfInfo;
 
     public BellNotificationQueueable(List<Notification__c> notificationList){
         notifications = notificationList;
+    }
+
+    public BellNotificationQueueable(List<Notification__c> notificationList , Map<String, String> mapOfInfo){
+        notifications = notificationList;
+        this.mapOfInfo = mapOfInfo;
     }
 
     public BellNotificationQueueable(List<Notification__c> notificationList, Study_Site__c studySiteDetails, String selectedStatus, String userRole){
@@ -100,6 +106,17 @@ public class BellNotificationQueueable implements Queueable, Database.AllowsCall
                                 redirectTarget = redirectTarget.replace('{FName}',perObj.Participant__r.First_Name__c);
                                 redirectTarget = redirectTarget.replace('{LName}',perObj.Participant__r.Last_Name__c);
                         }
+                        if(target.DeveloperName == 'PI_New_Referrals_Added' ||
+                            target.DeveloperName == 'SS_L1_New_Referrals_Added' ||
+                            target.DeveloperName == 'SS_L3_New_Referrals_Added'||
+                            target.DeveloperName == 'SS_L2_New_Referrals_Added'){
+                                String paramBody = mapOfInfo.get(n.Id);
+                                String[] paramArray = paramBody.split('#');
+                                messageBody = messageBody.replace('#Count', paramArray[1]);
+                                messageBody = messageBody.replace('#StudyName', paramArray[0]);
+                                redirectTarget = redirectTarget.replace('{sid}', paramArray[2]);
+                                redirectTarget = redirectTarget.replace('{ssid}', paramArray[3]);
+                        }
                     }
                     if(n.Target_User_Group__c == 'Self'){
                         userRole = userRoleComm;
@@ -116,11 +133,9 @@ public class BellNotificationQueueable implements Queueable, Database.AllowsCall
                     }else if(n.Community_Type__c != null){
                         service.setSentForBell(n.Id, BELL_NOTIFICATION_TARGET_TYPE , messageBody,target.Is_Redirect__c ? redirectTarget : null, userRole, n.Community_Type__c);
                     }
-
                 }
             }
         }
-
         service.updateResults();
     }
 }
