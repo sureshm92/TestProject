@@ -92,6 +92,81 @@
                 class="slds-grid slds-grid_align-center slds-p-vertical_large slds-p-horizontal_small"
             >
                 <div class="slds-col slds-m-horizontal_xxx-small">
+                    <div class="updates">
+                        <template if:true={updatesSection}>
+                            <template if:true={displayCounter}>
+                                <div class="update-circle">
+                                    <span class="update-count-font">{counter}</span>
+                                </div>
+                            </template>
+                            <div class="icon-update-section-large svg-icon-with-text">
+                                <c-web-icon
+                                    class="svg-icon"
+                                    icon-size="large"
+                                    icon-name="reminderbell_icon"
+                                    data-id="reminderbell"
+                                    icon-color="#ffffff"
+                                    onclick={showUpdatesOnMobile}
+                                >
+                                </c-web-icon>
+                            </div>
+                            <div class="vertical updates-darkblue"></div>
+                        </template>
+                        <template if:false={updatesSection}>
+                            <template if:true={displayCounter}>
+                                <div class="update-circle">
+                                    <span class="update-count-font">{counter}</span>
+                                </div>
+                            </template>
+                            <div class="icon-update-section-small">
+                                <c-web-icon
+                                    class="svg-icon svg-icon-with-text"
+                                    icon-size="medium"
+                                    icon-name="reminderbell_icon"
+                                    data-id="reminderbell"
+                                    icon-color="#ffffff"
+                                    onclick={showUpdatesOnMobile}
+                                >
+                                </c-web-icon>
+                            </div>
+                            <p class="p-text">Updates</p>
+                        </template>
+                    </div>
+                </div>
+
+                <div class="slds-col slds-m-horizontal_xxx-small">
+                    <div class="tasks">
+                        <template if:true={taskList}>
+                            <div class="icon-updates taskIconPosition">
+                                <c-web-icon
+                                    class="svg-icon svg-icon-with-text"
+                                    icon-size="task_mobile"
+                                    icon-name="check-circle-1-alternate"
+                                    data-id="checkcirclealternate"
+                                    icon-color="#ffffff"
+                                    onclick={showTaskList}
+                                >
+                                </c-web-icon>
+                            </div>
+                            <div class="vertical task-pink"></div>
+                        </template>
+                        <template if:false={taskList}>
+                            <div class="icon-updates">
+                                <c-web-icon
+                                    class="svg-icon svg-icon-with-text"
+                                    icon-size="medium"
+                                    icon-name="check-circle-1-alternate"
+                                    data-id="checkcirclealternate"
+                                    icon-color="#ffffff"
+                                    onclick={showTaskList}
+                                >
+                                </c-web-icon>
+                            </div>
+                            <p class="p-text">Tasks</p>
+                        </template>
+                    </div>
+                </div>
+                <div class="slds-col slds-m-horizontal_xxx-small">
                     <template if:true={showVisitCard}>
                         <template if:false={isDelegateSelfview}>
                             <template if:true={showVisitCardMobile}>
@@ -128,71 +203,6 @@
                             </template>
                         </template>
                     </template>
-                </div>
-
-                <div class="slds-col slds-m-horizontal_xxx-small">
-                    <div class="tasks">
-                        <template if:true={taskList}>
-                            <div class="icon-updates taskIconPosition">
-                                <c-web-icon
-                                    class="svg-icon svg-icon-with-text"
-                                    icon-size="task_mobile"
-                                    icon-name="check-circle-1-alternate"
-                                    data-id="checkcirclealternate"
-                                    icon-color="#ffffff"
-                                    onclick={showTaskList}
-                                >
-                                </c-web-icon>
-                            </div>
-                            <div class="vertical task-pink"></div>
-                        </template>
-                        <template if:false={taskList}>
-                            <div class="icon-updates">
-                                <c-web-icon
-                                    class="svg-icon svg-icon-with-text"
-                                    icon-size="medium"
-                                    icon-name="check-circle-1-alternate"
-                                    data-id="checkcirclealternate"
-                                    icon-color="#ffffff"
-                                    onclick={showTaskList}
-                                >
-                                </c-web-icon>
-                            </div>
-                            <p class="p-text">Tasks</p>
-                        </template>
-                    </div>
-                </div>
-                <div class="slds-col slds-m-horizontal_xxx-small">
-                    <div class="updates">
-                        <template if:true={updatesSection}>
-                            <div class="icon-update-section-large svg-icon-with-text">
-                                <c-web-icon
-                                    class="svg-icon"
-                                    icon-size="large"
-                                    icon-name="reminderbell_icon"
-                                    data-id="reminderbell"
-                                    icon-color="#ffffff"
-                                    onclick={showUpdatesOnMobile}
-                                >
-                                </c-web-icon>
-                            </div>
-                            <div class="vertical updates-darkblue"></div>
-                        </template>
-                        <template if:false={updatesSection}>
-                            <div class="icon-update-section-small">
-                                <c-web-icon
-                                    class="svg-icon svg-icon-with-text"
-                                    icon-size="medium"
-                                    icon-name="reminderbell_icon"
-                                    data-id="reminderbell"
-                                    icon-color="#ffffff"
-                                    onclick={showUpdatesOnMobile}
-                                >
-                                </c-web-icon>
-                            </div>
-                            <p class="p-text">Updates</p>
-                        </template>
-                    </div>
                 </div>
                 <div class="slds-col slds-m-horizontal_xxx-small">
                     <div class="progress">
