@@ -25,9 +25,13 @@
                 </div>
                 <div></div>
             </div>
-            <div class="slds-col slds-size_4-of-6">
+            <div class="slds-col slds-size_4-of-6 card-data-element">
                 <div class="slds-grid slds-wrap title-section-mobile">
-                    <p class="document-label" onclick={navigateResourceDetail}>
+                    <p
+                        class="document-label"
+                        onclick={navigateResourceDetail}
+                        title={documentData.resource.Title__c}
+                    >
                         {documentData.resource.Title__c}
                     </p>
                 </div>
@@ -77,9 +81,13 @@
                     </div>
                     <div></div>
                 </div>
-                <div class="slds-col slds-size_4-of-6">
+                <div class="slds-col slds-size_4-of-6 card-data-element">
                     <div class="slds-grid slds-wrap title-section">
-                        <p class="document-label" onclick={navigateResourceDetail}>
+                        <p
+                            class="document-label"
+                            onclick={navigateResourceDetail}
+                            title={documentData.resource.Title__c}
+                        >
                             {documentData.resource.Title__c}
                         </p>
                     </div>
@@ -128,7 +136,9 @@
             <div
                 class="slds-grid slds-wrap document-label-desktop document-label-section-horizontal"
             >
-                <p onclick={navigateResourceDetail}>{documentData.resource.Title__c}</p>
+                <p onclick={navigateResourceDetail} title={documentData.resource.Title__c}>
+                    {documentData.resource.Title__c}
+                </p>
             </div>
             <div class="date-desktop">
                 {label.versionDate}&nbsp;

@@ -24,9 +24,13 @@
                 </div>
                 <div></div>
             </div>
-            <div class="slds-col slds-size_4-of-6">
+            <div class="slds-col slds-size_4-of-6 card-data-element">
                 <div class="slds-grid slds-wrap title-section-mobile">
-                    <p class="document-label" onclick={navigateResourceDetail}>
+                    <p
+                        class="document-label"
+                        onclick={navigateResourceDetail}
+                        title={exploreData.resource.Title__c}
+                    >
                         {exploreData.resource.Title__c}
                     </p>
                 </div>
@@ -74,9 +78,13 @@
                     </div>
                     <div></div>
                 </div>
-                <div class="slds-col slds-size_4-of-6">
+                <div class="slds-col slds-size_4-of-6 card-data-element">
                     <div class="slds-grid slds-wrap title-section">
-                        <p class="document-label" onclick={navigateResourceDetail}>
+                        <p
+                            class="document-label"
+                            onclick={navigateResourceDetail}
+                            title={exploreData.resource.Title__c}
+                        >
                             {exploreData.resource.Title__c}
                         </p>
                     </div>
@@ -102,7 +110,7 @@
             >
                 <template if:false={noExploreImage}>
                     <img
-                        class="explore-image"
+                        class="explore-image-desktop-horizontal"
                         onclick={navigateResourceDetail}
                         src={exploreData.resource.Image__c}
                         onerror={handleNoExploreImageError}
@@ -122,7 +130,11 @@
                     ></c-web-icon>
                 </div>
             </div>
-            <div class="article-title" onclick={navigateResourceDetail}>
+            <div
+                class="article-title"
+                onclick={navigateResourceDetail}
+                title={exploreData.resource.Title__c}
+            >
                 {exploreData.resource.Title__c}
             </div>
             <div class="date-desktop">

@@ -157,9 +157,21 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
       state : result.state
     });
 
-    if(this.urlStateParameters.activeTab == 'Televisit' && this.currentPageReference.attributes && this.currentPageReference.attributes.name == 'My_Referrals__c'){
+    if(this.urlStateParameters.activeTab == 'Televisit' &&
+        this.currentPageReference.attributes &&
+        this.currentPageReference.attributes.name == 'My_Referrals__c'){
       let payload = {};
       publish(this.messageContext, messagingChannel, payload);
+    }
+    else if(this.urlStateParameters.id && this.urlStateParameters.siteId && this.currentPageReference.attributes &&
+      this.currentPageReference.attributes.name == 'My_Referrals__c'){
+        let payload = {
+          messageToSend : 'fetchData'
+        };
+        sessionStorage.setItem("callFetchList", JSON.stringify(true) );
+        sessionStorage.setItem("stateObj",JSON.stringify(result.state) );
+        publish(this.messageContext, messagingChannel, payload);
+
     }
 
     if (this.notificationWrap[index].Is_Read__c == false){

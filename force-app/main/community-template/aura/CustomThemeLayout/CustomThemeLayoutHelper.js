@@ -49,8 +49,8 @@
                 var msg = message.data.payload;
                 if (message.data.payload.ContactId__c == component.get("v.contactId")){
                     helper.getSendResult(component,event);
-                }   
-                        
+                }
+
             });
           }
           else
@@ -63,25 +63,27 @@
     getSendResult: function(component,event){
         let notificationData;
         var action = component.get('c.getSendResults');
-        action.setParams({ contactId: component.get("v.contactId")});
+        var isExecuteSession = sessionStorage.getItem('isExecute');
+        action.setParams({ contactId: component.get("v.contactId"), isExecute : isExecuteSession});
+        sessionStorage.setItem('isExecute', 'false');
         action.setCallback(this, function(response) {
             if(response.getState() === 'SUCCESS'){
-                var res = response.getReturnValue();             
+                var res = response.getReturnValue();
                 var numberOfUnreadNotifications = 0;
-                for (var i = 0; i < res.length; i++) {
-                    if (!res[i].Is_Read__c) {
+                for (var i = 0; i < res.allSendResult.length; i++) {
+                    if (!res.allSendResult[i].Is_Read__c) {
                         numberOfUnreadNotifications++;
                     }
-                    
-                    if(res[i].Push_Message_Body__c.includes('URL')){
-                        var tempBody = res[i].Push_Message_Body__c.split('{')[0];
-                        var tempData = res[i];
+
+                    if(res.allSendResult[i].Push_Message_Body__c.includes('URL')){
+                        var tempBody = res.allSendResult[i].Push_Message_Body__c.split('{')[0];
+                        var tempData = res.allSendResult[i];
                         tempData.Push_Message_Body__c = tempBody;
-                        res[i] = tempData;
+                        res.allSendResult[i] = tempData;
                     }
                 }
-                component.set("v.allNotificationData", res);
-                notificationData = res.splice(0, 5);
+                component.set("v.allNotificationData", res.allSendResult);
+                notificationData = res.allSendResult.splice(0, 5);
                 component.set("v.sendResultsData", notificationData);
 
                 if (numberOfUnreadNotifications >= 0 && numberOfUnreadNotifications <= 99) {
@@ -96,14 +98,14 @@
 
             }else{
                 console.error(response);
-            }   
+            }
         });
         $A.enqueueAction(action);
 
     },
 
     loadMoreNotifications: function(component){
-       
+
         let sendResultLength = component.get('v.sendResultsData').length;
         let newLength = component.get('v.sendResultsData').length + 5;
         if (newLength > ((component.get('v.allNotificationData').length))) {
@@ -111,8 +113,8 @@
         }
         let data = component.get('v.allNotificationData').slice(sendResultLength,newLength);
         let sendResult = component.get('v.sendResultsData').concat(data);
-        component.set("v.sendResultsData", sendResult);  
-      //  component.set("v.isSaving", false);  
+        component.set("v.sendResultsData", sendResult);
+      //  component.set("v.isSaving", false);
       },
 
 
@@ -120,16 +122,16 @@
         var action = component.get('c.updateReadNotification');
         action.setParams({ sendResultId: component.get("v.unreadSendResultId")});
         action.setCallback(this, function(response) {
-            var result = response.getReturnValue();    
+            var result = response.getReturnValue();
             var state = response.getState();
             if (state === 'SUCCESS') {
-                var sendResultList = JSON.parse(JSON.stringify(component.get('v.sendResultsData')));  
+                var sendResultList = JSON.parse(JSON.stringify(component.get('v.sendResultsData')));
                 var tempNotificationData = sendResultList[index];
                 tempNotificationData.Is_Read__c = result.Is_Read__c;
-                sendResultList[index] = tempNotificationData;       
-                component.set('v.sendResultsData',sendResultList);   
-                
-                let count = component.get('v.unreadNotifyCount');            
+                sendResultList[index] = tempNotificationData;
+                component.set('v.sendResultsData',sendResultList);
+
+                let count = component.get('v.unreadNotifyCount');
                 if(result.Is_Read__c == true){
                   count-- ;
                 }
@@ -141,7 +143,7 @@
                             component.set("v.unreadNotificationsCount", numberOfUnreadNotifications);
                             component.set("v.unreadNotifyCount", count);
                 }
-                 
+
             } else if (state === 'ERROR') {
                 var errors = response.getError();
                 var errors = action.getError();
@@ -163,7 +165,7 @@
 
         var sendResult = component.get("v.sendResultsData");
         let count = component.get('v.unreadNotifyCount');
-        var closesSndResultList = JSON.parse(JSON.stringify(sendResult)); 
+        var closesSndResultList = JSON.parse(JSON.stringify(sendResult));
         var removeNotifyData = closesSndResultList[index];
         if((removeNotifyData.Is_Read__c == false)){
             count-- ;
@@ -190,11 +192,11 @@
         var action = component.get('c.isActivate');
         action.setParams({ sendResultId: component.get("v.closeSendResultId")});
         action.setCallback(this, function(response) {
-          //  var resultData = response.getReturnValue();    
+          //  var resultData = response.getReturnValue();
             var state = response.getState();
             if (state === 'SUCCESS') {
-                            
-                 
+
+
             } else if (state === 'ERROR') {
                 var errors = response.getError();
                 var errors = action.getError();

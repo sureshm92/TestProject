@@ -67,14 +67,14 @@
     height: 75px;
     width: 96px;
     margin-top: 12px;
-    margin-left: 13px;
+    margin-left: 14%;
 }
 
 .thumnail-img-desktop-vertical {
     height: 75px;
-    width: 87px;
+    width: 96px;
     margin-top: 12px;
-    margin-left: 12px;
+    margin-left: 10%;
 }
 
 .document-label-section-horizontal {
@@ -88,6 +88,8 @@
     height: 120px;
     background-color: #f2f2f2;
     cursor: pointer;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
 }
 
 .date-desktop {
@@ -125,7 +127,6 @@
     height: 88px;
     border: 1px solid #e9e9e9;
     border-radius: 8px;
-    background-color: #ffffff;
     margin-top: 8px;
 }
 
@@ -134,7 +135,6 @@
     height: 88px;
     border: 1px solid #e9e9e9;
     border-radius: 8px;
-    background-color: #ffffff;
     margin-top: 8px;
     margin-left: 16px;
     margin-right: 16px;
@@ -151,9 +151,16 @@
     box-sizing: border-box;
     border-right: 1px solid #e8e8e8;
     background-color: #f2f2f2;
-    height: 88px;
+    height: 86.5px;
     border-radius: 8px 0 0 8px;
     cursor: pointer;
+}
+
+.card-data-element {
+    background-color: #fff;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    height: 100%;
 }
 
 .date {
