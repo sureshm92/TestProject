@@ -7546,6 +7546,10 @@
         <recordType>Resource__c.Video</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Resource__c-Multimedia</layout>
+        <recordType>Resource__c.Multimedia</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>SDH_Status__mdt-SDH Status Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
