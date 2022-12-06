@@ -5,6 +5,7 @@ public virtual inherited sharing class ResourceStudyDocumentService extends Reso
         );
     }
 
+    @TestVisible
     protected override String getOrderByClause() {
         if (Site.getMasterLabel() == 'IQVIA Patient Portal') {
             return 'ORDER BY CreatedDate DESC NULLS LAST';
@@ -13,6 +14,7 @@ public virtual inherited sharing class ResourceStudyDocumentService extends Reso
         }
     }
 
+    @TestVisible
     protected override ResourceService.ResourceWrapperContainer getErrorNoResources() {
         return ResourceService.getErrorNoStudyDocuments();
     }
