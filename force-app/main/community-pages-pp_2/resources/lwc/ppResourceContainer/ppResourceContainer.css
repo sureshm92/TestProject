@@ -84,6 +84,8 @@ img,
     letter-spacing: 0;
     line-height: 16px;
     margin: 2px 0 2px;
+    line-break: after-white-space;
+    overflow-wrap: break-word;
 }
 .resource-star-mobile {
     text-align: right;
