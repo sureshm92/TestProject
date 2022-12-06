@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>New_Referrals_Bell_Notification_L1_PI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New Referrals Bell Notification L1 PI</shortDescription>
+        <value>You have #Count new referral(s) for Study #StudyName since your last login. {URL}</value>
+    </labels>
+    <labels>
         <fullName>Tele_visit_Scheduled</fullName>
         <categories>Bell Notification Message</categories>
         <language>en_US</language>
@@ -12156,7 +12163,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>OT H Account Settings</shortDescription>
         <value>Account Settings</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Trail_Search_Update_Account_Setting</fullName>
         <language>en_US</language>
         <protected>false</protected>
