@@ -3,6 +3,9 @@
  */
 ({
     doInit: function (component, event, helper) {
+        if(sessionStorage.getItem('isExecute') == null){
+            sessionStorage.setItem('isExecute', 'true');
+        }
         if (communityService.isInitialized()) {
             component.set('v.communityServ', communityService);
             communityService.executeAction(component, 'checkStudyMessage', null, function (

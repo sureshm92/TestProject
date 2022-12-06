@@ -222,6 +222,22 @@ public class BellNotificationsHelper {
         return nRec;
     }
 
+    public static Notification__c createNotification(String notificationType, Id contactId, String userRole, String communityType, Boolean isInsert){
+        Notification__c nRec = new Notification__c();
+        if(!String.isBlank(notificationType) && contactId != null && !String.isBlank(userRole) && !String.isBlank(communityType)){
+            nRec.Recipient__c = contactId;
+            nRec.Notification_Type__c = notificationType;
+            nRec.Target_User_Group__c = userRole;
+            nRec.Community_Type__c = communityType;
+        }
+
+        if(isInsert){
+            insert nRec;
+        }
+
+        return nRec;
+    }
+
     public static List<Contact> getContactForStudy(Id studyId){
         List<Study_Site__c> lstOfStaff = new List<Study_Site__c>();
         List<String> lstOfUniqueContacts = new List<String>();
