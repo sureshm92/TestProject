@@ -1866,3 +1866,11 @@ input[type=password]::-ms-clear
 .add-delegate-input-container .slds-input{
     height: 40px !important;
 }
+.add-delegate-input-container .slds-input[disabled]{
+    /* opacity: .4; */
+    cursor: not-allowed;
+    pointer-events: none;
+    border: 1px solid #D9D9D9;
+    background-color: #F2F2F2;
+
+}

@@ -149,10 +149,7 @@
                                         >{label.PP_Users_Associated}</span
                                     >
                                 </lightning-layout-item>
-                                <lightning-layout-item
-                                    class="slds-p-left_small slds-p-top_small"
-                                    size="12"
-                                >
+                                <lightning-layout-item class="slds-p-left_small" size="12">
                                     <lightning-layout multiple-rows="treu">
                                         <template
                                             for:each={allDelegate}
@@ -162,6 +159,7 @@
                                             <lightning-layout-item
                                                 size="12"
                                                 key={del.delegateContact.Id}
+                                                class="slds-m-top_medium"
                                             >
                                                 <input
                                                     type="checkbox"
@@ -181,7 +179,7 @@
                                     </lightning-layout>
                                 </lightning-layout-item>
                                 <lightning-layout-item
-                                    class="slds-p-left_small slds-p-top_small slds-p-bottom_small"
+                                    class="slds-p-left_small slds-m-top_medium slds-m-bottom_medium"
                                     size="12"
                                 >
                                     <button
@@ -218,7 +216,7 @@
                     label={label.PP_Attestation_Confirmation_Message_For_Teams}
                     checked={isAttested}
                     onchange={handleDateChange}
-                    disabled={showExistingDelegateError}
+                    disabled={checkBoxDisabled}
                 ></lightning-input>
             </div>
             <div class="checkbox-container slds-m-vertical_large">
@@ -229,7 +227,7 @@
                     label={label.PP_Delegate_Email_Consent}
                     checked={isEmailConsentChecked}
                     onchange={handleDateChange}
-                    disabled={showExistingDelegateError}
+                    disabled={checkBoxDisabled}
                 ></lightning-input>
             </div>
             <button
