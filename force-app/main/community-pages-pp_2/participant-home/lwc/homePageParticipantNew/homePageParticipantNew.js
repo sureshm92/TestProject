@@ -11,7 +11,8 @@ export default class HomePageParticipantNew extends LightningElement {
     label = {
         PPWELCOME
     };
-
+    counter;
+    displayCounter = false;
     participantState;
     clinicalrecord;
     error;
@@ -71,23 +72,22 @@ export default class HomePageParticipantNew extends LightningElement {
                                 this.participantState.pe.Clinical_Trial_Profile__r;
                             // Check if Program toggle is or study workspcae on ctp
                             this.isProgram = this.clinicalrecord.Is_Program__c;
+
                             this.showVisitCard =
                                 this.clinicalrecord.Visits_are_Available__c &&
                                 res.pvCount != null &&
                                 res.pvCount != undefined &&
                                 res.pvCount > 0;
-                            this.showVisitCardMobile = this.showVisitCard;
                         }
+                    }
+                    if (this.desktop != true) {
+                        this.updatesSection = true;
                     }
                     //For Delegate Self view
                     this.isDelegateSelfview =
                         this.participantState.value == 'ALUMNI' ||
                         (this.participantState.hasPatientDelegates &&
                             !this.participantState.isDelegate);
-                }
-                if (this.showVisitCard != true || this.isDelegateSelfview == true) {
-                    this.taskList = true;
-                    this.showVisitCardMobile = false;
                 }
                 this.spinner.hide();
             })
@@ -125,5 +125,10 @@ export default class HomePageParticipantNew extends LightningElement {
         }
         this.taskList = false;
         this.showVisitCardMobile = false;
+    }
+
+    updateCounter(event) {
+        this.counter = event.detail.counter;
+        this.displayCounter = event.detail.displayCounter;
     }
 }
