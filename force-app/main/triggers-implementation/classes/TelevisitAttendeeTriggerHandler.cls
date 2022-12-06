@@ -28,29 +28,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
     private static void notifyNewAttendees(List<Televisit_Attendee__c> attendeeList) {
         //Insert notifications for new attendees
         Map<Id, Id> attendeeTelevisitMap = new Map<Id, Id>();
-        Map<Id, Id> attendeeDelTelevisitMap = new Map<Id, Id>();
 
-        Map<Id, List<Patient_Delegate__c>> participantIdsByDelegates = new Map<Id, List<Patient_Delegate__c>>();
-
-        List<Id> allContactIds = new List<Id>();
-
-        for (Televisit_Attendee__c teleAttendee : attendeeList) {
-            allContactIds.add(teleAttendee.Contact__c);
-        }
-        List<Patient_Delegate__c> patientDelegates = [
-            SELECT Participant__r.Contact__c, Contact__c, Primary_Delegate__c
-            FROM Patient_Delegate__c
-            WHERE Participant__r.Contact__c IN :allContactIds
-        ];
-        for (Id conId : allContactIds) {
-            if (!participantIdsByDelegates.containsKey(conId)) {
-                participantIdsByDelegates.put(conId, new List<Patient_Delegate__c>());
-            }
-        }
-        for (Patient_Delegate__c pd : patientDelegates) {
-            // allContactIds.add(pd.Contact__c);
-            participantIdsByDelegates.get(pd.Participant__r.Contact__c).add(pd);
-        }
         for (Televisit_Attendee__c attendee : [
             SELECT Id, Contact__c, Televisit__c, Attendee_Type__c
             FROM Televisit_Attendee__c
