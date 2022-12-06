@@ -6,7 +6,10 @@
                     class="slds-align_absolute-center icon-container"
                     onclick={navigateResourceDetail}
                 >
-                    <div if:true={thumbnailPresent} class="thumbnail-image">
+                    <div
+                        if:true={thumbnailPresent}
+                        class="thumbnail-image thumbnail-image-padding slds-align_absolute-center"
+                    >
                         <img
                             src={thumbnail}
                             class="thumnail-img-mobile"
