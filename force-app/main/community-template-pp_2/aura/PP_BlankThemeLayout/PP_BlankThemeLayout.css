@@ -57,21 +57,22 @@
 }
 
 .THIS .logo-block-mobile {
-    height: 685px;
+    height: 700px;
     /* width: 382px; */
     border-radius: 24px;
     background-color: #ffffff;
     box-shadow: 0 0 64px 0 rgba(0, 0, 0, 0.25);
     margin: 10px;
-    /* margin-top: 122px;
-    margin-top: 70px; */
-    position: absolute;
+    /* margin-top: 122px; */
+    margin-top: 40px;
+    margin-bottom: 40px;
+    /* position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     margin: auto;
-    width: 95%;
+    width: 95%; */
 }
 
 .THIS .rr-link {
@@ -136,8 +137,8 @@
     color: white;
 }
 
-.THIS .mb-261 {
-    margin-top: 261px;
+.THIS .mb-222 {
+    margin-top: 222px;
 }
 
 .THIS .center {

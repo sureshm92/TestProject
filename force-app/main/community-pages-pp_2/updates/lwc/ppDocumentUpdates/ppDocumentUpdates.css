@@ -51,6 +51,10 @@
     width: 100%;
 }
 
+.thumbnail-image-padding {
+    padding: 0.75rem 0.75rem 0 0.75rem;
+}
+
 .thumbnail-image-desktop-horizontal-section {
     height: 100%;
     width: 100%;
@@ -66,8 +70,6 @@
 .thumnail-img-mobile {
     height: 75px;
     width: 96px;
-    margin-top: 12px;
-    margin-left: 14%;
 }
 
 .thumnail-img-desktop-vertical {
