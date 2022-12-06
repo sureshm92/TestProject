@@ -1572,7 +1572,7 @@
             <dataType>Date</dataType>
             <fieldText>Version Date</fieldText>
             <fieldType>InputField</fieldType>
-            <isRequired>true</isRequired>
+            <isRequired>false</isRequired>
         </fields>
         <fields>
             <name>FinihsButton</name>

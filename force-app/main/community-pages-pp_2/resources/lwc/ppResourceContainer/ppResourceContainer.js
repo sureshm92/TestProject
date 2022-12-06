@@ -4,7 +4,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import { NavigationMixin } from 'lightning/navigation';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
-import Uploaded from '@salesforce/label/c.Resource_Uploaded';
+import VERSION from '@salesforce/label/c.Resource_Uploaded';
 export default class PpResourceContainer extends NavigationMixin(LightningElement) {
     userTimezone = TIME_ZONE;
     
@@ -23,7 +23,7 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
     isThumbnailPresent = false;
 
     label = {
-        Uploaded
+        VERSION
     };
 
     connectedCallback() {
