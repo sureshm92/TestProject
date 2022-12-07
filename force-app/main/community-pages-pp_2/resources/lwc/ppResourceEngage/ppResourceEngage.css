@@ -15,7 +15,6 @@
 .empty-label {
     color: #a9a9a9;
     margin-top: 8%;
-    line-height: 24px;
     font-size: 13px;
 }
 .svg-align{
@@ -23,4 +22,28 @@
     display: grid;
     height: 527px;
     place-content: center;
+    text-align: center;
 }
+
+@media (max-width:500px)  { 
+    .ppcombo-dropdown-all{
+        width: 100% !important;
+    }
+    .ppCombobox {
+        margin: 0px;
+    }
+    .inner-scroll {
+        margin-right: 0px;
+        min-height: 335px;
+        height: auto;
+        padding: 0 1rem;
+    }
+    .svg-align{
+        margin: auto;
+        display: grid;
+        height: 335px;
+        place-content: center;
+        text-align: center;
+    }
+}
+

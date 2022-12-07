@@ -417,14 +417,37 @@ public without sharing class PIR_ParticipantDetailController {
         (perRecord.Participant__r.Email__c == null || string.isEmpty(perRecord.Participant__r.Email__c))) || 
         (patientDelegate != null && !patientDelegate.isEmpty() && patientDelegate[0].Primary_Delegate__c && 
          patientDelegate[0].Contact__c != null && patientDelegate[0].Participant__r.Email__c == null )){
-            contact delegateContact = new Contact(
-                        Participant_Opt_In_Status_Emails__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
-                        Participant_Opt_In_Status_SMS__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
-                        Participant_Phone_Opt_In_Permit_Phone__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
-                        IQVIA_Artificial_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
-                        IQVIA_Assisted_Dialing_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
-                        IQVIA_Pre_recorded_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
-                        IQVIA_Direct_Mail_Consent__c = perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c);
+                    contact delegateContact = new Contact();	
+                    if(!isDelUpdated){	
+                      delegateContact.Participant_Opt_In_Status_Emails__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_Emails__c;	
+                      delegateContact.Participant_Opt_In_Status_SMS__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c;	
+                      delegateContact.Participant_Phone_Opt_In_Permit_Phone__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;	
+                      delegateContact.IQVIA_Artificial_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;	
+                      delegateContact.IQVIA_Assisted_Dialing_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;	
+                      delegateContact.IQVIA_Pre_recorded_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;	
+                      delegateContact.IQVIA_Direct_Mail_Consent__c = perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c;	
+                    }	
+                    else{	
+                        if(!peDeligate.contact__r.Participant_Opt_In_Status_Emails__c){	
+                        delegateContact.Participant_Opt_In_Status_Emails__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_Emails__c;	
+                        }	
+                        if(!peDeligate.contact__r.Participant_Opt_In_Status_SMS__c){	
+                        delegateContact.Participant_Opt_In_Status_SMS__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c;	
+                        }	
+                        if(!peDeligate.contact__r.Participant_Phone_Opt_In_Permit_Phone__c){	
+                        delegateContact.Participant_Phone_Opt_In_Permit_Phone__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;	
+                        }	
+                        if(!peDeligate.contact__r.IQVIA_Artificial_Voice_Consent__c){	
+                        delegateContact.IQVIA_Artificial_Voice_Consent__c = perRecord.Participant_Contact__r.IQVIA_Artificial_Voice_Consent__c;	
+                        }	
+                        if(!peDeligate.contact__r.IQVIA_Assisted_Dialing_Consent__c){	
+                        delegateContact.IQVIA_Assisted_Dialing_Consent__c = perRecord.Participant_Contact__r.IQVIA_Assisted_Dialing_Consent__c;	
+                        }	
+                        if(!peDeligate.contact__r.IQVIA_Pre_recorded_Voice_Consent__c){	
+                        delegateContact.IQVIA_Pre_recorded_Voice_Consent__c = perRecord.Participant_Contact__r.IQVIA_Pre_recorded_Voice_Consent__c;	
+                        }	
+                        delegateContact.IQVIA_Direct_Mail_Consent__c = perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c;	
+                    }
                     if((delegateCriteria == 'updateDeligate' || delegateCriteria == 'insertDelegate') && isDelUpdated ){
                         delegateContact.id = contactId;
                     }else{

@@ -134,6 +134,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
+    /** 
+    * Logic moved to Screener response from PE due to multi screener implementation
     public class CheckReimbursableActivities extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             ProviderPaymentsService.checkPEForReimbursableActivities(
@@ -149,6 +151,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             );
         }
     }
+    **/
 
     public class SendFOVtoAPI extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
@@ -385,12 +388,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     @TestVisible
     private static void setChangedDate(List<Participant_Enrollment__c> newList) {
         for (Participant_Enrollment__c pe : newList) {
-            if (
-                pe.MRR_Survey_Results_URL__c != null &&
-                pe.Medical_Record_Review_Completed_Date__c == null
-            ) {
-                pe.Medical_Record_Review_Completed_Date__c = Datetime.now();
-            }
             if (
                 pe.Participant_Status__c != null &&
                 pe.Participant_Status_Last_Changed_Date__c == null

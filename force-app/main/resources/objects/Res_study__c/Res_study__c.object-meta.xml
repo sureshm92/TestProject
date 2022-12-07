@@ -145,6 +145,7 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
+    <description>Renaming object label to Resources instead of study resources</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
@@ -155,14 +156,14 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <label>Study Resource</label>
+    <label>Resources</label>
     <nameField>
         <displayFormat>RS-{000000}</displayFormat>
         <label>Resource Study Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Study Resources</pluralLabel>
-    <searchLayouts/>
+    <pluralLabel>Resources</pluralLabel>
+    <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

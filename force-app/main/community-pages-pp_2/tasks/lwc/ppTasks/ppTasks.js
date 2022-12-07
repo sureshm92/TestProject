@@ -1,4 +1,4 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 import tasksHeader from '@salesforce/label/c.PG_SW_Tab_Tasks';
 import createNewTask from '@salesforce/label/c.BTN_Create_New_Task';
 import taskCompleted from '@salesforce/label/c.Task_Completed';
@@ -25,6 +25,11 @@ import getPPParticipantTasks from '@salesforce/apex/TasksRemote.getPPParticipant
 import { NavigationMixin } from 'lightning/navigation';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
+import formFactor from '@salesforce/client/formFactor';
+import markAsCompleted from '@salesforce/apex/TaskEditRemote.markAsCompleted';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import basePathName from '@salesforce/community/basePath';
+import viewAllTasks from '@salesforce/label/c.View_All_Tasks';
 
 export default class PpTasks extends NavigationMixin(LightningElement) {
     initData;
@@ -53,7 +58,8 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         noCompletedTasks,
         taskPPCompleted,
         taskPPIgnored,
-        taskPPExpired
+        taskPPExpired,
+        viewAllTasks
     };
     taskSelectionMode = 'Open';
     taskBtnOpenClass = 'open-task active-btn';
@@ -66,6 +72,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     showCreateTaskButton;
     @track openTasks;
     @track completedTasks;
+    @track sfdcBaseURL;
     spinner;
     taskCodeList = [
         'Complete_Survey',
@@ -75,6 +82,8 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         'Select_COI'
     ];
 
+    ishomepage = false;
+    isMobile = false;
     isCreateTask = false;
     isShowModal = false;
     selectedTaskId;
@@ -89,8 +98,35 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     completedTasksList = [];
     expiredTasksList = [];
     ignoredTasksList = [];
-
+    openTaskImg = pp_icons + '/' + 'Oval.svg';
+    closeTaskImg = pp_icons + '/' + 'Oval_Completed.svg';
+    reminderObj = {
+        name: this.label.taskCreateReminder,
+        iconUrl: 'reminderbell_icon',
+        reminder: true
+    };
+    editObj = { name: this.label.taskEdit, iconUrl: 'Pencil_Icon', edit: true };
+    ignoreObj = { name: this.label.taskIgnore, iconUrl: 'icon-close', ignore: true };
+    editImg = pp_icons + '/' + 'Pencil_Icon.svg';
+    @api desktop;
+    editMode = false;
+    taskParamId;
     connectedCallback() {
+        if (formFactor === 'Small') {
+            this.isMobile = true;
+        } else {
+            this.isMobile = false;
+        }
+        var pageurl = communityService.getFullPageName();
+        var pageParam = communityService.getUrlParameter('id');
+        this.taskParamId = pageParam;
+        this.selectedTaskId = pageParam;
+        if (pageurl.includes('tasks') || pageParam) {
+            this.ishomepage = false;
+        } else {
+            this.ishomepage = true;
+        }
+        this.sfdcBaseURL = window.location.origin + basePathName + '/tasks';
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 console.log('NEW RR_COMMUNITY_JS loaded');
@@ -127,6 +163,11 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                         this.populateSystemTasksforCompleted(this.completedTasks);
                     } else {
                         this.populateSystemTasks(this.openTasks);
+                        if (this.ishomepage) {
+                            this.openTasks.splice(
+                                this.openTasks.length > 4 ? 4 : this.openTasks.length
+                            );
+                        }
                     }
                     this.spinner.hide();
                 })
@@ -150,9 +191,15 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     }
     handleTaskClose(event) {
         this.isCreateTask = event.detail.isClose;
+        this.taskParamId = '';
         this.initializeData();
     }
+    handleTaskEdit(event) {
+        this.isCreateTask = event.detail.isClose;
+        this.editMode = event.detail.editMode;
+    }
     handleTaskCreated(event) {
+        this.taskParamId = '';
         this.initializeData();
     }
     handleTaskCompleted(event) {
@@ -163,14 +210,17 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
 
     populateSystemTasks(tasks) {
         try {
-            console.log('tasks in populateSystemTasks', tasks);
             for (let i = 0; i < tasks.length; i++) {
                 tasks[i].task = tasks[i].openTask;
+
                 tasks[i].isClosed = false;
                 tasks[i].systemTask =
                     tasks[i].openTask.Task_Code__c === undefined
                         ? false
                         : this.taskCodeList.includes(tasks[i].openTask.Task_Code__c);
+                if (tasks[i].task.Id == this.taskParamId) {
+                    tasks[i].expandCard = true;
+                }
                 tasks[i].dueDate = tasks[i].openTask.Activity_Datetime__c ? true : false;
                 tasks[i].startDate =
                     tasks[i].openTask.Start_Date__c &&
@@ -193,6 +243,9 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].subjectEllipsisClass = tasks[i].criticalTask
                     ? 'crit-subject-ellipsis crit-mob-subject-ellipsis'
                     : 'subject-ellipsis mob-subject-ellipsis';
+                tasks[i].homeSubjectEllipsisClass = tasks[i].criticalTask
+                    ? 'home-crit-subject-ellipsis home-crit-mob-subject-ellipsis curpointer'
+                    : 'home-subject-ellipsis mob-subject-ellipsis curpointer';
                 tasks[i].businessTask = tasks[i].systemTask
                     ? tasks[i].openTask.Task_Code__c == 'Complete_Survey'
                     : true;
@@ -271,5 +324,133 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         this.taskBtnOpenClass = 'open-task active-btn';
         this.taskBtnCompleteClass = 'completed-task inactive-btn';
         this.initializeData();
+    }
+    closeTheTask() {
+        this.hideModalBox();
+        this.spinner.show();
+        let radioTask = this.template.querySelector('[data-index="' + this.selectedTaskId + '"]');
+        markAsCompleted({ taskId: this.selectedTaskId })
+            .then(() => {
+                for (let i = 0; i < this.openTasks.length; i++) {
+                    if (this.openTasks[i].openTask.Id == this.selectedTaskId) {
+                        this.openTasks[i].isClosed = true;
+                        break;
+                    }
+                }
+                this.spinner.hide();
+
+                this.showToast(this.label.taskCompleted, this.label.taskCompleted, 'success');
+            })
+            .catch((error) => {
+                console.log(error);
+                this.spinner.hide();
+            });
+    }
+    expandtheCard(event) {
+        try {
+            this.popupTaskMenuItems = [];
+            var taskId = event.currentTarget.dataset.popup;
+            this.popUpTaskId = taskId;
+            let radioTask = this.template.querySelector('[data-popup="' + taskId + '"]');
+            let cl = radioTask.classList.value;
+            let selectedTask;
+            for (let i = 0; i < this.openTasks.length; i++) {
+                if (this.openTasks[i].openTask.Id == this.popUpTaskId) {
+                    selectedTask = this.openTasks[i];
+                    break;
+                }
+            }
+
+            if (
+                this.taskCodeList.includes(selectedTask.openTask.Task_Code__c) &&
+                selectedTask.openTask.Task_Code__c != 'Complete_Survey'
+            ) {
+                this.popupTaskMenuItems.push(this.reminderObj);
+            } else {
+                if (selectedTask.openTask.Task_Code__c == 'Complete_Survey') {
+                    this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
+                } else {
+                    if (selectedTask.openTask.Originator__c == 'IQVIA Admin') {
+                        this.popupTaskMenuItems.push(this.reminderObj, this.ignoreObj);
+                    } else {
+                        this.popupTaskMenuItems.push(this.editObj, this.ignoreObj);
+                    }
+                }
+            }
+            if (!cl.includes('slds-is-open')) radioTask.classList.add('slds-is-open');
+            if (cl.includes('slds-is-open')) radioTask.classList.remove('slds-is-open');
+        } catch (e) {
+            alert(e);
+        }
+    }
+
+    closeMenu() {
+        try {
+            let radioTask = this.template.querySelector('[data-popup="' + this.popUpTaskId + '"]');
+            radioTask.classList.remove('slds-is-open');
+        } catch (e) {
+            alert(e);
+        }
+    }
+    closeModel() {
+        let radioTask = this.template.querySelector('[data-modalpopup="' + this.popUpTaskId + '"]');
+        this.isShowModal = false;
+        let radioTask2 = this.template.querySelector(
+            '[data-parentdiv="' + this.selectedTaskId + '"]'
+        );
+        radioTask2.classList.remove('active-custom-box');
+    }
+    showToast(titleText, messageText, variantType) {
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: titleText,
+                message: '',
+                variant: variantType
+            })
+        );
+    }
+    fillTheOpenIcon(event) {
+        var taskId = event.currentTarget.dataset.index;
+        let radioTask2 = this.template.querySelector('[data-index="' + taskId + '"]');
+        if (radioTask2.classList.value.includes('fill-oval')) {
+            radioTask2.classList.remove('fill-oval');
+            radioTask2.classList.add('empty-oval');
+        } else {
+            radioTask2.classList.add('fill-oval');
+            radioTask2.classList.remove('empty-oval');
+        }
+    }
+    taskOpen(event) {
+        let selectedTask;
+        var taskId = event.currentTarget.dataset.index;
+        if (event.currentTarget.dataset.actionurl != undefined) {
+            communityService.navigateToPage(event.currentTarget.dataset.actionurl);
+        }
+    }
+    showTaskCompleteModal(event) {
+        let selectedTask;
+
+        var taskId = event.currentTarget.dataset.index;
+        for (let i = 0; i < this.openTasks.length; i++) {
+            if (this.openTasks[i].openTask.Id == taskId) {
+                selectedTask = this.openTasks[i];
+                break;
+            }
+        }
+        if (selectedTask.isClosed) return;
+        this.isShowModal = true;
+        this.popUpTaskId = taskId;
+        this.selectedTaskId = taskId;
+        let radioTask = this.template.querySelector(
+            '[data-parentdiv="' + this.selectedTaskId + '"]'
+        );
+        radioTask.classList.add('active-custom-box');
+    }
+    hideModalBox() {
+        this.isShowModal = false;
+        let radioTask = this.template.querySelector(
+            '[data-parentdiv="' + this.selectedTaskId + '"]'
+        );
+        radioTask.classList.remove('active-custom-box');
     }
 }

@@ -40,6 +40,7 @@ import reminderOverFlow from '@salesforce/label/c.PP_VisitReminder_Overflow';
 import reminderErrorUnderFlow from '@salesforce/label/c.PP_ReminderUnderFlowError';
 import remindUsingRequired from '@salesforce/label/c.PP_Remind_Using_Required';
 import requiredErrorMessage from '@salesforce/label/c.PP_RequiredErrorMessage';
+import none from '@salesforce/label/c.PP_None';
 import getCardVisits from '@salesforce/apex/ParticipantVisitsRemote.getCardPatientVisits';
 import updatePV from '@salesforce/apex/ParticipantVisitsRemote.updatePatientVisit';
 import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
@@ -47,6 +48,7 @@ import getVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getPartic
 import getTaskEditDetails from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import createTask from '@salesforce/apex/TaskEditRemote.upsertTaskForVisit';
 import getIsTravelSupportEnabled from '@salesforce/apex/TravelSupportRemote.getisTravelSupportEnabled';
+import deleteReminder from '@salesforce/apex/TaskEditRemote.deleteReminder';
 import TIMEZONE from '@salesforce/i18n/timeZone';
 
 const stateClass = 'slds-col width-basis state ';
@@ -91,6 +93,7 @@ export default class VisitsPath extends LightningElement {
         reminderPastError,
         timeZoneDisclaimer,
         selectLabel,
+        none,
         requiredErrorMessage
     };
 
@@ -99,6 +102,7 @@ export default class VisitsPath extends LightningElement {
     @track showAccountNavigation = false;
     @track isVisitsEmpty = false;
     @track isVisitCompleted = false;
+    @track deleteReminderTask = false;
     @track isRTL;
     @track patientVisits;
     @track visits;
@@ -244,13 +248,24 @@ export default class VisitsPath extends LightningElement {
         if (this.initialized) this.spinner.hide();
     }
     get reminderOptions() {
-        return [
-            { label: this.labels.OneHourBefore, value: '1 hour before' },
-            { label: this.labels.FourHoursBefore, value: '4 hours before' },
-            { label: this.labels.Onedaybefore, value: '1 day before' },
-            { label: this.labels.OneWeekBefore, value: '1 Week before' },
-            { label: this.labels.CustomDate, value: 'Custom' }
-        ];
+        if (this.visitTaskId) {
+            return [
+                { label: this.labels.none, value: 'No reminder' },
+                { label: this.labels.OneHourBefore, value: '1 hour before' },
+                { label: this.labels.FourHoursBefore, value: '4 hours before' },
+                { label: this.labels.Onedaybefore, value: '1 day before' },
+                { label: this.labels.OneWeekBefore, value: '1 week before' },
+                { label: this.labels.CustomDate, value: 'Custom' }
+            ];
+        } else {
+            return [
+                { label: this.labels.OneHourBefore, value: '1 hour before' },
+                { label: this.labels.FourHoursBefore, value: '4 hours before' },
+                { label: this.labels.Onedaybefore, value: '1 day before' },
+                { label: this.labels.OneWeekBefore, value: '1 week before' },
+                { label: this.labels.CustomDate, value: 'Custom' }
+            ];
+        }
     }
 
     constructPathItems() {
@@ -332,14 +347,20 @@ export default class VisitsPath extends LightningElement {
             ) {
                 reminderdate = visitPlanDate - 4 * 3600 * 1000;
             } else if (
-                event.target.value == '1 Week before' ||
-                this.reminderOption == '1 Week before'
+                event.target.value == '1 week before' ||
+                this.reminderOption == '1 week before'
             ) {
                 reminderdate = visitPlanDate - 7 * 24 * 3600 * 1000;
             }
+            if (event.target.value == 'No reminder') {
+                reminderdate = null;
+                this.deleteReminderTask = true;
+                this.emailOptIn = false;
+                this.smsOptIn = false;
+            }
             var isGreaterThanToday = new Date() > new Date(reminderdate);
             this.isLessThanToday = isGreaterThanToday;
-            if (isGreaterThanToday) {
+            if (isGreaterThanToday && !this.deleteReminderTask) {
                 this.template
                     .querySelector('lightning-combobox')
                     .setCustomValidity(this.labels.reminderError);
@@ -365,7 +386,7 @@ export default class VisitsPath extends LightningElement {
         if (
             this.isEmpty(this.planDate) ||
             !allValid ||
-            this.isLessThanToday ||
+            (this.isLessThanToday && !this.deleteReminderTask) ||
             (this.isEmpty(this.reminderDate) && this.reminderOption == 'Custom')
         ) {
             this.disableSave = true;
@@ -494,6 +515,12 @@ export default class VisitsPath extends LightningElement {
         if (event.target.name == 'reminderDate') {
             this.reminderDate = event.target.value;
         }
+        if (this.reminderOption == 'No reminder') {
+            this.reminderDate = null;
+            this.deleteReminderTask = true;
+            this.emailOptIn = false;
+            this.smsOptIn = false;
+        }
         const allValid = [...this.template.querySelectorAll('lightning-input')].reduce(
             (validSoFar, inputCmp) => {
                 inputCmp.reportValidity();
@@ -520,19 +547,24 @@ export default class VisitsPath extends LightningElement {
             if (
                 this.isEmpty(this.reminderDate) &&
                 this.emailOptIn == false &&
-                this.smsOptIn == false
+                this.smsOptIn == false &&
+                this.deleteReminderTask == false
             ) {
                 communityService.showErrorToast('', this.labels.incorrectData, 3000);
                 return;
             }
         }
         if (this.reminderOption) {
-            if (this.emailOptIn == false && this.smsOptIn == false) {
+            if (
+                this.emailOptIn == false &&
+                this.smsOptIn == false &&
+                this.deleteReminderTask == false
+            ) {
                 communityService.showErrorToast('', this.labels.remindUsingRequired, 3000);
                 return;
             }
         }
-        if (new Date(this.planDate) < new Date()) {
+        if (new Date(this.planDate) < new Date() && this.deleteReminderTask == false) {
             communityService.showErrorToast('', this.labels.reminderErrorUnderFlow, 3000);
             return;
         }
@@ -573,7 +605,7 @@ export default class VisitsPath extends LightningElement {
             .catch((error) => {
                 console.log('Error: ' + JSON.stringify(error));
             });
-        if (this.reminderOption) {
+        if (this.reminderOption && this.reminderOption != 'No reminder') {
             createTask({
                 wrapper: JSON.stringify(this.initData),
                 paramTask: JSON.stringify(this.paramTask)
@@ -582,6 +614,40 @@ export default class VisitsPath extends LightningElement {
                     eval("$A.get('e.force:refreshView').fire();");
                     spinner.hide();
                     location.reload(true);
+                })
+                .catch((error) => {
+                    let message = 'Unknown error';
+                    if (error.body) {
+                        if (Array.isArray(error.body)) {
+                            message = error.body.map((e) => e.message).join(', ');
+                        } else if (typeof error.body.message === 'string') {
+                            message = error.body.message;
+                            if (message.includes('\n')) {
+                                message = message.split('\n')[0];
+                            }
+                        }
+                    } else {
+                        message = error.message;
+                    }
+                    const event = new ShowToastEvent({
+                        title: '',
+                        message: message,
+                        variant: 'error'
+                    });
+                    this.dispatchEvent(event);
+                    console.log('Error: ' + JSON.stringify(error));
+                });
+        } else if (this.reminderOption == 'No reminder') {
+            // delete reminder task
+            deleteReminder({
+                taskId: this.visitTaskId
+            })
+                .then((result) => {
+                    if (result) {
+                        eval("$A.get('e.force:refreshView').fire();");
+                        spinner.hide();
+                        location.reload(true);
+                    }
                 })
                 .catch((error) => {
                     let message = 'Unknown error';

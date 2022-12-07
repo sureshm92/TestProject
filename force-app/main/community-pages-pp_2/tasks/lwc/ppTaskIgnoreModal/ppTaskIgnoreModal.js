@@ -1,5 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import BTN_Confirm from '@salesforce/label/c.BTN_Confirm';
+import taskIgnoreContinue from '@salesforce/label/c.Continue';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import taskIgnoreModalTitle from '@salesforce/label/c.Task_Ignore_Modal_Title';
 import taskIgnoreModalBody from '@salesforce/label/c.Task_Ignore_Modal_Body';
@@ -14,7 +15,8 @@ export default class PpTaskIgnoreModal extends LightningElement {
         BTN_Confirm,
         BTN_Cancel,
         taskIgnoreModalTitle,
-        taskIgnoreModalBody
+        taskIgnoreModalBody,
+        taskIgnoreContinue
     };
 
     connectedCallback() {

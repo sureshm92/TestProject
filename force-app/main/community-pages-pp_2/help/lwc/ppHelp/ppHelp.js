@@ -17,7 +17,6 @@ import updateProfileResponse from '@salesforce/label/c.PP_UpdateProfileResponse'
 import helpFAQlabel from '@salesforce/label/c.Help_FAQ';
 import helpEmergencyLabel from '@salesforce/label/c.Help_Emergency_Contact';
 
-
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import DEVICE from '@salesforce/client/formFactor';
@@ -45,9 +44,7 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
         updateProfileResponse,
         helpFAQlabel,
         helpEmergencyLabel
-
     };
-
 
     //exclamation_green = rr_community_icons + '/' + 'status-exclamation.svg';
     help_section_icon = pp_icons + '/' + 'help-section-icon.png';
@@ -59,9 +56,11 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
     }
 
     get headerPanelClass() {
+        return this.isMobile ? 'header-panel-mobile' : '';
+    }
+    get rightColumnClass() {
         return this.isMobile ? 'header-panel-mobile' : 'header-panel';
     }
-
     get leftColPadding() {
         return this.isRTL ? 'mb-15 leftColumn-RTL' : 'mb-15 leftColumn';
     }
@@ -83,7 +82,6 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
             .then(() => {
                 Promise.all([loadStyle(this, communityPPTheme)])
                     .then(() => {
-                        console.log('------promise all-----');
                         this.spinner = this.template.querySelector('c-web-spinner');
                         this.spinner.show();
                         this.initializeData();
@@ -97,7 +95,6 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
             });
     }
     initializeData() {
-        console.log('-----------initializeData-----------');
         if (!communityService.isDummy()) {
             this.userMode = communityService.getUserMode();
             this.isDelegate = communityService.isDelegate();
@@ -108,7 +105,6 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
             if (this.isInitialized) {
                 getHelpInitData({ userMode: this.userMode, communityName: this.communityTemplate })
                     .then((result) => {
-                        console.log('result from help', result);
                         var initData = JSON.parse(result);
                         this.currentContact = initData.userContact.currentContact;
                         this.helpTopicOptions = initData.helpTopicOptions;
@@ -116,11 +112,6 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
                         this.participantPicklistvalues = initData.participantEnrollOptions;
                         this.sitePicklistvalues = initData.siteOptions;
                         this.quickReference = initData.quickReference;
-                        console.log('current contact', this.currentContact);
-                        console.log('helpTopicOptions', this.helpTopicOptions);
-                        console.log('participantPicklistvalues', this.participantPicklistvalues);
-                        console.log('sitePicklistvalues', this.sitePicklistvalues);
-                        console.log('helpTopicSettings', this.helpTopicSettings);
                         this.spinner.hide();
                     })
                     .catch((error) => {

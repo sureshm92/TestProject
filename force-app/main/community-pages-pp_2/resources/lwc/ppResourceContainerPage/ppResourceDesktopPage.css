@@ -17,9 +17,6 @@ body {
 .res-container {
     height: auto;
     background: #f7f8fa;
-    max-width: 1140px;
-    margin: auto;
-    padding: 15px 0px 15px 0px;
 }
 
 .res-header {
@@ -42,9 +39,10 @@ body {
     border: 1px solid #e9e9e9;
     border-radius: 16px;
     background-color: #ffffff !important;
-    overflow-y: auto;
-    /* padding: 10px 15px; */
-    overflow-x: hidden;
+    /* overflow-y: auto;
+     padding: 10px 15px; 
+    overflow-x: hidden; */
+    position: relative;
 }
 
 .res-box-document-container {
@@ -165,10 +163,11 @@ p {
 
 .pad10 {
     padding: 10px;
+    padding-bottom: 20px;
 }
 
 /* Scroll bar custom */
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     width: 10px;
 }
 
@@ -182,7 +181,7 @@ p {
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: #999999;
-}
+} */
 
 .crossed {
     background: linear-gradient(
@@ -250,6 +249,40 @@ p {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
 }
 
-.mt-10{
+.mt-10 {
     margin-top: 10px;
+}
+
+.mt-15 {
+    margin-top: 15px;
+}
+
+.no-links-available {
+    color: #999999;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    margin-top: 84%;
+    text-align: center;
+}
+
+.empty-state {
+    max-height: 100%;
+    max-width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.right-align {
+    float: right;
+}
+
+.newHeight {
+    height: 607px;
 }

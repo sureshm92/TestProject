@@ -120,10 +120,10 @@
     },
     helpTopicChanged: function (component, event, helper) {
         var helpTopicSettings = component.get('v.helpTopicSettings');
-        var selectedTopic =
-            $A.get('$Browser.formFactor') === 'DESKTOP'
-                ? component.get('v.selectedTopic')
-                : event.target.value;
+        
+        var selectedTopic = event.target.value;
+        component.set('v.selectedTopic',selectedTopic);
+
         var selectedTopicSettings;
         if (selectedTopic !== '') {
             selectedTopicSettings = helpTopicSettings[selectedTopic];
@@ -139,6 +139,27 @@
         if ($A.get('$Browser.formFactor') !== 'DESKTOP') {
             let selection = component.get('v.helpTopicOptions')[selectedTopic].label;
             component.set('v.placeholderText', selection);
+        }
+        component.set('v.selectedTopicSettings', selectedTopicSettings);
+        component.set('v.didThisHelp', '');
+        component.set('v.textValueProblem', '');
+        component.set('v.fileList', []);
+    },
+    helpTopicChangedDeskTop: function(component,event,helper) {
+        var helpTopicSettings = component.get('v.helpTopicSettings');
+        var selectedTopic = component.get('v.selectedTopic');
+        var selectedTopicSettings;
+        if (selectedTopic !== '') {
+            selectedTopicSettings = helpTopicSettings[selectedTopic];
+            //component.set('v.selectedTopic',event.target.value);
+        } else {
+            selectedTopicSettings = {
+                userDescriptionRequired: false,
+                knowledgeArticleLink: '',
+                solutionText: '',
+                descriptionPlaceholder: '',
+                submitRequired: false
+            };
         }
         component.set('v.selectedTopicSettings', selectedTopicSettings);
         component.set('v.didThisHelp', '');

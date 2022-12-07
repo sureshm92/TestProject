@@ -38,7 +38,6 @@
             });
         }
         let currentAlertIndex = component.get('v.currentAlertIndex') + 1;
-        console.log('currentAlertIndex ' + currentAlertIndex);
         let alerts = component.get('v.alerts');
         console.log(
             'alerts.length = ' + alerts.length + ' for that alerts: ' + JSON.stringify(alerts)

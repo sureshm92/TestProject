@@ -59,7 +59,7 @@ public with sharing class IntegrationVisitTriggerHandler {
             for (Patient_Visit__c visit : pe.Patient_Visits__r) {
                 if (
                     (integrationVisit.VISIT__c != null &&
-                    integrationVisit.VISIT__c == visit.Name) ||
+                    integrationVisit.VISIT__c == visit.Name) &&
                     (integrationVisit.VISITNUM__c != null &&
                     integrationVisit.VISITNUM__c == visit.Visit_Number__c)
                 ) {

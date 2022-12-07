@@ -20,7 +20,6 @@
   <!-- events: -->
   <aura:registerEvent access="global" name="onblur" type="c:uiEvent" />
   <aura:registerEvent access="global" name="onshow" type="c:uiEvent" />
-  <aura:registerEvent name="onBlurOverlayEvent" type="c:uiEvent" />
   <!-- component body: -->
   <ui:menu class="{!if(v.isOpened, 'popup-visible ', ' ') + v.class}">
     <ui:menuTriggerLink aura:id="trigger" class="header-menu-link">

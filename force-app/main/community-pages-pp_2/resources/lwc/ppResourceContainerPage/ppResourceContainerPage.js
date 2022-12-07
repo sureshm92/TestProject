@@ -18,6 +18,8 @@ import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
 import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
 
+import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
+
 export default class PpResourceContainerPage extends NavigationMixin(LightningElement) {
     //boolean var
     desktop = true;
@@ -30,7 +32,10 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     linksGridSize = 3;
     documentGridSize = 3;
     hideFirstColumn = false;
-    rightColumnPadding = "resource-gutter-left";
+    rightColumnPadding = 'resource-gutter-left';
+    engageHeight = 'res-box-engage-container';
+    linkssHeight = 'res-box-relLinks-container pad10';
+    docsHeight = 'res-box-document-container';
 
     //labels
     labels = {
@@ -51,6 +56,13 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     @track textValue;
     @track selectedResourceType;
     @track options = [];
+    resourcesAvailable = false;
+    selectedOptions;
+    containerElement;
+    enableChangePref = false;
+    enableChangePrefOnDocs = false;
+
+    empty_state = pp_community_icons + '/' + 'engage_empty.png';
 
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
@@ -58,9 +70,33 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-
+        if (!this.desktop) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            let resType = urlParams.get('resType');
+            if (resType) {
+                this.selectedResourceType = resType;
+                if (resType == 'engage') {
+                    this.selectedOptions = this.labels.ENGAGE;
+                } else if (resType == 'documents') {
+                    this.selectedOptions = this.labels.DOCUMENTS;
+                } else if (resType == 'explore') {
+                    this.selectedOptions = this.labels.EXPLORE;
+                } else if (resType == 'discover') {
+                    this.selectedOptions = this.labels.DISCOVER_TITLE;
+                } else if (resType == 'answers') {
+                    this.selectedOptions = this.labels.FIND_ANSWERS;
+                }
+            }
+        } else {
+            this.selectedOptions = 'Engage';
+            this.selectedResourceType = 'engage';
+        }
         this.initializeData();
     }
+    // renderedCallback(){
+    //     window.addEventListener('click', this.closeOptions);
+    // }
     //template toggle
     render() {
         return this.desktop ? resourcesDesktop : resourcesMobile;
@@ -95,7 +131,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
 
             this.trialdata = JSON.parse(result);
             //cards toggle logic
-            if (communityService.getCurrentCommunityMode().participantState == 'PARTICIPANT') {
+            if (communityService.getCurrentCommunityMode().participantState != 'ALUMNI') {
                 this.toggleExplore = this.trialdata?.trial?.Video_And_Articles_Are_Available__c;
                 this.toggleDocs = this.trialdata?.trial?.Study_Documents_Are_Available__c;
                 this.toggleLinks = this.linksData?.linksAvailable;
@@ -133,7 +169,28 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         });
     }
     updateResources(event) {
-        this.selectedResourceType = event.target.value;
+        this.selectedResourceType = event.currentTarget.dataset.key;
+        this.getKey(this.selectedResourceType);
+
+        let inputFields = this.template.querySelectorAll('.noselected');
+        inputFields.forEach((ele) => {
+            let key = ele.getAttribute('data-key');
+            if (key == this.selectedResourceType) {
+                ele.classList.add('selected');
+            } else {
+                ele.classList.remove('selected');
+            }
+        });
+    }
+
+    getKey(value) {
+        this.options.forEach((obj, index) => {
+            let key = '';
+            if (obj.value == value) {
+                key = obj.label;
+                this.selectedOptions = key;
+            }
+        });
     }
     get exploreVisible() {
         return this.selectedResourceType == 'explore' ? true : false;
@@ -160,27 +217,64 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             let option1 = { value: 'explore', label: this.labels.EXPLORE };
             this.options.push(option);
             this.options.push(option1);
-
+            this.resourcesAvailable = true;
+            if (!this.selectedResourceType && !this.selectedOptions) {
+                this.selectedResourceType = 'engage';
+                this.selectedOptions = 'Engage';
+            }
         }
         if (this.toggleLinks) {
             let option = { value: 'discover', label: this.labels.DISCOVER_TITLE };
             this.options.push(option);
+            this.resourcesAvailable = true;
+            if (!this.selectedResourceType && !this.selectedOptions) {
+                this.selectedResourceType = 'discover';
+                this.selectedOptions = 'Discover';
+            }
         }
         if (this.toggleDocs) {
             let option = { value: 'documents', label: this.labels.DOCUMENTS };
             this.options.push(option);
+            this.resourcesAvailable = true;
+            if (!this.selectedResourceType && !this.selectedOptions) {
+                this.selectedResourceType = 'documents';
+                this.selectedOptions = 'Documents';
+            }
         }
 
-        // Populate Grid size 
-        if(!this.toggleExplore && !this.toggleDocs && this.toggleLinks){
+        // Populate Grid size
+        if (!this.toggleExplore && !this.toggleDocs && this.toggleLinks) {
             this.linksGridSize = 6;
+            this.enableChangePref = true;
+            this.linkssHeight += ' newHeight';
         }
 
-        if(!this.toggleExplore && !this.toggleLinks && this.toggleDocs){
+        if (!this.toggleExplore && !this.toggleLinks && this.toggleDocs) {
             this.hideFirstColumn = true;
             this.documentGridSize = 6;
             this.rightColumnPadding = '';
+            this.enableChangePrefOnDocs = true;
+            this.docsHeight += ' newHeight';
         }
 
+        if (!this.toggleExplore && this.toggleLinks && this.toggleDocs) {
+            this.enableChangePrefOnDocs = true;
+            this.docsHeight += ' newHeight';
+            this.linkssHeight += ' newHeight';
+        }
+
+        if (this.toggleExplore && !this.toggleLinks) {
+            this.engageHeight += ' newHeight';
+        }
     }
+
+    showOptions(event) {
+        this.containerElement = this.template.querySelectorAll('.res-options');
+        this.containerElement[0].classList.toggle('hidden');
+    }
+
+    // closeOptions(event){
+    //     if(this.containerElement[0])
+    //         this.containerElement[0].classList.add('hidden');
+    // }
 }

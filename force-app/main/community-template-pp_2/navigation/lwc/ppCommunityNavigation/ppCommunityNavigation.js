@@ -146,7 +146,7 @@ export default class PpCommunityNavigation extends LightningElement {
                 parentMenu: navigationMyStudy
             },
             'about-study': {
-                link: this.baseLink + '/pp/s/study-workspace',
+                link: this.baseLink + '/pp/s/about-study-and-overview',
                 label: navigationStudy,
                 icon: '',
                 visible: this.showAboutStudy,

@@ -101,6 +101,11 @@ public without sharing class  RPRecordReviewFilterController{
  
             filterWrapper filter = (filterWrapper) JSON.deserialize( filterJSON,filterWrapper.class);
             String strQuery = 'Select Id,Participant_Name__c,Participant_Surname__c,YOB__c,Birth_Month__c,Patient_ID__c,Date_of_Birth__c,Study_Site__r.Clinical_Trial_Profile__c,Participant_Status__c ';
+
+            if(String.isNotBlank(filter.SelectedReviewResult)){
+                strQuery += ',(SELECT Id FROM Participant_PrescreenerResponses__r WHERE MRR__c = true AND Status__c = \'' + filter.SelectedReviewResult +  '\' LIMIT 1) ';
+            }
+
             strQuery += ' from Participant_Enrollment__c where HCP__r.HCP_Contact__c = \'' + currentContactId +  '\'';
             strQuery += ' AND Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c !=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL ';
             
@@ -133,12 +138,6 @@ public without sharing class  RPRecordReviewFilterController{
                 strQuery += ' AND CreatedDate ' + '  '  +filter.SelectedDateRangeValue + ' ';
             }
             
-            if(String.isNotBlank(filter.SelectedReviewResult))
-            {
-                strQuery += ' AND Medical_Record_Review_Status__c = \'' + filter.SelectedReviewResult +  '\'';
-                
-            }
-            
             strQuery += ' order by lastmodifiedDate DESC ';
             
             List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c> ();
@@ -146,18 +145,22 @@ public without sharing class  RPRecordReviewFilterController{
             peList = Database.query(strQuery);
             
             for (Participant_Enrollment__c pe : peList) {
-                String dobString = '';
 
-                if(pe.Birth_Month__c != null && pe.YOB__c == null) {
-                    dobString = pe.Birth_Month__c ;
+                if(String.isBlank(filter.SelectedReviewResult) || pe.Participant_PrescreenerResponses__r.size() > 0){
+
+                    String dobString = '';
+
+                    if(pe.Birth_Month__c != null && pe.YOB__c == null) {
+                        dobString = pe.Birth_Month__c ;
+                    }
+                    if(pe.YOB__c != null && pe.Birth_Month__c == null) {
+                        dobString = pe.YOB__c ;
+                    }
+                    if(pe.YOB__c != null && pe.Birth_Month__c != null) {
+                        dobString = pe.Birth_Month__c+'/'+pe.YOB__c;
+                    }
+                    peInitWrapperDataList.add(new RPRecordReviewLogController.peInitData(pe, false, dobString));
                 }
-                if(pe.YOB__c != null && pe.Birth_Month__c == null) {
-                    dobString = pe.YOB__c ;
-                }
-                if(pe.YOB__c != null && pe.Birth_Month__c != null) {
-                    dobString = pe.Birth_Month__c+'/'+pe.YOB__c;
-                }
-                peInitWrapperDataList.add(new RPRecordReviewLogController.peInitData(pe, false, dobString));
             }
             return peInitWrapperDataList;
        // } 

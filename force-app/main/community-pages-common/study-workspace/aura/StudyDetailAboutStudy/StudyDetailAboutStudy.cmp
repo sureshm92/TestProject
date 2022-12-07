@@ -67,7 +67,7 @@
 
                         <!-- study overview: -->
                         <div class="sdas-sub-category">{!$Label.c.PG_SW_H_Study_Overview}</div>
-                  <!--    <div class="sdas-text"><lightning:formattedRichText value="{!v.studyDetail.trial.Override_Description__c}"></lightning:formattedRichText></div> -->
+                        <div class="sdas-text"><lightning:formattedRichText value="{!v.studyDetail.trial.Override_Description__c}"></lightning:formattedRichText></div>
 
                         <!-- inclusion exclusion: -->
                         <div class="sdas-sub-category">

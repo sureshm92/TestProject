@@ -1,6 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import pirResources from '@salesforce/resourceUrl/pirResources';
+import eConsentResource from '@salesforce/resourceUrl/eConsentResource';
 import getStatusDetail from '@salesforce/apex/PIR_StatusDetailController.getStatusDetail';
 import getPERdetails from '@salesforce/apex/PIR_StatusDetailController.getPERdetails';
 import getoutcomeToReasonMap from '@salesforce/apex/PIR_StatusDetailController.getoutcomeToReasonMap';
@@ -24,6 +25,7 @@ export default class Pir_participantStatusDetails extends NavigationMixin(Lightn
     noneIcon = pirResources+'/pirResources/icons/circle.svg';
     backArrow = pirResources+'/pirResources/icons/triangle-left.svg';
     notification = pirResources+'/pirResources/icons/bell.svg';
+    eConsentBell = eConsentResource+'/eConsentResource/Icon/bell_icon.svg';
     label = {
         PWS_Received_Name,
         BTN_Back,
@@ -138,7 +140,7 @@ export default class Pir_participantStatusDetails extends NavigationMixin(Lightn
                             this.redirecturl=result.per.Study_Site__r.E_Consent_Vendor__r.Vendor_URL__c;
                         }else{
                             this.e_consentConfigured = false;
-                            this.redirecturl='';
+                            this.redirecturl=''; 
                         }
                         this.visitPlan = result.visitPlansList;
                         if(this.visitPlan.length != 0){
@@ -293,7 +295,7 @@ export default class Pir_participantStatusDetails extends NavigationMixin(Lightn
           this.dispatchEvent(valueChangeEvent);
     }
     handleConsentLogin(event) {
-        if(this.redirecturl != null){        
+        if(this.redirecturl != null){
             let config = {
               type: 'standard__webPage',
               attributes: {

@@ -9,34 +9,26 @@
                 <div class={lastUpdatedDesktopClass}>{labels.LAST_UPDATED} {lastUpdated}</div>
             </div>
             <!--Body-->
-            <div class="slds-grid slds-grid body-content">
-                <div
-                    class="slds-col slds-size_3-of-12 slds-p-left_large slds-p-right_large header-bar slds-p-left_large slds-p-bottom_large"
-                >
-                    <div class={headerScrollerClass}>
-                        <div class="header-list">
-                            <nav class="slds-nav-vertical" aria-label="Header List">
-                                <div class="slds-nav-vertical__section">
-                                    <ul aria-describedby="entity-header">
-                                        <template for:each={options} for:item="option">
-                                            <li
-                                                key={option.value}
-                                                class="slds-nav-vertical__item"
-                                                data-header={option.value}
-                                                data-label={option.label}
-                                                onclick={navigateToSelectedHeader}
-                                            >
-                                                <lightning-formatted-rich-text
-                                                    class="slds-nav-vertical__action"
-                                                    value={option.label}
-                                                ></lightning-formatted-rich-text>
-                                            </li>
-                                        </template>
-                                    </ul>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
+            <div class="slds-grid body-content">
+                <div class="slds-col slds-size_3-of-12 slds-m-right_large">
+                    <nav class="list-scroll" aria-label="Header List">
+                        <ul aria-describedby="entity-header">
+                            <template for:each={options} for:item="option">
+                                <li
+                                    key={option.value}
+                                    class="slds-nav-vertical__item"
+                                    data-header={option.value}
+                                    data-label={option.label}
+                                    onclick={navigateToSelectedHeader}
+                                >
+                                    <lightning-formatted-rich-text
+                                        class="slds-nav-vertical__action"
+                                        value={option.label}
+                                    ></lightning-formatted-rich-text>
+                                </li>
+                            </template>
+                        </ul>
+                    </nav>
                 </div>
                 <div
                     class="slds-col slds-size_1-of-12 slds-align_absolute-center full-height slds-p-bottom_large divider"
@@ -59,7 +51,7 @@
             <c-web-spinner class="main-spinner"></c-web-spinner>
             <!-- Header label-->
             <div
-                class="header-container slds-grid slds-wrap slds-p-left_medium slds-p-right_medium"
+                class="slds-grid slds-wrap slds-p-left_medium slds-p-right_medium slds-p-top_large"
             >
                 <div class="slds-col slds-size_1-of-1">
                     <div class={privacyHeader}>{labels.TU_HEADER}</div>

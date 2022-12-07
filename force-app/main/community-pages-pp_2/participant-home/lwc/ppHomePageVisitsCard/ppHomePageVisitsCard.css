@@ -4,25 +4,24 @@
     background-color: transparent;
     border-style: none;
     padding: 0;
-    width: 350px;
+    /* width: 350px; */
 }
 .container-card {
     background-color: transparent;
-    border-top-color: #00a3E0;
+    border-top-color: #00a3e0;
     border-top-width: 8px;
     padding: 0;
     border-radius: 7px;
+    height: 416px;
 }
 
 .container-card-upcoming {
     background-color: transparent;
-    border-top-color: #00a3E0;
+    border-top-color: #00a3e0;
     border-top-width: 8px;
     padding: 0;
     height: 416px;
     border-radius: 8px;
-    width: 415px;
-   
 }
 .upcoming {
     height: 3.14%;
@@ -37,14 +36,11 @@ hr {
     margin: -1px;
 }
 .more {
-    height: 2.36%;
-    width: 14.64%;
     color: #757575;
-    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0;
-    line-height: 32px;
+    line-height: 5px;
     text-align: center;
 }
 .visit-text {
@@ -53,11 +49,33 @@ hr {
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0;
     line-height: 21px;
     margin-bottom: 6px;
+    margin-top: 7px;
 }
+
+.visit-text-mobile{
+    color: #444444;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.text-padding{
+    padding-left: 9px;
+}
+
+.site-title-text {
+    color: #444444;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.hide-overflow{
+    overflow: hidden;
+}
+
 .location {
     height: 2.06%;
     /*width: 19.11%;*/
@@ -81,8 +99,27 @@ hr {
     height: 1.57%;
 } */
 .expect-icon {
-    height: 2.32%;
+    padding-right: 10px;
 }
+
+.text-centre {
+    text-align:center;
+}
+
+.detail-section{
+    display:inline-flex;
+}
+
+.dis-block {
+    display: inline-grid;
+    justify-items: center;
+}
+
+.mobile-padding {
+    padding:5px; 
+    padding-top:12px;
+}
+
 .expect-text {
     height: 2.36%;
     color: #444444;
@@ -101,46 +138,57 @@ hr {
     letter-spacing: 0;
     line-height: 32px;
 }
-.no-expect {
-    height: 4.71%;
-    color: #999999;
+
+.visit-title {
+    color: #444444;
     font-family: 'Proxima Nova';
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+
+.visit-title-mobile{
+    padding-left: 10px;
+    font-size: 24px;
+    font-weight: 600;
+}    
+
+.padding-desktop {
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+.no-expect {
+    color: #999999;
     font-size: 16px;
     font-weight: 500;
-    letter-spacing: 0;
-    line-height: 24px;
+
     text-align: center;
     word-wrap: normal;
     padding: 15%;
 }
-.content1 {
-    padding-top: 0px;
-    padding-bottom: 0px;
-    margin: 0;
-}
 .content {
-    padding-top: 0px;
-    padding-bottom: 0px;
-    margin-top: 15px;
-    padding-left: 16px;
-    padding-right: 16px;
+    margin: 10px;
 }
 .card-wrap {
     padding: 0;
 }
-.icon-box {
-    padding-top: 0;
-    padding-bottom: 0;
+
+.padding-desktop {
+    padding-left: 7px;
+    padding-right: 7px;
 }
+
 .visit-card {
     padding-top: 10px;
     padding-bottom: 0;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    height: 220px;
 }
 .visit-card-upcoming {
     height: 377px;
-    width: 381px;
     display: grid;
 }
 .center-align {
@@ -151,7 +199,7 @@ hr {
 }
 .label {
     height: 24px;
-    width: 108px;
+    width: auto;
     color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 14px;
@@ -161,44 +209,97 @@ hr {
     text-align: center;
 }
 .icon-card {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
     border: 1px solid lightgrey;
+    height: 160px;
+    background-color: #FFFFFF;
 }
-.uc-text{
+
+.icon-card-mobile {
+    height: 160px;
+}
+
+.info-icon-mobile{
+    padding-left:10px;
+}
+
+.padding-top {
+    padding-top: 16px;
+}
+.no-upcoming-img {
+    width: 82px;
+    height: 64px;
+}
+
+.upcoming-card{
+    height: 419px;
+    border: 1px solid lightgrey;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-top-color: #005587;
+    background: linear-gradient( to bottom, #005587 32px, #005587 32px, #FFFFFF 0%, #FFFFFF 100% );
+        
+}
+
+.uc-text {
     margin-top: 3px;
     padding: 0;
-    font-family: "Proxima Nova";
-  font-size: 14px;
-  font-weight: bold;
-  letter-spacing: 0;
-  line-height: 32px;
-  text-align: center;
-  color: #FFFFFF;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 32px;
+    text-align: center;
+    color: #ffffff;
 }
+.uc-text-mobile {
+    margin-top: 6px;
+    padding: 0;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    text-align: center;
+    color: #ffffff;
+}
+
 @media only screen and (max-width: 600px) {
-    .container-card{
-      height: 37px;
-      border-radius: 16px 16px 0 0;
-      background-color: #005587 !important;
-      border-top-color: #005587; 
-     border-top-width: 1px !important;
-    }
-    .content{
-        margin-top: 35px !important;
-    }
-    .container-card-upcoming{
+    .container-card {
         height: 37px;
-      border-radius: 16px 16px 0 0;
-      background-color: #005587 !important;
-      border-top-color: #005587; 
-     border-top-width: 1px !important;
+        border-radius: 16px 16px 0 0;
+        background-color: #005587 !important;
+        border-top-color: #005587;
+        border-top-width: 1px !important;
+        margin: 0 8px;
+    }
+    .content {
+        margin: 0;
+    }
+    .visit-card {
+        border-radius: 0;
+    }
+    .container-card-upcoming {
+        height: 37px;
+        border-radius: 16px 16px 0 0;
+        background-color: #005587 !important;
+        border-top-color: #005587;
+        border-top-width: 1px !important;
         width: 360px;
         margin-left: 15px;
-      }
-      .visit-card-upcoming{
+    }
+
+    .container-card-no-upcoming {
+        box-sizing: border-box;
+        height: 376px;
+    }
+
+    .visit-card-upcoming {
         width: 360px;
         margin-left: -17px;
-        margin-top: -35px;
-      }
-  }
+    }
+    .text-colour {
+        color: #a9a9a9;
+        margin-top: 8px;
+    }
+}

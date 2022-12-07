@@ -37,7 +37,7 @@ export default class ProgramOverviewDetails extends LightningElement {
     desktop = true;
     tabContent = true;
     overviewCss = 'po-tab-menu active';
-    pcCss = 'po-tab-menu';
+    pcCss = 'po-tab-menu pt';
 
     isRTL = false;
 
@@ -62,11 +62,11 @@ export default class ProgramOverviewDetails extends LightningElement {
     }
 
     get parCriterionMRight(){
-        return this.isRTL ? 'po-pb-10 po-mr-16plus' : 'po-pb-10 po-ml-3';
+        return this.isRTL ? 'po-pb-10 po-mr-16plus' : 'po-pb-10 po-ml-3 po-mr-6';
     }
 
     get parCriterionMRightDesktop(){
-        return this.isRTL ? 'po-pb-10 po-mr-16' : 'po-pb-10 po-ml-3';
+        return this.isRTL ? 'po-pb-10 po-mr-16' : 'po-pb-10 po-ml-3 po-mr-6';
     }
 
     get accordianMargin(){
@@ -135,7 +135,6 @@ export default class ProgramOverviewDetails extends LightningElement {
 
             getisRTL()
                 .then((data) => {
-                    debugger;
                     this.isRTL = data;
                 })
                 .catch(function (error) {
@@ -168,12 +167,12 @@ export default class ProgramOverviewDetails extends LightningElement {
     overViewHandler() {
         this.tabContent = true;
         this.overviewCss = 'po-tab-menu active';
-        this.pcCss = 'po-tab-menu';
+        this.pcCss = 'po-tab-menu pt';
     }
 
     participationHandler() {
         this.tabContent = false;
         this.overviewCss = 'po-tab-menu';
-        this.pcCss = 'po-tab-menu active';
+        this.pcCss = 'po-tab-menu pt active';
     }
 }

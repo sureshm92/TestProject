@@ -3,8 +3,21 @@
     margin: 10px 0 20px 0;
 }
 
+.slds-col.col2 {
+    padding-inline: 1.5rem;
+    margin-top: -2rem;
+}
+
 .col3 {
     text-align: center;
+}
+
+.scroll-position {
+    min-height: 185px;
+}
+
+.scroll-position::-webkit-scrollbar{
+    height: 9px;
 }
 
 .large {
@@ -24,7 +37,7 @@
 
 .icon-cont {
     box-sizing: border-box;
-    min-height: 185px;
+    height: 180px;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
@@ -63,7 +76,7 @@
     text-align: justify;
 }
 .my-visits {
-    margin: 2px 0 32px 32px;
+    margin-bottom: 2rem;
     line-height: 48px;
 }
 
@@ -300,6 +313,10 @@ a {
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
+}
+
+.hide {
+    display: none;
 }
 
 .visit-date-time {

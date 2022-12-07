@@ -81,10 +81,7 @@ private class Test_BasePPCommunity {
                     'lastName',
                     null
                 );
-                AddPatientByPIRemote.assignParticipantPermissions(
-                    testDataInstance.ss.Id,
-                    testDataInstance.piContact.Id
-                );
+                
                 //RH-6742 -- Extra parameters related to IQVIA outreach consenting has been added
                 AddPatientByPIRemote.saveParticipant(
                     JSON.serialize(participant),
@@ -101,6 +98,25 @@ private class Test_BasePPCommunity {
                     false,
                     JSON.serialize(piContact),
                     false
+                );
+
+                AddPatientByPIRemote.savePER(
+					participant.Id,
+                    JSON.serialize(pe),
+                    testDataInstance.ss.Id,
+                    JSON.serialize(participantDel),
+                    JSON.serialize(participant),
+                    JSON.serialize(ddInfo),
+                    JSON.serialize(piContact),
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+    				false,
+    				true,
+    				'Virtual'
                 );
 
                 for (Participant_Enrollment__c pe2 : [
@@ -248,5 +264,64 @@ private class Test_BasePPCommunity {
         System.assertEquals('en_US', user.LanguageLocaleKey);
         System.assertEquals('en_US', user.LocaleSidKey);
         System.assertEquals('America/Los_Angeles', user.Timezonesidkey);
+    }
+    @IsTest
+    static void updateState() {
+        TestData testData = new TestData();
+        Test.startTest();
+        System.runAs(testData.piUser) {
+            List<String> PE_COMMON_FIELDS = new List<String>();
+            PE_COMMON_FIELDS.addAll(ParticipantEnrollmentService.PE_COMMON_FIELDS);
+            PE_COMMON_FIELDS.add(
+                '(SELECT Id,Date__c,Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1)'
+            );
+            PE_COMMON_FIELDS.add('Clinical_Trial_Profile__r.Initial_Visit_Required__c');
+            PE_COMMON_FIELDS.add('Study_Hub_Log__c');
+            //PE_COMMON_FIELDS.add('Date_of_Birth__c');
+            PE_COMMON_FIELDS.add('Study_Hub_Log__r.Response_Status_Code__c');
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
+                testData.pe.Id,
+                CommunityService.USER_MODE_PI,
+                null,
+                PE_COMMON_FIELDS
+            );
+            ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(
+                testData.ctp,
+                pe
+            );
+            path.steps[path.currentStepInd].outcome = PEStatusState.PE_STATUS_CONTACT_ATTEMPTED;
+            
+            Participant__c participantDel = new Participant__c();
+            participantDel.Email__c = 'Test01@mail.ru';
+            participantDel.First_Name__c = 'testName';
+            participantDel.Last_Name__c = 'testLastName';
+            participantDel.Phone__c = '141241';
+            participantDel.Phone_Type__c = 'Home';
+            
+            Participant__c participantDel1 = new Participant__c();
+            participantDel1.Email__c = 'Test0198@mail.ru';
+            participantDel1.First_Name__c = 'testName1';
+            participantDel1.Last_Name__c = 'testLastName1';
+            participantDel1.Phone__c = '14124189';
+    
+            participantDel1.Birth_Year__c = '1990';
+            
+            Contact objCon = new Contact();
+            objCon.Participant_Phone_Opt_In_Permit_Phone__c = true;
+            objCon.Participant_Opt_In_Status_Emails__c = true;
+            objCon.Participant_Opt_In_Status_SMS__c = true;
+            
+            AddPatientByPIRemote.updateParticipant(JSON.serialize(testData.participant));
+            AddPatientByPIRemote.updatePatientInfo(JSON.serialize(testData.participant), JSON.serialize(testData.pe));
+            AddPatientByPIRemote.getUserLanguage();
+            //AddPatientByPIRemote.trimParticipantFields(testData.participant);
+            AddPatientByPIRemote.checkNeedsGuardian(JSON.serialize(testData.participant));
+            AddPatientByPIRemote.checkDuplicateDelegate('del@del.com','del','del');
+            AddPatientByPIRemote.checkDelegateAge(JSON.serialize(testData.participant),JSON.serialize(participantDel));
+            AddPatientByPIRemote.assignParticipantPermissions(testData.ss.Id,testData.piContact.Id);
+            
+                
+        }
+        Test.stopTest();
     }
 }

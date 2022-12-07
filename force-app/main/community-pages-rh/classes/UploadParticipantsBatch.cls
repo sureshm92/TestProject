@@ -2146,14 +2146,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
       system.debug('ERROR during deleting records: ' + exp.getMessage());
     }
 
-    // Added By Krishna For REF-2183 -Start
-    if (PERecIds != null && !PERecIds.IsEmpty()) {
-      UploadParticipantsBatchHelper obj = new UploadParticipantsBatchHelper(
-        PERecIds
-      );
-      Database.executeBatch(obj, 5);
-    }
-    // Added By Krishna For REF-2183 -End
+    
     try {
       List<String> finalEmails = null;
       sendNotificationEmail(
@@ -2172,6 +2165,14 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         'ERROR during sending file with failed records: ' + exp.getMessage()
       );
     }
+    // Added By Krishna For REF-2183 -Start
+    if (PERecIds != null && !PERecIds.IsEmpty()) {
+      UploadParticipantsBatchHelper obj = new UploadParticipantsBatchHelper(
+        PERecIds
+      );
+      Database.executeBatch(obj, 5);
+    }
+    // Added By Krishna For REF-2183 -End
   }
 
   private static void sendNotificationEmail(
@@ -2269,55 +2270,15 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     );
     failedMsgsEfa.setBody(Blob.valueOf(failedRecordsCSVMsgs));
 
-    Savepoint sp = Database.setSavepoint();
-    if (!Test.isRunningTest()) {
-      Messaging.sendEmail(
-        new List<Messaging.SingleEmailMessage>{ adminEmailToSend }
+    
+    TriggerHandlerExecutor.bypassHandler(
+            ContentDocumentLinkTriggerHandler.class, TriggerOperation.AFTER_INSERT
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ContentDocumentLinkTriggerHandler.class, TriggerOperation.BEFORE_INSERT
       );
-    }
-    Database.rollback(sp);
+        
 
-    String htmlBody = (!Test.isRunningTest()
-      ? adminEmailToSend.getHtmlBody()
-      : 'test');
-    htmlBody = htmlBody.replace(
-      '##SucRecCount',
-      '' + (totalRecordCount - errorRecordCount)
-    );
-    htmlBody = htmlBody.replace('##TotalRecCount', '' + totalRecordCount);
-    htmlBody = htmlBody.replace('##userName', '' + contextUser.userName);
-    String plainBody = (!Test.isRunningTest()
-      ? adminEmailToSend.getPlainTextBody()
-      : 'test');
-    plainBody = plainBody.replace(
-      '##SucRecCount',
-      '' + (totalRecordCount - errorRecordCount)
-    );
-    plainBody = plainBody.replace('##TotalRecCount', '' + totalRecordCount);
-    plainBody = plainBody.replace('##userName', '' + contextUser.userName);
-
-    Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
-    emailToSend.setToAddresses(
-      new List<String>{
-        (contextUser.Email != null
-          ? contextUser.Email
-          : contextUser.Contact.Email)
-      }
-    ); //Added by Krisha for REF-2536 to send email to the logged in User
-    emailToSend.setPlainTextBody(plainBody);
-    emailToSend.setHtmlBody(htmlBody);
-    emailToSend.setSubject(adminEmailToSend.getSubject());
-    emailToSend.setOrgWideEmailAddressId(owea.Id);
-
-    /*emailToSend.setFileAttachments(
-            new List<Messaging.EmailFileAttachment>{ failedRecordsEfa, failedMsgsEfa }
-        );*/
-
-    if (!Test.isRunningTest()) {
-      Messaging.sendEmail(
-        new List<Messaging.SingleEmailMessage>{ emailToSend }
-      );
-    }
     string errFileName = 'error.csv';
     if (fileName.contains('.csv')) {
       if (fileName.contains('_errors.csv')) {
@@ -2376,6 +2337,61 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         '../sfc/servlet.shepherd/document/download/' + conDocId;
     }
     update bulkHistory1;
+    
+
+    Savepoint sp = Database.setSavepoint();
+    if (!Test.isRunningTest()) {
+      Messaging.sendEmail(
+        new List<Messaging.SingleEmailMessage>{ adminEmailToSend }
+      );
+    }
+    Database.rollback(sp);
+    
+    String htmlBody = (!Test.isRunningTest()
+      ? adminEmailToSend.getHtmlBody()
+      : 'test');
+     
+    htmlBody = htmlBody.replace(
+      '##SucRecCount',
+      '' + (totalRecordCount - errorRecordCount)
+    );
+    
+    htmlBody = htmlBody.replace('##TotalRecCount', '' + totalRecordCount);
+    
+    htmlBody = htmlBody.replace('##userName', '' + contextUser.userName);
+    String plainBody = (!Test.isRunningTest()
+      ? adminEmailToSend.getPlainTextBody()
+      : 'test');
+    plainBody = plainBody.replace(
+      '##SucRecCount',
+      '' + (totalRecordCount - errorRecordCount)
+    );
+    plainBody = plainBody.replace('##TotalRecCount', '' + totalRecordCount);
+    plainBody = plainBody.replace('##userName', '' + contextUser.userName);
+    
+    Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
+    emailToSend.setToAddresses(
+      new List<String>{
+        (contextUser.Email != null
+          ? contextUser.Email
+          : contextUser.Contact.Email)
+      }
+    ); //Added by Krisha for REF-2536 to send email to the logged in User
+    
+    emailToSend.setPlainTextBody(plainBody);
+    emailToSend.setHtmlBody(htmlBody);
+    emailToSend.setSubject(adminEmailToSend.getSubject());
+    emailToSend.setOrgWideEmailAddressId(owea.Id);
+    
+    /*emailToSend.setFileAttachments(
+            new List<Messaging.EmailFileAttachment>{ failedRecordsEfa, failedMsgsEfa }
+        );*/
+
+    if (!Test.isRunningTest()) {
+      Messaging.sendEmail(
+        new List<Messaging.SingleEmailMessage>{ emailToSend }
+      );
+    }  
   }
 
   //This is a genric method which will be used to resolve data truncation issue in output file.
