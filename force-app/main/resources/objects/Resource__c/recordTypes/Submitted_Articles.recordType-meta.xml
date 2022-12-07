@@ -1133,18 +1133,18 @@
     </picklistValues>
     <picklistValues>
         <picklist>Type__c</picklist>
-        <!-- <values>
+        <values>
             <fullName>Article for caregivers</fullName>
             <default>false</default>
-        </values> -->
+        </values>
         <values>
             <fullName>None</fullName>
             <default>false</default>
         </values>
-        <!-- <values>
+        <values>
             <fullName>Patient advocacy group</fullName>
             <default>false</default>
-        </values> -->
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>X3rd_Party_Source__c</picklist>
