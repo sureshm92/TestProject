@@ -104,6 +104,7 @@ export default class PpAddNewDelegate extends LightningElement {
     oldFirstName;
     oldLastName;
     isContactSelected = false;
+    isDeletedOrWithdrawnDelegate = false;
     label = {
         PG_NTM_L_Personal_Information,
         PG_NTM_L_Team_member,
@@ -480,9 +481,8 @@ export default class PpAddNewDelegate extends LightningElement {
                 }
             })
             .catch((error) => {
+                communityService.showToast('', 'error', 'Failed To read the Data...', 100);
                 this.isLoading = false;
-
-                console.log('error' + error);
             });
     }
 
@@ -526,7 +526,23 @@ export default class PpAddNewDelegate extends LightningElement {
                 this.oldDelegate.delegateContact.LastName;
             this.showExistingContactWarning = false;
         }
-        this.checkeExistingDelegate();
+        //check Delegate status.
+        let status = this.delegate.status;
+        let isActiveDelegate = this.delegate.isActive;
+        let isFormerDelegate =
+            !isActiveDelegate && (status === 'Disconnected' || status === 'On Hold');
+        let isDeletedOrWithdrawnDelegate =
+            !isActiveDelegate && (status === 'Deleted' || status === 'Withdrawn');
+        //If Delegate is Active/former(Not Withdrawn).
+        if (isActiveDelegate || isFormerDelegate) {
+            this.showExistingDelegateError = true;
+        } else if (isDeletedOrWithdrawnDelegate) {
+            //if Delegate is withdrwan or Deleted
+            this.isDeletedOrWithdrawnDelegate = true;
+        }
+
+        this.isLoading = false;
+        //this.checkeExistingDelegate();
     }
 
     checkeExistingDelegate() {
@@ -582,10 +598,26 @@ export default class PpAddNewDelegate extends LightningElement {
                 console.log('isAttested' + this.isAttested);
                 console.log('isEmailConsentChecked' + this.isEmailConsentChecked);
 
+                let selectedStudies = [];
+                this.studiesSelected.forEach((std) => {
+                    let assigned = false;
+                    //if Deleted or Withdrawn delegate added again.
+                    if (this.isDeletedOrWithdrawnDelegate) {
+                        assigned = true;
+                    }
+                    selectedStudies.push({
+                        label: std.label,
+                        value: std.value,
+                        assigned: assigned,
+                        active: false,
+                        pdEnrollmentId: null
+                    });
+                });
+
                 //Save Delegate
                 savePatientDelegate({
                     delegate: JSON.stringify(delegate.delegateContact),
-                    delegateFilterData: JSON.stringify(this.studiesSelected)
+                    delegateFilterData: JSON.stringify(selectedStudies)
                 })
                     .then((result) => {
                         communityService.showToast(
@@ -605,6 +637,7 @@ export default class PpAddNewDelegate extends LightningElement {
                         this.isLoading = false;
                     })
                     .catch((error) => {
+                        communityService.showToast('', 'error', 'Failed To save the Data...', 100);
                         this.isLoading = false;
                         //alert('error:::' + error);
                     });
