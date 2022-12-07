@@ -750,6 +750,13 @@ export default class Pir_participantDetail extends LightningElement {
                 adultAge = this.contObj.adultAgeByCountryStateCode[csCode];
             }
             this.isAdult = (parseInt(this.participantSelectedAge) >= parseInt(adultAge));
+            if(!this.isAdult){
+                this.pd.pe.Participant__r.Email__c = null;
+                this.pd.pe.Participant__r.Phone_Type__c = '';
+                this.pd.pe.Participant__r.Phone__c = null;
+                this.pd.pe.Participant__r.Alternative_Phone_Type__c = '';
+                this.pd.pe.Participant__r.Alternative_Phone_Number__c = null;
+            }
             this.isNotAdult = !this.isAdult;
             if (this.isNotAdult) {
                 this.altIsNotAdult = !this.isAdult;
