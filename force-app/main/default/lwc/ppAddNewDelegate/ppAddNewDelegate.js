@@ -210,7 +210,11 @@ export default class PpAddNewDelegate extends LightningElement {
     }
     get checkBoxDisabled() {
         let checkBoxDisabled = false;
-        if (this.showExistingDelegateError || this.participantAddingHimselfError) {
+        if (
+            this.showExistingDelegateError ||
+            this.participantAddingHimselfError ||
+            this.diableFNLNWhenDupContacts
+        ) {
             checkBoxDisabled = true;
         }
         return checkBoxDisabled;
@@ -457,6 +461,10 @@ export default class PpAddNewDelegate extends LightningElement {
                     this.delegate = this.allDelegate[0];
                     this.setSelectedOrFirstContactInputs();
                     this.isContactSelected = true;
+                    //When existing contact is available.
+                    if (this.allDelegate[0].delegateContact.Id != undefined) {
+                        this.diableFNLNWhenDupContacts = true;
+                    }
                     // if (this.allDelegate[0].delegateContact.Id != undefined) {
                     //     //If only one existing contact found for given email.
                     //     this.showExistingContactWarning = true;
@@ -684,16 +692,16 @@ export default class PpAddNewDelegate extends LightningElement {
     //This method will confirm the selected contact among multiple contacts.
     confirmSelection(event) {
         this.isLoading = true;
-        if (this.allDelegate.length == 1) {
-            this.delegate = this.allDelegate[0];
-        } else {
-            //Filter out the selected contact from list of all contacts.
-            this.allDelegate.forEach((del) => {
-                if (del.delegateContact.Id == this.selectedContact) {
-                    this.delegate = del;
-                }
-            });
-        }
+        // if (this.allDelegate.length == 1) {
+        //     this.delegate = this.allDelegate[0];
+        // } else {
+        //Filter out the selected contact from list of all contacts.
+        this.allDelegate.forEach((del) => {
+            if (del.delegateContact.Id == this.selectedContact) {
+                this.delegate = del;
+            }
+        });
+        // }
         this.setSelectedOrFirstContactInputs();
         this.showExistingContactWarning = false;
     }
