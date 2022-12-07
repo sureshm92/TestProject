@@ -81,7 +81,15 @@ public virtual without sharing class ResourceService {
                 'WHERE Id IN (' +
                 CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(resourcesIds)) +
                 ')';
-            resources = getResources(whereClause, getOrderByClause());
+            if (Site.getMasterLabel() == 'IQVIA Patient Portal') {
+                whereClause =
+                    whereClause +
+                    ' ' +
+                    'AND  (Expiration_Date__c > TODAY OR Expiration_Date__c = NULL)';
+                resources = getResources(whereClause, getPPOrderByClause());
+            } else {
+                resources = getResources(whereClause, getOrderByClause());
+            }
         }
         return resources;
     }
@@ -92,6 +100,10 @@ public virtual without sharing class ResourceService {
 
     protected virtual String getOrderByClause() {
         return 'ORDER BY Posting_Date__c DESC NULLS LAST';
+    }
+
+    protected virtual String getPPOrderByClause() {
+        return 'ORDER BY CreatedDate DESC NULLS LAST';
     }
 
     protected virtual ResourceService.ResourceWrapperContainer getErrorNoResources() {
@@ -183,6 +195,7 @@ public virtual without sharing class ResourceService {
             'Video__c, ' +
             'Body__c, ' +
             'Updated_Date__c, ' +
+            'CreatedDate, ' +
             'RecordType.DeveloperName, ' +
             'Content_Class__c, ' +
             'Content_Type__c, ' +
@@ -210,6 +223,7 @@ public virtual without sharing class ResourceService {
             'Version_Date__c ' +
             'FROM Resource__c ' +
             whereClause +
+            ' ' +
             (String.isBlank(orderByClause) ? '' : orderByClause + ' ');
         System.debug('>>> Resources Query: ' + resourcesQuery);
         return (List<Resource__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
@@ -229,6 +243,34 @@ public virtual without sharing class ResourceService {
 
         List<ResourceWrapper> rwSorted = new List<ResourceWrapper>();
         for (ResourceComparing rc : resourceComparings) {
+            rwSorted.add(rc.res1);
+        }
+        return rwSorted;
+    }
+    public static List<ResourceWrapper> sortUpdateResourcesByCOI(List<ResourceWrapper> resourceWrappers) {
+        List<ResourceUpdateComparing> resourceComparings = new List<ResourceUpdateComparing>();
+        for (ResourceWrapper rw : resourceWrappers) {
+            resourceComparings.add(new ResourceUpdateComparing(rw));
+        }
+        resourceComparings.sort();
+
+        List<ResourceWrapper> rwSorted = new List<ResourceWrapper>();
+        for (ResourceUpdateComparing rc : resourceComparings) {
+            rwSorted.add(rc.res1);
+        }
+        return rwSorted;
+    }
+    public static List<ResourceWrapper> sortResourcesByCreatedDate(
+        List<ResourceWrapper> resourceWrappers
+    ) {
+        List<ResourceSorting> resourceSortings = new List<ResourceSorting>();
+        for (ResourceWrapper rw : resourceWrappers) {
+            resourceSortings.add(new ResourceSorting(rw));
+        }
+        resourceSortings.sort();
+
+        List<ResourceWrapper> rwSorted = new List<ResourceWrapper>();
+        for (ResourceSorting rc : resourceSortings) {
             rwSorted.add(rc.res1);
         }
         return rwSorted;
@@ -315,10 +357,135 @@ public virtual without sharing class ResourceService {
             return returnValue;
         }
     }
+    public virtual class ResourceUpdateComparing implements Comparable {
+        public ResourceService.ResourceWrapper res1;
+
+        public ResourceUpdateComparing(ResourceService.ResourceWrapper res1) {
+            this.res1 = res1;
+        }
+
+        public Integer compareTo(Object param1) {
+            ResourceUpdateComparing res2 = (ResourceUpdateComparing) param1;
+
+            Integer returnValue = 0; // The return value of 0 indicates that both elements are equal.
+            if (
+                res1.resource.Content_Type__c != RESOURCE_TYPE_RELEVANT_LINK &&
+                res2.res1.resource.Content_Type__c != RESOURCE_TYPE_RELEVANT_LINK
+            ) {
+                if (
+                    res1.resource.Therapeutic_Area_Assignments__r?.size() <
+                    res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
+                ) {
+                    returnValue = 1;
+                } else if (
+                    res1.resource.Therapeutic_Area_Assignments__r?.size() <
+                    res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
+                ) {
+                    returnValue = -1;
+                }
+            } else if (
+                res1.resource.Content_Type__c == RESOURCE_TYPE_RELEVANT_LINK &&
+                res2.res1.resource.Content_Type__c == RESOURCE_TYPE_RELEVANT_LINK
+            ) {
+                if (
+                    res1.therapeuticAssignments?.size() < res2.res1.therapeuticAssignments?.size()
+                ) {
+                    returnValue = 1;
+                } else if (
+                    res1.therapeuticAssignments?.size() < res2.res1.therapeuticAssignments?.size()
+                ) {
+                    returnValue = -1;
+                }
+            } else if (res1.resource.Content_Type__c == RESOURCE_TYPE_RELEVANT_LINK) {
+                if (
+                    res1.therapeuticAssignments?.size() <
+                    res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
+                ) {
+                    returnValue = 1;
+                } else if (
+                    res1.therapeuticAssignments?.size() <
+                    res2.res1.resource.Therapeutic_Area_Assignments__r?.size()
+                ) {
+                    returnValue = -1;
+                }
+            } else {
+                if (
+                    res1.resource.Therapeutic_Area_Assignments__r?.size() <
+                    res2.res1.therapeuticAssignments?.size()
+                ) {
+                    returnValue = 1;
+                } else if (
+                    res1.resource.Therapeutic_Area_Assignments__r?.size() <
+                    res2.res1.therapeuticAssignments?.size()
+                ) {
+                    returnValue = -1;
+                }
+            }
+
+            return returnValue;
+        }
+    }
+    public virtual class ResourceSorting implements Comparable {
+        public ResourceService.ResourceWrapper res1;
+
+        public ResourceSorting(ResourceService.ResourceWrapper res1) {
+            this.res1 = res1;
+        }
+
+        public Integer compareTo(Object param1) {
+            ResourceSorting res2 = (ResourceSorting) param1;
+
+            Integer returnValue = 0; // The return value of 0 indicates that both elements are equal.
+            if (res1.resource.CreatedDate < res2.res1.resource.CreatedDate) {
+                returnValue = 1; // Set return value to a positive value.
+            } else if (res1.resource.CreatedDate > res2.res1.resource.CreatedDate) {
+                returnValue = -1; // Set return value to a negative value.
+            }
+
+            return returnValue;
+        }
+    }
+    public static Integer getUpdatesCounter(List<ResourceWrapper> resourceWrappers) {
+        Integer counter = 0;
+        List<LoginHistory> lastLoginList = [
+            SELECT loginTime, Status
+            FROM LoginHistory
+            WHERE userId = :UserInfo.getUserId()
+            ORDER BY LoginTime DESC
+            LIMIT 7
+        ];
+        Datetime lastLogin;
+        if (lastLoginList.size() > 1) {
+            //get last successful logintime as we can't filter on status field
+            for (Integer i = 1; i < lastLoginList.size(); i++) {
+                if (lastLoginList[i].Status == 'Success') {
+                    lastlogin = lastLoginList[i].loginTime;
+                }
+                break;
+            }
+            for (ResourceWrapper rw : resourceWrappers) {
+                if (rw.resource.CreatedDate > lastlogin) {
+                    counter++;
+                }
+            }
+        }
+
+        return counter;
+    }
+    public virtual class TherapeuticAssignments {
+        @AuraEnabled
+        public String resource = '';
+        @AuraEnabled
+        public String id = '';
+        @AuraEnabled
+        public String therapeuticArea = '';
+    }
 
     public virtual class ResourceWrapper {
         @AuraEnabled
         public Resource__c resource;
+        @AuraEnabled
+        public List<TherapeuticAssignments> therapeuticAssignments;
         @AuraEnabled
         public Boolean isFavorite = false;
         @AuraEnabled

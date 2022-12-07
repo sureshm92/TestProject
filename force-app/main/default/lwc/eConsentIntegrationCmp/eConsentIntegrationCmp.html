@@ -57,7 +57,11 @@
                     <!-- Modal/Popup Box LWC body starts here -->
                     <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                         <lightning-input type="text" name="input1" label={label.consentrecvendorLabel}
-                            value={vendername} onchange={updatevendername} required="true"></lightning-input>
+                            value={vendername} required="true" data-name="vendorName" onchange={updateVendorDetails}></lightning-input>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                        <lightning-input type="url" name="input1" label={label.consentrecvendorURL} data-name="vendorURL"
+                            value={vendorURL} onchange={updateVendorDetails} required="true"></lightning-input>
                         <!--<lightning-textarea maxlength="250" name="input2" label={label.DescriptionLabel} value={venderdescription} onchange={updatevenderdesc}></lightning-textarea> -->
                     </div>
                     <!-- Modal/Popup Box LWC footer starts here -->
@@ -109,22 +113,22 @@
                             <th key={row.Id}>
                                 <template if:false={isDisabled}>
                                     <lightning-button-menu class="consentVendorBtn" variant="bare"
-                                        alternative-text="Show menu" data-id={row.Id} data-target-id={row.Name}
-                                        onselect={handleOnselect} label={row.Name} title={row.Name}>
+                                    alternative-text="Show menu" data-id={row.Id} data-target-id={row.Name}
+                                    onselect={handleOnselect} label={row.Name} title={row.Name}>
                                         <lightning-menu-item icon-position="left" icon-name="utility:edit" value="Edit"
                                             label="Edit" disabled={isDisabled}></lightning-menu-item>
                                         <lightning-menu-item icon-position="left" icon-name="utility:copy" value="Clone"
                                             label="Clone" disabled={isDisabled}></lightning-menu-item>
                                         <lightning-menu-item icon-position="left" icon-name="utility:close"
                                             value="Remove" label="Remove" disabled={isDisabled}></lightning-menu-item>
-                                    </lightning-button-menu>
+                                </lightning-button-menu>
                                 </template>
-
+                               
                                 <template if:true={isDisabled}>
-                                    <lightning-button variant="base" class="consentVendorBtn" data-id={row.Id}
-                                        data-target-id={row.Name} label={row.Name} title={row.Name}></lightning-button>
-                                </template>
-
+                                    <lightning-button variant="base" class="consentVendorBtn" data-id={row.Id} 
+                                        data-target-id={row.Name} label={row.Name} title={row.Name}></lightning-button> 
+                                </template>    
+                                
                                 <template if:false={isDisabled}>
                                     <div class="text-truncate" title={row.Name}>
                                         <a href={row.studysiteurl} style="font-size: 10px" data-id={row.Id}

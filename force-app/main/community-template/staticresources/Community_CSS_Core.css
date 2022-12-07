@@ -1516,11 +1516,6 @@ input[type=password]::-ms-clear
     margin: auto;
 }
 
-.rr-width-limiter-pp{
-    max-width: 1140px;
-    margin-left: auto;
-}
-
 .rr-width-limiterRTL{
     max-width: 1140px;
     margin: auto;
@@ -1873,4 +1868,25 @@ input[type=password]::-ms-clear
     border: 1px solid #D9D9D9;
     background-color: #F2F2F2;
 
+/* trial item - contact to study - alumni participant */
+
+.trialItemPopUpContainer .cPopup .p-header h2 {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 30px;
+    width: 90%;
+    margin-left: -8px;
+}
+
+.trialItemPopUpContainer .cPopup .p-container .p-content {
+    max-height: 60vh;
+    padding: 30px 16px;
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.1rem;
+    white-space: initial;
+    text-align: left;
+    font-weight: 400;
+    overflow-x: hidden;
+    padding-top: 0px;
 }

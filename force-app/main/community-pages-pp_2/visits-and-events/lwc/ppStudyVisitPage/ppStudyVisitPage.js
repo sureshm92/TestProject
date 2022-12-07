@@ -91,6 +91,11 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     isMobile = false;
     hasRendered = false;
 
+    isUpcomingVisits = true;
+    isPastVisits = true;
+    column2 = 'col2';
+    column3 = 'col3';
+
     callParticipantVisit() {
         this.cbload = true;
         this.initialPageLoad = true;
@@ -123,6 +128,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                                 }
                             }
                             this.upcomingVisits.push(result[i]);
+                            this.isUpcomingVisits = true;
                         } else if (
                             result[i].visit.Status__c == this.status.completed ||
                             result[i].visit.Status__c == this.status.missed
@@ -142,9 +148,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         }
                     }
                     //get upcoming visit details onload
-                    this.visitid = this.upcomingVisits[0].visit.Id;
-                    this.taskSubject = this.upcomingVisits[0].visit.Name;
-
+                    if (this.upcomingVisits.length > 0) {
+                        this.visitid = this.upcomingVisits[0].visit.Id;
+                        this.taskSubject = this.upcomingVisits[0].visit.Name;
+                        this.isUpcomingVisits = true;
+                    } else {
+                        this.isUpcomingVisits = false;
+                    }
                     if (!this.pastVisitId && this.pastVisits.length > 0) {
                         this.pastVisits = this.pastVisits.reverse();
                         this.pastVisitId = this.pastVisits[0].visit.Id;
@@ -155,9 +165,12 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
                     }
                     this.showList = true;
-                    this.initializeData(this.visitid);
+                    if (this.visitid) {
+                        this.initializeData(this.visitid);
+                    }
                     this.createEditTask();
                 } else {
+                    this.isUpcomingVisits = false;
                     this.template.querySelector('c-web-spinner').hide();
                     this.contentLoaded = true;
                 }
@@ -174,6 +187,15 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         if (!this.hasRendered) {
             this.template.querySelector('c-web-spinner').show();
             this.hasRendered = true;
+        }
+        this.template.querySelector('c-web-spinner').hide();
+        if (
+            !this.isUpcomingVisits &&
+            this.showUpcomingVisits == true &&
+            this.template.querySelector('[data-id="' + this.column2 + '"]') != null
+        ) {
+            this.template.querySelector('[data-id="' + this.column2 + '"]').classList.add('hide');
+            this.template.querySelector('[data-id="' + this.column3 + '"]').classList.add('hide');
         }
     }
 
@@ -192,6 +214,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.siteAddress = data.accountAddress;
                 this.siteName = data.accountName;
                 this.sitePhoneNumber = data.accountPhone;
+                this.template.querySelector('c-web-spinner').show();
             })
             .catch((error) => {
                 this.showErrorToast('Error occured', error.message, 'error');
@@ -218,15 +241,32 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         this.past = false;
         this.showUpcomingVisits = true;
         if (this.upcomingVisits.length > 0) {
+            this.isUpcomingVisits = true;
             this.visitid = this.upcomingVisitId;
             this.visitName = this.upcomingVisits[0].visit.Name;
             this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
             this.visitStatus = this.upcomingVisits[0].visit.Status__c;
+            if (this.isMobile == false) {
+                this.template
+                    .querySelector('[data-id="' + this.column2 + '"]')
+                    .classList.remove('hide');
+                this.template
+                    .querySelector('[data-id="' + this.column3 + '"]')
+                    .classList.remove('hide');
+            }
             this.createEditTask();
+        } else {
+            this.isUpcomingVisits = false;
+            this.visitid = '';
+            this.visitName = '';
+            this.plannedDate = '';
+            this.visitStatus = '';
         }
         const objChild = this.template.querySelector('c-pp-r-r-icon-splitter');
-        objChild.resetValues();
-        objChild.handleOnVisitClick();
+        if (objChild != null) {
+            objChild.resetValues();
+            objChild.handleOnVisitClick();
+        }
     }
 
     onPastClick() {
@@ -237,15 +277,35 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         this.past = true;
         this.showUpcomingVisits = false;
         if (this.pastVisits.length > 0) {
+            this.isPastVisits = true;
             this.visitid = this.pastVisitId;
             this.visitName = this.pastVisits[0].visit.Name;
             this.plannedDate = this.pastVisits[0].visit.Planned_Date__c;
             this.visitStatus = this.pastVisits[0].visit.Status__c;
+            if (this.isMobile == false) {
+                this.template
+                    .querySelector('[data-id="' + this.column2 + '"]')
+                    .classList.remove('hide');
+                this.template
+                    .querySelector('[data-id="' + this.column3 + '"]')
+                    .classList.remove('hide');
+                this.initializeData(this.visitid);
+            }
+
             this.createEditTask();
         } else {
+            this.isPastVisits = false;
             this.visitid = this.pastVisitId;
             this.visitName = '';
             this.visitStatus = '';
+            if (this.isMobile == false) {
+                this.template
+                    .querySelector('[data-id="' + this.column2 + '"]')
+                    .classList.add('hide');
+                this.template
+                    .querySelector('[data-id="' + this.column3 + '"]')
+                    .classList.add('hide');
+            }
         }
         const objChild = this.template.querySelector('c-pp-r-r-icon-splitter');
         objChild.resetValues();
@@ -331,41 +391,46 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     '{"Id":"","Patient_Visit__c":"","Reminder_Date__c":"","ReminderDateTime":"","Remind_Me__c":"","Remind_Using_Email__c":false,"Remind_Using_SMS__c":false}';
                 var jsonstr = JSON.stringify(result[0]);
                 const obj = JSON.parse(jsonstr);
-                if (typeof result[0].task === 'undefined') {
+                if (typeof result[0].task === 'undefined' && this.upcomingVisits.length > 0) {
                     obj.task = JSON.parse(str);
                     this.upcomingVisits[this.selectedIndex].isReminderDate = false;
                 }
-                if (typeof result[0].visitDate === 'undefined') {
+                if (typeof result[0].visitDate === undefined) {
                     obj.visitDate = '';
                 }
                 this.visitdata = obj;
-                this.taskId = this.visitdata.task.Id;
+                if (this.visitdata.task != undefined) {
+                    this.taskId = this.visitdata.task.Id;
+                }
 
                 //update bell icon once reminder is created PEH-7825
-                if (this.taskId) {
-                    if (this.visitdata.task.Reminder_Date__c === undefined) {
-                        this.upcomingVisits[this.selectedIndex].isReminderDate = false;
+                if (this.upcomingVisits.length > 0) {
+                    if (this.taskId && this.visitdata.task) {
+                        if (this.visitdata.task.Reminder_Date__c != undefined) {
+                            this.upcomingVisits[this.selectedIndex].isReminderDate = true;
+                        } else {
+                            this.upcomingVisits[this.selectedIndex].isReminderDate = false;
+                        }
                     } else {
-                        this.upcomingVisits[this.selectedIndex].isReminderDate = true;
+                        this.upcomingVisits[this.selectedIndex].isReminderDate = false;
                     }
-                } else {
-                    this.upcomingVisits[this.selectedIndex].isReminderDate = false;
                 }
 
                 if (!this.past) {
-                    this.upcomingVisits[
-                        this.selectedIndex
-                    ].visit.Planned_Date__c = this.visitdata.visitDate;
+                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c = 
+                    this.visitdata.visitDate;
                 }
-                if (this.visitdata.visitDate && this.showUpcomingVisits) {
-                    this.upcomingVisits[this.selectedIndex].noVisitDate = false;
-                    this.plannedDate = this.upcomingVisits[
-                        this.selectedIndex
-                    ].visit.Planned_Date__c;
-                } else {
-                    this.upcomingVisits[this.selectedIndex].noVisitDate = true;
-                    this.plannedDate = '';
+                if (this.upcomingVisits.length > 0) {
+                    if (this.visitdata.visitDate && this.showUpcomingVisits) {
+                        this.upcomingVisits[this.selectedIndex].noVisitDate = false;
+                        this.plannedDate = 
+                        this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
+                    } else {
+                        this.upcomingVisits[this.selectedIndex].noVisitDate = true;
+                        this.plannedDate = '';
+                    }
                 }
+
                 this.showChild = true;
                 if (!this.initialPageLoad) {
                     this.initializeData(this.visitid);
@@ -393,7 +458,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         if (this.visitid) {
             await this.template.querySelector('[data-id="' + this.visitid + '"]');
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-            theDiv.className = 'active-custom-box';
+            if (theDiv) {
+                theDiv.className = 'active-custom-box';
+            }
         }
     }
 
@@ -418,7 +485,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
             })
             .catch((error) => {
-                this.showErrorToast('Error occured', error.message, 'error');
+                this.showErrorToast('Error occured here', error.message, 'error');
             });
     }
 

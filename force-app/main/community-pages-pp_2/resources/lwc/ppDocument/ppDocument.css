@@ -6,6 +6,10 @@
     background-color: #ffffff;
 }
 
+.thumbnail-outerbox {
+    padding: 2px 0 0 2px;
+}
+
 .thumbnail-box {
     box-sizing: border-box;
     border: 1px solid #d9d9d9;
@@ -23,11 +27,14 @@
     line-height: 17px;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 160px;
     white-space: nowrap;
+    width: 160px;
+    width: 100%;
+    cursor: pointer;
 }
 
 .document-details {
+    padding: 12px 15px 0 15px;
     height: 58px;
 }
 
@@ -39,16 +46,19 @@
     line-height: 10px;
 }
 
+.com-icon {
+    height: 100%;
+    width: 100%;
+}
+
 .thumnail-img {
     height: 95%;
     width: 100%;
-    padding-left: 3px;
-    padding-right: 3px;
-    padding-top: 3px;
+    padding: 3px 3px 0px 3px;
 }
 
-.document-label a:hover {
-    overflow: visible;
+.empty-thumbnail-doc-icon {
+    margin-left: 15px;
 }
 
 .version-date-translation {
@@ -57,4 +67,10 @@
     font-size: 12px;
     letter-spacing: 0;
     line-height: 0px;
+}
+
+.translation-dropdown {
+    margin-bottom: -98px;
+    margin-top: -2px;
+    margin-right: -85px;
 }

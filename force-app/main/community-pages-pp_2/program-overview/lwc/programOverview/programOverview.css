@@ -39,7 +39,6 @@
     line-height: 19px;
     text-align: left;
     color: #595959;
-    margin-left: 24px;
     max-width: 468px;
     height: 57px;
     font-family: 'Proxima Nova';
@@ -51,7 +50,6 @@
     font-size: 16px;
     color: #0768fd;
     line-height: 24px;
-    margin-left: 24px;
     cursor: pointer;
 }
 

@@ -1,26 +1,50 @@
 <apex:component id="PP_InitialWireframe" controller="InitialWireframeController" access="global">
-    <apex:attribute name="userId" type="Id" assignTo="{!recordId}" description="" access="global"/>
-    <apex:attribute name="communityTemplate" type="String" assignTo="{!commTemplate}" description="" access="global"/>
-    <apex:attribute name="buttonLabel" type="String" assignTo="{!buttonLabelValue}" description="" access="global"/>
-    <apex:attribute name="buttonURL" type="String" description="" access="global"/>
-    <apex:attribute name="outputType" type="String" assignTo="{!outputMode}" description="" default="HTML"/>
-<!-- Participant: -->
-<c:PP_EmailWireframe rendered="{!userMode == 'Participant referred by PI'}"
-                    recipientId="{!recordId}"
-                         sourceId="{!sourceId}"
-                         header="{!$Label.Email_Header_Initial_Patient_PP}"
-                         isPreBodyButton="true"
-                         preBodyButtonName="{!$Label.Email_Action_Register}"
-                         greeting="{!$Label.Email_User_Greeting_FirstName}"
-                         signature="{!$Label.Email_Signature_Patient_New_PP}">
-    <!-- Inner body -->
-     <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Created_By_PI_New_PP}"/> 
-    <c:ParticipantParagraph rendered="{!(communityTemplate == 'PatientPortal')}" learnmoreLabel="{!$Label.Learn_more_about_study}"   
-                                              discoverLabel="{!$Label.Discover_future_Clinical_PP}"
-                                              trackLabel="{!$Label.Track_your_study_PP}" 
-                                              communityNameHelpLabel="{!$Label.The_Patient_Portal_Help}" />
+    <apex:attribute name="userId" type="Id" assignTo="{!recordId}" description="" access="global" />
+    <apex:attribute name="communityTemplate" type="String" assignTo="{!commTemplate}" description="" access="global" />
+    <apex:attribute name="buttonLabel" type="String" assignTo="{!buttonLabelValue}" description="" access="global" />
+    <apex:attribute name="buttonURL" type="String" description="" access="global" />
+    <apex:attribute name="outputType" type="String" assignTo="{!outputMode}" description="" default="HTML" />
+    <!-- Participant referred by PI-->
+    <c:PP_EmailWireframe rendered="{!userMode == 'Participant referred by PI'}" recipientId="{!recordId}" sourceId="{!sourceId}"
+        header="{!$Label.Email_Header_Initial_Patient_PP}" isPreBodyButton="true" preBodyButtonName="{!BTNLabel}" preBodyButtonURL="{!buttonURL}"
+        greeting="{!$Label.Email_User_Greeting_FirstName}" signature="{!IF(checkVisitedCommunity,$Label.Email_Signature_Patient1_PP_New,$Label.Email_Signature_Patient_New_PP)}"
+        communityTemplate="PatientPortal">
+
+
+        <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Created_By_PI_New_PP}" />
+        <c:ParticipantParagraph learnmoreLabel="{!IF(checkVisitedCommunity,$Label.Learn_more_about_study_PP,$Label.Learn_more_about_study)}"
+            discoverLabel="{!IF(checkVisitedCommunity,$Label.Discover_future_Clinical_New_PP,$Label.Discover_future_Clinical_PP)}"
+            trackLabel="{!$Label.Track_your_study_PP}" communityNameHelpLabel="{!$Label.The_Patient_Portal_Help}" />
+
+    </c:PP_EmailWireframe>
+    <!-- Participant ePR-->
+
+    <c:PP_EmailWireframe rendered="{!userMode == 'Participant Virtual'}" recipientId="{!recordId}" sourceId="{!sourceId}" header="{!$Label.Email_Header_Initial_Patient_PP}"
+        isPreBodyButton="true" preBodyButtonName="{!BTNLabel}" preBodyButtonURL="{!buttonURL}" greeting="{!$Label.Email_User_Greeting_FirstName}"
+        signature="{!$Label.Email_Signature_Patient_ePR_PP}" communityTemplate="PatientPortal">
+
+        <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_ePR_PP}" />
+        <c:ParticipantParagraph learnmoreLabel="{!$Label.Learn_more_about_study}" discoverLabel="{!$Label.Discover_future_Clinical}"
+            trackLabel="{!$Label.Track_your_study_PP}" communityNameHelpLabel="{!$Label.The_Patient_Portal_Help}" />
+    </c:PP_EmailWireframe>
+    <!-- Participant Delegate -->
+    <c:PP_EmailWireframe rendered="{!userMode=='Participant Delegate'}" recipientId="{!recordId}" sourceId="{!sourceId}" header="{!$Label.Email_Header_Initial_Patient_Delegate}"
+        greeting="{!$Label.Email_User_Greeting_FirstName}" signature="{!$Label.Email_Signature_Participant_Delegate_PP}" isPreBodyButton="true"
+        preBodyButtonName="{!BTNLabel}" preBodyButtonURL="{!buttonURL}" communityTemplate="PatientPortal">
+
+        <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate_PP}" />
+        <c:EmailTemplateDelegateParticipant communityTemplate="PatientPortal" />
+        <c:DelegateParagraph learnmoreLabel="{!$Label.Delegate_learnmore_PP}" trackLabel="{!$Label.Delegate_roadmap_Content_PP}"
+            communityNameHelpLabel="{!$Label.The_Delegate_Header}" />
     </c:PP_EmailWireframe>
 
-  
+    <!-- Participant referred by HCP -->
+    <c:PP_EmailWireframe rendered="{!userMode=='Participant referred by HCP'}" recipientId="{!recordId}" sourceId="{!sourceId}"
+        header="{!$Label.Email_Header_Initial_Patient_PP}" isPreBodyButton="true" preBodyButtonName="{!BTNLabel}" preBodyButtonURL="{!buttonURL}"
+        greeting="{!$Label.Email_User_Greeting_FirstName}" signature="{!$Label.Email_Signature_Patient_RP_Referral_PP}" communityTemplate="PatientPortal">
+        <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_RP_Referral_PP}" />
+        <c:ParticipantParagraph learnmoreLabel="{!$Label.Learn_more_about_study}" discoverLabel="{!$Label.Discover_future_Clinical_PP}"
+            trackLabel="{!$Label.Track_your_study_PP}" communityNameHelpLabel="{!$Label.The_Patient_Portal_Help}" />
+    </c:PP_EmailWireframe>
 
-    </apex:component>
+</apex:component>

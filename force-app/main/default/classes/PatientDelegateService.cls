@@ -421,22 +421,48 @@ public without sharing class PatientDelegateService {
         if (participantState.pe == null)
             return;
         List<Alert__c> alertList = new List<Alert__c>();
-        alertList.add(
-            new Alert__c(
-                Contact__c = contactDelegate.Id,
-                Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_DELEGATE,
-                Record_ID__c = participantState.pe.Id
-            )
-        );
-
-        if (participantState.value == ParticipantService.ParticipantStates.PARTICIPANT) {
+        if (
+            participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+            CommunityTemplateService.TEMPLATE_PP
+        ) {
             alertList.add(
                 new Alert__c(
                     Contact__c = contactDelegate.Id,
-                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
+                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_DELEGATE_PP,
                     Record_ID__c = participantState.pe.Id
                 )
             );
+        } else {
+            alertList.add(
+                new Alert__c(
+                    Contact__c = contactDelegate.Id,
+                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_DELEGATE,
+                    Record_ID__c = participantState.pe.Id
+                )
+            );
+        }
+
+        if (participantState.value == ParticipantService.ParticipantStates.PARTICIPANT) {
+            if (
+                participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                CommunityTemplateService.TEMPLATE_PP
+            ) {
+                alertList.add(
+                    new Alert__c(
+                        Contact__c = contactDelegate.Id,
+                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE_PP,
+                        Record_ID__c = participantState.pe.Id
+                    )
+                );
+            } else {
+                alertList.add(
+                    new Alert__c(
+                        Contact__c = contactDelegate.Id,
+                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
+                        Record_ID__c = participantState.pe.Id
+                    )
+                );
+            }
         }
 
         insert alertList;

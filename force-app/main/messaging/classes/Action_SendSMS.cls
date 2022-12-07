@@ -284,6 +284,10 @@ public without sharing class Action_SendSMS implements Action {
                         shortCommunityName = pinPointWrapperObj.sponsorNameSms == null
                             ? ''
                             : pinPointWrapperObj.sponsorNameSms;
+                    } else if (pinPointWrapperObj.ctpTemplate == 'PatientPortal') {                        
+                        shortCommunityName = pinPointWrapperObj.sponsorNameSms == null
+                            ? ''
+                            : pinPointWrapperObj.sponsorNameSms;
                     }
                     url = CommunityService.getCommunityURLFromTemplateName(
                         pinPointWrapperObj.ctpTemplate
@@ -1089,7 +1093,7 @@ public without sharing class Action_SendSMS implements Action {
                         studyName = apiParamsMap.get(PL_STUDY).ParamValue__c;
                         fromNumber = apiParamsMap.get(FROM_NUMBER).ParamValue__c;
                     }
-                } 
+                }
                 NotificationService.welcomemsgSent.put(notObj.Id, welcomemsgsent);
                 NotificationService.welcomemsgDelivered.put(notObj.Id, welcomemsgDelivered);
                 if (

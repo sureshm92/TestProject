@@ -18,7 +18,7 @@
                     <c-pp-web-select
                         class="full-width"
                         label-hidden="true"
-                        place-holder={labels.SELECT_REMINDER}
+                        place-holder={taskPlaceholder}
                         selected-value={selectedReminderOption}
                         options={reminderOptions}
                         custom-class="custom-no-border"
@@ -54,6 +54,8 @@
                         ondate={handleOnlyDate}
                         ontime={handleOnlyTime}
                         onnulldatetime={handleNullDateTimeReminder}
+                        onnulltimechange={handleNullTimeReminder}
+                        edit-mode={editMode}
                     ></c-pp-date-time-combo>
                 </div>
             </template>

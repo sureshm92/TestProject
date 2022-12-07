@@ -322,12 +322,14 @@
                                         </template>
                                     </template>
                                     <div class="w-90">
-                                        <div class="flags">
-                                            <template if:true={p.actionReq}><span class=" actionReq"><img
+                                        <div class="flags flag-width">
+                                            <template if:true={p.actionReq}><span class=" actionReq actionwidth"><img
                                                         src={iconActionReq} />{label.Action_Required}</span></template>
-                                            <template if:true={p.highPriority}><span class="priority"><img
+                                            <template if:true={p.actionReq_Reconsent}><span class=" actionReq actionwidth actionReconsent" title={label.Need_to_Re_consent}><img
+                                                src={iconActionReqeConsent} />{label.Action_Required}</span></template>
+                                            <template if:true={p.highPriority}><span class="priority actionwidth"><img
                                                         src={iconHighPriority} />{label.High_Priority}</span></template>
-                                            <template if:true={p.highRisk}><span class="risk"><img
+                                            <template if:true={p.highRisk}><span class="risk actionwidth"><img
                                                         src={iconHighRisk} />{label.High_Risk}</span></template>
                                         </div>
                                         <div class="slds-text-heading--small breakW">
@@ -349,12 +351,14 @@
                         <template for:each={participantList} for:item="p" for:index="index">
                             <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0"
                                 class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-large slds-p-top--xx-small dividerTop rtl-pad-right">
-                                <div class="flags">
-                                    <template if:true={p.actionReq}><span class=" actionReq"><img
+                                <div class="flags flag-width">
+                                    <template if:true={p.actionReq}><span class=" actionReq actionwidth"><img
                                                 src={iconActionReq} />{label.Action_Required}</span></template>
-                                    <template if:true={p.highPriority}><span class="priority"><img
+                                    <template if:true={p.actionReq_Reconsent}><span class=" actionReq actionwidth actionReconsent" title={label.Need_to_Re_consent}><img
+                                        src={iconActionReqeConsent} />{label.Action_Required}</span></template>
+                                    <template if:true={p.highPriority}><span class="priority actionwidth"><img
                                                 src={iconHighPriority} />{label.High_Priority}</span></template>
-                                    <template if:true={p.highRisk}><span class="risk"><img
+                                    <template if:true={p.highRisk}><span class="risk actionwidth"><img
                                                 src={iconHighRisk} />{label.High_Risk}</span></template>
                                 </div>
                                 <div class="card-content ">

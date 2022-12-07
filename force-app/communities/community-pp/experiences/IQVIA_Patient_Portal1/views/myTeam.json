@@ -1,6 +1,6 @@
 {
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
-  "componentName" : "c:OneColumnLayout",
+  "componentName" : "c:PPOneColumnLayout",
   "id" : "d5fdda46-6869-4b54-b01c-c6fd9f464cfb",
   "label" : "My Team",
   "regions" : [ {

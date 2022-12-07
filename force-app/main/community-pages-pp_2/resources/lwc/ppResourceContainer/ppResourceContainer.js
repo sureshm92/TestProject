@@ -4,9 +4,10 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import { NavigationMixin } from 'lightning/navigation';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
-import Uploaded from '@salesforce/label/c.Resource_Uploaded';
+import VERSION from '@salesforce/label/c.Resource_Uploaded';
 export default class PpResourceContainer extends NavigationMixin(LightningElement) {
     userTimezone = TIME_ZONE;
+    
     //@api vars
     @api isRtl = false;
     @api desktop = false;
@@ -18,10 +19,19 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
     @api isFavourite = false;
     @api resourceSummary;
     @api isVoted = false;
+    state;
+    isThumbnailPresent = false;
 
     label = {
-        Uploaded
+        VERSION
     };
+
+    connectedCallback() {
+        this.isThumbnailPresent = this.thumbnail ? true : false;
+        if (communityService.isInitialized()) {
+            this.state=communityService.getCurrentCommunityMode().participantState;
+        }
+    }
 
     handleNavigate() {
         let detailLink =
@@ -30,7 +40,9 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
             '?resourceid=' +
             this.resourceId +
             '&resourcetype=' +
-            this.resourceType;
+            this.resourceType +
+            '&state=' +
+            this.state;
 
         const config = {
             type: 'standard__webPage',
@@ -63,6 +75,10 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
             }
         });
         this.dispatchEvent(favourite);
+    }
+
+    handleError() {
+        this.isThumbnailPresent = false;
     }
 
     showErrorToast(titleText, messageText, variantType) {

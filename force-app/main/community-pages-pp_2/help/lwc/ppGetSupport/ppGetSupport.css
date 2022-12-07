@@ -10,7 +10,7 @@
 }
 
 .updateButtonMobile {
-    height: 32px;
+    height: 40px;
     width: 100%;
     box-sizing: border-box;
     border: 1px solid #d9d9d9;
@@ -19,6 +19,7 @@
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     color: #297dfd;
     font-weight: 600;
+    margin-top: 20px;
 }
 
 .mb-10 {
@@ -51,14 +52,14 @@
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
-    line-height: 24px;
+    line-height: 30px;
 }
 
 .from-date {
     box-sizing: border-box;
-    height: 32px;
+    height: 40px;
     margin-top: -5px;
-    padding: 3px;
+    padding: 7px;
     text-align: center;
     margin-left: -11px;
     margin-right: 12px;
@@ -75,7 +76,7 @@
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
-    line-height: 24px;
+    line-height: 30px;
 }
 
 .place-error-message {
@@ -99,16 +100,46 @@
 
 .matchEmailText {
     height: 48px;
-    color: #000000;
+    color: #444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    /* opacity: 0.8; */
+    font-weight: 600;
+}
+
+.fixed-height {
+    height: 70px;
+    max-height: 50px;
+}
+
+.merge-existing-usern {
+    height: 32px;
+    color: #444444;
     font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0;
-    line-height: 24px;
-    opacity: 0.8;
+    line-height: 32px;
+    margin-top: 7px;
 }
 
-.fixed-height{
-    height: 70px;
-    max-height: 70px;
+.there-are-multiple {
+    height: 72px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-bottom: 10px;
+}
+
+.ah-item-panel {
+    margin-bottom: 1rem;
+}
+:host {
+    --sds-c-radio-mark-color-foreground: #0769fd;
+    --sds-c-radio-color-background-checked: #ffffff;
+    --slds-c-radio-color-border-checked: #0769fd;
 }

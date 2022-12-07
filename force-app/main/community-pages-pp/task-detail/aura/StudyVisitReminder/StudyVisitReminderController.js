@@ -57,6 +57,7 @@
     },
 
     doSave: function (component, event, helper) {
+        // check if task not null and type = visits, then delete task
         communityService.executeValidParams = false;
         var task = component.get('v.task');
         var visitDate = component.get('v.visitData.visitDate');
@@ -76,7 +77,8 @@
         var emailOptIn = component.get('v.emailOptIn');
         var smsOptIn = component.get('v.smsOptIn');
         var reminderOption = component.get('v.task.Remind_Me__c');
-
+        var deleteVisitTask = component.get('v.deleteVisitReminder');
+        var clearTask = component.get('v.task.clearReminderValue');
         if (new Date(dueDateOrplanDate) < new Date()) {
             communityService.showErrorToast('', $A.get('$Label.c.PP_ReminderUnderFlowError'), 3000);
             return;
@@ -84,12 +86,34 @@
         if (
             !$A.util.isUndefinedOrNull(reminderOption) &&
             !(smsOptIn && smsPeferenceSelected) &&
-            !(emailOptIn && emailPeferenceSelected)
+            !(emailOptIn && emailPeferenceSelected) &&
+            !deleteVisitTask &&
+            !clearTask
         ) {
             communityService.showErrorToast('', $A.get('$Label.c.PP_Remind_Using_Required'), 3000);
             return;
         }
         if (task.Task_Type__c == 'Visit') {
+            if (deleteVisitTask) {
+                communityService.executeAction(
+                    component,
+                    'deleteReminder',
+                    {
+                        taskId: component.get('v.taskId')
+                    },
+                    function (returnValue) {
+                        if (returnValue) {
+                            component.set('v.isSaveOperation', true);
+                            communityService.showSuccessToast('', message, 3000);
+                            helper.hideModal(component);
+                            component.find('spinner').hide();
+                        }
+                    },
+                    null,
+                    function () {}
+                );
+            }
+
             communityService.executeAction(
                 component,
                 'updatePatientVisits',
@@ -131,7 +155,9 @@
             (!$A.util.isUndefinedOrNull(reminderDate) ||
                 !$A.util.isUndefinedOrNull(reminderOption)) &&
             !(smsPeferenceSelected && smsOptIn) &&
-            !(emailPeferenceSelected && emailOptIn)
+            !(emailPeferenceSelected && emailOptIn) &&
+            !deleteVisitTask &&
+            !clearTask
         ) {
             communityService.showErrorToast('', $A.get('$Label.c.PP_Remind_Using_Required'), 3000);
             return;
@@ -161,13 +187,14 @@
         if (task.Task_Type__c == 'Visit') {
             component.set('v.initData.activityDate', visitDate);
         }
-        if (reminderOption || task.Task_Type__c != 'Visit') {
+        if ((reminderOption || task.Task_Type__c != 'Visit') && !deleteVisitTask) {
             communityService.executeAction(
                 component,
                 'upsertTask',
                 {
                     wrapper: JSON.stringify(component.get('v.initData')),
-                    paramTask: JSON.stringify(task)
+                    paramTask: JSON.stringify(task),
+                    isNewTaskFromTaskTab: component.get('v.isNewTask') && isTaskTab ? true : false
                 },
                 function () {
                     component.set('v.isSaveOperation', true);
@@ -212,13 +239,13 @@
             ? component.get('v.visitData.visitDate')
             : component.get('v.initData.activityDate');
         var today = moment();
-
+        var task = component.get('v.task');
         //component.set('v.initData.activityDate',new Date(new Date(component.get('v.initData.activityDate')) - (-(3600 *1000))));
         //console.log(component.get('v.initData.activityDate'));
         component.set('v.initData.today', new Date(new Date() + 60 * 1000));
-        console.log('today-->' + component.get('v.initData.today'));
+
         if (remindMe !== 'Custom') {
-            if (remindMe === '1 Week before') {
+            if (remindMe === '1 week before') {
                 isGreaterThanToday = moment(dueDateOrplanDate).subtract(7, 'days').isBefore(today);
             } else if (remindMe === '1 day before') {
                 isGreaterThanToday = moment(dueDateOrplanDate).subtract(1, 'days').isBefore(today);
@@ -228,6 +255,19 @@
             } else if (remindMe === '4 hours before') {
                 var reminderdate = new Date(dueDateOrplanDate) - 4 * 3600 * 1000;
                 isGreaterThanToday = new Date() > new Date(reminderdate);
+            }
+            if (remindMe === 'No reminder' && task.Task_Type__c === 'Visit') {
+                component.set('v.initData.reminderDate', null);
+                component.set('v.deleteVisitReminder', true);
+                component.set('v.task.Remind_Using_Email__c', false);
+                component.set('v.task.Remind_Using_SMS__c', false);
+                component.set('v.task.clearReminderValue', true);
+            } else if (remindMe === 'No reminder') {
+                component.set('v.initData.reminderDate', null);
+                component.set('v.deleteVisitReminder', false);
+                component.set('v.task.Remind_Using_Email__c', false);
+                component.set('v.task.Remind_Using_SMS__c', false);
+                component.set('v.task.clearReminderValue', true);
             }
             if (isGreaterThanToday) {
                 if (!$A.util.isUndefinedOrNull(reminderOptionValid)) {
@@ -267,7 +307,8 @@
                 }
             } else {
                 if (
-                    $A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) ||
+                    ($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) &&
+                        remindMe !== 'No reminder') ||
                     helper.doValidateReminder(component) === false
                 ) {
                     component.set('v.isValidFields', false);
@@ -279,23 +320,22 @@
 
         if (isTaskTab) {
             var taskName = component.find('taskName');
-            if ($A.util.isUndefinedOrNull(component.get('v.task.Subject'))) {
-                taskName.setCustomValidity($A.get('$Label.c.PP_RequiredErrorMessage'));
-                taskName.reportValidity();
-            } else {
-                taskName.setCustomValidity('');
-                taskName.reportValidity();
+            if (taskName) {
+                if ($A.util.isUndefinedOrNull(component.get('v.task.Subject'))) {
+                    taskName.setCustomValidity($A.get('$Label.c.PP_RequiredErrorMessage'));
+                    taskName.reportValidity();
+                } else {
+                    taskName.setCustomValidity('');
+                    taskName.reportValidity();
+                }
             }
+        }
+        if (remindMe === 'No reminder') {
+            component.set('v.isValidFields', true);
         }
         var isValidFields =
             helper.doValidateDueDate(component, helper) && helper.doValidateReminder(component);
         //component.set('v.isValidFields', isValidFields);
-        console.log(
-            'reminderDate-->' + $A.util.isUndefinedOrNull(component.get('v.initData.reminderDate'))
-        );
-        console.log('isValidFields-->' + !isValidFields);
-        console.log('dueDateOrplanDate-->' + $A.util.isUndefinedOrNull(dueDateOrplanDate));
-        console.log('isGreaterThanToday-->' + isGreaterThanToday);
         console.log(
             'inside condition-->' +
                 ($A.util.isUndefinedOrNull(dueDateOrplanDate) ||

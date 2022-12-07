@@ -12,7 +12,7 @@ public without sharing virtual class EmailTemplateProvider {
         'Clinical_Trial_Profile__c' => 'Email_Template_Parameters_From_CTP',
         'HCP_Enrollment__c' => 'Email_Template_Parameters_From_HCPE',
         'Participant__c' => 'PP_Participant',
-        'Healthcare_Provider__c' => 'PP_Healthcare_Provider',        
+        'Healthcare_Provider__c' => 'PP_Healthcare_Provider',
         'Participant_Enrollment__c' => 'Email_Template_Parameters_From_PE',
         'Resource__c' => 'Email_Template_Parameters_From_Resource',
         'Study_Site__c' => 'PP_Study_Site',
@@ -30,6 +30,7 @@ public without sharing virtual class EmailTemplateProvider {
     protected String recipientFirstName;
     protected Id recipientContactId;
     protected Boolean isDelegate = false;
+    @TestVisible
     protected String userMode = 'Guest';
     protected Id whatId;
     protected Boolean isShareTemplate = false;
@@ -50,7 +51,7 @@ public without sharing virtual class EmailTemplateProvider {
         this.recipientId = recipientId;
         this.recipientName = recipientName;
         this.recipientLanguage = recipientLanguage;
-        UserService.contactIDvalue=recipientId;
+        UserService.contactIDvalue = recipientId;
         if (shareTemplate == 'Yes')
             this.isShareTemplate = true;
         if (String.isNotEmpty(outputMode))
@@ -403,36 +404,52 @@ public without sharing virtual class EmailTemplateProvider {
         }
     }
 
-    public void addStudySiteNumber(){
+    public void addStudySiteNumber() {
         List<AggregateResult> totalParticipants = new List<AggregateResult>();
         List<Id> studySites = new List<Id>();
 
-        if(recipientId !=null){
-            
-            
-                for(Site_Staff__c ss:[SELECT Study_Site__c,is_Invited__c FROM Site_Staff__c 
-                                      WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
-                                      AND Site_Contact__c =:recipientId AND is_Invited__c = TRUE
-                                      AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
-                                      AND Study_Site__r.Override_PI_Referral_Status__c IN ('Accepted','Accepted (Admin)')]){
-                   studySites.add(ss.Study_Site__c);
-                }
-            
-            totalParticipants = [SELECT count(Id) FROM Participant_Enrollment__c
-                                 WHERE (Participant_Status__c = 'Received' OR 
-                                        (Participant_Status__c IN ('Contact Attempted','Pre-review Passed','Successfully Contacted') 
-                                         AND High_Priority__c = true)
-                                       )
-                                AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId)
-                                AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
-                        	AND Study_Site__r.Override_PI_Referral_Status__c IN ('Accepted','Accepted (Admin)')];
-            
+        if (recipientId != null) {
+            for (Site_Staff__c ss : [
+                SELECT Study_Site__c, is_Invited__c
+                FROM Site_Staff__c
+                WHERE
+                    Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
+                    AND Site_Contact__c = :recipientId
+                    AND is_Invited__c = TRUE
+                    AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
+                    AND Study_Site__r.Override_PI_Referral_Status__c IN (
+                        'Accepted',
+                        'Accepted (Admin)'
+                    )
+            ]) {
+                studySites.add(ss.Study_Site__c);
+            }
+
+            totalParticipants = [
+                SELECT count(Id)
+                FROM Participant_Enrollment__c
+                WHERE
+                    (Participant_Status__c = 'Received'
+                    OR (Participant_Status__c IN (
+                        'Contact Attempted',
+                        'Pre-review Passed',
+                        'Successfully Contacted',
+                        'Successfully re-engaged'
+                    )
+                    AND High_Priority__c = TRUE))
+                    AND (Study_Site__c IN :studySites
+                    OR PI_Contact__c = :recipientId)
+                    AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
+                    AND Study_Site__r.Override_PI_Referral_Status__c IN (
+                        'Accepted',
+                        'Accepted (Admin)'
+                    )
+            ];
         }
         String size = '0';
-        if(totalParticipants.size()>0){
-           size = String.valueOf(totalParticipants[0].get('expr0'));
+        if (totalParticipants.size() > 0) {
+            size = String.valueOf(totalParticipants[0].get('expr0'));
         }
-        parameters.put('TotalStudies',size);
+        parameters.put('TotalStudies', size);
     }
-
 }

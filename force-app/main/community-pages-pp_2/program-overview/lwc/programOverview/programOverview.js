@@ -58,20 +58,28 @@ export default class ProgramOverview extends LightningElement {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
 
         if(this.clinicalrecord){
-			console.log('this.clinicalrecord:::'+this.clinicalrecord);
             if(this.clinicalrecord.Brief_Summary__c){
-                if(this.clinicalrecord.Brief_Summary__c.length > 170) {
-                    this.shortOverview = this.clinicalrecord.Brief_Summary__c.substring(0,170);
+                let briefsummary = this.clinicalrecord.Brief_Summary__c;
+                briefsummary = briefsummary.replace(/<[^>]*>?/gm, '');
+                if(briefsummary.length > 200) {
+                    let firsttext = briefsummary.substring(0, 200);
+                    let secondtext = briefsummary.substring(200, 201);
+                    if(secondtext == " "){
+                        this.shortOverview = firsttext;
+                    }
+                    else {
+                        let result = firsttext.substring(0, Math.min(firsttext.length,firsttext.lastIndexOf(" ")));
+                        this.shortOverview  = result+'...';
+                    }
                 }
 				else{
-					this.shortOverview = this.clinicalrecord.Brief_Summary__c;
+					this.shortOverview = briefsummary;
 				}
             }
         }
 
         getisRTL()
             .then((data) => {
-                debugger;
                 this.isRTL = data;
             })
             .catch(function (error) {

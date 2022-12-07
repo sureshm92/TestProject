@@ -1,0 +1,263 @@
+.rectangle {
+    height: 7px;
+    width: 412px;
+    border-radius: 20.5px 20.5px 0 0;
+    background-color: #c42ea5;
+}
+
+.cardRTL {
+    direction: rtl;
+}
+.open-task {
+    background: rgba(7, 104, 253, 1);
+    border-radius: 1rem 0 0 1rem;
+    color: #ffffff;
+    width: 7.5rem;
+    height: 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+    border: none;
+}
+
+.completed-task {
+    border: 1px solid #d9d9d9;
+    --slds-c-button-brand-color-background: #ffffff;
+    border-radius: 0rem 1rem 1rem 0rem;
+    color: #595959;
+    width: 7.5rem;
+    height: 2rem;
+    margin-left: 0rem;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+}
+.create-task {
+    background: rgba(7, 104, 253, 1);
+    border-radius: 2rem;
+    color: #ffffff;
+    width: 412px;
+    height: 40px;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+    border: none;
+}
+.plus-icon {
+    --sds-c-icon-color-foreground-default: #ffffff;
+    padding-right: 16px;
+}
+.before-create-task {
+    background: rgba(7, 104, 253, 1);
+    cursor: pointer;
+}
+.after-create-task {
+    background: rgba(7, 104, 253, 1);
+    opacity: 0.4;
+    pointer-events: none;
+}
+.tasks {
+    color: #444444;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.inactive-custom-box {
+    box-sizing: border-box;
+    height: 88px;
+    width: 380px;
+    border: 1px solid #e9e9e9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    margin-bottom: 8px;
+    /* margin-top: 8px; */
+}
+
+.popup-default {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.set-up-your-account {
+    height: 29px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+.due-time {
+    height: 24px;
+    width: 303px;
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 21px;
+    margin-top: 19px;
+}
+
+.sys-task {
+    margin-left: 6px;
+    cursor: pointer;
+}
+
+.curpointer {
+    cursor: pointer;
+}
+.open-task-icon {
+    box-sizing: border-box;
+    background-color: #ffffff;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.complete-mask {
+    box-sizing: border-box;
+    height: 230px;
+    width: 320px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
+    margin-top: 16.875rem;
+}
+.complete-mask-margin {
+    height: 16px;
+    width: 320px;
+    margin-left: -1px;
+    margin-top: -12rem;
+    background: linear-gradient(90deg, #005587 0%, #008d9e 100%);
+    border-top-right-radius: 16px;
+    border-top-left-radius: 16px;
+}
+.modal-title {
+    height: 32px;
+    width: 100%;
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+    margin-top: 2rem;
+    margin-left: 1rem;
+}
+.modal-body {
+    height: 72px;
+    width: 272px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
+.modal-button {
+    border-radius: 20px;
+    background: rgba(7, 104, 253, 1);
+    color: #ffffff;
+    width: 7.5rem;
+    height: 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+    border: none;
+    float: right;
+}
+.overflow-scroll {
+    height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.active-custom-box {
+    border: 1px solid #c42ea5;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+}
+.fill-oval {
+    fill: rgba(196, 46, 165, 0.1);
+}
+.empty-oval {
+    fill: #ffffff;
+}
+.critical-rect {
+    position: relative;
+    bottom: 10px;
+    float: right;
+    padding: 0px 6px 0 6px;
+    background-color: #e20000;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+}
+.no-task-list-view {
+    height: 152px !important;
+}
+.no-task-txt {
+    font-size: 16px;
+    font-weight: 500;
+}
+.dis-block {
+    display: inline-grid;
+}
+.center {
+    text-align: center;
+}
+@media all and (max-width: 486px) {
+    .inactive-custom-box {
+        width: 366px;
+    }
+    .open-task {
+        margin-left: 10px;
+    }
+    .mob-task-sub {
+        margin-left: 0.75rem;
+    }
+    .tasks {
+        margin-left: 1rem;
+    }
+    .overflow-scroll {
+        height: unset !important;
+        overflow-y: unset !important;
+    }
+}
+/* Scroll bar custom */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #fff;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #999999;
+}
+
+.box-border {
+    box-sizing: border-box;
+    height: 416px;
+    width: 412px;
+    border: 1px solid #e9e9e9;
+    border-radius: 5px;
+}
+
+.height-style{
+    height: 416px;
+}

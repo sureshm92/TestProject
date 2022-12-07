@@ -5,11 +5,13 @@ import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
 import PP_Share_Article from '@salesforce/label/c.PP_Share_Article';
 import CONTRIBUTE from '@salesforce/label/c.PP_Resources_Contribute';
-import URLLINK from '@salesforce/label/c.PP_Resource_URL_Placeholder_New';
+import URLLINK from '@salesforce/label/c.PP_Resource_URL_Placeholder';
 import SUBMIT from '@salesforce/label/c.PP_Submit_Button';
 import createArticle from '@salesforce/apex/ResourceRemote.createArticlesSubmitted';
 import SUCCESS from '@salesforce/label/c.PP_Resource_Submit';
 import FORM_FACTOR from '@salesforce/client/formFactor';
+import PASTE_URL from '@salesforce/label/c.PP_Paste_URL';
+import PP_URL_Error from '@salesforce/label/c.PP_URL_Error';
 
 export default class PpContributeSection extends NavigationMixin(LightningElement) {
     labels = {
@@ -18,16 +20,41 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
         CONTRIBUTE,
         URLLINK,
         SUBMIT,
-        SUCCESS
+        SUCCESS,
+        PASTE_URL,
+        PP_URL_Error
     };
     redirecturl = '';
     enableSave = false;
     disableSave = true;
     @track textValue;
+    labelPasteURL;
+    showSection = true;
 
+    connectedCallback() {
+        this.labelPasteURL = FORM_FACTOR !== 'Large' ? PASTE_URL : URLLINK;
+        if (communityService.isInitialized()) {
+            if (
+                communityService.getCurrentCommunityMode().participantState == 'PARTICIPANT' &&
+                communityService.getCurrentCommunityMode().isDelegate
+            ) {
+                this.showSection = false;
+            } else {
+                this.showSection = true;
+            }
+        }
+    }
 
     get isMobile() {
         return FORM_FACTOR !== 'Large' ? true : false;
+    }
+
+    get inputGridSize() {
+        return this.isMobile ? "9" : "10";
+    }
+
+    get buttonGridSize() {
+        return this.isMobile ? "3" : "2";
     }
 
     handleChangePreference() {
@@ -53,6 +80,26 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
                 urlField.setCustomValidity(' ');
                 this.disableSave = false;
             } else {
+                this.disableSave = true;
+            }
+        } else {
+            urlField.setCustomValidity(' ');
+            this.disableSave = true;
+        }
+        urlField.reportValidity();
+    }
+
+    handleUrlValidationBlur(event) {
+        var inputValue = this.template.querySelector('lightning-input[data-input]').value;
+        var urlField = this.template.querySelector('lightning-input[data-input]');
+        var validURLregex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:\?#[\]@!\$&\(\)\*\+,;=.]+$/;
+        var validregex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
+        if (inputValue) {
+            if (validURLregex.test(inputValue) || validregex.test(inputValue)) {
+                urlField.setCustomValidity(' ');
+                this.disableSave = false;
+            } else {
+                urlField.setCustomValidity(this.labels.PP_URL_Error);
                 this.disableSave = true;
             }
         } else {

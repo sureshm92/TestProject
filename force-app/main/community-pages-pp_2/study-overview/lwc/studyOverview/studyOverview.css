@@ -45,7 +45,6 @@
     line-height: 19px;
     text-align: left;
     color: #595959;
-    margin-left: 24px;
     max-width: 468px;
     height: 57px;
     font-family: 'Proxima Nova';
@@ -67,7 +66,7 @@
 }
 
 .po-text_3 {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 21px;
     text-align: left;
     color: #595959;

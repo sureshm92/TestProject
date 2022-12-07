@@ -233,7 +233,11 @@ export default class Rp_DelegateTab extends LightningElement {
         for(let i = 0; i <inputComboBoxField.length; i++) {
              if(this.requiredFieldComboBoxList.includes(inputComboBoxField[i].name)){
                  if(!inputComboBoxField[i].value) {
-                     inputComboBoxField[i].setCustomValidity(inputComboBoxField[i].label  +' ' + this.label.RH_RP_Delegate_Missing_field);
+                     if(inputComboBoxField[i].name == 'Phone Type'){
+                        inputComboBoxField[i].setCustomValidity(this.label.RH_RP_Delegate_Phone_Type  +' ' + this.label.RH_RP_Delegate_Missing_field);
+                     }else{
+                        inputComboBoxField[i].setCustomValidity(inputComboBoxField[i].label  +' ' + this.label.RH_RP_Delegate_Missing_field);
+                     }
                      inputComboBoxField[i].reportValidity();
                      this.isComboBoxValidated = false;
                  }

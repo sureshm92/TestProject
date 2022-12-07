@@ -3,6 +3,7 @@
  */
 
 public without sharing class TaskTriggerHandler {
+    public static Map<Id, Boolean> surveyInvitationNewPPMap = new Map<Id, Boolean>();
     // Handlers: -------------------------------------------------------------------------------------------------------
 
     public class CheckTaskFieldsWithTaskCodeHandler extends TriggerHandler {
@@ -408,6 +409,14 @@ public without sharing class TaskTriggerHandler {
                     );
                 }
             }
+            /**PEH-8833 */
+            if (
+                card.Subject_Label__c == 'Task_Subject_Complete_Survey' &&
+                task.Survey_Invitation__c != null &&
+                surveyInvitationNewPPMap.get(task.Survey_Invitation__c)
+            ) {
+                card.Subject_Label__c = 'Task_Subject_Complete_Survey_PP';
+            }
             task.Subject = CatalogParametersHelper.prepareLabel(
                 card.Subject_Label__c,
                 cardParametersValueMap
@@ -427,12 +436,41 @@ public without sharing class TaskTriggerHandler {
         }
     }
 
+    public static Map<Id, Boolean> isSurveyTaskNewPP(Set<Id> surveyInvitationSet) {
+        List<SurveyInvitation> surveyInvitationList = [
+            SELECT Id, Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+            FROM SurveyInvitation
+            WHERE Id IN :surveyInvitationSet
+        ];
+        Map<Id, Boolean> surveyInvitationMap = new Map<Id, Boolean>();
+        for (SurveyInvitation surveyInvitation : surveyInvitationList) {
+            if (
+                surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                CommunityTemplateService.TEMPLATE_PP
+            ) {
+                surveyInvitationMap.put(surveyInvitation.Id, true);
+            } else {
+                surveyInvitationMap.put(surveyInvitation.Id, false);
+            }
+        }
+        return surveyInvitationMap;
+    }
+
     @TestVisible
     private static Map<String, Task_Catalog__mdt> getCardsMap(List<Task> tasks) {
         Set<String> catalogCodes = new Set<String>();
-        for (Task task : tasks)
-            if (task.Task_Code__c != null)
+        Set<Id> surveyInvitationSet = new Set<Id>();
+        for (Task task : tasks) {
+            if (task.Task_Code__c != null) {
                 catalogCodes.add(task.Task_Code__c);
+            }
+            if (task.Survey_Invitation__c != null) {
+                surveyInvitationSet.add(task.Survey_Invitation__c);
+            }
+        }
+        if (surveyInvitationSet.size() > 0) {
+            surveyInvitationNewPPMap = isSurveyTaskNewPP(surveyInvitationSet);
+        }
         List<Task_Catalog__mdt> cards = [
             SELECT
                 Id,

@@ -7,13 +7,25 @@ global without sharing class OptOutAndTechnicalSupport {
 
     public static List<InitDataWrapper> getOptoutAndTechnicalSupportData(String strlanguage) {
         List<InitDataWrapper> wrapperList = new List<InitDataWrapper>();
-        Map<Id, Opt_Out_and_Technical_Support_Category__mdt> categoryMap = new Map<Id, Opt_Out_and_Technical_Support_Category__mdt>(
-            [
-                SELECT Id, developerName, Title__c, Display_Order__c
-                FROM Opt_Out_and_Technical_Support_Category__mdt
-                ORDER BY Display_Order__c ASC
-            ]
-        );
+        String communityName = UserContext.getCurrentCommunityName();
+        Map<Id, Opt_Out_and_Technical_Support_Category__mdt> categoryMap ;
+        if(communityName == 'IQVIA Patient Portal'){
+            categoryMap = new Map<Id, Opt_Out_and_Technical_Support_Category__mdt>(
+                [
+                    SELECT Id, developerName, Title__c, Community_Name__c, Display_Order__c
+                    FROM Opt_Out_and_Technical_Support_Category__mdt where Community_Name__c = 'IQVIA Patient Portal' ORDER BY Display_Order__c ASC
+                ]
+            );
+        }
+       else{
+            categoryMap = new Map<Id, Opt_Out_and_Technical_Support_Category__mdt>(
+                [
+                    SELECT Id, developerName, Title__c, Community_Name__c, Display_Order__c
+                    FROM Opt_Out_and_Technical_Support_Category__mdt where Community_Name__c != 'IQVIA Patient Portal' ORDER BY Display_Order__c ASC
+                ]
+            );
+       }
+        
         List<Opt_Out_And_Tech_Support_Subcategory__mdt> subCategoryList = [
             SELECT
                 Id,

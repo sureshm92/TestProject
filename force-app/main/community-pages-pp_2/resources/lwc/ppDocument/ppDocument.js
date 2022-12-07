@@ -1,25 +1,47 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
-
+import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
+import versionDate from '@salesforce/label/c.Version_date';
 export default class Documents extends NavigationMixin(LightningElement) {
     @api document;
     title;
     versiondate;
     id;
     thumbnail;
+    subDomain;
+    state;
+    dropdownOpen = false;
     translations = [];
     multipleTranslations = false;
+    thumbnailPresent = false;
+    thumbnailEmpty = pp_community_icons + '/' + 'image-file-landscape-alternate.png';
+    label = {
+        versionDate
+    };
 
     connectedCallback() {
+        this.processData();
+    }
+
+    processData() {
         this.id = this.document.resource.Id;
         this.title = this.document.resource.Title__c;
         this.versiondate = this.document.resource.Version_Date__c;
-        this.thumbnail =
-            '/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=' +
-            this.document.thumbnailDocId;
+        if (this.document.thumbnailDocId) {
+            this.subDomain = communityService.getSubDomain();
+            this.thumbnail =
+                this.subDomain +
+                '/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=' +
+                this.document.thumbnailDocId;
+            this.thumbnailPresent = true;
+        }
+
         this.translations = this.document.translations;
         if (this.translations.length > 1) {
             this.multipleTranslations = true;
+        }
+        if (communityService.isInitialized()) {
+            this.state = communityService.getCurrentCommunityMode().participantState;
         }
     }
 
@@ -30,7 +52,9 @@ export default class Documents extends NavigationMixin(LightningElement) {
             '?resourceid=' +
             this.id +
             '&resourcetype=' +
-            this.document.resource.RecordType.DeveloperName;
+            this.document.resource.RecordType.DeveloperName +
+            '&state=' +
+            this.state;
 
         const config = {
             type: 'standard__webPage',
@@ -71,13 +95,19 @@ export default class Documents extends NavigationMixin(LightningElement) {
         });
     }
 
-    expandtheCard() {
-        let radioTask = this.template.querySelector('[data-popup="' + this.id + '"]');
-        radioTask.classList.add('slds-is-open');
+    handleError() {
+        this.thumbnailPresent = false;
     }
 
-    closeMenu() {
-        let radioTask = this.template.querySelector('[data-popup="' + this.id + '"]');
-        radioTask.classList.remove('slds-is-open');
+    expandClosetheCard() {
+        if (this.dropdownOpen) {
+            let radioTask = this.template.querySelector('[data-popup="' + this.id + '"]');
+            radioTask.classList.remove('slds-is-open');
+            this.dropdownOpen = false;
+        } else {
+            let radioTask = this.template.querySelector('[data-popup="' + this.id + '"]');
+            radioTask.classList.add('slds-is-open');
+            this.dropdownOpen = true;
+        }
     }
 }

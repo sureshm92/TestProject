@@ -100,10 +100,10 @@
     </choices>
     <choices>
         <name>Study_Document_recordtype</name>
-        <choiceText>Study Document</choiceText>
+        <choiceText>Document</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Study Document</stringValue>
+            <stringValue>Document</stringValue>
         </value>
     </choices>
     <choices>
@@ -204,7 +204,7 @@
                 <leftValueReference>Choose_record_type_resource</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Study Document</stringValue>
+                    <stringValue>Document</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -1396,7 +1396,7 @@
         <name>Choose</name>
         <label>Choose</label>
         <locationX>503</locationX>
-        <locationY>283</locationY>
+        <locationY>282</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1474,13 +1474,18 @@
         <name>Record_Type</name>
         <label>Choose Record Type Recource</label>
         <locationX>496</locationX>
-        <locationY>109</locationY>
+        <locationY>108</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
             <targetReference>Study_Resource</targetReference>
         </connector>
+        <fields>
+            <name>ResourceLabel</name>
+            <fieldText>&lt;p&gt;&lt;strong&gt;Resources&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
         <fields>
             <name>Choose_record_type_resource</name>
             <choiceReferences>RelevantLink</choiceReferences>
@@ -1493,7 +1498,7 @@
             <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Relevant_Link_recordType</name>
@@ -1567,7 +1572,7 @@
             <dataType>Date</dataType>
             <fieldText>Version Date</fieldText>
             <fieldType>InputField</fieldType>
-            <isRequired>true</isRequired>
+            <isRequired>false</isRequired>
         </fields>
         <fields>
             <name>FinihsButton</name>
@@ -1598,7 +1603,7 @@
         </connector>
         <fields>
             <name>Page_show_record_type_5</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_resource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;{!Choose_record_type_resource}&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -1657,7 +1662,7 @@
         </connector>
         <fields>
             <name>Page_show_record_type</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Study &lt;/span&gt;&lt;span style=&quot;font-size: 16px; background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255));&quot;&gt;Resource&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px; background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255));&quot;&gt;Resource&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>

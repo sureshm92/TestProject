@@ -32,8 +32,8 @@ public without sharing class EConsentIntegrationController {
             initData.userProfilePermission = true;
         }else{
             initData.userProfilePermission = false;
-        }   
-        return initData;
+        }            
+             return initData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
          }
@@ -96,17 +96,17 @@ public without sharing class EConsentIntegrationController {
         if(!vendorList.isEmpty()){
 
             eConsentVendorList = [
-                SELECT Id, Name FROM E_Consent_Vendor__c WHERE Id IN :vendorList
+                SELECT Id, Name, Vendor_URL__c FROM E_Consent_Vendor__c WHERE Id IN :vendorList
             ];
         } else {
 
             eConsentVendorList = [
-                SELECT Id, Name FROM E_Consent_Vendor__c
+                SELECT Id, Name,Vendor_URL__c FROM E_Consent_Vendor__c
             ];
         }
         
         String query = 'SELECT Id, Name, Study_Site_Number__c, Site__r.BillingCountry, Clinical_Trial_Profile__r.E_Consent_Configuration__c, '
-            + 'E_Consent_Vendor__c, E_Consent_Vendor__r.Name '
+            + 'E_Consent_Vendor__c, E_Consent_Vendor__r.Name, E_Consent_Vendor__r.Vendor_URL__c '
             + 'FROM Study_Site__c WHERE Clinical_Trial_Profile__c = :ctpId';
 
         if(!countryList.isEmpty()){
@@ -122,7 +122,7 @@ public without sharing class EConsentIntegrationController {
         }
         List<Study_Site__c> studysiteList = database.query(query);
 
-       
+          
         
         List<ResponeWrapper> rw = new list<ResponeWrapper>();
         
@@ -136,6 +136,7 @@ public without sharing class EConsentIntegrationController {
             wrap.studysiteurl = '/'+ss.id;
             wrap.econsentvendorid = ss.E_Consent_Vendor__c;
             wrap.econsentvendorname = ss.E_Consent_Vendor__r.Name;
+            wrap.econsentvendorurl = ss.E_Consent_Vendor__r.Vendor_URL__c;
             
             List<vendorwrapper> vwlist = new List<vendorwrapper>();
             for(E_Consent_Vendor__c eConsent: eConsentVendorList){
@@ -153,7 +154,7 @@ public without sharing class EConsentIntegrationController {
         wr.eConsentVendors = eConsentVendorList;
         wr.ResponeWrapperList = rw;
         wr.studysiteList = studysiteList;
-       
+
         if(!studysiteList.isempty()){
             wr.econsentpermissioncheck = studysiteList[0].Clinical_Trial_Profile__r.E_Consent_Configuration__c;
         }else{
@@ -178,14 +179,14 @@ public without sharing class EConsentIntegrationController {
     }
     
     @AuraEnabled
-    public static string createconsentvendor(string name, String vendorId){
+    public static string createconsentvendor(string name,String vendorURL, String vendorId){
 
         List<E_Consent_Vendor__c> consentVendorList = [
             SELECT Id, Name FROM E_Consent_Vendor__c WHERE Name = :name.trim() LIMIT 1
         ];
         if(consentVendorList.isempty() && String.isBlank(vendorId)) {
             try{
-                insert new E_Consent_Vendor__c(Name = name.trim());
+                insert new E_Consent_Vendor__c(Name = name.trim(), Vendor_URL__c = vendorURL.trim());
                 return '';
             }catch(exception e){
                 return e.getMessage();
@@ -196,7 +197,7 @@ public without sharing class EConsentIntegrationController {
                 && vendorId == consentVendorList[0].Id) )){
 
             try{
-                update new E_Consent_Vendor__c(Id = vendorId, Name = name.trim());
+                update new E_Consent_Vendor__c(Id = vendorId, Name = name.trim(), Vendor_URL__c = vendorURL.trim());
                 return '';
             }catch(exception e){
                 return e.getMessage();
@@ -262,7 +263,7 @@ public without sharing class EConsentIntegrationController {
 
             system.debug('==================>'+e.getMessage());
         }
-        
+
     }
     @AuraEnabled
     public static void  deleteVendor( string vendorId ){
@@ -319,14 +320,14 @@ public without sharing class EConsentIntegrationController {
         @AuraEnabled public string studysiteurl;
         @AuraEnabled public string econsentvendorid;
         @AuraEnabled public string econsentvendorname;
-       
+        @AuraEnabled public string econsentvendorurl;
         @AuraEnabled public list<vendorwrapper> vendorrapperlist;
     }
     
     public class vendorwrapper{
         @AuraEnabled public string vendorId;
         @AuraEnabled public boolean isEnable;
-        
+
     }
     
     public class WrapperResult{

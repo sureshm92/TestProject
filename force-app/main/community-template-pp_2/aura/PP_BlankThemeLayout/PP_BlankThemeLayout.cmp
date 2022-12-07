@@ -5,6 +5,11 @@
         afterScriptsLoaded="{!c.doInit}"
     />
     <aura:attribute name="isRTL" type="Boolean" />
+    <aura:attribute name="showSuccessMessage" type="Boolean" default="false"/>
+    <lightning:messageChannel type="ppOptout__c"
+                              scope="APPLICATION"
+                              onMessage="{!c.handleChanged}"/>
+
     <!-- component body: -->
     <div
         class="all-content"
@@ -14,23 +19,78 @@
             class="body-cell"
             style="{!if(v.isRTL == true, '/* @noflip */  direction: rtl;overflow-x: hidden;', '')}"
         >
+        <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
             <div class="logo-block">
-                <div class="rr-small-down-hide slds-grid slds-wrap slds-gutters">
-                    <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2">
-                        <img
-                            src="{!$Resource.rr_community_icons + '/rh_logo_subt_black.svg'}"
-                            class="main-logo"
-                        />
-                    </div>
-                    <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2">
-                        <img
-                            src="{!$Resource.PH_logo + '/pp_logo_subt_black.svg'}"
-                            class="main-logo"
-                        />
+                <div class="rr-small-down-hide slds-grid slds-wrap">
+                    <div class="wave slds-show_small">
+                        <img src="{!$Resource.PP_DesktopLogos + '/wave_desktop.png'}" class="imgMargins"/>
                     </div>
                 </div>
-                <div class="body-components">{!v.body}</div>
+                <div class="page-content"> 
+                    <lightning:layout multipleRows="true">
+
+                        <lightning:layoutItem size="12" class="mb-16">
+                            <p class="iqvia"> {!$Label.c.RH_Masked_IQVIA_User}&nbsp;<span class="patient-portal">{!$Label.c.Community_PP}</span></p>
+                        </lightning:layoutItem>
+
+                        <lightning:layoutItem size="12" class="mb-16">
+                            <p class="for-participants-c">{!$Label.c.OptOut_PP_Subheader}</p>
+                        </lightning:layoutItem>
+
+                        <lightning:layoutItem size="12" class="cusContentMargin">
+                            <div class="body-components">{!v.body}</div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="footerOptOut">                                                    
+                        <span class="poweredBy">{!$Label.c.PP_Powered_by_Footer}</span>                           
+                        <span> <img class="img-dimensions" src="{!$Resource.IQVIA_Logo + '/IQVIA_DarkBlue_Logo.png'}" /></span>
+                    </lightning:layoutItem>   
+                </lightning:layout>                 
             </div>
+        </aura:if>
+
+        <aura:if isTrue="{!$Browser.formFactor != 'DESKTOP'}">
+            <div class="logo-block-mobile">
+                <div class="slds-grid slds-wrap">
+                    <div class="wave">
+                        <img src="{!$Resource.PP_DesktopLogos + '/wave_desktop.png'}" class="imgMargins"/>
+                    </div>
+                </div>
+                <div class="page-content-mobile"> 
+                    <lightning:layout multipleRows="true">
+
+                        <lightning:layoutItem size="12" class="mb-16">
+                            <p class="iqvia-mobile"> {!$Label.c.RH_Masked_IQVIA_User}&nbsp;<span class="patient-portal-mobile">{!$Label.c.Community_PP}</span></p>
+                        </lightning:layoutItem>
+
+                        <lightning:layoutItem size="12" class="mb-16">
+                            <p class="for-participants-c-mobile">{!$Label.c.OptOut_PP_Subheader}</p>
+                        </lightning:layoutItem>
+
+                        <lightning:layoutItem size="12" class="cusContentMargin">
+                            <div class="body-components">{!v.body}</div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+                <lightning:layout multipleRows="true">
+                    <aura:if isTrue="{!v.showSuccessMessage}">
+                        <lightning:layoutItem size="12" class="mob-footerOptOut center mb-222">                                                     
+                            <span class="powered-by-mobile">{!$Label.c.PP_Powered_by_Footer}</span>                           
+                            <span> <img class="img-dimensions-mobile" src="{!$Resource.IQVIA_Logo + '/IQVIA_DarkBlue_Logo.png'}" /></span>
+                        </lightning:layoutItem> 
+                    <aura:set attribute="else">
+                        <lightning:layoutItem size="12" class="mob-footerOptOut center">                                                    
+                            <span class="powered-by-mobile">{!$Label.c.PP_Powered_by_Footer}</span>                           
+                            <span> <img class="img-dimensions-mobile" src="{!$Resource.IQVIA_Logo + '/IQVIA_DarkBlue_Logo.png'}" /></span>
+                        </lightning:layoutItem> 
+                        </aura:set>
+                    </aura:if>  
+                </lightning:layout>   
+            </div>
+        </aura:if>
+
         </div>
     </div>
 </aura:component>

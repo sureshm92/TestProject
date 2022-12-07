@@ -41,3 +41,14 @@
         min-width: 80%;
     }
 }
+
+.header-image {
+    width: 106%;
+}
+
+.slds-size_11-of-12-custom {
+    width: 95.333333%;
+}
+.slds-size_1-of-12-custom {
+    width: 3.333333%;
+}

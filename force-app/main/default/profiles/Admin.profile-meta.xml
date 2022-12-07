@@ -3011,11 +3011,11 @@
         <field>Clinical_Trial_Profile__c.Orientation__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <!--   <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Override_Description__c</field>
         <readable>true</readable>
-    </fieldPermissions> -->
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Override_Exclusion_Criteria__c</field>
@@ -5988,16 +5988,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant_Enrollment__c.Delegate_SMS_Consent__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant_Enrollment__c.Delegate_Consent__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Participant_Enrollment__c.Eligible_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6783,6 +6773,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment_Status_History__c.Screening_passed_after_withdrew_declined__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ParticipantEnrollmentPatientDelJunction__c.Welcome_Message_Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6851,7 +6846,7 @@
         <field>Participant_Enrollment__c.Is_Participant_Contact_Opt_in_SMS__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Re_consent__c</field>
         <readable>true</readable>

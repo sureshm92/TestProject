@@ -31,7 +31,7 @@
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:handler name="change" value="{!v.didThisHelp}" action="{!c.doResponseReceived}" />
-    <aura:handler name="change" value="{!v.selectedTopic}" action="{!c.helpTopicChanged}" />
+    <aura:handler name="change" value="{!v.selectedTopic}" action="{!c.helpTopicChangedDeskTop}" />
 
     <c:RRSpinner aura:id="spinner" fixed="true" size="medium" showSpinner="true" />
 
