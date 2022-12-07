@@ -1134,7 +1134,7 @@
     <picklistValues>
         <picklist>Type__c</picklist>
         <values>
-            <fullName>Articles for caregivers</fullName>
+            <fullName>Article for caregivers</fullName>
             <default>false</default>
         </values>
         <values>
