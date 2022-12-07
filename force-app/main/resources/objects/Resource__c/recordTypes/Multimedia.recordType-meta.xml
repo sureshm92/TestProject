@@ -1151,11 +1151,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Relevant Link</fullName>
+            <fullName>Relevant Links</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Helpful Link</fullName>
+            <fullName>Helpful Links</fullName>
             <default>false</default>
         </values>
     </picklistValues>
