@@ -481,9 +481,8 @@ export default class PpAddNewDelegate extends LightningElement {
                 }
             })
             .catch((error) => {
+                communityService.showToast('', 'error', 'Failed To read the Data...', 100);
                 this.isLoading = false;
-
-                console.log('error' + error);
             });
     }
 
@@ -638,6 +637,7 @@ export default class PpAddNewDelegate extends LightningElement {
                         this.isLoading = false;
                     })
                     .catch((error) => {
+                        communityService.showToast('', 'error', 'Failed To save the Data...', 100);
                         this.isLoading = false;
                         //alert('error:::' + error);
                     });
