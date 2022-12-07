@@ -1135,7 +1135,7 @@
     <picklistValues>
         <picklist>Type__c</picklist>
         <values>
-            <fullName>Article for caregivers</fullName>
+            <fullName>Articles for caregivers</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1143,7 +1143,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Patient advocacy group</fullName>
+            <fullName>Patient advocacy groups</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1151,11 +1151,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Relevant Link</fullName>
+            <fullName>Relevant Links</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Helpful Link	</fullName>
+            <fullName>Helpful Links</fullName>
             <default>false</default>
         </values>
     </picklistValues>
