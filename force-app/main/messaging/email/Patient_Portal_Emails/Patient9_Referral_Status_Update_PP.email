@@ -1,0 +1,29 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Referral_Status_Changed}"
+                         recipientType="Contact"
+                         relatedToType="Participant_Enrollment__c"
+                         language="{!recipient.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:PP_EmailWireframe recipientId="{!recipient.Id}"
+                         sourceId="{!relatedTo.Id}"
+                         isPreBodyButton="true"
+                         header="{!$Label.Email_Header_Referral_Status_Updated}"
+                         greeting="{!$Label.Email_User_Greeting_FirstName}"
+                         signature="{!$Label.Email_Signature_Patient_Short}">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Patient9_pp}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
+        </c:PP_EmailWireframe>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:PP_EmailWireframeText recipientId="{!recipient.Id}"
+                             sourceId="{!relatedTo.Id}"
+                             header="{!$Label.Email_Header_Referral_Status_Updated}"
+                             greeting="{!$Label.Email_User_Greeting_FirstName}"
+                             signature="{!$Label.Email_Signature_Patient_Short}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Patient9_pp}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
+        </c:PP_EmailWireframeText>
+    </messaging:plainTextEmailBody> 
+
+</messaging:emailTemplate>
