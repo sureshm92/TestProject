@@ -142,7 +142,7 @@ public without sharing class TaskEditRemote {
             if (taskToUpsert.Visible_For__c == null)
                 taskToUpsert.Visible_For__c = 'Owner;Delegates';
             //Don't update WhatId for catalog and manual creation panel task
-            if (String.isEmpty(taskToUpsert.Task_Code__c) && !taskWrapper.createdByAdmin) {
+            if (String.isEmpty(taskToUpsert.Task_Code__c) && !taskWrapper.createdByAdmin && taskToUpsert.WhatId == null ) {
                 if (
                     (isNewTaskFromTaskTab == true && ParticipantContext.getCurrentPEId() != null) ||
                     (String.isNotBlank(taskToUpsert.Task_Type__c) &&
