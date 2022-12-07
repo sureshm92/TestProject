@@ -97,12 +97,14 @@ export default class PpAddNewDelegate extends LightningElement {
     //errorIconPosition = 'margin-left: 0px';
     existingDelegateWarning = false;
     showExistingContactWarning = false;
+    participantAddingHimselfError = false;
     selectedContact;
-    //diableFNLNWhenDupContacts = false;
+    diableFNLNWhenDupContacts = false;
     oldDelegate = {};
     oldFirstName;
     oldLastName;
-    disableConfirmSelectionBtn = true;
+    isContactSelected = false;
+    isDeletedOrWithdrawnDelegate = false;
     label = {
         PG_NTM_L_Personal_Information,
         PG_NTM_L_Team_member,
@@ -142,7 +144,7 @@ export default class PpAddNewDelegate extends LightningElement {
         PP_There_Are,
         PP_Users_Associated
     };
-    backToDelegates(event) {
+    backToDelegates() {
         const selectedEvent = new CustomEvent('backtodelegates', {
             detail: { usermode: this.userMode, selectedparent: this.selectedParent }
         });
@@ -150,9 +152,9 @@ export default class PpAddNewDelegate extends LightningElement {
     }
 
     get firstNameDisabledCheck() {
-        // if (this.diableFNLNWhenDupContacts) {
-        //     return true;
-        // }
+        if (this.diableFNLNWhenDupContacts) {
+            return true;
+        }
         if (this.delegate) {
             if (this.delegate.delegateContact != undefined && this.delegate.delegateContact != '') {
                 if (
@@ -167,9 +169,9 @@ export default class PpAddNewDelegate extends LightningElement {
         } else return false;
     }
     get lastNameDisabledCheck() {
-        // if (this.diableFNLNWhenDupContacts) {
-        //     return true;
-        // }
+        if (this.diableFNLNWhenDupContacts) {
+            return true;
+        }
         if (this.delegate) {
             if (this.delegate.delegateContact != undefined && this.delegate.delegateContact != '') {
                 if (
@@ -197,13 +199,25 @@ export default class PpAddNewDelegate extends LightningElement {
             this.delegate.delegateContact.Id == this.currentUserContactId ||
             !this.isAttested ||
             !this.isEmailConsentChecked ||
-            !this.isAtLeastOneStudySelected;
+            !this.isAtLeastOneStudySelected ||
+            !this.isContactSelected;
         return savedisabled;
     }
     get saveButtonClass() {
         return this.validateData
             ? 'save-del-btn btn-save-opacity addDelegateMobile'
             : 'save-del-btn addDelegateMobile';
+    }
+    get checkBoxDisabled() {
+        let checkBoxDisabled = false;
+        if (
+            this.showExistingDelegateError ||
+            this.participantAddingHimselfError ||
+            this.diableFNLNWhenDupContacts
+        ) {
+            checkBoxDisabled = true;
+        }
+        return checkBoxDisabled;
     }
     handleDateChange(event) {
         if (event.currentTarget.dataset.id == 'firstNameInput') {
@@ -354,7 +368,7 @@ export default class PpAddNewDelegate extends LightningElement {
             let maskedLastName = '';
             for (let i = 0; i < lastName.length; i++) {
                 if (i <= 1) {
-                    maskedLastName += firstName.charAt(i);
+                    maskedLastName += lastName.charAt(i);
                 } else {
                     maskedLastName += '*';
                 }
@@ -422,6 +436,9 @@ export default class PpAddNewDelegate extends LightningElement {
 
         this.showExistingDelegateError = false;
         this.showExistingContactWarning = false;
+        this.participantAddingHimselfError = false;
+        this.diableFNLNWhenDupContacts = false;
+        this.isContactSelected = false;
         this.oldDelegate = delegate;
         this.isLoading = true;
         getDelegateContactData({
@@ -441,20 +458,26 @@ export default class PpAddNewDelegate extends LightningElement {
                 this.partiallyMaskFields();
                 //When only one existing contact is present.
                 if (contDataLength == 1) {
-                    //this.delegate = this.allDelegate[0];
+                    this.delegate = this.allDelegate[0];
+                    this.setSelectedOrFirstContactInputs();
+                    this.isContactSelected = true;
+                    //When existing contact is available.
                     if (this.allDelegate[0].delegateContact.Id != undefined) {
-                        //If only one existing contact found for given email.
-                        this.showExistingContactWarning = true;
                         this.diableFNLNWhenDupContacts = true;
-                        this.template.querySelector('[data-id="firstNameInput"]').value = '';
-                        this.template.querySelector('[data-id="lastNameInput"]').value = '';
-                        this.isLoading = false;
-                        return;
-                    } else {
-                        //If only no existing contact found for given email.
-                        this.setSelectedOrFirstContactInputs();
-                        this.delegate = this.allDelegate[0];
                     }
+                    // if (this.allDelegate[0].delegateContact.Id != undefined) {
+                    //     //If only one existing contact found for given email.
+                    //     this.showExistingContactWarning = true;
+                    //     this.diableFNLNWhenDupContacts = true;
+                    //     this.template.querySelector('[data-id="firstNameInput"]').value = '';
+                    //     this.template.querySelector('[data-id="lastNameInput"]').value = '';
+                    //     this.isLoading = false;
+                    //     return;
+                    // } else {
+                    //     //If only no existing contact found for given email.
+                    //     this.setSelectedOrFirstContactInputs();
+                    //     this.delegate = this.allDelegate[0];
+                    // }
                 } else {
                     //If More than one existing contacts found for given email.
                     this.showExistingContactWarning = true;
@@ -466,9 +489,8 @@ export default class PpAddNewDelegate extends LightningElement {
                 }
             })
             .catch((error) => {
+                communityService.showToast('', 'error', 'Failed To read the Data...', 100);
                 this.isLoading = false;
-
-                console.log('error' + error);
             });
     }
 
@@ -495,6 +517,7 @@ export default class PpAddNewDelegate extends LightningElement {
             this.delegate.delegateContact.Id != undefined &&
             this.delegate.delegateContact.Id === this.currentUserContactId
         ) {
+            this.participantAddingHimselfError = true;
             communityService.showToast(
                 '',
                 'error',
@@ -511,7 +534,23 @@ export default class PpAddNewDelegate extends LightningElement {
                 this.oldDelegate.delegateContact.LastName;
             this.showExistingContactWarning = false;
         }
-        this.checkeExistingDelegate();
+        //check Delegate status.
+        let status = this.delegate.status;
+        let isActiveDelegate = this.delegate.isActive;
+        let isFormerDelegate =
+            !isActiveDelegate && (status === 'Disconnected' || status === 'On Hold');
+        let isDeletedOrWithdrawnDelegate =
+            !isActiveDelegate && (status === 'Deleted' || status === 'Withdrawn');
+        //If Delegate is Active/former(Not Withdrawn).
+        if (isActiveDelegate || isFormerDelegate) {
+            this.showExistingDelegateError = true;
+        } else if (isDeletedOrWithdrawnDelegate) {
+            //if Delegate is withdrwan or Deleted
+            this.isDeletedOrWithdrawnDelegate = true;
+        }
+
+        this.isLoading = false;
+        //this.checkeExistingDelegate();
     }
 
     checkeExistingDelegate() {
@@ -567,10 +606,26 @@ export default class PpAddNewDelegate extends LightningElement {
                 console.log('isAttested' + this.isAttested);
                 console.log('isEmailConsentChecked' + this.isEmailConsentChecked);
 
+                let selectedStudies = [];
+                this.studiesSelected.forEach((std) => {
+                    let assigned = false;
+                    //if Deleted or Withdrawn delegate added again.
+                    if (this.isDeletedOrWithdrawnDelegate) {
+                        assigned = true;
+                    }
+                    selectedStudies.push({
+                        label: std.label,
+                        value: std.value,
+                        assigned: assigned,
+                        active: false,
+                        pdEnrollmentId: null
+                    });
+                });
+
                 //Save Delegate
                 savePatientDelegate({
                     delegate: JSON.stringify(delegate.delegateContact),
-                    delegateFilterData: JSON.stringify(this.studiesSelected)
+                    delegateFilterData: JSON.stringify(selectedStudies)
                 })
                     .then((result) => {
                         communityService.showToast(
@@ -590,6 +645,7 @@ export default class PpAddNewDelegate extends LightningElement {
                         this.isLoading = false;
                     })
                     .catch((error) => {
+                        communityService.showToast('', 'error', 'Failed To save the Data...', 100);
                         this.isLoading = false;
                         //alert('error:::' + error);
                     });
@@ -636,16 +692,16 @@ export default class PpAddNewDelegate extends LightningElement {
     //This method will confirm the selected contact among multiple contacts.
     confirmSelection(event) {
         this.isLoading = true;
-        if (this.allDelegate.length == 1) {
-            this.delegate = this.allDelegate[0];
-        } else {
-            //Filter out the selected contact from list of all contacts.
-            this.allDelegate.forEach((del) => {
-                if (del.delegateContact.Id == this.selectedContact) {
-                    this.delegate = del;
-                }
-            });
-        }
+        // if (this.allDelegate.length == 1) {
+        //     this.delegate = this.allDelegate[0];
+        // } else {
+        //Filter out the selected contact from list of all contacts.
+        this.allDelegate.forEach((del) => {
+            if (del.delegateContact.Id == this.selectedContact) {
+                this.delegate = del;
+            }
+        });
+        // }
         this.setSelectedOrFirstContactInputs();
         this.showExistingContactWarning = false;
     }
@@ -660,9 +716,9 @@ export default class PpAddNewDelegate extends LightningElement {
                 checkboxes[i].checked = false;
             } else {
                 if (checkboxes[i].checked) {
-                    this.disableConfirmSelectionBtn = false;
+                    this.isContactSelected = true;
                 } else {
-                    this.disableConfirmSelectionBtn = true;
+                    this.isContactSelected = false;
                 }
             }
         }
@@ -670,5 +726,8 @@ export default class PpAddNewDelegate extends LightningElement {
     //Return the total number of existing contacts found.
     get existingContactsCount() {
         return this.allDelegate.length;
+    }
+    get disableConfirmSelectionBtn() {
+        return this.isContactSelected ? false : true;
     }
 }

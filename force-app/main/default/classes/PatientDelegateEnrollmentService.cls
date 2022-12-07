@@ -213,6 +213,7 @@ public without sharing class PatientDelegateEnrollmentService {
         //List<LabelValueItem> studiesSelected = SelectedStudiesData;
         List<Patient_Delegate_Enrollment__c> pdEnrollments = new List<Patient_Delegate_Enrollment__c>();
         list<Id> pDEIdList =  New List<Id>();
+        List<Id> perIDList =  New List<Id>();
         for (MyTeamRemote.SelectedStudiesData studyPER : SelectedStudiesData) {
             //if Study is not assigned then create new PDEnrollment Record otherwise reactive the existing PDEnrollment record.
             if(studyPER.assigned ==null || (studyPER.assigned!=null && !studyPER.assigned)){
@@ -225,20 +226,32 @@ public without sharing class PatientDelegateEnrollmentService {
                 pde.Status__c = 'Active';
                 pdEnrollments.add(pde);
             } else if(studyPER.assigned!=null && studyPER.assigned && !studyPER.active){
-                //if Study is assigned to delegate but it is not active. 
-                pDEIdList.Add(studyPER.pdEnrollmentId);
+                if(studyPER.pdEnrollmentId!=null){
+                    //if Study is assigned to delegate but it is not active(Former/Active Delegate). 
+                    pDEIdList.add(studyPER.pdEnrollmentId);
+                }else{
+                    //When deleted/Withdrawn delegate is added.
+                    perIDList.add(studyPER.Value);
+                }
+               
 
             }
         }
         if (pdEnrollments.size() > 0) {
             insert pdEnrollments;
         }
-        //Re activate the study assignment.
+        //Re activate the study assignment for Former/Active delegates.
         if (pDEIdList.size() > 0) {
             reActivateAssignment(pDEIdList);
         }
+        //Re activate the study assignment for Deleted/Withdrawn Delegates.
+        if (perIDList.size() > 0) {
+            reActivateAssignmentForDeletedOrWithDrawnDel(perIDList);
+        }
+
     }
 
+    //This Method will reactive the study assignments for the active/Former delegates.
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain reActivateAssignment(List<String> pDEIdList) {
         list<Patient_Delegate_Enrollment__c> pdeList = [
@@ -250,9 +263,35 @@ public without sharing class PatientDelegateEnrollmentService {
             pde.Status__c = 'Active';
             
         }
-        update pdeList;
+        
+        try{
+            update pdeList;
+        }catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
         return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
     }
+
+    //This Method will reactive the study assignments for the deleted/Withdrawn delegates.
+    @AuraEnabled
+    public static PatientDelegateEnrollmentsWrapperMain reActivateAssignmentForDeletedOrWithDrawnDel(List<Id> perIDList) {
+        list<Patient_Delegate_Enrollment__c> pdeList = [
+            SELECT id, Status__c
+            FROM Patient_Delegate_Enrollment__c
+            WHERE Participant_Enrollment__c = :perIDList
+        ];
+        for(Patient_Delegate_Enrollment__c pde: pdeList) {
+            pde.Status__c = 'Active';  
+        }
+        
+        try{
+            update pdeList;
+        }catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+        return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
+    }
+
 
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain removeAssignment(String pDEId) {

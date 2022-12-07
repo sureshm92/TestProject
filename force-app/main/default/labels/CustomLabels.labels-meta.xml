@@ -18793,7 +18793,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AddAssignment</shortDescription>
-        <value>Add assignment</value>
+        <value>Add Assignment</value>
     </labels>
     <labels>
         <fullName>PP_AddProfilePhoto</fullName>
