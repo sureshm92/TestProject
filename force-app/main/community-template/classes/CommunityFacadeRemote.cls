@@ -442,7 +442,7 @@ public without sharing class CommunityFacadeRemote {
         List<LoginHistory> lstLoginHistory = new List<LoginHistory>();
         Id userId = UserInfo.getUserId();
         Integer numberOfEnrollments = 0;
-        String query = 'SELECT Id, Clinical_Trial_Profile__r.Study_Sponsor__c, Study_Site__c, Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Study_Site__c IN :lstOfStudySite AND CreatedById != :userId'+
+        String query = 'SELECT Id, Clinical_Trial_Profile__r.Study_Code_Name__c, Study_Site__c, Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Study_Site__c IN :lstOfStudySite AND CreatedById != :userId'+
                         ' AND Participant_Status__c IN (\'Received\',\'Pre-review Passed\',\'Contact Attempted\',\'Successfully Contacted\',\'Screening In Progress\',\'Screening In Progress - Wash Out Period\',\'Screening Passed\','+
                         ' \'Eligibility Passed\',\'Ready to Screen\',\'Participant No Show\',\'Successfully re-engaged\',\'Randomization Success\',\'Enrollment Success\') AND Participant__r.Present_Age__c >= 0 AND Participant__r.Present_Age__c <= 150';
         List<Study_Site__c> lstOfStudySite = new List<Study_Site__c>();
@@ -507,15 +507,15 @@ public without sharing class CommunityFacadeRemote {
 
             if(lstOfEnrollment.size() > 0){
                 for(Participant_Enrollment__c eachRec :lstOfEnrollment){
-                    if(!mapOfProtocolVsEnrollment.containsKey(eachRec.Clinical_Trial_Profile__r.Study_Sponsor__c)){
-                        mapOfProtocolVsEnrollment.put(eachRec.Clinical_Trial_Profile__r.Study_Sponsor__c, new List<Participant_Enrollment__c>{});
+                    if(!mapOfProtocolVsEnrollment.containsKey(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c)){
+                        mapOfProtocolVsEnrollment.put(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c, new List<Participant_Enrollment__c>{});
                     }
-                    mapOfProtocolVsEnrollment.get(eachRec.Clinical_Trial_Profile__r.Study_Sponsor__c).add(eachRec);
+                    mapOfProtocolVsEnrollment.get(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c).add(eachRec);
 
-                    if(!mapOfStudyVsSite.containsKey(eachRec.Clinical_Trial_Profile__r.Study_Sponsor__c)){
-                        mapOfStudyVsSite.put(eachRec.Clinical_Trial_Profile__r.Study_Sponsor__c, new Set<String>{});
+                    if(!mapOfStudyVsSite.containsKey(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c)){
+                        mapOfStudyVsSite.put(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c, new Set<String>{});
                     }
-                    mapOfStudyVsSite.get(eachRec.Clinical_Trial_Profile__r.Study_Sponsor__c).add(eachRec.Study_Site__c);
+                    mapOfStudyVsSite.get(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c).add(eachRec.Study_Site__c);
                 }
 
                 for(String eachRec : mapOfStudyVsSite.keySet()){
