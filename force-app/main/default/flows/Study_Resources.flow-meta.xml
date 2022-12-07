@@ -3,7 +3,7 @@
     <actionCalls>
         <name>BackNnRecord</name>
         <label>BackNnRecord</label>
-        <locationX>1391</locationX>
+        <locationX>1523</locationX>
         <locationY>1925</locationY>
         <actionName>c:NavigateToRecord</actionName>
         <actionType>component</actionType>
@@ -22,8 +22,8 @@
     <actionCalls>
         <name>Create_COI_TA_Assignment</name>
         <label>Create COI/TA Assignment</label>
-        <locationX>1265</locationX>
-        <locationY>1419</locationY>
+        <locationX>1474</locationX>
+        <locationY>1387</locationY>
         <actionName>CreateTACOIAssignmentHandler</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -49,7 +49,7 @@
             </value>
         </inputParameters>
     </actionCalls>
-    <apiVersion>49.0</apiVersion>
+    <apiVersion>54.0</apiVersion>
     <choices>
         <name>Article</name>
         <choiceText>Article</choiceText>
@@ -81,6 +81,11 @@
         <value>
             <stringValue>Exist</stringValue>
         </value>
+    </choices>
+    <choices>
+        <name>Multimedia</name>
+        <choiceText>Multimedia</choiceText>
+        <dataType>String</dataType>
     </choices>
     <choices>
         <name>New</name>
@@ -132,8 +137,8 @@
     <decisions>
         <name>Check_Record_Type</name>
         <label>Check Record Type</label>
-        <locationX>539</locationX>
-        <locationY>1461</locationY>
+        <locationX>574</locationX>
+        <locationY>1438</locationY>
         <defaultConnector>
             <targetReference>Create_Res</targetReference>
         </defaultConnector>
@@ -183,12 +188,27 @@
             </connector>
             <label>Relevant Link Resource</label>
         </rules>
+        <rules>
+            <name>Multimedia_Resource</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Choose_record_type_resource</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Multimedia</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Res_Multimedia</targetReference>
+            </connector>
+            <label>Multimedia Resource</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Current_or_new_resource</name>
         <label>Current or new resource</label>
-        <locationX>495</locationX>
-        <locationY>559</locationY>
+        <locationX>455</locationX>
+        <locationY>447</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>New_Res_Study_Doc</name>
@@ -293,11 +313,33 @@
             </connector>
             <label>New Res Video</label>
         </rules>
+        <rules>
+            <name>New_Res_Multimedia</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Pick_option</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>New</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Choose_record_type_resource</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Multimedia</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Multimedia_type_record_0</targetReference>
+            </connector>
+            <label>New Res Multimedia</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Type_Rocord_type</name>
         <label>Type Rocord type</label>
-        <locationX>452</locationX>
+        <locationX>584</locationX>
         <locationY>1928</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -316,7 +358,7 @@
     <decisions>
         <name>Type_Rocord_type_1</name>
         <label>Type Rocord type</label>
-        <locationX>43</locationX>
+        <locationX>175</locationX>
         <locationY>1090</locationY>
         <defaultConnector>
             <targetReference>Add_COI</targetReference>
@@ -457,6 +499,7 @@
         <picklistField>X3rd_Party_Source__c</picklistField>
         <picklistObject>Resource__c</picklistObject>
     </dynamicChoiceSets>
+    <environments>Default</environments>
     <formulas>
         <name>CTPId</name>
         <dataType>String</dataType>
@@ -486,8 +529,8 @@
     <recordCreates>
         <name>Create_record_article</name>
         <label>Create record article</label>
-        <locationX>675</locationX>
-        <locationY>1128</locationY>
+        <locationX>729</locationX>
+        <locationY>1086</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res_0_0</targetReference>
@@ -635,7 +678,7 @@
     <recordCreates>
         <name>Create_Res</name>
         <label>Create Res</label>
-        <locationX>838</locationX>
+        <locationX>970</locationX>
         <locationY>1510</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
@@ -688,8 +731,8 @@
     <recordCreates>
         <name>Create_Res_0</name>
         <label>Create Res</label>
-        <locationX>974</locationX>
-        <locationY>1309</locationY>
+        <locationX>1206</locationX>
+        <locationY>1434</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res_0_0</targetReference>
@@ -751,10 +794,171 @@
         <object>Resource__c</object>
     </recordCreates>
     <recordCreates>
+        <name>Create_Res_Multimedia</name>
+        <label>Create Res Multimedia</label>
+        <locationX>1007</locationX>
+        <locationY>1255</locationY>
+        <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
+        <connector>
+            <targetReference>Create_Study_Res_0_0</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Author_s_Name__c</field>
+            <value>
+                <elementReference>Author_s_Name_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Body__c</field>
+            <value>
+                <elementReference>Body_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Byline__c</field>
+            <value>
+                <elementReference>Byline_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Content_Class__c</field>
+            <value>
+                <stringValue>Study-Specific</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Content_Type__c</field>
+            <value>
+                <stringValue>Multimedia</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Copyright__c</field>
+            <value>
+                <elementReference>Copyright_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description__c</field>
+            <value>
+                <elementReference>Description_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Expiration_Date__c</field>
+            <value>
+                <elementReference>Expiration_Date_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Image_Subtitle__c</field>
+            <value>
+                <elementReference>Image_Subtitle_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Image_Title__c</field>
+            <value>
+                <elementReference>Image_Title_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Image__c</field>
+            <value>
+                <elementReference>Image_Link_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Language__c</field>
+            <value>
+                <elementReference>Language_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Posting_Date__c</field>
+            <value>
+                <elementReference>Posting_Date_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Remove_sharing__c</field>
+            <value>
+                <elementReference>Remove_sharing_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Resource_Type__c</field>
+            <value>
+                <elementReference>Resource_TypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Source__c</field>
+            <value>
+                <elementReference>Source_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subtitle__c</field>
+            <value>
+                <elementReference>Subtitle_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Therapeutic_Areas__c</field>
+            <value>
+                <elementReference>SiteCore_Conditions_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Title__c</field>
+            <value>
+                <elementReference>Title_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>URL_Part__c</field>
+            <value>
+                <elementReference>URL_Part_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Updated_Date__c</field>
+            <value>
+                <elementReference>Updated_Date_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Version_Date__c</field>
+            <value>
+                <elementReference>Version_DateMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Video__c</field>
+            <value>
+                <elementReference>Video_LinkMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>X3rd_Party_Source__c</field>
+            <value>
+                <elementReference>X3rd_Party_Source_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>article_external_link__c</field>
+            <value>
+                <elementReference>Article_External_Link_field_recordtypeMultimedia</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Resource__c</object>
+    </recordCreates>
+    <recordCreates>
         <name>Create_Res_Video</name>
         <label>Create Res Video</label>
-        <locationX>520</locationX>
-        <locationY>1052</locationY>
+        <locationX>599</locationX>
+        <locationY>989</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res_0_0</targetReference>
@@ -914,7 +1118,7 @@
     <recordCreates>
         <name>Create_Study_Res</name>
         <label>Create Study Res</label>
-        <locationX>977</locationX>
+        <locationX>1109</locationX>
         <locationY>1544</locationY>
         <connector>
             <targetReference>Create_COI_TA_Assignment</targetReference>
@@ -996,7 +1200,7 @@
     <recordCreates>
         <name>Create_Study_Res_0</name>
         <label>Create Study Res</label>
-        <locationX>1636</locationX>
+        <locationX>1768</locationX>
         <locationY>1794</locationY>
         <connector>
             <targetReference>BackNnRecord</targetReference>
@@ -1072,8 +1276,8 @@
     <recordCreates>
         <name>Create_Study_Res_0_0</name>
         <label>Create Study Res</label>
-        <locationX>914</locationX>
-        <locationY>1058</locationY>
+        <locationX>1229</locationX>
+        <locationY>981</locationY>
         <connector>
             <targetReference>Create_COI_TA_Assignment</targetReference>
         </connector>
@@ -1148,7 +1352,7 @@
     <screens>
         <name>Add_COI</name>
         <label>Add COI</label>
-        <locationX>399</locationX>
+        <locationX>531</locationX>
         <locationY>1273</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1202,7 +1406,7 @@
     <screens>
         <name>Article_type_record</name>
         <label>Article</label>
-        <locationX>252</locationX>
+        <locationX>384</locationX>
         <locationY>786</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1395,7 +1599,7 @@
     <screens>
         <name>Choose</name>
         <label>Choose</label>
-        <locationX>503</locationX>
+        <locationX>635</locationX>
         <locationY>282</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1423,7 +1627,7 @@
     <screens>
         <name>Exist_Res_c</name>
         <label>Exist Res</label>
-        <locationX>1442</locationX>
+        <locationX>1574</locationX>
         <locationY>936</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1471,9 +1675,208 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
+        <name>Multimedia_type_record_0</name>
+        <label>Multimedia</label>
+        <locationX>50</locationX>
+        <locationY>771</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Type_Rocord_type_1</targetReference>
+        </connector>
+        <fields>
+            <name>Page_show_record_typeMultimedia</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_resource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Title_field_recordtypeMultimedia</name>
+            <dataType>String</dataType>
+            <fieldText>Title</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Image_Link_field_recordtypeMultimedia</name>
+            <fieldText>Image Link</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Subtitle_field_recordtypeMultimedia</name>
+            <dataType>String</dataType>
+            <fieldText>Subtitle</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Image_Title_field_recordtypeMultimedia</name>
+            <dataType>String</dataType>
+            <fieldText>Image Title</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Content_Class_field_recordtypeMultimedia</name>
+            <choiceReferences>Content_Class_choice</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Content Class</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Language_field_recordtypeMultimedia</name>
+            <choiceReferences>Languageobject</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Language</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Resource_TypeMultimedia</name>
+            <choiceReferences>Resource_Type</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Resource Type</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Posting_Date_field_recordtypeMultimedia</name>
+            <dataType>Date</dataType>
+            <fieldText>Posting Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Version_DateMultimedia</name>
+            <dataType>Date</dataType>
+            <fieldText>Version Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Expiration_Date_field_recordtypeMultimedia</name>
+            <dataType>Date</dataType>
+            <fieldText>Expiration Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Updated_Date_field_recordtypeMultimedia</name>
+            <dataType>Date</dataType>
+            <fieldText>Updated Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Video_LinkMultimedia</name>
+            <fieldText>Multimedia Link</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Description_field_recordtypeMultimedia</name>
+            <fieldText>Description</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Body_field_recordtypeMultimedia</name>
+            <fieldText>Body</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Author_s_Name_field_recordtypeMultimedia</name>
+            <dataType>String</dataType>
+            <fieldText>Author&apos;s Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Source_field_recordtypeMultimedia</name>
+            <dataType>String</dataType>
+            <fieldText>Source</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Copyright_field_recordtypeMultimedia</name>
+            <dataType>String</dataType>
+            <fieldText>Copyright</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>X3rd_Party_Source_field_recordtypeMultimedia</name>
+            <choiceReferences>x3rdPartySource_picklist</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>3rd Party Source</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>SiteCore_Conditions_field_recordtypeMultimedia</name>
+            <dataType>String</dataType>
+            <fieldText>SiteCore Conditions</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Image_Subtitle_field_recordtypeMultimedia</name>
+            <dataType>String</dataType>
+            <fieldText>Image Subtitle</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Byline_field_recordtypeMultimedia</name>
+            <dataType>String</dataType>
+            <fieldText>Byline</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>URL_Part_field_recordtypeMultimedia</name>
+            <dataType>String</dataType>
+            <fieldText>URL Part</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Article_External_Link_field_recordtypeMultimedia</name>
+            <fieldText>Multimedia External Link</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Remove_sharing_field_recordtypeMultimedia</name>
+            <dataType>Boolean</dataType>
+            <fieldText>Remove sharing</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>FinihsButtonMultimedia</name>
+            <extensionName>c:FooterWithFinishButton</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Next</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>Record_Type</name>
         <label>Choose Record Type Recource</label>
-        <locationX>496</locationX>
+        <locationX>628</locationX>
         <locationY>108</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1492,6 +1895,7 @@
             <choiceReferences>Article</choiceReferences>
             <choiceReferences>Study_Document_recordtype</choiceReferences>
             <choiceReferences>Video</choiceReferences>
+            <choiceReferences>Multimedia</choiceReferences>
             <dataType>String</dataType>
             <fieldText>Choose record type resource</fieldText>
             <fieldType>RadioButtons</fieldType>
@@ -1503,7 +1907,7 @@
     <screens>
         <name>Relevant_Link_recordType</name>
         <label>Relevant Link</label>
-        <locationX>493</locationX>
+        <locationX>625</locationX>
         <locationY>825</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1593,7 +1997,7 @@
     <screens>
         <name>Study_Doc_c</name>
         <label>Study Doc</label>
-        <locationX>727</locationX>
+        <locationX>859</locationX>
         <locationY>910</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1652,7 +2056,7 @@
     <screens>
         <name>Study_Resource</name>
         <label>Study Resource</label>
-        <locationX>390</locationX>
+        <locationX>522</locationX>
         <locationY>283</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1813,7 +2217,7 @@
     <screens>
         <name>Upload_File</name>
         <label>Upload File</label>
-        <locationX>149</locationX>
+        <locationX>281</locationX>
         <locationY>1340</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1878,7 +2282,7 @@
     <screens>
         <name>Video_type_record</name>
         <label>Video</label>
-        <locationX>174</locationX>
+        <locationX>306</locationX>
         <locationY>894</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2075,7 +2479,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>663</locationX>
+        <locationX>795</locationX>
         <locationY>50</locationY>
         <connector>
             <targetReference>Record_Type</targetReference>

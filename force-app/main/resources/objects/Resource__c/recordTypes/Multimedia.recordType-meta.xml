@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Submitted_Articles</fullName>
+    <fullName>Multimedia</fullName>
     <active>true</active>
-    <label>Submitted Articles</label>
+    <description>Record Type for Engage Section</description>
+    <label>Multimedia</label>
     <picklistValues>
         <picklist>Content_Class__c</picklist>
         <values>
@@ -29,11 +30,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Study_Document</fullName>
+            <fullName>Multimedia</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Submitted_Articles</fullName>
+            <fullName>Study_Document</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1143,6 +1144,18 @@
         </values>
         <values>
             <fullName>Patient advocacy groups</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>For Caregivers and Families</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Relevant Links</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Helpful Links</fullName>
             <default>false</default>
         </values>
     </picklistValues>
