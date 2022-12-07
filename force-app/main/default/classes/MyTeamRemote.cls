@@ -330,6 +330,11 @@ public without sharing class MyTeamRemote {
         }else if(!isWithdrawnPDE && !isDisconnectedPDE && isOnHoldPDE && !isDeleted){
             //If all the PDE List are On Hold
             status = 'On Hold';
+        }else if(isDisconnectedPDE && (isWithdrawnPDE || isOnHoldPDE || isDeleted) ){
+            //If at least one delegate is disconnected and remaining among withdrawn/On Hold/Deleted
+            //then consider as disconnected status.
+            status = 'Disconnected';
+
         }
 
         List<DelegateWrapper> delegates = new List<DelegateWrapper>();
