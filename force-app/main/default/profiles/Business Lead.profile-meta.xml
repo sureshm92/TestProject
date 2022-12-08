@@ -3292,6 +3292,10 @@
     <layoutAssignments>
         <layout>PreScreener_Survey__c-PreScreener Survey Layout</layout>
     </layoutAssignments>
+     <layoutAssignments>
+        <layout>Resource__c-Multimedia</layout>
+        <recordType>Resource__c.Multimedia</recordType>
+    </layoutAssignments>
      
     <objectPermissions>
         <allowCreate>true</allowCreate>
