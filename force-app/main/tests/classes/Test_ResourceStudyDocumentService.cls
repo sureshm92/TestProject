@@ -36,7 +36,7 @@ public class Test_ResourceStudyDocumentService {
     static void resourceStudyDocServiceNoResources_Test() {
         
         TestData td = new TestData();
-        Resource__c relLink = new Resource__c( Content_Type__c = 'Relevant_Link', Title__c = 'Test', Type__c = 'Helpful Link',
+        Resource__c relLink = new Resource__c( Content_Type__c = 'Relevant_Link', Title__c = 'Test', Type__c = 'Helpful Links',
                                               URL__c = 'https://www.google.com/', Languages__c = 'en_US');
         insert relLink;
 
@@ -58,7 +58,7 @@ public class Test_ResourceStudyDocumentService {
     @IsTest
     static void resourceArticleVideo_Test() {
         TestData td = new TestData();
-        Resource__c relLink = new Resource__c(Content_Type__c = 'Relevant_Link', Title__c = 'Test', Type__c = 'Helpful Link',
+        Resource__c relLink = new Resource__c(Content_Type__c = 'Relevant_Link', Title__c = 'Test', Type__c = 'Helpful Links',
                                               URL__c = 'https://www.google.com/', Languages__c = 'en_US');
         insert relLink;
 
@@ -81,7 +81,7 @@ public class Test_ResourceStudyDocumentService {
     @IsTest
     static void resourceArticleVideoObjectMissing_Test() {
         TestData td = new TestData();
-        Resource__c relLink = new Resource__c(Content_Type__c = 'Relevant_Link', Title__c = 'Test', Type__c = 'Helpful Link', 
+        Resource__c relLink = new Resource__c(Content_Type__c = 'Relevant_Link', Title__c = 'Test', Type__c = 'Helpful Links', 
                                               URL__c = 'https://www.google.com/', Languages__c = 'en_US');
         insert relLink;
 
