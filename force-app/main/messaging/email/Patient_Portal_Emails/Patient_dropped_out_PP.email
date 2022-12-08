@@ -1,27 +1,26 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Patient_Dropped_Out_pp}"
-                         recipientType="Contact"
-                         relatedToType="Participant_Enrollment__c"
-                         language="{!recipient.Language__c}">
+                        recipientType="Contact"
+                        relatedToType="Participant_Enrollment__c"
+                        language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody>
-        <c:PP_EmailWireframe recipientId="{!recipient.Id}"
-                          sourceId="{!relatedTo.Id}"
-                          isPreBodyButton="true"
-                          header="{!$Label.Email_Header_Patient_Dropped_Out_pp}"
-                          greeting="{!$Label.Email_User_Greeting_FirstName}"
-                          signature="{!$Label.Email_Signature_Drop}">
-            <c:Paragraph emailLabel="{!$Label.Email_Body_Patient16_pp}"/>
-        </c:PP_EmailWireframe>
-    </messaging:htmlEmailBody>
+<messaging:htmlEmailBody>
+    <c:PP_EmailWireframe recipientId="{!recipient.Id}"
+                        sourceId="{!relatedTo.Id}"
+                        header="{!$Label.Email_Header_Patient_Dropped_Out_pp}"
+                        greeting="{!$Label.Email_User_Greeting_FirstName}"
+                        signature="{!$Label.Email_Signature_Drop}">
+        <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Patient16_pp}"/>
+    </c:PP_EmailWireframe>
+</messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
-        <c:PP_EmailWireframeText recipientId="{!recipient.Id}"
-                              sourceId="{!relatedTo.Id}"
-                              header="{!$Label.Email_Header_Patient_Dropped_Out_pp}"
-                              greeting="{!$Label.Email_User_Greeting_FirstName}"
-                              signature="{!$Label.Email_Signature_Drop}">
-            <c:ParagraphText emailLabel="{!$Label.Email_Body_Patient16_pp}"/>
-        </c:PP_EmailWireframeText>
-    </messaging:plainTextEmailBody>
+<messaging:plainTextEmailBody>
+    <c:PP_EmailWireframeText recipientId="{!recipient.Id}"
+                            sourceId="{!relatedTo.Id}"
+                            header="{!$Label.Email_Header_Patient_Dropped_Out_pp}"
+                            greeting="{!$Label.Email_User_Greeting_FirstName}"
+                            signature="{!$Label.Email_Signature_Drop}">
+        <c:ParagraphText emailLabel="{!$Label.Email_Body_Patient16_pp}"/>
+    </c:PP_EmailWireframeText>
+</messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

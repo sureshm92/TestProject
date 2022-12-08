@@ -1,37 +1,36 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Share_Content}"
-                         recipientType="Contact"
-                         relatedToType="Resource__c"
-                         language="{!recipient.Language__c}">
+                        recipientType="Contact"
+                        relatedToType="Resource__c"
+                        language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody >
-        <c:PP_EmailWireframe recipientId="{!recipient.Id}"
-                          recipientLanguage="{!recipient.Language__c}"
-                          shareEmailTemplate="Yes"
-                          sourceId="{!relatedTo.Id}"
-                          isPreBodyButton="true"
-                          header="{!$Label.Email_Header_Share_PH}"
-                          title="{!$Label.Email_Title_PH}"
-                          greeting="{!$Label.Email_User_Greeting_FirstName}"
-                          signature="{!$Label.Email_Signature_Resource}">
-            <c:Paragraph emailLabel="{!$Label.Email_Body_Share_Resource}"/>
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Label_View_Information}"
-                              buttonURL="{!relatedTo.article_external_link__c }"/>
-        </c:PP_EmailWireframe>
-    </messaging:htmlEmailBody>
+<messaging:htmlEmailBody >
+    <c:PP_EmailWireframe recipientId="{!recipient.Id}"
+                        recipientLanguage="{!recipient.Language__c}"
+                        shareEmailTemplate="Yes"
+                        sourceId="{!relatedTo.Id}"
+                        isPreBodyButton="true"
+                        preBodyButtonName="{!$Label.Email_Label_View_Information}"
+                        header="{!$Label.Email_Header_Share_PH}"
+                        title="{!$Label.Email_Title_PH}"
+                        greeting="{!$Label.Email_User_Greeting_FirstName}"
+                        signature="{!$Label.Email_Signature_Resource}">
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Share_Resource}"/>
+    </c:PP_EmailWireframe>
+</messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
-        <c:PP_EmailWireframeText recipientId="{!recipient.Id}"
-                              shareEmailTemplate="Yes"
-                              recipientLanguage="{!recipient.Language__c}"
-                              sourceId="{!relatedTo.Id}"
-                              header="{!$Label.Email_Header_Share_PH}"
-                              title="{!$Label.Email_Title_PH}"
-                              greeting="{!$Label.Email_User_Greeting_FirstName}"
-                              signature="{!$Label.Email_Signature_Resource}">
-            <c:ParagraphText emailLabel="{!$Label.Email_Body_Share_Resource}"/>
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Label_View_Information}"
-                                  buttonURL="{!relatedTo.article_external_link__c }"/>
-        </c:PP_EmailWireframeText>
-    </messaging:plainTextEmailBody>
+<messaging:plainTextEmailBody >
+    <c:PP_EmailWireframeText recipientId="{!recipient.Id}"
+                            shareEmailTemplate="Yes"
+                            recipientLanguage="{!recipient.Language__c}"
+                            sourceId="{!relatedTo.Id}"
+                            header="{!$Label.Email_Header_Share_PH}"
+                            title="{!$Label.Email_Title_PH}"
+                            greeting="{!$Label.Email_User_Greeting_FirstName}"
+                            signature="{!$Label.Email_Signature_Resource}">
+        <c:ParagraphText emailLabel="{!$Label.Email_Body_Share_Resource}"/>
+        <c:EmailActionBtnText buttonLabel="{!$Label.Email_Label_View_Information}"
+                                buttonURL="{!relatedTo.article_external_link__c }"/>
+    </c:PP_EmailWireframeText>
+</messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>
