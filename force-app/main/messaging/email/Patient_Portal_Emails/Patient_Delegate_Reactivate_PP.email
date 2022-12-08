@@ -1,0 +1,37 @@
+<messaging:emailTemplate subject="{!$Label.Email_Header_Your_Access_Level_Has_Changed}"
+                        recipientType="Contact"
+                        relatedToType="Participant__c"
+                        language="{!recipient.Language__c}">
+
+<messaging:htmlEmailBody >
+    <c:PP_EmailWireframe recipientId="{!recipient.Id}"
+                        sourceId="{!relatedTo.Id}"
+                        isPreBodyButton="true"
+                        preBodyButtonName="{!$Label.Email_Action_Login_now}"
+                        header="{!$Label.Email_Header_Your_Access_Level_Has_Changed}"
+                        title="{!$Label.Email_Title_PH}"
+                        greeting="{!$Label.Email_User_Greeting_FirstName}"
+                        signature="{!$Label.Email_Signature_FullName_New}"
+                        communityTemplate="Default">
+<c:PP_Paragraph emailLabel="{!$Label.Email_Body_Participant_Delegate_Reactivated}"/>
+        <c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}"/>
+
+    </c:PP_EmailWireframe>
+</messaging:htmlEmailBody>
+
+<messaging:plainTextEmailBody >
+    <c:PP_EmailWireframeText recipientId="{!recipient.Id}"
+                            sourceId="{!relatedTo.Id}"
+                            header="{!$Label.Email_Header_Your_Access_Level_Has_Changed}"
+                            title="{!$Label.Email_Title_PH}"
+                            greeting="{!$Label.Email_User_Greeting_FirstName}"
+                            signature="{!$Label.Email_Signature_FullName_New}"
+                            communityTemplate="Default">
+        <c:ParagraphText emailLabel="{!$Label.Email_Body_Participant_Delegate_Reactivated}"/>
+        <c:EmailTemplateDelegateParticipantText sourceId="{!relatedTo.Id}"/>
+        <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
+                                buttonURL="/s/"/>
+    </c:PP_EmailWireframeText>
+</messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>

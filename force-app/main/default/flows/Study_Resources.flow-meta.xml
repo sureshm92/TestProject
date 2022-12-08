@@ -935,7 +935,7 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>Video__c</field>
+            <field>Multimedia__c</field>
             <value>
                 <elementReference>Video_LinkMultimedia</elementReference>
             </value>
