@@ -331,6 +331,7 @@
              (needsDelegate || emailVaild) &&
              (needsDelegate || emailRepeatValid) &&
              (needsDelegate || participant.Phone__c) &&
+             participant.Email__c.toUpperCase() == emailRepeat.toUpperCase() &&
              participant.Mailing_Zip_Postal_Code__c &&
              selectedCountry &&
              (selectedState || states.length === 0) &&
@@ -344,7 +345,8 @@
                delegateParticipant.Email__c &&
                confirmConsent &&
                emailDelegateVaild &&
-               emailDelegateRepeatValid)) &&
+               emailDelegateRepeatValid &&
+               delegateParticipant.Email__c.toUpperCase() == emailDelegateRepeat.toUpperCase() ))&&
              agreePolicy);
         
          if(component.get('v.patientVeiwRedirection')){
@@ -368,6 +370,7 @@
                delegateParticipant.Last_Name__c &&
                delegateParticipant.Phone__c &&
                delegateParticipant.Email__c &&
+               delegateParticipant.Email__c.toUpperCase() == emailDelegateRepeat.toUpperCase() &&
                emailDelegateVaild &&
                emailDelegateRepeatValid &&
                agreePolicy && attestAge && confirmConsent &&
@@ -389,6 +392,7 @@
                delegateParticipant.Last_Name__c &&
                delegateParticipant.Phone__c &&
                delegateParticipant.Email__c &&
+               delegateParticipant.Email__c.toUpperCase() == emailDelegateRepeat.toUpperCase() &&   
                emailDelegateVaild &&
                emailDelegateRepeatValid &&
                agreePolicy && attestAge && confirmConsent &&
@@ -415,6 +419,7 @@
                participant.Email__c &&
                emailVaild &&
                emailRepeatValid &&
+               participant.Email__c.toUpperCase() == emailRepeat.toUpperCase() &&
                participant.Phone__c &&
                participant.Mailing_Zip_Postal_Code__c &&
               selectedCountry &&
