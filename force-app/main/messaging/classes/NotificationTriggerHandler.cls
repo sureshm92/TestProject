@@ -11,7 +11,7 @@ public without sharing class NotificationTriggerHandler {
         }
 
         public override void afterInsert(List<SObject> newList) {
-            sendNotificationToRecipient(newList);
+            //sendNotificationToRecipient(newList);
             //Start Change:RH-8945
             List<Notification__c> bellNotification = new List<Notification__c>();
             List<Notification__c> emailSMSPushNotification = new List<Notification__c>();
