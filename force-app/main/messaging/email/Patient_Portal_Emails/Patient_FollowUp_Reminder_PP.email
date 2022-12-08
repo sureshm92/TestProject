@@ -1,0 +1,31 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_FollowUp_Reminder_pp}"
+                         recipientType="Contact"
+                         relatedToType="Participant_Enrollment__c"
+                         language="{!recipient.Language__c}">
+
+    <messaging:htmlEmailBody>
+        <c:PP_EmailWireframe recipientId="{!relatedTo.Participant__r.Contact__c}"
+                          sourceId="{!relatedTo.Id}"
+                          isPreBodyButton="true"
+                          header="{!$Label.Email_Header_FollowUp_Reminder}"
+                          greeting="{!$Label.Email_User_Greeting_FirstName}"
+                          signature="{!$Label.Email_Signature_New_Short}"
+                          specificEmailProvider="EmailTemplateProviderForgot">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_FollowUp_Reminder_pp}"/>
+            <c:TemplateLink linkLabel="{!$Label.BTN_Click_here}" urlLink="##ForgotPasswordURL"/>
+        </c:PP_EmailWireframe>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody>
+        <c:PP_EmailWireframeText recipientId="{!relatedTo.Participant__r.Contact__c}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_FollowUp_Reminder}"
+                              greeting="{!$Label.Email_User_Greeting_FirstName}"
+                              signature="{!$Label.Email_Signature_New_Short}"
+                              specificEmailProvider="EmailTemplateProviderForgot">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_FollowUp_Reminder_pp}"/>
+            <c:TemplateLinkText linkLabel="{!$Label.BTN_Click_here}" urlLink="##ForgotPasswordURL"/>
+        </c:PP_EmailWireframeText>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>
