@@ -70,7 +70,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Video__c</field>
+                <field>Multimedia__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
