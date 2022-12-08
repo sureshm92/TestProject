@@ -66,7 +66,7 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Video Details</label>
+        <label>Multimedia Details</label>
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
