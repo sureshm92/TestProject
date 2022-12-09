@@ -8072,6 +8072,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource__c.Multimedia__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.X3rd_Party_Source__c</field>
         <readable>true</readable>
@@ -9986,6 +9991,10 @@
         <recordType>Resource__c.Video</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Resource__c-Multimedia</layout>
+        <recordType>Resource__c.Multimedia</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>SDH_Status__mdt-SDH Status Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -11217,6 +11226,11 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Resource__c.Video</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Resource__c.Multimedia</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

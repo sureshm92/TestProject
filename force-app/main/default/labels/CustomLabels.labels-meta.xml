@@ -28004,7 +28004,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>registerpage platform privacy note2</shortDescription>
-        <value>, using the telephone number(s) and/or email you have provided, by the following means:s</value>
+        <value>, using the telephone number(s) and/or email you have provided, by the following means:</value>
     </labels>
     <labels>
         <fullName>Communication_Preferences</fullName>
@@ -29475,5 +29475,155 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>No links available</shortDescription>
         <value>No links available</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient15_pp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body_Patient15_pp</shortDescription>
+        <value>Congratulations, you have been enrolled in ##StudyorProgramHeader.
+
+            You will be contacted by the ##isStudyorProgram Site Team regarding next steps in the ##isStudyorProgram  process.
+
+            To assist you in tracking where you are in the clinical research ##isStudyorProgram, please log in to the ##ShortCommunityName.
+
+            Please note that enrollment in ##ShortCommunityName is not a requirement for enrollment into the research##isStudyorProgram: ##StudyName.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Patient2_pp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Patient2 pp</shortDescription>
+        <value>Thank you for your interest in participating in a clinical research ##isStudyorProgram</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient1_New_pp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Patient1 New pp</shortDescription>
+        <value>Thank you for your interest in the ##isStudyorProgram.    
+ 
+            We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the enrollment process.
+            
+            The IQVIA Patient Portal includes:
+            
+            information about ##isEventorVisit and activities
+            your ##isStudyorProgram timeline to help you keep track of your progress 
+            interesting articles and additional information about research clinical trials.
+            
+            Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram team.
+            
+            Your user name is ##UserName.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Participant_Delegate_Reactivated_pp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Participant Delegate Reactivated pp</shortDescription>
+        <value>Your access as a participant delegate has changed for one or more ##studiesOrPrograms that are listed below</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Patient_Dropped_Out_pp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Patient Dropped Out pp</shortDescription>
+        <value>You have left your clinical research ##isStudyorProgram</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient16_pp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body_Patient16_pp</shortDescription>
+        <value>We are sorry to see you have decided to leave ##StudyName before the clinical ##trialorprogram was complete. Thank you for your participation.</value>
+    </labels>
+    <labels>
+        <fullName>Trial_pp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trial_pp</shortDescription>
+        <value>trial</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient9_Delegate_pp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient9 Delegate pp</shortDescription>
+        <value>The ##isStudyorProgram team has updated  ##PatientFirstName&apos;s referral status for clinical ##isStudyorProgram ##StudyName.
+
+            To see additional information, log in to the ##ShortCommunityName and then go to &quot;My Studies&quot;.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Summary_Certificate_pp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Summary Certificate pp</shortDescription>
+        <value>A new reward certificate from ##StudyName ##StudyorProgramHeader is  now available on the ##ShortCommunityName.   
+
+            Please login to the ##ShortCommunityName to view this information.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient_Log_In_pp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient Log In pp</shortDescription>
+        <value>We haven&apos;t heard from you in a while.
+
+            Please login to the ##ShortCommunityName to view all the latest information on your clinical research ##isStudyorProgram.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_FollowUp_Reminder_pp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject FollowUp Reminder pp</shortDescription>
+        <value>Reminder: Your registration is pending</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_FollowUp_Reminder_pp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body FollowUp Reminder pp</shortDescription>
+        <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link below, so that you can enroll and view your ##isStudyorProgram and additional information.
+
+
+        Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the clinical research ##isStudyorProgram.
+
+        Your user name is ##UserName.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient9_pp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient9  pp</shortDescription>
+        <value>The ##isStudyorProgram team has updated referral status for clinical ##isStudyorProgram ##StudyName.
+
+            To see additional information, log in to the ##ShortCommunityName and then go to &quot;My Studies&quot;.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Welcome_To_The_Study_pp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Welcome To The Study pp</shortDescription>
+        <value>You have been enrolled in a clinical research ##isStudyorProgram</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Patient2_pp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Patient2 pp</shortDescription>
+        <value>Thank you for your interest in participating in a clinical research ##isStudyorProgram</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Initial_Patient_pp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Initial Patient pp</shortDescription>
+        <value>You have been referred to a clinical research ##isStudyorProgram</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Patient_Dropped_Out_pp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Patient Dropped Out pp</shortDescription>
+        <value>We are sorry to see you leave your clinical research ##isStudyorProgram</value>
     </labels>
 </CustomLabels>

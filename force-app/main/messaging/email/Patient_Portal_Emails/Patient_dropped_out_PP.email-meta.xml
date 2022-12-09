@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>42.0</apiVersion>
+    <available>true</available>
+    <description>Patient dropped out of a study</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Patient dropped out PP</name>
+    <style>none</style>
+    <subject>We are sorry to see you leave your clinical research ##isStudyorProgram</subject>
+    <type>visualforce</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

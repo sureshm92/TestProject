@@ -39,12 +39,14 @@ public virtual inherited sharing class ResourceArticleVideoService extends Resou
         return sortedResources;
     }
 
+    @TestVisible
     protected override virtual ResourceService.ResourceWrapperContainer getErrorNoResources() {
         return resourceType == ResourceService.RESOURCE_TYPE_ARTICLE
             ? ResourceService.getErrorNoArticles(false)
             : ResourceService.getErrorNoVideos(false);
     }
 
+    @TestVisible
     protected override virtual Boolean isObjectsToFilterMissing() {
         return ParticipantDecoupler.getTherapeuticAreaPatients().isEmpty() && pState.ctp == null;
     }
