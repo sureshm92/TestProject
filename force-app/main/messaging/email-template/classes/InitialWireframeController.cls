@@ -32,11 +32,6 @@ global without sharing class InitialWireframeController {
         return Network.getLoginUrl(myNetwork.id);
     }
 
-    public String getPPCommunityUrl() {
-        Network myNetwork = [SELECT Id FROM Network WHERE Name = 'IQVIA Patient Portal'];
-        return Network.getLoginUrl(myNetwork.id);
-    }
-
     public String getStudySiteType() {
         return getTemplateInitial().studySiteType;
     }

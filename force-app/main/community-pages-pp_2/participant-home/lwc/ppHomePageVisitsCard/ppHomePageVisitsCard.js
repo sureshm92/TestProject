@@ -1,6 +1,6 @@
 //Created by Chetna Chauhan Sep 9,2022
 import { LightningElement, api, track } from 'lwc';
-import getVisitsPreview from '@salesforce/apex/ParticipantVisitsRemote.getVisitsPreview';
+import getVisitsPreviewAndCount from '@salesforce/apex/ParticipantVisitsRemote.getVisitsPreviewAndCount';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import What_to_Expect from '@salesforce/label/c.Upcoming_Visit_Expect';
@@ -15,6 +15,7 @@ import No_Upcoming_Visit from '@salesforce/label/c.Visit_No_Upcoming_Visit';
 import visit_clock from '@salesforce/label/c.Upcoming_Visits_Clock';
 import visit_calendar from '@salesforce/label/c.Upcoming_Visit_calendar';
 import Upcoming_Visit_Location from '@salesforce/label/c.Upcoming_Visit_Location';
+import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class HomePageVisitsCard extends LightningElement {
     planDateTime;
@@ -43,16 +44,25 @@ export default class HomePageVisitsCard extends LightningElement {
     };
 
     isUpcomingDetails = false;
-
-    connectedCallback() {
-        this.initializeData();
-        this.isInitialized = true;
+    isVisitAvailable = false;
+    empty_state = pp_community_icons + '/' + 'empty_visits.png';
+    spinner;
+    renderedCallback() {
+        if(this.isInitialized != true){
+            this.initializeData();
+            
+        }
     }
 
     initializeData() {
-        getVisitsPreview({})
+        this.spinner = this.template.querySelector('c-web-spinner');
+        if(this.spinner){
+            this.spinner.show();
+        }
+        getVisitsPreviewAndCount({})
             .then((result) => {
-                let visitDetails = result;
+                let visitDetails = result.visitPreviewList;
+                this.isVisitAvailable = result.showVisits;
                 if (visitDetails != null && visitDetails.length != 0 && visitDetails != '') {
                     this.isUpcomingDetails = true;
                     this.upcomingVisit = visitDetails[0];
@@ -81,6 +91,10 @@ export default class HomePageVisitsCard extends LightningElement {
                 } else {
                     this.isUpcomingDetails = false;
                 }
+                if(this.spinner){
+                    this.spinner.hide();
+                }
+                this.isInitialized = true;
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');

@@ -1,7 +1,14 @@
-.scroll-bar {
+.scroll-bar-box {
+    padding-top: 16px;
+    padding-bottom: 8px;
     height: 100%;
+    margin: 0 10px 0 10px;
+}
+
+.scroll-bar {
+    height: 95%;
     border-radius: 4px;
-    margin-right: 10px;
+    background-color: #fff;
 }
 
 .no-data-is-available {
@@ -10,4 +17,38 @@
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0;
+    height: 100%;
+}
+
+.no-links-available {
+    color: #999999;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    text-align: center;
+}
+
+.center {
+    text-align: center;
+}
+
+.scroll-bar-box-empty {
+    height: 335px;
+}
+
+@media (max-width: 486px) {
+    .scroll-bar-box {
+        padding-top: 16px;
+        padding-bottom: 8px;
+        max-height: auto;
+        margin: 0 10px 0 10px;
+    }
+    .scroll-bar-box-empty {
+        padding-top: 16px;
+        padding-bottom: 8px;
+        height: 335px;
+        margin: 0 10px 0 10px;
+    }
 }

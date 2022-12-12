@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "8f6d13a7-a501-4136-82a5-ca724cf852f4",
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "configurationTags" : [ ],
+  "id" : "df8744cf-da1b-4954-9c83-9d4e2082a2df",
+  "label" : "About Study And Overview",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-about-study-and-overview",
+  "type" : "route",
+  "urlPrefix" : "about-study-and-overview"
+}

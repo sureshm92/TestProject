@@ -5,8 +5,8 @@
         var visitId = component.get('v.visitId');
         var visitData = component.get('v.visitData');
         var taskType = component.get('v.taskType');
-        component.set('v.isUpcoming',component.get('v.isUpcomingVisits'));
-       // component.set('v.isValidFields',false);
+        component.set('v.isUpcoming', component.get('v.isUpcomingVisits'));
+        // component.set('v.isValidFields',false);
         if (!communityService.isDummy()) {
             communityService.executeAction(
                 component,
@@ -23,9 +23,10 @@
                     if (!wrapper.emailOptIn || !wrapper.smsOptIn) {
                         component.set('v.showAccountNavigation', true);
                     }
-                    
+
                     component.set('v.taskTypeList', wrapper.taskTypeList);
                     var task = wrapper.task;
+                    console.log('##isNewTask: ' + isNewTask);
                     if (isNewTask) {
                         if (taskType === 'Visit') {
                             task.Subject = visitData.visit.Is_Adhoc__c
@@ -57,20 +58,69 @@
                             'v.editAvailable',
                             isOwner && task.Status !== 'Completed' && taskType !== 'Visit'
                         );
-                    }
-                    component.set('v.task', task);
-                    if(component.get('v.initData.createdByAdmin')){
-                        var reminderFrequencyForAdmintask = [
+                        var reminderFrequencyVisits = [
                             {
-                                label:$A.get('$Label.c.PP_Custom') ,value:'Custom'
+                                label: $A.get('$Label.c.PP_NO_REMINDER'),
+                                value: 'No reminder'
+                            },
+                            {
+                                label: $A.get('$Label.c.PP_One_Hour_Before'),
+                                value: '1 hour before'
+                            },
+                            {
+                                label: $A.get('$Label.c.PP_Four_Hours_Before'),
+                                value: '4 hours before'
+                            },
+                            {
+                                label: $A.get('$Label.c.One_day_before'),
+                                value: '1 day before'
+                            },
+                            {
+                                label: $A.get('$Label.c.PP_One_Week_Before'),
+                                value: '1 week before'
+                            },
+                            {
+                                label: $A.get('$Label.c.PP_Custom'),
+                                value: 'Custom'
                             }
                         ];
-                        component.set('v.initData.reminderFrequencyList',reminderFrequencyForAdmintask);
-                        if(!$A.util.isUndefinedOrNull(component.get('v.task'))){
-                            component.set('v.task.Remind_Me__c','Custom');
+                        if (!component.get('v.initData.createdByAdmin') && wrapper.reminderDate) {
+                            component.set(
+                                'v.initData.reminderFrequencyList',
+                                reminderFrequencyVisits
+                            );
                         }
-                    }else{
-                        component.set('v.task.Remind_Me__c',task.Remind_Me__c);
+                    }
+                    component.set('v.task', task);
+                    if (component.get('v.initData.createdByAdmin')) {
+                        if (wrapper.reminderDate) {
+                            var reminderFrequencyForAdmintask = [
+                                {
+                                    label: $A.get('$Label.c.PP_NO_REMINDER'),
+                                    value: 'No reminder'
+                                },
+                                {
+                                    label: $A.get('$Label.c.PP_Custom'),
+                                    value: 'Custom'
+                                }
+                            ];
+                        } else {
+                            var reminderFrequencyForAdmintask = [
+                                {
+                                    label: $A.get('$Label.c.PP_Custom'),
+                                    value: 'Custom'
+                                }
+                            ];
+                        }
+                        component.set(
+                            'v.initData.reminderFrequencyList',
+                            reminderFrequencyForAdmintask
+                        );
+                        if (!$A.util.isUndefinedOrNull(component.get('v.task'))) {
+                            component.set('v.task.Remind_Me__c', 'Custom');
+                        }
+                    } else {
+                        component.set('v.task.Remind_Me__c', task.Remind_Me__c);
                     }
                     if (!$A.util.isUndefinedOrNull(visitId)) {
                         component.set('v.task.Patient_Visit__c', visitId);
@@ -136,10 +186,9 @@
         //Re-initialize the parent table to display the updates
         if (isSaveOperation) {
             component.set('v.isSaveOperation', false);
-            if(!component.get('v.isUpcoming')){
-               component.get('v.parent').reload();
-            }
-            else{
+            if (!component.get('v.isUpcoming')) {
+                component.get('v.parent').reload();
+            } else {
                 $A.get('e.force:refreshView').fire();
             }
         }
@@ -164,7 +213,7 @@
             message = $A.get('$Label.c.PP_ChangesSuccessfullySaved');
             //Changes are successfully saved.
         } else if (!isNewTask && !isReminderOnly) {
-            message =  $A.get('$Label.c.PP_ChangesSuccessfullySaved');
+            message = $A.get('$Label.c.PP_ChangesSuccessfullySaved');
             //message = successToastArray[1].trim();
             //Changes are successfully saved.
         } else {
@@ -200,5 +249,4 @@
         }
         return isFieldValid;
     }
-    
 });

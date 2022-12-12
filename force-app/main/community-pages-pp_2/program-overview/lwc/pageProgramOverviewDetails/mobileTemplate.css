@@ -1,89 +1,94 @@
 .cardRTL {
     direction: rtl;
-  }
-  
-  .po-bg {
+}
+
+.po-bg {
     background-color: #f7f8fa;
     padding-left: 20px;
     height: auto;
     padding-bottom: 20px;
-  }
-  
-  .po-breadcrum {
+}
+
+.po-breadcrum {
     height: 24px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0;
     line-height: 24px;
-  }
-  
-  .slds-breadcrumb__item > a {
+}
+
+.slds-breadcrumb__item > a {
     color: gray !important;
-  }
-  
-  .po-about-program {
-    height: 48px;
+}
+
+.po-about-program {
+    height: auto;
     color: #444444;
     font-size: 18px;
     font-weight: 600;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     letter-spacing: 0;
-    line-height: 48px;
-  }
-  
-  .po-mt-20 {
+    line-height: inherit;
+    margin-bottom: 3px;
+}
+
+.po-mb-17 {
+    margin-bottom: 17px;
+}
+
+.po-mt-20 {
     margin-top: 20px;
-  }
-  
-  .po-mt-10 {
+}
+
+.po-mt-10 {
     margin-top: 10px;
-  }
-  
-  .po-mb-20 {
+}
+
+.po-mb-20 {
     margin-bottom: 20px;
-  }
-  
-  .po-mr-36 {
+}
+
+.po-mr-36 {
     margin-right: 40px;
-  }
-  
-  .po-pb-10 {
+}
+
+.po-pb-10 {
     padding-bottom: 10px;
-  }
-  
-  .po-mr-10 {
+}
+
+.po-mr-10 {
     margin-right: 10px;
-  }
-  
-  .po-mr-26 {
+}
+
+.po-mr-26 {
     margin-right: 26px;
-  }
-  
-  .po-mr-16plus {
+}
+
+.po-mr-16plus {
     margin-right: 16px;
-  }
-  
-  .po-mr-16 {
+}
+
+.po-mr-16 {
     margin-right: -16px;
-  }
-  
-  .po-mr-20minus {
+}
+
+.po-mr-20minus {
     margin-right: -20px;
-  }
-  
-  .po-ml-3 {
+}
+
+.po-ml-3 {
     margin-left: 3px;
-  }
-  
-  .po-tab a {
+}
+
+.po-tab a {
     font-size: 16px;
     line-height: 24px;
     text-decoration: none;
-  }
-  
-  .po-tab-overview {
+}
+
+.po-tab-overview {
     background-color: #fff;
     border: 1px solid #e9e9e9;
     border-radius: 16px;
@@ -94,118 +99,118 @@
     margin-right: 13px;
     font-size: 16px;
     font-weight: 400;
-  }
-  
-  .po-tab-content {
+}
+
+.po-tab-content {
     height: 316px;
     overflow-y: auto;
     padding-right: 15px;
-  }
-  
-  .po-tab-header {
+}
+
+.po-tab-header {
     font-size: 18px;
     line-height: 21px;
     font-weight: 600;
-  }
-  
-  /* Particiapation Criterion */
-  .po-pc-text {
+}
+
+/* Particiapation Criterion */
+.po-pc-text {
     height: 24px;
     width: 587px;
     color: #595959;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
-  }
-  
-  .po-accordian {
+}
+
+.po-accordian {
     border: 1px solid #d9d9d9;
     border-radius: 8px;
     background-color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     margin-right: 10px;
-  }
-  
-  .po-accordian-content {
+}
+
+.po-accordian-content {
     padding-left: 23px;
-  }
-  
-  /* Scroll bar custom */
-  ::-webkit-scrollbar {
+}
+
+/* Scroll bar custom */
+::-webkit-scrollbar {
     width: 10px;
-  }
-  
-  ::-webkit-scrollbar-track {
+}
+
+::-webkit-scrollbar-track {
     background-color: #fff;
     -webkit-border-radius: 10px;
     border-radius: 10px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
+}
+
+::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: #999999;
-  }
-  
-  .slds-accordion__summary-heading > button > span {
+}
+
+.slds-accordion__summary-heading > button > span {
     order: 1;
-  }
-  
-  .slds-accordion__summary-heading > button > lightning-primitive-icon {
+}
+
+.slds-accordion__summary-heading > button > lightning-primitive-icon {
     order: 2;
-  }
-  
-  :host {
+}
+
+:host {
     --slds-c-tabs-item-text-color-active: #000;
     --slds-c-tabs-item-line-height: 24px;
-  }
-  
-  .tab-style {
+}
+
+.tab-style {
     font-family: proxima-nova;
     font-size: 24px;
     font-weight: 500;
-  }
-  
-  .tab-style a {
+}
+
+.tab-style a {
     text-decoration: none !important;
     font-size: 100px;
-  }
-  
-  .po-tab-pc {
+}
+
+.po-tab-pc {
     font-size: 16px;
     font-weight: 500;
-  }
-  
-  .slds-tabs_default__link {
+}
+
+.slds-tabs_default__link {
     font-size: 200px;
-  }
-  
-  @media (min-width: 64em) {
+}
+
+@media (min-width: 64em) {
     .slds-accordion__summary-content {
-      max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      min-width: 99%;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 99%;
     }
-  }
-  
-  /* MOBILE CHANGES */
-  
-  .com-icon {
+}
+
+/* MOBILE CHANGES */
+
+.com-icon {
     height: 16px;
     color: grey;
     width: 16px;
     margin-right: 8px;
     fill: #999999;
-  }
+}
 
-  .gray-arrow{
+.gray-arrow {
     color: #999999;
-  }
-  
-  .po-tab-menu {
+}
+
+.po-tab-menu {
     background-color: #fff;
     margin: auto;
     border: 2px solid rgb(233, 233, 233);
@@ -215,26 +220,38 @@
     line-height: 74px;
     border-radius: 5px;
     font-weight: 600;
-    font-size: 14px;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
-  }
-  .po-tab-menu:hover {
+    height: 74px;
+}
+
+.pt {
+    padding-top: 10px;
+}
+.pc-menu-label {
+    width: 100px;
+    line-height: 24px;
+    display: inline-block;
+}
+
+.po-tab-menu:hover {
     cursor: pointer;
-  }
-  
-  .active {
+}
+
+.active {
     border: 2px solid #007393;
     color: #007393;
-  }
-  
-  .po-pl-0 {
+}
+
+.po-pl-0 {
     padding-left: 0px;
-  }
-  
-  .po-pr-12 {
+    font-size: 18px;
+}
+
+.po-pr-12 {
     padding-right: 12px;
-  }
-  .pointer{
+    font-size: 18px;
+}
+
+.pointer {
     cursor: pointer;
-  }
-  
+}

@@ -103,16 +103,16 @@ export default class Pir_participantDetail extends LightningElement {
     @track invalidDOB = false;
     showPresentDate = RH_future_date_error;
     convertedStringToDate;
-    isCountryUS=false;
-    isInfoCheckedUS=false;
-    isInfoCheckedROW=false;
-    isSMSupdate=false;
     //DOB Variables
     participantSelectedAge = null;
     isMonthMandate = false;
     isDayMandate = false;
     studyDobFormat = '';
     ageInputDisabled = true;
+    isCountryUS=false;
+    isInfoCheckedUS=false;
+    isInfoCheckedROW=false;
+    isSMSupdate=false;
 
     @api selectedPlan = "";
     visitPlan = {};
@@ -148,7 +148,6 @@ export default class Pir_participantDetail extends LightningElement {
     ["state" , "Mailing_State__c"],
     ["statecode" , "Mailing_State_Code__c"],
     ["country" , "Mailing_Country__c"],
-    ["dattestIQVIA" , "AttestationIQVIA"],
     ["countrycode" , "Mailing_Country_Code__c"],
     ["zipcode" , "Mailing_Zip_Postal_Code__c"],
     ["ethnicity" , "Ethnicity__c"],
@@ -158,6 +157,7 @@ export default class Pir_participantDetail extends LightningElement {
     ["demail" , "Email__c"],
     ["dbyear" , "Birth_Year__c"],
     ["dattest" , "Attestation__c"],
+    ["dattestIQVIA" , "AttestationIQVIA"],
     ["iqConsentEmail" , "Participant_Opt_In_Status_Emails__c"],
     ["iqConsentPhone" , "Participant_Phone_Opt_In_Permit_Phone__c"],
     ["iqConsentSMS" , "Participant_Opt_In_Status_SMS__c"],
@@ -177,6 +177,7 @@ export default class Pir_participantDetail extends LightningElement {
         this.showDupMsg = false;
         this.showUpdateMsg = false;
         this.showDelYear = false;
+        this.showDelConsent=false;
         this.newDel = null;
         this.delOp = '';
         this.delegateMinor = false;
@@ -191,7 +192,7 @@ export default class Pir_participantDetail extends LightningElement {
         getParticipantData({ PEid: value })
             .then(result => {
                 this.pd = result;
-                var disableSaveOn = ['Randomization Success', 'Treatment Period Started', 'Follow-Up Period Started', 'Participation Complete', 'Trial Complete', 'Enrollment Success'];
+                var disableSaveOn = ['Treatment Period Started', 'Follow-Up Period Started', 'Participation Complete', 'Trial Complete'];
                 this.disableEdit = disableSaveOn.includes(this.pd.pe.Participant_Status__c);
                 if (!this.pd['delegate']) {
                     this.pd.delegate = {"Id":"","Participant_Delegate__c":"","Participant_Delegate__r":{},"Contact__c":"","Contact__r":{} };
@@ -375,20 +376,23 @@ export default class Pir_participantDetail extends LightningElement {
         this.setVal(val, lvl, field);
     }
     handleCheckboxChange(event) {
-        this.isOutreachUpdated = true;
         let consent = event.detail.checked;
         let consentType = event.target.name;
         switch (consentType) {
             case 'outreachPhoneConsent':
+                this.isOutreachUpdated = true; 
                 this.pd['pe']['Participant_Contact__r']['Participant_Phone_Opt_In_Permit_Phone__c'] = consent;
                 break;
             case 'outreachEmailConsent':
+                this.isOutreachUpdated = true;
                 this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_Emails__c'] = consent;
                 break;
             case 'outreachSMSConsent':
+                this.isOutreachUpdated = true;
                 this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_SMS__c'] = consent;
                 break;
             case 'outreachDirectMailConsent':
+                this.isOutreachUpdated = true;
                 this.pd['pe']['Participant_Contact__r']['IQVIA_Direct_Mail_Consent__c'] = consent;
                 break;
             case 'studyPhoneConsent':
@@ -914,6 +918,7 @@ export default class Pir_participantDetail extends LightningElement {
             }, this);
             if (isAnyEmpty) {
                 this.showDelYear = false;
+                this.showDelConsent=false;
                 this.delOp = "";
                 isNew = false;
             }
@@ -921,6 +926,7 @@ export default class Pir_participantDetail extends LightningElement {
                 if (!initDel.Id) {
                     this.delOp = 'insertDelegate';
                     this.showDelYear = true;
+                    this.showDelConsent=true;
                     this.noYOB = false;
                     isNew = true;
                 }
@@ -984,7 +990,7 @@ export default class Pir_participantDetail extends LightningElement {
             this.pd.delegate.Participant_Delegate__c = this.pd.delegate.Participant_Delegate__r.Id;
             this.delOp = 'updateDeligate';
             this.showDelYear = false;
-            this.showConsent=true;
+            this.showDelConsent=true;
             this.showDupMsg = false;
             this.showUpdateMsg = false;
             this.setVal(this.pd.delegate.Participant_Delegate__r.Phone__c, '3', 'dphone');

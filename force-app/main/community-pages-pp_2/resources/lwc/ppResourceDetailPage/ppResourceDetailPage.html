@@ -2,10 +2,10 @@
     <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner"></c-web-spinner>
     <template if:true={isInitialized}>
-        <div class="page-container">
-        <!--***************  Detail Top Bar  ******************-->
+        <div class="page-container page-margin">
+            <!--***************  Detail Top Bar  ******************-->
             <lightning-layout multiple-rows="true">
-            <!-- ************** Back To Resources *************** -->
+                <!-- ************** Back To Resources *************** -->
                 <lightning-layout-item size="12">
                     <div onclick={handleBackClick} class="back-link slds-p-vertical_small">
                         <c-web-icon
@@ -20,9 +20,9 @@
                     <hr />
                 </lightning-layout-item>
 
-            <!-- ***************** Resource Title ******************* -->
-                <lightning-layout-item size="12" class="slds-p-vertical_x-small">
-                    <lightning-layout multiple-rows="true">
+                <!-- ***************** Resource Title ******************* -->
+                <lightning-layout-item size="12" class="slds-p-vertical_medium">
+                    <lightning-layout multiple-rows="true" class="study-title-mobile">
                         <lightning-layout-item size="12" class="study-title">
                             {studyTitle}</lightning-layout-item
                         >
@@ -30,17 +30,16 @@
                             {resourceTitle}</lightning-layout-item
                         >
                     </lightning-layout>
-                    <template if:false={isDocument}>
-                        <hr />
-                    </template>
+                    <template if:false={isDocument}> </template>
                 </lightning-layout-item>
             </lightning-layout>
-        <!--****************  Resource Container **********************-->
+            <hr />
+            <!--****************  Resource Container **********************-->
             <lightning-layout multiple-rows="true">
-            <!--**************  Article/Videos ******************* -->
+                <!--**************  Article/Videos ******************* -->
                 <template if:false={isDocument}>
                     <lightning-layout-item size="12" class="resource-container">
-                    <!-- ***************  Resource Container Media ***************** -->
+                        <!-- ***************  Resource Container Media ***************** -->
                         <lightning-layout multiple-rows="true">
                             <lightning-layout-item size="12">
                                 <c-pp-detail-page-resource-item
@@ -50,7 +49,7 @@
                                 </c-pp-detail-page-resource-item>
                             </lightning-layout-item>
                         </lightning-layout>
-                    <!-- ***************** Resource Detail ***********************  -->
+                        <!-- ***************** Resource Detail ***********************  -->
                         <lightning-layout multiple-rows="true">
                             <lightning-layout-item size="12" class="title-row">
                                 <lightning-layout multiple-rows="true">
@@ -68,7 +67,6 @@
                                         >
                                             <template if:false={isFavourite}>
                                                 <c-web-icon
-                                                    icon-size="small"
                                                     icon-name="icon-star"
                                                     data-id="star"
                                                     data-name="star"
@@ -76,7 +74,6 @@
                                             </template>
                                             <template if:true={isFavourite}>
                                                 <c-web-icon
-                                                    icon-size="small"
                                                     icon-name="icon-star-solid"
                                                     data-id="fav-star"
                                                     data-name="fav-star"
@@ -90,7 +87,7 @@
                             <!--   Upload Date    -->
                             <lightning-layout-item size="12">
                                 <div class="summary-date">
-                                    {label.Uploaded}
+                                    {label.VERSION}&nbsp;
                                     <lightning-formatted-date-time
                                         value={resUploadDate}
                                         year="numeric"
@@ -103,31 +100,30 @@
                             </lightning-layout-item>
                             <!--   SUMMARY    -->
                             <lightning-layout-item size="12">
-                                <div class="summary-text">{resourceSummary}</div>
+                                <div class="summary-text">
+                                    <lightning-formatted-rich-text
+                                        value={resourceSummary}
+                                    ></lightning-formatted-rich-text>
+                                </div>
                             </lightning-layout-item>
                         </lightning-layout>
                     </lightning-layout-item>
                 </template>
-            <!-- *************** Study Documents ****************** -->
+                <!-- *************** Study Documents ****************** -->
                 <template if:true={isDocument}>
-                    <lightning-layout-item size="12" class="title-row">
+                    <lightning-layout-item size="12" class="title-row-document">
                         <div class="ah-video-iframe">
-                            <iframe
-                                frameborder="0"
-                                src={documentLink}
-                                height="1000px"
-                                width="1336px"
-                            >
-                            </iframe>
+                            <iframe frameborder="0" src={documentLink} class="my_iframe"> </iframe>
                         </div>
                     </lightning-layout-item>
                 </template>
             </lightning-layout>
-        <!--*************  Resource Container End *************** -->
+            <!--*************  Resource Container End *************** -->
+        </div>
+
+        <!--   FOOTER    -->
+        <div style="margin: -4px 0" class="rr-width-limiter-pp side-padding footer-resource">
+            <c-pp-community-footer> </c-pp-community-footer>
         </div>
     </template>
-<!--   FOOTER    -->
-    <div class="rr-width-limiter side-padding footer-resource">
-        <c-pp-community-footer> </c-pp-community-footer>
-    </div>
 </template>

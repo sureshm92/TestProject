@@ -46,6 +46,10 @@
     text-align: left;
     padding-left: 1rem;
 }
+.curve-input input::-webkit-date-and-time-value {
+    text-align: left;
+    padding-left: 1rem;
+}
 
 .curve-input input[type='date']:focus,
 .curve-input input[type='date']:focus-visible {
@@ -67,7 +71,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
 }
 
 .slds-input::placeholder {
-    font-size: .875rem;
+    font-size: 0.875rem;
 }
 
 .task-due-date-time {
@@ -84,6 +88,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
     .slds-small-size_1-of-2.slds-p-left_xx-small {
         min-width: 100%;
         margin-bottom: 1rem;
+        padding-left: 0;
     }
 
     .slds-grid-visit {

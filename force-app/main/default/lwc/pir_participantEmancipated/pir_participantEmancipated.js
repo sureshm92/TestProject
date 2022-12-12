@@ -667,16 +667,16 @@ export default class Pir_participantEmancipated extends LightningElement {
                 else{
                     isConsentEmpty = this.delegates[i].consentrow ;
                 }
-                if((iscont == "true" && this.delegates[i].Phone__c != null && this.delegates[i].Phone__c != '' && this.delegates[i].Phone__c.trim() && this.delegates[i].Phone__c.length !=0 &&
-                this.delegates[i].Email__c != null && this.delegates[i].Email__c != '' && this.delegates[i].Email__c.trim() && this.delegates[i].Email__c.length !=0 &&
-                isConsentEmpty) || 
-                (iscont == "false" && this.delegates[i].Phone__c != null && this.delegates[i].Phone__c != '' && this.delegates[i].Phone__c.trim() && this.delegates[i].Phone__c.length !=0 &&
-                this.delegates[i].Email__c != null && this.delegates[i].Email__c != '' && this.delegates[i].Email__c.trim() && this.delegates[i].Email__c.length !=0)
-                ){
-                    validationListDelegate.push(true);
-                }else{
-                    validationListDelegate.push(false);
-                }
+            let isPhoneEmpty = (this.delegates[i].Phone__c != null && this.delegates[i].Phone__c != '' && this.delegates[i].Phone__c.trim() && this.delegates[i].Phone__c.length !=0);
+            let isEmailEmpty = (this.delegates[i].Email__c != null && this.delegates[i].Email__c != '' && this.delegates[i].Email__c.trim() && this.delegates[i].Email__c.length !=0);
+            if (
+                (iscont == "true" && isPhoneEmpty && isEmailEmpty && isConsentEmpty)
+                || (iscont == "false" && isEmailEmpty)
+            ) {
+                validationListDelegate.push(true);
+            }else{
+                validationListDelegate.push(false);
+            }
 
                 let emailVal= this.delegates[i].Email__c;
                 if(emailVal.match(emailRegex)){

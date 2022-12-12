@@ -53,17 +53,17 @@ export default class PpAccountSettings extends LightningElement {
         { label: COMMUNICATION_PREF, value: 'communication-preferences' },
         { label: LANG_LOCATION, value: 'lang-loc' },
         { label: CUSTOMIZE_EXP, value: 'changePref' },
-        { label: COOKIE_SETTINGS, value: 'cookiesSettings' },
+        { label: COOKIE_SETTINGS, value: 'cookiesSettings' }
         //{ label: MEDICAL_RECORD_ACCESS, value: 'medRecAccess' }
     ];
-    medicalRecordVendorToggle=false;
+    medicalRecordVendorToggle = false;
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 this.spinner = this.template.querySelector('c-web-spinner');
                 this.spinner.show();
                 this.initializeData();
-                this.isMobile ? this.isDesktopFlag = false : this.isDesktopFlag = true;
+                this.isMobile ? (this.isDesktopFlag = false) : (this.isDesktopFlag = true);
             })
             .catch((error) => {
                 this.showToast(this.labels.ERROR_MESSAGE, error.message, 'error');
@@ -165,11 +165,16 @@ export default class PpAccountSettings extends LightningElement {
         getInitData({ userMode: this.userMode })
             .then((result) => {
                 let initialData = JSON.parse(result);
-                this.medicalRecordVendorToggle=initialData.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c;                
-                let hasPastStudies = communityService.getCurrentCommunityMode().hasPastStudies;
-               if(this.medicalRecordVendorToggle ||  hasPastStudies){
-                    this.navHeadersList.push({ label: MEDICAL_RECORD_ACCESS, value: 'medRecAccess' });
-               }
+                this.medicalRecordVendorToggle = initialData.participantState.pe
+                    ? initialData.participantState.pe.Clinical_Trial_Profile__r
+                          .Medical_Vendor_is_Available__c
+                    : false;
+                if (this.medicalRecordVendorToggle) {
+                    this.navHeadersList.push({
+                        label: MEDICAL_RECORD_ACCESS,
+                        value: 'medRecAccess'
+                    });
+                }
                 initialData.password = {
                     old: '',
                     new: '',

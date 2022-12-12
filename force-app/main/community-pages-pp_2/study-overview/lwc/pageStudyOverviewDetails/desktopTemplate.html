@@ -21,8 +21,8 @@
                     </lightning-layout-item>
 
                     <lightning-layout-item size="12" class="po-mt-10">
-                        <lightning-tabset  active-tab-value={activeTab}  class="tab-style anchor-container study-anchor">
-                            <lightning-tab label={label.PPOVERVIEW} onactive={handleActive} value="overview" style={handleDynamicCSS}> 
+                        <lightning-tabset  active-tab-value={activeTab}  class="tab-style anchor-container study-program-anchor">
+                            <lightning-tab title="&nbsp;" label={label.PPOVERVIEW} onactive={handleActive} value="overview" style={handleDynamicCSS}> 
                                 <div class="po-tab-overview"> 
                                     <p class="po-pb-10"><lightning-formatted-text value={label.PPOBJECTIVE} class="po-tab-header"></lightning-formatted-text></p>   
                                     <div class="po-tab-content">
@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
                             </lightning-tab>     
-                            <lightning-tab label={label.PPPARTICIPATIONCRITERIA} onactive={handleActive} value="parcrt" > 
+                            <lightning-tab title="&nbsp;" label={label.PPPARTICIPATIONCRITERIA} onactive={handleActive} value="parcrt" > 
                             <div class="po-tab-pc">
                                 <p class={parCriterionMRightDesktop}><lightning-formatted-text value={label.PPSTUDYELIGIBLECRITERIA} class="po-pc-text"></lightning-formatted-text></p> 
                                 <div class={accordianMarginDesktop}>  

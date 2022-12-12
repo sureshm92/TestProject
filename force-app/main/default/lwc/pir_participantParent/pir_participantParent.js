@@ -785,6 +785,12 @@ gotoPartTab(){
       this.saving = false;
       this.isStatusChange = false;
   }
+  handleSpinnerHide(event){
+    this.isLoaded = false;
+    this.bulkStatusSpinner = false;
+    this.addNewParticipant = false;
+    this.saving = false;
+  }
   get notesLabel() {
       if(this.newStatusSelected == "Unable to Reach" && this.selectedreason == ""){
         this.bulkButtonValidation();

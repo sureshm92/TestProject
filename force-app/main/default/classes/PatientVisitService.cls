@@ -17,9 +17,19 @@ public inherited sharing class PatientVisitService {
     public List<VisitWrapper> getVisitWrappers(String visitMode, Integer limitNumber) {
         return this.getVisitWrappers(this.getVisits(visitMode, limitNumber));
     }
+    
+
+    public List<VisitWrapper> getVisitWrappers(String visitMode, Integer limitNumber, List<String> additionalFields) {
+        return this.getVisitWrappers(this.getVisits(visitMode, limitNumber, additionalFields));
+    }
+    
+    @TestVisible
+    private List<Patient_Visit__c> getVisits(String visitMode, Integer limitNumber){
+        return getVisits(visitMode, limitNumber, new List<String>());
+    }
 
     @TestVisible
-    private List<Patient_Visit__c> getVisits(String visitMode, Integer limitNumber) {
+    private List<Patient_Visit__c> getVisits(String visitMode, Integer limitNumber, List<String> additionalFields) {
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(
                 ParticipantService.class
             ))
@@ -40,6 +50,9 @@ public inherited sharing class PatientVisitService {
             'Planned_Date__c',
             'Visit_Number__c'
         };
+        if(additionalFields !=null && additionalFields.size()>0){
+            fields.addAll(additionalFields);
+        }
         String filter = DatabaseService.fieldEqual('Participant_Enrollment__c', pState.pe.Id);
         if (visitMode != VISIT_MODE_ALL) {
             if (visitMode == VISIT_MODE_SCHEDULED) {

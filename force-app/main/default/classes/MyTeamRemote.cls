@@ -1038,6 +1038,9 @@ public without sharing class MyTeamRemote {
                     participantDelegate.Mailing_State_Code__c = contactDelegate.MailingStateCode;
                 }
                 participantDelegate.Mailing_City__c = contactDelegate.MailingCity;
+                participantDelegate.Attestation__c = true;
+                participantDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+                participantDelegate.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
                 insert participantDelegate;
                 List<User> participantUser = new List<User>();
                 User delegateUser = CommunityService.createUser(

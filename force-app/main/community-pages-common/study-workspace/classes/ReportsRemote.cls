@@ -146,14 +146,21 @@ public without sharing class ReportsRemote {
         Integer orNoAttended = 0;
 
         System.debug('REC count: ' + peList.size());
-        for (Participant_Enrollment__c pe : peList) {
-            if (pe.Medical_Record_Review_Status__c == ParticipantEnrollmentService.MRR_STATUS_PASS)
+
+       for(Participant_PrescreenerResponse__c screenerRes : [
+            SELECT Id, MRR__c, Prescreener__c, Status__c, Participant_enrollment__c
+            FROM  Participant_PrescreenerResponse__c
+            WHERE Participant_enrollment__c IN :peList 
+                AND (MRR__c = true OR Prescreener__c = true)
+        ]) {
+
+            if (screenerRes.MRR__c == true && screenerRes.Status__c == ParticipantEnrollmentService.MRR_STATUS_PASS)
                 mrrPassed++;
-            if (pe.Medical_Record_Review_Status__c == ParticipantEnrollmentService.MRR_STATUS_FAIL)
+            if (screenerRes.MRR__c == true && screenerRes.Status__c == ParticipantEnrollmentService.MRR_STATUS_FAIL)
                 mrrFailed++;
-            if (pe.Pre_screening_Status__c == ParticipantEnrollmentService.PES_STATUS_PASS)
+            if (screenerRes.Prescreener__c == true && screenerRes.Status__c == ParticipantEnrollmentService.PES_STATUS_PASS)
                 preScreeningPassed++;
-            if (pe.Pre_screening_Status__c == ParticipantEnrollmentService.PES_STATUS_FAIL)
+            if (screenerRes.Prescreener__c == true && screenerRes.Status__c == ParticipantEnrollmentService.PES_STATUS_FAIL)
                 preScreeningFailed++;
         }
 

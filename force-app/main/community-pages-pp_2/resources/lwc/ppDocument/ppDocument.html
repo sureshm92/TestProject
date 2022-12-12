@@ -1,20 +1,33 @@
 <template>
-    <div class="slds-grid slds-wrap slds-m-around_x-small card-border">
+    <div
+        class="slds-grid slds-wrap slds-m-left_x-small slds-m-bottom_x-small slds-m-right_x-small card-border"
+    >
         <template if:false={multipleTranslations}>
-            <div class="slds-col slds-size_1-of-6 slds-m-around_xxx-small thumbnail-box">
-                <img
-                    src={thumbnail}
-                    class="thumnail-img"
-                    alt="Image N/A"
-                    onclick={handleNavigate}
-                />
+            <div class="slds-col slds-size_1-of-6 thumbnail-outerbox">
+                <div class="thumbnail-box">
+                    <img
+                        if:true={thumbnailPresent}
+                        src={thumbnail}
+                        class="thumnail-img"
+                        alt="Image N/A"
+                        onerror={handleError}
+                        onclick={handleNavigate}
+                    />
+                    <div class="com-icon slds-align_absolute-center" if:false={thumbnailPresent}>
+                        <c-web-icon
+                            class="empty-thumbnail-doc-icon"
+                            icon-color="#b5b5b5"
+                            icon-width="35"
+                            icon-height="40"
+                            icon-name="empty-thumbnail"
+                        ></c-web-icon>
+                    </div>
+                </div>
             </div>
-            <div class="slds-col slds-size_4-of-6 slds-m-around_small document-details">
-                <p class="document-label">
-                    <a onclick={handleNavigateDefault} onhover={title}>{title}</a>
-                </p>
+            <div class="slds-col slds-size_5-of-6 document-details">
+                <p class="document-label" onclick={handleNavigateDefault} title={title}>{title}</p>
                 <div class="slds-m-top_x-small version-date">
-                    Version Date: &nbsp;
+                    {label.versionDate}&nbsp;
                     <lightning-formatted-date-time
                         value={versiondate}
                         year="numeric"
@@ -25,28 +38,37 @@
             </div>
         </template>
         <template if:true={multipleTranslations}>
-            <div class="slds-col slds-size_1-of-6 slds-m-around_xxx-small thumbnail-box">
-                <img
-                    src={thumbnail}
-                    class="thumnail-img"
-                    alt="Image N/A"
-                    onclick={handleNavigate}
-                />
+            <div class="slds-col slds-size_1-of-6 thumbnail-outerbox">
+                <div class="thumbnail-box">
+                    <img
+                        if:true={thumbnailPresent}
+                        src={thumbnail}
+                        class="thumnail-img"
+                        alt="Image N/A"
+                        onerror={handleError}
+                        onclick={handleNavigate}
+                    />
+                    <div class="com-icon slds-align_absolute-center" if:false={thumbnailPresent}>
+                        <c-web-icon
+                            class="empty-thumbnail-doc-icon"
+                            icon-color="#b5b5b5"
+                            icon-width="35"
+                            icon-height="40"
+                            icon-name="empty-thumbnail"
+                        ></c-web-icon>
+                    </div>
+                </div>
             </div>
-            <div class="slds-col slds-size_4-of-6 slds-m-around_small document-details">
+            <div class="slds-col slds-size_5-of-6 document-details">
                 <div
                     class="slds-dropdown-trigger slds-dropdown-trigger_click"
                     data-popup={id}
-                    onclick={expandtheCard}
+                    onclick={expandClosetheCard}
                 >
-                    <div aria-haspopup="true" aria-expanded="true" onblur={closeMenu}>
+                    <div aria-haspopup="true" aria-expanded="true">
                         <p class="document-label">{title}</p>
                     </div>
-                    <div
-                        class="slds-dropdown slds-dropdown_right"
-                        onblur={closeMenu}
-                        style="margin-bottom: -98px; margin-top: -13px; margin-left: -65px"
-                    >
+                    <div class="slds-dropdown slds-dropdown_right translation-dropdown">
                         <ul class="slds-dropdown__list" aria-label="Show More">
                             <template for:each={translations} for:item="translation">
                                 <div key={translation}>
@@ -65,7 +87,7 @@
                     </div>
                 </div>
                 <div class="slds-m-top_x-small version-date-translation">
-                    Version Date: &nbsp;
+                    {label.versionDate} &nbsp;
                     <lightning-formatted-date-time
                         value={versiondate}
                         year="numeric"

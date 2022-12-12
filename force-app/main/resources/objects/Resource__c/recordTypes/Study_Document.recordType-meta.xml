@@ -2,7 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Study_Document</fullName>
     <active>true</active>
-    <label>Study Document</label>
+    <label>Document</label>
     <picklistValues>
         <picklist>Content_Class__c</picklist>
         <values>

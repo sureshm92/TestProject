@@ -194,7 +194,7 @@ global without sharing class PP_EmailWireframeController {
     public Boolean getIsInitialized() {
         return getProvider().isInitialized();
     }
-
+    @TestVisible
     private EmailTemplateProvider getProvider() {
         if (templateProvider == null) {
             EmailTemplateProviderService.setProviderType(

@@ -111,7 +111,7 @@
             <!-- Body Paragraph-->
             <apex:componentBody rendered="{!isInitialized}" />
             <!-- Pre-Signature Text-->
-            <apex:outputPanel style="display:block; margin: 25px 0" rendered="{!preSignatureText != null}">
+            <apex:outputPanel style="display:block; margin: 25px 0; color: #444444 !important;" rendered="{!preSignatureText != null}">
                 <apex:outputText value="{!preSignatureText}" escape="false" />
             </apex:outputPanel>
             <!-- Signature-->
@@ -120,7 +120,8 @@
                     <td style="width: 90%;
                             padding-left: 0px;
                             padding-right: 0px;
-                            font-family:Helvetica,Arial,Sans-Serif;">
+                            font-family:Helvetica,Arial,Sans-Serif;
+                            color: #444444 !important;">
                         <apex:outputText value="{!signatureText}" escape="false" />
                     </td>
                     <td style="width: 10%;">
@@ -181,7 +182,7 @@
                             {!$Label.Email_Opt_Out_footer_PP}
                             <a style="color: #015FF1;
                                     font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">
-                                {!$Label.Email_Opt_Out_footer_here}</a>.
+                                {!$Label.Email_Submit_Request}</a>.
                             <!--Opt Out -->
                             <!-- {!$Label.Email_Opt_Out_footer_here}
                             <a style="color: #015FF1;
@@ -208,7 +209,7 @@
                             {!$Label.Email_Opt_Out_footer_PP}
                             <a style="color: #015FF1;
                                     font-weight: 600;" href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">
-                                {!$Label.Email_Opt_Out_footer_here}</a>.
+                                {!$Label.Email_Submit_Request}</a>.
                             <!--Opt Out -->
                             <!-- {!$Label.PP_Email_Opt_Out}
                             <a style="color: #015FF1;

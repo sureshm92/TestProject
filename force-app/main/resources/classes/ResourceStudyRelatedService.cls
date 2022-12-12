@@ -72,6 +72,7 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
         }
 
         List<String> contactPreferredLanguages = ContactService.getPreferredLanguages();
+        String userMode= CommunityService.getUserContact().userCommunityMode__c;
 
         //retrieve languages for study docs
         Map<Id, List<String>> contentLangByResId = new Map<Id, List<String>>();
@@ -127,7 +128,7 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
                     resStudy,
                     pState.pe,
                     contentLangByResId.get(resStudy.Resource__c),
-                    CommunityService.getUserContact().userCommunityMode__c,
+                    userMode,
                     pState.isDelegate
                 )
             )
@@ -144,7 +145,7 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
                         resStudy,
                         pState.pe,
                         new List<String>{ lang },
-                        CommunityService.getUserContact().userCommunityMode__c,
+                        userMode,
                         pState.isDelegate
                     )
                 ) {

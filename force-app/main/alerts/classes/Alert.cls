@@ -13,6 +13,10 @@ public without sharing class Alert {
     public static final String ALERT_CODE_WELCOME_STUDY_DELEGATE = 'Welcome_to_the_Study_Patient_Delegates';
     public static final String ALERT_CODE_WEEK_BEFORE_PRT_ADULT_DELEGATE = 'Participant_Become_Adult_to_Delegates';
     public static final String ALERT_CODE_PRT_BECOME_ADULT_DELEGATE = 'Participant_Adult_to_Delegates';
+    public static final String ALERT_CODE_WELCOME_PH_PP = 'Welcome_To_The_PH_PP';
+    public static final String ALERT_CODE_WELCOME_PH_DELEGATE_PP = 'Welcome_To_The_PH_Delegate_PP';
+    public static final String ALERT_CODE_WELCOME_STUDY_PP = 'Welcome_to_the_Study_PP';
+    public static final String ALERT_CODE_WELCOME_STUDY_DELEGATE_PP = 'Welcome_to_the_Study_Patient_Del_PP';
 
     public String title;
     public String body;

@@ -79,11 +79,13 @@ public without sharing class PIR_StatusDetailController {
     @AuraEnabled
     public String historyTitle;
     @AuraEnabled
-    public Datetime detailDate;
+    public String  detailDate;
     @AuraEnabled
     public String createdBy;
     @AuraEnabled
     public Boolean isAdditionalNote;
+    @AuraEnabled
+    public Integer noteKey;
     @AuraEnabled
     public String noteDetails;
   }
@@ -1174,6 +1176,269 @@ public without sharing class PIR_StatusDetailController {
     try {
       List<Participant_Enrollment_Status_History__c> pehistory = new List<Participant_Enrollment_Status_History__c>();
       List<ScreeningHistoryWrap> wrapperList = new List<ScreeningHistoryWrap>();
+      
+      /** consent yes history start **/
+      
+      List<Participant_Enrollment__History> pehList = new List<Participant_Enrollment__History>();
+      List<Participant_Enrollment__History> peh = new List<Participant_Enrollment__History>();
+      List<Participant_Enrollment__History> pehstinitial = new List<Participant_Enrollment__History>();
+      List<String> lstFOVhistory = new List<String>();
+      lstFOVhistory.add('Informed_Consent__c');
+      List<Participant_Enrollment__c> partenroll = new List<Participant_Enrollment__c>();
+      pehList = [
+        SELECT
+          CreatedById,
+          CreatedDate,
+          CreatedBy.Name,
+          Field,
+          NewValue,
+          OldValue,
+          ParentId
+        FROM Participant_Enrollment__History
+        WHERE ParentId = :pe AND Field IN :lstFOVhistory
+      ];
+      for (Participant_Enrollment__History phs : pehList) {
+          if (phs.NewValue == true) {
+            peh.add(phs);
+          }
+       }
+      
+      List<String> cby = new List<String>();
+      List<Datetime> cd = new List<Datetime>();
+
+      List<User> ValidUserList = new List<User>();
+      List<Id> ApiUsrList = new List<Id>();
+      ValidUserList = [SELECT Id FROM User WHERE Profile.Name = 'API Only'];
+      if (
+        ValidUserList.size() != 0 &&
+        !ValidUserList.isEmpty() &&
+        ValidUserList != null
+      ) {
+        for (User us : ValidUserList) {
+          ApiUsrList.add(us.id);
+        }
+      }
+       
+      if (peh.size() != 0 && !peh.isEmpty() && peh != null) {
+        List<Datetime> lstDuphistory = new List<Datetime>();
+        Set<Id> lstusr = new Set<Id>();
+        List<User> lstusrRecord = new List<User>();
+        Map<Id, String> mapUsrmsk = new Map<Id, String>();
+        for (Participant_Enrollment__History phusrid : peh) {
+          lstusr.add(phusrid.CreatedById);
+        }
+        lstusrRecord = [
+          SELECT
+            id,
+            Name,
+            IsPortalEnabled,
+            ContactId,
+            Contact.userCommunityMode__c
+          FROM User
+          WHERE id IN :lstusr
+        ];
+        for (User u : lstusrRecord) {
+          if (
+            ApiUsrList.size() != 0 &&
+            !ApiUsrList.isEmpty() &&
+            ApiUsrList != null
+          ) {
+            if (ApiUsrList.contains(u.id)) {
+              mapUsrmsk.put(u.id, System.Label.RH_Masked_IQVIA_User);
+            } else if (u.IsPortalEnabled) {
+              if (
+                u.ContactId != null &&
+                u.Contact.userCommunityMode__c == 'CC'
+              ) {
+                mapUsrmsk.put(u.id, System.Label.RH_Masked_IQVIA_User);
+              } else {
+                mapUsrmsk.put(u.id, u.Name);
+              }
+            } else {
+              mapUsrmsk.put(u.id, System.Label.RH_Masked_IQVIA_User);
+            }
+          } else {
+            if (u.IsPortalEnabled) {
+              if (
+                u.ContactId != null &&
+                u.Contact.userCommunityMode__c == 'CC'
+              ) {
+                mapUsrmsk.put(u.id, System.Label.RH_Masked_IQVIA_User);
+              } else {
+                mapUsrmsk.put(u.id, u.Name);
+              }
+            } else {
+              mapUsrmsk.put(u.id, System.Label.RH_Masked_IQVIA_User);
+            }
+          }
+        }
+        for (Participant_Enrollment__History ph : peh) {
+          if (!lstDuphistory.contains(ph.CreatedDate)) {
+            cby.add(mapUsrmsk.get(ph.CreatedById));
+            cd.add(ph.CreatedDate);
+            lstDuphistory.add(ph.CreatedDate);
+          }
+        }
+        Boolean onRecordcreation = false;
+        pehstinitial = [
+          SELECT
+            CreatedById,
+            CreatedDate,
+            CreatedBy.Name,
+            Field,
+            NewValue,
+            OldValue,
+            ParentId
+          FROM Participant_Enrollment__History
+          WHERE ParentId = :pe AND Field IN :lstFOVhistory 
+          ORDER BY CreatedDate ASC
+          LIMIT 1
+        ];
+        for (Participant_Enrollment__History phOld : pehstinitial) {
+          if (phOld.OldValue == true) {
+            onRecordcreation = true;
+          }
+        }
+        if (onRecordcreation) {
+          Participant_Enrollment__c penrollmnt = [
+            SELECT
+              id,
+              Informed_Consent__c,
+              CreatedDate,
+              CreatedById,
+              CreatedBy.IsPortalEnabled,
+              CreatedBy.contact.userCommunityMode__c,
+              CreatedBy.Name,
+              CreatedBy.ContactId
+            FROM Participant_Enrollment__c
+            WHERE id = :pe
+          ];
+
+          if (
+            ApiUsrList.size() != 0 &&
+            !ApiUsrList.isEmpty() &&
+            ApiUsrList != null
+          ) {
+            if (ApiUsrList.contains(penrollmnt.CreatedById)) {
+              cby.add(System.Label.RH_Masked_IQVIA_User);
+              cd.add(penrollmnt.CreatedDate);
+            } else if (penrollmnt.CreatedBy.IsPortalEnabled) {
+              if (
+                penrollmnt.CreatedBy.contact != null &&
+                penrollmnt.CreatedBy.Contact.userCommunityMode__c == 'CC'
+              ) {
+                cby.add(System.Label.RH_Masked_IQVIA_User);
+                cd.add(penrollmnt.CreatedDate);
+              } else {
+                cby.add(penrollmnt.CreatedBy.Name);
+                cd.add(penrollmnt.CreatedDate);
+              }
+            } else {
+              cby.add(System.Label.RH_Masked_IQVIA_User);
+              cd.add(penrollmnt.CreatedDate);
+            }
+          } else {
+            if (penrollmnt.CreatedBy.IsPortalEnabled) {
+              if (
+                penrollmnt.CreatedBy.contact != null &&
+                penrollmnt.CreatedBy.Contact.userCommunityMode__c == 'CC'
+              ) {
+                cby.add(System.Label.RH_Masked_IQVIA_User);
+                cd.add(penrollmnt.CreatedDate);
+              } else {
+                cby.add(penrollmnt.CreatedBy.Name);
+                cd.add(penrollmnt.CreatedDate);
+              }
+            } else {
+              cby.add(System.Label.RH_Masked_IQVIA_User);
+              cd.add(penrollmnt.CreatedDate);
+            }
+          }
+        }
+        for (Integer i = 0; i < cby.size(); i++) {
+          ScreeningHistoryWrap wraphistory = new ScreeningHistoryWrap();
+          wraphistory.historyTitle = System.Label.Consent_Signed;
+          wraphistory.detailDate = cd[i].format('YYYY-MM-dd hh:mm:ss a');
+          wraphistory.CreatedBy = cby[i];
+          wraphistory.isAdditionalNote = false;
+          wrapperList.add(wraphistory);
+        }
+      } else {
+        partenroll = [
+          SELECT
+            id,
+            Informed_Consent__c,
+            CreatedDate,
+            CreatedById,
+            CreatedBy.IsPortalEnabled,
+            CreatedBy.contact.userCommunityMode__c,
+            CreatedBy.Name,
+            CreatedBy.ContactId
+          FROM Participant_Enrollment__c
+          WHERE
+            id = :pe
+            AND Informed_Consent__c = true
+        ];
+        if (
+          partenroll.size() != 0 &&
+          !partenroll.isEmpty() &&
+          partenroll != null
+        ) {
+          for (Participant_Enrollment__c per : partenroll) {
+            if (
+              ApiUsrList.size() != 0 &&
+              !ApiUsrList.isEmpty() &&
+              ApiUsrList != null
+            ) {
+              if (ApiUsrList.contains(per.CreatedById)) {
+                cby.add(System.Label.RH_Masked_IQVIA_User);
+                cd.add(per.CreatedDate);
+              } else if (per.CreatedBy.IsPortalEnabled) {
+                if (
+                  per.CreatedBy.contact != null &&
+                  per.CreatedBy.Contact.userCommunityMode__c == 'CC'
+                ) {
+                  cby.add(System.Label.RH_Masked_IQVIA_User);
+                  cd.add(per.CreatedDate);
+                } else {
+                  cby.add(per.CreatedBy.Name);
+                  cd.add(per.CreatedDate);
+                }
+              } else {
+                cby.add(System.Label.RH_Masked_IQVIA_User);
+                cd.add(per.CreatedDate);
+              }
+            } else {
+              if (per.CreatedBy.IsPortalEnabled) {
+                if (
+                  per.CreatedBy.contact != null &&
+                  per.CreatedBy.Contact.userCommunityMode__c == 'CC'
+                ) {
+                  cby.add(System.Label.RH_Masked_IQVIA_User);
+                  cd.add(per.CreatedDate);
+                } else {
+                  cby.add(per.CreatedBy.Name);
+                  cd.add(per.CreatedDate);
+                }
+              } else {
+                cby.add(System.Label.RH_Masked_IQVIA_User);
+                cd.add(per.CreatedDate);
+              }
+            }
+          }
+          for (Integer i = 0; i < cby.size(); i++) {
+            ScreeningHistoryWrap wraphistory = new ScreeningHistoryWrap();
+            wraphistory.historyTitle = System.Label.Consent_Signed;
+            wraphistory.detailDate = cd[i].format('YYYY-MM-dd hh:mm:ss a');
+            wraphistory.CreatedBy = cby[i];
+            wraphistory.isAdditionalNote = false;
+            wrapperList.add(wraphistory);
+          }
+        }
+      }
+      
+      /** consent yes history end **/
+      
       pehistory = [
         SELECT
           Id,Name,
@@ -1194,6 +1459,7 @@ public without sharing class PIR_StatusDetailController {
           OR Status_Order__c = 3)
         ORDER BY Name DESC
       ];
+       Integer K = 0;
       for (Participant_Enrollment_Status_History__c pesh : pehistory) {
         if (pesh.Status_Order__c != 3) {
           if (
@@ -1228,6 +1494,7 @@ public without sharing class PIR_StatusDetailController {
                   }
                 }      
               wrapp.isAdditionalNote = true;
+              wrapp.noteKey= K;
               wrapperList.add(wrapp);
             }
           }
@@ -1242,15 +1509,16 @@ public without sharing class PIR_StatusDetailController {
             title = title + ', ' + pesh.Notes__c;
           }
           wrap.historyTitle = title;
-          wrap.detailDate = getUTCDateTime(pesh.Date__c);
+          wrap.detailDate = pesh.Date__c.format('YYYY-MM-dd hh:mm:ss a');
           wrap.createdBy = PIR_StatusDetailController.getMasked(
             pesh.CreatedBy.IsPortalEnabled,
             pesh.CreatedBy.contact.userCommunityMode__c,
             pesh.CreatedBy.Name
           );
           wrap.isAdditionalNote = false;
+          wrap.noteKey= K;
           wrapperList.add(wrap);
-        } else {
+        } else { 
           if (pesh.Status_Label__c == 'Eligibility_Passed') {
             if (
               pesh.Additional_Notes__c != null &&
@@ -1283,11 +1551,13 @@ public without sharing class PIR_StatusDetailController {
                     }
                   }
                 wrapp.isAdditionalNote = true;
+                 wrapp.noteKey= K;
                 wrapperList.add(wrapp);
               }
             }
           }
         }
+         K++;
       }
       return wrapperList;
     } catch (Exception e) {

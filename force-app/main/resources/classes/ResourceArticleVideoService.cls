@@ -22,24 +22,31 @@ public virtual inherited sharing class ResourceArticleVideoService extends Resou
         String contentClass = ResourceService.RESOURCE_SOURCE_PLATFORM;
         if (pState.value == ParticipantService.ParticipantStates.ALUMNI)
             contentClass = ResourceService.RESOURCE_SOURCE_THIRD_PARTY;
-        List<String> therapeuticAreas = new List<String>();
-        for (Therapeutic_Area_Patient__c tap : ParticipantDecoupler.getTherapeuticAreaPatients()) {
-            therapeuticAreas.add(tap.Therapeutic_Area__c);
+
+        if (pState.value == ParticipantService.ParticipantStates.ALUMNI) {
+            List<String> therapeuticAreas = new List<String>();
+            for (
+                Therapeutic_Area_Patient__c tap : ParticipantDecoupler.getTherapeuticAreaPatients()
+            ) {
+                therapeuticAreas.add(tap.Therapeutic_Area__c);
+            }
+            sortedResources.addAll(
+                ResourceTARelatedService.getInstance()
+                    .init(resourceType, resourceId, contentClass, therapeuticAreas)
+                    .getResources()
+            );
         }
-        sortedResources.addAll(
-            ResourceTARelatedService.getInstance()
-                .init(resourceType, resourceId, contentClass, therapeuticAreas)
-                .getResources()
-        );
         return sortedResources;
     }
 
+    @TestVisible
     protected override virtual ResourceService.ResourceWrapperContainer getErrorNoResources() {
         return resourceType == ResourceService.RESOURCE_TYPE_ARTICLE
             ? ResourceService.getErrorNoArticles(false)
             : ResourceService.getErrorNoVideos(false);
     }
 
+    @TestVisible
     protected override virtual Boolean isObjectsToFilterMissing() {
         return ParticipantDecoupler.getTherapeuticAreaPatients().isEmpty() && pState.ctp == null;
     }

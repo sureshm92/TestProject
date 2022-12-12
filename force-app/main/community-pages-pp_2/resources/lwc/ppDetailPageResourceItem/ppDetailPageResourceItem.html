@@ -1,11 +1,35 @@
 <template>
     <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner"></c-web-spinner>
-<!-- ****************  ARTICLE  ********************  -->
+    <!-- ****************  ARTICLE  ********************  -->
     <template if:true={showArticle}>
-        <img src={resourceLink} alt="Image is not available" />
+        <template if:true={isThumbnailPresent}>
+            <img src={resourceLink} alt="Image is not available" onerror={handleError} />
+        </template>
+        <template if:false={isThumbnailPresent}>
+            <div class="icon-container">
+                <div class="icon-center">
+                    <template if:true={desktop}>
+                        <c-web-icon
+                            icon-color="#b5b5b5"
+                            icon-width="300"
+                            icon-height="400"
+                            icon-name="empty-thumbnail"
+                        ></c-web-icon>
+                    </template>
+                    <template if:false={desktop}>
+                        <c-web-icon
+                            icon-color="#b5b5b5"
+                            icon-width="150"
+                            icon-height="100"
+                            icon-name="empty-thumbnail"
+                        ></c-web-icon>
+                    </template>
+                </div>
+            </div>
+        </template>
     </template>
-<!-- ****************  VIDEO  ********************  -->
+    <!-- ****************  VIDEO  ********************  -->
     <template if:true={showVideo}>
         <div class="ah-video-iframe">
             <iframe class="my_iframe" frameborder="0" src={resourceLink}> </iframe>

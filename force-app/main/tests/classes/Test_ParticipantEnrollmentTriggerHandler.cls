@@ -19,6 +19,20 @@ public class Test_ParticipantEnrollmentTriggerHandler {
             testData.pe.Id => testData.pe.clone(true, true, true, true)
         };
         testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_DECEASED;
+        testData.pe.Subject_GUID__c= 'text';
+        testData.pe.Initial_visit_scheduled_date__c= system.today();
+        testData.pe.Permit_Voice_Text_contact_for_this_study__c=true;
+        testData.pe.Permit_Mail_Email_contact_for_this_study__c=true;
+          
+        testData.pe.Study_Artificial_Voice_Consent_Time__c= system.today();
+        testData.pe.Study_Assisted_Dialing_Consent_Time__c= system.today();
+        testData.pe.Study_Direct_Mail_Consent_Time__c= system.today();
+        testData.pe.Study_Email_Consent_Time__c= system.today();
+        testData.pe.Study_Phone_Consent_Time__c= system.today();
+        testData.pe.Study_PI_Storage_Consent_Time__c= system.today();
+                 
+        Time myTime = Time.newInstance(1, 2, 3, 0);
+        testData.pe.Initial_visit_scheduled_time__c= myTime;
         List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>{
             testData.pe
         };
@@ -40,6 +54,10 @@ public class Test_ParticipantEnrollmentTriggerHandler {
 
         Test.startTest();
         ParticipantEnrollmentTriggerHandler.deactivateDeceasedUsers(enrollments, oldMap);
+        ParticipantEnrollmentTriggerHandler.updateStudyConsentTimestamps(enrollments, oldMap);
+        ParticipantEnrollmentTriggerHandler.updateStudyConsentTimestamps(enrollments);
+        ParticipantEnrollmentTriggerHandler.sendtoAPIafterInsert(enrollments);
+        ParticipantEnrollmentTriggerHandler.patientConsentUpdate(enrollments, oldMap);
         ParticipantEnrollmentSHTriggerHandler.updateEnrollmentStatus(PEhistorty);
         ParticipantEnrollmentSHTriggerHandler.createStudyAlerts(peshIdsList);
         for (Participant_Enrollment_Status_History__c peh : PEhistorty) {
