@@ -1868,8 +1868,11 @@ input[type=password]::-ms-clear
     border: 1px solid #D9D9D9;
     background-color: #F2F2F2;
 
+}
+.slds-backdrop[c-ppModalOld_ppModalOld]{
+    background-color: rgba(0, 0, 0, 0.1);
 /* trial item - contact to study - alumni participant */
-
+}
 .trialItemPopUpContainer .cPopup .p-header h2 {
     font-size: 24px;
     font-weight: 500;
