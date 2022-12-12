@@ -156,6 +156,7 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
       },
       state : result.state
     });
+    sessionStorage.setItem("callFetchList", JSON.stringify(false) );
 
     if(this.urlStateParameters.activeTab == 'Televisit' &&
         this.currentPageReference.attributes &&
