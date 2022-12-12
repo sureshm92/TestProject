@@ -1061,7 +1061,7 @@ public without sharing class NotificationAvailabilityService {
 
     public Boolean isUpdatedPPTemplate(String whatId, String contactId) {
         Boolean isValid = false;
-        String communityTemplate;
+        CommunityTemplate communityTemplate;
         if (whatId != null && objectsByIds.get(Id.valueOf(whatId)) == null)
             return isValid;
         String objType = String.valueOf(((Id) whatId).getSobjectType());
@@ -1121,8 +1121,7 @@ public without sharing class NotificationAvailabilityService {
         }
         if (communityTemplate == null) {
             List<String> permSet = permissionSetsByConIdMap.get(contactId);
-            if (
-                permSet != null ) {
+            if (permSet != null) {
                 communityTemplate = CommunityTemplateService.getTemplateByPermissionSetName(
                     permSet[0]
                 );
