@@ -366,11 +366,23 @@
                                         class="mr_10"
                                     >
                                     </lightning-input>
-                                    <lightning-input
+                                    <!--<lightning-input
                                         type="checkbox"
                                         value={smsOptIn}
                                         label={labels.smsLabel}
                                         disabled={smsOpted}
+                                        checked={smsOptIn}
+                                        name="smsOptIn"
+                                        class="mr_10"
+                                        onchange={handleDateChange}
+                                        onblur={doValidateReminder}
+                                    >
+                                    </lightning-input>-->
+                                    <lightning-input
+                                        type="checkbox"
+                                        value={smsOptIn}
+                                        label={labels.smsLabel}
+                                        disabled="true"
                                         checked={smsOptIn}
                                         name="smsOptIn"
                                         class="mr_10"
@@ -773,7 +785,7 @@
                                         class="mr_10"
                                     >
                                     </lightning-input>
-                                    <lightning-input
+                                    <!--<lightning-input
                                         type="checkbox"
                                         value={smsOptIn}
                                         label={labels.smsLabel}
@@ -784,7 +796,20 @@
                                         onchange={handleDateChange}
                                         onblur={doValidateReminder}
                                     >
-                                    </lightning-input>
+                                    </lightning-input>-->
+                                    <lightning-input
+                                        type="checkbox"
+                                        value={smsOptIn}
+                                        label={labels.smsLabel}
+                                        disabled="true"
+                                        checked={smsOptIn}
+                                        name="smsOptIn"
+                                        class="mr_10 mr_left6"
+                                        onchange={handleDateChange}
+                                        onblur={doValidateReminder}
+                                    >
+                                    </lightning-input
+                                    >-->
                                 </div>
                             </div>
                         </template>
