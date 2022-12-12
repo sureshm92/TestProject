@@ -1874,3 +1874,6 @@ input[type=password]::-ms-clear
     background-color: #F2F2F2;
 
 }
+.slds-backdrop[c-ppModalOld_ppModalOld]{
+    background-color: rgba(0, 0, 0, 0.1);
+}
