@@ -1124,7 +1124,7 @@ public without sharing class NotificationAvailabilityService {
             CommunityTemplate communityTemp;
             if (permSet != null) {
                 communityTemp = CommunityTemplateService.getTemplateByPermissionSetName(permSet[0]);
-                isValid = communityTemp.DeveloperName == CommunityTemplateService.TEMPLATE_PP
+                isValid = communityTemp.templateName == CommunityTemplateService.TEMPLATE_PP
                     ? true
                     : false;
             }
