@@ -118,6 +118,17 @@ public without sharing class ParticipantVisitsRemote {
     }
 
     @AuraEnabled
+    public static PatientVisitService.PatientVisitsAndEvent getParticipantVisitsAndStudyType(String visitMode) {
+        try {
+            return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
+                .getVisitWrappersAndStudyType(visitMode);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
+    @AuraEnabled
     public static List<PatientVisitService.VisitWrapper> getParticipantVisitsDetails(Id visitId) {
         try {
             return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))

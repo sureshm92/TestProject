@@ -11482,6 +11482,13 @@ The expected format is REF##### to REF########</value>
         <value>eDiaries</value>
     </labels>
     <labels>
+        <fullName>My_Events</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My_Events</shortDescription>
+        <value>My Events</value>
+    </labels>    
+    <labels>
         <fullName>My_Participant</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -11593,6 +11600,13 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Navigation My Study</shortDescription>
         <value>My Study</value>
     </labels>
+    <labels>
+        <fullName>Navigation_My_Program</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation My Program</shortDescription>
+        <value>My Program</value>
+    </labels>    
     <labels>
         <fullName>Navigation_My_Study_Sites</fullName>
         <language>en_US</language>
@@ -18333,6 +18347,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>About the Study</value>
     </labels>
     <labels>
+        <fullName>PG_SW_Tab_About_The_Program</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SW Tab About The Program</shortDescription>
+        <value>About the Program</value>
+    </labels>    
+    <labels>
         <fullName>PG_SW_Tab_Lab_Results</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18402,6 +18423,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Visits tab</shortDescription>
         <value>Visits</value>
     </labels>
+    <labels>
+        <fullName>PG_SW_Tab_Events</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits tab</shortDescription>
+        <value>Events</value>
+    </labels>    
+    <labels>
+        <fullName>PG_Mobile_Title_Upcoming_Events</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UPCOMING EVENT</shortDescription>
+        <value>UPCOMING EVENT</value>
+    </labels>
+    <labels>
+        <fullName>PG_Mobile_Title_Upcoming_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UPCOMING VISIT</shortDescription>
+        <value>UPCOMING VISIT</value>
+    </labels>        
     <labels>
         <fullName>PG_SW_Title</fullName>
         <language>en_US</language>
@@ -28524,6 +28566,13 @@ Please contact the Study Team for further updates or please login for additional
         <value>View Visit Details</value>
     </labels>
     <labels>
+        <fullName>View_Event_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View Event Details</shortDescription>
+        <value>View Event Details</value>
+    </labels>    
+    <labels>
         <fullName>Visit_No_Expect</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -29116,12 +29165,57 @@ Please contact the Study Team for further updates or please login for additional
         <value>study</value>
     </labels>
     <labels>
+        <fullName>Event_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Event Details</shortDescription>
+        <value>Event Details</value>
+    </labels>
+    <labels>
+        <fullName>Event_No_Expect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NO Event expectations</shortDescription>
+        <value>There are no expectations for this event</value>
+    </labels>
+    <labels>
+        <fullName>Events_No_Data_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits No Data Available</shortDescription>
+        <value>No Data is available for this event</value>
+    </labels>
+    <labels>
         <fullName>Events_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Events_PP</shortDescription>
         <value>events</value>
     </labels>
+    <labels>
+        <fullName>Event_No_Past_Event</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Event No Past Event</shortDescription>
+        <value>No past events</value>
+    </labels>    
+    <labels>
+        <fullName>Event_No_Upcoming_Event</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Event No Upcoming Event</shortDescription>
+        <value>No upcoming event</value>
+    </labels>   
+    <labels>
+        <fullName>Event_No_Upcoming_Events</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Event No Upcoming Events</shortDescription>
+        <value>No upcoming events</value>
+    </labels>       
     <labels>
         <fullName>Visits_PP</fullName>
         <language>en_US</language>
