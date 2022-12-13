@@ -224,6 +224,7 @@ public without sharing class PatientDelegateEnrollmentService {
                 pde.Attestation_TimeStamp__c = newDelegate.Attestation_TimeStamp__c;
                 pde.Attested_by__c = newDelegate.Attested_by__c;
                 pde.Status__c = 'Active';
+                pde.Study_Email_Consent__c = true;
                 pdEnrollments.add(pde);
             } else if(studyPER.assigned!=null && studyPER.assigned && !studyPER.active){
                 if(studyPER.pdEnrollmentId!=null){
