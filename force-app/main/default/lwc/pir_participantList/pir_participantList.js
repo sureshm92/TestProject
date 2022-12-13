@@ -1881,6 +1881,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     handleMessage(message) {
         let stateObj = JSON.parse( sessionStorage.getItem("stateObj") );
         if(stateObj && stateObj.id && stateObj.siteId){
+            this.template.querySelector("c-pir_filter").filterFetched = false;
             this.urlStudyId = stateObj.id;
             this.urlSiteId = stateObj.siteId;
             setselectedFilterasDefault ({selectedPresetId :"no preset"})
@@ -1890,8 +1891,6 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             .catch((error) => {
                 console.error("Error:", error);
             });
-            this.filterWrapper.siteList = [];
-            this.filterWrapper.studyList = [];
             this.filterWrapper = {
                 activeInactive: "Active",
                 studyList: [],

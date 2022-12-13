@@ -170,10 +170,11 @@ public without sharing class TelevisitAttendeeTriggerHandler {
      */
     @TestVisible
     private static void sendBellNotificationToNewAttendees(List<Televisit_Attendee__c> attendeeList){
+        Set<Id> tvaContactIdSet = new Set<Id>();
         Set<Id> attendeeIdSet =  (new Map<Id,Televisit_Attendee__c>(attendeeList) ).keySet();
         Set<Id> ssIdSet = new Set<Id>();
         Televisit_Attendee__c tva ;
-        Map<Id,Televisit_Attendee__c> attendeeMap = new Map<Id,Televisit_Attendee__c>([SELECT Id,Televisit__r.Participant_Enrollment__c,
+        Map<Id,Televisit_Attendee__c> attendeeMap = new Map<Id,Televisit_Attendee__c>([SELECT Id,Contact__c,Televisit__r.Participant_Enrollment__c,
                                                                                                 Televisit__r.Participant_Enrollment__r.Study_Site__c,
                                                                                                 Televisit__r.Participant_Enrollment__r.Name,
                                                                                                 Televisit__r.Participant_Enrollment__r.Participant__r.First_Name__c,
@@ -187,6 +188,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
             if(attendee.Televisit__r.Participant_Enrollment__r != null && attendee.Televisit__r.Participant_Enrollment__r.Study_Site__c != null){
                 ssIdSet.add(attendee.Televisit__r.Participant_Enrollment__r.Study_Site__c);
             }
+            tvaContactIdSet.add(attendee.Contact__c);
         }
         if(ssIdSet.size() > 0){
             List<Notification_Target__mdt> notificationMdt = BellNotificationsHelper.getTarget('BELL_Message_on_TeleVisit');
@@ -196,18 +198,29 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                 usergroupList.add(mdt.Target_User_Group__c);
             }
             Map<String,List<Contact> > resMap = BellNotificationsHelper.getRecipientVsContact(usergroupList,new List<Id>(ssIdSet).get(0),null);
+            Map<String,List<Contact> > bellNotificationRecipientMap =  new Map<String,List<Contact> >();
+            for(String key : resMap.keySet() ){
+                List<Contact> conList = resMap.get(key);
+                bellNotificationRecipientMap.put(key,new List<Contact>() );
+                for(Contact con: conList){
+                    if(tvaContactIdSet.contains(con.Id) ){
+                        bellNotificationRecipientMap.get(key).add(con);
+                    }
+                }
+            }
             //remove current user contact from above map
             Id currentUserContactId = UserContext.getUserContactId();
             String key = BellNotificationsHelper.getCurrentUserLevelByStudySite(String.valueOf(currentUserContactId),
                                                                                 String.valueOf(new List<Id>(ssIdSet).get(0) )
                                                                                 );
-            if(resMap.containsKey(key)){
-                Integer index = resMap.get(key).indexOf(new Contact(Id = currentUserContactId) );
-                resMap.get(key).remove(index);
+            if(bellNotificationRecipientMap.containsKey(key)){
+                Integer index = bellNotificationRecipientMap.get(key).indexOf(new Contact(Id = currentUserContactId) );
+                if(index >= 0){
+                    bellNotificationRecipientMap.get(key).remove(index);
+                }
             }
-
             List<Notification__c> notificationList = BellNotificationsHelper.createNotification('BELL_Message_on_TeleVisit',
-                                                                                                    resMap,
+                                                                                                    bellNotificationRecipientMap,
                                                                                                     tva.Televisit__r.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                                                                                                     tva.Televisit__r.Participant_Enrollment__c,
                                                                                                     true);

@@ -195,13 +195,13 @@ export default class Filtertest extends LightningElement {
   studyToPrmoteDCT;
   studyToFinalStep;
   isAnythingChangedForReset = false;
-
+  @api
   filterFetched = false;
   @api
   get filters(){ return true;}
   set filters(value){
     var presetSellection = value;
-    
+
     if(!this.filterFetched || this.urlstatus){
       this.filterFetched= true;
       let scList;
@@ -300,7 +300,7 @@ export default class Filtertest extends LightningElement {
             detail: true
           });
           this.dispatchEvent(loadComplete);
-          
+
           if(!(Object.keys(value).length === 0)){
             this.presetWrapperSet(presetSellection);
           }
@@ -326,7 +326,7 @@ export default class Filtertest extends LightningElement {
     }else{
       this.defaultSource = 'All Sources';
     }
-    
+
     this.ageStartValue = presetSellection.ageTo;
     this.ageEndValue = presetSellection.ageFrom;
     this.defaultSex = presetSellection.sex;
@@ -341,10 +341,10 @@ export default class Filtertest extends LightningElement {
     if(presetSellection.initialVisit == 'All'){
       this.isInitialVisitSelected = true;
     }
-    
+
     this.initialvisitStart = presetSellection.initialVisitStartDate;
     this.initialvisitEnd = presetSellection.initialVisitEndDate;
-  
+
     if(presetSellection.studyList.length == 1){
       this.defaultStudy = presetSellection.studyList[0];
       this.selectedStudy = presetSellection.studyList[0];
@@ -403,7 +403,7 @@ export default class Filtertest extends LightningElement {
         this.defaultStatus = "All Inactive Statuses";
         this.selectedStatus = "All Inactive Statuses";
       }
-      
+
     }
 
     if(presetSellection.ethnicityList){
@@ -411,16 +411,16 @@ export default class Filtertest extends LightningElement {
       this.removeAllE();
       for(var i=0;i<sysVal.length;i++){
           this.template.querySelector("input[value='"+sysVal[i]+"']").checked = true;
-          this.fcsEth = false;   
-      }      
-      this.setEthinicityList();        
+          this.fcsEth = false;
+      }
+      this.setEthinicityList();
       this.template.querySelector(".eBox").blur();
     }
     else{
       this.removeAllE();
     }
     this.filterWrapper = JSON.parse(JSON.stringify(presetSellection));
-    
+
     const updfilter = new CustomEvent("updfilter", {
       detail: {fw : this.filterWrapper,err:false}
       });
@@ -481,7 +481,7 @@ export default class Filtertest extends LightningElement {
     this.shoulddisplaypopup  = false;
     if(event.detail=='created'){
       const presetcreated = new CustomEvent("presetcreated");
-      this.dispatchEvent(presetcreated); 
+      this.dispatchEvent(presetcreated);
     }
   }
 
@@ -639,7 +639,7 @@ export default class Filtertest extends LightningElement {
         this.filterWrapper.initialVisitStartDate = d1.toISOString().split('T')[0];
       }
     }
-    
+
     this.template
       .querySelector('lightning-input[data-name="datestart"]')
       .reportValidity();
@@ -667,7 +667,7 @@ export default class Filtertest extends LightningElement {
         this.filterWrapper.initialVisitEndDate = d2.toISOString().split('T')[0];
       }
     }
-    
+
     this.template
       .querySelector('lightning-input[data-name="datestart"]')
       .reportValidity();
@@ -885,7 +885,7 @@ export default class Filtertest extends LightningElement {
   }
   @api
   resetFilter(event){
-    
+
     this.selectedActiveInactive = this.activeoptions[0].value;
     this.defaultStudy = this.studylist[1].value;
     this.selectedStudy = this.defaultStudy;
@@ -958,9 +958,9 @@ export default class Filtertest extends LightningElement {
         .reportValidity();
       this.isbuttonenabled = false;
       window.clearTimeout(this.delayTimeout);
-  
+
       this.delayTimeout = setTimeout(this.setAgeValidity.bind(this), 50);
-      
+
   }
   setAgeValidity(){
     this.template
@@ -1104,7 +1104,7 @@ export default class Filtertest extends LightningElement {
       if(this.selectedActiveInactive == 'Active'){
         this.statusoptions = [
           { label: this.label.AllStatuses, value: "All Active Statuses" },
-          { label: this.label.ReceivedStatus, value: "Received" }, 
+          { label: this.label.ReceivedStatus, value: "Received" },
           { label: this.label.PreReviewPassedStatus, value: "Pre-review Passed" },
           { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
           { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
@@ -1137,6 +1137,6 @@ export default class Filtertest extends LightningElement {
         ];
       }
     }
-    
+
   }
 }
