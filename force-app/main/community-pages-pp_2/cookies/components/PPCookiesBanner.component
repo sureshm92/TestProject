@@ -1,0 +1,126 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+ <apex:component id="CookiesInfo">
+    <style>
+        .desk-cookies-banner {
+            bottom: 0;
+            left: 0;
+            position: fixed;
+            width: 1366px;
+            opacity: 0.8;
+            border-radius: 16px 16px 0 0;
+            background-color: #000000;
+            box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .we-care-about-your-p {
+            color: #ffffff;
+            margin: 0 1.5rem 0 3rem;
+        }
+
+        .banner-heading {
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 32px;
+        }
+
+        .banner-txt {
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0;
+            line-height: 24px;
+        }
+
+        .desk-btn-margin {
+            margin-top: 2.2rem;
+        }
+
+        .btn-container {
+            height: 40px;
+            width: 264px;
+            border-radius: 20px;
+            background-color: #015ff1;
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+        }
+
+        .btn-label {
+            color: #ffffff !important;
+            font-size: 1rem !important;
+            font-weight: 600 !important;
+            letter-spacing: 0;
+            line-height: 24px;
+            text-align: center;
+        }
+
+        .manage {
+            background-color: #ffffff;
+            color: #015ff1 !important;
+            font-size: 1rem !important;
+            font-weight: 600 !important;
+            letter-spacing: 0;
+            line-height: 24px;
+            text-align: center;
+        }
+
+        @media screen and (max-width: 768px) {
+            .mob-cookies-banner {
+                width: 414px;
+            }
+            .we-care-about-your-p {
+                margin: 0 1rem;
+            }
+            .mob-btn-center {
+                margin-top: 0 !important;
+                margin-left: 0.7rem;
+            }
+            .btn-container {
+                width: 366px !important;
+            }
+        }
+    </style>
+    <div class="c-container desk-cookies-banner mob-cookies-banner">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_12-of-12 slds-large-size_8-of-12 slds-p-around_small">
+                <div class="we-care-about-your-p">
+                    <div class="banner-heading slds-m-top_small">We care about your privacy</div>
+                    <div class="banner-txt slds-m-top_x-small slds-show_medium">
+                        We and our partners store and/or access information on a device, such as unique IDs, in cookies to process personal data.
+                        You may accept or manage your cookie preferences, including your right to object where legitimate
+                        interest is used, or at any time in your Account Settings.
+                        <b>We and our partners process data to provide:</b>
+                        precise geolocation data. Actively scan device characteristics for identification. Store and/or access information on a device.
+                        Audience insights and product development.
+                    </div>
+                    <div class="banner-txt slds-m-top_x-small slds-hide_medium">
+                        We and our partners store and/or access information on a device, such as unique IDs, in cookies to process personal data.
+                        You may accept or manage your cookie preferences, including your right to object where legitimate
+                        interest is used, or at any time in your Account Settings.
+                    </div>
+                    <div class="banner-txt slds-m-vertical_xx-small slds-hide_medium">
+                        <b>We and our partners process data to provide:</b>
+                    </div>
+                    <div class="banner-txt slds-hide_medium">
+                        precise geolocation data. Actively scan device characteristics for identification. Store and/or access information on a device.
+                        Audience insights and product development.
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_12-of-12 slds-large-size_4-of-12 desk-btn-margin mob-btn-center slds-p-around_small">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                        <button class="btn-container btn-label">
+                            Accept All
+                        </button>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-m-top_large">
+                        <button class="btn-container manage">
+                            Manage preferences
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</apex:component>

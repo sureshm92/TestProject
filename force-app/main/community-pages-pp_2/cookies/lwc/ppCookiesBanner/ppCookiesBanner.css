@@ -1,0 +1,151 @@
+.desk-cookies-banner {
+    bottom: 0;
+    position: fixed;
+    opacity: 0.8;
+    border-radius: 16px 16px 0 0;
+    background-color: #000000;
+    box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
+}
+
+.we-care-about-your-p {
+    color: #ffffff;
+    margin: 0 1.5rem 0 3rem;
+}
+.banner-heading {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 32px;
+}
+.banner-txt {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+}
+.desk-btn-margin {
+    margin-top: 2.2rem;
+}
+.btn-container {
+    height: 40px;
+    width: 264px;
+    border-radius: 20px;
+    background-color: #015ff1;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+}
+
+.btn-label {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
+.manage {
+    background-color: #ffffff;
+    color: #015ff1;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
+
+.modal-body {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.modal-button {
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    height: 32px;
+    width: 156px;
+    border-radius: 16px;
+    background-color: #0768fd;
+    box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%), 0 4px 8px 0 rgb(7 104 253 / 32%);
+    border-color: transparent;
+}
+@media screen and (max-width: 768px) {
+    .mob-cookies-banner {
+        width: 414px;
+    }
+    .mob-btn-center {
+        margin-top: 0 !important;
+        margin-left: 0.7rem;
+    }
+    .we-care-about-your-p {
+        margin: 0 1rem;
+    }
+    .btn-container {
+        width: 366px !important;
+    }
+}
+/* Modal css */
+.modal-header-text {
+    color: #000000;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 2rem;
+    padding: 0px;
+}
+
+.web-modal-window .slds-modal__container {
+    width: 26%;
+    min-width: 25rem;
+}
+
+.slds-modal__content {
+    overflow: initial;
+}
+
+.card-top-bg {
+    height: 1rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    background: linear-gradient(90deg, rgb(0, 85, 135) 0%, rgb(0, 141, 158) 100%);
+}
+
+.close-cursor {
+    cursor: pointer;
+}
+
+.footer-container {
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    background-color: #ffffff;
+    padding-bottom: 1.5rem;
+    margin-top: -0.75rem;
+    border-top: none;
+}
+
+@media screen and (max-width: 768px) {
+    .web-modal-window .slds-modal__container {
+        min-width: 80%;
+    }
+}
+
+.header-image {
+    width: 106%;
+}
+
+.slds-size_11-of-12-custom {
+    width: 95.333333%;
+}
+.slds-size_1-of-12-custom {
+    width: 3.333333%;
+}
