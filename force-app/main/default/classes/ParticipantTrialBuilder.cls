@@ -81,42 +81,31 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
             participantState.value == ParticipantService.ParticipantStates.REFERRAL ||
             participantState.value == ParticipantService.ParticipantStates.PROSPECT
         ) {
-            if(isNewPP == true && participantState.ctp.Is_Program__c == true){
-                tabs.add(
+            tabs.add(
                     new TrialDetail.StudyTab(
                         'tab-about-the-study',
                         'about-the-study',
-                        Label.PG_SW_Tab_About_The_Program,
+                        (isNewPP == true && participantState.ctp.Is_Program__c)?Label.PG_SW_Tab_About_The_Program:Label.PG_SW_Tab_About_The_Study,
                         defaultActions
                     )
-                );
-            }else{
-                tabs.add(
-                    new TrialDetail.StudyTab(
-                        'tab-about-the-study',
-                        'about-the-study',
-                        Label.PG_SW_Tab_About_The_Study,
-                        defaultActions
-                    )
-                );
-            }
+            );
             tabs.add(
                 new TrialDetail.StudyTab('tab-tasks', 'task', Label.PG_SW_Tab_Tasks, backHomeAction)
             );
-            Boolean shoVi =
-                participantState.showVisits && participantState.ctp.Visits_are_Available__c;
-            if(isNewPP == true && participantState.ctp.Is_Program__c == true && 
-                shoVi && participantState.ctp.Visits_are_Available__c == true){
-                tabs.add(
-                    new TrialDetail.StudyTab(
-                        'tab-visits',
-                        'referred-patient',
-                        Label.PG_SW_Tab_Events,
-                        backHomeAction
-                    )
-                );
-            }else{    
-                if (
+            Boolean shoVi = participantState.showVisits && participantState.ctp.Visits_are_Available__c;
+            
+            if(isNewPP == true){
+                if(participantState.isPremium && participantState.ctp.Is_Program__c == true && shoVi){
+                    tabs.add(
+                        new TrialDetail.StudyTab(
+                            'tab-visits',
+                            'referred-patient',
+                            Label.PG_SW_Tab_Events,
+                            backHomeAction
+                        )
+                    );
+                }
+            }else if (
                     participantState.isPremium &&
                     (shoVi ||
                     (participantState.ctp.Received_Until_Consent_Is_Available__c ||
@@ -133,7 +122,6 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                             backHomeAction
                         )
                     );
-                }
             }
             if (
                 participantState.ctp.Study_Documents_Are_Available__c ||
@@ -153,7 +141,7 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                 new TrialDetail.StudyTab(
                     'tab-about-the-study',
                     'about-the-study',
-                    Label.PG_SW_Tab_About_The_Study,
+                    (isNewPP == true && participantState.ctp.Is_Program__c)?Label.PG_SW_Tab_About_The_Program:Label.PG_SW_Tab_About_The_Study,
                     defaultActions
                 )
             );
@@ -165,16 +153,17 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
             tabs.add(
                 new TrialDetail.StudyTab('tab-tasks', 'task', Label.PG_SW_Tab_Tasks, backHomeAction)
             );
-            if(isNewPP == true && participantState.ctp.Is_Program__c == true 
-                && shoVi && participantState.ctp.Visits_are_Available__c == true){
-                tabs.add(
-                    new TrialDetail.StudyTab(
-                        'tab-visits',
-                        'referred-patient',
-                        Label.PG_SW_Tab_Events,
-                        backHomeAction
-                    )
-                );
+            if(isNewPP == true){
+                if(participantState.isPremium && shoVi){
+                    tabs.add(
+                        new TrialDetail.StudyTab(
+                            'tab-visits',
+                            'referred-patient',
+                            participantState.ctp.Is_Program__c?Label.PG_SW_Tab_Events:Label.PG_SW_Tab_Visits,
+                            backHomeAction
+                        )
+                    );
+                }
             }else{
             /**PEH-525*/
                 if (

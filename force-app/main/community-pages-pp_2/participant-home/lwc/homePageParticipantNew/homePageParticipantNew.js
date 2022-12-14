@@ -78,7 +78,7 @@ export default class HomePageParticipantNew extends LightningElement {
                             this.isProgram = this.clinicalrecord.Is_Program__c;
 
                             this.showVisitCard =
-                                this.clinicalrecord.Visits_are_Available__c &&
+                                this.clinicalrecord.Patient_Portal_Enabled__c && this.clinicalrecord.Visits_are_Available__c &&
                                 res.pvCount != null &&
                                 res.pvCount != undefined &&
                                 res.pvCount > 0;
