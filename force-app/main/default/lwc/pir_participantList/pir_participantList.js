@@ -320,11 +320,21 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         this.urlStatus = this.urlStateParameters.status;
         this.filterWrapper.status = [];
         this.filterWrapper.status.push(this.urlStatus);
+        this.isResetPagination = true;
         this.fetchList();
+        const selectEvent = new CustomEvent('resetparent', {
+            detail: ''
+        });
+        this.dispatchEvent(selectEvent);
        }
        if(this.urlStateParameters.activeTab){
         if( this.srchTxt){
+            this.isResetPagination = true;
             this.fetchList();
+            const selectEvent = new CustomEvent('resetparent', {
+                detail: ''
+            });
+            this.dispatchEvent(selectEvent);
         }
         const data = {"activeTab": this.urlStateParameters.activeTab, "searchText" : this.urlPerName};
         const selectEvent = new CustomEvent('resetactivetab', {
@@ -1880,10 +1890,49 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
 
     handleMessage(message) {
         let stateObj = JSON.parse( sessionStorage.getItem("stateObj") );
+
+        if(stateObj && stateObj.activeTab){
+            const fNameAndLName = stateObj.Pname || null;
+            let result = null;
+            if(fNameAndLName){
+                result = decodeURI(fNameAndLName);
+                result = decodeURI(result);
+            }
+
+            this.urlPerName = result || null;
+            this.urlrefid = stateObj.perName;
+            this.totalRecordCount = -1;
+
+            this.isResetPagination = true;
+            this.fetchList();
+            const selectEvent = new CustomEvent('resetparent', {
+                detail: ''
+            });
+            this.dispatchEvent(selectEvent);
+            const data = {"activeTab": this.urlStateParameters.activeTab, "searchText" : this.urlPerName};
+            const resetEvent = new CustomEvent('resetactivetab', {
+                detail: data
+            });
+            this.dispatchEvent(resetEvent);
+
+        }
+        else{
+            this.srchTxt = undefined;
+            this.urlPerName = undefined;
+            this.enteredSearchString = '';
+            this.template.querySelector('[data-id="filterdiv"]')?.classList.toggle('disablefilter');
+            this.disabledFilter = false;
+            this.disablePreset = false ;
+            this.disablePresetPicklist = false;
+            this.hideActiononSearch=false;
+
+        }
+
         if(stateObj && stateObj.id && stateObj.siteId){
             this.template.querySelector("c-pir_filter").filterFetched = false;
             this.urlStudyId = stateObj.id;
             this.urlSiteId = stateObj.siteId;
+
             setselectedFilterasDefault ({selectedPresetId :"no preset"})
             .then((result) => {
 
@@ -1891,6 +1940,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             .catch((error) => {
                 console.error("Error:", error);
             });
+
             this.filterWrapper = {
                 activeInactive: "Active",
                 studyList: [],
@@ -1910,6 +1960,11 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 presetId: "",
                 presetName:""
               };
+              if(stateObj.status){
+                this.urlStatus = stateObj.status;
+                this.filterWrapper.status = [];
+                this.filterWrapper.status.push(this.urlStatus);
+            }
               if(this.urlSiteId && this.urlSiteId.includes('+') ){
                 let siteArr = this.urlSiteId.split('+');
                 siteArr.forEach(element => {
@@ -1919,13 +1974,14 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             else{
                 this.filterWrapper.siteList.push(this.urlSiteId);
             }
-
             this.filterWrapper.studyList.push(this.urlStudyId);
             this.totalRecordCount =-1;
+            this.isResetPagination = true;
             this.fetchList();
-        }
-        else{
-            this.setParametersBasedOnUrl();
+            const selectEvent = new CustomEvent('resetparent', {
+                detail: ''
+            });
+            this.dispatchEvent(selectEvent);
         }
     }
 

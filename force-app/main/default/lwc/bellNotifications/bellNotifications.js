@@ -126,6 +126,7 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
     const index = this.notificationWrap.findIndex((item) => item.Id == keyEl);
     event.preventDefault();
     let linkStr = event.target.href;
+    let message = {};
 
     let result = {
       type : "comm__namedPage",
@@ -158,23 +159,27 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
     });
     sessionStorage.setItem("callFetchList", JSON.stringify(false) );
 
-    if(this.urlStateParameters.activeTab == 'Televisit' &&
+    if(result.state.id &&
+      result.state.siteId &&
+      this.currentPageReference.attributes &&
+      this.currentPageReference.attributes.name === 'My_Referrals__c'){
+
+        sessionStorage.setItem("callFetchList", JSON.stringify(true) );
+        sessionStorage.setItem("stateObj",JSON.stringify(result.state) );
+        publish(this.messageContext, messagingChannel, {});
+
+
+    }
+    else if(result.state.activeTab == 'Televisit' &&
         this.currentPageReference.attributes &&
         this.currentPageReference.attributes.name == 'My_Referrals__c'){
-      let payload = {};
-      publish(this.messageContext, messagingChannel, payload);
-    }
-    else if(this.urlStateParameters.id && this.urlStateParameters.siteId && this.currentPageReference.attributes &&
-      this.currentPageReference.attributes.name == 'My_Referrals__c'){
-        let payload = {
-          messageToSend : 'fetchData'
-        };
+
+        let payload = {};
         sessionStorage.setItem("callFetchList", JSON.stringify(true) );
         sessionStorage.setItem("stateObj",JSON.stringify(result.state) );
         publish(this.messageContext, messagingChannel, payload);
 
     }
-
     if (this.notificationWrap[index].Is_Read__c == false){
         const readEvent = new CustomEvent("updatereadevent", {
           detail: {
@@ -184,7 +189,6 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
         });
        this.dispatchEvent(readEvent);
     }
-
     const closeOverlay = new CustomEvent("closebelloverlayevent", {});
     this.dispatchEvent(closeOverlay);
 
