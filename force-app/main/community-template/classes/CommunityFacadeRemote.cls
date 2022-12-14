@@ -442,7 +442,7 @@ public without sharing class CommunityFacadeRemote {
         List<LoginHistory> lstLoginHistory = new List<LoginHistory>();
         Id userId = UserInfo.getUserId();
         Integer numberOfEnrollments = 0;
-        String query = 'SELECT Id, Clinical_Trial_Profile__r.Study_Code_Name__c, Study_Site__c, Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Study_Site__c IN :lstOfStudySite AND CreatedById != :userId'+
+        String query = 'SELECT Id, Clinical_Trial_Profile__r.Study_Code_Name__c, Study_Site__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Participant_Enrollment__c WHERE Study_Site__c IN :lstOfStudySite AND CreatedById != :userId'+
                         ' AND Participant_Status__c IN (\'Received\',\'Pre-review Passed\',\'Contact Attempted\',\'Successfully Contacted\',\'Screening In Progress\',\'Screening In Progress - Wash Out Period\',\'Screening Passed\','+
                         ' \'Eligibility Passed\',\'Ready to Screen\',\'Participant No Show\',\'Successfully re-engaged\',\'Randomization Success\',\'Enrollment Success\') AND Participant__r.Present_Age__c >= 0 AND Participant__r.Present_Age__c <= 150';
         List<Study_Site__c> lstOfStudySite = new List<Study_Site__c>();
@@ -455,6 +455,7 @@ public without sharing class CommunityFacadeRemote {
         Map<String, List<Participant_Enrollment__c>> mapOfProtocolVsEnrollment = new Map<String, List<Participant_Enrollment__c>>();
         Map<String, Set<String>> mapOfStudyVsSite = new Map<String, Set<String>>();
         Map<String, String> mapOfStudyVsStringSite = new Map<String, String>();
+        Map<String, String> mapOfStudyVsComm = new Map<String, String>();
 
         if(contactId != null){
             listOfResult = [SELECT Id,CreatedById,CreatedDate,Is_Active__c,Is_Read__c,Link_to_Related_Event_or_Object__c,
@@ -471,21 +472,14 @@ public without sharing class CommunityFacadeRemote {
 
         if(!String.isBlank(isExecute) && Boolean.valueOf(isExecute)){
             lstOfStudySite = [SELECT Id FROM Study_Site__c
-                              WHERE Clinical_Trial_Profile__r.CommunityTemplate__c =: communityType
-                              AND (Principal_Investigator__c = :contactId OR ID IN :DelegateService.getDelegatedStudySiteIds())];
+                              WHERE (Principal_Investigator__c = :contactId OR ID IN :DelegateService.getDelegatedStudySiteIds())];
 
             DateTime userCreatedDate = [SELECT CreatedDate FROM User WHERE ID = :userId][0].CreatedDate;
 
             lstLoginHistory = [SELECT Id, LoginTime, Status, LoginUrl FROM LoginHistory WHERE UserId = :userId AND NetworkId <> null ORDER BY LoginTime DESC];
             List<LoginHistory> lstOfSuccess = new List<LoginHistory>();
-
             for(LoginHistory eachRec : lstLoginHistory){
-                if(eachRec.Status == 'Success' && eachRec.LoginUrl.containsIgnoreCase(communityType)){
-                    lstOfSuccess.add(eachRec);
-                    if(lstOfSuccess.size() == 2){
-                        break;
-                    }
-                }else if(eachRec.Status == 'Success' && communityType.equalsIgnoreCase('Default') && eachRec.LoginUrl.containsIgnoreCase('com/s/login')){
+                if(eachRec.Status == 'Success'){
                     lstOfSuccess.add(eachRec);
                     if(lstOfSuccess.size() == 2){
                         break;
@@ -516,6 +510,10 @@ public without sharing class CommunityFacadeRemote {
                         mapOfStudyVsSite.put(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c, new Set<String>{});
                     }
                     mapOfStudyVsSite.get(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c).add(eachRec.Study_Site__c);
+
+                    if(!mapOfStudyVsComm.containsKey(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c)){
+                        mapOfStudyVsComm.put(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c, eachRec.Clinical_Trial_Profile__r.CommunityTemplate__c);
+                    }
                 }
 
                 for(String eachRec : mapOfStudyVsSite.keySet()){
@@ -524,7 +522,7 @@ public without sharing class CommunityFacadeRemote {
 
                 sendResultWrap.mapOfProtocolVsEnrollment = mapOfProtocolVsEnrollment;
                 for (String eachProtocol : mapOfProtocolVsEnrollment.keySet()) {
-                    Notification__c notificationRec = BellNotificationsHelper.createNotification('BELL_Message_on_New_Referrals', contactId, userRole, communityType, false);
+                    Notification__c notificationRec = BellNotificationsHelper.createNotification('BELL_Message_on_New_Referrals', contactId, userRole, mapOfStudyVsComm.get(eachProtocol), false);
                     lstOfNotification.add(notificationRec);
                 }
 
