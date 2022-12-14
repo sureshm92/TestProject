@@ -29624,6 +29624,20 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Patient Dropped Out pp</shortDescription>
-        <value>We are sorry to see you leave your clinical research ##isStudyorProgram</value>
+        <value>We are sorry to see you leave your Program</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Initial_Patient_Program</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Initial Patient Program</shortDescription>
+        <value>You have been referred to a program.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Patient_Dropped_Out_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Patient Dropped Out Study</shortDescription>
+        <value>We are sorry to see you leave your clinical research study </value>
     </labels>
 </CustomLabels>

@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Patient_Dropped_Out_pp}"
+<messaging:emailTemplate subject="{!IF(relatedTo.Clinical_Trial_Profile__r.Is_Program__c, $Label.Email_Subject_Patient_Dropped_Out_pp,$Label.Email_Subject_Patient_Dropped_Out_Study)}"
                         recipientType="Contact"
                         relatedToType="Participant_Enrollment__c"
                         language="{!recipient.Language__c}">
