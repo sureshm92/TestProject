@@ -1909,7 +1909,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 detail: ''
             });
             this.dispatchEvent(selectEvent);
-            const data = {"activeTab": this.urlStateParameters.activeTab, "searchText" : this.urlPerName};
+            const data = {"activeTab": stateObj.activeTab, "searchText" : this.urlPerName};
             const resetEvent = new CustomEvent('resetactivetab', {
                 detail: data
             });
@@ -1920,7 +1920,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             this.srchTxt = undefined;
             this.urlPerName = undefined;
             this.enteredSearchString = '';
-            this.template.querySelector('[data-id="filterdiv"]')?.classList.toggle('disablefilter');
+            this.template.querySelector('[data-id="filterdiv"]')?.classList.remove('disablefilter');
             this.disabledFilter = false;
             this.disablePreset = false ;
             this.disablePresetPicklist = false;
