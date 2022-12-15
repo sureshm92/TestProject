@@ -25,6 +25,7 @@ public virtual without sharing class ResourceService {
     protected String resourceType;
     protected String contentClass;
     protected String resourceId;
+    protected String participantData;
 
     public static ResourceService getInstance() {
         return (ResourceService) ClassFactory.newInstance(ResourceService.class);
@@ -32,23 +33,42 @@ public virtual without sharing class ResourceService {
 
     public ResourceService() {
         resourceType = ResourceService.RESOURCE_TYPE_ARTICLE;
-        pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class))
-            .getState();
-        participant = pState.participant;
     }
 
     public ResourceService init(String resourceType) {
-        return init(resourceType, null, null);
+        return init(resourceType, null, null,null);
     }
 
     public ResourceService init(String resourceType, String resourceId) {
-        return init(resourceType, resourceId, null);
+        return init(resourceType, resourceId, null,null);
+    }
+    public ResourceService ppinit(String resourceType, String participantData) {
+        return init(resourceType, resourceId, null, participantData);
     }
 
-    public ResourceService init(String resourceType, String resourceId, String contentClass) {
+    public ResourceService init(
+        String resourceType,
+        String resourceId,
+        String contentClass,
+        String participantData
+    ) {
         this.resourceType = resourceType;
         this.resourceId = resourceId;
         this.contentClass = contentClass;
+        this.participantData=participantData;
+        if (participantData != null) {
+            this.pstate = (ParticipantService.ParticipantState) JSON.deserialize(
+                participantData,
+                ParticipantService.ParticipantState.class
+            );
+            this.participant = pState.participant;
+        }
+        if (this.participant == null) {
+            this.pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class))
+                .getState();
+            this.participant = pState.participant;
+        }
+
         return this;
     }
 
@@ -247,7 +267,9 @@ public virtual without sharing class ResourceService {
         }
         return rwSorted;
     }
-    public static List<ResourceWrapper> sortUpdateResourcesByCOI(List<ResourceWrapper> resourceWrappers) {
+    public static List<ResourceWrapper> sortUpdateResourcesByCOI(
+        List<ResourceWrapper> resourceWrappers
+    ) {
         List<ResourceUpdateComparing> resourceComparings = new List<ResourceUpdateComparing>();
         for (ResourceWrapper rw : resourceWrappers) {
             resourceComparings.add(new ResourceUpdateComparing(rw));

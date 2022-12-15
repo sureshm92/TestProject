@@ -15,6 +15,17 @@ public inherited sharing class ResourceDelegate {
         );
         return resourceWrapperContainer;
     }
+   /* public ResourceService.ResourceWrapperContainer getResources(String participantState,
+    String isDelegate) {
+        ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceArticleVideoService.getInstance()
+            .init( participantState,
+             isDelegate)
+            .getResourceWrapperContainer();
+        resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(
+            resourceWrapperContainer.wrappers
+        );
+        return resourceWrapperContainer;
+    }*/
 
     public ResourceService.ResourceWrapperContainer getFavoriteResources(String resourceType) {
         ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceFavoriteService.getInstance()

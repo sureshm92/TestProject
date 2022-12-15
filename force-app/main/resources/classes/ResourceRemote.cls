@@ -16,7 +16,28 @@ public without sharing class ResourceRemote {
         }
     }
     @AuraEnabled
-    public static UpdateWrapper getUpdateResources(String linkWrapperText) {
+    public static ResourceService.ResourceWrapperContainer getPPResources(String participantData) {
+        try {
+            System.debug('participantData-->' + participantData);
+            ParticipantService.ParticipantState partData = (ParticipantService.ParticipantState) JSON.deserialize(
+                participantData,
+                ParticipantService.ParticipantState.class
+            );
+
+            ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceArticleVideoService.getInstance()
+                .ppinit('Article;Video', participantData)
+                .getResourceWrapperContainer();
+            resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(
+                resourceWrapperContainer.wrappers
+            );
+
+            return resourceWrapperContainer;
+        } catch (Exception e) {
+            return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
+        }
+    }
+    @AuraEnabled
+    public static UpdateWrapper getUpdateResources(String linkWrapperText, String participantData) {
         //get all resources //get counter // send wrapper // check for toggles for participant
         try {
             Integer counter = 0;
@@ -26,7 +47,7 @@ public without sharing class ResourceRemote {
                 RelevantLinksRemote.InitDataNew.class
             );
             List<ResourceService.ResourceWrapper> resUpdates = linkWrapper?.resources;
-            ResourceDelegate rDelegate = ResourceDelegate.getInstance();
+
             //Article/Video Data
             //for delegate in participant view
             if (
@@ -35,9 +56,10 @@ public without sharing class ResourceRemote {
                 String.valueOf(ParticipantService.ParticipantStates.ALUMNI)
             ) {
                 if (linkWrapper.VideoAndArticlesAreAvailable) {
-                    ResourceService.ResourceWrapperContainer contExplore = rDelegate.getResources(
-                        'Article;Video'
-                    );
+                    ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
+                        .ppinit('Article;Video', participantData)
+                        .getResourceWrapperContainer();
+                    
                     resUpdates.addAll(contExplore.wrappers);
                 }
             } else if (
@@ -45,21 +67,26 @@ public without sharing class ResourceRemote {
                 String.valueOf(ParticipantService.ParticipantStates.ALUMNI)
             ) {
                 //for delegate and alumni view
-                ResourceService.ResourceWrapperContainer contExplore = rDelegate.getResources(
-                    'Article;Video'
-                );
+                ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
+                    .ppinit('Article;Video', participantData)
+                    .getResourceWrapperContainer();
+                
                 resUpdates.addAll(contExplore.wrappers);
             } else if (linkWrapper.VideoAndArticlesAreAvailable) {
                 //for participant view
-                ResourceService.ResourceWrapperContainer contExplore = rDelegate.getResources(
-                    'Article;Video'
-                );
+                ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
+                    .ppinit('Article;Video', participantData)
+                    .getResourceWrapperContainer();
+                
+              
                 resUpdates.addAll(contExplore.wrappers);
             }
 
             //Documents Data
             if (linkWrapper.StudyDocumentsAreAvailable) {
-                ResourceService.ResourceWrapperContainer contDocs = rDelegate.getStudyDocuments();
+                ResourceService.ResourceWrapperContainer contDocs = ResourceStudyDocumentService.getInstance()
+                .ppinit(ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT, participantData)
+                .getResourceWrapperContainer();
                 contDocs.wrappers = ResourceService.removeTranslations(contDocs.wrappers);
 
                 resUpdates.addAll(contDocs.wrappers);

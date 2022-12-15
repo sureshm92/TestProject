@@ -81,50 +81,54 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         let state;
         if (communityService.isInitialized()) {
             state = communityService.getCurrentCommunityMode().participantState;
-        }
-        await getUpdateResources({ linkWrapperText: returnValue })
-            .then((result) => {
-                var counterForLoop = 0;
-                let data = JSON.parse(JSON.stringify(result));
-                this.counter = data.counter;
-                if (this.counter > 0 && state != 'ALUMNI') {
-                    this.displayCounter = true;
-                    const counterUpdateEvent = new CustomEvent('counterupdate', {
-                        detail: {
-                            counter: this.counter,
-                            displayCounter: this.displayCounter
+            this.pData = communityService.getParticipantData();
+
+            let data = JSON.stringify(this.pData);
+
+            await getUpdateResources({ linkWrapperText: returnValue, participantData: data })
+                .then((result) => {
+                    var counterForLoop = 0;
+                    let data = JSON.parse(JSON.stringify(result));
+                    this.counter = data.counter;
+                    if (this.counter > 0 && state != 'ALUMNI') {
+                        this.displayCounter = true;
+                        const counterUpdateEvent = new CustomEvent('counterupdate', {
+                            detail: {
+                                counter: this.counter,
+                                displayCounter: this.displayCounter
+                            }
+                        });
+                        this.dispatchEvent(counterUpdateEvent);
+                    }
+                    data.resources.every((resObj) => {
+                        ++counterForLoop;
+                        this.resourcedData.push(resObj);
+                        if (counterForLoop >= 4) {
+                            return false;
+                        }
+                        return true;
+                    });
+                    if (counterForLoop > 0) {
+                        this.resourcePresent = true;
+                    }
+                    this.resourcedData.forEach((resObj) => {
+                        if (
+                            resObj.resource.Content_Type__c == 'Article' ||
+                            resObj.resource.Content_Type__c == 'Video'
+                        ) {
+                            resObj.isExplore = true;
+                        } else if (resObj.resource.Content_Type__c == 'Study_Document') {
+                            resObj.isDoc = true;
+                        } else {
+                            resObj.isLink = true;
                         }
                     });
-                    this.dispatchEvent(counterUpdateEvent);
-                }
-                data.resources.every((resObj) => {
-                    ++counterForLoop;
-                    this.resourcedData.push(resObj);
-                    if (counterForLoop >= 4) {
-                        return false;
-                    }
-                    return true;
+                    this.spinner.hide();
+                })
+                .catch((error) => {
+                    this.showErrorToast('Error occured', error.message, 'error');
                 });
-                if (counterForLoop > 0) {
-                    this.resourcePresent = true;
-                }
-                this.resourcedData.forEach((resObj) => {
-                    if (
-                        resObj.resource.Content_Type__c == 'Article' ||
-                        resObj.resource.Content_Type__c == 'Video'
-                    ) {
-                        resObj.isExplore = true;
-                    } else if (resObj.resource.Content_Type__c == 'Study_Document') {
-                        resObj.isDoc = true;
-                    } else {
-                        resObj.isLink = true;
-                    }
-                });
-                this.spinner.hide();
-            })
-            .catch((error) => {
-                this.showErrorToast('Error occured', error.message, 'error');
-            });
+        }
     }
 
     showErrorToast(titleText, messageText, variantType) {
