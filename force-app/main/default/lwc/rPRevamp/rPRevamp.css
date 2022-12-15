@@ -11,6 +11,11 @@
     bottom: 0;
 }
 
+.Instructions {
+    overflow-y: auto;
+    max-height: 360px;
+}
+
 .mobileCards .buffermain > div:last-child {
     width: 100%;
 }
