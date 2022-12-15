@@ -378,7 +378,482 @@ private class Test_DashboardRemoteNew {
         }
         Test.stopTest();
     }
+    @IsTest
+    static void piEligibilityTest() {
+       TestData testDataInst = new TestData();
+        Account SiteAccount = new Account(
+                Name = 'Study Site Account'
+            );
+        
+            insert SiteAccount;
+            
+            Contact con = new Contact(
+                FirstName = 'PITD',
+                LastName = 'PITD',
+                AccountId = SiteAccount.Id,
+                Email = 'part1@email.com'
+            );
+            insert con;
+        
+           Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
+                Protocol_ID__c = 'tt123456790',
+               Override_Recruitment_Status__c = 'Actively Enrolling',
+                NCT_Number__c = 'NCT00000002',
+                Link_to_Pre_screening__c = 'some link',
+                Study_Title__c = 'Some Title',
+                Study_Code_Name__c = 'Some Code Name',
+                Suppress_Participant_Emails__c = false,
+                 Initial_Visit_Required__c= False
+                );
+                insert clinical;
+        
+             Study_Site__c studySite = new Study_Site__c(
+                Name = 'Test',
+                Principal_Investigator__c = con.Id,
+                Clinical_Trial_Profile__c = clinical.Id,
+                Site__c = SiteAccount.Id,
+                Study_Site_Type__c = 'Traditional',
+                Suppress_Participant_Emails__c = false
+            );
+            insert studySite;
+            Participant__c participant = new Participant__c(
+            First_Name__c = 'ParticipantTD',
+            Last_Name__c = 'ParticipantTD',
+            Phone__c = '55313535',
+            Email__c = 'part1@email.com',
+            Contact__c = con.Id,
+            Mailing_Country_Code__c = 'US',
+            Mailing_State_Code__c = 'AL',
+            Adult__c = true,
+            Site__c=SiteAccount.Id
+        );
+        insert participant;
+        
+            Participant_Enrollment__c pe2 = new Participant_Enrollment__c(
+            Medical_Record_Review_Status__c= 'Pass',
+            Pre_screening_Status__c= 'Pass',
+            PI_Contact__c = con.Id,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId2',
+            Referral_Source__c = 'PI',
+            Initial_visit_occurred_flag__c = false,    
+            Participant_Status__c = DashboardRemoteNew.PE_STATUS_SUCCESSFULLY_CONTACTED,   
+            Participant__c = participant.Id,
+            Screening_ID__c = 'PESCR2'
 
+        );
+         insert pe2;  
+        Test.startTest();
+        System.runAs(testDataInst.piUser) {
+            
+            DashboardRemoteNew.prepareDataForFunnelChart(
+                con.Id,
+                clinical.Id
+            );
+            DashboardRemoteNew.getPIName(con.Id);
+            DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);
+            DashboardRemoteNew.getCurrentStudySitesCount(clinical.Id);
+            DashboardRemoteNew.getStudySiteDetails(con.Id, clinical.Id);
+        }
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void enrollmentTest() {
+       TestData testDataInst = new TestData();
+        Account SiteAccount = new Account(
+                Name = 'Study Site Account'
+            );
+        
+            insert SiteAccount;
+            
+            Contact con = new Contact(
+                FirstName = 'PITD',
+                LastName = 'PITD',
+                AccountId = SiteAccount.Id,
+                Email = 'part1@email.com'
+            );
+            insert con;
+        
+           Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
+                Protocol_ID__c = 'tt123456790',
+               Override_Recruitment_Status__c = 'Actively Enrolling',
+                NCT_Number__c = 'NCT00000002',
+                Link_to_Pre_screening__c = 'some link',
+                Study_Title__c = 'Some Title',
+                Study_Code_Name__c = 'Some Code Name',
+                Suppress_Participant_Emails__c = false,
+                 Initial_Visit_Required__c= False
+                );
+                insert clinical;
+        
+             Study_Site__c studySite = new Study_Site__c(
+                Name = 'Test',
+                Principal_Investigator__c = con.Id,
+                Clinical_Trial_Profile__c = clinical.Id,
+                Site__c = SiteAccount.Id,
+                Study_Site_Type__c = 'Traditional',
+                Suppress_Participant_Emails__c = false
+            );
+            insert studySite;
+            Participant__c participant = new Participant__c(
+            First_Name__c = 'ParticipantTD',
+            Last_Name__c = 'ParticipantTD',
+            Phone__c = '55313535',
+            Email__c = 'part1@email.com',
+            Contact__c = con.Id,
+            Mailing_Country_Code__c = 'US',
+            Mailing_State_Code__c = 'AL',
+            Adult__c = true,
+            Site__c=SiteAccount.Id
+        );
+        insert participant;
+        
+            Participant_Enrollment__c pe2 = new Participant_Enrollment__c(
+            Medical_Record_Review_Status__c= 'Pass',
+            Pre_screening_Status__c= 'Pass',
+            PI_Contact__c = con.Id,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId2',
+            Referral_Source__c = 'PI', 
+            Initial_visit_occurred_flag__c = false,
+            Participant_Status__c = DashboardRemoteNew.ELIGIBILITY_PASSED,
+            Participant__c = participant.Id,
+            Screening_ID__c = 'PESCR2'
+
+        );
+         insert pe2;  
+        Test.startTest();
+        System.runAs(testDataInst.piUser) {
+            
+            DashboardRemoteNew.prepareDataForFunnelChart(
+                con.Id,
+                clinical.Id
+            );
+            DashboardRemoteNew.getPIName(con.Id);
+            DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);
+            DashboardRemoteNew.getCurrentStudySitesCount(clinical.Id);
+            DashboardRemoteNew.getStudySiteDetails(con.Id, clinical.Id);
+        }
+        Test.stopTest();
+    }
+      @IsTest
+    static void SuccessfullycontactedTest() {
+       TestData testDataInst = new TestData();
+        Account SiteAccount = new Account(
+                Name = 'Study Site Account'
+            );
+        
+            insert SiteAccount;
+            
+            Contact con = new Contact(
+                FirstName = 'PITD',
+                LastName = 'PITD',
+                AccountId = SiteAccount.Id,
+                Email = 'part1@email.com'
+            );
+            insert con;
+        
+           Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
+                Protocol_ID__c = 'tt123456790',
+               Override_Recruitment_Status__c = 'Actively Enrolling',
+                NCT_Number__c = 'NCT00000002',
+                Link_to_Pre_screening__c = 'some link',
+                Study_Title__c = 'Some Title',
+                Study_Code_Name__c = 'Some Code Name',
+                Suppress_Participant_Emails__c = false,
+                 Initial_Visit_Required__c= False
+                );
+                insert clinical;
+        
+             Study_Site__c studySite = new Study_Site__c(
+                Name = 'Test',
+                Principal_Investigator__c = con.Id,
+                Clinical_Trial_Profile__c = clinical.Id,
+                Site__c = SiteAccount.Id,
+                Study_Site_Type__c = 'Traditional',
+                Suppress_Participant_Emails__c = false
+            );
+            insert studySite;
+            Participant__c participant = new Participant__c(
+            First_Name__c = 'ParticipantTD',
+            Last_Name__c = 'ParticipantTD',
+            Phone__c = '55313535',
+            Email__c = 'part1@email.com',
+            Contact__c = con.Id,
+            Mailing_Country_Code__c = 'US',
+            Mailing_State_Code__c = 'AL',
+            Adult__c = true,
+            Site__c=SiteAccount.Id
+        );
+        insert participant;
+        
+            Participant_Enrollment__c pe2 = new Participant_Enrollment__c(
+            Medical_Record_Review_Status__c= 'Pass',
+            Pre_screening_Status__c= 'Pass',
+            PI_Contact__c = con.Id,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId2',
+            Referral_Source__c = 'PI',      
+            Initial_visit_occurred_flag__c = false,
+            Participant_Status__c = DashboardRemoteNew.STATUS_ENROLLMENT_SUCCESS,
+            Participant__c = participant.Id,
+            Screening_ID__c = 'PESCR2'
+
+        );
+         insert pe2;  
+        Test.startTest();
+        System.runAs(testDataInst.piUser) {
+            
+            DashboardRemoteNew.prepareDataForFunnelChart(
+                con.Id,
+                clinical.Id
+            );
+            DashboardRemoteNew.getPIName(con.Id);
+            DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);
+            DashboardRemoteNew.getCurrentStudySitesCount(clinical.Id);
+            DashboardRemoteNew.getStudySiteDetails(con.Id, clinical.Id);
+        }
+        Test.stopTest();
+    }
+     @IsTest
+    static void eligibilityfailTest() {
+       TestData testDataInst = new TestData();
+        Account SiteAccount = new Account(
+                Name = 'Study Site Account'
+            );
+        
+            insert SiteAccount;
+            
+            Contact con = new Contact(
+                FirstName = 'PITD',
+                LastName = 'PITD',
+                AccountId = SiteAccount.Id,
+                Email = 'part1@email.com'
+            );
+            insert con;
+        
+           Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
+                Protocol_ID__c = 'tt123456790',
+               Override_Recruitment_Status__c = 'Actively Enrolling',
+                NCT_Number__c = 'NCT00000002',
+                Link_to_Pre_screening__c = 'some link',
+                Study_Title__c = 'Some Title',
+                Study_Code_Name__c = 'Some Code Name',
+                Suppress_Participant_Emails__c = false,
+                 Initial_Visit_Required__c= False
+                );
+                insert clinical;
+        
+             Study_Site__c studySite = new Study_Site__c(
+                Name = 'Test',
+                Principal_Investigator__c = con.Id,
+                Clinical_Trial_Profile__c = clinical.Id,
+                Site__c = SiteAccount.Id,
+                Study_Site_Type__c = 'Traditional',
+                Suppress_Participant_Emails__c = false
+            );
+            insert studySite;
+            Participant__c participant = new Participant__c(
+            First_Name__c = 'ParticipantTD',
+            Last_Name__c = 'ParticipantTD',
+            Phone__c = '55313535',
+            Email__c = 'part1@email.com',
+            Contact__c = con.Id,
+            Mailing_Country_Code__c = 'US',
+            Mailing_State_Code__c = 'AL',
+            Adult__c = true,
+            Site__c=SiteAccount.Id
+        );
+        insert participant;
+        
+            Participant_Enrollment__c pe2 = new Participant_Enrollment__c(
+            Medical_Record_Review_Status__c= 'Pass',
+            Pre_screening_Status__c= 'Pass',
+            PI_Contact__c = con.Id,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId2',
+            Referral_Source__c = 'PI',      
+            Initial_visit_occurred_flag__c = false,
+            Participant_Status__c = DashboardRemoteNew.STATUS_ENROLLMENT_FAILED,
+            Participant__c = participant.Id,
+            Screening_ID__c = 'PESCR2'
+
+        );
+         insert pe2;  
+        Test.startTest();
+        System.runAs(testDataInst.piUser) {
+            
+            DashboardRemoteNew.prepareDataForFunnelChart(
+                con.Id,
+                clinical.Id
+            );
+            DashboardRemoteNew.getPIName(con.Id);
+            DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);
+            DashboardRemoteNew.getCurrentStudySitesCount(clinical.Id);
+            DashboardRemoteNew.getStudySiteDetails(con.Id, clinical.Id);
+        }
+        Test.stopTest();
+    }
+    @IsTest
+    static void screenedfailedTest() {
+       TestData testDataInst = new TestData();
+        Account SiteAccount = new Account(
+                Name = 'Study Site Account'
+            );
+        
+            insert SiteAccount;
+            
+            Contact con = new Contact(
+                FirstName = 'PITD',
+                LastName = 'PITD',
+                AccountId = SiteAccount.Id,
+                Email = 'part1@email.com'
+            );
+            insert con;
+        
+           Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
+                Protocol_ID__c = 'tt123456790',
+               Override_Recruitment_Status__c = 'Actively Enrolling',
+                NCT_Number__c = 'NCT00000002',
+                Link_to_Pre_screening__c = 'some link',
+                Study_Title__c = 'Some Title',
+                Study_Code_Name__c = 'Some Code Name',
+                Suppress_Participant_Emails__c = false,
+                 Initial_Visit_Required__c= False
+                );
+                insert clinical;
+        
+             Study_Site__c studySite = new Study_Site__c(
+                Name = 'Test',
+                Principal_Investigator__c = con.Id,
+                Clinical_Trial_Profile__c = clinical.Id,
+                Site__c = SiteAccount.Id,
+                Study_Site_Type__c = 'Traditional',
+                Suppress_Participant_Emails__c = false
+            );
+            insert studySite;
+            Participant__c participant = new Participant__c(
+            First_Name__c = 'ParticipantTD',
+            Last_Name__c = 'ParticipantTD',
+            Phone__c = '55313535',
+            Email__c = 'part1@email.com',
+            Contact__c = con.Id,
+            Mailing_Country_Code__c = 'US',
+            Mailing_State_Code__c = 'AL',
+            Adult__c = true,
+            Site__c=SiteAccount.Id
+        );
+        insert participant;
+        
+            Participant_Enrollment__c pe2 = new Participant_Enrollment__c(
+            Medical_Record_Review_Status__c= 'Pass',
+            Pre_screening_Status__c= 'Pass',
+            PI_Contact__c = con.Id,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId2',
+            Referral_Source__c = 'PI',    
+            Initial_visit_occurred_flag__c = false,
+            Participant_Status__c = DashboardRemoteNew.PE_STATUS_SCREENING_FAILED,
+            Participant__c = participant.Id,
+            Screening_ID__c = 'PESCR2'
+
+        );
+         insert pe2;  
+        Test.startTest();
+        System.runAs(testDataInst.piUser) {
+            
+            DashboardRemoteNew.prepareDataForFunnelChart(
+                con.Id,
+                clinical.Id
+            );
+            DashboardRemoteNew.getPIName(con.Id);
+            DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);
+            DashboardRemoteNew.getCurrentStudySitesCount(clinical.Id);
+            DashboardRemoteNew.getStudySiteDetails(con.Id, clinical.Id);
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void eligibilitysuccess() {
+       TestData testDataInst = new TestData();
+        Account SiteAccount = new Account(
+                Name = 'Study Site Account'
+            );
+        
+            insert SiteAccount;
+            
+            Contact con = new Contact(
+                FirstName = 'PITD',
+                LastName = 'PITD',
+                AccountId = SiteAccount.Id,
+                Email = 'part1@email.com'
+            );
+            insert con;
+        
+           Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
+                Protocol_ID__c = 'tt123456790',
+               Override_Recruitment_Status__c = 'Actively Enrolling',
+                NCT_Number__c = 'NCT00000002',
+                Link_to_Pre_screening__c = 'some link',
+                Study_Title__c = 'Some Title',
+                Study_Code_Name__c = 'Some Code Name',
+                Suppress_Participant_Emails__c = false,
+                 Initial_Visit_Required__c= False
+                );
+                insert clinical;
+        
+             Study_Site__c studySite = new Study_Site__c(
+                Name = 'Test',
+                Principal_Investigator__c = con.Id,
+                Clinical_Trial_Profile__c = clinical.Id,
+                Site__c = SiteAccount.Id,
+                Study_Site_Type__c = 'Traditional',
+                Suppress_Participant_Emails__c = false
+            );
+            insert studySite;
+            Participant__c participant = new Participant__c(
+            First_Name__c = 'ParticipantTD',
+            Last_Name__c = 'ParticipantTD',
+            Phone__c = '55313535',
+            Email__c = 'part1@email.com',
+            Contact__c = con.Id,
+            Mailing_Country_Code__c = 'US',
+            Mailing_State_Code__c = 'AL',
+            Adult__c = true,
+            Site__c=SiteAccount.Id
+        );
+        insert participant;
+        
+            Participant_Enrollment__c pe2 = new Participant_Enrollment__c(
+            Medical_Record_Review_Status__c= 'Pass',
+            Pre_screening_Status__c= 'Pass',
+            PI_Contact__c = con.Id,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId2',
+            Referral_Source__c = 'PI',     
+            Initial_visit_occurred_flag__c = false,
+            Participant_Status__c = DashboardRemoteNew.PE_STATUS_ELIGIBILITY_FAILED,
+            Participant__c = participant.Id,
+            Screening_ID__c = 'PESCR2'
+
+        );
+         insert pe2;  
+        Test.startTest();
+        System.runAs(testDataInst.piUser) {
+            
+            DashboardRemoteNew.prepareDataForFunnelChart(
+                con.Id,
+                clinical.Id
+            );
+            DashboardRemoteNew.getPIName(con.Id);
+            DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);
+            DashboardRemoteNew.getCurrentStudySitesCount(clinical.Id);
+            DashboardRemoteNew.getStudySiteDetails(con.Id, clinical.Id);
+        }
+        Test.stopTest();
+    }
     @IsTest
     static void PIDelegateTest() {
         TestData.createPIDelegateUser();

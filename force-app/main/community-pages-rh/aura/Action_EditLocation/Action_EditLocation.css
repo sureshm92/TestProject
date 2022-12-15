@@ -22,6 +22,10 @@
     margin:-44px 0 0 195px !important;
   }
 
+.THIS .marginbottom{
+    margin-bottom: -3px;
+}
+
 .THIS .ss-lightning-input label {
     height: 21px;
     color: #666666;
