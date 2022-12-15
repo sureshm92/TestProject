@@ -17,6 +17,7 @@
             is-desktop={isDesktop}
             delegate-filter-data={availableStudyData}
             total-no-of-studies={totalNoOfStudies}
+            is-r-t-l={isRTL}
         >
         </c-pp-add-new-delegate>
     </template>
@@ -52,7 +53,7 @@
                         <!--Active Delegate Button: Starts-->
                     </template>
 
-                    <lightning-layout-item size="12" class="slds-m-top_large active-delegate">
+                    <lightning-layout-item size="12" class="slds-m-top_medium slds-m-bottom_x-small active-delegate">
                         <button
                             class="active-former--delegate-btn"
                             onclick={toggleActiveDelegateView}
@@ -83,13 +84,13 @@
                                     </lightning-layout-item>
                                     <lightning-layout-item
                                         size="12"
-                                        class="slds-m-top_small slds-align_absolute-center no-active-delegates"
+                                        class="slds-m-top_medium slds-align_absolute-center no-active-delegates"
                                     >
-                                        No active delegates</lightning-layout-item
+                                        {label.PP_NO_Active_Delegate}</lightning-layout-item
                                     >
                                     <lightning-layout-item
                                         size="12"
-                                        class="slds-m-top_small slds-m-bottom_x-large slds-align_absolute-center"
+                                        class="slds-m-top_large slds-m-bottom_x-large slds-align_absolute-center"
                                     >
                                         <button
                                             title="Non-primary action"
@@ -109,7 +110,7 @@
                                 <!--Delegate Card Section: Starts -->
                                 <lightning-layout-item
                                     size="12"
-                                    class="del-container slds-m-top_medium"
+                                    class="del-container slds-m-top_small"
                                     key={del.PatientDelegate.Id}
                                 >
                                     <!--Dlegate Info Layout: Starts -->
@@ -122,13 +123,13 @@
                                             <!--Delegate Personal Detail Layout: Starts-->
                                             <lightning-layout multiple-rows="true">
                                                 <!--Profile Logo: Stats-->
-                                                <lightning-layout-item size="1">
+                                                <lightning-layout-item size="1" class={delAvararIcon}>
                                                     <span><img src={icon_url} /></span>
                                                 </lightning-layout-item>
                                                 <!--Profile Logo: Ends-->
                                                 <!--Delegate Name: Stats-->
-                                                <lightning-layout-item size="11"
-                                                    ><lightning-layout multiple-rows="true">
+                                                <lightning-layout-item size="11" class={delInfoActive}
+                                                    ><lightning-layout multiple-rows="true" > 
                                                         <lightning-layout-item
                                                             size="12"
                                                             class="delegate-name"
@@ -156,7 +157,7 @@
                                             <template if:true={pdEnrollment.isActive}>
                                                 <lightning-layout-item
                                                     size="12"
-                                                    class="slds-m-bottom_small study-rectangle"
+                                                    class="slds-m-bottom_x-small study-rectangle"
                                                     key={pdEnrollment.Id}
                                                 >
                                                     <!--Remove Delegate Modal: Starts-->
@@ -294,7 +295,7 @@
 
                     <template if:false={hasNoFormerDelegate}>
                         <!-- Former Delegate Button: Starts-->
-                        <lightning-layout-item size="12" class="slds-m-top_large active-delegate">
+                        <lightning-layout-item size="12" class="slds-m-top_large slds-m-bottom_x-small active-delegate">
                             <button
                                 class="active-former--delegate-btn"
                                 onclick={toggleFormerDelegateView}
@@ -314,7 +315,7 @@
                                 <!--Delegate Card Section: Starts -->
                                 <lightning-layout-item
                                     size="12"
-                                    class="slds-m-top_medium former-del-rectangle"
+                                    class="slds-m-top_x-small former-del-rectangle"
                                     key={del.PatientDelegate.Id}
                                 >
                                     <!--Delete Delegate Modal: Starts-->
@@ -343,12 +344,12 @@
                                                     class="manage-del-items"
                                                 >
                                                     <!--Profile Logo: Stats-->
-                                                    <lightning-layout-item size="1">
+                                                    <lightning-layout-item size="2" class={delAvararIcon}>
                                                         <span><img src={icon_url} /></span>
                                                     </lightning-layout-item>
                                                     <!--Profile Logo: Ends-->
                                                     <!--Delegate Name: Stats-->
-                                                    <lightning-layout-item size="10" class={delInfoFormer}
+                                                    <lightning-layout-item size="9" class={delInfoFormer}
                                                         ><lightning-layout multiple-rows="true">
                                                             <lightning-layout-item
                                                                 size="12"
@@ -465,12 +466,12 @@
                                                     class="manage-del-items"
                                                 >
                                                     <!--Profile Logo: Stats-->
-                                                    <lightning-layout-item size="1">
+                                                    <lightning-layout-item size="1" class={delAvararIcon}>
                                                         <span><img src={icon_url} /></span>
                                                     </lightning-layout-item>
                                                     <!--Profile Logo: Ends-->
                                                     <!--Delegate Name: Stats-->
-                                                    <lightning-layout-item size="10"
+                                                    <lightning-layout-item size="10"  class={delInfoFormer1}
                                                         ><lightning-layout multiple-rows="true">
                                                             <lightning-layout-item
                                                                 size="12"

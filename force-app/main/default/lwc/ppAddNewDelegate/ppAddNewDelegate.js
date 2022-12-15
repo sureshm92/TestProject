@@ -36,10 +36,11 @@ import Add_New_Delegate from '@salesforce/label/c.Add_New_Delegate';
 import Btn_Add_Delegate from '@salesforce/label/c.Add_Delegate';
 import Back_to_Manage_Delegates from '@salesforce/label/c.Back_to_Manage_Delegates';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
-import PG_PST_L_Delegates_Compl_Task_Behalf from '@salesforce/label/c.PG_PST_L_Delegates_Compl_Task_Behalf';
-import PG_PST_L_Delegates_Receive_Emails from '@salesforce/label/c.PG_PST_L_Delegates_Receive_Emails';
-import PG_PST_L_Delegates_See_Lab_Result from '@salesforce/label/c.PG_PST_L_Delegates_See_Lab_Result';
-import PG_PST_L_Delegates_My_Measur from '@salesforce/label/c.PG_PST_L_Delegates_My_Measur';
+import PG_PST_L_Delegates_Compl_Task_Behalf_New from '@salesforce/label/c.PG_PST_L_Delegates_Compl_Task_Behalf_New';
+import PG_PST_L_Delegates_Receive_Emails_New from '@salesforce/label/c.PG_PST_L_Delegates_Receive_Emails_New';
+import PG_PST_L_Delegates_See_Lab_Result_New from '@salesforce/label/c.PG_PST_L_Delegates_See_Lab_Result_New';
+import PG_PST_L_Delegates_My_Measur_New from '@salesforce/label/c.PG_PST_L_Delegates_My_Measur_New';
+import PG_PST_L_Delegates_See_Vitals_New from '@salesforce/label/c.PG_PST_L_Delegates_See_Vitals_New';
 import PP_AS_CONDITIONAL_FEATURE from '@salesforce/label/c.PP_AS_CONDITIONAL_FEATURE';
 import PP_Delegates_Permitted_Actions from '@salesforce/label/c.PP_Delegates_Permitted_Actions';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
@@ -64,6 +65,7 @@ export default class PpAddNewDelegate extends LightningElement {
     @track delegate = {};
     @track allDelegate = {};
     @api selectedParent;
+    @api isRTL;
     isAttested = false;
     isEmailConsentChecked = false;
     isAtLeastOneStudySelected = false;
@@ -130,10 +132,11 @@ export default class PpAddNewDelegate extends LightningElement {
         Add_New_Delegate,
         Btn_Add_Delegate,
         Back_to_Manage_Delegates,
-        PG_PST_L_Delegates_Compl_Task_Behalf,
-        PG_PST_L_Delegates_Receive_Emails,
-        PG_PST_L_Delegates_See_Lab_Result,
-        PG_PST_L_Delegates_My_Measur,
+        PG_PST_L_Delegates_Compl_Task_Behalf_New,
+        PG_PST_L_Delegates_Receive_Emails_New,
+        PG_PST_L_Delegates_See_Lab_Result_New,
+        PG_PST_L_Delegates_My_Measur_New,
+        PG_PST_L_Delegates_See_Vitals_New,
         PP_AS_CONDITIONAL_FEATURE,
         PP_Delegates_Permitted_Actions,
         PP_Warning,
@@ -207,6 +210,12 @@ export default class PpAddNewDelegate extends LightningElement {
         return this.validateData
             ? 'save-del-btn btn-save-opacity addDelegateMobile'
             : 'save-del-btn addDelegateMobile';
+    }
+    get whatDelCanSeeSection(){
+        return this.isRTL ? 'slds-p-right_medium slds-p-top_medium' : 'slds-p-left_medium slds-p-top_medium'
+    }
+    get whatDeleCanSeeText(){
+        return this.isRTL ? 'slds-p-right_medium' : 'slds-p-left_medium'
     }
     get checkBoxDisabled() {
         let checkBoxDisabled = false;
