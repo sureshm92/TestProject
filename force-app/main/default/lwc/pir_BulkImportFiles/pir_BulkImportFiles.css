@@ -159,6 +159,14 @@ tbody:nth-child(even) {
   display: inline-flex;
   align-items: center;
 }
+
+.Textoverflow{
+ white-space: nowrap;
+ overflow: hidden;
+ text-overflow: ellipsis;
+ width:90px;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
