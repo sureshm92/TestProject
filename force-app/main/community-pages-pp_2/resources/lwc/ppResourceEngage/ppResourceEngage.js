@@ -65,16 +65,12 @@ export default class PpResourceEngage extends LightningElement {
         if (this.spinner) {
             this.spinner.show();
         }
-        
+
         if (communityService.isInitialized()) {
             this.pData = communityService.getParticipantData();
-            console.dir(JSON.parse(JSON.stringify(this.pData)));
             let data = JSON.stringify(this.pData);
-            console.log('data'+JSON.stringify(this.pData,null,2));
             await getPPResources({ participantData: data })
                 .then((result) => {
-                    console.log('abc');
-                    console.log('data2'+JSON.stringify(result,null,2));
                     this.resourcesData = result.wrappers;
                     this.resourcesFilterData = this.resourcesData[0] ? this.resourcesData : false;
                     this.isDisabled = this.resourcesData[0] ? false : true;
@@ -90,7 +86,6 @@ export default class PpResourceEngage extends LightningElement {
                     this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                 });
         }
-        
     }
     showErrorToast(titleText, messageText, variantType) {
         this.dispatchEvent(

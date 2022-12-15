@@ -18,12 +18,6 @@ public without sharing class ResourceRemote {
     @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getPPResources(String participantData) {
         try {
-            System.debug('participantData-->' + participantData);
-            ParticipantService.ParticipantState partData = (ParticipantService.ParticipantState) JSON.deserialize(
-                participantData,
-                ParticipantService.ParticipantState.class
-            );
-
             ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceArticleVideoService.getInstance()
                 .ppinit('Article;Video', participantData)
                 .getResourceWrapperContainer();
@@ -59,7 +53,7 @@ public without sharing class ResourceRemote {
                     ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
                         .ppinit('Article;Video', participantData)
                         .getResourceWrapperContainer();
-                    
+
                     resUpdates.addAll(contExplore.wrappers);
                 }
             } else if (
@@ -70,23 +64,25 @@ public without sharing class ResourceRemote {
                 ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
                     .ppinit('Article;Video', participantData)
                     .getResourceWrapperContainer();
-                
+
                 resUpdates.addAll(contExplore.wrappers);
             } else if (linkWrapper.VideoAndArticlesAreAvailable) {
                 //for participant view
                 ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
                     .ppinit('Article;Video', participantData)
                     .getResourceWrapperContainer();
-                
-              
+
                 resUpdates.addAll(contExplore.wrappers);
             }
 
             //Documents Data
             if (linkWrapper.StudyDocumentsAreAvailable) {
                 ResourceService.ResourceWrapperContainer contDocs = ResourceStudyDocumentService.getInstance()
-                .ppinit(ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT, participantData)
-                .getResourceWrapperContainer();
+                    .ppinit(
+                        ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT,
+                        participantData
+                    )
+                    .getResourceWrapperContainer();
                 contDocs.wrappers = ResourceService.removeTranslations(contDocs.wrappers);
 
                 resUpdates.addAll(contDocs.wrappers);

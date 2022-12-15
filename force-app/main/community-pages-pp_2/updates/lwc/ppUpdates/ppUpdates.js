@@ -82,7 +82,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         if (communityService.isInitialized()) {
             state = communityService.getCurrentCommunityMode().participantState;
             this.pData = communityService.getParticipantData();
-
             let data = JSON.stringify(this.pData);
 
             await getUpdateResources({ linkWrapperText: returnValue, participantData: data })
