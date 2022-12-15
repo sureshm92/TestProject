@@ -950,7 +950,7 @@
                                                                 class="slds-required">{!!v.needsGuardian ? '*' :
                                                                 ''}</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                                                         </legend>
-                                                        <lightning:input type="text" variant="label-hidden"
+                                                        <lightning:input aura:id="PhoneName" type="text" variant="label-hidden"
                                                             value="{!v.participant.Phone__c}"
                                                             required="{!!v.needsGuardian}"
                                                             disabled="{!v.enableGuardian}"
@@ -1590,7 +1590,7 @@
                                                                     ''}</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                                                             </legend>
                                                             <!-- REF-3070 - Added disabled -->
-                                                            <lightning:input type="text" variant="label-hidden"
+                                                            <lightning:input aura:id="PhoneName" type="text" variant="label-hidden"
                                                                 value="{!v.participant.Phone__c}"
                                                                 required="{!!v.needsGuardian}"
                                                                 disabled="{!v.enableGuardian}"

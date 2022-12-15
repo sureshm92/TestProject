@@ -35,6 +35,7 @@ window.communityService = (function () {
     let isMobileApp;
     let hasIQVIAStudiesPI;
     let communityName;
+    let participantData;
     const pagesWithSharedPrivacyPolicy = new Set(['my-team','new-team-member','account-settings'])
 
     //community service functions:
@@ -60,6 +61,7 @@ window.communityService = (function () {
                 eDiaryVisible = communityData.eDiaryVisible;
                 language = communityData.language;
                 participantState = communityData.state;
+                participantData = communityData.participantData;
                 baseUrl = communityData.baseUrl;
                 isInitializedFlag = true;
                 allUserModes = communityData.allUserModes;
@@ -245,6 +247,9 @@ window.communityService = (function () {
 
         getParticipantState: function(){
             return participantState;
+        },
+        getParticipantData: function(){
+            return participantData;
         },
 
         getLanguage: function(){

@@ -76,7 +76,7 @@
                                         useSentenceFont="false" />
                                 </div>
                                 <div class="slds-col slds-size--2-of-6 popup-address-inputs">
-                                    <div class="input-fields-labels">
+                                    <div class="input-fields-labels marginbottom">
                                         {!$Label.c.SS_Postal_Code}
                                     </div>
                                     <div class="rr-form-element">

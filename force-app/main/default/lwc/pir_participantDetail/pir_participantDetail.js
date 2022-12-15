@@ -730,6 +730,7 @@ export default class Pir_participantDetail extends LightningElement {
     isAdult = false;
     isNotAdult = true;
     altIsNotAdult = true;
+    showAltPhType = true;
     isAdultCal() {
         if (this.contObj && this.pd) {
             let cCode = '';
@@ -750,6 +751,14 @@ export default class Pir_participantDetail extends LightningElement {
                 adultAge = this.contObj.adultAgeByCountryStateCode[csCode];
             }
             this.isAdult = (parseInt(this.participantSelectedAge) >= parseInt(adultAge));
+            if(!this.isAdult){
+                this.pd.pe.Participant__r.Email__c = null;
+                this.pd.pe.Participant__r.Phone_Type__c = '';
+                this.pd.pe.Participant__r.Phone__c = null;
+                this.pd.pe.Participant__r.Alternative_Phone_Type__c = '';
+                this.pd.pe.Participant__r.Alternative_Phone_Number__c = null;
+                this.resetalt();
+            }
             this.isNotAdult = !this.isAdult;
             if (this.isNotAdult) {
                 this.altIsNotAdult = !this.isAdult;
@@ -767,6 +776,13 @@ export default class Pir_participantDetail extends LightningElement {
             }
             this.pd['pe']['Participant__r']['Adult__c'] = this.isAdult;
         }
+    }
+    resetalt(){
+        this.showAltPhType = false;
+        let intervalID = setTimeout(() => {
+        this.showAltPhType = true;
+           }, 2000);
+        
     }
     //date field end
     get sexAssignedBirth() {
