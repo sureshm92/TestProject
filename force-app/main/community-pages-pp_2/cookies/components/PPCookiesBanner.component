@@ -1,8 +1,8 @@
 <!--
  - Created by Leonid Bartenev
  -->
-
- <apex:component id="CookiesInfo">
+ <apex:component id="PPCookiesBanner">
+    <apex:attribute name="userMode" type="String" description="" />
     <style>
         .desk-cookies-banner {
             bottom: 0;
@@ -64,6 +64,10 @@
             text-align: center;
         }
 
+        .hide-banner {
+            display: none;
+        }
+
         @media screen and (max-width: 768px) {
             .mob-cookies-banner {
                 width: 414px;
@@ -80,47 +84,71 @@
             }
         }
     </style>
-    <div class="c-container desk-cookies-banner mob-cookies-banner">
+    <div class="c-container desk-cookies-banner mob-cookies-banner hide-banner">
         <div class="slds-grid slds-wrap">
             <div class="slds-col slds-size_12-of-12 slds-large-size_8-of-12 slds-p-around_small">
                 <div class="we-care-about-your-p">
-                    <div class="banner-heading slds-m-top_small">We care about your privacy</div>
+                    <div class="banner-heading slds-m-top_small">
+                        {!$Label.PP_Cookie_Banner_Header}
+                    </div>
                     <div class="banner-txt slds-m-top_x-small slds-show_medium">
-                        We and our partners store and/or access information on a device, such as unique IDs, in cookies to process personal data.
-                        You may accept or manage your cookie preferences, including your right to object where legitimate
-                        interest is used, or at any time in your Account Settings.
-                        <b>We and our partners process data to provide:</b>
-                        precise geolocation data. Actively scan device characteristics for identification. Store and/or access information on a device.
-                        Audience insights and product development.
+                        {!$Label.PP_Cookies_Banner_Desc1}
+                        <b>{!$Label.PP_Cookies_Banner_Desc2}</b>
+                        {!$Label.PP_Cookies_Banner_Desc3}
                     </div>
                     <div class="banner-txt slds-m-top_x-small slds-hide_medium">
-                        We and our partners store and/or access information on a device, such as unique IDs, in cookies to process personal data.
-                        You may accept or manage your cookie preferences, including your right to object where legitimate
-                        interest is used, or at any time in your Account Settings.
+                        {!$Label.PP_Cookies_Banner_Desc1}
                     </div>
                     <div class="banner-txt slds-m-vertical_xx-small slds-hide_medium">
-                        <b>We and our partners process data to provide:</b>
+                        <b>{!$Label.PP_Cookies_Banner_Desc2}</b>
                     </div>
-                    <div class="banner-txt slds-hide_medium">
-                        precise geolocation data. Actively scan device characteristics for identification. Store and/or access information on a device.
-                        Audience insights and product development.
-                    </div>
+                    <div class="banner-txt slds-hide_medium">{!$Label.PP_Cookies_Banner_Desc3}</div>
                 </div>
             </div>
-            <div class="slds-col slds-size_12-of-12 slds-large-size_4-of-12 desk-btn-margin mob-btn-center slds-p-around_small">
+            <div
+                class="slds-col slds-size_12-of-12 slds-large-size_4-of-12 desk-btn-margin mob-btn-center slds-p-around_small"
+            >
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
-                        <button class="btn-container btn-label">
-                            Accept All
-                        </button>
+                        <apex:commandButton
+                            styleClass="btn-container btn-label"
+                            value="{!$Label.PP_Cookies_Button_Accept}"
+                            onclick="closeCookiesInfo()"
+                            id="accept"
+                        />
                     </div>
-                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-m-top_large">
-                        <button class="btn-container manage">
-                            Manage preferences
-                        </button>
+                    <div
+                        class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-m-top_large"
+                    >
+                        <apex:commandButton
+                            styleClass="btn-container manage"
+                            value="{!$Label.PP_Cookies_Button_Manage_Prefer}"
+                            id="manage"
+                        />
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        var isIE =
+            navigator.appName === 'Microsoft Internet Explorer' ||
+            !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) ||
+            (typeof $.browser !== 'undefined' && $.browser.msie === 1);
+        var paramId = 'RRCookies';
+        if (!isIE) paramId = 'LSKey[c]' + paramId;
+        var rrCookies = communityService.getCookie(paramId);
+        if (!rrCookies) {
+            $('.hide-banner').removeClass('hide-banner');
+            document.body.addEventListener('click', closeCookiesInfo, false);
+            setTimeout(closeCookiesInfo, 10000);
+        }
+
+        function closeCookiesInfo() {
+            communityService.setCookie(paramId, 'agreed');
+            $('.c-container').addClass('hide-banner');
+            document.body.removeEventListener('click', closeCookiesInfo, false);
+            event.preventDefault();
+        }
+    </script>
 </apex:component>

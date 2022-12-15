@@ -79,9 +79,17 @@
     box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%), 0 4px 8px 0 rgb(7 104 253 / 32%);
     border-color: transparent;
 }
-@media screen and (max-width: 768px) {
+.login-close {
+    color: white;
+    margin-top: 16px;
+}
+@media screen and (max-width: 500px) {
     .mob-cookies-banner {
-        width: 414px;
+        width: auto;
+    }
+    .login-close {
+        margin-top: 18px;
+        margin-left: -41px;
     }
     .mob-btn-center {
         margin-top: 0 !important;
