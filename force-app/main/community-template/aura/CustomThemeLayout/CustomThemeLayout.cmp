@@ -40,11 +40,11 @@
  <aura:attribute name="isIncentive" type="Boolean" default="false" />
 
  <!-- events: -->
- <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
- <aura:handler event="c:PPMobileMenu" action="{!c.closePPMobileMenu}" />
+ <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" /> // its handing almost in many cmps
+ <aura:handler event="c:PPMobileMenu" action="{!c.closePPMobileMenu}" /> // registered in BaseLineSurveyCmp
 
  <!-- methods: -->
- <aura:method name="init" action="{!c.doInit}" access="public" />
+ <aura:method name="init" action="{!c.doInit}" access="public" /> simplifies the code needed for a parent component to call a method on a child component that it contains.
 
  <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
  <aura:if isTrue="{!v.isInitialized}">

@@ -1,8 +1,4 @@
-<!--
- - Created by Leonid Bartenev
- -->
-
-<aura:component
+<aura:component description="ppCustomThemeLayout"
                 implements="forceCommunity:themeLayout"
                 controller="CommunityFacadeRemote"
                 >
