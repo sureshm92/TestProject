@@ -29591,7 +29591,7 @@ Please contact the Study Team for further updates or please login for additional
         <value>Thank you for your interest in participating in a clinical research ##isStudyorProgram</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Patient1_New_pp</fullName>
+        <fullName>Email_Body_Patient_New_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient1 New pp</shortDescription>
@@ -29610,14 +29610,14 @@ Please contact the Study Team for further updates or please login for additional
             Your user name is ##UserName.</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Participant_Delegate_Reactivated_pp</fullName>
+        <fullName>Email_Body_Participant_Dele_Reactivated_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Participant Delegate Reactivated pp</shortDescription>
         <value>Your access as a participant delegate has changed for one or more ##studiesOrPrograms that are listed below</value>
     </labels>
     <labels>
-        <fullName>Email_Header_Patient_Dropped_Out_pp</fullName>
+        <fullName>Email_Header_Patient_Left_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Patient Dropped Out pp</shortDescription>
@@ -29638,19 +29638,19 @@ Please contact the Study Team for further updates or please login for additional
         <value>clinical trial</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Patient9_Delegate_pp</fullName>
+        <fullName>Email_Body_Patient_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9 Delegate pp</shortDescription>
         <value>The ##isStudyorProgram team has updated  ##PatientFirstName&apos;s referral status for  ##clinicalstudyorprogram ##StudyName.
 
-            To see additional information, log in to the ##ShortCommunityName.</value>
+            To see additional information, log in to the ##ShortCommunityName</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Summary_Certificate_pp</fullName>
+        <fullName>Email_summary_Certificate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Email Body Summary Certificate pp</shortDescription>
+        <shortDescription>Email Summary Certificate pp</shortDescription>
         <value>A new reward certificate for ##StudyName ##StudyorProgramHeader is  now available on the ##ShortCommunityName.   
 
             Please login to the ##ShortCommunityName to view this information.</value>
@@ -29684,13 +29684,13 @@ Please contact the Study Team for further updates or please login for additional
         Your user name is ##UserName.</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Patient9_pp</fullName>
+        <fullName>Email_Body_Patient_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9  pp</shortDescription>
         <value>The ##isStudyorProgram team has updated referral status for ##isStudyorProgram: ##StudyName.
 
-            To see additional information, log in to the ##ShortCommunityName.</value>
+            To see additional information, log in to the ##ShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Welcome_To_The_Study_pp</fullName>
@@ -29714,21 +29714,21 @@ Please contact the Study Team for further updates or please login for additional
         <value>You have been referred to a clinical research ##isStudyorProgram</value>
     </labels>
     <labels>
-        <fullName>Email_Subject_Patient_Dropped_Out_pp</fullName>
+        <fullName>Email_Subject_Patient_Dropped_Out_Program_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Patient Dropped Out pp</shortDescription>
         <value>We are sorry to see you leave your Program</value>
     </labels>
     <labels>
-        <fullName>Email_Subject_Initial_Patient_Program</fullName>
+        <fullName>Email_Subject_Initial_Patient_Program_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial Patient Program</shortDescription>
         <value>You have been referred to a program.</value>
     </labels>
     <labels>
-        <fullName>Email_Subject_Patient_Dropped_Out_Study</fullName>
+        <fullName>Email_Subject_Patient_Dropped_Out_Study_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Patient Dropped Out Study</shortDescription>
