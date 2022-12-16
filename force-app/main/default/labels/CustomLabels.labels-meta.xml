@@ -17083,6 +17083,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You are about to remove</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Mess_P1_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_PST_L_Delegates_Remove_Mess_P1_New</shortDescription>
+        <value>You are about to remove this assignment from</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_Remove_Mess_P2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17095,6 +17102,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Remove_Mess_P1</shortDescription>
         <value>as your delegate for this study. Are you sure you would like to continue?</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Mess_P3_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_PST_L_Delegates_Remove_Mess_P3_New</shortDescription>
+        <value>Are you sure you would like to continue?</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Save</fullName>
