@@ -88,7 +88,7 @@
                                                           />-->
                     </div>
                 </div>
-            </div>
+            </div> 
             
             <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
             <div class="rr-body-content rr-min-body-height">

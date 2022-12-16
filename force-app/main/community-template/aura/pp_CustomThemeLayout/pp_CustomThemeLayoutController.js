@@ -6,7 +6,7 @@
         } else {
             communityService.initialize(component);
         }
-    },
+    }, 
      
      doRefresh: function (component, event, helper) {
          helper.init(component);

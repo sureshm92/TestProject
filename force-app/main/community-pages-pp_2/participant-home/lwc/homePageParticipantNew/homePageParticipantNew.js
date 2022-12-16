@@ -35,7 +35,7 @@ export default class HomePageParticipantNew extends LightningElement {
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
 
-        Promise.all([loadStyle(this, communityPPTheme)])
+        Promise.all([loadStyle(this, communityPPTheme)]) 
                     .then(() => {
                         this.spinner = this.template.querySelector('c-web-spinner');
                         this.spinner ? this.spinner.show() : '';

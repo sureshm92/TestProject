@@ -7,7 +7,7 @@ import PRIVACY_POLICY from '@salesforce/label/c.Footer_Link_Privacy_Policy';
 import TERMS_OF_USE from '@salesforce/label/c.Footer_Link_Terms_Of_Use';
 import ABOUT_IQVIA from '@salesforce/label/c.Footer_Link_About_IQVIA';
 import COPYRIGHT from '@salesforce/label/c.Footer_T_Copyright';
-import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
+import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error'; 
 
 export default class PpCommunityFooter extends LightningElement {
     //String var
