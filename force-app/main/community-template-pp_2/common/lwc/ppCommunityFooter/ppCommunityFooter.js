@@ -1,8 +1,6 @@
 //Created by Chetna Chauhan
 import { api, LightningElement, track } from 'lwc';
 import getInitData from '@salesforce/apex/HomePageParticipantRemote.getInitData';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import PRIVACY_POLICY from '@salesforce/label/c.Footer_Link_Privacy_Policy';
@@ -37,13 +35,7 @@ export default class PpCommunityFooter extends LightningElement {
     };
 
     connectedCallback() {
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                this.initializeData();
-            })
-            .catch((error) => {
-                this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-            });
+        this.initializeData();
     }
     initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
