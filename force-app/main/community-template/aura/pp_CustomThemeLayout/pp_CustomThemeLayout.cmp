@@ -81,11 +81,11 @@
                                  src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}"
                                  />
                         </aura:if>      
-                        <c:ppCommunityModeSwitcherMenu
+                        <!--<c:ppCommunityModeSwitcherMenu
                                                           currentMode="{!v.currentMode}"
                                                           onModeChange="{!c.doRefresh}"
                                                           
-                                                          />
+                                                          />-->
                     </div>
                 </div>
             </div>
