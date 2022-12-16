@@ -163,6 +163,45 @@ private class Test_ParticipantVisitsRemote {
     }
 
     @IsTest
+    static void test2() {
+        Participant__c participant = [
+            SELECT
+                Id,
+                Name,
+                First_Name__c,
+                Last_Name__c,
+                Email__c,
+                Status__c,
+                Balance__c,
+                Contact__c,
+                Mailing_Country_Code__c,
+                Mailing_Country__c,
+                Contact__r.AccountId
+            FROM Participant__c
+            WHERE Last_Name__c = 'ParticipantTD'
+        ];
+        Participant_Enrollment__c pe = [SELECT Id,Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Participant__c =:participant.Id];
+        Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c();
+        ctp.Id = pe.Clinical_Trial_Profile__c;
+        ctp.Is_Program__c = true;
+        User participantUser = [
+            SELECT Id, ContactId, LastName
+            FROM User
+            WHERE LastName = :participant.Name
+        ];
+        Test.startTest();
+        List<PatientVisitService.VisitWrapper> participantVisits;
+        List<Patient_Visit__c> cardPatientVisits;
+        System.runAs(participantUser) {
+            participantVisits = ParticipantVisitsRemote.getParticipantVisitsAndStudyType('Current').pvList;
+            cardPatientVisits = ParticipantVisitsRemote.getCardPatientVisits();
+        }
+        Test.stopTest();
+        System.assertEquals('TestVisit1', participantVisits[0].visit.Name);
+        System.assertEquals('TestVisit1', cardPatientVisits[0].Name);
+    }
+
+    @IsTest
     static void updatePatientVisitTest() {
         Participant__c participant = [
             SELECT

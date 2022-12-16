@@ -81,7 +81,10 @@ private class Test_BasePPCommunity {
                     'lastName',
                     null
                 );
-                
+                AddPatientByPIRemote.assignParticipantPermissions(
+                    testDataInstance.ss.Id,
+                    testDataInstance.piContact.Id
+                );
                 //RH-6742 -- Extra parameters related to IQVIA outreach consenting has been added
                 AddPatientByPIRemote.saveParticipant(
                     JSON.serialize(participant),
@@ -202,6 +205,26 @@ private class Test_BasePPCommunity {
                 StudyDetailViewController.getTrialDetail(
                     testDataInstance.ctp.Id,
                     CommunityService.USER_MODE_PARTICIPANT
+                ),
+                TrialDetail.class
+            );
+        }
+        Test.stopTest();
+        System.assertEquals(true, trialDetail.pe == null ? true : false);
+    }
+
+    @IsTest
+    static void test_StudyDetailViewEventAlumni() {
+        TrialDetail trialDetail;
+        Test.startTest();
+        TestData testDataInstance = new TestData();
+        delete testDataInstance.pe;
+        System.runAs(testDataInstance.participantUser) {
+            trialDetail = (TrialDetail) JSON.deserialize(
+                StudyDetailViewController.getTrialDetail(
+                    testDataInstance.ctp.Id,
+                    CommunityService.USER_MODE_PARTICIPANT,
+                    true
                 ),
                 TrialDetail.class
             );
