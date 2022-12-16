@@ -12105,7 +12105,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>OT H Account Settings</shortDescription>
         <value>Account Settings</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Trail_Search_Update_Account_Setting</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -16955,6 +16955,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Complete tasks on my behalf</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_Compl_Task_Behalf_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Complete tasks on my behalf New</shortDescription>
+        <value>Complete tasks on your behalf</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17006,6 +17013,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>See my measurements</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_My_Measur_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My measurements New</shortDescription>
+        <value>See your measurements</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_Not_Patient_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17025,6 +17039,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Receive emails</shortDescription>
         <value>Receive emails about my study status</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Receive_Emails_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Receive emails New</shortDescription>
+        <value>Receive emails about your study status</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Delegate</fullName>
@@ -17090,6 +17111,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>See my lab results</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_See_Lab_Result_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lab result New</shortDescription>
+        <value>See your lab results</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_See_Survey_Resp</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17102,6 +17130,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>My vitals</shortDescription>
         <value>See my vitals</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_See_Vitals_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My vitals New</shortDescription>
+        <value>See your vitals</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_SuccRemove</fullName>
@@ -28880,6 +28915,14 @@ Please contact the Study Team for further updates or please login for additional
         <protected>flase</protected>
         <shortDescription>PP_NO_REMINDER</shortDescription>
         <value>No reminder</value>
+    </labels>
+    <labels>
+        <fullName>PP_NO_Active_Delegate</fullName>
+        <categories>PPCreateTask</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP_NO_Active_Delegate</shortDescription>
+        <value>No active delegates</value>
     </labels>
     <labels>
         <fullName>Upcoming_Visits_Clock</fullName>
