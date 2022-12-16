@@ -11482,6 +11482,13 @@ The expected format is REF##### to REF########</value>
         <value>eDiaries</value>
     </labels>
     <labels>
+        <fullName>My_Events</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My_Events</shortDescription>
+        <value>My Events</value>
+    </labels>    
+    <labels>
         <fullName>My_Participant</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -11593,6 +11600,13 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Navigation My Study</shortDescription>
         <value>My Study</value>
     </labels>
+    <labels>
+        <fullName>Navigation_My_Program</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation My Program</shortDescription>
+        <value>My Program</value>
+    </labels>    
     <labels>
         <fullName>Navigation_My_Study_Sites</fullName>
         <language>en_US</language>
@@ -12105,7 +12119,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>OT H Account Settings</shortDescription>
         <value>Account Settings</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Trail_Search_Update_Account_Setting</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18333,6 +18347,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>About the Study</value>
     </labels>
     <labels>
+        <fullName>PG_SW_Tab_About_The_Program</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SW Tab About The Program</shortDescription>
+        <value>About the Program</value>
+    </labels>    
+    <labels>
         <fullName>PG_SW_Tab_Lab_Results</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18402,6 +18423,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Visits tab</shortDescription>
         <value>Visits</value>
     </labels>
+    <labels>
+        <fullName>PG_SW_Tab_Events</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits tab</shortDescription>
+        <value>Events</value>
+    </labels>    
+    <labels>
+        <fullName>PG_Mobile_Title_Upcoming_Events</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UPCOMING EVENT</shortDescription>
+        <value>UPCOMING EVENT</value>
+    </labels>
+    <labels>
+        <fullName>PG_Mobile_Title_Upcoming_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UPCOMING VISIT</shortDescription>
+        <value>UPCOMING VISIT</value>
+    </labels>        
     <labels>
         <fullName>PG_SW_Title</fullName>
         <language>en_US</language>
@@ -27903,7 +27945,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You must grant microphone permission to join televisit</shortDescription>
-        <value>You must grant microphone and camera permissions to join the Televisit. Please grant permissions and Join.</value>
+        <value>You must grant microphone permission to join the Televisit. Please grant permission and Join.</value>
     </labels>
     <labels>
         <fullName>Back</fullName>
@@ -28524,6 +28566,13 @@ Please contact the Study Team for further updates or please login for additional
         <value>View Visit Details</value>
     </labels>
     <labels>
+        <fullName>View_Event_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View Event Details</shortDescription>
+        <value>View Event Details</value>
+    </labels>    
+    <labels>
         <fullName>Visit_No_Expect</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -29116,12 +29165,57 @@ Please contact the Study Team for further updates or please login for additional
         <value>study</value>
     </labels>
     <labels>
+        <fullName>Event_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Event Details</shortDescription>
+        <value>Event Details</value>
+    </labels>
+    <labels>
+        <fullName>Event_No_Expect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NO Event expectations</shortDescription>
+        <value>There are no expectations for this event</value>
+    </labels>
+    <labels>
+        <fullName>Events_No_Data_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits No Data Available</shortDescription>
+        <value>No Data is available for this event</value>
+    </labels>
+    <labels>
         <fullName>Events_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Events_PP</shortDescription>
         <value>events</value>
     </labels>
+    <labels>
+        <fullName>Event_No_Past_Event</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Event No Past Event</shortDescription>
+        <value>No past events</value>
+    </labels>    
+    <labels>
+        <fullName>Event_No_Upcoming_Event</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Event No Upcoming Event</shortDescription>
+        <value>No upcoming event</value>
+    </labels>   
+    <labels>
+        <fullName>Event_No_Upcoming_Events</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Event No Upcoming Events</shortDescription>
+        <value>No upcoming events</value>
+    </labels>       
     <labels>
         <fullName>Visits_PP</fullName>
         <language>en_US</language>
@@ -29497,7 +29591,7 @@ Please contact the Study Team for further updates or please login for additional
         <value>Thank you for your interest in participating in a clinical research ##isStudyorProgram</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Patient1_New_pp</fullName>
+        <fullName>Email_Body_Patient_New_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient1 New pp</shortDescription>
@@ -29516,14 +29610,14 @@ Please contact the Study Team for further updates or please login for additional
             Your user name is ##UserName.</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Participant_Delegate_Reactivated_pp</fullName>
+        <fullName>Email_Body_Participant_Dele_Reactivated_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Participant Delegate Reactivated pp</shortDescription>
         <value>Your access as a participant delegate has changed for one or more ##studiesOrPrograms that are listed below</value>
     </labels>
     <labels>
-        <fullName>Email_Header_Patient_Dropped_Out_pp</fullName>
+        <fullName>Email_Header_Patient_Left_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Patient Dropped Out pp</shortDescription>
@@ -29544,19 +29638,19 @@ Please contact the Study Team for further updates or please login for additional
         <value>clinical trial</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Patient9_Delegate_pp</fullName>
+        <fullName>Email_Body_Patient_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9 Delegate pp</shortDescription>
         <value>The ##isStudyorProgram team has updated  ##PatientFirstName&apos;s referral status for  ##clinicalstudyorprogram ##StudyName.
 
-            To see additional information, log in to the ##ShortCommunityName.</value>
+            To see additional information, log in to the ##ShortCommunityName</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Summary_Certificate_pp</fullName>
+        <fullName>Email_summary_Certificate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Email Body Summary Certificate pp</shortDescription>
+        <shortDescription>Email Summary Certificate pp</shortDescription>
         <value>A new reward certificate for ##StudyName ##StudyorProgramHeader is  now available on the ##ShortCommunityName.   
 
             Please login to the ##ShortCommunityName to view this information.</value>
@@ -29590,13 +29684,13 @@ Please contact the Study Team for further updates or please login for additional
         Your user name is ##UserName.</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Patient9_pp</fullName>
+        <fullName>Email_Body_Patient_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9  pp</shortDescription>
         <value>The ##isStudyorProgram team has updated referral status for ##isStudyorProgram: ##StudyName.
 
-            To see additional information, log in to the ##ShortCommunityName.</value>
+            To see additional information, log in to the ##ShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Welcome_To_The_Study_pp</fullName>
@@ -29620,21 +29714,21 @@ Please contact the Study Team for further updates or please login for additional
         <value>You have been referred to a clinical research ##isStudyorProgram</value>
     </labels>
     <labels>
-        <fullName>Email_Subject_Patient_Dropped_Out_pp</fullName>
+        <fullName>Email_Subject_Patient_Dropped_Out_Program_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Patient Dropped Out pp</shortDescription>
         <value>We are sorry to see you leave your Program</value>
     </labels>
     <labels>
-        <fullName>Email_Subject_Initial_Patient_Program</fullName>
+        <fullName>Email_Subject_Initial_Patient_Program_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial Patient Program</shortDescription>
         <value>You have been referred to a program.</value>
     </labels>
     <labels>
-        <fullName>Email_Subject_Patient_Dropped_Out_Study</fullName>
+        <fullName>Email_Subject_Patient_Dropped_Out_Study_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Patient Dropped Out Study</shortDescription>

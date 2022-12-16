@@ -2,7 +2,12 @@
     <c-web-spinner fixed="true"></c-web-spinner>
     <template if:true={contentLoaded}>
         <template if:false={isMobile}>
-            <h1 class="my-visits">{label.myVisits}</h1>
+            <template if:true={isEvent}>
+                <h1 class="my-visits">{label.myEvents}</h1>
+            </template>
+            <template if:false={isEvent}>
+                <h1 class="my-visits">{label.myVisits}</h1>
+            </template>
             <div class="slds-grid slds-wrap slds-gutters">
                 <div
                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_3-of-12 col1"
@@ -24,6 +29,7 @@
                             onpastclick={onPastClick}
                             onupcomingclick={onUpcomingClick}
                             isupcomingvisits={isUpcomingVisits}
+                            isevent={isEvent}
                         >
                         </c-pp-my-visits-list>
                     </template>
@@ -79,13 +85,23 @@
                                             class="slds-align_absolute-center no-data-is-available"
                                             style="height: 185px"
                                         >
-                                            {label.noDataAvailable}
+                                        <template if:true={isEvent}>
+                                            {label.eventNoDataAvailable}
+                                        </template>
+                                        <template if:false={isEvent}>
+                                            {label.visitNoDataAvailable}
+                                        </template>
                                         </div>
                                     </div>
                                 </template>
                             </div>
                         </div>
-                        <h1 class="what-to-expect">{label.visitdetails}</h1>
+                        <template if:true={isEvent}>
+                            <h1 class="what-to-expect">{label.eventdetails}</h1>
+                        </template>
+                        <template if:false={isEvent}>
+                            <h1 class="what-to-expect">{label.visitdetails}</h1>
+                        </template>
                         <div>
                             <div class="slds-clearfix">
                                 <div class="card-content">
@@ -128,8 +144,12 @@
             <div class="slds-grid slds-wrap slds-gutters slds-p-horizontal_x-large">
                 <!--MY VISITS SECTION-->
                 <div class="slds-col slds-size_1-of-1">
-                    <h1 class="my-visits">{label.myVisits}</h1>
-
+                    <template if:true={isEvent}>
+                        <h1 class="my-visits">{label.myEvents}</h1>
+                    </template>
+                    <template if:false={isEvent}>
+                        <h1 class="my-visits">{label.myVisits}</h1>
+                    </template>
                     <template if:true={contentLoaded}>
                         <c-pp-my-visits-list
                             pastvisits={pastVisits}
@@ -147,6 +167,7 @@
                             onpastclick={onPastClick}
                             onupcomingclick={onUpcomingClick}
                             isupcomingvisits={isUpcomingVisits}
+                            isevent={isEvent}
                         >
                         </c-pp-my-visits-list>
                     </template>
