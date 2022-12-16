@@ -40,18 +40,18 @@
                     </span>
                   </template>
                   <template if:true={bNote.Is_Read__c}>
-                   
+
                     <div class="slds-media__body notification-left" >
                       <div class="slds-media__figure" title="event">
                       <h2
                         class="slds-text-heading_small"
                       >
                         {bNote.Push_Message_Body__c}
-                    
-                        <a data-id={bNote.Id} class="notification-link-class" href={bNote.Link_to_Related_Event_or_Object__c} onclick={redirection}> 
+
+                        <a data-id={bNote.Id} data-ntype={bNote.Notification__r.Notification_Type__c} class="notification-link-class" href={bNote.Link_to_Related_Event_or_Object__c} onclick={redirection}>
                           {label.Bell_Notification_Link}</a>
                       </h2></div>
-                   
+
                       <p><lightning-formatted-date-time class="date-time" value={bNote.CreatedDate} year="numeric" month="2-digit" day="2-digit" hour="numeric" minute="2-digit" time-zone={userTimeZone}></lightning-formatted-date-time></p>
                     </div>
                   </template>
@@ -62,7 +62,7 @@
                         class="slds-text-heading_small"
                       >
                         {bNote.Push_Message_Body__c}
-                        <a data-id={bNote.Id} class="notification-link-class" href={bNote.Link_to_Related_Event_or_Object__c} onclick={redirection}
+                        <a data-id={bNote.Id} data-ntype={bNote.Notification__r.Notification_Type__c} class="notification-link-class" href={bNote.Link_to_Related_Event_or_Object__c} onclick={redirection}
                           >{label.Bell_Notification_Link}</a
                         >
                       </h2>
@@ -73,8 +73,8 @@
                   </template>
                   <span class="slds-media__figure" title="event">
                     <button  data-id={bNote.Id}
-                    onclick={removeNotification} 
-                    class="slds-button slds-button_icon slds-button_icon-container close-center close_btn" 
+                    onclick={removeNotification}
+                    class="slds-button slds-button_icon slds-button_icon-container close-center close_btn"
                     title="close">
                         <lightning-icon  icon-name="utility:close" size="xx-small" alternative-text="close" title="close"></lightning-icon>
                         <span class="slds-assistive-text">Close</span>

@@ -1,5 +1,6 @@
 import { LightningElement, api, wire } from 'lwc';
 import getListViewData from '@salesforce/apex/PIR_HomepageController.getListViewData';
+import getParticipantEnrollmentForBell from '@salesforce/apex/PIR_HomepageController.getParticipantEnrollmentForBell';
 import getAvailableStatuses from '@salesforce/apex/PIR_HomepageController.getAvailableStatuses';
 import updateParticipantStatus from '@salesforce/apex/PIR_HomepageController.updateParticipantStatus';
 import updateParticipantData from '@salesforce/apex/PIR_BulkActionController.updateParticipantData';
@@ -94,6 +95,8 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     enteredSearchString = '';
     filterWrapper= {};
     disablePresetPicklist = false;
+    isEnabled = false;
+    listOfIds = [];
 
     @api maindivcls;
     @api get fetch(){
@@ -238,12 +241,13 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         this.isCheckboxhidden=false;
         this.selectedCheckboxes=[];
         this.dropDownLabel=this.label.RPR_Actions;
-        this.dropDownChange=false;
+        if(! this.isEnabled)
+            this.dropDownChange=false;
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
             L.classList.remove("slds-p-bottom--x-small");
         });
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
-            L.classList.add("slds-p-bottom--x-large");
+            L.classList.add("slds-p-bottom--medium");
         });
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
             L.classList.remove("participantStatus");
@@ -269,6 +273,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
        this.urlrefid = this.urlStateParameters.perName || null ;
        const fNameAndLName = this.urlStateParameters.Pname || null;
        let result = null;
+       this.isEnabled= false;
        if(fNameAndLName){
         result = decodeURI(fNameAndLName);
         result = decodeURI(result);
@@ -317,7 +322,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         this.filterWrapper.studyList.push(this.urlStudyId);
        }
        if(this.urlStateParameters.status){
-        this.urlStatus = this.urlStateParameters.status;
+        this.urlStatus = decodeURI(decodeURI(this.urlStateParameters.status) );
         this.filterWrapper.status = [];
         this.filterWrapper.status.push(this.urlStatus);
         this.isResetPagination = true;
@@ -328,6 +333,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         this.dispatchEvent(selectEvent);
        }
        if(this.urlStateParameters.activeTab){
+
         if( this.srchTxt){
             this.isResetPagination = true;
             this.fetchList();
@@ -341,6 +347,27 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             detail: data
         });
         this.dispatchEvent(selectEvent);
+    }
+    else if(this.urlStateParameters.uiDisabled){
+        getParticipantEnrollmentForBell({
+            contactId : JSON.parse(sessionStorage.getItem("currContactId") ),
+            nType :  JSON.parse(sessionStorage.getItem("nType") )
+         })
+        .then(result => {
+            this.listOfIds = result;
+            this.isEnabled = true;
+            this.toggleUIFeatures(true);
+            this.totalRecordCount =-1;
+            this.isResetPagination = true;
+            this.fetchList();
+            const selectEvent = new CustomEvent('resetparent', {
+                detail: ''
+            });
+            this.dispatchEvent(selectEvent);
+        })
+        .catch(error => {
+            console.log('Error:',error);
+        });
     }
     }
     totalRecordCount = -1;
@@ -373,13 +400,11 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         this.siteIdlist.push(this.urlSiteId);
        }
        this.subscribeToMessageChannel();
-
-
     }
     rendered=false;
     renderedCallback(){
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
-            L.classList.add("slds-p-bottom--x-large");
+            L.classList.add("slds-p-bottom--medium");
         });
         if(!this.rendered){
             this.rendered=true;
@@ -458,8 +483,10 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         }
         getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount,
             sponsorName  : this.communityTemplate, filterWrapper : JSON.stringify(this.filterWrapper),isDCTFiltered: this.isDCTFiltered,
-             isPPFiltered: this.isPPFiltered, sortOn : this.sortOn, searchString :  this.enteredSearchString, sortType : this.sortType })
+            isPPFiltered: this.isPPFiltered, sortOn :  this.sortOn, searchString :  this.enteredSearchString, sortType : this.sortType,
+             isEnabled:this.isEnabled, listOfIds:this.listOfIds })
         .then(result => {
+
             if(searchCount == this.searchCounter){
                 this.sortInitialVisit = result.sortInitialVisit;
                 this.participantList = result.listViewWrapper;
@@ -839,7 +866,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         });
         if( this.dropDownLabel != 'Change Status'){
             this.template.querySelectorAll(".dropsize").forEach(function (L) {
-                L.classList.remove("slds-p-bottom--x-large");
+                L.classList.remove("slds-p-bottom--medium");
             });
             this.template.querySelectorAll(".dropsize").forEach(function (L) {
                 L.classList.add("slds-p-bottom--x-small");
@@ -1889,9 +1916,36 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     }
 
     handleMessage(message) {
+        this.isEnabled= false;
+        this.template.querySelector(".filterTextButton").classList.remove("disableclass");
+        this.template.querySelector(".actionsList").classList.remove("disableclass");
         let stateObj = JSON.parse( sessionStorage.getItem("stateObj") );
 
-        if(stateObj && stateObj.activeTab){
+        if(message && (message.sourceSystem === 'BELL_Message_on_Pending_Action' || message.sourceSystem === 'BELL_Message_on_Action_High_Priority') ){
+            getParticipantEnrollmentForBell(
+                {   contactId : message.messageToSend,
+                    nType : message.sourceSystem
+
+            })
+            .then(result => {
+                this.listOfIds = result;
+                this.isEnabled = true;
+                this.toggleUIFeatures(true);
+                this.totalRecordCount =-1;
+                this.isResetPagination = true;
+                this.fetchList();
+                const selectEvent = new CustomEvent('resetparent', {
+                    detail: ''
+                });
+                this.dispatchEvent(selectEvent);
+            })
+            .catch(error => {
+                console.log('Error:',error);
+            });
+
+
+        }
+        else if(stateObj && stateObj.activeTab){
             const fNameAndLName = stateObj.Pname || null;
             let result = null;
             if(fNameAndLName){
@@ -1961,7 +2015,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 presetName:""
               };
               if(stateObj.status){
-                this.urlStatus = stateObj.status;
+                this.urlStatus = decodeURI(decodeURI(stateObj.status) );
                 this.filterWrapper.status = [];
                 this.filterWrapper.status.push(this.urlStatus);
             }
@@ -1991,4 +2045,29 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         this.srchTxt = srval+' ';
     }
 
+    handleToggleChange(event){
+        this.toggleUIFeatures(false);
+        this.isEnabled = false;
+        this.listOfIds = [];
+        this.totalRecordCount =-1;
+        this.isResetPagination = true;
+        this.fetchList();
+        const selectEvent = new CustomEvent('resetparent', {
+            detail: ''
+        });
+        this.dispatchEvent(selectEvent);
+    }
+
+    toggleUIFeatures(isEnabled){
+        this.disabledFilter = this.disablePreset = this.disablePresetPicklist = this.dropDownChange = isEnabled;
+        if(isEnabled){
+            this.template.querySelector(".filterTextButton").classList.add("disableclass");
+            this.template.querySelector(".actionsList").classList.add("disableclass");
+
+        }
+        else{
+            this.template.querySelector(".filterTextButton").classList.remove("disableclass");
+            this.template.querySelector(".actionsList").classList.remove("disableclass");
+        }
+    }
 }

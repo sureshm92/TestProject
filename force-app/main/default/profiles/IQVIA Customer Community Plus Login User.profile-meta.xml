@@ -2233,7 +2233,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
-
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Bell_Notification_Reminder__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Ethnicity__c</field>
@@ -5352,7 +5356,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant_Enrollment__c.Subject_GUID__c </field>
+        <field>Participant_Enrollment__c.Subject_GUID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6025,7 +6029,7 @@
         <field>Participant_Enrollment__c.utmz__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment_Status_History__c.Screening_passed_after_withdrew_declined__c</field>
         <readable>true</readable>
@@ -6158,7 +6162,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant_Enrollment__c.Is_Contact_welcome_Message_Sent__c	</field>
+        <field>Participant_Enrollment__c.Is_Contact_welcome_Message_Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
