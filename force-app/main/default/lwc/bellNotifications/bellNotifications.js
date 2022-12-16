@@ -18,6 +18,7 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
   @api get sendResultsDataFromParent(){
     return this.notificationWrap;
   }
+  @api currUserContactId;
 
   @wire(MessageContext)
     messageContext;
@@ -158,7 +159,7 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
       state : result.state
     });
     sessionStorage.setItem("callFetchList", JSON.stringify(false) );
-
+    sessionStorage.setItem("nType",JSON.stringify(event.target.dataset.ntype));
     if(result.state.id &&
       result.state.siteId &&
       this.currentPageReference.attributes &&
@@ -180,6 +181,15 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
         publish(this.messageContext, messagingChannel, payload);
 
     }
+    else if(event.target.dataset.ntype === 'BELL_Message_on_Pending_Action' || event.target.dataset.ntype === 'BELL_Message_on_Action_High_Priority'){
+      sessionStorage.setItem("currContactId",JSON.stringify(this.currUserContactId) );
+      let payload = {
+        messageToSend : this.currUserContactId,
+        sourceSystem : event.target.dataset.ntype
+      };
+      publish(this.messageContext, messagingChannel, payload);
+    }
+
     if (this.notificationWrap[index].Is_Read__c == false){
         const readEvent = new CustomEvent("updatereadevent", {
           detail: {
@@ -191,6 +201,5 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
     }
     const closeOverlay = new CustomEvent("closebelloverlayevent", {});
     this.dispatchEvent(closeOverlay);
-
   }
 }

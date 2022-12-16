@@ -296,6 +296,24 @@ public class BellNotificationsHelper {
 
     }
 
+    public static Map<String, Set<String>> getContactForSites(Set<String> studySites){
+        List<Study_Site__c> lstOfStaff = new List<Study_Site__c>();
+        Map<String, Set<String>> mapofSiteVsContact = new Map<String, Set<String>>();
+
+        lstOfStaff = [SELECT ID, Principal_Investigator__c,  (SELECT Id, Site_Contact__c, Delegate_Level__c FROM Site_Staff__r WHERE is_Invited__c = TRUE) FROM Study_Site__c WHERE ID IN :studySites];
+
+        for(Study_Site__c eachRec : lstOfStaff){
+            for(Site_Staff__c eachStaff : eachRec.Site_Staff__r){
+                if(!mapofSiteVsContact.containsKey(eachRec.Id)){
+                    mapofSiteVsContact.put(eachRec.Id, new Set<String>{eachRec.Principal_Investigator__c});
+                }
+                mapofSiteVsContact.get(eachRec.Id).add(eachStaff.Site_Contact__c);
+            }
+        }
+
+        return mapofSiteVsContact;
+    }
+
     public static List<Contact> getContactGeneric(){
         List<Study_Site__c> lstOfStaff = new List<Study_Site__c>();
         Set<String> setOfUniqueContacts = new Set<String>();
