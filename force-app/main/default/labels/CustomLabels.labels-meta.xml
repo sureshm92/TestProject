@@ -29497,7 +29497,7 @@ Please contact the Study Team for further updates or please login for additional
         <value>Thank you for your interest in participating in a clinical research ##isStudyorProgram</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Patient1_New_PP</fullName>
+        <fullName>Email_Body_Patient_New_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient1 New pp</shortDescription>
