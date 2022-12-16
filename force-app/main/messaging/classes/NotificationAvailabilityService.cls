@@ -1139,8 +1139,9 @@ public without sharing class NotificationAvailabilityService {
         return true;
     }
 
-    public Boolean isUpdatedPPTemplate(String whatId) {
+    public Boolean isUpdatedPPTemplate(String whatId, String contactId) {
         Boolean isValid = false;
+        String communityTemplate;
         if (whatId != null && objectsByIds.get(Id.valueOf(whatId)) == null)
             return isValid;
         String objType = String.valueOf(((Id) whatId).getSobjectType());
@@ -1148,6 +1149,7 @@ public without sharing class NotificationAvailabilityService {
             Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                 Id.valueOf(whatId)
             );
+            communityTemplate = pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
             isValid = pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
                 CommunityTemplateService.TEMPLATE_PP
                 ? true
@@ -1156,11 +1158,13 @@ public without sharing class NotificationAvailabilityService {
             Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(
                 Id.valueOf(whatId)
             );
+            communityTemplate = ctp.CommunityTemplate__c;
             isValid = ctp.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_PP
                 ? true
                 : false;
         } else if (objType == STUDY_SITE_OBJ_NAME) {
             Study_Site__c ss = (Study_Site__c) objectsByIds.get(Id.valueOf(whatId));
+            communityTemplate = ss.Clinical_Trial_Profile__r.CommunityTemplate__c;
             isValid = ss.Clinical_Trial_Profile__r.CommunityTemplate__c ==
                 CommunityTemplateService.TEMPLATE_PP
                 ? true
@@ -1168,6 +1172,7 @@ public without sharing class NotificationAvailabilityService {
         } else if (objType == TASK_OBJ_NAME) {
             Task task = (Task) objectsByIds.get(Id.valueOf(whatId));
             if (task.Community_Template_Name__c != null) {
+                communityTemplate = task.Community_Template_Name__c;
                 isValid = task.Community_Template_Name__c == CommunityTemplateService.TEMPLATE_PP
                     ? true
                     : false;
@@ -1178,6 +1183,7 @@ public without sharing class NotificationAvailabilityService {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                     Id.valueOf(task.WhatId)
                 );
+                communityTemplate = pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
                 isValid = pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
                     CommunityTemplateService.TEMPLATE_PP
                     ? true
@@ -1186,8 +1192,19 @@ public without sharing class NotificationAvailabilityService {
         } else if (objType == SURVEY_INVITATION_OBJ_NAME) {
             SurveyInvitation surveyInv = (SurveyInvitation) objectsByIds.get(Id.valueOf(whatId));
             if (surveyInv.Participant_Enrollment__c != null) {
+                communityTemplate = surveyInv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
                 isValid = surveyInv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
                     CommunityTemplateService.TEMPLATE_PP
+                    ? true
+                    : false;
+            }
+        }
+        if (communityTemplate == null) {
+            List<String> permSet = permissionSetsByConIdMap.get(contactId);
+            CommunityTemplate communityTemp;
+            if (permSet != null) {
+                communityTemp = CommunityTemplateService.getTemplateByPermissionSetName(permSet[0]);
+                isValid = communityTemp.templateName == CommunityTemplateService.TEMPLATE_PP
                     ? true
                     : false;
             }

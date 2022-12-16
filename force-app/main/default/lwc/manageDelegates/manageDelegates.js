@@ -16,6 +16,7 @@ import PP_Delegate_Delegate from '@salesforce/label/c.PP_Delegate_Delegate';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
 import PP_Delegate_Email_Consent from '@salesforce/label/c.PP_Delegate_Email_Consent';
 import PIR_Discard from '@salesforce/label/c.PIR_Discard';
+import PP_NO_Active_Delegate from '@salesforce/label/c.PP_NO_Active_Delegate';
 //import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 import { loadScript } from 'lightning/platformResourceLoader';
 import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
@@ -95,7 +96,8 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         PP_Delegate_Delegate,
         BTN_Save,
         PP_Delegate_Email_Consent,
-        PIR_Discard
+        PIR_Discard,
+        PP_NO_Active_Delegate
     };
 
     connectedCallback() {
@@ -331,8 +333,17 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             ? 'save-del-btn addDelegateMobile'
             : 'save-del-btn btn-save-opacity addDelegateMobile';
     }
-    get delInfoFormer() {
-        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large';
+    get delInfoFormer(){
+        return this.isRTL ? 'slds-p-right_x-small' : 'slds-p-left_x-small'
+    }
+    get delInfoFormer1(){
+        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
+    }
+    get delInfoActive(){
+        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
+    }
+    get delAvararIcon(){
+        return this.isRTL ? 'slds-p-right_small slds-p-top_xx-small' : 'slds-p-left_small slds-p-top_xx-small'
     }
 
     get disableSaveButton() {

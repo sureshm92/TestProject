@@ -136,8 +136,8 @@
     background: #ecf3ff;
 }
 .eth .input-width {
-    height: 14px;
-    width: 14px;
+    height: 16px;
+    width: 16px;
 }
 .eth .slds-truncate {
     width: 100%;
@@ -146,7 +146,7 @@
 .eth .text-for-check {
     position: absolute;
     padding-left: 7px;
-    font-size: 12px;
+    font-size: 14px;
     margin-top: -2px;
     max-width: 84%;
     overflow: hidden;
@@ -236,4 +236,7 @@
   }
 .padding-placeholder{
     padding: 4px 0px 0px 22px;
+}
+.slds-media_small{
+    padding: 2px 2px 2px 2.5px !important;
 }

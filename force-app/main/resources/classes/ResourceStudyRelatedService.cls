@@ -31,7 +31,7 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
         String contentClass,
         Id ctpId
     ) {
-        this.init(resourceType, resourceId, contentClass);
+        this.init(resourceType, resourceId, contentClass,participantData);
         this.ctpId = ctpId;
         return this;
     }

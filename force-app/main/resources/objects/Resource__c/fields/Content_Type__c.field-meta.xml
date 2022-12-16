@@ -36,6 +36,11 @@
                 <default>false</default>
                 <label>Submitted Articles</label>
             </value>
+            <value>
+                <fullName>Multimedia</fullName>
+                <default>false</default>
+                <label>Multimedia</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

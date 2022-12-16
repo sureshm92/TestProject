@@ -126,7 +126,7 @@
     margin-right: 0px;
 }
 .manage-del-items {
-    margin: 24px;
+    margin: 24px 24px 0 24px;
 }
 .height-32 {
     height: 32px;
@@ -231,6 +231,7 @@
     font-weight: 600;
     background: none;
     border: none;
+    padding: 0px;
 }
 .delete-icon {
     height: 20px;
