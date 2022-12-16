@@ -12105,7 +12105,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>OT H Account Settings</shortDescription>
         <value>Account Settings</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Trail_Search_Update_Account_Setting</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27903,7 +27903,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You must grant microphone permission to join televisit</shortDescription>
-        <value>You must grant microphone and camera permissions to join the Televisit. Please grant permissions and Join.</value>
+        <value>You must grant microphone permission to join the Televisit. Please grant permission and Join.</value>
     </labels>
     <labels>
         <fullName>Back</fullName>
