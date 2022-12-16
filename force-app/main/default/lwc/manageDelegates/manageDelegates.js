@@ -334,7 +334,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             : 'save-del-btn btn-save-opacity addDelegateMobile';
     }
     get delInfoFormer(){
-        return this.isRTL ? 'slds-p-right_x-small' : 'slds-p-left_x-small'
+        return this.isRTL ? 'p-right-6' : 'p-left-6'
     }
     get delInfoFormer1(){
         return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
