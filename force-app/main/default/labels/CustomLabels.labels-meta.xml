@@ -29603,7 +29603,7 @@ Please contact the Study Team for further updates or please login for additional
             
             information about ##isEventorVisit and activities
             your ##isStudyorProgram timeline to help you keep track of your progress 
-            interesting articles and additional information about research clinical trials.
+            interesting articles and additional information about research.
             
             Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram team.
             
@@ -29621,37 +29621,37 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Patient Dropped Out pp</shortDescription>
-        <value>You have left your clinical research ##isStudyorProgram</value>
+        <value>You have left your ##StudyorProgramHeader</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient16_pp</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Patient16_pp</shortDescription>
-        <value>We are sorry to see you have decided to leave ##StudyName before the clinical ##trialorprogram was complete. Thank you for your participation.</value>
+        <value>We are sorry to see you have decided to leave ##StudyName before the  ##trialorprogram was complete. Thank you for your participation.</value>
     </labels>
     <labels>
         <fullName>Trial_pp</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Trial_pp</shortDescription>
-        <value>trial</value>
+        <value>clinical trial</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient9_Delegate_pp</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9 Delegate pp</shortDescription>
-        <value>The ##isStudyorProgram team has updated  ##PatientFirstName&apos;s referral status for clinical ##isStudyorProgram ##StudyName.
+        <value>The ##isStudyorProgram team has updated  ##PatientFirstName&apos;s referral status for  ##clinicalstudyorprogram ##StudyName.
 
-            To see additional information, log in to the ##ShortCommunityName and then go to &quot;My Studies&quot;.</value>
+            To see additional information, log in to the ##ShortCommunityName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Summary_Certificate_pp</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Summary Certificate pp</shortDescription>
-        <value>A new reward certificate from ##StudyName ##StudyorProgramHeader is  now available on the ##ShortCommunityName.   
+        <value>A new reward certificate for ##StudyName ##StudyorProgramHeader is  now available on the ##ShortCommunityName.   
 
             Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
@@ -29688,9 +29688,9 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9  pp</shortDescription>
-        <value>The ##isStudyorProgram team has updated referral status for clinical ##isStudyorProgram ##StudyName.
+        <value>The ##isStudyorProgram team has updated referral status for ##isStudyorProgram: ##StudyName.
 
-            To see additional information, log in to the ##ShortCommunityName and then go to &quot;My Studies&quot;.</value>
+            To see additional information, log in to the ##ShortCommunityName.</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Welcome_To_The_Study_pp</fullName>
@@ -29733,5 +29733,12 @@ Please contact the Study Team for further updates or please login for additional
         <protected>true</protected>
         <shortDescription>Email Subject Patient Dropped Out Study</shortDescription>
         <value>We are sorry to see you leave your clinical research study </value>
+    </labels>
+    <labels>
+        <fullName>Clinical_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Clinical Study</shortDescription>
+        <value>clinical study </value>
     </labels>
 </CustomLabels>

@@ -1,6 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import getResources from '@salesforce/apex/ResourceRemote.getResources';
+
+import getPPResources from '@salesforce/apex/ResourceRemote.getPPResources';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import ALL from '@salesforce/label/c.AF_All';
 import ARTICLES from '@salesforce/label/c.Resources_Card_Title_Articles';
@@ -64,23 +65,27 @@ export default class PpResourceEngage extends LightningElement {
         if (this.spinner) {
             this.spinner.show();
         }
-        //get all Articles/Videos together to avoid extra calls
-        await getResources({ resourceType: 'Article;Video', resourceMode: 'Default' })
-            .then((result) => {
-                this.resourcesData = result.wrappers;
-                this.resourcesFilterData = this.resourcesData[0] ? this.resourcesData : false;
-                this.isDisabled = this.resourcesData[0] ? false : true;
-                if (this.spinner) {
-                    this.spinner.hide();
-                }
-                this.isInitialized = true;
-            })
-            .catch((error) => {
-                if (this.spinner) {
-                    this.spinner.hide();
-                }
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-            });
+
+        if (communityService.isInitialized()) {
+            this.pData = communityService.getParticipantData();
+            let data = JSON.stringify(this.pData);
+            await getPPResources({ participantData: data })
+                .then((result) => {
+                    this.resourcesData = result.wrappers;
+                    this.resourcesFilterData = this.resourcesData[0] ? this.resourcesData : false;
+                    this.isDisabled = this.resourcesData[0] ? false : true;
+                    if (this.spinner) {
+                        this.spinner.hide();
+                    }
+                    this.isInitialized = true;
+                })
+                .catch((error) => {
+                    if (this.spinner) {
+                        this.spinner.hide();
+                    }
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                });
+        }
     }
     showErrorToast(titleText, messageText, variantType) {
         this.dispatchEvent(

@@ -6,20 +6,20 @@
                 <div class="bulk-import-files" style="display: inline;">
                     {BulkImport_TableHeading}
                 </div>
-               <lightning-button-menu menu-alignment="auto" alternative-text="Show menu" label="Actions"
+                <lightning-button-menu menu-alignment="auto" alternative-text="Show menu" label="Actions"
                     onselect={handleMenuItem}>
                     <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:activity"
                         label={BulkImport_Instructions} onclick={openIntructModal}>
                     </lightning-menu-item>
                     <template if:false={isMobileapp}>
                         <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:download"
-                        label={BulkImport_File_Template} href={templateFile}>
-                    </lightning-menu-item>
+                            label={BulkImport_File_Template} href={templateFile}>
+                        </lightning-menu-item>
                     </template>
                     <template if:true={isMobileapp}>
                         <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:download"
-                        label={BulkImport_File_Template} onclick={downloadFile}>
-                    </lightning-menu-item>
+                            label={BulkImport_File_Template} onclick={downloadFile}>
+                        </lightning-menu-item>
                     </template>
                     <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:file"
                         label={BulkImport_Import_Patients} onclick={openUploadModal}>
@@ -95,20 +95,21 @@
                                 <div>{BulkImport_Uploaded_On} : <lightning-formatted-date-time
                                         value={item.ContentModifiedDate}></lightning-formatted-date-time>
                                 </div>
-                                    <div title={BulkImport_Actions}>{BulkImport_Actions} :
-                                        &nbsp; &nbsp;<template if:true={item.ContentUrl}>
-                                            <template if:false={isMobileapp}>
-                                                <a href={item.ContentUrl} target="_blank">
+                                <div title={BulkImport_Actions}>{BulkImport_Actions} :
+                                    &nbsp; &nbsp;<template if:true={item.ContentUrl}>
+                                        <template if:false={isMobileapp}>
+                                            <a href={item.ContentUrl} target="_blank">
                                                 <lightning-icon icon-name="utility:download" size="x-small"
                                                     alternative-text="Download" title="Download"></lightning-icon>
                                             </a>
-                                            </template>
-                                            <template if:true={isMobileapp}>
-                                                <lightning-icon icon-name="utility:download" size="small"
-                                                alternative-text="Download" title="Download" onclick={downloadFile}> </lightning-icon>
-                                            </template>
                                         </template>
-                                    </div>
+                                        <template if:true={isMobileapp}>
+                                            <lightning-icon icon-name="utility:download" size="small"
+                                                alternative-text="Download" title="Download" onclick={downloadFile}>
+                                            </lightning-icon>
+                                        </template>
+                                    </template>
+                                </div>
                             </div>
                         </article>
                     </template>
@@ -151,10 +152,10 @@
                         </a>
                     </template>
                     <template if:true={isMobileapp}>
-                            <button class="slds-button slds-button_neutral leftMargin" onclick={downloadFile}>
-                                <img src={downloadSvgURL} />&nbsp;&nbsp;
-                                {BulkImport_File_Template}
-                            </button>
+                        <button class="slds-button slds-button_neutral leftMargin" onclick={downloadFile}>
+                            <img src={downloadSvgURL} />&nbsp;&nbsp;
+                            {BulkImport_File_Template}
+                        </button>
                     </template>
                     <!-- <button type="button" class="slds-button slds-button_neutral leftMargin" onclick={downloadFile}>
                         <img src={downloadSvgURL}/>&nbsp;&nbsp;
@@ -310,12 +311,13 @@
                                         <div>
                                             <template if:true={item.ContentUrl}>
                                                 <template if:false={isMobileapp}>
-                                                <a href={item.ContentUrl} target="_blank">
-                                                    <lightning-icon icon-name="utility:download" size="small"
-                                                        alternative-text="Download" title="Download"> </lightning-icon>
-                                                </a>
-                                               </template>
-                                               <!--<template if:true={isMobileapp}>
+                                                    <a href={item.ContentUrl} target="_blank">
+                                                        <lightning-icon icon-name="utility:download" size="small"
+                                                            alternative-text="Download" title="Download">
+                                                        </lightning-icon>
+                                                    </a>
+                                                </template>
+                                                <!--<template if:true={isMobileapp}>
                                                     <lightning-icon icon-name="utility:download" size="small"
                                                         alternative-text="Download" title="Download" onclick={downloadFile}> </lightning-icon>
                                                </template>-->
@@ -339,35 +341,58 @@
 
             <div slot="body" class="processBody">
                 <div class="slds-form-element modalBody">
-                    <div class="importInfo">
+                    <div class="importInfo Instructions">
                         <div class="header1">{BulkImport_Bulk_Import_Process}</div>
                         <span class="processTextBody">
-                           <ol type="1" class="">
-                            <li><lightning-formatted-rich-text value={RH_RP_Bulk_format}>
-                            </lightning-formatted-rich-text></li>
-                            <li><lightning-formatted-rich-text value={RH_RP_Patients}>
-                            </lightning-formatted-rich-text></li>
-                            <li><lightning-formatted-rich-text value={RH_RP_Study_Name}>
-                            </lightning-formatted-rich-text></li>
-                            <li><lightning-formatted-rich-text value={RH_RP_file}>
-                            </lightning-formatted-rich-text></li>
-                            <li><lightning-formatted-rich-text value={RH_RP_Complete_Select}>
-                            </lightning-formatted-rich-text></li>
-                            <li><lightning-formatted-rich-text value={RH_RP_Records}>
-                            </lightning-formatted-rich-text></li>
-                            <li><lightning-formatted-rich-text value={RH_RP_Referred_Tab}>
-                            </lightning-formatted-rich-text></li>
-                            <li><lightning-formatted-rich-text value={RH_RP_Rejected_Records}>
-                            </lightning-formatted-rich-text>
-                                <ol>
-                                    <li><lightning-formatted-rich-text value={RH_RP_Result_Sheet}>
-                                    </lightning-formatted-rich-text></li>
-                                    <li><lightning-formatted-rich-text value={RH_RP_Validation_Errors}>
-                                    </lightning-formatted-rich-text></li>
-                                    <li><lightning-formatted-rich-text value={RH_RP_Rejection_Reason}>
-                                    </lightning-formatted-rich-text></li>
-                                    <li><lightning-formatted-rich-text value={RH_RP_File_Name}>
-                                    </lightning-formatted-rich-text></li>
+                            <ol type="1" class="">
+                                <li>
+                                    <lightning-formatted-rich-text value={RH_RP_Bulk_format}>
+                                    </lightning-formatted-rich-text>
+                                </li>
+                                <li>
+                                    <lightning-formatted-rich-text value={RH_RP_Patients}>
+                                    </lightning-formatted-rich-text>
+                                </li>
+                                <li>
+                                    <lightning-formatted-rich-text value={RH_RP_Study_Name}>
+                                    </lightning-formatted-rich-text>
+                                </li>
+                                <li>
+                                    <lightning-formatted-rich-text value={RH_RP_file}>
+                                    </lightning-formatted-rich-text>
+                                </li>
+                                <li>
+                                    <lightning-formatted-rich-text value={RH_RP_Complete_Select}>
+                                    </lightning-formatted-rich-text>
+                                </li>
+                                <li>
+                                    <lightning-formatted-rich-text value={RH_RP_Records}>
+                                    </lightning-formatted-rich-text>
+                                </li>
+                                <li>
+                                    <lightning-formatted-rich-text value={RH_RP_Referred_Tab}>
+                                    </lightning-formatted-rich-text>
+                                </li>
+                                <li>
+                                    <lightning-formatted-rich-text value={RH_RP_Rejected_Records}>
+                                    </lightning-formatted-rich-text>
+                                    <ol>
+                                        <li>
+                                            <lightning-formatted-rich-text value={RH_RP_Result_Sheet}>
+                                            </lightning-formatted-rich-text>
+                                        </li>
+                                        <li>
+                                            <lightning-formatted-rich-text value={RH_RP_Validation_Errors}>
+                                            </lightning-formatted-rich-text>
+                                        </li>
+                                        <li>
+                                            <lightning-formatted-rich-text value={RH_RP_Rejection_Reason}>
+                                            </lightning-formatted-rich-text>
+                                        </li>
+                                        <li>
+                                            <lightning-formatted-rich-text value={RH_RP_File_Name}>
+                                            </lightning-formatted-rich-text>
+                                        </li>
                                     </ol>
                                 </li>
                             </ol>
@@ -395,16 +420,18 @@
                 <div class="slds-form-element modalBody">
                     <div class="slds-p-bottom--medium slds-p-top--medium">
                         <div>
-                            <div class="fileName"><abbr title="required" class="slds-required">*</abbr>{BulkImport_Select_Study_Here}</div>
+                            <div class="fileName"><abbr title="required"
+                                    class="slds-required">*</abbr>{BulkImport_Select_Study_Here}</div>
                             <!--<lightning-combobox value={selectedStudy}
                                 placeholder={BulkImport_Select_Study} options={studies} onchange={selectStudy}>
                             </lightning-combobox>-->
                             <select class="slds-select" id="select-01" onchange={selectStudy}>
-                                <option  key={none} value="" selected>Select</option>
-                                <template for:each = {studies} for:item="listViewItem">
-                                   <option key={listViewItem.value}  value={listViewItem.value}>{listViewItem.label}</option>
+                                <option key={none} value="" selected>Select</option>
+                                <template for:each={studies} for:item="listViewItem">
+                                    <option key={listViewItem.value} value={listViewItem.value}>{listViewItem.label}
+                                    </option>
                                 </template>
-                           </select>
+                            </select>
                         </div>
                         <div class="fileName">{BulkImport_File_Template}</div>
                         <div class="fileHolder">
