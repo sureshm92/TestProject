@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Bell_Notification_Pending_Action_PI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bell Notification Pending Action PI</shortDescription>
+        <value>You have participant(s) awaiting your action. {URL}</value>
+    </labels>
+    <labels>
+        <fullName>Bell_Notification_Pending_Action_PI_High_Priority</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bell Notification Pending Action PI	High Priority</shortDescription>
+        <value>You have participant(s) in High Priority status awaiting your action. {URL}</value>
+    </labels>
+    <labels>
         <fullName>New_Referrals_Bell_Notification_L1_PI</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -28878,7 +28892,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>version date</shortDescription>
-        <value>Version: </value>
+        <value>Version:</value>
     </labels>
     <labels>
         <fullName>PP_Email_Tech_Support</fullName>

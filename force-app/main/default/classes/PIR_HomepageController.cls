@@ -187,7 +187,9 @@ public without sharing class PIR_HomepageController {
     Boolean isDCTFiltered,
     String searchString,
     String sortOn,
-    Integer sortType
+    Integer sortType,
+    Boolean isEnabled,
+    List<String> listOfIds
   ) {
     try {
       ListViewReturnWrapper listViewReturnWrapper = new ListViewReturnWrapper();
@@ -206,7 +208,6 @@ public without sharing class PIR_HomepageController {
       String ivStartDate;
       String ivEndDate;
 
-      System.debug('filterWrapper: ' + filterWrapper);
       if (filterWrapper != null) {
         PresetWrapper response = (PresetWrapper) JSON.deserialize(
           filterWrapper,
@@ -550,7 +551,11 @@ public without sharing class PIR_HomepageController {
         }
 
         String qcString = qCountString;
-        if (isPPFiltered == true) {
+        if(isEnabled){
+
+          qcString = qcString + ' Id IN :listOfIds' ;
+        }
+        else if (isPPFiltered == true) {
           qcString = qcString + filterString + filterStringPP + sortCountQry;
         }else if(isDCTFiltered == true){
            qcString = qcString + filterString + filterStringDCT+ sortCountQry;
@@ -593,7 +598,10 @@ public without sharing class PIR_HomepageController {
         Integer limitOfRecords = (pageNumber * 10);
         List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
         String orderByString = sortOn + ' LIMIT :limitOfRecords ';
-        if (isPPFiltered == true) {
+        if(isEnabled){
+          queryString = queryString + ' Id IN :listOfIds';
+        }
+        else if (isPPFiltered == true) {
           queryString =
             queryString +
             filterString +
@@ -609,7 +617,6 @@ public without sharing class PIR_HomepageController {
           queryString = queryString + filterString + orderByString;
         }
 
-        System.debug('queryString: ' + queryString);
         perList = Database.query(queryString);
         List<Participant_Enrollment__c> perLimitList = new List<Participant_Enrollment__c>();
         for (Integer i = (limitOfRecords - 10); i < perList.size(); i++) {
@@ -625,7 +632,10 @@ public without sharing class PIR_HomepageController {
           sortOn +
           ' LIMIT 10 ' +
           ' OFFSET :offsetLimit ';
-        if (isPPFiltered == true) {
+        if(isEnabled){
+          queryString = queryString + ' Id IN :listOfIds';
+        }
+        else if (isPPFiltered == true) {
           queryString =
             queryString +
             filterString +
@@ -2717,5 +2727,113 @@ public without sharing class PIR_HomepageController {
         }
 
         return ssVisitPlansBySSId;
+    }
+
+    /*
+    * @description: this method returns list of PER Ids for Bell notification scenario
+                    where Status of PER is unchanged for more than X days
+      @storyId:
+      @param-contactId: current logged in Community user contactId
+      @param-nType: Bell Notification Type Name
+      @return: List of PER Ids
+    */
+    @AuraEnabled(cacheable=true)
+    public static List<String> getParticipantEnrollmentForBell(String contactId, String nType){
+      String communityType = UserContext.getCurrentUserMode().template.templateName;
+      List<Study_Site__c> lstOfStudySite = new List<Study_Site__c>();
+      List<Participant_Enrollment__c> lstOfPE = new List<Participant_Enrollment__c>();
+      List<String> lstOfPEIds = new List<String>();
+      List<String> listOfOverridePIReferralStatus = new List<String>{'Accepted', 'Accepted (Admin)', 'On Hold'};
+      List<String> lstOfStatus = new List<String>{'Received', 'Contact Attempted', 'Pre-review Passed', 'Successfully Contacted', 'Successfully re-engaged'};
+
+      lstOfStudySite = [SELECT Id FROM Study_Site__c
+                          WHERE (Principal_Investigator__c = :contactId OR ID IN :DelegateService.getDelegatedStudySiteIds())];
+
+      String queryString =
+      'SELECT ' +
+      'Id,' +
+      'Name,' +
+      'Participant__r.First_Name__c,' +
+      'Participant__r.Middle_Name__c,' +
+      'Participant__r.Last_Name__c,' +
+      'Participant__r.Full_Name__c,' +
+      'Participant__r.Phone__c,' +
+      'Clinical_Trial_Profile__r.Study_Code_Name__c,' +
+      'Clinical_Trial_Profile__r.Promote_to_SH__c,' +
+      'Clinical_Trial_Profile__r.Tokenization_Support__c,' +
+      'Study_Site__c,' +
+      'Study_Site__r.name,' +
+      'Study_Site__r.Study_Site_Type__c,' +
+      'Clinical_Trial_Profile__c,' +
+      'Referral_Source__c,' +
+      'HighRisk_Indicator__c,' +
+      'High_Priority__c,' +
+      'PerCounter__c,' +
+      'Participant__c,' +
+      'Participant__r.Adult__c,' +
+      'Participant__r.Email__c,' +
+      'Participant__r.Gender__c,' +
+      'Clinical_Trial_Profile__r.CommunityTemplate__c,' +
+      'Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,' +
+      'Study_Site__r.Suppress_Participant_Emails__c,' +
+      'Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,' +
+      'Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,' +
+      'Clinical_Trial_Profile__r.Bell_Notification_Reminder__c,'+
+      'Participant_Contact__r.Is_Patient_User_Created__c,' +
+      'Invited_To_PP_Date__c,' +
+      'Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,' +
+      'Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c,' +
+      'Participant__r.IsCountry_NOT_Eligible_for_Emails__c,' +
+      'Permit_IQVIA_to_contact_about_study__c,' +
+      'Participant__r.Emancipation_in_progress__c,' +
+      'Participant_Status__c,' +
+      'HCP__c,' +
+      'HCP__r.HCP_Contact__r.Name,' +
+      'PI_Contact__c,' +
+      'PI_Contact__r.Name,' +
+      'Source_Type__c,' +
+      'Study_Hub_Log__c,' +
+      'Screening_ID__c,' +
+      'Re_consent__c,' +
+      'Study_Site__r.E_Consent_Vendor__r.Name,' +
+      'IVRS_IWRS__c,' +
+      'Visit_Plan__c,' +
+      'Study_Hub_Log__r.Response_Status_Code__c,' +
+      'Is_Participant_DOB_Valid__c ,' +
+      '(' +
+      '  SELECT Id, Name, Status__c, CreatedDate, Non_Enrollment_Reason__c ' +
+      '  FROM Participant_Enrollment_Status_History__r' +
+      '  ORDER BY Name DESC' +
+      '  LIMIT 1' +
+      ' )' +
+      'FROM Participant_Enrollment__c WHERE ';
+
+      String filterString = 'Participant_Status__c IN :lstOfStatus '+
+                            'AND Study_Site__r.Override_PI_Referral_Status__c IN :listOfOverridePIReferralStatus '+
+                            'AND Initial_visit_scheduled_flag__c = false '+
+                            'AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityType '+
+                            'AND Study_Site__c = :lstOfStudySite';
+      filterString = nType == 'BELL_Message_on_Action_High_Priority' ?
+                                  filterString+ ' AND High_Priority__c = true' :
+                                  filterString;
+
+      queryString = queryString + filterString;
+
+      lstOfPE = (List<Participant_Enrollment__c>) Database.query(queryString);
+
+      for(Participant_Enrollment__c eachRec : lstOfPE){
+        for(Participant_Enrollment_Status_History__c eachStatus : eachRec.Participant_Enrollment_Status_History__r){
+          if(lstOfStatus.contains(eachStatus.Status__c) && eachRec.Participant_Status__c == eachStatus.Status__c){
+          Integer noOfDays = eachStatus.createdDate.Date().daysBetween(System.today());
+            if(eachRec.Clinical_Trial_Profile__r.Bell_Notification_Reminder__c != null && noOfDays >= eachRec.Clinical_Trial_Profile__r.Bell_Notification_Reminder__c){
+              lstOfPEIds.add(eachRec.Id);
+            }
+          }
+        }
+      }
+      if(lstOfPEIds.size() > 0){
+        return lstOfPEIds;
+      }
+      return null;
     }
 }

@@ -216,6 +216,7 @@
                                                         onremovesendresultevent="{!c.closeSendResult}"
                                                         isDelete="{!v.isDeleted}"
                                                         onclosebelloverlayevent="{!c.closeBell}"
+                                                        currUserContactId="{!v.contactId}"
                                                     ></c:bellNotifications>
 
                                                 </aura:if>

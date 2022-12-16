@@ -2283,6 +2283,11 @@
     </classAccesses>
     <custom>false</custom>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Bell_Notification_Reminder__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Is_Participant_DOB_Valid__c</field>
         <readable>true</readable>
@@ -6064,7 +6069,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant_Enrollment__c.Subject_GUID__c </field>
+        <field>Participant_Enrollment__c.Subject_GUID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6859,7 +6864,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant_Enrollment__c.Is_Contact_welcome_Message_Sent__c	</field>
+        <field>Participant_Enrollment__c.Is_Contact_welcome_Message_Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6872,7 +6877,7 @@
         <field>Participant_Enrollment__c.Is_Participant_Contact_Opt_in_SMS__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Re_consent__c</field>
         <readable>true</readable>
