@@ -148,7 +148,7 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                 new TrialDetail.StudyTab(
                     'tab-about-the-study',
                     'about-the-study',
-                    (isNewPP == true && participantState.ctp.Is_Program__c)
+                    participantState.ctp.Is_Program__c
                         ? Label.PG_SW_Tab_About_The_Program
                         : Label.PG_SW_Tab_About_The_Study,
                     defaultActions
