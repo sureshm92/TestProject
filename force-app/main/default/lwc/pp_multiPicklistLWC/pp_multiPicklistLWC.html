@@ -16,7 +16,7 @@
         <div
             class="slds-form-element__control slds-grow slds-input slds-p-around--none eBox study-box dropdown-width"
             tabindex="0"
-            onfocus={openStudy}
+            onclick={openStudy}
             onblur={closeStudy}
         >
             <div class="slds-combobox_container">
@@ -29,7 +29,7 @@
                     >
                         <div class="selectedOption">
                             <template if:true={isNoStudySelected}>
-                                <div class="padding-placeholder" contenteditable="true" placeholder={getSelectLable}></div>
+                                <div class="padding-placeholder" contenteditable="false" placeholder={getSelectLable}></div>
                             </template>
                             <template if:false={isDesktop}>
                                 <template if:true={getFirstSelecedStudy}>
