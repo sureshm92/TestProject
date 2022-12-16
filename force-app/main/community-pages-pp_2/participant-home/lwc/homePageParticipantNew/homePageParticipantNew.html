@@ -36,7 +36,7 @@
                 <template if:true={showVisitCard}>
                     <template if:false={isDelegateSelfview}>
                         <lightning-layout-item size="4" class="around-small-custom">
-                            <c-pp-home-page-visits-card desktop={desktop}>
+                            <c-pp-home-page-visits-card desktop={desktop} is-program={isProgram}>
                             </c-pp-home-page-visits-card>
                         </lightning-layout-item>
                     </template>
@@ -198,7 +198,12 @@
                                         >
                                         </c-web-icon>
                                     </div>
-                                    <p class="p-text">Visits</p>
+                                    <template if:true={isProgram}>
+                                        <p class="p-text">{label.EVENTS}</p>
+                                    </template>
+                                    <template if:false={isProgram}>
+                                        <p class="p-text">{label.VISITS}</p>
+                                    </template>
                                 </div>
                             </template>
                         </template>
@@ -223,7 +228,7 @@
             <template if:true={showVisitCard}>
                 <template if:false={isDelegateSelfview}>
                     <template if:true={showVisitCardMobile}>
-                        <c-pp-home-page-visits-card desktop={desktop}></c-pp-home-page-visits-card>
+                        <c-pp-home-page-visits-card desktop={desktop} is-program={isProgram}></c-pp-home-page-visits-card>
                     </template>
                 </template>
             </template>

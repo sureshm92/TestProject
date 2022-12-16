@@ -5,8 +5,18 @@
 public with sharing class ParticipantTrialBuilder extends TrialBuilder {
     private Participant_Enrollment__c pe;
     private string participantstate;
+    private Boolean isNewPP;
+
+    public ParticipantTrialBuilder(Boolean inputIsNewPP) {
+        isNewPP = inputIsNewPP;
+        initializeData();
+    }
 
     public ParticipantTrialBuilder() {
+        initializeData();
+    }
+
+    public void initializeData() {
         ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
         pe = ps.pe;
         participantstate = JSON.serialize(ps);
@@ -75,17 +85,32 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                 new TrialDetail.StudyTab(
                     'tab-about-the-study',
                     'about-the-study',
-                    Label.PG_SW_Tab_About_The_Study,
+                    participantState.ctp.Is_Program__c
+                        ? Label.PG_SW_Tab_About_The_Program
+                        : Label.PG_SW_Tab_About_The_Study,
                     defaultActions
                 )
             );
             tabs.add(
                 new TrialDetail.StudyTab('tab-tasks', 'task', Label.PG_SW_Tab_Tasks, backHomeAction)
             );
+            //----------Visits---------------------
             Boolean shoVi =
                 participantState.showVisits && participantState.ctp.Visits_are_Available__c;
-            if (
-                participantState.isPremium &&
+
+            if (isNewPP == true && participantState.isPremium && shoVi) {
+                        tabs.add(
+                            new TrialDetail.StudyTab(
+                                'tab-visits',
+                                'referred-patient',
+                                participantState.ctp.Is_Program__c
+                                    ? Label.PG_SW_Tab_Events
+                                    : Label.PG_SW_Tab_Visits,
+                                backHomeAction
+                            )
+                        );
+            } else if (
+                isNewPP != true && participantState.isPremium &&
                 (shoVi ||
                 (participantState.ctp.Received_Until_Consent_Is_Available__c ||
                 participantState.ctp.Enrolled_Or_Randomized_Consent_Available__c ||
@@ -97,11 +122,14 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                     new TrialDetail.StudyTab(
                         'tab-visits',
                         'referred-patient',
-                        Label.PG_SW_Tab_Visits,
+                        participantState.ctp.Is_Program__c
+                            ? Label.PG_SW_Tab_Events
+                            : Label.PG_SW_Tab_Visits,
                         backHomeAction
                     )
                 );
             }
+            //--------------Study Resource-----------------------------
             if (
                 participantState.ctp.Study_Documents_Are_Available__c ||
                 participantState.ctp.Video_And_Articles_Are_Available__c
@@ -120,7 +148,9 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                 new TrialDetail.StudyTab(
                     'tab-about-the-study',
                     'about-the-study',
-                    Label.PG_SW_Tab_About_The_Study,
+                    participantState.ctp.Is_Program__c
+                        ? Label.PG_SW_Tab_About_The_Program
+                        : Label.PG_SW_Tab_About_The_Study,
                     defaultActions
                 )
             );
@@ -132,10 +162,19 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
             tabs.add(
                 new TrialDetail.StudyTab('tab-tasks', 'task', Label.PG_SW_Tab_Tasks, backHomeAction)
             );
-            
-            /**PEH-525*/
-            if (
-                participantState.isPremium &&
+            if (isNewPP == true && participantState.isPremium && shoVi) {
+                tabs.add(
+                    new TrialDetail.StudyTab(
+                        'tab-visits',
+                        'referred-patient',
+                        participantState.ctp.Is_Program__c
+                            ? Label.PG_SW_Tab_Events
+                            : Label.PG_SW_Tab_Visits,
+                        backHomeAction
+                    )
+                );
+            } else if (
+                isNewPP != true && participantState.isPremium &&
                 (participantState.showTravelCardInPreEnrollment ||
                 participantState.ctp.Travel_Vendor_Is_Available__c ||
                 visitAvailable ||
@@ -147,7 +186,9 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                     new TrialDetail.StudyTab(
                         'tab-visits',
                         'referred-patient',
-                        Label.PG_SW_Tab_Visits,
+                        participantState.ctp.Is_Program__c
+                            ? Label.PG_SW_Tab_Events
+                            : Label.PG_SW_Tab_Visits,
                         backHomeAction
                     )
                 );
@@ -166,8 +207,9 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                     )
                 );
             }
-
             if (
+                (isNewPP != true || 
+                participantState.ctp.Is_Program__c != true) &&
                 participantState.showVisits &&
                 participantState.showResults &&
                 VisitResultsRemote.isVisitResultAvailable()
@@ -181,6 +223,7 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                     )
                 );
             }
+            
         } else {
             tabs.add(
                 new TrialDetail.StudyTab('tab-tasks', 'task', Label.PG_SW_Tab_Tasks, backHomeAction)

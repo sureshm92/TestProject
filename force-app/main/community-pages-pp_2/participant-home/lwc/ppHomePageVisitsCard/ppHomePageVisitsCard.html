@@ -181,7 +181,12 @@
                                         </template>
                                         </template>
                                         <template if:false={iconDetails}>
-                                            <div class="no-expect">{labels.NO_EXPECT}</div>
+                                            <template if:false={isProgram}>
+                                                <div class="no-expect">{labels.VISIT_NO_EXPECT}</div>
+                                            </template>
+                                            <template if:true={isProgram}>
+                                                <div class="no-expect">{labels.EVENT_NO_EXPECT}</div>
+                                            </template>
                                         </template>
                                     </article>
                                 </div>
@@ -199,9 +204,16 @@
                                     <span class="center-align">
                                         <img class="no-upcoming-img" src={empty_state} />
                                     </span>
-                                    <span class="text-colour padding-top">
-                                        {labels.No_Upcoming_Visit}
-                                    </span>
+                                    <template if:true={isProgram}>
+                                        <span class="text-colour padding-top">
+                                            {labels.No_Upcoming_Event}
+                                        </span>
+                                    </template>
+                                    <template if:false={isProgram}>
+                                        <span class="text-colour padding-top">
+                                            {labels.No_Upcoming_Visit}
+                                        </span>
+                                    </template>                                    
                                 </div>
                             </div>
                         </article>
@@ -209,27 +221,50 @@
                 </template>
                 <template if:true={isVisitAvailable}>
                     <footer class="slds-card__footer card-wrap slds-card__footer-action slds-align_absolute-center">
-                        <a
-                            class="label"
-                            href="visits"
-                            >{labels.View_Visit_Details}
-                        </a>
+                        <template if:true={isProgram}>
+                            <a
+                                class="label"
+                                href="events"
+                                >{labels.View_Event_Details}
+                            </a>
+                        </template>
+                        <template if:false={isProgram}>
+                            <a
+                                class="label"
+                                href="visits"
+                                >{labels.View_Visit_Details}
+                            </a>
+                        </template>                        
                     </footer>
                 </template>
             </article>
         </template>
         <template if:false={desktop}>
         <div class="upcoming-card slds-m-around_small">
-            <div class = "uc-text-mobile">UPCOMING VISIT</div>
+            <div class = "uc-text-mobile">
+                <template if:true={isProgram}>
+                    {labels.PG_Mobile_Title_Upcoming_Events}
+                </template>
+                <template if:false={isProgram}>
+                    {labels.PG_Mobile_Title_Upcoming_Visits}
+                </template>
+            </div>
             <template if:false={isUpcomingDetails}>
                     <article
                         class="slds-align_absolute-center container-card-no-upcoming"
                     >
                         <div class="dis-block">
                             <span class="center"><img class="no-upcoming-img" src={empty_state} /></span>
-                            <span class="text-colour slds-m-top_medium"
-                                >{labels.No_Upcoming_Visit}</span
-                            >
+                            <template if:true={isProgram}>
+                                <span class="text-colour slds-m-top_medium"
+                                    >{labels.No_Upcoming_Visit}</span
+                                >
+                            </template>
+                            <template if:false={isProgram}>
+                                <span class="text-colour slds-m-top_medium"
+                                    >{labels.No_Upcoming_Event}</span
+                                >
+                            </template>
                         </div>
                     </article>
             </template>
@@ -357,7 +392,12 @@
                     </template>
                     </template>
                     <template if:false={iconDetails}>
-                        <div class="no-expect">{labels.NO_EXPECT}</div>
+                        <template if:false={isProgram}>
+                            <div class="no-expect">{labels.VISIT_NO_EXPECT}</div>
+                        </template>
+                        <template if:true={isProgram}>
+                            <div class="no-expect">{labels.EVENT_NO_EXPECT}</div>
+                        </template>
                     </template>
                 </article>  
             </div>                         
@@ -367,12 +407,22 @@
                 <div
                     class="slds-card__footer-action slds-align_absolute-center label"
                 >
-                    <a href="visits"
-                        >{labels.View_Visit_Details}
-                        <span class="slds-assistive-text"
-                            >{labels.View_Visit_Details}</span
-                        >
-                    </a>
+                    <template if:true={isProgram}>
+                        <a href="events"
+                            >{labels.View_Event_Details}
+                            <span class="slds-assistive-text"
+                                >{labels.View_Event_Details}</span
+                            >
+                        </a>
+                    </template> 
+                    <template if:false={isProgram}>
+                        <a href="visits"
+                            >{labels.View_Visit_Details}
+                            <span class="slds-assistive-text"
+                                >{labels.View_Visit_Details}</span
+                            >
+                        </a>
+                    </template>                       
                 </div>
             </template>
         </template>
