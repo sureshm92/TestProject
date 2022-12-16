@@ -23,7 +23,7 @@
                     <!--dropdown menu -->
                     <template if:true={item.expand}>
                         <div class="slds-dropdown-trigger slds-dropdown-trigger_click  my-menu" data-key={item.label}>
-                            <a href="javascript:void(0);" aria-haspopup="true" onclick={dropdownMenu}
+                            <a href="javascript:void(0);" aria-haspopup="true" onclick={dropdownMenu} onblur={removeElementFocus} onfocusout={removeElementFocus}
                                 class="slds-text-color_inverse color-text-link-disabled slds-var-p-around_x-small">
                                 {item.label}
                                 <lightning-icon icon-name="utility:down" alternative-text="dropdown"
@@ -36,7 +36,7 @@
                                     <template for:each={submenu} for:item="subItem">
                                         <template if:true={subItem.visible}>
                                             <li class="slds-dropdown__item" role="presentation" key={subItem.label}>
-                                                <a href={subItem.link} role="menuitem" onfocusout={removeElementFocus}>
+                                                <a href={subItem.link} role="menuitem" >
                                                     <span class="slds-truncate" title={subItem.label}>{subItem.label}
                                                     </span>
                                                 </a>
