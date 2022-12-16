@@ -3,8 +3,8 @@ import { NavigationMixin } from 'lightning/navigation';
 import BTN_Add_New_Delegate from '@salesforce/label/c.Add_New_Delegate';
 import PP_ManageDelegates from '@salesforce/label/c.PP_ManageDelegates';
 import PP_Remove from '@salesforce/label/c.PP_Remove';
-import PG_PST_L_Delegates_Remove_Mess_P1 from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Mess_P1';
-import PG_PST_L_Delegates_Remove_Mess_P3 from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Mess_P3';
+import PG_PST_L_Delegates_Remove_Mess_P1_New from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Mess_P1_New';
+import PG_PST_L_Delegates_Remove_Mess_P3_New from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Mess_P3_New';
 import PG_PST_L_Delegates_Remove_Himself_Header from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Himself_Header';
 import PP_Delegate_Updated from '@salesforce/label/c.PP_Delegate_Updated';
 import PP_ActiveDelegates from '@salesforce/label/c.PP_ActiveDelegates';
@@ -84,8 +84,8 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         BTN_Add_New_Delegate,
         PP_ManageDelegates,
         PP_Remove,
-        PG_PST_L_Delegates_Remove_Mess_P1,
-        PG_PST_L_Delegates_Remove_Mess_P3,
+        PG_PST_L_Delegates_Remove_Mess_P1_New,
+        PG_PST_L_Delegates_Remove_Mess_P3_New,
         PG_PST_L_Delegates_Remove_Himself_Header,
         PP_Delegate_Updated,
         PP_ActiveDelegates,
@@ -334,7 +334,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             : 'save-del-btn btn-save-opacity addDelegateMobile';
     }
     get delInfoFormer(){
-        return this.isRTL ? 'slds-p-right_x-small' : 'slds-p-left_x-small'
+        return this.isRTL ? 'p-right-6' : 'p-left-6'
     }
     get delInfoFormer1(){
         return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
@@ -369,13 +369,13 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         //console.log('removeStudyPDEId:', this.removeStudyPDEId);
 
         this.modalMesstext =
-            this.label.PG_PST_L_Delegates_Remove_Mess_P1 +
+            this.label.PG_PST_L_Delegates_Remove_Mess_P1_New +
             ' ' +
             pdfn +
             ' ' +
             pdln +
-            ' ' +
-            this.label.PG_PST_L_Delegates_Remove_Mess_P3;
+            '. ' +
+            this.label.PG_PST_L_Delegates_Remove_Mess_P3_New;
         this.showpopup = true;
         //this.removeStudyPDEId = event.currentTarget.dataset.pdeid;
     }

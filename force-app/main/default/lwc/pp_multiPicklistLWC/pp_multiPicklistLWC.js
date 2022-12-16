@@ -29,6 +29,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     @track firstThreeselectedStudyies = [];
     subscription = null;
     //resetAll;
+    openStudyList=false;
    
 
     @wire(MessageContext)
@@ -93,10 +94,18 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         //this.template.querySelector('.eBox').blur();
     }
     openStudy() {
-        this.template.querySelector('.eBoxOpen').classList.add('slds-is-open');
+        if(!this.openStudyList){
+            this.template.querySelector('.eBoxOpen').classList.add('slds-is-open');
+            this.openStudyList=true;
+        }else{
+            this.template.querySelector('.eBoxOpen').classList.remove('slds-is-open');
+            this.openStudyList=false;
+        }
+        
     }
     closeStudy() {
         this.template.querySelector('.eBoxOpen').classList.remove('slds-is-open');
+        this.openStudyList=false;
     }
     get getFirstSelecedStudy() {
         if (this.selectedStudy) {
