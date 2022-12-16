@@ -230,7 +230,7 @@
     padding-right: 10px;
 } */
 /* placeholder code */
-[contentEditable=true]:empty:before {
+[contentEditable=false]:empty:before {
     content: attr(placeholder);
     opacity: 0.6;
   }
