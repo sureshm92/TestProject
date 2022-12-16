@@ -12,7 +12,7 @@
                         title="##EmailTemplateTitleNewTM"
                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                         signature="{!$Label.Email_Signature_Patient}">
-        <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Patient1_New_pp}"/>
+        <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Patient1_New_PP}"/>
     </c:PP_EmailWireframe>
     <c:PP_EmailWireframeText recipientId="{!relatedTo.Participant__r.Contact__c}"
                         sourceId="{!relatedTo.Id}"
@@ -21,7 +21,7 @@
                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                         signature="{!$Label.Email_Signature_Patient_Short}"
                         communityTemplate="PatientPortal">
-        <c:Paragraph emailLabel="{!$Label.Email_Body_Patient1_New_pp}"/>
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Patient1_New_PP}"/>
         <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/> 
     <c:ParticipantParagraph learnmoreLabel="{!$Label.Discover_future_Clinical_PP}"   
                             discoverLabel="{!$Label.Discover_future_Clinical_New_PP}"
@@ -34,15 +34,15 @@
 </messaging:htmlEmailBody>
 
 <messaging:plainTextEmailBody >
-    <c:EmailWireframeText recipientId="{!relatedTo.Participant__r.Contact__c}"
+    <c:PP_EmailWireframeText recipientId="{!relatedTo.Participant__r.Contact__c}"
                             sourceId="{!relatedTo.Id}"
                             header="{!$Label.Email_Header_Patient2_pp}"
                             title="##EmailTemplateTitleNewTM"
                             greeting="{!$Label.Email_User_Greeting_FirstName}"
                             signature="{!$Label.Email_Signature_Patient}">
-        <c:ParagraphText emailLabel="{!$Label.Email_Body_Patient1_New_pp}"/>
+        <c:ParagraphText emailLabel="{!$Label.Email_Body_Patient1_New_PP}"/>
         <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
-    </c:EmailWireframeText>
+    </c:PP_EmailWireframeText>
 </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>
