@@ -1195,8 +1195,9 @@
                    toggle('#tv-end-screen-container', 'slds-hide');
                 }else{
                     toggle('#call-preview-screen-container', 'slds-hide');
+                    OT.getUserMedia({videoSource: null}).then(() => {
                     OT.getUserMedia().then(() => {
-                        var publisherProperties = {showControls: false};
+                            let publisherProperties = {showControls: false, publishAudio: true, videoSource : videoSource};
                         previewPublisher = OT.initPublisher('cameraOnContainer', publisherProperties);
                         document.getElementById("microphone-toggle").disabled = false;
                         document.getElementById("camera-toggle").disabled = false;
@@ -1205,6 +1206,21 @@
                         previewPublisher.on('streamCreated', function(event) {
 
                         });
+                        }).catch((error) => {
+                            videoSource = null;
+                            let publisherProperties = {showControls: false, publishAudio: true, videoSource : videoSource};
+                            previewPublisher = OT.initPublisher('cameraOnContainer', publisherProperties);
+                            document.getElementById("toggleVideoButton").disabled = true;
+                            document.getElementById("microphone-toggle").disabled = false;
+                            //document.getElementById("camera-toggle").disabled = false;
+                            document.getElementById("tv-join-button").disabled = false;
+                            document.getElementById("tv-join-button").classList.remove("join-button-disabled");
+                            previewPublisher.on('streamCreated', function(event) {
+    
+                            });
+                        });
+                        
+                        
                     }).catch((error) => {
                         if(error.name == 'OT_USER_MEDIA_ACCESS_DENIED'){
                             let previewScreen = document.getElementById("preview-screen");
@@ -1216,6 +1232,7 @@
                         }
                     });
 
+                    
                     window.addEventListener('resize', function (event) {
                         resizeSpeakerTile();
                     });

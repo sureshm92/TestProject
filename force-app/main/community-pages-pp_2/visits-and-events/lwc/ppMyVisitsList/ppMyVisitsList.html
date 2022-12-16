@@ -116,7 +116,12 @@
                             <span class="center-align">
                                 <img src={empty_state} />
                             </span>
-                            <span class="text-colour"> {label.No_Upcoming_Visits} </span>
+                            <template if:true={isevent}>
+                                <span class="text-colour"> {label.No_Upcoming_Events} </span>
+                            </template>
+                            <template if:false={isevent}>
+                                <span class="text-colour"> {label.No_Upcoming_Visits} </span>
+                            </template>
                         </div>
                     </template>
                 </template>
@@ -182,7 +187,12 @@
                             <span class="center-align">
                                 <img src={empty_state} />
                             </span>
-                            <span class="text-colour"> {label.No_Past_Visit} </span>
+                            <template if:true={isevent}>
+                                <span class="text-colour"> {label.No_Past_Event} </span>
+                            </template>
+                            <template if:false={isevent}>
+                                <span class="text-colour"> {label.No_Past_Visit} </span>
+                            </template>
                         </div>
                     </template>
                 </template>
