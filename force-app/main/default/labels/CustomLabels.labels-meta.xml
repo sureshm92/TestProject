@@ -29523,7 +29523,7 @@ Please contact the Study Team for further updates or please login for additional
         <value>Your access as a participant delegate has changed for one or more ##studiesOrPrograms that are listed below</value>
     </labels>
     <labels>
-        <fullName>Email_Header_Patient_Dropped_Out_PP</fullName>
+        <fullName>Email_Header_Patient_Left_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Patient Dropped Out pp</shortDescription>
@@ -29544,7 +29544,7 @@ Please contact the Study Team for further updates or please login for additional
         <value>clinical trial</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Patient9_Delegate_PP</fullName>
+        <fullName>Email_Body_Patient_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9 Delegate pp</shortDescription>
@@ -29553,10 +29553,10 @@ Please contact the Study Team for further updates or please login for additional
             To see additional information, log in to the ##ShortCommunityName</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Summary_Certificate_PP</fullName>
+        <fullName>Email_summary_Certificate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Email Body Summary Certificate pp</shortDescription>
+        <shortDescription>Email Summary Certificate pp</shortDescription>
         <value>A new reward certificate for ##StudyName ##StudyorProgramHeader is  now available on the ##ShortCommunityName.   
 
             Please login to the ##ShortCommunityName to view this information.</value>
@@ -29590,7 +29590,7 @@ Please contact the Study Team for further updates or please login for additional
         Your user name is ##UserName.</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Patient9_PP</fullName>
+        <fullName>Email_Body_Patient_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9  pp</shortDescription>
