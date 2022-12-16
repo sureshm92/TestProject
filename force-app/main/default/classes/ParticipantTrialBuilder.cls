@@ -173,28 +173,25 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                         backHomeAction
                     )
                 );
-            } else {
-                /**PEH-525*/
-                if (
-                    isNewPP != true && participantState.isPremium &&
-                    (participantState.showTravelCardInPreEnrollment ||
-                    participantState.ctp.Travel_Vendor_Is_Available__c ||
-                    visitAvailable ||
-                    (participantState.ctp.Televisit_Vendor_is_Available__c &&
-                    participantState.showTeleVisits &&
-                    participantState.isTeleVendorEnabled)) //Condition for Televisits
-                ) {
-                    tabs.add(
-                        new TrialDetail.StudyTab(
-                            'tab-visits',
-                            'referred-patient',
-                            participantState.ctp.Is_Program__c
-                                ? Label.PG_SW_Tab_Events
-                                : Label.PG_SW_Tab_Visits,
-                            backHomeAction
-                        )
-                    );
-                }
+            } else if (
+                isNewPP != true && participantState.isPremium &&
+                (participantState.showTravelCardInPreEnrollment ||
+                participantState.ctp.Travel_Vendor_Is_Available__c ||
+                visitAvailable ||
+                (participantState.ctp.Televisit_Vendor_is_Available__c &&
+                participantState.showTeleVisits &&
+                participantState.isTeleVendorEnabled)) //Condition for Televisits
+            ) {
+                tabs.add(
+                    new TrialDetail.StudyTab(
+                        'tab-visits',
+                        'referred-patient',
+                        participantState.ctp.Is_Program__c
+                            ? Label.PG_SW_Tab_Events
+                            : Label.PG_SW_Tab_Visits,
+                        backHomeAction
+                    )
+                );
             }
 
             if (
