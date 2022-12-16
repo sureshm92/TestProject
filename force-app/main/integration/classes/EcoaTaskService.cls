@@ -84,7 +84,7 @@ public without sharing class EcoaTaskService {
             t.Ecoa_Task_Configuration_del__c = task.Id; // ecoa config id
             t.Remind_Using_Email__c = true;
             t.Visible_For__c = TaskService.TASK_VISIBILITY_ALL;
-            t.WhatId = task.ParticipantId__c; // Participant id
+            t.WhatId = task.Participant_Enrollment__c; // Participant Enrollment id
             t.WhoId = task.ContactId__c; // contact id
             t.Task_Type__c = TaskService.TASK_TYPE_ECOA;
             t.CreatedByAdmin__c = true;

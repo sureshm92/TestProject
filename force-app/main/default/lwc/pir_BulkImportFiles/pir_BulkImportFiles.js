@@ -1,7 +1,7 @@
 import { LightningElement, wire, track, api } from "lwc";
 import bulkicons from '@salesforce/resourceUrl/bulkicons';
 import { CurrentPageReference } from 'lightning/navigation';
-import DownloadParticipantTemplate from '@salesforce/resourceUrl/PARTICIPANTS_TEMPLATE'; 
+import DownloadParticipantTemplate from '@salesforce/resourceUrl/PARTICIPANTS_TEMPLATE';
 import AllStudy from "@salesforce/label/c.PIR_All_Study";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import AllStudySite from "@salesforce/label/c.PIR_All_Study_Site";
@@ -39,6 +39,7 @@ import BulkImport_Accepted from "@salesforce/label/c.BulkImport_Accepted";
 import BulkImport_Rejected from "@salesforce/label/c.BulkImport_Rejected";
 import BulkImport_Uploaded_By from "@salesforce/label/c.BulkImport_Uploaded_By";
 import BulkImport_Uploaded_On from "@salesforce/label/c.BulkImport_Uploaded_On";
+import BulkImport_Ok from "@salesforce/label/c.BulkImport_Ok";
 import Bulk_Actions from "@salesforce/label/c.Bulk_Actions";
 import getShowInstructValue from '@salesforce/apex/PIR_BulkImportController.getShowInstructValue';
 import getInstruction from '@salesforce/apex/PIR_BulkImportController.getInstruction';
@@ -46,17 +47,17 @@ import getBulkImportHistoryInProgress from '@salesforce/apex/PIR_BulkImportContr
 import getBulkImportHistoryCompleted from '@salesforce/apex/PIR_BulkImportController.getBulkImportHistoryCompleted';
 import getStudyStudySiteDetails from "@salesforce/apex/PIR_BulkImportController.getStudyStudySiteDetails";
 export default class Pir_BulkImportFiles extends LightningElement {
-    instructionsSvgURL = bulkicons+'/instructions.svg';
-    downloadSvgURL = bulkicons+'/Download.svg';
-    impotrtSvgURL = bulkicons+'/icon.svg';
-    fileicon=bulkicons+'/file-xls.svg';
-    importParticipant=false;
-    
+    instructionsSvgURL = bulkicons + '/instructions.svg';
+    downloadSvgURL = bulkicons + '/Download.svg';
+    impotrtSvgURL = bulkicons + '/icon.svg';
+    fileicon = bulkicons + '/file-xls.svg';
+    importParticipant = false;
+
     bulkImportList;
     bulkHistoryDataCompleted;
     bulkHistoryDataInProgress;
-    noRecords=false;
-    saving=true;
+    noRecords = false;
+    saving = true;
     totalRecord;
     currentPageReference = null;
     urlStateParameters = null;
@@ -65,33 +66,34 @@ export default class Pir_BulkImportFiles extends LightningElement {
     urltrialId = null;
     urlsiteId = null;
     @api myStudiesPg = false;
-    isInstrModalOpen=false;
+    isInstrModalOpen = false;
     showInstruction = false;
     batchStartIntervalId;
     currentBatchStatus;
     BatchReturnValue;
-    @api isBulkImportHistoryPage=false;
-    inProgressData=false;
-    @api stopSpinner=false;
-    isSpinnerRunning=false;
-    @api pageNumber=1;
+    @api isBulkImportHistoryPage = false;
+    inProgressData = false;
+    @api stopSpinner = false;
+    isSpinnerRunning = false;
+    @api pageNumber = 1;
     @api getStudy;
-    @api getStudySite=[];
+    @api getStudySite = [];
     @api studylist;
     siteAccessLevels;
     studyToStudySite;
-    studysiteaccess=false;
-    selectedSite='';
+    studysiteaccess = false;
+    selectedSite = '';
     studySiteList;
-    selectedStudy='';
-    getimportids=[];
+    selectedStudy = '';
+    getimportids = [];
     getTotalCount;
-    showToastSuccess=false;
+    showToastSuccess = false;
     oldMap = new Map();
-    inProgressOldDataid=[];
-    successBoolean=false;
+    inProgressOldDataid = [];
+    successBoolean = false;
 
-    label = {AllStudy,
+    label = {
+        AllStudy,
         AllStudySite,
         RH_BulkImportInst,
         RH_FileTemplate,
@@ -128,98 +130,97 @@ export default class Pir_BulkImportFiles extends LightningElement {
         PIR_Download,
         BTN_Close,
         RH_ShowLanding,
-        RH_ImportSuccess
+        RH_ImportSuccess,
+        BulkImport_Ok,
     };
     downloadTemplate = DownloadParticipantTemplate;
 
     get dontshowInstruction() {
-        return !this.showInstruction; 
+        return !this.showInstruction;
     }
-   
+
     connectedCallback() {
         this.getStudySiteData();
         this.getInstructionData();
     }
-    renderedCallback(){
+    renderedCallback() {
     }
-    
+
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
-       if (currentPageReference) {
-          this.urlStateParameters = currentPageReference.state;
-          this.setParametersBasedOnUrl();
-       }
+        if (currentPageReference) {
+            this.urlStateParameters = currentPageReference.state;
+            this.setParametersBasedOnUrl();
+        }
     }
-    navigateValue='';
+    navigateValue = '';
     setParametersBasedOnUrl() {
-       this.urlmyStudies = this.urlStateParameters.myStudies || null;
-       if(this.urlStateParameters.navigateFromComponent=='BulkimportHistryPage' ||
-       this.urlStateParameters.navigateFromComponent=='MyStudiesBulk' ){
-        this.isBulkImportHistoryPage=true;
-       }
-       else{
-           this.isBulkImportHistoryPage=false;
-       }
-       
-       this.urlmyParticipants = this.urlStateParameters.myParticipants || null;
-       this.urltrialId = this.urlStateParameters.trialId || null;
-       this.urlsiteId = this.urlStateParameters.ssId || null;
+        this.urlmyStudies = this.urlStateParameters.myStudies || null;
+        if (this.urlStateParameters.navigateFromComponent == 'BulkimportHistryPage' ||
+            this.urlStateParameters.navigateFromComponent == 'MyStudiesBulk') {
+            this.isBulkImportHistoryPage = true;
+        }
+        else {
+            this.isBulkImportHistoryPage = false;
+        }
 
-       if(this.urlStateParameters.navigateFromComponent=='MyStudiesBulk' || this.urlStateParameters.navigateFromComponent=='MyStudies' ||this.urlmyStudies)
-        {
-            this.navigateValue="MyStudiesBulk";
+        this.urlmyParticipants = this.urlStateParameters.myParticipants || null;
+        this.urltrialId = this.urlStateParameters.trialId || null;
+        this.urlsiteId = this.urlStateParameters.ssId || null;
+
+        if (this.urlStateParameters.navigateFromComponent == 'MyStudiesBulk' || this.urlStateParameters.navigateFromComponent == 'MyStudies' || this.urlmyStudies) {
+            this.navigateValue = "MyStudiesBulk";
         }
-        else
-        {
-            this.navigateValue="BulkimportHistryPage";
+        else {
+            this.navigateValue = "BulkimportHistryPage";
         }
-       if(this.urlmyStudies){
+        if (this.urlmyStudies) {
             this.myStudiesPg = true;
-            this.selectedStudy = this.urltrialId; 
-            this.getStudySite=this.urlsiteId;
-            this.pageNumber=1;
+            this.selectedStudy = this.urltrialId;
+            this.getStudySite = this.urlsiteId;
+            this.pageNumber = 1;
             this.updateInProgressOldData();
-       }else{
+        } else {
             this.myStudiesPg = false;
-       }
+        }
     }
 
-    getStudySiteData(){
+    getStudySiteData() {
         getStudyStudySiteDetails()
-        .then(data => {
+            .then(data => {
                 var siteAccessLevels = data.siteAccessLevels;
                 var ctpListNoAccess = [];
                 var studySiteMap = data;
                 var studylist;
                 var studyToStudySite;
                 ctpListNoAccess = data.ctpNoAccess;
-                var k = 0;var a = 0;
-                
+                var k = 0; var a = 0;
+
                 var accesslevels = Object.keys(siteAccessLevels).length;
                 if (studySiteMap.ctpMap) {
                     var conts = studySiteMap.ctpMap;
                     let options = [];
                     options.push({ label: this.label.AllStudy, value: "All Study" });
-                    var sites = studySiteMap.studySiteMap; 
+                    var sites = studySiteMap.studySiteMap;
                     for (var key in conts) {
-                        if(!ctpListNoAccess.includes(conts[key])){ 
+                        if (!ctpListNoAccess.includes(conts[key])) {
                             var temp = sites[conts[key]];
                             let z = 0;
                             for (var j in temp) {
-                                 if(accesslevels == 0){
-                                    z=z+1;
-                                    a=a+1;
-                                 }else{
+                                if (accesslevels == 0) {
+                                    z = z + 1;
+                                    a = a + 1;
+                                } else {
                                     var level = siteAccessLevels[temp[j].Id];
-                                    if(level != 'Level 3' && level != 'Level 2'){
-                                        z=z+1;
-                                        a=a+1;
+                                    if (level != 'Level 3' && level != 'Level 2') {
+                                        z = z + 1;
+                                        a = a + 1;
                                     }
-                                 }
+                                }
                             }
-                            if(z != 0){
+                            if (z != 0) {
                                 options.push({ label: key, value: conts[key] });
-                                k=k+1;
+                                k = k + 1;
                             }
                         }
                     }
@@ -228,271 +229,271 @@ export default class Pir_BulkImportFiles extends LightningElement {
                         studyToStudySite = studySiteMap.studySiteMap;
                     }
                 }
-                if(!this.myStudiesPg){
-                if(k != 0 && a != 0){
+                if (!this.myStudiesPg) {
+                    if (k != 0 && a != 0) {
                         this.studylist = studylist;
                         this.siteAccessLevels = siteAccessLevels;
                         this.studyToStudySite = studyToStudySite;
                         this.studysiteaccess = true;
-                        this.selectedStudy = this.studylist[0].value; 
-                            var picklist_Value;
-                            picklist_Value=this.selectedStudy;
-                            var accesslevels = Object.keys(this.siteAccessLevels).length;
-                            var conts = this.studyToStudySite;
-                            let options = [];
-                            options.push({ label: this.label.AllStudySite, value: "All Study Site" });
-                            var i = this.siteAccessLevels;
-                            if (picklist_Value != "All Study") {
-                                for (var key in conts) {
-                                  if (key == picklist_Value) {
+                        this.selectedStudy = this.studylist[0].value;
+                        var picklist_Value;
+                        picklist_Value = this.selectedStudy;
+                        var accesslevels = Object.keys(this.siteAccessLevels).length;
+                        var conts = this.studyToStudySite;
+                        let options = [];
+                        options.push({ label: this.label.AllStudySite, value: "All Study Site" });
+                        var i = this.siteAccessLevels;
+                        if (picklist_Value != "All Study") {
+                            for (var key in conts) {
+                                if (key == picklist_Value) {
                                     var temp = conts[key];
                                     for (var j in temp) {
-                                        if(accesslevels == 0){
+                                        if (accesslevels == 0) {
                                             options.push({ label: temp[j].Name, value: temp[j].Id });
-                                        }else{
+                                        } else {
                                             var level = this.siteAccessLevels[temp[j].Id];
-                                            if(level != 'Level 3' && level != 'Level 2'){
+                                            if (level != 'Level 3' && level != 'Level 2') {
                                                 options.push({ label: temp[j].Name, value: temp[j].Id });
                                             }
                                         }
                                     }
-                                  }
                                 }
-                              } else {
-                                for (var key in conts) {
-                                  var temp = conts[key];
-                                  for (var j in temp) {
-                                    if(accesslevels == 0){
+                            }
+                        } else {
+                            for (var key in conts) {
+                                var temp = conts[key];
+                                for (var j in temp) {
+                                    if (accesslevels == 0) {
                                         options.push({ label: temp[j].Name, value: temp[j].Id });
-                                    }else{
+                                    } else {
                                         var level = this.siteAccessLevels[temp[j].Id];
-                                        if(level != 'Level 3' && level != 'Level 2'){
+                                        if (level != 'Level 3' && level != 'Level 2') {
                                             options.push({ label: temp[j].Name, value: temp[j].Id });
                                         }
                                     }
-                                  }
                                 }
-                              }
-                              this.studySiteList = options;
-                              this.selectedSite = this.studySiteList[0].value;
-                              this.studysiteaccess = false;
-                              var getStudySiteList=[];
-                               if (this.selectedSite != null && this.selectedSite == "All Study Site") {
-                                    for (var i = 1; i < this.studySiteList.length; i++) {
-                                      getStudySiteList.push(this.studySiteList[i].value);
-                                      this.getStudySite=getStudySiteList;
-                                    }
-                                  } else if (
-                                    this.selectedSite != null &&
-                                    this.selectedSite != "All Study Site"
-                                  ) {
-                                    this.getStudySite=this.selectedSite;
-                                  }
-                               
+                            }
                         }
+                        this.studySiteList = options;
+                        this.selectedSite = this.studySiteList[0].value;
+                        this.studysiteaccess = false;
+                        var getStudySiteList = [];
+                        if (this.selectedSite != null && this.selectedSite == "All Study Site") {
+                            for (var i = 1; i < this.studySiteList.length; i++) {
+                                getStudySiteList.push(this.studySiteList[i].value);
+                                this.getStudySite = getStudySiteList;
+                            }
+                        } else if (
+                            this.selectedSite != null &&
+                            this.selectedSite != "All Study Site"
+                        ) {
+                            this.getStudySite = this.selectedSite;
+                        }
+
                     }
-                    this.fetchData();
-                    this.getLatest();
-                })
+                }
+                this.fetchData();
+                this.getLatest();
+            })
             .catch(error => {
                 this.err = error;
-                console.log('Error : '+JSON.stringify( this.err));
-                console.log('Error : '+error.message);
+                console.log('Error : ' + JSON.stringify(this.err));
+                console.log('Error : ' + error.message);
             });
-    
-        
-                
+
+
+
     }
-    
-    @api fetchData(){
-        if(!this.stopSpinner){
-        this.saving = true; 
-        this.isSpinnerRunning=true;
+
+    @api fetchData() {
+        if (!this.stopSpinner) {
+            this.saving = true;
+            this.isSpinnerRunning = true;
         }
-        getBulkImportHistoryCompleted({getStudySite:this.getStudySite, pageNumber:this.pageNumber})
-        .then(result => {
-            this.bulkHistoryDataCompleted=result.bulkHistoryDataCompleted;
-            this.totalRecord=result.totalCount;
-            const selectEvent = new CustomEvent('gettotalrecord', {
-                detail: this.totalRecord
-            });
-            this.dispatchEvent(selectEvent);
-            
-            const selectEventnew = new CustomEvent('resetpagination', {
-                detail: ''
-            });
-            this.dispatchEvent(selectEventnew);
-            if(result.bulkHistoryDataCompleted.length>0){
-                this.noRecords=false;
-                this.template.querySelectorAll(".nodata").forEach(function (L) {
-                    L.classList.remove("table-width-nodata");
+        getBulkImportHistoryCompleted({ getStudySite: this.getStudySite, pageNumber: this.pageNumber })
+            .then(result => {
+                this.bulkHistoryDataCompleted = result.bulkHistoryDataCompleted;
+                this.totalRecord = result.totalCount;
+                const selectEvent = new CustomEvent('gettotalrecord', {
+                    detail: this.totalRecord
                 });
-            }
-            else{
-                this.template.querySelectorAll(".nodata").forEach(function (L) {
-                    L.classList.add("table-width-nodata");
+                this.dispatchEvent(selectEvent);
+
+                const selectEventnew = new CustomEvent('resetpagination', {
+                    detail: ''
                 });
-                this.noRecords=true;
-            }
-            for (var i = 0; i < result.bulkHistoryDataCompleted.length; i++){
-                if(result.bulkHistoryDataCompleted[i].Rejected_Records__c!='0'){
-                    result.bulkHistoryDataCompleted[i].isRejected=true;
+                this.dispatchEvent(selectEventnew);
+                if (result.bulkHistoryDataCompleted.length > 0) {
+                    this.noRecords = false;
+                    this.template.querySelectorAll(".nodata").forEach(function (L) {
+                        L.classList.remove("table-width-nodata");
+                    });
                 }
-                else{
-                    result.bulkHistoryDataCompleted[i].isRejected=false;
+                else {
+                    this.template.querySelectorAll(".nodata").forEach(function (L) {
+                        L.classList.add("table-width-nodata");
+                    });
+                    this.noRecords = true;
                 }
-            }
+                for (var i = 0; i < result.bulkHistoryDataCompleted.length; i++) {
+                    if (result.bulkHistoryDataCompleted[i].Rejected_Records__c != '0') {
+                        result.bulkHistoryDataCompleted[i].isRejected = true;
+                    }
+                    else {
+                        result.bulkHistoryDataCompleted[i].isRejected = false;
+                    }
+                }
 
-            if(this.isSpinnerRunning){
-            this.saving = false; 
-            this.isSpinnerRunning=false;
-            this.stopSpinner=true;
-            }
-            
-            
-        })
-        .catch(error => {
-            this.saving = true; 
-            this.err = error;
-            console.log('Error : '+JSON.stringify( this.err));
-            console.log('Error : '+error.message);
-        });
-        getBulkImportHistoryInProgress({getStudySite:this.getStudySite})
-        .then(result => {
-            this.bulkHistoryDataInProgress=result;
-            var conts=result;
-            var newResultIds=[];
+                if (this.isSpinnerRunning) {
+                    this.saving = false;
+                    this.isSpinnerRunning = false;
+                    this.stopSpinner = true;
+                }
 
-            for(var key in conts){
-                newResultIds.push(conts[key].Id);
-            }
-            if(result.length>0){
-                this.inProgressData=true;
-                if(this.inProgressOldDataid==null || this.inProgressOldDataid==undefined||this.inProgressOldDataid.length==0){
-                    for(var key in conts){
-                        this.inProgressOldDataid.push(conts[key].Id);
-						 
+
+            })
+            .catch(error => {
+                this.saving = true;
+                this.err = error;
+                console.log('Error : ' + JSON.stringify(this.err));
+                console.log('Error : ' + error.message);
+            });
+        getBulkImportHistoryInProgress({ getStudySite: this.getStudySite })
+            .then(result => {
+                this.bulkHistoryDataInProgress = result;
+                var conts = result;
+                var newResultIds = [];
+
+                for (var key in conts) {
+                    newResultIds.push(conts[key].Id);
+                }
+                if (result.length > 0) {
+                    this.inProgressData = true;
+                    if (this.inProgressOldDataid == null || this.inProgressOldDataid == undefined || this.inProgressOldDataid.length == 0) {
+                        for (var key in conts) {
+                            this.inProgressOldDataid.push(conts[key].Id);
+
+                        }
+
+                    }
+                    else {
+                        var arrayLength = this.inProgressOldDataid.length;
+                        for (var i = 0; i < arrayLength; i++) {
+                            if (!newResultIds.includes(this.inProgressOldDataid[i])) {
+                                this.isToast = true;
+
+                            } else {
+                            }
+                            //Do something
+                        }
+                        this.inProgressOldDataid = newResultIds;
+
                     }
 
                 }
-                else{
-                    var arrayLength =  this.inProgressOldDataid.length;
-                    for (var i = 0; i < arrayLength; i++) {
-                      if(!newResultIds.includes(this.inProgressOldDataid[i])){
-                          this.isToast=true;
-
-                      }else{
-                      }
-                    //Do something
-                    }
-                    this.inProgressOldDataid=newResultIds;
+                else {
+                    this.inProgressData = false;
 
                 }
-				
-            }     
-            else{
-                this.inProgressData=false;
 
+                if (result.length == 0 && this.inProgressOldDataid.length != 0) {
+                    this.successBoolean = true;
+                    this.inProgressOldDataid = [];
                 }
-            
-            if(result.length==0 && this.inProgressOldDataid.length!=0){
-                this.successBoolean=true;
-                this.inProgressOldDataid=[];
-            }
 
-            if(this.isToast ||this.successBoolean){
-               this.showSuccessToast(this.label.RH_ImportSuccess);
-                this.isToast=false;
-                this.successBoolean=false;
-            }
-            
-            
-        })
-        .catch(error => {
-            this.saving = true; 
-            this.err = error;
-            console.log('Error : '+JSON.stringify( this.err));
-            console.log('Error : '+error.message);
-        });
-        
+                if (this.isToast || this.successBoolean) {
+                    this.showSuccessToast(this.label.RH_ImportSuccess);
+                    this.isToast = false;
+                    this.successBoolean = false;
+                }
+
+
+            })
+            .catch(error => {
+                this.saving = true;
+                this.err = error;
+                console.log('Error : ' + JSON.stringify(this.err));
+                console.log('Error : ' + error.message);
+            });
+
     }
 
-    @api updateInProgressOldData(){
-        this.inProgressOldDataid=[];
+    @api updateInProgressOldData() {
+        this.inProgressOldDataid = [];
     }
-    getInstructionData(){
+    getInstructionData() {
         getInstruction()
-        .then(result => {
-            this.isInstrModalOpen=false;  
-            this.showInstruction = false; 
-            if(!this.isBulkImportHistoryPage){
-            this.isInstrModalOpen=!result;  
-            this.showInstruction = !result; 
-            }
-        })
-        .catch(error => {
-            this.saving = true; 
-            this.err = error;
-            console.log('Error : '+JSON.stringify( this.err));
-            console.log('Error : '+error.message);
-        });
-       
+            .then(result => {
+                this.isInstrModalOpen = false;
+                this.showInstruction = false;
+                if (!this.isBulkImportHistoryPage) {
+                    this.isInstrModalOpen = !result;
+                    this.showInstruction = !result;
+                }
+            })
+            .catch(error => {
+                this.saving = true;
+                this.err = error;
+                console.log('Error : ' + JSON.stringify(this.err));
+                console.log('Error : ' + error.message);
+            });
+
     }
-    getLatest(){
-        this._interval = setInterval(() => {  
+    getLatest() {
+        this._interval = setInterval(() => {
             if (this.inProgressData) {
-            this.fetchData();
+                this.fetchData();
             }
             console.log('>>callback fro  batch>>');
             if (!this.inProgressData) {
-               clearInterval(this._interval);
+                clearInterval(this._interval);
                 console.log('>>cleared');
-                this.successBoolean=false;
+                this.successBoolean = false;
 
-                } 
-                
-        }, 10000); 
-     }
+            }
 
-
-    handleImportModal(){
-        this.importParticipant=true;
-       
+        }, 10000);
     }
 
-    handleImportParticipant(){
-        this.importParticipant=false;
-        this.isBulkImportHistoryPage=false;
+
+    handleImportModal() {
+        this.importParticipant = true;
+
     }
-    openIntructModal(){
+
+    handleImportParticipant() {
+        this.importParticipant = false;
+        this.isBulkImportHistoryPage = false;
+    }
+    openIntructModal() {
         this.isInstrModalOpen = true;
     }
-    handleClose(){
-        this.isInstrModalOpen=false;
+    handleClose() {
+        this.isInstrModalOpen = false;
     }
     instructionUpdate(event) {
-        this.showInstruction = !event.target.checked; 
+        this.showInstruction = !event.target.checked;
     }
     updateShowInstructValue() {
-        this.isBulkImportHistoryPage=false;
+        this.isBulkImportHistoryPage = false;
         getShowInstructValue({
-            flag: !this.showInstruction 
+            flag: !this.showInstruction
         }).then((result) => {
             this.isInstrModalOpen = false;
         });
-       
-        
+
+
     }
     showSuccessToast(messageRec) {
         const evt = new ShowToastEvent({
             title: 'Success Message',
             message: messageRec,
             variant: 'success',
-            duration:400,
+            duration: 400,
             mode: 'dismissable'
         });
         this.dispatchEvent(evt);
     }
 
-    
+
 }
