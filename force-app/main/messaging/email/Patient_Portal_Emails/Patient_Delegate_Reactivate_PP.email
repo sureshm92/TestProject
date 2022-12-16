@@ -13,7 +13,7 @@
                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                         signature="{!$Label.Email_Signature_FullName_New}"
                         communityTemplate="PatientPortal">
-<c:PP_Paragraph emailLabel="{!$Label.Email_Body_Participant_Delegate_Reactivated}"/>
+<c:PP_Paragraph emailLabel="{!$Label.Email_Body_Participant_Delegate_Reactivated_PP}"/>
         <c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}"/>
 
     </c:PP_EmailWireframe>
@@ -27,7 +27,7 @@
                             greeting="{!$Label.Email_User_Greeting_FirstName}"
                             signature="{!$Label.Email_Signature_FullName_New}"
                             communityTemplate="PatientPortal">
-        <c:ParagraphText emailLabel="{!$Label.Email_Body_Participant_Delegate_Reactivated}"/>
+        <c:ParagraphText emailLabel="{!$Label.Email_Body_Participant_Delegate_Reactivated_PP}"/>
         <c:EmailTemplateDelegateParticipantText sourceId="{!relatedTo.Id}"/>
         <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
                                 buttonURL="/s/"/>
