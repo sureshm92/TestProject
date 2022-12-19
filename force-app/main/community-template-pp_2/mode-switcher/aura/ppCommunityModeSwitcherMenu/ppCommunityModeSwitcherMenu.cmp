@@ -1,4 +1,4 @@
-<aura:component description="pp_CommunityModeSwitcherMenu" controller="CommunityModeSwitcherRemote">
+<aura:component description="ppCommunityModeSwitcherMenu" controller="CommunityModeSwitcherRemote">
     <!-- attributes: -->
     <aura:attribute name="user" type="User" access="private" />
     <aura:attribute name="communityModes" type="Object" />
