@@ -5,12 +5,14 @@ import menuMobile from './ppCommunityNavigationMobile.html';
 import navigationHelp from '@salesforce/label/c.Navigation_Help';
 import navigationHome from '@salesforce/label/c.Navigation_Home';
 import navigationMyStudy from '@salesforce/label/c.Navigation_My_Study';
+import navigationMyProgram from '@salesforce/label/c.Navigation_My_Program';
 import navigationResources from '@salesforce/label/c.Navigation_Resources';
 import navigationMessages from '@salesforce/label/c.Navigation_Messages';
 import navigationEDiary from '@salesforce/label/c.Navigation_eDiary';
 import trailMatch from '@salesforce/label/c.Trial_Match';
 import navigationResults from '@salesforce/label/c.PG_SW_Tab_Lab_Results';
 import navigationVisits from '@salesforce/label/c.PG_SW_Tab_Visits';
+import navigationEvents from '@salesforce/label/c.PG_SW_Tab_Events';
 import navigationProgram from '@salesforce/label/c.Navigation_AboutProgram';
 import navigationStudy from '@salesforce/label/c.Navigation_AboutStudy';
 import navigationTasks from '@salesforce/label/c.PG_SW_Tab_Tasks';
@@ -55,7 +57,7 @@ export default class PpCommunityNavigation extends LightningElement {
         if (communityService.isInitialized()) {
             var recId = communityService.getUrlParameter('id');
             var userMode = communityService.getUserMode();
-            getTrialDetail({ trialId: recId, userMode: userMode })
+            getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
                 .then((result) => {
                     let td = JSON.parse(result);
                     this.showVisits = td.tabs?.some(
@@ -65,6 +67,11 @@ export default class PpCommunityNavigation extends LightningElement {
                         (resultTab) => resultTab.title == navigationResults
                     );
                     this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
+                    if(this.showAboutProgram === true){
+                        this.showVisits = td.tabs?.some(
+                            (studyTab) => studyTab.title == navigationEvents
+                        );
+                    }
                     this.showAboutStudy = !this.showAboutProgram;
                     this.populateNavigationItems();
                     this.isInitialized = true;
@@ -93,7 +100,7 @@ export default class PpCommunityNavigation extends LightningElement {
             },
             'my-study': {
                 page: '',
-                label: navigationMyStudy,
+                label: this.showAboutProgram?navigationMyProgram:navigationMyStudy,
                 icon: 'about-the-study',
                 expand: true,
                 displayIcon: false
@@ -135,29 +142,36 @@ export default class PpCommunityNavigation extends LightningElement {
                 link: this.baseLink + '/pp/s/visits',
                 label: navigationVisits,
                 icon: '',
-                visible: this.showVisits,
-                parentMenu: navigationMyStudy
+                visible: this.showAboutProgram?false:this.showVisits,
+                parentMenu: this.showAboutProgram?navigationMyProgram:navigationMyStudy
+            },
+            events: {
+                link: this.baseLink + '/pp/s/events',
+                label: navigationEvents,
+                icon: '',
+                visible: this.showAboutProgram?this.showVisits:false,
+                parentMenu: this.showAboutProgram?navigationMyProgram:navigationMyStudy
             },
             results: {
                 link: this.baseLink + '/pp/s/results',
                 label: navigationResults,
                 icon: '',
                 visible: this.showResults,
-                parentMenu: navigationMyStudy
+                parentMenu: this.showAboutProgram?navigationMyProgram:navigationMyStudy
             },
             'about-study': {
                 link: this.baseLink + '/pp/s/about-study-and-overview',
                 label: navigationStudy,
                 icon: '',
                 visible: this.showAboutStudy,
-                parentMenu: navigationMyStudy
+                parentMenu: this.showAboutProgram?navigationMyProgram:navigationMyStudy
             },
             'about-program': {
                 link: this.baseLink + '/pp/s/overview',
                 label: navigationProgram,
                 icon: '',
                 visible: this.showAboutProgram,
-                parentMenu: navigationMyStudy
+                parentMenu: this.showAboutProgram?navigationMyProgram:navigationMyStudy
             }
         };
 
