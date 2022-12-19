@@ -14,7 +14,9 @@ import visitdetails from '@salesforce/label/c.Visit_Details';
 import { NavigationMixin } from 'lightning/navigation';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import No_Upcoming_Visits from '@salesforce/label/c.Visit_No_Upcoming_Visits';
+import No_Upcoming_Events from '@salesforce/label/c.Event_No_Upcoming_Events';
 import No_Past_Visit from '@salesforce/label/c.Visit_No_Past_Visit';
+import No_Past_Event from '@salesforce/label/c.Event_No_Past_Event';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
@@ -31,7 +33,9 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
         loading,
         visitdetails,
         No_Upcoming_Visits,
-        No_Past_Visit
+        No_Upcoming_Events,
+        No_Past_Visit,
+        No_Past_Event
     };
     status = {
         scheduled: 'Scheduled',
@@ -52,6 +56,7 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     @api ismobile;
     @api initialpageload;
     @api past;
+    @api isevent;
 
     @track showreminderdatepicker = false;
     @track contentLoaded = false;
