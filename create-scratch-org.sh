@@ -1,7 +1,7 @@
 #!/bin/sh
 #v2.8 PP-R12.0 RH-14.0
 echo "Clean up previous scratch org"
-sfdx force:org:delete -p
+#sfdx force:org:delete -p
 
 echo "Modifying files for scratch org"
 echo "Step 1 - Move current files to scratch-org-files/original-files"
