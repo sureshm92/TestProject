@@ -42,6 +42,13 @@
                                     show-visit-section={showvisitsection}
                                 ></c-pp-link-updates>
                             </div>
+                            <div if:true={res.isMultimedia} key={res}>
+                                <c-pp-explore-updates
+                                    explore-data={res}
+                                    desktop={desktop}
+                                    show-visit-section={showvisitsection}
+                                ></c-pp-explore-updates>
+                            </div>
                         </template>
                     </div>
                     <div
@@ -98,6 +105,13 @@
                                         show-visit-section={showvisitsection}
                                     ></c-pp-link-updates>
                                 </div>
+                                <div if:true={res.isMultimedia} key={res}>
+                                    <c-pp-explore-updates
+                                        explore-data={res}
+                                        desktop={desktop}
+                                        show-visit-section={showvisitsection}
+                                    ></c-pp-explore-updates>
+                                </div>
                             </template>
                         </div>
                     </div>
@@ -143,6 +157,13 @@
                                 desktop={desktop}
                                 show-visit-section={showvisitsection}
                             ></c-pp-link-updates>
+                        </div>
+                        <div if:true={res.isMultimedia} key={res}>
+                            <c-pp-explore-updates
+                                explore-data={res}
+                                desktop={desktop}
+                                show-visit-section={showvisitsection}
+                            ></c-pp-explore-updates>
                         </div>
                     </template>
                 </div>
