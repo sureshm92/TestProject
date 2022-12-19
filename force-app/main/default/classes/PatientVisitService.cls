@@ -14,6 +14,27 @@ public inherited sharing class PatientVisitService {
         return this.getVisitWrappers(visitMode, null);
     }
 
+    public PatientVisitsAndEvent getVisitWrappersAndStudyType(String visitMode) {
+        ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(
+                ParticipantService.class
+            ))
+            .getState();
+        if (pState == null || pState.pe == null || !pState.showVisits){
+            return null;
+        }
+        PatientVisitsAndEvent pvAndEvent = new PatientVisitsAndEvent();
+        pvAndEvent.pvList = this.getVisitWrappers(this.getVisitsData(pState,visitMode, null,null));
+        pvAndEvent.isEvent = pState.pe.Clinical_Trial_Profile__r.Is_Program__c;
+        return pvAndEvent;
+    }
+
+    public class PatientVisitsAndEvent{
+        @AuraEnabled
+        public List<VisitWrapper> pvList;
+        @AuraEnabled
+        public Boolean isEvent= false;
+    }
+
     public List<VisitWrapper> getVisitWrappers(String visitMode, Integer limitNumber) {
         return this.getVisitWrappers(this.getVisits(visitMode, limitNumber));
     }
@@ -34,9 +55,13 @@ public inherited sharing class PatientVisitService {
                 ParticipantService.class
             ))
             .getState();
-        if (pState == null || pState.pe == null || !pState.showVisits)
+        if (pState == null || pState.pe == null || !pState.showVisits){
             return null;
+        }
+        return getVisitsData(pState, visitMode, limitNumber, additionalFields);
+    }
 
+    private List<Patient_Visit__c> getVisitsData(ParticipantService.ParticipantState pState, String visitMode, Integer limitNumber, List<String> additionalFields){
         List<String> fields = new List<String>{
             'Completed_Date__c',
             'Is_Adhoc__c',

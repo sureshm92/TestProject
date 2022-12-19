@@ -3,12 +3,16 @@ import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getIn
 import DEVICE from '@salesforce/client/formFactor';
 // importing Custom Label
 import PPWELCOME from '@salesforce/label/c.PP_Welcome';
+import VISITS from '@salesforce/label/c.PG_SW_Tab_Visits';
+import EVENTS from '@salesforce/label/c.PG_SW_Tab_Events';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import { loadStyle } from 'lightning/platformResourceLoader';
 
 export default class HomePageParticipantNew extends LightningElement {
     label = {
-        PPWELCOME
+        PPWELCOME,
+        VISITS,
+        EVENTS
     };
     counter;
     displayCounter = false;
@@ -67,7 +71,7 @@ export default class HomePageParticipantNew extends LightningElement {
                             this.isProgram = this.clinicalrecord.Is_Program__c;
 
                             this.showVisitCard =
-                                this.clinicalrecord.Visits_are_Available__c &&
+                                this.clinicalrecord.Patient_Portal_Enabled__c && this.clinicalrecord.Visits_are_Available__c &&
                                 res.pvCount != null &&
                                 res.pvCount != undefined &&
                                 res.pvCount > 0;

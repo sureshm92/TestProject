@@ -1,5 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
-import getParticipantVisits from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisits';
+import getParticipantVisits from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsAndStudyType';
 import getParticipantVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsDetails';
 import getSiteAddress from '@salesforce/apex/ParticipantVisitsRemote.getSiteAddress';
 import basePathName from '@salesforce/community/basePath';
@@ -8,7 +8,8 @@ import noVisitsLabel from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Enter
 import getIcon from '@salesforce/apex/ParticipantVisitsRemote.getVisitIconsbyName';
 import WTELabel from '@salesforce/label/c.Home_Page_StudyVisit_WhToEx';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
-import noDataAvailable from '@salesforce/label/c.Visits_No_Data_Available';
+import visitNoDataAvailable from '@salesforce/label/c.Visits_No_Data_Available';
+import eventNoDataAvailable from '@salesforce/label/c.Events_No_Data_Available';
 import upcoming from '@salesforce/label/c.Visits_Upcoming';
 import past from '@salesforce/label/c.Visits_Past';
 import results from '@salesforce/label/c.Visit_Result';
@@ -16,8 +17,10 @@ import resultsCheck from '@salesforce/label/c.Visit_Check_Result';
 import viewAllResults from '@salesforce/label/c.Visits_View_All_Results';
 import visitUnavailable from '@salesforce/label/c.Study_Visit_Unavailable';
 import myVisits from '@salesforce/label/c.My_Visits';
+import myEvents from '@salesforce/label/c.My_Events';
 import loading from '@salesforce/label/c.Loading';
 import visitdetails from '@salesforce/label/c.Visit_Details';
+import eventdetails from '@salesforce/label/c.Event_Details';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import formFactor from '@salesforce/client/formFactor';
@@ -26,7 +29,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     label = {
         noVisitsLabel,
         WTELabel,
-        noDataAvailable,
+        visitNoDataAvailable,
+        eventNoDataAvailable,
         upcoming,
         past,
         results,
@@ -34,8 +38,10 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         viewAllResults,
         visitUnavailable,
         myVisits,
+        myEvents,
         loading,
-        visitdetails
+        visitdetails,
+        eventdetails
     };
     status = {
         scheduled: 'Scheduled',
@@ -70,7 +76,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track upcomingVisitId;
     @track selectedIndex = 0;
     @track initialPageLoad = false;
-    isResultsCard = true;
+    @track isResultsCard = true;
     initialized = '';
     visitWrappers = [];
     @api icondetails = [];
@@ -90,7 +96,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track showList = false;
     isMobile = false;
     hasRendered = false;
-
+    @track isEvent = false;
     isUpcomingVisits = true;
     isPastVisits = true;
     column2 = 'col2';
@@ -102,9 +108,12 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         getParticipantVisits({
             visitMode: this.visitMode
         })
-            .then((result) => {
+            .then((pvResult) => {
                 this.template.querySelector('c-web-spinner').show();
                 this.visitTimezone = TIME_ZONE;
+                var result = pvResult.pvList;
+                this.isEvent = pvResult.isEvent;
+                this.isResultsCard = (this.isEvent !=true);
                 if (result.length > 0) {
                     for (let i = 0; i < result.length; i++) {
                         if (
@@ -326,7 +335,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.isResultsCard = false;
             } else {
                 this.visitStatus = this.pastVisits[index].visit.Status__c;
-                this.isResultsCard = true;
+                if(this.isEvent !=true){
+                    this.isResultsCard = true;
+                }
             }
         } else {
             this.visitid = this.upcomingVisits[index].visit.Id;
@@ -349,9 +360,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     }
 
     redirectPage(visitid) {
-        this.visitdetailurl =
-            window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
-
+        if(this.isEvent){
+            this.visitdetailurl =
+                window.location.origin + basePathName + '/event-details' + '?eventid=' + visitid;            
+        }else{
+            this.visitdetailurl =
+                window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
+        }
         console.log('visitdetailurl:: ', this.visitdetailurl);
 
         const config = {
