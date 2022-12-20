@@ -141,6 +141,8 @@
 
 .profileIcon .rr-icon_default {
     fill: #ffffff;
+    margin-right: 5px;
+    width: 30px!important;
 }
 
 @media (max-width: 500px) {
