@@ -77,18 +77,21 @@
         communityService.navigateToPage('help');
     },
     onClickBell: function(component){
-        if(!component.get('v.isBellEnabled')) {
+      if((!component.get('v.isBellEnabled') && component.get('v.isBellClosed')) ||
+            (!component.get('v.isBellEnabled') && !component.get('v.isBellClosed'))){
             component.set('v.isBellEnabled', true);
         } else {
             component.set('v.isBellEnabled', false);
-        }
+            component.set('v.isBellClosed', false);
+            }
     },
 
     onBlurBell: function(component){
-        if(!component.get('v.isBellEnabled')) {
+        if(!component.get('v.isBellEnabled') && component.get('v.isBellClosed')) {
             component.set('v.isBellEnabled', true);
         } else {
-            component.set('v.isBellEnabled', false);
+        	component.set('v.isBellEnabled', false);
+            component.set('v.isBellClosed', false);
         }
    },
 
