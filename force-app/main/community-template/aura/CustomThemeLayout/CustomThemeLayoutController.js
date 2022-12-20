@@ -22,6 +22,7 @@
     },
 
     doRefresh: function (component, event, helper) {
+        window.location.reload();
         helper.init(component);
         if (component.get('v.communityName') !== 'IQVIA Patient Portal') {
             component.find('navigation').refresh();

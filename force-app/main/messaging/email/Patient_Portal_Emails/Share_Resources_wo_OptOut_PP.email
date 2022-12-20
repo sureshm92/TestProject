@@ -1,0 +1,38 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Share_Content}"
+                        recipientType="Contact"
+                        relatedToType="Resource__c"
+                        language="{!recipient.Language__c}">
+
+<messaging:htmlEmailBody >
+    <c:PP_EmailWireframe recipientId="{!recipient.Id}"
+                        recipientName="{!$Label.Email_Guest}"
+                        recipientLanguage="{!recipient.Language__c}"
+                        OptOut="No"
+                        sourceId="{!relatedTo.Id}"
+                        isPreBodyButton="true"
+                        preBodyButtonName="{!$Label.Email_Label_View_Information}"
+                        header="{!$Label.Email_Header_Share_PH}"
+                        title="{!$Label.Email_Title_PH}"
+                        greeting="{!$Label.Email_Ext_User_Greeting}"
+                        signature="{!$Label.Email_Signature_Resource}">
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Share_Resource}"/>
+    </c:PP_EmailWireframe>
+</messaging:htmlEmailBody>
+
+<messaging:plainTextEmailBody >
+    <c:PP_EmailWireframeText recipientId="{!recipient.Id}"
+                            recipientName="{!$Label.Email_Guest}"
+                            OptOut="No"
+                            recipientLanguage="{!recipient.Language__c}"
+                            sourceId="{!relatedTo.Id}"
+                            header="{!$Label.Email_Header_Share_PH}"
+                            title="{!$Label.Email_Title_PH}"
+                            greeting="{!$Label.Email_Ext_User_Greeting}"
+                            signature="{!$Label.Email_Signature_Resource}">
+        <c:ParagraphText emailLabel="{!$Label.Email_Body_Share_Resource}"/>
+        <c:EmailActionBtnText buttonLabel="{!$Label.Email_Label_View_Information}"
+                                buttonURL="{!relatedTo.article_external_link__c }"/>
+    </c:PP_EmailWireframeText>
+</messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>

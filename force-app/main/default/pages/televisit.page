@@ -1,4 +1,4 @@
-<apex:page
+<apex:page 
     controller="OpenTokClientController"
     showHeader="false"
     sidebar="false"
@@ -20,24 +20,24 @@
     <link id="themeCSS" href="{!$Resource.Community_CSS_Stub}" rel="stylesheet" type="text/css" />
     <apex:form>
         <apex:actionPoller action="{!maintainSession}" interval="180" />
-        <apex:actionFunction
+        <apex:actionFunction 
             name="rerenderControllerValues"
             action="{!rerenderControllerValues}"
             rerender="controller-values"
         />
-        <apex:actionFunction
+        <apex:actionFunction 
             name="updateSharingUserName"
             action="{!updateSharingUserName}"
             rerender="screen-sharing-username-text"
         />
-        <apex:actionFunction
+        <apex:actionFunction 
             name="updateAttendees"
             action="{!updateAttendees}"
             rerender="participant-list,attendee-list"
         >
             <apex:param name="attendeesJson" assignTo="{!attendeesJson}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction
+        <apex:actionFunction 
             name="validateAttendeeEmail"
             action="{!validateAttendeeEmail}"
             rerender="controller-values"
@@ -45,14 +45,14 @@
         >
             <apex:param name="attendeeEmailAddress" assignTo="{!attendeeEmailAddress}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction
+        <apex:actionFunction 
             name="extendedMeetingInterval"
             action="{!extendedMeetingInterval}"
             rerender="jspanel,televisitBanner,controller-values"
         >
             <apex:param name="meetingInterval" assignTo="{!meetingInterval}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction
+        <apex:actionFunction 
             name="fetchUpdatedTelevisitDetails"
             action="{!fetchUpdatedTelevisitDetails}"
             rerender="jspanel,televisitBanner,controller-values"
@@ -78,7 +78,7 @@
                     if(existingOption!=null && existingOption.text != 'Extend Call')
                     select.appendChild(option);
                     else
-                    	existingOption.selected = 'true';
+                        existingOption.selected = 'true';
                 }
 
                 var bc = new BroadcastChannel('{!sessionId}');
@@ -1195,16 +1195,32 @@
                    toggle('#tv-end-screen-container', 'slds-hide');
                 }else{
                     toggle('#call-preview-screen-container', 'slds-hide');
-                    OT.getUserMedia().then(() => {
-                        var publisherProperties = {showControls: false};
-                        previewPublisher = OT.initPublisher('cameraOnContainer', publisherProperties);
-                        document.getElementById("microphone-toggle").disabled = false;
-                        document.getElementById("camera-toggle").disabled = false;
-                        document.getElementById("tv-join-button").disabled = false;
-                        document.getElementById("tv-join-button").classList.remove("join-button-disabled");
-                        previewPublisher.on('streamCreated', function(event) {
-
+                    OT.getUserMedia({videoSource: null}).then(() => {
+                        OT.getUserMedia().then(() => {
+                            let publisherProperties = {showControls: false, publishAudio: true, videoSource : videoSource};
+                            previewPublisher = OT.initPublisher('cameraOnContainer', publisherProperties);
+                            document.getElementById("microphone-toggle").disabled = false;
+                            document.getElementById("camera-toggle").disabled = false;
+                            document.getElementById("tv-join-button").disabled = false;
+                            document.getElementById("tv-join-button").classList.remove("join-button-disabled");
+                            previewPublisher.on('streamCreated', function(event) {
+    
+                            });
+                        }).catch((error) => {
+                            videoSource = null;
+                            let publisherProperties = {showControls: false, publishAudio: true, videoSource : videoSource};
+                            previewPublisher = OT.initPublisher('cameraOnContainer', publisherProperties);
+                            document.getElementById("toggleVideoButton").disabled = true;
+                            document.getElementById("microphone-toggle").disabled = false;
+                            //document.getElementById("camera-toggle").disabled = false;
+                            document.getElementById("tv-join-button").disabled = false;
+                            document.getElementById("tv-join-button").classList.remove("join-button-disabled");
+                            previewPublisher.on('streamCreated', function(event) {
+    
+                            });
                         });
+                        
+                        
                     }).catch((error) => {
                         if(error.name == 'OT_USER_MEDIA_ACCESS_DENIED'){
                             let previewScreen = document.getElementById("preview-screen");
@@ -1216,6 +1232,7 @@
                         }
                     });
 
+                    
                     window.addEventListener('resize', function (event) {
                         resizeSpeakerTile();
                     });
@@ -2748,7 +2765,7 @@
 
                                     <div id="screen-sharing-username-text">
                                         <apex:outputPanel id="screen-sharing-username-text">
-                                            <apex:outputText
+                                            <apex:outputText 
                                                 value="{!$Label.ScreenSharePublisherUsernameText}"
                                             >
                                                 <apex:param value="{!sharingUserName}" />
@@ -2815,7 +2832,8 @@
                                                     />
                                                 </svg>
                                             </button>
-                                            <button
+                                            <button 
+                                                id="toggleVideoButton"
                                                 class="slds-col button--video slds-button-circle button_white"
                                                 type="button"
                                                 onclick="toggleVideo();"
