@@ -1569,7 +1569,7 @@
         </fields>
         <fields>
             <name>Article_External_Link_field_recordtypeArticle</name>
-            <fieldText>Article External Link</fieldText>
+            <fieldText>External Link</fieldText>
             <fieldType>LargeTextArea</fieldType>
             <isRequired>false</isRequired>
         </fields>
@@ -1846,7 +1846,7 @@
         </fields>
         <fields>
             <name>Article_External_Link_field_recordtypeMultimedia</name>
-            <fieldText>Multimedia External Link</fieldText>
+            <fieldText>External Link</fieldText>
             <fieldType>LargeTextArea</fieldType>
             <isRequired>false</isRequired>
         </fields>
@@ -2451,7 +2451,7 @@
         </fields>
         <fields>
             <name>Article_External_Link_field_recordtypeArticle_0</name>
-            <fieldText>Article External Link</fieldText>
+            <fieldText>External Link</fieldText>
             <fieldType>LargeTextArea</fieldType>
             <isRequired>false</isRequired>
         </fields>
