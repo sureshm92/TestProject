@@ -55,7 +55,7 @@
     <aura:attribute name="unreadSendResultId" type="String" />
     <aura:attribute name="closeSendResultId" type="String" />
     <aura:attribute name="isDeleted" type="Boolean" default="false" />
-
+    <aura:attribute name="resetBell" type="Boolean" default="false" />
 
 
  <!-- events: -->
@@ -182,6 +182,7 @@
                                  <aura:if isTrue="{!v.currentMode.userMode == 'PI'}">
                                         <!--custom bell notifications-->
                                         <aura:if isTrue="{!not(v.reset)}">
+                                            <aura:if isTrue="{!v.resetBell}">
                                             <c:OverlayForBell class="menu-block menuheight" aura:id="overlay">
                                                 <aura:set attribute="title">
                                                     <div
@@ -221,6 +222,7 @@
 
                                                 </aura:if>
                                             </c:OverlayForBell>
+                                            </aura:if>
                                         </aura:if>
                                         <!--custom bell notifications-->
                                     </aura:if>
