@@ -204,7 +204,6 @@ window.communityService = (function () {
             if(page) redirectURL += '/s/' + page;
             if(!init && !isDummy && mode.template.needRedirect) document.location.href = redirectURL;
             service.setThemeCSS();
-            //if(currentUserMode.template.communityName != 'IQVIA Patient Portal')  
         },
 
         getMessagesVisible : function () {
