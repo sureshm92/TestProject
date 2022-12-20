@@ -118,6 +118,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                             resObj.isExplore = true;
                         } else if (resObj.resource.Content_Type__c == 'Study_Document') {
                             resObj.isDoc = true;
+                        } else if (resObj.resource.Content_Type__c == 'Multimedia') {
+                            resObj.isMultimedia = true;
                         } else {
                             resObj.isLink = true;
                         }
