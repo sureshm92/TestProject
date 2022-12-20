@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Email_Template_Delegate__c</field>
-        <value xsi:type="xsd:string">Patient9_Referral_Status_Update_Delegate</value>
+        <value xsi:type="xsd:string">Patient9_Referral_Status_Update_Del</value>
     </values>
     <values>
         <field>Email_Template__c</field>

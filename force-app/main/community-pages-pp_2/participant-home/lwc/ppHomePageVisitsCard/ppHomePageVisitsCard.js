@@ -8,10 +8,15 @@ import UPCOMING from '@salesforce/label/c.Televisit_Upcoming';
 import MORE from '@salesforce/label/c.PIR_more';
 import NO_DATE from '@salesforce/label/c.PP_Date_Unavailable';
 import NO_TIME from '@salesforce/label/c.PP_Time_Unavailable';
-import NO_EXPECT from '@salesforce/label/c.Visit_No_Expect';
+import VISIT_NO_EXPECT from '@salesforce/label/c.Visit_No_Expect';
+import EVENT_NO_EXPECT from '@salesforce/label/c.Event_No_Expect';
 import View_Visit_Details from '@salesforce/label/c.View_Visit_Details';
+import View_Event_Details from '@salesforce/label/c.View_Event_Details';
+import PG_Mobile_Title_Upcoming_Visits from '@salesforce/label/c.PG_Mobile_Title_Upcoming_Visits';
+import PG_Mobile_Title_Upcoming_Events from '@salesforce/label/c.PG_Mobile_Title_Upcoming_Events';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import No_Upcoming_Visit from '@salesforce/label/c.Visit_No_Upcoming_Visit';
+import No_Upcoming_Event from '@salesforce/label/c.Event_No_Upcoming_Event';
 import visit_clock from '@salesforce/label/c.Upcoming_Visits_Clock';
 import visit_calendar from '@salesforce/label/c.Upcoming_Visit_calendar';
 import Upcoming_Visit_Location from '@salesforce/label/c.Upcoming_Visit_Location';
@@ -27,6 +32,7 @@ export default class HomePageVisitsCard extends LightningElement {
     moreIconsCount;
     @track upcomingVisit;
     @api desktop;
+    @api isProgram;
     userTimeZone = TIME_ZONE;
     isInitialized = false;
     labels = {
@@ -34,13 +40,18 @@ export default class HomePageVisitsCard extends LightningElement {
         UPCOMING,
         MORE,
         View_Visit_Details,
+        View_Event_Details,
         NO_DATE,
         NO_TIME,
-        NO_EXPECT,
+        VISIT_NO_EXPECT,
+        EVENT_NO_EXPECT,
         No_Upcoming_Visit,
         visit_clock,
         visit_calendar,
-        Upcoming_Visit_Location
+        Upcoming_Visit_Location,
+        No_Upcoming_Event,
+        PG_Mobile_Title_Upcoming_Visits,
+        PG_Mobile_Title_Upcoming_Events
     };
 
     isUpcomingDetails = false;
