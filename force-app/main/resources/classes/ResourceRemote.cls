@@ -19,7 +19,7 @@ public without sharing class ResourceRemote {
     public static ResourceService.ResourceWrapperContainer getPPResources(String participantData) {
         try {
             ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceArticleVideoService.getInstance()
-                .ppinit('Article;Video;Multimedia', participantData)
+                .ppinit('Article;Video', participantData)
                 .getResourceWrapperContainer();
             resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(
                 resourceWrapperContainer.wrappers
