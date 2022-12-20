@@ -40,6 +40,7 @@
             }
         });
         $A.enqueueAction(action);
+        component.set('v.resetBell',true);
     },
 
     doRefresh: function (component, event, helper) {
@@ -139,7 +140,11 @@
         helper.removeSendResult(component, closeSendResIndex);
     },
     closeBell: function(component, event) {
-        let overlayCmp = component.find("overlay");
-        overlayCmp.closeBellOverlay();
+        //let overlayCmp = component.find("overlay");
+        //overlayCmp.closeBellOverlay();
+        component.set('v.resetBell',false);
+        component.set('v.isBellEnabled', false);
+        component.set('v.isBellClosed', false);
+        component.set('v.resetBell',true);
     },
 });
