@@ -8,7 +8,7 @@
                         sourceId="{!relatedTo.Id}"
                         isPreBodyButton="true"
                         preBodyButtonName="{!$Label.Email_Action_Login_now}"
-                        header="{!$Label.Email_Header_Patient2_pp}"
+                        header="{!$Label.Email_Header_Patient_PP}"
                         title="##EmailTemplateTitleNewTM"
                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                         signature="{!$Label.Email_Signature_Patient}">
@@ -16,7 +16,7 @@
     </c:PP_EmailWireframe>
     <c:PP_EmailWireframeText recipientId="{!relatedTo.Participant__r.Contact__c}"
                         sourceId="{!relatedTo.Id}"
-                        header="{!$Label.Email_Header_Patient2_pp}"
+                        header="{!$Label.Email_Header_Patient_PP}"
                         title="##EmailTemplateTitleNewTM"
                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                         signature="{!$Label.Email_Signature_Patient_Short}"
@@ -36,7 +36,7 @@
 <messaging:plainTextEmailBody >
     <c:PP_EmailWireframeText recipientId="{!relatedTo.Participant__r.Contact__c}"
                             sourceId="{!relatedTo.Id}"
-                            header="{!$Label.Email_Header_Patient2_pp}"
+                            header="{!$Label.Email_Header_Patient_PP}"
                             title="##EmailTemplateTitleNewTM"
                             greeting="{!$Label.Email_User_Greeting_FirstName}"
                             signature="{!$Label.Email_Signature_Patient}">
