@@ -2162,9 +2162,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         fileName,
         bulkHistory
       );
-      if(READY_TO_SCREEN_PARTICIPANT_STATUS.equalsIgnoreCase(selectedStatus) ){//modify participant status for Ready to Screen
-        selectedStatus = SCREENING_IN_PROGRESS_PARTICIPANT_STATUS;
-      }
       sendBellNotifications(bulkHistory,studySiteDetails, selectedStatus);
     } catch (Exception exp) {
       system.debug(
