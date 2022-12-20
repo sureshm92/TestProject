@@ -140,14 +140,36 @@
         var rrCookies = communityService.getCookie(paramId);
         if (!rrCookies) {
             $('.hide-banner').removeClass('hide-banner');
-            document.body.addEventListener('click', closeCookiesInfo, false);
-            setTimeout(closeCookiesInfo, 10000);
+        } else {
+            //let browserCookiesList = communityService.getCookie(paramId+'List');
+            let currentDate = new Date();
+            var browserCookiesObj = JSON.parse(localStorage.getItem('cookieslist'));
+            let additionalCookieslabel = '{!JSENCODE($Label.Additional_Cookies)}';
+            if (
+                browserCookiesObj.cookies &&
+                additionalCookieslabel != 'NONE' &&
+                additionalCookieslabel
+            ) {
+                if (browserCookiesObj.cookies != additionalCookieslabel) {
+                    if (new Date(browserCookiesObj.expiry) < currentDate) {
+                        localStorage.removeItem('cookieslist');
+                    }
+                    $('.hide-banner').removeClass('hide-banner');
+                }
+            }
         }
 
         function closeCookiesInfo() {
             communityService.setCookie(paramId, 'agreed');
+            //communityService.setCookie(paramId+'List', '{!JSENCODE($Label.Additional_Cookies)}');
+            const date = new Date();
+            date.setDate(date.getDate() + 365);
+            const cookieListObj = {
+                cookies: '{!JSENCODE($Label.Additional_Cookies)}',
+                expiry: date
+            };
+            localStorage.setItem('cookieslist', JSON.stringify(cookieListObj));
             $('.c-container').addClass('hide-banner');
-            document.body.removeEventListener('click', closeCookiesInfo, false);
             event.preventDefault();
         }
     </script>

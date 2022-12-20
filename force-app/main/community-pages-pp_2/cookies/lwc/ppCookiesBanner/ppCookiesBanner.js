@@ -11,6 +11,8 @@ export default class PpCookiesBanner extends LightningElement {
     showmodal = false;
     @api
     loginPage = false;
+    @api
+    isRTL = false;
     label = {
         ppCookiesBannerLoginDesc,
         ppCookiesBannerDesc1,
