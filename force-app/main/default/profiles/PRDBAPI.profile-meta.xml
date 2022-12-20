@@ -4467,6 +4467,11 @@
         <editable>false</editable>
         <field>Participant__c.Present_Age__c</field>
         <readable>true</readable>
+    </fieldPermissions>    
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Age__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
