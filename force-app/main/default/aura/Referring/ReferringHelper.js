@@ -331,7 +331,6 @@
              (needsDelegate || emailVaild) &&
              (needsDelegate || emailRepeatValid) &&
              (needsDelegate || participant.Phone__c) &&
-             participant.Email__c.toUpperCase() == emailRepeat.toUpperCase() &&
              participant.Mailing_Zip_Postal_Code__c &&
              selectedCountry &&
              (selectedState || states.length === 0) &&
@@ -345,8 +344,7 @@
                delegateParticipant.Email__c &&
                confirmConsent &&
                emailDelegateVaild &&
-               emailDelegateRepeatValid &&
-               delegateParticipant.Email__c.toUpperCase() == emailDelegateRepeat.toUpperCase() ))&&
+               emailDelegateRepeatValid))&&
              agreePolicy);
         
          if(component.get('v.patientVeiwRedirection')){
@@ -354,13 +352,6 @@
               let needsGuardian = false;
               if(component.get('v.needsGuardian')){
                   needsGuardian = true;
-                emailCmp.setCustomValidity('');
-                emailRepeatCmp.setCustomValidity('');
-                emailCmp.reportValidity();
-                emailRepeatCmp.reportValidity();
-                var PhoneField = component.find('PhoneName');
-                PhoneField.setCustomValidity('');
-                PhoneField.reportValidity();
               }
             
               if(needsDelegate && needsGuardian &&
@@ -370,7 +361,6 @@
                delegateParticipant.Last_Name__c &&
                delegateParticipant.Phone__c &&
                delegateParticipant.Email__c &&
-               delegateParticipant.Email__c.toUpperCase() == emailDelegateRepeat.toUpperCase() &&
                emailDelegateVaild &&
                emailDelegateRepeatValid &&
                agreePolicy && attestAge && confirmConsent &&
@@ -392,7 +382,6 @@
                delegateParticipant.Last_Name__c &&
                delegateParticipant.Phone__c &&
                delegateParticipant.Email__c &&
-               delegateParticipant.Email__c.toUpperCase() == emailDelegateRepeat.toUpperCase() &&   
                emailDelegateVaild &&
                emailDelegateRepeatValid &&
                agreePolicy && attestAge && confirmConsent &&
@@ -402,7 +391,6 @@
                //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
                isDobValid &&
                participant.Email__c &&
-               participant.Email__c.toUpperCase() == emailRepeat.toUpperCase() &&
                participant.Phone__c &&
                participant.Mailing_Zip_Postal_Code__c &&
               selectedCountry &&
@@ -420,7 +408,6 @@
                participant.Email__c &&
                emailVaild &&
                emailRepeatValid &&
-               participant.Email__c.toUpperCase() == emailRepeat.toUpperCase() &&
                participant.Phone__c &&
                participant.Mailing_Zip_Postal_Code__c &&
               selectedCountry &&
@@ -437,13 +424,6 @@
         {
             if(!(isAdultDel && attestAge && confirmConsent))
                 isValid = false;
-                emailCmp.setCustomValidity('');
-                emailRepeatCmp.setCustomValidity('');
-                emailCmp.reportValidity();
-                emailRepeatCmp.reportValidity();
-                var PhoneField = component.find('PhoneName');
-                PhoneField.setCustomValidity('');
-                PhoneField.reportValidity();
         }
         if(selectedParticipantAge == "null" && selectedParticipantAge == undefined && selectedParticipantAge == ''){
             isValid = false; 
