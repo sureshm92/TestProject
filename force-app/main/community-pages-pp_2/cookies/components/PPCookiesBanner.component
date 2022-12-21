@@ -74,14 +74,14 @@
 
         @media screen and (max-width: 768px) {
             .mob-cookies-banner {
-                width: 414px;
+                width: 100%;
             }
             .we-care-about-your-p {
                 margin: 0 1rem;
             }
             .mob-btn-center {
                 margin-top: 0 !important;
-                margin-left: 0.7rem;
+                text-align: center;
             }
             .btn-container {
                 width: 366px !important;
