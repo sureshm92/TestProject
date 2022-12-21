@@ -27,6 +27,7 @@ export default class PpCookiesBanner extends LightningElement {
     connectedCallback() {
         let rrCookies = communityService.getCookie('RRCookies');
         if (!rrCookies || this.loginPage) {
+            document.body.classList.add('cookie-block-user');
             this.showBanner = true;
         }
     }
@@ -35,11 +36,13 @@ export default class PpCookiesBanner extends LightningElement {
     }
 
     closeTheBanner() {
+        document.body.classList.remove('cookie-block-user');
         this.showBanner = false;
     }
 
     acceptAll() {
-        communityService.setCookie('RRCookies', 'agreed');
+        communityService.setCookie('RRCookies', 'agreed', 365);
+        document.body.classList.remove('cookie-block-user');
         this.showBanner = false;
     }
 
