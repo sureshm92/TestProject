@@ -148,6 +148,14 @@
         <value>Add Televisit Vendor</value>
     </labels>
     <labels>
+        <fullName>Additional_Cookies</fullName>
+        <categories>DO NOT TRANSLATE</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Additional Cookies</shortDescription>
+        <value>NONE</value>
+    </labels>
+    <labels>
         <fullName>permissionIssue</fullName>
         <language>en_US</language>
         <protected>true</protected>
