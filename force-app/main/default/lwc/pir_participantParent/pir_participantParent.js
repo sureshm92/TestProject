@@ -309,7 +309,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.selectedTab = this.isRedirectedFromBellCmp ? "Televisit" : "Status Details";
     this.isRedirectedFromBellCmp = false;
     this.template.querySelector("c-pir_participant-list").searchValue = this.searchtext;
-    this.template.querySelector("c-pir_participant-list").renderSearch();
+    //this.template.querySelector("c-pir_participant-list").renderSearch();
   }
   curentMobileView = "list";
   mobileViewToggle() {
