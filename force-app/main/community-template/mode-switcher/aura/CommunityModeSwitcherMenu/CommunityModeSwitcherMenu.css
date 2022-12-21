@@ -1,10 +1,23 @@
+/**
+ * Created by Nargiz Mamedova on 6/11/2020.
+ */
+
 .THIS.menu-block {
     display: inline-block;
     position: relative;
-    height: 100%;
+    height: 50px;
     color: white;
 }
 
+.THIS .logout-btn {
+    height: 40px;
+    width: 315px;
+    margin: 18px 0;
+    background-color: #f2f2f2;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+}
 .THIS .pp-logout {
     color: #e20000;
     font-family: 'Proxima Nova';
