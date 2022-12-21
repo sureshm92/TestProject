@@ -29751,24 +29751,17 @@ Please contact the Study Team for further updates or please login for additional
         <value>No links available</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Patient15_pp</fullName>
+        <fullName>Email_Body_Wel_Patient_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Email_Body_Patient15_pp</shortDescription>
+        <shortDescription>Email Body Patient15 PP</shortDescription>
         <value>Congratulations, you have been enrolled in ##StudyorProgramHeader.
 
-            You will be contacted by the ##isStudyorProgram Site Team regarding next steps in the ##isStudyorProgram  process.
+            You will be contacted by the ##isStudyorProgram team regarding next steps in the ##isStudyorProgram process.
 
-            To assist you in tracking where you are in the clinical research ##isStudyorProgram, please log in to the ##ShortCommunityName.
+            To assist you in tracking where you are in the  ##isStudyorProgram, please log in to the ##ShortCommunityName.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement for enrollment into the research##isStudyorProgram: ##StudyName.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Header_Patient2_pp</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Header Patient2 pp</shortDescription>
-        <value>Thank you for your interest in participating in a clinical research ##isStudyorProgram</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement for enrollment into the research ##isStudyorProgram: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient_New_PP</fullName>
@@ -29804,10 +29797,10 @@ Please contact the Study Team for further updates or please login for additional
         <value>You have left your ##StudyorProgramHeader</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Patient16_pp</fullName>
+        <fullName>Email_Body_Patient_Droppedout_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Email_Body_Patient16_pp</shortDescription>
+        <shortDescription>Email_Body_Patient_Droppedout_PP</shortDescription>
         <value>We are sorry to see you have decided to leave ##StudyName before the  ##trialorprogram was complete. Thank you for your participation.</value>
     </labels>
     <labels>
@@ -29822,7 +29815,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9 Delegate pp</shortDescription>
-        <value>The ##isStudyorProgram team has updated  ##PatientFirstName&apos;s referral status for  ##clinicalstudyorprogram ##StudyName.
+        <value>The ##isStudyorProgram team has updated  ##PatientFirstName&apos;s referral status for  ##clinicalstudyorprogram ##StudyName
 
             To see additional information, log in to the ##ShortCommunityName</value>
     </labels>
@@ -29831,35 +29824,35 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Summary Certificate pp</shortDescription>
-        <value>A new reward certificate for ##StudyName ##StudyorProgramHeader is  now available on the ##ShortCommunityName.   
+        <value>A new reward certificate for ##StudyName ##isStudyorProgram is  now available on the ##ShortCommunityName.   
 
             Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Patient_Log_In_pp</fullName>
+        <fullName>Email_Body_Patient_Login_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Email Body Patient Log In pp</shortDescription>
+        <shortDescription>Email Body Patient Login PP</shortDescription>
         <value>We haven&apos;t heard from you in a while.
 
-            Please login to the ##ShortCommunityName to view all the latest information on your clinical research ##isStudyorProgram.</value>
+            Please login to the ##ShortCommunityName to view all the latest information on your ##StudyorProgramHeader.</value>
     </labels>
     <labels>
-        <fullName>Email_Subject_FollowUp_Reminder_pp</fullName>
+        <fullName>Email_Sub_FollowUp_Reminder_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject FollowUp Reminder pp</shortDescription>
         <value>Reminder: Your registration is pending</value>
     </labels>
     <labels>
-        <fullName>Email_Body_FollowUp_Reminder_pp</fullName>
+        <fullName>Email_Body_Follow_Up_Reminder_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Email Body FollowUp Reminder pp</shortDescription>
-        <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link below, so that you can enroll and view your ##isStudyorProgram and additional information.
+        <shortDescription>Email Body Follow Up Reminder PP</shortDescription>
+        <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link below, so that you can enroll and view your ##isStudyorProgram progress and additional information.
 
 
-        Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the clinical research ##isStudyorProgram.
+        Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the ##StudyorProgramHeader.
 
         Your user name is ##UserName.</value>
     </labels>
@@ -29873,25 +29866,11 @@ Please contact the Study Team for further updates or please login for additional
             To see additional information, log in to the ##ShortCommunityName</value>
     </labels>
     <labels>
-        <fullName>Email_Subject_Welcome_To_The_Study_pp</fullName>
+        <fullName>Email_Subject_Welcome_To_The_Program_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Welcome To The Study pp</shortDescription>
-        <value>You have been enrolled in a clinical research ##isStudyorProgram</value>
-    </labels>
-    <labels>
-        <fullName>Email_Header_Patient2_pp</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Header Patient2 pp</shortDescription>
-        <value>Thank you for your interest in participating in a clinical research ##isStudyorProgram</value>
-    </labels>
-    <labels>
-        <fullName>Email_Subject_Initial_Patient_pp</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Subject Initial Patient pp</shortDescription>
-        <value>You have been referred to a clinical research ##isStudyorProgram</value>
+        <value>You have been enrolled in a Program</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Patient_Dropped_Out_Program_PP</fullName>
@@ -29920,5 +29899,12 @@ Please contact the Study Team for further updates or please login for additional
         <protected>true</protected>
         <shortDescription>Clinical Study</shortDescription>
         <value>clinical study </value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Patient_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Patient2 PP</shortDescription>
+        <value>Thank you for your interest in participating in a ##StudyorProgramHeader</value>
     </labels>
 </CustomLabels>

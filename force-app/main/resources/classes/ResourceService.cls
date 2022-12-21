@@ -213,6 +213,7 @@ public virtual without sharing class ResourceService {
             'Expiration_Date__c, ' +
             'Image__c, ' +
             'Video__c, ' +
+            'Multimedia__c, ' +
             'Body__c, ' +
             'Updated_Date__c, ' +
             'CreatedDate, ' +

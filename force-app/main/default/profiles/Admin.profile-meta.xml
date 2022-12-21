@@ -6846,7 +6846,7 @@
         <field>Participant_Enrollment__c.Is_Participant_Contact_Opt_in_SMS__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Re_consent__c</field>
         <readable>true</readable>
@@ -8121,7 +8121,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+    <editable>false</editable>
         <field>Resource__c.Multimedia__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10040,7 +10040,7 @@
         <recordType>Resource__c.Video</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Resource__c-Multimedia</layout>
+    <layout>Resource__c-Multimedia</layout>
         <recordType>Resource__c.Multimedia</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -11413,6 +11413,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Patient_Delegate__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Patient_Delegate_Enrollment__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
