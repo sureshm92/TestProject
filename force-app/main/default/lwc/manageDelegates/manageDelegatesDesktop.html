@@ -205,7 +205,7 @@
                                                 <!--Add Assignment Button: Starts-->
                                                 <lightning-layout-item size="12">
                                                     <button
-                                                        class="apollo-btn secondary box-add-assignment-btn slds-m-bottom_small"
+                                                        class="apollo-btn secondary box-add-assignment-btn slds-m-bottom_large"
                                                         title=""
                                                         onclick={addAssignment}
                                                         data-pdid={del.PatientDelegate.Id}
@@ -225,7 +225,12 @@
                                                 <!--Add Assignment Button: Ends-->
                                             </template>
                                         </template>
-
+                                        <!--Dummy element for bottom margin when no Add Assignment button:Starts-->
+                                        <template if:false={del.showAddAssignmentButton}>
+                                            <lightning-layout-item size="12" class="slds-m-bottom_medium">
+                                            </lightning-layout-item>
+                                        </template>
+                                    <!--Dummy element for bottom margin when no Add Assignment button: Ends-->
                                         <template if:true={del.addNewStudy}>
                                             <lightning-layout-item
                                                 size="12"
