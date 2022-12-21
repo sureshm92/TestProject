@@ -29,6 +29,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         VERSION,
         Back_To_Resources
     };
+    isMultimedia = false;
 
     connectedCallback() {
         //get resource parameters from url
@@ -63,6 +64,11 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 this.resourceSummary = resourceData.Body__c;
                 this.resourceLink =
                     this.resourceType == 'Article' ? resourceData.Image__c : resourceData.Video__c;
+                if(this.resourceType == 'Multimedia'){
+                    this.resourceLink = resourceData.Multimedia__c;
+                    this.resourceType = 'Video';
+                    this.isMultimedia = true;
+                }
                 this.isFavourite = result.wrappers[0].isFavorite;
                 this.isVoted = result.wrappers[0].isVoted;
                 if (this.isDocument) {
@@ -114,7 +120,9 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
             pageLink = window.location.origin + subDomain + '/s/resources';
         } else {
             let resType;
-            if (this.resourceType == 'Study_Document') {
+            if(this.isMultimedia){
+                resType = 'engage';
+            } else if (this.resourceType == 'Study_Document') {
                 resType = 'documents';
             } else if (this.resourceType == 'Video' || this.resourceType == 'Article') {
                 resType = 'explore';

@@ -1111,4 +1111,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     line-height: 19px;
     margin-left: 4px;
 }
-  
+.cookie-block-user {
+    pointer-events: none;
+}
