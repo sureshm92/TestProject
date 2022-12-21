@@ -82,6 +82,7 @@
 .login-close {
     color: white;
     margin-top: 16px;
+    pointer-events: auto;
 }
 @media screen and (max-width: 500px) {
     .mob-cookies-banner {
