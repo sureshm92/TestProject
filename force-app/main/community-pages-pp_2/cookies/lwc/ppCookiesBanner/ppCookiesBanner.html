@@ -3,7 +3,7 @@
         <div class="c-container desk-cookies-banner mob-cookies-banner">
             <lightning-layout multiple-rows>
                 <template if:false={loginPage}>
-                    <lightning-layout-item size="12" small-device-size="8" padding="around-small">
+                    <lightning-layout-item size="12" small-device-size="9" padding="around-small">
                         <div class="we-care-about-your-p">
                             <div class="banner-heading slds-m-top_small">
                                 {label.ppCookieBannerHeader}
@@ -16,7 +16,7 @@
                                 {label.ppCookiesBannerDesc1}
                             </div>
                             <div class="banner-txt slds-m-vertical_xx-small slds-hide_medium">
-                                <b>{label.ppCookiesBannerDesc2}</b>
+                                <b>{label.ppCookiesBannerDesc2}</b>&nbsp;
                             </div>
                             <div class="banner-txt slds-hide_medium">
                                 {label.ppCookiesBannerDesc3}
@@ -26,12 +26,15 @@
                     <lightning-layout-item
                         class="desk-btn-margin mob-btn-center"
                         size="12"
-                        small-device-size="4"
+                        small-device-size="3"
                         padding="around-small"
                     >
                         <lightning-layout multiple-rows>
                             <lightning-layout-item size="12" small-device-size="12"
-                                ><button class="btn-container btn-label" onclick={acceptAll}>
+                                ><button
+                                    class="btn-container btn-label cookie-btn"
+                                    onclick={acceptAll}
+                                >
                                     <label>{label.ppCookiesButtonAccept}</label>
                                 </button></lightning-layout-item
                             >
@@ -56,16 +59,16 @@
                                 {label.ppCookieBannerHeader}
                             </div>
                             <div class="banner-txt slds-m-top_x-small slds-show_medium">
-                                {label.ppCookiesBannerDesc1}<b> {label.ppCookiesBannerDesc2}</b>
+                                {label.ppCookiesBannerDesc1}<b> {label.ppCookiesBannerDesc2} </b>
                                 {label.ppCookiesBannerDesc3}
                             </div>
                             <div class="banner-txt slds-m-top_x-small slds-show_medium">
                                 {label.ppCookiesBannerLoginDesc}
                             </div>
-                            <div class="banner-txt slds-m-top_x-small slds-hide_medium">
+                            <div class="banner-txt slds-m-vertical_x-small slds-hide_medium">
                                 {label.ppCookiesBannerDesc1}
                             </div>
-                            <div class="banner-txt slds-m-vertical_xx-small slds-hide_medium">
+                            <div class="banner-txt slds-m-top_medium slds-hide_medium">
                                 <b>{label.ppCookiesBannerDesc2}</b>
                             </div>
                             <div class="banner-txt slds-hide_medium">
