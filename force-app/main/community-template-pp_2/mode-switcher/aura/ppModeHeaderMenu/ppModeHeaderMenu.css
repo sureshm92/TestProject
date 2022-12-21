@@ -1,0 +1,136 @@
+
+.THIS > div:first-child {
+    height: 100%;
+}
+
+.THIS > div:first-child > div:first-child {
+    height: 100%;
+}
+
+.THIS > div:first-child > div:first-child > div:first-child {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.THIS .header-menu-link {
+    height: 100%;
+    width: 100%;
+    color: #ffffff;
+    font-size: 12pt;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+    justify-content: flex-end;
+}
+
+.THIS .header-menu-link:hover,
+.THIS.popup-visible .header-menu-link {
+    background-color: rgba(255, 255, 255, 0.16);
+}
+
+.THIS .header-menu-link:hover,
+.THIS .header-menu-link:focus,
+.THIS .header-menu-link:visited,
+.THIS .header-menu-link:active {
+    text-decoration: unset !important;
+    outline: 0;
+    color: white;
+}
+
+.THIS .chevron {
+    width: 12px;
+    opacity: 0.8;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.THIS .menu-popup-panel.rtl.popupTargetContainer {
+    /* @noflip */
+    left: 0;
+    /* @noflip */
+    right: auto;
+}
+
+.THIS .menu-popup-panel.pp.popupTargetContainer {
+    border-radius: 16px !important;
+    right: 21px !important;
+    width: 313px !important;
+}
+.THIS .menu-popup-panel.popupTargetContainer {
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    position: absolute;
+    color: black;
+    /* @noflip */
+    left: auto;
+    /* @noflip */
+    right: 0;
+    top: 50px !important;
+    width: 345px;
+    border: 1px solid #d9d9d9;
+    border-radius: 0 0 4px 4px;
+    background-color: #ffffff;
+    box-shadow: 0 16px 24px 0 rgba(0, 0, 0, 0.16);
+    padding: 0;
+    transition: 0.4s;
+    transform: none;
+    margin-top: 0;
+    z-index: 10010;
+}
+
+.THIS .menu-popup-panel.popupTargetContainer.visible {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+}
+
+.THIS .uiMenuList--default ul {
+    max-height: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.THIS .menu-popup-panel li {
+    width: 100%;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.THIS .menu-popup-panel li.active,
+.THIS .menu-popup-panel li:hover:not(.active) {
+    color: #000;
+}
+
+.THIS .menu-popup-panel li:hover:not(.active) {
+    color: #000000;
+}
+
+@media all and (orientation: landscape) and (max-width: 1024px) {
+    .THIS .menu-popup-panel.popupTargetContainer {
+        right: 0.5rem;
+    }
+}
+
+@media all and (orientation: portrait) and (max-width: 1024px) {
+    .THIS .menu-popup-panel.popupTargetContainer {
+        right: 0.5rem;
+    }
+}
+
+@media all and (max-width: 360px) {
+    .THIS .menu-popup-panel.popupTargetContainer {
+        width: 302px;
+    }
+}
