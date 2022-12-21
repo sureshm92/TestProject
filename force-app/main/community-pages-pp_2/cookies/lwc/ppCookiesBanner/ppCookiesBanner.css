@@ -141,6 +141,9 @@
     margin-top: -0.75rem;
     border-top: none;
 }
+.cookie-btn {
+    pointer-events: auto;
+}
 
 @media screen and (max-width: 768px) {
     .web-modal-window .slds-modal__container {

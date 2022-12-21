@@ -16,7 +16,7 @@
                                 {label.ppCookiesBannerDesc1}
                             </div>
                             <div class="banner-txt slds-m-vertical_xx-small slds-hide_medium">
-                                <b>{label.ppCookiesBannerDesc2}</b>
+                                <b>{label.ppCookiesBannerDesc2}</b>&nbsp;
                             </div>
                             <div class="banner-txt slds-hide_medium">
                                 {label.ppCookiesBannerDesc3}
@@ -31,7 +31,10 @@
                     >
                         <lightning-layout multiple-rows>
                             <lightning-layout-item size="12" small-device-size="12"
-                                ><button class="btn-container btn-label" onclick={acceptAll}>
+                                ><button
+                                    class="btn-container btn-label cookie-btn"
+                                    onclick={acceptAll}
+                                >
                                     <label>{label.ppCookiesButtonAccept}</label>
                                 </button></lightning-layout-item
                             >

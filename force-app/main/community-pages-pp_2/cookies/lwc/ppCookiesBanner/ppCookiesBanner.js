@@ -41,7 +41,8 @@ export default class PpCookiesBanner extends LightningElement {
     }
 
     acceptAll() {
-        communityService.setCookie('RRCookies', 'agreed');
+        communityService.setCookie('RRCookies', 'agreed', 365);
+        document.body.classList.remove('cookie-block-user');
         this.showBanner = false;
     }
 

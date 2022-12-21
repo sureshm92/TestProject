@@ -63,6 +63,10 @@
             line-height: 24px;
             text-align: center;
         }
+        .cookie-btn
+        {
+            pointer-events: auto;
+        }
 
         .hide-banner {
             display: none;
@@ -111,9 +115,9 @@
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
                         <apex:commandButton
-                            styleClass="btn-container btn-label"
+                            styleClass="btn-container btn-label cookie-btn"
                             value="{!$Label.PP_Cookies_Button_Accept}"
-                            onclick="closeCookiesInfo()"
+                            onclick="closeCookiesInfo();return false;"
                             id="accept"
                         />
                     </div>
@@ -140,8 +144,8 @@
         var rrCookies = communityService.getCookie(paramId);
         if (!rrCookies) {
             $('.hide-banner').removeClass('hide-banner');
+            document.body.classList.add('cookie-block-user');
         } else {
-            //let browserCookiesList = communityService.getCookie(paramId+'List');
             let currentDate = new Date();
             var browserCookiesObj = JSON.parse(localStorage.getItem('cookieslist'));
             let additionalCookieslabel = '{!JSENCODE($Label.Additional_Cookies)}';
@@ -155,14 +159,14 @@
                         localStorage.removeItem('cookieslist');
                     }
                     $('.hide-banner').removeClass('hide-banner');
+                    document.body.classList.add('cookie-block-user');
                 }
             }
         }
 
         function closeCookiesInfo() {
-            communityService.setCookie(paramId, 'agreed');
-            //communityService.setCookie(paramId+'List', '{!JSENCODE($Label.Additional_Cookies)}');
-            const date = new Date();
+            communityService.setCookie(paramId, 'agreed',365);
+            let date = new Date();
             date.setDate(date.getDate() + 365);
             const cookieListObj = {
                 cookies: '{!JSENCODE($Label.Additional_Cookies)}',
@@ -170,6 +174,7 @@
             };
             localStorage.setItem('cookieslist', JSON.stringify(cookieListObj));
             $('.c-container').addClass('hide-banner');
+            document.body.classList.remove('cookie-block-user');
             event.preventDefault();
         }
     </script>

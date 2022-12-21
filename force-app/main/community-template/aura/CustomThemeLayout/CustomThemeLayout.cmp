@@ -244,7 +244,12 @@
                     </div>
                 </div>
                 <aura:if isTrue="{!not(v.isDummy)}">
+                    <aura:if isTrue="{!v.communityApiName == 'IQVIA_Patient_Portal1'}">
+                        <c:ppCookiesBanner />
+                        <aura:set attribute="else">
                     <c:CookiesInfo />
+                        </aura:set>
+                    </aura:if>
                 </aura:if>
             </aura:if>
 
