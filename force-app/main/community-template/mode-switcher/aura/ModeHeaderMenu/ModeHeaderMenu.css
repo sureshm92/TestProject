@@ -56,6 +56,11 @@
     right: auto;
 }
 
+.THIS .menu-popup-panel.pp.popupTargetContainer {
+    border-radius: 16px !important;
+    right: 21px !important;
+    width: 313px !important;
+}
 .THIS .menu-popup-panel.popupTargetContainer {
     visibility: hidden;
     display: flex;
@@ -67,11 +72,11 @@
     /* @noflip */
     left: auto;
     /* @noflip */
-    right: 5px;
-    top: 55px;
-    width: 313px;
+    right: 0;
+    top: 50px !important;
+    width: 345px;
     border: 1px solid #d9d9d9;
-    border-radius: 1rem;
+    border-radius: 0 0 4px 4px;
     background-color: #ffffff;
     box-shadow: 0 16px 24px 0 rgba(0, 0, 0, 0.16);
     padding: 0;
