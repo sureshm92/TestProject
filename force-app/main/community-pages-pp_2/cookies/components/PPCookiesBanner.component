@@ -1,0 +1,176 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+ <apex:component id="PPCookiesBanner">
+    <apex:attribute name="userMode" type="String" description="" />
+    <style>
+        .desk-cookies-banner {
+            bottom: 0;
+            left: 0;
+            position: fixed;
+            width: 1366px;
+            opacity: 0.8;
+            border-radius: 16px 16px 0 0;
+            background-color: #000000;
+            box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .we-care-about-your-p {
+            color: #ffffff;
+            margin: 0 1.5rem 0 3rem;
+        }
+
+        .banner-heading {
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 32px;
+        }
+
+        .banner-txt {
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0;
+            line-height: 24px;
+        }
+
+        .desk-btn-margin {
+            margin-top: 2.2rem;
+        }
+
+        .btn-container {
+            height: 40px;
+            width: 264px;
+            border-radius: 20px;
+            background-color: #015ff1;
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+        }
+
+        .btn-label {
+            color: #ffffff !important;
+            font-size: 1rem !important;
+            font-weight: 600 !important;
+            letter-spacing: 0;
+            line-height: 24px;
+            text-align: center;
+        }
+
+        .manage {
+            background-color: #ffffff;
+            color: #015ff1 !important;
+            font-size: 1rem !important;
+            font-weight: 600 !important;
+            letter-spacing: 0;
+            line-height: 24px;
+            text-align: center;
+        }
+
+        .hide-banner {
+            display: none;
+        }
+
+        @media screen and (max-width: 768px) {
+            .mob-cookies-banner {
+                width: 414px;
+            }
+            .we-care-about-your-p {
+                margin: 0 1rem;
+            }
+            .mob-btn-center {
+                margin-top: 0 !important;
+                margin-left: 0.7rem;
+            }
+            .btn-container {
+                width: 366px !important;
+            }
+        }
+    </style>
+    <div class="c-container desk-cookies-banner mob-cookies-banner hide-banner">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_12-of-12 slds-large-size_8-of-12 slds-p-around_small">
+                <div class="we-care-about-your-p">
+                    <div class="banner-heading slds-m-top_small">
+                        {!$Label.PP_Cookie_Banner_Header}
+                    </div>
+                    <div class="banner-txt slds-m-top_x-small slds-show_medium">
+                        {!$Label.PP_Cookies_Banner_Desc1}
+                        <b>{!$Label.PP_Cookies_Banner_Desc2}</b>
+                        {!$Label.PP_Cookies_Banner_Desc3}
+                    </div>
+                    <div class="banner-txt slds-m-top_x-small slds-hide_medium">
+                        {!$Label.PP_Cookies_Banner_Desc1}
+                    </div>
+                    <div class="banner-txt slds-m-vertical_xx-small slds-hide_medium">
+                        <b>{!$Label.PP_Cookies_Banner_Desc2}</b>
+                    </div>
+                    <div class="banner-txt slds-hide_medium">{!$Label.PP_Cookies_Banner_Desc3}</div>
+                </div>
+            </div>
+            <div
+                class="slds-col slds-size_12-of-12 slds-large-size_4-of-12 desk-btn-margin mob-btn-center slds-p-around_small"
+            >
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                        <apex:commandButton
+                            styleClass="btn-container btn-label"
+                            value="{!$Label.PP_Cookies_Button_Accept}"
+                            onclick="closeCookiesInfo()"
+                            id="accept"
+                        />
+                    </div>
+                    <div
+                        class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-m-top_large"
+                    >
+                        <apex:commandButton
+                            styleClass="btn-container manage"
+                            value="{!$Label.PP_Cookies_Button_Manage_Prefer}"
+                            id="manage"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var isIE =
+            navigator.appName === 'Microsoft Internet Explorer' ||
+            !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) ||
+            (typeof $.browser !== 'undefined' && $.browser.msie === 1);
+        var paramId = 'RRCookies';
+        if (!isIE) paramId = 'LSKey[c]' + paramId;
+        var rrCookies = communityService.getCookie(paramId);
+        if (!rrCookies) {
+            $('.hide-banner').removeClass('hide-banner');
+        } else {
+            //let browserCookiesList = communityService.getCookie(paramId+'List');
+            let currentDate = new Date();
+            var browserCookiesObj = JSON.parse(localStorage.getItem('cookieslist'));
+            let additionalCookieslabel = '{!JSENCODE($Label.Additional_Cookies)}';
+            if (
+                browserCookiesObj.cookies &&
+                additionalCookieslabel != 'NONE' &&
+                additionalCookieslabel
+            ) {
+                if (browserCookiesObj.cookies != additionalCookieslabel) {
+                    if (new Date(browserCookiesObj.expiry) < currentDate) {
+                        localStorage.removeItem('cookieslist');
+                    }
+                    $('.hide-banner').removeClass('hide-banner');
+                }
+            }
+        }
+
+        function closeCookiesInfo() {
+            communityService.setCookie(paramId, 'agreed');
+            //communityService.setCookie(paramId+'List', '{!JSENCODE($Label.Additional_Cookies)}');
+            const date = new Date();
+            date.setDate(date.getDate() + 365);
+            const cookieListObj = {
+                cookies: '{!JSENCODE($Label.Additional_Cookies)}',
+                expiry: date
+            };
+            localStorage.setItem('cookieslist', JSON.stringify(cookieListObj));
+            $('.c-container').addClass('hide-banner');
+            event.preventDefault();
+        }
+    </script>
+</apex:component>
