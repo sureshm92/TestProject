@@ -1,0 +1,35 @@
+<aura:component
+    description="ModeHeaderMenu"
+    implements="forceCommunity:profileMenuInterface"
+    extends="c:CommunityContext"
+>
+    <!-- attributes: -->
+    <aura:attribute name="title" type="Aura.Component[]" />
+    <aura:attribute name="isOpened" type="Boolean" default="false" />
+    <aura:attribute name="class" type="String" />
+
+    <!-- methods: -->
+    <aura:method name="close" action="{!c.doClose}" access="public" />
+    <aura:method name="open" action="{!c.doOpen}" access="public" />
+
+    <!-- events: -->
+    <aura:registerEvent access="global" name="onblur" type="c:uiEvent" />
+    <aura:registerEvent access="global" name="onshow" type="c:uiEvent" />
+
+    <!-- component body: -->
+    <ui:menu class="{!if(v.isOpened, 'popup-visible ', ' ') + v.class}">
+        <ui:menuTriggerLink aura:id="trigger" class="header-menu-link">
+            {!v.title}
+        </ui:menuTriggerLink>
+        <ui:menuList
+            class="{!'menu-popup-panel ' + 'pp ' + if(v.isRTL, 'rtl ', '')}"
+            menuExpand="{!c.doMenuExpand}"
+            menuCollapse="{!c.doMenuCollapse}"
+            visible="false"
+        >
+            {!v.body}
+        </ui:menuList>
+    </ui:menu>
+</aura:component>
+
+	
