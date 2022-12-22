@@ -471,6 +471,8 @@ export default class PpAddNewDelegate extends LightningElement {
                 //this.delegate = {};
                 //partially Mask First Name and Last Name.
                 this.partiallyMaskFields();
+                //Reset the pre filled input values if Present.
+                this.resetInputValues(false);
                 //When only one existing contact is present.
                 if (contDataLength == 1) {
                     this.delegate = this.allDelegate[0];
@@ -480,29 +482,13 @@ export default class PpAddNewDelegate extends LightningElement {
                     if (this.allDelegate[0].delegateContact.Id != undefined) {
                         this.diableFNLNWhenDupContacts = true;
                     }
-                    // if (this.allDelegate[0].delegateContact.Id != undefined) {
-                    //     //If only one existing contact found for given email.
-                    //     this.showExistingContactWarning = true;
-                    //     this.diableFNLNWhenDupContacts = true;
-                    //     this.template.querySelector('[data-id="firstNameInput"]').value = '';
-                    //     this.template.querySelector('[data-id="lastNameInput"]').value = '';
-                    //     this.isLoading = false;
-                    //     return;
-                    // } else {
-                    //     //If only no existing contact found for given email.
-                    //     this.setSelectedOrFirstContactInputs();
-                    //     this.delegate = this.allDelegate[0];
-                    // }
                 } else {
                     //If More than one existing contacts found for given email.
                     this.showExistingContactWarning = true;
                     this.diableFNLNWhenDupContacts = true;
                     this.checkboxDisableflag = true;
-                    // this.template.querySelector('[data-id="firstNameInput"]').value = '';
-                    // this.template.querySelector('[data-id="lastNameInput"]').value = '';
-                    //Reset the input values if Present.
-                    this.resetInputValues(false);
                     this.isLoading = false;
+                    this.sendMessageToDisableMultipicklist(true);
                     return;
                 }
             })
@@ -527,8 +513,6 @@ export default class PpAddNewDelegate extends LightningElement {
             lastNameElement.reportValidity();
         }
 
-        // console.log('isActive--->' + this.delegate.isActive);
-        // this.isDelegateActive = this.delegate.isActive;
         //If participant Tries to add himself as delegate, throw error message.
         if (
             this.delegate.delegateContact != undefined &&
@@ -559,16 +543,16 @@ export default class PpAddNewDelegate extends LightningElement {
             !isActiveDelegate && (status === 'Disconnected' || status === 'On Hold');
         let isDeletedOrWithdrawnDelegate =
             !isActiveDelegate && (status === 'Deleted' || status === 'Withdrawn');
+        var disableMultipicklist = false;
         //If Delegate is Active/former(Not Withdrawn).
         if (isActiveDelegate || isFormerDelegate) {
             this.showExistingDelegateError = true;
-            //Reset the input values if Present.
-            this.resetInputValues(false);
+            disableMultipicklist = true;
         } else if (isDeletedOrWithdrawnDelegate) {
             //if Delegate is withdrwan or Deleted
             this.isDeletedOrWithdrawnDelegate = true;
         }
-
+        this.sendMessageToDisableMultipicklist(disableMultipicklist);
         this.isLoading = false;
         //this.checkeExistingDelegate();
     }
@@ -656,13 +640,6 @@ export default class PpAddNewDelegate extends LightningElement {
                         );
                         this.isAttested = false;
                         this.isEmailConsentChecked = false;
-                        // this.template.querySelector('[data-id="firstNameInput"]').value = '';
-                        // this.template.querySelector('[data-id="lastNameInput"]').value = '';
-                        // this.template.querySelector('[data-id="emailInput"]').value = '';
-                        // this.template.querySelector('[data-id="consentcheck"]').checked = false;
-                        // this.template.querySelector('[data-id="emailconsentcheck"]').checked = false;
-                        // this.sendFilterUpdates();
-                        //Reset the input values if Present.
                         this.resetInputValues(true);
                         this.goBackToManageDelegate();
                         this.isLoading = false;
@@ -711,21 +688,25 @@ export default class PpAddNewDelegate extends LightningElement {
         };
         publish(this.messageContext, messageChannel, returnPayload);
     }
+    //Send Reset All to True to child component PP_MultiPickistLWC to reset the multipicklist value.
+    //This LMS will be subscribe in connectedCallback in PP_MultiPickistLWC LWC comp.
+    sendMessageToDisableMultipicklist(isDisabledFlag) {
+        const returnPayload = {
+            isDisabled: isDisabledFlag
+        };
+        publish(this.messageContext, messageChannel, returnPayload);
+    }
 
     //This method will confirm the selected contact among multiple contacts.
     confirmSelection(event) {
         this.isLoading = true;
         this.checkboxDisableflag = false;
-        // if (this.allDelegate.length == 1) {
-        //     this.delegate = this.allDelegate[0];
-        // } else {
         //Filter out the selected contact from list of all contacts.
         this.allDelegate.forEach((del) => {
             if (del.delegateContact.Id == this.selectedContact) {
                 this.delegate = del;
             }
         });
-        // }
         this.setSelectedOrFirstContactInputs();
         this.showExistingContactWarning = false;
     }
@@ -755,7 +736,7 @@ export default class PpAddNewDelegate extends LightningElement {
         return this.isContactSelected ? false : true;
     }
 
-    //Reset the input values if Present.
+    //Reset the pre filled input values if Present.
     resetInputValues(clearEmail){  
         this.template.querySelector('[data-id="firstNameInput"]').value = '';
         this.template.querySelector('[data-id="lastNameInput"]').value = '';

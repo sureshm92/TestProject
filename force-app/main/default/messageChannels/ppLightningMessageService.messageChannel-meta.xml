@@ -18,5 +18,9 @@
         <description>show Add Delegate Page</description>
         <fieldName>showAddDelegatePage</fieldName>
     </lightningMessageFields>
+    <lightningMessageFields>
+        <description>Is Disabled</description>
+        <fieldName>isDisabled</fieldName>
+    </lightningMessageFields>
     <masterLabel>pplwcToAura</masterLabel>
 </LightningMessageChannel>

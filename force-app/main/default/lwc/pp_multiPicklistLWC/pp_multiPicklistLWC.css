@@ -80,37 +80,37 @@
     padding-left: 5px;
     width: 47px;
 }
-.eth .slds-no-flex {
+.std .slds-no-flex {
     width: 100%;
 }
-.eth .select-all-clear-all {
+.std .select-all-clear-all {
     cursor: pointer;
     padding-left: 5px;
     /* opacity: 0.75; */
 }
-.eth .btn {
+.std .btn {
     font-size: 14px;
     font-weight: 500;
     border-radius: 4px;
     padding: 5px;
 }
-.eth .btn:hover {
+.std .btn:hover {
     background-color: aliceblue;
 }
-.eth .slds-no-flex span {
+.std .slds-no-flex span {
     float: right;
     color: #0768fd;
 }
-.eth .slds-input {
+.std .slds-input {
     height: auto;
 }
-.eth .selectedOption {
+.std .selectedOption {
     max-width: 93%;
     overflow: hidden;
     min-height: 32px;
     /* white-space: nowrap; */
 }
-.eth .selectedValue {
+.std .selectedValue {
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     margin-left: 5px;
@@ -126,24 +126,24 @@
     height: 29px;
     overflow: hidden;
 }
-.eth .study-thmore {
+.std .study-thmore {
     padding: 5px 0px 0px 550px;;
 }
-.eth .slds-listbox__option-icon {
+.std .slds-listbox__option-icon {
     width: 6px;
 }
-.eth .slds-listbox_vertical .slds-listbox__option:hover {
+.std .slds-listbox_vertical .slds-listbox__option:hover {
     background: #ecf3ff;
 }
-.eth .input-width {
+.std .input-width {
     height: 16px;
     width: 16px;
 }
-.eth .slds-truncate {
+.std .slds-truncate {
     width: 100%;
     cursor: pointer;
 }
-.eth .text-for-check {
+.std .text-for-check {
     position: absolute;
     padding-left: 7px;
     font-size: 14px;
@@ -153,43 +153,43 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.eth .input-width:checked + .text-for-check {
+.std .input-width:checked + .text-for-check {
     font-weight: 600;
 }
-.eth input:focus {
+.std input:focus {
     box-shadow: none;
 }
-.eth .noclk {
+.std .noclk {
     pointer-events: none;
     cursor: pointer;
 }
 .dropdown-width {
     display: inline-block;
 }
-.rtl .eth .study-thmore {
+.rtl .std .study-thmore {
     padding: 5px 0px 0px 0px;
 }
-.rtl .eth .selectedValue {
+.rtl .std .selectedValue {
     float: right;
     margin-right: 5px;
 }
-.rtl .eth .text-for-check {
+.rtl .std .text-for-check {
     margin-right: 6px;
 }
-.rtl .eth .slds-no-flex span {
+.rtl .std .slds-no-flex span {
     float: left;
 }
 .rtl .rtl-width {
     right: -50%;
 }
 @media (max-device-width: 767px) {
-    .rtl .eth .selectedValue {
+    .rtl .std .selectedValue {
         float: right;
         margin-right: 2px;
         margin-top: 2px;
         margin-bottom: 2px;
     }
-    .rtl .eth .study-thmore {
+    .rtl .std .study-thmore {
         padding: 5px 0px 0px 0px;
     }
     .rtl .w-date {
@@ -208,7 +208,7 @@
     .rtl .rtl-width {
         right: -50%;
     }
-    .eth .study-thmore {
+    .std .study-thmore {
     padding: 6px 0px 0px 175px;;
 }
 }
@@ -240,3 +240,19 @@
 .slds-media_small{
     padding: 2px 2px 2px 2.5px !important;
 }
+.slds-media_small{
+    padding: 2px 2px 2px 2.5px !important;
+}
+.std-multipicklist-disabled{
+    pointer-events: none;
+    cursor: not-allowed;
+    border: 1px solid #D9D9D9;
+    background-color: #F2F2F2;
+    box-sizing: border-box
+}
+.std-disable-select-all{
+    pointer-events: none;
+    cursor: not-allowed !important;
+    color: #999999 !important;
+}
+    
