@@ -50,6 +50,15 @@ body {font-family: Verdana, sans-serif;}
   margin: 0;
 }
 
+.disable-next {
+  opacity: .3;
+  cursor: not-allowed;  
+}
+.disable-prev{
+  opacity: .3;
+  cursor: not-allowed;
+}
+
 .days li {
   list-style-type: none;
   display: inline-block;
@@ -90,6 +99,7 @@ body {font-family: Verdana, sans-serif;}
     color: #000000;
     line-height: 32px;
     font-weight: 600;
+    padding-right: 10px;
   }
   .study-dropdown{
     overflow-x: unset !important;
@@ -133,5 +143,11 @@ body {font-family: Verdana, sans-serif;}
   .next-week{
     cursor: pointer;
     margin-left: -10px;
+  }
+  .today-btn {
+    min-width: 40px;
+    height: 24px;
+    font-size: 15px;
+    font-weight: 500;
   }
   /* Calendar End */
