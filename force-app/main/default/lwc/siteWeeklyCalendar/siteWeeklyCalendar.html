@@ -1,21 +1,31 @@
 <template>
-  <div
-    class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 custome-calender"
-  >
-    <div class="current-month">{currentMonth}&nbsp;{currentYear}</div>
+  <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 custome-calender">
+    <div class="current-month">
+      {currentMonth}&nbsp;{currentYear}
+      <span class="slds-float_right"> 
+        <button 
+          title="" 
+          class="slds-button apollo-btn secondary today-btn"
+          onclick={handleToday}
+          disabled={isCurrentWeek}
+        >{label.TodayLabel}
+      </button>
+    </span>
+    </div>
     <div class="slds-grid slds-wrap slds-gutters p-grid slds-m-bottom_medium">
       <div
         class="slds-col slds-size_1-of-12 slds-medium-size_1-of-12 slds-large-size_1-of-12"
       >
         <div class="div-left">
-          <span class="pre-week disabled"
+          <span class="pre-week"
             ><lightning-icon
               icon-name="utility:chevronleft"
               size="xx-small"
               alternative-text="Previous Week"
               title="Previous Week"
-              onclick={handlePrev}
-              disabled={isPrev}
+              onclick={handlePastFutureDates}
+              data-whichevent="prev"
+              class="prev"
             ></lightning-icon
           ></span>
         </div>
@@ -91,8 +101,9 @@
               size="xx-small"
               alternative-text="Next Week"
               title="Next Week"
-              onclick={handleNext}
-              disabled={isNext}
+              onclick={handlePastFutureDates}
+              data-whichevent="next"
+              class="next"
             ></lightning-icon
           ></span>
         </div>
