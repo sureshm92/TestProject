@@ -14,13 +14,9 @@
             component.set('v.currentMode', communityService.getCurrentCommunityMode());
         });
     },
-    doSelectItem: function (component, event, helper) {
-        let navigateTo;
-        let itemValue;
-        if (component.get('v.templateName') == 'PatientPortal') {
-            itemValue = event.getParam('itemValue');
-            navigateTo = event.getParam('navigateTo');
-        }
+    doSelectItem: function (component, event, helper) {    
+           let itemValue = event.getParam('itemValue');
+           let navigateTo = event.getParam('navigateTo');        
         var comModes = component.get('v.communityModes');
         if (navigateTo && !itemValue) {
             communityService.navigateToPage(navigateTo);
