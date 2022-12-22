@@ -1,55 +1,57 @@
 <!--created by  ->Jayshree
     modified by ->chetna PEH-7098-->
 <template>
-    <template if:true={desktop}>
-        <c-web-spinner class="main-spinner"></c-web-spinner>
-        <template if:true={isInitialized}>
-            <template for:each={participantTabs} for:item="item">
-                <div class="nav-item slds-var-p-around_small slds-align_absolute-center" key={item.label}>
-                    <template if:true={item.displayIcon}>
-                        <div data-page-name={item.page} onclick={handleNavigation}>
-                            <c-web-icon icon-name={item.icon} icon-color="white" icon-size="small"></c-web-icon>
-                        </div>
-                    </template>
-                    <template if:false={item.displayIcon}>
-                        <template if:false={item.expand}>
+    <div class="mainNav">
+        <template if:true={desktop}>
+            <c-web-spinner class="main-spinner"></c-web-spinner>
+            <template if:true={isInitialized}>
+                <template for:each={participantTabs} for:item="item">
+                    <div class="nav-item" key={item.label}>
+                        <template if:true={item.displayIcon}>
                             <div data-page-name={item.page} onclick={handleNavigation}>
-                                <ul>
-                                    <li>{item.label}</li>
-                                </ul>
+                                <c-web-icon icon-name={item.icon} icon-color="white" class="homeIcon"></c-web-icon>
                             </div>
                         </template>
-                    </template>
-                    <!--dropdown menu -->
-                    <template if:true={item.expand}>
-                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click  my-menu" data-key={item.label}>
-                            <a href="javascript:void(0);" aria-haspopup="true" onclick={dropdownMenu} onblur={removeElementFocus}
-                                class="slds-text-color_inverse color-text-link-disabled slds-var-p-around_x-small">
-                                {item.label}
-                                <lightning-icon icon-name="utility:down" alternative-text="dropdown"
-                                    variant="inverse" size="xx-small"
-                                    class="slds-var-p-around_xx-small">
-                                </lightning-icon>
-                            </a>
-                            <div class="slds-dropdown slds-dropdown_left ">
-                                <ul class="slds-dropdown__list " role="menu" aria-label="Show More">
-                                    <template for:each={submenu} for:item="subItem">
-                                        <template if:true={subItem.visible}>
-                                            <li class="slds-dropdown__item" role="presentation" key={subItem.label}>
-                                                <a href={subItem.link} role="menuitem">
-                                                    <span class="slds-truncate" title={subItem.label}>{subItem.label}
-                                                    </span>
-                                                </a>
-                                            </li>
+                        <template if:false={item.displayIcon}>
+                            <template if:false={item.expand}>
+                                <div data-page-name={item.page} onclick={handleNavigation}>
+                                    <ul>
+                                        <li>{item.label}</li>
+                                    </ul>
+                                </div>
+                            </template>
+                        </template>
+                        <!--dropdown menu -->
+                        <template if:true={item.expand}>
+                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click  my-menu" data-key={item.label}>
+                                <a href="javascript:void(0);" aria-haspopup="true" onclick={dropdownMenu} onblur={removeElementFocus}
+                                    class="slds-text-color_inverse color-text-link-disabled slds-var-p-around_x-small">
+                                    {item.label}
+                                    <lightning-icon icon-name="utility:down" alternative-text="dropdown"
+                                        variant="inverse" size="xx-small"
+                                        class="slds-var-p-around_xx-small">
+                                    </lightning-icon>
+                                </a>
+                                <div class="slds-dropdown slds-dropdown_left ">
+                                    <ul class="slds-dropdown__list " role="menu" aria-label="Show More">
+                                        <template for:each={submenu} for:item="subItem">
+                                            <template if:true={subItem.visible}>
+                                                <li class="slds-dropdown__item" role="presentation" key={subItem.label}>
+                                                    <a href={subItem.link} role="menuitem">
+                                                        <span class="slds-truncate" title={subItem.label}>{subItem.label}
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </template>
                                         </template>
-                                    </template>
-                                </ul>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </template>
-                </div>
-                <img key={item.page} src={iconName} />
+                        </template>
+                    </div>
+                    <img key={item.page} src={iconName} />
+                </template>
             </template>
         </template>
-    </template>
+    </div>
 </template>
