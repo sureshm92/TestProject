@@ -33,7 +33,7 @@
     position: absolute;
     width: 100%;
     text-align: center;
-    height: 100% !important;
+    top: calc(50% + 3em);
     font-weight: bold;
 }
 @media screen and (max-width: 768px) {
