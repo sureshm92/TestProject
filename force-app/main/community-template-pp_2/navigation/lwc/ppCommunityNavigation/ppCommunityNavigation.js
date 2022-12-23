@@ -38,8 +38,9 @@ export default class PpCommunityNavigation extends LightningElement {
     showAboutProgram = false;
     showAboutStudy = false;
     isInitialized = false;
-    desktop=false;
+    desktop = false;
     menuCss = 'phone-menu-background nav-menu slds-border_top slds-p-vertical_large ';
+    showSubMenu = false;
     connectedCallback() {
         this.baseLink = window.location.origin;
         this.initializeData();
@@ -67,7 +68,7 @@ export default class PpCommunityNavigation extends LightningElement {
                         (resultTab) => resultTab.title == navigationResults
                     );
                     this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
-                    if(this.showAboutProgram === true){
+                    if (this.showAboutProgram === true) {
                         this.showVisits = td.tabs?.some(
                             (studyTab) => studyTab.title == navigationEvents
                         );
@@ -100,7 +101,7 @@ export default class PpCommunityNavigation extends LightningElement {
             },
             'my-study': {
                 page: '',
-                label: this.showAboutProgram?navigationMyProgram:navigationMyStudy,
+                label: this.showAboutProgram ? navigationMyProgram : navigationMyStudy,
                 icon: 'about-the-study',
                 expand: true,
                 displayIcon: false
@@ -142,36 +143,36 @@ export default class PpCommunityNavigation extends LightningElement {
                 link: this.baseLink + '/pp/s/visits',
                 label: navigationVisits,
                 icon: '',
-                visible: this.showAboutProgram?false:this.showVisits,
-                parentMenu: this.showAboutProgram?navigationMyProgram:navigationMyStudy
+                visible: this.showAboutProgram ? false : this.showVisits,
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
             events: {
                 link: this.baseLink + '/pp/s/events',
                 label: navigationEvents,
                 icon: '',
-                visible: this.showAboutProgram?this.showVisits:false,
-                parentMenu: this.showAboutProgram?navigationMyProgram:navigationMyStudy
+                visible: this.showAboutProgram ? this.showVisits : false,
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
             results: {
                 link: this.baseLink + '/pp/s/results',
                 label: navigationResults,
                 icon: '',
                 visible: this.showResults,
-                parentMenu: this.showAboutProgram?navigationMyProgram:navigationMyStudy
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
             'about-study': {
                 link: this.baseLink + '/pp/s/about-study-and-overview',
                 label: navigationStudy,
                 icon: '',
                 visible: this.showAboutStudy,
-                parentMenu: this.showAboutProgram?navigationMyProgram:navigationMyStudy
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
             'about-program': {
                 link: this.baseLink + '/pp/s/overview',
                 label: navigationProgram,
                 icon: '',
                 visible: this.showAboutProgram,
-                parentMenu: this.showAboutProgram?navigationMyProgram:navigationMyStudy
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             }
         };
 
@@ -181,25 +182,25 @@ export default class PpCommunityNavigation extends LightningElement {
         }
         if (this.communityServic.getCurrentCommunityMode().hasPastStudies)
             this.participantTabs.push(this.allPagesMap['past-studies']);
-            if (this.communityServic.getEDiaryVisible()) {
-                if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
-                    if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-                        this.participantTabs.push(this.allPagesMap['e-diaries']);
-                    }
-                }
-            }
-            if (this.communityServic.getMessagesVisible()) {
+        if (this.communityServic.getEDiaryVisible()) {
+            if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
                 if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-                    this.participantTabs.push(this.allPagesMap['messages']);
+                    this.participantTabs.push(this.allPagesMap['e-diaries']);
                 }
             }
-            if (this.communityServic.getTrialMatchVisible()) {
-                if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
-                    if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-                        this.participantTabs.push(this.allPagesMap['trial-match']);
-                    }
+        }
+        if (this.communityServic.getMessagesVisible()) {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                this.participantTabs.push(this.allPagesMap['messages']);
+            }
+        }
+        if (this.communityServic.getTrialMatchVisible()) {
+            if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
+                if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                    this.participantTabs.push(this.allPagesMap['trial-match']);
                 }
             }
+        }
         this.participantTabs.push(this.allPagesMap['tasks']);
         this.participantTabs.push(this.allPagesMap['resources']);
         this.participantTabs.push(this.allPagesMap['help']);
@@ -245,8 +246,12 @@ export default class PpCommunityNavigation extends LightningElement {
             key: key,
             ...this.allPagesSubMenu[key]
         }));
+
         //filtering submenu based on parentmenu clicked
         this.submenu = subMenu.filter((subItem) => subItem.parentMenu == headerMenu);
+        if (this.submenu && this.desktop == false) {
+            this.showSubMenu = !this.showSubMenu;
+        }
         var isOpen = element.classList.contains('slds-is-open');
         //dropdown toggle->adds class if second param true and remove if false
         element.classList.toggle('slds-is-open', !isOpen);
@@ -256,6 +261,7 @@ export default class PpCommunityNavigation extends LightningElement {
         var element = this.template.querySelector('.my-menu');
         element.classList.remove('slds-is-open');
     }
+
     showErrorToast(titleText, messageText, variantType) {
         this.dispatchEvent(
             new ShowToastEvent({
@@ -267,7 +273,7 @@ export default class PpCommunityNavigation extends LightningElement {
     }
     @api forceRefresh() {
         this.isInitialized = false;
-        this.participantTabs=[];
+        this.participantTabs = [];
         this.initializeData();
     }
 }

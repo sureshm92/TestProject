@@ -148,6 +148,14 @@
         <value>Add Televisit Vendor</value>
     </labels>
     <labels>
+        <fullName>Additional_Cookies</fullName>
+        <categories>DO NOT TRANSLATE</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Additional Cookies</shortDescription>
+        <value>NONE</value>
+    </labels>
+    <labels>
         <fullName>permissionIssue</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19278,11 +19286,67 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Contact Information</value>
     </labels>
     <labels>
+        <fullName>PP_Cookie_Banner_Header</fullName>
+        <categories>Cookies</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Cookie Banner Header</shortDescription>
+        <value>We care about your privacy</value>
+    </labels>
+    <labels>
         <fullName>PP_Cookie_Settings</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Cookie Settings</shortDescription>
         <value>Cookie Settings</value>
+    </labels>
+    <labels>
+        <fullName>PP_Cookies_Banner_Desc1</fullName>
+        <categories>Cookies</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Cookies Banner Desc1</shortDescription>
+        <value>We and our partners store and/or access information on a device, such as unique IDs, in cookies to process personal data. You may accept or manage your cookie preferences, including your right to object where legitimate interest is used, or at any time in your Account Settings.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Cookies_Banner_Desc2</fullName>
+        <categories>Cookies</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Cookies Banner Desc2</shortDescription>
+        <value>We and our partners process data to provide:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Cookies_Banner_Desc3</fullName>
+        <categories>Cookies</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Cookies Banner Desc3</shortDescription>
+        <value>precise geolocation data. Actively scan device characteristics for identification. Store and/or access information on a device. Audience insights and product development.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Cookies_Banner_Login_Desc</fullName>
+        <categories>Cookies</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Cookies Banner Login Desc</shortDescription>
+        <value>To manage your cookie preferences, please log in.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Cookies_Button_Accept</fullName>
+        <categories>Cookies</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Cookies Button Accept</shortDescription>
+        <value>Accept All</value>
+    </labels>
+    <labels>
+        <fullName>PP_Cookies_Button_Manage_Prefer</fullName>
+        <categories>Cookies</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Cookies Button Manage Prefer</shortDescription>
+        <value>Manage preferences</value>
     </labels>
     <labels>
         <fullName>PP_Country</fullName>
