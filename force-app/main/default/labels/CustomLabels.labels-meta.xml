@@ -21626,6 +21626,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>30</value>
     </labels>
     <labels>
+        <fullName>RH_MaxNoWeek</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_MaxNoWeek</shortDescription>
+        <value>4</value>
+    </labels>
+	<labels>
+        <fullName>RH_MinNoWeek</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_MinNoWeek</shortDescription>
+        <value>2</value>
+    </labels>
+    <labels>
         <fullName>RH_Address_Line_1</fullName>
         <language>en_US</language>
         <protected>true</protected>
