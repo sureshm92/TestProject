@@ -1896,3 +1896,12 @@ input[type=password]::-ms-clear
     overflow-x: hidden;
     padding-top: 0px;
 }
+.e-consent-aligment .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    font-size: 14px !important;
+    padding: 0 5px 0 5px;
+    margin-top: -4px;
+    line-height: 21px;
+}
+.e-consent-aligment .slds-checkbox__label {
+    display: flex;
+}

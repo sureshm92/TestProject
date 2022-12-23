@@ -59,11 +59,15 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         if (message.ResetAll) {
             this.removeAll();
         }
-        // //If we recieve Piclist Value from Parent component.
-        // if (message.piclistValues) {
-        //     this.picklistValues = message.piclistValues;
-        //     this.totalNoOfStudies = this.picklistValues.length;
-        // }
+        //If we recieved isDisabled flag from Parent component.
+        if (message.isDisabled == true) {
+            this.template.querySelector('.disable-dropdown').classList.add('std-multipicklist-disabled');
+            this.template.querySelector('.disable-select-all').classList.add('std-disable-select-all');
+        }
+        if (message.isDisabled == false) {
+            this.template.querySelector('.disable-dropdown').classList.remove('std-multipicklist-disabled');
+            this.template.querySelector('.disable-select-all').classList.remove('std-disable-select-all');
+        }
     }
     //Subscribe the message channel
     unsubscribeToMessageChannel() {
