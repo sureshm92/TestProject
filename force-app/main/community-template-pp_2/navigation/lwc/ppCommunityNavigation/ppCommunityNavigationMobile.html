@@ -30,38 +30,20 @@
                         class="slds-text-color_inverse color-text-link-disabled slds-var-p-around_x-small"
                     >
                         {item.label}
-                        <lightning-icon
-                            icon-name="utility:down"
-                            alternative-text="dropdown"
-                            variant="inverse"
-                            size="xx-small"
-                            class="slds-var-p-around_xx-small"
-                        >
-                        </lightning-icon>
                     </a>
-                    <div class="slds-dropdown slds-dropdown_left">
-                        <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
-                            <template for:each={submenu} for:item="subItem">
-                                <template if:true={subItem.visible}>
-                                    <li
-                                        class="slds-dropdown__item"
-                                        role="presentation"
-                                        key={subItem.label}
-                                    >
-                                        <a
-                                            href={subItem.link}
-                                            role="menuitem"
-                                            onfocusout={removeElementFocus}
-                                        >
-                                            <span class="slds-truncate" title={subItem.label}
-                                                >{subItem.label}
-                                            </span>
-                                        </a>
-                                    </li>
-                                </template>
+                    <template if:true={showSubMenu}>
+                        <template for:each={submenu} for:item="subItem">
+                            <template if:true={subItem.visible}>
+                                <div key={subItem.label}>
+                                    <a href={subItem.link}>
+                                        <span class="slds-truncate" title={subItem.label}
+                                            >{subItem.label}
+                                        </span>
+                                    </a>
+                                </div>
                             </template>
-                        </ul>
-                    </div>
+                        </template>
+                    </template>
                 </div>
             </div>
         </template>
