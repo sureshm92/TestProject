@@ -736,6 +736,10 @@ export default class PpAddNewDelegate extends LightningElement {
         return this.isContactSelected ? false : true;
     }
 
+    get isAddNewDelegate(){
+        return true;
+    }
+
     //Reset the pre filled input values if Present.
     resetInputValues(clearEmail){  
         this.template.querySelector('[data-id="firstNameInput"]').value = '';

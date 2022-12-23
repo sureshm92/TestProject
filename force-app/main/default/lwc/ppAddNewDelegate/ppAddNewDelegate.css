@@ -33,7 +33,7 @@
     position: absolute;
     width: 100%;
     text-align: center;
-    top: calc(50% + 3em);
+    height: 100% !important;
     font-weight: bold;
 }
 @media screen and (max-width: 768px) {
@@ -90,7 +90,7 @@
     height: 13px;
     width: 13px;
     transform: rotate(180deg);
-    margin-left: -8px;
+    margin-left: -5px;
 }
 
 .del-access-rectangle {
