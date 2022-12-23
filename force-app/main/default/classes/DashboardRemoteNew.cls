@@ -1386,15 +1386,15 @@ public without sharing class DashboardRemoteNew {
                 ) {
                     contacted = contacted + total;
                 } else if (
-                    initialVisitScheduleddate == null 
-                     && initialVisitRequired == false &&
+                    initialVisitScheduleddate == null &&
+                    initialVisitOccuredFlag == false &&
                     funnelChartAndLeaderBoardStatusMap.get('conditionStatus2')
                         .contains(participantEnrolmentStatus)
                 ) {
                     contacted = contacted + total;
                 }else if (
-                    initialVisitScheduleddate == null 
-                     && initialVisitRequired == false &&
+                    initialVisitScheduleddate == null &&
+                    initialVisitOccuredFlag == false &&
                     funnelChartAndLeaderBoardStatusMap.get('conditionStatus3')
                         .contains(participantEnrolmentStatus)
                 ) {
@@ -1455,8 +1455,7 @@ public without sharing class DashboardRemoteNew {
                     eligibility = eligibility + total;
                     screened = screened + total;
                     enrolled_randomized = enrolled_randomized + total;
-                } else if ( initialVisitScheduleddate != null 
-                    && initialVisitRequired == true && initialVisitOccuredFlag == true &&
+                } else if ( 
                     funnelChartAndLeaderBoardStatusMap.get('conditionStatus8')
                         .contains(participantEnrolmentStatus)
                 ) {
@@ -1473,8 +1472,7 @@ public without sharing class DashboardRemoteNew {
                     eligibility = eligibility + total;
                     screened = screened + total;
                 }
-                else if ( initialVisitScheduleddate != null 
-                && initialVisitRequired == true && initialVisitOccuredFlag == true &&
+                else if (
                     funnelChartAndLeaderBoardStatusMap.get('conditionStatus9')
                         .contains(participantEnrolmentStatus)
                 ) {
