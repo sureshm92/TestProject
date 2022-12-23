@@ -252,7 +252,7 @@ public without sharing class RPRecordReviewLogController {
             peEnrollment.Patient_Sex__c=peRecord.Patient_Sex__c;
             peEnrollment.Mailing_Country_Code__c=peRecord.Mailing_Country_Code__c;
             peEnrollment.Phone__c=peRecord.Phone__c;
-            peEnrollment.Patient_Phone_Type__c= (peRecord.Patient_Phone_Type__c == '') ? 'Home' : peRecord.Patient_Phone_Type__c;
+            peEnrollment.Patient_Phone_Type__c= peRecord.Patient_Phone_Type__c;
             peEnrollment.Mailing_State_Code__c=peRecord.Mailing_State_Code__c;
             peEnrollment.Participant_Alternative_Phone__c=peRecord.Participant_Alternative_Phone__c;
             if(peRecord.Participant_Alt_Phone_Type__c != null && peRecord.Participant_Alt_Phone_Type__c != ''  
