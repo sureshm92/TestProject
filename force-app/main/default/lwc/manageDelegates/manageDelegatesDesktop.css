@@ -87,8 +87,10 @@
     padding-right: 6.8px;
 }
 .manage-del-continer {
-    margin: 20px;
+    margin-top: 19px;
+    margin-left: 23px;
     margin-right: 0px;
+    margin-bottom: -1px;
 }
 .manage-del-items {
     margin: 24px 24px 0 24px;
