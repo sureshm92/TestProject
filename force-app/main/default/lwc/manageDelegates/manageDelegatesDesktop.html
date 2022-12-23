@@ -9,7 +9,7 @@
         ></lightning-spinner>
     </template>
     <!--Spinner: Ends-->
-    <c-web-spinner fixed="true"></c-web-spinner>
+    <!-- <c-web-spinner fixed="true"></c-web-spinner> -->
     <!-- Show Add Delegate Page: Start-->
     <template if:true={showAddDelegatePage}>
         <c-pp-add-new-delegate
@@ -244,6 +244,7 @@
                                                             picklist-values={studyToAssing}
                                                             total-no-of-studies={totalNoOfStudiesToAssign}
                                                             is-desktop={isDesktop}
+                                                            add-new-delegate={isAddNewDelegate}
                                                         ></c-pp_multi-picklist-l-w-c
                                                     ></lightning-layout-item>
                                                     <lightning-layout-item

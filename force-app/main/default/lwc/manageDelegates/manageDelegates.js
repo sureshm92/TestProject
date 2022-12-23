@@ -349,6 +349,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     get disableSaveButton() {
         return this.isEmailConsentChecked && this.isAtLeastOneStudySelected ? false : true;
     }
+    get isAddNewDelegate(){
+        return false;
+    }
     handleConsentCheck(event) {
         this.isEmailConsentChecked = event.target.checked;
     }
