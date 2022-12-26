@@ -382,13 +382,13 @@
                                                                 onclick={openDeleteDelegateModal}
                                                                 data-id={del.pdId}
                                                                 disabled={del.disableDeleteButton}
+                                                                data-pdid={del.pdId}
+                                                                onmouseover={toggleDeleteIcon}
                                                             >
                                                                 <span
-                                                                    ><img
-                                                                        onmouseover={toggleDeleteIcon}
+                                                                    ><img   
                                                                         class="delete-icon"
-                                                                        src={deleteIcon}
-                                                                        data-pdid={del.pdId}
+                                                                        src={deleteIcon} 
                                                                 /></span>
                                                             </button>
                                                         </template>
@@ -400,17 +400,35 @@
                                                                 onclick={openDeleteDelegateModal}
                                                                 data-id={del.pdId}
                                                                 disabled={del.disableDeleteButton}
+                                                                data-pdid={del.pdId}
+                                                                onmouseout={toggleDeleteIcon} 
                                                             >
                                                                 <span
-                                                                    ><img
-                                                                        onmouseout={toggleDeleteIcon}
+                                                                    ><img 
                                                                         class="delete-icon"
                                                                         src={deleteIconRed}
-                                                                        data-pdid={del.pdId}
+                                                                        
                                                                 /></span>
                                                             </button>
-                                                        </template>
+                                                            <!-- <div class={helpTextStyle}>
+                                                                <div class="slds-popover__body">
+                                                                    {helpText}
+                                                                </div>
+                                                            </div> -->
+                                                            <c-tool-tip-l-w-c 
+                                                                help-text ={label.Icon_Delete}
+                                                                height ='30px'
+                                                                width="60px"
+                                                                margin-top="-53px"
+                                                                margin-left ="-45px"
+                                                                background-color = "#444444"
+                                                                text-color="#ffff"
+                                                                font-size ="13px"
+                                                                box-shadow = "0 8px 20px 0 rgba(0,0,0,0.08)"
+                                                            >
 
+                                                            </c-tool-tip-l-w-c>
+                                                        </template>
                                                         <!--Red Delete Button: Ends-->
                                                     </lightning-layout-item>
                                                     <!--Trash Logo: Ends-->
