@@ -349,10 +349,13 @@ public without sharing class TaskService {
         ];
 
         Set<Id> contactIds = new Set<Id>();
+        Set<Id> peIds = new Set<Id>();
         List<Patient_Delegate__c> patientDelegates = new List<Patient_Delegate__c>();
+        List<Patient_Delegate_Enrollment__c> pdEnrollments = new List<Patient_Delegate_Enrollment__c>();
         for (SurveyInvitation inv : surveyInvitation) {
             if (inv.Participant_Enrollment__r.Participant_Contact__c != null) {
                 contactIds.add(inv.Participant_Enrollment__r.Participant_Contact__c);
+                peIds.add(inv.Participant_Enrollment__c);
             }
         }
 
@@ -363,14 +366,32 @@ public without sharing class TaskService {
                 WHERE Participant__r.Contact__c IN :contactIds
             ];
         }
+        if(!peIds.isEmpty()){
+            pdEnrollments = [
+                SELECT
+                    id,
+                    Patient_Delegate__c,
+                    Participant_Enrollment__c,
+                    Patient_Delegate__r.Contact__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Participant_Enrollment__c IN :peIds
+            ];
+        }
         Set<Id> delContactIds = new Set<Id>();
         Map<Id, Set<Id>> delegatesByParticipant = new Map<Id, Set<Id>>();
-        for (Patient_Delegate__c pd : patientDelegates) {
+        Map<Id, Set<Id>> delegatesByPes = new Map<Id, Set<Id>>();
+       /* for (Patient_Delegate__c pd : patientDelegates) {
             if (!delegatesByParticipant.containsKey(pd.Participant__r.Contact__c)) {
                 delegatesByParticipant.put(pd.Participant__r.Contact__c, new Set<Id>());
             }
             delegatesByParticipant.get(pd.Participant__r.Contact__c).add(pd.Contact__c);
             delContactIds.add(pd.Contact__c);
+        }*/
+        for (Patient_Delegate_Enrollment__c pde : pdEnrollments) {
+            if(!delegatesByPes.containsKey(pde.Participant_Enrollment__c))
+            delegatesByPes.put(pde.Participant_Enrollment__c,new Set<Id>());
+            delegatesByPes.get(pde.Participant_Enrollment__c).add(pde.Patient_Delegate__r.Contact__c);
+            delContactIds.add(pde.Patient_Delegate__r.Contact__c);
         }
 
         Map<Id, Id> participantContactUser = getContactUserIdsMap(contactIds);
@@ -385,13 +406,16 @@ public without sharing class TaskService {
         List<TaskConfig> taskConfigs = new List<TaskConfig>();
         for (SurveyInvitation inv : surveyInvitation) {
             Id partContactId = inv.Participant_Enrollment__r.Participant_Contact__c;
+            Id peId = inv.Participant_Enrollment__c;
             Id partUserId = participantContactUser.get(partContactId);
 
             userContact.put(partUserId, partContactId);
-            Set<Id> patientDelContactIds = delegatesByParticipant.containsKey(partContactId)
+           /* Set<Id> patientDelContactIds = delegatesByParticipant.containsKey(partContactId)
                 ? delegatesByParticipant.get(partContactId)
                 : new Set<Id>();
+            */
 
+            Set<Id> patientDelContactIds = delegatesByPes.containsKey(peId) ? delegatesByPes.get(peId) :new Set<Id>() ;
             List<TaskConfig> tmpConfigs = new List<TaskConfig>();
             String visible = invitationsVisible.get(inv.Id);
             switch on visible {
@@ -468,7 +492,6 @@ public without sharing class TaskService {
                     inv.Survey.Name
                 );
             }
-
             for (TaskConfig tsc : tmpConfigs) {
                 tsc.code = TASK_CODE_COMPLETE_SURVEY;
                 tsc.communityTemplateName = CommunityTemplateService.getTemplate(
@@ -532,7 +555,7 @@ public without sharing class TaskService {
                         tsc.reminderDatetime = inv.ReminderDateTime__c;
                         tsc.reminderGMT = inv.ReminderDateTime__c;
                     }
-                  }
+                }
                 }
                 tsc.subject = subject;
                 tsc.type = TASK_TYPE_SURVEY;
