@@ -338,7 +338,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             : 'save-del-btn btn-save-opacity addDelegateMobile';
     }
     get delInfoFormer(){
-        return this.isRTL ? 'p-right-6' : 'p-left-6'
+        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
     }
     get delInfoFormer1(){
         return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
@@ -351,6 +351,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     }
     get delAvararIconMobile(){
         return this.isRTL ? 'slds-p-right_small slds-p-top_x-small' : 'slds-p-left_small slds-p-top_x-small'
+    }
+    get deleteIconClassMobile(){
+        return this.isRTL ? ' slds-align_absolute-center slds-p-right_medium' : ' slds-align_absolute-center slds-p-left_medium'
     }
 
     get disableSaveButton() {
