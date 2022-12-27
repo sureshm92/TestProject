@@ -248,7 +248,7 @@
                                                     ></lightning-layout-item>
                                                     <lightning-layout-item 
                                                         size="12"
-                                                        class="slds-p-left_medium slds-p-right_medium slds-p_bottom_medium"
+                                                        class="e-consent-aligment slds-p-left_medium slds-p-right_medium slds-p_bottom_medium"
                                                         ><lightning-input
                                                             data-id="emailconsentcheck"
                                                             class="taps mob-checkbox-txt validate"
@@ -338,11 +338,10 @@
                                     <!--Delete Delegate Modal: Ends-->
                                     <template if:false={del.addNewStudyFormer}>
                                         <!--Dlegate Info Layout: Starts -->
-                                        <lightning-layout>
+                                        <lightning-layout multiple-rows="true">
                                             <!--Delegate Profile Logo and Name Section: Starts-->
                                             <lightning-layout-item
-                                                size="8"
-                                                class="former-del-card-border"
+                                                size="12"
                                             >
                                                 <!--Delegate Personal Detail Layout: Starts-->
                                                 <lightning-layout
@@ -355,7 +354,7 @@
                                                     </lightning-layout-item>
                                                     <!--Profile Logo: Ends-->
                                                     <!--Delegate Name: Stats-->
-                                                    <lightning-layout-item size="9" class={delInfoFormer}
+                                                    <lightning-layout-item size="8" class={delInfoFormer}
                                                         ><lightning-layout multiple-rows="true">
                                                             <lightning-layout-item
                                                                 size="12"
@@ -373,63 +372,23 @@
                                                     <!--Delegate Name: Ends-->
                                                     <!--Trash Logo: Stats-->
                                                     <lightning-layout-item
-                                                        size="1"
-                                                        class="slds-align_absolute-center"
+                                                        size="2"
+                                                        class={deleteIconClassMobile}
                                                     >
-                                                        <template if:false={del.showDeleteRedIcon}>
-                                                            <button
-                                                                class="delete-btn"
-                                                                onclick={openDeleteDelegateModal}
-                                                                data-id={del.pdId}
-                                                                disabled={del.disableDeleteButton}
-                                                                data-pdid={del.pdId}
-                                                                onmouseover={toggleDeleteIcon}
-                                                            >
-                                                                <span
-                                                                    ><img   
-                                                                        class="delete-icon"
-                                                                        src={deleteIcon} 
-                                                                /></span>
-                                                            </button>
-                                                        </template>
-
-                                                        <!--Red Delete Button: Start-->
-                                                        <template if:true={del.showDeleteRedIcon}>
-                                                            <button
-                                                                class="delete-btn"
-                                                                onclick={openDeleteDelegateModal}
-                                                                data-id={del.pdId}
-                                                                disabled={del.disableDeleteButton}
-                                                                data-pdid={del.pdId}
-                                                                onmouseout={toggleDeleteIcon} 
-                                                            >
-                                                                <span
-                                                                    ><img 
-                                                                        class="delete-icon"
-                                                                        src={deleteIconRed}
-                                                                        
-                                                                /></span>
-                                                            </button>
-                                                            <!-- <div class={helpTextStyle}>
-                                                                <div class="slds-popover__body">
-                                                                    {helpText}
-                                                                </div>
-                                                            </div> -->
-                                                            <c-tool-tip-l-w-c 
-                                                                help-text ={label.Icon_Delete}
-                                                                height ='30px'
-                                                                width="60px"
-                                                                margin-top="-53px"
-                                                                margin-left ="-45px"
-                                                                background-color = "#444444"
-                                                                text-color="#ffff"
-                                                                font-size ="13px"
-                                                                box-shadow = "0 8px 20px 0 rgba(0,0,0,0.08)"
-                                                            >
-
-                                                            </c-tool-tip-l-w-c>
-                                                        </template>
-                                                        <!--Red Delete Button: Ends-->
+                                                        <button
+                                                            class="delete-btn"
+                                                            onclick={openDeleteDelegateModal}
+                                                            data-id={del.pdId}
+                                                            disabled={del.disableDeleteButton}
+                                                            data-pdid={del.pdId}
+                                                            onmouseover={toggleDeleteIcon}
+                                                        >
+                                                            <span
+                                                                ><img   
+                                                                    class="delete-icon"
+                                                                    src={deleteIcon} 
+                                                            /></span>
+                                                        </button>
                                                     </lightning-layout-item>
                                                     <!--Trash Logo: Ends-->
                                                 </lightning-layout>
@@ -438,9 +397,9 @@
                                             <!--Delegate Profile Logo and Name Section: Ends-->
                                             <!--Add Assignment Button: Starts-->
                                             <lightning-layout-item
-                                                size="4"
+                                                size="12"
                                                 class="slds-align_absolute-center"
-                                                padding="around-large"
+                                                padding="around-medium"
                                             >
                                                 <template if:false={del.isWithdrawn}
                                                     ><button
@@ -488,12 +447,12 @@
                                                 class="manage-del-items"
                                             >
                                                 <!--Profile Logo: Stats-->
-                                                <lightning-layout-item size="1" class={delAvararIcon}>
+                                                <lightning-layout-item size="2" class={delAvararIcon}>
                                                     <span><img src={icon_url} /></span>
                                                 </lightning-layout-item>
                                                 <!--Profile Logo: Ends-->
                                                 <!--Delegate Name: Stats-->
-                                                <lightning-layout-item size="10" class={delInfoFormer1}
+                                                <lightning-layout-item size="8" class={delInfoFormer1}
                                                     ><lightning-layout multiple-rows="true">
                                                         <lightning-layout-item
                                                             size="12"
@@ -511,44 +470,23 @@
                                                 <!--Delegate Name: Ends-->
                                                     <!--Trash Logo: Stats-->
                                                     <lightning-layout-item
-                                                        size="1"
-                                                        class="slds-align_absolute-center"
-                                                    >
-                                                        <template if:false={del.showDeleteRedIcon}>
-                                                            <button
-                                                                class="delete-btn"
-                                                                onclick={openDeleteDelegateModal}
-                                                                data-id={del.pdId}
-                                                                disabled={del.disableDeleteButton}
-                                                            >
-                                                                <span
-                                                                    ><img
-                                                                        onmouseover={toggleDeleteIcon}
-                                                                        class="delete-icon"
-                                                                        src={deleteIcon}
-                                                                        data-pdid={del.pdId}
-                                                                /></span>
-                                                            </button>
-                                                        </template>
-
-                                                        <!--Red Delete Button: Start-->
-                                                        <template if:true={del.showDeleteRedIcon}>
-                                                            <button
-                                                                class="delete-btn"
-                                                                onclick={openDeleteDelegateModal}
-                                                                data-id={del.pdId}
-                                                                disabled={del.disableDeleteButton}
-                                                            >
-                                                                <span
-                                                                    ><img
-                                                                        onmouseout={toggleDeleteIcon}
-                                                                        class="delete-icon"
-                                                                        src={deleteIconRed}
-                                                                        data-pdid={del.pdId}
-                                                                /></span>
-                                                            </button>
-                                                        </template>
-                                                    <!--Red Delete Button: Ends-->
+                                                        size="2"
+                                                        class={deleteIconClassMobile}
+                                                    > 
+                                                        <button
+                                                            class="delete-btn"
+                                                            onclick={openDeleteDelegateModal}
+                                                            data-id={del.pdId}
+                                                            disabled={del.disableDeleteButton}
+                                                        >
+                                                            <span
+                                                                ><img
+                                                                    onmouseover={toggleDeleteIcon}
+                                                                    class="delete-icon"
+                                                                    src={deleteIcon}
+                                                                    data-pdid={del.pdId}
+                                                            /></span>
+                                                        </button> 
                                                 </lightning-layout-item>
                                                 <!--Trash Logo: Ends-->
                                                 <!-- Add Delegate Section : Starts -->
@@ -558,8 +496,8 @@
                                                 >
                                                     <lightning-layout multiple-rows="true">
                                                         <lightning-layout-item
-                                                            size="10"
-                                                            class="study-picklist"
+                                                            size="12"
+                                                            class="slds-m-top_medium slds-p-left_medium slds-p-right_medium"
                                                             ><c-pp_multi-picklist-l-w-c
                                                                 picklist-values={availableStudyData.studies}
                                                                 total-no-of-studies={totalNoOfStudies}
@@ -567,8 +505,20 @@
                                                             ></c-pp_multi-picklist-l-w-c
                                                         ></lightning-layout-item>
                                                         <lightning-layout-item
-                                                            size="2"
-                                                            class="save-button-aligment"
+                                                            size="12"
+                                                            class=" e-consent-aligment slds-p-left_medium slds-p-right_medium slds-p_bottom_medium"
+                                                            ><lightning-input
+                                                                data-id="emailconsentcheck"
+                                                                class="taps mob-checkbox-txt validate"
+                                                                type="checkbox"
+                                                                label={label.PP_Delegate_Email_Consent}
+                                                                checked={isEmailConsentChecked}
+                                                                onchange={handleConsentCheck}
+                                                            ></lightning-input
+                                                        ></lightning-layout-item>
+                                                        <lightning-layout-item
+                                                            size="12"
+                                                            class="slds-p-bottom_medium  slds-p-left_medium slds-p-right_medium"
                                                             ><button
                                                                 title=""
                                                                 onclick={doSaveFormer}
@@ -582,21 +532,10 @@
                                                                 {label.BTN_Save}
                                                             </button></lightning-layout-item
                                                         >
-                                                        <lightning-layout-item
-                                                            class="e-consent-aligment"
-                                                            ><lightning-input
-                                                                data-id="emailconsentcheck"
-                                                                class="taps mob-checkbox-txt validate"
-                                                                type="checkbox"
-                                                                label={label.PP_Delegate_Email_Consent}
-                                                                checked={isEmailConsentChecked}
-                                                                onchange={handleConsentCheck}
-                                                            ></lightning-input
-                                                        ></lightning-layout-item>
                                                     </lightning-layout>
                                                 </lightning-layout-item>
                                                 <!--Discard Button: Starts-->
-                                                <lightning-layout-item size="12">
+                                                <lightning-layout-item size="12" class="slds-p-bottom_medium">
                                                     <button
                                                         class="btn-discard apollo-btn secondary box-discard-btn"
                                                         onclick={discardAssignmentFormer}
@@ -608,7 +547,7 @@
                                                     </button>
                                                 </lightning-layout-item>
                                                 <!--Discard Button: Ends-->
-                                                <!-- Add Delegate Section : Starts -->
+                                                <!-- Add Delegate Section : Ends -->
                                             </lightning-layout>
                                             <!--Delegate Personal Detail Layout: Ends-->
                                         </lightning-layout-item>

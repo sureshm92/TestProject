@@ -82,12 +82,12 @@
     height: 35px;
     border: 1px solid red;
 } */
-.p-left-6{
+/* .p-left-6{
     padding-left: 6.8px;
 }
 .p-right-6{
     padding-right: 6.8px;
-}
+} */
 .manage-del-continer {
     margin-top: 19px;
     margin-left: 23px;
@@ -155,9 +155,9 @@
     background-color: #f2f2f2;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
 }
-.former-del-card-border {
+/* .former-del-card-border {
     border-right: 1px solid #e9e9e9;
-}
+} */
 .study-code-name {
     color: #444444;
     font-size: 18px;
