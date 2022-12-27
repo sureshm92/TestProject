@@ -133,6 +133,7 @@ public without sharing class RelevantLinksRemote {
                 COIsOfParticipant.add(tap.Therapeutic_Area__c);
 
             List<Resource__c> resourcesVisibleForParticipant = new List<Resource__c>();
+            List<Resource__c> platformResourcesVisibleForParticipant = new List<Resource__c>();
             if (
                 initDataNew.relevantLinksAreAvailable ||
                 ps.value == ParticipantService.ParticipantStates.ALUMNI
@@ -147,14 +148,12 @@ public without sharing class RelevantLinksRemote {
                 );
             }
 
-            if (
-                (ps.value == ParticipantService.ParticipantStates.ALUMNI )
-            ) {
+            if ((ps.value == ParticipantService.ParticipantStates.ALUMNI)) {
                 //platform level relevant links
-                resourcesVisibleForParticipant.addAll(
+                platformResourcesVisibleForParticipant.addAll(
                     getCOIResources(contentType, COIsOfParticipant, preferredLanguages)
                 );
-                if (!resourcesVisibleForParticipant.isEmpty())
+                if (!platformResourcesVisibleForParticipant.isEmpty())
                     initDataNew.linksAvailable = true;
             } else {
                 if (enrollments.size() > 0)
@@ -162,16 +161,29 @@ public without sharing class RelevantLinksRemote {
             }
 
             TranslateHelper.translate(resourcesVisibleForParticipant);
+            if (platformResourcesVisibleForParticipant.size() > 0) {
+                TranslateHelper.translate(platformResourcesVisibleForParticipant);
+            }
+
             List<LabelValueItem> typeLabelValues = getTranslatedTypes(
                 Resource__c.Type__c.getDescribe().getPicklistValues()
             );
 
+            List<ResourceService.ResourceWrapper> studyResourceWrapper = new List<ResourceService.ResourceWrapper>();
+            List<ResourceService.ResourceWrapper> platformResourceWrapper = new List<ResourceService.ResourceWrapper>();
             for (Resource__c res : resourcesVisibleForParticipant) {
                 ResourceService.ResourceWrapper rw = new ResourceService.ResourceWrapper(res);
-                initDataNew.resources.add(rw);
+                studyResourceWrapper.add(rw);
+            }
+            for (Resource__c res : platformResourcesVisibleForParticipant) {
+                ResourceService.ResourceWrapper rw = new ResourceService.ResourceWrapper(res);
+                platformResourceWrapper.add(rw);
             }
 
-            initDataNew.resources = ResourceService.sortResourcesByCOI(initDataNew.resources);
+            studyResourceWrapper = ResourceService.sortResourcesByCOI(studyResourceWrapper);
+            platformResourceWrapper = ResourceService.sortResourcesByCOI(platformResourceWrapper);
+            initDataNew.resources.addAll(studyResourceWrapper);
+            initDataNew.resources.addAll(platformResourceWrapper);
             return initDataNew;
         } catch (Exception e) {
             return (InitDataNew) AuraHelper.throwException(e);
