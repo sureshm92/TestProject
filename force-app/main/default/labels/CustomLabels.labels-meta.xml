@@ -29430,6 +29430,13 @@ Please contact the Study Team for further updates or please login for additional
         <value>Event Details</value>
     </labels>
     <labels>
+        <fullName>Event_details_updated_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Event_details_updated_successfully</shortDescription>
+        <value>Event details updated successfully!</value>
+    </labels>
+    <labels>
         <fullName>Event_No_Expect</fullName>
         <language>en_US</language>
         <protected>false</protected>
