@@ -44,8 +44,13 @@ hr {
     text-align: center;
 }
 
+.more-mobile {
+    line-height: 44px;
+}
+
 .icon-padding {
-    padding: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
 }
 
 .visit-text {
