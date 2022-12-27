@@ -1,0 +1,111 @@
+<aura:component
+    description="ppCustomThemeLayout"
+    implements="forceCommunity:themeLayout"
+    controller="CommunityFacadeRemote"
+>
+    <ltng:require
+        styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_PP_Theme, $Resource.proximanova + '/proximanova.css')}"
+        scripts="{!$Resource.rr_community_js}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
+
+    <!-- attributes: -->
+    <aura:attribute name="showSideMenu" type="Boolean" default="false" />
+    <aura:attribute name="isInitialized" type="Boolean" default="false" />
+    <aura:attribute name="isDummy" type="Boolean" default="false" />
+    <aura:attribute name="isMobileApp" type="Boolean" default="false" />
+    <aura:attribute name="currentMode" type="Object" />
+    <aura:attribute name="showModeSwitcher" type="Boolean" default="false" />
+    <aura:attribute name="logoURL" type="String" />
+    <aura:attribute name="isRTL" type="Boolean" />
+    <aura:attribute name="urlPathPrefix" type="String" />
+    <aura:attribute name="isPPonPhone" type="Boolean" default="false" />
+    <aura:attribute name="communityServ" type="Object" />
+
+    <!-- events: -->
+    <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
+    <aura:handler name="closeNavigationMenu" event="c:ppCloseNavMenu" action="{!c.handleClick}" />
+
+    <aura:handler event="c:PPMobileMenu" action="{!c.closePPMobileMenu}" />
+
+    <!-- methods: -->
+    <aura:method name="init" action="{!c.doInit}" access="public" />
+
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
+    <aura:if isTrue="{!v.isInitialized}">
+        <div
+            class="{!'rr-all-content ' + $Browser.formFactor + ' ' + if(v.showSideMenu, ' bodyShift ', ' ') + if(v.availableModes.length > 1, ' with-selector ', '')}"
+        >
+            <div
+                class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode ', ' ') + if(v.isInitialized, 'main-header-brand', 'main-header-neutral')}"
+            >
+                <div
+                    class="{!'layout-header' + ' rr-width-limiter-pp' + ' side-padding' + if(v.isRTL, ' rtl', '')}"
+                >
+                    <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
+                        <img src="{!$Resource.icon_hamburgerMenu}" onclick="{!c.handleClick}" />
+                    </aura:if>
+                    <div class="logo-container-pp">
+                        <img src="{!v.logoURL}" class="title-logo" onclick="{!c.doGoHome}" />
+                    </div>
+
+                    <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
+                        <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
+                        <!--new pp navigation-->
+                        <c:ppCommunityNavigation
+                            communityServic="{!v.communityServ}"
+                            aura:id="ppMenu"
+                            showSideMenu="{!v.showSideMenu}"
+                        />
+                    </aura:if>
+
+                    <div class="right-block" data-gtm="community_mode_switcher">
+                        <aura:if isTrue="{!v.currentMode.userMode != 'CC'}">
+                            <aura:if isTrue="{!v.isMobileApp}">
+                                <div class="bell-container">
+                                    <forceCommunity:notifications />
+                                </div>
+                            </aura:if>
+                            <!-- Added as per REF-1343 by Vikrant Sharma for Help icon adjacent to User Profile for PI and HCP -->
+                        </aura:if>
+                        <!-- Ending of REF-1343 -->
+                        <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
+                            <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
+                        </aura:if>
+                        <c:ppCommunityModeSwitcherMenu
+                            currentMode="{!v.currentMode}"
+                            onModeChange="{!c.doRefresh}"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
+            <div class="rr-body-content rr-min-body-height">
+                <aura:if isTrue="{!v.isPPonPhone}">
+                    <c:ppCommunityNavigation
+                        communityServic="{!v.communityServ}"
+                        showSideMenu="{!v.showSideMenu}"
+                        aura:id="ppMenu"
+                    />
+                </aura:if>
+
+                <!-- Televisit Meet Banner Section PEH-5892 -->
+                <c:televisitMeetBanner
+                    urlPathPrefix="{!v.urlPathPrefix}"
+                    currentMode="{!v.currentMode}"
+                ></c:televisitMeetBanner>
+                {!v.body}
+            </div>
+            <div class="footer">
+                <div class="rr-width-limiter" style="padding: 0 15px">
+                    <c:ppCommunityFooter aura:id="ppFooter" />
+                </div>
+            </div>
+            <aura:if isTrue="{!not(v.isDummy)}">
+                <c:CookiesInfo />
+                <c:ppAlerts aura:id="ppAlerts"></c:ppAlerts>
+            </aura:if>
+        </div>
+    </aura:if>
+</aura:component>

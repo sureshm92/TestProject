@@ -54,13 +54,6 @@
             </div>
         </div>
 
-        <c:webBanner
-            onopenModal="{!c.selectedRecords}"
-            bodyText="{!v.cookieText}"
-            showClose="true"
-            isRTL="{!v.isRTL}"
-            isMobileView="{!v.isMobileView}"
-            commTypeName="{!v.communityType}"
-        />
+        <c:ppCookiesBanner isRTL="{!v.isRTL}" loginPage="true" />
     </aura:if>
 </aura:component>

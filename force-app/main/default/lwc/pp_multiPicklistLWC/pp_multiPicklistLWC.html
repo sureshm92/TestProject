@@ -1,11 +1,11 @@
 <template>
     <!-- Ethnicity starts -->
-    <div class="eth outcome-form-element slds-m-bottom_medium p-left">
-        <label class="slds-form-element__label slds-no-flex disflex"
+    <div class="std outcome-form-element slds-m-bottom_medium p-left std-height">
+        <label class="slds-form-element__label slds-no-flex disflex mb-5"
             ><span class="text-overflow1 study-p-bottom" title="Studies"
                 >{label.PG_MS_L_Studies_up}</span
             ><template if:true={showSelectAll}>
-                <span class="btn select-all-clear-all" onclick={selectAll}
+                <span class="btn select-all-clear-all disable-select-all" onclick={selectAll}
                     >{label.Select_All_PI}</span
                 >
             </template>
@@ -14,7 +14,7 @@
             </template>
         </label>
         <div
-            class="slds-form-element__control slds-grow slds-input slds-p-around--none eBox study-box dropdown-width"
+            class="slds-form-element__control slds-grow slds-input slds-p-around--none eBox study-box dropdown-width disable-dropdown"
             tabindex="0"
             onclick={openStudy}
             onblur={closeStudy}
@@ -44,7 +44,7 @@
                                 </template>
                             </template>
                                 
-                            <div key={study.value} class="study-thmore">{studyCount}</div>
+                            <div key={study.value} class={studyMoreClass}>{studyCount}</div>
                         </div>
                          <span
                             class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right"

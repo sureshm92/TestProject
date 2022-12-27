@@ -18,9 +18,6 @@ import noCompletedTasks from '@salesforce/label/c.Task_No_Completed';
 import taskPPCompleted from '@salesforce/label/c.Task_PP_Completed';
 import taskPPIgnored from '@salesforce/label/c.Task_PP_Ignored';
 import taskPPExpired from '@salesforce/label/c.Task_PP_Expired';
-
-import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import getPPParticipantTasks from '@salesforce/apex/TasksRemote.getPPParticipantTasks';
 import { NavigationMixin } from 'lightning/navigation';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
@@ -127,19 +124,13 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
             this.ishomepage = true;
         }
         this.sfdcBaseURL = window.location.origin + basePathName + '/tasks';
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                console.log('NEW RR_COMMUNITY_JS loaded');
-                this.spinner = this.template.querySelector('c-web-spinner');
-                this.initializeData();
-            })
-            .catch((error) => {
-                console.error('Error in loading RR Community JS: ' + JSON.stringify(error));
-            });
-    }
+        this.spinner = this.template.querySelector('c-web-spinner');
+        this.initializeData();
+
+        }
     initializeData() {
         try {
-            this.spinner.show();
+            if(this.spinner) this.spinner.show();
             this.openTasks = [];
             this.completedTasks = [];
             getPPParticipantTasks()
@@ -169,10 +160,10 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                             );
                         }
                     }
-                    this.spinner.hide();
+                    if(this.spinner) this.spinner.hide();
                 })
                 .catch((error) => {
-                    this.spinner.hide();
+                    if(this.spinner) this.spinner.hide();
                 });
         } catch (e) {
             alert(e);
@@ -180,7 +171,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     }
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
-    }
+    } 
     doCreateTask() {
         this.isCreateTask = !this.isCreateTask;
     }

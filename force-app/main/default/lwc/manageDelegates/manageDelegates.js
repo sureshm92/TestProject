@@ -17,6 +17,7 @@ import BTN_Save from '@salesforce/label/c.BTN_Save';
 import PP_Delegate_Email_Consent from '@salesforce/label/c.PP_Delegate_Email_Consent';
 import PIR_Discard from '@salesforce/label/c.PIR_Discard';
 import PP_NO_Active_Delegate from '@salesforce/label/c.PP_NO_Active_Delegate';
+import Icon_Delete from '@salesforce/label/c.pir_Delete_Btn';
 //import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 import { loadScript } from 'lightning/platformResourceLoader';
 import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
@@ -28,9 +29,10 @@ import removeAssignment from '@salesforce/apex/PatientDelegateEnrollmentService.
 import doAddAssignment from '@salesforce/apex/PatientDelegateEnrollmentService.doAddAssignment';
 import deleteDelegates from '@salesforce/apex/PatientDelegateEnrollmentService.deleteDelegates';
 import getFilterData from '@salesforce/apex/MyTeamRemote.getFilterData';
-import manageDelegateDesktop from './manageDelegatesDesktop.html';
-import manageDelegateMobile from './manageDelegatesMobile.html';
-import DEVICE from '@salesforce/client/formFactor';
+import largeTemplate from './manageDelegatesDesktop.html';
+import mobileTemplate from './manageDelegatesMobile.html';
+import formFactor from '@salesforce/client/formFactor';
+
 
 import {
     subscribe,
@@ -97,11 +99,12 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         BTN_Save,
         PP_Delegate_Email_Consent,
         PIR_Discard,
-        PP_NO_Active_Delegate
+        PP_NO_Active_Delegate,
+        Icon_Delete
     };
 
     connectedCallback() {
-        DEVICE != 'Small' ? (this.isDesktop = true) : (this.isDesktop = false);
+        formFactor != 'Small' ? (this.isDesktop = true) : (this.isDesktop = false);
 
         if (!this.loaded) {
             loadScript(this, rrCommunity).then(() => {
@@ -122,7 +125,8 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     }
 
     render() {
-        return this.isDesktop ? manageDelegateDesktop : manageDelegateMobile;
+        //return this.isDesktop ? manageDelegatesDesktop : manageDelegatesMobile;
+        return formFactor === 'Small' ? mobileTemplate : largeTemplate;
     }
 
     initializeData() {
@@ -296,11 +300,11 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             ? 'mr-5 add-Delegate-Btn slds-float_left'
             : 'ml-5 add-Delegate-Btn slds-float_right';
     }
-    get addDelBtnMarinMobile() {
-        return this.isRTL
-            ? 'mr-5 add-Delegate-Btn slds-float_left h-40'
-            : 'ml-5 add-Delegate-Btn slds-float_right h-40';
-    }
+    // get addDelBtnMarinMobile() {
+    //     return this.isRTL
+    //         ? 'slds-m-top_small slds-p-left_large'
+    //         : 'slds-m-top_small slds-p-right_large';
+    // }
     get removeDelBtn() {
         return this.isRTL
             ? 'ml-24p remove-Delegate-Btn slds-float_left'
@@ -334,7 +338,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             : 'save-del-btn btn-save-opacity addDelegateMobile';
     }
     get delInfoFormer(){
-        return this.isRTL ? 'p-right-6' : 'p-left-6'
+        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
     }
     get delInfoFormer1(){
         return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
@@ -345,9 +349,18 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     get delAvararIcon(){
         return this.isRTL ? 'slds-p-right_small slds-p-top_xx-small' : 'slds-p-left_small slds-p-top_xx-small'
     }
+    get delAvararIconMobile(){
+        return this.isRTL ? 'slds-p-right_small slds-p-top_x-small' : 'slds-p-left_small slds-p-top_x-small'
+    }
+    get deleteIconClassMobile(){
+        return this.isRTL ? ' slds-align_absolute-center slds-p-right_medium' : ' slds-align_absolute-center slds-p-left_medium'
+    }
 
     get disableSaveButton() {
         return this.isEmailConsentChecked && this.isAtLeastOneStudySelected ? false : true;
+    }
+    get isAddNewDelegate(){
+        return false;
     }
     handleConsentCheck(event) {
         this.isEmailConsentChecked = event.target.checked;

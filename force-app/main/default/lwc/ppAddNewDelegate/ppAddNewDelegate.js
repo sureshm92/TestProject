@@ -28,7 +28,7 @@ import getMaxLength from '@salesforce/apex/MyTeamRemote.getMaxLength';
 import isExistingDelegate from '@salesforce/apex/MyTeamRemote.isExistingDelegate';
 import savePatientDelegate from '@salesforce/apex/MyTeamRemote.savePatientDelegate';
 import getFilterData from '@salesforce/apex/MyTeamRemote.getFilterData';
-import PP_Attestation_Confirmation_Message_For_Teams from '@salesforce/label/c.PP_Attestation_Confirmation_Message_For_Teams';
+import Attestation_Confirmation_Message_For_Teams from '@salesforce/label/c.Attestation_Confirmation_Message_For_Teams';
 import PP_Email_Error from '@salesforce/label/c.PP_Email_Error';
 import PP_Required_Field from '@salesforce/label/c.PP_Required_Field';
 import PP_Delegate_Email_Consent from '@salesforce/label/c.PP_Delegate_Email_Consent';
@@ -102,6 +102,7 @@ export default class PpAddNewDelegate extends LightningElement {
     participantAddingHimselfError = false;
     selectedContact;
     diableFNLNWhenDupContacts = false;
+    checkboxDisableflag = false;
     oldDelegate = {};
     oldFirstName;
     oldLastName;
@@ -125,7 +126,7 @@ export default class PpAddNewDelegate extends LightningElement {
         PG_NTM_L_Already_Exists,
         PP_Delegate_Added_Successfully,
         //Profile_Information,
-        PP_Attestation_Confirmation_Message_For_Teams,
+        Attestation_Confirmation_Message_For_Teams,
         PP_Email_Error,
         PP_Required_Field,
         PP_Delegate_Email_Consent,
@@ -193,6 +194,7 @@ export default class PpAddNewDelegate extends LightningElement {
         let savedisabled = false;
         savedisabled =
             (!this.isCorrectEmail && !this.isCorrectContactData) ||
+            !this.isCorrectEmail||
             this.delegate.delegateContact.FirstName == null ||
             this.delegate.delegateContact.FirstName == '' ||
             this.delegate.delegateContact.FirstName.length == 0 ||
@@ -212,7 +214,7 @@ export default class PpAddNewDelegate extends LightningElement {
             : 'save-del-btn addDelegateMobile';
     }
     get whatDelCanSeeSection(){
-        return this.isRTL ? 'slds-p-right_medium slds-p-top_medium' : 'slds-p-left_medium slds-p-top_medium'
+        return this.isRTL ? 'slds-p-right_medium slds-p-top_medium slds-p-bottom_small' : 'slds-p-left_medium slds-p-top_medium slds-p-bottom_small'
     }
     get whatDeleCanSeeText(){
         return this.isRTL ? 'slds-p-right_medium' : 'slds-p-left_medium'
@@ -222,7 +224,7 @@ export default class PpAddNewDelegate extends LightningElement {
         if (
             this.showExistingDelegateError ||
             this.participantAddingHimselfError ||
-            this.diableFNLNWhenDupContacts
+            this.checkboxDisableflag
         ) {
             checkBoxDisabled = true;
         }
@@ -413,8 +415,9 @@ export default class PpAddNewDelegate extends LightningElement {
     }
     doSearchContact() {
         let emailElement = this.template.querySelector('[data-id="emailInput"]');
+        this.delegate.delegateContact.Email = this.delegate.delegateContact.Email.trim();
         let delegate = this.delegate;
-        let email = delegate.delegateContact.Email;
+        let email = delegate.delegateContact.Email.trim();
         // let oldEmail =
         //     this.oldDelegate.delegateContact != undefined
         //         ? this.oldDelegate.delegateContact.Email
@@ -447,6 +450,7 @@ export default class PpAddNewDelegate extends LightningElement {
         this.showExistingContactWarning = false;
         this.participantAddingHimselfError = false;
         this.diableFNLNWhenDupContacts = false;
+        this.checkboxDisableflag = false;
         this.isContactSelected = false;
         this.oldDelegate = delegate;
         this.isLoading = true;
@@ -458,6 +462,8 @@ export default class PpAddNewDelegate extends LightningElement {
                 : communityService.getDelegateId()
         })
             .then((result) => {
+                emailElement.setCustomValidity('');
+              emailElement.reportValidity();
                 let contactData = JSON.parse(result);
                 let contDataLength = contactData.delegates.length;
                 this.allDelegate = contactData.delegates;
@@ -465,6 +471,8 @@ export default class PpAddNewDelegate extends LightningElement {
                 //this.delegate = {};
                 //partially Mask First Name and Last Name.
                 this.partiallyMaskFields();
+                //Reset the pre filled input values if Present.
+                this.resetInputValues(false);
                 //When only one existing contact is present.
                 if (contDataLength == 1) {
                     this.delegate = this.allDelegate[0];
@@ -474,26 +482,13 @@ export default class PpAddNewDelegate extends LightningElement {
                     if (this.allDelegate[0].delegateContact.Id != undefined) {
                         this.diableFNLNWhenDupContacts = true;
                     }
-                    // if (this.allDelegate[0].delegateContact.Id != undefined) {
-                    //     //If only one existing contact found for given email.
-                    //     this.showExistingContactWarning = true;
-                    //     this.diableFNLNWhenDupContacts = true;
-                    //     this.template.querySelector('[data-id="firstNameInput"]').value = '';
-                    //     this.template.querySelector('[data-id="lastNameInput"]').value = '';
-                    //     this.isLoading = false;
-                    //     return;
-                    // } else {
-                    //     //If only no existing contact found for given email.
-                    //     this.setSelectedOrFirstContactInputs();
-                    //     this.delegate = this.allDelegate[0];
-                    // }
                 } else {
                     //If More than one existing contacts found for given email.
                     this.showExistingContactWarning = true;
                     this.diableFNLNWhenDupContacts = true;
-                    this.template.querySelector('[data-id="firstNameInput"]').value = '';
-                    this.template.querySelector('[data-id="lastNameInput"]').value = '';
+                    this.checkboxDisableflag = true;
                     this.isLoading = false;
+                    this.sendMessageToDisableMultipicklist(true);
                     return;
                 }
             })
@@ -518,8 +513,6 @@ export default class PpAddNewDelegate extends LightningElement {
             lastNameElement.reportValidity();
         }
 
-        // console.log('isActive--->' + this.delegate.isActive);
-        // this.isDelegateActive = this.delegate.isActive;
         //If participant Tries to add himself as delegate, throw error message.
         if (
             this.delegate.delegateContact != undefined &&
@@ -550,14 +543,16 @@ export default class PpAddNewDelegate extends LightningElement {
             !isActiveDelegate && (status === 'Disconnected' || status === 'On Hold');
         let isDeletedOrWithdrawnDelegate =
             !isActiveDelegate && (status === 'Deleted' || status === 'Withdrawn');
+        var disableMultipicklist = false;
         //If Delegate is Active/former(Not Withdrawn).
         if (isActiveDelegate || isFormerDelegate) {
             this.showExistingDelegateError = true;
+            disableMultipicklist = true;
         } else if (isDeletedOrWithdrawnDelegate) {
             //if Delegate is withdrwan or Deleted
             this.isDeletedOrWithdrawnDelegate = true;
         }
-
+        this.sendMessageToDisableMultipicklist(disableMultipicklist);
         this.isLoading = false;
         //this.checkeExistingDelegate();
     }
@@ -645,11 +640,7 @@ export default class PpAddNewDelegate extends LightningElement {
                         );
                         this.isAttested = false;
                         this.isEmailConsentChecked = false;
-                        this.template.querySelector('[data-id="firstNameInput"]').value = '';
-                        this.template.querySelector('[data-id="lastNameInput"]').value = '';
-
-                        this.template.querySelector('[data-id="emailInput"]').value = '';
-                        this.sendFilterUpdates();
+                        this.resetInputValues(true);
                         this.goBackToManageDelegate();
                         this.isLoading = false;
                     })
@@ -697,20 +688,25 @@ export default class PpAddNewDelegate extends LightningElement {
         };
         publish(this.messageContext, messageChannel, returnPayload);
     }
+    //Send Reset All to True to child component PP_MultiPickistLWC to reset the multipicklist value.
+    //This LMS will be subscribe in connectedCallback in PP_MultiPickistLWC LWC comp.
+    sendMessageToDisableMultipicklist(isDisabledFlag) {
+        const returnPayload = {
+            isDisabled: isDisabledFlag
+        };
+        publish(this.messageContext, messageChannel, returnPayload);
+    }
 
     //This method will confirm the selected contact among multiple contacts.
     confirmSelection(event) {
         this.isLoading = true;
-        // if (this.allDelegate.length == 1) {
-        //     this.delegate = this.allDelegate[0];
-        // } else {
+        this.checkboxDisableflag = false;
         //Filter out the selected contact from list of all contacts.
         this.allDelegate.forEach((del) => {
             if (del.delegateContact.Id == this.selectedContact) {
                 this.delegate = del;
             }
         });
-        // }
         this.setSelectedOrFirstContactInputs();
         this.showExistingContactWarning = false;
     }
@@ -738,5 +734,21 @@ export default class PpAddNewDelegate extends LightningElement {
     }
     get disableConfirmSelectionBtn() {
         return this.isContactSelected ? false : true;
+    }
+
+    get isAddNewDelegate(){
+        return true;
+    }
+
+    //Reset the pre filled input values if Present.
+    resetInputValues(clearEmail){  
+        this.template.querySelector('[data-id="firstNameInput"]').value = '';
+        this.template.querySelector('[data-id="lastNameInput"]').value = '';
+        this.template.querySelector('[data-id="consentcheck"]').checked = false;
+        this.template.querySelector('[data-id="emailconsentcheck"]').checked = false ;
+        if(clearEmail){
+            this.template.querySelector('[data-id="emailInput"]').value = '';
+        }
+        this.sendFilterUpdates();
     }
 }

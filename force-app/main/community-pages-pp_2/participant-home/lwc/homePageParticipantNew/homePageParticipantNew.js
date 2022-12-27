@@ -6,8 +6,9 @@ import PPWELCOME from '@salesforce/label/c.PP_Welcome';
 import VISITS from '@salesforce/label/c.PG_SW_Tab_Visits';
 import EVENTS from '@salesforce/label/c.PG_SW_Tab_Events';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
-import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import { loadStyle } from 'lightning/platformResourceLoader';
+
+
 
 export default class HomePageParticipantNew extends LightningElement {
     label = {
@@ -39,10 +40,7 @@ export default class HomePageParticipantNew extends LightningElement {
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                Promise.all([loadStyle(this, communityPPTheme)])
+        Promise.all([loadStyle(this, communityPPTheme)])
                     .then(() => {
                         this.spinner = this.template.querySelector('c-web-spinner');
                         this.spinner ? this.spinner.show() : '';
@@ -50,12 +48,8 @@ export default class HomePageParticipantNew extends LightningElement {
                     })
                     .catch((error) => {
                         this.showErrorToast('Error occured', error.message, 'error');
-                    });
-            })
-            .catch((error) => {
-                this.showErrorToast('Error occured', error.message, 'error');
-            });
-    }
+        });
+       }
 
     initializeData() {
         getParticipantData()

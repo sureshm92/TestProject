@@ -36,11 +36,11 @@ public virtual without sharing class ResourceService {
     }
 
     public ResourceService init(String resourceType) {
-        return init(resourceType, null, null,null);
+        return init(resourceType, null, null, null);
     }
 
     public ResourceService init(String resourceType, String resourceId) {
-        return init(resourceType, resourceId, null,null);
+        return init(resourceType, resourceId, null, null);
     }
     public ResourceService ppinit(String resourceType, String participantData) {
         return init(resourceType, resourceId, null, participantData);
@@ -55,7 +55,7 @@ public virtual without sharing class ResourceService {
         this.resourceType = resourceType;
         this.resourceId = resourceId;
         this.contentClass = contentClass;
-        this.participantData=participantData;
+        this.participantData = participantData;
         if (participantData != null) {
             this.pstate = (ParticipantService.ParticipantState) JSON.deserialize(
                 participantData,
@@ -213,6 +213,7 @@ public virtual without sharing class ResourceService {
             'Expiration_Date__c, ' +
             'Image__c, ' +
             'Video__c, ' +
+            'Multimedia__c, ' +
             'Body__c, ' +
             'Updated_Date__c, ' +
             'CreatedDate, ' +
@@ -295,6 +296,25 @@ public virtual without sharing class ResourceService {
         for (ResourceSorting rc : resourceSortings) {
             rwSorted.add(rc.res1);
         }
+        return rwSorted;
+    }
+
+    public static List<ResourceWrapper> sortResourcesByType(
+        List<ResourceWrapper> resourceWrappers
+    ) {
+        List<ResourceWrapper> rwStudySorted = new List<ResourceWrapper>();
+        List<ResourceWrapper> rwPlatformSorted = new List<ResourceWrapper>();
+        for (ResourceWrapper rw : resourceWrappers) {
+            if (rw.resource.Content_Class__c == ResourceService.RESOURCE_SOURCE_STUDY) {
+                rwStudySorted.add(rw);
+            } else {
+                rwPlatformSorted.add(rw);
+            }
+        }
+        /**Sorting Study Level Resources before Platform Level Resources */
+        List<ResourceWrapper> rwSorted = new List<ResourceWrapper>();
+        rwSorted.addAll(rwStudySorted);
+        rwSorted.addAll(rwPlatformSorted);
         return rwSorted;
     }
 

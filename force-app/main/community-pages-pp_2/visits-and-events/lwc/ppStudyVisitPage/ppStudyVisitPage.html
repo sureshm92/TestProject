@@ -85,12 +85,12 @@
                                             class="slds-align_absolute-center no-data-is-available"
                                             style="height: 185px"
                                         >
-                                        <template if:true={isEvent}>
-                                            {label.eventNoDataAvailable}
-                                        </template>
-                                        <template if:false={isEvent}>
-                                            {label.visitNoDataAvailable}
-                                        </template>
+                                            <template if:true={isEvent}>
+                                                {label.eventNoDataAvailable}
+                                            </template>
+                                            <template if:false={isEvent}>
+                                                {label.visitNoDataAvailable}
+                                            </template>
                                         </div>
                                     </div>
                                 </template>
@@ -119,6 +119,7 @@
                                         ondataupdated={handleDataUpdate}
                                         ondiscard={handleDiscard}
                                         onsaveclicked={saveClicked}
+                                        isevent={isEvent}
                                     >
                                     </c-pp-Study-Visit-Details-Card>
                                 </div>
