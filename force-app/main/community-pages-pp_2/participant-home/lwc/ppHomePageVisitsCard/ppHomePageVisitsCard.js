@@ -59,15 +59,14 @@ export default class HomePageVisitsCard extends LightningElement {
     empty_state = pp_community_icons + '/' + 'empty_visits.png';
     spinner;
     renderedCallback() {
-        if(this.isInitialized != true){
+        if (this.isInitialized != true) {
             this.initializeData();
-            
         }
     }
 
     initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
-        if(this.spinner){
+        if (this.spinner) {
             this.spinner.show();
         }
         getVisitsPreviewAndCount({})
@@ -81,10 +80,13 @@ export default class HomePageVisitsCard extends LightningElement {
                         ? this.upcomingVisit.visitDate
                         : false;
                     this.visitName = this.upcomingVisit.visit.Name;
-                    this.siteTitle = this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r?.Site__r?.Name;
-                    this.sitePhone = this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r?.Site__r?.Phone;
-                    let location = this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r
-                        ?.Site__r?.BillingAddress;
+                    this.siteTitle =
+                        this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r?.Site__r?.Name;
+                    this.sitePhone =
+                        this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r?.Site__r?.Phone;
+                    let location =
+                        this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r?.Site__r
+                            ?.BillingAddress;
 
                     this.siteLocation = location
                         ? (location.street ? location.street : '') +
@@ -102,7 +104,7 @@ export default class HomePageVisitsCard extends LightningElement {
                 } else {
                     this.isUpcomingDetails = false;
                 }
-                if(this.spinner){
+                if (this.spinner) {
                     this.spinner.hide();
                 }
                 this.isInitialized = true;
