@@ -28,6 +28,8 @@ import oneweek from '@salesforce/label/c.PP_One_Week_Before';
 import none from '@salesforce/label/c.PP_None';
 import custom from '@salesforce/label/c.PP_Custom';
 import visitdetailsupdated from '@salesforce/label/c.Visit_details_updated_successfully';
+import eventdetailsupdated from '@salesforce/label/c.Event_details_updated_successfully';
+
 export default class PpStudyVisitDetailsCard extends LightningElement {
     label = {
         date,
@@ -45,6 +47,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         oneweek,
         custom,
         visitdetailsupdated,
+        eventdetailsupdated,
         none,
         REMIND_ME
     };
@@ -59,6 +62,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     @api sitename;
     @api sitephone;
     @api past;
+    @api isevent;
     @track todaydate;
     @track todaytime;
     @track calculatedDate;
@@ -812,7 +816,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                         })
                             .then((result) => {
                                 const event = new ShowToastEvent({
-                                    message: this.label.visitdetailsupdated,
+                                    message: this.isevent
+                                        ? this.label.eventdetailsupdated
+                                        : this.label.visitdetailsupdated,
                                     variant: 'success',
                                     mode: 'dismissable'
                                 });
@@ -830,7 +836,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                             .then((result) => {
                                 if (result) {
                                     const event = new ShowToastEvent({
-                                        message: this.label.visitdetailsupdated,
+                                        message: this.isevent
+                                            ? this.label.eventdetailsupdated
+                                            : this.label.visitdetailsupdated,
                                         variant: 'success',
                                         mode: 'dismissable'
                                     });
@@ -844,7 +852,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                             });
                     } else {
                         const event = new ShowToastEvent({
-                            message: this.label.visitdetailsupdated,
+                            message: this.isevent
+                                ? this.label.eventdetailsupdated
+                                : this.label.visitdetailsupdated,
                             variant: 'success',
                             mode: 'dismissable'
                         });
@@ -863,7 +873,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             })
                 .then((result) => {
                     const event = new ShowToastEvent({
-                        message: this.label.visitdetailsupdated,
+                        message: this.isevent
+                            ? this.label.eventdetailsupdated
+                            : this.label.visitdetailsupdated,
                         variant: 'success',
                         mode: 'dismissable'
                     });
@@ -881,7 +893,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 .then((result) => {
                     if (result) {
                         const event = new ShowToastEvent({
-                            message: this.label.visitdetailsupdated,
+                            message: this.isevent
+                                ? this.label.eventdetailsupdated
+                                : this.label.visitdetailsupdated,
                             variant: 'success',
                             mode: 'dismissable'
                         });
@@ -895,7 +909,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 });
         } else {
             const event = new ShowToastEvent({
-                message: this.label.visitdetailsupdated,
+                message: this.isevent
+                    ? this.label.eventdetailsupdated
+                    : this.label.visitdetailsupdated,
                 variant: 'success',
                 mode: 'dismissable'
             });
