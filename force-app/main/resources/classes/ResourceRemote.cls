@@ -24,6 +24,10 @@ public without sharing class ResourceRemote {
             resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(
                 resourceWrapperContainer.wrappers
             );
+            /**Separate Study and Platform Level Resources*/
+            resourceWrapperContainer.wrappers = ResourceService.sortResourcesByType(
+                resourceWrapperContainer.wrappers
+            );
 
             return resourceWrapperContainer;
         } catch (Exception e) {
