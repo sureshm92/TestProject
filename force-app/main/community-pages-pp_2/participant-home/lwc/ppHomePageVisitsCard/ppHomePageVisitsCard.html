@@ -382,16 +382,9 @@
                         </template>
                     </div>
                     <template if:true={moreIconsCount}>
-                        <template if:true={desktop}>
-                            <div class="slds-m-top_small more text-centre">
+                            <div class="slds-m-top_small more-mobile more text-centre">
                             + {moreIconsCount} {labels.MORE}
                             </div>
-                        </template>
-                        <template if:false={desktop}>
-                            <div class="slds-m-top_small more-mobile text-centre">
-                            + {moreIconsCount} {labels.MORE}
-                            </div>
-                        </template>
                     </template>
                     <template if:false={moreIconsCount}>
                         <div class="slds-m-top_small more text-centre">
