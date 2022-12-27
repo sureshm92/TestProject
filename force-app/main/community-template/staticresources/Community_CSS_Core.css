@@ -582,6 +582,8 @@ lightning-datepicker lightning-button-icon .slds-button svg {
     padding: 0 0 0 5px;
     text-align: left;
     font-size: 14px !important;
+    margin-top: -4px;
+    line-height: 22px !important;
 }
 
 [c-ppaddnewdelegate_ppaddnewdelegate] .slds-checkbox__label {
@@ -1870,10 +1872,10 @@ input[type=password]::-ms-clear
     background-color: #F2F2F2;
 
 }
-.slds-backdrop[c-ppModalOld_ppModalOld]{
+/* .slds-backdrop[c-ppModalOld_ppModalOld]{
     background-color: rgba(0, 0, 0, 0.1);
+} */
 /* trial item - contact to study - alumni participant */
-}
 .trialItemPopUpContainer .cPopup .p-header h2 {
     font-size: 24px;
     font-weight: 500;
@@ -1893,4 +1895,13 @@ input[type=password]::-ms-clear
     font-weight: 400;
     overflow-x: hidden;
     padding-top: 0px;
+}
+.e-consent-aligment .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    font-size: 14px !important;
+    padding: 0 5px 0 5px;
+    margin-top: -4px;
+    line-height: 21px;
+}
+.e-consent-aligment .slds-checkbox__label {
+    display: flex;
 }

@@ -24,6 +24,10 @@ public without sharing class ResourceRemote {
             resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(
                 resourceWrapperContainer.wrappers
             );
+            /**Separate Study and Platform Level Resources*/
+            resourceWrapperContainer.wrappers = ResourceService.sortResourcesByType(
+                resourceWrapperContainer.wrappers
+            );
 
             return resourceWrapperContainer;
         } catch (Exception e) {
@@ -51,7 +55,7 @@ public without sharing class ResourceRemote {
             ) {
                 if (linkWrapper.VideoAndArticlesAreAvailable) {
                     ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
-                        .ppinit('Article;Video', participantData)
+                        .ppinit('Article;Video;Multimedia', participantData)
                         .getResourceWrapperContainer();
 
                     resUpdates.addAll(contExplore.wrappers);
@@ -62,14 +66,14 @@ public without sharing class ResourceRemote {
             ) {
                 //for delegate and alumni view
                 ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
-                    .ppinit('Article;Video', participantData)
+                    .ppinit('Article;Video;Multimedia', participantData)
                     .getResourceWrapperContainer();
 
                 resUpdates.addAll(contExplore.wrappers);
             } else if (linkWrapper.VideoAndArticlesAreAvailable) {
                 //for participant view
                 ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
-                    .ppinit('Article;Video', participantData)
+                    .ppinit('Article;Video;Multimedia', participantData)
                     .getResourceWrapperContainer();
 
                 resUpdates.addAll(contExplore.wrappers);

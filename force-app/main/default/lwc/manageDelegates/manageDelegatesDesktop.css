@@ -87,8 +87,10 @@
     padding-right: 6.8px;
 }
 .manage-del-continer {
-    margin: 20px;
+    margin-top: 19px;
+    margin-left: 23px;
     margin-right: 0px;
+    margin-bottom: 50px;
 }
 .manage-del-items {
     margin: 24px 24px 0 24px;
@@ -270,9 +272,23 @@
 .e-consent-aligment {
     padding: 0px 0px 25px 25px;
 }
-.slds-form-element__label{
+/* .slds-form-element__label{
     margin-top: -6px !important;
 }
 .slds-checkbox__label{
     display: flex !important;
+} */
+
+.md-help-text-style {
+    background-Color: #f0f0f0;
+    display: block;
+    position: absolute;   
+    background-color: #444444;
+    box-shadow: 0 8px 20px 0 rgba(0,0,0,0.08);
+    margin-top:-82px;
+    height: 30px;
 }
+.md-help-text-style-none{
+    display: none;
+}
+

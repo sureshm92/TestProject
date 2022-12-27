@@ -25,6 +25,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     @api studyListStr = '';
     @api totalNoOfStudies;
     @api isDesktop;
+    @api addNewDelegate;
 
     @track firstThreeselectedStudyies = [];
     subscription = null;
@@ -59,11 +60,15 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         if (message.ResetAll) {
             this.removeAll();
         }
-        // //If we recieve Piclist Value from Parent component.
-        // if (message.piclistValues) {
-        //     this.picklistValues = message.piclistValues;
-        //     this.totalNoOfStudies = this.picklistValues.length;
-        // }
+        //If we recieved isDisabled flag from Parent component.
+        if (message.isDisabled == true) {
+            this.template.querySelector('.disable-dropdown').classList.add('std-multipicklist-disabled');
+            this.template.querySelector('.disable-select-all').classList.add('std-disable-select-all');
+        }
+        if (message.isDisabled == false) {
+            this.template.querySelector('.disable-dropdown').classList.remove('std-multipicklist-disabled');
+            this.template.querySelector('.disable-select-all').classList.remove('std-disable-select-all');
+        }
     }
     //Subscribe the message channel
     unsubscribeToMessageChannel() {
@@ -129,7 +134,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
             }
             
         }
-        return '';
+        return ' ';
     }
 
     //Return if no Study selected.
@@ -157,6 +162,14 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         return totalSelectedStudies != 0 && totalSelectedStudies == this.totalNoOfStudies
             ? true
             : false;
+    }
+    get studyMoreClass(){
+        return this.addNewDelegate ? 'study-thmore-add-newdel' : 'study-thmore-add-assignment';
+        // if(this.addNewDelegate){
+        //     return 'study-thmore-add-newdel';
+        //   }else{
+        //     return 'study-thmore-add-assignment';
+        //   }
     }
     divSetStudy(event) {
         event.currentTarget.getElementsByTagName('input')[0].checked =

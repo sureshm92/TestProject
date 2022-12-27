@@ -128,6 +128,7 @@
 .main-header-brand {
     background: linear-gradient(to bottom, #00839a 0%, #005587 100%);
     border-bottom-right-radius: 20px;
+    height: 4rem;
 }
 
 .mobile-menu-background {
@@ -137,6 +138,13 @@
 .font-thickness {
     font-weight: 500;
 }
+
+.profileIcon .rr-icon_default {
+    fill: #ffffff;
+    margin-right: 5px;
+    width: 30px!important;
+}
+
 @media (max-width: 500px) {
     .rr-width-limiter .side-padding {
         padding-left: 0rem !important;
@@ -452,12 +460,12 @@
 }
 
 .logo-container-pp {
-    height: 50px;
+    height: 100%;
     display: flex;
     align-items: center;
     flex-shrink: 0;
     width: 165px;
-    margin: 0 44px 0 44px;
+    margin: 0 44px 0 0;
 }
 
 .cookie-accordion-border .slds-accordion__summary-action {
@@ -1103,4 +1111,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     line-height: 19px;
     margin-left: 4px;
 }
-  
+.cookie-block-user {
+    pointer-events: none;
+}

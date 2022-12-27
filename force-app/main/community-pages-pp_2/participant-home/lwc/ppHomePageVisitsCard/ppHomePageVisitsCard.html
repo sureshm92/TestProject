@@ -257,12 +257,12 @@
                             <span class="center"><img class="no-upcoming-img" src={empty_state} /></span>
                             <template if:true={isProgram}>
                                 <span class="text-colour slds-m-top_medium"
-                                    >{labels.No_Upcoming_Visit}</span
+                                    >{labels.No_Upcoming_Event}</span
                                 >
                             </template>
                             <template if:false={isProgram}>
                                 <span class="text-colour slds-m-top_medium"
-                                    >{labels.No_Upcoming_Event}</span
+                                    >{labels.No_Upcoming_Visit}</span
                                 >
                             </template>
                         </div>
@@ -364,7 +364,7 @@
                     </div>
                     <div class="slds-grid slds-wrap">
                         <template for:each={iconDetails} for:item="icon">
-                            <div class="slds-col slds-size_6-of-12 slds-p-top_small slds-p-horizontal_small detail-section" key={icon.Name}>
+                            <div class="slds-col slds-size_6-of-12 slds-p-top_small slds-p-horizontal_small detail-section icon-padding" key={icon.Name}>
                                 <div class="expect-icon">   
                                     <c-web-icon
                                     icon-size="medium-large"

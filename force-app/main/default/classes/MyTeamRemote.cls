@@ -1015,7 +1015,7 @@ public without sharing class MyTeamRemote {
                 contactDelegate.Landing_Community__c = Site.getMasterLabel() == 'IQVIA RH'
                     ? CommunityService.IQVIA_NETWORK_NAME
                     : Site.getMasterLabel();
-                contactDelegate.Participant_Opt_In_Status_Emails__c=true;
+                //contactDelegate.Participant_Opt_In_Status_Emails__c=true;
                 insert contactDelegate;
                 Participant__c participantDelegate = new Participant__c(
                     Adult__c = true,

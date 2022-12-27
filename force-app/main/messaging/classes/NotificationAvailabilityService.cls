@@ -196,7 +196,7 @@ public without sharing class NotificationAvailabilityService {
                         Permit_Mail_Email_contact_for_this_study__c,
                         Study_Site__r.Suppress_Participant_Emails__c
                     FROM Participant_Enrollment__c
-                    WHERE Clinical_Trial_Profile__c IN :objectsByIds.keyset()
+                    WHERE Clinical_Trial_Profile__c IN :objectsByIds.keyset() AND Participant_Contact__c IN :contactByIdMap.keyset()
                 ]) {
                     string str =
                         string.valueOf(objPer.Clinical_Trial_Profile__c) +
