@@ -66,8 +66,18 @@ export default class Pp_multiPicklistLWC extends LightningElement {
             this.template.querySelector('.disable-select-all').classList.add('std-disable-select-all');
         }
         if (message.isDisabled == false) {
-            this.template.querySelector('.disable-dropdown').classList.remove('std-multipicklist-disabled');
-            this.template.querySelector('.disable-select-all').classList.remove('std-disable-select-all');
+            this.template.querySelector('.disable-dropdown').classList.forEach((cls) => {
+                if (cls ==='std-multipicklist-disabled'){
+                    this.template.querySelector('.disable-dropdown').classList.remove('std-multipicklist-disabled');
+                }
+            });
+            if(this.template.querySelector('.disable-select-all')!=null || this.template.querySelector('.disable-select-all')!= undefined){
+                this.template.querySelector('.disable-select-all').classList.forEach((cls) => {
+                    if (cls ==='std-disable-select-all'){
+                        this.template.querySelector('.disable-select-all').classList.remove('std-disable-select-all');
+                    }
+                });
+            }
         }
     }
     //Subscribe the message channel
