@@ -251,11 +251,12 @@
                                                         class="e-consent-aligment slds-p-left_medium slds-p-right_medium slds-p_bottom_medium"
                                                         ><lightning-input
                                                             data-id="emailconsentcheck"
+                                                            data-pdid={del.PatientDelegate.Id}
                                                             class="taps mob-checkbox-txt validate"
                                                             type="checkbox"
                                                             label={label.PP_Delegate_Email_Consent}
-                                                            checked={isEmailConsentChecked}
-                                                            onchange={handleConsentCheck}
+                                                            checked={del.isEmailConsentChecked}
+                                                            onchange={handleConsentCheckFormerDel}
                                                         ></lightning-input
                                                     ></lightning-layout-item>
                                                     <lightning-layout-item
@@ -509,11 +510,12 @@
                                                             class=" e-consent-aligment slds-p-left_medium slds-p-right_medium slds-p_bottom_medium"
                                                             ><lightning-input
                                                                 data-id="emailconsentcheck"
+                                                                data-pdid={del.PatientDelegate.Id}
                                                                 class="taps mob-checkbox-txt validate"
                                                                 type="checkbox"
                                                                 label={label.PP_Delegate_Email_Consent}
-                                                                checked={isEmailConsentChecked}
-                                                                onchange={handleConsentCheck}
+                                                                checked={del.isEmailConsentChecked}
+                                                                onchange={handleConsentCheckFormerDel}
                                                             ></lightning-input
                                                         ></lightning-layout-item>
                                                         <lightning-layout-item
