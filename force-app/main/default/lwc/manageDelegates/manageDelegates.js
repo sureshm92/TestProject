@@ -549,6 +549,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             pde.disableAddAssignmentButton = false;
             pde.disableDeleteButton = false;
         });
+        this.isAtLeastOneStudySelected = false;
     }
     //Discard Assignment from Former delegate section.
     discardAssignmentFormer(event) {
@@ -573,6 +574,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 pden.disableRemoveButton = false;
             });
         });
+        this.isAtLeastOneStudySelected = false;
     }
 
     //Flipt the delete icon between gray and red.
