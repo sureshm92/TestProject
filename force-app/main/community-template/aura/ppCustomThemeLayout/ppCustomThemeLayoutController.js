@@ -2,20 +2,26 @@
     doInit: function (component, event, helper) {
         if (communityService.isInitialized()) {
             component.set('v.communityServ', communityService);
-            helper.init(component);
+            helper.init(component);            
         } else {
             communityService.initialize(component);
         }
     },
-
-    doRefresh: function (component, event, helper) {
+    
+    handleLoadTelevisitBanner : function (component, event, helper) {
+        let loadTelevisitBanner =  event.getParam('loadTelevisitBanner');
+        component.set('v.handleTelevistBanner',loadTelevisitBanner);
+        component.find('spinner').hide();
+        
+    },
+   doRefresh: function (component, event, helper) {
         helper.init(component);
-
+        
         component.find('ppMenu').forceRefresh();
         component.find('ppFooter').forceRefresh();
         component.find('ppAlerts').forceRefresh();
     },
-
+    
     doGoHome: function () {
         communityService.navigateToPage('');
     },

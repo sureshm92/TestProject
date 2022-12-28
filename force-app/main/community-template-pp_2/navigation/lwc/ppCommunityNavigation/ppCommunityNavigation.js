@@ -58,7 +58,7 @@ export default class PpCommunityNavigation extends LightningElement {
         if (communityService.isInitialized()) {
             var recId = communityService.getUrlParameter('id');
             var userMode = communityService.getUserMode();
-            getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
+            getTrialDetailData({ trialId: recId, userMode: userMode, isNewPP: true })
                 .then((result) => {
                     let td = JSON.parse(result);
                     this.showVisits = td.tabs?.some(
@@ -208,6 +208,11 @@ export default class PpCommunityNavigation extends LightningElement {
             key: key,
             ...this.allPagesSubMenu[key]
         }));
+        const loadTelevisitBanner = true;
+         const valueChangeEvent = new CustomEvent("handleLoadTelevisitBanner", {
+             detail: { loadTelevisitBanner }
+         });
+         this.dispatchEvent(valueChangeEvent);
     }
 
     handleNavigation(event) {
@@ -240,6 +245,7 @@ export default class PpCommunityNavigation extends LightningElement {
     }
     // onclick of header menu for populating submenu and toggling dropdown
     dropdownMenu() {
+        debugger;
         var element = this.template.querySelector('.my-menu');
         var headerMenu = element.getAttribute('data-key');
         var subMenu = Object.keys(this.allPagesSubMenu).map((key) => ({
@@ -258,6 +264,7 @@ export default class PpCommunityNavigation extends LightningElement {
     }
     //on removing focus from dropdown
     removeElementFocus() {
+        console.log('removeEmelentFocus');
         var element = this.template.querySelector('.my-menu');
         element.classList.remove('slds-is-open');
     }
