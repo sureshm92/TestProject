@@ -22,12 +22,11 @@
     <aura:attribute name="isPPonPhone" type="Boolean" default="false" />
     <aura:attribute name="communityServ" type="Object" />
     <aura:attribute name="handleTelevistBanner" type="Boolean" default="false"/>
-    <aura:attribute name="loadSpinner" type="Boolean" default="false"/>
     
     
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
-    <aura:handler name="closeNavigationMenu" event="c:ppCloseNavMenu" action="{!c.handleClick}" />
+    <aura:handler name="closeNavigationMenu" event="c:ppCloseNavMenu" action="{!c.handlecloseNavigationMenu}" />
     
     <aura:handler event="c:PPMobileMenu" action="{!c.closePPMobileMenu}" />
     
@@ -36,7 +35,9 @@
     
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     
+    <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" showFullSpinner ="true" />
+    </aura:if>
     
     
     <aura:if isTrue="{!v.isInitialized}">
