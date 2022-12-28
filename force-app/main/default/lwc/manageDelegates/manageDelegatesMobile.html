@@ -74,7 +74,7 @@
                                 size="12"
                                 class="del-container slds-m-top_medium"
                             >
-                                <lightning-layout multiple-rows="true">
+                                <lightning-layout multiple-rows="true" class="slds-p-left_medium slds-p-right_medium">
                                     <lightning-layout-item
                                         size="12"
                                         class="slds-m-top_x-large slds-align_absolute-center"
@@ -89,7 +89,7 @@
                                     >
                                     <lightning-layout-item
                                         size="12"
-                                        class="slds-m-top_large slds-m-bottom_x-large slds-align_absolute-center"
+                                        class="slds-m-top_large slds-m-bottom_medium slds-align_absolute-center"
                                     >
                                         <button
                                             title=""
@@ -251,11 +251,12 @@
                                                         class="e-consent-aligment slds-p-left_medium slds-p-right_medium slds-p_bottom_medium"
                                                         ><lightning-input
                                                             data-id="emailconsentcheck"
+                                                            data-pdid={del.PatientDelegate.Id}
                                                             class="taps mob-checkbox-txt validate"
                                                             type="checkbox"
                                                             label={label.PP_Delegate_Email_Consent}
-                                                            checked={isEmailConsentChecked}
-                                                            onchange={handleConsentCheck}
+                                                            checked={del.isEmailConsentChecked}
+                                                            onchange={handleConsentCheckFormerDel}
                                                         ></lightning-input
                                                     ></lightning-layout-item>
                                                     <lightning-layout-item
@@ -509,11 +510,12 @@
                                                             class=" e-consent-aligment slds-p-left_medium slds-p-right_medium slds-p_bottom_medium"
                                                             ><lightning-input
                                                                 data-id="emailconsentcheck"
+                                                                data-pdid={del.PatientDelegate.Id}
                                                                 class="taps mob-checkbox-txt validate"
                                                                 type="checkbox"
                                                                 label={label.PP_Delegate_Email_Consent}
-                                                                checked={isEmailConsentChecked}
-                                                                onchange={handleConsentCheck}
+                                                                checked={del.isEmailConsentChecked}
+                                                                onchange={handleConsentCheckFormerDel}
                                                             ></lightning-input
                                                         ></lightning-layout-item>
                                                         <lightning-layout-item

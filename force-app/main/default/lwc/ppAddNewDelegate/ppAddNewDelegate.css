@@ -156,8 +156,9 @@
 .ad-warningIconPosition {
     padding: 20px;
 }
-.ad-error-text-padding {
+.ad-error-text {
     padding: 10px 10px 10px 10px;
+    border-left: 1px solid white;
 }
 .ad-warning-container {
     background: #fff4e5;

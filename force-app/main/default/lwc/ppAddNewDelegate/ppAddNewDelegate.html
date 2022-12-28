@@ -92,7 +92,8 @@
                     </div>
                 </div>
             </div>
-            <!--Existing delegate Error: Start-->
+            <template if:true={isDesktop}>
+                <!--Existing delegate Error: Start-->
             <template if:true={showExistingDelegateError}>
                 <div
                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large"
@@ -100,14 +101,13 @@
                     <lightning-layout
                         multiple-rows="true"
                         class="ad-error-container"
-                        vertical-align="center"
                     >
-                        <lightning-layout-item size="1" class="ad-errorIconPosition">
+                        <lightning-layout-item size="1" class=" slds-align_absolute-center">
                             <span>
                                 <img src={exclamation} />
                             </span>
                         </lightning-layout-item>
-                        <lightning-layout-item size="11" class="ad-error-text-padding">
+                        <lightning-layout-item size="11" class="ad-error-text">
                             <span class="ad-text-red">{label.PP_Warning} </span>
                             <span>{label.PP_ExistingDelError}</span>
                             <span class="blue-highlight-text-color" onclick={goBackToManageDelegate}
@@ -197,6 +197,113 @@
                 </div>
             </template>
             <!--Existing contact warning: ends-->
+            </template>
+            <template if:false={isDesktop}>
+                <!--Existing delegate Error: Start-->
+            <template if:true={showExistingDelegateError}>
+                <div
+                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large"
+                >
+                    <lightning-layout
+                        multiple-rows="true"
+                        class="ad-error-container"
+                    >
+                        <lightning-layout-item size="2" class="slds-align_absolute-center">
+                            <span>
+                                <img src={exclamation} />
+                            </span>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="10" class="ad-error-text">
+                            <span class="ad-text-red">{label.PP_Warning} </span>
+                            <span>{label.PP_ExistingDelError}</span>
+                            <span class="blue-highlight-text-color" onclick={goBackToManageDelegate}
+                                >&nbsp;{label.PP_ManageDelegates}</span
+                            >.
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+            <!--Existing delegate Error: End-->
+            <!--Existing contact warning: Start-->
+            <template if:true={showExistingContactWarning}>
+                <div
+                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large"
+                >
+                    <lightning-layout
+                        multiple-rows="true"
+                        class="ad-warning-container"
+                        
+                    >
+                        <lightning-layout-item size="2" class="slds-align_absolute-center ">
+                            <span>
+                                <img src={exclamation_orange} class="ad-exclamation-orange" />
+                            </span>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="10">
+                            <lightning-layout
+                                multiple-rows="true"
+                                vertical-align="center"
+                                class="ad-border-white"
+                            >
+                                <lightning-layout-item
+                                    size="12"
+                                    class="ad-warning-text slds-p-left_small slds-p-top_medium"
+                                >
+                                    <span class="ad-text-bold">{label.PP_Select_User} </span>
+                                    <span>{label.PP_There_Are}</span
+                                    >&nbsp;{existingContactsCount}&nbsp;<span
+                                        >{label.PP_Users_Associated}</span
+                                    >
+                                </lightning-layout-item>
+                                <lightning-layout-item class="slds-p-left_small" size="12">
+                                    <lightning-layout multiple-rows="treu">
+                                        <template
+                                            for:each={allDelegate}
+                                            for:item="del"
+                                            for:index="index"
+                                        >
+                                            <lightning-layout-item
+                                                size="12"
+                                                key={del.delegateContact.Id}
+                                                class="slds-m-top_medium"
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    name={del.delegateContact.Name}
+                                                    value={del.delegateContact.Id}
+                                                    class="con-checkbox"
+                                                    onchange={setSelectedContact}
+                                                    data-contid={del.delegateContact.Id}
+                                                    data-id="checkbox"
+                                                />
+                                                <span class="text-for-check"
+                                                    >{del.delegateContact.FirstName} &nbsp;
+                                                    {del.delegateContact.LastName}</span
+                                                >
+                                            </lightning-layout-item>
+                                        </template>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                                <lightning-layout-item
+                                    class="slds-p-left_small slds-m-top_medium slds-m-bottom_medium"
+                                    size="12"
+                                >
+                                    <button
+                                        title=""
+                                        onclick={confirmSelection}
+                                        class="btn-confirm-selection"
+                                        disabled={disableConfirmSelectionBtn}
+                                    >
+                                        {label.PP_Confirm_Selection}
+                                    </button>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+            <!--Existing contact warning: ends-->
+            </template>
             <!--Study Multip Piclist Start-->
             <div
                 class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large"
@@ -295,7 +402,7 @@
                                         {label.PG_PST_L_Delegates_Receive_Emails_New}
                                     </li>
                                     <li>{label.PG_PST_L_Delegates_See_Lab_Result_New}</li>
-                                    <li>PG_PST_L_Delegates_See_Vitals_New</li>
+                                    <li>{label.PG_PST_L_Delegates_See_Vitals_New}</li>
                                     <li class="slds-m-vertical_xx-small">
                                         {label.PG_PST_L_Delegates_My_Measur_New}
                                     </li>
