@@ -22,7 +22,6 @@
     <aura:attribute name="isPPonPhone" type="Boolean" default="false" />
     <aura:attribute name="communityServ" type="Object" />
     <aura:attribute name="handleTelevistBanner" type="Boolean" default="false"/>
-    <aura:attribute name="loadSpinner" type="Boolean" default="false"/>
     
     
     <!-- events: -->
@@ -36,7 +35,9 @@
     
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     
+    <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" showFullSpinner ="true" />
+    </aura:if>
     
     
     <aura:if isTrue="{!v.isInitialized}">
