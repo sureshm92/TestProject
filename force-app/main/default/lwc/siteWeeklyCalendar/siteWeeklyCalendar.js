@@ -68,6 +68,8 @@ export default class SiteWeeklyCalendar extends LightningElement {
     this.currentMonth = month[userDate.getMonth()];
     this.currentYear = userDate.getFullYear();
     let dayn = 0;
+    let daym = 0;
+    var dayy = 0;
     this.isCurrentWeek = true;
 
     for (let i = 0; i < 7; i++) {
@@ -78,10 +80,14 @@ export default class SiteWeeklyCalendar extends LightningElement {
       if (i == this.currentDay) {
         datevalue = this.fetchDay(this.currentDate);
         dayn = datevalue.getDate();
+        daym = month[datevalue.getMonth()];
+        dayy = datevalue.getFullYear();
         css = selectedCss;
       } else {
         datevalue = this.fetchDay(this.currentDate - (this.currentDay - i));
         dayn = datevalue.getDate();
+        daym = month[datevalue.getMonth()]
+        dayy = datevalue.getFullYear();
       }
       calData = { dayn: dayn, css: css, datevalue: datevalue };
       this.dayList.push(calData);
@@ -94,6 +100,8 @@ export default class SiteWeeklyCalendar extends LightningElement {
       this.currentMonth = this.selectedmonth;
       this.currentYear = selectedYear;
     }
+    this.currentMonth = daym;
+    this.currentYear = dayy;
   }
 
   fetchDay(i) {
@@ -149,6 +157,7 @@ export default class SiteWeeklyCalendar extends LightningElement {
     this.dayList = [];
     var dayn = 0;
     let daym = 0;
+    var dayy = 0;
     this.isCurrentWeek = false;
     for (let i = 0; i < 7; i++) {
       let css = "";
@@ -161,12 +170,14 @@ export default class SiteWeeklyCalendar extends LightningElement {
         );
         dayn = dateValue.getDate();
         daym = month[dateValue.getMonth()];
+        dayy = dateValue.getFullYear();
       } else if (i > this.currentDay) {
         dateValue = this.fetchDay(
           this.currentDate + (7+((currentWeek-1) * 7) + (i - this.currentDay))
         );
         dayn = dateValue.getDate();
         daym =month[dateValue.getMonth()];
+        dayy = dateValue.getFullYear();
       }
       if (dayn == this.selectedDay && daym == this.selectedmonth) {
         calData = { dayn: dayn, css: selectedCss, datevalue: dateValue };
@@ -182,12 +193,15 @@ export default class SiteWeeklyCalendar extends LightningElement {
       this.currentMonth = this.selectedmonth;
       this.currentYear = selectedYear;
     }
+      this.currentMonth = daym;
+      this.currentYear = dayy;
   }
 
   handlePrev(currentWeek) {
     this.dayList = [];
     let dayn = 0;
     let daym = 0;
+    var dayy = 0;
     this.isCurrentWeek = false;
     for (let i = 0; i < 7; i++) {
       let css = "";
@@ -201,12 +215,14 @@ export default class SiteWeeklyCalendar extends LightningElement {
         );
         dayn = dateValue.getDate();
         daym = month[dateValue.getMonth()];
+        dayy = dateValue.getFullYear();
       } else if (i > this.currentDay) {
         dateValue = this.fetchDay(
           this.currentDate - (7+((currentWeek-1) * 7) + this.currentDay - i)
         );
         dayn = dateValue.getDate();
         daym = month[dateValue.getMonth()];
+        dayy = dateValue.getFullYear();
       }
       if (dayn == this.selectedDay && daym == this.selectedmonth) {
         calData = { dayn: dayn, css: selectedCss, datevalue: dateValue };
@@ -221,6 +237,8 @@ export default class SiteWeeklyCalendar extends LightningElement {
       this.currentMonth = this.selectedmonth;
       this.currentYear = selectedYear;
     }
+      this.currentMonth = daym;
+      this.currentYear = dayy;
   }
 
   selectDate(event) {

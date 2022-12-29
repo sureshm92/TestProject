@@ -747,7 +747,19 @@ public without sharing class NotificationAvailabilityService {
      **/
     public Boolean skipStudyLevelSMSCheck(Notification__c n) {
         String perIdRecipientIdKey = n?.WhatId__c + '_' + n?.Recipient__c;
-
+        if(n!=null && n.WhatId__c !=null){
+            Id whatId = n.WhatId__c;
+            String objType = String.valueOf(whatId.getSobjectType());
+            if (objType == 'Task') {
+                if (
+                    NotificationService.taskMap!=null && NotificationService.taskMap.containsKey(n.WhatId__c) && 
+                    String.valueOf(NotificationService.taskMap.get(n.WhatId__c)?.WhatId?.getSobjectType()) ==
+                    'Participant_Enrollment__c'
+                ){
+                    perIdRecipientIdKey = NotificationService.taskMap.get(n.WhatId__c).WhatId + '_' + n?.Recipient__c;
+                }
+            }
+        }
         if (n.Notification_Type__c == NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG) {
             // If SMS Type is Welcome Message for Patient Delegate and welcome message is sent to Patient delegate then skip the non welcome SMS.
             Boolean welcomeMessageSendToDel =

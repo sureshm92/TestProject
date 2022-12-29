@@ -32,17 +32,21 @@
                         {item.label}
                     </a>
                     <template if:true={showSubMenu}>
-                        <template for:each={submenu} for:item="subItem">
-                            <template if:true={subItem.visible}>
-                                <div key={subItem.label}>
-                                    <a href={subItem.link}>
-                                        <span class="slds-truncate" title={subItem.label}
-                                            >{subItem.label}
-                                        </span>
-                                    </a>
-                                </div>
-                            </template>
-                        </template>
+                        <div class="slds-dropdown slds-dropdown_left">
+                            <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                <template for:each={submenu} for:item="subItem">
+                                    <template if:true={subItem.visible}>
+                                        <div class="slds-dropdown__item" key={subItem.label}>
+                                            <a href={subItem.link}>
+                                                <span class="slds-truncate slds-p-left_small slds-p-right_small" title={subItem.label}
+                                                    >{subItem.label}
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </template>
+                                </template>
+                            </ul>
+                        </div>
                     </template>
                 </div>
             </div>

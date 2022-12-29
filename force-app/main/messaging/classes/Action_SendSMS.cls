@@ -401,6 +401,7 @@ public without sharing class Action_SendSMS implements Action {
                     ctpIdList.add(whatId);
                 } else if (objType == 'Task') {
                     taskIdList.add(whatId);
+                    recipientIdSet.Add(notificationObj.recipient__c);
                 } else if (objType == 'Televisit__c') {
                     televisitIdList.add(whatId);
                 } else if (objType == 'Televisit_Attendee__c') {
@@ -418,16 +419,6 @@ public without sharing class Action_SendSMS implements Action {
             }
         }
         system.debug('peIdList:::' + peIdList + 'ctpIdList::' + ctpIdList);
-
-        //For Welcome Message functionality for Patient Delgate
-        if (
-            peIdList != null &&
-            !peIdList.isEmpty() &&
-            recipientIdSet != null &&
-            !recipientIdSet.isEmpty()
-        ) {
-            populateWelcomMessageFlagsForDel(peIdList, recipientIdSet);
-        }
 
         Map<Id, SurveyInvitation> surveyInvitationMap = new Map<Id, SurveyInvitation>();
 
@@ -466,6 +457,7 @@ public without sharing class Action_SendSMS implements Action {
                 WHERE Id IN :taskIdList OR Survey_Invitation__c IN :surveyInvitationIdList
             ]
         );
+        NotificationService.taskMap = taskMap;
         system.debug('taskMap:::' + taskMap + 'taskMap::' + taskMap.values());
         for (Task tObj : taskMap.values()) {
             if (tobj.whatId != null) {
@@ -484,6 +476,17 @@ public without sharing class Action_SendSMS implements Action {
                 // }
             }
         }
+
+        //For Welcome Message functionality for Patient Delgate
+        if (
+            peIdList != null &&
+            !peIdList.isEmpty() &&
+            recipientIdSet != null &&
+            !recipientIdSet.isEmpty()
+        ) {
+            populateWelcomMessageFlagsForDel(peIdList, recipientIdSet);
+        }
+
         system.debug('peIdList:::' + peIdList);
         ///Added by Anitha
         Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>(
