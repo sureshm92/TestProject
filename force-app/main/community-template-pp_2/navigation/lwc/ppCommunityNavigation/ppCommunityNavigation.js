@@ -208,6 +208,11 @@ export default class PpCommunityNavigation extends LightningElement {
             key: key,
             ...this.allPagesSubMenu[key]
         }));
+        const loadTelevisitBanner = true;
+         const valueChangeEvent = new CustomEvent("handleLoadTelevisitBanner", {
+             detail: { loadTelevisitBanner }
+         });
+         this.dispatchEvent(valueChangeEvent);
     }
 
     handleNavigation(event) {
