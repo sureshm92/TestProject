@@ -43,18 +43,30 @@
                 <!-- Load Components based on Selection -->
                 <lightning-layout multiple-rows="true">
                     <template if:true={engageVisible}>
-                        <lightning-layout-item size="12">
-                            <div class="res-box-engage-container slds-align_absolute-center">
-                                <div class="dis-block">
-                                    <span class="center"
-                                        ><img src={empty_state} class="empty-state-img-size"
-                                    /></span>
-                                    <span class="no-links-available slds-m-top_medium"
-                                        >No modules available</span
-                                    >
+                        <template if:true ={multimedia}>
+                            <lightning-layout-item size="12">
+                                <!--Explore Section starts here-->
+                                <div class="res-explore-container res-explore-mobile">
+                                    <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
+                                    <c-pp-resource-multimedia resourced-data = {resourcesData} desktop = {desktop}>
+                                    </c-pp-resource-multimedia>
                                 </div>
-                            </div>
-                        </lightning-layout-item>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:false ={multimedia}>
+                            <lightning-layout-item size="12">
+                                <div class="res-box-engage-container slds-align_absolute-center">
+                                    <div class="dis-block">
+                                        <span class="center"
+                                            ><img src={empty_state} class="empty-state-img-size"
+                                        /></span>
+                                        <span class="no-links-available slds-m-top_medium"
+                                            >No modules available</span
+                                        >
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                        </template>
                     </template>
 
                     <template if:true={exploreVisible}>
