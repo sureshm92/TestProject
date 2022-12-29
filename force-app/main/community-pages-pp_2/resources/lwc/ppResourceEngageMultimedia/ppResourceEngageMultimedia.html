@@ -1,6 +1,5 @@
 <template>
     <template if:true={desktop}>
-            <div style="width: 105%;">
             <div
                 class="slds-align_absolute-center explore-section-horizontal slds-card slds-has-bottom-magnet"
                 onclick={navigateResourceDetail}
@@ -28,15 +27,13 @@
                 </div>
             </div>
             <div class="slds-card slds-has-top-magnet">
-                <b style = "margin-left: 10px;" onclick={navigateResourceDetail}>{exploreData.resource.Title__c}</b><br/>
-                <p style = "margin-left: 10px;color: #898989;">{exploreData.resource.Description__c}</p>
+                <div class = "resource-title" onclick={navigateResourceDetail}>{exploreData.resource.Title__c}</div>
+                <div class = "resource-description" >{exploreData.resource.Description__c}</div>
             </div>
             <br/>
-       </div>
     </template>
     <template if:false={desktop}>
-        <!--style="width: 106.2%;"-->
-            <div style="width: 105%;"
+            <div 
             class="slds-align_absolute-center explore-section-horizontal slds-card slds-has-bottom-magnet" onclick={navigateResourceDetail}>
                 <template if:false={noExploreImage}>
                     <img style ="height: 120px;"
@@ -59,10 +56,9 @@
                     ></c-web-icon>
                 </div>
             </div>
-            <!--style="width: 106.2%;"-->
-            <div class="slds-card slds-has-top-magnet" style="width: 105%;">
-                <b style = "margin-left: 10px;" onclick={navigateResourceDetail}>{exploreData.resource.Title__c}</b><br/>
-                <p style = "margin-left: 10px;color: #898989;">{exploreData.resource.Description__c}</p>
+            <div class="slds-card slds-has-top-magnet">
+                <div class = "resource-title" onclick={navigateResourceDetail}>{exploreData.resource.Title__c}</div>
+                <div class = "resource-description">{exploreData.resource.Description__c}</div>
             </div>
             <br/>
     </template>
