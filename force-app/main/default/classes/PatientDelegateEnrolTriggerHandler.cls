@@ -13,7 +13,46 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             createDelegateReactivatedNotification(newList, (Map<Id, Patient_Delegate_Enrollment__c>) oldMap);
         }
     }
+    public class SetDefaultPatientDelegateStatusHandler extends TriggerHandler {
+        public override void beforeInsert(List<SObject> newList) {
+            setDefaultPatientStatus(newList);
+        }
+    }
+    public class UpdateConsentTimeStamps extends TriggerHandler {
+        public override void beforeInsert(List<SObject> newList) {
+            updateConsentTimeStamps((List<Patient_Delegate_Enrollment__c>) newList);
+        }
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            updateConsentTimeStamps((List<Patient_Delegate_Enrollment__c>) newList, (Map<Id, Patient_Delegate_Enrollment__c>) oldMap);
+        }
+    }
+    public class UpdateDelegateConsent extends TriggerHandler {
+        Boolean isPortalUser = checkCurrentusrProfile();
+        public override void beforeInsert(List<SObject> newList) {
+            if (isPortalUser) {
+                delegateConsentUpdate((List<Patient_Delegate_Enrollment__c>) newList, null);
+            }
+        }
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            if (isPortalUser) {
+                delegateConsentUpdate(
+                    (List<Patient_Delegate_Enrollment__c>) newList,
+                    (Map<Id, Patient_Delegate_Enrollment__c>) oldMap
+                );
+            }
+        }
+    }
+    public class CreatePrimaryDelegateForMinor extends TriggerHandler {
+        public override void beforeInsert(List<SObject> newList) {
+            checkPrimaryDelegate(newList);
+        }
 
+        public override void beforeDelete(List<SObject> newList) {
+            notDeletePrimaryDelegate(newList);
+        }
+
+        
+    }
 
     @TestVisible
     private static void createDelegateReactivatedNotification(
@@ -203,6 +242,189 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         );
         insert newNotifications;
     }
+    
+    @TestVisible
+    private static void setDefaultPatientStatus(List<Patient_Delegate_Enrollment__c> newList) {
+        for (Patient_Delegate_Enrollment__c participantDelegate : newList) {
+            if (participantDelegate.Status__c == null) {
+                participantDelegate.Status__c = PATIENT_DELEGATE_ACTIVE_STATUS;
+            }
+        }
+    }
 
+    //This method is to make existing PDER primary as false if new primary PDER added
+    public static void checkPrimaryDelegate(List<Patient_Delegate_Enrollment__c> patientDelegates) {
+        List<Patient_Delegate_Enrollment__c> updatedList = new List<Patient_Delegate_Enrollment__c>();
+        Set<Id> perIdList = new Set<Id>();
+        for (Patient_Delegate_Enrollment__c pd : patientDelegates) {
+            perIdList.add(pd.Participant_Enrollment__c);
+        }
+        for (Patient_Delegate_Enrollment__c pderList : [
+            SELECT Id, Primary_Delegate__c,Participant_Enrollment__c 
+            FROM Patient_Delegate_Enrollment__c
+            WHERE Participant_Enrollment__c IN :perIdList
+        ]) {
+            if (pderList.Primary_Delegate__c == true ) {
+                pderList.Primary_Delegate__c = false;
+                updatedList.add(pderList);
+            }
+        }
+       
+        update updatedList;
+    }
+    //This method is to prevent deleting Primary PDER
+    public static void notDeletePrimaryDelegate(List<Patient_Delegate_Enrollment__c> patientDelegates) {
+        for (Patient_Delegate_Enrollment__c pd : patientDelegates) {
+            if (pd.Primary_Delegate__c == true) {
+                pd.addError('Cannot delete Primary Delegate Enrollment');
+            }
+        }
+    }
+    @TestVisible
+    //This method check what consents where given and stamps the current time
+    private static void updateConsentTimeStamps(List<Patient_Delegate_Enrollment__c> newList) {
+        for (Patient_Delegate_Enrollment__c pder : newList) {
+            
+            pder.Study_SMS_Consent_Time__c = (pder.Study_SMS_Consent__c	
+                                             ? Datetime.now()
+                                             : null);
+            pder.Study_Pre_recorded_Calls_Consent_Time__c = (pder.Study_Pre_recorded_Voice_Consent__c
+                                                            ? Datetime.now()
+                                                            : null);
+            pder.Study_Storage_Consent_Time__c = (pder.Study_info_storage_consent__c
+                                                    ? Datetime.now()
+                                                    : null);
+            pder.Study_Phone_Consent_Time__c = (pder.Study_Phone_Consent__c
+                                               ? Datetime.now()
+                                               : null);
+            pder.Study_Email_Consent_Time__c = (pder.Study_Email_Consent__c
+                                               ? Datetime.now()
+                                               : null);
+            pder.Study_Direct_Mail_Consent_Time__c = (pder.Study_Direct_Mail_Consent__c
+                                                     ? Datetime.now()
+                                                     : null);
+            pder.Study_Assisted_Dialing_Consent_Time__c = (pder.Study_Assisted_Dialing_Consent__c
+                                                          ? Datetime.now()
+                                                          : null);
+            pder.Study_Artificial_Voice_Consent_Time__c = (pder.Study_Artificial_Voice_Consent__c
+                                                          ? Datetime.now()
+                                                          : null);
+        }
+    }
+
+    @TestVisible
+    //This method check what consents where given and stamps the current time
+    private static void updateConsentTimeStamps(List<Patient_Delegate_Enrollment__c> newList, Map<Id, Patient_Delegate_Enrollment__c> oldMap) {
+        for (Patient_Delegate_Enrollment__c pder : newList) {
+            Patient_Delegate_Enrollment__c oldPder = oldMap.get(pder.Id);
+           
+            
+            if (
+                pder.Study_SMS_Consent__c != oldPder.Study_SMS_Consent__c
+            ) {
+                pder.Study_SMS_Consent_Time__c = Datetime.now();
+            }
+            if (
+                pder.Study_Pre_recorded_Voice_Consent__c !=
+                oldPder.Study_Pre_recorded_Voice_Consent__c
+            ) {
+                pder.Study_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
+            }
+            if (
+                pder.Study_info_storage_consent__c !=
+                oldPder.Study_info_storage_consent__c
+            ) {
+                pder.Study_Storage_Consent_Time__c = Datetime.now();
+            }
+            if (
+                pder.Study_Phone_Consent__c !=
+                oldPder.Study_Phone_Consent__c
+            ) {
+                pder.Study_Phone_Consent_Time__c = Datetime.now();
+            }
+            if (
+                pder.Study_Email_Consent__c !=
+                oldPder.Study_Email_Consent__c
+            ) {
+                pder.Study_Email_Consent_Time__c = Datetime.now();
+            }
+            if (pder.Study_Direct_Mail_Consent__c != oldPder.Study_Direct_Mail_Consent__c) {
+                pder.Study_Direct_Mail_Consent_Time__c = Datetime.now();
+            }
+            if (
+                pder.Study_Assisted_Dialing_Consent__c !=
+                oldPder.Study_Assisted_Dialing_Consent__c
+            ) {
+                pder.Study_Assisted_Dialing_Consent_Time__c = Datetime.now();
+            }
+            if (
+                pder.Study_Artificial_Voice_Consent__c !=
+                oldPder.Study_Artificial_Voice_Consent__c
+            ) {
+                pder.Study_Artificial_Voice_Consent_Time__c = Datetime.now();
+            }
+        }
+    }
+
+    @TestVisible
+    private static void delegateConsentUpdate(
+        List<Patient_Delegate_Enrollment__c> newList,
+        Map<Id, Patient_Delegate_Enrollment__c> oldMap
+    ) {
+        for (Patient_Delegate_Enrollment__c pdNew : newList) {
+            if (oldMap == null) {
+                pdNew.Study_Assisted_Dialing_Consent__c = (pdNew.Study_Phone_Consent__c
+                    ? true
+                    : false);
+                pdNew.Study_Artificial_Voice_Consent__c = (pdNew.Study_Phone_Consent__c
+                    ? true
+                    : false);
+                pdNew.Study_Pre_recorded_Voice_Consent__c = (pdNew.Study_Phone_Consent__c
+                    ? true
+                    : false);
+            } else {
+                Patient_Delegate_Enrollment__c pdOld = oldMap.get(pdNew.Id);
+                if (
+                    pdNew.Study_Phone_Consent__c !=
+                    pdOld.Study_Phone_Consent__c &&
+                    pdNew.Study_Phone_Consent__c
+                ) {
+                    // check 3 checkboxes
+                    pdNew.Study_Assisted_Dialing_Consent__c = true;
+                    pdNew.Study_Artificial_Voice_Consent__c = true;
+                    pdNew.Study_Pre_recorded_Voice_Consent__c = true;
+                } else if (
+                    pdNew.Study_Phone_Consent__c !=
+                    pdOld.Study_Phone_Consent__c &&
+                    !pdNew.Study_Phone_Consent__c
+                ) {
+                    // uncheck 3 checkboxes
+                    pdNew.Study_Assisted_Dialing_Consent__c = false;
+                    pdNew.Study_Artificial_Voice_Consent__c = false;
+                    pdNew.Study_Pre_recorded_Voice_Consent__c = false;
+                }
+            }
+        }
+    }
+
+    public static List<Profile> currentUserProfile;
+    public static boolean checkCurrentusrProfile() {
+        List<Profile> profiles;
+        if(currentUserProfile==null){
+            Id profileId = userinfo.getProfileId();
+            currentUserProfile = [SELECT Id, Name FROM Profile WHERE Id = :profileId];
+        }
+        profiles = currentUserProfile;
+        if (profiles != null && !profiles.isEmpty()) {
+            String profileName = profiles[0].Name;
+            if (profileName == System.Label.PortalUserProfile) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
 
 }
