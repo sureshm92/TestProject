@@ -115,8 +115,8 @@ public without sharing class MyTeamRemote {
                 
                 if (!participants.isEmpty()) {
                     for(Contact con: delegateContacts){
-                        con.FirstName = parConIdParticipantMap.get(con.Id).First_Name__c;
-                        con.LastName = parConIdParticipantMap.get(con.Id).Last_Name__c;
+                        con.FirstName = parConIdParticipantMap.get(con.Id)?.First_Name__c;
+                        con.LastName = parConIdParticipantMap.get(con.Id)?.Last_Name__c;
                     }
                 }
             }

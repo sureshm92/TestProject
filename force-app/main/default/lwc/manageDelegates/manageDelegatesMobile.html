@@ -74,7 +74,7 @@
                                 size="12"
                                 class="del-container slds-m-top_medium"
                             >
-                                <lightning-layout multiple-rows="true">
+                                <lightning-layout multiple-rows="true" class="slds-p-left_medium slds-p-right_medium">
                                     <lightning-layout-item
                                         size="12"
                                         class="slds-m-top_x-large slds-align_absolute-center"
@@ -89,7 +89,7 @@
                                     >
                                     <lightning-layout-item
                                         size="12"
-                                        class="slds-m-top_large slds-m-bottom_x-large slds-align_absolute-center"
+                                        class="slds-m-top_large slds-m-bottom_medium slds-align_absolute-center"
                                     >
                                         <button
                                             title=""
@@ -122,12 +122,12 @@
                                             <!--Delegate Personal Detail Layout: Starts-->
                                             <lightning-layout multiple-rows="true">
                                                 <!--Profile Logo: Stats-->
-                                                <lightning-layout-item size="2" class={delAvararIconMobile}>
+                                                <lightning-layout-item size="3" class={delAvararIconMobile}>
                                                     <span><img src={icon_url} /></span>
                                                 </lightning-layout-item>
                                                 <!--Profile Logo: Ends-->
                                                 <!--Delegate Name: Stats-->
-                                                <lightning-layout-item size="10" class={delInfoActive}
+                                                <lightning-layout-item size="9" class={delInfoActiveMob}
                                                     ><lightning-layout multiple-rows="true" > 
                                                         <lightning-layout-item
                                                             size="12"
@@ -251,11 +251,12 @@
                                                         class="e-consent-aligment slds-p-left_medium slds-p-right_medium slds-p_bottom_medium"
                                                         ><lightning-input
                                                             data-id="emailconsentcheck"
+                                                            data-pdid={del.PatientDelegate.Id}
                                                             class="taps mob-checkbox-txt validate"
                                                             type="checkbox"
                                                             label={label.PP_Delegate_Email_Consent}
-                                                            checked={isEmailConsentChecked}
-                                                            onchange={handleConsentCheck}
+                                                            checked={del.isEmailConsentChecked}
+                                                            onchange={handleConsentCheckActiveDel}
                                                         ></lightning-input
                                                     ></lightning-layout-item>
                                                     <lightning-layout-item
@@ -349,12 +350,12 @@
                                                     class="manage-del-items"
                                                 >
                                                     <!--Profile Logo: Stats-->
-                                                    <lightning-layout-item size="2" class={delAvararIcon}>
+                                                    <lightning-layout-item size="3" class={delAvararIcon}>
                                                         <span><img src={icon_url} /></span>
                                                     </lightning-layout-item>
                                                     <!--Profile Logo: Ends-->
                                                     <!--Delegate Name: Stats-->
-                                                    <lightning-layout-item size="8" class={delInfoFormer}
+                                                    <lightning-layout-item size="7" class={delInfoFormerMob}
                                                         ><lightning-layout multiple-rows="true">
                                                             <lightning-layout-item
                                                                 size="12"
@@ -447,12 +448,12 @@
                                                 class="manage-del-items"
                                             >
                                                 <!--Profile Logo: Stats-->
-                                                <lightning-layout-item size="2" class={delAvararIcon}>
+                                                <lightning-layout-item size="3" class={delAvararIcon}>
                                                     <span><img src={icon_url} /></span>
                                                 </lightning-layout-item>
                                                 <!--Profile Logo: Ends-->
                                                 <!--Delegate Name: Stats-->
-                                                <lightning-layout-item size="8" class={delInfoFormer1}
+                                                <lightning-layout-item size="7" class={delInfoFormer1Mob}
                                                     ><lightning-layout multiple-rows="true">
                                                         <lightning-layout-item
                                                             size="12"
@@ -509,11 +510,12 @@
                                                             class=" e-consent-aligment slds-p-left_medium slds-p-right_medium slds-p_bottom_medium"
                                                             ><lightning-input
                                                                 data-id="emailconsentcheck"
+                                                                data-pdid={del.PatientDelegate.Id}
                                                                 class="taps mob-checkbox-txt validate"
                                                                 type="checkbox"
                                                                 label={label.PP_Delegate_Email_Consent}
-                                                                checked={isEmailConsentChecked}
-                                                                onchange={handleConsentCheck}
+                                                                checked={del.isEmailConsentChecked}
+                                                                onchange={handleConsentCheckFormerDel}
                                                             ></lightning-input
                                                         ></lightning-layout-item>
                                                         <lightning-layout-item
@@ -535,7 +537,7 @@
                                                     </lightning-layout>
                                                 </lightning-layout-item>
                                                 <!--Discard Button: Starts-->
-                                                <lightning-layout-item size="12" class="slds-p-bottom_medium">
+                                                <lightning-layout-item size="12" class="slds-m-bottom_large">
                                                     <button
                                                         class="btn-discard apollo-btn secondary box-discard-btn"
                                                         onclick={discardAssignmentFormer}
