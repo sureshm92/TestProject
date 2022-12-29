@@ -342,11 +342,20 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     get delInfoFormer(){
         return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
     }
+    get delInfoFormerMob(){
+        return this.isRTL ? 'slds-p-right_small' : 'slds-p-left_small'
+    }
     get delInfoFormer1(){
-        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
+        return this.isRTL ? 'p-right-41' : 'p-left-41'
+    }
+    get delInfoFormer1Mob(){
+        return this.isRTL ? 'p-right-12' : 'p-left-12'
     }
     get delInfoActive(){
         return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
+    }
+    get delInfoActiveMob(){
+        return this.isRTL ? 'slds-p-right_small' : 'slds-p-left_small'
     }
     get delAvararIcon(){
         return this.isRTL ? 'slds-p-right_small slds-p-top_xx-small' : 'slds-p-left_small slds-p-top_xx-small'
@@ -549,6 +558,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             pde.disableAddAssignmentButton = false;
             pde.disableDeleteButton = false;
         });
+        this.isAtLeastOneStudySelected = false;
     }
     //Discard Assignment from Former delegate section.
     discardAssignmentFormer(event) {
@@ -573,6 +583,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 pden.disableRemoveButton = false;
             });
         });
+        this.isAtLeastOneStudySelected = false;
     }
 
     //Flipt the delete icon between gray and red.
