@@ -295,7 +295,6 @@ public without sharing class MyTeamRemote {
         Boolean isDisconnectedPDE = false;
         Boolean isOnHoldPDE = false;
         Boolean isDeleted = false;
-        Id existingDelegateContactId = null;
         Set<Id> existingDelegateContactIdSet = new Set<Id>();
         Id existingPatientDelegateId = null;
         map<id, list<Patient_Delegate_Enrollment__c>> mapIdPDE = new Map<id, list<Patient_Delegate_Enrollment__c>>();
