@@ -961,7 +961,13 @@ public without sharing class MyTeamRemote {
 
     @AuraEnabled
     public static void savePatientDelegate(String delegate, String delegateFilterData) {
-        //Bypaass Trigger
+        //Bypaass old methods from Patient Delegate Trigger
+        TriggerHandlerExecutor.bypassHandler(
+        PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+    );
+    TriggerHandlerExecutor.bypassHandler(
+        ContactTriggerHandler.CreateUserForCCContactHandler.class
+    );
         savePatientDelegate(delegate);
         if(delegateFilterData!=null){
             //Read the list of selected studies for Delegate.
