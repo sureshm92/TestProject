@@ -4,11 +4,11 @@
     flex-direction: column;
     width: 100%;
     z-index: 1000;
+    background-color: #005587;
     top: 0;
 }
 
 .phone-menu-background {
-    background-color: #005587;
     padding: 1.25rem 0 1.25rem 2rem;
     display: flex;
     align-items: center;
@@ -16,7 +16,7 @@
 
 .phone-menu-background:nth-child(3) {
     padding: 0;
-} 
+}
 
 .my-menu {
     display: flex;
@@ -47,18 +47,18 @@
     padding-left: 2rem;
 }
 
-.phone-menu-background:nth-child(3) .my-menu div:nth-child(n+2) a {
+.phone-menu-background:nth-child(3) .my-menu div:nth-child(n + 2) a {
     display: flex;
     align-items: center;
-    padding: .5rem 0 .5rem 3.5rem;
+    padding: 0.5rem 0 0.5rem 3.5rem;
     width: 100%;
     position: relative;
     margin-bottom: 4px;
     background: rgba(255, 255, 255, 0.16);
 }
 
-.phone-menu-background:nth-child(3) .my-menu div:nth-child(n+2) a:before {
-    content: "_";
+.phone-menu-background:nth-child(3) .my-menu div:nth-child(n + 2) a:before {
+    content: '_';
     color: #fff;
     position: absolute;
     top: -5px;
@@ -70,12 +70,11 @@ div:last-child {
     border-bottom-right-radius: 20px;
 }
 
-.toggleClass{
+.toggleClass {
     display: none;
 }
-div .slds-text-color_inverse{
-    color:white
-
+div .slds-text-color_inverse {
+    color: white;
 }
 a,
 a:hover,
@@ -92,5 +91,3 @@ a:visited {
     padding-left: 1rem;
     width: 100%;
 }
-
-
