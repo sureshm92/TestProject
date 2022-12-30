@@ -305,7 +305,8 @@ public without sharing class PatientDelegateService {
     public void createPatientDelegate(Contact newDelegate,String delegateFilterData) {
         createPatientDelegate(newDelegate);
         if(delegateFilterData!=null){
-            PatientDelegateEnrollmentService.getInstance().createPatientDelegateEnrollment(patientDel,delegateFilterData);
+            //PatientDelegateEnrollmentService.getInstance().createPatientDelegateEnrollment(patientDel,delegateFilterData);
+            PatientDelegateEnrollmentService.createPatientDelegateEnrollment(patientDel,delegateFilterData);
        }
     }
 

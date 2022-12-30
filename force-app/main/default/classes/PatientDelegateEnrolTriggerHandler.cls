@@ -5,7 +5,12 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
 
     public class CreateNewAssignmentNotification extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
-            createDelegateAssignmentNotification(newList);
+            Set<Id> pdeIdSet = new set<Id>();
+            for(SObject pde: newList ){
+                pdeIdSet.add(pde.Id);
+            }
+            //createDelegateAssignmentNotification(newList);
+            createDelegateAssignmentNotification(pdeIdSet);
         }
     }
     public class CreateReactivatedNotification extends TriggerHandler {
@@ -103,9 +108,13 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         createNotifications(activatedDelegateEnrolrecrds, 'DelReactivatedNotifType');
     }
     @TestVisible
+    @Future
+    // private static void createDelegateAssignmentNotification(
+    //     List<Patient_Delegate_Enrollment__c> newPatientDelegateEnrollments
+    // )
     private static void createDelegateAssignmentNotification(
-        List<Patient_Delegate_Enrollment__c> newPatientDelegateEnrollments
-    ) {
+        set<Id> pdeIdset
+    )  {
         List<Patient_Delegate_Enrollment__c> patientDelegateEnrollRecrds = [
             SELECT Id,
             Patient_Delegate__r.Participant__r.Full_Name__c,
@@ -134,7 +143,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             Participant_Enrollment__r.Clinical_Trial_Profile__c,
             Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
             FROM Patient_Delegate_Enrollment__c
-            WHERE Id IN :newPatientDelegateEnrollments AND Status__c = :PATIENT_DELEGATE_ACTIVE_STATUS
+            WHERE Id IN :pdeIdset AND Status__c = :PATIENT_DELEGATE_ACTIVE_STATUS
         ];
         createNotifications(patientDelegateEnrollRecrds, 'DelNewAssignNotifType');
     }
