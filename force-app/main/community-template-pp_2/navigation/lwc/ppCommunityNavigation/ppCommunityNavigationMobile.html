@@ -1,55 +1,56 @@
 <template>
-    <template for:each={participantTabs} for:item="item">
-        <template if:false={item.expand}>
-            <div
-                class={menuCss}
-                key={item.label}
-                data-page-name={item.page}
-                onclick={handleNavigation}
-            >
-                <c-web-icon icon-name={item.icon} icon-color="white" icon-size="small"></c-web-icon>
-                <span style="color: white; margin-left: 15px"> {item.label} </span>
-            </div>
-        </template>
-        <!--dropdown menu -->
-        <template if:true={item.expand}>
-            <div class={menuCss} key={item.label}>
+    <div class="mobileMenu">
+        <div class="coverArea"></div>
+        <template for:each={participantTabs} for:item="item">
+            <template if:false={item.expand}>
                 <div
-                    class="slds-dropdown-trigger slds-dropdown-trigger_click my-menu"
-                    data-key={item.label}
+                    class={menuCss}
+                    key={item.label}
+                    data-page-name={item.page}
+                    onclick={handleNavigation}
                 >
-                    <c-web-icon
-                        icon-name={item.icon}
-                        icon-color="white"
-                        icon-size="small"
-                    ></c-web-icon>
-                    <a
-                        href="javascript:void(0);"
-                        aria-haspopup="true"
-                        onclick={dropdownMenu}
-                        class="slds-text-color_inverse color-text-link-disabled slds-var-p-around_x-small"
-                    >
-                        {item.label}
-                    </a>
-                    <template if:true={showSubMenu}>
-                        <div class="slds-dropdown slds-dropdown_left">
-                            <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
-                                <template for:each={submenu} for:item="subItem">
-                                    <template if:true={subItem.visible}>
-                                        <div class="slds-dropdown__item" key={subItem.label}>
-                                            <a href={subItem.link}>
-                                                <span class="slds-truncate slds-p-left_small slds-p-right_small" title={subItem.label}
-                                                    >{subItem.label}
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </template>
-                                </template>
-                            </ul>
-                        </div>
-                    </template>
+                    <c-web-icon icon-name={item.icon} icon-color="white" icon-size="medium"></c-web-icon>
+                    <span> {item.label} </span>
                 </div>
-            </div>
+            </template>
+            <!--dropdown menu -->
+            <template if:true={item.expand}>
+                <div class={menuCss} key={item.label}>
+                    <div
+                        class="slds-dropdown-trigger slds-dropdown-trigger_click my-menu"
+                        data-key={item.label}
+                    >
+                        <div>
+                            <c-web-icon
+                                icon-name={item.icon}
+                                icon-color="white"
+                                icon-size="medium"
+                            ></c-web-icon>
+                            <a
+                                href="javascript:void(0);"
+                                aria-haspopup="true"
+                                onclick={dropdownMenu}
+                                class="slds-text-color_inverse color-text-link-disabled"
+                            >
+                                {item.label}
+                            </a>
+                        </div>
+                        <template if:true={showSubMenu}>
+                            <template for:each={submenu} for:item="subItem">
+                                <template if:true={subItem.visible}>
+                                    <div key={subItem.label}>
+                                        <a href={subItem.link}>
+                                            <span class="slds-truncate" title={subItem.label}
+                                                >{subItem.label}
+                                            </span>
+                                        </a>
+                                    </div>
+                                </template>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+            </template>
         </template>
-    </template>
+    </div>
 </template>
