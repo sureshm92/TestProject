@@ -39,8 +39,9 @@ export default class PpCommunityNavigation extends LightningElement {
     showAboutStudy = false;
     isInitialized = false;
     desktop = false;
-    menuCss = 'phone-menu-background nav-menu slds-border_top slds-p-vertical_large ';
+    menuCss = 'phone-menu-background nav-menu slds-border_top ';
     showSubMenu = false;
+    //isStudySubMenuOpen = false;
     connectedCallback() {
         this.baseLink = window.location.origin;
         this.initializeData();
@@ -208,6 +209,11 @@ export default class PpCommunityNavigation extends LightningElement {
             key: key,
             ...this.allPagesSubMenu[key]
         }));
+        const loadTelevisitBanner = true;
+         const valueChangeEvent = new CustomEvent("handleLoadTelevisitBanner", {
+             detail: { loadTelevisitBanner }
+         });
+         this.dispatchEvent(valueChangeEvent);
     }
 
     handleNavigation(event) {
@@ -246,20 +252,28 @@ export default class PpCommunityNavigation extends LightningElement {
             key: key,
             ...this.allPagesSubMenu[key]
         }));
-
         //filtering submenu based on parentmenu clicked
         this.submenu = subMenu.filter((subItem) => subItem.parentMenu == headerMenu);
         if (this.submenu && this.desktop == false) {
             this.showSubMenu = !this.showSubMenu;
         }
-        var isOpen = element.classList.contains('slds-is-open');
+        var isOpen = element.classList.contains('slds-is-open');        
         //dropdown toggle->adds class if second param true and remove if false
         element.classList.toggle('slds-is-open', !isOpen);
+        //this.isStudySubMenuOpen = !isOpen ? true:false;
+    }
+    handleOnMouseOver(event){
+        this.template.querySelector('.my-submenuopen').classList.add('block-submenu-onblur');
+    }
+    handleOnMouseLeave(event){
+        this.template.querySelector('.my-submenuopen').classList.remove('block-submenu-onblur');
     }
     //on removing focus from dropdown
-    removeElementFocus() {
-        var element = this.template.querySelector('.my-menu');
-        element.classList.remove('slds-is-open');
+    removeElementFocus(event) {        
+        var element = this.template.querySelector('.slds-is-open');
+        if(!element.classList.contains('block-submenu-onblur')){
+            element.classList.remove('slds-is-open');
+        }
     }
 
     showErrorToast(titleText, messageText, variantType) {

@@ -9,6 +9,13 @@
     z-index: 1200;
     border-radius: 5px;
 }
+.THIS.spins::after {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+}
 
 .THIS.rr-spinner.fixed {
     position: fixed;
