@@ -485,10 +485,22 @@ export default class PpAddNewDelegate extends LightningElement {
                 } else {
                     //If More than one existing contacts found for given email.
                     this.showExistingContactWarning = true;
+                    this.sendMessageToDisableMultipicklist(true);
+                    this.allDelegate.forEach((delegate) => {
+                        //check Delegate status.
+                        let status = delegate.status;
+                        let isActiveDelegate = delegate.isActive;
+                        let isFormerDelegate =
+                            !isActiveDelegate && (status === 'Disconnected' || status === 'On Hold');
+                        //If Delegate is Active/former(Not Withdrawn).
+                        if (isActiveDelegate || isFormerDelegate) {
+                            this.showExistingContactWarning = false;
+                            this.showExistingDelegateError = true;
+                        }
+                    });
                     this.diableFNLNWhenDupContacts = true;
                     this.checkboxDisableflag = true;
                     this.isLoading = false;
-                    this.sendMessageToDisableMultipicklist(true);
                     return;
                 }
             })
