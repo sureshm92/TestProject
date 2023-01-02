@@ -37,11 +37,9 @@
                 <div class="slds-grid date-section-mobile">
                     <div class="slds-col slds-size_11-of-12">
                         <p class="date">
+                            {labels.VERSION_DATE}&nbsp;
                             <lightning-formatted-date-time
                                 value={exploreData.resource.Version_Date__c}
-                                year="numeric"
-                                month="short"
-                                day="2-digit"
                             ></lightning-formatted-date-time>
                         </p>
                     </div>
@@ -91,11 +89,9 @@
                     <div class="slds-grid date-section">
                         <div class="slds-col slds-size_11-of-12">
                             <p class="date">
+                                {labels.VERSION_DATE}&nbsp;
                                 <lightning-formatted-date-time
                                     value={exploreData.resource.Version_Date__c}
-                                    year="numeric"
-                                    month="short"
-                                    day="2-digit"
                                 ></lightning-formatted-date-time>
                             </p>
                         </div>
@@ -138,11 +134,9 @@
                 {exploreData.resource.Title__c}
             </div>
             <div class="date-desktop">
+                {labels.VERSION_DATE}&nbsp;
                 <lightning-formatted-date-time
                     value={exploreData.resource.Version_Date__c}
-                    year="numeric"
-                    month="short"
-                    day="2-digit"
                 ></lightning-formatted-date-time>
             </div>
         </template>

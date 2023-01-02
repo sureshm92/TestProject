@@ -4,10 +4,9 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import { NavigationMixin } from 'lightning/navigation';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
-import VERSION from '@salesforce/label/c.Resource_Uploaded';
+import VERSION from '@salesforce/label/c.Version_date';
 export default class PpResourceContainer extends NavigationMixin(LightningElement) {
     userTimezone = TIME_ZONE;
-    
     //@api vars
     @api isRtl = false;
     @api desktop = false;
@@ -29,7 +28,7 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
     connectedCallback() {
         this.isThumbnailPresent = this.thumbnail ? true : false;
         if (communityService.isInitialized()) {
-            this.state=communityService.getCurrentCommunityMode().participantState;
+            this.state = communityService.getCurrentCommunityMode().participantState;
         }
     }
 
