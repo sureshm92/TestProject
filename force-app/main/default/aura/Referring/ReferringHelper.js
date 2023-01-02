@@ -476,7 +476,7 @@
             if(!(isAdultDel && attestAge && confirmConsent))
                 isValid = false;
         }
-        //It will 
+ 
         if(participant.Adult__c ===  false){
             emailCmp.setCustomValidity('');
                 emailRepeatCmp.setCustomValidity('');
