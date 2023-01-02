@@ -1,7 +1,7 @@
 public with sharing class SMSDeliveryStatusService {
     public static Map<Id, Id> StudyLevelnotIdPEIdMap = new Map<Id, Id>();
     /**
-     * @description: This method will update the invalid Number global flag to true at contact.
+     * @description: This method will update the invalid Number global flag to true at contact..
      * @author: Krishna Mahto
      * @param: contactIdSet
      * @return:
