@@ -10,7 +10,12 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
                 pdeIdSet.add(pde.Id);
             }
             //createDelegateAssignmentNotification(newList);
-            createDelegateAssignmentNotification(pdeIdSet);
+            if (System.isFuture() || System.isBatch()) {
+                createDelegateAssignmentNotification(pdeIdSet);
+            }
+            else{
+                createDelegateAssignmentNotificationFuture(pdeIdSet);
+            }
         }
     }
     public class CreateReactivatedNotification extends TriggerHandler {
@@ -108,11 +113,44 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         createNotifications(activatedDelegateEnrolrecrds, 'DelReactivatedNotifType');
     }
     @TestVisible
-    @Future
-    // private static void createDelegateAssignmentNotification(
-    //     List<Patient_Delegate_Enrollment__c> newPatientDelegateEnrollments
-    // )
     private static void createDelegateAssignmentNotification(
+        set<Id> pdeIdset
+    )  {
+        List<Patient_Delegate_Enrollment__c> patientDelegateEnrollRecrds = [
+            SELECT Id,
+            Patient_Delegate__r.Participant__r.Full_Name__c,
+            Patient_Delegate__r.Id,
+            Welcome_Message_Sent__c,
+            Study_Email_Consent__c,
+            Study_SMS_Consent__c,
+            Welcome_Message_Delivered__c,
+            Patient_Delegate__r.Participant__r.Contact__c,
+            Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+            Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+            Patient_Delegate__r.Participant__r.First_Name__c,
+            Patient_Delegate__r.Participant__r.Last_Name__c,
+            Patient_Delegate__r.Contact__c,
+            Patient_Delegate__r.Participant__c,   
+            Patient_Delegate__r.Participant_Delegate__r.Id,
+            Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
+            Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
+            Patient_Delegate__r.Participant_Delegate__r.Email__c,
+            Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+            Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+            Status__c,
+            Participant_Enrollment__c,
+            Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+            Participant_Enrollment__r.Name,
+            Participant_Enrollment__r.Clinical_Trial_Profile__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+            FROM Patient_Delegate_Enrollment__c
+            WHERE Id IN :pdeIdset AND Status__c = :PATIENT_DELEGATE_ACTIVE_STATUS
+        ];
+        createNotifications(patientDelegateEnrollRecrds, 'DelNewAssignNotifType');
+    }
+    @TestVisible
+    @Future
+    private static void createDelegateAssignmentNotificationFuture(
         set<Id> pdeIdset
     )  {
         List<Patient_Delegate_Enrollment__c> patientDelegateEnrollRecrds = [
