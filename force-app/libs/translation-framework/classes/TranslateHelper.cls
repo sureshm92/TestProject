@@ -307,9 +307,9 @@ public class TranslateHelper {
             }
             if (param == 'clinicalstudyorprogram') {
                 if (paramValue == 'true')
-                    paramValue = System.Label.Programs_PP;
+                    paramValue = System.Label.Program_Header_PP;
                 else
-                    paramValue = System.Label.Clinical_Study;
+                    paramValue = System.Label.Clinical_Study_PP;
             }
 
             result = result.replaceAll(paramId, paramValue);
