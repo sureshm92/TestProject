@@ -1,5 +1,5 @@
 /**
- * Created by Anitha Chavva on 27.04.2022
+ * Created by Anitha Chavva on 27.04.2022.
  */
 
 public without sharing class SendResultTriggerHandler {
