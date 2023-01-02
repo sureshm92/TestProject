@@ -29799,7 +29799,7 @@ Please contact the Study Team for further updates or please login for additional
         <value>We are sorry to see you leave your clinical research study </value>
     </labels>
     <labels>
-        <fullName>Clinical_Study</fullName>
+        <fullName>Clinical_Study_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Clinical Study</shortDescription>
