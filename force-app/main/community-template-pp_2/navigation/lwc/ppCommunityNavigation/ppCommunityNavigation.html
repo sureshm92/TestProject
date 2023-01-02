@@ -60,7 +60,7 @@
                                                     role="presentation"
                                                     key={subItem.label}
                                                 >
-                                                    <a href={subItem.link} role="menuitem" onmouseover={handleOnMouseOver} onmouseleave={handleOnMouseLeave}>
+                                                    <a onclick={handleNavigationSubMenu}  data-pagename={subItem.page} role="menuitem" onmouseover={handleOnMouseOver} onmouseleave={handleOnMouseLeave}>
                                                         <span
                                                             class="slds-truncate"
                                                             title={subItem.label}

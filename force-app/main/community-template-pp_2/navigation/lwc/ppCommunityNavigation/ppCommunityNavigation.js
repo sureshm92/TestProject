@@ -41,7 +41,6 @@ export default class PpCommunityNavigation extends LightningElement {
     desktop = false;
     menuCss = 'phone-menu-background nav-menu slds-border_top ';
     showSubMenu = false;
-    //isStudySubMenuOpen = false;
     connectedCallback() {
         this.baseLink = window.location.origin;
         this.initializeData();
@@ -50,6 +49,16 @@ export default class PpCommunityNavigation extends LightningElement {
     //template toggle
     render() {
         return this.desktop ? menuDesktop : menuMobile;
+    }
+    handleNavigationSubMenu(event){
+        if (event.currentTarget.dataset.pagename) {
+            this.communityServic.navigateToPage(event.currentTarget.dataset.pagename);
+        }
+        let element = this.template.querySelector('.my-submenuopen')
+        if (element) {
+              element.classList.remove('block-submenu-onblur');
+              this.removeElementFocus();
+        }
     }
     initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
@@ -141,6 +150,7 @@ export default class PpCommunityNavigation extends LightningElement {
         //variable for dropdown items
         this.allPagesSubMenu = {
             visits: {
+                page: 'visits',
                 link: this.baseLink + '/pp/s/visits',
                 label: navigationVisits,
                 icon: '',
@@ -148,6 +158,7 @@ export default class PpCommunityNavigation extends LightningElement {
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
             events: {
+                page: 'events',
                 link: this.baseLink + '/pp/s/events',
                 label: navigationEvents,
                 icon: '',
@@ -155,6 +166,7 @@ export default class PpCommunityNavigation extends LightningElement {
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
             results: {
+                page: 'results',
                 link: this.baseLink + '/pp/s/results',
                 label: navigationResults,
                 icon: '',
@@ -162,6 +174,7 @@ export default class PpCommunityNavigation extends LightningElement {
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
             'about-study': {
+                page: 'about-study-and-overview',
                 link: this.baseLink + '/pp/s/about-study-and-overview',
                 label: navigationStudy,
                 icon: '',
@@ -169,6 +182,7 @@ export default class PpCommunityNavigation extends LightningElement {
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
             'about-program': {
+                page: 'overview',
                 link: this.baseLink + '/pp/s/overview',
                 label: navigationProgram,
                 icon: '',
@@ -271,7 +285,8 @@ export default class PpCommunityNavigation extends LightningElement {
     //on removing focus from dropdown
     removeElementFocus(event) {        
         var element = this.template.querySelector('.slds-is-open');
-        if(!element.classList.contains('block-submenu-onblur')){
+        //Stop closing sub menu drop when we click on sub menu item.
+        if(element && !element.classList.contains('block-submenu-onblur')){
             element.classList.remove('slds-is-open');
         }
     }
