@@ -51,7 +51,7 @@
                      class="{!'layout-header' + ' rr-width-limiter-pp' + ' side-padding' + if(v.isRTL, ' rtl', '')}"
                      >
                     <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
-                        <img src="{!$Resource.icon_hamburgerMenu}" onclick="{!c.handleClick}" />
+                        <img src="{!$Resource.icon_hamburgerMenu}" onclick="{!c.handleClick}" class="barsIcon"/>
                     </aura:if>
                     <div class="logo-container-pp">
                         <img src="{!v.logoURL}" class="title-logo" onclick="{!c.doGoHome}" />
