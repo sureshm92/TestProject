@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import BTN_Confirm from '@salesforce/label/c.BTN_Confirm';
+import BTN_Continue from '@salesforce/label/c.Continue';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 
 export default class PpRemoveDelegateModalOld extends LightningElement {
@@ -14,7 +14,7 @@ export default class PpRemoveDelegateModalOld extends LightningElement {
     isLoading = false;
 
     label = {
-        BTN_Confirm,
+        BTN_Continue,
         BTN_Cancel
     };
 
