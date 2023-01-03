@@ -227,11 +227,13 @@ public without sharing class ManualTaskFilter {
             pdeList = [
                 SELECT
                     id,
+                    Status__c,
                     Patient_Delegate__c,
                     Participant_Enrollment__c,
                     Patient_Delegate__r.Contact__c
                 FROM Patient_Delegate_Enrollment__c
-                WHERE Participant_Enrollment__c IN :peSet
+                WHERE Participant_Enrollment__c IN :peSet 
+                AND Status__c = 'Active'
             ];
         }
         for (Patient_Delegate_Enrollment__c pde : pdeList) {
