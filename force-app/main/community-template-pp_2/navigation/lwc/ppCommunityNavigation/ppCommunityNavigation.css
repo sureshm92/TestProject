@@ -6,7 +6,7 @@
 .nav-item {
     display: inline-flex;
     min-width: 112px;
-    height: 64px;
+    height: 4rem;
     align-items: center;
     justify-content: center;
 }
@@ -22,9 +22,13 @@
 }
 
 .nav-item .my-menu a {
+    display: inline-flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
     font-size: 1rem;
     color: #fff;
-    padding-left: 0.75rem;
+    padding-left: 0.75rem;   
 }
 
 .nav-item .my-menu {
@@ -53,7 +57,7 @@ img {
 }
 
 .nav-item .slds-dropdown.slds-dropdown_left {
-    top: 101%;
+    top: 62px;
 }
 
 .nav-item .slds-dropdown__item > a {

@@ -44,8 +44,18 @@ hr {
     text-align: center;
 }
 
+.more-mobile {
+    color: #757575;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 44px;
+    text-align: center;
+}
+
 .icon-padding {
-    padding: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
 }
 
 .visit-text {
