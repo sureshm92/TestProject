@@ -481,6 +481,9 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             this.disablePresetPicklist = true;
             this.hideActiononSearch=true;
         }
+        if(!this.isEnabled){ 
+            this.listOfIds=[];
+        }
         getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount,
             sponsorName  : this.communityTemplate, filterWrapper : JSON.stringify(this.filterWrapper),isDCTFiltered: this.isDCTFiltered,
             isPPFiltered: this.isPPFiltered, sortOn :  this.sortOn, searchString :  this.enteredSearchString, sortType : this.sortType,
@@ -563,11 +566,19 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 }
 
                 if(this.totalRecordCount !=  result.totalRecordCount){
-                    this.totalRecordCount =  result.totalRecordCount;
-                    const updateCount = new CustomEvent("reccountupdate", {
+                    if(this.isEnabled){
+                    this.totalRecordCount =  this.listOfIds.length;
+                    let updateCount = new CustomEvent("reccountupdate", {
                         detail: this.totalRecordCount
                     });
-                    this.dispatchEvent(updateCount);
+                    this.dispatchEvent(updateCount); 
+                    }else{
+                        this.totalRecordCount =  result.totalRecordCount;
+                    let updateCount = new CustomEvent("reccountupdate", {
+                        detail: this.totalRecordCount
+                    });
+                    this.dispatchEvent(updateCount); 
+                    } 
                 }
                 if(!this.siteIdlist){
                     this.siteIdlist = result.siteIdlist;

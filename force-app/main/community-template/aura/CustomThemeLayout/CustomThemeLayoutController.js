@@ -5,7 +5,7 @@
     doInit: function (component, event, helper) {
         if(sessionStorage.getItem('isExecute') == null){
             sessionStorage.setItem('isExecute', 'true');
-        }
+        } 
         if (communityService.isInitialized()) {
             component.set('v.communityServ', communityService);
             communityService.executeAction(component, 'checkStudyMessage', null, function (
@@ -77,17 +77,17 @@
         communityService.navigateToPage('help');
     },
     onClickBell: function(component){
-      if((!component.get('v.isBellEnabled') && component.get('v.isBellClosed')) ||
+        if((!component.get('v.isBellEnabled') && component.get('v.isBellClosed')) ||
             (!component.get('v.isBellEnabled') && !component.get('v.isBellClosed'))){
-            component.set('v.isBellEnabled', true);
+        	component.set('v.isBellEnabled', true);
         } else {
             component.set('v.isBellEnabled', false);
             component.set('v.isBellClosed', false);
-            }
+         }
     },
 
     onBlurBell: function(component){
-        if(!component.get('v.isBellEnabled') && component.get('v.isBellClosed')) {
+       if(!component.get('v.isBellEnabled') && component.get('v.isBellClosed')) {
             component.set('v.isBellEnabled', true);
         } else {
         	component.set('v.isBellEnabled', false);
@@ -128,10 +128,18 @@
     },
     updateReadMark : function(component, event, helper) {
         var notificationId = event.getParam('notificationId');
-        component.set("v.unreadSendResultId", notificationId);
-
+        component.set("v.unreadSendResultId", notificationId); 
+    
         var notificationIndex = event.getParam('notificationIndex');
-        helper.updateReadtoUnRead(component, notificationIndex);
+        var refreshBell = event.getParam('refBell');
+        if(refreshBell == true){
+        component.set('v.resetBell',false);
+        component.set('v.isBellEnabled', false);
+        component.set('v.isBellClosed', false);
+        component.set('v.resetBell',true);
+        }else{ 
+             helper.updateReadtoUnRead(component, notificationIndex);
+        }
 
     },
 
@@ -142,7 +150,7 @@
         var closeSendResIndex = event.getParam('closeSendResIndex');
         helper.removeSendResult(component, closeSendResIndex);
     },
-    closeBell: function(component, event) {
+    closeBell: function(component, event) { 
         //let overlayCmp = component.find("overlay");
         //overlayCmp.closeBellOverlay();
         component.set('v.resetBell',false);
