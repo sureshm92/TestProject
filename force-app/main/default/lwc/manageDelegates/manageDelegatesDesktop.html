@@ -225,7 +225,10 @@
                                         <template if:true={del.showAddAssignmentButton}>
                                             <template if:false={del.addNewStudy}>
                                                 <!--Add Assignment Button: Starts-->
-                                                <lightning-layout-item size="12">
+                                                <lightning-layout-item
+                                                    size="12"
+                                                    class="slds-m-bottom_large"
+                                                >
                                                     <button
                                                         class="apollo-btn secondary box-add-assignment-btn"
                                                         title=""
@@ -364,7 +367,7 @@
                                                 <!--Delegate Personal Detail Layout: Starts-->
                                                 <lightning-layout
                                                     multiple-rows="true"
-                                                    class="manage-del-items"
+                                                    class="manage-former-del-items"
                                                 >
                                                     <!--Profile Logo: Stats-->
                                                     <lightning-layout-item
@@ -505,7 +508,7 @@
                                             <!--Delegate Personal Detail Layout: Starts-->
                                             <lightning-layout
                                                 multiple-rows="true"
-                                                class="manage-del-items"
+                                                class="manage-former-del-items"
                                             >
                                                 <!--Profile Logo: Stats-->
                                                 <lightning-layout-item
