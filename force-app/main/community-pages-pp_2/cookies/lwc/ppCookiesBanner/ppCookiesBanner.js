@@ -13,6 +13,9 @@ export default class PpCookiesBanner extends LightningElement {
     loginPage = false;
     @api
     isRTL = false;
+    @api
+    communityName;
+    containerClassCss = 'c-container desk-cookies-banner mob-cookies-banner ';
     label = {
         ppCookiesBannerLoginDesc,
         ppCookiesBannerDesc1,
@@ -29,6 +32,9 @@ export default class PpCookiesBanner extends LightningElement {
         if (!rrCookies || this.loginPage) {
             document.body.classList.add('cookie-block-user');
             this.showBanner = true;
+            if (this.communityName == 'Default') {
+                this.containerClassCss = this.containerClassCss + ' rh-cookies-banner';
+            }
         }
     }
     showManagePreferences() {
