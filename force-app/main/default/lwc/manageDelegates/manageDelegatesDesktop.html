@@ -9,6 +9,30 @@
         ></lightning-spinner>
     </template>
     <!--Spinner: Ends-->
+    <!--Remove Delegate Modal: Starts-->
+    <template if:true={showpopup}>
+        <c-pp-remove-delegate-modal-old
+            pdenrollmentid={removeStudyPDEId}
+            messtext={modalMesstext}
+            tittext={label.PG_PST_L_Delegates_Remove_Himself_Header}
+            onconfirmmodal={handleRemoveDelegate}
+            onmodalclose={handleModalClose}
+        >
+        </c-pp-remove-delegate-modal-old>
+    </template>
+    <!--Remove Delegate Modal: Ends-->
+    <!--Delete Delegate Modal: Starts-->
+    <template if:true={showDeletePopup}>
+        <c-pp-delete-delegate-modal-old
+            patientdelegateid={deletePatientDelId}
+            messtext={label.PP_Delegate_Delegate_Warning}
+            tittext={label.PP_Delegate_Delegate}
+            ondeletemodal={handleDeleteDelegate}
+            ondeletemodalclose={handleDeleteModalClose}
+        >
+        </c-pp-delete-delegate-modal-old>
+    </template>
+    <!--Delete Delegate Modal: Ends-->
     <!-- <c-web-spinner fixed="true"></c-web-spinner> -->
     <!-- Show Add Delegate Page: Start-->
     <template if:true={showAddDelegatePage}>
@@ -158,6 +182,7 @@
                                         </lightning-layout-item>
                                         <!--Delegate Profile Logo and Name Section: Ends-->
                                         <!--Iterate over each pdEnrollment Associated to the Delegate: Starts-->
+
                                         <template
                                             for:each={del.PDEEnrollments}
                                             for:item="pdEnrollment"
@@ -169,18 +194,6 @@
                                                     class="slds-m-bottom_x-small study-rectangle"
                                                     key={pdEnrollment.Id}
                                                 >
-                                                    <!--Remove Delegate Modal: Starts-->
-                                                    <template if:true={showpopup}>
-                                                        <c-pp-remove-delegate-modal-old
-                                                            pdenrollmentid={removeStudyPDEId}
-                                                            messtext={modalMesstext}
-                                                            tittext={label.PG_PST_L_Delegates_Remove_Himself_Header}
-                                                            onconfirmmodal={handleRemoveDelegate}
-                                                            onmodalclose={handleModalClose}
-                                                        >
-                                                        </c-pp-remove-delegate-modal-old>
-                                                    </template>
-                                                    <!--Remove Delegate Modal: Ends-->
                                                     <lightning-layout>
                                                         <lightning-layout-item
                                                             size="9"
@@ -340,18 +353,6 @@
                                     class="slds-m-top_x-small former-del-rectangle"
                                     key={del.PatientDelegate.Id}
                                 >
-                                    <!--Delete Delegate Modal: Starts-->
-                                    <template if:true={showDeletePopup}>
-                                        <c-pp-delete-delegate-modal-old
-                                            patientdelegateid={deletePatientDelId}
-                                            messtext={label.PP_Delegate_Delegate_Warning}
-                                            tittext={label.PP_Delegate_Delegate}
-                                            ondeletemodal={handleDeleteDelegate}
-                                            ondeletemodalclose={handleDeleteModalClose}
-                                        >
-                                        </c-pp-delete-delegate-modal-old>
-                                    </template>
-                                    <!--Delete Delegate Modal: Ends-->
                                     <template if:false={del.addNewStudyFormer}>
                                         <!--Dlegate Info Layout: Starts -->
                                         <lightning-layout>
