@@ -872,6 +872,11 @@ public without sharing class PatientDelegateService {
     public static List<Id> getPastPEIdsForContact(Id contactId) {
         return getPastPEIdsListByContactIdMap(new List<Id>{ contactId }).get(contactId);
     }
+    @future
+    public static void updatePermissionSetsAsync(Set<Id> contactIds) {
+        updatePermissionSets(contactIds);
+    }
+
 
     public static void updatePermissionSets(Set<Id> contactIds) {
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
