@@ -24842,7 +24842,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SMS Body Visit Task Reminder</shortDescription>
-        <value>##ShortCommunityName: You have a ##StudyName visit on ##PlannedDate. Log in for details ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
+        <value>##ShortCommunityName: You have a ##StudyName ##isEventorVisit on ##PlannedDate. Log in for details ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Sodium</fullName>
@@ -29278,6 +29278,13 @@ Please contact the Study Team for further updates or please login for additional
         <value>events</value>
     </labels>
     <labels>
+        <fullName>Event_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Event_PP</shortDescription>
+        <value>event</value>
+    </labels>    
+    <labels>
         <fullName>Event_No_Past_Event</fullName>
         <categories></categories>
         <language>en_US</language>
@@ -29308,7 +29315,13 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Visits_PP</shortDescription>
         <value>visits</value>
     </labels>
-
+    <labels>
+        <fullName>Visit_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit_PP</shortDescription>
+        <value>visit</value>
+    </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Created_By_PI_New_PP</fullName>
         <language>en_US</language>
