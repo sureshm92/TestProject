@@ -99,6 +99,9 @@
     margin-bottom: 50px;
 }
 .manage-del-items {
+    margin: 24px 24px 0 24px;
+}
+.manage-former-del-items {
     margin: 24px 24px 24px 24px;
 }
 .height-32 {
