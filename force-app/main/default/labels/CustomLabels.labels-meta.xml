@@ -29783,7 +29783,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Patient Dropped Out pp</shortDescription>
-        <value>We are sorry to see you leave your Program</value>
+        <value>We are sorry to see you leave your program</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient_Program_PP</fullName>
