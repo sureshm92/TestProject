@@ -29840,7 +29840,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient15 PP</shortDescription>
-        <value>Congratulations, you have been enrolled in ##StudyorProgramHeader.
+        <value>Congratulations, you have been enrolled in ##StudyName.
 
             You will be contacted by the ##isStudyorProgram team regarding next steps in the ##isStudyorProgram process.
 
@@ -29946,7 +29946,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9  pp</shortDescription>
-        <value>The ##isStudyorProgram team has updated referral status for ##isStudyorProgram: ##StudyName.
+        <value>The ##isStudyorProgram team has updated your referral status for ##isStudyorProgram: ##StudyName.
 
             To see additional information, log in to the ##ShortCommunityName</value>
     </labels>
@@ -29955,7 +29955,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Welcome To The Study pp</shortDescription>
-        <value>You have been enrolled in a Program</value>
+        <value>You have been enrolled in a program</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Patient_Dropped_Out_Program_PP</fullName>
@@ -29979,7 +29979,7 @@ Please contact the Study Team for further updates or please login for additional
         <value>We are sorry to see you leave your clinical research study </value>
     </labels>
     <labels>
-        <fullName>Clinical_Study</fullName>
+        <fullName>Clinical_Study_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Clinical Study</shortDescription>
