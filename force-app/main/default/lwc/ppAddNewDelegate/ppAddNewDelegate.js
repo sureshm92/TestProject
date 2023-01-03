@@ -48,6 +48,7 @@ import PP_Warning from '@salesforce/label/c.PP_Communication_Pref_Warning';
 import PP_ManageDelegates from '@salesforce/label/c.PP_ManageDelegates';
 import PP_Confirm_Selection from '@salesforce/label/c.PP_Confirm_Selection';
 import PP_ExistingDelError from '@salesforce/label/c.PP_ExistingDelError';
+import PP_ExistingDelError_1 from '@salesforce/label/c.PP_ExistingDelError_1';
 import PP_Select_User from '@salesforce/label/c.PP_Select_User';
 import PP_There_Are from '@salesforce/label/c.PP_There_Are';
 import PP_Users_Associated from '@salesforce/label/c.PP_Users_Associated';
@@ -144,6 +145,7 @@ export default class PpAddNewDelegate extends LightningElement {
         PP_ManageDelegates,
         PP_Confirm_Selection,
         PP_ExistingDelError,
+        PP_ExistingDelError_1,
         PP_Select_User,
         PP_There_Are,
         PP_Users_Associated
@@ -194,7 +196,7 @@ export default class PpAddNewDelegate extends LightningElement {
         let savedisabled = false;
         savedisabled =
             (!this.isCorrectEmail && !this.isCorrectContactData) ||
-            !this.isCorrectEmail||
+            !this.isCorrectEmail ||
             this.delegate.delegateContact.FirstName == null ||
             this.delegate.delegateContact.FirstName == '' ||
             this.delegate.delegateContact.FirstName.length == 0 ||
@@ -213,11 +215,13 @@ export default class PpAddNewDelegate extends LightningElement {
             ? 'save-del-btn btn-save-opacity addDelegateMobile'
             : 'save-del-btn addDelegateMobile';
     }
-    get whatDelCanSeeSection(){
-        return this.isRTL ? 'slds-p-right_medium slds-p-top_medium slds-p-bottom_small' : 'slds-p-left_medium slds-p-top_medium slds-p-bottom_small'
+    get whatDelCanSeeSection() {
+        return this.isRTL
+            ? 'slds-p-right_medium slds-p-top_medium slds-p-bottom_small'
+            : 'slds-p-left_medium slds-p-top_medium slds-p-bottom_small';
     }
-    get whatDeleCanSeeText(){
-        return this.isRTL ? 'slds-p-right_medium' : 'slds-p-left_medium'
+    get whatDeleCanSeeText() {
+        return this.isRTL ? 'slds-p-right_medium' : 'slds-p-left_medium';
     }
     get checkBoxDisabled() {
         let checkBoxDisabled = false;
@@ -463,7 +467,7 @@ export default class PpAddNewDelegate extends LightningElement {
         })
             .then((result) => {
                 emailElement.setCustomValidity('');
-              emailElement.reportValidity();
+                emailElement.reportValidity();
                 let contactData = JSON.parse(result);
                 let contDataLength = contactData.delegates.length;
                 this.allDelegate = contactData.delegates;
@@ -491,7 +495,8 @@ export default class PpAddNewDelegate extends LightningElement {
                         let status = delegate.status;
                         let isActiveDelegate = delegate.isActive;
                         let isFormerDelegate =
-                            !isActiveDelegate && (status === 'Disconnected' || status === 'On Hold');
+                            !isActiveDelegate &&
+                            (status === 'Disconnected' || status === 'On Hold');
                         //If Delegate is Active/former(Not Withdrawn).
                         if (isActiveDelegate || isFormerDelegate) {
                             this.showExistingContactWarning = false;
@@ -748,17 +753,20 @@ export default class PpAddNewDelegate extends LightningElement {
         return this.isContactSelected ? false : true;
     }
 
-    get isAddNewDelegate(){
+    get isAddNewDelegate() {
         return true;
     }
 
     //Reset the pre filled input values if Present.
-    resetInputValues(clearEmail){  
+    resetInputValues(clearEmail) {
         this.template.querySelector('[data-id="firstNameInput"]').value = '';
         this.template.querySelector('[data-id="lastNameInput"]').value = '';
         this.template.querySelector('[data-id="consentcheck"]').checked = false;
-        this.template.querySelector('[data-id="emailconsentcheck"]').checked = false ;
-        if(clearEmail){
+        this.template.querySelector('[data-id="emailconsentcheck"]').checked = false;
+        this.template.querySelector('[data-id="consentcheck"]').checked = false;
+        this.isAttested = false;
+        this.isEmailConsentChecked = false;
+        if (clearEmail) {
             this.template.querySelector('[data-id="emailInput"]').value = '';
         }
         this.sendFilterUpdates();
