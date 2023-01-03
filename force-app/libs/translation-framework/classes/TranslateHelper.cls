@@ -301,7 +301,7 @@ public class TranslateHelper {
             }
             if (param == 'trialorprogram') {
                 if (paramValue == 'true')
-                    paramValue = System.Label.Programs_PP;
+                    paramValue = System.Label.Program_Header_PP;
                 else
                     paramValue = System.Label.Trial_pp;
             }
