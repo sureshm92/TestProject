@@ -95,6 +95,14 @@ public without sharing class ParametrizedMessageService {
                         valueStr = System.Label.Study_PP;
                     }
                 }
+                if(paramName == 'isEventorVisit') {
+                    if (valueStr == 'true') {
+                        valueStr = System.Label.Event_PP;
+                    } else {
+                        valueStr = System.Label.Visit_PP;
+                    }
+                }
+                
                 valuesMap.put(paramName, valueStr);
             }
             resultMessage = sourceMessage;
