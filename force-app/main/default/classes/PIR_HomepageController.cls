@@ -553,7 +553,7 @@ public without sharing class PIR_HomepageController {
         String qcString = qCountString;
         if(isEnabled){
 
-          qcString = qcString + ' Id IN :listOfIds' ;
+          qcString = qcString + ' Id IN :listOfIds' + sortCountQry;
         }
         else if (isPPFiltered == true) {
           qcString = qcString + filterString + filterStringPP + sortCountQry;
@@ -599,7 +599,7 @@ public without sharing class PIR_HomepageController {
         List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
         String orderByString = sortOn + ' LIMIT :limitOfRecords ';
         if(isEnabled){
-          queryString = queryString + ' Id IN :listOfIds';
+          queryString = queryString + ' Id IN :listOfIds' + orderByString;
         }
         else if (isPPFiltered == true) {
           queryString =
@@ -633,7 +633,8 @@ public without sharing class PIR_HomepageController {
           ' LIMIT 10 ' +
           ' OFFSET :offsetLimit ';
         if(isEnabled){
-          queryString = queryString + ' Id IN :listOfIds';
+          queryString = queryString + ' Id IN :listOfIds'  +
+            orderByString;
         }
         else if (isPPFiltered == true) {
           queryString =
