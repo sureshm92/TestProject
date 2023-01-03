@@ -148,7 +148,7 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
         stateObj[a[0]] = a[1];
       }
     }
-
+    
     result['state'] = stateObj;
 
     this[NavigationMixin.Navigate]({
@@ -194,12 +194,16 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
         const readEvent = new CustomEvent("updatereadevent", {
           detail: {
           notificationIndex: index,
-          notificationId: this.notificationWrap[index].Id
+          notificationId: this.notificationWrap[index].Id,
+          refBell : true
           }
         });
-       this.dispatchEvent(readEvent);
+       this.dispatchEvent(readEvent); 
+    }else{
+
+      const closeOverlay = new CustomEvent("closebelloverlayevent", {});
+      this.dispatchEvent(closeOverlay);
     }
-    const closeOverlay = new CustomEvent("closebelloverlayevent", {});
-    this.dispatchEvent(closeOverlay);
+    
   }
 }
