@@ -964,10 +964,26 @@ public without sharing class MyTeamRemote {
         //Bypaass old methods from Patient Delegate Trigger
         TriggerHandlerExecutor.bypassHandler(
         PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
-    );
-    TriggerHandlerExecutor.bypassHandler(
-        ContactTriggerHandler.CreateUserForCCContactHandler.class
-    );
+        );
+        TriggerHandlerExecutor.bypassHandler(
+        PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForCCContactHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.CreatePrimaryDelegateForMinor.class
+        );
+        // TriggerHandlerExecutor.bypassHandler(
+        //     PatientDelegateEnrolTriggerHandler.UpdateDelegateConsent.class
+        // );
+        // TriggerHandlerExecutor.bypassHandler(
+        //     PatientDelegateEnrolTriggerHandler.UpdateConsentTimeStamps.class
+        // );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.SetDefaultPatientDelegateStatusHandler.class
+        );
+    
         savePatientDelegate(delegate);
         if(delegateFilterData!=null){
             //Read the list of selected studies for Delegate.
