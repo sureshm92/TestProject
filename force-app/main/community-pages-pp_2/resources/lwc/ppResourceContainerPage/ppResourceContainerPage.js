@@ -6,7 +6,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import getTrialDetail from '@salesforce/apex/StudyDetailViewController.getTrialDetail';
 import getLinksData from '@salesforce/apex/RelevantLinksRemote.getInitData';
-import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew'; 
+import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
 import getUpdateResources from '@salesforce/apex/ResourceRemote.getUpdateResource';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import RELEVANT_LINKS from '@salesforce/label/c.Home_Page_RelevantLinks_Title';
@@ -30,7 +30,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     toggleExplore = false;
     toggleLinks = false;
     toggleDocs = false;
-    
+
     linksGridSize = 3;
     documentGridSize = 3;
     hideFirstColumn = false;
@@ -53,6 +53,8 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     };
     @track linksData;
     @track trialdata;
+    spinner;
+    showSpinner = true;
     redirecturl = '';
     disableSave = true;
     @track textValue;
@@ -63,7 +65,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     containerElement;
     enableChangePref = false;
     enableChangePrefOnDocs = false;
-    isDisabled = false; 
+    isDisabled = false;
     @track resourcesFilterData;
     @track resourcesData;
     multimedia = false;
@@ -190,34 +192,33 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             let data = JSON.stringify(this.pData);
 
             await getUpdateResources({ linkWrapperText: returnValue, participantData: data })
-            .then((result) => {
-                this.resourcesData = result.wrappers;
-                console.log('++++++++this.resourcesData'+JSON.stringify(this.resourcesData));
-                this.resourcesData.forEach((resObj) => {
-                    if (
-                        resObj.resource.Content_Type__c == 'Article' ||
-                        resObj.resource.Content_Type__c == 'Video'
-                    ) {
-                        resObj.isExplore = true;
-                    } else if (resObj.resource.Content_Type__c == 'Study_Document') {
-                        resObj.isDoc = true;
-                    } else if (resObj.resource.Content_Type__c == 'Multimedia') {
-                        resObj.isMultimedia = true;
-                        if(!this.multimedia ){
-                            this.multimedia = true;
+                .then((result) => {
+                    this.resourcesData = result.wrappers;
+                    this.resourcesData.forEach((resObj) => {
+                        if (
+                            resObj.resource.Content_Type__c == 'Article' ||
+                            resObj.resource.Content_Type__c == 'Video'
+                        ) {
+                            resObj.isExplore = true;
+                        } else if (resObj.resource.Content_Type__c == 'Study_Document') {
+                            resObj.isDoc = true;
+                        } else if (resObj.resource.Content_Type__c == 'Multimedia') {
+                            resObj.isMultimedia = true;
+                            if (!this.multimedia) {
+                                this.multimedia = true;
+                            }
+                        } else {
+                            resObj.isLink = true;
                         }
-                    } else {
-                        resObj.isLink = true;
-                    }
+                    });
+                    this.resourcesFilterData = this.resourcesData[0] ? this.resourcesData : false;
+                    this.isDisabled = this.resourcesData[0] ? false : true;
+                    this.isInitialized = true;
+                    this.showSpinner = false;
+                })
+                .catch((error) => {
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                 });
-                this.resourcesFilterData = this.resourcesData[0] ? this.resourcesData : false;
-                this.isDisabled = this.resourcesData[0] ? false : true;
-                this.isInitialized = true;
-
-            })
-            .catch((error) => {
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-            });
         }
     }
     showErrorToast(titleText, messageText, variantType) {
