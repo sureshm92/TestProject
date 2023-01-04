@@ -1,4 +1,4 @@
-global without sharing class Batch_SendBellNotificationBell implements Database.Batchable<sObject>, Database.Stateful {
+global without sharing class Batch_SendBellNotificationBell extends Batch_ScheduledAbstract implements Database.Batchable<sObject>, Database.Stateful {
 	global List<String> lstOfStatus = new List<String>{'Received', 'Contact Attempted', 'Pre-review Passed', 'Successfully Contacted', 'Successfully re-engaged'};    
     global Map<String, Set<String>> mapOfSiteVsContact = new Map<String, Set<String>>();
     global Map<String, Set<String>> mapOfCommVsContact = new Map<String, Set<String>>();    
@@ -27,13 +27,13 @@ global without sharing class Batch_SendBellNotificationBell implements Database.
         }    
     }
     
-    global void finish(Database.BatchableContext bc){
-        System.debug('mapOfCommTemp=='+mapOfCommTemp);
-        System.debug('mapOfSiteVsStudy=='+mapOfSiteVsStudy);
+    global override void finish(Database.BatchableContext bc){
+      //  System.debug('mapOfCommTemp=='+mapOfCommTemp);
+      //  System.debug('mapOfSiteVsStudy=='+mapOfSiteVsStudy);
         List<Notification__c> allNotificationList = new List<Notification__c>();
         mapOfSiteVsContact = BellNotificationsHelper.getContactForSites(mapOfSiteVsStudy.keySet());
 
-        System.debug('mapOfSiteVsContact=='+mapOfSiteVsContact);
+      //  System.debug('mapOfSiteVsContact=='+mapOfSiteVsContact);
         for(String eachRec : mapOfSiteVsContact.keySet()){
             if(mapOfSiteVsStudy.containsKey(eachRec) && mapOfCommTemp.containsKey(mapOfSiteVsStudy.get(eachRec))){
                 for(String eachContact : mapOfSiteVsContact.get(eachRec)){
@@ -45,7 +45,7 @@ global without sharing class Batch_SendBellNotificationBell implements Database.
             }
         }
 
-        System.debug('mapOfCommVsContact=='+mapOfCommVsContact);
+      //  System.debug('mapOfCommVsContact=='+mapOfCommVsContact);
         for(String eachRec : mapOfCommVsContact.keySet()){
             for(String eachCon : mapOfCommVsContact.get(eachRec)){
                 Notification__c notificationRec = BellNotificationsHelper.createNotification('BELL_Message_on_Pending_Action', eachCon, 'PI', eachRec, false);  
@@ -53,7 +53,7 @@ global without sharing class Batch_SendBellNotificationBell implements Database.
             }            
         }        
 
-        System.debug('allNotificationList=='+allNotificationList);
+      //  System.debug('allNotificationList=='+allNotificationList);
         if(allNotificationList.size() > 0 && allNotificationList.size() <= 8000){
             insert allNotificationList;
             Id jobId = System.enqueueJob(new BellNotificationQueueable(allNotificationList));
@@ -61,5 +61,21 @@ global without sharing class Batch_SendBellNotificationBell implements Database.
             Batch_NotificationInsertion notifyBatch = new Batch_NotificationInsertion(allNotificationList);
             Database.executeBatch(notifyBatch);
         }
+    }
+    
+    public override Type getType() {
+        return Batch_SendBellNotificationBell.class;
+    }
+    
+    public override String getBatchDescription() {
+        return 'Creates Bell notifications for records not processed for 1 week';
+    }
+    
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_DAYS;
+    }
+    
+    public override Integer getRecommendedRelaunchInterval() {
+        return 7;
     }
 }
