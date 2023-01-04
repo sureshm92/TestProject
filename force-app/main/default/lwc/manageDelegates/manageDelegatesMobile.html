@@ -9,6 +9,30 @@
         ></lightning-spinner>
     </template>
     <!--Spinner: Ends-->
+    <!--Remove Delegate Modal: Starts-->
+    <template if:true={showpopup}>
+        <c-pp-remove-delegate-modal-old
+            pdenrollmentid={removeStudyPDEId}
+            messtext={modalMesstext}
+            tittext={label.PG_PST_L_Delegates_Remove_Himself_Header}
+            onconfirmmodal={handleRemoveDelegate}
+            onmodalclose={handleModalClose}
+        >
+        </c-pp-remove-delegate-modal-old>
+    </template>
+    <!--Remove Delegate Modal: Ends-->
+    <!--Delete Delegate Modal: Starts-->
+    <template if:true={showDeletePopup}>
+        <c-pp-delete-delegate-modal-old
+            patientdelegateid={deletePatientDelId}
+            messtext={label.PP_Delegate_Delegate_Warning}
+            tittext={label.PP_Delegate_Delegate}
+            ondeletemodal={handleDeleteDelegate}
+            ondeletemodalclose={handleDeleteModalClose}
+        >
+        </c-pp-delete-delegate-modal-old>
+    </template>
+    <!--Delete Delegate Modal: Ends-->
     <!-- <c-web-spinner fixed="true"></c-web-spinner> -->
     <!-- Show Add Delegate Page: Start-->
     <template if:true={showAddDelegatePage}>
@@ -167,18 +191,6 @@
                                                     class="slds-m-bottom_x-small study-rectangle"
                                                     key={pdEnrollment.Id}
                                                 >
-                                                    <!--Remove Delegate Modal: Starts-->
-                                                    <template if:true={showpopup}>
-                                                        <c-pp-remove-delegate-modal-old
-                                                            pdenrollmentid={removeStudyPDEId}
-                                                            messtext={modalMesstext}
-                                                            tittext={label.PG_PST_L_Delegates_Remove_Himself_Header}
-                                                            onconfirmmodal={handleRemoveDelegate}
-                                                            onmodalclose={handleModalClose}
-                                                        >
-                                                        </c-pp-remove-delegate-modal-old>
-                                                    </template>
-                                                    <!--Remove Delegate Modal: Ends-->
                                                     <lightning-layout multiple-rows="true">
                                                         <lightning-layout-item
                                                             size="12"
@@ -210,7 +222,10 @@
                                         <template if:true={del.showAddAssignmentButton}>
                                             <template if:false={del.addNewStudy}>
                                                 <!--Add Assignment Button: Starts-->
-                                                <lightning-layout-item size="12">
+                                                <lightning-layout-item
+                                                    size="12"
+                                                    class="slds-m-bottom_medium"
+                                                >
                                                     <button
                                                         class="apollo-btn secondary box-add-assignment-btn"
                                                         title=""
@@ -339,18 +354,6 @@
                                     class="slds-m-top_x-small former-del-rectangle"
                                     key={del.PatientDelegate.Id}
                                 >
-                                    <!--Delete Delegate Modal: Starts-->
-                                    <template if:true={showDeletePopup}>
-                                        <c-pp-delete-delegate-modal-old
-                                            patientdelegateid={deletePatientDelId}
-                                            messtext={label.PP_Delegate_Delegate_Warning}
-                                            tittext={label.PP_Delegate_Delegate}
-                                            ondeletemodal={handleDeleteDelegate}
-                                            ondeletemodalclose={handleDeleteModalClose}
-                                        >
-                                        </c-pp-delete-delegate-modal-old>
-                                    </template>
-                                    <!--Delete Delegate Modal: Ends-->
                                     <template if:false={del.addNewStudyFormer}>
                                         <!--Dlegate Info Layout: Starts -->
                                         <lightning-layout multiple-rows="true">
@@ -359,7 +362,7 @@
                                                 <!--Delegate Personal Detail Layout: Starts-->
                                                 <lightning-layout
                                                     multiple-rows="true"
-                                                    class="manage-del-items"
+                                                    class="manage-former-del-items"
                                                 >
                                                     <!--Profile Logo: Stats-->
                                                     <lightning-layout-item
@@ -462,7 +465,7 @@
                                             <!--Delegate Personal Detail Layout: Starts-->
                                             <lightning-layout
                                                 multiple-rows="true"
-                                                class="manage-del-items"
+                                                class="manage-former-del-items"
                                             >
                                                 <!--Profile Logo: Stats-->
                                                 <lightning-layout-item

@@ -389,6 +389,7 @@ export default class PpAddNewDelegate extends LightningElement {
                 }
             }
             del.delegateContact.LastName = maskedLastName;
+            del['fullNameMasked'] = maskedFirstName + ' ' + maskedLastName;
         });
     }
     //Validate input field
