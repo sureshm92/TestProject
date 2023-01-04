@@ -3,8 +3,8 @@
  */
 
 public without sharing class CommunityFacadeRemote {
-    public static final String COOKIE_FIELD_MARK = 'AllowedCookie__c';
-
+    public static final String COOKIE_FIELD_MARK = 'AllowedCookie__c';  
+    
 
     @AuraEnabled
     public static Boolean isFirstLogon() {
@@ -19,7 +19,7 @@ public without sharing class CommunityFacadeRemote {
                 SELECT Id, Contact.Is_First_Logon__c, ContactId
                 FROM User
                 WHERE Id = :UserInfo.getUserId()
-            ];
+            ]; 
             Contact cont = [SELECT Id FROM Contact WHERE Id = :user.ContactId];
             cont.Is_First_Logon__c = false;
             update cont;
@@ -425,10 +425,10 @@ public without sharing class CommunityFacadeRemote {
         Map<string,string> getId = new Map<string,string>();
         String sessionId = UserInfo.getOrganizationId()+','+UserInfo.getSessionId();
         getId.put('sessionId',sessionId);
-        String userID = UserInfo.getUserId();
-        User u = [SELECT u.Id,u.ContactId,u.IsActive
-                  FROM User u
-                  WHERE u.Id =: userID AND u.IsActive =: true];
+        String userID = UserInfo.getUserId();        
+        User u = [SELECT u.Id,u.ContactId,u.IsActive 
+                  FROM User u 
+                  WHERE u.Id =: userID AND u.IsActive =: true];       
         getId.put('userId',u.ContactId);
         return getId;
     }
@@ -450,28 +450,35 @@ public without sharing class CommunityFacadeRemote {
         DateTime userLogin2;
         List<Participant_Enrollment__c> lstOfEnrollment = new List<Participant_Enrollment__c>();
         List<Notification__c> lstOfNotification = new List<Notification__c>();
-        String communityType = UserContext.getCurrentUserMode().template.templateName;
+        String communityType = UserContext.getCurrentUserMode().template.templateName;  
+        List<String> communityTypeList = new List<String>();
+        if(communityType == 'Janssen'){
+            communityTypeList.add(communityType);
+        }else{
+            communityTypeList.add('Default');
+            communityTypeList.add('GSK');
+        }
         String userRole = UserContext.getCurrentUserMode().userMode;
         Map<String, List<Participant_Enrollment__c>> mapOfProtocolVsEnrollment = new Map<String, List<Participant_Enrollment__c>>();
         Map<String, Set<String>> mapOfStudyVsSite = new Map<String, Set<String>>();
-        Map<String, String> mapOfStudyVsStringSite = new Map<String, String>();
-        Map<String, String> mapOfStudyVsComm = new Map<String, String>();
+        Map<String, String> mapOfStudyVsStringSite = new Map<String, String>();      
+        Map<String, String> mapOfStudyVsComm = new Map<String, String>();  
 
         if(contactId != null){
             listOfResult = [SELECT Id,CreatedById,CreatedDate,Is_Active__c,Is_Read__c,Link_to_Related_Event_or_Object__c,
                             Msg_Id__c,Name,Notification__r.Notification_Type__c,Notification__c,Push_Message_Body__c,
-                            Push_Message_Title__c,Status__c,Target_Type__c
-                            FROM Send_Result__c
-                            WHERE (Is_Active__c = true)
-                            AND (Notification__r.Recipient__r.Id =:contactId)
-                            AND ( CreatedDate = LAST_N_DAYS:30)
-                            AND Community_Type__c = :communityType
-                            AND User_Role__c = :userRole
+                            Push_Message_Title__c,Status__c,Target_Type__c 
+                            FROM Send_Result__c 
+                            WHERE (Is_Active__c = true) 
+                            AND (Notification__r.Recipient__r.Id =:contactId)  
+                            AND ( CreatedDate = LAST_N_DAYS:30) 
+                            AND Community_Type__c IN :communityTypeList     
+                            AND User_Role__c = :userRole                
                             ORDER BY CreatedDate DESC];
         }
 
-        if(!String.isBlank(isExecute) && Boolean.valueOf(isExecute)){
-            lstOfStudySite = [SELECT Id FROM Study_Site__c
+        if(!String.isBlank(isExecute) && Boolean.valueOf(isExecute)){            
+            lstOfStudySite = [SELECT Id FROM Study_Site__c 
                               WHERE (Principal_Investigator__c = :contactId OR ID IN :DelegateService.getDelegatedStudySiteIds())];
 
             DateTime userCreatedDate = [SELECT CreatedDate FROM User WHERE ID = :userId][0].CreatedDate;
@@ -484,7 +491,7 @@ public without sharing class CommunityFacadeRemote {
                     if(lstOfSuccess.size() == 2){
                         break;
                     }
-                }
+                }         
             }
             if(lstOfSuccess.size() == 1){
                 userLogin1 = lstOfSuccess[0].LoginTime;
@@ -521,11 +528,11 @@ public without sharing class CommunityFacadeRemote {
                 }
 
                 sendResultWrap.mapOfProtocolVsEnrollment = mapOfProtocolVsEnrollment;
-                for (String eachProtocol : mapOfProtocolVsEnrollment.keySet()) {
-                    Notification__c notificationRec = BellNotificationsHelper.createNotification('BELL_Message_on_New_Referrals', contactId, userRole, mapOfStudyVsComm.get(eachProtocol), false);
-                    lstOfNotification.add(notificationRec);
-                }
-
+                for (String eachProtocol : mapOfProtocolVsEnrollment.keySet()) {                
+                    Notification__c notificationRec = BellNotificationsHelper.createNotification('BELL_Message_on_New_Referrals', contactId, userRole, mapOfStudyVsComm.get(eachProtocol), false);       
+                    lstOfNotification.add(notificationRec);     
+                }  
+        
                 if(lstOfNotification.size() > 0){
                      TriggerHandlerExecutor.bypassHandler(
                         NotificationTriggerHandler.CheckFieldsHandler.class
@@ -538,25 +545,25 @@ public without sharing class CommunityFacadeRemote {
                                 mapOfInfo.put(eachRec.Id, eachStudy+'#'+mapOfProtocolVsEnrollment.get(eachStudy).size()+'#'+mapOfProtocolVsEnrollment.get(eachStudy)[0].Clinical_Trial_Profile__c+'#'+mapOfStudyVsStringSite.get(eachStudy));
                                 break;
                             }
-                        }
-                    }
-                    Id jobId = System.enqueueJob(new BellNotificationQueueable(lstOfNotification, mapOfInfo));
-                }
+                        }                        
+                    }                    
+                    Id jobId = System.enqueueJob(new BellNotificationQueueable(lstOfNotification, mapOfInfo)); 
+                }          
             }
         }
-
+        
 		List<Send_Result__c> listOfAllSendResult = new List<Send_Result__c>();
 		if(listOfResult.size() > 0){
           sendResultWrap.allSendResult = listOfResult;
           return sendResultWrap;
-        }
+        }              
         return null;
     }
 
     // Update the Send Result for soft delete for a user
     @AuraEnabled
     public static Send_Result__c isActivate(Id sendResultId){
-        try{
+        try{            
             if(sendResultId != null){
                 Send_Result__c sendRes = new Send_Result__c(Id = sendResultId, Is_Active__c = false, Is_Read__c = true);
                 update sendRes;
@@ -568,20 +575,20 @@ public without sharing class CommunityFacadeRemote {
         catch(Exception e){
             System.debug('Error Occured while Updation==' + e.getMessage());
             return null;
-        }
+        }        
     }
 
     // Update the Send Result Record as Read by the user
     @AuraEnabled
     public static Send_Result__c updateReadNotification(Id sendResultId){
-        try{
+        try{            
             if(sendResultId != null){
-                Send_Result__c sendRes = new Send_Result__c(Id = sendResultId, Is_Read__c = true, Is_Active__c = true);
+                Send_Result__c sendRes = new Send_Result__c(Id = sendResultId, Is_Read__c = true, Is_Active__c = true);                
                 update sendRes;
                 return sendRes;
             }else{
                 return null;
-            }
+            } 
         }
         catch(Exception e){
             System.debug('Error Occured while Updation==' + e.getMessage());
@@ -596,6 +603,6 @@ public without sharing class CommunityFacadeRemote {
         public List<Send_Result__c> newReferralsSendResult;
         @AuraEnabled
         public Map<String, List<Participant_Enrollment__c>> mapOfProtocolVsEnrollment;
-    }
+    }  
 //RH-6579/RH-6581 - Bell Notification - End Changes
 }
