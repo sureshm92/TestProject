@@ -10,7 +10,7 @@ export default class WebSpinner extends LightningElement {
     @api fixed = false;
     @api size = 'medium';
 
-    @track showSpinner = false;
+    @api showSpinner = false;
 
     //Public methods----------------------------------------------------------------------------------------------------
     @api show() {
