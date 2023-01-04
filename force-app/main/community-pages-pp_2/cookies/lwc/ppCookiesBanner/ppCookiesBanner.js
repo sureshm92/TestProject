@@ -30,12 +30,16 @@ export default class PpCookiesBanner extends LightningElement {
     connectedCallback() {
         let rrCookies = communityService.getCookie('RRCookies');
         if (!rrCookies || this.loginPage) {
+            document.body.addEventListener('keypress', this.bodyBlock);
             document.body.classList.add('cookie-block-user');
             this.showBanner = true;
             if (this.communityName == 'Default') {
                 this.containerClassCss = this.containerClassCss + ' rh-cookies-banner';
             }
         }
+    }
+    bodyBlock(event) {
+        event.preventDefault();
     }
     showManagePreferences() {
         this.showmodal = true;
@@ -44,6 +48,7 @@ export default class PpCookiesBanner extends LightningElement {
     closeTheBanner() {
         document.body.classList.remove('cookie-block-user');
         this.showBanner = false;
+        document.body.removeEventListener('keypress', this.bodyBlock);
     }
 
     acceptAll() {
