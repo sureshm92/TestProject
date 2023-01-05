@@ -7261,6 +7261,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Thank you for your interest in using the</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Thank_You_For_Your_Interest_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Thank You For Your Interest</shortDescription>
+        <value>Thank you for your interest in using the IQVIA Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Thank_you_for_submitting_a_request</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8038,6 +8045,13 @@ Sincerely,
         <protected>false</protected>
         <shortDescription>Email Subject Reset Your Password</shortDescription>
         <value>Reset Your Password</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Reset_Your_Password_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Reset Your Password</shortDescription>
+        <value>Reset your password</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Share_By_RP</fullName>
