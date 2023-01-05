@@ -253,7 +253,7 @@ public without sharing class IprEprTriggerHandler {
             Last_Name__c = ipr.lastName__c,
             Email__c = ipr.email__c,
             Phone__c = ipr.phone__c,
-            Phone_Type__c = ipr.Phone_Type__c,
+            Phone_Type__c = (!String.isEmpty(ipr.phone__c) && String.isEmpty(ipr.Phone_Type__c)) ? 'Home' : ipr.Phone_Type__c,
             Date_of_Birth__c = ipr.BirthDate__c,
             Birth_Year__c = ipr.birthYear__c,
             Mailing_Country_Code__c = ipr.Address_Country__c,
