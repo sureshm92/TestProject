@@ -23,8 +23,14 @@
                                                     </c-pp-resource-multimedia>
                                                 </template>
                                                 <template if:false ={multimedia}>
-                                                    <img class="empty-state" src={empty_state}/>
-                                                    <p class="no-links-available mt-15">No modules available</p>
+                                                    <template if:true ={toggleLinks}>
+                                                        <img class="empty-state" src={empty_state}/>
+                                                        <p class="no-links-available">No modules available</p>
+                                                    </template>
+                                                    <template if:false ={toggleLinks}>
+                                                        <img class="empty-state" src={empty_state}/>
+                                                        <p class="no-links-availables mt-15">No modules available</p>
+                                                    </template>
                                                 </template>
                                                 <!-- START : COMING SOON -->
                                                 <!-- <div class="object">

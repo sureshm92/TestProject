@@ -180,6 +180,7 @@
 .resource-title {
     margin-left: 10px;
     padding-top: 10px;
+    cursor: pointer;
     color: #444444;
     font-family: "Proxima Nova";
     font-size: 16px;
@@ -188,8 +189,6 @@
     line-height: 20px;
     -webkit-line-clamp: 3;
     overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
 }
 .resource-description {
   margin-left: 10px;
@@ -201,6 +200,4 @@
   line-height: 20px;
   -webkit-line-clamp: 3;
   overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
 }
