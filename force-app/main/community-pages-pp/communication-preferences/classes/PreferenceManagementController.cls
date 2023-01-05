@@ -1,7 +1,7 @@
 public without sharing class PreferenceManagementController {
     public static  Set<Id> minorOrAdultWithNoEmailParIdSet = new Set<Id>();
     /**
-     * @description: This Method will save the Consent data checked/uncheck by participant/Patient delegate.
+     * @description: This Method will save the Consent data checked/uncheck by participant/Patient delegate..
      * @author: Krishna Mahto
      * @param: studyDataJSON
      * @param: outReachData
@@ -228,11 +228,11 @@ public without sharing class PreferenceManagementController {
         }
 
         //Get list of ParticipantEnrollmentPatientDelJunction records
-        List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = Action_SendSMS.getPERPatientDelJunctionRecords(
+        List<Patient_Delegate_Enrollment__c> perDelJunctionRecList = Action_SendSMS.getPERPatientDelJunctionRecords(
             perIdList,
             delContactIdSet
         );
-        for (ParticipantEnrollmentPatientDelJunction__c pdJunObj : perDelJunctionRecList) {
+        for (Patient_Delegate_Enrollment__c pdJunObj : perDelJunctionRecList) {
             pdJunObj.Welcome_Message_Sent__c = false;
             pdJunObj.Welcome_Message_Delivered__c = false;
         }
@@ -378,11 +378,11 @@ public without sharing class PreferenceManagementController {
     public static List<Contact>  getConOfMinorOfAdultWithoutEmailPar(Id contactId){
         List<Contact> contactToUpdate = New List<Contact>();
         //check if Primary Delegate has any Minor Participant or Adult Participant without email.
-        List<Patient_Delegate__c> PDList = PatientDelegateService.getPDForMinorOrAdultWithoutEmailPar(contactId);
+        List<Patient_Delegate_Enrollment__c> PDEnrollmentList = PatientDelegateEnrollmentService.getPDForMinorOrAdultWithoutEmailPar(contactId);
         //Opt out Platfrom level SMS for Participants also. 
-        for(Patient_Delegate__c pd: PDList){
-            minorOrAdultWithNoEmailParIdSet.add(pd.Participant__c);
-            Contact cont = optOutPlatFormLevelSMS(pd.Participant__r.Contact__c);
+        for(Patient_Delegate_Enrollment__c pd: PDEnrollmentList){
+            minorOrAdultWithNoEmailParIdSet.add(pd.Participant_Enrollment__r.Participant__c);
+            Contact cont = optOutPlatFormLevelSMS(pd.Participant_Enrollment__r.Participant__r.Contact__c);
             contactToUpdate.Add(cont);
         }       
         return contactToUpdate;

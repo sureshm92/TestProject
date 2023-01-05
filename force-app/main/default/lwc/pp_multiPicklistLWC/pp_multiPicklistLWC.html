@@ -1,0 +1,137 @@
+<template>
+    <!-- Ethnicity starts -->
+    <div class="std outcome-form-element slds-m-bottom_medium p-left std-height">
+        <label class="slds-form-element__label slds-no-flex disflex mb-5"
+            ><span class="text-overflow1 study-p-bottom" title="Studies"
+                >{label.PG_MS_L_Studies_up}</span
+            ><template if:true={showSelectAll}>
+                <span class="btn select-all-clear-all disable-select-all" onclick={selectAll}
+                    >{label.Select_All_PI}</span
+                >
+            </template>
+            <template if:true={showClearAll}>
+                <span class="btn select-all-clear-all" onclick={removeAll}>{label.Clear_All}</span>
+            </template>
+        </label>
+        <div
+            class="slds-form-element__control slds-grow slds-input slds-p-around--none eBox study-box dropdown-width disable-dropdown"
+            tabindex="0"
+            onclick={openStudy}
+            onblur={closeStudy}
+        >
+            <div class="slds-combobox_container">
+                <div
+                    class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click eBoxOpen"
+                >
+                    <div
+                        class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                        role="none"
+                    >
+                        <div class="selectedOption">
+                            <template if:true={isNoStudySelected}>
+                                <div
+                                    class="padding-placeholder"
+                                    contenteditable="false"
+                                    placeholder={getSelectLable}
+                                ></div>
+                            </template>
+                            <template if:false={isDesktop}>
+                                <template if:true={getFirstSelecedStudy}>
+                                    <span
+                                        class="selectedValue slds-truncate_container_50 slds-truncate"
+                                        title={getFirstSelecedStudy}
+                                    >
+                                        {getFirstSelecedStudy}
+                                    </span>
+                                </template>
+                            </template>
+
+                            <template if:true={isDesktop}>
+                                <template
+                                    for:each={firstThreeselectedStudyies}
+                                    for:item="study"
+                                    for:index="index"
+                                >
+                                    <span
+                                        key={study.value}
+                                        class="selectedValue slds-truncate_container_25 slds-truncate"
+                                        title={study.label}
+                                    >
+                                        {study.label}
+                                    </span>
+                                </template>
+                            </template>
+
+                            <div key={study.value} class={studyMoreClass}>{studyCount}</div>
+                        </div>
+                        <span
+                            class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right"
+                        >
+                            <lightning-icon
+                                icon-name="utility:down"
+                                size="x-small"
+                                alternative-text="down"
+                            >
+                            </lightning-icon>
+                        </span>
+                    </div>
+                    <div
+                        data-id="studyBox"
+                        class="slds-dropdown slds-dropdown_fluid open-width rtl-width"
+                        role="listbox"
+                    >
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            <template if:true={picklistValues}>
+                                <template for:each={picklistValues} for:item="item">
+                                    <li
+                                        key={item.value}
+                                        role="presentation"
+                                        class="slds-listbox__item"
+                                    >
+                                        <div
+                                            id={item.value}
+                                            onclick={divSetStudy}
+                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                            role="option"
+                                        >
+                                            <span
+                                                class="slds-media__figure slds-listbox__option-icon"
+                                            ></span>
+                                            <span class="slds-media__body">
+                                                <label class="slds-truncate">
+                                                    <!-- <input
+                                                        type="checkbox"
+                                                        name={item.label}
+                                                        value={item.value}
+                                                        class="input-width noclk studyCheckBox"
+                                                        onchange={setStudyList}
+                                                    /> -->
+                                                    <lightning-input
+                                                        type="checkbox"
+                                                        name={item.label}
+                                                        label={item.label}
+                                                        value={item.value}
+                                                        class="input-width noclk studyCheckBox"
+                                                        onchange={setStudyList}
+                                                    ></lightning-input>
+                                                    <!-- <span class="text-for-check">{item.label}</span> -->
+                                                </label>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </template>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+                <!-- <span
+                    class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right dropdown-icon-alignment"
+                >
+                    <lightning-icon icon-name="utility:down" size="x-small" alternative-text="down">
+                    </lightning-icon>
+                </span> -->
+            </div>
+        </div>
+    </div>
+    <!-- Ethnicity ends -->
+</template>

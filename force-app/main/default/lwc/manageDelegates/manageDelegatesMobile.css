@@ -1,0 +1,308 @@
+.add-Delegate-Btn {
+    height: 40px;
+    /* width: 131px; */
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-align: center;
+    /* margin-top: 24px; */
+    background-color: #0768fd;
+    border: 1px solid #dddbda;
+    line-height: 24px;
+    border-radius: 4px;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+    width: 100%;
+}
+.add-Delegate-Btn:disabled {
+    opacity: .4;
+    box-shadow: none;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.remove-btn {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    color: #e20000;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    padding: 5px 30px 5px 30px;
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+}
+.remove-btn:disabled {
+    opacity: .4;
+    box-shadow: none;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.remove-btn:hover {
+    background-color: rgba(226, 0, 0, 0.1);
+    border: 1px solid #e20000;
+    cursor: pointer;
+}
+/* .add-assignment-Btn {
+    border: none;
+    background-color: #ffffff;
+} */
+.add-assignment-label {
+    color: #0768fd;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.discard-label {
+    color: #e20000;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.withdrawn-del-label {
+    color: #6e6e6e;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.manage-delegates-header {
+    height: 24px;
+    /* width: 202px; */
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+/* .test {
+    height: 35px;
+    border: 1px solid red;
+} */
+/* .p-left-6{
+    padding-left: 6.8px;
+}
+.p-right-6{
+    padding-right: 6.8px;
+} */
+.p-right-12{
+    padding-right: 12px;
+}
+.p-left-12{
+    padding-left: 12px;
+}
+.manage-del-continer {
+    margin-top: 19px;
+    margin-left: 23px;
+    margin-right: 23px;
+    margin-bottom: 50px;
+}
+.manage-del-items {
+    margin: 24px 24px 0 24px;
+}
+.manage-former-del-items {
+    margin: 24px 24px 24px 24px;
+}
+.height-32 {
+    height: 32px;
+}
+/* .manage-Del-witdh {
+    width: 50%;
+} */
+.cardRTL {
+    direction: rtl;
+}
+.del-container {
+    box-sizing: border-box;
+    /* height: 291px; */
+    /* width: 813px; */
+    border: 1px solid #e9e9e9;
+    border-radius: 4px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    /* margin-top: 16px; */
+}
+.delegate-name {
+    color: #444444;
+    font-size: 18px;
+    font-weight: 600;
+}
+.delegate-email {
+    height: 24px;
+    width: 170px;
+    color: #595959;
+    font-size: 16px;
+    overflow: hidden;
+}
+.study-rectangle {
+    box-sizing: border-box;
+    /* height: 64px; */
+    /* width: 765px; */
+    border: 1px solid #e9e9e9;
+    border-radius: 4px;
+    background-color: #f2f2f2;
+}
+.add-assignment-rectangle {
+    box-sizing: border-box;
+    border: 1px solid #e9e9e9;
+    border-radius: 4px;
+}
+.add-assignment-former-rectangle{
+    box-sizing: border-box;
+    border: 1px solid #e9e9e9;
+    border-radius: 4px;
+    background-color: #ffffff;
+}
+.former-del-rectangle {
+    box-sizing: border-box;
+    /* height: 92px;
+    width: 813px; */
+    border: 1px solid #e9e9e9;
+    border-radius: 4px;
+    background-color: #f2f2f2;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+}
+/* .former-del-card-border {
+    border-right: 1px solid #e9e9e9;
+} */
+.study-code-name {
+    color: #444444;
+    font-size: 18px;
+    font-weight: 600;
+}
+.box-add-assignment-btn {
+    box-shadow: none;
+    border: 1px solid #e9e9e9;
+    font-weight: 600;
+    height: 40px;
+    min-width: 160px;
+    border-radius: 4px;
+    width: 100%;
+}
+.apollo-btn.secondary:hover {
+    border: 1px solid #0768FD !important;
+    cursor: pointer;
+}
+.box-discard-btn {
+    box-shadow: none;
+    border: 1px solid #e9e9e9;
+    font-weight: 600;
+    height: 40px;
+    min-width: 160px;
+    border-radius: 4px;
+    width: 100%;
+    background: #fff;
+    padding: 6px 16px;
+    font-size: 1rem;
+}
+
+.btn-discard.apollo-btn.secondary:hover{
+    background-color: rgba(226, 0, 0, 0.1);
+    border: 1px solid #e20000 !important;
+    cursor: pointer;
+}
+.active-former--delegate-btn {
+    color: #0768fd;
+    font-size: 16px;
+    font-weight: 600;
+    background: none;
+    border: none;
+    padding: 0px;
+}
+.delete-icon {
+    height: 20px;
+    width: 18px;
+}
+.delete-btn {
+    background: none;
+    border: none;
+}
+.delete-btn :hover {
+    cursor: pointer;
+}
+
+/* .delete-btn:hover {
+    fill: #e20000;
+} */
+
+.delete-btn:disabled {
+    opacity: .4;
+    box-shadow: none;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.box-Withdraw-del-btn {
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background-color: #e9e9e9;
+    padding: 6px 31px;
+    width: 100%;
+}
+.no-active-delegates {
+    color: #999999;
+    font-size: 16px;
+    font-weight: 600;
+}
+.add-del-padding {
+    padding: 0 48px 0 48px;
+}
+.save-del-btn {
+    height: 40px;
+    border-radius: 4px;
+    background-color: #0768fd;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+    color: #ffffff;
+    margin-top: 10.5px;
+    font-weight: 500;
+    text-align: center;
+    border-color: rgba(0, 0, 0, 0) transparent transparent;
+    /* padding: 3px 20px 3px 20px; */
+    width: 100%;
+}
+
+.btn-save-opacity {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.save-button-aligment {
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    margin: auto;
+    padding: 30px 0px 0px 12px;
+}
+.study-margin-auto {
+    margin: auto;
+}
+/* .study-picklist {
+    padding: 25px 0px 0px 25px;
+} */
+/* .e-consent-aligment {
+    padding: 0px 0px 25px 25px;
+} */
+/* .slds-form-element__label{
+    margin-top: -6px !important;
+}
+.slds-checkbox__label{
+    display: flex !important;
+} */
+
+.md-help-text-style {
+    background-Color: #f0f0f0;
+    display: block;
+    position: absolute;   
+    background-color: #444444;
+    box-shadow: 0 8px 20px 0 rgba(0,0,0,0.08);
+    margin-top:-82px;
+    height: 30px;
+}
+.md-help-text-style-none{
+    display: none;
+}
+

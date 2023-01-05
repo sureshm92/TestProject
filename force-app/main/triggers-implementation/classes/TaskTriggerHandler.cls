@@ -138,7 +138,7 @@ public without sharing class TaskTriggerHandler {
             }
             allContactsIds.add(t.WhoId);
         }
-        Map<Id, List<Id>> delConIdsByPACon = PatientDelegateService.getDelegateContactIdsByPAContactIs(
+        Map<Id, List<Id>> delConIdsByPACon = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
             allContactsIds
         );
         for (Id paKey : delConIdsByPACon.keySet())
@@ -181,17 +181,28 @@ public without sharing class TaskTriggerHandler {
         //Adding contacts without user to same list
         partContactsIds.addAll(contactWithoutUser);
 
-        List<Patient_Delegate__c> patientDelegates = [
-            SELECT Contact__c, Status__c, Participant__r.Contact__c
-            FROM Patient_Delegate__c
-            WHERE Participant__r.Contact__c IN :partContactsIds AND Status__c = 'Active'
+        List<Patient_Delegate_Enrollment__c> patientDelegates = [
+            SELECT
+                Id,
+                Participant_Enrollment__c,
+                Patient_Delegate__c,
+                Patient_Delegate__r.Contact__c,
+                Patient_Delegate__r.Participant__c,
+                Patient_Delegate__r.Participant__r.Contact__c,
+                Name,
+                Status__c,
+                Welcome_Message_Sent__c,
+                Welcome_Message_Delivered__c,
+                Participant_Enrollment__r.study__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Patient_Delegate__r.Participant__r.Contact__c IN : partContactsIds AND Status__c = 'Active' 
         ];
         Map<Id, List<Id>> delegatesCntByPartCnt = new Map<Id, List<Id>>();
-        for (Patient_Delegate__c pd : patientDelegates) {
-            if (!delegatesCntByPartCnt.containsKey(pd.Participant__r.Contact__c)) {
-                delegatesCntByPartCnt.put(pd.Participant__r.Contact__c, new List<Id>());
+        for (Patient_Delegate_Enrollment__c pd : patientDelegates) {
+            if (!delegatesCntByPartCnt.containsKey(pd.Patient_Delegate__r.Participant__r.Contact__c)) {
+                delegatesCntByPartCnt.put(pd.Patient_Delegate__r.Participant__r.Contact__c, new List<Id>());
             }
-            delegatesCntByPartCnt.get(pd.Participant__r.Contact__c).add(pd.Contact__c);
+            delegatesCntByPartCnt.get(pd.Patient_Delegate__r.Participant__r.Contact__c).add(pd.Patient_Delegate__r.Contact__c);
         }
 
         for (Task task : tasksWithOwner) {
@@ -227,6 +238,7 @@ public without sharing class TaskTriggerHandler {
                                     notifications.add(
                                         new Notification__c(
                                             Recipient__c = delContact.Id,
+                                            IsDelegate__c = true,
                                             WhatId__c = whatId,
                                             Notification_Type__c = card.Immediate_Notification_Type__c,
                                             RemindUsing__c = 'Email'
@@ -265,6 +277,7 @@ public without sharing class TaskTriggerHandler {
                             notifications.add(
                                 new Notification__c(
                                     Recipient__c = delContact.Id,
+                                    IsDelegate__c = true,
                                     Task_Id__c = task.Id,
                                     WhatId__c = task.Id,
                                     Notification_Type__c = 'Message_To_PT_Ecoa_Task_Instant_Del_Type',
@@ -304,6 +317,7 @@ public without sharing class TaskTriggerHandler {
                                 new Notification__c(
                                     Recipient__c = delContact.Id,
                                     WhatId__c = task.Id,
+                                    IsDelegate__c = true,
                                     Notification_Type__c = 'Message_To_PT_Task_Instant_Del_Type',
                                     StartDate__c = task.Start_Date__c,
                                     RemindUsing__c = 'Email'

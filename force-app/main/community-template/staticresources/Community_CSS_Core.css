@@ -577,6 +577,19 @@ lightning-datepicker lightning-button-icon .slds-button svg {
     display: none;
 }
 
+
+[c-ppaddnewdelegate_ppaddnewdelegate] .slds-form-element__label {
+    padding: 0 0 0 5px;
+    text-align: left;
+    font-size: 14px !important;
+    margin-top: -4px;
+    line-height: 22px !important;
+}
+
+[c-ppaddnewdelegate_ppaddnewdelegate] .slds-checkbox__label {
+    display: flex;
+}
+
 .mr_left_5 > .slds-col {
     padding: .25rem;
 }
@@ -1848,8 +1861,21 @@ input[type=password]::-ms-clear
     text-overflow: ellipsis;
 }
 
+.add-delegate-input-container .slds-input{
+    height: 40px !important;
+}
+.add-delegate-input-container .slds-input[disabled]{
+    /* opacity: .4; */
+    cursor: not-allowed;
+    pointer-events: none;
+    border: 1px solid #D9D9D9;
+    background-color: #F2F2F2;
+    color: #747474; 
+}
+/* .slds-backdrop[c-ppModalOld_ppModalOld]{
+    background-color: rgba(0, 0, 0, 0.1);
+} */
 /* trial item - contact to study - alumni participant */
-
 .trialItemPopUpContainer .cPopup .p-header h2 {
     font-size: 24px;
     font-weight: 500;
@@ -1869,4 +1895,21 @@ input[type=password]::-ms-clear
     font-weight: 400;
     overflow-x: hidden;
     padding-top: 0px;
+}
+.e-consent-aligment .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    font-size: 14px !important;
+    padding: 0 5px 0 5px;
+    margin-top: -4px;
+    line-height: 21px;
+}
+.e-consent-aligment .slds-checkbox__label {
+    display: flex;
+}
+
+.add-del-fn-ln-cls input:disabled{
+    /* color: #747474;
+    background-color: #f2f2f2; */
+    color: red;
+    background-color: magenta;
+
 }
