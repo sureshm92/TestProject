@@ -1,6 +1,6 @@
 <template>
     <!-- Loading Spinner-->
-    <c-web-spinner class="main-spinner"></c-web-spinner>
+    <c-web-spinner class="main-spinner" fixed="true" show-spinner={showSpinner}></c-web-spinner>
     <template if:true={isInitialized}>
         <div class={cardRTL}>
             <div class="res-container">
