@@ -81,10 +81,7 @@ private class Test_BasePPCommunity {
                     'lastName',
                     null
                 );
-                AddPatientByPIRemote.assignParticipantPermissions(
-                    testDataInstance.ss.Id,
-                    testDataInstance.piContact.Id
-                );
+                
                 //RH-6742 -- Extra parameters related to IQVIA outreach consenting has been added
                 AddPatientByPIRemote.saveParticipant(
                     JSON.serialize(participant),
@@ -135,7 +132,7 @@ private class Test_BasePPCommunity {
         }
         Test.stopTest();
         //System.assertEquals(true, isExceptionThrown);
-    }
+    } 
 
     @IsTest
     static void test_AlertRemote() {
