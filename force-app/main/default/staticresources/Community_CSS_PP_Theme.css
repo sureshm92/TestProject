@@ -145,6 +145,10 @@
     width: 30px!important;
 }
 
+.PHONE .profileIcon .rr-icon_default {
+    margin-right: 1rem;
+}
+
 @media (max-width: 500px) {
     .rr-width-limiter .side-padding {
         padding-left: 0rem !important;

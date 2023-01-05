@@ -1089,7 +1089,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             Age__c = Integer.valueOf(age),
             Email__c = EmailAddress,
             Phone__c = Phone,
-            Phone_Type__c = PhoneType,
+            Phone_Type__c = (!String.isEmpty(Phone) && String.isEmpty(PhoneType)) ? 'Home' : PhoneType,
             Alternative_Phone_Number__c = Phone2,
             Alternative_Phone_Type__c = PhoneType2,
             Preferred_Language__c = (String.isBlank(Language) ||
@@ -1451,6 +1451,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                   String.isNotBlank(PhoneType) && participantDuplicate.Adult__c
                 ) {
                   participantDuplicate.Phone_Type__c = PhoneType;
+                }
+                if (!String.isEmpty(Phone) && String.isEmpty(PhoneType) && participantDuplicate.Adult__c) {
+                  participantDuplicate.Phone_Type__c = 'Home';
                 }
                 if (
                   String.isNotBlank(Phone2) && participantDuplicate.Adult__c

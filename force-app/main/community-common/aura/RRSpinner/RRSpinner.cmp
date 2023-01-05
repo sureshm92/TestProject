@@ -7,6 +7,8 @@
     <aura:attribute name="showSpinner" type="Boolean" default="false" />
     <aura:attribute name="alternativeText" type="String" default="Processing..." />
     <aura:attribute name="fixed" type="Boolean" default="false" />
+    <aura:attribute name="showFullSpinner" type="Boolean" default="false" />
+
 
     <aura:method name="show" action="{!c.doShow}" />
     <aura:method name="hide" action="{!c.doHide}" />
@@ -14,7 +16,7 @@
     <lightning:spinner
         variant="brand"
         size="{!v.size}"
-        class="{!'rr-spinner ' + if(v.showSpinner, '', ' rr-hide ') + if(v.fixed, ' fixed ', '')}"
+        class="{!if(v.showFullSpinner,'spins','rr-spinner') + if(v.showSpinner, '', ' rr-hide ') + if(v.fixed, ' fixed ', '')}"
         alternativeText="{!v.alternativeText}"
     />
 </aura:component>

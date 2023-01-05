@@ -1,0 +1,65 @@
+<template>
+    <template if:true={desktop}>
+            <div
+                class="slds-align_absolute-center explore-section-horizontal slds-card slds-has-bottom-magnet"
+                onclick={navigateResourceDetail}
+            >
+                <template if:false={noExploreImage}>
+                    <img 
+                        class="explore-image-desktop-horizontal"
+                        onclick={navigateResourceDetail}
+                        src={exploreData.resource.Image__c}
+                        onerror={handleNoExploreImageError}
+                    />
+                </template>
+                <div
+                    if:true={noExploreImage}
+                    class="slds-align_absolute-center empty-image-horizontal"
+                    onclick={navigateResourceDetail}
+                >
+                    <c-web-icon
+                        icon-color="#b5b5b5"
+                        icon-width="55"
+                        icon-height="55"
+                        icon-size="large"
+                        icon-name="empty-thumbnail-updates"
+                    ></c-web-icon>
+                </div>
+            </div>
+            <div class="slds-card slds-has-top-magnet">
+                <div class = "resource-title" onclick={navigateResourceDetail}>{exploreData.resource.Title__c}</div>
+                <div class = "resource-description" >{exploreData.resource.Description__c}</div>
+            </div>
+            <br/>
+    </template>
+    <template if:false={desktop}>
+            <div 
+            class="slds-align_absolute-center explore-section-horizontal slds-card slds-has-bottom-magnet" onclick={navigateResourceDetail}>
+                <template if:false={noExploreImage}>
+                    <img style ="height: 120px;"
+                        class="explore-image"
+                        onclick={navigateResourceDetail}
+                        src={exploreData.resource.Image__c}
+                        onerror={handleNoExploreImageError}
+                    />
+                </template>
+                <div
+                    if:true={noExploreImage}
+                    class="slds-align_absolute-center icon-container"
+                    onclick={navigateResourceDetail}
+                >
+                    <c-web-icon
+                        icon-color="#b5b5b5"
+                        icon-width="35"
+                        icon-height="40"
+                        icon-name="empty-thumbnail-updates"
+                    ></c-web-icon>
+                </div>
+            </div>
+            <div class="slds-card slds-has-top-magnet">
+                <div class = "resource-title" onclick={navigateResourceDetail}>{exploreData.resource.Title__c}</div>
+                <div class = "resource-description">{exploreData.resource.Description__c}</div>
+            </div>
+            <br/>
+    </template>
+</template>
