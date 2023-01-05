@@ -1913,3 +1913,6 @@ input[type=password]::-ms-clear
     background-color: magenta;
 
 }
+.std .text-checked-bold .slds-checkbox .slds-checkbox__label .slds-form-element__label{
+    font-weight: 600 !important;
+}
