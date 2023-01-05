@@ -793,6 +793,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PP_EmailWireframeController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmptyPagePanelRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
