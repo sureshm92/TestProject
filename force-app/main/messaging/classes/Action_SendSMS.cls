@@ -777,6 +777,7 @@ public without sharing class Action_SendSMS implements Action {
                                         )
                                         .get(per.Id);
                                     isSMSAvailableForPER =
+                                        (pdelEnrollmentrecrd != null) &&
                                         pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                         pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
                                 } else {
@@ -836,6 +837,7 @@ public without sharing class Action_SendSMS implements Action {
                                     )
                                     .get(taskMap.get(whatId).WhatId);
                                 isSMSAvailableForPER =
+                                    (pdelEnrollmentrecrd != null) &&
                                     pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                     pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
                             } else {
@@ -1000,6 +1002,7 @@ public without sharing class Action_SendSMS implements Action {
                                                 .Participant_Enrollment__c
                                         );
                                     isSMSAvailableForPER =
+                                        (pdelEnrollmentrecrd != null) &&
                                         pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                         pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
                                 } else {
