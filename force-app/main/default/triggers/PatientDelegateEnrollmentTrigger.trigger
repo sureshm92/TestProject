@@ -26,4 +26,7 @@ trigger PatientDelegateEnrollmentTrigger on Patient_Delegate_Enrollment__c (
     TriggerHandlerExecutor.execute(
         PatientDelegateEnrolTriggerHandler.UpdateConsentTimeStamps.class
     );
+    TriggerHandlerExecutor.execute(
+        PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
+    );
 }
