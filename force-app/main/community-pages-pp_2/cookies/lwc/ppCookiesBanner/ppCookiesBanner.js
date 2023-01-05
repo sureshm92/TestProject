@@ -31,6 +31,7 @@ export default class PpCookiesBanner extends LightningElement {
         let rrCookies = communityService.getCookie('RRCookies');
         if (!rrCookies || this.loginPage) {
             document.body.addEventListener('keypress', this.bodyBlock);
+            document.body.addEventListener('keydown', this.bodyBlock);
             document.body.classList.add('cookie-block-user');
             this.showBanner = true;
             if (this.communityName == 'Default') {
@@ -49,6 +50,7 @@ export default class PpCookiesBanner extends LightningElement {
         document.body.classList.remove('cookie-block-user');
         this.showBanner = false;
         document.body.removeEventListener('keypress', this.bodyBlock);
+        document.body.removeEventListener('keydown', this.bodyBlock);
     }
 
     acceptAll() {
