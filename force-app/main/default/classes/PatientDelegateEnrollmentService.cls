@@ -194,14 +194,15 @@ public without sharing class PatientDelegateEnrollmentService {
             );
             Patient_Delegate__c pd= pdData.convertToPD();
             //Assign Studies.
-            PatientDelegateEnrollmentService.getInstance().createPatientDelegateEnrollment(pd,studyPERData);
+            //PatientDelegateEnrollmentService.getInstance().createPatientDelegateEnrollment(pd,studyPERData);
+            createPatientDelegateEnrollment(pd,studyPERData);
             return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
             
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
-    public void createPatientDelegateEnrollment(
+    public static void createPatientDelegateEnrollment(
         Patient_Delegate__c newDelegate,
         String studyPERData
     ) {

@@ -6,12 +6,12 @@ import PG_MS_L_Studies_up from '@salesforce/label/c.PG_MS_L_Studies_up';
 import Select from '@salesforce/label/c.Select';
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
 import {
-    publish, 
+    publish,
     subscribe,
     unsubscribe,
     MessageContext,
     APPLICATION_SCOPE
-} from 'lightning/messageService'; 
+} from 'lightning/messageService';
 export default class Pp_multiPicklistLWC extends LightningElement {
     label = {
         Select_All_PI,
@@ -30,14 +30,13 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     @track firstThreeselectedStudyies = [];
     subscription = null;
     //resetAll;
-    openStudyList=false;
-   
+    openStudyList = false;
 
     @wire(MessageContext)
     messageContext;
 
     connectedCallback() {
-        this.subscribeToMessageChannel(); 
+        this.subscribeToMessageChannel();
     }
     disconnectedCallback() {
         this.unsubscribeToMessageChannel();
@@ -62,12 +61,33 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         }
         //If we recieved isDisabled flag from Parent component.
         if (message.isDisabled == true) {
-            this.template.querySelector('.disable-dropdown').classList.add('std-multipicklist-disabled');
-            this.template.querySelector('.disable-select-all').classList.add('std-disable-select-all');
+            this.template
+                .querySelector('.disable-dropdown')
+                .classList.add('std-multipicklist-disabled');
+            this.template
+                .querySelector('.disable-select-all')
+                .classList.add('std-disable-select-all');
         }
         if (message.isDisabled == false) {
-            this.template.querySelector('.disable-dropdown').classList.remove('std-multipicklist-disabled');
-            this.template.querySelector('.disable-select-all').classList.remove('std-disable-select-all');
+            this.template.querySelector('.disable-dropdown').classList.forEach((cls) => {
+                if (cls === 'std-multipicklist-disabled') {
+                    this.template
+                        .querySelector('.disable-dropdown')
+                        .classList.remove('std-multipicklist-disabled');
+                }
+            });
+            if (
+                this.template.querySelector('.disable-select-all') != null ||
+                this.template.querySelector('.disable-select-all') != undefined
+            ) {
+                this.template.querySelector('.disable-select-all').classList.forEach((cls) => {
+                    if (cls === 'std-disable-select-all') {
+                        this.template
+                            .querySelector('.disable-select-all')
+                            .classList.remove('std-disable-select-all');
+                    }
+                });
+            }
         }
     }
     //Subscribe the message channel
@@ -79,7 +99,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     //Reselt all the multipliclist valies selected.
     removeAll() {
         let studyElement = this.template.querySelector('[data-id="studyBox"]');
-        let opts = studyElement.getElementsByTagName('input');
+        let opts = studyElement.getElementsByTagName('lightning-input');
         for (var i = 0; i < opts.length; i++) {
             opts[i].checked = false;
         }
@@ -91,7 +111,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     //Select all the multipiclist values avaible in dropdown.
     selectAll() {
         let studyElement = this.template.querySelector('[data-id="studyBox"]');
-        let opts = studyElement.getElementsByTagName('input');
+        let opts = studyElement.getElementsByTagName('lightning-input');
         for (var i = 0; i < opts.length; i++) {
             opts[i].checked = true;
         }
@@ -99,18 +119,17 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         //this.template.querySelector('.eBox').blur();
     }
     openStudy() {
-        if(!this.openStudyList){
+        if (!this.openStudyList) {
             this.template.querySelector('.eBoxOpen').classList.add('slds-is-open');
-            this.openStudyList=true;
-        }else{
+            this.openStudyList = true;
+        } else {
             this.template.querySelector('.eBoxOpen').classList.remove('slds-is-open');
-            this.openStudyList=false;
+            this.openStudyList = false;
         }
-        
     }
     closeStudy() {
         this.template.querySelector('.eBoxOpen').classList.remove('slds-is-open');
-        this.openStudyList=false;
+        this.openStudyList = false;
     }
     get getFirstSelecedStudy() {
         if (this.selectedStudy) {
@@ -123,47 +142,44 @@ export default class Pp_multiPicklistLWC extends LightningElement {
 
     get studyCount() {
         if (this.selectedStudy) {
-            if(this.isDesktop){
+            if (this.isDesktop) {
                 if (this.selectedStudy.length > 3) {
                     return ' + ' + (this.selectedStudy.length - 3) + ' ' + this.label.More;
                 }
-            }else{
+            } else {
                 if (this.selectedStudy.length > 1) {
                     return ' + ' + (this.selectedStudy.length - 1) + ' ' + this.label.More;
                 }
             }
-            
         }
         return ' ';
     }
 
     //Return if no Study selected.
-    get isNoStudySelected(){
-        return this.selectedStudy.length==0 ? true: false;
+    get isNoStudySelected() {
+        return this.selectedStudy.length == 0 ? true : false;
     }
     //Show Select All if all the studies are selected.
     get showSelectAll() {
         const totalSelectedStudies = this.selectedStudy.length;
-        console.log('Show All totalSelectedStudies: ',totalSelectedStudies);
-        console.log('Show All totalNoOfStudies: ',this.totalNoOfStudies);
-        return totalSelectedStudies != this.totalNoOfStudies
-            ? true
-            : false;
+        console.log('Show All totalSelectedStudies: ', totalSelectedStudies);
+        console.log('Show All totalNoOfStudies: ', this.totalNoOfStudies);
+        return totalSelectedStudies != this.totalNoOfStudies ? true : false;
     }
 
-    get getSelectLable(){
+    get getSelectLable() {
         return this.label.Select;
     }
     //Show clear All if at least one sutudy is not selected.
     get showClearAll() {
         const totalSelectedStudies = this.selectedStudy.length;
-        console.log('clear All totalSelectedStudies: ',totalSelectedStudies);
-        console.log('Clear All totalNoOfStudies: ',this.totalNoOfStudies);
+        console.log('clear All totalSelectedStudies: ', totalSelectedStudies);
+        console.log('Clear All totalNoOfStudies: ', this.totalNoOfStudies);
         return totalSelectedStudies != 0 && totalSelectedStudies == this.totalNoOfStudies
             ? true
             : false;
     }
-    get studyMoreClass(){
+    get studyMoreClass() {
         return this.addNewDelegate ? 'study-thmore-add-newdel' : 'study-thmore-add-assignment';
         // if(this.addNewDelegate){
         //     return 'study-thmore-add-newdel';
@@ -180,7 +196,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         let tempList = [];
         let tempFirstThreeList = [];
         let studyElement = this.template.querySelector('[data-id="studyBox"]');
-        let opts = studyElement.getElementsByTagName('input');
+        let opts = studyElement.getElementsByTagName('lightning-input');
         let studyOpts = [];
         let checkedCount = 0;
         for (var i = 0; i < opts.length; i++) {
@@ -188,17 +204,17 @@ export default class Pp_multiPicklistLWC extends LightningElement {
                 tempList.push({ label: opts[i].name, value: opts[i].value });
                 studyOpts.push(opts[i].value);
                 //Store First Three selected Studies in separate List.
-                if(tempFirstThreeList.length<=2){
+                if (tempFirstThreeList.length <= 2) {
                     tempFirstThreeList.push({ label: opts[i].name, value: opts[i].value });
                 }
             }
-            
         }
         this.studyListStr = studyOpts.join(';');
         this.selectedStudy = [];
         this.selectedStudy = this.selectedStudy.concat(tempList);
         this.firstThreeselectedStudyies = [];
-        this.firstThreeselectedStudyies = this.firstThreeselectedStudyies.concat(tempFirstThreeList);
+        this.firstThreeselectedStudyies =
+            this.firstThreeselectedStudyies.concat(tempFirstThreeList);
         this.template.querySelector('.eBox').focus();
         this.sendFilterUpdates();
     }

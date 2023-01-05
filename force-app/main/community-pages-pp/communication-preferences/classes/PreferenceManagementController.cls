@@ -1,7 +1,7 @@
 public without sharing class PreferenceManagementController {
     public static  Set<Id> minorOrAdultWithNoEmailParIdSet = new Set<Id>();
     /**
-     * @description: This Method will save the Consent data checked/uncheck by participant/Patient delegate.
+     * @description: This Method will save the Consent data checked/uncheck by participant/Patient delegate..
      * @author: Krishna Mahto
      * @param: studyDataJSON
      * @param: outReachData

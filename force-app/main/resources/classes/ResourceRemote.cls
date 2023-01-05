@@ -112,6 +112,25 @@ public without sharing class ResourceRemote {
             return (UpdateWrapper) AuraHelper.throwException(e);
         }
     }
+    @AuraEnabled
+    public static ResourceService.ResourceWrapperContainer getUpdateResource(String linkWrapperText, String participantData) {
+        try {
+            ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceArticleVideoService.getInstance()
+                .ppinit('Multimedia', participantData)
+                .getResourceWrapperContainer();
+            resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(
+                resourceWrapperContainer.wrappers
+            );
+            /**Separate Study and Platform Level Resources*/
+            resourceWrapperContainer.wrappers = ResourceService.sortResourcesByType(
+                resourceWrapperContainer.wrappers
+            );
+
+            return resourceWrapperContainer;
+        } catch (Exception e) {
+            return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
+        }
+    }
 
     @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getStudyDocuments() {

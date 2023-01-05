@@ -1,6 +1,6 @@
 <template>
     <!-- Loading Spinner-->
-    <c-web-spinner class="main-spinner"></c-web-spinner>
+    <c-web-spinner class="main-spinner" fixed="true" show-spinner={showSpinner}></c-web-spinner>
     <template if:true={isInitialized}>
         <div class={cardRTL}>
             <div class="res-container">
@@ -18,6 +18,14 @@
                                         <div class="engage-header mb-8">{labels.ENGAGE}</div>
                                         <div class="left-column">
                                             <div class={engageHeight}>
+                                                <template if:true ={multimedia}>
+                                                    <c-pp-resource-multimedia resourced-data = {resourcesData} desktop = {desktop}>
+                                                    </c-pp-resource-multimedia>
+                                                </template>
+                                                <template if:false ={multimedia}>
+                                                    <img class="empty-state" src={empty_state}/>
+                                                    <p class="no-links-available mt-15">No modules available</p>
+                                                </template>
                                                 <!-- START : COMING SOON -->
                                                 <!-- <div class="object">
                                                     <div class="object-rope"></div>
@@ -26,9 +34,9 @@
                                                     </div>
                                                 </div> -->
                                                 <!-- END : COMING SOON -->
-                                                <!-- ENGAGE LWC COMPONENT PLACEHOLDER -->                                               
-                                                <img class="empty-state" src={empty_state}/>
-                                                <p class="no-links-available mt-15">No modules available</p>                                                                                              
+                                                <!-- ENGAGE LWC COMPONENT PLACEHOLDER -->                                              
+                                                <!--<img class="empty-state" src={empty_state}/>
+                                                <p class="no-links-available mt-15">No modules available</p>  -->                                                                                            
                                             </div>
                                         </div>
                                     </lightning-layout-item>
