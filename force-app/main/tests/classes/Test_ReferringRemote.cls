@@ -535,7 +535,7 @@ private without sharing class Test_ReferringRemote {
     @IsTest
     static void getInitDataTest() {
         
-        
+    
         TestData.loadTestData();
         TestData testDataInstance = new TestData();
         List<PreScreener_Survey__c> screenerList = new List<PreScreener_Survey__c>();
