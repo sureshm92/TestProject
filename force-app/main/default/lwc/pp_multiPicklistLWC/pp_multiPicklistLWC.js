@@ -97,7 +97,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     }
 
     //Reselt all the multipliclist valies selected.
-    removeAll() {
+    removeAll(event) {
         let studyElement = this.template.querySelector('[data-id="studyBox"]');
         let opts = studyElement.getElementsByTagName('lightning-input');
         for (var i = 0; i < opts.length; i++) {
@@ -105,18 +105,28 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         }
         this.selectedStudy = [];
         this.studyListStr = '';
-        this.setStudyList();
+        this.setStudyList(event, true);
         this.template.querySelector('.eBox').blur();
+        //Unbold all the selected study labels.
+        let checkboxes = this.template.querySelectorAll('[data-clsid="check-box-label"]');
+        for (var i = 0; i < checkboxes.length; ++i) {
+            checkboxes[i].classList.remove('text-checked-bold');
+        }
     }
     //Select all the multipiclist values avaible in dropdown.
-    selectAll() {
+    selectAll(event) {
         let studyElement = this.template.querySelector('[data-id="studyBox"]');
         let opts = studyElement.getElementsByTagName('lightning-input');
         for (var i = 0; i < opts.length; i++) {
             opts[i].checked = true;
         }
-        this.setStudyList();
+        this.setStudyList(event, true);
         //this.template.querySelector('.eBox').blur();
+        //Bold all the selected study labels.
+        let checkboxes = this.template.querySelectorAll('[data-clsid="check-box-label"]');
+        for (var i = 0; i < checkboxes.length; ++i) {
+            checkboxes[i].classList.add('text-checked-bold');
+        }
     }
     openStudy() {
         if (!this.openStudyList) {
@@ -192,7 +202,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
             !event.currentTarget.getElementsByTagName('input')[0].checked;
         this.setStudyList();
     }
-    setStudyList() {
+    setStudyList(event, selectAllRemoveAll) {
         let tempList = [];
         let tempFirstThreeList = [];
         let studyElement = this.template.querySelector('[data-id="studyBox"]');
@@ -209,6 +219,20 @@ export default class Pp_multiPicklistLWC extends LightningElement {
                 }
             }
         }
+        //When this is not called from SelectAll/RemoveAll fucntion.
+        if (!selectAllRemoveAll) {
+            let datalebelid = event.target.dataset.id;
+            let checked = event.target.checked;
+            let query = '[data-labelid="' + datalebelid + '"]';
+            let studylebelElement = this.template.querySelector(query);
+            //make the Study lable bold/unbold.
+            if (checked) {
+                studylebelElement.classList.add('text-checked-bold');
+            } else if (studylebelElement.classList.contains('text-checked-bold')) {
+                studylebelElement.classList.remove('text-checked-bold');
+            }
+        }
+
         this.studyListStr = studyOpts.join(';');
         this.selectedStudy = [];
         this.selectedStudy = this.selectedStudy.concat(tempList);
