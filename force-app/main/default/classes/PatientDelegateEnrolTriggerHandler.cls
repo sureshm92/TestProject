@@ -491,7 +491,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
 
     @Future
     private static void updatePermissionSetsAsync(Set<Id> pdeIdSet) {
-        updatePermissionSets(pdeIdSet)
+        updatePermissionSets(pdeIdSet);
     }
 
     //This Method will update the permission set to the patient Delegate.
