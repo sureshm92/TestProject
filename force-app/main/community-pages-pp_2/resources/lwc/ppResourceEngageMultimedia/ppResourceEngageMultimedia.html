@@ -14,7 +14,7 @@
                 </template>
                 <div
                     if:true={noExploreImage}
-                    class="slds-align_absolute-center empty-image-horizontal"
+                    class="slds-align_absolute-center"
                     onclick={navigateResourceDetail}
                 >
                     <c-web-icon
@@ -26,9 +26,11 @@
                     ></c-web-icon>
                 </div>
             </div>
-            <div class="slds-card slds-has-top-magnet">
+            <div class="slds-card slds-has-top-magnet bottom-manage">
                 <div class = "resource-title" onclick={navigateResourceDetail}>{exploreData.resource.Title__c}</div>
-                <div class = "resource-description" >{exploreData.resource.Description__c}</div>
+                <div class = "resource-description" >
+                    <lightning-formatted-rich-text value={exploreData.resource.Description__c}></lightning-formatted-rich-text>
+                </div>
             </div>
             <br/>
     </template>
@@ -56,9 +58,11 @@
                     ></c-web-icon>
                 </div>
             </div>
-            <div class="slds-card slds-has-top-magnet">
+            <div class="slds-card slds-has-top-magnet bottom-manage">
                 <div class = "resource-title" onclick={navigateResourceDetail}>{exploreData.resource.Title__c}</div>
-                <div class = "resource-description">{exploreData.resource.Description__c}</div>
+                <div class = "resource-description" >
+                    <lightning-formatted-rich-text value={exploreData.resource.Description__c}></lightning-formatted-rich-text>
+                </div>
             </div>
             <br/>
     </template>

@@ -535,7 +535,7 @@ private without sharing class Test_ReferringRemote {
     @IsTest
     static void getInitDataTest() {
         
-        Test.startTest();
+        
         TestData.loadTestData();
         TestData testDataInstance = new TestData();
         List<PreScreener_Survey__c> screenerList = new List<PreScreener_Survey__c>();
@@ -561,6 +561,7 @@ private without sharing class Test_ReferringRemote {
         update testDataInstance.pe;
         
         String initDataStr;
+        Test.startTest();
         System.runAs(testDataInstance.hcpUser) {
             initDataStr = ReferringRemote.getInitData(
                 testDataInstance.ctp.Id,
