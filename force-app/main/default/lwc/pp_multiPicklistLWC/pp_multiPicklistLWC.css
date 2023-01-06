@@ -149,7 +149,7 @@
 .std .slds-truncate {
     width: 100%;
     cursor: pointer;
-     height: 30px;
+     height: 32px;
     line-height: 30px; 
 }
 /* .std .slds-media__body{
@@ -285,4 +285,6 @@
 .std-height{
     height: 73px;
 }
-    
+.std-input-box-height{
+    height: 40px;
+} 
