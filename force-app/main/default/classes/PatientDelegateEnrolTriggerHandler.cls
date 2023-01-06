@@ -497,7 +497,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
     //This Method will update the permission set to the patient Delegate.
     private static void updatePermissionSets(Set<Id> pdeIdSet) {
         List<Patient_Delegate_Enrollment__c> pdeList = [select id,Patient_Delegate__r.Participant__r.Contact__c,Patient_Delegate__r.Contact__c,Patient_Delegate__r.Participant__c,Participant_Enrollment__r.Id,Participant_Enrollment__r.Participant__c,Participant_Enrollment__r.Participant_Contact__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.Id,Participant_Enrollment__r.Clinical_Trial_Profile__r.ShortCommunityName__c
-                                                  from Patient_Delegate_Enrollment__c where id in: pdeIdSet and Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN :CommunityModeService.rhSponsorsByCommunity.keySet()
+                                                  from Patient_Delegate_Enrollment__c where id in: pdeIdSet  and Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS and Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN :CommunityModeService.rhSponsorsByCommunity.keySet()
                                                   and Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c != 'Virtual' and Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c != 'Hybrid'
                                                   and  Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
                                                   and Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c = FALSE
