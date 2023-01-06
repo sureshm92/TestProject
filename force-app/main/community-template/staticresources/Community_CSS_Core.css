@@ -1871,6 +1871,8 @@ input[type=password]::-ms-clear
     border: 1px solid #D9D9D9;
     background-color: #F2F2F2;
     color: #747474; 
+    -webkit-text-fill-color: #747474;
+    opacity: 1; /* required on iOS */
 }
 /* .slds-backdrop[c-ppModalOld_ppModalOld]{
     background-color: rgba(0, 0, 0, 0.1);
@@ -1912,4 +1914,7 @@ input[type=password]::-ms-clear
     color: red;
     background-color: magenta;
 
+}
+.std .text-checked-bold .slds-checkbox .slds-checkbox__label .slds-form-element__label{
+    font-weight: 600 !important;
 }
