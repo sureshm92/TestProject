@@ -1117,4 +1117,5 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 .cookie-block-user {
     pointer-events: none;
+    overflow: hidden !important;
 }
