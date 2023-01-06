@@ -63,8 +63,7 @@
             line-height: 24px;
             text-align: center;
         }
-        .cookie-btn
-        {
+        .cookie-btn {
             pointer-events: auto;
         }
 
@@ -145,6 +144,8 @@
         if (!rrCookies) {
             $('.hide-banner').removeClass('hide-banner');
             document.body.classList.add('cookie-block-user');
+            document.body.addEventListener('keypress', bodyBlock);
+            document.body.addEventListener('keydown', bodyBlock);
         } else {
             let currentDate = new Date();
             var browserCookiesObj = JSON.parse(localStorage.getItem('cookieslist'));
@@ -165,7 +166,7 @@
         }
 
         function closeCookiesInfo() {
-            communityService.setCookie(paramId, 'agreed',365);
+            communityService.setCookie(paramId, 'agreed', 365);
             let date = new Date();
             date.setDate(date.getDate() + 365);
             const cookieListObj = {
@@ -173,8 +174,13 @@
                 expiry: date
             };
             localStorage.setItem('cookieslist', JSON.stringify(cookieListObj));
+            document.body.removeEventListener('keypress', this.bodyBlock);
+            document.body.removeEventListener('keydown', this.bodyBlock);
             $('.c-container').addClass('hide-banner');
             document.body.classList.remove('cookie-block-user');
+            event.preventDefault();
+        }
+        function bodyBlock(event) {
             event.preventDefault();
         }
     </script>

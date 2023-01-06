@@ -9,6 +9,7 @@
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
+    word-break: break-word;
 }
 .summary-text {
     color: #000000;
@@ -99,6 +100,7 @@ img,
     font-weight: 600;
     -webkit-line-clamp: 2;
     line-height: 19px;
+    word-break: break-word;
 }
 .title-row-mobile {
     padding: 0;
