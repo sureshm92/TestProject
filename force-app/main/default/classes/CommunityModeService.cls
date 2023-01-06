@@ -211,7 +211,7 @@ public without sharing class CommunityModeService {
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(
                 userParticipant.Id
             );
-            List<Participant_Enrollment__c> pePastList = pePastMap.get(userParticipant.Id);
+            List<Participant_Enrollment__c> pePastList = pePastMap.get(userParticipant.Id);            
             hasBeenActive = peList != null || pePastList != null;
             CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
                 false,
@@ -315,7 +315,7 @@ public without sharing class CommunityModeService {
                     modes.add(prospectModeItem);
                     hasProspectView = true;
                 }
-
+                Boolean skipPEPastList = false;
                 if (peList != null && pdeWrapperMap != null) {
                     for (Participant_Enrollment__c pe : peList) {
                         if(pdeWrapperMap.contains(pe.Id)){
@@ -335,25 +335,33 @@ public without sharing class CommunityModeService {
                                     pe.Clinical_Trial_Profile__r.Is_Program__c
                                 )
                             );
+                            skipPEPastList = true;
                         }
                     }
-                } else if (pePastList != null) {
-                    String participantName =
-                        participant.First_Name__c +
-                        ' ' +
-                        participant.Last_Name__c;
-                    modeItem.subItems.add(
-                        new CommunityModes.PPCommunityModeItem(
-                            USER_MODE_PARTICIPANT,
-                            participantName,
-                            Label.No_active_studies,
-                            null,
-                            participant.Contact__c,
-                            true,
-                            true
-                        )
-                    );
+                } 
+                if (pdeWrapperMap != null && pePastList != null && !skipPEPastList) { 
+                    for(Participant_Enrollment__c pe : pePastList){
+                        if(pdeWrapperMap.contains(pe.Id)){
+                            String participantName =
+                                participant.First_Name__c +
+                                ' ' +
+                                participant.Last_Name__c;
+                            modeItem.subItems.add(
+                                new CommunityModes.PPCommunityModeItem(
+                                    USER_MODE_PARTICIPANT,
+                                    participantName,
+                                    Label.No_active_studies,
+                                    null,
+                                    participant.Contact__c,
+                                    true,
+                                    true
+                                )
+                            );
+                            break;
+                        }
+                    }
                 }
+                skipPEPastList = false;
                 modes.add(modeItem);
             }
         }
