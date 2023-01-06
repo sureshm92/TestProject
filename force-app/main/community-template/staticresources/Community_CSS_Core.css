@@ -1918,3 +1918,11 @@ input[type=password]::-ms-clear
 .std .text-checked-bold .slds-checkbox .slds-checkbox__label .slds-form-element__label{
     font-weight: 600 !important;
 }
+.adn-multi-picklist .slds-media__body {
+    height: 30px !important;
+    line-height: 42px !important;
+}
+.adn-multi-picklist .slds-truncate{
+	line-height: 35px !important;
+    height: 30px !important;
+}
