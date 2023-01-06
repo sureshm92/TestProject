@@ -54,6 +54,6 @@
             </div>
         </div>
 
-        <c:ppCookiesBanner isRTL="{!v.isRTL}" loginPage="true" />
+        <c:ppCookiesBanner isRTL="{!v.isRTL}" loginPage="true" communityName="PatientPortal" />
     </aura:if>
 </aura:component>
