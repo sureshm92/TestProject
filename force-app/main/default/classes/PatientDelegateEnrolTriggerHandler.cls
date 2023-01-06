@@ -548,7 +548,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             Id permissionId=permissionNameToId.get(permissionName);
             actionAssignContactPermissions.addPermissions(ContactId,psaNames);
         }
-        System.debug('XXX_ACTION: ' + JSON.serializePretty(actionAssignContactPermissions));
+        //System.debug('XXX_ACTION: ' + JSON.serializePretty(actionAssignContactPermissions));
         if (!actionAssignContactPermissions.isEmpty()) {
             ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
         }

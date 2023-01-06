@@ -7,6 +7,10 @@
     box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
 }
 
+.rh-cookies-banner {
+    border-radius: 4px 4px 0 0;
+}
+
 .we-care-about-your-p {
     color: #ffffff;
     margin: 0 1.5rem 0 3rem;
