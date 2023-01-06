@@ -7,8 +7,7 @@ import VISITS from '@salesforce/label/c.PG_SW_Tab_Visits';
 import EVENTS from '@salesforce/label/c.PG_SW_Tab_Events';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import { loadStyle } from 'lightning/platformResourceLoader';
-
-
+import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class HomePageParticipantNew extends LightningElement {
     label = {
@@ -33,7 +32,7 @@ export default class HomePageParticipantNew extends LightningElement {
     desktop = true;
     isDelegateSelfview = false;
     @track taskList = false;
-
+    homeIllustration = pp_icons + '/' + 'HomePage_Illustration.svg';
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
     }
@@ -41,15 +40,15 @@ export default class HomePageParticipantNew extends LightningElement {
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
         Promise.all([loadStyle(this, communityPPTheme)])
-                    .then(() => {
-                        this.spinner = this.template.querySelector('c-web-spinner');
-                        this.spinner ? this.spinner.show() : '';
-                        this.initializeData();
-                    })
-                    .catch((error) => {
-                        this.showErrorToast('Error occured', error.message, 'error');
-        });
-       }
+            .then(() => {
+                this.spinner = this.template.querySelector('c-web-spinner');
+                this.spinner ? this.spinner.show() : '';
+                this.initializeData();
+            })
+            .catch((error) => {
+                this.showErrorToast('Error occured', error.message, 'error');
+            });
+    }
 
     initializeData() {
         getParticipantData()
@@ -72,7 +71,8 @@ export default class HomePageParticipantNew extends LightningElement {
                             this.isProgram = this.clinicalrecord.Is_Program__c;
 
                             this.showVisitCard =
-                                this.clinicalrecord.Patient_Portal_Enabled__c && this.clinicalrecord.Visits_are_Available__c &&
+                                this.clinicalrecord.Patient_Portal_Enabled__c &&
+                                this.clinicalrecord.Visits_are_Available__c &&
                                 res.pvCount != null &&
                                 res.pvCount != undefined &&
                                 res.pvCount > 0;
