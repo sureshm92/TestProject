@@ -431,7 +431,7 @@
                //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
                isDobValid &&
                participant.Email__c &&
-               participant.Email__c && emailRepeat !=undefined  ? emailValidIndependent  && emailValidRepeatIndependent && participant.Email__c.toUpperCase() == emailRepeat.toUpperCase(): null &&
+               (participant.Email__c && emailRepeat !=undefined  ? emailValidIndependent  && emailValidRepeatIndependent && participant.Email__c.toUpperCase() == emailRepeat.toUpperCase(): participant.Email__c == emailRepeat) &&
                participant.Phone__c &&
                participant.Mailing_Zip_Postal_Code__c &&
               selectedCountry &&
@@ -449,7 +449,7 @@
                participant.Email__c &&
                emailVaild &&
                emailRepeatValid &&
-               participant.Email__c && emailRepeat !=undefined  ? participant.Email__c.toUpperCase() == emailRepeat.toUpperCase(): false &&
+               (participant.Email__c && emailRepeat !=undefined  ? participant.Email__c.toUpperCase() == emailRepeat.toUpperCase():participant.Email__c == emailRepeat ) &&
                participant.Phone__c &&
                participant.Mailing_Zip_Postal_Code__c &&
               selectedCountry &&
