@@ -22,6 +22,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     text-align: left;
+    word-break: break-word;
 }
 
 img,
