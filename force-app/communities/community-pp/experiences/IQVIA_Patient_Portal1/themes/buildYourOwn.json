@@ -97,7 +97,7 @@
     "type" : "view"
   }, {
     "componentAttributes" : { },
-    "componentName" : "c:CustomThemeLayout",
+    "componentName" : "c:ppCustomThemeLayout",
     "id" : "1b8ddcd2-07c2-4ea5-80d7-bf1f80d4ebda",
     "label" : "Default",
     "regions" : [ {
@@ -189,7 +189,7 @@
       "type" : "region"
     } ],
     "type" : "view"
-  },{
+  }, {
     "componentAttributes" : { },
     "componentName" : "c:EmtpyTheme",
     "id" : "5b51892e-e23c-4184-89cc-3f2cbabb0d2e",
@@ -260,7 +260,7 @@
       "type" : "region"
     } ],
     "type" : "view"
-  },{
+  }, {
     "componentAttributes" : { },
     "componentName" : "c:PP_BlankThemeLayout",
     "id" : "215101dd-cab3-4f14-adbd-d6f12992f8a4",
