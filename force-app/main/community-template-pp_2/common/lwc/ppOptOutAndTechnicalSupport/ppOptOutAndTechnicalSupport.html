@@ -8,7 +8,7 @@
     <template if:false={isMobile}>
         <div class={displayLabel}>
             <h3 class="opt-out-header">{label.PPOPTOUTCOMMUNICATIONPREF}</h3>
-            <p class="comm-italics mb-12">{label.PPOPTOUTCOMMUNICATIONPREFHELP}</p>
+            <p class="comm-italics mb-14">{label.PPOPTOUTCOMMUNICATIONPREFHELP}</p>
             <div class="opt-out-comm-pref mb-16">
                 <lightning-checkbox-group
                     name={optOutTranslatedTitle}
@@ -20,7 +20,7 @@
                     data-id="checkbox1">
                 </lightning-checkbox-group>
             </div>
-            <h3 class="get-technical-suppor mb-12">{techSupportTranslatedTitle}</h3>
+            <h3 class="get-technical-suppor mb-5">{techSupportTranslatedTitle}</h3>
             <div class="opt-out-page-tech-support mb-16">
                 <lightning-checkbox-group
                     name={techSupportTranslatedTitle}
@@ -45,42 +45,54 @@
             </button>
         </div>
         <div class={displayLogo}>
-            <!--<img src="{!$Resource.rr_community_icons + '/check.svg'}" class="checkLogo" />-->
-            <p class="success-message-padding">Your request is successfully submitted.</p>
+            <p class="success-message-padding success-label-desktop">{label.PPOPTOUTSUCCESSMSG}</p>
+            <button class="apollo-btn primary submit mb-30 customWidth" onclick={closeWindow}>
+                <span class="submit-opt-out-mobile">{label.PPOptOutCloseWindow}</span>
+            </button>
         </div>
     </template>
 
     <template if:true={isMobile}>
         <div class={displayLabelMobile}>
-            <h3 class="opt-out-header-mobile mb-12">{label.PPOPTOUTCOMMUNICATIONPREF}</h3>
-            <div class="opt-out-comm-pref-mobile mb-16">
+            <h3 class="opt-out-header-mobile mb-5">{label.PPOPTOUTCOMMUNICATIONPREF}</h3>
+            <div class="opt-out-comm-pref-mobile mb-16 mt-minus55 optoutcheckbox-alignment">
                 <lightning-checkbox-group
                     name={optOutTranslatedTitle}
                     label={optOutTranslatedTitle}
                     options={optOutSubCategoryList}
                     value={selectedOptOutSubCategory}
                     onchange={handleChange}
-                    variant = "label-hidden"
+                    variant = "label-inline"
                     data-id="checkbox1">
+                </lightning-checkbox-group> 
+            </div>
+            <h3 class="get-technical-suppor mb-5 mt-60">{techSupportTranslatedTitle}</h3>
+            <div class="opt-out-page-tech-support mb-30">
+                <lightning-checkbox-group
+                    name={techSupportTranslatedTitle}
+                    label={techSupportTranslatedTitle}
+                    options={techSupportSubCategoryList}
+                    value={selectedTechSupportSubCategory}
+                    variant = "label-hidden"
+                    class=""
+                    onchange= {handleChange}
+                    data-id="checkbox2">
                 </lightning-checkbox-group>
             </div>
         </div>
         <div class={buttonDisplay}>
-            <button
-                class="apollo-btn primary submit-mobile"
-                disabled={disabled}
-                onclick={handleSubmit}
-            >
-                <!-- {PPCPSUBMITBTN} -->
-                <span class="submit-opt-out-mobile">Submit</span>
+            <button class="apollo-btn primary submit-mobile mb-20" disabled={disabled} onclick={handleSubmit}>
+                <span class="submit-opt-out-mobile">{label.PPCPSUBMITBTN}</span>
             </button>
         </div>
-        <div class="need-additional-info">
+        <!-- <div class="need-additional-info">
             <p>Need additional support?</p>
-        </div>
+        </div> -->
         <div class={displayLogo}>
-            <!--<img src="{!$Resource.rr_community_icons + '/check.svg'}" class="checkLogo" />-->
-            <p class="success-message-padding">Your request is successfully submitted.</p>
+            <p class="success-message-padding success-label">{label.PPOPTOUTSUCCESSMSG}</p>
+            <button class="apollo-btn primary submit-mobile mb-30" onclick={closeWindow}>
+                <span class="submit-opt-out-mobile">{label.PPOptOutCloseWindow}</span>
+            </button>
         </div>
     </template>
 </template>

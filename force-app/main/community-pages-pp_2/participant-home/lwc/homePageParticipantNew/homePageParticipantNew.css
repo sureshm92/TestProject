@@ -53,6 +53,7 @@
     border-radius: 16px;
     background: linear-gradient(180deg, #00649e 0%, #005587 39.92%, #003346 100%);
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    position: relative;
 }
 .progress {
     box-sizing: border-box;
@@ -89,6 +90,21 @@
     width: 25px;
     height: 25px;
 }
+.icon-update-section-small {
+    margin-left: 32px !important;
+    margin-top: 11px !important;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+}
+.icon-update-section-large {
+    margin-left: 28px !important;
+    margin-top: 11px !important;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+}
+
 .p-text {
     margin-left: 10px;
     margin-top: 10px;
@@ -106,10 +122,6 @@
 .v-line {
     border-left: 4px solid #005587;
     height: 40px;
-}
-
-.bg-cards{
-    padding-left: var(--lwc-spacingSmall,0.5rem);
 }
 
 .svg-icon-with-text {
@@ -133,7 +145,10 @@
     border-left: 4px solid #c627a6;
     margin-top: 50px;
 }
-
+.updates-darkblue {
+    border-left: 4px solid #003346;
+    margin-top: 50px;
+}
 .around-small-custom {
     padding: 12px 22px 12px 0px;
 }
@@ -145,4 +160,30 @@
 .taskIconPosition {
     padding-top: 14px !important;
     margin-left: 29px !important;
+}
+.update-circle {
+    background-color: #e20000;
+    border: 1px solid #ffff;
+    height: 24px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    width: 24px;
+    position: absolute;
+    text-align: center;
+    right: -6px;
+    top: -10px;
+}
+.update-count {
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 600;
+    font-family: 'Proxima Nova';
+    text-align: center;
+}
+.update-count-font {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
 }

@@ -112,10 +112,10 @@ public without sharing class TaskEditRemote {
     }
 
     @AuraEnabled
-    public static void upsertTask(String wrapper, String paramTask){
-        upsertTask(wrapper,  paramTask, false);
+    public static void upsertTask(String wrapper, String paramTask) {
+        upsertTask(wrapper, paramTask, false);
     }
-    
+
     @AuraEnabled
     public static void upsertTask(String wrapper, String paramTask, Boolean isNewTaskFromTaskTab) {
         try {
@@ -142,10 +142,10 @@ public without sharing class TaskEditRemote {
             if (taskToUpsert.Visible_For__c == null)
                 taskToUpsert.Visible_For__c = 'Owner;Delegates';
             //Don't update WhatId for catalog and manual creation panel task
-            if (String.isEmpty(taskToUpsert.Task_Code__c) && !taskWrapper.createdByAdmin) {
+            if (String.isEmpty(taskToUpsert.Task_Code__c) && !taskWrapper.createdByAdmin && taskToUpsert.WhatId == null ) {
                 if (
-                    (isNewTaskFromTaskTab == true && ParticipantContext.getCurrentPEId()!=null) || (
-                    String.isNotBlank(taskToUpsert.Task_Type__c) &&
+                    (isNewTaskFromTaskTab == true && ParticipantContext.getCurrentPEId() != null) ||
+                    (String.isNotBlank(taskToUpsert.Task_Type__c) &&
                     taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED)
                 ) {
                     taskToUpsert.WhatId = ParticipantContext.getCurrentPEId();
@@ -305,7 +305,14 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Community_Template_Name__c = UserContext.getTemplateProperty(
                 CommunityTemplateService.PROPERTY_TEMPLATE_NAME
             );
-            taskToUpsert.OwnerId = ParticipantContext.getCurrentUserId();
+
+            //taskToUpsert.OwnerId = ParticipantContext.getCurrentUserId();
+            if (ParticipantContext.getCurrentUserId() != null) {
+                taskToUpsert.OwnerId = ParticipantContext.getCurrentUserId();
+            } else if (UserContext.getUserContact().userCommunityDelegateId__c != null) {
+                taskToUpsert.Owner_Contact__c = ParticipantContext.getCurrentContactId();
+                taskToUpsert.OwnerId = UserInfo.getUserId();
+            }
             taskToUpsert.WhoId = ParticipantContext.getCurrentContactId();
 
             if (String.isEmpty(taskToUpsert.Originator__c))
@@ -471,15 +478,21 @@ public without sharing class TaskEditRemote {
         return consentTypeValueMap;
     }
 
-    private static Map<String, Boolean> checkStudyLevelConsents() {
+    private static Map<String, Boolean> checkStudyLevelConsents(
+        Participant_Enrollment__c currentPE
+    ) {
         Map<String, Boolean> consentTypeValueMap = new Map<String, Boolean>();
         List<Participant_Enrollment__c> peList = checkSmsEmailOptIn();
         if (peList != null && peList.size() > 0) {
-            consentTypeValueMap.put('smsConsent', peList[0].Permit_SMS_Text_for_this_study__c);
-            consentTypeValueMap.put(
-                'emailConsent',
-                peList[0].Permit_Mail_Email_contact_for_this_study__c
-            );
+            for (Participant_Enrollment__c pe : peList) {
+                if (pe.Id == currentPE.Id) {
+                    consentTypeValueMap.put('smsConsent', pe.Permit_SMS_Text_for_this_study__c);
+                    consentTypeValueMap.put(
+                        'emailConsent',
+                        pe.Permit_Mail_Email_contact_for_this_study__c
+                    );
+                }
+            }
         } else {
             consentTypeValueMap.put('smsConsent', false);
             consentTypeValueMap.put('emailConsent', false);
@@ -494,7 +507,7 @@ public without sharing class TaskEditRemote {
             Boolean isDelegate = ParticipantContext.isCurrentDelegate();
             Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
             if ((!isDelegate && currentPE != null) || (isDelegate && currentPE != null)) {
-                consentTypeValueMap = checkStudyLevelConsents();
+                consentTypeValueMap = checkStudyLevelConsents(currentPE);
             } else if ((!isDelegate && currentPE == null) || (isDelegate && currentPE == null)) {
                 consentTypeValueMap = checkPlatformLevelConsents();
             }
@@ -521,7 +534,7 @@ public without sharing class TaskEditRemote {
             ) {
                 if (taskList[0].WhatId != null) {
                     String objType = String.valueOf(taskList[0].WhatId.getSobjectType());
-                if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
+                    if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                         isTaskStudyLevel = true;
                     }
                 }
@@ -538,22 +551,22 @@ public without sharing class TaskEditRemote {
             };
             if (isTaskStudyLevel) {
                 if (taskList[0].WhatId != null) {
-                String objType = String.valueOf(taskList[0].WhatId.getSobjectType());
-                if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
-                    List<Participant_Enrollment__c> peList = [
-                        SELECT
-                            Permit_SMS_Text_for_this_study__c,
-                            Permit_Mail_Email_contact_for_this_study__c
-                        FROM Participant_Enrollment__c
-                        WHERE Id = :taskList[0].WhatId
-                        LIMIT 1
-                    ];
-                    if (peList.size() > 0) {
-                        if (peList[0].Permit_Mail_Email_contact_for_this_study__c) {
-                            consentMap.put('emailConsent', true);
-                        }
-                        if (peList[0].Permit_SMS_Text_for_this_study__c) {
-                            consentMap.put('smsConsent', true);
+                    String objType = String.valueOf(taskList[0].WhatId.getSobjectType());
+                    if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
+                        List<Participant_Enrollment__c> peList = [
+                            SELECT
+                                Permit_SMS_Text_for_this_study__c,
+                                Permit_Mail_Email_contact_for_this_study__c
+                            FROM Participant_Enrollment__c
+                            WHERE Id = :taskList[0].WhatId
+                            LIMIT 1
+                        ];
+                        if (peList.size() > 0) {
+                            if (peList[0].Permit_Mail_Email_contact_for_this_study__c) {
+                                consentMap.put('emailConsent', true);
+                            }
+                            if (peList[0].Permit_SMS_Text_for_this_study__c) {
+                                consentMap.put('smsConsent', true);
                             }
                         }
                     }

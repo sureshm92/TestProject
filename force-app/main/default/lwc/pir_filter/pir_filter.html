@@ -34,7 +34,8 @@
               p-left-none
               p-right-rtl
             ">
-              <div class="text-overflow" title={label.Active_InActive}>{label.Active_InActive}</div>
+              <div class="text-overflow active-p-top margin-top" title={label.Active_InActive}>{label.Active_InActive}
+              </div>
               <lightning-combobox name="Active/Inactive" variant="label-hidden" value={selectedActiveInactive}
                 placeholder="" options={activeoptions} onchange={activehandleChange}></lightning-combobox>
             </div>
@@ -260,7 +261,7 @@
               p-left-none
               m-top-birth
             ">
-              <div class="text-overflow" title={label.SexAtBirth}>{label.SexAtBirth}</div>
+              <div class="text-overflow margin-top" title={label.SexAtBirth}>{label.SexAtBirth}</div>
               <lightning-combobox name="Sex at Birth" variant="label-hidden" value={defaultSex} placeholder=""
                 options={sexatbirthoptions} onchange={sexatbirthhandleChange}></lightning-combobox>
             </div>
@@ -338,7 +339,7 @@
                   <div class="disflex">
                     <lightning-input type="checkbox" name="Comorbidities" checked={defaultComorbidities}
                       onchange={handleComorbidities}></lightning-input>
-                    <div>{label.Comorbidities}</div>
+                    <div class="text-overflow" title={label.Comorbidities}>{label.Comorbidities}</div>
                   </div>
                 </div>
                 <div class="slds-col slds-size_1-of-2 w-initial-visit m-bottom-small">
@@ -395,7 +396,7 @@
                       w-to
                       m-top-date m-bottom-small
                     ">
-                      <p class="filter-date">{label.PP_To}</p>
+                      <p class="filter-date text-overflow" title={label.PP_To}>{label.PP_To}</p>
                     </div>
                     <div class="
                       slds-col

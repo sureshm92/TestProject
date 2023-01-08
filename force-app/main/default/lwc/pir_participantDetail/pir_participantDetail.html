@@ -387,27 +387,33 @@
                                                 </template>
                                           </label>
                                           <div class="slds-form-element__control input-margin">
+                                                <div if:true={showAltPhType}> 
                                                 <lightning-input type="text" variant="label-hidden" data-lvl="2"
                                                       name="phone" value={pd.pe.Participant__r.Phone__c}
                                                       onchange={handleValChange} disabled={isNotAdult}
                                                       required={partPhoneReq}></lightning-input>
                                           </div>
                                     </div>
+                                    </div>
                               </div>
                               <div if:true={contactPhoneType.data}
                                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                                    <div if:true={showAltPhType}> 
                                     <lightning-combobox disabled={isNotAdult} label={PG_AP_F_Phone_Type}
                                           title={PG_AP_F_Phone_Type} placeholder="--"
                                           options={contactPhoneType.data.values} required={partPhoneReq} data-lvl="2"
                                           name="phonetype" value={pd.pe.Participant__r.Phone_Type__c}
                                           onchange={handleValChange}></lightning-combobox>
                               </div>
+                        </div>
                               <div
                                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                                    <div if:true={showAltPhType}> 
                                     <lightning-input type="email" disabled={isNotAdult} label={PG_AS_F_Email_address}
                                           required={partEmailReq} data-lvl="2" name="email"
                                           value={pd.pe.Participant__r.Email__c} onchange={handleValChange}>
                                     </lightning-input>
+                              </div>
                               </div>
                               <div
                                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
@@ -439,11 +445,13 @@
                                                 {PG_AP_F_Alternative_Phone_Number}
                                           </label>
                                           <div class="slds-form-element__control input-margin">
+                                                <div if:true={showAltPhType}>
                                                 <lightning-input type="text" variant="label-hidden" data-lvl="2"
                                                       name="altph"
                                                       value={pd.pe.Participant__r.Alternative_Phone_Number__c}
                                                       onchange={handleValChange} disabled={isNotAdult}>
                                                 </lightning-input>
+                                          </div>
                                           </div>
                                     </div>
 
@@ -451,10 +459,12 @@
                               </div>
                               <div if:true={contactPhoneType.data}
                                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                                    <div if:true={showAltPhType}> 
                                     <lightning-combobox disabled={altIsNotAdult} label={PG_AP_F_Alternative_Phone_Type}
                                           placeholder="--" options={contactPhoneType.data.values} data-lvl="2"
                                           name="altphtype" value={pd.pe.Participant__r.Alternative_Phone_Type__c}
                                           onchange={handleValChange}></lightning-combobox>
+                                    </div>
                               </div>
                               <div
                                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_7-of-12 outcome-form-element slds-m-bottom_medium">

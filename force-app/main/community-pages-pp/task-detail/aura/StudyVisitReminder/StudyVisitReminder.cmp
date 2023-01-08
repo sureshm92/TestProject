@@ -55,6 +55,7 @@
     <aura:attribute name="showAccountNavigation" type="Boolean" default="false" />
     <aura:attribute name="isSaveOperation" type="Boolean" default="false" />
     <aura:attribute name="deleteVisitReminder" type="Boolean" default="false" />
+    <aura:attribute name="clearReminderValue" type="Boolean" default="false" />
     <aura:attribute name="parent" type="Aura.Component" />
     <!--Validation Message-->
     <aura:attribute
@@ -279,13 +280,24 @@
                                         onchange="{!c.setAttributeValue}"
                                         onblur="{!c.doValidateFields}"
                                     />
-                                    <lightning:input
+                                    <!--<lightning:input
                                         aura:id="smsField"
                                         type="checkbox"
                                         label="{!$Label.c.PP_Remind_Using_SMS}"
                                         name="SMS"
                                         value="{!v.task.Remind_Using_SMS__c}"
                                         disabled="{!not(v.smsOptIn)}"
+                                        checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
+                                        onchange="{!c.setAttributeValue}"
+                                        onblur="{!c.doValidateFields}"
+                                    />-->
+                                    <lightning:input
+                                        aura:id="smsField"
+                                        type="checkbox"
+                                        label="{!$Label.c.PP_Remind_Using_SMS}"
+                                        name="SMS"
+                                        value="{!v.task.Remind_Using_SMS__c}"
+                                        disabled="true"
                                         checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
                                         onchange="{!c.setAttributeValue}"
                                         onblur="{!c.doValidateFields}"
@@ -457,12 +469,23 @@
                             </div>
                             <div class="slds-grid te-form slds-gutters slds-wrap">
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                    <!--<lightning:input 
+                                        aura:id="smsField"
+                                        type="checkbox"
+                                        label="{!$Label.c.PP_Remind_Using_SMS}"
+                                        name="SMS"
+                                        disabled="{!not(v.smsOptIn)}" 
+                                        value="{!v.task.Remind_Using_SMS__c}"
+                                        checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
+                                        onchange="{!c.setAttributeValue}"
+                                        onblur="{!c.doValidateFields}"
+                                    />-->
                                     <lightning:input
                                         aura:id="smsField"
                                         type="checkbox"
                                         label="{!$Label.c.PP_Remind_Using_SMS}"
                                         name="SMS"
-                                        disabled="{!not(v.smsOptIn)}"
+                                        disabled="true"
                                         value="{!v.task.Remind_Using_SMS__c}"
                                         checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
                                         onchange="{!c.setAttributeValue}"
@@ -651,12 +674,24 @@
                                     class="mr_10"
                                     onblur="{!c.doValidateFields}"
                                 />
-                                <lightning:input
+                                <!--<lightning:input
                                     aura:id="smsField"
                                     type="checkbox"
                                     label="{!$Label.c.PP_Remind_Using_SMS}"
                                     name="SMS"
                                     disabled="{!or(not(v.smsOptIn),or(v.visitData.visit.Status__c == 'Completed',v.visitData.visit.Status__c == 'Missed'))}"
+                                    value="{!v.task.Remind_Using_SMS__c}"
+                                    checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
+                                    onchange="{!c.setAttributeValue}"
+                                    class="mr_10"
+                                    onblur="{!c.doValidateFields}"
+                                />-->
+                                <lightning:input
+                                    aura:id="smsField"
+                                    type="checkbox"
+                                    label="{!$Label.c.PP_Remind_Using_SMS}"
+                                    name="SMS"
+                                    disabled="true"
                                     value="{!v.task.Remind_Using_SMS__c}"
                                     checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
                                     onchange="{!c.setAttributeValue}"

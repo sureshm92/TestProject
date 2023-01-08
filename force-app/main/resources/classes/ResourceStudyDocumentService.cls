@@ -5,18 +5,16 @@ public virtual inherited sharing class ResourceStudyDocumentService extends Reso
         );
     }
 
+    @TestVisible
     protected override String getOrderByClause() {
-        Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
-        if (
-            currentPE.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-            CommunityTemplateService.TEMPLATE_PP
-        ) {
+        if (Site.getMasterLabel() == 'IQVIA Patient Portal') {
             return 'ORDER BY CreatedDate DESC NULLS LAST';
         } else {
             return 'ORDER BY Version_Date__c DESC NULLS LAST';
         }
     }
 
+    @TestVisible
     protected override ResourceService.ResourceWrapperContainer getErrorNoResources() {
         return ResourceService.getErrorNoStudyDocuments();
     }

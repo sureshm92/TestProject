@@ -4,14 +4,34 @@ img {
 }
 
 iframe {
-    min-height: 440px;
-    min-width: 786px;
+    min-height: 600px;
+    width:100%
 }
-.icon-container{
-    background-color: #E8E8E8;
+.icon-container {
+    background-color: #e8e8e8;
     height: 440px;
     width: 786px;
 }
 .icon-center {
     margin: 0% 35%;
+}
+@media (max-width: 486px) {
+    img {
+        height: 219px;
+    }
+    iframe {
+        min-height: 214px;
+        min-width: 99.5%;
+    }
+    .icon-container {
+        background-color: #e8e8e8;
+        height: 214px;
+        width: 99.5%;
+    }
+    .icon-center {
+        margin: 0% 55%;
+        place-content: center;
+        display: grid;
+        height: 214px;
+    }
 }

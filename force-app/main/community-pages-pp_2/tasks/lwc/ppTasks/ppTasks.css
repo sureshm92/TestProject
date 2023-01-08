@@ -314,14 +314,13 @@
 }
 
 @media all and (max-width: 486px) {
-
     .page-header {
         margin-inline: 1rem;
     }
 
     .newTaskBtn {
         width: 100%;
-        padding: .75rem 1.5rem 1rem;
+        padding: 0.75rem 1.5rem 1rem;
     }
 
     .taskCard {
@@ -430,10 +429,11 @@
     border-top-width: 38px;
     padding: 0;
     border-radius: 25px;
-    height: 416px;
+    height: 457px;
     margin: 0px 10px;
     border-left: 0;
     border-right: 0;
+    border-bottom: none;
 }
 
 .task-header {
@@ -451,15 +451,6 @@
     padding-left: 0px;
     padding-right: 0px;
 }
-/*.container-card-upcoming {
-    background-color: transparent;
-    border-top-color: #c42ea5;
-    border-top-width: 8px;
-    padding: 0;
-    height: 416px;
-    border-radius: 8px;
-    width: 412px;
-}*/
 .content {
     padding-top: 0px;
     padding-bottom: 0px;
@@ -482,8 +473,9 @@
 .container-card-upcoming {
     box-sizing: border-box;
     height: 376px;
-    width: 380px;
-    border: 1px solid #e9e9e9;
+    border-left: 1px solid #e9e9e9;
+    border-right: 1px solid #e9e9e9;
+    border-bottom: 1px solid #e9e9e9;
     border-radius: 5px;
     background-color: #ffffff;
 }
@@ -505,4 +497,16 @@
     line-height: 32px;
     text-align: center;
     color: #ffffff;
+}
+.no-task-img-size {
+    width: 82px;
+    height: 64px;
+}
+@media all and (max-width: 486px) {
+    .container-card-upcoming {
+        height: 425px !important;
+        border: 1px solid #d9d9d9 !important;
+        border-bottom-left-radius: 32px !important;
+        border-bottom-right-radius: 32px !important;
+    }
 }

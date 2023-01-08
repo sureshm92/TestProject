@@ -5,10 +5,11 @@ import getCtpName from '@salesforce/apex/ParticipantStateRemote.getInitData';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
-import Uploaded from '@salesforce/label/c.Resource_Uploaded';
+import VERSION from '@salesforce/label/c.Resource_Uploaded';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
-
-export default class PpResourceDetailPage extends LightningElement {
+import FORM_FACTOR from '@salesforce/client/formFactor';
+import { NavigationMixin } from 'lightning/navigation';
+export default class PpResourceDetailPage extends NavigationMixin(LightningElement) {
     userTimezone = TIME_ZONE;
     isInitialized = false;
     resourceType;
@@ -23,8 +24,9 @@ export default class PpResourceDetailPage extends LightningElement {
     langCode;
     documentLink;
     studyTitle = '';
+    state;
     label = {
-        Uploaded,
+        VERSION,
         Back_To_Resources
     };
 
@@ -34,6 +36,7 @@ export default class PpResourceDetailPage extends LightningElement {
         const urlParams = new URLSearchParams(queryString);
         this.resourceId = urlParams.get('resourceid');
         this.resourceType = urlParams.get('resourcetype');
+        this.state = urlParams.get('state');
         if (this.resourceType == 'Study_Document') {
             this.langCode = urlParams.get('lang');
             this.isDocument = true;
@@ -46,7 +49,9 @@ export default class PpResourceDetailPage extends LightningElement {
         if (this.spinner) {
             this.spinner.show();
         }
+
         //get clicked resource details
+
         await getResourceDetails({
             resourceId: this.resourceId,
             resourceType: this.resourceType
@@ -60,25 +65,23 @@ export default class PpResourceDetailPage extends LightningElement {
                     this.resourceType == 'Article' ? resourceData.Image__c : resourceData.Video__c;
                 this.isFavourite = result.wrappers[0].isFavorite;
                 this.isVoted = result.wrappers[0].isVoted;
+                if (this.isDocument) {
+                    this.handleDocumentLoad();
+                }
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
         //get study Title
-        if (communityService.isInitialized()) {
-            if (communityService.getCurrentCommunityMode().participantState != 'ALUMNI') {
-                await getCtpName({})
-                    .then((result) => {
-                        let data = JSON.parse(result);
-                        this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Title__c;
-                    })
-                    .catch((error) => {
-                        this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-                    });
-            }
-        }
-        if (this.isDocument) {
-            this.handleDocumentLoad();
+        if (this.state != 'ALUMNI') {
+            await getCtpName({})
+                .then((result) => {
+                    let data = JSON.parse(result);
+                    this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Title__c;
+                })
+                .catch((error) => {
+                    this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
+                });
         }
         this.isInitialized = true;
 
@@ -88,13 +91,47 @@ export default class PpResourceDetailPage extends LightningElement {
     }
 
     handleDocumentLoad() {
-        this.documentLink =
-            '/pp/apex/RRPDFViewer?resourceId=' + this.resourceId + '&language=' + this.langCode;
+        if (FORM_FACTOR == 'Large') {
+            this.documentLink =
+                '/pp/apex/RRPDFViewer?resourceId=' + this.resourceId + '&language=' + this.langCode;
+        } else {
+            let updates = true;
+            this.documentLink =
+                'mobile-pdf-viewer?resId=' +
+                this.resourceId +
+                '&lang=' +
+                this.langCode +
+                '&updates=' +
+                updates;
+        }
     }
 
     handleBackClick() {
-        let pageLink = window.location.origin + '/pp/s/resources';
-        window.location.assign(pageLink);
+        let pageLink;
+        let subDomain=communityService.getSubDomain();
+        if (FORM_FACTOR == 'Large') {
+            
+            pageLink = window.location.origin + subDomain + '/s/resources';
+        } else {
+            let resType;
+            if (this.resourceType == 'Study_Document') {
+                resType = 'documents';
+            } else if (this.resourceType == 'Video' || this.resourceType == 'Article') {
+                resType = 'explore';
+            }
+            pageLink = window.location.origin + subDomain +'/s/resources?resType=' + resType;
+        }
+        const config = {
+            type: 'standard__webPage',
+
+            attributes: {
+                url: pageLink
+            }
+        };
+
+        this[NavigationMixin.GenerateUrl](config).then((url) => {
+            window.open(url, '_self');
+        });
     }
 
     handleFavourite() {

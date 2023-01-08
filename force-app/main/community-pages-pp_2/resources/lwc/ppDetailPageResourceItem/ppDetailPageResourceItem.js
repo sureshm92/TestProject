@@ -1,13 +1,14 @@
 import { LightningElement, api } from 'lwc';
-
+import DEVICE from '@salesforce/client/formFactor';
 export default class PpDetailPageResourceItem extends LightningElement {
     @api resourceType;
     @api resourceLink;
     showArticle = false;
     showVideo = false;
     isThumbnailPresent = false;
-
+    desktop;
     connectedCallback() {
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
             this.spinner.show();

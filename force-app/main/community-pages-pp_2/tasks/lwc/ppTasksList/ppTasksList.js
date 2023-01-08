@@ -83,13 +83,14 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     selectedTaskId;
     cssClass;
     @track popupTaskMenuItems;
+    task_arrow = pp_icons + '/' + 'Arrow_Icon_Final.svg';
     threedots_imgUrl = pp_icons + '/' + 'three_dots.png';
     systemTaskImg = pp_icons + '/' + 'Task_Illustration.svg';
     openTaskImg = pp_icons + '/' + 'Oval.svg';
     closeTaskImg = pp_icons + '/' + 'Oval_Completed.svg';
     reminderObj = {
         name: this.label.taskCreateReminder,
-        iconUrl: 'reminderbell_icom',
+        iconUrl: 'reminderbell_icon',
         reminder: true
     };
     editObj = {
@@ -123,6 +124,22 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
 
     get showTaskCreateCard() {
         return this.selectedTaskId ? true : false;
+    }
+
+    get subjectSize() {
+        return this.ishomepage ? 8 : this.isMobile ? 8 : 9;
+    }
+
+    get actionButtonSize() {
+        return this.ishomepage ? 2 : this.isMobile ? 2 : 1;
+    }
+
+    get actionButtonCssClass() {
+        return this.ishomepage
+            ? 'slds-p-around_small slds-size_2-of-12'
+            : this.isMobile
+            ? 'slds-p-right_medium slds-size_2-of-12'
+            : 'slds-p-right_large slds-size_1-of-12';
     }
 
     connectedCallback() {
@@ -192,9 +209,32 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         markAsCompleted({ taskId: this.selectedTaskId })
             .then(() => {
                 this.tasksList = JSON.parse(JSON.stringify(this.tasksList));
+                var localtimezonedate = new Date().toLocaleString('en-US', {
+                    timeZone: 'UTC'
+                });
+                var processlocaltimezonedate = new Date(localtimezonedate);
+                var dd = String(processlocaltimezonedate.getDate()).padStart(2, '0');
+                var mm = String(processlocaltimezonedate.getMonth() + 1).padStart(2, '0');
+                var yyyy = processlocaltimezonedate.getFullYear();
+                var currentdate = yyyy + '-' + mm + '-' + dd;
+                var hh = String(
+                    (processlocaltimezonedate.getHours() < 10 ? '0' : '') +
+                        processlocaltimezonedate.getHours()
+                );
+                var mm = String(
+                    (processlocaltimezonedate.getMinutes() < 10 ? '0' : '') +
+                        processlocaltimezonedate.getMinutes()
+                );
+                var ss = String(
+                    (processlocaltimezonedate.getSeconds() < 10 ? '0' : '') +
+                        processlocaltimezonedate.getSeconds()
+                );
+                var currentTime = hh + ':' + mm + ':' + ss;
+                var currentDatetime = currentdate + 'T' + currentTime;
                 for (let i = 0; i < this.tasksList.length; i++) {
                     if (this.tasksList[i].task.Id == this.selectedTaskId) {
                         this.tasksList[i].isClosed = true;
+                        this.tasksList[i].task.Activity_Datetime__c = currentDatetime;
                         taskOldStatus = this.tasksList[i].task.Status;
                         break;
                     }

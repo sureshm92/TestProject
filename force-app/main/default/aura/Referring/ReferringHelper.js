@@ -236,7 +236,9 @@
         let emailCmp = component.find('emailField');
         let emailRepeatCmp = component.find('emailRepeatField');
         let emailVaild = emailCmp && communityService.isValidEmail(participant.Email__c);
+        let emailValidIndependent = emailVaild;
         let emailRepeatValid = emailRepeatCmp && communityService.isValidEmail(emailRepeat);
+        let emailValidRepeatIndependent = emailRepeatValid;
         let selectedCountry = participant.Mailing_Country_Code__c;
         let selectedState = participant.Mailing_State_Code__c;        
         component.set('v.agreePolicy',false);
@@ -261,7 +263,7 @@
         
          agreePolicy = component.get('v.agreePolicy');
         //REF-3070
-        let delegateParticipantemail = component.get('v.delegateParticipant.Email__c')!== undefined ? true : false;
+        let delegateParticipantemail = component.get('v.delegateParticipant.Email__c');
         let emailDelegateCmp = component.find('emailDelegateField');
         let emailDelegateRepeatCmp = component.find('emailDelegateRepeatField');
         //REF-3070
@@ -269,7 +271,7 @@
         if(delegateParticipantemail){
             emailDelegateVaild = needsDelegate &&
                 emailDelegateCmp &&
-                helper.checkValidEmail(emailCmp, delegateParticipant.Email__c);
+                helper.checkValidEmail(emailDelegateCmp, delegateParticipant.Email__c);
         }else{
             emailDelegateVaild = false;
         }    
@@ -290,6 +292,12 @@
                 emailCmp &&
                 helper.checkValidEmail(emailCmp, participant.Email__c);
         }
+        if(emailRepeat){
+            emailRepeatValid = 
+             needsDelegate ||
+                emailRepeatCmp  &&
+                 helper.checkValidEmail(emailRepeatCmp, emailRepeat);
+         }
         //let emailDelegateVaild = needsDelegate && emailDelegateCmp && emailDelegateCmp.get('v.validity') && emailDelegateCmp.get('v.validity').valid;
         //let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
         
@@ -330,8 +338,15 @@
              (needsDelegate || participant.Email__c) &&
              (needsDelegate || emailVaild) &&
              (needsDelegate || emailRepeatValid) &&
-             participant.Email__c == emailRepeat &&
              (needsDelegate || participant.Phone__c) &&
+             (
+                ((participant.Email__c ==undefined || participant.Email__c =='') 
+                && (emailRepeat ==undefined || emailRepeat =='')) ||
+                (participant.Email__c !=undefined && emailRepeat !=undefined &&
+                    participant.Email__c.toUpperCase() == emailRepeat.toUpperCase() &&
+                    emailValidIndependent   && emailValidRepeatIndependent
+                ) 
+               ) &&
              participant.Mailing_Zip_Postal_Code__c &&
              selectedCountry &&
              (selectedState || states.length === 0) &&
@@ -343,10 +358,12 @@
                delegateParticipant.Last_Name__c &&
                delegateParticipant.Phone__c &&
                delegateParticipant.Email__c &&
+               emailDelegateRepeat &&
                confirmConsent &&
                emailDelegateVaild &&
+               emailDelegateVaild &&
                emailDelegateRepeatValid &&
-               delegateParticipant.Email__c == emailDelegateRepeat)) &&
+               delegateParticipant.Email__c.toUpperCase() == emailDelegateRepeat.toUpperCase() ))&&
              agreePolicy);
         
          if(component.get('v.patientVeiwRedirection')){
@@ -356,6 +373,15 @@
                   needsGuardian = true;
               }
             
+                  if( component.get('v.needsGuardian') && participant.Adult__c && (participant.email__c ==''|| !participant.email__c) ){
+                      emailCmp.setCustomValidity('');
+                        emailRepeatCmp.setCustomValidity('');
+                        emailCmp.reportValidity();
+                        emailRepeatCmp.reportValidity();
+                        var PhoneField = component.find('PhoneName');
+                        PhoneField.setCustomValidity('');
+                        PhoneField.reportValidity();
+                     }
               if(needsDelegate && needsGuardian &&
                delegateParticipant &&
                participant.Health_care_proxy_is_needed__c &&
@@ -363,15 +389,24 @@
                delegateParticipant.Last_Name__c &&
                delegateParticipant.Phone__c &&
                delegateParticipant.Email__c &&
+               emailDelegateRepeat &&
+               delegateParticipant.Email__c.toUpperCase() == emailDelegateRepeat.toUpperCase() &&
                emailDelegateVaild &&
                emailDelegateRepeatValid &&
-               delegateParticipant.Email__c == emailDelegateRepeat &&
                agreePolicy && attestAge && confirmConsent &&
                participant.First_Name__c &&
                participant.Last_Name__c &&
                //participant.Date_of_Birth__c &&
                //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
                isDobValid &&
+               (
+                ((participant.Email__c ==undefined || participant.Email__c =='') 
+                && (emailRepeat ==undefined || emailRepeat =='')) ||
+                (participant.Email__c !=undefined && emailRepeat !=undefined &&
+                    participant.Email__c.toUpperCase() == emailRepeat.toUpperCase() &&
+                    emailValidIndependent   && emailValidRepeatIndependent
+                ) 
+               )  &&
                participant.Mailing_Zip_Postal_Code__c &&
               selectedCountry &&
               (selectedState || states.length === 0))
@@ -385,9 +420,10 @@
                delegateParticipant.Last_Name__c &&
                delegateParticipant.Phone__c &&
                delegateParticipant.Email__c &&
+               emailDelegateRepeat &&
+               delegateParticipant.Email__c.toUpperCase() == emailDelegateRepeat.toUpperCase() &&
                emailDelegateVaild &&
                emailDelegateRepeatValid &&
-               delegateParticipant.Email__c == emailDelegateRepeat &&
                agreePolicy && attestAge && confirmConsent &&
                participant.First_Name__c &&
                participant.Last_Name__c &&
@@ -395,7 +431,7 @@
                //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
                isDobValid &&
                participant.Email__c &&
-               participant.Email__c == emailRepeat &&
+               (participant.Email__c && emailRepeat !=undefined  ? emailValidIndependent  && emailValidRepeatIndependent && participant.Email__c.toUpperCase() == emailRepeat.toUpperCase(): participant.Email__c == emailRepeat) &&
                participant.Phone__c &&
                participant.Mailing_Zip_Postal_Code__c &&
               selectedCountry &&
@@ -413,7 +449,7 @@
                participant.Email__c &&
                emailVaild &&
                emailRepeatValid &&
-               participant.Email__c == emailRepeat &&
+               (participant.Email__c && emailRepeat !=undefined  ? participant.Email__c.toUpperCase() == emailRepeat.toUpperCase():participant.Email__c == emailRepeat ) &&
                participant.Phone__c &&
                participant.Mailing_Zip_Postal_Code__c &&
               selectedCountry &&
@@ -428,8 +464,27 @@
 
         if(needsDelegate && isNewPrimaryDelegate)
         {
+            if(  needsDelegate && participant.Adult__c && (participant.email__c ==''|| !participant.email__c) ){
+                emailCmp.setCustomValidity('');
+                  emailRepeatCmp.setCustomValidity('');
+                  emailCmp.reportValidity();
+                  emailRepeatCmp.reportValidity();
+                  var PhoneField = component.find('PhoneName');
+                  PhoneField.setCustomValidity('');
+                  PhoneField.reportValidity();
+               } 
             if(!(isAdultDel && attestAge && confirmConsent))
                 isValid = false;
+        }
+ 
+        if(participant.Adult__c ===  false){
+            emailCmp.setCustomValidity('');
+                emailRepeatCmp.setCustomValidity('');
+                emailCmp.reportValidity();
+                emailRepeatCmp.reportValidity();
+                var PhoneField = component.find('PhoneName');
+                PhoneField.setCustomValidity('');
+                PhoneField.reportValidity(); 
         }
         if(selectedParticipantAge == "null" && selectedParticipantAge == undefined && selectedParticipantAge == ''){
             isValid = false; 
@@ -439,7 +494,43 @@
         }else{
             component.set('v.allRequiredCompleted', isValid);
         } 
-        
+        if(participant.Email__c){
+            emailVaild = 
+             needsDelegate &&
+                 emailCmp &&
+                 helper.checkValidEmail(emailCmp, participant.Email__c);
+         }
+         if(emailRepeat){
+           emailRepeatValid  = 
+             needsDelegate &&
+                emailRepeatCmp  &&
+                 helper.checkValidEmail(emailRepeatCmp, emailRepeat);
+         }
+ 
+         if (needsDelegate && emailCmp && emailRepeatCmp) {
+             if (
+                 participant.Email__c &&
+                 emailRepeat &&
+                 participant.Email__c.toLowerCase() !== emailRepeat.toLowerCase()
+             ) {
+                 emailCmp.setCustomValidity($A.get('$Label.c.PG_Ref_MSG_Email_s_not_equals')); //set('v.validity', {valid: false, badInput: true});
+                 emailRepeatCmp.setCustomValidity($A.get('$Label.c.PG_Ref_MSG_Email_s_not_equals')); //.set('v.validity', {valid: false, badInput: true});
+             } else {
+                 emailCmp.setCustomValidity('');
+                 emailRepeatCmp.setCustomValidity('');
+             }
+             if (
+                 participant.Email__c &&
+                 participant.Email__c !== '' &&
+                 emailRepeat &&
+                 emailRepeat !== ''
+             ) {
+                 emailCmp.reportValidity();
+                 helper.checkValidEmail(emailCmp,participant.Email__c );
+                 emailRepeatCmp.reportValidity();
+                 helper.checkValidEmail(emailRepeatCmp, emailRepeat);
+             }
+         }
         if (!needsDelegate && emailCmp && emailRepeatCmp) {
             if (
                 participant.Email__c &&
@@ -488,7 +579,9 @@
                 emailDelegateRepeat !== ''
             ) {
                 emailDelegateCmp.reportValidity();
+                helper.checkValidEmail(emailDelegateCmp, delegateParticipant.Email__c);
                 emailDelegateRepeatCmp.reportValidity();
+                helper.checkValidEmail(emailDelegateRepeatCmp, emailDelegateRepeat);
             }
         }
         

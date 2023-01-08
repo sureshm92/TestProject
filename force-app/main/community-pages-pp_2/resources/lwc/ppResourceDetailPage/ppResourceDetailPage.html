@@ -2,7 +2,7 @@
     <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner"></c-web-spinner>
     <template if:true={isInitialized}>
-        <div class="page-container">
+        <div class="page-container page-margin">
             <!--***************  Detail Top Bar  ******************-->
             <lightning-layout multiple-rows="true">
                 <!-- ************** Back To Resources *************** -->
@@ -22,7 +22,7 @@
 
                 <!-- ***************** Resource Title ******************* -->
                 <lightning-layout-item size="12" class="slds-p-vertical_medium">
-                    <lightning-layout multiple-rows="true">
+                    <lightning-layout multiple-rows="true" class="study-title-mobile">
                         <lightning-layout-item size="12" class="study-title">
                             {studyTitle}</lightning-layout-item
                         >
@@ -87,7 +87,7 @@
                             <!--   Upload Date    -->
                             <lightning-layout-item size="12">
                                 <div class="summary-date">
-                                    {label.Uploaded}&nbsp;
+                                    {label.VERSION}&nbsp;
                                     <lightning-formatted-date-time
                                         value={resUploadDate}
                                         year="numeric"
@@ -100,7 +100,11 @@
                             </lightning-layout-item>
                             <!--   SUMMARY    -->
                             <lightning-layout-item size="12">
-                                <div class="summary-text">{resourceSummary}</div>
+                                <div class="summary-text">
+                                    <lightning-formatted-rich-text
+                                        value={resourceSummary}
+                                    ></lightning-formatted-rich-text>
+                                </div>
                             </lightning-layout-item>
                         </lightning-layout>
                     </lightning-layout-item>
@@ -109,13 +113,7 @@
                 <template if:true={isDocument}>
                     <lightning-layout-item size="12" class="title-row-document">
                         <div class="ah-video-iframe">
-                            <iframe
-                                frameborder="0"
-                                src={documentLink}
-                                height="1000px"
-                                width="1250px"
-                            >
-                            </iframe>
+                            <iframe frameborder="0" src={documentLink} class="my_iframe"> </iframe>
                         </div>
                     </lightning-layout-item>
                 </template>
@@ -124,7 +122,7 @@
         </div>
 
         <!--   FOOTER    -->
-        <div style="margin:-4px 0;" class="rr-width-limiter-pp side-padding footer-resource">
+        <div style="margin: -4px 0" class="rr-width-limiter-pp side-padding footer-resource">
             <c-pp-community-footer> </c-pp-community-footer>
         </div>
     </template>

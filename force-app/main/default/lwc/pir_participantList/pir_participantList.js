@@ -8,6 +8,7 @@ import exportSelected from '@salesforce/apex/PIR_BulkActionController.exportSele
 import exportAll from '@salesforce/apex/PIR_BulkActionController.exportAll';
 import pirResources from '@salesforce/resourceUrl/pirResources';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import econsentRes from '@salesforce/resourceUrl/econsentRes';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { CurrentPageReference } from 'lightning/navigation';
 import { NavigationMixin } from 'lightning/navigation';
@@ -50,6 +51,7 @@ import RH_ChangeStatusErrorMsg from '@salesforce/label/c.RH_ChangeStatusErrorMsg
 import pir_Bulk_Import_History from '@salesforce/label/c.pir_Bulk_Import_History';
 import PIR_Import_Participants from '@salesforce/label/c.PIR_Import_Participants';
 import PIR_Signed_Date_Validation from '@salesforce/label/c.PIR_Signed_Date_Validation';
+import Need_to_Re_consent from '@salesforce/label/c.Need_to_Re_consent';
 
 export default class Pir_participantList extends NavigationMixin(LightningElement) {
     filterIcon = pirResources+'/pirResources/icons/filter.svg';
@@ -139,7 +141,8 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         High_Risk,
         pir_Bulk_Import_History,
         PIR_Import_Participants,
-        PIR_Signed_Date_Validation
+        PIR_Signed_Date_Validation,
+        Need_to_Re_consent
     }; 
     @api dropDownLabel=this.label.RPR_Actions;
     @api isCheckboxhidden=false;
@@ -287,7 +290,8 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     siteIdlist=null;
     iconHighRisk =pirResources+'/pirResources/icons/status-alert.svg';
     iconHighPriority = pirResources+'/pirResources/icons/arrow-up.svg';
-    iconActionReq = pirResources+'/pirResources/icons/bell.svg';    
+    iconActionReq = pirResources+'/pirResources/icons/bell.svg';   
+    iconActionReqeConsent = econsentRes+'/econsentRes/Icon/Bell_Icon.svg';
     err='';
     peMap = new Map();
     peCurrentIndexMap = new Map();

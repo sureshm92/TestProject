@@ -27,8 +27,8 @@
     line-height: 17px;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 160px;
     white-space: nowrap;
+    width: 160px;
     width: 100%;
     cursor: pointer;
 }
@@ -47,13 +47,18 @@
 }
 
 .com-icon {
-    padding: 12px 0 0 8px;
+    height: 100%;
+    width: 100%;
 }
 
 .thumnail-img {
     height: 95%;
     width: 100%;
     padding: 3px 3px 0px 3px;
+}
+
+.empty-thumbnail-doc-icon {
+    margin-left: 15px;
 }
 
 .version-date-translation {

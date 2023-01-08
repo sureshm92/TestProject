@@ -153,8 +153,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 });
             })
             .catch((error) => {
-                let message = error.message || error.body.message;
-                this.showToast(message, message, 'error');
+                let message = error.body.message || error.body.message;
+                this.showErrorToast(message, message, 'error');
             });
     }
 
@@ -178,7 +178,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 }
             })
             .catch((error) => {
-                this.showToast('', error.message, 'error');
+                this.showToast('', error.body.message, 'error');
             });
     }
     @api
@@ -821,7 +821,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                                 this.dispatchEvent(selectEvent);
                             })
                             .catch((error) => {
-                                this.showErrorToast('Error occured', error.message, 'error');
+                                this.showErrorToast('Error occured', error.body.message, 'error');
                             });
                     } else if (visitTask === '' && this.taskid !== '') {
                         deleteReminder({
@@ -840,7 +840,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                                 }
                             })
                             .catch((error) => {
-                                this.showErrorToast('Error occured', error.message, 'error');
+                                this.showErrorToast('Error occured', error.body.message, 'error');
                             });
                     } else {
                         const event = new ShowToastEvent({
@@ -854,7 +854,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                     }
                 })
                 .catch((error) => {
-                    this.showErrorToast('Error occured', error.message, 'error');
+                    this.showErrorToast('Error occured', error.body.message, 'error');
                 });
         } else if (this.reminderChanged && visitTask !== '') {
             createTask({
@@ -872,7 +872,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                     this.dispatchEvent(selectEvent);
                 })
                 .catch((error) => {
-                    this.showErrorToast('Error occured', error.message, 'error');
+                    this.showErrorToast('Error occured', error.body.message, 'error');
                 });
         } else if (visitTask === '' && this.taskid !== '') {
             deleteReminder({
@@ -891,7 +891,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                     }
                 })
                 .catch((error) => {
-                    this.showErrorToast('Error occured', error.message, 'error');
+                    this.showErrorToast('Error occured', error.body.message, 'error');
                 });
         } else {
             const event = new ShowToastEvent({

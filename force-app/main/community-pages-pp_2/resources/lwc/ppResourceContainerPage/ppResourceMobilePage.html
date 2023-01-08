@@ -1,16 +1,15 @@
 <template>
     <!-- Loading Spinner-->
-    <!-- <div class="backdrop" onclick={closeOptions}></div> -->
     <c-web-spinner class="main-spinner"></c-web-spinner>
     <template if:true={isInitialized}>
         <div class={cardRTL}>
-            <div class="res-container">
+            <div class="res-container slds-p-top_medium">
                 <lightning-layout multiple-rows="true" vertical-align="center">
                     <lightning-layout-item size="6" class="mb-10">
                         <div class="res-header">{labels.RESOURCES}</div>
                     </lightning-layout-item>
 
-                    <lightning-layout-item size="6" class="mb-8">
+                    <lightning-layout-item if:true={resourcesAvailable} size="6" class="mb-8">
                         <div class="pref-container">
                             <a
                                 onclick={handleChangePreference}
@@ -22,33 +21,21 @@
                         </div>
                     </lightning-layout-item>
 
-                    <!-- <lightning-layout-item size="12">
-                        <div class="selectWrapper">
-                            <select
-                                name="selectResources"
-                                class="resourceSelection dropdown-mobile-res-page minimal"
-                                onchange={updateResources}
-                            >
-                             
-                                <template for:each={options} for:item="option">
-                                    <option key={option.value} value={option.value} class="documents">
-                                        { option.label }
-                                    </option>
-                                </template>
-                            </select>
-                        </div>                       
-                    </lightning-layout-item> -->
-
-                    <lightning-layout-item size="12">
-                         <div class="dropdown" data-key="dropdown" onclick={showOptions}>
+                    <lightning-layout-item if:true={resourcesAvailable} size="12">
+                        <div class="dropdown" data-key="dropdown" onclick={showOptions}>
                             <span>{selectedOptions}</span>
-                                <ul class="res-options hidden">
-                                    <template for:each={options} for:item="option">                                       
-                                        <li class="noselected" key={option.value} data-key={option.value} onclick={updateResources}>
-                                            <span>{option.label}</span>
-                                        </li>
-                                    </template>
-                                </ul>
+                            <ul class="res-options hidden">
+                                <template for:each={options} for:item="option">
+                                    <li
+                                        class="noselected"
+                                        key={option.value}
+                                        data-key={option.value}
+                                        onclick={updateResources}
+                                    >
+                                        <span>{option.label}</span>
+                                    </li>
+                                </template>
+                            </ul>
                         </div>
                     </lightning-layout-item>
                 </lightning-layout>
@@ -57,33 +44,28 @@
                 <lightning-layout multiple-rows="true">
                     <template if:true={engageVisible}>
                         <lightning-layout-item size="12">
-                            <div class="res-box-engage-container">
-                                <!-- START : COMING SOON -->
-                                <!-- <div class="object">
-                                    <div class="object-rope"></div>
-                                    <div class="object-shape">
-                                        Coming <span class="soon">Soon</span>
-                                    </div>
-                                </div> -->
-                                <!-- END : COMING SOON -->
-                                <!-- ENGAGE LWC COMPONENT PLACEHOLDER -->
-                                <img class="empty-state" src={empty_state}/>
-                                <p class="no-links-available mt-15">No modules available</p>
+                            <div class="res-box-engage-container slds-align_absolute-center">
+                                <div class="dis-block">
+                                    <span class="center"
+                                        ><img src={empty_state} class="empty-state-img-size"
+                                    /></span>
+                                    <span class="no-links-available slds-m-top_medium"
+                                        >No modules available</span
+                                    >
+                                </div>
                             </div>
                         </lightning-layout-item>
                     </template>
 
                     <template if:true={exploreVisible}>
-                        <lightning-layout multiple-rows="true">
-                            <lightning-layout-item size="12">
-                                <!--Explore Section starts here-->
-                                <div class="res-explore-container">
-                                    <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
-                                    <c-pp-resource-engage desktop={desktop} is-rtl={isRTL}>
-                                    </c-pp-resource-engage>
-                                </div>
-                            </lightning-layout-item>
-                        </lightning-layout>
+                        <lightning-layout-item size="12">
+                            <!--Explore Section starts here-->
+                            <div class="res-explore-container res-explore-mobile">
+                                <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
+                                <c-pp-resource-engage desktop={desktop} is-rtl={isRTL}>
+                                </c-pp-resource-engage>
+                            </div>
+                        </lightning-layout-item>
                     </template>
 
                     <template if:true={discoverVisible}>
@@ -91,7 +73,7 @@
                             <lightning-layout-item size="12">
                                 <div class="links-will-open-in-a">
                                     Links will open in a new browser window. IQVIA Patient Portal is
-                                    not responsible for content provided in externa, websites
+                                    not responsible for content provided in external websites.
                                 </div>
                                 <!--Discover Section starts here-->
                             </lightning-layout-item>
@@ -133,10 +115,10 @@
                         </lightning-layout-item>
                     </lightning-layout>
                 </template>
-           
+
                 <lightning-layout multiple-rows="true">
-                    <lightning-layout-item size="12" class="mt-10 mb-10">                       
-                        <c-pp-contribute-section></c-pp-contribute-section>                       
+                    <lightning-layout-item size="12" class="mt-16 mb-10">
+                        <c-pp-contribute-section></c-pp-contribute-section>
                     </lightning-layout-item>
                 </lightning-layout>
             </div>

@@ -56,8 +56,8 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     @track textValue;
     @track selectedResourceType;
     @track options = [];
-
-    selectedOptions = 'Engage';
+    resourcesAvailable = false;
+    selectedOptions;
     containerElement;
     enableChangePref = false;
     enableChangePrefOnDocs = false;
@@ -70,7 +70,28 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-        this.selectedResourceType = 'engage';
+        if (!this.desktop) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            let resType = urlParams.get('resType');
+            if (resType) {
+                this.selectedResourceType = resType;
+                if (resType == 'engage') {
+                    this.selectedOptions = this.labels.ENGAGE;
+                } else if (resType == 'documents') {
+                    this.selectedOptions = this.labels.DOCUMENTS;
+                } else if (resType == 'explore') {
+                    this.selectedOptions = this.labels.EXPLORE;
+                } else if (resType == 'discover') {
+                    this.selectedOptions = this.labels.DISCOVER_TITLE;
+                } else if (resType == 'answers') {
+                    this.selectedOptions = this.labels.FIND_ANSWERS;
+                }
+            }
+        } else {
+            this.selectedOptions = 'Engage';
+            this.selectedResourceType = 'engage';
+        }
         this.initializeData();
     }
     // renderedCallback(){
@@ -196,14 +217,29 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             let option1 = { value: 'explore', label: this.labels.EXPLORE };
             this.options.push(option);
             this.options.push(option1);
+            this.resourcesAvailable = true;
+            if (!this.selectedResourceType && !this.selectedOptions) {
+                this.selectedResourceType = 'engage';
+                this.selectedOptions = 'Engage';
+            }
         }
         if (this.toggleLinks) {
             let option = { value: 'discover', label: this.labels.DISCOVER_TITLE };
             this.options.push(option);
+            this.resourcesAvailable = true;
+            if (!this.selectedResourceType && !this.selectedOptions) {
+                this.selectedResourceType = 'discover';
+                this.selectedOptions = 'Discover';
+            }
         }
         if (this.toggleDocs) {
             let option = { value: 'documents', label: this.labels.DOCUMENTS };
             this.options.push(option);
+            this.resourcesAvailable = true;
+            if (!this.selectedResourceType && !this.selectedOptions) {
+                this.selectedResourceType = 'documents';
+                this.selectedOptions = 'Documents';
+            }
         }
 
         // Populate Grid size

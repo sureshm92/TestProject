@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import edit_Year_of_Birth from '@salesforce/label/c.PP_Edit_Year_of_Birth';
-import match_Username_Email_Option from '@salesforce/label/c.PP_Username_Email_GetSupport';
+import match_Username_Email_Option from '@salesforce/label/c.PP_Username_Email_in_GetSupport';
 import select_Support_Topic from '@salesforce/label/c.PP_Select_Support_Topic';
 import ppFrom from '@salesforce/label/c.PP_From';
 import ppTo from '@salesforce/label/c.PP_To_Year';
@@ -13,14 +13,13 @@ import PP_Duplicate_Usernames from '@salesforce/label/c.PP_Duplicate_Usernames';
 import PP_UsrNameLabel from '@salesforce/label/c.PP_UsrNameLabel';
 import requestSubmitted from '@salesforce/label/c.PP_Request_Submitted_Success_Message';
 import matchUsernameEmail from '@salesforce/label/c.PP_Username_And_Email_Change_GetSupport';
+import PP_Merge_Username from '@salesforce/label/c.PP_Merge_Username';
 import PP_MergeExisting from '@salesforce/label/c.PP_MergeExisting';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import validateAgeOfMajority from '@salesforce/apex/ApplicationHelpRemote.validateAgeOfMajority';
 import validateUsername from '@salesforce/apex/ApplicationHelpRemote.validateUsername';
 import createYOBCase from '@salesforce/apex/ApplicationHelpRemote.createYOBCase';
 import DEVICE from '@salesforce/client/formFactor';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
-import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 
 export default class PpGetSupport extends NavigationMixin(LightningElement) {
     @api showGetSupport;
@@ -44,6 +43,8 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     UseremailDuplicate;
     userNamesListvalue;
     duplicateInfoHeader;
+    checkMatchUsernameEmail = false;
+    checkMergeUsernameEmail = false;
 
     isMobile;
     cardRTL;
@@ -62,6 +63,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         matchUsernameEmail,
         PP_Duplicate_Usernames,
         PP_UsrNameLabel,
+        PP_Merge_Username,
         PP_MergeExisting
     };
     selectedOption;
@@ -73,13 +75,6 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     connectedCallback() {
         DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
         this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                console.log('RR_COMMUNITY_JS loaded');
-            })
-            .catch((error) => {
-                console.error('Error in loading RR Community JS: ' + JSON.stringify(error));
-            });
     }
 
     get marginForDOBEdit() {
@@ -88,14 +83,10 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
             : '';
     }
 
-    get marginMatchEmailPass() {
-        return this.isMatchUsernameEmail ? 'mb-10' : '';
-    }
-
     get dropDownOpacityClass() {
         return this.isEditYOB || this.isMatchUsernameEmail
-            ? 'mb-15 support-combobox'
-            : 'mb-15 support-combobox opacity';
+            ? 'mb-15 support-combobox help-support'
+            : 'support-combobox opacity help-support';
     }
 
     get YOBOpacityClass() {
@@ -139,12 +130,19 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
             this.isEditYOB = true;
             this.isMatchUsernameEmail = false;
             this.UseremailDuplicate = false;
+            this.checkMergeUsernameEmail = false;
+            this.checkMatchUsernameEmail = false;
+            this.selectedYOB = undefined;
+            this.showMinorErrorMsg = false;
         } else if (this.selectedOption == match_Username_Email_Option) {
             this.isMatchUsernameEmail = true;
             this.isEditYOB = false;
+            this.checkMergeUsernameEmail =
+                this.isMatchUsernameEmail && this.isDuplicate ? true : false;
+            this.checkMatchUsernameEmail = this.isDuplicate ? false : true;
         }
     }
-    doCheckYearOfBith(event) {
+    doCheckYOB(event) {
         this.YOBSelected = true;
         this.selectedYOB = event.detail.value;
         this.spinner = this.template.querySelector('c-web-spinner');

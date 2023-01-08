@@ -1,5 +1,6 @@
 .scroll-bar-box {
     padding-top: 16px;
+    padding-bottom: 8px;
     height: 100%;
     margin: 0 10px 0 10px;
 }
@@ -7,6 +8,7 @@
 .scroll-bar {
     height: 95%;
     border-radius: 4px;
+    background-color: #fff;
 }
 
 .no-data-is-available {
@@ -30,4 +32,23 @@
 
 .center {
     text-align: center;
+}
+
+.scroll-bar-box-empty {
+    height: 335px;
+}
+
+@media (max-width: 486px) {
+    .scroll-bar-box {
+        padding-top: 16px;
+        padding-bottom: 8px;
+        max-height: auto;
+        margin: 0 10px 0 10px;
+    }
+    .scroll-bar-box-empty {
+        padding-top: 16px;
+        padding-bottom: 8px;
+        height: 335px;
+        margin: 0 10px 0 10px;
+    }
 }
