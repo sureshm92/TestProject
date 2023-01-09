@@ -1987,7 +1987,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             '' +
             countIndexParticipant +
             ', ERROR on Participant record insert: ' +
-            error.getFields() + 
+            error.getFields() +
             ' ' +
             error.getMessage()
           );
@@ -2417,6 +2417,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
   }
 
   //This method will concatenate all the fields of the list.
+  
 
   public static String getConcatenateString(List<String> rowString) {
     String uniqueString = '';
