@@ -28,5 +28,6 @@ public without sharing class Batch_CompleteEcoaTasks extends Batch_ScheduledAbst
     public override Integer getRecommendedScopeSize() {
         return 50;
     }
+    
 
 }

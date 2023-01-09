@@ -1,6 +1,6 @@
 /**
  * Created by user on 23-Jul-19.
- */
+ */ 
 
 public without sharing class Batch_IntegrationVisitResultProcess implements Database.Batchable<SObject> {
     public Database.QueryLocator start(Database.BatchableContext bc) {

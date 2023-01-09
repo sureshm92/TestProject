@@ -1,7 +1,7 @@
 /**
  * Created to assign Visit Plans to Participant Enrollments and create Patient Visit records.
  * Used on the Visit Config tab on CTP backend
- */
+ */ 
 public class Batch_UpdateVisitPlanCreatePatientVisits implements Database.Batchable<sObject>{
 	public Map<String,Object> studySiteVisitPlan;
     public Id ctpId;
