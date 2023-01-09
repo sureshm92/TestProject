@@ -10,7 +10,7 @@
 
     handleLoadTelevisitBanner: function (component, event, helper) {
         let loadTelevisitBanner = event.getParam('loadTelevisitBanner');
-        component.set('v.handleTelevistBanner', loadTelevisitBanner);
+        //  component.set('v.handleTelevistBanner', loadTelevisitBanner);
         component.find('spinner').hide();
     },
     doRefresh: function (component, event, helper) {
