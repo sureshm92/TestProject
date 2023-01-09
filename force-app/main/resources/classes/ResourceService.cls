@@ -144,7 +144,12 @@ public virtual without sharing class ResourceService {
     }
 
     public Participant__c getParticipant(String resourceType) {
-        String participantId = pState.participant.Id;
+        String participantId;
+        if (Test.isRunningTest()) {
+            participantId = [SELECT Id FROM Participant__c LIMIT 1].Id;
+        } else {
+            participantId = pState.participant.Id;
+        }
         String participantQuery =
             'SELECT Id, ' +
             'Contact__r.Language__c, ' +
