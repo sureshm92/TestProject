@@ -685,7 +685,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                 if(!contactsToUpdateMap.containsKey(c.Id)){
 					contactsToUpdateMap.put(c.Id,c);
 				}
-            }
+            }  
         }
         if (!iprAndContactsToInsert.values().isEmpty()) { 
             for(contact con : iprAndContactsToInsert.values()){
