@@ -502,6 +502,7 @@ export default class PpAddNewDelegate extends LightningElement {
                         if (isActiveDelegate || isFormerDelegate) {
                             this.showExistingContactWarning = false;
                             this.showExistingDelegateError = true;
+                            this.setFirstNameLastName(delegate);
                         }
                     });
                     this.diableFNLNWhenDupContacts = true;
@@ -517,20 +518,7 @@ export default class PpAddNewDelegate extends LightningElement {
     }
 
     setSelectedOrFirstContactInputs() {
-        let firstNameElement = this.template.querySelector('[data-id="firstNameInput"]');
-        let lastNameElement = this.template.querySelector('[data-id="lastNameInput"]');
-        firstNameElement.value = this.delegate.delegateContact.FirstName;
-        lastNameElement.value = this.delegate.delegateContact.LastName;
-        //Reset the custom blank error on FirstName and Last Name input if present.
-        if (firstNameElement.value) {
-            firstNameElement.setCustomValidity('');
-            firstNameElement.reportValidity();
-        }
-        if (lastNameElement.value) {
-            lastNameElement.setCustomValidity('');
-            lastNameElement.reportValidity();
-        }
-
+        this.setFirstNameLastName(this.delegate);
         //If participant Tries to add himself as delegate, throw error message.
         if (
             this.delegate.delegateContact != undefined &&
@@ -575,6 +563,21 @@ export default class PpAddNewDelegate extends LightningElement {
         //this.checkeExistingDelegate();
     }
 
+    setFirstNameLastName(delegate) {
+        let firstNameElement = this.template.querySelector('[data-id="firstNameInput"]');
+        let lastNameElement = this.template.querySelector('[data-id="lastNameInput"]');
+        firstNameElement.value = delegate.delegateContact.FirstName;
+        lastNameElement.value = delegate.delegateContact.LastName;
+        //Reset the custom blank error on FirstName and Last Name input if present.
+        if (firstNameElement.value) {
+            firstNameElement.setCustomValidity('');
+            firstNameElement.reportValidity();
+        }
+        if (lastNameElement.value) {
+            lastNameElement.setCustomValidity('');
+            lastNameElement.reportValidity();
+        }
+    }
     checkeExistingDelegate() {
         //this.showExistingDelegateError = false;
         //Check if it is existing delegate: Starts

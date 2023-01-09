@@ -7261,6 +7261,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Thank you for your interest in using the</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Thank_You_For_Your_Interest_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Thank You For Your Interest</shortDescription>
+        <value>Thank you for your interest in using the IQVIA Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Thank_you_for_submitting_a_request</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7848,7 +7855,7 @@ Sincerely,
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial Patient</shortDescription>
-        <value>You have been referred to a clinical research study.</value>
+        <value>You have been referred to a clinical research study</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Login_GSK</fullName>
@@ -8038,6 +8045,13 @@ Sincerely,
         <protected>false</protected>
         <shortDescription>Email Subject Reset Your Password</shortDescription>
         <value>Reset Your Password</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Reset_Your_Password_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Reset Your Password</shortDescription>
+        <value>Reset your password</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Share_By_RP</fullName>
@@ -29990,7 +30004,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial Patient Program</shortDescription>
-        <value>You have been referred to a program.</value>
+        <value>You have been referred to a program</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Patient_Dropped_Out_Study_PP</fullName>
@@ -30012,5 +30026,73 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>Email Header Patient2 PP</shortDescription>
         <value>Thank you for your interest in participating in a ##StudyorProgramHeader</value>
+    </labels>
+    <labels>
+        <fullName>Email_Sub_Event_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Sub Event PP</shortDescription>
+        <value>Reminder: You have an upcoming event</value>
+    </labels>
+    <labels>
+        <fullName>Email_Sub_Event_Del_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Sub Event Del PP</shortDescription>
+        <value>Reminder: Your participant has an upcoming event</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Event_Del_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Event Del PP</shortDescription>
+        <value>This is a reminder of your participant's upcoming event</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Event_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Event  PP</shortDescription>
+        <value>This is a reminder of your upcoming event</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Event_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Event PP</shortDescription>
+        <value>This is an email to remind you of your upcoming event for the program:  ##StudyName. 
+
+            Event Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
+            
+            If you are unable to make this appointment, please contact the program team.  Please login for additional details. 
+            </value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Event_Del_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Event Del PP</shortDescription>
+        <value>
+                    
+            This is an email to remind you of ##PatientFirstName&apos;s upcoming event for the clinical research program:  ##StudyName. 
+            
+            Event Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
+            
+            If ##PatientFirstName is unable to make this appointment, please contact the program team.  Please login for additional details. 
+            </value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Referral_Status_Changed_Del_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Referral Status Changed PP</shortDescription>
+        <value>Your participant&apos;s referral status has changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Referral_Status_Updated_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Referral Status Updated Delegate PP</shortDescription>
+        <value>Your participant&apos;s referral status has changed</value>
     </labels>
 </CustomLabels>

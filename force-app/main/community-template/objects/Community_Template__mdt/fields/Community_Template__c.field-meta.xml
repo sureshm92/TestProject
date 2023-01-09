@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Community_Template__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Community Template</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Default</fullName>
+                    <default>true</default>
+                    <label>Default</label>
+                </value>
+                <value>
+                    <fullName>GSK</fullName>
+                    <default>false</default>
+                    <label>GSK</label>
+                </value>
+                <value>
+                    <fullName>Covid_19</fullName>
+                    <default>false</default>
+                    <label>Covid_19</label>
+                </value>
+                <value>
+                    <fullName>Janssen</fullName>
+                    <default>false</default>
+                    <label>Janssen</label>
+                </value>
+                <value>
+                    <fullName>PatientPortal</fullName>
+                    <default>false</default>
+                    <label>PatientPortal</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+</CustomField>

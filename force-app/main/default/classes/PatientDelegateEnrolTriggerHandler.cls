@@ -63,6 +63,21 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
 
         
     }
+    public class AssignCommunityPermissionSets extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            Set<Id> pdeIdSet = new set<Id>();
+            for(SObject pde: newList ){
+                pdeIdSet.add(pde.Id);
+            }
+            
+            if (!System.isFuture() && !System.isBatch()) {
+                updatePermissionSetsAsync(pdeIdSet);
+            }
+            else{
+                updatePermissionSets(pdeIdSet);
+            }
+        }
+    }
 
     @TestVisible
     private static void createDelegateReactivatedNotification(
@@ -472,6 +487,83 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         }else{
             return false;
         }
+    }
+
+    @Future
+    private static void updatePermissionSetsAsync(Set<Id> pdeIdSet) {
+        updatePermissionSets(pdeIdSet);
+    }
+
+    //This Method will update the permission set to the patient Delegate.
+    private static void updatePermissionSets(Set<Id> pdeIdSet) {
+        List<Patient_Delegate_Enrollment__c> pdeList = [select id,Patient_Delegate__r.Participant__r.Contact__c,Patient_Delegate__r.Contact__c,Patient_Delegate__r.Participant__c,Participant_Enrollment__r.Id,Participant_Enrollment__r.Participant__c,Participant_Enrollment__r.Participant_Contact__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.Id,Participant_Enrollment__r.Clinical_Trial_Profile__r.ShortCommunityName__c
+                                                  from Patient_Delegate_Enrollment__c where id in: pdeIdSet and Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN :CommunityModeService.rhSponsorsByCommunity.keySet()
+                                                  and Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c != 'Virtual' and Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c != 'Hybrid'
+                                                  and  Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
+                                                  and Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c = FALSE
+                                                  and Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE]; 
+
+        Set<Id> contactIds = new Set<Id>();
+        Set<Id> perIds = new Set<Id>();
+        List<Id> delegatedContacts = new List<Id>();
+        Set<Id> allDelegatedParticipantIds = new Set<Id>();
+        Map<Id, String> mapPERToShortCommName=new Map<Id,String>();
+        Map<String, String> mapShortCommNameToPermissName=new map<String,String>();
+        Map<String,Id> mapStudyContactToDel=new Map<String,Id>();//StudyId+contactId is key
+        set<String> permissionNames=new Set<String>();
+        Map<String,Id> permissionNameToId=new Map<String,Id>();
+        Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+        for (Patient_Delegate_Enrollment__c pde : pdeList){
+            //contactIds.add(pde.Patient_Delegate__r.Contact__c);
+            //perIds.add(pde.Participant_Enrollment__c);pde.
+            
+            String keys=pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Id+'~'+pde.Participant_Enrollment__r.Participant_Contact__c;
+            mapStudyContactToDel.put(keys,pde.Patient_Delegate__r.Contact__c);  
+            allDelegatedParticipantIds.add(pde.Patient_Delegate__r.Participant__c);
+            delegatedContacts.add(pde.Patient_Delegate__r.Participant__r.Contact__c);                                          
+            contactIds.add(pde.Patient_Delegate__r.Contact__c);
+            mapPERToShortCommName.put(pde.Participant_Enrollment__r.Id,pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
+        }
+        for(Community_Template__mdt commTemp:[SELECT
+                Id,
+                DeveloperName,
+                Community_Name__c,
+                Label,
+                Permission_Set_Developer_Name__c,
+                ShortCommunityName__c,Community_Template__c
+                                              FROM Community_Template__mdt]){
+                       mapShortCommNameToPermissName.put(commTemp.Community_Template__c,commTemp.Permission_Set_Developer_Name__c) ;
+                         permissionNames.add(commTemp.Permission_Set_Developer_Name__c);                         
+           }
+        for(PermissionSet  pp:[select id,Name from PermissionSet where name in:permissionNames]){
+            permissionNameToId.put(pp.Name,pp.Id);
+        }
+        for (Patient_Delegate_Enrollment__c pde : pdeList){
+            Set<String> psaNames=new set<String>();
+            Id ContactId=pde.Patient_Delegate__r.Contact__c;
+            String PerId=pde.Participant_Enrollment__r.Id;
+            String shortCommTemp=mapPERToShortCommName.get(PerId);
+            String permissionName=mapShortCommNameToPermissName.get(shortCommTemp);
+            psaNames.add(permissionName);
+            Id permissionId=permissionNameToId.get(permissionName);
+            actionAssignContactPermissions.addPermissions(ContactId,psaNames);
+        }
+        //System.debug('XXX_ACTION: ' + JSON.serializePretty(actionAssignContactPermissions));
+        if (!actionAssignContactPermissions.isEmpty()) {
+            ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+        }
+        /*System.debug('CONTACTS FOR UPDATE PERMISSIONS:' + contactIds);
+        //PatientDelegateEnrollmentService.updatePermissionSets(contactIds, perIds);
+        Map<Id, Set<String>> participantPermissions = new Map<Id, Set<String>>();
+        for(Patient_Delegate_Enrollment__c pde :pdeList){
+            Set<String> permissions = participantPermissions.get(pde.Patient_Delegate__r.Participant__c);
+            if (permissions == null)
+                permissions = new Set<String>();
+            permissions.add(CommunityTemplateService.getTemplate(pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet);
+            participantPermissions.put(pde.Patient_Delegate__r.Participant__c, permissions);
+        }
+        Set<String> communityPermissionSets = CommunityTemplateService.getAllPermissionSets();*/
+        
     }
 
 }

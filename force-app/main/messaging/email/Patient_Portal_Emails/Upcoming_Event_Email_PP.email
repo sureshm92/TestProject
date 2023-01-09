@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Referral_Status_Changed_Del_PP}"
+<messaging:emailTemplate subject="{!$Label.Email_Sub_Event_PP}"
                         recipientType="Contact"
                         relatedToType="Participant_Enrollment__c"
                         language="{!recipient.Language__c}">
@@ -7,22 +7,22 @@
     <c:PP_EmailWireframe recipientId="{!recipient.Id}"
                         sourceId="{!relatedTo.Id}"
                         isPreBodyButton="true"
-                        preBodyButtonName="{!$Label.Eamil_Action_View_My_Studies}"
-                        header="{!$Label.Email_Header_Referral_Status_Updated_Delegate_PP}"
+                        preBodyButtonName="{!$Label.Email_Action_Login_now}"
+                        header="{!$Label.Email_Header_Event_PP}"
                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                         signature="{!$Label.Email_Signature_Patient_Short}">
-        <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Patient_Delegate_PP}"/>
+        <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Event_PP}"/>
     </c:PP_EmailWireframe>
 </messaging:htmlEmailBody>
 
 <messaging:plainTextEmailBody >
     <c:PP_EmailWireframeText recipientId="{!recipient.Id}"
                             sourceId="{!relatedTo.Id}"
-                            header="{!$Label.Email_Header_Referral_Status_Updated_Delegate_PP}"
+                            header="{!$Label.Email_Header_Event_PP}"
                             greeting="{!$Label.Email_User_Greeting_FirstName}"
                             signature="{!$Label.Email_Signature_Patient_Short}">
-        <c:ParagraphText emailLabel="{!$Label.Email_Body_Patient_Delegate_PP}"/>
-        <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
+        <c:ParagraphText emailLabel="{!$Label.Email_Body_Event_PP}"/>
+        <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
     </c:PP_EmailWireframeText>
 </messaging:plainTextEmailBody> 
 
