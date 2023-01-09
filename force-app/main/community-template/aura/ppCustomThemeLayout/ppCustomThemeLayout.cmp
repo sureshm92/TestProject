@@ -70,6 +70,7 @@
                             communityServic="{!v.communityServ}"
                             aura:id="ppMenu"
                             showSideMenu="{!v.showSideMenu}"
+                            onhandleLoadTelevisitBanner="{!c.handleLoadTelevisitBanner}"
                         />
                     </aura:if>
 
@@ -101,9 +102,16 @@
                         communityServic="{!v.communityServ}"
                         showSideMenu="{!v.showSideMenu}"
                         aura:id="ppMenu"
+                        onhandleLoadTelevisitBanner="{!c.handleLoadTelevisitBanner}"
                     />
                 </aura:if>
                 <!-- Televisit Meet Banner Section PEH-5892 -->
+                <!--      <aura:if isTrue="{!v.handleTelevistBanner}">                   
+                    <c:televisitMeetBanner
+                                           urlPathPrefix="{!v.urlPathPrefix}"
+                                           currentMode="{!v.currentMode}"
+                                           ></c:televisitMeetBanner>
+                </aura:if>-->
                 {!v.body}
             </div>
             <div class="footer">
