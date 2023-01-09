@@ -156,7 +156,7 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
                  FROM Participant_Profile__r 
                  WHERE Clinical_Trial_Profile__c != :studyClosureId) 
             FROM Participant__c 
-            WHERE Id IN :parIds]){
+            WHERE Id IN :parIds ]){
             
             if(pRec.Participant_Profile__r.isEmpty()){
             
@@ -210,7 +210,7 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
             SELECT Id, Participant_Delegate__c,Participant__c 
             FROM Patient_Delegate__c 
             WHERE (Participant_Delegate__c IN :participantIds OR Participant_Delegate__c IN :delegateParticipantIds)
-                AND (Participant__c NOT IN :participantIds OR Participant__c NOT IN :delegateParticipantIds)
+                AND (Participant__c NOT IN :participantIds OR Participant__c NOT IN :delegateParticipantIds) 
         ]){
             
            otherParticipantIds.add(pdUser.Participant__c);
@@ -222,7 +222,7 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
                  FROM Participant_Profile__r 
                  WHERE Clinical_Trial_Profile__c != :studyClosureId) 
             FROM Participant__c 
-            WHERE Id IN :otherParticipantIds]){
+            WHERE Id IN :otherParticipantIds ]){
             
             if(!oPar.Participant_Profile__r.isEmpty()){
             
@@ -291,7 +291,7 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
                 SELECT Id, Site_Contact__c 
                 FROM Site_Staff__c 
                 WHERE (Site_Contact__c IN :participantContactIds OR Site_Contact__c IN :patientDelegateContactIds)
-                    AND Study_Site__r.Clinical_Trial_Profile__c != :studyClosureId
+                    AND Study_Site__r.Clinical_Trial_Profile__c != :studyClosureId 
             ]){
                 if(participantContactIds.contains(ssorRPUser.Site_Contact__c)){
                     participantContactIds.remove(ssorRPUser.Site_Contact__c);
@@ -312,7 +312,7 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
             for(CC_Staff__c ccUser:[
                 SELECT Id, Contact__c 
                 FROM CC_Staff__c 
-                WHERE Contact__c IN :participantContactIds OR Contact__c IN :patientDelegateContactIds
+                WHERE Contact__c IN :participantContactIds OR Contact__c IN :patientDelegateContactIds 
             ]){
                 
                 if(participantContactIds.contains(ccUser.Contact__c)){
@@ -334,7 +334,7 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
             for(RP_Delegate_Relationship__c pdUser:[
                 SELECT Id, Delegate__c 
                 FROM RP_Delegate_Relationship__c 
-                WHERE Delegate__c IN :participantContactIds OR Delegate__c IN :patientDelegateContactIds
+                WHERE Delegate__c IN :participantContactIds OR Delegate__c IN :patientDelegateContactIds 
             ]){
                 
                 if(participantContactIds.contains(pdUser.Delegate__c)){
@@ -357,7 +357,7 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
                 SELECT Id, HCP_Contact__c 
                 FROM HCP_Enrollment__c 
                 WHERE (HCP_Contact__c IN :participantContactIds OR HCP_Contact__c IN :patientDelegateContactIds)
-                    AND Clinical_Trial_Profile__c != :studyClosureId
+                    AND Clinical_Trial_Profile__c != :studyClosureId 
             ]){
                 
                 if(participantContactIds.contains(hcpEnroll.HCP_Contact__c)){
@@ -384,37 +384,37 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
                 delete [
                     SELECT Id 
                     FROM Participant_Comorbidities__c 
-                    WHERE Participant__c IN :participantIds OR Participant__c IN :delegateParticipantIds
+                    WHERE Participant__c IN :participantIds OR Participant__c IN :delegateParticipantIds limit 9999
                 ];
                 
                 delete [
                     SELECT Id 
                     FROM Task 
-                    WHERE whatId IN :participantIds OR whatId IN :delegateParticipantIds
+                    WHERE whatId IN :participantIds OR whatId IN :delegateParticipantIds limit 9999
                 ];
                 
                 delete [
                     SELECT Id 
                     FROM Therapeutic_Area_Patient__c 
-                    WHERE Participant__c IN :participantIds OR Participant__c IN :delegateParticipantIds
+                    WHERE Participant__c IN :participantIds OR Participant__c IN :delegateParticipantIds limit 9999
                 ];
                 
                 delete [
                     SELECT Id 
                     FROM Note 
-                    WHERE ParentId IN :participantIds OR ParentId IN :delegateParticipantIds
+                    WHERE ParentId IN :participantIds OR ParentId IN :delegateParticipantIds limit 9999
                 ];
                 
                 delete [
                     SELECT Id 
                     FROM Attachment 
-                    WHERE ParentId IN :participantIds OR ParentId IN :delegateParticipantIds
+                    WHERE ParentId IN :participantIds OR ParentId IN :delegateParticipantIds limit 9999
                 ];
                 
                 delete [
                     SELECT Id 
                     FROM ContentDocument 
-                    WHERE ParentId IN :participantIds OR ParentId IN :delegateParticipantIds
+                    WHERE ParentId IN :participantIds OR ParentId IN :delegateParticipantIds limit 9999
                 ];
                 
             } else {
@@ -422,37 +422,37 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
                 participantComorbiditiesIds.addAll((new Map<Id,Participant_Comorbidities__c>([
                         SELECT Id 
                         FROM Participant_Comorbidities__c 
-                        WHERE Participant__c IN :participantIds OR Participant__c IN :delegateParticipantIds
+                        WHERE (Participant__c IN :participantIds OR Participant__c IN :delegateParticipantIds) AND ID NOT IN :participantComorbiditiesIds limit 49999
                 ])).keySet());
                 
                 taskIds.addAll((new Map<Id,Task>([
                         SELECT Id 
                         FROM Task 
-                        WHERE whatId IN :participantIds OR whatId IN :delegateParticipantIds
+                        WHERE (whatId IN :participantIds OR whatId IN :delegateParticipantIds) AND ID NOT IN :taskIds limit 49999
                 ])).keySet());
                 
                 therapeuticAreaPatientIds.addAll((new Map<Id,Therapeutic_Area_Patient__c>([
                         SELECT Id 
                         FROM Therapeutic_Area_Patient__c 
-                        WHERE Participant__c IN :participantIds OR Participant__c IN :delegateParticipantIds
+                        WHERE (Participant__c IN :participantIds OR Participant__c IN :delegateParticipantIds) AND ID NOT IN :therapeuticAreaPatientIds limit 49999
                 ])).keySet());
                 
                 participantNoteIds.addAll((new Map<Id,Note>([
                         SELECT Id 
                         FROM Note 
-                        WHERE ParentId IN :participantIds OR ParentId IN :delegateParticipantIds
+                        WHERE (ParentId IN :participantIds OR ParentId IN :delegateParticipantIds) AND ID NOT IN :participantNoteIds limit 49999
                 ])).keySet());
                 
                 participantAttachmentIds.addAll((new Map<Id,Attachment>([
                         SELECT Id 
                         FROM Attachment 
-                        WHERE ParentId IN :participantIds OR ParentId IN :delegateParticipantIds
+                        WHERE (ParentId IN :participantIds OR ParentId IN :delegateParticipantIds) AND ID NOT IN :participantAttachmentIds limit 49999
                 ])).keySet());
                 
                 participantDocumentIds.addAll((new Map<Id, ContentDocument>([
                         SELECT Id 
                         FROM ContentDocument 
-                        WHERE ParentId IN :participantIds OR ParentId IN :delegateParticipantIds
+                        WHERE (ParentId IN :participantIds OR ParentId IN :delegateParticipantIds) AND ID NOT IN :participantDocumentIds limit 49999
                 ])).keySet());
             }
         }

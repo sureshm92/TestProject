@@ -1,12 +1,11 @@
 <template>
     <template if:true={desktop}>
             <div
-                class="slds-align_absolute-center explore-section-horizontal slds-card slds-has-bottom-magnet"
-                onclick={navigateResourceDetail}
+                class="slds-align_absolute-center slds-card slds-has-bottom-magnet enage-section-horizontal"
             >
                 <template if:false={noExploreImage}>
                     <img 
-                        class="explore-image-desktop-horizontal"
+                        class="enage-image"
                         onclick={navigateResourceDetail}
                         src={exploreData.resource.Image__c}
                         onerror={handleNoExploreImageError}
@@ -15,18 +14,17 @@
                 <div
                     if:true={noExploreImage}
                     class="slds-align_absolute-center"
-                    onclick={navigateResourceDetail}
                 >
                     <c-web-icon
                         icon-color="#b5b5b5"
                         icon-width="55"
-                        icon-height="55"
+                        icon-height="120"
                         icon-size="large"
                         icon-name="empty-thumbnail-updates"
                     ></c-web-icon>
                 </div>
             </div>
-            <div class="slds-card slds-has-top-magnet bottom-manage">
+            <div class="slds-card slds-has-top-magnet engage-bottom-manage">
                 <div class = "resource-title" onclick={navigateResourceDetail}>{exploreData.resource.Title__c}</div>
                 <div class = "resource-description" >
                     <lightning-formatted-rich-text value={exploreData.resource.Description__c}></lightning-formatted-rich-text>
@@ -36,10 +34,10 @@
     </template>
     <template if:false={desktop}>
             <div 
-            class="slds-align_absolute-center explore-section-horizontal slds-card slds-has-bottom-magnet" onclick={navigateResourceDetail}>
+            class="slds-align_absolute-center slds-card slds-has-bottom-magnet enage-section-horizontal">
                 <template if:false={noExploreImage}>
-                    <img style ="height: 120px;"
-                        class="explore-image"
+                    <img
+                        class="enage-image"
                         onclick={navigateResourceDetail}
                         src={exploreData.resource.Image__c}
                         onerror={handleNoExploreImageError}
@@ -47,18 +45,17 @@
                 </template>
                 <div
                     if:true={noExploreImage}
-                    class="slds-align_absolute-center icon-container"
-                    onclick={navigateResourceDetail}
+                    class="slds-align_absolute-center"
                 >
                     <c-web-icon
                         icon-color="#b5b5b5"
                         icon-width="35"
-                        icon-height="40"
+                        icon-height="150"
                         icon-name="empty-thumbnail-updates"
                     ></c-web-icon>
                 </div>
             </div>
-            <div class="slds-card slds-has-top-magnet bottom-manage">
+            <div class="slds-card slds-has-top-magnet engage-bottom-manage">
                 <div class = "resource-title" onclick={navigateResourceDetail}>{exploreData.resource.Title__c}</div>
                 <div class = "resource-description" >
                     <lightning-formatted-rich-text value={exploreData.resource.Description__c}></lightning-formatted-rich-text>
