@@ -8,7 +8,6 @@
             bottom: 0;
             left: 0;
             position: fixed;
-            width: 1366px;
             opacity: 0.8;
             border-radius: 16px 16px 0 0;
             background-color: #000000;
