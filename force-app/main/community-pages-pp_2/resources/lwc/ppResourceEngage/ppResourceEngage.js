@@ -126,6 +126,10 @@ export default class PpResourceEngage extends LightningElement {
             this.icondetail = this.emptyState[this.selectedOption];
         }
         this.isInitialized = true;
+        if (this.template.querySelector('.inner-scroll')) {
+            this.template.querySelector('.inner-scroll').scrollTop = 0;
+        }
+
         if (this.spinner) {
             this.spinner.hide();
         }
