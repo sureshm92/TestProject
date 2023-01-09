@@ -686,7 +686,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
 					contactsToUpdateMap.put(c.Id,c);
 				}
             }
-        }    
+        }
         if (!iprAndContactsToInsert.values().isEmpty()) { 
             for(contact con : iprAndContactsToInsert.values()){
                 String duplicateKey = con.Email?.toLowerCase() + con.LastName?.toLowerCase();
@@ -704,7 +704,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
 		}     
         
     }
-
+ 
     public void finish(Database.BatchableContext bc) {
         //delete the temporary account
         try{
