@@ -106,15 +106,33 @@
                                                         class="input-width noclk studyCheckBox"
                                                         onchange={setStudyList}
                                                     /> -->
+                                                    <!-- <lightning-input
+                                                        type="checkbox"
+                                                        name={item.label}
+                                                        label={item.label}
+                                                        value={item.value}
+                                                        class="input-width noclk"
+                                                        onchange={setStudyList}
+                                                        variant="label-hidden"
+                                                        data-id={item.value}
+                                                    ></lightning-input> -->
                                                     <lightning-input
                                                         type="checkbox"
                                                         name={item.label}
                                                         label={item.label}
                                                         value={item.value}
-                                                        class="input-width noclk studyCheckBox"
+                                                        class="input-width noclk check-box-bold"
                                                         onchange={setStudyList}
+                                                        data-id={item.value}
+                                                        data-clsid="check-box-label"
+                                                        data-labelid={item.value}
                                                     ></lightning-input>
-                                                    <!-- <span class="text-for-check">{item.label}</span> -->
+                                                    <!-- <span
+                                                        data-labelid={item.value}
+                                                        data-id="check-box-label"
+                                                        class="text-for-check"
+                                                        >{item.label}</span
+                                                    > -->
                                                 </label>
                                             </span>
                                         </div>

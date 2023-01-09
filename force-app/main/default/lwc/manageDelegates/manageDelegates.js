@@ -33,7 +33,6 @@ import largeTemplate from './manageDelegatesDesktop.html';
 import mobileTemplate from './manageDelegatesMobile.html';
 import formFactor from '@salesforce/client/formFactor';
 
-
 import {
     subscribe,
     unsubscribe,
@@ -339,38 +338,44 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             ? 'save-del-btn addDelegateMobile'
             : 'save-del-btn btn-save-opacity addDelegateMobile';
     }
-    get delInfoFormer(){
-        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
+    get delInfoFormer() {
+        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large';
     }
-    get delInfoFormerMob(){
-        return this.isRTL ? 'slds-p-right_small' : 'slds-p-left_small'
+    get delInfoFormerMob() {
+        return this.isRTL ? 'slds-p-right_small' : 'slds-p-left_small';
     }
-    get delInfoFormer1(){
-        return this.isRTL ? 'p-right-41' : 'p-left-41'
+    get delInfoFormer1() {
+        return this.isRTL ? 'p-right-41' : 'p-left-41';
     }
-    get delInfoFormer1Mob(){
-        return this.isRTL ? 'p-right-12' : 'p-left-12'
+    get delInfoFormer1Mob() {
+        return this.isRTL ? 'p-right-12' : 'p-left-12';
     }
-    get delInfoActive(){
-        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
+    get delInfoActive() {
+        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large';
     }
-    get delInfoActiveMob(){
-        return this.isRTL ? 'slds-p-right_small' : 'slds-p-left_small'
+    get delInfoActiveMob() {
+        return this.isRTL ? 'slds-p-right_small' : 'slds-p-left_small';
     }
-    get delAvararIcon(){
-        return this.isRTL ? 'slds-p-right_small slds-p-top_xx-small' : 'slds-p-left_small slds-p-top_xx-small'
+    get delAvararIcon() {
+        return this.isRTL
+            ? 'slds-p-right_small slds-p-top_xx-small'
+            : 'slds-p-left_small slds-p-top_xx-small';
     }
-    get delAvararIconMobile(){
-        return this.isRTL ? 'slds-p-right_small slds-p-top_x-small' : 'slds-p-left_small slds-p-top_x-small'
+    get delAvararIconMobile() {
+        return this.isRTL
+            ? 'slds-p-right_small slds-p-top_x-small'
+            : 'slds-p-left_small slds-p-top_x-small';
     }
-    get deleteIconClassMobile(){
-        return this.isRTL ? ' slds-align_absolute-center slds-p-right_medium' : ' slds-align_absolute-center slds-p-left_medium'
+    get deleteIconClassMobile() {
+        return this.isRTL
+            ? ' slds-align_absolute-center slds-p-right_medium'
+            : ' slds-align_absolute-center slds-p-left_medium';
     }
 
     get disableSaveButton() {
         return this.isEmailConsentChecked && this.isAtLeastOneStudySelected ? false : true;
     }
-    get isAddNewDelegate(){
+    get isAddNewDelegate() {
         return false;
     }
     handleConsentCheckActiveDel(event) {
@@ -647,6 +652,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 this.studiesSelected = [];
                 this.initializeData();
                 this.spinner = false;
+                this.template.querySelector('[data-id="emailconsentcheck"]').checked = false;
+                this.isEmailConsentChecked = false;
+                this.isAtLeastOneStudySelected = false;
                 if (this.dataInitialized) {
                     communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
                 }
@@ -708,6 +716,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 this.studiesSelected = [];
                 this.initializeData();
                 this.spinner = false;
+                this.template.querySelector('[data-id="emailconsentcheck"]').checked = false;
+                this.isEmailConsentChecked = false;
+                this.isAtLeastOneStudySelected = false;
                 if (this.dataInitialized) {
                     communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
                 }
