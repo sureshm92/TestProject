@@ -1987,7 +1987,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             '' +
             countIndexParticipant +
             ', ERROR on Participant record insert: ' +
-            error.getFields() +
+            error.getFields() + 
             ' ' +
             error.getMessage()
           );

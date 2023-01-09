@@ -1,7 +1,7 @@
 public without sharing class BatchSendInviteToDelegates implements Database.Batchable<SObject>, Database.Stateful {
     public List<Id> delParticipantIds = new List<Id>();
     public Clinical_Trial_Profile__c ctpDetails = new Clinical_Trial_Profile__c();
-
+ 
     public BatchSendInviteToDelegates(List<Id> delParticipantIds, Clinical_Trial_Profile__c ctpDetails) {
         this.delParticipantIds = delParticipantIds;
         this.ctpDetails = ctpDetails;

@@ -2,7 +2,7 @@ public without sharing class BatchSendInviteToPP implements Database.Batchable<S
 
     public List<Id> participantIds = new List<Id>();
     public List<Id> delegateParticipantIds = new List<Id>();
-    Id ctpId;
+    Id ctpId; 
     public BatchSendInviteToPP(List<Id> participantIds, Id ctpId,List<Id> delegateParticipantIds) {
         this.participantIds = participantIds;
         this.ctpId = ctpId;

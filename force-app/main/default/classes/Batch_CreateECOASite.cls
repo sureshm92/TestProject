@@ -1,7 +1,7 @@
 public class Batch_CreateECOASite extends Batch_ScheduledAbstract implements Database.AllowsCallouts {
     public Database.QueryLocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(
-            [
+            [ 
                 SELECT Id, name, Clinical_Trial_Profile__r.Study_GUID__c, ECOA_Site_Guid__c,site__r.billingcountrycode,site__r.billingcountry,site__r.BillingCity,site__r.BillingStreet,site__r.BillingPostalCode,site__r.billingState 
                 FROM Study_Site__c
                 WHERE

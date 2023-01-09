@@ -8,7 +8,7 @@ public without sharing class Batch_CompleteEcoaTasks extends Batch_ScheduledAbst
                Status = 'Open' AND
                Task_Type__c =: TaskService.TASK_TYPE_ECOA
             ]
-        );
+        ); 
     }
     public void execute(Database.BatchableContext bc, List<Task> taskConfigList) {
         EcoaTaskService.completeTask(taskConfigList);

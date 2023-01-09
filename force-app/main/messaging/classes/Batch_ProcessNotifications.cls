@@ -1,6 +1,6 @@
 /**
  * Created by Leonid Bartenev
- */
+ */ 
 
 public without sharing class Batch_ProcessNotifications extends Batch_ScheduledAbstract implements Database.AllowsCallouts {
     public Database.QueryLocator start(Database.BatchableContext bc) {

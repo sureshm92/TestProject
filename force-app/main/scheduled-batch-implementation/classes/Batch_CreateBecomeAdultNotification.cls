@@ -4,7 +4,7 @@
 
 public with sharing class Batch_CreateBecomeAdultNotification extends Batch_ScheduledAbstract {
     public Database.QueryLocator start(Database.BatchableContext param1) {
-        return Database.getQueryLocator(
+        return Database.getQueryLocator( 
             [
                 SELECT
                     Id,

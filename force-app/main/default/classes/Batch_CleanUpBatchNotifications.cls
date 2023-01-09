@@ -4,7 +4,7 @@ public class Batch_CleanUpBatchNotifications extends Batch_ScheduledAbstract {
         return DataBase.getQueryLocator(
             [SELECT Id FROM Batch_Notification__c WHERE CreatedDate < :tenDaysBefore]
         );
-    }
+    } 
     public void execute(
         Database.BatchableContext bc,
         List<Batch_Notification__c> BatchNotifications

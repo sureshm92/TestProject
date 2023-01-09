@@ -1,6 +1,6 @@
 /**
  * Created by Olga Skrynnikova on 12/6/2019.
- */
+ */ 
 
 public without sharing class Batch_MassEmailDelegate implements Database.Batchable<SObject>, Database.Stateful {
     private Notification__c notification;

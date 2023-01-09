@@ -7,7 +7,7 @@ public with sharing class Batch_ConversationReminder extends Batch_ScheduledAbst
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
         Datetime fiveDaysAgo = Datetime.now().addDays(-5);
-        return Database.getQueryLocator(
+        return Database.getQueryLocator( 
             [
                 SELECT
                     Id,
