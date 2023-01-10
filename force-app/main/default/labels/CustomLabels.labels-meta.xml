@@ -19631,14 +19631,15 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_ExistingDelError</shortDescription>
-        <value>The user associated with email address provided is already assigned as your delegate. You may add assignments to existing delegates in</value>
+        <value>You already have a delegate associated to the email address provided. Please add new
+            assignments to existing delegates on the</value>
     </labels>
     <labels>
         <fullName>PP_ExistingDelError_1</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_ExistingDelError_1</shortDescription>
-        <value>or if you are trying to add another person using the same email address then please enter the new delegate’s unique email address.</value>
+        <value>page or enter a unique email address to add a new delegate.</value>
     </labels>
     <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
