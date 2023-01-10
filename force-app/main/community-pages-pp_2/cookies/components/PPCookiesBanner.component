@@ -373,7 +373,7 @@
                     <div class="slds-grid slds-grid_align-end slds-m-top_medium">
                         <apex:commandButton
                             styleClass="accept-btn-container btn-label cookie-btn"
-                            value="{!$Label.PP_Cookies_Button_Accept}"
+                            value="{!$Label.BTN_Accept}"
                             onclick="updateCookies();return false;"
                             id="manageaccept"
                         />
