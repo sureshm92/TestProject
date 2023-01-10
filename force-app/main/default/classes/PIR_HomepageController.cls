@@ -2741,6 +2741,13 @@ public without sharing class PIR_HomepageController {
     @AuraEnabled(cacheable=true)
     public static List<String> getParticipantEnrollmentForBell(String contactId, String nType){
       String communityType = UserContext.getCurrentUserMode().template.templateName;
+      List<String> communityTypeList = new List<String>();
+        if(communityType == 'Janssen'){
+            communityTypeList.add(communityType);
+        }else{
+            communityTypeList.add('Default');
+            communityTypeList.add('GSK');
+        }
       List<Study_Site__c> lstOfStudySite = new List<Study_Site__c>();
       List<Participant_Enrollment__c> lstOfPE = new List<Participant_Enrollment__c>();
       List<String> lstOfPEIds = new List<String>();
@@ -2812,7 +2819,7 @@ public without sharing class PIR_HomepageController {
       String filterString = 'Participant_Status__c IN :lstOfStatus '+
                             'AND Study_Site__r.Override_PI_Referral_Status__c IN :listOfOverridePIReferralStatus '+
                             'AND Initial_visit_scheduled_flag__c = false '+
-                            'AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityType '+
+                            'AND Clinical_Trial_Profile__r.CommunityTemplate__c IN :communityTypeList '+
                             'AND Study_Site__c = :lstOfStudySite';
       filterString = nType == 'BELL_Message_on_Action_High_Priority' ?
                                   filterString+ ' AND High_Priority__c = true' :
