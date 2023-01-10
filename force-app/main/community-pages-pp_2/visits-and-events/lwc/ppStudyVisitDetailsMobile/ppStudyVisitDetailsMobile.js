@@ -81,7 +81,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
 
     connectedCallback() {
-        if (window.location.pathname.includes('event')) {
+        if(window.location.pathname.includes('event')){
             this.isEvent = true;
             this.missedVisit = true;
         }
@@ -111,7 +111,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                     }
                     if (this.visitStatus == 'Missed') {
                         this.visitStatus = this.label.Unavailable;
-                        if (this.isEvent != true) {
+                        if(this.isEvent != true){
                             this.missedVisit = true;
                         }
                     }
@@ -122,9 +122,9 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         }
     }
     getParams() {
-        if (this.isEvent) {
-            this.visitid = communityService.getUrlParameter('eventid');
-        } else {
+        if(this.isEvent){
+            this.visitid = communityService.getUrlParameter('eventid');            
+        }else{
             this.visitid = communityService.getUrlParameter('visitid');
         }
         this.cblabel = '';
@@ -153,12 +153,12 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
 
     handleBackClick() {
-        if (this.isEvent) {
+        if(this.isEvent){
             this.visitdetailpageurl =
-                window.location.origin + basePathName + '/events' + '?ispast=' + this.past;
-        } else {
+            window.location.origin + basePathName + '/events' + '?ispast=' + this.past;
+        }else{
             this.visitdetailpageurl =
-                window.location.origin + basePathName + '/visits' + '?ispast=' + this.past;
+            window.location.origin + basePathName + '/visits' + '?ispast=' + this.past;
         }
         const config = {
             type: 'standard__webPage',
@@ -234,12 +234,12 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
 
     redirectPage(visitid) {
-        if (this.isEvent) {
+        if(this.isEvent){
             this.visitdetailurl =
-                window.location.origin + basePathName + '/event-details' + '?eventid=' + visitid;
-        } else {
+            window.location.origin + basePathName + '/event-details' + '?eventid=' + visitid;
+        }else{
             this.visitdetailurl =
-                window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
+            window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
         }
         const config = {
             type: 'standard__webPage',
