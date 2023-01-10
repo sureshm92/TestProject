@@ -61,7 +61,6 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     @track sitePhoneNumber;
     @track contentLoaded = false;
     @track past = false;
-    @track isInitialVisit = false;
     @track showChild = false;
     visitimage1 = pp_icons + '/' + 'VisitPageResultImage.png';
     @track visitDetail;
@@ -109,8 +108,6 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                         this.plannedDate = this.visitDetail[0].Planned_Date__c;
                         this.visitStatus = this.visitDetail[0].Status__c;
                         this.visitTimezone = TIME_ZONE;
-                        this.isInitialVisit =
-                            this.visitDetail[0].Is_Pre_Enrollment_Patient_Visit__c;
                     }
                     if (this.visitStatus == 'Missed') {
                         this.visitStatus = this.label.Unavailable;
