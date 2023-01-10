@@ -40,6 +40,8 @@ public without sharing class ParticipantService {
         @AuraEnabled
         public Boolean showVisits;
         @AuraEnabled
+        public Boolean showInitialVisits;        
+        @AuraEnabled
         public Boolean showTeleVisits;
         @AuraEnabled
         public Boolean showResults;
@@ -156,7 +158,8 @@ public without sharing class ParticipantService {
                     )
                 ) {
                     participantState.value = ParticipantStates.PARTICIPANT;
-                    participantState.showVisits = showVisits();
+                    participantState.showVisits = showVisits().showVisits;
+                    participantState.showInitialVisits = showVisits().showIntialVisits;
                     participantState.showTeleVisits = showTeleVisits();
                     /**PEH-525 START*/
                     participantState.showVisitsInPreTrial = participantState.showVisits;
@@ -166,9 +169,10 @@ public without sharing class ParticipantService {
                 } else {
                     participantState.value = ParticipantStates.REFERRAL;
                     /**PEH-525 START*/
-                    participantState.showVisits = showVisits();
+                    participantState.showVisits = showVisits().showVisits;
+                    participantState.showInitialVisits = showVisits().showIntialVisits;
                     participantState.showTeleVisits = showTeleVisits();
-                    participantState.showVisitsInPreTrial = showVisits();
+                    participantState.showVisitsInPreTrial = showVisits().showVisits;
                     participantState.showNonInitialVisits = showNonInitialVisitsNew();
                     /**PEH-525 END*/
                     Boolean boolPreConsent = participantState.ctp.Received_Until_Consent_Is_Available__c;
@@ -275,17 +279,33 @@ public without sharing class ParticipantService {
     }
 
     @TestVisible
+    class showVistAndInitialVisit {
+        Boolean showVisit = false;
+        Boolean showInitialVisit = false;
+    }
+
+
+    @TestVisible
     private Boolean showVisits() {
+        showVistAndInitialVisit sviv = new showVistAndInitialVisit();
         if (participantState.pe != null) {
             List<Patient_Visit__c> patientVisit = [
-                SELECT Id
+                SELECT Id,Participant_Enrollment__r.Is_Pre_Enrollment_Patient_Visit__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c
                 FROM Patient_Visit__c
                 WHERE Participant_Enrollment__c = :participantState.pe.Id
             ];
+            Boolean isIntialVisitEnabled = false;
+            for(Patient_Visit__c pv : patientVisit){
+                if(pv.Participant_Enrollment__r.Is_Pre_Enrollment_Patient_Visit__c && 
+                 pv.Participant_Enrollment__r?.Clinical_Trial_Profile__r?.Initial_Visit_Required__c == true){
+                    sviv.showInitialVisit = true;               
+                }
+            }
             Boolean VisitEnabled = participantState.pe.Clinical_Trial_Profile__r.Visits_are_Available__c;
-            return (!patientVisit.isEmpty());
+            sviv.showVisit = !patientVisit.isEmpty();
         }
-        return false;
+        return sviv;
     }
 
     @TestVisible
