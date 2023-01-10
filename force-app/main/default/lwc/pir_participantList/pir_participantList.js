@@ -1077,7 +1077,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                         csvStringResult += '" "' + ',';
                     }
                 } else {
-                    if (csvStringResult += '"' + partList[i]['Patient_ID__c'] !== undefined) {
+                    if ( partList[i]['Patient_ID__c'] !== undefined) {
                         csvStringResult += '"' + partList[i]['Patient_ID__c'] + '"' + ',';
                     } else {
                         csvStringResult += '" "' + ',';
@@ -1308,7 +1308,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                     if(partList[i]['Participant_Status__c']=='Eligibility Passed' 
                        && (partList[i]['Clinical_Trial_Profile__r']['Initial_Visit_Required__c'] == true 
                            || partList[i]['Clinical_Trial_Profile__r']['Promote_to_SH__c'] == true)){
-                        partList[i]['Participant_Status__c'] = 'Sent to Study Hub';
+                        partList[i]['Participant_Status__c'] = 'Sent to DCT';
                     }
                     csvStringResult +=
                         '"' + partList[i]['Participant_Status__c'] + '"' + ',';
@@ -1343,7 +1343,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 ) {
                     csvStringResult +=
                         '"' +
-                        partList[i]['Last_Status_Changed_Notes__c']+'nned masking' +
+                        partList[i]['Last_Status_Changed_Notes__c']+
                         '"' +
                         ',';
                 } else {
