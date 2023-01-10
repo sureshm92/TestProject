@@ -1119,6 +1119,3 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     pointer-events: none;
     overflow: hidden !important;
 }
-.read-only-background input {
-    background-color: #f2f2f2 !important;
-}
