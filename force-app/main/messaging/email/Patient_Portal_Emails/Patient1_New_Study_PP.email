@@ -28,7 +28,7 @@
                         signature="{!$Label.Email_Signature_Patient_Short}"
                         communityTemplate="PatientPortal">
         <c:Paragraph emailLabel="{!$Label.Email_Body_Patient_New_PP}"/>
-        <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/> 
+        <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/> 
     <c:ParticipantParagraph learnmoreLabel="{!$Label.Discover_future_Clinical_PP}"   
                             discoverLabel="{!$Label.Discover_future_Clinical_New_PP}"
                             trackLabel="{!$Label.Track_your_study_PP}" 
