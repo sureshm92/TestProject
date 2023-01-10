@@ -6,7 +6,7 @@
         action="{!updateCookiePreferences}"
         name="updateCookies"
         reRender="none"
-        oncomplete="disableTheCookiesBanner()"
+        oncomplete="closeManageModal()"
     />
 
     <apex:actionFunction
@@ -324,7 +324,7 @@
                                             <label
                                                 class="slds-checkbox_toggle slds-grid slds-grid_align-center"
                                             >
-                                                <apex:inputCheckbox
+                                                <apex:inputCheckbox id="currentRRCookies"
                                                     value="{!currentContact.RRCookiesAllowedCookie__c}"
                                                 />
                                                 <span
@@ -353,7 +353,7 @@
                                                 class="slds-checkbox_toggle slds-grid slds-grid_align-center"
                                             >
                                                 <apex:inputCheckbox
-                                                    value="{!currentContact.RRCookiesAllowedCookie__c}"
+                                                    value="{!currentContact.RRLanguageAllowedCookie__c}" 
                                                 />
                                                 <span
                                                     id="checkbox-toggle-16"
@@ -392,6 +392,8 @@
     </div>
 
     <script>
+        var agreedtoPolicy=false;
+        var init=true;
         fetchTheData();
         var acc = document.getElementsByClassName('accordion');
         var i;
@@ -440,6 +442,7 @@
         }
 
         function closeCookiesInfo() {
+            agreedtoPolicy=true;
             communityService.setCookie(paramId, 'agreed', 365);
             let date = new Date();
             date.setDate(date.getDate() + 365);
@@ -452,19 +455,35 @@
             document.body.removeEventListener('keydown', this.bodyBlock);
             $('.c-container').addClass('hide-banner');
             document.body.classList.remove('cookie-block-user');
+            closeManageModal();
             event.preventDefault();
         }
         function bodyBlock(event) {
             event.preventDefault();
         }
         function showManagePreferences() {
+            init=false;
             $('#spinner').css('display', 'block');
             $('.c-container').addClass('hide-banner');
+            let ele = document.getElementById('bannerId');
+            if(!agreedtoPolicy && !rrCookies && !init) ele.style.display = 'block';
+
         }
         function disableTheCookiesBanner() {
             $('#spinner').css('display', 'none');
             let ele = document.getElementById('bannerId');
-            ele.style.display = 'block';
+            if(!agreedtoPolicy && !rrCookies && !init) ele.style.display = 'block';
+        }
+        function closeManageModal()
+        {
+            agreedtoPolicy=true;
+            let ele = document.getElementById('bannerId');
+            ele.style.display = 'none';
+            var checkedVal = $('[id$=currentRRCookies]').is(':checked');
+            if(checkedVal)
+            {
+                closeCookiesInfo();
+            }
         }
     </script>
 </apex:component>
