@@ -8035,6 +8035,10 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Patient_Delegate_Enrollment__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Patient_Visit__c</tab>
         <visibility>DefaultOff</visibility>
     </tabVisibilities>

@@ -1,0 +1,424 @@
+<template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+            <lightning-spinner
+                alternative-text="Loading"
+                variant="brand"
+                size="medium"
+                class="spins"
+            >
+            </lightning-spinner>
+        </template>
+    </div>
+    <template if:true={cmpinitialized}>
+        <div class="profile-information-rectangle slds-p-around_large slds-m-bottom_small">
+            <div class="profile-information slds-m-bottom_medium">
+                <!--chevron Icon: Stats-->
+                <!-- <lightning-layout-item size="1">
+                    <span><img src={icon_url} class="icon-chevron-right" /></span>
+                </lightning-layout-item> -->
+                <!--chevron Icon: Ends-->
+                <button title="" onclick={goBackToManageDelegate} class="back-to-manage-del-btn">
+                    <span><img src={icon_url} class="icon-chevron-right" /></span>
+                    <span class="slds-p-around_xx-small">{label.Back_to_Manage_Delegates}</span>
+                </button>
+            </div>
+            <div class="profile-information slds-m-bottom_medium">{label.Add_New_Delegate}</div>
+            <div class="slds-grid slds-gutters slds-wrap add-delegate-input-container">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 profile-info-input">
+                    <label class="slds-form-element__label" for="userName"
+                        >{label.PG_AS_F_Email_address}<abbr class="slds-required" title="required"
+                            >*
+                        </abbr></label
+                    >
+                    <div class="slds-form-element__control">
+                        <lightning-input
+                            onchange={handleDateChange}
+                            class="validate"
+                            type="email"
+                            required
+                            data-id="emailInput"
+                            variant="label-hidden"
+                            label={label.PG_AS_F_Email_address}
+                            value={delegate.delegateContact.Email}
+                            message-when-value-missing={label.PP_Required_Field}
+                            onblur={doSearchContact}
+                        ></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 profile-info-input">
+                    <label class="slds-form-element__label" for="userName"
+                        >{label.PG_AS_F_First_name}<abbr class="slds-required" title="required"
+                            >*
+                        </abbr></label
+                    >
+                    <div class="slds-form-element__control1">
+                        <lightning-input
+                            onchange={handleDateChange}
+                            class="validate"
+                            variant="label-hidden"
+                            data-id="firstNameInput"
+                            label={label.PG_AS_F_First_name}
+                            disabled={firstNameDisabledCheck}
+                            value={delegate.delegateContact.FirstName}
+                            maxlength={maxLengthData.FirstName}
+                            required
+                            onblur={doValidateField}
+                        ></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 profile-info-input">
+                    <label class="slds-form-element__label" for="userName"
+                        >{label.PG_AS_F_Last_name}
+                        <abbr class="slds-required" title="required">* </abbr></label
+                    >
+                    <div class="slds-form-element__control">
+                        <lightning-input
+                            data-id="lastNameInput"
+                            onchange={handleDateChange}
+                            class="validate"
+                            variant="label-hidden"
+                            label={label.PG_AS_F_Last_name}
+                            disabled={lastNameDisabledCheck}
+                            value={delegate.delegateContact.LastName}
+                            maxlength={maxLengthData.LastName}
+                            required
+                            onblur={doValidateField}
+                        ></lightning-input>
+                    </div>
+                </div>
+            </div>
+            <template if:true={isDesktop}>
+                <!--Existing delegate Error: Start-->
+                <template if:true={showExistingDelegateError}>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large"
+                    >
+                        <lightning-layout multiple-rows="true" class="ad-error-container">
+                            <lightning-layout-item size="1" class="slds-align_absolute-center">
+                                <span>
+                                    <img src={exclamation} />
+                                </span>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="11" class="ad-error-text">
+                                <span class="ad-text-red">{label.PP_Warning} </span>
+                                <span>{label.PP_ExistingDelError}</span>
+                                <span
+                                    class="blue-highlight-text-color"
+                                    onclick={goBackToManageDelegate}
+                                    >&nbsp;{label.PP_ManageDelegates}</span
+                                >
+                                <span>&nbsp;{label.PP_ExistingDelError_1}</span>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </template>
+                <!--Existing delegate Error: End-->
+                <!--Existing contact warning: Start-->
+                <template if:true={showExistingContactWarning}>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large"
+                    >
+                        <lightning-layout
+                            multiple-rows="true"
+                            class="ad-warning-container"
+                            vertical-align="center"
+                        >
+                            <lightning-layout-item size="1" class="ad-warningIconPosition">
+                                <span>
+                                    <img src={exclamation_orange} class="ad-exclamation-orange" />
+                                </span>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="11">
+                                <lightning-layout
+                                    multiple-rows="true"
+                                    vertical-align="center"
+                                    class="ad-border-white"
+                                >
+                                    <lightning-layout-item
+                                        size="12"
+                                        class="ad-warning-text slds-p-left_small slds-p-top_small"
+                                    >
+                                        <span class="ad-text-bold">{label.PP_Select_User} </span>
+                                        <span>{label.PP_There_Are}</span
+                                        >&nbsp;{existingContactsCount}&nbsp;<span
+                                            >{label.PP_Users_Associated}</span
+                                        >
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-left_small" size="12">
+                                        <lightning-layout multiple-rows="treu">
+                                            <template
+                                                for:each={allDelegate}
+                                                for:item="del"
+                                                for:index="index"
+                                            >
+                                                <lightning-layout-item
+                                                    size="12"
+                                                    key={del.delegateContact.Id}
+                                                    class="slds-m-top_medium"
+                                                >
+                                                    <!-- <input
+                                                        type="checkbox"
+                                                        name={del.delegateContact.Name}
+                                                        value={del.delegateContact.Id}
+                                                        class="con-checkbox"
+                                                        onchange={setSelectedContact}
+                                                        data-contid={del.delegateContact.Id}
+                                                        data-id="checkbox"
+                                                    /> -->
+                                                    <lightning-input
+                                                        type="checkbox"
+                                                        name={del.delegateContact.Name}
+                                                        value={del.delegateContact.Id}
+                                                        class="taps mob-checkbox-txt"
+                                                        label={del.fullNameMasked}
+                                                        onchange={setSelectedContact}
+                                                        data-contid={del.delegateContact.Id}
+                                                        data-id="checkbox"
+                                                    ></lightning-input>
+                                                    <!-- <span class="text-for-check"
+                                                        >{del.delegateContact.FirstName} &nbsp;
+                                                        {del.delegateContact.LastName}</span
+                                                    > -->
+                                                </lightning-layout-item>
+                                            </template>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item
+                                        class="slds-p-left_small slds-m-top_medium slds-m-bottom_medium"
+                                        size="12"
+                                    >
+                                        <button
+                                            title=""
+                                            onclick={confirmSelection}
+                                            class="btn-confirm-selection"
+                                            disabled={disableConfirmSelectionBtn}
+                                        >
+                                            {label.PP_Confirm_Selection}
+                                        </button>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </template>
+                <!--Existing contact warning: ends-->
+            </template>
+            <template if:false={isDesktop}>
+                <!--Existing delegate Error: Start-->
+                <template if:true={showExistingDelegateError}>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large"
+                    >
+                        <lightning-layout multiple-rows="true" class="ad-error-container">
+                            <lightning-layout-item size="2" class="slds-align_absolute-center">
+                                <span>
+                                    <img src={exclamation} />
+                                </span>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="10" class="ad-error-text">
+                                <span class="ad-text-red">{label.PP_Warning} </span>
+                                <span>{label.PP_ExistingDelError}</span>
+                                <span
+                                    class="blue-highlight-text-color"
+                                    onclick={goBackToManageDelegate}
+                                    >&nbsp;{label.PP_ManageDelegates}</span
+                                ><span>&nbsp;{label.PP_ExistingDelError_1}</span>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </template>
+                <!--Existing delegate Error: End-->
+                <!--Existing contact warning: Start-->
+                <template if:true={showExistingContactWarning}>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large"
+                    >
+                        <lightning-layout multiple-rows="true" class="ad-warning-container">
+                            <lightning-layout-item size="2" class="slds-align_absolute-center">
+                                <span>
+                                    <img src={exclamation_orange} class="ad-exclamation-orange" />
+                                </span>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="10">
+                                <lightning-layout
+                                    multiple-rows="true"
+                                    vertical-align="center"
+                                    class="ad-border-white"
+                                >
+                                    <lightning-layout-item
+                                        size="12"
+                                        class="ad-warning-text slds-p-left_small slds-p-top_medium"
+                                    >
+                                        <span class="ad-text-bold">{label.PP_Select_User} </span>
+                                        <span>{label.PP_There_Are}</span
+                                        >&nbsp;{existingContactsCount}&nbsp;<span
+                                            >{label.PP_Users_Associated}</span
+                                        >
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-left_small" size="12">
+                                        <lightning-layout multiple-rows="treu">
+                                            <template
+                                                for:each={allDelegate}
+                                                for:item="del"
+                                                for:index="index"
+                                            >
+                                                <lightning-layout-item
+                                                    size="12"
+                                                    key={del.delegateContact.Id}
+                                                    class="slds-m-top_medium"
+                                                >
+                                                    <input
+                                                        type="checkbox"
+                                                        name={del.delegateContact.Name}
+                                                        value={del.delegateContact.Id}
+                                                        class="con-checkbox"
+                                                        onchange={setSelectedContact}
+                                                        data-contid={del.delegateContact.Id}
+                                                        data-id="checkbox"
+                                                    />
+                                                    <span class="text-for-check"
+                                                        >{del.delegateContact.FirstName} &nbsp;
+                                                        {del.delegateContact.LastName}</span
+                                                    >
+                                                </lightning-layout-item>
+                                            </template>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item
+                                        class="slds-p-left_small slds-m-top_medium slds-m-bottom_medium"
+                                        size="12"
+                                    >
+                                        <button
+                                            title=""
+                                            onclick={confirmSelection}
+                                            class="btn-confirm-selection"
+                                            disabled={disableConfirmSelectionBtn}
+                                        >
+                                            {label.PP_Confirm_Selection}
+                                        </button>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </template>
+                <!--Existing contact warning: ends-->
+            </template>
+            <!--Study Multip Piclist Start-->
+            <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large adn-multi-picklist"
+            >
+                <c-pp_multi-picklist-l-w-c
+                    picklist-values={delegateFilterData.studies}
+                    total-no-of-studies={totalNoOfStudies}
+                    is-desktop={isDesktop}
+                    add-new-delegate={isAddNewDelegate}
+                ></c-pp_multi-picklist-l-w-c>
+            </div>
+            <!--Stidu Multip Piclist End-->
+            <div class="checkbox-container slds-m-vertical_large">
+                <lightning-input
+                    data-id="consentcheck"
+                    class="taps mob-checkbox-txt validate"
+                    type="checkbox"
+                    label={label.Attestation_Confirmation_Message_For_Teams}
+                    checked={isAttested}
+                    onchange={handleDateChange}
+                    disabled={checkBoxDisabled}
+                ></lightning-input>
+            </div>
+            <div class="checkbox-container slds-m-vertical_large">
+                <lightning-input
+                    data-id="emailconsentcheck"
+                    class="taps mob-checkbox-txt validate"
+                    type="checkbox"
+                    label={label.PP_Delegate_Email_Consent}
+                    checked={isEmailConsentChecked}
+                    onchange={handleDateChange}
+                    disabled={checkBoxDisabled}
+                ></lightning-input>
+            </div>
+            <button
+                title=""
+                onclick={doSaveChanges}
+                class={saveButtonClass}
+                disabled={validateData}
+            >
+                {label.Btn_Add_Delegate}
+            </button>
+            <template if:true={isDesktop}>
+                <lightning-layout
+                    multiple-rows="true"
+                    class="del-access-rectangle slds-m-vertical_large"
+                >
+                    <lightning-layout-item size="12" class={whatDelCanSeeSection}
+                        ><span class="what-can-your-delega"
+                            >{label.PP_Delegates_Permitted_Actions}</span
+                        >
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" class="slds-p-bottom_medium">
+                        <lightning-layout>
+                            <lightning-layout-item size="6" class={whatDeleCanSeeText}
+                                ><ul class="slds-list_dotted">
+                                    <li>{label.PG_PST_L_Delegates_Compl_Task_Behalf_New}</li>
+                                    <li class="slds-m-vertical_xx-small">
+                                        {label.PG_PST_L_Delegates_Receive_Emails_New}
+                                    </li>
+                                    <li>{label.PG_PST_L_Delegates_See_Lab_Result_New}</li>
+                                </ul></lightning-layout-item
+                            >
+                            <lightning-layout-item size="6"
+                                ><ul class="slds-list_dotted">
+                                    <li>{label.PG_PST_L_Delegates_See_Vitals_New}</li>
+                                    <li class="slds-m-vertical_xx-small">
+                                        {label.PG_PST_L_Delegates_My_Measur_New}
+                                    </li>
+                                </ul>
+                                <span class="text-italic">
+                                    {label.PP_AS_CONDITIONAL_FEATURE}
+                                </span></lightning-layout-item
+                            >
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+            <!-- Mobile View - Starts -->
+            <template if:false={isDesktop}>
+                <lightning-layout
+                    multiple-rows="true"
+                    class="del-access-rectangle slds-m-vertical_large"
+                >
+                    <lightning-layout-item
+                        size="12"
+                        class="slds-p-left_medium slds-p-left_small slds-p-top_medium"
+                        ><span class="what-can-your-delega"
+                            >{label.PP_Delegates_Permitted_Actions}</span
+                        >
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" class="slds-p-bottom_large">
+                        <lightning-layout>
+                            <lightning-layout-item
+                                size="12"
+                                class="slds-p-left_medium slds-p-right_medium"
+                                ><ul class="slds-list_dotted">
+                                    <li>{label.PG_PST_L_Delegates_Compl_Task_Behalf_New}</li>
+                                    <li class="slds-m-vertical_xx-small">
+                                        {label.PG_PST_L_Delegates_Receive_Emails_New}
+                                    </li>
+                                    <li>{label.PG_PST_L_Delegates_See_Lab_Result_New}</li>
+                                    <li>{label.PG_PST_L_Delegates_See_Vitals_New}</li>
+                                    <li class="slds-m-vertical_xx-small">
+                                        {label.PG_PST_L_Delegates_My_Measur_New}
+                                    </li>
+                                </ul>
+                                <span class="text-italic"> {label.PP_AS_CONDITIONAL_FEATURE} </span>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+            <!-- Mobile View - ends -->
+        </div>
+    </template>
+</template>

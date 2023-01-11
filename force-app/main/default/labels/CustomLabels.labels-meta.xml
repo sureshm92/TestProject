@@ -11531,7 +11531,7 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>My_Events</shortDescription>
         <value>My Events</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>My_Participant</fullName>
         <language>en_US</language>
@@ -11650,7 +11650,7 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Navigation My Program</shortDescription>
         <value>My Program</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>Navigation_My_Study_Sites</fullName>
         <language>en_US</language>
@@ -12702,7 +12702,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Opt Out</shortDescription>
-        <value>If you have already opted in to any of the following contact methods, you can opt-out of that method by checking the relevant box below.</value>
+        <value>If you have previously opted into any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
     </labels>
     <labels>
         <fullName>Originator</fullName>
@@ -17013,6 +17013,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Complete tasks on my behalf</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_Compl_Task_Behalf_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Complete tasks on my behalf New</shortDescription>
+        <value>Complete tasks on your behalf</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17064,6 +17071,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>See my measurements</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_My_Measur_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My measurements New</shortDescription>
+        <value>See your measurements</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_Not_Patient_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17083,6 +17097,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Receive emails</shortDescription>
         <value>Receive emails about my study status</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Receive_Emails_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Receive emails New</shortDescription>
+        <value>Receive emails about your study status</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Delegate</fullName>
@@ -17120,11 +17141,32 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You are about to remove</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Mess_P1_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_PST_L_Delegates_Remove_Mess_P1_New</shortDescription>
+        <value>You are about to remove this assignment from</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_Remove_Mess_P2</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Remove_Mess_P2</shortDescription>
         <value>from your account. You cannot undo this action. Do you want to proceed?</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Mess_P3</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove_Mess_P1</shortDescription>
+        <value>as your delegate for this study. Are you sure you would like to continue?</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Mess_P3_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_PST_L_Delegates_Remove_Mess_P3_New</shortDescription>
+        <value>Are you sure you would like to continue?</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Save</fullName>
@@ -17141,6 +17183,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>See my lab results</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_See_Lab_Result_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lab result New</shortDescription>
+        <value>See your lab results</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_See_Survey_Resp</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17153,6 +17202,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>My vitals</shortDescription>
         <value>See my vitals</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_See_Vitals_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My vitals New</shortDescription>
+        <value>See your vitals</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_SuccRemove</fullName>
@@ -18396,7 +18452,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG SW Tab About The Program</shortDescription>
         <value>About the Program</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>PG_SW_Tab_Lab_Results</fullName>
         <language>en_US</language>
@@ -18473,7 +18529,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Visits tab</shortDescription>
         <value>Events</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>PG_Mobile_Title_Upcoming_Events</fullName>
         <language>en_US</language>
@@ -18487,7 +18543,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>UPCOMING VISIT</shortDescription>
         <value>UPCOMING VISIT</value>
-    </labels>        
+    </labels>
     <labels>
         <fullName>PG_SW_Title</fullName>
         <language>en_US</language>
@@ -18804,6 +18860,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate(s)</value>
     </labels>
     <labels>
+        <fullName>PP_Delegate_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Delegate_Delegate</shortDescription>
+        <value>Delete Delegate</value>
+    </labels>
+    <labels>
+        <fullName>PP_Delegate_Delegate_Warning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Delegate_Delegate_Warning</shortDescription>
+        <value>If you delete a delegate they will no longer remain in your list of delegates. Are you sure you would like to delete this delegate?</value>
+    </labels>
+    <labels>
         <fullName>PP_ProgramOverview_LearnMore_Desktop</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18943,11 +19013,26 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate already exists.</value>
     </labels>
     <labels>
+        <fullName>PP_ActiveDelegates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ActiveDelegates</shortDescription>
+        <value>Active Delegates</value>
+    </labels>
+
+    <labels>
         <fullName>PP_AddPhoto</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AddPhoto</shortDescription>
         <value>Add photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_AddAssignment</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AddAssignment</shortDescription>
+        <value>Add Assignment</value>
     </labels>
     <labels>
         <fullName>PP_AddProfilePhoto</fullName>
@@ -19216,6 +19301,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Your consent is not required as a condition of purchasing any property, goods, or services.</value>
     </labels>
     <labels>
+        <fullName>PP_Confirm_Selection</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Confirm_Selection</shortDescription>
+        <value>Confirm Selection</value>
+    </labels>
+    <labels>
         <fullName>PP_ContactInfo_Change</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19415,6 +19507,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>##PatientFirstName has designated you as their delegate.</value>
     </labels>
     <labels>
+        <fullName>PP_Delegates_Permitted_Actions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>What can your delegate see or do?</shortDescription>
+        <value>What can your delegate see or do?</value>
+    </labels>
+    <labels>
         <fullName>PP_Details</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19550,6 +19649,21 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Enter New Password</value>
     </labels>
     <labels>
+        <fullName>PP_ExistingDelError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ExistingDelError</shortDescription>
+        <value>You already have a delegate associated to the email address provided. Please add new
+            assignments to existing delegates on the</value>
+    </labels>
+    <labels>
+        <fullName>PP_ExistingDelError_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ExistingDelError_1</shortDescription>
+        <value>page or enter a unique email address to add a new delegate.</value>
+    </labels>
+    <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19569,6 +19683,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_ForgotPwd</shortDescription>
         <value>Forgot Password?</value>
+    </labels>
+    <labels>
+        <fullName>PP_FormerDelegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_FormerDelegates</shortDescription>
+        <value>Former Delegates</value>
     </labels>
     <labels>
         <fullName>PP_Four_Hours_Before</fullName>
@@ -20158,6 +20279,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Remove Photo</value>
     </labels>
     <labels>
+        <fullName>PP_Remove</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Remove</shortDescription>
+        <value>Remove</value>
+    </labels>
+    <labels>
         <fullName>PP_RequestSubmitted</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20212,6 +20340,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Select_FAQ</shortDescription>
         <value>Select a FAQ</value>
+    </labels>
+    <labels>
+        <fullName>PP_Select_User</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Select_User</shortDescription>
+        <value>Select the user you would like to assign as delegate.</value>
     </labels>
     <labels>
         <fullName>PP_SendBtn</fullName>
@@ -20276,6 +20411,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Task Success Toast</shortDescription>
         <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.;Visit scheduled successfully.</value>
+    </labels>
+    <labels>
+        <fullName>PP_There_Are</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_There_Are</shortDescription>
+        <value>There are</value>
     </labels>
     <labels>
         <fullName>PP_Third_Lang</fullName>
@@ -20423,6 +20565,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_UsefulInfo</shortDescription>
         <value>Create tickets here for changing useful information</value>
+    </labels>
+    <labels>
+        <fullName>PP_Users_Associated</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Users_Associated</shortDescription>
+        <value>user(s) associated with the email address you have
+            provided.</value>
     </labels>
     <labels>
         <fullName>PP_User_Email</fullName>
@@ -21591,7 +21741,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>RH_MaxNoWeek</shortDescription>
         <value>4</value> 
     </labels>
-	 <labels>
+	<labels>
         <fullName>RH_MinNoWeek</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -28526,6 +28676,13 @@ Please contact the Study Team for further updates or please login for additional
         <value>Add New Delegate</value>
     </labels>
     <labels>
+        <fullName>Add_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add Delegate</shortDescription>
+        <value>Add Delegate</value>
+    </labels>
+    <labels>
         <fullName>Profile_Information</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -28578,7 +28735,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AS_CONDITIONAL_FEATURE</shortDescription>
-        <value>*all features may not be available for each program</value>
+        <value>*all features may not be available for each study</value>
     </labels>
     <labels>
         <fullName>PP_AS_Delegate_Header</fullName>
@@ -28613,12 +28770,35 @@ Please contact the Study Team for further updates or please login for additional
         <value>You have been succesfully removed from the Delegates list</value>
     </labels>
     <labels>
+        <fullName>PP_Delegate_Added_Successfully</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP Delegate Added Successfully</shortDescription>
+        <value>Delegate added successfully.</value>
+    </labels>
+    <labels>
         <fullName>PP_Delegate_Deactivated</fullName>
         <categories>PPAccountSettings</categories>
         <language>en_US</language>
         <protected>flase</protected>
         <shortDescription>PP Delegate Deactivated</shortDescription>
         <value>Delegate was successfully deactivated</value>
+    </labels>
+    <labels>
+        <fullName>PP_Delegate_Updated</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP Delegate Updated</shortDescription>
+        <value>Delegate updated successfully.</value>
+    </labels>
+    <labels>
+        <fullName>PP_DelegateWithdrawn</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DelegateWithdrawn</shortDescription>
+        <value>Delegate withdrawn</value>
     </labels>
     <labels>
         <fullName>PP_Delegate_Activated</fullName>
@@ -28686,7 +28866,7 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>View Event Details</shortDescription>
         <value>View Event Details</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>Visit_No_Expect</fullName>
         <language>en_US</language>
@@ -28921,6 +29101,14 @@ Please contact the Study Team for further updates or please login for additional
         <protected>flase</protected>
         <shortDescription>PP_NO_REMINDER</shortDescription>
         <value>No reminder</value>
+    </labels>
+    <labels>
+        <fullName>PP_NO_Active_Delegate</fullName>
+        <categories>PPCreateTask</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP_NO_Active_Delegate</shortDescription>
+        <value>No active delegates</value>
     </labels>
     <labels>
         <fullName>Upcoming_Visits_Clock</fullName>
@@ -29328,7 +29516,7 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>Event No Past Event</shortDescription>
         <value>No past events</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>Event_No_Upcoming_Event</fullName>
         <categories></categories>
@@ -29336,7 +29524,7 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>Event No Upcoming Event</shortDescription>
         <value>No upcoming event</value>
-    </labels>   
+    </labels>
     <labels>
         <fullName>Event_No_Upcoming_Events</fullName>
         <categories></categories>
@@ -29344,7 +29532,7 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>Event No Upcoming Events</shortDescription>
         <value>No upcoming events</value>
-    </labels>       
+    </labels>
     <labels>
         <fullName>Visits_PP</fullName>
         <language>en_US</language>
