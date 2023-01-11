@@ -18943,6 +18943,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>To be eligible to participate in the study, one must meet the following criteria: </value>
     </labels>
     <labels>
+        <fullName>PP_Study_Consent_Adult_ROW</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Consent Adult ROW</shortDescription>
+        <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Study_Consent_Adult_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Consent Adult US</shortDescription>
+        <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
         <fullName>PP_Study_Overview</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19095,6 +19109,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Cookiesnote</shortDescription>
         <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist ony during one session and disappear from your computer when you close your browser or turn off your computer. Persisent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website. By using our website, you are accepting our use of cookies.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Purchase_Pref</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Communication Purchase Pref</shortDescription>
+        <value>Your consent is not required as a condition of purchasing any property, goods, or services.</value>
     </labels>
     <labels>
         <fullName>PP_Communication_Pref_Outreach_consentA</fullName>
@@ -19712,6 +19733,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>To update all other information, please go to your</value>
     </labels>
     <labels>
+        <fullName>PP_IQVIA_Communication_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP IQVIA Communication US</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
         <fullName>PP_IRB_Button_Review</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -19969,6 +19997,34 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_One_Week_Before</shortDescription>
         <value>1 week before</value>
+    </labels>
+    <labels>
+        <fullName>PP_Outreach_Communication_Pref_A</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Outreach Communication Pref A</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided,</value>
+    </labels>
+    <labels>
+        <fullName>PP_Outreach_Communication_Pref_B</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Outreach Communication Pref B</shortDescription>
+        <value>via automated dialing and/or artificial or pre-recorded voice,</value>
+    </labels>
+    <labels>
+        <fullName>PP_Outreach_Communication_Pref_C</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Outreach Communication Pref C</shortDescription>
+        <value>for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of</value>
+    </labels>
+    <labels>
+        <fullName>PP_Outreach_Communication_Pref_D</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Outreach Communication Pref D</shortDescription>
+        <value>, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Page</fullName>
