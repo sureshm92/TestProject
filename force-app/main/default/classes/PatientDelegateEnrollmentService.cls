@@ -142,6 +142,59 @@ public without sharing class PatientDelegateEnrollmentService {
         //return listPDEWrapper;
         return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
     }
+    @AuraEnabled
+    public static List<parAndStdAssociatedListWrapper> getParAndStdAssociatedList() {
+        //List<Patient_Delegate_Enrollment__c> = new List<Patient_Delegate_Enrollment__c>();
+        List<parAndStdAssociatedListWrapper> parAndStdAssociatedList = New List<parAndStdAssociatedListWrapper>();
+        Id loggedInContactId =  CommunityService.getInstance().getCurrentContactId();
+        List<Patient_Delegate_Enrollment__c> pdeList = getPDEnrollmentforDelContact(loggedInContactId);
+        map<id, list<Patient_Delegate_Enrollment__c>> pardIdPDEMap = new Map<id, list<Patient_Delegate_Enrollment__c>>();
+        for (Patient_Delegate_Enrollment__c pde : pdeList) {
+            if(pde.Status__c == 'Active'){
+                if (pardIdPDEMap.containsKey(pde.Patient_Delegate__r.Participant__c)) {
+                    pardIdPDEMap.get(pde.Patient_Delegate__r.Participant__c).add(pde);
+                } else {
+                    pardIdPDEMap.put(
+                        pde.Patient_Delegate__r.Participant__c,
+                        new List<Patient_Delegate_Enrollment__c>{ pde }
+                    );
+                }
+            }
+        }
+        for(Id parId: pardIdPDEMap.keyset()){
+                parAndStdAssociatedListWrapper parAndpdelistObj = New parAndStdAssociatedListWrapper();
+                Participant__c par = new Participant__c();
+                par.Id = parId;
+                par.First_Name__c = pardIdPDEMap.get(parId)[0]
+                    .Patient_Delegate__r.Participant__r.First_Name__c;
+                par.Last_Name__c = pardIdPDEMap.get(parId)[0]
+                    .Patient_Delegate__r.Participant__r.Last_Name__c;
+                par.Email__c = pardIdPDEMap.get(parId)[0]
+                    .Patient_Delegate__r.Participant__r.Email__c;
+                parAndpdelistObj.Participant = par;
+                parAndpdelistObj.PDEEnrollments = pardIdPDEMap.get(parId);
+                parAndStdAssociatedList.Add(parAndpdelistObj);
+        }
+        return parAndStdAssociatedList;
+    }
+    @AuraEnabled
+    public static List<parAndStdAssociatedListWrapper> WithdrawAssignment(String pdeId) {
+        try {
+            Patient_Delegate_Enrollment__c pde = [
+                SELECT id, Status__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Id = :pdeId
+            ][0];
+            if (pde!=null) {
+                pde.Status__c = 'Withdrawn';
+                update pde;
+                return getParAndStdAssociatedList();
+            }
+            return getParAndStdAssociatedList();
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
     
      /**
      * @description: This Method will return PD record if Participant is Minor or adult without email. 
@@ -185,6 +238,43 @@ public without sharing class PatientDelegateEnrollmentService {
         ];
         return pdList;
     }   
+    public static List<Patient_Delegate_Enrollment__c>  getPDEnrollmentforDelContact(Id pdContactId) {
+        List<Patient_Delegate_Enrollment__c> pdeList = new List<Patient_Delegate_Enrollment__c>();
+        pdeList = [
+            SELECT
+                Id,
+                Patient_Delegate__c,
+                Welcome_Message_Sent__c,
+                Study_Email_Consent__c,
+                Study_SMS_Consent__c,
+                Welcome_Message_Delivered__c,
+                Patient_Delegate__r.Participant__r.Contact__c,
+                Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                Patient_Delegate__r.Participant__r.First_Name__c,
+                Patient_Delegate__r.Participant__r.Last_Name__c,
+                Patient_Delegate__r.Participant__r.Email__c,
+                Patient_Delegate__r.Contact__c,
+                Patient_Delegate__r.Participant__c,   
+                Patient_Delegate__r.Participant_Delegate__r.Id,
+                Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
+                Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
+                Patient_Delegate__r.Participant_Delegate__r.Email__c,
+                Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                Status__c,
+                Participant_Enrollment__c,
+                Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                Participant_Enrollment__r.Name,
+                Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                Primary_Delegate__c
+          FROM Patient_Delegate_Enrollment__c
+          WHERE Patient_Delegate__r.Contact__c = : pdContactId
+
+        ];
+        return pdeList;
+    }   
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain doAddAssignment(String delegateStr, String studyPERData){
         try {
@@ -195,6 +285,13 @@ public without sharing class PatientDelegateEnrollmentService {
             Patient_Delegate__c pd= pdData.convertToPD();
             //Assign Studies.
             //PatientDelegateEnrollmentService.getInstance().createPatientDelegateEnrollment(pd,studyPERData);
+            //Bypass old code writted in Patient Delegate Trigger.
+            TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+            );
             createPatientDelegateEnrollment(pd,studyPERData);
             return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
             
@@ -565,6 +662,12 @@ public without sharing class PatientDelegateEnrollmentService {
         public List<PatientDelegateEnrollmentsWrapper> activePDEWrapperList = new List<PatientDelegateEnrollmentsWrapper>();
         @AuraEnabled
         public List<FormerPatientDelegateEnrollmentsWrapper> formerPDEWrapperList = new List<FormerPatientDelegateEnrollmentsWrapper>();
+    }
+    public class parAndStdAssociatedListWrapper {
+        @AuraEnabled
+        public Participant__c Participant;
+        @AuraEnabled
+        public list<Patient_Delegate_Enrollment__c> PDEEnrollments;
     }
     public class PatientDelegateWrapper {
         @AuraEnabled
