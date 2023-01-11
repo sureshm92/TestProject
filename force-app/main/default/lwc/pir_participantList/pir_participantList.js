@@ -1203,15 +1203,13 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 }
     
                 if (partList[i] ['HighRisk_Indicator__c'] !== undefined) {
-                    if (partList[i]['HighRisk_Indicator__c'] == '1')  {
+                    var lowerCaseHI=partList[i] ['HighRisk_Indicator__c'].toLowerCase();
+                    if (partList[i]['HighRisk_Indicator__c'] == '1' || lowerCaseHI == 'yes')
+                    {
                         csvStringResult += '"' + 'Yes'+ '"' + ',';
                     }
-                    else if (partList[i]['HighRisk_Indicator__c'] == 'null'){
-                        csvStringResult += '" "' + ',';
-                    }
-                    else{
-                        csvStringResult +=
-                        '"' + partList[i] ['HighRisk_Indicator__c'] + '"' + ',';
+                    else if (lowerCaseHI == 'no'){
+                        csvStringResult += '"' + 'No'+ '"' + ',';
                     }
                 } else {
                     csvStringResult += '" "' + ',';
