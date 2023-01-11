@@ -23,6 +23,16 @@ import PP_Communication_Pref_Outreach_Gen_Comm from '@salesforce/label/c.PP_Comm
 import PP_Communication_Pref_Warning from '@salesforce/label/c.PP_Communication_Pref_Warning';
 import PP_Communication_Pref_Mobile_Required from '@salesforce/label/c.PP_Communication_Pref_Mobile_Required';
 import PP_Communication_Pref_Mobile_Required_Del from '@salesforce/label/c.PP_Communication_Pref_Mobile_Required_Del';
+import PP_Study_Consent_Adult_ROW from '@salesforce/label/c.PP_Study_Consent_Adult_ROW';
+import PP_Study_Consent_Adult_US from '@salesforce/label/c.PP_Study_Consent_Adult_US';
+import PP_Communication_Purchase_Pref from '@salesforce/label/c.PP_Communication_Purchase_Pref';
+import PP_IQVIA_Communication_US from '@salesforce/label/c.PP_IQVIA_Communication_US';
+import PP_Outreach_Communication_Pref_A from '@salesforce/label/c.PP_Outreach_Communication_Pref_A';
+import PP_Outreach_Communication_Pref_B from '@salesforce/label/c.PP_Outreach_Communication_Pref_B';
+import PP_Outreach_Communication_Pref_C from '@salesforce/label/c.PP_Outreach_Communication_Pref_C';
+import PP_Outreach_Communication_Pref_D from '@salesforce/label/c.PP_Outreach_Communication_Pref_D';
+
+
 import PP_Communication_Par_Mobile_Upd_Success from '@salesforce/label/c.PP_Communication_Par_Mobile_Upd_Success';
 import PP_Communication_Del_Mobile_Upd_Success from '@salesforce/label/c.PP_Communication_Del_Mobile_Upd_Success';
 import PP_Profile_Information from '@salesforce/label/c.PP_Profile_Information';
@@ -55,6 +65,14 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     @api isRTL;
 
     label = {
+        PP_Outreach_Communication_Pref_D,
+        PP_Outreach_Communication_Pref_C,
+        PP_Outreach_Communication_Pref_B,
+        PP_Outreach_Communication_Pref_A,
+        PP_IQVIA_Communication_US,
+        PP_Communication_Purchase_Pref,
+        PP_Study_Consent_Adult_US,
+        PP_Study_Consent_Adult_ROW,
         PP_Communication_Pref,
         PP_Communication_Pref_Study,
         PP_Communication_Pref_Study_consent,
@@ -121,6 +139,8 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
 
     errorIconPosition = 'margin-left: 0px';
 
+    isCountryUS = false;
+
     //@track phoneSvg = rr_community_icons +'/'+'logo.svg';
     phoneSvg = rr_community_icons + '/' + 'com-phone.svg' + '#' + 'com-phone';
     emailSvg = rr_community_icons + '/' + 'com-email.svg' + '#' + 'com-email';
@@ -145,6 +165,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                     study['error'] = false;
                 });
 
+                this.isCountryUS = (this.consentPreferenceDataLocal.myContact.MailingAddress.country == 'United States' ? true : false);
                 let conData = JSON.parse(result).myContact;
                 this.contactDataLocal.push(conData);
                 this.contactDataLocal.forEach(function (con) {
