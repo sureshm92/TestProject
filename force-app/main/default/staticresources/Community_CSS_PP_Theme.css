@@ -32,6 +32,16 @@
    padding: 0 2rem;
 }
 
+.siteforceContentArea {
+   max-width: 1366px;
+   margin: auto;
+   padding: 0 4.5rem 35px 2rem;
+}
+
+.siteforceContentArea:not(.rr-width-limiter, .rr-width-limiter-pp) {
+    padding: 0 2.5rem 35px .5rem;
+}
+
 /* Community_CSS_PP_Theme */
 
 .slds-spinner_brand.slds-spinner:before,
@@ -244,9 +254,8 @@
     color: #444444 !important;
 }
 
-.rr-min-body-height .rr-min-body-height {
-    min-height: auto !important;
-    padding-bottom: 35px !important;
+.rr-body-content.rr-min-body-height .rr-min-body-height {
+    min-height: auto;
 }
 
 .label-email-pass-match .slds-form-element__label {
