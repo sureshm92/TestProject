@@ -251,6 +251,9 @@ window.communityService = (function () {
         getParticipantData: function(){
             return participantData;
         },
+        reloadPage(){
+            location.reload();
+        },
 
         getLanguage: function(){
             return language;
