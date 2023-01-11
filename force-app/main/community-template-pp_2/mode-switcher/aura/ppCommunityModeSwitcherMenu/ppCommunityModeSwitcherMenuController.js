@@ -85,7 +85,8 @@
                                 );
                                 communityService.setEDiaryVisible(userVisibility.eDiaryVisible);
                                 component.getEvent('onModeChange').fire();
-                                component.find('pubsub').fireEvent('reload');
+                                //component.find('pubsub').fireEvent('reload');
+                                communityService.reloadPage();
                             }
                         );
                     }

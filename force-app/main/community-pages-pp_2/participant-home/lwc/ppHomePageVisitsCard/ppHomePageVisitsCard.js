@@ -75,11 +75,16 @@ export default class HomePageVisitsCard extends LightningElement {
                 this.isVisitAvailable = result.showVisits;
                 if (visitDetails != null && visitDetails.length != 0 && visitDetails != '') {
                     this.isUpcomingDetails = true;
-                    this.upcomingVisit = visitDetails[0];
+                    let initialVisit = visitDetails.find(
+                        (visitDetail) =>
+                            visitDetail.visit.Is_Pre_Enrollment_Patient_Visit__c == true
+                    );
+
+                    this.upcomingVisit = initialVisit ? initialVisit : visitDetails[0];
                     this.planDateTime = this.upcomingVisit.visitDate
                         ? this.upcomingVisit.visitDate
                         : false;
-                    this.visitName = this.upcomingVisit.visit.Name;
+                    this.visitName = this.upcomingVisit.visit?.Name;
                     this.siteTitle =
                         this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r?.Site__r?.Name;
                     this.sitePhone =
