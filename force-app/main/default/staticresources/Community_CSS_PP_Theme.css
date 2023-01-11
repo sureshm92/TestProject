@@ -35,11 +35,11 @@
 .siteforceContentArea {
    max-width: 1366px;
    margin: auto;
-   padding: 0 4.5rem 35px 2rem;
+   padding: 0 4rem 35px 2rem;
 }
 
 .siteforceContentArea:not(.rr-width-limiter, .rr-width-limiter-pp) {
-    padding: 0 2.5rem 35px .5rem;
+    padding: 0 2rem 35px .5rem;
 }
 
 /* Community_CSS_PP_Theme */
