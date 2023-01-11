@@ -203,10 +203,8 @@ window.communityService = (function () {
             let redirectURL = mode.template.redirectURL;
             if(page) redirectURL += '/s/' + page;
             if(!init && !isDummy && mode.template.needRedirect) document.location.href = redirectURL;
-            if(service.getCurrentCommunityName() !== 'IQVIA Patient Portal'){
                 service.setThemeCSS();
-           }
-        },
+                  },
 
         getMessagesVisible : function () {
             return messagesVisible;

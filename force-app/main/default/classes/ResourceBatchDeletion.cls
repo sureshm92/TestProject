@@ -56,12 +56,14 @@ global class ResourceBatchDeletion implements Database.Batchable<sObject>, Datab
         }
         
         //Fetch Files to delete
-        for(ContentDocumentLink cdLink : [
-            SELECT Id, ContentDocumentId 
-            FROM ContentDocumentLink 
-            WHERE LinkedEntityId IN :resourcesToBeDeleted
-        ]){
-            cntDocIdToBeDeleted.add(cdLink.ContentDocumentId);
+         if(!resourcesToBeDeleted.isEmpty()) {
+            for(ContentDocumentLink cdLink : [
+                SELECT Id, ContentDocumentId 
+                FROM ContentDocumentLink 
+                WHERE LinkedEntityId IN :resourcesToBeDeleted
+            ]){
+                cntDocIdToBeDeleted.add(cdLink.ContentDocumentId);
+            }
         }
         
         if(isStudyToDelete) {
