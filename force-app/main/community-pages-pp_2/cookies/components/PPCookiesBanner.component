@@ -504,6 +504,9 @@
             if (checkedVal) {
                 closeCookiesInfo();
             }
+            document.body.removeEventListener('keypress', this.bodyBlock);
+            document.body.removeEventListener('keydown', this.bodyBlock);
+            document.body.classList.remove('cookie-block-user');
             event.preventDefault();
         }
     </script>
