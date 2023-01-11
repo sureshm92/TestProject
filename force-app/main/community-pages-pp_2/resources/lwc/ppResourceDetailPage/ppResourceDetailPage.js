@@ -5,7 +5,7 @@ import getCtpName from '@salesforce/apex/ParticipantStateRemote.getInitData';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
-import VERSION from '@salesforce/label/c.Resource_Uploaded';
+import VERSION from '@salesforce/label/c.Version_date';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
@@ -29,6 +29,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         VERSION,
         Back_To_Resources
     };
+    isMultimedia = false;
 
     connectedCallback() {
         //get resource parameters from url
@@ -63,6 +64,11 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 this.resourceSummary = resourceData.Body__c;
                 this.resourceLink =
                     this.resourceType == 'Article' ? resourceData.Image__c : resourceData.Video__c;
+                if (this.resourceType == 'Multimedia') {
+                    this.resourceLink = resourceData.Multimedia__c;
+                    this.resourceType = 'Video';
+                    this.isMultimedia = true;
+                }
                 this.isFavourite = result.wrappers[0].isFavorite;
                 this.isVoted = result.wrappers[0].isVoted;
                 if (this.isDocument) {
@@ -108,18 +114,19 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
     handleBackClick() {
         let pageLink;
-        let subDomain=communityService.getSubDomain();
+        let subDomain = communityService.getSubDomain();
         if (FORM_FACTOR == 'Large') {
-            
             pageLink = window.location.origin + subDomain + '/s/resources';
         } else {
             let resType;
-            if (this.resourceType == 'Study_Document') {
+            if (this.isMultimedia) {
+                resType = 'engage';
+            } else if (this.resourceType == 'Study_Document') {
                 resType = 'documents';
             } else if (this.resourceType == 'Video' || this.resourceType == 'Article') {
                 resType = 'explore';
             }
-            pageLink = window.location.origin + subDomain +'/s/resources?resType=' + resType;
+            pageLink = window.location.origin + subDomain + '/s/resources?resType=' + resType;
         }
         const config = {
             type: 'standard__webPage',

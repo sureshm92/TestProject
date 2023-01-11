@@ -50,6 +50,7 @@ public without sharing class CommunityFacadeRemote {
         Boolean eDiaryVisible;
         Boolean isMobileApp;
         Boolean hasIQVIAStudiesPI;
+        ParticipantService.ParticipantState participantData;
     }
     @testvisible
     private class CommunityType {
@@ -93,6 +94,7 @@ public without sharing class CommunityFacadeRemote {
                 cd.isDelegate = userContact.UserCommunityIsDelegate__c;
                 cd.allUserModes = UserContext.getAllUserModes();
                 cd.state = ParticipantService.getParticipantState().value.name();
+                cd.participantData = ParticipantService.getParticipantState();
                 cd.preventedCookies = getPreventedCookies(userContact.Id);
                 cd.messagesVisible = getMessagesVisibility();
                 cd.trialMatchVisible = getTrialMatchVisibility();

@@ -62,6 +62,7 @@
                                     <!--   STARICON    -->
                                     <lightning-layout-item size="2">
                                         <div
+                                            if:false={isMultimedia}
                                             class="resource-icon resource-pointer"
                                             onclick={handleFavourite}
                                         >
@@ -90,9 +91,6 @@
                                     {label.VERSION}&nbsp;
                                     <lightning-formatted-date-time
                                         value={resUploadDate}
-                                        year="numeric"
-                                        month="2-digit"
-                                        day="2-digit"
                                         time-zone={userTimeZone}
                                     >
                                     </lightning-formatted-date-time>

@@ -822,6 +822,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PP_EmailWireframeController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmptyPagePanelRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -3346,6 +3350,10 @@
     <layoutAssignments>
         <layout>PreScreener_Survey__c-PreScreener Survey Layout</layout>
     </layoutAssignments>
+     <layoutAssignments>
+        <layout>Resource__c-Multimedia</layout>
+        <recordType>Resource__c.Multimedia</recordType>
+    </layoutAssignments> 
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>

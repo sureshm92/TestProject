@@ -11,6 +11,8 @@ public without sharing class NotificationService {
     public static Map<Id, Boolean> welcomemsgSent = new Map<Id, Boolean>();
     public static Map<Id, Boolean> welcomemsgDelivered = new Map<Id, Boolean>();
     public static Map<String, Boolean> perIdDelConIdWelcomeMessageSentMap = new Map<String, Boolean>();
+    public static Map<Id, Task> taskMap = new Map<Id, Task>();
+
     public static Map<String, Boolean> perIdDelConIdWelcomeMessageDeleveredMap = new Map<String, Boolean>();
 
     static public List<String> participantStatusListForHCP = new List<String>{

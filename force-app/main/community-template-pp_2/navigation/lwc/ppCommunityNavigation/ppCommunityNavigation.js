@@ -5,12 +5,14 @@ import menuMobile from './ppCommunityNavigationMobile.html';
 import navigationHelp from '@salesforce/label/c.Navigation_Help';
 import navigationHome from '@salesforce/label/c.Navigation_Home';
 import navigationMyStudy from '@salesforce/label/c.Navigation_My_Study';
+import navigationMyProgram from '@salesforce/label/c.Navigation_My_Program';
 import navigationResources from '@salesforce/label/c.Navigation_Resources';
 import navigationMessages from '@salesforce/label/c.Navigation_Messages';
 import navigationEDiary from '@salesforce/label/c.Navigation_eDiary';
 import trailMatch from '@salesforce/label/c.Trial_Match';
 import navigationResults from '@salesforce/label/c.PG_SW_Tab_Lab_Results';
 import navigationVisits from '@salesforce/label/c.PG_SW_Tab_Visits';
+import navigationEvents from '@salesforce/label/c.PG_SW_Tab_Events';
 import navigationProgram from '@salesforce/label/c.Navigation_AboutProgram';
 import navigationStudy from '@salesforce/label/c.Navigation_AboutStudy';
 import navigationTasks from '@salesforce/label/c.PG_SW_Tab_Tasks';
@@ -36,8 +38,9 @@ export default class PpCommunityNavigation extends LightningElement {
     showAboutProgram = false;
     showAboutStudy = false;
     isInitialized = false;
-    desktop=false;
-    menuCss = 'phone-menu-background nav-menu slds-border_top slds-p-vertical_large ';
+    desktop = false;
+    menuCss = 'phone-menu-background nav-menu slds-border_top ';
+    showSubMenu = false;
     connectedCallback() {
         this.baseLink = window.location.origin;
         this.initializeData();
@@ -47,6 +50,16 @@ export default class PpCommunityNavigation extends LightningElement {
     render() {
         return this.desktop ? menuDesktop : menuMobile;
     }
+    handleNavigationSubMenu(event){
+        if (event.currentTarget.dataset.pagename) {
+            this.communityServic.navigateToPage(event.currentTarget.dataset.pagename);
+        }
+        let element = this.template.querySelector('.my-submenuopen')
+        if (element) {
+              element.classList.remove('block-submenu-onblur');
+              this.removeElementFocus();
+        }
+    }
     initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
@@ -55,7 +68,7 @@ export default class PpCommunityNavigation extends LightningElement {
         if (communityService.isInitialized()) {
             var recId = communityService.getUrlParameter('id');
             var userMode = communityService.getUserMode();
-            getTrialDetail({ trialId: recId, userMode: userMode })
+            getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
                 .then((result) => {
                     let td = JSON.parse(result);
                     this.showVisits = td.tabs?.some(
@@ -65,6 +78,11 @@ export default class PpCommunityNavigation extends LightningElement {
                         (resultTab) => resultTab.title == navigationResults
                     );
                     this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
+                    if (this.showAboutProgram === true) {
+                        this.showVisits = td.tabs?.some(
+                            (studyTab) => studyTab.title == navigationEvents
+                        );
+                    }
                     this.showAboutStudy = !this.showAboutProgram;
                     this.populateNavigationItems();
                     this.isInitialized = true;
@@ -93,7 +111,7 @@ export default class PpCommunityNavigation extends LightningElement {
             },
             'my-study': {
                 page: '',
-                label: navigationMyStudy,
+                label: this.showAboutProgram ? navigationMyProgram : navigationMyStudy,
                 icon: 'about-the-study',
                 expand: true,
                 displayIcon: false
@@ -132,32 +150,44 @@ export default class PpCommunityNavigation extends LightningElement {
         //variable for dropdown items
         this.allPagesSubMenu = {
             visits: {
+                page: 'visits',
                 link: this.baseLink + '/pp/s/visits',
                 label: navigationVisits,
                 icon: '',
-                visible: this.showVisits,
-                parentMenu: navigationMyStudy
+                visible: this.showAboutProgram ? false : this.showVisits,
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
+            },
+            events: {
+                page: 'events',
+                link: this.baseLink + '/pp/s/events',
+                label: navigationEvents,
+                icon: '',
+                visible: this.showAboutProgram ? this.showVisits : false,
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
             results: {
+                page: 'results',
                 link: this.baseLink + '/pp/s/results',
                 label: navigationResults,
                 icon: '',
                 visible: this.showResults,
-                parentMenu: navigationMyStudy
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
             'about-study': {
+                page: 'about-study-and-overview',
                 link: this.baseLink + '/pp/s/about-study-and-overview',
                 label: navigationStudy,
                 icon: '',
                 visible: this.showAboutStudy,
-                parentMenu: navigationMyStudy
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
             'about-program': {
+                page: 'overview',
                 link: this.baseLink + '/pp/s/overview',
                 label: navigationProgram,
                 icon: '',
                 visible: this.showAboutProgram,
-                parentMenu: navigationMyStudy
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             }
         };
 
@@ -167,25 +197,25 @@ export default class PpCommunityNavigation extends LightningElement {
         }
         if (this.communityServic.getCurrentCommunityMode().hasPastStudies)
             this.participantTabs.push(this.allPagesMap['past-studies']);
-            if (this.communityServic.getEDiaryVisible()) {
-                if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
-                    if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-                        this.participantTabs.push(this.allPagesMap['e-diaries']);
-                    }
-                }
-            }
-            if (this.communityServic.getMessagesVisible()) {
+        if (this.communityServic.getEDiaryVisible()) {
+            if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
                 if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-                    this.participantTabs.push(this.allPagesMap['messages']);
+                    this.participantTabs.push(this.allPagesMap['e-diaries']);
                 }
             }
-            if (this.communityServic.getTrialMatchVisible()) {
-                if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
-                    if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-                        this.participantTabs.push(this.allPagesMap['trial-match']);
-                    }
+        }
+        if (this.communityServic.getMessagesVisible()) {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                this.participantTabs.push(this.allPagesMap['messages']);
+            }
+        }
+        if (this.communityServic.getTrialMatchVisible()) {
+            if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
+                if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                    this.participantTabs.push(this.allPagesMap['trial-match']);
                 }
             }
+        }
         this.participantTabs.push(this.allPagesMap['tasks']);
         this.participantTabs.push(this.allPagesMap['resources']);
         this.participantTabs.push(this.allPagesMap['help']);
@@ -193,6 +223,11 @@ export default class PpCommunityNavigation extends LightningElement {
             key: key,
             ...this.allPagesSubMenu[key]
         }));
+        const loadTelevisitBanner = true;
+         const valueChangeEvent = new CustomEvent("handleLoadTelevisitBanner", {
+             detail: { loadTelevisitBanner }
+         });
+         this.dispatchEvent(valueChangeEvent);
     }
 
     handleNavigation(event) {
@@ -233,15 +268,29 @@ export default class PpCommunityNavigation extends LightningElement {
         }));
         //filtering submenu based on parentmenu clicked
         this.submenu = subMenu.filter((subItem) => subItem.parentMenu == headerMenu);
-        var isOpen = element.classList.contains('slds-is-open');
+        if (this.submenu && this.desktop == false) {
+            this.showSubMenu = !this.showSubMenu;
+        }
+        var isOpen = element.classList.contains('slds-is-open');        
         //dropdown toggle->adds class if second param true and remove if false
         element.classList.toggle('slds-is-open', !isOpen);
+        //this.isStudySubMenuOpen = !isOpen ? true:false;
+    }
+    handleOnMouseOver(event){
+        this.template.querySelector('.my-submenuopen').classList.add('block-submenu-onblur');
+    }
+    handleOnMouseLeave(event){
+        this.template.querySelector('.my-submenuopen').classList.remove('block-submenu-onblur');
     }
     //on removing focus from dropdown
-    removeElementFocus() {
-        var element = this.template.querySelector('.my-menu');
-        element.classList.remove('slds-is-open');
+    removeElementFocus(event) {        
+        var element = this.template.querySelector('.slds-is-open');
+        //Stop closing sub menu drop when we click on sub menu item.
+        if(element && !element.classList.contains('block-submenu-onblur')){
+            element.classList.remove('slds-is-open');
+        }
     }
+
     showErrorToast(titleText, messageText, variantType) {
         this.dispatchEvent(
             new ShowToastEvent({
@@ -253,7 +302,7 @@ export default class PpCommunityNavigation extends LightningElement {
     }
     @api forceRefresh() {
         this.isInitialized = false;
-        this.participantTabs=[];
+        this.participantTabs = [];
         this.initializeData();
     }
 }

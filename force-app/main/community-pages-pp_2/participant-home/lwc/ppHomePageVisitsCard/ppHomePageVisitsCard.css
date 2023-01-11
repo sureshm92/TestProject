@@ -43,6 +43,21 @@ hr {
     line-height: 5px;
     text-align: center;
 }
+
+.more-mobile {
+    color: #757575;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 44px;
+    text-align: center;
+}
+
+.icon-padding {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
 .visit-text {
     height: 2.36%;
     /*width: 20.89%;*/
@@ -56,13 +71,13 @@ hr {
     margin-top: 7px;
 }
 
-.visit-text-mobile{
+.visit-text-mobile {
     color: #444444;
     font-size: 16px;
     font-weight: 600;
 }
 
-.text-padding{
+.text-padding {
     padding-left: 9px;
 }
 
@@ -72,7 +87,7 @@ hr {
     font-weight: 600;
 }
 
-.hide-overflow{
+.hide-overflow {
     overflow: hidden;
 }
 
@@ -103,11 +118,11 @@ hr {
 }
 
 .text-centre {
-    text-align:center;
+    text-align: center;
 }
 
-.detail-section{
-    display:inline-flex;
+.detail-section {
+    display: inline-flex;
 }
 
 .dis-block {
@@ -116,8 +131,8 @@ hr {
 }
 
 .mobile-padding {
-    padding:5px; 
-    padding-top:12px;
+    padding: 5px;
+    padding-top: 12px;
 }
 
 .expect-text {
@@ -148,11 +163,11 @@ hr {
     line-height: 32px;
 }
 
-.visit-title-mobile{
+.visit-title-mobile {
     padding-left: 10px;
     font-size: 24px;
     font-weight: 600;
-}    
+}
 
 .padding-desktop {
     padding-left: 7px;
@@ -211,15 +226,15 @@ hr {
 .icon-card {
     border: 1px solid lightgrey;
     height: 160px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
 }
 
 .icon-card-mobile {
     height: 160px;
 }
 
-.info-icon-mobile{
-    padding-left:10px;
+.info-icon-mobile {
+    padding-left: 10px;
 }
 
 .padding-top {
@@ -230,7 +245,7 @@ hr {
     height: 64px;
 }
 
-.upcoming-card{
+.upcoming-card {
     height: 419px;
     border: 1px solid lightgrey;
     border-top-left-radius: 16px;
@@ -238,8 +253,7 @@ hr {
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
     border-top-color: #005587;
-    background: linear-gradient( to bottom, #005587 32px, #005587 32px, #FFFFFF 0%, #FFFFFF 100% );
-        
+    background: linear-gradient(to bottom, #005587 32px, #005587 32px, #ffffff 0%, #ffffff 100%);
 }
 
 .uc-text {

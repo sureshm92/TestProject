@@ -128,6 +128,7 @@
 .main-header-brand {
     background: linear-gradient(to bottom, #00839a 0%, #005587 100%);
     border-bottom-right-radius: 20px;
+    height: 4rem;
 }
 
 .mobile-menu-background {
@@ -137,6 +138,17 @@
 .font-thickness {
     font-weight: 500;
 }
+
+.profileIcon .rr-icon_default {
+    fill: #ffffff;
+    margin-right: 5px;
+    width: 30px!important;
+}
+
+.PHONE .profileIcon .rr-icon_default {
+    margin-right: 1rem;
+}
+
 @media (max-width: 500px) {
     .rr-width-limiter .side-padding {
         padding-left: 0rem !important;
@@ -452,12 +464,12 @@
 }
 
 .logo-container-pp {
-    height: 50px;
+    height: 100%;
     display: flex;
     align-items: center;
     flex-shrink: 0;
     width: 165px;
-    margin: 0 44px 0 44px;
+    margin: 0 44px 0 0;
 }
 
 .cookie-accordion-border .slds-accordion__summary-action {
@@ -680,7 +692,7 @@ c-pp-study-visit-details-card .slds-card__header {
 
 /* CURVED INPUTS */
 
-.cCustomThemeLayout .slds-form-element__label:empty {
+.cPpCustomThemeLayout .slds-form-element__label:empty {
     display: none;
 }
 
@@ -708,9 +720,9 @@ c-pp-study-visit-details-card .slds-card__header {
     padding-left: 1rem;
 }
 
-.cCustomThemeLayout .curve-input .slds-input[type='time'],
-.cCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input,
-.cCustomThemeLayout .curve-input .slds-combobox__input.slds-input {
+.cPpCustomThemeLayout .curve-input .slds-input[type='time'],
+.cPpCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input,
+.cPpCustomThemeLayout .curve-input .slds-combobox__input.slds-input {
     height: 30px !important;
     width: 350px;
     display: flex;
@@ -724,12 +736,12 @@ c-pp-study-visit-details-card .slds-card__header {
     color: #595959;
 }
 
-.cCustomThemeLayout .curve-input .slds-input[type='time']:focus,
-.cCustomThemeLayout .curve-input .slds-input[type='time']:focus-visible,
-.cCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input:focus,
-.cCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input:focus-within,
-.cCustomThemeLayout .curve-input .slds-combobox__input.slds-input:focus,
-.cCustomThemeLayout .curve-input .slds-combobox__input.slds-input:focus-within {
+.cPpCustomThemeLayout .curve-input .slds-input[type='time']:focus,
+.cPpCustomThemeLayout .curve-input .slds-input[type='time']:focus-visible,
+.cPpCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input:focus,
+.cPpCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input:focus-within,
+.cPpCustomThemeLayout .curve-input .slds-combobox__input.slds-input:focus,
+.cPpCustomThemeLayout .curve-input .slds-combobox__input.slds-input:focus-within {
     outline: unset;
     box-shadow: unset;
 }
@@ -747,7 +759,7 @@ c-pp-study-visit-details-card .slds-card__header {
     width: 92% !important;
 }
 
-.cCustomThemeLayout .slds-combobox__input {
+.cPpCustomThemeLayout .slds-combobox__input {
     padding-left: 1rem;
 }
 
@@ -948,14 +960,14 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 
 @media all and (max-width: 768px) {
-    .cCustomThemeLayout .apollo-btn,
-    .cCustomThemeLayout .slds-input,
-    .cCustomThemeLayout .slds-button_neutral,
-    .cCustomThemeLayout .cRrInput.rri-container input,
-    .cCustomThemeLayout .cRrSelect.rrs-container select,
-    .cCustomThemeLayout input[type='text'],
-    .cCustomThemeLayout input[type='password'],
-    .cCustomThemeLayout input[type='email'] {
+    .cPpCustomThemeLayout .apollo-btn,
+    .cPpCustomThemeLayout .slds-input,
+    .cPpCustomThemeLayout .slds-button_neutral,
+    .cPpCustomThemeLayout .cRrInput.rri-container input,
+    .cPpCustomThemeLayout .cRrSelect.rrs-container select,
+    .cPpCustomThemeLayout input[type='text'],
+    .cPpCustomThemeLayout input[type='password'],
+    .cPpCustomThemeLayout input[type='email'] {
         height: 32px !important;
     }
     .pp-change-pwd [lightning-input_input-host] {
@@ -1103,4 +1115,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     line-height: 19px;
     margin-left: 4px;
 }
-  
+.cookie-block-user {
+    pointer-events: none;
+    overflow: hidden !important;
+}

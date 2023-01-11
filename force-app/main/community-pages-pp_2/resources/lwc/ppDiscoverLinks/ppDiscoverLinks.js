@@ -1,4 +1,4 @@
-import { LightningElement, api} from 'lwc';
+import { LightningElement, api } from 'lwc';
 import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import DEVICE from '@salesforce/client/formFactor';
@@ -13,7 +13,7 @@ export default class PpDiscoverLinks extends LightningElement {
     desktop = true;
     isRendered = false;
     @api toggleExplore = false;
-    labels = {
+    label = {
         LINKS_EMPTY
     };
 

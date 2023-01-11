@@ -25,6 +25,7 @@ public virtual without sharing class ResourceService {
     protected String resourceType;
     protected String contentClass;
     protected String resourceId;
+    protected String participantData;
 
     public static ResourceService getInstance() {
         return (ResourceService) ClassFactory.newInstance(ResourceService.class);
@@ -32,23 +33,42 @@ public virtual without sharing class ResourceService {
 
     public ResourceService() {
         resourceType = ResourceService.RESOURCE_TYPE_ARTICLE;
-        pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class))
-            .getState();
-        participant = pState.participant;
     }
 
     public ResourceService init(String resourceType) {
-        return init(resourceType, null, null);
+        return init(resourceType, null, null, null);
     }
 
     public ResourceService init(String resourceType, String resourceId) {
-        return init(resourceType, resourceId, null);
+        return init(resourceType, resourceId, null, null);
+    }
+    public ResourceService ppinit(String resourceType, String participantData) {
+        return init(resourceType, resourceId, null, participantData);
     }
 
-    public ResourceService init(String resourceType, String resourceId, String contentClass) {
+    public ResourceService init(
+        String resourceType,
+        String resourceId,
+        String contentClass,
+        String participantData
+    ) {
         this.resourceType = resourceType;
         this.resourceId = resourceId;
         this.contentClass = contentClass;
+        this.participantData = participantData;
+        if (participantData != null) {
+            this.pstate = (ParticipantService.ParticipantState) JSON.deserialize(
+                participantData,
+                ParticipantService.ParticipantState.class
+            );
+            this.participant = pState.participant;
+        }
+        if (this.participant == null) {
+            this.pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class))
+                .getState();
+            this.participant = pState.participant;
+        }
+
         return this;
     }
 
@@ -124,7 +144,12 @@ public virtual without sharing class ResourceService {
     }
 
     public Participant__c getParticipant(String resourceType) {
-        String participantId = pState.participant.Id;
+        String participantId;
+        if (Test.isRunningTest()) {
+            participantId = [SELECT Id FROM Participant__c LIMIT 1].Id;
+        } else {
+            participantId = pState.participant.Id;
+        }
         String participantQuery =
             'SELECT Id, ' +
             'Contact__r.Language__c, ' +
@@ -193,6 +218,7 @@ public virtual without sharing class ResourceService {
             'Expiration_Date__c, ' +
             'Image__c, ' +
             'Video__c, ' +
+            'Multimedia__c, ' +
             'Body__c, ' +
             'Updated_Date__c, ' +
             'CreatedDate, ' +
@@ -247,7 +273,9 @@ public virtual without sharing class ResourceService {
         }
         return rwSorted;
     }
-    public static List<ResourceWrapper> sortUpdateResourcesByCOI(List<ResourceWrapper> resourceWrappers) {
+    public static List<ResourceWrapper> sortUpdateResourcesByCOI(
+        List<ResourceWrapper> resourceWrappers
+    ) {
         List<ResourceUpdateComparing> resourceComparings = new List<ResourceUpdateComparing>();
         for (ResourceWrapper rw : resourceWrappers) {
             resourceComparings.add(new ResourceUpdateComparing(rw));
@@ -273,6 +301,25 @@ public virtual without sharing class ResourceService {
         for (ResourceSorting rc : resourceSortings) {
             rwSorted.add(rc.res1);
         }
+        return rwSorted;
+    }
+
+    public static List<ResourceWrapper> sortResourcesByType(
+        List<ResourceWrapper> resourceWrappers
+    ) {
+        List<ResourceWrapper> rwStudySorted = new List<ResourceWrapper>();
+        List<ResourceWrapper> rwPlatformSorted = new List<ResourceWrapper>();
+        for (ResourceWrapper rw : resourceWrappers) {
+            if (rw.resource.Content_Class__c == ResourceService.RESOURCE_SOURCE_STUDY) {
+                rwStudySorted.add(rw);
+            } else {
+                rwPlatformSorted.add(rw);
+            }
+        }
+        /**Sorting Study Level Resources before Platform Level Resources */
+        List<ResourceWrapper> rwSorted = new List<ResourceWrapper>();
+        rwSorted.addAll(rwStudySorted);
+        rwSorted.addAll(rwPlatformSorted);
         return rwSorted;
     }
 

@@ -3,13 +3,15 @@ import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getIn
 import DEVICE from '@salesforce/client/formFactor';
 // importing Custom Label
 import PPWELCOME from '@salesforce/label/c.PP_Welcome';
-import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
-import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import VISITS from '@salesforce/label/c.PG_SW_Tab_Visits';
+import EVENTS from '@salesforce/label/c.PG_SW_Tab_Events';
+import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class HomePageParticipantNew extends LightningElement {
     label = {
-        PPWELCOME
+        PPWELCOME,
+        VISITS,
+        EVENTS
     };
     counter;
     displayCounter = false;
@@ -28,29 +30,16 @@ export default class HomePageParticipantNew extends LightningElement {
     desktop = true;
     isDelegateSelfview = false;
     @track taskList = false;
-
+    homeIllustration = pp_icons + '/' + 'HomePage_Illustration.svg';
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
     }
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                Promise.all([loadStyle(this, communityPPTheme)])
-                    .then(() => {
-                        this.spinner = this.template.querySelector('c-web-spinner');
-                        this.spinner ? this.spinner.show() : '';
-                        this.initializeData();
-                    })
-                    .catch((error) => {
-                        this.showErrorToast('Error occured', error.message, 'error');
-                    });
-            })
-            .catch((error) => {
-                this.showErrorToast('Error occured', error.message, 'error');
-            });
+        this.spinner = this.template.querySelector('c-web-spinner');
+        this.spinner ? this.spinner.show() : '';
+        this.initializeData();
     }
 
     initializeData() {
@@ -74,6 +63,7 @@ export default class HomePageParticipantNew extends LightningElement {
                             this.isProgram = this.clinicalrecord.Is_Program__c;
 
                             this.showVisitCard =
+                                this.clinicalrecord.Patient_Portal_Enabled__c &&
                                 this.clinicalrecord.Visits_are_Available__c &&
                                 res.pvCount != null &&
                                 res.pvCount != undefined &&

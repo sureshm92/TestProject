@@ -193,7 +193,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr.BirthDate__c                          = '1987-03-01';
         ipr.birthYear__c                          = '1987';
         ipr.Data_Source__c                        = 'ePR';
-        ipr.Delegate_Daytime_Phone_Number__c      = (system.now().millisecond()+''+system.now().month()+i+''+system.now().hour()+''+system.now().minute()+''+system.now().day()).substring(0,7);
+        ipr.Delegate_Daytime_Phone_Number__c      = '7801011';
         ipr.Delegate_Email_Address__c             = test1+'@dltestm.com';
         ipr.Delegate_First_Name__c                = 'dfn'+test1;
         ipr.Delegate_Last_Name__c                 = 'dln'+test1;
@@ -223,7 +223,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr1.BirthDate__c                          = '1987-03-01';
         ipr1.birthYear__c                          = '1987';
         ipr1.Data_Source__c                        = 'ePR';
-        ipr1.Delegate_Daytime_Phone_Number__c      = (system.now().millisecond()+''+system.now().month()+i+''+system.now().hour()+''+system.now().minute()+''+system.now().day()).substring(0,7);
+        ipr1.Delegate_Daytime_Phone_Number__c      = '7801019';
         ipr1.Delegate_Email_Address__c             = 'pi@emil.com';
         ipr1.Delegate_First_Name__c                = 'PITD';
         ipr1.Delegate_Last_Name__c                 = 'PITD';
@@ -252,7 +252,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr2.BirthDate__c                          = '1987-03-01';
         ipr2.birthYear__c                          = '1987';
         ipr2.Data_Source__c                        = 'ePR';
-        ipr2.Delegate_Daytime_Phone_Number__c      = (system.now().millisecond()+''+system.now().month()+i+''+system.now().hour()+''+system.now().minute()+''+system.now().day()).substring(0,7);
+        ipr2.Delegate_Daytime_Phone_Number__c      = '7801020';
         ipr2.Delegate_Email_Address__c             = 'hcp@emil.com';
         ipr2.Delegate_First_Name__c                = 'HCPTD';
         ipr2.Delegate_Last_Name__c                 = 'HCPTD';
@@ -283,7 +283,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr3.BirthDate__c                          = '1987-03-01';
         ipr3.birthYear__c                          = '1987';
         ipr3.Data_Source__c                        = 'ePR';
-        ipr3.Delegate_Daytime_Phone_Number__c      = (system.now().millisecond()+''+system.now().month()+i+''+system.now().hour()+''+system.now().minute()+''+system.now().day()).substring(0,7);
+        ipr3.Delegate_Daytime_Phone_Number__c      = '7801021';
         ipr3.Delegate_Email_Address__c             = 'pi_delegate@emil.com';
         ipr3.Delegate_First_Name__c                = 'PIDelTD';
         ipr3.Delegate_Last_Name__c                 = 'PIDelTD';
@@ -339,7 +339,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr.BirthDate__c                          = '1987-03-01';
         ipr.birthYear__c                          = '1987';
         ipr.Data_Source__c                        = 'ePR';
-        ipr.Delegate_Daytime_Phone_Number__c      = (system.now().millisecond()+''+system.now().month()+i+''+system.now().hour()+''+system.now().minute()+''+system.now().day()).substring(0,7);
+        ipr.Delegate_Daytime_Phone_Number__c      = '7801025';
         ipr.Delegate_Email_Address__c             = test1+'@dltestm.com';
         ipr.Delegate_First_Name__c                = 'dfn'+test1;
         ipr.Delegate_Last_Name__c                 = 'dln'+test1;
@@ -369,7 +369,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr1.BirthDate__c                          = '1987-03-01';
         ipr1.birthYear__c                          = '1987';
         ipr1.Data_Source__c                        = 'ePR';
-        ipr1.Delegate_Daytime_Phone_Number__c      = (system.now().millisecond()+''+system.now().month()+i+''+system.now().hour()+''+system.now().minute()+''+system.now().day()).substring(0,7);
+        ipr1.Delegate_Daytime_Phone_Number__c      = '7801012';
         ipr1.Delegate_Email_Address__c             = 'pi@emil.com';
         ipr1.Delegate_First_Name__c                = 'PITD';
         ipr1.Delegate_Last_Name__c                 = 'PITD';
@@ -426,7 +426,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr.BirthDate__c                          = '1987-03-01';
         ipr.birthYear__c                          = '1987';
         ipr.Data_Source__c                        = 'ePR';
-        ipr.Delegate_Daytime_Phone_Number__c      = (system.now().millisecond()+''+system.now().month()+i+''+system.now().hour()+''+system.now().minute()+''+system.now().day()).substring(0,7);
+        ipr.Delegate_Daytime_Phone_Number__c      = '7801013';
         ipr.Delegate_Email_Address__c             = test1+'@dltestm.com';
         ipr.Delegate_First_Name__c                = 'dfn'+test1;
         ipr.Delegate_Last_Name__c                 = 'dln'+test1;
@@ -456,7 +456,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr1.BirthDate__c                          = '1987-03-01';
         ipr1.birthYear__c                          = '1987';
         ipr1.Data_Source__c                        = 'ePR';
-        ipr1.Delegate_Daytime_Phone_Number__c      = (system.now().millisecond()+''+system.now().month()+i+''+system.now().hour()+''+system.now().minute()+''+system.now().day()).substring(0,7);
+        ipr1.Delegate_Daytime_Phone_Number__c      = '7801014';
         ipr1.Delegate_Email_Address__c             = 'pi@emil.com';
         ipr1.Delegate_First_Name__c                = 'PITD';
         ipr1.Delegate_Last_Name__c                 = 'PITD';
@@ -544,7 +544,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr.BirthDate__c                          = '1987-03-01';
         ipr.birthYear__c                          = '1987';
         ipr.Data_Source__c                        = 'ePR';
-        ipr.Delegate_Daytime_Phone_Number__c      = (system.now().millisecond()+''+system.now().month()+i+''+system.now().hour()+''+system.now().minute()+''+system.now().day()).substring(0,7);
+        ipr.Delegate_Daytime_Phone_Number__c      = '7801015';
         ipr.Delegate_Email_Address__c             = test1+'@dltestm.com';
         ipr.Delegate_First_Name__c                = 'dfn'+test1;
         ipr.Delegate_Last_Name__c                 = 'dln'+test1;
@@ -639,7 +639,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr.BirthDate__c                          = '1987-03-01';
         ipr.birthYear__c                          = '1987';
         ipr.Data_Source__c                        = 'ePR';
-        ipr.Delegate_Daytime_Phone_Number__c      = (system.now().millisecond()+''+system.now().month()+i+''+system.now().hour()+''+system.now().minute()+''+system.now().day()).substring(0,7);
+        ipr.Delegate_Daytime_Phone_Number__c      = '7801016';
         ipr.Delegate_Email_Address__c             = test1+'@dltestm.com';
         ipr.Delegate_First_Name__c                = 'dfn'+test1;
         ipr.Delegate_Last_Name__c                 = 'dln'+test1;
@@ -733,7 +733,7 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
         ipr.BirthDate__c                          = '1987-03-01';
         ipr.birthYear__c                          = '1987';
         ipr.Data_Source__c                        = 'ePR';
-        ipr.Delegate_Daytime_Phone_Number__c      = (system.now().millisecond()+''+system.now().month()+i+''+system.now().hour()+''+system.now().minute()+''+system.now().day()).substring(0,7);
+        ipr.Delegate_Daytime_Phone_Number__c      = '7801018';
         ipr.Delegate_Email_Address__c             = test1+'@dltestm.com';
         ipr.Delegate_First_Name__c                = 'dfn'+test1;
         ipr.Delegate_Last_Name__c                 = 'dln'+test1;

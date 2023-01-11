@@ -1,6 +1,7 @@
 public without sharing class DashboardRemoteNew {
     public static final String INITIAL_VISIT_SCHEDULED = 'Initial Visit Scheduled';
     public static final String ELIGIBILITY_PASSED = 'Eligibility Passed';
+    public static final String PE_STATUS_ELIGIBILITY_FAILED = 'Eligibility Failed';
     public static final String UNABLE_TO_REACH = 'Unable to Reach';
     public static final String PRE_REVIEW_PASSED = 'Pre-review Passed';
     public static final String PRE_REVIEW_FAILED = 'Pre-review Failed';
@@ -1248,6 +1249,7 @@ public without sharing class DashboardRemoteNew {
             STATUS_IN_WASH_OUT_PERIOD,
             STATUS_SCREENING_IN_PROGRESS_WASH_OUT,
             PE_STATUS_SCREENING_FAILED,
+            PE_STATUS_ELIGIBILITY_FAILED, 
             STATUS_ENROLLMENT_SUCCESS,
             STATUS_RANDOMIZATION_SUCCESS,
             PE_STATUS_ENROLLED,
@@ -1286,16 +1288,24 @@ public without sharing class DashboardRemoteNew {
         },
         'conditionStatus2' => new List<String>{
             PE_STATUS_SUCCESSFULLY_CONTACTED,
+            PE_STATUS_ELIGIBILITY_FAILED
+        },
+        'conditionStatus3' => new List<String>{
+            PE_STATUS_SUCCESSFULLY_CONTACTED,
+            ELIGIBILITY_PASSED
+        },
+        'conditionStatus4' => new List<String>{
+            PE_STATUS_SUCCESSFULLY_CONTACTED,
             STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_SCREENING_FAILED,
             STATUS_SCREENING_IN_PROGRESS,
             STATUS_UNABLE_TO_SCREEN
         },
-        'conditionStatus3' => new List<String>{
+        'conditionStatus5' => new List<String>{
             PE_STATUS_SUCCESSFULLY_CONTACTED,
             STATUS_CONTACT_ATTEMPTED
         },
-        'conditionStatus4' => new List<String>{
+        'conditionStatus6' => new List<String>{
             PE_STATUS_SCREENING_FAILED,
             STATUS_SCREENING_IN_PROGRESS,
             STATUS_UNABLE_TO_SCREEN,
@@ -1306,12 +1316,12 @@ public without sharing class DashboardRemoteNew {
             STATUS_DECLINED_CONSENT,
             STATUS_WITHDREW_CONSENT
         },
-        'conditionStatus5' => new List<String>{
+        'conditionStatus7' => new List<String>{
             STATUS_SCREENING_PASSED,
             STATUS_DECLINED_FINAL_CONSENT,
             STATUS_WITHDREW_CONSENT_AFTER_SCREENING
         },
-        'conditionStatus6' => new List<String>{
+        'conditionStatus8' => new List<String>{
             STATUS_ENROLLMENT_SUCCESS,
             STATUS_RANDOMIZATION_SUCCESS,
             STATUS_TREATMENT_PERIOD_STARTED,
@@ -1321,7 +1331,7 @@ public without sharing class DashboardRemoteNew {
             STATUS_DROP_OUT,
             STATUS_DECEASED
         },
-        'conditionStatus7' => new List<String>{
+        'conditionStatus9' => new List<String>{
             STATUS_ENROLLMENT_FAILED,
             STATUS_RANDOMIZATION_FAILED
         }
@@ -1334,11 +1344,13 @@ public without sharing class DashboardRemoteNew {
         Integer received = 0;
         Integer contacted = 0;
         Integer scheduled = 0;
+        Integer eligibility = 0;
         Integer screened = 0;
         Integer enrolled_randomized = 0;
         Date initialVisitScheduleddate;
         String participantEnrolmentStatus;
         Boolean initialVisitOccuredFlag;
+        Boolean initialVisitRequired;
         Integer total;
         try {
             AggregateResult[] groupResult = [
@@ -1346,6 +1358,7 @@ public without sharing class DashboardRemoteNew {
                     Participant_Status__c,
                     Initial_visit_scheduled_date__c,
                     Initial_visit_occurred_flag__c,
+                    Clinical_Trial_Profile__r.Initial_Visit_Required__c T,
                     Count(Id) total
                 FROM Participant_Enrollment__c
                 WHERE
@@ -1355,25 +1368,42 @@ public without sharing class DashboardRemoteNew {
                 GROUP BY
                     Participant_Status__c,
                     Initial_visit_scheduled_date__c,
-                    Initial_visit_occurred_flag__c
+                    Initial_visit_occurred_flag__c,
+                    Clinical_Trial_Profile__r.Initial_Visit_Required__c
 
             ];
             for (AggregateResult ar : groupResult) {
                 initialVisitScheduleddate = Date.ValueOf(ar.get('Initial_visit_scheduled_date__c'));
                 participantEnrolmentStatus = String.ValueOf(ar.get('Participant_Status__c'));
                 initialVisitOccuredFlag = Boolean.ValueOf(ar.get('Initial_visit_occurred_flag__c'));
+                initialVisitRequired = Boolean.ValueOf(ar.get('T'));
                 total = Integer.valueOf(ar.get('total'));
 
                 if (
-                    initialVisitScheduleddate == null &&
+                    initialVisitScheduleddate == null && 
                     funnelChartAndLeaderBoardStatusMap.get('conditionStatus1')
                         .contains(participantEnrolmentStatus)
                 ) {
                     contacted = contacted + total;
                 } else if (
-                    initialVisitScheduleddate != null &&
+                    initialVisitScheduleddate == null &&
                     initialVisitOccuredFlag == false &&
                     funnelChartAndLeaderBoardStatusMap.get('conditionStatus2')
+                        .contains(participantEnrolmentStatus)
+                ) {
+                    contacted = contacted + total;
+                }else if (
+                    initialVisitScheduleddate == null &&
+                    initialVisitOccuredFlag == false &&
+                    funnelChartAndLeaderBoardStatusMap.get('conditionStatus3')
+                        .contains(participantEnrolmentStatus)
+                ) {
+                    contacted = contacted + total;
+                    eligibility = eligibility + total;
+                } else if (
+                    initialVisitScheduleddate != null &&
+                    initialVisitOccuredFlag == false &&
+                    funnelChartAndLeaderBoardStatusMap.get('conditionStatus4')
                         .contains(participantEnrolmentStatus)
                 ) {
                     contacted = contacted + total;
@@ -1381,19 +1411,19 @@ public without sharing class DashboardRemoteNew {
                 }
                 if (initialVisitOccuredFlag == true) {
                     if (
-                        funnelChartAndLeaderBoardStatusMap.get('conditionStatus3')
-                            .contains(participantEnrolmentStatus)
-                    ) {
-                        contacted = contacted + total;
-                        scheduled = scheduled + total;
-                    } else if (
-                        funnelChartAndLeaderBoardStatusMap.get('conditionStatus4')
-                            .contains(participantEnrolmentStatus)
-                    ) {
-                        contacted = contacted + total;
-                        scheduled = scheduled + total;
-                    } else if (
                         funnelChartAndLeaderBoardStatusMap.get('conditionStatus5')
+                            .contains(participantEnrolmentStatus)
+                    ) {
+                        contacted = contacted + total;
+                        scheduled = scheduled + total;
+                    } else if (
+                        funnelChartAndLeaderBoardStatusMap.get('conditionStatus6')
+                            .contains(participantEnrolmentStatus)
+                    ) {
+                        contacted = contacted + total;
+                        scheduled = scheduled + total;
+                    } else if (
+                        funnelChartAndLeaderBoardStatusMap.get('conditionStatus7')
                             .contains(participantEnrolmentStatus)
                     ) {
                         contacted = contacted + total;
@@ -1401,16 +1431,49 @@ public without sharing class DashboardRemoteNew {
                         screened = screened + total;
                     }
                 }
-                if (
-                    funnelChartAndLeaderBoardStatusMap.get('conditionStatus6')
+                if (initialVisitOccuredFlag == false) {
+                    if (
+                           funnelChartAndLeaderBoardStatusMap.get('conditionStatus6')
+                               .contains(participantEnrolmentStatus)
+                       ) {
+                           contacted = contacted + total;
+                           eligibility = eligibility + total;
+                       } else if (
+                           funnelChartAndLeaderBoardStatusMap.get('conditionStatus7')
+                               .contains(participantEnrolmentStatus)
+                       ) {
+                           contacted = contacted + total;
+                           eligibility = eligibility + total;
+                           screened = screened + total;
+                       } 
+                   }  
+                if (initialVisitOccuredFlag == false &&
+                    funnelChartAndLeaderBoardStatusMap.get('conditionStatus8')
+                        .contains(participantEnrolmentStatus)
+                ) {
+                    contacted = contacted + total;
+                    eligibility = eligibility + total;
+                    screened = screened + total;
+                    enrolled_randomized = enrolled_randomized + total;
+                } else if ( 
+                    funnelChartAndLeaderBoardStatusMap.get('conditionStatus8')
                         .contains(participantEnrolmentStatus)
                 ) {
                     contacted = contacted + total;
                     scheduled = scheduled + total;
                     screened = screened + total;
                     enrolled_randomized = enrolled_randomized + total;
-                } else if (
-                    funnelChartAndLeaderBoardStatusMap.get('conditionStatus7')
+                } 
+                else if ( initialVisitOccuredFlag == false &&
+                    funnelChartAndLeaderBoardStatusMap.get('conditionStatus9')
+                        .contains(participantEnrolmentStatus)
+                ) {
+                    contacted = contacted + total;
+                    eligibility = eligibility + total;
+                    screened = screened + total;
+                }
+                else if (
+                    funnelChartAndLeaderBoardStatusMap.get('conditionStatus9')
                         .contains(participantEnrolmentStatus)
                 ) {
                     contacted = contacted + total;
@@ -1426,7 +1489,11 @@ public without sharing class DashboardRemoteNew {
             }
             returnData.add(new FunnelData(Label.Received, received, '#3DC2FA'));
             returnData.add(new FunnelData(Label.Successfully_Contacted, contacted, '#9914E6'));
-            returnData.add(new FunnelData(Label.Initial_Visit_Scheduled, scheduled, '#D892FF'));
+            if(initialVisitRequired == true){
+                returnData.add(new FunnelData(Label.Initial_Visit_Scheduled, scheduled, '#D892FF'));
+                }else {
+                    returnData.add(new FunnelData(Label.Eligibility_Passed,eligibility , '#D892FF'));
+                }
             returnData.add(new FunnelData(Label.Screening_Passed, screened, '#139458'));
             returnData.add(
                 new FunnelData(Label.Enrolled_Or_Randomized, enrolled_randomized, '#7AFFD3')

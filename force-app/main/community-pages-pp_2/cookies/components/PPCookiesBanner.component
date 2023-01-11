@@ -1,0 +1,510 @@
+<!--
+ - Created by Sandeep
+ -->
+ <apex:component id="PPCookiesBanner" controller="PPCookiesBannerController" allowDML="true">
+    <apex:actionFunction action="{!updateCookiePreferences}" name="updateCookies" reRender="none" />
+
+    <apex:actionFunction
+        action="{!fetchTheCookieData}"
+        name="fetchTheData"
+        reRender="strictCookiesInfo,functionCookiesInfo"
+        oncomplete="disableTheCookiesBanner()"
+    />
+
+    <apex:attribute name="userMode" type="String" description="" />
+    <style>
+        .desk-cookies-banner {
+            bottom: 0;
+            left: 0;
+            position: fixed;
+            opacity: 0.8;
+            border-radius: 16px 16px 0 0;
+            background-color: #000000;
+            box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .we-care-about-your-p {
+            color: #ffffff;
+            margin: 0 1.5rem 0 3rem;
+        }
+
+        .banner-heading {
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 32px;
+        }
+
+        .banner-txt {
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0;
+            line-height: 24px;
+        }
+
+        .desk-btn-margin {
+            margin-top: 2.2rem;
+        }
+
+        .btn-container {
+            height: 40px;
+            width: 264px;
+            border-radius: 20px;
+            background-color: #015ff1;
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+        }
+
+        .accept-btn-container {
+            height: 32px;
+            width: 156px;
+            border: none;
+            border-radius: 16px;
+            background-color: #0768fd;
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+        }
+
+        .btn-label {
+            color: #ffffff !important;
+            font-size: 1rem !important;
+            font-weight: 600 !important;
+            letter-spacing: 0;
+            line-height: 24px;
+            text-align: center;
+        }
+
+        .manage {
+            background-color: #ffffff;
+            color: #015ff1 !important;
+            font-size: 1rem !important;
+            font-weight: 600 !important;
+            letter-spacing: 0;
+            line-height: 24px;
+            text-align: center;
+        }
+
+        .cookie-btn {
+            pointer-events: auto;
+        }
+
+        .hide-banner {
+            display: none;
+        }
+
+        @media screen and (max-width: 768px) {
+            .mob-cookies-banner {
+                width: 100%;
+            }
+            .we-care-about-your-p {
+                margin: 0 1rem;
+            }
+            .mob-btn-center {
+                margin-top: 0 !important;
+                text-align: center;
+            }
+            .btn-container {
+                width: 366px !important;
+            }
+            /* Mobile modal css */
+            .always-active::before {
+                content: '\a';
+                white-space: pre;
+            }
+            .accordion .acordion-title.right-angle-chevron:after {
+                margin-top: -10px;
+            }
+            .accept-btn-container {
+                width: 100% !important;
+            }
+            .mob-lang-desc {
+                width: inherit;
+            }
+        }
+        /* Modal css */
+        .card-top-bg {
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            height: 16px;
+            background: linear-gradient(90deg, #005587 0%, #008d9e 100%);
+        }
+
+        .modal-header-text {
+            color: #000000;
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: 0;
+            line-height: 2rem;
+            padding: 0px;
+        }
+
+        .modal-body {
+            color: #444444;
+            font-family: 'Proxima Nova';
+            font-size: 16px;
+            letter-spacing: 0;
+            line-height: 24px;
+        }
+
+        .accordion {
+            box-sizing: border-box;
+            height: auto;
+            width: 100%;
+            padding: 14px 0 14px 0;
+            text-align: left;
+            margin-bottom: 0.5rem;
+            border: 1px solid #d9d9d9;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+            pointer-events: auto;
+        }
+
+        .acordion-title {
+            transform: rotate(-360deg);
+            color: #0768fd;
+            font-size: 18px;
+        }
+
+        .cookie-title {
+            box-sizing: border-box;
+            border-bottom: 1px solid #e9e9e9;
+            padding: 0.391rem;
+            color: #444444;
+            font-weight: 500;
+        }
+
+        .cookie-title:nth-child(1) {
+            border-top: 1px solid #e9e9e9 !important;
+        }
+
+        .cookie-title:last-child {
+            border-bottom: none !important;
+        }
+
+        .rr-cookie-title {
+            box-sizing: border-box;
+            border-bottom: 1px solid #e9e9e9;
+            padding: 0.391rem;
+            color: #444444;
+            font-weight: 500;
+        }
+
+        .rr-cookie-title:nth-child(1) {
+            border-top: 1px solid #e9e9e9 !important;
+        }
+
+        .rr-cookie-title:last-child {
+            border-bottom: none !important;
+        }
+
+        .rr-language-title {
+            padding: 0.391rem;
+            color: #444444;
+            font-weight: 500;
+        }
+
+        .panel {
+            padding-top: 1rem;
+            width: 100%;
+            display: none;
+            overflow: hidden;
+        }
+
+        .accordion .acordion-title:after {
+            content: url({!$Resource.pp_community_icons + '/right.svg'});
+            float: right;
+            width: 1em;
+            margin-top: 0.2rem;
+        }
+
+        .accordion.active .acordion-title:after {
+            /** content: "\02C5"; **/
+            content: url({!$Resource.pp_community_icons + '/right.svg'});
+            transform: rotate(90deg);
+            margin-right: 6px;
+        }
+
+        .space-between {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .always-active {
+            color: #999999;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 12rem;
+        }
+        .cookie-title-font-size {
+            font-size: 16px;
+        }
+    </style>
+    <div class="c-container desk-cookies-banner mob-cookies-banner hide-banner">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_12-of-12 slds-large-size_8-of-12 slds-p-around_small">
+                <div class="we-care-about-your-p">
+                    <div class="banner-heading slds-m-top_small">
+                        {!$Label.PP_Cookie_Banner_Header}
+                    </div>
+                    <div class="banner-txt slds-m-top_x-small slds-show_medium">
+                        {!$Label.PP_Cookies_Banner_Desc1}
+                        <b>{!$Label.PP_Cookies_Banner_Desc2}</b>
+                        {!$Label.PP_Cookies_Banner_Desc3}
+                    </div>
+                    <div class="banner-txt slds-m-top_x-small slds-hide_medium">
+                        {!$Label.PP_Cookies_Banner_Desc1}
+                    </div>
+                    <div class="banner-txt slds-m-vertical_xx-small slds-hide_medium">
+                        <b>{!$Label.PP_Cookies_Banner_Desc2}</b>
+                    </div>
+                    <div class="banner-txt slds-hide_medium">{!$Label.PP_Cookies_Banner_Desc3}</div>
+                </div>
+            </div>
+            <div
+                class="slds-col slds-size_12-of-12 slds-large-size_4-of-12 desk-btn-margin mob-btn-center slds-p-around_small"
+            >
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                        <apex:commandButton
+                            styleClass="btn-container btn-label cookie-btn"
+                            value="{!$Label.PP_Cookies_Button_Accept}"
+                            onclick="closeCookiesInfo();return false;"
+                            id="accept"
+                        />
+                    </div>
+                    <div
+                        class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-m-top_large"
+                    >
+                        <apex:commandButton
+                            styleClass="btn-container manage cookie-btn"
+                            value="{!$Label.PP_Cookies_Button_Manage_Prefer}"
+                            onclick="showManagePreferences();return false;"
+                            id="manage"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="bannerId" style="display:none;pointer-events:auto;">
+        <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-grid card-top-bg"></div>
+                <div class="slds-modal__content slds-p-around_large">
+                    <div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small">
+                        <div class="slds-col modal-header-text">
+                            {!$Label.Cookies_Manage_Cookies}
+                        </div>
+                    </div>
+                    <div class="body-container modal-body slds-m-bottom_medium">
+                        {!$Label.Manage_Cookies_Desc}
+                    </div>
+
+                    <div class="accordion">
+                        <div class="acordion-title right-angle-chevron slds-p-horizontal_medium">
+                            {!$Label.AccountSettings_Strictly_Necessary_Cookies}
+                            <span class="always-active">{!$Label.Cookie_Always_Active}</span>
+                        </div>
+                        <div class="panel">
+                            <apex:outputPanel id="strictCookiesInfo">
+                                <apex:repeat value="{!cookieSettings}" var="cookieSetting">
+                                    <div class="cookie-title slds-p-horizontal_medium">
+                                        <div class="cookie-title-font-size">
+                                            <apex:outputText value="{!cookieSetting.cookieName}" />
+                                        </div>
+                                        <div>
+                                            <apex:outputText
+                                                value="{!cookieSetting.cookieDescription}"
+                                            />
+                                        </div>
+                                    </div>
+                                </apex:repeat>
+                            </apex:outputPanel>
+                        </div>
+                    </div>
+                    <div class="accordion">
+                        <apex:outputPanel id="functionCookiesInfo">
+                            <div class="acordion-title slds-p-horizontal_medium">
+                                {!$Label.AccountSettings_Functional_Cookies}
+                            </div>
+                            <div class="panel">
+                                <div class="slds-grid rr-cookie-title slds-p-horizontal_medium">
+                                    <div class="slds-col slds-size_10-of-12">
+                                        <div class="cookie-title-font-size">
+                                            {!$Label.AccountSettings_Functional_RRCookies}
+                                        </div>
+                                        <div>{!$Label.AccountSettings_RRCookies_Description}</div>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-12 slds-m-top_large">
+                                        <div class="slds-form-element">
+                                            <label
+                                                class="slds-checkbox_toggle slds-grid slds-grid_align-center"
+                                            >
+                                                <apex:inputCheckbox
+                                                    id="currentRRCookies"
+                                                    value="{!currentContact.RRCookiesAllowedCookie__c}"
+                                                />
+                                                <span
+                                                    id="checkbox-toggle-16"
+                                                    class="slds-checkbox_faux_container"
+                                                    aria-live="assertive"
+                                                >
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid rr-language-title slds-p-horizontal_medium">
+                                    <div class="slds-col slds-size_10-of-12">
+                                        <div class="cookie-title-font-size">
+                                            {!$Label.AccountSettings_Cookies_RRLanguage}
+                                        </div>
+                                        <div class="mob-lang-desc">
+                                            {!$Label.AccountSettings_Cookies_RRLanguage_Description}
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-12 slds-m-top_large">
+                                        <div class="slds-form-element">
+                                            <label
+                                                class="slds-checkbox_toggle slds-grid slds-grid_align-center"
+                                            >
+                                                <apex:inputCheckbox
+                                                    value="{!currentContact.RRLanguageAllowedCookie__c}"
+                                                />
+                                                <span
+                                                    id="checkbox-toggle-16"
+                                                    class="slds-checkbox_faux_container"
+                                                    aria-live="assertive"
+                                                >
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                    </div>
+
+                    <div class="slds-grid slds-grid_align-end slds-m-top_medium">
+                        <apex:commandButton
+                            styleClass="accept-btn-container btn-label cookie-btn"
+                            value="{!$Label.BTN_Accept}"
+                            onclick="closeManageModal();updateCookies();return false;"
+                            id="manageaccept"
+                        />
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="spinner" class="demo-only demo-only_viewport" style="display: none">
+        <div role="status" class="slds-spinner slds-spinner_medium">
+            <span class="slds-assistive-text">{!$Label.Loading}</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+
+    <script>
+        var agreedtoPolicy = false;
+        var init = true;
+        var dataIsAvailable = false;
+        fetchTheData();
+        var acc = document.getElementsByClassName('accordion');
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener('click', function () {
+                this.classList.toggle('active');
+                var panel = this.getElementsByTagName('div')[1];
+                if (panel.style.display === 'block') {
+                    panel.style.display = 'none';
+                } else {
+                    panel.style.display = 'block';
+                }
+            });
+        }
+        /** End - Modal **/
+        var isIE =
+            navigator.appName === 'Microsoft Internet Explorer' ||
+            !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) ||
+            (typeof $.browser !== 'undefined' && $.browser.msie === 1);
+        var paramId = 'RRCookies';
+        if (!isIE) paramId = 'LSKey[c]' + paramId;
+        var rrCookies = communityService.getCookie(paramId);
+        if (!rrCookies) {
+            $('.hide-banner').removeClass('hide-banner');
+            document.body.classList.add('cookie-block-user');
+            document.body.addEventListener('keypress', bodyBlock);
+            document.body.addEventListener('keydown', bodyBlock);
+        } else {
+            let currentDate = new Date();
+            var browserCookiesObj = JSON.parse(localStorage.getItem('cookieslist'));
+            let additionalCookieslabel = '{!JSENCODE($Label.Additional_Cookies)}';
+            if (
+                browserCookiesObj.cookies &&
+                additionalCookieslabel != 'NONE' &&
+                additionalCookieslabel
+            ) {
+                if (browserCookiesObj.cookies != additionalCookieslabel) {
+                    if (new Date(browserCookiesObj.expiry) < currentDate) {
+                        localStorage.removeItem('cookieslist');
+                    }
+                    $('.hide-banner').removeClass('hide-banner');
+                    document.body.classList.add('cookie-block-user');
+                }
+            }
+        }
+
+        function closeCookiesInfo() {
+            agreedtoPolicy = true;
+            communityService.setCookie(paramId, 'agreed', 365);
+            let date = new Date();
+            date.setDate(date.getDate() + 365);
+            const cookieListObj = {
+                cookies: '{!JSENCODE($Label.Additional_Cookies)}',
+                expiry: date
+            };
+            localStorage.setItem('cookieslist', JSON.stringify(cookieListObj));
+            document.body.removeEventListener('keypress', this.bodyBlock);
+            document.body.removeEventListener('keydown', this.bodyBlock);
+            $('.c-container').addClass('hide-banner');
+            document.body.classList.remove('cookie-block-user');
+            closeManageModal();
+            event.preventDefault();
+        }
+        function bodyBlock(event) {
+            event.preventDefault();
+        }
+        function showManagePreferences() {
+            init = false;
+            $('#spinner').css('display', 'block');
+            $('.c-container').addClass('hide-banner');
+            let ele = document.getElementById('bannerId');
+            if (dataIsAvailable) {
+                if (!agreedtoPolicy && !rrCookies && !init) {
+                    ele.style.display = 'block';
+                    $('#spinner').css('display', 'none');
+                }
+            }
+        }
+        function disableTheCookiesBanner() {
+            dataIsAvailable = true;
+            $('#spinner').css('display', 'none');
+            let ele = document.getElementById('bannerId');
+            if (!agreedtoPolicy && !rrCookies && !init) ele.style.display = 'block';
+        }
+        function closeManageModal() {
+            agreedtoPolicy = true;
+            let ele = document.getElementById('bannerId');
+            ele.style.display = 'none';
+            var checkedVal = $('[id$=currentRRCookies]').is(':checked');
+            if (checkedVal) {
+                closeCookiesInfo();
+            }
+            event.preventDefault();
+        }
+    </script>
+</apex:component>

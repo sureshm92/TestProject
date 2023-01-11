@@ -54,7 +54,12 @@
                     </span></template
                 >
             </div>
-            <h1 class="what-to-expect">{label.visitdetails}</h1>
+            <template if:true={isEvent}>
+                <h1 class="what-to-expect">{label.eventdetails}</h1>
+            </template>
+            <template if:false={isEvent}>
+                <h1 class="what-to-expect">{label.visitdetails}</h1>
+            </template>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 card-content">
                 <div class="slds-clearfix">
                     <c-pp-study-visit-details-card
@@ -70,6 +75,7 @@
                         sitephone={sitePhoneNumber}
                         ondataupdated={handleDataUpdate}
                         ondiscard={handleDiscard}
+                        isevent={isEvent}
                     >
                     </c-pp-study-visit-details-card>
 
