@@ -285,7 +285,7 @@
         </div>
     </div>
 
-    <div id="bannerId">
+    <div id="bannerId" style="display:none;pointer-events:auto;">
         <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
             <div class="slds-modal__container">
                 <div class="slds-grid card-top-bg"></div>
