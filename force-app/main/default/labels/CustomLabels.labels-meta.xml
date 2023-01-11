@@ -4500,6 +4500,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Continue</value>
     </labels>
     <labels>
+        <fullName>Cookie_Always_Active</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cookie Always Active</shortDescription>
+        <value>ALWAYS ACTIVE</value>
+    </labels>
+    <labels>
         <fullName>Cookies_Info_Text</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4529,6 +4536,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <shortDescription>Cookies Info Text Registration Page</shortDescription>
         <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist only during one session and disappear from your computer when you close your browser or turn off your computer. Persistent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website.&lt;br/&gt;
 By using our website, you are accepting our use of cookies.</value>
+    </labels>
+    <labels>
+        <fullName>Cookies_Manage_Cookies</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cookies Manage Cookies</shortDescription>
+        <value>Manage Cookie Preferences</value>
     </labels>
     <labels>
         <fullName>Copy_of_my_personal_information</fullName>
@@ -11188,6 +11202,14 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>MS Toast Message ST Send</shortDescription>
         <value>Your message was successfully sent to Study Team!</value>
+    </labels>
+    <labels>
+        <fullName>Manage_Cookies_Desc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Manage Cookies Desc</shortDescription>
+        <value>We use cookies to operate this website, improve usability and personalize your
+            experience.</value>
     </labels>
     <labels>
         <fullName>Manage_My_Payments</fullName>
@@ -29882,7 +29904,7 @@ Please contact the Study Team for further updates or please login for additional
 
             To assist you in tracking where you are in the  ##isStudyorProgram, please log in to the ##ShortCommunityName.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement for enrollment into the research ##isStudyorProgram: ##StudyName.</value>
+            Please note that enrollment in the ##ShortCommunityName is not a requirement for enrollment into the research ##isStudyorProgram: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient_New_PP</fullName>
@@ -29894,11 +29916,7 @@ Please contact the Study Team for further updates or please login for additional
             We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the enrollment process.
             
             The IQVIA Patient Portal includes:
-            
-            information about ##isEventorVisit and activities
-            your ##isStudyorProgram timeline to help you keep track of your progress 
-            interesting articles and additional information about research.
-            
+                     
             Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram team.
             
             Your user name is ##UserName.</value>
