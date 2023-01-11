@@ -163,6 +163,14 @@ public without sharing class TaskService {
         if (sortOrder != null)
             commonFilter += ' ' + sortOrder;
         List<Task> tasks;
+        if(currentMode.participantState == 'ALUMNI' && currentMode.isDelegate && ParticipantContext.getCurrentUserId() != null){
+            String alumniFilter;
+            alumniFilter = 'WhatId IN (Select Participant_Enrollment__c from Patient_Delegate_Enrollment__c Where Patient_Delegate__r.Contact__c = \''+
+            ParticipantContext.getOwnParticipant().Contact__c + '\'' +
+            ' AND Patient_Delegate__r.Participant__r.Contact__c = \''+
+            ParticipantContext.getCurrentContact().Id + '\'' +')';
+            commonFilter = alumniFilter +' AND ' + commonFilter;
+        }
         if (isDecoupled && ParticipantContext.getCurrentUserId() == null) {
             //Added for Minor Participant's Delegates
             tasks = (List<Task>) DatabaseService.query(
@@ -170,13 +178,14 @@ public without sharing class TaskService {
                 Task.getSObjectType(),
                 commonFilter
             );
-        } else {
+        }else {
             tasks = (List<Task>) DatabaseService.query(
                 DEFAULT_FIELDS,
                 Task.getSObjectType(),
                 commonFilter
             );
         }
+        //send task list after filtering delegate tasks in patient view only
         TaskTriggerHandler.processDefaultFieldValues(tasks);
         return filterTasks(tasks);
     }
@@ -375,6 +384,7 @@ public without sharing class TaskService {
                     Patient_Delegate__r.Contact__c
                 FROM Patient_Delegate_Enrollment__c
                 WHERE Participant_Enrollment__c IN :peIds
+                AND Status__c = 'Active'
             ];
         }
         Set<Id> delContactIds = new Set<Id>();
