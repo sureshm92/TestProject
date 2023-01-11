@@ -109,6 +109,9 @@
         var trialId = siteWrapper.studySite.Clinical_Trial_Profile__c;
         var trial = siteWrapper.studySite.Clinical_Trial_Profile__r;
         var isSuppressed = false;
+        if(JSON.parse(sessionStorage.getItem("callFetchList") )){
+            sessionStorage.removeItem("callFetchList");
+        }
         if (
             siteWrapper.studySite.Suppress_Participant_Emails__c ||
             siteWrapper.studySite.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
