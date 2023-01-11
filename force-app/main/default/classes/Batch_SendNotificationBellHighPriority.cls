@@ -1,7 +1,8 @@
 global without sharing class Batch_SendNotificationBellHighPriority extends Batch_ScheduledAbstract implements Database.Batchable<sObject>, Database.Stateful {
     global List<String> lstOfStatus = new List<String>{'Received', 'Contact Attempted', 'Pre-review Passed', 'Successfully Contacted', 'Successfully re-engaged'};    
-    global Map<String, Set<String>> mapOfSiteVsContact = new Map<String, Set<String>>();
-    global Map<String, Set<String>> mapOfCommVsContact = new Map<String, Set<String>>();    
+        global Map<String, Set<String>> mapOfSiteVsContact = new Map<String, Set<String>>();
+    global Map<String, Set<String>> mapOfCommVsContact = new Map<String, Set<String>>();   
+    global Map<String, Set<String>> mapOfCommVsContactClubbed = new Map<String, Set<String>>();   
     global Map<String, String> mapOfCommTemp = new Map<String, String>();
     global Map<String, String> mapOfSiteVsStudy = new Map<String, String>();
     
@@ -46,8 +47,23 @@ global without sharing class Batch_SendNotificationBellHighPriority extends Batc
         }
         
         //  System.debug('mapOfCommVsContact=='+mapOfCommVsContact);
+        Set<String> contactListdefault = new Set<String>();
+        Set<String> contactListJanssen = new Set<String>();
         for(String eachRec : mapOfCommVsContact.keySet()){
-            for(String eachCon : mapOfCommVsContact.get(eachRec)){
+            if(eachRec == 'Default' || eachRec == 'GSK'){
+                contactListdefault.addAll(mapOfCommVsContact.get(eachRec));
+            }else if(eachRec == 'Janssen'){
+                contactListJanssen.addAll(mapOfCommVsContact.get(eachRec));
+            }
+        }
+        if(!contactListdefault.IsEmpty()){
+            mapOfCommVsContactClubbed.put('Default', contactListdefault);
+        }
+        if(!contactListJanssen.IsEmpty()){
+            mapOfCommVsContactClubbed.put('Janssen', contactListJanssen);
+        }
+        for(String eachRec : mapOfCommVsContactClubbed.keySet()){
+            for(String eachCon : mapOfCommVsContactClubbed.get(eachRec)){
                 Notification__c notificationRec = BellNotificationsHelper.createNotification('BELL_Message_on_Action_High_Priority', eachCon, 'PI', eachRec, false);  
                 allNotificationList.add(notificationRec);
             }            
