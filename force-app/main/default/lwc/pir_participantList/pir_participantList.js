@@ -1211,6 +1211,9 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                     else if (lowerCaseHI == 'no'){
                         csvStringResult += '"' + 'No'+ '"' + ',';
                     }
+                    else {
+                        csvStringResult += '" "' + ',';
+                    }
                 } else {
                     csvStringResult += '" "' + ',';
                 }
