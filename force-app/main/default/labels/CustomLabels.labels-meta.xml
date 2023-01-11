@@ -11531,7 +11531,7 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>My_Events</shortDescription>
         <value>My Events</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>My_Participant</fullName>
         <language>en_US</language>
@@ -11650,7 +11650,7 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Navigation My Program</shortDescription>
         <value>My Program</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>Navigation_My_Study_Sites</fullName>
         <language>en_US</language>
@@ -18396,7 +18396,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG SW Tab About The Program</shortDescription>
         <value>About the Program</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>PG_SW_Tab_Lab_Results</fullName>
         <language>en_US</language>
@@ -18473,7 +18473,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Visits tab</shortDescription>
         <value>Events</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>PG_Mobile_Title_Upcoming_Events</fullName>
         <language>en_US</language>
@@ -18487,7 +18487,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>UPCOMING VISIT</shortDescription>
         <value>UPCOMING VISIT</value>
-    </labels>        
+    </labels>
     <labels>
         <fullName>PG_SW_Title</fullName>
         <language>en_US</language>
@@ -21589,14 +21589,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MaxNoWeek</shortDescription>
-        <value>4</value> 
+        <value>4</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>RH_MinNoWeek</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MinNoWeek</shortDescription>
-        <value>2</value> 
+        <value>2</value>
     </labels>
     <labels>
         <fullName>RH_Address_Line_1</fullName>
@@ -28060,7 +28060,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You must grant microphone permission to join televisit</shortDescription>
-        <value>You must grant microphone permission to join the Televisit. Please grant permission and Join.</value>
+        <value>You must allow browser access to your microphone to join the Televisit. Please grant permission in your browser settings and Join.</value>
     </labels>
     <labels>
         <fullName>Back</fullName>
@@ -28686,7 +28686,7 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>View Event Details</shortDescription>
         <value>View Event Details</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>Visit_No_Expect</fullName>
         <language>en_US</language>
@@ -29320,7 +29320,7 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>Event_PP</shortDescription>
         <value>event</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>Event_No_Past_Event</fullName>
         <categories></categories>
@@ -29328,7 +29328,7 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>Event No Past Event</shortDescription>
         <value>No past events</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>Event_No_Upcoming_Event</fullName>
         <categories></categories>
@@ -29336,7 +29336,7 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>Event No Upcoming Event</shortDescription>
         <value>No upcoming event</value>
-    </labels>   
+    </labels>
     <labels>
         <fullName>Event_No_Upcoming_Events</fullName>
         <categories></categories>
@@ -29344,7 +29344,7 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>Event No Upcoming Events</shortDescription>
         <value>No upcoming events</value>
-    </labels>       
+    </labels>
     <labels>
         <fullName>Visits_PP</fullName>
         <language>en_US</language>
