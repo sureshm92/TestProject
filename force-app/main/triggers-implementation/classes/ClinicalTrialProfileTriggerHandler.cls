@@ -409,7 +409,8 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
                     //If for "Pre-consent" Toggle at CTP is is On.
                     ctp.Received_Until_Consent_Is_Available__c !=
                     oldMap.get(ctp.Id).Received_Until_Consent_Is_Available__c &&
-                    ctp.Received_Until_Consent_Is_Available__c == true
+                    ctp.Received_Until_Consent_Is_Available__c == true &&
+                    ctp.CommunityTemplate__c != 'PatientPortal'
                 ) {
                     lauchBatch = true;
                     ctpIds.Add(ctp.Id);
@@ -417,7 +418,8 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
                     //If "Consent through Enrolled/Randomized toggle at CTP" is On.
                     ctp.Enrolled_Or_Randomized_Consent_Available__c !=
                     oldMap.get(ctp.Id).Enrolled_Or_Randomized_Consent_Available__c &&
-                    ctp.Enrolled_Or_Randomized_Consent_Available__c == true
+                    ctp.Enrolled_Or_Randomized_Consent_Available__c == true &&
+                    ctp.CommunityTemplate__c != 'PatientPortal'
                 ) {
                     lauchBatch = true;
                     ctpIds.Add(ctp.Id);
