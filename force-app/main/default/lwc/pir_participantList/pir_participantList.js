@@ -483,6 +483,9 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         }
         if(!this.isEnabled){ 
             this.listOfIds=[];
+        }else{ 
+            this.enteredSearchString = '';
+            this.srchTxt=' ';
         }
         getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount,
             sponsorName  : this.communityTemplate, filterWrapper : JSON.stringify(this.filterWrapper),isDCTFiltered: this.isDCTFiltered,
