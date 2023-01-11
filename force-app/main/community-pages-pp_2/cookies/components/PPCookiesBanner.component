@@ -6,7 +6,6 @@
         action="{!updateCookiePreferences}"
         name="updateCookies"
         reRender="none"
-        oncomplete="closeManageModal()"
     />
 
     <apex:actionFunction
@@ -377,7 +376,7 @@
                         <apex:commandButton
                             styleClass="accept-btn-container btn-label cookie-btn"
                             value="{!$Label.BTN_Accept}"
-                            onclick="updateCookies();return false;"
+                            onclick="closeManageModal();updateCookies();return false;"
                             id="manageaccept"
                         />
                     </div>
@@ -491,6 +490,7 @@
             if (checkedVal) {
                 closeCookiesInfo();
             }
+            event.preventDefault();
         }
     </script>
 </apex:component>
