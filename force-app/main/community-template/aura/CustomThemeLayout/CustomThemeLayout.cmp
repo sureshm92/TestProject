@@ -224,10 +224,12 @@
                         />
                     </aura:if>
                     <!-- Televisit Meet Banner Section PEH-5892 -->
-                    <c:televisitMeetBanner
-                        urlPathPrefix="{!v.urlPathPrefix}"
-                        currentMode="{!v.currentMode}"
-                    ></c:televisitMeetBanner>
+                    <aura:if isTrue="{!v.template != 'PatientPortal'}">
+                        <c:televisitMeetBanner
+                            urlPathPrefix="{!v.urlPathPrefix}"
+                            currentMode="{!v.currentMode}"
+                        ></c:televisitMeetBanner>
+                    </aura:if>
                 </aura:if>
                 {!v.body}
             </div>
