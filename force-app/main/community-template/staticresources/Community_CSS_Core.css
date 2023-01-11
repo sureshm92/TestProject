@@ -1898,6 +1898,10 @@ input[type=password]::-ms-clear
     overflow-x: hidden;
     padding-top: 0px;
 }
+.cookie-block-user {
+    pointer-events: none;
+    overflow: hidden !important;
+}
 .e-consent-aligment .slds-checkbox .slds-checkbox__label .slds-form-element__label {
     font-size: 14px !important;
     padding: 0 5px 0 5px;
