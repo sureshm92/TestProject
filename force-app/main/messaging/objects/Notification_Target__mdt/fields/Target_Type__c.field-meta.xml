@@ -25,6 +25,11 @@
                 <default>false</default>
                 <label>Push</label>
             </value>
+            <value>
+                <fullName>Bell</fullName>
+                <default>false</default>
+                <label>Bell</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
