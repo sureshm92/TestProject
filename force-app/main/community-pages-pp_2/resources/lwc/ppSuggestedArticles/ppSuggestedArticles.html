@@ -1,0 +1,37 @@
+<template>
+    <div class="headerTitle">You may also like</div>
+    <div class="parent">
+        <div class="slds-align--absolute-center chevronLp">
+            <lightning-icon size="small" icon-name="utility:chevronleft" alternative-text="left" class="chevronL disableCursor" onclick={goLeft}></lightning-icon>
+        </div>
+        <div style="width: inherit;">
+            <div class="topdiv" if:true={showData}>        
+                <template for:each={resourcesData} for:item="res">
+                    <div class="mask" key={res} data-id={res.resource.Id} onclick={navigateToRes}> 
+                        <div if:true={res.resource.Image__c} class="imgDiv"><img src={res.resource.Image__c} style="height: 149px; width:100%; border-top-left-radius: 8px; border-top-right-radius: 8px; object-fit: cover;"/></div>
+                        <div if:false={res.resource.Image__c} class="imgDiv">
+                            <div class="icon-center">
+                                <c-web-icon
+                                    icon-color="#b5b5b5"
+                                    icon-width="120"
+                                    icon-height="95"
+                                    icon-name="empty-thumbnail"
+                                ></c-web-icon>
+                            </div>
+                        </div>
+                        <div class="title">{res.resource.Title__c}</div>
+                        <div class="vd">{res.resource.Version_Date__c}</div>
+                            
+                    </div>
+                </template> 
+            </div>
+        </div>
+        <div if:true={showRight} class="slds-align--absolute-center">
+            <lightning-icon size="small" icon-name="utility:chevronright" alternative-text="right" onclick={goRight} class="chevronR"></lightning-icon>
+        </div>
+        <div if:false={showRight} class="slds-align--absolute-center">
+            <lightning-icon size="small" icon-name="utility:chevronright" alternative-text="right" class="chevronR disableCursor"></lightning-icon>
+        </div>
+    </div>
+    
+</template>
