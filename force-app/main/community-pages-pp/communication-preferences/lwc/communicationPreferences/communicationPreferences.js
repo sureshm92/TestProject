@@ -32,6 +32,16 @@ import PP_Phone_Numeric from '@salesforce/label/c.PP_Phone_Numeric';
 import Mob_Phone_Field from '@salesforce/label/c.Mob_Phone_Field';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
 
+import PP_Study_Consent_Adult_ROW from '@salesforce/label/c.PP_Study_Consent_Adult_ROW';
+import PP_Study_Consent_Adult_US from '@salesforce/label/c.PP_Study_Consent_Adult_US';
+import PP_Communication_Purchase_Pref from '@salesforce/label/c.PP_Communication_Purchase_Pref';
+import PP_IQVIA_Communication_US from '@salesforce/label/c.PP_IQVIA_Communication_US';
+import PP_Outreach_Communication_Pref_A from '@salesforce/label/c.PP_Outreach_Communication_Pref_A';
+import PP_Outreach_Communication_Pref_B from '@salesforce/label/c.PP_Outreach_Communication_Pref_B';
+import PP_Outreach_Communication_Pref_C from '@salesforce/label/c.PP_Outreach_Communication_Pref_C';
+import PP_Outreach_Communication_Pref_D from '@salesforce/label/c.PP_Outreach_Communication_Pref_D';
+
+
 //END TO DO
 
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
@@ -51,6 +61,14 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     @api userMode;
 
     label = {
+        PP_Outreach_Communication_Pref_D,
+        PP_Outreach_Communication_Pref_C,
+        PP_Outreach_Communication_Pref_B,
+        PP_Outreach_Communication_Pref_A,
+        PP_IQVIA_Communication_US,
+        PP_Communication_Purchase_Pref,
+        PP_Study_Consent_Adult_US,
+        PP_Study_Consent_Adult_ROW,
         PP_Communication_Pref,
         PP_Communication_Pref_Study,
         PP_Communication_Pref_Study_consent,
@@ -117,6 +135,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
 
     errorIconPosition = 'margin-left: 0px';
 
+    isCountryUS = false;
     //@track phoneSvg = rr_community_icons +'/'+'logo.svg';
     phoneSvg = rr_community_icons + '/' + 'com-phone.svg' + '#' + 'com-phone';
     emailSvg = rr_community_icons + '/' + 'com-email.svg' + '#' + 'com-email';
@@ -152,6 +171,8 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                 this.updateALLOutReachFlag();
                 this.setConsentVisibility();
 
+                this.isCountryUS = (this.consentPreferenceDataLocal.myContact.MailingCountry!= undefined &&  this.consentPreferenceDataLocal.myContact.MailingCountry == 'United States' ? true : false);
+                
                 if (!this.isMobilePhoneNumberAvailable) {
                     this.studyError = this.checkSMSCheckedOrNot();
                 }
