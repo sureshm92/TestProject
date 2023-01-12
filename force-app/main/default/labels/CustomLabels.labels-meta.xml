@@ -29801,9 +29801,7 @@ Please contact the Study Team for further updates or please login for additional
             
             The IQVIA Patient Portal includes:
                      
-            Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram team.
-            
-            Your user name is ##UserName.</value>
+            </value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Dele_Reactivated_PP</fullName>
