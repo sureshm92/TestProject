@@ -227,8 +227,8 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
         boolean enrollRandomizeConsentToggle = pe.Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c;
         boolean isPatientPortalNew = pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal'?true:false;
 
-        if(isPatientPortalNew){
-            //ignore these records
+        if(isPatientPortalNew && !PEStatusState.PE_STATUS_GROUP_PRE_ENROLLMENT.contains(pe.Participant_Status__c)){
+            ignorePER = true;
         } else if (preConcentToggle && enrollRandomizeConsentToggle) {
             //If Both "Pre-consent" and "Consent through Enrolled/Randomized" toggles are On at Visit Configuration at CTP.
             if (!PEStatusState.PE_STATUS_GROUP_PRE_ENROLLMENT.contains(pe.Participant_Status__c)) {
