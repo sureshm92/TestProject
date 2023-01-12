@@ -4,7 +4,7 @@
         <div class="slds-align--absolute-center chevronLp">
             <lightning-icon size="small" icon-name="utility:chevronleft" alternative-text="left" class="chevronL disableCursor" onclick={goLeft}></lightning-icon>
         </div>
-        <div style="width: inherit;">
+        <div class="wide">
             <div class="topdiv" if:true={showData}>        
                 <template for:each={resourcesData} for:item="res">
                     <div class="mask" key={res} data-id={res.resource.Id} onclick={navigateToRes}> 

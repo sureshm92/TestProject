@@ -11,14 +11,8 @@ export default class PpSuggestedArticles extends NavigationMixin(LightningElemen
     state;
     resTypeMap = new Map();
     renderedCallback() {
-        
-        //  this.resourcesData.push(JSON.parse('{"isFavorite":false,"isVoted":false,"resource":{"Id":"a1H6s000000eUQvEAM","Title__c":"Lorem Ipsum is simply dummy text of the printing and typesetting industry","Description__c":"Time Magazine quotes IQVIA data to warn of severe flu season","Image__c":"https://media.healthday.com/Images/spanishtvthumbs/Spanish_Breast_MRI_060519.jpg","Multimedia__c":"https://media.healthday.com/Images/spanishtvthumbs/Spanish_Breast_MRI_060519.jpg","Body__c":"Body Test","CreatedDate":"2023-01-05T07:25:07.000Z","RecordTypeId":"0126s000000dOi2AAE","Content_Class__c":"Study-Specific","Content_Type__c":"Multimedia","X3rd_Party_Source__c":"IQVIA","Version_Date__c":"2023-02-10","RecordType":{"DeveloperName":"Multimedia","Id":"0126s000000dOi2AAE"}},"translations":[],"isMultimedia":true}'));
-        //  this.resourcesData.push(JSON.parse('{"isFavorite":false,"isVoted":false,"resource":{"Id":"a1H6s000000eUQvEAM","Title__c":"Multimedia Multimedia Multimedia Multimedia Multimedia ","Description__c":"Time Magazine quotes IQVIA data to warn of severe flu season","Image__c":"https://media.healthday.com/Images/icimages/alzheimer9182.jpg","Multimedia__c":"https://media.healthday.com/Images/spanishtvthumbs/Spanish_Breast_MRI_060519.jpg","Body__c":"Body Test","CreatedDate":"2023-01-05T07:25:07.000Z","RecordTypeId":"0126s000000dOi2AAE","Content_Class__c":"Study-Specific","Content_Type__c":"Multimedia","X3rd_Party_Source__c":"IQVIA","Version_Date__c":"2023-02-10","RecordType":{"DeveloperName":"Multimedia","Id":"0126s000000dOi2AAE"}},"translations":[],"isMultimedia":true}'));
-        // this.showData = true; 
         this.initializeData();
         if(this.template.querySelector(".topdiv")){
-            console.log(1);
-            this.template.querySelector(".topdiv").addEventListener('scroll', () => this.checkChevrons());
             var contents = this.template.querySelector(".topdiv");
             var divWidth = contents.offsetWidth;
             var scrollwidth =contents.scrollWidth;
@@ -77,7 +71,6 @@ export default class PpSuggestedArticles extends NavigationMixin(LightningElemen
         }
     }    
     checkChevrons(){
-        console.log('OUTPUT : ','move');
         clearTimeout(this.timeoutId);
         this.timeoutId = setTimeout(this.doValidateChevron.bind(this), 750);
     }
@@ -110,7 +103,6 @@ export default class PpSuggestedArticles extends NavigationMixin(LightningElemen
             this.resTypeMap.get(event.currentTarget.dataset.id) +
             '&state=' +
             this.state;
-console.log('OUTPUT : ',detailLink);
         const config = {
             type: 'standard__webPage',
 
@@ -118,14 +110,8 @@ console.log('OUTPUT : ',detailLink);
                 url: detailLink
             }
         };
-try{
         this[NavigationMixin.GenerateUrl](config).then((url) => {
             window.open(url, '_self');
         });
-    
-}
-catch(error){
-    console.log(error);
-}
-}
+    }
 }

@@ -78,6 +78,9 @@
     background: #e8e8e8;
     border-radius: 8px 8px 0px 0px;
 }
+.wide{
+    width: inherit;
+}
 @media screen and (max-width: 890px) {
     .parent{        
         width: 97%;
@@ -85,6 +88,13 @@
 }
 @media screen and (max-width: 468px) {
     .parent{        
-        width: 94%;
+        width: 100%;
+    }
+    .wide{
+        width: 252px;
+    }
+    .mask {
+        min-width: 227px;
+        margin-right: 23px;
     }
 }
