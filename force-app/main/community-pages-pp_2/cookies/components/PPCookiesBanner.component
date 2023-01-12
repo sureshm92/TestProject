@@ -285,7 +285,7 @@
         </div>
     </div>
 
-    <div id="bannerId" style="display:none;pointer-events:auto;">
+    <div id="bannerId" style="display: none; pointer-events: auto">
         <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
             <div class="slds-modal__container">
                 <div class="slds-grid card-top-bg"></div>
@@ -390,7 +390,7 @@
                         <apex:commandButton
                             styleClass="accept-btn-container btn-label cookie-btn"
                             value="{!$Label.BTN_Accept}"
-                            onclick="closeManageModal();updateCookies();return false;"
+                            onclick="updateCookies();closeManageModal();return false;"
                             id="manageaccept"
                         />
                     </div>
@@ -504,6 +504,9 @@
             if (checkedVal) {
                 closeCookiesInfo();
             }
+            document.body.removeEventListener('keypress', this.bodyBlock);
+            document.body.removeEventListener('keydown', this.bodyBlock);
+            document.body.classList.remove('cookie-block-user');
             event.preventDefault();
         }
     </script>

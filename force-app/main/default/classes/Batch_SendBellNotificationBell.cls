@@ -7,14 +7,16 @@ global without sharing class Batch_SendBellNotificationBell extends Batch_Schedu
     global Map<String, String> mapOfSiteVsStudy = new Map<String, String>();
     
     global Database.QueryLocator start(Database.BatchableContext bc){
-        String query = 'SELECT Id, Participant_Status__c, High_Priority__c, Clinical_Trial_Profile__c, Study_Site__c, Clinical_Trial_Profile__r.CommunityTemplate__c, Clinical_Trial_Profile__r.Bell_Notification_Reminder__c, '+
-            ' (SELECT Id, Name, Status__c, CreatedDate FROM Participant_Enrollment_Status_History__r ORDER BY Name DESC LIMIT 1) '+
-            ' FROM Participant_Enrollment__c WHERE Participant_Status__c IN (\'Received\',\'Contact Attempted\', \'Pre-review Passed\', \'Successfully Contacted\', \'Successfully re-engaged\')'+
-            ' AND Study_Site__r.Override_PI_Referral_Status__c IN (\'Accepted\', \'Accepted (Admin)\', \'On Hold\') AND Initial_visit_scheduled_flag__c = false';
+        String query = 'SELECT Id FROM Participant_Enrollment__c WHERE Participant_Status__c IN (\'Received\',\'Contact Attempted\', \'Pre-review Passed\', \'Successfully Contacted\', \'Successfully re-engaged\')'+
+            ' AND Study_Site__r.Override_PI_Referral_Status__c IN (\'Accepted\', \'Accepted (Admin)\', \'On Hold\') AND Initial_visit_scheduled_flag__c = false AND Clinical_Trial_Profile__r.Bell_Notification_Reminder__c != null';
         return Database.getQueryLocator(query);
     }
     
-    global void execute(Database.BatchableContext bc, List<Participant_Enrollment__c> peList){    
+    global void execute(Database.BatchableContext bc, List<Participant_Enrollment__c> peListMain){   
+        System.debug('peListMain.Size(): ' + peListMain.Size());
+        List<Participant_Enrollment__c> peList = [SELECT Id, Participant_Status__c, High_Priority__c, Clinical_Trial_Profile__c, Study_Site__c, Clinical_Trial_Profile__r.CommunityTemplate__c, Clinical_Trial_Profile__r.Bell_Notification_Reminder__c,  (SELECT Id, Name, Status__c, CreatedDate FROM Participant_Enrollment_Status_History__r ORDER BY Name DESC LIMIT 1)  FROM Participant_Enrollment__c WHERE ID in :peListMain];
+        System.debug('peList.Size(): ' + peList.Size());
+        
         for(Participant_Enrollment__c eachRec : peList){
             for(Participant_Enrollment_Status_History__c eachStatus : eachRec.Participant_Enrollment_Status_History__r){
                 if(lstOfStatus.contains(eachStatus.Status__c) && eachRec.Participant_Status__c == eachStatus.Status__c){
