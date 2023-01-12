@@ -165,7 +165,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                     study['error'] = false;
                 });
 
-                this.isCountryUS = (this.consentPreferenceDataLocal.myContact.MailingAddress.country == 'United States' ? true : false);
+                this.isCountryUS = (this.consentPreferenceDataLocal.myContact.MailingCountry!= undefined &&  this.consentPreferenceDataLocal.myContact.MailingCountry == 'United States' ? true : false);
                 let conData = JSON.parse(result).myContact;
                 this.contactDataLocal.push(conData);
                 this.contactDataLocal.forEach(function (con) {
