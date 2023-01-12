@@ -30,6 +30,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         Back_To_Resources
     };
     isMultimedia = false;
+    isArticleVideo = false;
 
     connectedCallback() {
         //get resource parameters from url
@@ -62,6 +63,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 this.resUploadDate = resourceData.Version_Date__c;
                 this.resourceTitle = resourceData.Title__c;
                 this.resourceSummary = resourceData.Body__c;
+                this.isArticleVideo = this.resourceType == 'Article' || this.resourceType == 'Video';
                 this.resourceLink =
                     this.resourceType == 'Article' ? resourceData.Image__c : resourceData.Video__c;
                 if (this.resourceType == 'Multimedia') {
