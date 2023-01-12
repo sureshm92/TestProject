@@ -18,6 +18,6 @@ trigger UserTriger on User(
         UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class
     );
     TriggerHandlerExecutor.execute(UserTriggerHandler.AssignPendingTasksHandler.class);
-    TriggerHandlerExecutor.execute(UserTriggerHandler.AssignPendingTelevisitsHandler.class
+    TriggerHandlerExecutor.execute(UserTriggerHandler.AssignPendingTelevisitsHandler.class);
 
 }
