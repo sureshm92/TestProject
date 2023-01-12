@@ -127,6 +127,7 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
     const index = this.notificationWrap.findIndex((item) => item.Id == keyEl);
     event.preventDefault();
     let linkStr = event.target.href;
+    linkStr = linkStr + '&random='+ Math.floor((Math.random() * 100000) + 1);
     let message = {};
 
     let result = {
@@ -189,7 +190,6 @@ export default class BellNotifications extends NavigationMixin(LightningElement)
       };
       publish(this.messageContext, messagingChannel, payload);
     }
-
     if (this.notificationWrap[index].Is_Read__c == false){
         const readEvent = new CustomEvent("updatereadevent", {
           detail: {
