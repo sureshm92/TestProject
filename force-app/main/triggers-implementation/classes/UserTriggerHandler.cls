@@ -356,4 +356,3 @@ public without sharing class UserTriggerHandler {
         
     }
 }
-}
