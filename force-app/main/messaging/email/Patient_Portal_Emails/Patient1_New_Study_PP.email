@@ -11,7 +11,7 @@
                         header="{!$Label.Email_Header_Patient_PP}"
                         title="##EmailTemplateTitleNewTM"
                         greeting="{!$Label.Email_User_Greeting_FirstName}"
-                        signature="{!$Label.Email_Signature_Patient}">
+                        signature="{!$Label.Email_Signature_Patient1_PP_New}">
         <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Patient_New_PP}"/>
         <c:ParticipantParagraph learnmoreLabel="{!$Label.Discover_future_Clinical_PP}"   
                             discoverLabel="{!$Label.Discover_future_Clinical_New_PP}"
@@ -25,7 +25,7 @@
                         header="{!$Label.Email_Header_Patient_PP}"
                         title="##EmailTemplateTitleNewTM"
                         greeting="{!$Label.Email_User_Greeting_FirstName}"
-                        signature="{!$Label.Email_Signature_Patient_Short}"
+                        signature="{!$Label.Email_Signature_Patient1_PP_New}"
                         communityTemplate="PatientPortal">
         <c:Paragraph emailLabel="{!$Label.Email_Body_Patient_New_PP}"/>
         <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/> 
