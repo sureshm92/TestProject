@@ -1,35 +1,12 @@
 <template>
-    <div class="slds-card__body slds-card__body_inner card-wrap enage-multimedia-resource custom-padding">
-        <div class=" slds-scrollable_y uniform-pad">
+    <div
+        class="slds-card__body slds-card__body_inner card-wrap enage-multimedia-resource custom-padding"
+    >
+        <div class="slds-scrollable_y uniform-pad">
             <template if:true={desktop}>
-                    <article class="slds-card_boundary container-card" >
-                        <div
-                            if:true={resourcePresent}
-                            class=" slds-scrollable_y  slds-card__body_inner"
-                            
-                        >
-                            <template for:each={resourcedData} for:item="res">
-                                <div if:true={res.isMultimedia} key={res}>
-                                    <c-pp-resource-engage-multimedia
-                                        explore-data={res}
-                                        desktop={desktop}
-                                        show-visit-section={showvisitsection}
-                                    ></c-pp-resource-engage-multimedia>
-                                </div>
-                            </template>
-                        </div>
-                    </article>
-            </template>
-        </div>
-            </div>
-            <div class=" slds-scrollable_y slds-card__body slds-card__body_inner card-wrap" style = "height:95%">
-            <template if:false={desktop}>
-                <article
-                    if:true={resourcePresent}
-                    class=" slds-scrollable_y slds-card_boundary container-card-mobile" 
-                >
-                    <div class="slds-card__body_inner custom-padding">
-                        <template for:each={resourcedData} for:item="res" for:index="index" >
+                <article class="slds-card_boundary container-card slds-m-bottom_x-small">
+                    <div if:true={resourcePresent} class="slds-scrollable_y slds-card__body_inner">
+                        <template for:each={resourcedData} for:item="res">
                             <div if:true={res.isMultimedia} key={res}>
                                 <c-pp-resource-engage-multimedia
                                     explore-data={res}
@@ -41,6 +18,27 @@
                     </div>
                 </article>
             </template>
+        </div>
+        <!-- </div> -->
+        <div class="slds-scrollable_y" style="height: 95%">
+            <template if:false={desktop}>
+                <article
+                    if:true={resourcePresent}
+                    class="slds-scrollable_y slds-card_boundary container-card-mobile"
+                >
+                    <div class="custom-padding">
+                        <template for:each={resourcedData} for:item="res" for:index="index">
+                            <div if:true={res.isMultimedia} key={res}>
+                                <c-pp-resource-engage-multimedia
+                                    explore-data={res}
+                                    desktop={desktop}
+                                    show-visit-section={showvisitsection}
+                                ></c-pp-resource-engage-multimedia>
+                            </div>
+                        </template>
+                    </div>
+                </article>
+            </template>
+        </div>
     </div>
-    
 </template>
