@@ -18969,14 +18969,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Study Consent Adult ROW</shortDescription>
-        <value> I consent to the processing of my personal data by a study team, and to be contacted by the study team for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
+        <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Study_Consent_Adult_US</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Study Consent Adult US</shortDescription>
-        <value> I consent to the processing of my personal data by a study team, and to be contacted by the study team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
+        <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Study_Overview</fullName>
@@ -19137,7 +19137,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Communication Purchase Pref</shortDescription>
-        <value> Your consent is not required as a condition of purchasing any property, goods, or services.</value>
+        <value>Your consent is not required as a condition of purchasing any property, goods, or services.</value>
     </labels>
     <labels>
         <fullName>PP_Communication_Pref_Outreach_consentA</fullName>
@@ -19759,7 +19759,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP IQVIA Communication US</shortDescription>
-        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy, by the following means: </value>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_IRB_Button_Review</fullName>
@@ -20025,28 +20025,28 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Outreach Communication Pref A</shortDescription>
-        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, </value>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided,</value>
     </labels>
     <labels>
         <fullName>PP_Outreach_Communication_Pref_B</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Outreach Communication Pref B</shortDescription>
-        <value> via automated dialing and/or artificial or pre-recorded voice,</value>
+        <value>via automated dialing and/or artificial or pre-recorded voice,</value>
     </labels>
     <labels>
         <fullName>PP_Outreach_Communication_Pref_C</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Outreach Communication Pref C</shortDescription>
-        <value>for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of </value>
+        <value>for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of</value>
     </labels>
     <labels>
         <fullName>PP_Outreach_Communication_Pref_D</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Outreach Communication Pref D</shortDescription>
-        <value> , by the following means:</value>
+        <value>, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Page</fullName>
