@@ -20025,7 +20025,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Outreach Communication Pref A</shortDescription>
-        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided,</value>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, </value>
     </labels>
     <labels>
         <fullName>PP_Outreach_Communication_Pref_B</fullName>
