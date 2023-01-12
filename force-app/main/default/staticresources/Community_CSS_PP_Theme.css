@@ -1,22 +1,5 @@
-@media (max-width: 500px) {
-    .rr-width-limiter.side-padding {
-        padding: 0px !important;
-        background-color: #f6f7fb;
-    }
-    .pp-survey .rr-width-limiter.side-padding {
-        padding: 0 1rem !important;
-        background-color: #ffffff;
-    }
-    .rr-min-body-height .rr-min-body-height {
-        height: auto !important;
-    }
-    
-    .toastContainer > .forceToastMessage {
-        width: 95% !important;
-    }
-    .rr-width-limiter-pp {
-        padding: 0 !important;
-    }
+a, .slds-button {
+    color: #015FF1;
 }
 
 .task-modal-background .slds-backdrop {
@@ -157,19 +140,6 @@
 
 .PHONE .profileIcon .rr-icon_default {
     margin-right: 1rem;
-}
-
-@media (max-width: 500px) {
-    .rr-width-limiter .side-padding {
-        padding-left: 0rem !important;
-        padding-right: 0rem !important;
-    }
-    .menu-block {
-        position: relative !important;
-    }
-    .logo-container-pp {
-        margin: 0 0 0 55px !important;
-    }
 }
 
 /**Toast Container CSS*/
@@ -968,21 +938,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     left: -2px !important;
 }
 
-@media all and (max-width: 768px) {
-    .cPpCustomThemeLayout .apollo-btn,
-    .cPpCustomThemeLayout .slds-input,
-    .cPpCustomThemeLayout .slds-button_neutral,
-    .cPpCustomThemeLayout .cRrInput.rri-container input,
-    .cPpCustomThemeLayout .cRrSelect.rrs-container select,
-    .cPpCustomThemeLayout input[type='text'],
-    .cPpCustomThemeLayout input[type='password'],
-    .cPpCustomThemeLayout input[type='email'] {
-        height: 32px !important;
-    }
-    .pp-change-pwd [lightning-input_input-host] {
-        width: 100% !important;
-    }
-}
 
 /* Resource Page */
 .resPage button {
@@ -1013,11 +968,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     margin-right: 33px;
 }
 
-@media all and (max-width: 486px) {
-    c-pp-Study-Visit-Details-Card .slds-card {
-        width: 100%;
-    }
-}
 
 ::-webkit-scrollbar {
     width: 8px;
@@ -1127,4 +1077,63 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .cookie-block-user {
     pointer-events: none;
     overflow: hidden !important;
+}
+
+@media all and (max-width: 768px) {
+    .cPpCustomThemeLayout .apollo-btn,
+    .cPpCustomThemeLayout .slds-input,
+    .cPpCustomThemeLayout .slds-button_neutral,
+    .cPpCustomThemeLayout .cRrInput.rri-container input,
+    .cPpCustomThemeLayout .cRrSelect.rrs-container select,
+    .cPpCustomThemeLayout input[type='text'],
+    .cPpCustomThemeLayout input[type='password'],
+    .cPpCustomThemeLayout input[type='email'] {
+        height: 32px !important;
+    }
+    .pp-change-pwd [lightning-input_input-host] {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 500px) {
+    .rr-width-limiter.side-padding {
+        padding: 0px !important;
+        background-color: #f6f7fb;
+    }
+    .pp-survey .rr-width-limiter.side-padding {
+        padding: 0 1rem !important;
+        background-color: #ffffff;
+    }
+
+    .rr-min-body-height .rr-min-body-height {
+        height: auto !important;
+    }
+
+    .rr-width-limiter-pp {
+        padding: 0 !important;
+    }
+
+    .rr-width-limiter .side-padding {
+        padding-left: 0rem !important;
+        padding-right: 0rem !important;
+    }
+
+    .menu-block {
+        position: relative !important;
+    }
+
+    .logo-container-pp {
+        margin: 0 0 0 55px !important;
+    }
+  
+    .toastContainer > .forceToastMessage {
+        width: 95% !important;
+    }
+}
+
+
+@media all and (max-width: 486px) {
+    c-pp-Study-Visit-Details-Card .slds-card {
+        width: 100%;
+    }
 }

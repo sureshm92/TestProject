@@ -10,7 +10,7 @@
 }
 
 .active-btn {
-    background: rgba(7, 104, 253, 1);
+    background: #015ff1;
     color: #ffffff;
     font-size: 1rem;
     font-weight: 600;
@@ -35,7 +35,7 @@
     background: #ffffff;
 }
 .create-task {
-    background: rgba(7, 104, 253, 1);
+    background: #015ff1;
     border-radius: 2rem;
     color: #ffffff;
     width: 510px;
@@ -51,11 +51,10 @@
     padding-right: 16px;
 }
 .before-create-task {
-    background: rgba(7, 104, 253, 1);
+    background: #015ff1;
     cursor: pointer;
 }
 .after-create-task {
-    background: rgba(7, 104, 253, 1);
     opacity: 0.4;
     pointer-events: none;
 }
@@ -187,7 +186,7 @@
 }
 .modal-button {
     border-radius: 20px;
-    background: rgba(7, 104, 253, 1);
+    background: #015ff1;
     color: #ffffff;
     width: 7.5rem;
     height: 2rem;

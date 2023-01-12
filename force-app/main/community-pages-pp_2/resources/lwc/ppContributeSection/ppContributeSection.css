@@ -1,6 +1,6 @@
 .change-preferences {
     height: 24px;
-    color: #0768fd;
+    color: #015FF1;
     font-family: 'Proxima Nova';
     font-size: 13px;
     font-weight: 500;
@@ -50,7 +50,7 @@
     height: 32px;
     border: 1px solid #d9d9d9;
     border-radius: 20px;
-    background-color: #0768fd;
+    background-color: #015FF1;
     color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     cursor: pointer;
@@ -60,7 +60,7 @@
     box-sizing: border-box;
     height: 32px;
     border-radius: 20px;
-    background-color: #0768fd;
+    background-color: #015FF1;
     color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     pointer-events: none;

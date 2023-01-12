@@ -131,7 +131,7 @@
 }
 
 .apollo-btn.primary {
-    background: #297dfd;
+    background: #015FF1;
     box-shadow: 0 4px 8px 0 rgb(41 125 253 / 16%), 0 4px 4px 0 rgb(0 0 0 / 4%),
         0 8px 16px 0 rgb(41 125 253 / 32%);
     color: #ffffff;
@@ -203,7 +203,7 @@
 }
 
 .icon-eye-blue {
-    fill: #297dfd;
+    fill: #015FF1;
     height: 35px;
     width: 35px;
     display: inline-block;
