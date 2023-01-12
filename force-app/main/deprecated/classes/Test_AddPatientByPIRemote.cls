@@ -94,7 +94,11 @@ private without sharing class Test_AddPatientByPIRemote {
                     JSON.serialize(objCon),
                     true,
                     false,
-                    null
+                    testData.pe.id,
+                    true,
+                    true,
+                    true,
+                    true
                 );
                 AddPatientByPIRemote.createParticipantDelegate(
                     JSON.serialize(participantDel1),
@@ -106,7 +110,11 @@ private without sharing class Test_AddPatientByPIRemote {
                     JSON.serialize(objCon),
                     true,
                     false,
-                    null
+                    testData.pe.id,
+                    true,
+                    true,
+                    true,
+                    true
                 );
                 
         }
