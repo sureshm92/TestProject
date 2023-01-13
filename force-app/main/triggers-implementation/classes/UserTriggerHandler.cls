@@ -38,7 +38,11 @@ public without sharing class UserTriggerHandler {
             assignTasks(newList);
         }
     }
-
+    public class AssignPendingTelevisitsHandler extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            assignPendingTelevisits(newList);
+        }
+    }
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -326,5 +330,29 @@ public without sharing class UserTriggerHandler {
             }
         }
         update tasks;
+    }
+    @TestVisible
+    private static void assignPendingTelevisits(List<User> users) {
+        Map<Id, User> usersByContactMap = new Map<Id, User>();
+        List<Televisit_Attendee__c> attendeeList = new List<Televisit_Attendee__c>();
+
+        for (User user : users) {
+            if (user.ContactId != null) {
+                usersByContactMap.put(user.ContactId, user);
+            }
+        }
+
+        for (Televisit_Attendee__c tvAttendee : [SELECT Id, User__c, Contact__c FROM Televisit_Attendee__c
+                                                 WHERE Contact__c IN :usersByContactMap.keyset() AND User__c = NULL AND
+                                                 Televisit__r.Status__c = 'Scheduled']) {
+            Televisit_Attendee__c tva = new Televisit_Attendee__c();
+            tva.id = tvAttendee.Id;                                       
+            tva.User__c = usersByContactMap.get(tvAttendee.Contact__c).Id;
+            attendeeList.add(tva);                                         
+        }
+        if(!attendeeList.isEmpty()){
+            update attendeeList; 
+        }
+        
     }
 }
