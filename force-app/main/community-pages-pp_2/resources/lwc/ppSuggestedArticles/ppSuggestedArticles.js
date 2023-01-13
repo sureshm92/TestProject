@@ -1,8 +1,10 @@
 import { LightningElement, api } from 'lwc';
 import getPPResources from '@salesforce/apex/ResourceRemote.getPPResources';
 import { NavigationMixin } from 'lightning/navigation';
+import TIME_ZONE from '@salesforce/i18n/timeZone';
 
 export default class PpSuggestedArticles extends NavigationMixin(LightningElement) {
+    userTimezone = TIME_ZONE;
     resourcesData =[];
     showData = false;
     firstrender=true;
@@ -10,14 +12,19 @@ export default class PpSuggestedArticles extends NavigationMixin(LightningElemen
     showRight=false;
     state;
     resTypeMap = new Map();
+    scrollby = 729;
     renderedCallback() {
         this.initializeData();
         if(this.template.querySelector(".topdiv")){
+            this.template.querySelector(".topdiv").addEventListener('scroll', () => this.checkChevrons());
             var contents = this.template.querySelector(".topdiv");
             var divWidth = contents.offsetWidth;
             var scrollwidth =contents.scrollWidth;
             if(divWidth!=scrollwidth){
                 this.showRight=true;         
+            }
+            if(divWidth<300){
+                this.scrollby = 243;
             }
         }
     }    
@@ -49,8 +56,8 @@ export default class PpSuggestedArticles extends NavigationMixin(LightningElemen
     goLeft(){
         if(this.showRight){
             var contents = this.template.querySelector(".topdiv");
-            contents.scrollLeft -= 250;
-            if(contents.scrollLeft<=250){
+            contents.scrollLeft -= this.scrollby;
+            if(contents.scrollLeft<=this.scrollby){
                 this.template.querySelector(".chevronL").className="chevronL disableCursor";            
             }        
             this.template.querySelector(".chevronR").className = "chevronR";
@@ -59,13 +66,13 @@ export default class PpSuggestedArticles extends NavigationMixin(LightningElemen
     goRight(){
         if(this.showRight){
             var contents = this.template.querySelector(".topdiv");
-            contents.scrollLeft += 250;
+            contents.scrollLeft += this.scrollby;
             this.template.querySelector(".chevronL").className = "chevronL";
 
             var newScrollLeft=contents.scrollLeft;
             var divWidth = contents.offsetWidth;
             var scrollwidth =contents.scrollWidth;
-            if(scrollwidth - divWidth - newScrollLeft < 250){
+            if(scrollwidth - divWidth - newScrollLeft < this.scrollby){
                 this.template.querySelector(".chevronR").className="chevronR disableCursor";   
             }
         }
