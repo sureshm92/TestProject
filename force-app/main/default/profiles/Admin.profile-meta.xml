@@ -6768,6 +6768,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.UUID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Atid__c</field>
         <readable>true</readable>
     </fieldPermissions>
