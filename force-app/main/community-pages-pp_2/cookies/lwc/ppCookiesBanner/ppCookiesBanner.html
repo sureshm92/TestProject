@@ -1,4 +1,5 @@
 <template>
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <template if:true={showBanner}>
         <div class={containerClassCss}>
             <lightning-layout multiple-rows>
@@ -43,10 +44,10 @@
                                 small-device-size="12"
                                 class="slds-m-top_large"
                                 ><button
-                                    class="btn-container manage"
+                                    class="btn-container manage cookie-btn"
                                     onclick={showManagePreferences}
                                 >
-                                    <label> {label.ppCookiesButtonManagePrefer}</label>
+                                    <label>{label.ppCookiesButtonManagePrefer}</label>
                                 </button></lightning-layout-item
                             >
                         </lightning-layout>
@@ -93,10 +94,118 @@
                 </template>
             </lightning-layout>
         </div>
-
-        <template if:true={showmodal}>
-            <!-- Include the Banner modal logic-->
-        </template>
-        <div class={backDropClass}></div>
     </template>
+    <!-- Include the Banner moda l logic-->
+    <template if:true={initData}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-modal="true"
+            class="slds-modal slds-fade-in-open cookie-btn"
+        >
+            <div class="slds-modal__container">
+                <div class="slds-grid card-top-bg"></div>
+                <div class="slds-modal__content slds-p-around_large">
+                    <div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small">
+                        <div class="slds-col modal-header-text">
+                            {label.cookieManageCookiesLabel}
+                        </div>
+                    </div>
+                    <div class="body-container modal-body slds-m-bottom_medium">
+                        {label.manageCookiesDesc}
+                    </div>
+
+                    <div class="accordion" id="strictcookies" onclick={showCookieDiv}>
+                        <div class="acordion-title right-angle-chevron slds-p-horizontal_medium">
+                            {label.accountSettingsStrictlyNecessaryCookies}
+                            <span class="always-active">{label.cookieAlwaysActive}</span>
+                        </div>
+                        <div class="panel">
+                            <template
+                                for:each={initData.cookieSettings}
+                                for:item="cookieSetting"
+                                for:index="index"
+                            >
+                                <div
+                                    class="cookie-title slds-p-horizontal_medium"
+                                    key={cookieSetting}
+                                >
+                                    <div class="cookie-title-font-size">
+                                        {cookieSetting.cookieName}
+                                    </div>
+                                    <div>{cookieSetting.cookieDescription}</div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="accordion" id="functionalcookies" onclick={showCookieDiv}>
+                        <div class="acordion-title slds-p-horizontal_medium">
+                            {label.accountSettingsFunctionalCookiesLabel}
+                        </div>
+                        <div class="panel">
+                            <div class="slds-grid rr-cookie-title slds-p-horizontal_medium">
+                                <div class="slds-col slds-size_10-of-12">
+                                    <div class="cookie-title-font-size">
+                                        {label.accountSettingsFunctionalRRCookiesLabel}
+                                    </div>
+                                    <div>{label.accountSettingsRRCookiesDescriptionLabel}</div>
+                                </div>
+                                <div class="slds-col slds-size_2-of-12 slds-m-top_large">
+                                    <div class="slds-form-element">
+                                        <lightning-input
+                                            type="toggle"
+                                            label=""
+                                            data-id="PPCookie"
+                                            messagetoggleactive={label.BTN_On}
+                                            variant="label-hidden"
+                                            messagetoggleinactive={label.BTN_Off}
+                                            class="slds-col ah-toggle"
+                                            checked={contact.RRCookiesAllowedCookie__c}
+                                            onchange={doSwitchOptInCookies}
+                                        >
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid rr-language-title slds-p-horizontal_medium">
+                                <div class="slds-col slds-size_10-of-12">
+                                    <div class="cookie-title-font-size">
+                                        {label.accountSettingsCookiesRRLanguageLabel}
+                                    </div>
+                                    <div class="mob-lang-desc">
+                                        {label.accountSettingsCookiesRRLanguageDescriptionLabel}
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_2-of-12 slds-m-top_large">
+                                    <div class="slds-form-element">
+                                        <lightning-input
+                                            type="toggle"
+                                            label=""
+                                            data-id="PPLang"
+                                            messagetoggleactive={label.BTN_On}
+                                            variant="label-hidden"
+                                            messagetoggleinactive={label.BTN_Off}
+                                            class="slds-col ah-toggle"
+                                            checked={contact.RRLanguageAllowedCookie__c}
+                                            onchange={doSwitchOptInCookies}
+                                        >
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-grid_align-end slds-m-top_medium">
+                        <button
+                            class="accept-btn-container btn-label cookie-btn"
+                            onclick={updateCookies}
+                        >
+                            {label.bTN_AcceptLabel}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <div class={backDropClass}></div>
 </template>
