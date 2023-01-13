@@ -78,11 +78,11 @@ public without sharing class PIR_HomePageControllerTest {
         
         
         System.runAs(testData.piUser) {
-            PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnull,true,true,'','',1);
+            PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnull,true,true,'','',1,false,null);
            
             try{
-                 PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,false,'','',1);
-                PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnull,true,false,'','AND',1);
+                 PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,false,'','',1,false,null);
+                PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnull,true,false,'','AND',1,false,null);
                 
             }
             catch(Exception ex) {System.assertEquals(ex.getMessage(),'Script-thrown exception' );}
@@ -135,9 +135,9 @@ public without sharing class PIR_HomePageControllerTest {
         
         System.runAs(testData.piUser) {
             
-            PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnew,true,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,false,partEnroll.Participant__r.First_Name__c,'',1);
+            PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnew,true,true,'','',1,false,null);
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,true,'','',1,false,null);
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,false,partEnroll.Participant__r.First_Name__c,'',1,false,null);
             
         }
        
@@ -184,9 +184,9 @@ public without sharing class PIR_HomePageControllerTest {
         
         
         System.runAs(testData.piUser) {    
-            PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,false,false,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnew,true,true,'','',1);
+            PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,false,false,'','',1,false,null);
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,true,'','',1,false,null);
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnew,true,true,'','',1,false,null);
         }
        
         Test.stopTest();
@@ -231,8 +231,8 @@ public without sharing class PIR_HomePageControllerTest {
         
         
         System.runAs(testData.piUser) {
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlist1,true,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,false,true,'','',1);
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlist1,true,true,'','',1,false,null);
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,false,true,'','',1,false,null);
         }
        
         Test.stopTest();
@@ -695,11 +695,11 @@ public without sharing class PIR_HomePageControllerTest {
        
         System.runAs(testData.piUser) {
             try{
-                PIR_HomepageController.getListViewData(205,2,'Default',filterlist,true,true,'','',1);
-                PIR_HomepageController.getListViewData(205,2,'Default',filterlist,false,false,'','',1);
+                PIR_HomepageController.getListViewData(205,2,'Default',filterlist,true,true,'','',1,false,null);
+                PIR_HomepageController.getListViewData(205,2,'Default',filterlist,false,false,'','',1,false,null);
                 PIR_HomepageController.getStudyStudySiteDetails();
                 PIR_HomepageController.fetchCurrentUserLanguage();
-                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlist,true,true,'','',1);
+                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlist,true,true,'','',1,false,null);
                 
             } catch(Exception ex) {
                 
@@ -738,12 +738,12 @@ public without sharing class PIR_HomePageControllerTest {
        
         System.runAs(testData.piUser) {
             try{
-                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistSiteNull,true,true,'','',1);
-                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlist,true,true,'test','',1);
-                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistJanseen,true,true,'test','',1); 
-                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,true,true,'test','',1);
-                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,true,true,'','',1);
-                PIR_HomepageController.getListViewData(1,-1,'Default',filterlist,true,true,'','',1);
+                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistSiteNull,true,true,'','',1,false,null);
+                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlist,true,true,'test','',1,false,null);
+                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistJanseen,true,true,'test','',1,false,null); 
+                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,true,true,'test','',1,false,null);
+                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,true,true,'','',1,false,null);
+                PIR_HomepageController.getListViewData(1,-1,'Default',filterlist,true,true,'','',1,false,null);
                 
             } catch(Exception ex) {
                 
@@ -783,8 +783,8 @@ public without sharing class PIR_HomePageControllerTest {
         System.runAs(testData.piUser) {
             try{
                 
-                PIR_HomepageController.getListViewData(1,-1,'Default',filterlist,true,true,'test','',1);
-                PIR_HomepageController.getListViewData(1,-1,'Default',filterlistnull,true,true,'','',1);
+                PIR_HomepageController.getListViewData(1,-1,'Default',filterlist,true,true,'test','',1,false,null);
+                PIR_HomepageController.getListViewData(1,-1,'Default',filterlistnull,true,true,'','',1,false,null);
                 
             } catch(Exception ex) {
                 
