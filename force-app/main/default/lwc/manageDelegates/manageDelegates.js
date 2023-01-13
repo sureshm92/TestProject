@@ -40,10 +40,8 @@ import {
     APPLICATION_SCOPE
 } from 'lightning/messageService';
 export default class ManageDelegates extends NavigationMixin(LightningElement) {
-    @api isDelegate;
-    @api participantState;
     isDesktop;
-    @api consentPreferenceData;
+    @api participantState;
     @api userMode;
     @api isRTL;
     @track listPDE = [];
@@ -607,6 +605,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     doSave(event) {
         this.spinner = true;
         this.diabledAddNewButton = false;
+        this.template.querySelector('[data-id="emailconsentcheck"]').checked = false;
+        this.isEmailConsentChecked = false;
+        this.isAtLeastOneStudySelected = false;
         let id = event.currentTarget.dataset.id;
         let pdid = event.currentTarget.dataset.pdid;
         let attestedtimestmp = event.currentTarget.dataset.attestedtimestmp;
@@ -652,9 +653,6 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 this.studiesSelected = [];
                 this.initializeData();
                 this.spinner = false;
-                this.template.querySelector('[data-id="emailconsentcheck"]').checked = false;
-                this.isEmailConsentChecked = false;
-                this.isAtLeastOneStudySelected = false;
                 if (this.dataInitialized) {
                     communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
                 }
@@ -668,6 +666,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     doSaveFormer(event) {
         this.spinner = true;
         this.diabledAddNewButton = false;
+        this.template.querySelector('[data-id="emailconsentcheck"]').checked = false;
+        this.isEmailConsentChecked = false;
+        this.isAtLeastOneStudySelected = false;
         let id = event.currentTarget.dataset.id;
         let pdid = event.currentTarget.dataset.pdid;
         let attestedtimestmp = event.currentTarget.dataset.attestedtimestmp;
@@ -716,9 +717,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 this.studiesSelected = [];
                 this.initializeData();
                 this.spinner = false;
-                this.template.querySelector('[data-id="emailconsentcheck"]').checked = false;
-                this.isEmailConsentChecked = false;
-                this.isAtLeastOneStudySelected = false;
+                // this.template.querySelector('[data-id="emailconsentcheck"]').checked = false;
+                // this.isEmailConsentChecked = false;
+                // this.isAtLeastOneStudySelected = false;
                 if (this.dataInitialized) {
                     communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
                 }
