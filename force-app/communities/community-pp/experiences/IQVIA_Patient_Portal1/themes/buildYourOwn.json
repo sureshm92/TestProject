@@ -191,7 +191,7 @@
     "type" : "view"
   }, {
     "componentAttributes" : { },
-    "componentName" : "c:EmtpyTheme",
+    "componentName" : "c:ppEmptyTheme",
     "id" : "5b51892e-e23c-4184-89cc-3f2cbabb0d2e",
     "label" : "Empty",
     "regions" : [ {
