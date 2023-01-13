@@ -21,7 +21,8 @@
                                     clinicalrecord={clinicalrecord}
                                 ></c-study-overview>
                             </template>
-                        </template> </lightning-layout-item
+                        </template> 
+                    </lightning-layout-item
                 ></lightning-layout>
             </template>
 
@@ -55,13 +56,13 @@
             <template if:true={showProgramOverview}>
                 <div>
                     <lightning-layout multiple-rows="true">
-                        <lightning-layout-item size="6">
+                        <lightning-layout-item size="12" class="slds-align_absolute-center">
                             <img src={homeIllustration} />
                         </lightning-layout-item>
-                        <lightning-layout-item size="6">
-                            <h2 class="po-fontsize slds-m-left_large slds-m-top_medium">
+                        <lightning-layout-item size="12">
+                            <p class="po-fontsize slds-m-horizontal_large slds-m-vertical_small" >
                                 {userName}
-                            </h2>
+                            </p>
                         </lightning-layout-item>
                         <lightning-layout-item size="12">
                             <!--<template if:true={clinicalrecord}>-->
