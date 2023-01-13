@@ -61,7 +61,6 @@
 .file-upload {
     display: inline-block;
     cursor: pointer;
-    color: blue;
 }
 .profile-label {
     color: #015FF1;
@@ -72,7 +71,9 @@
     text-align: center;
 }
 .file-upload:hover {
-    background-color: #eef5ff;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    color: #015FF1;
 }
 .profile-btn-container {
     display: flex;

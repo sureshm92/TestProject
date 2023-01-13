@@ -2,6 +2,12 @@ a, .slds-button {
     color: #015FF1;
 }
 
+a:hover {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    color: #015FF1;
+}
+
 .task-modal-background .slds-backdrop {
     background:rgba(0, 0, 0, 0.1) !important;
 }
