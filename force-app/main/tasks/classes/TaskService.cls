@@ -99,6 +99,7 @@ public without sharing class TaskService {
     public List<Task> getTasksCommon(String filter, String sortOrder) {
         CommunityMode currentMode = UserContext.getCurrentUserMode();
         Boolean isDecoupled = (ParticipantContext.getOwnParticipant() != null);
+        Boolean alumDlgtPtView = false;
 
         String commonFilter = '';
         String ownerVisibility =
@@ -165,11 +166,12 @@ public without sharing class TaskService {
         List<Task> tasks;
         if(currentMode.participantState == 'ALUMNI' && currentMode.isDelegate && ParticipantContext.getCurrentUserId() != null){
             String alumniFilter;
-            alumniFilter = 'WhatId IN (Select Participant_Enrollment__c from Patient_Delegate_Enrollment__c Where Patient_Delegate__r.Contact__c = \''+
+            alumDlgtPtView = true;
+           /* alumniFilter = 'WhatId IN (Select Participant_Enrollment__c from Patient_Delegate_Enrollment__c Where Patient_Delegate__r.Contact__c = \''+
             ParticipantContext.getOwnParticipant().Contact__c + '\'' +
             ' AND Patient_Delegate__r.Participant__r.Contact__c = \''+
             ParticipantContext.getCurrentContact().Id + '\'' +')';
-            commonFilter = alumniFilter +' AND ' + commonFilter;
+            commonFilter = alumniFilter +' AND ' + commonFilter;*/
         }
         if (isDecoupled && ParticipantContext.getCurrentUserId() == null) {
             //Added for Minor Participant's Delegates
@@ -187,13 +189,26 @@ public without sharing class TaskService {
         }
         //send task list after filtering delegate tasks in patient view only
         TaskTriggerHandler.processDefaultFieldValues(tasks);
-        return filterTasks(tasks);
+        return filterTasks(tasks,currentMode,alumDlgtPtView);
     }
 
-    private List<Task> filterTasks(List<Task> tasks) {
+    private List<Task> filterTasks(List<Task> tasks,CommunityMode currentMode,Boolean alumDlgtPtView) {
         List<Task> filteredList = new List<Task>();
         Set<Id> skipPEIds = new Set<Id>();
         Set<Id> skipSurveyInvIds = new Set<Id>();
+        Set<Id> skipPEAlumnIds = new Set<Id>();
+        if(alumDlgtPtView){
+            skipPEAlumnIds = new Map<Id, Patient_Delegate_Enrollment__c>(
+                [
+                    SELECT Participant_Enrollment__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE
+                        Patient_Delegate__r.Contact__c =:ParticipantContext.getOwnParticipant().Contact__c
+                        AND Patient_Delegate__r.Participant__r.Contact__c =: ParticipantContext.getCurrentContact().Id
+                ]
+            )
+            .keySet();
+        }
         for (Task t : tasks) {
             if (
                 t.WhatId != null &&
@@ -233,6 +248,7 @@ public without sharing class TaskService {
                 //Visit Task to be displayed in Task Tab panel
                 skipTask =
                     (skipPEIds.contains(t.WhatId) && t.Task_Type__c != 'Visit') ||
+                    (!skipPEAlumnIds.contains(t.WhatId) && alumDlgtPtView) ||
                     (curPEId != null &&
                     t.WhatId != curPEId);
             } else if (t.Survey_Invitation__c != null) {
