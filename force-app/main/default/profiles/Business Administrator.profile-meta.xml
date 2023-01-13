@@ -2953,6 +2953,11 @@
         <field>Participant_Enrollment__c.Participant_Phone_Opt_In_Permit_Phone__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.UUID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
 
     <fieldPermissions>
         <editable>false</editable>
