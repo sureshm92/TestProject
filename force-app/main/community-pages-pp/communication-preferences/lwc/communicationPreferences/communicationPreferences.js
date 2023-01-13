@@ -323,7 +323,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     }
 
     get getStudyConsentMargin() {
-        return this.isRTL ? 'sub-header mr-10' : 'sub-header';
+        return this.isRTL ? 'sub-header mr-10 commsTest' : 'sub-header commsTest';
     }
 
     renderedCallback() {}
