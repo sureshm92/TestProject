@@ -59,7 +59,8 @@ public without sharing class IntegrationService {
         public Contact Contact;
         public String DateOfBirth;
         public String Gender;
-    }
+        public Boolean Adult; 
+    } 
 
     public class AuditLog {
         public String UserId;
@@ -301,6 +302,7 @@ public without sharing class IntegrationService {
                 Participant__r.Birth_Month__c,
                 Participant__r.Birth_Year__c,
                 Participant__r.Gender__c,
+                Participant__r.Adult__c,
                 Referral_ID__c,
                 Referred_Date__c,
                 High_Priority__c,
@@ -397,6 +399,7 @@ public without sharing class IntegrationService {
             subjectDetails.DateOfBirth = pe.Participant__r.Birth_Year__c; 
         }
         subjectDetails.Gender = pe.Participant__r.Gender__c;
+        subjectDetails.Adult = pe.Participant__r.Adult__c;
 
         AuditLog auditLog = new AuditLog();
         auditLog.UserId = UserInfo.getUserId();
