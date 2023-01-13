@@ -44,6 +44,11 @@
     line-height: 17px;
     padding-right: 10px;
     margin-bottom: 5px;
+    overflow-wrap: break-word;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 }
 
 .links-type {
