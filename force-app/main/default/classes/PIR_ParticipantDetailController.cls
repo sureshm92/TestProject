@@ -555,8 +555,6 @@ public without sharing class PIR_ParticipantDetailController {
       Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
       pde.Participant_Enrollment__c = perRecord.Id;
       pde.Patient_Delegate__c = peDeligate.Id;
-      pde.Attestation_c__c = peDeligate.Attestation__c;
-      pde.Attestation_TimeStamp__c = peDeligate.Attestation_TimeStamp__c;
       pde.Attested_By__c = peDeligate.Attested_by__c;
       pde.isInviteToPP__c = peDeligate.isInviteToPP__c;
       pde.Primary_Delegate__c = true;
