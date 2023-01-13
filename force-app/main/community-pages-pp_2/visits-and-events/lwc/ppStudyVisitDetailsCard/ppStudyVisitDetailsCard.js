@@ -53,6 +53,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     };
 
     @api visitid;
+    @api isinitialvisit;
     @api taskid;
     @api visitdata;
     @api tasksubject;

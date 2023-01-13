@@ -1,6 +1,7 @@
 {
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
-  "componentName" : "c:EmptyLayout",
+  "componentName" : "c:PPOneColumnLayout",
+  "dataProviders" : [ ],
   "id" : "89f897ba-1c43-4548-9597-9dc1e9d7b276",
   "label" : "About Program and Overview",
   "regions" : [ {
