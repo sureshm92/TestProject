@@ -115,7 +115,7 @@
                 {!v.body}
             </div>
             <div class="footer">
-                <div class="rr-width-limiter-pp" style="padding: 0 15px">
+                <div class="rr-width-limiter" style="padding: 0 15px">
                     <c:ppCommunityFooter aura:id="ppFooter" />
                 </div>
             </div>
