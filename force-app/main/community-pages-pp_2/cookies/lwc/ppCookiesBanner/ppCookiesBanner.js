@@ -133,11 +133,14 @@ export default class PpCookiesBanner extends LightningElement {
         })
             .then((returnValue) => {
                 this.spinner.hide();
+                this.contact.RRCookiesAllowedCookie__c = true;
+                this.contact.RRLanguageAllowedCookie__c = true;
                 this.setRRCookie();
                 this.setRRCookieLanguage();
                 this.closeTheBanner();
                 this.showmodal = false;
                 this.initData = undefined;
+                this.updateBrowserCookies();
             })
             .catch((error) => {
                 communityService.showToast('', 'error', 'Failed To read the Data...', 100);
@@ -169,6 +172,7 @@ export default class PpCookiesBanner extends LightningElement {
                     this.setRRCookieLanguage();
                 }
                 this.closeTheBanner();
+                this.updateBrowserCookies();
                 this.showmodal = false;
                 this.initData = undefined;
             })
@@ -189,5 +193,11 @@ export default class PpCookiesBanner extends LightningElement {
         let expires = 'expires=' + d.toUTCString();
         document.cookie =
             'RRLanguage' + '=' + communityService.getLanguage() + ';' + expires + ';path=/';
+    }
+    updateBrowserCookies() {
+        let preventCookieList = [];
+        if (!this.contact.RRCookiesAllowedCookie__c) preventCookieList.push('RRCookies');
+        if (!this.contact.RRLanguageAllowedCookie__c) preventCookieList.push('RRLanguage');
+        if (preventCookieList.length > 0) communityService.deleteCookies(preventCookieList);
     }
 }
