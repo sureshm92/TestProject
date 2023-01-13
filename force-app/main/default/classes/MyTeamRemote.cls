@@ -633,6 +633,11 @@ public without sharing class MyTeamRemote {
             if (dw.delegateContact.Id == null) {
                 createDelegate(dw, userMode, parentId);
             } else {
+                if(dw.delegateContact.Id !=null ){
+                    Contact con = [Select Id,UserCommunityIsDelegate__c from Contact where Id=:dw.delegateContact.Id];
+                    con.UserCommunityIsDelegate__c = true;
+                    update con;
+                  }
                 checkAndCreateDelegateUser(dw.delegateContact, dw.delegateTrials, userMode);
                 Map<String, LIst<Id>> hasDelegateLevelsPIMap = new Map<String, List<Id>>();
                 hasDelegateLevelsPIMap.put(HAS_NOT_DELEGATE_LEVELS, new List<Id>());
