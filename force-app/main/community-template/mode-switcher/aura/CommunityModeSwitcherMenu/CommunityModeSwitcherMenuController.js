@@ -137,6 +137,7 @@
     },
 
     logout: function (component, event, helper) {
+        sessionStorage.clear();
         communityService.executeAction(component, 'getLogoutURL', null, function (url) {
             window.location.replace(url + '/secur/logout.jsp');
         });

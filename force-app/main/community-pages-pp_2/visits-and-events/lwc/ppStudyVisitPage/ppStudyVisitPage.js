@@ -51,7 +51,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     };
     @track visitMode = 'All';
     @track upcomingVisits = [];
+    @track upcomingInitialVisits = [];
     @track pastVisits = [];
+    @track pastInitialVisits = [];
     @track sitePhoneNumber;
     @track noVisitDate = false;
     @track showUpcomingVisits = true;
@@ -63,6 +65,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track visitid;
     @track visitdata;
     @track visitStatus;
+    @track isInitialVisit;
     @track showreminderdatepicker = false;
     @track sfdcBaseURL;
     @track siteAddress;
@@ -113,7 +116,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.visitTimezone = TIME_ZONE;
                 var result = pvResult.pvList;
                 this.isEvent = pvResult.isEvent;
-                this.isResultsCard = (this.isEvent !=true);
+                this.isResultsCard = this.isEvent != true;
                 if (result.length > 0) {
                     for (let i = 0; i < result.length; i++) {
                         if (
@@ -136,7 +139,11 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                                     result[i].isReminderDate = true;
                                 }
                             }
-                            this.upcomingVisits.push(result[i]);
+                            if (result[i]?.visit?.Is_Pre_Enrollment_Patient_Visit__c == true) {
+                                this.upcomingInitialVisits.push(result[i]);
+                            } else {
+                                this.upcomingVisits.push(result[i]);
+                            }
                             this.isUpcomingVisits = true;
                         } else if (
                             result[i].visit.Status__c == this.status.completed ||
@@ -153,13 +160,47 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                                 this.missedVisit = false;
                             }
                             result[i].missedVisit = this.missedVisit;
-                            this.pastVisits.push(result[i]);
+                            if (result[i]?.visit?.Is_Pre_Enrollment_Patient_Visit__c == true) {
+                                this.pastInitialVisits.push(result[i]);
+                            } else {
+                                this.pastVisits.push(result[i]);
+                            }
                         }
+                    }
+                    if (this.pastInitialVisits != []) {
+                        if (this.pastInitialVisits.length > 1) {
+                            this.pastInitialVisits = this.pastInitialVisits.sort((pv1, pv2) =>
+                                pv1?.visit?.Completed_Date__c < pv2?.visit?.Completed_Date__c
+                                    ? 1
+                                    : pv1?.visit?.Completed_Date__c > pv2?.visit?.Completed_Date__c
+                                    ? -1
+                                    : 0
+                            );
+                        }
+                        this.pastVisits = [...this.pastInitialVisits, ...this.pastVisits];
+                    }
+                    if (this.upcomingInitialVisits != []) {
+                        if (this.upcomingInitialVisits.length > 1) {
+                            this.upcomingInitialVisits = this.upcomingInitialVisits.sort(
+                                (pv1, pv2) =>
+                                    pv1?.visit?.Planned_Date__c < pv2?.visit?.Planned_Date__c
+                                        ? 1
+                                        : pv1?.visit?.Planned_Date__c > pv2?.visit?.Planned_Date__c
+                                        ? -1
+                                        : 0
+                            );
+                        }
+                        this.upcomingVisits = [
+                            ...this.upcomingInitialVisits,
+                            ...this.upcomingVisits
+                        ];
                     }
                     //get upcoming visit details onload
                     if (this.upcomingVisits.length > 0) {
                         this.visitid = this.upcomingVisits[0].visit.Id;
                         this.taskSubject = this.upcomingVisits[0].visit.Name;
+                        this.isInitialVisit =
+                            this.upcomingVisits[0].visit.Is_Pre_Enrollment_Patient_Visit__c;
                         this.isUpcomingVisits = true;
                     } else {
                         this.isUpcomingVisits = false;
@@ -255,6 +296,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.visitName = this.upcomingVisits[0].visit.Name;
             this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
             this.visitStatus = this.upcomingVisits[0].visit.Status__c;
+            this.isInitialVisit = this.upcomingVisits[0].visit.Is_Pre_Enrollment_Patient_Visit__c;
             if (this.isMobile == false) {
                 this.template
                     .querySelector('[data-id="' + this.column2 + '"]')
@@ -330,18 +372,22 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.visitid = this.pastVisits[index].visit.Id;
             this.visitName = this.pastVisits[index].visit.Name;
             this.plannedDate = this.pastVisits[index].visit.Planned_Date__c;
+            this.isInitialVisit =
+                this.upcomingVisits[index].visit.Is_Pre_Enrollment_Patient_Visit__c;
             if (this.pastVisits[index].missedVisit) {
                 this.visitStatus = this.label.visitUnavailable;
                 this.isResultsCard = false;
             } else {
                 this.visitStatus = this.pastVisits[index].visit.Status__c;
-                if(this.isEvent !=true){
+                if (this.isEvent != true) {
                     this.isResultsCard = true;
                 }
             }
         } else {
             this.visitid = this.upcomingVisits[index].visit.Id;
             this.visitName = this.upcomingVisits[index].visit.Name;
+            this.isInitialVisit =
+                this.upcomingVisits[index].visit.Is_Pre_Enrollment_Patient_Visit__c;
             this.selectedIndex = index;
             this.past = false;
         }
@@ -360,10 +406,10 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     }
 
     redirectPage(visitid) {
-        if(this.isEvent){
+        if (this.isEvent) {
             this.visitdetailurl =
-                window.location.origin + basePathName + '/event-details' + '?eventid=' + visitid;            
-        }else{
+                window.location.origin + basePathName + '/event-details' + '?eventid=' + visitid;
+        } else {
             this.visitdetailurl =
                 window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
         }
@@ -432,14 +478,14 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 if (!this.past) {
-                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c = 
-                    this.visitdata.visitDate;
+                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
+                        this.visitdata.visitDate;
                 }
                 if (this.upcomingVisits.length > 0) {
                     if (this.visitdata.visitDate && this.showUpcomingVisits) {
                         this.upcomingVisits[this.selectedIndex].noVisitDate = false;
-                        this.plannedDate = 
-                        this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
+                        this.plannedDate =
+                            this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
                     } else {
                         this.upcomingVisits[this.selectedIndex].noVisitDate = true;
                         this.plannedDate = '';

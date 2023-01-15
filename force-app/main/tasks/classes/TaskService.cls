@@ -198,16 +198,14 @@ public without sharing class TaskService {
         Set<Id> skipSurveyInvIds = new Set<Id>();
         Set<Id> skipPEAlumnIds = new Set<Id>();
         if(alumDlgtPtView){
-            skipPEAlumnIds = new Map<Id, Patient_Delegate_Enrollment__c>(
-                [
-                    SELECT Participant_Enrollment__c
-                    FROM Patient_Delegate_Enrollment__c
-                    WHERE
-                        Patient_Delegate__r.Contact__c =:ParticipantContext.getOwnParticipant().Contact__c
-                        AND Patient_Delegate__r.Participant__r.Contact__c =: ParticipantContext.getCurrentContact().Id
-                ]
-            )
-            .keySet();
+            for(Patient_Delegate_Enrollment__c pde :[ SELECT Participant_Enrollment__c
+                                                        FROM Patient_Delegate_Enrollment__c
+                                                        WHERE
+                                                            Patient_Delegate__r.Contact__c =:ParticipantContext.getOwnParticipant().Contact__c
+                                                            AND Patient_Delegate__r.Participant__r.Contact__c =: ParticipantContext.getCurrentContact().Id
+                ]){
+                    skipPEAlumnIds.add(pde.Participant_Enrollment__c);
+                }
         }
         for (Task t : tasks) {
             if (
