@@ -19967,6 +19967,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Manage Assignments</value>
     </labels>
     <labels>
+        <fullName>PP_Assignments_Updated_Successfully</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assignments</shortDescription>
+        <value>Assignments updated successfully</value>
+    </labels>
+    <labels>
         <fullName>PP_WithdraDel_info</fullName>
         <language>en_US</language>
         <protected>true</protected>
