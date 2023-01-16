@@ -1,0 +1,228 @@
+<template>
+    <!--Spinner: Starts-->
+    <template if:true={spinner}>
+        <lightning-spinner
+            alternative-text="Loading"
+            variant="brand"
+            size="medium"
+            class="web-spinner fixed"
+        ></lightning-spinner>
+    </template>
+    <!--Spinner: Ends-->
+    <!--Withdraw Delegate Modal: Starts-->
+    <template if:true={showpopup}>
+        <c-pp-remove-delegate-modal-old
+            pdenrollmentid={withdrawStudyPDEId}
+            messtext="By withdrawing, you will no longer be able to access this assignment. Are you sure you would like to continue?"
+            tittext="Withdraw assignment"
+            onconfirmmodal={handleWithdrawDelegate}
+            onmodalclose={handleModalClose}
+        >
+        </c-pp-remove-delegate-modal-old>
+    </template>
+    <!--Withdraw Delegate Modal: Ends-->
+    <!-- Show Manage Delegate Page: Start-->
+    <div class={cardRTL}>
+        <div class="manage-assignment-continer">
+            <!--Main Layout: Starts -->
+            <lightning-layout multiple-rows="true">
+                <!-- Manage Delegate Header: Starts-->
+                <lightning-layout-item size="12" class="slds-m-top_small">
+                    <span class="manage-assignment-header">{label.PP_Assignments}</span>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" class="slds-m-top_small">
+                    <span class="ma-withdraw-text">{label.PP_WithdraDel_info}</span>
+                </lightning-layout-item>
+                <!-- Manage Delegate Header: Ends-->
+                <!--Iterate over each participant Associated to the delegate: Starts-->
+                <template for:each={parAndStdAssociatedList} for:item="par" for:index="index">
+                    <!--Delegate Card Section: Starts -->
+                    <lightning-layout-item
+                        size="12"
+                        class="del-container slds-m-top_small"
+                        key={par.Id}
+                    >
+                        <!--Dlegate Info Layout: Starts -->
+                        <lightning-layout multiple-rows="true" class="manage-assignment-items">
+                            <!--Delegate Profile Logo and Name Section: Starts-->
+                            <lightning-layout-item size="12" class="slds-m-bottom_medium">
+                                <!--Delegate Personal Detail Layout: Starts-->
+                                <lightning-layout multiple-rows="true">
+                                    <!--Profile Logo: Stats-->
+                                    <lightning-layout-item size="1" class={delAvararIcon}>
+                                        <span><img src={icon_url} /></span>
+                                    </lightning-layout-item>
+                                    <!--Profile Logo: Ends-->
+                                    <!--Delegate Name: Stats-->
+                                    <lightning-layout-item size="11" class={delInfoActive}
+                                        ><lightning-layout multiple-rows="true">
+                                            <lightning-layout-item
+                                                size="12"
+                                                class="participant-name"
+                                                >{par.Participant.First_Name__c}&nbsp;{par.Participant.Last_Name__c}
+                                            </lightning-layout-item>
+                                            <lightning-layout-item
+                                                size="12"
+                                                class="participant-email"
+                                                >{par.Participant.Email__c}
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    <!--Delegate Name: Ends-->
+                                </lightning-layout>
+                                <!--Delegate Personal Detail Layout: Ends-->
+                            </lightning-layout-item>
+                            <!--Delegate Profile Logo and Name Section: Ends-->
+                            <!--Iterate over each pdEnrollment Associated to the Delegate: Starts-->
+                            <template
+                                for:each={par.PDEEnrollments}
+                                for:item="pdEnrollment"
+                                for:index="index"
+                            >
+                                <lightning-layout-item
+                                    size="12"
+                                    class="slds-m-bottom_x-small study-rectangle"
+                                    key={pdEnrollment.Id}
+                                >
+                                    <lightning-layout>
+                                        <lightning-layout-item
+                                            size="9"
+                                            class="slds-p-top_medium slds-p-bottom_medium slds-p-left_large slds-p-right_large"
+                                            ><p class="study-code-name">
+                                                {pdEnrollment.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                                            </p></lightning-layout-item
+                                        >
+                                        <template if:false={pdEnrollment.isPrimaryDelegate}>
+                                            <lightning-layout-item
+                                                size="3"
+                                                class="slds-align_absolute-center slds-p-top_medium slds-p-bottom_medium slds-p-right_x-small slds-p-left_xx-small"
+                                                ><button
+                                                    class="withdraw-btn"
+                                                    title=""
+                                                    onclick={openWithdrawDelegateModal}
+                                                    data-pdeid={pdEnrollment.Id}
+                                                >
+                                                    {label.PP_Withdraw}
+                                                </button></lightning-layout-item
+                                            >
+                                        </template>
+                                        <template if:true={pdEnrollment.isPrimaryDelegate}>
+                                            <lightning-layout-item
+                                                size="3"
+                                                class="slds-p-top_medium slds-p-bottom_medium slds-p-right_x-large slds-p-left_large"
+                                            >
+                                                <c-custom-tool-tip-help-text
+                                                    position="absolute"
+                                                    top="-55px"
+                                                    left="-308px"
+                                                    width="290px"
+                                                    header={label.PP_Assigned_As_Primary_Delegate}
+                                                    help-text={label.PP_Assigned_As_Primary_Delegate_help}
+                                                ></c-custom-tool-tip-help-text>
+                                            </lightning-layout-item>
+                                        </template>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                            <!--Iterate over each pdEnrollment Associated to the Delegate: Ends-->
+                        </lightning-layout>
+                        <!--Dlegate Info Layout: Ends -->
+                    </lightning-layout-item>
+                    <!--Delegate Card SectionL: Ends -->
+                </template>
+                <!--Iterate over each participant Associated to the delegate: Ends-->
+            </lightning-layout>
+            <!--Main Layout: Ends -->
+            <!-- </template> -->
+            <template if:false={showWhatCanISeeCard}>
+                <lightning-layout>
+                    <!--Add Assignment Button: Starts-->
+                    <lightning-layout-item
+                        size="12"
+                        class="slds-m-vertical_large ma-what-I-can-see-button"
+                    >
+                        <button
+                            class="apollo-btn secondary ma-btn-box"
+                            title=""
+                            onclick={toggleshowWhatCanISeeCardView}
+                        >
+                            {label.PP_What_can_I_see_Or_Do}
+                            <img
+                                src={iconChevronleRight_url}
+                                width="22"
+                                class={conChevronleRight}
+                            />
+                        </button>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+            <template if:true={showWhatCanISeeCard}>
+                <lightning-layout
+                    multiple-rows="true"
+                    class="slds-m-vertical_large ma-what-I-can-see-card"
+                >
+                    <lightning-layout-item size="12" class="ma-what-I-can-see-button-1">
+                        <button
+                            class="apollo-btn secondary ma-btn-box-1"
+                            title=""
+                            onclick={toggleshowWhatCanISeeCardView}
+                        >
+                            {label.PP_What_can_I_see_Or_Do}
+                            <img
+                                src={iconChevronleRight_url}
+                                width="22"
+                                class={conChevronleDownClass}
+                            />
+                        </button>
+                    </lightning-layout-item>
+                    <!-- <lightning-layout-item size="11" class="slds-m-bottom_small"
+                            ><span class="what-can-I-See-text"
+                                >What can I as a delegate see or do?</span
+                            >
+                        </lightning-layout-item>
+                        <lightning-layout-item size="1">
+                            <button
+                                onclick={toggleshowWhatCanISeeCardView}
+                                class={whatICanSeeIconClass}
+                            >
+                                <img
+                                    src={iconChevronleRight_url}
+                                    width="22"
+                                    class="con-chevronle-down"
+                                />
+                            </button>
+                        </lightning-layout-item> -->
+                    <div class="what-Can-I-See-card">
+                        <lightning-layout-item size="12" class="slds-p-bottom_medium">
+                            <lightning-layout class="slds-p-bottom_medium">
+                                <lightning-layout-item size="6"
+                                    ><ul class="slds-list_dotted">
+                                        <li>{label.PG_PST_L_Delegates_Compl_Task_Behalf_New}</li>
+                                        <li class="slds-m-vertical_xx-small">
+                                            {label.PG_PST_L_Delegates_Receive_Emails_New}
+                                        </li>
+                                        <li>{label.PG_PST_L_Delegates_See_Lab_Result_New}</li>
+                                    </ul></lightning-layout-item
+                                >
+                                <lightning-layout-item size="6"
+                                    ><ul class="slds-list_dotted">
+                                        <li>{label.PG_PST_L_Delegates_See_Vitals_New}</li>
+                                        <li class="slds-m-vertical_xx-small">
+                                            {label.PG_PST_L_Delegates_My_Measur_New}
+                                        </li>
+                                    </ul>
+                                    <span class="text-italic">
+                                        {label.PP_AS_CONDITIONAL_FEATURE}
+                                    </span></lightning-layout-item
+                                >
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </div>
+                </lightning-layout>
+            </template>
+        </div>
+    </div>
+    <!--Active Delegates: Ends-->
+
+    <!-- Show Manage Delegate Page: Ends-->
+</template>
