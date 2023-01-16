@@ -120,8 +120,8 @@
                 </div>
             </div>
             <aura:if isTrue="{!not(v.isDummy)}">
-                <c:ppCookiesBanner />
                 <c:ppAlerts aura:id="ppAlerts"></c:ppAlerts>
+                <c:ppCookiesBanner />
             </aura:if>
         </div>
     </aura:if>
