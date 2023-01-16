@@ -31,6 +31,8 @@ export default class HomePageParticipantNew extends LightningElement {
     isDelegateSelfview = false;
     @track taskList = false;
     homeIllustration = pp_icons + '/' + 'HomePage_Illustration.svg';
+    homeIllustrationMble = pp_icons + '/' + 'HomePage_Illustration_Mble.svg';
+
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
     }
