@@ -1958,5 +1958,9 @@ input[type=password]::-ms-clear
 .ma-what-I-can-see-button-1 .apollo-btn{
     justify-content: left;
 }
+.ma-icon-color .slds-icon_small {
+    width: 20px;
+    height: 20px;
+}
 
 /* Delegate redesing - Chages-  Ends */
