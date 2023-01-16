@@ -63,7 +63,6 @@
                 component.set('v.userType', initData.myContact.UserCommunytyType__c);
                 component.set('v.consentPreferenceData', initData.consentPreferenceData);
 
-                //show manage delegate page
                 var isDelegate = component.get('v.isDelegate');
                 var isParticipantLoggedIn = initData.consentPreferenceData.isParticipantLoggedIn;
                 var isDelegateSelfView = initData.consentPreferenceData.isDelegateSelfView;

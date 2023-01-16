@@ -1935,6 +1935,7 @@ input[type=password]::-ms-clear
 .ma-what-I-can-see-button .apollo-btn.secondary {
     position: relative;
     font-size: 18px;
+    font-weight: 600;
     height: 56px;
     padding: 16px 16px 16px 24px;
     width: 100%
@@ -1952,11 +1953,16 @@ input[type=password]::-ms-clear
     box-shadow: none !important;
     padding: 16px 16px 16px 24px;
     font-size: 18px;
+    font-weight: 600;
     height: 56px;
     width: 100%
 }
 .ma-what-I-can-see-button-1 .apollo-btn{
     justify-content: left;
+}
+.ma-icon-color .slds-icon_small {
+    width: 20px;
+    height: 20px;
 }
 
 /* Delegate redesing - Chages-  Ends */

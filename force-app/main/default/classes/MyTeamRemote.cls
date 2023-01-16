@@ -1403,25 +1403,17 @@ public without sharing class MyTeamRemote {
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
                         .getState();
-            List<Id> peIds = new List<Id>();
-            peIds = PatientDelegateService.getAvailablePEIdsForContact(
-                participantState.participant.Contact__c
-            );
-
-            List<Participant_Enrollment__c> availablePEs = AccountSettingsController.getPERRecords(peIds);
-
-            if (availablePEs != null)
-                participantEnrollments.addAll(availablePEs);
-            List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
-                participantState.participant.Contact__c
-            );
-
-            if (pastEnrollments != null)
-                participantEnrollments.addAll(pastEnrollments);
-            }
-            for(Participant_Enrollment__c per: participantEnrollments) {
+            
+            List<Participant_Enrollment__c> availablePERs = [Select Id,
+                                                                   Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                                                            FROM Participant_Enrollment__c
+                                                            WHERE Participant__r.Contact__c =:participantState.participant.Contact__c
+                                                            ];
+            for(Participant_Enrollment__c per: availablePERs) {
                 peFilterData.studies.add(new LabelValueItem(per.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, per.Id));
             } 
+        }
+            
         
         return PEFilterData;
         } 
