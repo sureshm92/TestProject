@@ -42,8 +42,6 @@ import {
 export default class ManageDelegates extends NavigationMixin(LightningElement) {
     isDesktop;
     @api participantState;
-    @api isDelegate;
-    @api consentPreferenceData;
     @api userMode;
     @api isRTL;
     @track listPDE = [];
