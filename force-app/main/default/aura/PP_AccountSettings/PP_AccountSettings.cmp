@@ -37,9 +37,8 @@
     <aura:attribute name="custep" type="Boolean" default="false" />
     <aura:attribute name="compId" type="string" default="1" />
     <aura:attribute name="hoverId" type="string" />
-    <aura:attribute name="isPureDelegateSelfView" type="Boolean" default="false" />
-    <aura:attribute name="isPureParticipantView" type="Boolean" default="false" />
-    <aura:attribute name="isMultiRoleSelfView" type="Boolean" default="false" />
+    <aura:attribute name="showManageDelegateTab" type="Boolean" default="false" />
+    <aura:attribute name="showMamanageAssignmentTab" type="Boolean" default="false" />
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
@@ -158,7 +157,7 @@
                             </aura:if>
                             <!-- Manage Delegates Start -->
                             <aura:if
-                                isTrue="{!AND((v.userMode == 'Participant'),!(v.isDelegate),OR((v.isPureParticipantView),(v.isMultiRoleSelfView)))}"
+                                isTrue="{!AND((v.userMode == 'Participant'),(v.showManageDelegateTab))}"
                             >
                                 <li
                                     id="8"
@@ -176,7 +175,7 @@
                             <!-- Manage Delegates Ends -->
                             <!-- Manage Assignment Start -->
                             <aura:if
-                                isTrue="{!AND((v.userMode == 'Participant'),!(v.isDelegate),OR((v.isPureDelegateSelfView),(v.isMultiRoleSelfView)))}"
+                                isTrue="{!AND((v.userMode == 'Participant'),(v.showMamanageAssignmentTab))}"
                             >
                                 <li
                                     id="9"
@@ -239,7 +238,7 @@
                     </aura:if>
                     <!-- Manage Delegates Start -->
                     <aura:if
-                        isTrue="{!AND((v.compId == '8'),(v.userMode == 'Participant'),!(v.isDelegate),OR((v.isPureParticipantView),(v.isMultiRoleSelfView)))}"
+                        isTrue="{!AND((v.compId == '8'),(v.userMode == 'Participant'),(v.showManageDelegateTab))}"
                     >
                         <c:manageDelegates
                             userMode="{!v.userMode}"
@@ -250,7 +249,7 @@
                     <!-- Manage Delegates Ends -->
                     <!-- Manage Assignment Start -->
                     <aura:if
-                        isTrue="{!AND((v.compId == '9'),(v.userMode == 'Participant'),!(v.isDelegate),OR((v.isPureDelegateSelfView),(v.isMultiRoleSelfView)))}"
+                        isTrue="{!AND((v.compId == '9'),(v.userMode == 'Participant'),(v.showMamanageAssignmentTab))}"
                     >
                         <c:manageAssignment
                             userMode="{!v.userMode}"
