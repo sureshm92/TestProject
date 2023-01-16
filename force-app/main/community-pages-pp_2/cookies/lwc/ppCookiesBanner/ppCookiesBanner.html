@@ -102,6 +102,7 @@
             tabindex="-1"
             aria-modal="true"
             class="slds-modal slds-fade-in-open cookie-btn"
+            style="z-index: 999999"
         >
             <div class="slds-modal__container">
                 <div class="slds-grid card-top-bg"></div>
@@ -138,11 +139,11 @@
                             </template>
                         </div>
                     </div>
-                    <div class="accordion" id="functionalcookies" onclick={showCookieDiv}>
+                    <div class="accordion active" id="functionalcookies" onclick={showCookieDiv}>
                         <div class="acordion-title slds-p-horizontal_medium">
                             {label.accountSettingsFunctionalCookiesLabel}
                         </div>
-                        <div class="panel">
+                        <div class="panel" style="display: block">
                             <div class="slds-grid rr-cookie-title slds-p-horizontal_medium">
                                 <div class="slds-col slds-size_10-of-12">
                                     <div class="cookie-title-font-size">

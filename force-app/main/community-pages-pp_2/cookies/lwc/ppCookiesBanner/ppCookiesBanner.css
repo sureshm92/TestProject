@@ -6,6 +6,7 @@
     border-radius: 16px 16px 0 0;
     background-color: #000000;
     box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
+    z-index: 9999;
 }
 
 .rh-cookies-banner {
