@@ -218,8 +218,8 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     }
     get conChevronleDownClass() {
         return this.isRTL
-            ? 'con-chevronle-down con-chevronle-down-ma-right'
-            : 'con-chevronle-down con-chevronle-down-ma-left';
+            ? 'con-chevronle-down conChevronle-float-left'
+            : 'con-chevronle-down conChevronle-float-right';
     }
     //This method will open Remove Delegate Modal.
     openWithdrawDelegateModal(event) {

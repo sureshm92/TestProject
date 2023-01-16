@@ -1933,6 +1933,7 @@ input[type=password]::-ms-clear
     justify-content: left;
 }
 .ma-what-I-can-see-button .apollo-btn.secondary {
+    position: relative;
     font-size: 18px;
     height: 56px;
     padding: 16px 16px 16px 24px;
@@ -1942,8 +1943,12 @@ input[type=password]::-ms-clear
 
 .ma-what-I-can-see-button-1 .apollo-btn.secondary {
     background: #fff;
+    position: relative;
     color: #297dfd;
-    border: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    border-left: none !important;
+    border-top: 1px solid #e9e9e9;
     box-shadow: none !important;
     padding: 16px 16px 16px 24px;
     font-size: 18px;
