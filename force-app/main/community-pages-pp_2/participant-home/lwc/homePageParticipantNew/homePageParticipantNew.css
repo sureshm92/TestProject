@@ -14,12 +14,9 @@
     background: #f0efef;
 }
 .po-fontsize {
-    height: 76px;
-    color: #444444;
-    font-size: 32px;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: 38px;
+  color: #444444;
+  font-size: 32px;
+  font-weight: 600;
 }
 .margin-top-bottom-20 {
     margin-top: 20px;

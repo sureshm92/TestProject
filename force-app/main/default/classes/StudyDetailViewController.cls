@@ -11,7 +11,7 @@ public without sharing class StudyDetailViewController {
         }
     }
 
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static String getTrialDetail(String trialId, String userMode, Boolean isNewPP) {
         try {
             return getTrialDetail(trialId, userMode, null, isNewPP);

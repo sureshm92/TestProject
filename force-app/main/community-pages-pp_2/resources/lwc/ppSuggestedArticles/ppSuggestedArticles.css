@@ -3,7 +3,6 @@
     width: 227px;
     background-color: #FFFFFF;
     box-sizing: border-box;
-    border: 1px solid #E9E9E9;
     border-radius: 8px;
     display: inline-block;
     min-width: 227px;
@@ -51,12 +50,12 @@
     overflow-x: auto;
     scroll-behavior: smooth;
 }
-.topdiv > div:first-child{
-    margin-left: 16px;
+.topdiv > div:last-child{
+    margin-right: 0px;
 }
 .parent{    
     display: inline-flex;
-    width: 97.8%;
+    width: 95.8%;
 }
 .disableCursor{
     opacity: 50%;
@@ -65,8 +64,14 @@
 .chevronL{
     cursor: pointer;
 }
+.chevronLp{
+    margin-right : 16px;
+}
 .chevronR{
     cursor: pointer;
+}
+.chevronRp{
+    margin-left : 16px;
 }
 ::-webkit-scrollbar {
     display: none;
@@ -91,10 +96,11 @@
         width: 100%;
     }
     .wide{
-        width: 252px;
+        width: 245px;
     }
     .mask {
         min-width: 227px;
-        margin-right: 23px;
+        margin-right: 8px !important;
+        margin-left: 8px;
     }
 }
