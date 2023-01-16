@@ -21,19 +21,24 @@
                                 </div>
                             </div>
                             <div class="title">{res.resource.Title__c}</div>
-                            <div class="vd">{res.resource.Version_Date__c}</div>
+                            <div class="vd">
+                                <lightning-formatted-date-time
+                                    value={res.resource.Version_Date__c}
+                                    time-zone={userTimeZone}
+                                >
+                                </lightning-formatted-date-time>
+                            </div>
                                 
                         </div>
                     </template> 
                 </div>
             </div>
-            <div if:true={showRight} class="slds-align--absolute-center">
+            <div if:true={showRight} class="slds-align--absolute-center chevronRp">
                 <lightning-icon size="small" icon-name="utility:chevronright" alternative-text="right" onclick={goRight} class="chevronR"></lightning-icon>
             </div>
-            <div if:false={showRight} class="slds-align--absolute-center">
+            <div if:false={showRight} class="slds-align--absolute-center chevronRp">
                 <lightning-icon size="small" icon-name="utility:chevronright" alternative-text="right" class="chevronR disableCursor"></lightning-icon>
             </div>
         </div>
     </span>
-    
 </template>
