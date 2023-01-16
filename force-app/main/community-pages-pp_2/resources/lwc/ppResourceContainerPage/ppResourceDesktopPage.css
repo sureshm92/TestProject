@@ -295,3 +295,7 @@ p {
 .newHeight {
     height: 607px;
 }
+
+.left-column{
+    overflow-y: hidden;
+}

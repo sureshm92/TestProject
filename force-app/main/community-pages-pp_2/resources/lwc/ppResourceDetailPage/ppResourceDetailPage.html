@@ -104,6 +104,12 @@
                                     ></lightning-formatted-rich-text>
                                 </div>
                             </lightning-layout-item>
+                            <!-- Article suggestions-->
+                            <lightning-layout-item size="12">
+                                <div if:true={isArticleVideo}>
+                                    <c-pp-suggested-articles resid={resourceId}></c-pp-suggested-articles>
+                                </div>
+                            </lightning-layout-item>
                         </lightning-layout>
                     </lightning-layout-item>
                 </template>

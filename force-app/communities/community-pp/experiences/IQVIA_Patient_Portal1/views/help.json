@@ -1,6 +1,7 @@
 {
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
-  "componentName" : "c:OneColumnLayout",
+  "componentName" : "c:PPOneColumnLayout",
+  "dataProviders" : [ ],
   "id" : "72d97fc1-a632-430d-9a2a-cc75b1c171b2",
   "label" : "Help",
   "regions" : [ {

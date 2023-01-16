@@ -43,7 +43,6 @@ public without sharing class UserTriggerHandler {
             assignPendingTelevisits(newList);
         }
     }
-
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
