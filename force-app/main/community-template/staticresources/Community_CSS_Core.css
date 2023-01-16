@@ -1946,7 +1946,7 @@ input[type=password]::-ms-clear
     position: relative;
     color: #297dfd;
     border-right: none !important;
-    border-bottom: none !important;
+    border-bottom: 1px solid transparent !important;
     border-left: none !important;
     border-top: 1px solid #e9e9e9;
     box-shadow: none !important;
