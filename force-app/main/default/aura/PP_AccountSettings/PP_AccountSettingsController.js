@@ -47,6 +47,8 @@
                     component.set('v.compId', '7');
                 } else if (queryString.includes('manage-delegates')) {
                     component.set('v.compId', '8');
+                } else if (queryString.includes('manage-assignmens')) {
+                    component.set('v.compId', '9');
                 } else {
                     console.log('URL param not found!');
                 }
@@ -60,6 +62,27 @@
                 component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
                 component.set('v.userType', initData.myContact.UserCommunytyType__c);
                 component.set('v.consentPreferenceData', initData.consentPreferenceData);
+                //Set pure participant logged in.
+                if (initData.consentPreferenceData.isParticipantLoggedIn == true) {
+                    component.set('v.isPureParticipantView', true);
+                } else {
+                    component.set('v.isPureParticipantView', false);
+                }
+                //Set if pure delegate logged in as self view.
+                if (initData.consentPreferenceData.isDelegateSelfView == true) {
+                    component.set('v.isPureDelegateSelfView', true);
+                } else {
+                    component.set('v.isPureDelegateSelfView', false);
+                }
+                //Set if participant also acting as delegate for other participant.
+                if (initData.consentPreferenceData.isDelegateAlsoAParticipant == true) {
+                    component.set('v.isMultiRoleSelfView', true);
+                } else {
+                    component.set('v.isMultiRoleSelfView', false);
+                }
+                console.log('isPureParticipantView: ' + component.get('v.isPureParticipantView'));
+                console.log('isPureDelegateSelfView: ' + component.get('v.isPureDelegateSelfView'));
+                console.log('isMultiRoleSelfView: ' + component.get('v.isMultiRoleSelfView'));
                 var userType = initData.myContact.userCommunytyType__c;
                 if (userType)
                     if (userType.includes('HCP') && component.get('v.userMode') == 'PI')
@@ -130,6 +153,8 @@
             window.history.replaceState(null, null, '?communication-preferences');
         } else if (compId == '8') {
             window.history.replaceState(null, null, '?manage-delegates');
+        } else if (compId == '9') {
+            window.history.replaceState(null, null, '?manage-assignmens');
         } else {
             communityService.navigateToPage('account-settings');
         }

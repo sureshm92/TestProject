@@ -37,6 +37,9 @@
     <aura:attribute name="custep" type="Boolean" default="false" />
     <aura:attribute name="compId" type="string" default="1" />
     <aura:attribute name="hoverId" type="string" />
+    <aura:attribute name="isPureDelegateSelfView" type="Boolean" default="false" />
+    <aura:attribute name="isPureParticipantView" type="Boolean" default="false" />
+    <aura:attribute name="isMultiRoleSelfView" type="Boolean" default="false" />
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
@@ -154,7 +157,9 @@
                                 </li>
                             </aura:if>
                             <!-- Manage Delegates Start -->
-                            <aura:if isTrue="{!(v.userMode == 'Participant')}">
+                            <aura:if
+                                isTrue="{!AND((v.userMode == 'Participant'),!(v.isDelegate),OR((v.isPureParticipantView),(v.isMultiRoleSelfView)))}"
+                            >
                                 <li
                                     id="8"
                                     aura:id="8"
@@ -169,6 +174,24 @@
                                 </li>
                             </aura:if>
                             <!-- Manage Delegates Ends -->
+                            <!-- Manage Assignment Start -->
+                            <aura:if
+                                isTrue="{!AND((v.userMode == 'Participant'),!(v.isDelegate),OR((v.isPureDelegateSelfView),(v.isMultiRoleSelfView)))}"
+                            >
+                                <li
+                                    id="9"
+                                    aura:id="9"
+                                    class="{!(v.compId == '9') ? 'navItem mouse-hover group-6' : 'navItem' }"
+                                >
+                                    <a
+                                        class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset"
+                                        data-menu-item-id="9"
+                                        onclick="{!c.selectPassword}"
+                                        >{!$Label.c.PP_Assignments}</a
+                                    >
+                                </li>
+                            </aura:if>
+                            <!-- Manage Assignment Ends -->
                         </ul>
                     </div>
                 </div>
@@ -215,17 +238,29 @@
                         <c:CookieSettings userMode="{!v.userMode}" />
                     </aura:if>
                     <!-- Manage Delegates Start -->
-                    <aura:if isTrue="{!and((v.compId == '8'),(v.userMode == 'Participant'))}">
+                    <aura:if
+                        isTrue="{!AND((v.compId == '8'),(v.userMode == 'Participant'),!(v.isDelegate),OR((v.isPureParticipantView),(v.isMultiRoleSelfView)))}"
+                    >
                         <c:manageDelegates
-                            isDelegate="{!v.isDelegate}"
-                            participantState="{!v.participantState}"
-                            consentPreferenceData="{!v.consentPreferenceData}"
                             userMode="{!v.userMode}"
+                            participantState="{!v.initData.participantState}"
                             isRTL="{!v.isRTLLanguage}"
                         />
-                        <!-- <c:ppAddNewDelegate selectedParent="{!v.contact.Id}"> </c:ppAddNewDelegate> -->
                     </aura:if>
                     <!-- Manage Delegates Ends -->
+                    <!-- Manage Assignment Start -->
+                    <aura:if
+                        isTrue="{!AND((v.compId == '9'),(v.userMode == 'Participant'),!(v.isDelegate),OR((v.isPureDelegateSelfView),(v.isMultiRoleSelfView)))}"
+                    >
+                        <c:manageAssignment
+                            userMode="{!v.userMode}"
+                            hasPatientDelegates="{!v.initData.participantState.hasPatientDelegates}"
+                            isDelegate="{!v.initData.participantState.isDelegate}"
+                            ParticipantStateValue="{!v.initData.participantState.value}"
+                            isRTL="{!v.isRTLLanguage}"
+                        />
+                    </aura:if>
+                    <!-- Manage Assignment Ends -->
                 </div>
             </div>
         </aura:if>
