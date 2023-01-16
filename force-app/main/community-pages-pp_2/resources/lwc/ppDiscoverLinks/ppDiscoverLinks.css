@@ -41,11 +41,11 @@
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0;
-    line-height: 17px;
+    line-height: 21px;
     padding-right: 10px;
     margin-bottom: 5px;
     overflow-wrap: break-word;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
