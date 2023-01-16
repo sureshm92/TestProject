@@ -4,7 +4,7 @@ import PP_ManageDelegates from '@salesforce/label/c.PP_ManageDelegates';
 import PG_PST_L_Delegates_Remove_Mess_P1_New from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Mess_P1_New';
 import PG_PST_L_Delegates_Remove_Mess_P3_New from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Mess_P3_New';
 import PG_PST_L_Delegates_Remove_Himself_Header from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Himself_Header';
-import PP_Delegate_Updated from '@salesforce/label/c.PP_Delegate_Updated';
+import PP_Assignments_Updated_Successfully from '@salesforce/label/c.PP_Assignments_Updated_Successfully';
 import PP_Assignments from '@salesforce/label/c.PP_Assignments';
 import PP_WithdraDel_info from '@salesforce/label/c.PP_WithdraDel_info';
 import PP_Withdraw from '@salesforce/label/c.PP_Withdraw';
@@ -57,14 +57,13 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     showWhatCanISeeCard = false;
     isDesktop;
     dataInitialized = false;
-    PP_Delegate_Updated_Successfully = 'Assignments updated successfully';
 
     label = {
         PP_ManageDelegates,
         PG_PST_L_Delegates_Remove_Mess_P1_New,
         PG_PST_L_Delegates_Remove_Mess_P3_New,
         PG_PST_L_Delegates_Remove_Himself_Header,
-        PP_Delegate_Updated,
+        PP_Assignments_Updated_Successfully,
         PG_PST_L_Delegates_Compl_Task_Behalf_New,
         PG_PST_L_Delegates_Receive_Emails_New,
         PG_PST_L_Delegates_See_Lab_Result_New,
@@ -243,7 +242,7 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
                 communityService.showToast(
                     '',
                     'success',
-                    this.PP_Delegate_Updated_Successfully,
+                    this.label.PP_Assignments_Updated_Successfully,
                     300
                 );
             })
