@@ -41,16 +41,39 @@ export default class PpCommunityNavigation extends LightningElement {
     desktop = false;
     menuCss = 'phone-menu-background nav-menu slds-border_top ';
     showSubMenu = false;
-    connectedCallback() {
-        this.baseLink = window.location.origin;
-        this.initializeData();
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+    @api isInitialLoad = false;
+    hasRendered = false;
+    renderedCallback() {
+        if (!this.hasRendered) {
+            this.hasRendered = true;
+            this.baseLink = window.location.origin;
+            this.initializeDataForDOM();
+            DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        }
     }
     //template toggle
     render() {
         return this.desktop ? menuDesktop : menuMobile;
     }
+    @api
+    handleClick() {
+        let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
+        mobileDiv && mobileDiv.classList.contains('slds-hide')
+            ? mobileDiv.classList.remove('slds-hide')
+            : mobileDiv.classList.add('slds-hide');
+            if(mobileDiv && !mobileDiv.classList.contains('slds-hide')) {
+                console.log(JSON.stringify(this.participantTabs));
+                this.participantTabs=[];
+                this.initializeData();
+            }
+    }
     handleNavigationSubMenu(event){
+        if (!this.desktop) {
+            let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
+            mobileDiv && !mobileDiv.classList.contains('slds-hide')
+                ? mobileDiv.classList.add('slds-hide')
+                : '';
+        }
         if (event.currentTarget.dataset.pagename) {
             this.communityServic.navigateToPage(event.currentTarget.dataset.pagename);
         }
@@ -58,6 +81,19 @@ export default class PpCommunityNavigation extends LightningElement {
         if (element) {
               element.classList.remove('block-submenu-onblur');
               this.removeElementFocus();
+        }
+    }
+    initializeDataForDOM(){
+        if (communityService.isInitialized()) {
+            if (!this.isInitialLoad && !this.desktop) {
+                //add css class for mobile
+                let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
+                mobileDiv && mobileDiv.classList.contains('mobileMenu')
+                    ? mobileDiv.classList.add('slds-hide')
+                    : 'Not Today!';
+                this.isInitialLoad = true;
+            }
+            this.initializeData();
         }
     }
     initializeData() {
@@ -91,7 +127,7 @@ export default class PpCommunityNavigation extends LightningElement {
                     this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                 });
         }
-
+    
         if (this.spinner) {
             this.spinner.hide();
         }
@@ -231,12 +267,18 @@ export default class PpCommunityNavigation extends LightningElement {
     }
 
     handleNavigation(event) {
+        if (!this.desktop) {
+            let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
+            mobileDiv && !mobileDiv.classList.contains('slds-hide')
+                ? mobileDiv.classList.add('slds-hide')
+                : '';
+        }
         if (event.currentTarget.dataset.pageName) {
             this.currentPageName = event.currentTarget.dataset.pageName;
             this.updateCurrentPage(this.currentPageName);
         }
         try {
-            !this.showSideMenu ? (this.menuCss += 'toggleClass') : '';
+            //!this.showSideMenu ? (this.menuCss += 'toggleClass') : '';
             this.communityServic.navigateToPage(event.currentTarget.dataset.pageName);
             this.currentPageName = this.communityServic.getPageName();
             this.removeElementFocus();
@@ -299,10 +341,5 @@ export default class PpCommunityNavigation extends LightningElement {
                 variant: variantType
             })
         );
-    }
-    @api forceRefresh() {
-        this.isInitialized = false;
-        this.participantTabs = [];
-        this.initializeData();
     }
 }

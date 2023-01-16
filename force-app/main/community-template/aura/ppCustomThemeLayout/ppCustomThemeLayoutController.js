@@ -28,17 +28,8 @@
         communityService.navigateToPage('help');
     },
     handleClick: function (component, event, helper) {
-        component.set('v.isPPonPhone', !component.get('v.isPPonPhone'));
-        if (component.get('v.isPPonPhone')) {
-            if (component.find('ppMenu')) component.find('ppMenu').forceRefresh();
-        }
-    },
-    handlecloseNavigationMenu: function (component, event, helper) {
-        component.set('v.isPPonPhone', false);
-    },
-    closePPMobileMenu: function (component, event, helper) {
-        if (component.get('v.isPPonPhone')) {
-            component.set('v.isPPonPhone', false);
+        if (component.find('ppMenu')) {
+            component.find('ppMenu').handleClick();
         }
     }
 });
