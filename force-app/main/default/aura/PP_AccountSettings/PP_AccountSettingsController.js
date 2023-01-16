@@ -97,11 +97,13 @@
             for (var i = 1; i < 7; i++) {
                 var x = document.getElementById(i);
                 if (id != i && !toglNavg) {
-                    x.style.visibility = 'hidden';
+                    // x.style.visibility = 'hidden';
+                    x.style.display = 'none';
                     y.style.boxShadow = 'none';
                     y.style.background = 'Transparent';
                 } else if (toglNavg) {
-                    x.style.visibility = 'visible';
+                   // x.style.visibility = 'visible';
+                    x.style.display = 'block';
                     y.style.boxShadow = '0 4px 24px 0 rgba(0, 0, 0, 0.16)';
                     y.style.background = '#fff';
                 }
