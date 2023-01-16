@@ -19960,6 +19960,34 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Manage Delegates</value>
     </labels>
     <labels>
+        <fullName>PP_Assignments</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assignments</shortDescription>
+        <value>Manage Assignments</value>
+    </labels>
+    <labels>
+        <fullName>PP_WithdraDel_info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_WithdraDel_info</shortDescription>
+        <value>You may choose to withdraw from your delegate appointment at any time. Doing so will prevent you from seeing any more information associated with a participant. If you withdraw in error, kindly contact your participant to be reappointed as a delegate.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Withdraw</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Withdraw</shortDescription>
+        <value>Withdraw</value>
+    </labels>
+    <labels>
+        <fullName>PP_What_can_I_see_Or_Do</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_What_can_I_see_Or_Do</shortDescription>
+        <value>What can I as a delegate see or do?</value>
+    </labels>
+    <labels>
         <fullName>PP_MatchMyEmailAddress</fullName>
         <language>en_US</language>
         <protected>true</protected>
