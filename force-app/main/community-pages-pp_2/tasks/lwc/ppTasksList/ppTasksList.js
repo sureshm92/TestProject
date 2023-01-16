@@ -143,7 +143,6 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     }
 
     connectedCallback() {
-        console.log('tasks 123', this.tasksList);
         if (formFactor === 'Small') {
             this.isMobile = true;
         } else {
@@ -160,7 +159,6 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     taskOpen(event) {
         let selectedTask;
         var taskId = event.currentTarget.dataset.index;
-        console.log('sss', event.currentTarget.dataset.status);
         if (
             event.currentTarget.dataset.status == 'Expired' ||
             event.currentTarget.dataset.status == 'Completed'
@@ -330,7 +328,6 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         );
     }
     fillTheOpenIcon(event) {
-        console.log('fillTheOpenIcon');
         var taskId = event.currentTarget.dataset.index;
         if (event.currentTarget.dataset.status == 'Expired') return;
         let radioTask2 = this.template.querySelector('[data-index="' + taskId + '"]');
