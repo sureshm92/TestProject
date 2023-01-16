@@ -6,6 +6,7 @@ import PPWELCOME from '@salesforce/label/c.PP_Welcome';
 import VISITS from '@salesforce/label/c.PG_SW_Tab_Visits';
 import EVENTS from '@salesforce/label/c.PG_SW_Tab_Events';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class HomePageParticipantNew extends LightningElement {
     label = {
@@ -84,7 +85,7 @@ export default class HomePageParticipantNew extends LightningElement {
                 this.spinner.hide();
             })
             .catch((error) => {
-                this.showErrorToast('Error occured', error.message, 'error');
+                this.showErrorToast('Error occured', error.message, 'error','5000','dismissable');
                 this.spinner.hide();
             });
     }
@@ -122,5 +123,16 @@ export default class HomePageParticipantNew extends LightningElement {
     updateCounter(event) {
         this.counter = event.detail.counter;
         this.displayCounter = event.detail.displayCounter;
+    }
+    showErrorToast(titleval, messageval, variantval, durationval, modeval) {
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: titleval,
+                message: messageval,
+                variant: variantval,
+                duration: durationval,
+                mode: modeval
+            })
+        );
     }
 }
