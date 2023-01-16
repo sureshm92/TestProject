@@ -19,7 +19,22 @@ public with sharing class ResStudyTriggerHandler {
     }
     public class CertificateResourceProcessor extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
+            List<SObject> resStudyList = new List<SObject> ();
             notifyParticipantAndDelegateAboutCertificate(newList);
+            for(SObject resStudy : newList){
+                Res_study__c resourceStudy = (Res_study__c)resStudy;
+                if(resourceStudy.Visible_To_PI__c){
+                    resStudyList.add(resourceStudy);
+                }
+            }
+            if(resStudyList.size() > 0){
+              notifyPIAndDelegateAboutStudyResources(resStudyList);
+            }
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            notifyPIAndDelegateAboutUpdatedStudyResources((List<Res_study__c>) newList,
+            (Map<Id, Res_study__c>) oldMap);
         }
     }
 
@@ -109,5 +124,56 @@ public with sharing class ResStudyTriggerHandler {
                 }
             }
         insert notifications;
+    }
+
+    private static void notifyPIAndDelegateAboutUpdatedStudyResources(List<Res_study__c> newList, Map<Id, Res_study__c> oldMap) {
+        List<SObject> resStudyList = new List<SObject> ();
+        for(Sobject resStudy : newList){
+            Res_study__c resourceStudy = (Res_study__c)resStudy;
+            if (!oldMap.get(resourceStudy.Id).Visible_To_PI__c && resourceStudy.Visible_To_PI__c) {
+                resStudyList.add(resourceStudy);
+            }
+        }
+        if(resStudyList.size() > 0 ){
+            notifyPIAndDelegateAboutStudyResources(resStudyList);
+        }
+    }
+
+    private static void notifyPIAndDelegateAboutStudyResources(List<SObject> newList) {          
+        List<Id> resStudyIds = new List<Id>();              
+        List<Id> lstOfStudy = new List<Id>();
+        Map<String, List<Contact>> mapofStudyContact = new Map<String, List<Contact>>();
+        List<Notification__c> allNotificationList = new List<Notification__c>();
+        Map<String, String> mapOfCommTemp = new Map<String, String>();
+
+        for (SObject obj : newList){
+            resStudyIds.add(obj.Id);
+        }         
+        
+        Map<Id, Res_study__c> mapOfResStudy = new Map<Id, Res_study__c>([
+            SELECT Id, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+            FROM Res_study__c
+            WHERE Visible_To_PI__c = TRUE AND Id IN :resStudyIds
+        ]);
+
+        for(Id eachRec : mapOfResStudy.keySet()){
+            lstOfStudy.add(mapOfResStudy.get(eachRec).Clinical_Trial_Profile__c);
+            mapOfCommTemp.put(mapOfResStudy.get(eachRec).Clinical_Trial_Profile__c, mapOfResStudy.get(eachRec).Clinical_Trial_Profile__r.CommunityTemplate__c);
+        }     
+        
+        mapofStudyContact = BellNotificationsHelper.getContactForStudy(lstOfStudy); 
+
+        for(String eachRec : mapofStudyContact.keySet()){
+            Map<String,List<Contact>> contactResultMap =  new Map<String,list<Contact>>{'PI' => mapofStudyContact.get(eachRec)};
+            List<Notification__c> notificationList = BellNotificationsHelper.createNotification('BELL_Message_on_Library_Upload_Document', contactResultMap, mapOfCommTemp.get(eachRec), null, false);
+            allNotificationList.addAll(notificationList);
+        } 
+
+        if(allNotificationList.size() > 0 && allNotificationList.size() <= 8000){
+            insert allNotificationList;
+        }else if(allNotificationList.size() > 0 && allNotificationList.size() > 8000){
+            Batch_NotificationInsertion notifyBatch = new Batch_NotificationInsertion(allNotificationList);
+            Database.executeBatch(notifyBatch);
+        }
     }
 }
