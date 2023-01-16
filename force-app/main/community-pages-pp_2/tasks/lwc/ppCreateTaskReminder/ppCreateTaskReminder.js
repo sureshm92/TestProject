@@ -4,6 +4,7 @@ import moment from '@salesforce/resourceUrl/moment_js';
 import momentTZ from '@salesforce/resourceUrl/momenttz';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
+import DEVICE from '@salesforce/client/formFactor';
 //static resources
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import COMETD_LIB from '@salesforce/resourceUrl/cometd';
@@ -52,6 +53,7 @@ export default class PpCreateTaskReminder extends LightningElement {
     smsReminderOptIn = false;
     emailReminderOptIn = false;
     oldReminderDateForSystemTask;
+    communicationTab = '_blank';
 
     taskCodeList = ['Complete_Your_Profile', 'Update_Your_Phone_Number', 'Select_COI'];
     businessTask = false;
@@ -103,6 +105,10 @@ export default class PpCreateTaskReminder extends LightningElement {
     @api editMode = false;
 
     connectedCallback() {
+        if (DEVICE != 'Large') {
+            this.isMobile = true;
+            this.communicationTab = '_self';
+        }
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 Promise.all([
