@@ -324,6 +324,7 @@ export default class Pir_participantDetail extends LightningElement {
                         }
                     })
             }).then(() => {
+                 this.consentfields={};
                  getPDERConsent({ PEid: value })
                      .then((result) => {
                      this.perId = value;
