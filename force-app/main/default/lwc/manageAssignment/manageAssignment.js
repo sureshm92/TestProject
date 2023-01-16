@@ -57,6 +57,7 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     showWhatCanISeeCard = false;
     isDesktop;
     dataInitialized = false;
+    PP_Delegate_Updated_Successfully = 'Assignments updated successfully';
 
     label = {
         PP_ManageDelegates,
@@ -239,7 +240,12 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
                 this.showpopup = false;
                 this.setInitializedData(result);
                 this.spinner = false;
-                communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
+                communityService.showToast(
+                    '',
+                    'success',
+                    this.PP_Delegate_Updated_Successfully,
+                    300
+                );
             })
             .catch((error) => {
                 //console.log('error');
