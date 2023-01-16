@@ -1935,6 +1935,7 @@ input[type=password]::-ms-clear
 .ma-what-I-can-see-button .apollo-btn.secondary {
     font-size: 18px;
     height: 56px;
+    padding: 16px 16px 16px 24px;
     width: 100%
 }
 
@@ -1944,7 +1945,7 @@ input[type=password]::-ms-clear
     color: #297dfd;
     border: none !important;
     box-shadow: none !important;
-    padding: 6px 16px;
+    padding: 16px 16px 16px 24px;
     font-size: 18px;
     height: 56px;
     width: 100%
