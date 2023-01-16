@@ -62,27 +62,36 @@
                 component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
                 component.set('v.userType', initData.myContact.UserCommunytyType__c);
                 component.set('v.consentPreferenceData', initData.consentPreferenceData);
-                //Set pure participant logged in.
-                if (initData.consentPreferenceData.isParticipantLoggedIn == true) {
-                    component.set('v.isPureParticipantView', true);
+
+                //show manage delegate page
+                var isDelegate = component.get('v.isDelegate');
+                var isParticipantLoggedIn = initData.consentPreferenceData.isParticipantLoggedIn;
+                var isDelegateSelfView = initData.consentPreferenceData.isDelegateSelfView;
+                var isDelegateAlsoAParticipant =
+                    initData.consentPreferenceData.isDelegateAlsoAParticipant;
+                //When delegate switch to participant View, Don't show Manage Delegate as well as Manage Assignment tabs.
+                if (isDelegate) {
+                    component.set('v.showManageDelegateTab', false);
+                    component.set('v.showMamanageAssignmentTab', false);
                 } else {
-                    component.set('v.isPureParticipantView', false);
+                    if (isParticipantLoggedIn && !isDelegateAlsoAParticipant) {
+                        //When Pure Participant Logs in, Show only Manage Delegate Tab.
+                        component.set('v.showManageDelegateTab', true);
+                        component.set('v.showMamanageAssignmentTab', false);
+                    } else if (isParticipantLoggedIn && isDelegateAlsoAParticipant) {
+                        //When Participant(also a delegate) Logs in, Show both Manage Delegate and Manage Assignment Tabs.
+                        component.set('v.showManageDelegateTab', true);
+                        component.set('v.showMamanageAssignmentTab', true);
+                    } else if (isDelegateSelfView) {
+                        //When delegate login to Self View, show only Manage Assignment tab.
+                        component.set('v.showManageDelegateTab', false);
+                        component.set('v.showMamanageAssignmentTab', true);
+                    }
                 }
-                //Set if pure delegate logged in as self view.
-                if (initData.consentPreferenceData.isDelegateSelfView == true) {
-                    component.set('v.isPureDelegateSelfView', true);
-                } else {
-                    component.set('v.isPureDelegateSelfView', false);
-                }
-                //Set if participant also acting as delegate for other participant.
-                if (initData.consentPreferenceData.isDelegateAlsoAParticipant == true) {
-                    component.set('v.isMultiRoleSelfView', true);
-                } else {
-                    component.set('v.isMultiRoleSelfView', false);
-                }
-                console.log('isPureParticipantView: ' + component.get('v.isPureParticipantView'));
-                console.log('isPureDelegateSelfView: ' + component.get('v.isPureDelegateSelfView'));
-                console.log('isMultiRoleSelfView: ' + component.get('v.isMultiRoleSelfView'));
+                console.log('showManageDelegateTab: ' + component.get('v.showManageDelegateTab'));
+                console.log(
+                    'showMamanageAssignmentTab: ' + component.get('v.showMamanageAssignmentTab')
+                );
                 var userType = initData.myContact.userCommunytyType__c;
                 if (userType)
                     if (userType.includes('HCP') && component.get('v.userMode') == 'PI')
@@ -125,7 +134,7 @@
                     y.style.boxShadow = 'none';
                     y.style.background = 'Transparent';
                 } else if (toglNavg) {
-                   // x.style.visibility = 'visible';
+                    // x.style.visibility = 'visible';
                     x.style.display = 'block';
                     y.style.boxShadow = '0 4px 24px 0 rgba(0, 0, 0, 0.16)';
                     y.style.background = '#fff';
