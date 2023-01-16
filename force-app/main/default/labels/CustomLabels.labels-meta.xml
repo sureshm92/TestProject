@@ -19988,6 +19988,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>What can I as a delegate see or do?</value>
     </labels>
     <labels>
+        <fullName>PP_Assigned_As_Primary_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assigned_As_Primary_Delegate</shortDescription>
+        <value>Assigned as Primary Delegate</value>
+    </labels>
+    <labels>
+        <fullName>PP_Assigned_As_Primary_Delegate_help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assigned_As_Primary_Delegate_help</shortDescription>
+        <value>To withdraw as a primary delegate, you must contact the participant or study team.</value>
+    </labels>
+    <labels>
         <fullName>PP_MatchMyEmailAddress</fullName>
         <language>en_US</language>
         <protected>true</protected>
