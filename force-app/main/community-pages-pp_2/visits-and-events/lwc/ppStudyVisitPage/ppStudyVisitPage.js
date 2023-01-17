@@ -255,7 +255,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         } else {
             this.isMobile = false;
         }
-        this.sfdcBaseURL = window.location.origin + basePathName + communicationPreference;
+        this.sfdcBaseURL =
+            window.location.origin + basePathName + communicationPreference + 'withprevtask';
         this.callParticipantVisit();
         getSiteAddress()
             .then((result) => {
