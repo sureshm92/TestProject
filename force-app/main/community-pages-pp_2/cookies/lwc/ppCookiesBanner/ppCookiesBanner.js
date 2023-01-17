@@ -93,6 +93,10 @@ export default class PpCookiesBanner extends LightningElement {
                 this.initData = initData;
                 this.blockBackGroundEvents();
                 this.contact = initData.myContact;
+                this.contact.RRCookiesAllowedCookie__c =
+                    initData.myContact.RRCookiesAllowedCookie__c;
+                this.contact.RRLanguageAllowedCookie__c =
+                    initData.myContact.RRLanguageAllowedCookie__c;
             })
             .catch((error) => {
                 communityService.showToast('', 'error', 'Failed To read the Data...', 100);
@@ -121,6 +125,8 @@ export default class PpCookiesBanner extends LightningElement {
         this.showBanner = false;
         document.body.removeEventListener('keypress', this.bodyBlock);
         document.body.removeEventListener('keydown', this.bodyBlock);
+        let bodyStyles = document.body.style;
+        bodyStyles.removeProperty('--cookieRightIcon');
     }
 
     acceptAll() {
@@ -132,15 +138,16 @@ export default class PpCookiesBanner extends LightningElement {
             rrLanguageAllowed: true
         })
             .then((returnValue) => {
-                this.spinner.hide();
-                this.contact.RRCookiesAllowedCookie__c = true;
-                this.contact.RRLanguageAllowedCookie__c = true;
+                if (this.spinner) this.spinner.hide();
+                if (this.contact) {
+                    this.contact.RRCookiesAllowedCookie__c = true;
+                    this.contact.RRLanguageAllowedCookie__c = true;
+                }
                 this.setRRCookie();
                 this.setRRCookieLanguage();
                 this.closeTheBanner();
                 this.showmodal = false;
                 this.initData = undefined;
-                this.updateBrowserCookies();
             })
             .catch((error) => {
                 communityService.showToast('', 'error', 'Failed To read the Data...', 100);
