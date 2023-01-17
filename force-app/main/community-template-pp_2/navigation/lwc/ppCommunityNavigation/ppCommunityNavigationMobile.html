@@ -1,5 +1,5 @@
 <template>
-    <div class="mobileMenu">
+    <div class="mobileMenu" data-id="mobileMenu">
         <div class="coverArea"></div>
         <template for:each={participantTabs} for:item="item">
             <template if:false={item.expand}>
@@ -43,7 +43,7 @@
                             <template for:each={submenu} for:item="subItem">
                                 <template if:true={subItem.visible}>
                                     <div key={subItem.label}>
-                                        <a href={subItem.link}>
+                                        <a onclick={handleNavigationSubMenu}  data-pagename={subItem.page}>
                                             <span
                                                 class="slds-truncate slds-text-color_inverse"
                                                 title={subItem.label}

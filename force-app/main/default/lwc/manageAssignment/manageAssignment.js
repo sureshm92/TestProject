@@ -239,6 +239,7 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
                 this.showpopup = false;
                 this.setInitializedData(result);
                 this.spinner = false;
+                this.resetProfileMenueItems();
                 communityService.showToast(
                     '',
                     'success',
@@ -260,5 +261,11 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     //This method will collapse and expand the what I can see as delegate card.
     toggleshowWhatCanISeeCardView() {
         this.showWhatCanISeeCard = this.showWhatCanISeeCard == true ? false : true;
+    }
+    resetProfileMenueItems() {
+        const returnPayload = {
+            reset_PP_Menue_Items: true
+        };
+        publish(this.messageContext, messageChannel, returnPayload);
     }
 }
