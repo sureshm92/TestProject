@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     addEventListener: function (component, helper) {
         if (!component.serveyGizmoResultHandler) {
             component.serveyGizmoResultHandler = $A.getCallback(function (e) {
@@ -304,8 +304,8 @@
         if (
             emailDelegateVaild &&
             emailDelegateRepeatValid &&
-            delegateParticipant.First_Name__c &&
-            delegateParticipant.Last_Name__c &&
+            delegateParticipant.First_Name__c && delegateParticipant.First_Name__c.trim() &&
+            delegateParticipant.Last_Name__c &&  delegateParticipant.Last_Name__c.trim() &&
             delegateParticipant.Email__c.toLowerCase() == emailDelegateRepeat.toLowerCase() &&
             !doNotCheckFields &&
             delegateParticipant.Email__c.toLowerCase() != component.get('v.emailInstance')
@@ -330,15 +330,16 @@
         let isValid = false;
         isValid =
             isValid ||
-            (participant.First_Name__c &&
-             participant.Last_Name__c &&
+            (participant.First_Name__c && participant.First_Name__c.trim() &&
+            participant.Last_Name__c  &&  participant.Last_Name__c.trim() &&
              //participant.Date_of_Birth__c &&
              //participant.Date_of_Birth__c <= component.get('v.todayDate') &&
              isDobValid &&
              (needsDelegate || participant.Email__c) &&
              (needsDelegate || emailVaild) &&
              (needsDelegate || emailRepeatValid) &&
-             (needsDelegate || participant.Phone__c) &&
+             (needsDelegate || (participant.Phone__c && participant.Phone__c.trim() )) &&
+             participant.Mailing_Zip_Postal_Code__c && participant.Mailing_Zip_Postal_Code__c.trim()!='' && 
              (
                 ((participant.Email__c ==undefined || participant.Email__c =='') 
                 && (emailRepeat ==undefined || emailRepeat =='')) ||
@@ -354,9 +355,9 @@
               (needsDelegate &&
                delegateParticipant &&
                participant.Health_care_proxy_is_needed__c &&
-               delegateParticipant.First_Name__c &&
-               delegateParticipant.Last_Name__c &&
-               delegateParticipant.Phone__c &&
+               delegateParticipant.First_Name__c && delegateParticipant.First_Name__c.trim() &&
+               delegateParticipant.Last_Name__c && delegateParticipant.Last_Name__c.trim() &&
+               delegateParticipant.Phone__c && delegateParticipant.Phone__c.trim() &&
                delegateParticipant.Email__c &&
                emailDelegateRepeat &&
                confirmConsent &&
@@ -385,17 +386,17 @@
               if(needsDelegate && needsGuardian &&
                delegateParticipant &&
                participant.Health_care_proxy_is_needed__c &&
-               delegateParticipant.First_Name__c &&
-               delegateParticipant.Last_Name__c &&
-               delegateParticipant.Phone__c &&
+               delegateParticipant.First_Name__c && delegateParticipant.First_Name__c.trim() &&
+               delegateParticipant.Last_Name__c && delegateParticipant.Last_Name__c.trim() &&
+               delegateParticipant.Phone__c && delegateParticipant.Phone__c.trim() &&
                delegateParticipant.Email__c &&
                emailDelegateRepeat &&
                delegateParticipant.Email__c.toUpperCase() == emailDelegateRepeat.toUpperCase() &&
                emailDelegateVaild &&
                emailDelegateRepeatValid &&
                agreePolicy && attestAge && confirmConsent &&
-               participant.First_Name__c &&
-               participant.Last_Name__c &&
+               participant.First_Name__c  && participant.First_Name__c.trim() &&
+               participant.Last_Name__c &&  participant.Last_Name__c.trim() &&
                //participant.Date_of_Birth__c &&
                //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
                isDobValid &&
@@ -407,7 +408,7 @@
                     emailValidIndependent   && emailValidRepeatIndependent
                 ) 
                )  &&
-               participant.Mailing_Zip_Postal_Code__c &&
+               participant.Mailing_Zip_Postal_Code__c && participant.Mailing_Zip_Postal_Code__c.trim()!='' &&
               selectedCountry &&
               (selectedState || states.length === 0))
               {
@@ -416,24 +417,24 @@
               }else if(needsDelegate && !needsGuardian &&
                delegateParticipant &&
                participant.Health_care_proxy_is_needed__c &&
-               delegateParticipant.First_Name__c &&
-               delegateParticipant.Last_Name__c &&
-               delegateParticipant.Phone__c &&
+               delegateParticipant.First_Name__c &&  delegateParticipant.First_Name__c.trim() &&
+               delegateParticipant.Last_Name__c && delegateParticipant.Last_Name__c.trim() &&
+               delegateParticipant.Phone__c && delegateParticipant.Phone__c.trim() &&
                delegateParticipant.Email__c &&
                emailDelegateRepeat &&
                delegateParticipant.Email__c.toUpperCase() == emailDelegateRepeat.toUpperCase() &&
                emailDelegateVaild &&
                emailDelegateRepeatValid &&
                agreePolicy && attestAge && confirmConsent &&
-               participant.First_Name__c &&
-               participant.Last_Name__c &&
+               participant.First_Name__c  && participant.First_Name__c.trim() &&
+               participant.Last_Name__c &&  participant.Last_Name__c.trim() &&
                //participant.Date_of_Birth__c &&
                //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
                isDobValid &&
                participant.Email__c &&
-               participant.Email__c && emailRepeat !=undefined  ? emailValidIndependent  && emailValidRepeatIndependent && participant.Email__c.toUpperCase() == emailRepeat.toUpperCase(): null &&
-               participant.Phone__c &&
-               participant.Mailing_Zip_Postal_Code__c &&
+               (participant.Email__c && emailRepeat !=undefined  ? emailValidIndependent  && emailValidRepeatIndependent && participant.Email__c.toUpperCase() == emailRepeat.toUpperCase(): participant.Email__c == emailRepeat) &&
+               participant.Phone__c &&  participant.Phone__c.trim() &&
+               participant.Mailing_Zip_Postal_Code__c && participant.Mailing_Zip_Postal_Code__c.trim()!='' &&
               selectedCountry &&
               (selectedState || states.length === 0))
               {
@@ -441,17 +442,17 @@
                   
               }else if(!needsDelegate && !needsGuardian &&
                agreePolicy &&
-               participant.First_Name__c &&
-               participant.Last_Name__c &&
+               participant.First_Name__c  && participant.First_Name__c.trim() &&
+               participant.Last_Name__c && participant.Last_Name__c.trim() &&
                //participant.Date_of_Birth__c &&
                //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
                isDobValid &&
                participant.Email__c &&
                emailVaild &&
                emailRepeatValid &&
-               participant.Email__c && emailRepeat !=undefined  ? participant.Email__c.toUpperCase() == emailRepeat.toUpperCase(): false &&
-               participant.Phone__c &&
-               participant.Mailing_Zip_Postal_Code__c &&
+               (participant.Email__c && emailRepeat !=undefined  ? participant.Email__c.toUpperCase() == emailRepeat.toUpperCase():participant.Email__c == emailRepeat ) &&
+               participant.Phone__c  && participant.Phone__c.trim() &&
+               participant.Mailing_Zip_Postal_Code__c &&  participant.Mailing_Zip_Postal_Code__c.trim()!='' &&
               selectedCountry &&
               (selectedState || states.length === 0))
               {
