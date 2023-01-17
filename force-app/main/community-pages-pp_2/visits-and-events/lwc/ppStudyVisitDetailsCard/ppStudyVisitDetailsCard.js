@@ -111,6 +111,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     booleanTrue = true;
     spinner;
     desktop = true;
+    communicationTab = '_blank';
 
     /**Platform Event */
     cometd;
@@ -118,7 +119,12 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     channel = '/event/Communication_Preference_Change__e';
 
     connectedCallback() {
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        if (DEVICE != 'Small') {
+            this.desktop = true;
+        } else {
+            this.desktop = false;
+            this.communicationTab = '_self';
+        }
         loadScript(this, COMETD_LIB).then(() => {
             loadScript(this, moment).then(() => {
                 loadScript(this, momentTZ).then(() => {
