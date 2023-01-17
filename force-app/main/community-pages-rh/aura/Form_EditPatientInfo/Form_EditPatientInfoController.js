@@ -224,12 +224,12 @@
              let isVisitPlanNotRequired = !component.get('v.visitPlanAvailable') || !visitPlanRequired;
              component.set('v.screeningRequired', screeningIdRequired);
              component.set('v.visitPlanRequired', visitPlanRequired);
-             console.log('>>dataStamp>>>'+dataStamp+'>>isFinalUpdate>>'+isFinalUpdate+'>>updateMode>>'+updateMode);
+             console.log('>>dataStamp>>>'+dataStamp+'>>isFinalUpdate>>'+isFinalUpdate+'>>updateMode>>'+updateMode); 
              if (updateMode && !isFinalUpdate && dataStamp) {
                  var oldPE = JSON.parse(dataStamp);
                  var isRemovedValue =
-                     (oldPE.Participant__r.First_Name__c && !participant.First_Name__c) ||
-                     (oldPE.Participant__r.Last_Name__c && !participant.Last_Name__c) ||
+                     (oldPE.Participant__r.First_Name__c.trim() && !participant.First_Name__c.trim()) ||
+                     (oldPE.Participant__r.Last_Name__c.trim() && !participant.Last_Name__c.trim()) ||
                      (oldPE.Participant__r.Date_of_Birth__c && !participant.Date_of_Birth__c) ||
                      (oldPE.Participant__r.Gender__c && !participant.Gender__c) ||
                      //needsGuardian ||
@@ -243,8 +243,8 @@
                      (stateRequired &&
                       oldPE.Participant__r.Mailing_State_Code__c &&
                       !participant.Mailing_State_Code__c) ||
-                     (oldPE.Participant__r.Mailing_Zip_Postal_Code__c &&
-                      !participant.Mailing_Zip_Postal_Code__c) ||
+                     (oldPE.Participant__r.Mailing_Zip_Postal_Code__c.trim() &&
+                      !participant.Mailing_Zip_Postal_Code__c.trim()) ||
                      (oldPE.Screening_ID__c && !pe.Screening_ID__c) ||
                      (oldPE.Referred_By__c && !pe.Referred_By__c) ||
                      (oldPE.MRN_Id__c && !pe.MRN_Id__c);
@@ -307,8 +307,8 @@
              } else if (updateMode && isFinalUpdate) {
                  isValid =
                      isValid ||
-                     (participant.First_Name__c &&
-                      participant.Last_Name__c &&
+                     (participant.First_Name__c.trim() &&
+                      participant.Last_Name__c.trim() &&
                       participant.Date_of_Birth__c &&
                       participant.Gender__c &&
                       (needsGuardian || participantDelegate || participant.Phone__c.trim()) &&
@@ -321,7 +321,7 @@
                       (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
                       (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
                       participant.Email__c &&
-                      participant.Mailing_Zip_Postal_Code__c !== '' &&
+                      participant.Mailing_Zip_Postal_Code__c.trim() !== '' &&
                       pe &&
                       pe.Participant_Status__c &&
                       (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
@@ -408,8 +408,8 @@
                      isValid = false;
                      isValid =
                          isValid ||
-                         (participant.First_Name__c &&
-                          participant.Last_Name__c &&
+                         (participant.First_Name__c.trim() &&
+                          participant.Last_Name__c.trim() &&
                           participant.Date_of_Birth__c &&
                           inputDate <= currentDate &&
                           participant.Gender__c &&
@@ -423,7 +423,7 @@
                           (!participantDelegate || (participantDelegate.phone__c && participantDelegate.Phone__c.trim())) &&
                           (!participantDelegate || (participantDelegate.First_Name__c && participantDelegate.First_Name__c.trim())) &&
                           (!participantDelegate || (participantDelegate.Last_Name__c && participantDelegate.Last_Name__c.trim())) &&
-                          participant.Mailing_Zip_Postal_Code__c &&
+                          participant.Mailing_Zip_Postal_Code__c.trim() &&
                           pe &&
                           pe.Participant_Status__c && 
                           (!screeningIdRequired || (screeningIdRequired && pe.Screening_ID__c && pe.Screening_ID__c.trim())) &&
