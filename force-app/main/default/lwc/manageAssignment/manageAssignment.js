@@ -125,7 +125,7 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
 
     //mask Email for participants
     maskEmail(par) {
-        if (par.Participant.Email__c !== undefined && par.Participant.Email__c == null) {
+        if (par.Participant.Email__c !== undefined && par.Participant.Email__c != null) {
             let pdeEmailLength = par.Participant.Email__c.length;
             let maskedEmail = '';
             for (let i = 0; i < pdeEmailLength; i++) {
