@@ -224,7 +224,7 @@
              let isVisitPlanNotRequired = !component.get('v.visitPlanAvailable') || !visitPlanRequired;
              component.set('v.screeningRequired', screeningIdRequired);
              component.set('v.visitPlanRequired', visitPlanRequired);
-             console.log('>>dataStamp>>>'+dataStamp+'>>isFinalUpdate>>'+isFinalUpdate+'>>updateMode>>'+updateMode); 
+              
              if (updateMode && !isFinalUpdate && dataStamp) {
                  var oldPE = JSON.parse(dataStamp);
                  var isRemovedValue =
