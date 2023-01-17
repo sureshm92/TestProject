@@ -67,6 +67,14 @@ export default class PpCommunityNavigation extends LightningElement {
                 this.initializeData();
             }
     }
+    @api
+    handleClickCloseNavMenu(){
+        let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
+        mobileDiv && !mobileDiv.classList.contains('slds-hide')
+            ? mobileDiv.classList.add('slds-hide')
+            : '';
+
+    }
     handleNavigationSubMenu(event){
         if (!this.desktop) {
             let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
@@ -342,4 +350,10 @@ export default class PpCommunityNavigation extends LightningElement {
             })
         );
     }
+    @api forceRefresh() {
+        this.isInitialized = false;
+        this.participantTabs = [];
+        this.initializeDataForDOM();
+    }
+
 }
