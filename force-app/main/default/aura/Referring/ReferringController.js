@@ -594,9 +594,6 @@
             }	
             else {
                 console.log(action.getError());
-                window.scrollTo(0, 0);
-                spinner.hide();
-                communityService.showErrorToast('', $A.get("$Label.c.PIR_addParticipantFillMandatory"));
             }
         });
         $A.enqueueAction(action);
