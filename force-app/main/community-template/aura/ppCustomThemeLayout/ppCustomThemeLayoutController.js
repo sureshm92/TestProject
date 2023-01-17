@@ -31,5 +31,12 @@
         if (component.find('ppMenu')) {
             component.find('ppMenu').handleClick();
         }
+    },
+    handleClickCloseNavMenu : function (component, event, helper) {
+        if (component.find('ppMenu')) {
+            component.find('ppMenu').handleClickCloseNavMenu();
+        }
+
     }
+
 });

@@ -255,7 +255,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         } else {
             this.isMobile = false;
         }
-        this.sfdcBaseURL = window.location.origin + basePathName + communicationPreference;
+        this.sfdcBaseURL =
+            window.location.origin + basePathName + communicationPreference + 'withprevtask';
         this.callParticipantVisit();
         getSiteAddress()
             .then((result) => {
@@ -373,7 +374,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.visitName = this.pastVisits[index].visit.Name;
             this.plannedDate = this.pastVisits[index].visit.Planned_Date__c;
             this.isInitialVisit =
-                this.upcomingVisits[index].visit.Is_Pre_Enrollment_Patient_Visit__c;
+                this.pastVisits[index].visit.Is_Pre_Enrollment_Patient_Visit__c;
             if (this.pastVisits[index].missedVisit) {
                 this.visitStatus = this.label.visitUnavailable;
                 this.isResultsCard = false;

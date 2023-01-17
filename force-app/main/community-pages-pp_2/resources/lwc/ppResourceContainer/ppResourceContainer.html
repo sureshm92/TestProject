@@ -3,17 +3,15 @@
     <c-web-spinner class="main-spinner"></c-web-spinner>
     <!-- ************************  Desktop View  ****************************************  -->
     <template if:true={desktop}>
-        <lightning-layout multiple-rows="true" class="slds-p-vertical_xx-small">
-            <lightning-layout-item size="12">
-                <lightning-layout
-                    multiple-rows="true"
-                    vertical-align="stretch"
-                    class="container"
-                    horizontal-align="center"
-                >
+        <lightning-layout
+            multiple-rows="true"
+            class="slds-p-vertical_xx-small slds-m-horizontal_small"
+        >
+            <lightning-layout-item size="12" class="slds-m-bottom_medium">
+                <lightning-layout multiple-rows="true">
                     <!-- *************  Thumbnail  ********************  -->
                     <template if:true={isThumbnailPresent}>
-                        <lightning-layout-item size="5" flexibility="auto">
+                        <lightning-layout-item size="6" flexibility="auto">
                             <img
                                 src={thumbnail}
                                 alt="Image is not available"
@@ -24,7 +22,7 @@
                         </lightning-layout-item>
                     </template>
                     <template if:false={isThumbnailPresent}>
-                        <lightning-layout-item size="5" flexibility="auto" class="empty-icon">
+                        <lightning-layout-item size="6" flexibility="auto" class="empty-icon">
                             <div class="icon-center">
                                 <c-web-icon
                                     icon-color="#b5b5b5"

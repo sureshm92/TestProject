@@ -25,12 +25,11 @@
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
     <aura:handler
-        name="closeNavigationMenu"
         event="c:ppCloseNavMenu"
-        action="{!c.handleClick}"
+        action="{!c.handleClickCloseNavMenu}"
     />
 
-    <aura:handler event="c:PPMobileMenu" action="{!c.handleClick}" />
+    <aura:handler event="c:PPMobileMenu" action="{!c.handleClickCloseNavMenu}" />
 
     <!-- methods: -->
     <aura:method name="init" action="{!c.doInit}" access="public" />

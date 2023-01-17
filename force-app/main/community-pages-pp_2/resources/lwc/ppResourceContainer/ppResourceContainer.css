@@ -35,7 +35,7 @@ img,
 }
 .summary {
     padding: 0% 2%;
-    margin-left: 1%;
+    /* margin-left: 1%; */
     border: 1px solid #f2f2f2;
     contain: size;
     overflow: hidden;
@@ -55,6 +55,7 @@ img,
     margin-left: 70%;
 }
 .resource-pointer {
+    object-fit: cover;
     cursor: pointer;
 }
 .icon-center {
