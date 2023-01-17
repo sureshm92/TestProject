@@ -1521,6 +1521,12 @@
             .headerbg-pp {
                 background: linear-gradient(to right, #230559 0%, #036ca7 100%);
             }
+            
+            .headerbg-pp2 {
+                background: linear-gradient(to top, #005587 0%, #008299 100%);
+                
+            }
+            
 
             .top-margin-container {
                 margin-top: 2.5em;
@@ -2204,6 +2210,10 @@
             <apex:outputPanel rendered="{!(attendeeType=='RH')}">
             <h1 class="slds-text-heading_small">{!appNamestr}</h1>
             </apex:outputPanel>
+            <apex:outputPanel rendered="{!(commTemplate=='PatientPortal')}">
+            <h1 class="slds-text-heading_small">{!appNamestr}</h1>
+            </apex:outputPanel>
+            
         </header>
 
         <!--Call Preview Screen -->
@@ -2841,6 +2851,7 @@
                                                     />
                                                 </svg>
                                                 <svg
+                                                    id="svgVideoOff"
                                                     class="icon-videoOff"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 24 24"
