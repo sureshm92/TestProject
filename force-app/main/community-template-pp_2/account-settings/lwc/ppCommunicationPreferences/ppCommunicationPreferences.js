@@ -319,6 +319,10 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     }
 
     showMenuBar(event) {
+        let queryString = window.location.href;
+        if (queryString.includes('communication-preferenceswithprevtask')) {
+            window.history.back();
+        }
         if (event.target.dataset.header) {
             this.dispatchEvent(
                 new CustomEvent('shownavmenubar', {
