@@ -305,4 +305,8 @@
 .md-help-text-style-none{
     display: none;
 }
+:host {
+    --sds-c-checkbox-color-background-checked: #0769fd;
+    --sds-c-checkbox-mark-color-foreground: #fff;
+}
 

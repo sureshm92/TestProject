@@ -1,5 +1,5 @@
 <template>
-    <div class="mobileMenu">
+    <div class="mobileMenu" data-id="mobileMenu">
         <div class="coverArea"></div>
         <template for:each={participantTabs} for:item="item">
             <template if:false={item.expand}>
@@ -9,13 +9,17 @@
                     data-page-name={item.page}
                     onclick={handleNavigation}
                 >
-                    <c-web-icon icon-name={item.icon} icon-color="white" icon-size="medium"></c-web-icon>
+                    <c-web-icon
+                        icon-name={item.icon}
+                        icon-color="white"
+                        icon-size="medium"
+                    ></c-web-icon>
                     <span> {item.label} </span>
                 </div>
             </template>
             <!--dropdown menu -->
             <template if:true={item.expand}>
-                <div class={menuCss} key={item.label}>
+                <div class="slds-border_top" key={item.label}>
                     <div
                         class="slds-dropdown-trigger slds-dropdown-trigger_click my-menu"
                         data-key={item.label}
@@ -39,8 +43,10 @@
                             <template for:each={submenu} for:item="subItem">
                                 <template if:true={subItem.visible}>
                                     <div key={subItem.label}>
-                                        <a href={subItem.link}>
-                                            <span class="slds-truncate" title={subItem.label}
+                                        <a onclick={handleNavigationSubMenu}  data-pagename={subItem.page}>
+                                            <span
+                                                class="slds-truncate slds-text-color_inverse"
+                                                title={subItem.label}
                                                 >{subItem.label}
                                             </span>
                                         </a>

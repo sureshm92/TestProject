@@ -1,69 +1,67 @@
 <template>
     <template if:true={desktop}>
-            <div
-                class="slds-align_absolute-center explore-section-horizontal slds-card slds-has-bottom-magnet"
-                onclick={navigateResourceDetail}
-            >
+        <div class="slds-p-bottom_x-small">
+            <div class="enage-section-horizontal slds-align_absolute-center">
                 <template if:false={noExploreImage}>
-                    <img 
-                        class="explore-image-desktop-horizontal"
+                    <img
+                        class="enage-image cover"
                         onclick={navigateResourceDetail}
                         src={exploreData.resource.Image__c}
                         onerror={handleNoExploreImageError}
                     />
                 </template>
-                <div
-                    if:true={noExploreImage}
-                    class="slds-align_absolute-center"
-                    onclick={navigateResourceDetail}
-                >
+                <div if:true={noExploreImage}>
                     <c-web-icon
                         icon-color="#b5b5b5"
                         icon-width="55"
-                        icon-height="55"
+                        icon-height="120"
                         icon-size="large"
                         icon-name="empty-thumbnail-updates"
                     ></c-web-icon>
                 </div>
             </div>
-            <div class="slds-card slds-has-top-magnet bottom-manage">
-                <div class = "resource-title" onclick={navigateResourceDetail}>{exploreData.resource.Title__c}</div>
-                <div class = "resource-description" >
-                    <lightning-formatted-rich-text value={exploreData.resource.Description__c}></lightning-formatted-rich-text>
+            <div class="slds-card slds-has-top-magnet engage-bottom-manage">
+                <div class="resource-title" onclick={navigateResourceDetail}>
+                    {exploreData.resource.Title__c}
+                </div>
+                <div class="resource-description">
+                    <lightning-formatted-rich-text
+                        value={exploreData.resource.Description__c}
+                    ></lightning-formatted-rich-text>
                 </div>
             </div>
-            <br/>
+        </div>
     </template>
     <template if:false={desktop}>
-            <div 
-            class="slds-align_absolute-center explore-section-horizontal slds-card slds-has-bottom-magnet" onclick={navigateResourceDetail}>
+        <div class="slds-p-bottom_medium">
+            <div class="enage-section-horizontal slds-align_absolute-center">
                 <template if:false={noExploreImage}>
-                    <img style ="height: 120px;"
-                        class="explore-image"
+                    <img
+                        class="enage-image cover"
                         onclick={navigateResourceDetail}
                         src={exploreData.resource.Image__c}
                         onerror={handleNoExploreImageError}
                     />
                 </template>
-                <div
-                    if:true={noExploreImage}
-                    class="slds-align_absolute-center icon-container"
-                    onclick={navigateResourceDetail}
-                >
+                <div if:true={noExploreImage}>
                     <c-web-icon
                         icon-color="#b5b5b5"
                         icon-width="35"
-                        icon-height="40"
+                        icon-height="150"
                         icon-name="empty-thumbnail-updates"
                     ></c-web-icon>
                 </div>
             </div>
-            <div class="slds-card slds-has-top-magnet bottom-manage">
-                <div class = "resource-title" onclick={navigateResourceDetail}>{exploreData.resource.Title__c}</div>
-                <div class = "resource-description" >
-                    <lightning-formatted-rich-text value={exploreData.resource.Description__c}></lightning-formatted-rich-text>
+            <div class="slds-card slds-has-top-magnet engage-bottom-manage">
+                <div class="resource-title" onclick={navigateResourceDetail}>
+                    {exploreData.resource.Title__c}
+                </div>
+                <div class="resource-description">
+                    <lightning-formatted-rich-text
+                        value={exploreData.resource.Description__c}
+                    ></lightning-formatted-rich-text>
                 </div>
             </div>
-            <br/>
+        </div>
     </template>
 </template>

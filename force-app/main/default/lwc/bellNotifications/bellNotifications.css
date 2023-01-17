@@ -1,0 +1,114 @@
+.notification {
+  background-color: white;
+  width: 233px;
+  border-radius: 5px 5px 5px 5px;
+}
+.notification-grid {
+  /* background-color: white; */
+
+}
+.notification-grid .slds-button:active {
+  border-color: transparent;
+}
+.vertical-scroll {
+  height: 56vh;
+  max-height: 56vh;
+  overflow: auto;
+  padding: 0px 5px 0px 0px;
+  overflow-x: hidden;
+  margin-top: 0px;
+}
+.slds-notification-card {
+  width: 233px;
+  position: relative;
+  border-bottom: 1px solid #d5d5d5;
+ /* border-right: 7px solid #d5d5d5; */
+  /* padding-right: 10px; */
+}
+/* .slds-body-border{
+  border-bottom: 1px solid #d5d5d5;
+  border-right: 1px solid #d5d5d5;
+} */
+.slds-notification-card:hover {
+  background-color: #ecf3ff;
+  color: #444444;
+}
+.slds-notification__target {
+  background-color: white;
+}
+.slds-notification__target:hover {
+  background-color: #ecf3ff;
+  color: #444444;
+}
+.slds-text-heading_small {
+  font-size: 11px !important;
+  line-height: 16px;
+  width: 165px;
+  word-break: break-word;
+}
+.date-time {
+  font-size: 9px;
+  color: #999999;
+}
+.slds-media__figure {
+  align-self: center;
+}
+.slds-media__body {
+  margin-left: -5px;
+}
+.close-center {
+  /* min-height: 74px; */
+  justify-content: space-around;
+}
+.close_btn{
+  right: -22px;
+}
+.colorRed:hover{
+  color: #ea001e;
+  text-decoration: none;
+  transition: color .1s linear;
+}
+.notification-link-class {
+  text-decoration: underline;
+  color: #6f8eef;
+  padding-left: 5px;
+}
+.notification-left {
+  padding-left: 25px;
+}
+.loadmore {
+  text-align: center;
+}
+/* Scrollbar Code */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #999999;
+  border-radius: 4px;
+  cursor: pointer;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #858383;
+}
+/* Scrollbar Code End */
+.loadMoreBTN {
+  color: #6f8eef;
+  font-size: 11px;
+}
+.loadMoreBTN:active {
+  border-color: transparent;
+}
+.empty-notification{
+  color: #858383;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  padding: 10px 10px;
+}
+@media only screen and (min-device-width: 1080px) and (max-device-width: 1920px) {
+  .vertical-scroll {
+       height: 47vh;
+       max-height: 47vh;
+   }
+}

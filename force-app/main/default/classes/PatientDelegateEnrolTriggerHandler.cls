@@ -154,6 +154,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
             Status__c,
             Participant_Enrollment__c,
+            Participant_Enrollment__r.Id,
             Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
             Participant_Enrollment__r.Name,
             Participant_Enrollment__r.Clinical_Trial_Profile__c,
@@ -274,6 +275,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         String templateProperty
     ) {
         Set<Id> participantContacts = new Set<Id>();
+        Set<Id> perIds=new Set<Id>();
         List<Notification__c> notifications = new List<Notification__c>();
         Map<Id, List<Participant__c>> participantsByDelContId = new Map<Id, List<Participant__c>>();
         if (
@@ -282,10 +284,81 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         ) {
             notifications.addAll(createwelcomemsgSMSNotifications(patientDelegates));
         }
-        
+        for(Patient_Delegate_Enrollment__c pde:patientDelegates){
+            if(!participantsByDelContId.containsKey(pde.Patient_Delegate__r.Contact__c)){
+                participantsByDelContId.put(pde.Patient_Delegate__r.Contact__c, new List<Participant__c>());
+            }
+            participantsByDelContId.get(pde.Patient_Delegate__r.Contact__c).add(pde.Patient_Delegate__r.Participant__r);
+            participantContacts.add(pde.Patient_Delegate__r.Participant__r.Contact__c);
+            perIds.add(pde.Participant_Enrollment__r.Id);
+        }
+        List<Participant_Enrollment__c> enrollments = [
+            SELECT Clinical_Trial_Profile__r.CommunityTemplate__c, Participant__c
+            FROM Participant_Enrollment__c
+            WHERE Id in :perIds
+        ];
+        Map<Id, List<String>> communityTemplatesByParticipant = new Map<Id, List<String>>();
+        for (Participant_Enrollment__c pe : enrollments){
+            if (!communityTemplatesByParticipant.containsKey(pe.Participant__c)){
+                communityTemplatesByParticipant.put(pe.Participant__c, new List<String>());
+            }
+            communityTemplatesByParticipant.get(pe.Participant__c)
+                .add(pe.Clinical_Trial_Profile__r.CommunityTemplate__c);
+        }
+        List<PermissionSetAssignment> permissionSetAssignments = [
+            SELECT Assignee.ContactId, PermissionSet.Name
+            FROM PermissionSetAssignment
+            WHERE
+                (Assignee.ContactId IN :participantsByDelContId.keySet()
+                OR Assignee.ContactId IN :participantContacts)
+                AND PermissionSet.Name IN :CommunityTemplateService.getAllPermissionSets()
+        ];
+         Map<Id, Set<String>> permissionsByContact = new Map<Id, Set<String>>();
+        for (PermissionSetAssignment assignment : permissionSetAssignments){
+            if (!permissionsByContact.containsKey(assignment.Assignee.ContactId)){
+                permissionsByContact.put(assignment.Assignee.ContactId, new Set<String>());
+            }
+            permissionsByContact.get(assignment.Assignee.ContactId)
+                .add(assignment.PermissionSet.Name);
+        }
+        for (Id delCont : participantsByDelContId.keySet()){
+             if (!permissionsByContact.containsKey(delCont))
+                 continue;
+            Set<String> delPermissions = permissionsByContact.get(delCont);
+            for (Participant__c participant : participantsByDelContId.get(delCont)){
+                List<CommunityTemplate> communityTemplates = new List<CommunityTemplate>();
+                if (permissionsByContact.containsKey(participant.Contact__c)){
+                    for (String partPerm : permissionsByContact.get(participant.Contact__c)){
+                        communityTemplates.add(
+                            CommunityTemplateService.getTemplateByPermissionSetName(partPerm)
+                        );
+                    }
+                }
+                else{
+                    for (
+                        String templateName : communityTemplatesByParticipant.get(participant.Id)
+                    ){
+                        communityTemplates.add(CommunityTemplateService.getTemplate(templateName));
+                    }
+                }
+                for (CommunityTemplate template : communityTemplates){
+                    if (delPermissions.contains(template.permissionSet)){
+                        notifications.add(
+                            new Notification__c(
+                                Notification_Type__c = template.properties.get(templateProperty),
+                                Recipient__c = delCont,
+                                WhatId__c = participant.Id
+                            )
+                        );
+                    }
+                }
+            }
+        }
         // Add logic For minor participants
         if (!notifications.isEmpty())
             insertNotifications(notifications);
+        
+        
     }
 
     private static void insertNotifications(List<Notification__c> notifications) {
@@ -497,7 +570,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
     //This Method will update the permission set to the patient Delegate.
     private static void updatePermissionSets(Set<Id> pdeIdSet) {
         List<Patient_Delegate_Enrollment__c> pdeList = [select id,Patient_Delegate__r.Participant__r.Contact__c,Patient_Delegate__r.Contact__c,Patient_Delegate__r.Participant__c,Participant_Enrollment__r.Id,Participant_Enrollment__r.Participant__c,Participant_Enrollment__r.Participant_Contact__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.Id,Participant_Enrollment__r.Clinical_Trial_Profile__r.ShortCommunityName__c
-                                                  from Patient_Delegate_Enrollment__c where id in: pdeIdSet and Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN :CommunityModeService.rhSponsorsByCommunity.keySet()
+                                                  from Patient_Delegate_Enrollment__c where id in: pdeIdSet  and Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS and Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN :CommunityModeService.rhSponsorsByCommunity.keySet()
                                                   and Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c != 'Virtual' and Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c != 'Hybrid'
                                                   and  Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
                                                   and Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c = FALSE

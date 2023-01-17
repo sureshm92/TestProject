@@ -20,7 +20,7 @@
                 <!--chevron Icon: Ends-->
                 <button title="" onclick={goBackToManageDelegate} class="back-to-manage-del-btn">
                     <span><img src={icon_url} class="icon-chevron-right" /></span>
-                    <span class="slds-p-around_xx-small">{label.Back_to_Manage_Delegates}</span>
+                    <div class="slds-p-around_xx-small inline">{label.Back_to_Manage_Delegates}</div>
                 </button>
             </div>
             <div class="profile-information slds-m-bottom_medium">{label.Add_New_Delegate}</div>
@@ -223,7 +223,7 @@
                                     class="blue-highlight-text-color"
                                     onclick={goBackToManageDelegate}
                                     >&nbsp;{label.PP_ManageDelegates}</span
-                                >.
+                                ><span>&nbsp;{label.PP_ExistingDelError_1}</span>
                             </lightning-layout-item>
                         </lightning-layout>
                     </div>
@@ -307,7 +307,7 @@
             </template>
             <!--Study Multip Piclist Start-->
             <div
-                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large"
+                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 attestation-messgae slds-m-vertical_large adn-multi-picklist"
             >
                 <c-pp_multi-picklist-l-w-c
                     picklist-values={delegateFilterData.studies}

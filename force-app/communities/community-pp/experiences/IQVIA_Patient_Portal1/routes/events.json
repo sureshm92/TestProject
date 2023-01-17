@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "3d11a626-97e7-44de-80eb-83655466471c",
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "configurationTags" : [ ],
+  "id" : "0289da8f-94b4-4a96-8475-98b10b989dc5",
+  "label" : "Events",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-events",
+  "type" : "route",
+  "urlPrefix" : "events"
+}

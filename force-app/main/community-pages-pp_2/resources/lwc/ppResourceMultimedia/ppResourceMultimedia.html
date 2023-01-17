@@ -1,12 +1,11 @@
 <template>
-    <div class=" slds-scrollable_y slds-card__body slds-card__body_inner card-wrap" style = "margin-right: 15px;height:95%">
-        <template if:true={desktop}>
-                <article class="slds-card_boundary container-card" >
-                    <div
-                        if:true={resourcePresent}
-                        class=" slds-scrollable_y  slds-card__body_inner"
-                        
-                    >
+    <div
+        class="slds-card__body slds-card__body_inner card-wrap enage-multimedia-resource custom-padding"
+    >
+        <div class="slds-scrollable_y uniform-pad">
+            <template if:true={desktop}>
+                <article class="slds-card_boundary container-card slds-m-bottom_x-small">
+                    <div if:true={resourcePresent} class="slds-scrollable_y slds-card__body_inner">
                         <template for:each={resourcedData} for:item="res">
                             <div if:true={res.isMultimedia} key={res}>
                                 <c-pp-resource-engage-multimedia
@@ -19,15 +18,16 @@
                     </div>
                 </article>
             </template>
-            </div>
-            <div class=" slds-scrollable_y slds-card__body slds-card__body_inner card-wrap" style = "height:95%">
+        </div>
+        <!-- </div> -->
+        <div class="slds-scrollable_y" style="height: 95%">
             <template if:false={desktop}>
                 <article
                     if:true={resourcePresent}
-                    class=" slds-scrollable_y slds-card_boundary container-card-mobile" 
+                    class="slds-scrollable_y slds-card_boundary container-card-mobile"
                 >
-                    <div class="slds-card__body_inner custom-padding">
-                        <template for:each={resourcedData} for:item="res" for:index="index" >
+                    <div class="custom-padding">
+                        <template for:each={resourcedData} for:item="res" for:index="index">
                             <div if:true={res.isMultimedia} key={res}>
                                 <c-pp-resource-engage-multimedia
                                     explore-data={res}
@@ -39,6 +39,6 @@
                     </div>
                 </article>
             </template>
+        </div>
     </div>
-    
 </template>

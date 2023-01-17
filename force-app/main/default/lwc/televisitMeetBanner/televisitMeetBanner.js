@@ -105,7 +105,10 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         console.log('Televisit Get visits called');
         this.hasVisits = true;
         this.showMoreVisits = false;
-        getVisits({communityMode : this._currentMode.template.communityName, userMode : this._currentMode.userMode})
+        getVisits({
+            communityMode: this._currentMode.template.communityName,
+            userMode: this._currentMode.userMode
+        })
             .then((result) => {
                 var televisitInformation = JSON.parse(result);
                 if (televisitInformation) {
@@ -164,11 +167,13 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
     @api
     get currentMode() {
-        return this._currentMode;        
+        return this._currentMode;
     }
-    set currentMode(value) {  
+    set currentMode(value) {
         this._currentMode = value;
-        this.getVisits();
+        if (this._currentMode) {
+            this.getVisits();
+        }
     }
 
     handleJoinClick(event) {

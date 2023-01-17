@@ -108,7 +108,13 @@
                                     large-device-size="12"
                                 >
                                     <div class={getStudyConsentMargin}>
-                                        {label.PP_Communication_Pref_Study_consent}
+                                        <!--{label.PP_Communication_Pref_Study_consent}-->
+                                        <template if:true={isCountryUS}>
+                                            {label.PP_Study_Consent_Adult_US}
+                                        </template>
+                                        <template if:false={isCountryUS}>
+                                            {label.PP_Study_Consent_Adult_ROW}
+                                        </template>
                                     </div>
                                 </lightning-layout-item>
                             </lightning-layout>
@@ -282,7 +288,11 @@
                                         </lightning-layout>
                                     </lightning-layout-item>
                                 </lightning-layout>
-                            </template>                         
+                            </template>
+                            <div class={getStudyConsentMargin}>
+                                <template if:true={isCountryUS}>
+                                {label.PP_Communication_Purchase_Pref}</template>
+                            </div>                         
                         </div>
                     </div>
                 </Template>
@@ -294,12 +304,15 @@
                             <lightning-layout multiple-rows="true">
                                 <lightning-layout-item size="12">
                                     <div class={getStudyConsentMargin}>
-                                        {label.PP_Communication_Pref_Outreach_consentA}&nbsp;
+                                        {label.PP_Outreach_Communication_Pref_A}&nbsp;
+                                        <template if:true={isCountryUS}>{label.PP_Outreach_Communication_Pref_B}&nbsp;</template>
+                                        {label.PP_Outreach_Communication_Pref_C}&nbsp;
                                         <span
                                             class="blue-highlight-text-color"
                                             onclick={openPrivacyPolicy}
-                                            >{label.PP_Communication_Pref_Outreach_consentB}</span
-                                        >{label.PP_Communication_Pref_Outreach_consentC}
+                                            >{label.PP_Communication_Pref_Outreach_consentB}
+                                        </span>
+                                        {label.PP_Outreach_Communication_Pref_D}
                                     </div>
                                 </lightning-layout-item>
                             </lightning-layout>
@@ -458,6 +471,13 @@
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </template>
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12">
+                                    <div class={getStudyConsentMargin}>
+                                        <template if:true={isCountryUS}>{label.PP_Communication_Purchase_Pref}</template>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
                         </div>
                     </div>
                 </Template>
@@ -554,7 +574,13 @@
                                     large-device-size="12"
                                 >
                                     <div class={getStudyConsentMargin}>
-                                        {label.PP_Communication_Pref_Study_consent}
+                                        <!--{label.PP_Communication_Pref_Study_consent}-->
+                                        <template if:true={isCountryUS}>
+                                            {label.PP_Study_Consent_Adult_US}
+                                        </template>
+                                        <template if:false={isCountryUS}>
+                                            {label.PP_Study_Consent_Adult_ROW}
+                                        </template>
                                     </div>
                                 </lightning-layout-item>
                             </lightning-layout>
@@ -721,6 +747,10 @@
                                      
                                 </div>
                             </template>
+                            <div class={getStudyConsentMargin}>
+                                <template if:true={isCountryUS}>
+                                {label.PP_Communication_Purchase_Pref}</template>
+                            </div>
                         </div>
                     </div>
                 </Template>
@@ -737,12 +767,15 @@
                                     large-device-size="12"
                                 >
                                     <div class={getStudyConsentMargin}>
-                                        {label.PP_Communication_Pref_Outreach_consentA}&nbsp;
+                                        {label.PP_Outreach_Communication_Pref_A}&nbsp;
+                                        <template if:true={isCountryUS}>{label.PP_Outreach_Communication_Pref_B}&nbsp;</template>
+                                        {label.PP_Outreach_Communication_Pref_C}&nbsp;
                                         <span
                                             class="blue-highlight-text-color"
                                             onclick={openPrivacyPolicy}
-                                            >{label.PP_Communication_Pref_Outreach_consentB}</span
-                                        >{label.PP_Communication_Pref_Outreach_consentC}
+                                            >{label.PP_Communication_Pref_Outreach_consentB}
+                                        </span>
+                                        {label.PP_Outreach_Communication_Pref_D}
                                     </div>
                                 </lightning-layout-item>
                             </lightning-layout>
@@ -898,6 +931,13 @@
                                     </div>
                                 </div>
                             </template>
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12">
+                                    <div class={getStudyConsentMargin}>
+                                        <template if:true={isCountryUS}>{label.PP_Communication_Purchase_Pref}</template>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
                         </div>
                     </div>
                 </Template>
