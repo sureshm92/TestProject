@@ -320,7 +320,9 @@ public without sharing class PIR_ParticipantDetailController {
              Patient_Delegate_Enrollment__c pdenroll = new Patient_Delegate_Enrollment__c();
              pdenroll.Id = pdenrollment.Id;
              pdenroll.Study_info_storage_consent__c =consentWrapper.Study_info_storage_consent;
-             pdenroll.Study_SMS_Consent__c=consentWrapper.Study_SMS_Consent;
+             if(consentWrapper.Study_SMS_Consent != null){
+              pdenroll.Study_SMS_Consent__c=consentWrapper.Study_SMS_Consent;
+             }
              pdenroll.Study_Phone_Consent__c=consentWrapper.Study_Phone_Consent;
              pdenroll.Study_Email_Consent__c=consentWrapper.Study_Email_Consent;
              Update pdenroll;
@@ -353,14 +355,15 @@ public without sharing class PIR_ParticipantDetailController {
                 updSecondaryPDE = [Select Id,Patient_Delegate__c,Primary_Delegate__c,Participant_Enrollment__c from  Patient_Delegate_Enrollment__c where Patient_Delegate__c=:pd[0].Id AND Participant_Enrollment__c=:perRecord.Id];
                 
                 if(updSecondaryPDE != null && !updSecondaryPDE.isEmpty()){
-                         Patient_Delegate_Enrollment__c pdeToupdateDuplicate = new Patient_Delegate_Enrollment__c(
-                          Id = updSecondaryPDE[0].Id,
-                          Primary_Delegate__c = true,
-                          Study_Email_Consent__c = consentWrapper.Study_Email_Consent,
-                          Study_info_storage_consent__c = consentWrapper.Study_info_storage_consent,
-                          Study_Phone_Consent__c = consentWrapper.Study_Phone_Consent,
-                          Study_SMS_Consent__c = consentWrapper.Study_SMS_Consent
-                       );
+                        Patient_Delegate_Enrollment__c pdeToupdateDuplicate = new Patient_Delegate_Enrollment__c();
+                        pdeToupdateDuplicate.Id = updSecondaryPDE[0].Id;
+                        pdeToupdateDuplicate.Primary_Delegate__c = true;
+                        pdeToupdateDuplicate.Study_Email_Consent__c = consentWrapper.Study_Email_Consent;
+                        pdeToupdateDuplicate.Study_info_storage_consent__c = consentWrapper.Study_info_storage_consent;
+                        pdeToupdateDuplicate.Study_Phone_Consent__c = consentWrapper.Study_Phone_Consent;
+                        if(consentWrapper.Study_SMS_Consent != null){ 
+                        pdeToupdateDuplicate.Study_SMS_Consent__c = consentWrapper.Study_SMS_Consent;
+                        }  
                         List<Patient_Delegate_Enrollment__c> getPDE = new List<Patient_Delegate_Enrollment__c>();
                         List<Patient_Delegate_Enrollment__c> updPDE = new List<Patient_Delegate_Enrollment__c>();
                         getPDE = [Select Id,Participant_Enrollment__c,Primary_Delegate__c,Patient_Delegate__c from Patient_Delegate_Enrollment__c where Participant_Enrollment__c=:perRecord.Id AND Primary_Delegate__c=:true];
@@ -555,8 +558,6 @@ public without sharing class PIR_ParticipantDetailController {
       Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
       pde.Participant_Enrollment__c = perRecord.Id;
       pde.Patient_Delegate__c = peDeligate.Id;
-      pde.Attestation_c__c = peDeligate.Attestation__c;
-      pde.Attestation_TimeStamp__c = peDeligate.Attestation_TimeStamp__c;
       pde.Attested_By__c = peDeligate.Attested_by__c;
       pde.isInviteToPP__c = peDeligate.isInviteToPP__c;
       pde.Primary_Delegate__c = true;

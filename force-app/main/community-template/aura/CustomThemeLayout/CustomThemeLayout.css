@@ -152,7 +152,6 @@
     height: 32px;
     border: 1px solid #d9d9d9;
     border-radius: 4px;
-    background-color: #fff;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
 }
 
@@ -221,13 +220,38 @@
     margin-left: 4px;
 }
 
-.THIS .calendarNavigationCss{	
-    height: 100%;	
-    display: inline-flex;	
-    align-items: center;	
+.THIS .calendarNavigationCss{
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
     padding: 0 8px;
 }
+.THIS .slds-notification-badge{
+    top:0.65rem;
+    right:-0.2rem;
+}
+.THIS .bellNavigationCss{
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 5px;
+    margin-left: 4px;
+}
 
+.THIS span.countDot {
+    top:0.65rem;
+    right:-0.2rem;
+    /* position: absolute;
+    top:0.65rem;
+    right:-0.2rem;
+    border-radius: .5rem;
+    background-color: rgb(194, 57, 52); */
+}
+
+.THIS .bellNavigationCss .cRRIcon.rr-icon-default {
+    height: 20px;
+    width: 20px;
+}
 .THIS .helpNavigationCSS .cRRIcon.rr-icon-default {
     height: 20px;
     width: 20px;
@@ -609,6 +633,6 @@
     }
 
 }
-.THIS .slds-datepicker { 
+.THIS .slds-datepicker {
     max-width: 50rem;
     }

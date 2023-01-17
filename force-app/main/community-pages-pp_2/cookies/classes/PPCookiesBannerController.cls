@@ -6,11 +6,8 @@ public without sharing class PPCookiesBannerController {
     public String userMode;
     public String userJsonString;
 
-    public PPCookiesBannerController() {
-        userMode = UserContext.getCurrentUserMode().userMode;
-    }
-
     public void fetchTheCookieData() {
+        userMode = UserContext.getCurrentUserMode().userMode;
         userAccountSetting = AccountSettingsController.getInitData(userMode);
         AccountSettingsController.AccountData accData = (AccountSettingsController.AccountData) JSON.deserialize(
             userAccountSetting,

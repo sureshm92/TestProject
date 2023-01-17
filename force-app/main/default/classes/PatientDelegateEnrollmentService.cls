@@ -315,21 +315,15 @@ public without sharing class PatientDelegateEnrollmentService {
         for (MyTeamRemote.SelectedStudiesData studyPER : SelectedStudiesData) {
             //if Study is not assigned then create new PDEnrollment Record otherwise reactive the existing PDEnrollment record.
             if(studyPER.assigned ==null || (studyPER.assigned!=null && !studyPER.assigned)){
-                Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
-                pde.Participant_Enrollment__c = studyPER.Value; //PER val
-                pde.Patient_Delegate__c = newDelegate.Id;
-                //pde.Attestation_c__c = newDelegate.Attestation__c;
-                pde.Attestation_TimeStamp__c = newDelegate.Attestation_TimeStamp__c;
-                pde.Attested_by__c = newDelegate.Attested_by__c;
-                pde.Status__c = 'Active';
-                pde.Study_Email_Consent__c = true;
+                
+                Patient_Delegate_Enrollment__c pde = createPDEObject(newDelegate,(Id)studyPER.Value);
                 pdEnrollments.add(pde);
             } else if(studyPER.assigned!=null && studyPER.assigned && !studyPER.active){
                 if(studyPER.pdEnrollmentId!=null){
                     //if Study is assigned to delegate but it is not active(Former/Active Delegate). 
                     pDEIdList.add(studyPER.pdEnrollmentId);
                 }else{
-                    //When deleted/Withdrawn delegate is added.
+                    //When deleted/Withdrawn delegate is added. pdEnrollmentId comes null from Add New Delegate page.
                     perIDList.add(studyPER.Value);
                 }
                
@@ -345,11 +339,24 @@ public without sharing class PatientDelegateEnrollmentService {
         }
         //Re activate the study assignment for Deleted/Withdrawn Delegates.
         if (perIDList.size() > 0) {
-            reActivateAssignmentForDeletedOrWithDrawnDel(perIDList);
+            reActivateAssignmentForDeletedOrWithDrawnDel(newDelegate,perIDList);
         }
 
     }
-
+    public static Patient_Delegate_Enrollment__c createPDEObject(
+        Patient_Delegate__c newDelegate,
+        Id perId
+    ) {
+        Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
+        pde.Participant_Enrollment__c = perId; 
+        pde.Patient_Delegate__c = newDelegate.Id;
+        //pde.Attestation_c__c = newDelegate.Attestation__c;
+        pde.Attestation_TimeStamp__c = newDelegate.Attestation_TimeStamp__c;
+        pde.Attested_by__c = newDelegate.Attested_by__c;
+        pde.Status__c = 'Active';
+        pde.Study_Email_Consent__c = true;
+        return pde;
+    }
     //This Method will reactive the study assignments for the active/Former delegates.
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain reActivateAssignment(List<String> pDEIdList) {
@@ -371,20 +378,30 @@ public without sharing class PatientDelegateEnrollmentService {
         return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
     }
 
-    //This Method will reactive the study assignments for the deleted/Withdrawn delegates.
+    //This Method will reactive/Add the study assignments for the deleted/Withdrawn delegates.
     @AuraEnabled
-    public static PatientDelegateEnrollmentsWrapperMain reActivateAssignmentForDeletedOrWithDrawnDel(List<Id> perIDList) {
+    public static PatientDelegateEnrollmentsWrapperMain reActivateAssignmentForDeletedOrWithDrawnDel(Patient_Delegate__c newDelegate, List<Id> perIDList) {
         list<Patient_Delegate_Enrollment__c> pdeList = [
-            SELECT id, Status__c
+            SELECT id, Status__c, Participant_Enrollment__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Participant_Enrollment__c = :perIDList
+            AND Patient_Delegate__c =: newDelegate.Id
         ];
+        Set<Id> perIdSetForExistingPDE = new Set<Id>();
         for(Patient_Delegate_Enrollment__c pde: pdeList) {
             pde.Status__c = 'Active';  
+            perIdSetForExistingPDE.add(pde.Participant_Enrollment__c);
+        }
+        for(Id perId: perIDList){
+            //When PDE record is not existing, create new PDE record for that study.
+            if(!perIdSetForExistingPDE.contains(perId)){
+                Patient_Delegate_Enrollment__c pde = createPDEObject(newDelegate,perId);
+                pdeList.Add(pde);
+            }
         }
         
         try{
-            update pdeList;
+            upsert pdeList;
         }catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }

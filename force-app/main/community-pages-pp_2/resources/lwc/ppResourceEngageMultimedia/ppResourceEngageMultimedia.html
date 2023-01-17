@@ -1,20 +1,16 @@
 <template>
     <template if:true={desktop}>
-            <div
-                class="slds-align_absolute-center slds-card slds-has-bottom-magnet enage-section-horizontal"
-            >
+        <div class="slds-p-bottom_x-small">
+            <div class="enage-section-horizontal slds-align_absolute-center">
                 <template if:false={noExploreImage}>
-                    <img 
-                        class="enage-image"
+                    <img
+                        class="enage-image cover"
                         onclick={navigateResourceDetail}
                         src={exploreData.resource.Image__c}
                         onerror={handleNoExploreImageError}
                     />
                 </template>
-                <div
-                    if:true={noExploreImage}
-                    class="slds-align_absolute-center"
-                >
+                <div if:true={noExploreImage}>
                     <c-web-icon
                         icon-color="#b5b5b5"
                         icon-width="55"
@@ -25,28 +21,29 @@
                 </div>
             </div>
             <div class="slds-card slds-has-top-magnet engage-bottom-manage">
-                <div class = "resource-title" onclick={navigateResourceDetail}>{exploreData.resource.Title__c}</div>
-                <div class = "resource-description" >
-                    <lightning-formatted-rich-text value={exploreData.resource.Description__c}></lightning-formatted-rich-text>
+                <div class="resource-title" onclick={navigateResourceDetail}>
+                    {exploreData.resource.Title__c}
+                </div>
+                <div class="resource-description">
+                    <lightning-formatted-rich-text
+                        value={exploreData.resource.Description__c}
+                    ></lightning-formatted-rich-text>
                 </div>
             </div>
-            <br/>
+        </div>
     </template>
     <template if:false={desktop}>
-            <div 
-            class="slds-align_absolute-center slds-card slds-has-bottom-magnet enage-section-horizontal">
+        <div class="slds-p-bottom_medium">
+            <div class="enage-section-horizontal slds-align_absolute-center">
                 <template if:false={noExploreImage}>
                     <img
-                        class="enage-image"
+                        class="enage-image cover"
                         onclick={navigateResourceDetail}
                         src={exploreData.resource.Image__c}
                         onerror={handleNoExploreImageError}
                     />
                 </template>
-                <div
-                    if:true={noExploreImage}
-                    class="slds-align_absolute-center"
-                >
+                <div if:true={noExploreImage}>
                     <c-web-icon
                         icon-color="#b5b5b5"
                         icon-width="35"
@@ -56,11 +53,15 @@
                 </div>
             </div>
             <div class="slds-card slds-has-top-magnet engage-bottom-manage">
-                <div class = "resource-title" onclick={navigateResourceDetail}>{exploreData.resource.Title__c}</div>
-                <div class = "resource-description" >
-                    <lightning-formatted-rich-text value={exploreData.resource.Description__c}></lightning-formatted-rich-text>
+                <div class="resource-title" onclick={navigateResourceDetail}>
+                    {exploreData.resource.Title__c}
+                </div>
+                <div class="resource-description">
+                    <lightning-formatted-rich-text
+                        value={exploreData.resource.Description__c}
+                    ></lightning-formatted-rich-text>
                 </div>
             </div>
-            <br/>
+        </div>
     </template>
 </template>
