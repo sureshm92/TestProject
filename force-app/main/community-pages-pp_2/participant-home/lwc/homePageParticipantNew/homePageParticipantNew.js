@@ -82,11 +82,11 @@ export default class HomePageParticipantNew extends LightningElement {
                         (this.participantState.hasPatientDelegates &&
                             !this.participantState.isDelegate);
                 }
-                this.spinner.hide();
+                this.spinner ? this.spinner.hide() : '';
             })
             .catch((error) => {
                 this.showErrorToast('Error occured', error.message, 'error','5000','dismissable');
-                this.spinner.hide();
+                this.spinner ? this.spinner.hide() : '';
             });
     }
 
