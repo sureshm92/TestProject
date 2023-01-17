@@ -19212,6 +19212,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Your consent is not required as a condition of purchasing any property, goods, or services.</value>
     </labels>
     <labels>
+        <fullName>PP_Communication_Purchase_Pref_V2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Communication Purchase Pref V2</shortDescription>
+        <value>This consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+    <labels>
         <fullName>PP_Communication_Pref_Outreach_consentA</fullName>
         <language>en_US</language>
         <protected>true</protected>
