@@ -1,5 +1,6 @@
 import { LightningElement, api, wire } from 'lwc';
 import getListViewData from '@salesforce/apex/PIR_HomepageController.getListViewData';
+import getParticipantEnrollmentForBell from '@salesforce/apex/PIR_HomepageController.getParticipantEnrollmentForBell';
 import getAvailableStatuses from '@salesforce/apex/PIR_HomepageController.getAvailableStatuses';
 import updateParticipantStatus from '@salesforce/apex/PIR_HomepageController.updateParticipantStatus';
 import updateParticipantData from '@salesforce/apex/PIR_BulkActionController.updateParticipantData';
@@ -53,16 +54,25 @@ import PIR_Import_Participants from '@salesforce/label/c.PIR_Import_Participants
 import PIR_Signed_Date_Validation from '@salesforce/label/c.PIR_Signed_Date_Validation';
 import Need_to_Re_consent from '@salesforce/label/c.Need_to_Re_consent';
 
+import {
+    subscribe,
+    unsubscribe,
+    APPLICATION_SCOPE,
+    MessageContext,
+} from 'lightning/messageService';
+
+import messagingChannel from '@salesforce/messageChannel/rhrefresh__c';
+
 export default class Pir_participantList extends NavigationMixin(LightningElement) {
     filterIcon = pirResources+'/pirResources/icons/filter.svg';
     editIcon = pirResources+'/pirResources/icons/pencil.svg';
-    currentPageReference = null; 
+    currentPageReference = null;
     urlStateParameters = null;
     @api noRecords = false;
     @api cancelCheck;
     dropDownChange=false;
     valueChecked=false;
-   
+
     enableStatus=false;
     dctCheck=false;
     selectedCheckboxes = [];
@@ -85,17 +95,22 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     enteredSearchString = '';
     filterWrapper= {};
     disablePresetPicklist = false;
-    
+    isEnabled = false;
+    listOfIds = [];
+
     @api maindivcls;
     @api get fetch(){
         return true;
     }
+
+    @api searchValue='';
+
     set fetch(val){
         loadScript(this, RR_COMMUNITY_JS)
         .then(() => {
             this.communityTemplate = communityService.getCurrentCommunityTemplateName();
         }).then(() => {
-            this.fetchAllPreset(); 
+            this.fetchAllPreset();
         }).catch((error) => {
              console.log('Error: ' + error.message);
              console.log('Error: ' + error.stack);
@@ -103,9 +118,10 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     }
     /* Params from Url */
     urlStudyId = null;
-    urlSiteId = null; 
+    urlSiteId = null;
     urlPerName = null;
     urlrefid = null;
+    urlStatus = null;
 
     label = {
         RH_RP_No_Item_To_Display,
@@ -143,16 +159,22 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         PIR_Import_Participants,
         PIR_Signed_Date_Validation,
         Need_to_Re_consent
-    }; 
+    };
     @api dropDownLabel=this.label.RPR_Actions;
     @api isCheckboxhidden=false;
     activeCheckboxesCount=0;
 
-    @wire(CurrentPageReference) 
+    subscription = null;
+    @wire(MessageContext)
+    messageContext;
+
+    @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
        if (currentPageReference) {
           this.urlStateParameters = currentPageReference.state;
-          this.setParametersBasedOnUrl();
+          if(! JSON.parse(sessionStorage.getItem("callFetchList") ) ){
+            this.setParametersBasedOnUrl();
+          }
        }
     }
     @api showAddParticipant = false;
@@ -170,9 +192,9 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             if (studySiteMap.ctpMap) {
                 var conts = studySiteMap.ctpMap;
                 let options = [];
-                var sites = studySiteMap.studySiteMap; 
+                var sites = studySiteMap.studySiteMap;
                 for (var key in conts) {
-                    if(!ctpListNoAccess.includes(conts[key])){ 
+                    if(!ctpListNoAccess.includes(conts[key])){
                         var temp = sites[conts[key]];
                         let z = 0;
                         for (var j in temp) {
@@ -219,12 +241,13 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         this.isCheckboxhidden=false;
         this.selectedCheckboxes=[];
         this.dropDownLabel=this.label.RPR_Actions;
-        this.dropDownChange=false;
+        if(! this.isEnabled)
+            this.dropDownChange=false;
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
             L.classList.remove("slds-p-bottom--x-small");
         });
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
-            L.classList.add("slds-p-bottom--x-large");
+            L.classList.add("slds-p-bottom--medium");
         });
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
             L.classList.remove("participantStatus");
@@ -232,23 +255,31 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         if(this.isPPFiltered == true){
             this.isPPFiltered = false;
             this.totalRecordCount = -1;
-            this.isResetPagination = true; 
+            this.isResetPagination = true;
             this.fetchList();
         }
         if(this.isDCTFiltered == true){
             this.isDCTFiltered = false;
             this.totalRecordCount = -1;
-            this.isResetPagination = true; 
+            this.isResetPagination = true;
             this.fetchList();
         }
-        
+
     }
 
     setParametersBasedOnUrl() {
        this.urlStudyId = this.urlStateParameters.id || null;
        this.urlSiteId = this.urlStateParameters.siteId || null;
-       this.urlrefid = this.urlStateParameters.perName || null ;  
-       this.urlPerName = this.urlStateParameters.Pname || null;
+       this.urlrefid = this.urlStateParameters.perName || null ;
+       const fNameAndLName = this.urlStateParameters.Pname || null;
+       let result = null;
+       this.isEnabled= false;
+       if(fNameAndLName){
+        result = decodeURI(fNameAndLName);
+        result = decodeURI(result);
+       }
+
+       this.urlPerName = result || null;
        if(this.urlStudyId != null && this.urlSiteId != null){
         setselectedFilterasDefault ({selectedPresetId :"no preset"})
         .then((result) => {
@@ -278,9 +309,66 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             presetId: "",
             presetName:""
           };
-        this.filterWrapper.siteList.push(this.urlSiteId);
+        if(this.urlSiteId && this.urlSiteId.includes('+') ){
+            let siteArr = this.urlSiteId.split('+');
+            siteArr.forEach(element => {
+                this.filterWrapper.siteList.push(element);
+            });
+        }
+        else{
+            this.filterWrapper.siteList.push(this.urlSiteId);
+        }
+
         this.filterWrapper.studyList.push(this.urlStudyId);
        }
+       if(this.urlStateParameters.status){
+        this.urlStatus = decodeURI(decodeURI(this.urlStateParameters.status) );
+        this.filterWrapper.status = [];
+        this.filterWrapper.status.push(this.urlStatus);
+        this.isResetPagination = true;
+        this.fetchList();
+        const selectEvent = new CustomEvent('resetparent', {
+            detail: ''
+        });
+        this.dispatchEvent(selectEvent);
+       }
+       if(this.urlStateParameters.activeTab){
+
+        if( this.srchTxt){
+            this.isResetPagination = true;
+            this.fetchList();
+            const selectEvent = new CustomEvent('resetparent', {
+                detail: ''
+            });
+            this.dispatchEvent(selectEvent);
+        }
+        const data = {"activeTab": this.urlStateParameters.activeTab, "searchText" : this.urlPerName};
+        const selectEvent = new CustomEvent('resetactivetab', {
+            detail: data
+        });
+        this.dispatchEvent(selectEvent);
+    }
+    else if(this.urlStateParameters.uiDisabled){
+        getParticipantEnrollmentForBell({
+            contactId : JSON.parse(sessionStorage.getItem("currContactId") ),
+            nType :  JSON.parse(sessionStorage.getItem("nType") )
+         })
+        .then(result => {
+            this.listOfIds = result;
+            this.isEnabled = true;
+            this.toggleUIFeatures(true);
+            this.totalRecordCount =-1;
+            this.isResetPagination = true;
+            this.fetchList();
+            const selectEvent = new CustomEvent('resetparent', {
+                detail: ''
+            });
+            this.dispatchEvent(selectEvent);
+        })
+        .catch(error => {
+            console.log('Error:',error);
+        });
+    }
     }
     totalRecordCount = -1;
     @api pageNumber = 1;
@@ -290,7 +378,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     siteIdlist=null;
     iconHighRisk =pirResources+'/pirResources/icons/status-alert.svg';
     iconHighPriority = pirResources+'/pirResources/icons/arrow-up.svg';
-    iconActionReq = pirResources+'/pirResources/icons/bell.svg';   
+    iconActionReq = pirResources+'/pirResources/icons/bell.svg';
     iconActionReqeConsent = econsentRes+'/econsentRes/Icon/Bell_Icon.svg';
     err='';
     peMap = new Map();
@@ -304,26 +392,25 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     yesHighPriority=[];
     noHighPriority=[];
 
-    connectedCallback(){      
+    connectedCallback(){
        if(this.urlStudyId !== null && this.urlSiteId !== null){
         this.studyIdlist = [];
         this.studyIdlist.push(this.urlStudyId);
         this.siteIdlist = [];
-        this.siteIdlist.push(this.urlSiteId);   
+        this.siteIdlist.push(this.urlSiteId);
        }
-      
-       
+       this.subscribeToMessageChannel();
     }
     rendered=false;
     renderedCallback(){
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
-            L.classList.add("slds-p-bottom--x-large");
+            L.classList.add("slds-p-bottom--medium");
         });
         if(!this.rendered){
             this.rendered=true;
-            this.setKeyAction();  
-        }        
-        this.keyScope += 'ren';        
+            this.setKeyAction();
+        }
+        this.keyScope += 'ren';
     }
     searchCounter =0;
     keepsearchFocus = false;
@@ -340,24 +427,24 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         this.keepsearchFocus = true;
         if(event.target.value.length != 0)
         {
-          this.template.querySelector('[data-id="filterdiv"]').classList.add('disablefilter');
+          this.template.querySelector('[data-id="filterdiv"]')?.classList.add('disablefilter');
             this.disabledFilter = true;
             this.disablePreset = true ;
             this.disablePresetPicklist = true;
             this.hideActiononSearch=true;
             if(event.target.value.length <= 2 )
                 return;
-        } 
+        }
         else{
             this.disablePreset = this.isEditPresetFromListDisable ;
-          this.template.querySelector('[data-id="filterdiv"]').classList.remove('disablefilter');
+          this.template.querySelector('[data-id="filterdiv"]')?.classList.remove('disablefilter');
         }
         if(event.target.value && event.target.value.length > 2 )
-        { 
+        {
             this.enteredSearchString = event.target.value;
         }
         //call the method with search string
-        if(this.totalRecordCount > 0){        
+        if(this.totalRecordCount > 0){
             this.totalRecordCount = -1;
             this.isResetPagination = true;
             const selectEvent = new CustomEvent('resetparent', {
@@ -369,35 +456,43 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             this.totalRecordCount = -1;
             this.fetchList();
         }
-        
 
-       
-        
+
+
+
     }
     @api studyIDList;
-    srchTxt='';
+    @api srchTxt='';
     @api fetchList(){
         var searchCount = this.searchCounter;
         this.selectall = false;
         var selectCount=0;
         var enableCount=0;
         this.participantList=null;
-        this.sortInitialVisit = false;        
-        this.showFilter =true; 
+        this.sortInitialVisit = false;
+        this.showFilter =true;
         if(this.urlPerName)
-        {       
-            this.srchTxt = this.urlPerName;            
+        {
+            this.srchTxt = this.urlPerName;
             this.enteredSearchString = this.urlrefid;
-            this.template.querySelector('[data-id="filterdiv"]').classList.add('disablefilter');
+            this.template.querySelector('[data-id="filterdiv"]')?.classList.add('disablefilter');
             this.disabledFilter = true;
             this.disablePreset = true ;
             this.disablePresetPicklist = true;
             this.hideActiononSearch=true;
         }
-        getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, 
+        if(!this.isEnabled){ 
+            this.listOfIds=[];
+        }else{ 
+            this.enteredSearchString = '';
+            this.srchTxt=' ';
+        }
+        getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount,
             sponsorName  : this.communityTemplate, filterWrapper : JSON.stringify(this.filterWrapper),isDCTFiltered: this.isDCTFiltered,
-             isPPFiltered: this.isPPFiltered, sortOn : this.sortOn, searchString :  this.enteredSearchString, sortType : this.sortType })
+            isPPFiltered: this.isPPFiltered, sortOn :  this.sortOn, searchString :  this.enteredSearchString, sortType : this.sortType,
+             isEnabled:this.isEnabled, listOfIds:this.listOfIds })
         .then(result => {
+
             if(searchCount == this.searchCounter){
                 this.sortInitialVisit = result.sortInitialVisit;
                 this.participantList = result.listViewWrapper;
@@ -405,11 +500,11 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                     this.noRecords = false;
                     if(!this.backSwap){
                         this.selectedIndex = 0;
-                        this.selectedPE=result.listViewWrapper[0];   
+                        this.selectedPE=result.listViewWrapper[0];
                     }else{
                         this.backSwap = false;
                         this.selectedIndex = result.listViewWrapper.length -1;
-                        this.selectedPE=result.listViewWrapper[result.listViewWrapper.length -1];   
+                        this.selectedPE=result.listViewWrapper[result.listViewWrapper.length -1];
                     }
 
                 }else{
@@ -427,17 +522,17 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                     this.participantList[i].cs = 'tooltiptextBottom slds-align_absolute-center';
                     if(i>4)
                         this.participantList[i].cs = 'tooltiptextTop slds-align_absolute-center';
-                    
+
                     this.participantList[i].check = this.selectedCheckboxes.includes(this.participantList[i].id);
-                    
+
                     if(this.participantList[i].check){
                         selectCount++;
                     }
                     this.participantList[i].getlabel=this.dropDownLabel;
-                    
+
                     this.participantList[i].showActionbtnDisabled = true;
-                   
-                    
+
+
                     if(this.participantList[i].promotetoSH &&  this.participantList[i].isAllowedForSH)
                     {
                         this.participantList[i].showActionbtnDisabled = false;
@@ -453,10 +548,10 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                     if(this.participantList[i].isAllowedForSH){
                         this.showDCT=true;
                     }
-                
+
                     this.peMap.set(result.listViewWrapper[i].id,result.listViewWrapper[i]);
                     this.peCurrentIndexMap.set(i,result.listViewWrapper[i].id);
-                    
+
                 }
                 this.showPP = result.isEnablePP;
                 this.showDCT= result.isEnableDCT;
@@ -472,13 +567,21 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 if(selectCount==enableCount && selectCount!=0 &&  enableCount!=0){
                     this.selectall = true;
                 }
-                
+
                 if(this.totalRecordCount !=  result.totalRecordCount){
-                    this.totalRecordCount =  result.totalRecordCount;
-                    const updateCount = new CustomEvent("reccountupdate", {
+                    if(this.isEnabled){
+                    this.totalRecordCount =  this.listOfIds.length;
+                    let updateCount = new CustomEvent("reccountupdate", {
                         detail: this.totalRecordCount
                     });
-                    this.dispatchEvent(updateCount);
+                    this.dispatchEvent(updateCount); 
+                    }else{
+                        this.totalRecordCount =  result.totalRecordCount;
+                    let updateCount = new CustomEvent("reccountupdate", {
+                        detail: this.totalRecordCount
+                    });
+                    this.dispatchEvent(updateCount); 
+                    } 
                 }
                 if(!this.siteIdlist){
                     this.siteIdlist = result.siteIdlist;
@@ -486,10 +589,10 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 if(!this.studyIdlist){
                     this.studyIdlist = result.studyIdlist;
                 }
-                this.saving = false; 
-                
+                this.saving = false;
+
                 window.clearTimeout(this.delayTimeout);
-                this.delayTimeout = setTimeout(this.changeSelected.bind(this), 50); 
+                this.delayTimeout = setTimeout(this.changeSelected.bind(this), 50);
             }
         })
         .catch(error => {
@@ -498,7 +601,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             console.log('Error : '+error.message);
             this.participantList = undefined;
         });
-       
+
     }
     @api updateSendtoDCT(){
         updateParticipantData({peIdList : this.selectedCheckboxes})
@@ -510,7 +613,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             this.isResetPagination = true;
             this.fetchList();
             const selectedEvent = new CustomEvent("resetcount");
-            this.dispatchEvent(selectedEvent); 
+            this.dispatchEvent(selectedEvent);
         })
         .catch(error => {
             this.err = error;
@@ -518,7 +621,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             console.log('Error : '+error.message);
         });
     }
-    @api updateInvitetoPP(){    
+    @api updateInvitetoPP(){
         createUserForPatientProtal({peId : this.selectedCheckboxes, sendEmails: true})
         .then(result => {
             this.saving = true;
@@ -527,11 +630,11 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             this.totalRecordCount = -1;
             this.isResetPagination = true;
              const gotofirstEvent = new CustomEvent("gotofirst");
-             this.dispatchEvent(gotofirstEvent); 
-             
+             this.dispatchEvent(gotofirstEvent);
+
              const resetcountEvent = new CustomEvent("resetcount");
-             this.dispatchEvent(resetcountEvent); 
-            
+             this.dispatchEvent(resetcountEvent);
+
         })
         .catch(error => {
             this.err = error;
@@ -542,7 +645,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     @api additionalNoteValue; @api finalConsentvalue; @api selectedreasonvalue; @api consentValue;
     @api signedDateValue;
 
-    @api updateBulkStatusChange(){   
+    @api updateBulkStatusChange(){
         let study = this.studyIDList.toString();
 	    let status;
         if(this.filterWrapper.status == undefined){
@@ -563,7 +666,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             this.showErrorToast(this.label.PIR_Signed_Date_Validation);
         }
         else{
-        updateParticipantStatus({peIdList : this.selectedCheckboxes, 
+        updateParticipantStatus({peIdList : this.selectedCheckboxes,
             StatusToUpdate: this.newstatus,
             Notes: this.additionalNoteValue,
             reason: this.selectedreasonvalue,
@@ -579,11 +682,11 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             this.totalRecordCount = -1;
             this.isResetPagination = true;
              const gotofirstEvent = new CustomEvent("gotofirst");
-             this.dispatchEvent(gotofirstEvent); 
-             
+             this.dispatchEvent(gotofirstEvent);
+
              const resetcountEvent = new CustomEvent("resetcount");
-             this.dispatchEvent(resetcountEvent); 
-            
+             this.dispatchEvent(resetcountEvent);
+
         })
         .catch(error => {
             this.err = error;
@@ -593,11 +696,11 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     }
 }
     setKeyAction(){
-        this.template.querySelector('.keyup').addEventListener('keydown', (event) => {                  
-            var name = event.key; 
+        this.template.querySelector('.keyup').addEventListener('keydown', (event) => {
+            var name = event.key;
             if((name=='ArrowDown' || name=='ArrowUp')){
-                this.keypress = true;    
-                this.keyScope = 'down';  
+                this.keypress = true;
+                this.keyScope = 'down';
                 event.preventDefault();
                 event.stopPropagation();
                 var updateSelected=false;
@@ -610,7 +713,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                         const pageswap = new CustomEvent("pageswap", {
                             detail: "next"
                         });
-                        this.dispatchEvent(pageswap); 
+                        this.dispatchEvent(pageswap);
                     }
                 }
                 if(name=='ArrowUp') {
@@ -625,7 +728,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                         const pageswap = new CustomEvent("pageswap", {
                             detail: "prev"
                         });
-                        this.dispatchEvent(pageswap); 
+                        this.dispatchEvent(pageswap);
                     }
                 }
                 if(updateSelected){
@@ -633,14 +736,14 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 }
             }
         }, false);
-    
+
         this.template.querySelector('.keyup').addEventListener('keyup', (event) => {
             var name = event.key;
             if((name=='ArrowDown' || name=='ArrowUp')){
                 const selectedEvent = new CustomEvent("selectedpevaluechange", {
                     detail: this.selectedPE
                 });
-                this.dispatchEvent(selectedEvent);              
+                this.dispatchEvent(selectedEvent);
                 this.keypress = false;
             }
         }, false);
@@ -655,12 +758,12 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         });
         this.dispatchEvent(evt);
     }
-    
+
     handleMouseSelect(event){
         const mToggle = new CustomEvent("mtoggle", {
             detail: ""
         });
-        this.dispatchEvent(mToggle); 
+        this.dispatchEvent(mToggle);
         if(this.selectedIndex != event.currentTarget.dataset.id){
             this.selectedIndex = event.currentTarget.dataset.id;
             this.changeSelected();
@@ -673,19 +776,19 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             for(var j = 0; j < cards.length; j++){
                 if(j==this.selectedIndex){
                     cards[j].classList.add("selected");
-                   
+
                         if(!this.keepsearchFocus){
-                            
+
                             cards[j].focus();
                         }
                         this.keepsearchFocus = false;
-                   
-                    this.selectedPE= this.peMap.get(this.peCurrentIndexMap.get(j)); 
+
+                    this.selectedPE= this.peMap.get(this.peCurrentIndexMap.get(j));
                     if((!this.keypress) || this.keyScope == 'downrenrenchsec'){
                         const selectedEvent = new CustomEvent("selectedpevaluechange", {
                          detail: this.selectedPE
                         });
-                        this.dispatchEvent(selectedEvent); 
+                        this.dispatchEvent(selectedEvent);
                         this.keypress = false;
                     }
                 }
@@ -703,7 +806,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     get options() {
         return [
             { label: 'Received', value: 'Received' },
-            
+
         ];
     }
     @api newstatus;
@@ -712,11 +815,11 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         const selectedEventnew = new CustomEvent("countvaluecheckbox", {
             detail: this.selectedCheckboxes.length
           });
-          this.dispatchEvent(selectedEventnew); 
+          this.dispatchEvent(selectedEventnew);
 
         this.fetchList();
         const gotofirstEvent = new CustomEvent("gotofirst");
-        this.dispatchEvent(gotofirstEvent); 
+        this.dispatchEvent(gotofirstEvent);
         this.enableStatus=false;
         let study = this.filterWrapper.studyList.toString();
         let status = this.filterWrapper.status.toString();
@@ -729,9 +832,9 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
           });
         this.dispatchEvent(selectedEvent);
         this.newstatus = event.detail.value;
-      
+
     }
-    get checknewStatus(){ 
+    get checknewStatus(){
         if(this.newstatus == 'Enrollment Success' || this.newstatus == 'Randomization Success'
             || this.newstatus == 'Screening Passed' || this.newstatus == 'Withdrew Consent After Screening'
             || this.newstatus == 'Enrollment Failed' || this.newstatus == 'Randomization Failed'){
@@ -757,7 +860,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             return false;
         }
     }
-  
+
     changeStatus = false;
     handlenewOnSelect(event){
         var selectedVal=event.target.dataset.id;
@@ -777,7 +880,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         });
         if( this.dropDownLabel != 'Change Status'){
             this.template.querySelectorAll(".dropsize").forEach(function (L) {
-                L.classList.remove("slds-p-bottom--x-large");
+                L.classList.remove("slds-p-bottom--medium");
             });
             this.template.querySelectorAll(".dropsize").forEach(function (L) {
                 L.classList.add("slds-p-bottom--x-small");
@@ -791,8 +894,8 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             L.classList.add("participantStatus");
         });
        }
-        if(selectedVal != 'Add New Participant' && this.showStatusPopup==false){ 
-            this.dropDownChange=true; 
+        if(selectedVal != 'Add New Participant' && this.showStatusPopup==false){
+            this.dropDownChange=true;
             this.isCheckboxhidden=true;
         }else{
             this.isCheckboxhidden=false;
@@ -805,7 +908,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             this.pageNumber = 1;
             this.fetchList();
         }
-       
+
         if( this.dropDownLabel=='Change Status' && this.showStatusPopup==false){
             const selectedEvent = new CustomEvent("getstatus");
             this.dispatchEvent(selectedEvent);
@@ -820,7 +923,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             }else{
                 status = this.filterWrapper.status.toString();
             }
-            
+
             getAvailableStatuses({ status: status, StudyId: study , SiteId: studySite})
             .then(result => {
                 this.statusChangeList = result;
@@ -846,12 +949,12 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
 
         if( this.dropDownLabel=='Send to DCT'){
             this.isDCTFiltered = true;
-            this.dctCheck=true; 
+            this.dctCheck=true;
             this.saving = true;
             this.totalRecordCount = -1;
             this.isResetPagination = true;
             this.pageNumber = 1;
-            this.fetchList(); 
+            this.fetchList();
         }
         else{
             this.dctCheck=false;
@@ -909,8 +1012,8 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         if(result.partList.length>0){
             this.downloadCSV(result.partList);
         }
-        
-       
+
+
         })
         .catch(error => {
             this.saving=false;
@@ -918,7 +1021,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             console.log('Error new: '+JSON.stringify( this.err));
             console.log('Error : '+error.message);
         });
-        
+
     }
     exportAllDatatemp;
     studyAll=[];
@@ -929,7 +1032,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     counterLimit=20000;
     isFirstTime=true;
     csvList=[];
-    
+
     @api getExportAll(){ //resetexportall
         this.csvList=[];
         this.startPos=0;
@@ -946,8 +1049,8 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         .then(result => {
             this.exportAllDatatemp = result;
             this.totalCount=this.exportAllDatatemp.totalCount;
-            var csvFinalList = this.exportAllDatatemp.partList; 
-                
+            var csvFinalList = this.exportAllDatatemp.partList;
+
                 if (this.isFirstTime==false) {
                     this.csvList = [].concat(this.csvList,csvFinalList);
                 } else {
@@ -984,7 +1087,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     }
     dowloadList;
     downloadCSV(partList){
-        
+
         this.saving=false;
         var csvStringResult, counter, keys, columnDivider, lineDivider;
         columnDivider = ',';
@@ -1027,8 +1130,8 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 headerWithDis =  disclaimer+ headerWithDis;
                 csvStringResult = '';
                 csvStringResult += headerWithDis + columnDivider;
-            
-             
+
+
             csvStringResult += lineDivider;
             for (var i = 0; i < partList.length; i++) {
                 if (
@@ -1105,11 +1208,11 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 } else {
                     csvStringResult += '" "' + ',';
                 }
-        
-         
+
+
              //code for when PII inclusion is true start
-            if(partList[i]['Study_Site__r']['Include_PII_on_Export__c'] == true){	
-                
+            if(partList[i]['Study_Site__r']['Include_PII_on_Export__c'] == true){
+
                 if (partList[i]['Participant__r'] !== undefined && partList[i]['Participant__r']['First_Name__c'] !== undefined) {
                     csvStringResult +=
                         '"' + partList[i]['Participant__r']['First_Name__c'] + '"' + ',';
@@ -1163,7 +1266,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 } else {
                     csvStringResult += '" "' + ',';
                 }
-    
+
                 if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Gender_Technical__c'] !== undefined) {
                     csvStringResult +=
                         '"' +
@@ -1173,14 +1276,14 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 } else {
                     csvStringResult += '" "' + ',';
                 }
-    
+
                 if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Age__c'] !== undefined) {
                     csvStringResult +=
                         '"' + partList[i] ['Participant__r']['Age__c'] + '"' + ',';
                 } else {
                     csvStringResult += '" "' + ',';
                 }
-    
+
                 if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Ethnicity__c'] !== undefined) {
                     var val = partList[i] ['Participant__r']['Ethnicity__c'];
                     var arr = val.split(';');
@@ -1188,27 +1291,27 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 } else {
                     csvStringResult += '" "' + ',';
                 }
-    
+
                 if (partList[i] ['Comorbidities__c'] !== undefined) {
                     csvStringResult += '"' + partList[i] ['Comorbidities__c'] + '"' + ',';
                 } else {
                     csvStringResult += '" "' + ',';
                 }
-    
+
                 if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['BMI__c'] !== undefined) {
                     csvStringResult +=
                         '"' + partList[i] ['Participant__r']['BMI__c'] + '"' + ',';
                 } else {
                     csvStringResult += '" "' + ',';
                 }
-    
+
                 if (partList[i] ['HighRisk_Indicator__c'] !== undefined) {
                     csvStringResult +=
                         '"' + partList[i] ['HighRisk_Indicator__c'] + '"' + ',';
                 } else {
                     csvStringResult += '" "' + ',';
                 }
-    
+
                 if (partList[i]['High_Priority__c'] !== undefined) {
                     if (partList[i]['High_Priority__c'] == true)  {
                         csvStringResult += '"' + 'Yes'+ '"' + ',';
@@ -1222,55 +1325,55 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             }
             //code for PII inclusion is true end
             //code for when PII inclusion is false start
-            if(partList[i]['Study_Site__r']['Include_PII_on_Export__c'] == false){	
-                
+            if(partList[i]['Study_Site__r']['Include_PII_on_Export__c'] == false){
+
                 csvStringResult +=
                     '"' + 'Restricted' + '"' + ',';
-            
+
                 csvStringResult +=
                     '"' + 'Restricted' + '"' + ',';
-            
+
                 csvStringResult +=
                     '"' +'Restricted' + '"' + ',';
-            
+
                csvStringResult +=
                     '"' + 'Restricted' + '"' + ',';
-            
+
                 csvStringResult +=
                     '"' + 'Restricted' + '"' + ',';
-           
-            
+
+
                 csvStringResult +=
                     '"' + 'Restricted' + '"' + ',';
-            
+
                 csvStringResult +=
                     '"' + 'Restricted' + '"' + ',';
-            
+
                 csvStringResult +=
                     '"' + 'Restricted' + '"' + ',';
-           
+
                csvStringResult +=
                     '"' + 'Restricted' + '"' + ',';
-           
+
                 csvStringResult +=
                     '"' + 'Restricted' + '"' + ',';
-            
+
                 csvStringResult +=
                     '"' + 'Restricted' + '"' + ',';
-            
+
                 csvStringResult +=
                     '"' + 'Restricted' + '"' + ',';
-           
+
                 csvStringResult +=
                     '"' + 'Restricted' + '"' + ',';
-            
+
                 csvStringResult +=
                     '"' + 'Restricted' + '"' + ',';
-           
+
             }
             //code for when PII inclusion is false end
-        
-        
+
+
                 if (
                     partList[i]['Clinical_Trial_Profile__r']['Protocol_ID__c'] != undefined
                 ) {
@@ -1305,8 +1408,8 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                     csvStringResult += '" "' + ',';
                 }
                 if (partList[i]['Participant_Status__c'] !== undefined) {
-                    if(partList[i]['Participant_Status__c']=='Eligibility Passed' 
-                       && (partList[i]['Clinical_Trial_Profile__r']['Initial_Visit_Required__c'] == true 
+                    if(partList[i]['Participant_Status__c']=='Eligibility Passed'
+                       && (partList[i]['Clinical_Trial_Profile__r']['Initial_Visit_Required__c'] == true
                            || partList[i]['Clinical_Trial_Profile__r']['Promote_to_SH__c'] == true)){
                         partList[i]['Participant_Status__c'] = 'Sent to Study Hub';
                     }
@@ -1337,7 +1440,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 } else {
                     csvStringResult += '" "' + ',';
                 }
-    
+
                 if (
                     partList[i]['Last_Status_Changed_Notes__c'] != undefined
                 ) {
@@ -1412,18 +1515,18 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     }
 
     opendropdown(event){
-        
+
         this.template.querySelectorAll(".D").forEach(function (L) {
             L.classList.toggle("slds-is-open");
         });
-        
+
     }
     handleonblur(event){
         this.template.querySelectorAll(".D").forEach(function (L) {
             L.classList.remove("slds-is-open");
         });
     }
-   
+
     handleCheckChange(event){
         if(event.target.checked==true) {
             this.activeCheckboxesCount++;
@@ -1440,16 +1543,16 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             this.selectedCheckboxes.splice(index,1);
             this.selectall=false;
         }
-  
+
 
         const selectedEvent = new CustomEvent("countvaluecheckbox", {
             detail: this.selectedCheckboxes.length
           });
-          this.dispatchEvent(selectedEvent); 
+          this.dispatchEvent(selectedEvent);
     }
 
-    handleSelectAll(event){ 
-        
+    handleSelectAll(event){
+
         let i;
         let checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
         this.selectall = event.target.checked;
@@ -1473,12 +1576,12 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                                 if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<40){
                                     this.selectedCheckboxes.push(this.participantList[i].id);
                                 }
-                                else{ 
+                                else{
                                     event.target.checked=false;
                                     checkboxes[i].checked=false;
                                 }
                             }
-                            
+
                         }
                         else{
                                 if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<=40){
@@ -1502,12 +1605,12 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                                 if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<40){
                                     this.selectedCheckboxes.push(this.participantList[i].id);
                                 }
-                                else{ 
+                                else{
                                     event.target.checked=false;
                                     checkboxes[i].checked=false;
                                 }
                             }
-                            
+
                         }
                         else{
                                 if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<=40){
@@ -1521,7 +1624,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             const selectedEvent = new CustomEvent("countvaluecheckbox", {
             detail: this.selectedCheckboxes.length
             });
-            this.dispatchEvent(selectedEvent); 
+            this.dispatchEvent(selectedEvent);
         }else{
             this.selectall = false;
             event.target.checked=false;
@@ -1573,7 +1676,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             detail: ttlcount
         });
         this.dispatchEvent(selectEvent);
-        this.isResetPagination = false;        
+        this.isResetPagination = false;
     }
     //sort
     sortValue =  ' ORDER BY PerCounter__c DESC ';
@@ -1582,12 +1685,12 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     get sortOptions() {
        var opts =  [
             { label: this.label.PG_MRZ_L_Last_Added, value: ' ORDER BY PerCounter__c DESC ' },
-            { label: this.label.PG_MRZ_L_Last_Modified, value: ' ORDER BY LastModifiedDate DESC,PerCounter__c DESC ' },   
+            { label: this.label.PG_MRZ_L_Last_Modified, value: ' ORDER BY LastModifiedDate DESC,PerCounter__c DESC ' },
         ];
         if(this.sortInitialVisit){
             opts.push({ label: this.label.pir_Initial_Visit_Scheduled_Date_upcoming, value: ' AND (Initial_visit_scheduled_date__c >= today or Initial_visit_scheduled_date__c =null) order by Initial_visit_scheduled_date__c  NULLS LAST,PerCounter__c ' });
             opts.push({ label: this.label.pir_Initial_Visit_Scheduled_Date_past, value: ' AND (Initial_visit_scheduled_date__c < today or Initial_visit_scheduled_date__c =null) order by Initial_visit_scheduled_date__c DESC NULLS LAST,PerCounter__c DESC ' });
-        }      
+        }
         return opts;
     }
     handleSortChange(event) {
@@ -1599,7 +1702,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         }else{
             this.sortOn = '';
             this.sortType = 1;
-            if(orderby=='desc'){                
+            if(orderby=='desc'){
                 this.sortType = -1;
             }
         }
@@ -1638,7 +1741,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 this.isEditPresetFromListDisable = false;
                 if(data[i].isDefault){
                     if((Object.keys(this.filterWrapper).length === 0)){
-                        this.filterWrapper= data[i];                    
+                        this.filterWrapper= data[i];
                         this.presetSel=data[i].presetId;
                         this.faultyPreset = data[i].isFault;
                     }
@@ -1678,7 +1781,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             this.showEditPreset = true;
         }
     }
-    closepresetmodel(event){        
+    closepresetmodel(event){
         this.disableClose = false;
         if(event.detail.upd){
             if(event.detail.delList.includes(this.presetSel)){
@@ -1687,7 +1790,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 this.template.querySelector("c-pir_filter").applyFilter();
                 this.toggleFilter();
                 this.refreshAllPreset();
-                
+
             }
             else if(event.detail.upList.includes(this.presetSel)){
                 var presets = [];
@@ -1715,10 +1818,10 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                                 detail: ''
                             });
                             this.dispatchEvent(selectEvent);
-                            this.template.querySelector("c-pir_filter").presetWrapperSet(this.sysPresets[i]); 
+                            this.template.querySelector("c-pir_filter").presetWrapperSet(this.sysPresets[i]);
                             setselectedFilterasDefault ({selectedPresetId :this.presetSel })
                             .then((result) => {
-                
+
                             })
                             .catch((error) => {
                                 console.error("Error:", error);
@@ -1759,9 +1862,9 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                         detail: ''
                     });
                     this.dispatchEvent(selectEvent);
-                    this.template.querySelector("c-pir_filter").presetWrapperSet(this.sysPresets[i]);                     
+                    this.template.querySelector("c-pir_filter").presetWrapperSet(this.sysPresets[i]);
                     break;
-                }                
+                }
             }
         }
         setselectedFilterasDefault ({selectedPresetId :event.detail.value })
@@ -1777,7 +1880,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         this.faultyPreset = false;
         this.disableClose = true;
         this.showEditPreset = true;
-        
+
     }
     setDefaultFilter(event){
         this.filterWrapper= event.detail;
@@ -1808,5 +1911,177 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     }
     get bulkEligibilityPassed(){
         return this.newstatus == 'Eligibility Passed';
+    }
+
+    subscribeToMessageChannel() {
+        if (!this.subscription) {
+            this.subscription = subscribe(
+                this.messageContext,
+                messagingChannel,
+                (message) => this.handleMessage(message),
+                { scope: APPLICATION_SCOPE }
+            );
+        }
+    }
+
+    unsubscribeToMessageChannel() {
+        unsubscribe(this.subscription);
+        this.subscription = null;
+    }
+
+    handleMessage(message) {
+        this.isEnabled= false;
+        this.template.querySelector(".filterTextButton").classList.remove("disableclass");
+        this.template.querySelector(".actionsList").classList.remove("disableclass");
+        let stateObj = JSON.parse( sessionStorage.getItem("stateObj") );
+
+        if(message && (message.sourceSystem === 'BELL_Message_on_Pending_Action' || message.sourceSystem === 'BELL_Message_on_Action_High_Priority') ){
+            getParticipantEnrollmentForBell(
+                {   contactId : message.messageToSend,
+                    nType : message.sourceSystem
+
+            })
+            .then(result => {
+                this.listOfIds = result;
+                this.isEnabled = true;
+                this.toggleUIFeatures(true);
+                this.totalRecordCount =-1;
+                this.isResetPagination = true;
+                this.fetchList();
+                const selectEvent = new CustomEvent('resetparent', {
+                    detail: ''
+                });
+                this.dispatchEvent(selectEvent);
+            })
+            .catch(error => {
+                console.log('Error:',error);
+            });
+
+
+        }
+        else if(stateObj && stateObj.activeTab){
+            const fNameAndLName = stateObj.Pname || null;
+            let result = null;
+            if(fNameAndLName){
+                result = decodeURI(fNameAndLName);
+                result = decodeURI(result);
+            }
+
+            this.urlPerName = result || null;
+            this.urlrefid = stateObj.perName;
+            this.totalRecordCount = -1;
+
+            this.isResetPagination = true;
+            this.fetchList();
+            const selectEvent = new CustomEvent('resetparent', {
+                detail: ''
+            });
+            this.dispatchEvent(selectEvent);
+            const data = {"activeTab": stateObj.activeTab, "searchText" : this.urlPerName};
+            const resetEvent = new CustomEvent('resetactivetab', {
+                detail: data
+            });
+            this.dispatchEvent(resetEvent);
+
+        }
+        else{
+            this.srchTxt = undefined;
+            this.urlPerName = undefined;
+            this.enteredSearchString = '';
+            this.template.querySelector('[data-id="filterdiv"]')?.classList.remove('disablefilter');
+            this.disabledFilter = false;
+            this.disablePreset = false ;
+            this.disablePresetPicklist = false;
+            this.hideActiononSearch=false;
+
+        }
+
+        if(stateObj && stateObj.id && stateObj.siteId){
+            this.template.querySelector("c-pir_filter").filterFetched = false;
+            this.urlStudyId = stateObj.id;
+            this.urlSiteId = stateObj.siteId;
+
+            setselectedFilterasDefault ({selectedPresetId :"no preset"})
+            .then((result) => {
+
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+
+            this.filterWrapper = {
+                activeInactive: "Active",
+                studyList: [],
+                siteList: [],
+                status: [],
+                source: [],
+                ageTo: "0",
+                ageFrom: "150",
+                ethnicityList: [],
+                sex: "",
+                highRisk: false,
+                highPriority: false,
+                comorbidities: false,
+                initialVisit: "All",
+                initialVisitStartDate: "",
+                initialVisitEndDate: "",
+                presetId: "",
+                presetName:""
+              };
+              if(stateObj.status){
+                this.urlStatus = decodeURI(decodeURI(stateObj.status) );
+                this.filterWrapper.status = [];
+                this.filterWrapper.status.push(this.urlStatus);
+            }
+              if(this.urlSiteId && this.urlSiteId.includes('+') ){
+                let siteArr = this.urlSiteId.split('+');
+                siteArr.forEach(element => {
+                    this.filterWrapper.siteList.push(element);
+                });
+              }
+            else{
+                this.filterWrapper.siteList.push(this.urlSiteId);
+            }
+            this.filterWrapper.studyList.push(this.urlStudyId);
+            this.totalRecordCount =-1;
+            this.isResetPagination = true;
+            this.fetchList();
+            const selectEvent = new CustomEvent('resetparent', {
+                detail: ''
+            });
+            this.dispatchEvent(selectEvent);
+        }
+    }
+
+    @api
+    renderSearch() {
+        var srval = this.searchValue;
+        this.srchTxt = srval+' ';
+    }
+
+    handleToggleChange(event){
+        this.toggleUIFeatures(false);
+        this.isEnabled = false;
+        this.listOfIds = [];
+        this.totalRecordCount =-1;
+        this.isResetPagination = true;
+        this.fetchList();
+        const selectEvent = new CustomEvent('resetparent', {
+            detail: ''
+        });
+        this.dispatchEvent(selectEvent);
+    }
+
+    toggleUIFeatures(isEnabled){
+        this.disabledFilter = this.disablePreset = this.disablePresetPicklist = this.dropDownChange = isEnabled;
+        if(isEnabled){
+            this.template.querySelector(".filterTextButton").classList.add("disableclass");
+            this.template.querySelector(".actionsList").classList.add("disableclass");
+
+        }
+        else{
+            this.template.querySelector(".filterTextButton").classList.remove("disableclass");
+            this.template.querySelector(".actionsList").classList.remove("disableclass");
+        }
     }
 }

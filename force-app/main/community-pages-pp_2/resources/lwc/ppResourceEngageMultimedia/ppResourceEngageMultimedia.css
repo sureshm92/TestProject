@@ -1,196 +1,35 @@
-.icon-container {
-    margin-top: 24px;
-    cursor: pointer;
-}
-
-.title-section {
+.cover {
+    object-fit: cover;
+    overflow: hidden;
+    height: 100px;
     width: 100%;
-    height: 54px;
 }
-
-.date-section {
-    width: 100%;
-    height: 27px;
-}
-
-.title-section-mobile {
-    width: 100%;
-    height: 58px;
-}
-
-.date-section-mobile {
-    width: 100%;
-    height: 29px;
-}
-
-.explore-image {
-    width: 100%;
-    height: 86.5px;
-    cursor: pointer;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
-
-.explore-image-desktop-horizontal {
-    width: 100%;
-    height: 100%;
+.enage-image {
     cursor: pointer;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
 }
 
-.explore-section-horizontal {
-    width: 100%;
-    min-height: 120px;
-    max-height: 120px;
+.enage-section-horizontal {
+    height: 101px;
     background-color: #f2f2f2;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
-    border: 1px solid #E9E9E9;
+    border: 1px solid #e9e9e9;
 }
 
-.bottom-manage {
+.engage-bottom-manage {
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
     border: 1px solid #e9e9e9;
 }
 
-.document-label {
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    font-weight: 600;
-    margin-top: 5px;
-    margin-left: 10px;
-    line-height: 24px;
-    letter-spacing: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-right: 30px;
-    cursor: pointer;
-}
-
-.document-label-desktop {
-    color: #444444;
-    height: 52px;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    font-weight: 500;
-    margin-left: 10px;
-    line-height: 24px;
-    letter-spacing: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-.card-border {
-    box-sizing: border-box;
-    height: 88px;
-    border: 1px solid #e9e9e9;
-    border-radius: 8px;
-    margin-top: 8px;
-}
-
-.card-data-element {
-    background-color: #fff;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-    height: 100%;
-}
-
-.card-border-desktop {
-    box-sizing: border-box;
-    height: 88px;
-    border: 1px solid #e9e9e9;
-    border-radius: 8px;
-    margin-top: 8px;
-    margin-left: 16px;
-    margin-right: 16px;
-}
-
-.card-element-links {
-    box-sizing: border-box;
-    background-color: #fff;
-    height: 88px;
-    border-radius: 8px 0 0 8px;
-}
-
-.card-element {
-    box-sizing: border-box;
-    border-right: 1px solid #e8e8e8;
-    background-color: #f2f2f2;
-    height: 88px;
-    border-radius: 8px 0 0 8px;
-}
-
-.date {
-    color: #6e6e6e;
-    font-family: 'Proxima Nova';
-    font-size: 13px;
-    letter-spacing: 0;
-    line-height: 24px;
-    margin-left: 10px;
-}
-
-.open-tab {
-    width: 14px;
-    height: 14px;
-}
-
-.horizontal-card {
-    height: 216px;
-    border: 1px solid #f2f2f2;
-    border-radius: 7px 7px 7px 7px;
-}
-
-.empty-image-horizontal {
-    cursor: pointer;
-}
-
-.article-title {
-    height: 52px;
-    width: 90%;
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 24px;
-    margin-top: 10px;
-    margin-left: 10px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: pointer;
-}
-
-.date-desktop {
-    height: 30px;
-    width: 90%;
-    color: #999999;
-    font-family: 'Proxima Nova';
-    font-size: 13px;
-    letter-spacing: 0;
-    line-height: 24px;
-    margin-top: 9px;
-    margin-left: 10px;
-}
 .resource-title {
     margin-left: 10px;
     padding-top: 10px;
     cursor: pointer;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0;
@@ -199,13 +38,21 @@
     overflow: hidden;
 }
 .resource-description {
-  margin-left: 10px;
-  padding-bottom: 5px;
-  color: #999999;
-  font-family: "Proxima Nova";
-  font-size: 13px;
-  letter-spacing: 0;
-  line-height: 20px;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
+    margin-left: 10px;
+    padding-bottom: 5px;
+    color: #999999;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 20px;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+@media screen and (max-width: 768px) {
+    .cover {
+        height: 120px;
+    }
+    .enage-section-horizontal {
+        height: 122px;
+    }
 }

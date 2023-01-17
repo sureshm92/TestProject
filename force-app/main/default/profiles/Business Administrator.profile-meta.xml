@@ -721,7 +721,7 @@
         <apexClass>DuplicateContactController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
+    <classAccesses>
         <apexClass>EConsentIntegrationController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2157,6 +2157,11 @@
     <custom>true</custom>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Bell_Notification_Reminder__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant__c.Birth_Day__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2605,16 +2610,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-		<editable>true</editable>
-		<field>Clinical_Trial_Profile__c.Program_Overview__c</field>
-		<readable>true</readable>
-	</fieldPermissions>
-        <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Program_Overview__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Privacy_Policy_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.E_Consent_Configuration__c</field>
         <readable>true</readable>
@@ -2648,8 +2653,8 @@
         <editable>true</editable>
         <field>Study_Site__c.Medical_Record_Upload__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
-     <fieldPermissions>
+    </fieldPermissions>
+    <fieldPermissions>
         <field>Clinical_Trial_Profile__c.Is_Program__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2673,7 +2678,7 @@
         <field>Study_Site__c.Scheduling_vendors__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.E_Consent_Vendor__c</field>
         <readable>true</readable>
@@ -2953,6 +2958,11 @@
         <field>Participant_Enrollment__c.Participant_Phone_Opt_In_Permit_Phone__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.UUID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
 
     <fieldPermissions>
         <editable>false</editable>
@@ -3003,7 +3013,7 @@
         <editable>false</editable>
         <field>Participant_PrescreenerResponse__c.Status__c</field>
         <readable>true</readable>
-    </fieldPermissions> 
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>PreScreener_Survey__c.MRR__c</field>
@@ -3023,7 +3033,7 @@
         <editable>true</editable>
         <field>PreScreener_Survey__c.ProviderName__c</field>
         <readable>true</readable>
-    </fieldPermissions> 
+    </fieldPermissions>
 
 
     <fieldPermissions>
@@ -3450,7 +3460,7 @@
         <editable>true</editable>
         <field>Integration_Biomarker__c.Completed__c</field>
         <readable>true</readable>
-    </fieldPermissions> 
+    </fieldPermissions>
     <layoutAssignments>
         <layout>PreScreener_Survey__c-PreScreener Survey Layout</layout>
     </layoutAssignments>
@@ -3572,7 +3582,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Integration_Callout_Log__c </object>
+        <object>Integration_Callout_Log__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -3652,7 +3662,7 @@
         <recordType>Comorbidities__c.Comorbidity</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-   
+
     <pageAccesses>
         <apexPage>ShowPrivacyPolicyAsPDF</apexPage>
         <enabled>true</enabled>
@@ -3705,5 +3715,5 @@
         <tab>Televisit_Attendee__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
-    
+
 </Profile>

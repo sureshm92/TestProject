@@ -2,6 +2,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
   @TestVisible
   private static Boolean isTestRunning = false;
   private static final String PARTICIPANT_USER_MODE = 'Participant';
+  private static final String READY_TO_SCREEN_PARTICIPANT_STATUS = 'Ready to Screen';
+  private static final String SCREENING_IN_PROGRESS_PARTICIPANT_STATUS = 'Screening In Progress';
 
   private List<List<String>> csvLines = new List<List<String>>();
   private Map<String, Integer> headerIndexes = new Map<String, Integer>();
@@ -2163,6 +2165,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         fileName,
         bulkHistory
       );
+      sendBellNotifications(bulkHistory,studySiteDetails, selectedStatus);
     } catch (Exception exp) {
       system.debug(
         'ERROR during sending file with failed records: ' + exp.getMessage()
@@ -2424,5 +2427,27 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
       uniqueString = uniqueString + s.trim();
     }
     return uniqueString.toLowerCase();
+  }
+  /*
+   * @description: this method will be used to send bell notification on completion of Bulk Import of participants
+   * @created Date: 26 Oct 2022
+   * 
+   * @param: bulkImpHistory - instance of Bulk Import History record; used to get the context user details
+   * @param: studySiteDetails -  instance of Study Site record; used to get study site details
+   */
+  public static void sendBellNotifications(Bulk_Import_History__c bulkImpHistory, Study_Site__c studySiteDetails, String selectedStatus){
+    
+    List<Notification_Target__mdt> notificationMdt = BellNotificationsHelper.getTarget('BELL_Message_on_Bulk_Import_Success');
+    List<String> userGroupList = new List<String>();
+    for(Notification_target__mdt mdt : notificationMdt){
+        usergroupList.add(mdt.Target_User_Group__c);
+    }
+    Map<String,List<Contact> > resultMap = BellNotificationsHelper.getRecipientVsContact(userGroupList, studySiteDetails.Id, bulkImpHistory.Uploaded_By__c);
+    
+    List<Notification__c> notificationList = BellNotificationsHelper.createNotification('BELL_Message_on_Bulk_Import_Success', resultMap, true);
+    
+    Id jobId = System.enqueueJob(new BellNotificationQueueable(notificationList, studySiteDetails, selectedStatus, BellNotificationsHelper.userRole));
+
+    
   }
 }

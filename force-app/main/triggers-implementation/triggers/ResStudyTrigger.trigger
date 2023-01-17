@@ -6,6 +6,7 @@ trigger ResStudyTrigger on Res_study__c(
     before update,
     before delete,
     after insert,
+    after update,
     after delete
 ) {
     TriggerHandlerExecutor.execute(ResStudyTriggerHandler.PlatformEventProcessor.class);
