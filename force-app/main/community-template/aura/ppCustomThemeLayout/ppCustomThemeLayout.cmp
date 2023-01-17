@@ -19,19 +19,17 @@
     <aura:attribute name="logoURL" type="String" />
     <aura:attribute name="isRTL" type="Boolean" />
     <aura:attribute name="urlPathPrefix" type="String" />
-    <aura:attribute name="isPPonPhone" type="Boolean" default="false" />
     <aura:attribute name="communityServ" type="Object" />
     <aura:attribute name="handleTelevistBanner" type="Boolean" default="false" />
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
     <aura:handler
-        name="closeNavigationMenu"
         event="c:ppCloseNavMenu"
-        action="{!c.handlecloseNavigationMenu}"
+        action="{!c.handleClickCloseNavMenu}"
     />
 
-    <aura:handler event="c:PPMobileMenu" action="{!c.closePPMobileMenu}" />
+    <aura:handler event="c:PPMobileMenu" action="{!c.handleClickCloseNavMenu}" />
 
     <!-- methods: -->
     <aura:method name="init" action="{!c.doInit}" access="public" />
@@ -97,11 +95,12 @@
 
             <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
             <div class="rr-body-content rr-min-body-height">
-                <aura:if isTrue="{!v.isPPonPhone}">
+                <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
                     <c:ppCommunityNavigation
                         communityServic="{!v.communityServ}"
                         showSideMenu="{!v.showSideMenu}"
                         aura:id="ppMenu"
+                        is-initial-load="{!v.isInitialized}"
                         onhandleLoadTelevisitBanner="{!c.handleLoadTelevisitBanner}"
                     />
                 </aura:if>
