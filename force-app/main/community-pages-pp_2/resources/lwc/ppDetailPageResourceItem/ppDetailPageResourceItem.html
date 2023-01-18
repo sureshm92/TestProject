@@ -1,6 +1,6 @@
 <template>
     <!-- Loading Spinner-->
-    <c-web-spinner class="main-spinner"></c-web-spinner>
+    <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
     <!-- ****************  ARTICLE  ********************  -->
     <template if:true={showArticle}>
         <template if:true={isThumbnailPresent}>
@@ -32,7 +32,15 @@
     <!-- ****************  VIDEO  ********************  -->
     <template if:true={showVideo}>
         <div class="ah-video-iframe">
-            <iframe class="my_iframe" frameborder="0" src={resourceLink}> </iframe>
+            <iframe
+                class="my_iframe"
+                frameborder="0"
+                src={resourceLink}
+                webkitallowfullscreen
+                mozallowfullscreen
+                allowfullscreen
+            >
+            </iframe>
         </div>
     </template>
 </template>

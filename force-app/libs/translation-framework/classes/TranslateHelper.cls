@@ -311,6 +311,12 @@ public class TranslateHelper {
                 else
                     paramValue = System.Label.Clinical_Study_PP;
             }
+            if (param == 'visitorevent') {
+                if (paramValue == 'true')
+                    paramValue = System.Label.Event_PP;
+                else
+                    paramValue = System.Label.Visit_PP;
+            }
 
             result = result.replaceAll(paramId, paramValue);
         }
