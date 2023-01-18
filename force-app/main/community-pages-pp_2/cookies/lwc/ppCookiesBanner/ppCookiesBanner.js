@@ -57,8 +57,10 @@ export default class PpCookiesBanner extends LightningElement {
     initData;
     contact;
     dynamicCSSAppend = pp_icons + '/right.svg';
+    cookiesBannerDesc3;
 
     connectedCallback() {
+        this.cookiesBannerDesc3 = ' ' + this.label.ppCookiesBannerDesc3;
         let rrCookies = communityService.getCookie('RRCookies');
         if (!rrCookies || this.loginPage) {
             this.showBanner = true;
