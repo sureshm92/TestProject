@@ -963,7 +963,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 
 .study-program-anchor .slds-tabs_default__item.slds-is-active:after{
-    background-color: #0768FD;
+    background-color: #015FF1;
 }
 
 .study-program-anchor .slds-tabs_default__item.slds-is-active .slds-tabs_default__link{
