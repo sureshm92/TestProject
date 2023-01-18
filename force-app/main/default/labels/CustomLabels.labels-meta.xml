@@ -19483,7 +19483,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Cookies Button Manage Prefer</shortDescription>
-        <value>Manage preferences</value>
+        <value>Manage cookie preferences</value>
     </labels>
     <labels>
         <fullName>PP_Country</fullName>
