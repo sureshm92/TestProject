@@ -142,7 +142,8 @@
 .profileIcon .rr-icon_default {
     fill: #ffffff;
     margin-right: 5px;
-    width: 30px!important;
+    width: 32px !important;
+    height: 32px !important;
 }
 
 .PHONE .profileIcon .rr-icon_default {

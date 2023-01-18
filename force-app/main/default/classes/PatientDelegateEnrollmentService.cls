@@ -142,6 +142,16 @@ public without sharing class PatientDelegateEnrollmentService {
         //return listPDEWrapper;
         return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
     }
+    public static Boolean isActiveDelegate(Id delContactId){
+        List<Patient_Delegate_Enrollment__c> pdeList = getPDEnrollmentforDelContact(delContactId);
+        for (Patient_Delegate_Enrollment__c pde : pdeList) {
+            if(pde.Status__c == 'Active'){
+                return true;
+            }
+        }
+        return false;
+
+    }
     @AuraEnabled
     public static List<parAndStdAssociatedListWrapper> getParAndStdAssociatedList() {
         //List<Patient_Delegate_Enrollment__c> = new List<Patient_Delegate_Enrollment__c>();

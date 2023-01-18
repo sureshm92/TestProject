@@ -282,7 +282,11 @@ private class Test_ParticipantInformationRemote {
                     JSON.serialize(objCon),
                     true,
                     false,
-                    pe.id
+                    testData.pe.id,
+                    true,
+                    true,
+                    true,
+                    true
                 );
                 ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
             }catch(exception e) {system.debug('teste');}}
@@ -360,7 +364,11 @@ private class Test_ParticipantInformationRemote {
                     JSON.serialize(objCon),
                     true,
                     false,
-                    pe.id
+                    testData.pe.id,
+                    true,
+                    true,
+                    true,
+                    true
                 );  
               
                 ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
@@ -439,7 +447,11 @@ private class Test_ParticipantInformationRemote {
                     JSON.serialize(objCon),
                     true,
                     false,
-                    pe.id
+                    testData.pe.id,
+                    true,
+                    true,
+                    true,
+                    true
                 );  
               
                 ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
