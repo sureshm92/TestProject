@@ -10,14 +10,14 @@
 
 .phone-menu-background {
     padding: 1.25rem 0 1.25rem 2rem;
-    display: flex;
-    align-items: center;
 }
 
-.phone-menu-background:nth-child(3) {
+/* .phone-menu-background:nth-child(3) {
     padding: 0;
-}
-
+} */
+/* .phone-menu-background:nth-child(3) {
+    padding: 0rem 0 0rem 0rem;
+} */
 .my-menu {
     display: flex;
     align-items: flex-start;
@@ -47,7 +47,7 @@
     padding-left: 2rem;
 }
 
-.phone-menu-background:nth-child(3) .my-menu div:nth-child(n + 2) a {
+.my-menu div:nth-child(n + 2) a {
     display: flex;
     align-items: center;
     padding: 0.5rem 0 0.5rem 3.5rem;
@@ -57,7 +57,7 @@
     background: rgba(255, 255, 255, 0.16);
 }
 
-.phone-menu-background:nth-child(3) .my-menu div:nth-child(n + 2) a:before {
+.my-menu div:nth-child(n + 2) a:before {
     content: '_';
     color: #fff;
     position: absolute;
@@ -75,6 +75,7 @@ div:last-child {
 }
 div .slds-text-color_inverse {
     color: white;
+    margin-left: 0.5rem;
 }
 a,
 a:hover,

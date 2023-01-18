@@ -4,9 +4,11 @@ import moment from '@salesforce/resourceUrl/moment_js';
 import momentTZ from '@salesforce/resourceUrl/momenttz';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
+import DEVICE from '@salesforce/client/formFactor';
 //static resources
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import COMETD_LIB from '@salesforce/resourceUrl/cometd';
+import USER_ID from '@salesforce/user/Id';
 import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import getSessionId from '@salesforce/apex/TelevisitMeetBannerController.getSessionId';
 import checkEmailSMSPreferencesForPPTask from '@salesforce/apex/TaskEditRemote.checkEmailSMSPreferencesForPPTask';
@@ -52,6 +54,7 @@ export default class PpCreateTaskReminder extends LightningElement {
     smsReminderOptIn = false;
     emailReminderOptIn = false;
     oldReminderDateForSystemTask;
+    communicationTab = '_blank';
 
     taskCodeList = ['Complete_Your_Profile', 'Update_Your_Phone_Number', 'Select_COI'];
     businessTask = false;
@@ -76,33 +79,37 @@ export default class PpCreateTaskReminder extends LightningElement {
         {
             label: this.labels.PP_NO_REMINDER,
             value: 'No reminder',
-            itemClass: 'dropdown-li li-item-disabled'
+            itemClass: 'dropdown-li'
         },
         {
             label: this.labels.ONE_HOUR,
             value: '1 hour before',
-            itemClass: 'dropdown-li li-item-disabled'
+            itemClass: 'dropdown-li'
         },
         {
             label: this.labels.FOUR_HOUR,
             value: '4 hours before',
-            itemClass: 'dropdown-li li-item-disabled'
+            itemClass: 'dropdown-li'
         },
         {
             label: this.labels.ONE_DAY,
             value: '1 day before',
-            itemClass: 'dropdown-li li-item-disabled'
+            itemClass: 'dropdown-li'
         },
         {
             label: this.labels.ONE_WEEK,
             value: '1 week before',
-            itemClass: 'dropdown-li li-item-disabled'
+            itemClass: 'dropdown-li'
         },
         { label: this.labels.CUSTOM, value: 'Custom', itemClass: 'dropdown-li' }
     ];
     @api editMode = false;
 
     connectedCallback() {
+        if (DEVICE != 'Large') {
+            this.isMobile = true;
+            this.communicationTab = '_self';
+        }
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 Promise.all([
@@ -145,7 +152,9 @@ export default class PpCreateTaskReminder extends LightningElement {
                                 } else {
                                     this.selectedReminderOption = this.initData.task.Remind_Me__c;
                                 }
-
+                                this.editMode
+                                    ? (this.isTaskDueDateTimeSelected = true)
+                                    : 'Not Today!!';
                                 this.selectedReminderDate = this.initData.reminderDate;
                                 this.selectedReminderDateTime = this.initData.reminderDate;
                             }
@@ -165,37 +174,47 @@ export default class PpCreateTaskReminder extends LightningElement {
     get reminderOptions() {
         try {
             let differenceTimeHours = this.calculateTimezoneDifference();
+            let updatedReminderOptions = [];
             if (!this.systemTask && !this.businessTask) {
-                if (this.isReminderOptionSelected) {
-                    this.initialReminderOptions[0].itemClass = 'dropdown-li';
-                } else {
-                    this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
+                if (this.selectedReminderOption) {
+                    updatedReminderOptions = [
+                        ...updatedReminderOptions,
+                        this.initialReminderOptions[0]
+                    ];
                 }
                 if (differenceTimeHours > 1) {
-                    this.initialReminderOptions[1].itemClass = 'dropdown-li';
-                } else {
-                    this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
+                    updatedReminderOptions = [
+                        ...updatedReminderOptions,
+                        this.initialReminderOptions[1]
+                    ];
                 }
                 if (differenceTimeHours > 4) {
-                    this.initialReminderOptions[2].itemClass = 'dropdown-li';
-                } else {
-                    this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
+                    updatedReminderOptions = [
+                        ...updatedReminderOptions,
+                        this.initialReminderOptions[2]
+                    ];
                 }
                 if (differenceTimeHours > 24) {
-                    this.initialReminderOptions[3].itemClass = 'dropdown-li';
-                } else {
-                    this.initialReminderOptions[3].itemClass = 'dropdown-li li-item-disabled';
+                    updatedReminderOptions = [
+                        ...updatedReminderOptions,
+                        this.initialReminderOptions[3]
+                    ];
                 }
                 if (differenceTimeHours > 168) {
-                    this.initialReminderOptions[4].itemClass = 'dropdown-li';
-                } else {
-                    this.initialReminderOptions[4].itemClass = 'dropdown-li li-item-disabled';
+                    updatedReminderOptions = [
+                        ...updatedReminderOptions,
+                        this.initialReminderOptions[4]
+                    ];
                 }
+                updatedReminderOptions = [
+                    ...updatedReminderOptions,
+                    this.initialReminderOptions[5]
+                ];
             }
             if (this.systemTask || this.businessTask) {
                 if (this.initialReminderOptions.length > 1) {
                     if (this.oldReminderDateForSystemTask) {
-                        this.initialReminderOptions = [
+                        updatedReminderOptions = [
                             {
                                 label: this.labels.PP_NO_REMINDER,
                                 value: 'No reminder',
@@ -203,14 +222,14 @@ export default class PpCreateTaskReminder extends LightningElement {
                             }
                         ];
                     } else {
-                        this.initialReminderOptions = [
+                        updatedReminderOptions = [
                             { label: this.labels.CUSTOM, value: 'Custom', itemClass: 'dropdown-li' }
                         ];
                     }
                 }
                 this.handleReminderDataChange();
             }
-            return this.initialReminderOptions;
+            return updatedReminderOptions;
         } catch (e) {
             console.error(e);
         }
@@ -269,7 +288,7 @@ export default class PpCreateTaskReminder extends LightningElement {
     }
 
     get isReminderDisabled() {
-        if (this.taskInfo.Id) {
+        if (this.taskInfo.Id && this.isTaskDueDateTimeSelected) {
             return false;
         }
         return this.isTaskDueDateTimeSelected ? false : true;
@@ -308,7 +327,10 @@ export default class PpCreateTaskReminder extends LightningElement {
                 this.cometd.handshake((status) => {
                     if (status.successful) {
                         this.subscription = this.cometd.subscribe(this.channel, (message) => {
-                            this.handleCommPrefChange();
+                            let refreshRequired = message.data.payload.Payload__c.includes(USER_ID);
+                            if (refreshRequired) {
+                                this.handleCommPrefChange();
+                            }
                         });
                     } else {
                         this.showToast(status, status, 'error');
