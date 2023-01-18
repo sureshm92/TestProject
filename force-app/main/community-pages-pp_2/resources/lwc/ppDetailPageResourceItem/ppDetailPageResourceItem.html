@@ -32,7 +32,15 @@
     <!-- ****************  VIDEO  ********************  -->
     <template if:true={showVideo}>
         <div class="ah-video-iframe">
-            <iframe class="my_iframe" frameborder="0" src={resourceLink}> </iframe>
+            <iframe
+                class="my_iframe"
+                frameborder="0"
+                src={resourceLink}
+                webkitallowfullscreen
+                mozallowfullscreen
+                allowfullscreen
+            >
+            </iframe>
         </div>
     </template>
 </template>
