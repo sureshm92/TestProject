@@ -68,6 +68,7 @@
                 var isDelegateSelfView = initData.consentPreferenceData.isDelegateSelfView;
                 var isDelegateAlsoAParticipant =
                     initData.consentPreferenceData.isDelegateAlsoAParticipant;
+                var isActiveDelegate = initData.consentPreferenceData.isActiveDelegate;
                 //When delegate switch to participant View, Don't show Manage Delegate as well as Manage Assignment tabs.
                 if (isDelegate) {
                     component.set('v.showManageDelegateTab', false);
@@ -80,9 +81,14 @@
                     } else if (isParticipantLoggedIn && isDelegateAlsoAParticipant) {
                         //When Participant(also a delegate) Logs in, Show both Manage Delegate and Manage Assignment Tabs.
                         component.set('v.showManageDelegateTab', true);
-                        component.set('v.showMamanageAssignmentTab', true);
-                    } else if (isDelegateSelfView) {
-                        //When delegate login to Self View, show only Manage Assignment tab.
+                        //When delegate is active delegate.
+                        if (isActiveDelegate) {
+                            component.set('v.showMamanageAssignmentTab', true);
+                        } else {
+                            component.set('v.showMamanageAssignmentTab', false);
+                        }
+                    } else if (isDelegateSelfView && isActiveDelegate) {
+                        //When pure delegate login to Self View, show only Manage Assignment tab.
                         component.set('v.showManageDelegateTab', false);
                         component.set('v.showMamanageAssignmentTab', true);
                     }

@@ -125,7 +125,7 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
 
     //mask Email for participants
     maskEmail(par) {
-        if (par.Participant.Email__c !== undefined && par.Participant.Email__c == null) {
+        if (par.Participant.Email__c !== undefined && par.Participant.Email__c != null) {
             let pdeEmailLength = par.Participant.Email__c.length;
             let maskedEmail = '';
             for (let i = 0; i < pdeEmailLength; i++) {
@@ -239,15 +239,28 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
         })
             .then((result) => {
                 this.showpopup = false;
-                this.setInitializedData(result);
+                //When delegate withdrawn from all the studies.
+                if (result.length == 0) {
+                    communityService.showToast(
+                        '',
+                        'success',
+                        this.label.PP_Assignments_Updated_Successfully,
+                        300
+                    );
+                    ///window.history.replaceState(null, null, 'account-settings');
+                    communityService.navigateToPage('account-settings');
+                } else {
+                    this.setInitializedData(result);
+
+                    //this.resetProfileMenueItems();
+                    communityService.showToast(
+                        '',
+                        'success',
+                        this.label.PP_Assignments_Updated_Successfully,
+                        300
+                    );
+                }
                 this.spinner = false;
-                this.resetProfileMenueItems();
-                communityService.showToast(
-                    '',
-                    'success',
-                    this.label.PP_Assignments_Updated_Successfully,
-                    300
-                );
             })
             .catch((error) => {
                 //console.log('error');
