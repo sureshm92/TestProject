@@ -31,6 +31,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     };
     isMultimedia = false;
     isArticleVideo = false;
+    spinner;
 
     connectedCallback() {
         //get resource parameters from url
@@ -46,6 +47,11 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
         this.initializeData();
     }
+
+    get showSpinner() {
+        return !this.isInitialized;
+    }
+
     async initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
@@ -63,7 +69,8 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 this.resUploadDate = resourceData.Version_Date__c;
                 this.resourceTitle = resourceData.Title__c;
                 this.resourceSummary = resourceData.Body__c;
-                this.isArticleVideo = this.resourceType == 'Article' || this.resourceType == 'Video';
+                this.isArticleVideo =
+                    this.resourceType == 'Article' || this.resourceType == 'Video';
                 this.resourceLink =
                     this.resourceType == 'Article' ? resourceData.Image__c : resourceData.Video__c;
                 if (this.resourceType == 'Multimedia') {
@@ -75,6 +82,11 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 this.isVoted = result.wrappers[0].isVoted;
                 if (this.isDocument) {
                     this.handleDocumentLoad();
+                }
+                this.isInitialized = true;
+
+                if (this.spinner) {
+                    this.spinner.hide();
                 }
             })
             .catch((error) => {
@@ -90,11 +102,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 .catch((error) => {
                     this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
                 });
-        }
-        this.isInitialized = true;
-
-        if (this.spinner) {
-            this.spinner.hide();
         }
     }
 

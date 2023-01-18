@@ -58,14 +58,14 @@ export default class PpCommunityNavigation extends LightningElement {
     @api
     handleClick() {
         let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
+        let element = this.template.querySelector(`[data-id="my-menu"]`);
         mobileDiv && mobileDiv.classList.contains('slds-hide')
             ? mobileDiv.classList.remove('slds-hide')
             : mobileDiv.classList.add('slds-hide');
-            if(mobileDiv && !mobileDiv.classList.contains('slds-hide')) {
-                console.log(JSON.stringify(this.participantTabs));
-                this.participantTabs=[];
-                this.initializeData();
-            }
+        element && element.classList.contains('slds-is-open')
+            ? element.classList.remove('slds-is-open')
+            : '';
+            this.showSubMenu = false;
     }
     @api
     handleClickCloseNavMenu(){
@@ -73,7 +73,6 @@ export default class PpCommunityNavigation extends LightningElement {
         mobileDiv && !mobileDiv.classList.contains('slds-hide')
             ? mobileDiv.classList.add('slds-hide')
             : '';
-
     }
     handleNavigationSubMenu(event){
         if (!this.desktop) {
@@ -128,7 +127,9 @@ export default class PpCommunityNavigation extends LightningElement {
                         );
                     }
                     this.showAboutStudy = !this.showAboutProgram;
-                    this.populateNavigationItems();
+                    if(this.participantTabs.length < 1){
+                        this.populateNavigationItems();
+                    }
                     this.isInitialized = true;
                 })
                 .catch((error) => {
@@ -353,6 +354,7 @@ export default class PpCommunityNavigation extends LightningElement {
     @api forceRefresh() {
         this.isInitialized = false;
         this.participantTabs = [];
+        console.log('calling from forceRefresh');
         this.initializeDataForDOM();
     }
 
