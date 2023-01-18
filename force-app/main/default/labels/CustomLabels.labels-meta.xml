@@ -6762,11 +6762,11 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder PP</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot; &gt;This is a an email to remind you of your upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot; &gt;This is an email to remind you of your upcoming ##visitorevent for the ##StudyorProgramHeader: ##StudyName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span  style=&quot;color:black;&quot; &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt;##PlannedDate&lt;/span&gt;.&lt;/div&gt;
 
-&lt;span style=&quot;color:black;&quot; &gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot; &gt;If you are unable to make this appointment, please contact the ##isStudyorProgram team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
@@ -6784,11 +6784,11 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate PP</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot; &gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot; &gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming ##visitorevent for the ##StudyorProgramHeader: ##StudyName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot; &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
 
-&lt;span style=&quot;color:black;&quot; &gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot; &gt; If ##ParticipantFirstName is unable to make this appointment, please contact the ##isStudyorProgram team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>
@@ -7364,7 +7364,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Visit Task Reminder</shortDescription>
-        <value>This is a reminder of your upcoming visit</value>
+        <value>This is a reminder of your upcoming ##visitorevent</value>
     </labels>
     <labels>
         <fullName>Email_Header_Visit_Task_Reminder_Delegate</fullName>
@@ -7378,7 +7378,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Header_Visit_Task_Reminder_Delegate_PP</shortDescription>
-        <value>This is a reminder of your participant&apos;s upcoming visit</value>
+        <value>This is a reminder of your participant&apos;s upcoming ##visitorevent</value>
     </labels>
     <labels>
         <fullName>Email_Header_Welcome_to_Study_Delegate</fullName>
@@ -29922,65 +29922,25 @@ Please contact the Study Team for further updates or please login for additional
         <value>clinical study </value>
     </labels>
     <labels>
+        <fullName>Event_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Event_PP</shortDescription>
+        <value>event</value>
+    </labels>
+    <labels>
+        <fullName>Visit_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_PP</shortDescription>
+        <value>visit</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Patient_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Patient2 PP</shortDescription>
         <value>Thank you for your interest in participating in a ##StudyorProgramHeader</value>
-    </labels>
-    <labels>
-        <fullName>Email_Sub_Event_PP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Sub Event PP</shortDescription>
-        <value>Reminder: You have an upcoming event</value>
-    </labels>
-    <labels>
-        <fullName>Email_Sub_Event_Del_PP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Sub Event Del PP</shortDescription>
-        <value>Reminder: Your participant has an upcoming event</value>
-    </labels>
-    <labels>
-        <fullName>Email_Header_Event_Del_PP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Header Event Del PP</shortDescription>
-        <value>This is a reminder of your participant's upcoming event</value>
-    </labels>
-    <labels>
-        <fullName>Email_Header_Event_PP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Header Event  PP</shortDescription>
-        <value>This is a reminder of your upcoming event</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Event_PP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Event PP</shortDescription>
-        <value>This is an email to remind you of your upcoming event for the program:  ##StudyName. 
-
-            Event Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
-            
-            If you are unable to make this appointment, please contact the program team.  Please login for additional details. 
-            </value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Event_Del_PP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Event Del PP</shortDescription>
-        <value>
-                    
-            This is an email to remind you of ##PatientFirstName&apos;s upcoming event for the clinical research program:  ##StudyName. 
-            
-            Event Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
-            
-            If ##PatientFirstName is unable to make this appointment, please contact the program team.  Please login for additional details. 
-            </value>
     </labels>
     <labels>
         <fullName>Email_Subject_Referral_Status_Changed_Del_PP</fullName>
@@ -29995,5 +29955,19 @@ Please contact the Study Team for further updates or please login for additional
         <protected>true</protected>
         <shortDescription>Email Header Referral Status Updated Delegate PP</shortDescription>
         <value>Your participant&apos;s referral status has changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Sub_Event_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Sub Event PP</shortDescription>
+        <value>Reminder: You have an upcoming event</value>
+    </labels>
+    <labels>
+        <fullName>Email_Sub_Event_Del_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Sub Event Del PP</shortDescription>
+        <value>Reminder: Your participant has an upcoming event</value>
     </labels>
 </CustomLabels>
