@@ -56,7 +56,7 @@
                     </aura:if>
                     <div class="logo-container-pp">
                         <!--     <img src="{!v.logoURL}" class="title-logo" onclick="{!c.doGoHome}" />-->
-                        <div class="iqvia_logo">
+                        <div class="iqvia_logo" onclick="{!c.doGoHome}">
                             IQVIA <span class="iqvia_text">Patient Portal</span>
                         </div>
                     </div>
