@@ -1,7 +1,7 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Visit_Task_Reminder_Delegate_PP}"
-                         recipientType="Contact"
-                         relatedToType="Task"
-                         language="{!recipient.Language__c}">
+<messaging:emailTemplate subject="{!IF(relatedTo.Clinical_Trial_Profile__r.Is_Program__c, $Label.Email_Sub_Event_Del_PP,$Label.Email_Subject_Visit_Task_Reminder_Delegate_PP)}"
+                        recipientType="Contact"
+                        relatedToType="Participant_Enrollment__c"
+                        language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
         <c:PP_EmailWireframe recipientId="{!recipient.Id}"
