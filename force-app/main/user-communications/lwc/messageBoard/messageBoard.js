@@ -50,7 +50,7 @@ export default class MessageBoard extends LightningElement {
 
     @api userMode;
     @api firstConWr;
-    @api piContactNames;    
+    @api piContactNames;
 
     @track enrollments;
     @track conversation;
@@ -123,8 +123,8 @@ export default class MessageBoard extends LightningElement {
         this.conversation = conversation;
         this.messageWrappers = messageWrappers;
         this.selectedEnrollment = conversation.Participant_Enrollment__r;
-        this.isHoldMode = !conversation.Participant_Enrollment__r.Study_Site__r
-            .Messages_Are_Available__c;
+        this.isHoldMode =
+            !conversation.Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c;
 
         this.needAfterRenderSetup = true;
         this.hideEmptyStub = true;
@@ -267,8 +267,11 @@ export default class MessageBoard extends LightningElement {
             fileList = [this.attachment.fileName, this.attachment.fileContent];
         }
         this.clearMessage();
-
-        if (this.spinner) this.spinner.show();
+        let inputToDisable = this.template.querySelector('.messageSelectTag_pp');
+        if (this.spinner) {
+            this.spinner.show();
+            inputToDisable.classList.add('pointer-none');
+        }
 
         let context = this;
         if (this.userMode === 'PI' && this.isMultipleMode && this.selectedEnrollments) {
@@ -279,10 +282,12 @@ export default class MessageBoard extends LightningElement {
                 piContactNames: context.piContactNames
             })
                 .then(function () {
+                    inputToDisable.classList.remove("pointer-none");
                     context.fireMultipleSendEvent();
                     if (context.spinner) context.spinner.hide();
                 })
                 .catch(function (error) {
+                    inputToDisable.classList.remove("pointer-none");
                     console.error('Error in sendMultipleMessage():' + error.message);
                     context.notifyUser('Error', error.message, 'error');
                     if (context.spinner) context.spinner.hide();
@@ -297,6 +302,7 @@ export default class MessageBoard extends LightningElement {
                     piContactNames: context.piContactNames
                 })
                     .then(function (data) {
+                        inputToDisable.classList.remove("pointer-none");
                         if (formFactor === 'Small') context.hideEmptyStub = false;
                         setTimeout(function () {
                             context.fireSendEvent(data);
@@ -304,6 +310,7 @@ export default class MessageBoard extends LightningElement {
                         }, 1);
                     })
                     .catch(function (error) {
+                        inputToDisable.classList.remove("pointer-none");
                         console.error('Error in createConversation():' + error.message);
                         context.notifyUser('Error', error.message, 'error');
                         if (context.spinner) context.spinner.hide();
@@ -317,10 +324,12 @@ export default class MessageBoard extends LightningElement {
                     piContactNames: context.piContactNames
                 })
                     .then(function (data) {
+                        inputToDisable.classList.remove("pointer-none");
                         context.fireSendEvent(data);
                         if (context.spinner) context.spinner.hide();
                     })
                     .catch(function (error) {
+                        inputToDisable.classList.remove("pointer-none");
                         console.error('Error in sendMessage():' + error.message);
                         context.notifyUser('Error', error.message, 'error');
                         if (context.spinner) context.spinner.hide();

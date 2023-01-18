@@ -24,7 +24,7 @@ export default class PpDiscoverLinks extends LightningElement {
         if (!this.toggleExplore) {
             return 'card-container card-container-height-medium';
         } else if (this.toggleExplore) {
-            return 'card-container card-container-height-small';
+            return 'card-container card-container-height-small slds-p-horizontal_x-small';
         } else {
             return 'card-container';
         }

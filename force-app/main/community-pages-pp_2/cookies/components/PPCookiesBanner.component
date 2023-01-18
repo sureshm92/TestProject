@@ -11,7 +11,6 @@
         oncomplete="disableTheCookiesBanner()"
     />
 
-    <apex:attribute name="userMode" type="String" description="" />
     <style>
         .desk-cookies-banner {
             bottom: 0;
@@ -239,7 +238,7 @@
     </style>
     <div class="c-container desk-cookies-banner mob-cookies-banner hide-banner">
         <div class="slds-grid slds-wrap">
-            <div class="slds-col slds-size_12-of-12 slds-large-size_8-of-12 slds-p-around_small">
+            <div class="slds-col slds-size_12-of-12 slds-large-size_9-of-12 slds-p-around_small">
                 <div class="we-care-about-your-p">
                     <div class="banner-heading slds-m-top_small">
                         {!$Label.PP_Cookie_Banner_Header}
@@ -259,7 +258,7 @@
                 </div>
             </div>
             <div
-                class="slds-col slds-size_12-of-12 slds-large-size_4-of-12 desk-btn-margin mob-btn-center slds-p-around_small"
+                class="slds-col slds-size_12-of-12 slds-large-size_3-of-12 desk-btn-margin mob-btn-center slds-p-around_small"
             >
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">

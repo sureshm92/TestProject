@@ -212,7 +212,11 @@ export default class PpAccountSettings extends LightningElement {
             window.history.replaceState(null, null, '?password-change');
         } else if (queryString.includes('communication-preferences')) {
             this.componentId = 'communication-preferences';
-            window.history.replaceState(null, null, '?communication-preferences');
+            if (queryString.includes('communication-preferenceswithprevtask')) {
+                window.history.replaceState(null, null, '?communication-preferenceswithprevtask');
+            } else {
+                window.history.replaceState(null, null, '?communication-preferences');
+            }
         } else if (queryString.includes('lang-loc')) {
             this.componentId = 'lang-loc';
             window.history.replaceState(null, null, '?lang-loc');

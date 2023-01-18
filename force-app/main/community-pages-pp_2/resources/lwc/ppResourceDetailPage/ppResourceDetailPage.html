@@ -1,6 +1,6 @@
 <template>
     <!-- Loading Spinner-->
-    <c-web-spinner class="main-spinner"></c-web-spinner>
+    <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
     <template if:true={isInitialized}>
         <div class="page-container page-margin">
             <!--***************  Detail Top Bar  ******************-->
@@ -107,7 +107,9 @@
                             <!-- Article suggestions-->
                             <lightning-layout-item size="12">
                                 <div if:true={isArticleVideo}>
-                                    <c-pp-suggested-articles resid={resourceId}></c-pp-suggested-articles>
+                                    <c-pp-suggested-articles
+                                        resid={resourceId}
+                                    ></c-pp-suggested-articles>
                                 </div>
                             </lightning-layout-item>
                         </lightning-layout>
