@@ -1,5 +1,5 @@
 public without sharing class PreferenceManagementController {
-    public static  Set<Id> minorOrAdultWithNoEmailParIdSet = new Set<Id>();
+    public static Set<Id> minorOrAdultWithNoEmailParIdSet = new Set<Id>();
     /**
      * @description: This Method will save the Consent data checked/uncheck by participant/Patient delegate..
      * @author: Krishna Mahto
@@ -30,6 +30,7 @@ public without sharing class PreferenceManagementController {
     public static Boolean createCommPrefEvent() {
         try {
             Communication_Preference_Change__e commPrefEvent = new Communication_Preference_Change__e();
+            commPrefEvent.Payload__c = String.valueOf(UserInfo.getUserId());
             EventBus.publish(commPrefEvent);
             return true;
         } catch (Exception e) {
@@ -200,8 +201,8 @@ public without sharing class PreferenceManagementController {
             cont.Participant_Opt_In_Status_SMS__c = contactOptInSMSText;
             cont.Participant_Phone_Opt_In_Permit_Phone__c = contactOptInPhone;
             cont.IQVIA_Direct_Mail_Consent__c = contactOptInDirectEmail;
-            if(contactStorageOptIn!=null){
-                cont.IQVIA_Contact_info_storage_consent__c=contactStorageOptIn;
+            if (contactStorageOptIn != null) {
+                cont.IQVIA_Contact_info_storage_consent__c = contactStorageOptIn;
             }
             //IF SMS opt out, revert the welcome message flag at contact.
             if (!cont.Participant_Opt_In_Status_SMS__c) {
@@ -270,113 +271,119 @@ public without sharing class PreferenceManagementController {
         }
     }
     /**
-    * @description: This Method will opt out Study/Platfrom level SMS if MobilePhone is deleted.
-    * @author: Krishna Mahto
-    * @param: perIdsSet
-    * @param: contactId
-    * @return:
-    **/
-    public static void optOutSMSWhenMobileIsDeleted(List<Participant_Enrollment__c> perToUpdate, Id contactId){
+     * @description: This Method will opt out Study/Platfrom level SMS if MobilePhone is deleted.
+     * @author: Krishna Mahto
+     * @param: perIdsSet
+     * @param: contactId
+     * @return:
+     **/
+    public static void optOutSMSWhenMobileIsDeleted(
+        List<Participant_Enrollment__c> perToUpdate,
+        Id contactId
+    ) {
         List<Contact> contactToUpdate = new List<Contact>();
-        
-		Boolean isParticipantLoggedIn = AccountSettingsController.isParticipantLoggedIn;
+
+        Boolean isParticipantLoggedIn = AccountSettingsController.isParticipantLoggedIn;
         Boolean isDelegateAlsoAParticipant = AccountSettingsController.isDelegateAlsoAParticipant;
         Boolean isDelegateSelfView = AccountSettingsController.isDelegateSelfView;
         Boolean isPrimaryDelegate = AccountSettingsController.isPrimaryDelegate;
         Boolean isPrimaryDelegateWithMultiRole = AccountSettingsController.isPrimaryDelegateWithMultiRole;
-        
-        
+
         //If Pure Participant deleted his MobilePhone.
-        if(isParticipantLoggedIn && !isDelegateAlsoAParticipant){
+        if (isParticipantLoggedIn && !isDelegateAlsoAParticipant) {
             Contact cont = optOutPlatFormLevelSMS(contactId);
             contactToUpdate.Add(cont);
         }
-        
-        //If Participant deleted his MobilePhone but Participant is also a delegate for another participant. 
-        if(isParticipantLoggedIn && isDelegateAlsoAParticipant){
+
+        //If Participant deleted his MobilePhone but Participant is also a delegate for another participant.
+        if (isParticipantLoggedIn && isDelegateAlsoAParticipant) {
             Contact cont = optOutPlatFormLevelSMS(contactId);
             contactToUpdate.Add(cont);
             //if Participant is also a Primary Delegate of Minor/Adult without email participant.
-            if(isPrimaryDelegateWithMultiRole){
+            if (isPrimaryDelegateWithMultiRole) {
                 //All all the contact record of Minor/Adult without email Participant of Primary Delegate.
-               contactToUpdate.addAll(getConOfMinorOfAdultWithoutEmailPar(contactId));
-               //get the PER records for Minor/Adult without email Participants. 
-               perToUpdate.addAll(PatientDelegateService.getPERRecords(minorOrAdultWithNoEmailParIdSet));
-
+                contactToUpdate.addAll(getConOfMinorOfAdultWithoutEmailPar(contactId));
+                //get the PER records for Minor/Adult without email Participants.
+                perToUpdate.addAll(
+                    PatientDelegateService.getPERRecords(minorOrAdultWithNoEmailParIdSet)
+                );
             }
         }
 
         //If Delegate deleted his own MobilePhone and Delegate is not a Participant for another study.
-        if(isDelegateSelfView){
+        if (isDelegateSelfView) {
             Contact cont = optOutPlatFormLevelSMS(contactId);
             contactToUpdate.Add(cont);
             //if Delegate is Primary Delegate.
-            if(isPrimaryDelegate){
-               //Store all the contact record of Minor/Adult without email Participant of Primary Delegate.
-               contactToUpdate.addAll(getConOfMinorOfAdultWithoutEmailPar(contactId));
-               //get the PER records for Minor/Adult without email Participants. 
-               perToUpdate.addAll(PatientDelegateService.getPERRecords(minorOrAdultWithNoEmailParIdSet));
+            if (isPrimaryDelegate) {
+                //Store all the contact record of Minor/Adult without email Participant of Primary Delegate.
+                contactToUpdate.addAll(getConOfMinorOfAdultWithoutEmailPar(contactId));
+                //get the PER records for Minor/Adult without email Participants.
+                perToUpdate.addAll(
+                    PatientDelegateService.getPERRecords(minorOrAdultWithNoEmailParIdSet)
+                );
             }
         }
-                
+
         //Opt out Platform level SMS and Revert welcome message flags.
-        if(contactToUpdate!=null && !contactToUpdate.isEmpty()){
+        if (contactToUpdate != null && !contactToUpdate.isEmpty()) {
             update contactToUpdate;
         }
         //Opt out Study level SMS and Revert welcome message flags.
-        if(perToUpdate!=null && !perToUpdate.isEmpty()){
+        if (perToUpdate != null && !perToUpdate.isEmpty()) {
             optOutStudyLevelSMS(perToUpdate);
-            update perToUpdate;  
-            
-        }        
+            update perToUpdate;
+        }
     }
-     /**
-    * @description: This Method will prepare data to opt out Platfrom level SMS. 
-    * @author: Krishna Mahto
-    * @param: perIdsSet
-    * @param: contactId
-    * @return:
-    **/
-    public static Contact  optOutPlatFormLevelSMS(Id contactId){
+    /**
+     * @description: This Method will prepare data to opt out Platfrom level SMS.
+     * @author: Krishna Mahto
+     * @param: perIdsSet
+     * @param: contactId
+     * @return:
+     **/
+    public static Contact optOutPlatFormLevelSMS(Id contactId) {
         Contact contToUpdate = new Contact();
-        contToUpdate.Id=contactId;
+        contToUpdate.Id = contactId;
         contToUpdate.Participant_Opt_In_Status_SMS__c = false;
         contToUpdate.Welcome_Message_Sent__c = false;
         contToUpdate.Welcome_Message_Delivered__c = false;
-       
+
         return contToUpdate;
     }
-     /**
-    * @description: This Method will prepare data to opt out Study level SMS 
-    * @author: Krishna Mahto
-    * @param: perIdsSet
-    * @param: contactId
-    * @return:
-    **/
-    public static List<Participant_Enrollment__c>  optOutStudyLevelSMS(List<Participant_Enrollment__c>  perToUpdate){
+    /**
+     * @description: This Method will prepare data to opt out Study level SMS
+     * @author: Krishna Mahto
+     * @param: perIdsSet
+     * @param: contactId
+     * @return:
+     **/
+    public static List<Participant_Enrollment__c> optOutStudyLevelSMS(
+        List<Participant_Enrollment__c> perToUpdate
+    ) {
         List<Id> perIdList = new List<Id>();
-        for(Participant_Enrollment__c per: perToUpdate){
+        for (Participant_Enrollment__c per : perToUpdate) {
             perIdList.Add(per.Id);
             per.Id = per.Id;
             per.Permit_SMS_Text_for_this_study__c = false;
             per.Welcome_Message_Sent__c = false;
-            per.Welcome_Message_Delivered__c = false;                
+            per.Welcome_Message_Delivered__c = false;
         }
         //Revert Study level Welcome message flags for Patient Delegates also.
-         processSMSOptOutForDelegate(perIdList,perToUpdate[0].Participant_Contact__c);
+        processSMSOptOutForDelegate(perIdList, perToUpdate[0].Participant_Contact__c);
         return perToUpdate;
     }
 
-     /**
-    * @description: This Method will get the contact record of Minor/Adult 
-    *               without email Participant of Primary Delegate.
-    * @author: Krishna Mahto
-    * @param: perIdsSet
-    * @param: contactId
-    * @return:
-    **/
-    public static List<Contact>  getConOfMinorOfAdultWithoutEmailPar(Id contactId){
-        List<Contact> contactToUpdate = New List<Contact>();
+    /**
+     * @description: This Method will get the contact record of Minor/Adult
+     *               without email Participant of Primary Delegate.
+     * @author: Krishna Mahto
+     * @param: perIdsSet
+     * @param: contactId
+     * @return:
+     **/
+    public static List<Contact> getConOfMinorOfAdultWithoutEmailPar(Id contactId) {
+        List<Contact> contactToUpdate = new List<Contact>();
         //check if Primary Delegate has any Minor Participant or Adult Participant without email.
         List<Patient_Delegate_Enrollment__c> PDEnrollmentList = PatientDelegateEnrollmentService.getPDForMinorOrAdultWithoutEmailPar(contactId);
         //Opt out Platfrom level SMS for Participants also. 
@@ -384,7 +391,7 @@ public without sharing class PreferenceManagementController {
             minorOrAdultWithNoEmailParIdSet.add(pd.Participant_Enrollment__r.Participant__c);
             Contact cont = optOutPlatFormLevelSMS(pd.Participant_Enrollment__r.Participant__r.Contact__c);
             contactToUpdate.Add(cont);
-        }       
+        }
         return contactToUpdate;
     }
 }
