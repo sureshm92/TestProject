@@ -37,3 +37,12 @@
     min-width: 124px;
     text-align: center;
 }
+
+/**
+ * SPRING 23 UI defect fix
+ */
+
+ .THIS .sprint23-visit-fix div{
+    width: 100%;
+    display: inherit;
+}

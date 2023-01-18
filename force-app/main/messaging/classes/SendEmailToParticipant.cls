@@ -92,6 +92,7 @@ public without sharing class SendEmailToParticipant {
                     Notification__c objDelNotification = new Notification__c(
                         Recipient__c = delContact.Id,
                         WhatId__c = whatId,
+                        IsDelegate__c = true,
                         Notification_Type__c = delegateNotificationType
                     );
                     if (

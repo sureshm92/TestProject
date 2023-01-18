@@ -61,8 +61,8 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
     private void sendRemindersParticipantTeam(List<Televisit_Attendee__c> attendeeList) {
         List<Notification__c> notifications = new List<Notification__c>();
         List<Id> allContactIds = new List<Id>();
-        Map<Id, Id> attendeeDayTelevisitMap = new Map<Id, Id>();
-        Map<Id, Id> attendeeHourTelevisitMap = new Map<Id, Id>();
+        Map<Id, Televisit_Attendee__c> attendeeDayTelevisitMap = new Map<Id, Televisit_Attendee__c>();
+        Map<Id, Televisit_Attendee__c> attendeeHourTelevisitMap = new Map<Id, Televisit_Attendee__c>();
         Map<Id, List<Patient_Delegate__c>> participantIdsByDelegates = new Map<Id, List<Patient_Delegate__c>>();
 
         for (Televisit_Attendee__c attendee : attendeeList) {
@@ -95,12 +95,12 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                 ) {
                     attendee.Is_First_Reminder_Sent__c = true;
 
-                    attendeeDayTelevisitMap.put(attendee.Contact__c, attendee.Id);
+                    attendeeDayTelevisitMap.put(attendee.Contact__c, attendee);
                 }
                 if (
                     secondremindermap.keyset().contains(attendee.Televisit__c) && !attendee.Is_Second_Reminder_Sent__c
                 ) {
-                    attendeeHourTelevisitMap.put(attendee.Contact__c, attendee.Id);
+                    attendeeHourTelevisitMap.put(attendee.Contact__c, attendee);
                     attendee.Is_Second_Reminder_Sent__c = true;
                 }
             }
@@ -149,16 +149,21 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
     }
 
     private List<Notification__c> createAttendeeNotifications(
-        Map<Id, Id> contactTelevistMap,
+        Map<Id, Televisit_Attendee__c> contactTelevistMap,
         String notificationType
     ) {
         List<Notification__c> notifications = new List<Notification__c>();
         for (Id conId : contactTelevistMap.keySet()) {
+            Boolean isdelegate = false;
+            if(contactTelevistMap.get(conId).Attendee_Type__c == 'Participant Delegate'){
+                isdelegate = true;
+            }
             notifications.add(
                 new Notification__c(
                     Recipient__c = conId,
-                    WhatId__c = contactTelevistMap.get(conId),
-                    Notification_Type__c = notificationType
+                    WhatId__c = contactTelevistMap.get(conId).Id,
+                    Notification_Type__c = notificationType,
+                    IsDelegate__c = isdelegate
                 )
             );
         }

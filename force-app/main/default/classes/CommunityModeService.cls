@@ -155,12 +155,19 @@ public without sharing class CommunityModeService {
         Participant__c userParticipant;
         if (!userParticipants.isEmpty())
             userParticipant = userParticipants[0];
-        List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(
+
+        PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedParticipantIdsMap(
             contactId
         );
+        List<Id> delegatedParticipantIds = pdewrapper.delParticipantIds.get(contactId);
+        List<Id> pdeWrapperMap = pdewrapper.pdercrds.get(contactId);
         if (delegatedParticipantIds == null) {
             delegatedParticipantIds = new List<Id>();
         }
+        if (pdeWrapperMap == null) {
+            pdeWrapperMap = new List<Id>();
+        }
+
         Map<Id, Participant__c> participantsMap = new Map<Id, Participant__c>(
             [
                 SELECT Id, First_Name__c, Last_Name__c, Contact__c
@@ -214,8 +221,10 @@ public without sharing class CommunityModeService {
             if (hasBeenActive) {
                 // CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(false, hasBeenActive);
 
-                if (peList != null) {
+                if (peList != null && pdeWrapperMap != null) {
                     for (Participant_Enrollment__c pe : peList) {
+                        //if(pdeWrapperMap.contains(pe.Id)){
+                        system.debug('224::' + pe.Id);
                         String participantName =
                             userParticipant.First_Name__c +
                             ' ' +
@@ -231,6 +240,7 @@ public without sharing class CommunityModeService {
                                 pe.Clinical_Trial_Profile__r.Is_Program__c
                             )
                         );
+                        //}
                     }
                 } else if (pePastList != null) {
                     String participantName =
@@ -305,42 +315,53 @@ public without sharing class CommunityModeService {
                     modes.add(prospectModeItem);
                     hasProspectView = true;
                 }
-
-                if (peList != null) {
+                Boolean skipPEPastList = false;
+                if (peList != null && pdeWrapperMap != null) {
                     for (Participant_Enrollment__c pe : peList) {
-                        String participantName =
-                            participant.First_Name__c +
-                            ' ' +
-                            participant.Last_Name__c;
-                        modeItem.subItems.add(
-                            new CommunityModes.PPCommunityModeItem(
-                                USER_MODE_PARTICIPANT,
-                                participantName,
-                                pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                                pe.Id,
-                                participant.Contact__c,
-                                true,
-                                pe.Clinical_Trial_Profile__r.Is_Program__c
-                            )
-                        );
+                        if (pdeWrapperMap.contains(pe.Id)) {
+                            system.debug('317::' + pe.Id);
+                            String participantName =
+                                participant.First_Name__c +
+                                ' ' +
+                                participant.Last_Name__c;
+                            modeItem.subItems.add(
+                                new CommunityModes.PPCommunityModeItem(
+                                    USER_MODE_PARTICIPANT,
+                                    participantName,
+                                    pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                                    pe.Id,
+                                    participant.Contact__c,
+                                    true,
+                                    pe.Clinical_Trial_Profile__r.Is_Program__c
+                                )
+                            );
+                            skipPEPastList = true;
+                        }
                     }
-                } else if (pePastList != null) {
-                    String participantName =
-                        participant.First_Name__c +
-                        ' ' +
-                        participant.Last_Name__c;
-                    modeItem.subItems.add(
-                        new CommunityModes.PPCommunityModeItem(
-                            USER_MODE_PARTICIPANT,
-                            participantName,
-                            Label.No_active_studies,
-                            null,
-                            participant.Contact__c,
-                            true,
-                            true
-                        )
-                    );
                 }
+                if (pdeWrapperMap != null && pePastList != null && !skipPEPastList) {
+                    for (Participant_Enrollment__c pe : pePastList) {
+                        if (pdeWrapperMap.contains(pe.Id)) {
+                            String participantName =
+                                participant.First_Name__c +
+                                ' ' +
+                                participant.Last_Name__c;
+                            modeItem.subItems.add(
+                                new CommunityModes.PPCommunityModeItem(
+                                    USER_MODE_PARTICIPANT,
+                                    participantName,
+                                    Label.No_active_studies,
+                                    null,
+                                    participant.Contact__c,
+                                    true,
+                                    true
+                                )
+                            );
+                            break;
+                        }
+                    }
+                }
+                skipPEPastList = false;
                 modes.add(modeItem);
             }
         }
@@ -539,12 +560,22 @@ public without sharing class CommunityModeService {
         Participant__c userParticipant;
         if (userParticipants.size() > 0)
             userParticipant = userParticipants[0];
-        List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(
+
+        PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedParticipantIdsMap(
             UserContext.getUserContactId()
         );
+        List<Id> delegatedParticipantIds = pdewrapper.delParticipantIds.get(
+            UserContext.getUserContactId()
+        );
+        List<Id> pdeWrapperMap = pdewrapper.pdercrds.get(UserContext.getUserContactId());
+
         if (delegatedParticipantIds == null) {
             delegatedParticipantIds = new List<Id>();
         }
+        if (pdeWrapperMap == null) {
+            pdeWrapperMap = new List<Id>();
+        }
+
         Map<Id, Participant__c> participantsMap = new Map<Id, Participant__c>();
         if (!delegatedParticipantIds.isEmpty()) {
             participantsMap = new Map<Id, Participant__c>(
@@ -611,6 +642,7 @@ public without sharing class CommunityModeService {
                 initTemplate
             );
             mode.hasPastStudies = hasPastStudies;
+            system.debug('mode:::' + mode);
             modes.add(mode);
             if (peList != null) {
                 for (Participant_Enrollment__c pe : peList) {
@@ -633,6 +665,7 @@ public without sharing class CommunityModeService {
             CommunityMode splitter = new CommunityMode(null, 'Participants');
             splitter.isSplitter = true;
             modes.add(splitter);
+            system.debug('splitter:::' + splitter);
         }
 
         Map<Id, String> firstCommunityPermSetMap = getFirstPermissionSetMap(
@@ -642,7 +675,15 @@ public without sharing class CommunityModeService {
             Participant__c participant = participantsMap.get(participantId);
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);
             List<Participant_Enrollment__c> pastPEList = pePastMap.get(participantId);
-            Boolean hasPastStudies = pastPEList != null && pastPEList.size() > 0;
+            Boolean hasPastStudies = false;
+            if (pastPEList != null) {
+                for (Participant_Enrollment__c per : pastPEList) {
+                    if (pdeWrapperMap.contains(per.Id)) {
+                        hasPastStudies = true;
+                        break;
+                    }
+                }
+            }
             CommunityMode mode = new CommunityMode(
                 USER_MODE_PARTICIPANT,
                 participant.First_Name__c +
@@ -659,6 +700,7 @@ public without sharing class CommunityModeService {
                       )
             );
             mode.hasPastStudies = hasPastStudies;
+            system.debug('mode alumni:::' + mode);
             modes.add(mode);
             if (peList != null) {
                 for (Participant_Enrollment__c pe : peList) {
@@ -676,15 +718,19 @@ public without sharing class CommunityModeService {
                 }
             }
         }
+        system.debug('final modes:::' + modes);
         return modes;
     }
 
     public static CommunityMode findMode(String key, List<CommunityMode> modes) {
+        system.debug('Key:::' + key);
         for (CommunityMode communityMode : modes) {
+            system.debug('communityMode:::' + communityMode);
             if (!communityMode.isGroup && communityMode.key == key && !communityMode.isSplitter) {
                 return communityMode;
             }
             for (CommunityMode subMode : communityMode.subModes) {
+                system.debug('subMode:::' + subMode);
                 if (subMode.key == key) {
                     return subMode;
                 }
@@ -813,7 +859,7 @@ public without sharing class CommunityModeService {
         return resMap;
     }
 
- private static Map<String, List<Study_Site__c>> getStudySitesByCommunityName(Id contactId) {
+    private static Map<String, List<Study_Site__c>> getStudySitesByCommunityName(Id contactId) {
         Map<String, List<Study_Site__c>> ssByCommunity = new Map<String, List<Study_Site__c>>();
         List<Id> ssDelegateIds = new List<Id>();
         Map<Id, Id> permissionSetOfUserMapId = new Map<Id, Id>();
