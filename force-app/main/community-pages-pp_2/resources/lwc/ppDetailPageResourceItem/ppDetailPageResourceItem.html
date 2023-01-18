@@ -1,6 +1,6 @@
 <template>
     <!-- Loading Spinner-->
-    <c-web-spinner class="main-spinner"></c-web-spinner>
+    <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
     <!-- ****************  ARTICLE  ********************  -->
     <template if:true={showArticle}>
         <template if:true={isThumbnailPresent}>
