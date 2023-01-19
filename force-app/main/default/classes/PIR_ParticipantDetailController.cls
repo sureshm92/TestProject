@@ -300,7 +300,8 @@ public without sharing class PIR_ParticipantDetailController {
             Primary_Delegate__c = true,
             Participant_Delegate__c = piToInsertDelegate.Id,
             Participant__c = perRecord.Participant__c,
-            Contact__c = parti[0].Contact__c
+            Contact__c = parti[0].Contact__c,
+            Status__c = 'Disconnected'
           );
           if(pdToupdateAfterInsert.Participant__c == null && perRecord.Participant__r.Id != null){
                 pdToupdateAfterInsert.Participant__c = perRecord.Participant__r.Id;
@@ -391,7 +392,8 @@ public without sharing class PIR_ParticipantDetailController {
                 Primary_Delegate__c = true,
                 Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
                 Participant__c = perRecord.Participant__c,
-                Contact__c = peDeligate.Participant_Delegate__r.Contact__c
+                Contact__c = peDeligate.Participant_Delegate__r.Contact__c,
+                Status__c = 'Disconnected'
                 );
                 contactId = peDeligate.Participant_Delegate__r.Contact__c;
                 insert pdToupdateAfterInsertDuplicate;
@@ -404,7 +406,8 @@ public without sharing class PIR_ParticipantDetailController {
               Primary_Delegate__c = true,
               Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
               Participant__c = perRecord.Participant__c,
-              Contact__c = peDeligate.Participant_Delegate__r.Contact__c
+              Contact__c = peDeligate.Participant_Delegate__r.Contact__c,
+              Status__c = 'Disconnected'
             );
             contactId = peDeligate.Participant_Delegate__r.Contact__c;
             insert pdToupdateAfterInsertDuplicate;
@@ -537,10 +540,12 @@ public without sharing class PIR_ParticipantDetailController {
     
   }
   public static void createPDE(Id delcon, Patient_Delegate__c peDeligate, Participant_Enrollment__c perRecord,ConsentDetailsWrapper consentWrapper){
-    contact con = new Contact();
-    con.id =delcon;
-    Contact getsms=[Select id,Participant_Opt_In_Status_SMS__c from Contact where id=:delcon  ];
-    Boolean getSMSValue=getsms.Participant_Opt_In_Status_SMS__c;
+      contact con = new Contact();
+      con.id =delcon;
+      con.AccountId = [Select Id,Participant__c,Participant__r.Contact__r.AccountId from Participant_Enrollment__c where Id=:perRecord.Id].Participant__r.Contact__r.AccountId;
+      if(con.AccountId != null){
+      update con;
+      }
        
       List<Patient_Delegate_Enrollment__c> getPDE = new List<Patient_Delegate_Enrollment__c>();
       List<Patient_Delegate_Enrollment__c> updPDE = new List<Patient_Delegate_Enrollment__c>();
@@ -561,7 +566,7 @@ public without sharing class PIR_ParticipantDetailController {
       pde.Attested_By__c = peDeligate.Attested_by__c;
       pde.isInviteToPP__c = peDeligate.isInviteToPP__c;
       pde.Primary_Delegate__c = true;
-      pde.Status__c =  'Active';
+      pde.Status__c =  'Disconnected';
       pde.Study_Email_Consent__c = consentWrapper.Study_Email_Consent;
       pde.Study_info_storage_consent__c = consentWrapper.Study_info_storage_consent;
       pde.Study_Phone_Consent__c = consentWrapper.Study_Phone_Consent;
