@@ -108,7 +108,6 @@ export default class PpCreateTaskReminder extends LightningElement {
     connectedCallback() {
         if (DEVICE != 'Large') {
             this.isMobile = true;
-            this.communicationTab = '_self';
         }
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
