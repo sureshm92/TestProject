@@ -27,7 +27,7 @@
                               signature="{!$Label.Email_Signature_New_FullName}"
                               communityTemplate="GSK">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Participant_Delegate_Reactivated}"/>
-            <c:EmailTemplateDelegateParticipantText sourceId="{!relatedTo.Id}"/>
+            <c:EmailTemplateDelegateParticipantText sourceId="{!relatedTo.Id}" recipientId="{!recipient.Id}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
                                   buttonURL="/s/"/>
         </c:EmailWireframeText>
