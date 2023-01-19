@@ -18,7 +18,7 @@ export default class PpResourceMultimedia extends LightningElement {
         let subDomain = communityService.getSubDomain();
         let detailLink = window.location.origin + subDomain + '/s/resources';
 
-        const config = {
+        /* const config = {
             type: 'standard__webPage',
 
             attributes: {
@@ -28,6 +28,7 @@ export default class PpResourceMultimedia extends LightningElement {
 
         this[NavigationMixin.GenerateUrl](config).then((url) => {
             window.open(url, '_self');
-        });
+        }); */
+        communityService.navigateToPage('resources');
     }
 }

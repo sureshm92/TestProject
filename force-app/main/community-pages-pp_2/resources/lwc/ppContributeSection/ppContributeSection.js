@@ -58,7 +58,7 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
     }
 
     handleChangePreference() {
-        this.redirecturl = window.location.origin + basePathName + '/account-settings?changePref';
+        /*  this.redirecturl = window.location.origin + basePathName + '/account-settings?changePref';
         const config = {
             type: 'standard__webPage',
             attributes: {
@@ -67,7 +67,8 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
         };
         this[NavigationMixin.GenerateUrl](config).then((url) => {
             window.open(url, '_self');
-        });
+        }); */
+        communityService.navigateToPage('account-settings?changePref');
     }
 
     handleUrlValidation(event) {

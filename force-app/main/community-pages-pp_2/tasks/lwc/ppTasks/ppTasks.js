@@ -198,6 +198,9 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
             this.openTasks = event.detail.tasksList;
         }
     }
+    navigateToTasks() {
+        communityService.navigateToPage('tasks');
+    }
 
     populateSystemTasks(tasks) {
         try {

@@ -304,7 +304,7 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
         this.taskurl = window.location.origin + basePathName + '/tasks'+ '?taskId=' + taskId;
         console.log('taskurl:', this.taskurl);
 
-        const config = {
+        /* const config = {
             type: 'standard__webPage',
 
             attributes: {
@@ -313,6 +313,7 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
         };
         this[NavigationMixin.GenerateUrl](config).then((url) => {
             window.open(url, '_self');
-        });
+        }); */
+        communityService.navigateToPage('tasks?taskId=' + taskId);
     }
 }
