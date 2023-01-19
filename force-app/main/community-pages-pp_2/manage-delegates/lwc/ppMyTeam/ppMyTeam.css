@@ -32,6 +32,14 @@
     font-weight: 500;
     display: inline-block;
 }
+.btn-add-new-delegate:hover,
+.btn-add-new-delegate:focus {
+    background-color: #0557d5;
+    border: 1px solid #0557d5;
+    transition: .2s;
+    transition-timing-function: cubic-bezier(0.38,0,1,1);
+}
+
 .spins::after {
     position: absolute;
     content: '';

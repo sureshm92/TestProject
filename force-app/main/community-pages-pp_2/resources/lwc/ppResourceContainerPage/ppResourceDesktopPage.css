@@ -213,6 +213,10 @@ p {
     text-decoration: underline;
 }
 
+.change-preferences:hover {
+    color: #0557D5;
+}
+
 .resource-container {
     height: 95px;
     width: 627px;
