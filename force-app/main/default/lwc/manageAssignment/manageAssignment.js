@@ -83,7 +83,7 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     connectedCallback() {
         formFactor != 'Small' ? (this.isDesktop = true) : (this.isDesktop = false);
         this.initializeData();
-        this.subscribeToMessageChannel();
+        //this.subscribeToMessageChannel();
     }
 
     render() {
