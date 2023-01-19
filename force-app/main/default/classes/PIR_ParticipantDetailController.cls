@@ -537,10 +537,12 @@ public without sharing class PIR_ParticipantDetailController {
     
   }
   public static void createPDE(Id delcon, Patient_Delegate__c peDeligate, Participant_Enrollment__c perRecord,ConsentDetailsWrapper consentWrapper){
-    contact con = new Contact();
-    con.id =delcon;
-    Contact getsms=[Select id,Participant_Opt_In_Status_SMS__c from Contact where id=:delcon  ];
-    Boolean getSMSValue=getsms.Participant_Opt_In_Status_SMS__c;
+      contact con = new Contact();
+      con.id =delcon;
+      con.AccountId = [Select Id,Participant__c,Participant__r.Contact__r.AccountId from Participant_Enrollment__c where Id=:perRecord.Id].Participant__r.Contact__r.AccountId;
+      if(con.AccountId != null){
+      update con;
+      }
        
       List<Patient_Delegate_Enrollment__c> getPDE = new List<Patient_Delegate_Enrollment__c>();
       List<Patient_Delegate_Enrollment__c> updPDE = new List<Patient_Delegate_Enrollment__c>();
