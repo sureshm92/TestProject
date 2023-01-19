@@ -18,21 +18,30 @@
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background-color: #ffffff;
-    color: #0768fd;
+    color: #015FF1;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     cursor: pointer;
 }
+
+.task-cancel-btn:hover {
+    background-color: #ecf3ff;
+    border-color: #015ff1;
+    transition: .2s;
+    transition-timing-function: cubic-bezier(0.38,0,1,1);
+}
+
 .task-save-btn {
     box-sizing: border-box;
     height: 32px;
     width: 96px;
     border: 1px solid #d9d9d9;
     border-radius: 20px;
-    background-color: #0768fd;
+    background-color: #015FF1;
     color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     cursor: pointer;
 }
+
 .task-save-btn-opacity {
     opacity: 0.5;
     box-sizing: border-box;
@@ -40,10 +49,17 @@
     width: 96px;
     border: 1px solid #d9d9d9;
     border-radius: 20px;
-    background-color: #0768fd;
+    background-color: #015FF1;
     color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     pointer-events: none;
+}
+
+.task-save-btn:hover,
+.task-save-btn-opacity:hover {
+    background: #0557d5;
+    transition: .2s;
+    transition-timing-function: cubic-bezier(0.38,0,1,1);
 }
 
 .pad-right {

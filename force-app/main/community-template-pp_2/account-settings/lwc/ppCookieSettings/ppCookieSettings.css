@@ -9,23 +9,13 @@
 .as-container .as-password .rr-form-element + .rr-form-element {
     margin-top: 0;
 }
-
+/*
 .as-container .as-email,
 .as-container .as-password {
 }
-
+*/
 .cardRTL {
     direction: rtl;
-}
-
-.back-button {
-    color: #0768fd;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 2rem;
-    margin-bottom: 8px;
-    margin-left: -3px;
 }
 
 .as-title {
@@ -37,21 +27,21 @@
     line-height: 1;
     margin-top: 10px;
 }
-
+/*
 .as-container .as-email-preference {
 }
-
+*/
 .collapse-section.slds-m-top--large:last-child {
     margin-top: 0;
 }
-
+/*
 .as-container .as-info,
 .as-container .as-language-switcher {
 }
 
 .as-info > .rr-form-element {
 }
-
+*/
 .as-container .as-privacy {
     margin-bottom: 10px;
 }
@@ -72,10 +62,10 @@
 .ah-toggle-container {
     margin-top: 10px;
 }
-
+/*
 .as-container .as-password .as-password-button {
 }
-
+*/
 .as-email-input.slds-gutters,
 .as-password-input {
     margin: -20px 0 0;
@@ -86,7 +76,7 @@
     padding-left: 0;
     padding-right: 1.5rem;
 }
-
+/*
 .as-email-input > *,
 .as-password-input > * {
 }
@@ -94,9 +84,9 @@
 .collapse-section.slds-m-top_large,
 .collapse-section.slds-m-top--large {
 }
-
+*/
 .rr-link {
-    color: #297dfd;
+    color: #015FF1;
     display: inline-flex;
     align-items: center;
 }
@@ -184,7 +174,7 @@
     display: inline-block;
     font-weight: 600;
     margin-left: 11px;
-    color: #0768fd;
+    color: #015FF1;
 }
 
 .rr-collapse-panel .label-block .rr-icon-default {

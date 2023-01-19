@@ -21,8 +21,8 @@
 .withdraw-button {
     --slds-c-button-radius-border: 1rem;
     --slds-c-button-brand-color-background: #ffffff;
-    --slds-c-button-brand-color-background-hover: #0768fd;
-    --slds-c-button-brand-text-color: #0768fd;
+    --slds-c-button-brand-color-background-hover: #015FF1;
+    --slds-c-button-brand-text-color: #015FF1;
     --slds-c-button-brand-text-color-hover: #ffffff;
     --slds-c-button-brand-text-color-focus: #ffffff;
     --slds-c-button-brand-text-color-active: #ffffff;

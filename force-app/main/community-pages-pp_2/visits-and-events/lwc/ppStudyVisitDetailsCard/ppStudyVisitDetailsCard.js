@@ -124,7 +124,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             this.desktop = true;
         } else {
             this.desktop = false;
-            this.communicationTab = '_self';
         }
         loadScript(this, COMETD_LIB).then(() => {
             loadScript(this, moment).then(() => {
