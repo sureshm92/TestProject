@@ -16,6 +16,9 @@
     <!-- attributes: -->
     <aura:attribute name="initialized" type="Boolean" default="false" />
 
+    <!-- events: -->
+    <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
+
     <!-- methods: -->
     <aura:method name="init" action="{!c.doInit}" access="public" />
 
