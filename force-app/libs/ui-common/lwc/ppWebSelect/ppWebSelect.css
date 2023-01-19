@@ -46,6 +46,13 @@
     letter-spacing: 0;
 }
 
+.dropdown:focus-within,
+.dropdown-rtl:focus-within,
+.dropdown:hover,
+.dropdown-rtl:hover {
+    border-color: #015ff1;
+}
+
 .dropdown-error {
     border: 1px solid #e20000;
 }
@@ -114,14 +121,6 @@
     display: block;
     color: #444444;
     padding: 0.5rem 1rem;
-}
-
-.dropdown-menu li:first-child {
-    /* padding-top: 1rem; */
-}
-
-.dropdown-menu li:last-child {
-    /* padding-bottom: 1rem; */
 }
 
 .dropdown-menu li:hover {
