@@ -19355,7 +19355,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Cookies Button Accept</shortDescription>
-        <value>Accept All</value>
+        <value>Accept all</value>
     </labels>
     <labels>
         <fullName>PP_Cookies_Button_Manage_Prefer</fullName>

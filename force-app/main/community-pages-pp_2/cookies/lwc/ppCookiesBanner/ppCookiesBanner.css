@@ -69,6 +69,7 @@
 
 .cookie-btn {
     pointer-events: auto;
+    border-color: transparent;
 }
 
 .hide-banner {
