@@ -786,11 +786,9 @@ input[type='date']::-webkit-calendar-picker-indicator,
     width: 100%;
     opacity: 0;
 }
-
 .slds-input::placeholder {
     font-size: 0.875rem;
 }
-
 .cPpCustomThemeLayout .slds-form-element__label:empty {
     display: none;
 }
