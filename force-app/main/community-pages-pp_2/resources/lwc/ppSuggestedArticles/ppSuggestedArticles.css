@@ -7,7 +7,7 @@
     display: inline-block;
     min-width: 227px;
     margin-right: 16px;
-    cursor:pointer;
+    
 }
 .headerTitle{
     color: #444444;
@@ -21,6 +21,7 @@
 }
 .imgDiv{
     min-height: 149px;
+    cursor:pointer;
 }
 .title{
     height: 54px;
@@ -36,6 +37,9 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    word-break: break-word;
+    color: #0768fd;
+    cursor:pointer;
 }
 .vd{
     color: #999999;

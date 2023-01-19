@@ -12,7 +12,7 @@
 /* login screen background */
 .THIS .mobile-content.cLofi_LoginThemeLayout {
     min-height: 101vh;
-} 
+}
 
 .THIS .hide-standard-nav {
     opacity: 0;
@@ -24,13 +24,17 @@
 }
 
 .THIS .logo-container-RTL {
-    /* @noflip */   height: 50px;
-    /* @noflip */   display: flex;
-    /* @noflip */  align-items: center;
-    /* @noflip */  margin-left: 15px;
-    /* @noflip */   flex-shrink: 0;
+    /* @noflip */
+    height: 50px;
+    /* @noflip */
+    display: flex;
+    /* @noflip */
+    align-items: center;
+    /* @noflip */
+    margin-left: 15px;
+    /* @noflip */
+    flex-shrink: 0;
     /*    margin-right: -9px; */
-    
 }
 
 .THIS .slds-backdrop {
@@ -71,7 +75,8 @@
 
 .THIS .layout-header.rtl {
     /* flex-direction: row-reverse;*/
-    /* @noflip */  direction: rtl;
+    /* @noflip */
+    direction: rtl;
 }
 
 .THIS .slds-table thead th {
@@ -139,7 +144,7 @@
 }
 
 .THIS .phone-menu-background .slds-dropdown-trigger .rr-icon_medium {
-    margin: 0 .25rem 0 -2px;
+    margin: 0 0.25rem 0 -2px;
 }
 
 .THIS .slds-select {
@@ -177,7 +182,7 @@
 }
 
 .THIS .slds-input::placeholder {
-    font-size: .875rem;
+    font-size: 0.875rem;
     color: #999;
     font-weight: 400;
 }
@@ -227,7 +232,9 @@
     display: flex;
 }
 
-.THIS .menuheight{height: 100%;}
+.THIS .menuheight {
+    height: 100%;
+}
 
 .THIS .helpNavigationCSS {
     height: 100%;
@@ -237,10 +244,10 @@
     margin-left: 4px;
 }
 
-.THIS .calendarNavigationCss{	
-    height: 100%;	
-    display: inline-flex;	
-    align-items: center;	
+.THIS .calendarNavigationCss {
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
     padding: 0 8px;
 }
 
@@ -272,7 +279,7 @@
     .THIS .helpNavigationCSS:hover {
         background-color: rgba(255, 255, 255, 0);
     }
-    
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
@@ -284,7 +291,7 @@
     .THIS .navigation-block {
         display: none !important;
     }
-    
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
@@ -295,7 +302,7 @@
     .THIS .menu-btn {
         display: none !important;
     }
-    
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
@@ -306,19 +313,19 @@
     .THIS .slds-grid.vis-path {
         padding-top: 25px;
     }
-    
+
     .THIS .slds-grid.vis-path .line-div .state-ico-wrapper-large {
         top: -25px !important;
         left: -22px !important;
     }
-    
+
     .THIS .slds-grid.vis-path .line-div .state-ico-wrapper-middle {
         top: -20px !important;
         left: -17px !important;
         width: 38px !important;
         height: 38px !important;
     }
-    
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
@@ -336,11 +343,11 @@
     .THIS .bodyShift {
         left: 0;
     }
-    
+
     .THIS .cRRNavigationPath.navigation-path {
         margin-left: 10px;
     }
-    
+
     .THIS .apollo-btn,
     .THIS .slds-input,
     .THIS .slds-button_neutral,
@@ -353,60 +360,61 @@
         display: inline-flex;
         align-items: center;
     }
-    
+
     .THIS .cFilterPanel .fp-search .rri-container .slds-input,
     .THIS .cFilterPanel .fp-search-input .rri-container .slds-input {
         background-position: 7px 50%;
     }
-    
+
     .THIS .cRRPaginationRemote.rrp-container .buttons .previous-btn,
     .THIS .cRRPaginationRemote.rrp-container .buttons .next-btn {
         height: 40px;
         width: 40px;
     }
-    
+
     .THIS .cRRPaginationRemote.rrp-container .buttons .previous-btn svg,
     .THIS .cRRPaginationRemote.rrp-container .buttons .next-btn svg {
         height: 15px;
         width: 15px;
     }
-    
+
     .THIS .cRrSelect .slds-select_container:after {
         top: 16px;
     }
-    
+
     .THIS cAccountSettings.as-container .as-password {
         margin-bottom: 0;
     }
-    
+
     .THIS .cAccountSettings.as-container {
         padding-bottom: 10px;
     }
-    
+
     .THIS .cAccountSettings.as-container .as-language-switcher + div {
         max-height: 0;
     }
-    
+
     .THIS .cAccountSettings.as-container .as-info + div {
         max-height: 25px;
     }
-    
+
     .THIS .state-ico-wrapper .rr-icon-default {
         width: 22px;
         height: 20px;
     }
-    
-    
-    .THIS [name="planDate"],
-    .THIS [name="reminderDate"] {
+
+    .THIS [name='planDate'],
+    .THIS [name='reminderDate'] {
         width: 250px;
     }
-    
+
     .THIS .rtl .right-block {
-        /* @noflip */   margin-right: auto;
-        /* @noflip */   margin-left: 0;
+        /* @noflip */
+        margin-right: auto;
+        /* @noflip */
+        margin-left: 0;
     }
-    
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
@@ -417,45 +425,45 @@
     .THIS .vis-path.slds-grid {
         padding-top: 25px;
     }
-    
+
     .THIS .vis-path.slds-grid .line-div .state-ico-wrapper {
         width: 30px;
         height: 30px;
         top: -16px;
         left: -14px;
     }
-    
+
     .THIS .vis-path.slds-grid .line-div .state-ico-wrapper-large {
         top: -25px !important;
         left: -22px !important;
     }
-    
+
     .THIS .vis-path.slds-grid .line-div .state-ico-wrapper-middle {
         top: -21px !important;
         left: -18px !important;
         width: 40px !important;
         height: 40px !important;
     }
-    
+
     .THIS .arrow-border span {
         margin-top: 9px;
         margin-right: -2px;
     }
-    
+
     .THIS .arrow-border span.arrow-borders-right {
         margin-top: 9px;
         margin-left: -2px;
     }
-    
+
     .THIS
-    .arrow-left
-    + .slds-col
-    > .vis-path.slds-grid
-    > .slds-col:nth-of-type(n + 2)
-    .state-label {
+        .arrow-left
+        + .slds-col
+        > .vis-path.slds-grid
+        > .slds-col:nth-of-type(n + 2)
+        .state-label {
         padding-right: 36px;
     }
-    
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
@@ -467,7 +475,7 @@
         display: flex;
         justify-content: flex-end;
     }
-    
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
@@ -479,20 +487,19 @@
     .THIS .ms-left.slds-small-size--1-of-1.ms-left.visible {
         height: auto;
     }
-    
+
     .THIS .ms-page.rr-width-limiter {
         padding-bottom: 0;
     }
-    
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
     }
-    
+
     .THIS .cRRNavigationPath.navigation-path {
         margin-left: 0;
     }
-    
 }
 
 @media print {
@@ -519,7 +526,7 @@
         border-radius: 0 !important;
         z-index: 10000 !important;
     }
-    
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
@@ -541,7 +548,7 @@
         border-radius: 0 !important;
         z-index: 10000 !important;
     }
-    
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
@@ -556,7 +563,7 @@
         border-radius: 0 !important;
         z-index: 10000 !important;
     }
-    
+
     .THIS .uiPanel.transitioning {
         margin: 0% 3% 2% 4% !important;
         position: absolute !important;
@@ -564,7 +571,7 @@
         border-radius: 0 !important;
         z-index: 10000 !important;
     }
-    
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
@@ -579,7 +586,7 @@
         border-radius: 0 !important;
         z-index: 10000 !important;
     }
-    
+
     .THIS .uiPanel.transitioning {
         margin: 0% 3% 2% 4% !important;
         position: absolute !important;
@@ -587,7 +594,7 @@
         border-radius: 0 !important;
         z-index: 10000 !important;
     }
-    
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
@@ -609,7 +616,7 @@
         border-radius: 0 !important;
         z-index: 10000 !important;
     }
-    
+
     .THIS.uiPanel notificationsPanel {
         margin: 0% 3% 2% 4% !important;
         position: absolute !important;
@@ -618,13 +625,34 @@
         border-radius: 0 !important;
         z-index: 10000 !important;
     }
-    
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
     }
-    
 }
-.THIS .slds-datepicker { 
+.THIS .slds-datepicker {
     max-width: 50rem;
+}
+
+.THIS .iqvia_logo {
+    height: 24px;
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    cursor: pointer;
+    padding-right: 1.4rem;
+}
+
+.THIS .iqvia_text {
+    height: 24px;
+    width: 99px;
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 24px;
 }
