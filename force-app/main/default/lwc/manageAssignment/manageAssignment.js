@@ -31,6 +31,7 @@ import PP_AS_CONDITIONAL_FEATURE from '@salesforce/label/c.PP_AS_CONDITIONAL_FEA
 import PP_Delegates_Permitted_Actions from '@salesforce/label/c.PP_Delegates_Permitted_Actions';
 
 import {
+    publish,
     subscribe,
     unsubscribe,
     MessageContext,
@@ -139,23 +140,23 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
         }
     }
     //Subscribe the message channel to read the message published.
-    subscribeToMessageChannel() {
-        if (!this.subscription) {
-            this.subscription = subscribe(
-                this.messageContext,
-                messageChannel,
-                (message) => this.handleMessage(message),
-                { scope: APPLICATION_SCOPE }
-            );
-        }
-    }
-    //Handler for message received by Aura component
-    handleMessage(message) {}
-    //Subscribe the message channel
-    unsubscribeToMessageChannel() {
-        unsubscribe(this.subscription);
-        this.subscription = null;
-    }
+    // subscribeToMessageChannel() {
+    //     if (!this.subscription) {
+    //         this.subscription = subscribe(
+    //             this.messageContext,
+    //             messageChannel,
+    //             (message) => this.handleMessage(message),
+    //             { scope: APPLICATION_SCOPE }
+    //         );
+    //     }
+    // }
+    // //Handler for message received by Aura component
+    // handleMessage(message) {}
+    // //Subscribe the message channel
+    // unsubscribeToMessageChannel() {
+    //     unsubscribe(this.subscription);
+    //     this.subscription = null;
+    // }
     get addDelBtnMarin() {
         return this.isRTL
             ? 'mr-5 add-Delegate-Btn slds-float_left'
@@ -252,7 +253,7 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
                 } else {
                     this.setInitializedData(result);
 
-                    //this.resetProfileMenueItems();
+                    this.resetProfileMenueItems();
                     communityService.showToast(
                         '',
                         'success',
