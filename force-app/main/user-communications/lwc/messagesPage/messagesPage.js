@@ -67,14 +67,16 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
     renderedCallback() {
         if (!this.initialized && this.stubLoad) {
             this.spinner = this.template.querySelector('c-web-spinner');
-            this.spinner.show();
+            if (this.spinner) {
+                this.spinner.show();
+            }
         }
 
         if (!this.messageBoard && this.initialized) {
             if (!this.canStartConversation) this.changePlusStyle(false);
 
             this.messageBoard = this.template.querySelector('c-message-board');
-            if (this.userMode === 'Participant'){
+            if (this.userMode === 'Participant') {
                 this.messageBoard.setTemplates(this.messageTemplates, this.piContactNames);
             }
         }
@@ -85,7 +87,9 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
             }
 
             this.needAfterRenderSetup = false;
-            this.spinner.hide();
+            if (this.spinner) {
+                this.spinner.hide();
+            }
         }
     }
 

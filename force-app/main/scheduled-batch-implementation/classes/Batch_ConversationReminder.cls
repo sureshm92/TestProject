@@ -1,5 +1,5 @@
 /**
- * Created by Igor Iosifov on 2020-02-03.
+ * Created by Igor Iosifov on 2020-02-03. 
  */
 
 public with sharing class Batch_ConversationReminder extends Batch_ScheduledAbstract {

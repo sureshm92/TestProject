@@ -7,25 +7,19 @@ export default class PpDetailPageResourceItem extends LightningElement {
     showVideo = false;
     isThumbnailPresent = false;
     desktop;
+    showSpinner = false;
     connectedCallback() {
+        this.showSpinner = true;
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-        this.spinner = this.template.querySelector('c-web-spinner');
-        if (this.spinner) {
-            this.spinner.show();
-        }
+
         this.isThumbnailPresent = this.resourceLink ? true : false;
-        if (this.spinner) {
-            this.spinner.show();
-        }
         if (this.resourceType == 'Article') {
             this.showArticle = true;
         }
         if (this.resourceType == 'Video') {
             this.showVideo = true;
         }
-        if (this.spinner) {
-            this.spinner.hide();
-        }
+        this.showSpinner = false;
     }
     handleError() {
         this.isThumbnailPresent = false;

@@ -10,6 +10,7 @@ import createTask from '@salesforce/apex/TaskEditRemote.upsertTaskForVisit';
 import deleteReminder from '@salesforce/apex/TaskEditRemote.deleteReminder';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import DEVICE from '@salesforce/client/formFactor';
+import USER_ID from '@salesforce/user/Id';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import date from '@salesforce/label/c.TV_TH_Date';
 import location from '@salesforce/label/c.SS_Location';
@@ -123,7 +124,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             this.desktop = true;
         } else {
             this.desktop = false;
-            this.communicationTab = '_self';
         }
         loadScript(this, COMETD_LIB).then(() => {
             loadScript(this, moment).then(() => {
@@ -156,7 +156,10 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 this.cometd.handshake((status) => {
                     if (status.successful) {
                         this.subscription = this.cometd.subscribe(this.channel, (message) => {
-                            this.initializeData(false);
+                            let refreshRequired = message.data.payload.Payload__c.includes(USER_ID);
+                            if (refreshRequired) {
+                                this.initializeData(false);
+                            }
                         });
                     } else {
                         this.showToast(status, status, 'error');
@@ -181,6 +184,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 this.smsOptIn = !initialData.Permit_SMS_Text_for_this_study__c;
                 this.email = this.emailOptIn ? false : this.email;
                 this.sms = this.smsOptIn ? false : this.sms;
+                if (!(this.sms || this.email)) {
+                    this.disableButtonSaveCancel = true;
+                }
                 if (this.spinner != null && this.spinner != undefined) {
                     this.spinner.hide();
                 }
@@ -405,7 +411,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     @track initialReminderOptions = [
-        { label: this.label.none, value: 'No reminder', itemClass: 'dropdown-li li-item-disabled' },
+        { label: this.label.none, value: 'No reminder', itemClass: 'dropdown-li' },
         {
             label: this.label.onehour,
             value: '1 hour before',
@@ -414,49 +420,42 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         {
             label: this.label.fourhour,
             value: '4 hours before',
-            itemClass: 'dropdown-li li-item-disabled'
+            itemClass: 'dropdown-li'
         },
         {
             label: this.label.oneday,
             value: '1 day before',
-            itemClass: 'dropdown-li li-item-disabled'
+            itemClass: 'dropdown-li'
         },
         {
             label: this.label.oneweek,
             value: '1 week before',
-            itemClass: 'dropdown-li li-item-disabled'
+            itemClass: 'dropdown-li'
         },
         { label: this.label.custom, value: 'Custom', itemClass: 'dropdown-li' }
     ];
 
     get reminderOptions() {
         let differenceTimeHours = this.calculateTimezoneDifference();
+        let updatedReminderOptions = [];
+        if (this.remindmepub) {
+            updatedReminderOptions = [...updatedReminderOptions, this.initialReminderOptions[0]];
+        }
         if (differenceTimeHours > 1) {
-            this.initialReminderOptions[1].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
+            updatedReminderOptions = [...updatedReminderOptions, this.initialReminderOptions[1]];
         }
         if (differenceTimeHours > 4) {
-            this.initialReminderOptions[2].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
+            updatedReminderOptions = [...updatedReminderOptions, this.initialReminderOptions[2]];
         }
         if (differenceTimeHours > 24) {
-            this.initialReminderOptions[3].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[3].itemClass = 'dropdown-li li-item-disabled';
+            updatedReminderOptions = [...updatedReminderOptions, this.initialReminderOptions[3]];
         }
         if (differenceTimeHours > 168) {
-            this.initialReminderOptions[4].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[4].itemClass = 'dropdown-li li-item-disabled';
+            updatedReminderOptions = [...updatedReminderOptions, this.initialReminderOptions[4]];
         }
-        if (this.remindmepub === '') {
-            this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
-        } else {
-            this.initialReminderOptions[0].itemClass = 'dropdown-li';
-        }
-        return this.initialReminderOptions;
+        updatedReminderOptions = [...updatedReminderOptions, this.initialReminderOptions[5]];
+
+        return updatedReminderOptions;
     }
 
     calculateTimezoneDifference() {

@@ -1444,12 +1444,30 @@ FOR UPDATE
                 }
                 //if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {
                 List<Patient_Delegate__c> checkPDel;
+                List<Id> lstPrimaryDelegate = new List<Id> ();
+                List<Id> lstNonPrimaryDelegtae = new list<Id> ();
                 if (participantId != null && newContact.Id != null) {
-                    checkPDel = [
-                        SELECT Id,Primary_Delegate__c,Participant__r.Email__c
+                    checkPDel=new List<Patient_Delegate__c>();
+                    List<Patient_Delegate__c> allPDelList = [
+                        SELECT Id,Primary_Delegate__c,Participant__r.Email__c,Contact__c
                         FROM Patient_Delegate__c
-                        WHERE Participant__c = :participantId AND Contact__c = :newContact.Id
+                        WHERE Participant__c = :participantId 
+                        //AND Contact__c = :newContact.Id
                     ];
+                    for(Patient_Delegate__c pDel:allPDelList){
+                        if(pDel.Contact__c==newContact.Id){
+                            pDel.Primary_Delegate__c = True;
+                            checkPDel.add(pDel);  
+                            lstPrimaryDelegate.add(pDel.Id); 
+                           }else {
+                            pDel.Primary_Delegate__c = false;
+                            lstNonPrimaryDelegtae.add(pDel.Id);
+                           }
+                     }
+                     if(!lstPrimaryDelegate.isEmpty()  || !lstNonPrimaryDelegtae.isEmpty())
+                        updatePatientDelegateExisting(lstPrimaryDelegate,lstNonPrimaryDelegtae);
+                     //update allPDelList;
+
                     List<Participant_Enrollment__c> particpantEnrollList = [
                         SELECT
                         Id,
@@ -1555,9 +1573,11 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                         ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                     }
                 }
-            } else if (participantDelegate == null) {
+            } 
+            if (participantDelegate == null) {
                 //REF-3566
                 List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+                List<Id> lstPatientDelegateId = new List<Id> ();
                 for (Patient_Delegate__c pd : [
                     SELECT Id, Primary_Delegate__c
                     FROM Patient_Delegate__c
@@ -1566,11 +1586,14 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                     if (pd.Primary_Delegate__c == true) {
                         pd.Primary_Delegate__c = false;
                         pdList.add(pd);
+                        lstPatientDelegateId.add(pd.id);
                     }
                 }
                 //update pdList; moved to future method
+                if(!pdList.isEmpty()) {
                 String objJSONStr = Json.serialize(pdList);
-                updatePatientDelegate(objJSONStr);
+                updatePatientDelegateNew(lstPatientDelegateId);
+                }
             }
             
             System.debug('contentDocId--' + contentDocId);
@@ -1608,5 +1631,36 @@ update objConVersion;*/
             AuraHelper.throwException(e);            
         }
         return null;
+    }
+
+    @Future
+    public static void updatePatientDelegateNew(List<Id> lstPatientDelegtaeId){
+            List<Patient_Delegate__c> lstPTUpdate = new List<Patient_Delegate__c> ();
+             for(Patient_Delegate__c objPT : [ SELECT Id, Primary_Delegate__c FROM Patient_Delegate__c 
+                                                Where ID IN:lstPatientDelegtaeId and Primary_Delegate__c = True])
+            {
+                objPT.Primary_Delegate__c = false;
+                lstPTUpdate.add(objPT);
+            }
+        update lstPTUpdate;
+    }
+
+    @Future
+    public static void updatePatientDelegateExisting(List<Id> lstPrimaryDelegate, List<Id> lstNonPrimaryDelegtae){
+            List<Patient_Delegate__c> lstPTUpdate = new List<Patient_Delegate__c> ();
+
+            for(ID lstprimaryId : lstPrimaryDelegate)
+            {
+                Patient_Delegate__c objPD = new Patient_Delegate__c(Id = lstprimaryId,Primary_Delegate__c = true);
+                lstPTUpdate.add(objPD);
+            }
+            for(ID lstprimaryId : lstNonPrimaryDelegtae)
+            {
+                Patient_Delegate__c objPD = new Patient_Delegate__c(Id = lstprimaryId,Primary_Delegate__c = false);
+                lstPTUpdate.add(objPD);
+
+            }
+            
+        update lstPTUpdate;
     }
 }

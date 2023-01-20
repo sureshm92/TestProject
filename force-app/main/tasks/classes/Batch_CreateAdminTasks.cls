@@ -1,6 +1,6 @@
 /**
  * Created by Igor Malyuta on 04.10.2019.
- */
+ */ 
 
 public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContactWrapper>, Database.Stateful {
     private TaskService.TaskConfig taskConfig;

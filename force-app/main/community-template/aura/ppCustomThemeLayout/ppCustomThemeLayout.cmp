@@ -24,10 +24,7 @@
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
-    <aura:handler
-        event="c:ppCloseNavMenu"
-        action="{!c.handleClickCloseNavMenu}"
-    />
+    <aura:handler event="c:ppCloseNavMenu" action="{!c.handleClickCloseNavMenu}" />
 
     <aura:handler event="c:PPMobileMenu" action="{!c.handleClickCloseNavMenu}" />
 
@@ -58,7 +55,10 @@
                         />
                     </aura:if>
                     <div class="logo-container-pp">
-                        <img src="{!v.logoURL}" class="title-logo" onclick="{!c.doGoHome}" />
+                        <!--     <img src="{!v.logoURL}" class="title-logo" onclick="{!c.doGoHome}" />-->
+                        <div class="iqvia_logo" onclick="{!c.doGoHome}">
+                            IQVIA <span class="iqvia_text">Patient Portal</span>
+                        </div>
                     </div>
 
                     <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">

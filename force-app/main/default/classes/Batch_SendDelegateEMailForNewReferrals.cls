@@ -6,7 +6,7 @@ public class Batch_SendDelegateEMailForNewReferrals extends Batch_ScheduledAbstr
         lastbatchstart = input_lastbatchstart;
     }
     public Batch_SendDelegateEMailForNewReferrals() {
-    }
+    } 
     Map<String, List<User>> timezoneUsers = new Map<String, List<User>>();
     public Database.QueryLocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(

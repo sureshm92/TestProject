@@ -1,6 +1,6 @@
 /**
  * Created by Igor Malyuta on 29.05.2019.
- */
+ */ 
 
 public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAbstract {
     private List<Trial_Survey__c> trialSurveyList = new List<Trial_Survey__c>();

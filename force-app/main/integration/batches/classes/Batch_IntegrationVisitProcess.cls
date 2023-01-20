@@ -1,6 +1,6 @@
 /**
  * Created by Leonid Bartenev
- */
+ */ 
 
 public without sharing class Batch_IntegrationVisitProcess extends Batch_ScheduledAbstract implements Database.Batchable<SObject>, Database.AllowsCallouts, Database.Stateful {
     set<ID> pvIds = new Set<ID>();

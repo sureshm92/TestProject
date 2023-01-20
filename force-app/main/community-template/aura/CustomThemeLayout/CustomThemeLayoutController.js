@@ -3,19 +3,23 @@
  */
 ({
     doInit: function (component, event, helper) {
-        if(sessionStorage.getItem('isExecute') == null){
+        if (sessionStorage.getItem('isExecute') == null) {
             sessionStorage.setItem('isExecute', 'true');
-        } 
+        }
         if (communityService.isInitialized()) {
             component.set('v.communityServ', communityService);
-            communityService.executeAction(component, 'checkStudyMessage', null, function (
-                returnValue
-            ) {
-                component.set('v.hasMessage', returnValue);
-            });
+            communityService.executeAction(
+                component,
+                'checkStudyMessage',
+                null,
+                function (returnValue) {
+                    component.set('v.hasMessage', returnValue);
+                    helper.init(component);
+                }
+            );
             setTimeout(
                 $A.getCallback(function () {
-                    helper.init(component);
+                    //helper.init(component);
                 }),
                 1000
             );
