@@ -21,6 +21,7 @@ public class Batch_CreateECOASite extends Batch_ScheduledAbstract implements Dat
     public override virtual String getBatchDescription() {
         return 'Create Sites in ECOA Platform';
     }
+    
 
     public override Integer getRecommendedRelaunchInterval() {
         return 5;
