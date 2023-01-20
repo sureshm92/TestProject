@@ -12,7 +12,7 @@
                           signature="{!$Label.Email_Signature_FullName_New}"
                           communityTemplate="Default">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Participant_Delegate_Reactivated}"/>
-            <c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}"/>
+            <c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}" recipientId="{!recipient.Id}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
                               buttonURL="/s/"/>
         </c:EmailWireframe>
