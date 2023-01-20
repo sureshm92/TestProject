@@ -17,7 +17,10 @@ ContactID=WhoId
 ShortTaskName = Subject
 isEventorVisit=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
 isStudyorProgram=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
-studiesOrPrograms=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c</value>
+studiesOrPrograms=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
+visitorevent=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
+StudyorProgramHeader=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
+</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>
