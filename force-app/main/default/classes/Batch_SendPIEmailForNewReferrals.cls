@@ -1,4 +1,4 @@
-public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
+ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
     private List<User> finalPIs = new List<User>();
     Map<String, List<User>> timezoneUsers = new Map<String, List<User>>();
     DateTime timestarted;
