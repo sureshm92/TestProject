@@ -42,7 +42,7 @@ studiesOrPrograms=Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c
 STUDYorPROGRAM=Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c
 trialorprogram=Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c
 clinicalstudyorprogram=Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c
-visitorevent=Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c</value>
+</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>
