@@ -2,11 +2,10 @@
     bottom: 0;
     left: 0;
     position: fixed;
-    opacity: 0.8;
     border-radius: 16px 16px 0 0;
-    background-color: #000000;
     box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
     z-index: 9999;
+    background: rgba(0, 0, 0, 0.8);
 }
 
 .rh-cookies-banner {
@@ -70,6 +69,7 @@
 
 .cookie-btn {
     pointer-events: auto;
+    border-color: transparent;
 }
 
 .hide-banner {
@@ -238,4 +238,5 @@
 }
 .cookie-title-font-size {
     font-size: 16px;
+    font-weight: 510;
 }

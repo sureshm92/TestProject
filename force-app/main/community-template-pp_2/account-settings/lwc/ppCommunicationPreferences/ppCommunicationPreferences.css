@@ -1,9 +1,4 @@
 .back-button {
-    color: #0768fd;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 2rem;
     margin-top: 15px;
     margin-left: 21px;
     margin-bottom: -15px;
@@ -157,11 +152,13 @@
 }
 
 .blue-highlight-text-color {
-    color: #0f6efd;
+    color: #015ff1;
 }
 
 .blue-highlight-text-color:hover {
     cursor: pointer;
+    text-decoration: underline;
+    text-decoration: dashed;
 }
 
 .slds-checkbox_faux {

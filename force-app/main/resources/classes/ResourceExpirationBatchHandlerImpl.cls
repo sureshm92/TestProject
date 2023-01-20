@@ -1,6 +1,6 @@
 /**
  * Created by Yehor Dobrovolskyi
- */
+ */ 
 public with sharing class ResourceExpirationBatchHandlerImpl implements BatchHandler {
     public void handle(List<SObject> scope) {
         if (!scope.isEmpty()) {

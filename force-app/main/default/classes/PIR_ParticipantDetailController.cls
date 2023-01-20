@@ -331,6 +331,11 @@ public without sharing class PIR_ParticipantDetailController {
            
         }else if(delegateCriteria == 'updateDeligate'){
           if(useDup){
+            
+            Participant__c piToUpdateDelegate = new Participant__c();
+            piToUpdateDelegate = peDeligate.Participant_Delegate__r;
+
+            update piToUpdateDelegate;
             List<Patient_Delegate__c> pd = new List<Patient_Delegate__c>();
             List<Patient_Delegate__c> pds = new List<Patient_Delegate__c>();
             pd = [Select Id,Participant__c,Contact__c, Participant_Delegate__c,Contact__r.Participant_Opt_In_Status_SMS__c from Patient_Delegate__c where Participant__c=: perRecord.Participant__c and Participant_Delegate__c=:peDeligate.Participant_Delegate__r.Id];
