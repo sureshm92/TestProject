@@ -10,7 +10,7 @@
 }
 
 .active-btn {
-    background: #015ff1;
+    background: rgba(7, 104, 253, 1);
     color: #ffffff;
     font-size: 1rem;
     font-weight: 600;
@@ -35,7 +35,7 @@
     background: #ffffff;
 }
 .create-task {
-    background: #015ff1;
+    background: rgba(7, 104, 253, 1);
     border-radius: 2rem;
     color: #ffffff;
     width: 510px;
@@ -51,31 +51,14 @@
     padding-right: 16px;
 }
 .before-create-task {
-    background: #015ff1;
+    background: rgba(7, 104, 253, 1);
     cursor: pointer;
 }
 .after-create-task {
+    background: rgba(7, 104, 253, 1);
     opacity: 0.4;
     pointer-events: none;
 }
-
-.active-btn:hover,
-.before-create-task:hover,
-.create-task:hover,
-.completed-task.active-btn:hover {
-    background: #0557d5;
-    transition: .2s;
-    transition-timing-function: cubic-bezier(0.38,0,1,1);
-}
-
-.completed-task:hover,
-.inactive-btn.open-task:hover {
-    background-color: #ecf3ff;
-    border-color: #015ff1;
-    transition: .2s;
-    transition-timing-function: cubic-bezier(0.38,0,1,1);
-}
-
 .tasks {
     color: #444444;
     font-size: 2rem;
@@ -204,7 +187,7 @@
 }
 .modal-button {
     border-radius: 20px;
-    background: #015ff1;
+    background: rgba(7, 104, 253, 1);
     color: #ffffff;
     width: 7.5rem;
     height: 2rem;
