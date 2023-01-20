@@ -1,9 +1,9 @@
 /**
- * Created by Igor Malyuta on 14.05.2020.
+ * Created by Igor Malyuta on 14.05.2020. 
  */
 public with sharing class Batch_TrialMatchNotify extends Batch_ScheduledAbstract {
     private Map<Id, Map<String, Id>> enrollmentsByTemplateByContact = new Map<Id, Map<String, Id>>();
-	
+	 
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator(
             [

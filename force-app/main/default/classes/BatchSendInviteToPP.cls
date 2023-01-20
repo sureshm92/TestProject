@@ -1,5 +1,5 @@
 public without sharing class BatchSendInviteToPP implements Database.Batchable<SObject>, Database.Stateful {
-
+ 
     public List<Id> participantIds = new List<Id>();
     public List<Id> delegateParticipantIds = new List<Id>();
     Id ctpId;
