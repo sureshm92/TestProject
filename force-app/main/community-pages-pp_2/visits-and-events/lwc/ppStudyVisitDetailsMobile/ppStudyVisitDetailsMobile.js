@@ -19,6 +19,7 @@ import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
 import basePathName from '@salesforce/community/basePath';
 import visitdetails from '@salesforce/label/c.Visit_Details';
+import eventdetails from '@salesforce/label/c.Event_Details';
 import communicationPreference from '@salesforce/label/c.Communication_Preference_Url';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -36,6 +37,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         resultsCheck,
         viewAllResults,
         visitdetails,
+        eventdetails,
         BTN_Back,
         Unavailable
     };
@@ -59,6 +61,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     @track sitePhoneNumber;
     @track contentLoaded = false;
     @track past = false;
+    @track isInitialVisit = false;
     @track showChild = false;
     visitimage1 = pp_icons + '/' + 'VisitPageResultImage.png';
     @track visitDetail;
@@ -67,6 +70,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     visitStatus = '';
     visitTimezone = '';
     hasRendered = false;
+    isEvent = false;
     @track visitdetailpageurl = '';
     @track missedVisit = false;
 
@@ -78,6 +82,10 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
 
     connectedCallback() {
+        if (window.location.pathname.includes('event')) {
+            this.isEvent = true;
+            this.missedVisit = true;
+        }
         this.contentLoaded = false;
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
@@ -101,10 +109,14 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                         this.plannedDate = this.visitDetail[0].Planned_Date__c;
                         this.visitStatus = this.visitDetail[0].Status__c;
                         this.visitTimezone = TIME_ZONE;
+                        this.isInitialVisit =
+                            this.visitDetail[0].Is_Pre_Enrollment_Patient_Visit__c;
                     }
                     if (this.visitStatus == 'Missed') {
                         this.visitStatus = this.label.Unavailable;
-                        this.missedVisit = true;
+                        if (this.isEvent != true) {
+                            this.missedVisit = true;
+                        }
                     }
                 })
                 .catch((error) => {
@@ -113,7 +125,11 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         }
     }
     getParams() {
-        this.visitid = communityService.getUrlParameter('visitid');
+        if (this.isEvent) {
+            this.visitid = communityService.getUrlParameter('eventid');
+        } else {
+            this.visitid = communityService.getUrlParameter('visitid');
+        }
         this.cblabel = '';
         this.cbdescription = '';
         if (this.visitid != null) {
@@ -140,8 +156,13 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
 
     handleBackClick() {
-        this.visitdetailpageurl =
-            window.location.origin + basePathName + '/visits' + '?ispast=' + this.past;
+        if (this.isEvent) {
+            this.visitdetailpageurl =
+                window.location.origin + basePathName + '/events' + '?ispast=' + this.past;
+        } else {
+            this.visitdetailpageurl =
+                window.location.origin + basePathName + '/visits' + '?ispast=' + this.past;
+        }
         const config = {
             type: 'standard__webPage',
             attributes: {
@@ -196,6 +217,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                 ) {
                     this.past = true;
                 }
+                //this.isInitialVisit = this.visitdata.Is_Pre_Enrollment_Patient_Visit__c;
                 this.taskId = this.visitdata.task.Id;
                 this.taskSubject = this.visitdata.visit.Name;
                 this.contentLoaded = true;
@@ -216,8 +238,13 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
 
     redirectPage(visitid) {
-        this.visitdetailurl =
-            window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
+        if (this.isEvent) {
+            this.visitdetailurl =
+                window.location.origin + basePathName + '/event-details' + '?eventid=' + visitid;
+        } else {
+            this.visitdetailurl =
+                window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
+        }
         const config = {
             type: 'standard__webPage',
 

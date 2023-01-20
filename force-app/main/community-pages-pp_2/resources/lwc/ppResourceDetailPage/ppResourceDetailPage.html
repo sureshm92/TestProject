@@ -1,6 +1,6 @@
 <template>
     <!-- Loading Spinner-->
-    <c-web-spinner class="main-spinner"></c-web-spinner>
+    <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
     <template if:true={isInitialized}>
         <div class="page-container page-margin">
             <!--***************  Detail Top Bar  ******************-->
@@ -62,6 +62,7 @@
                                     <!--   STARICON    -->
                                     <lightning-layout-item size="2">
                                         <div
+                                            if:false={isMultimedia}
                                             class="resource-icon resource-pointer"
                                             onclick={handleFavourite}
                                         >
@@ -90,9 +91,6 @@
                                     {label.VERSION}&nbsp;
                                     <lightning-formatted-date-time
                                         value={resUploadDate}
-                                        year="numeric"
-                                        month="2-digit"
-                                        day="2-digit"
                                         time-zone={userTimeZone}
                                     >
                                     </lightning-formatted-date-time>
@@ -104,6 +102,14 @@
                                     <lightning-formatted-rich-text
                                         value={resourceSummary}
                                     ></lightning-formatted-rich-text>
+                                </div>
+                            </lightning-layout-item>
+                            <!-- Article suggestions-->
+                            <lightning-layout-item size="12">
+                                <div if:true={isArticleVideo}>
+                                    <c-pp-suggested-articles
+                                        resid={resourceId}
+                                    ></c-pp-suggested-articles>
                                 </div>
                             </lightning-layout-item>
                         </lightning-layout>

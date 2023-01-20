@@ -5,7 +5,7 @@ import getCtpName from '@salesforce/apex/ParticipantStateRemote.getInitData';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
-import VERSION from '@salesforce/label/c.Resource_Uploaded';
+import VERSION from '@salesforce/label/c.Version_date';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
@@ -29,6 +29,9 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         VERSION,
         Back_To_Resources
     };
+    isMultimedia = false;
+    isArticleVideo = false;
+    spinner;
 
     connectedCallback() {
         //get resource parameters from url
@@ -44,6 +47,11 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
         this.initializeData();
     }
+
+    get showSpinner() {
+        return !this.isInitialized;
+    }
+
     async initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
@@ -61,12 +69,24 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 this.resUploadDate = resourceData.Version_Date__c;
                 this.resourceTitle = resourceData.Title__c;
                 this.resourceSummary = resourceData.Body__c;
+                this.isArticleVideo =
+                    this.resourceType == 'Article' || this.resourceType == 'Video';
                 this.resourceLink =
                     this.resourceType == 'Article' ? resourceData.Image__c : resourceData.Video__c;
+                if (this.resourceType == 'Multimedia') {
+                    this.resourceLink = resourceData.Multimedia__c;
+                    this.resourceType = 'Video';
+                    this.isMultimedia = true;
+                }
                 this.isFavourite = result.wrappers[0].isFavorite;
                 this.isVoted = result.wrappers[0].isVoted;
                 if (this.isDocument) {
                     this.handleDocumentLoad();
+                }
+                this.isInitialized = true;
+
+                if (this.spinner) {
+                    this.spinner.hide();
                 }
             })
             .catch((error) => {
@@ -82,11 +102,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 .catch((error) => {
                     this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
                 });
-        }
-        this.isInitialized = true;
-
-        if (this.spinner) {
-            this.spinner.hide();
         }
     }
 
@@ -108,18 +123,19 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
     handleBackClick() {
         let pageLink;
-        let subDomain=communityService.getSubDomain();
+        let subDomain = communityService.getSubDomain();
         if (FORM_FACTOR == 'Large') {
-            
             pageLink = window.location.origin + subDomain + '/s/resources';
         } else {
             let resType;
-            if (this.resourceType == 'Study_Document') {
+            if (this.isMultimedia) {
+                resType = 'engage';
+            } else if (this.resourceType == 'Study_Document') {
                 resType = 'documents';
             } else if (this.resourceType == 'Video' || this.resourceType == 'Article') {
                 resType = 'explore';
             }
-            pageLink = window.location.origin + subDomain +'/s/resources?resType=' + resType;
+            pageLink = window.location.origin + subDomain + '/s/resources?resType=' + resType;
         }
         const config = {
             type: 'standard__webPage',

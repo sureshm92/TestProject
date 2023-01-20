@@ -15,7 +15,7 @@
 }
 
 .button-cancel {
-    color: #0768fd;
+    color: #015FF1;
     height: 2rem;
     font-size: 0.875rem;
     font-weight: 500;
@@ -35,6 +35,6 @@
     line-height: 1.3125rem;
     text-align: center;
     border-radius: 1.25rem;
-    background-color: #0768fd;
+    background-color: #015FF1;
     box-shadow: 0 4px 8px 0 rgb(7 104 253 / 25%);
 }

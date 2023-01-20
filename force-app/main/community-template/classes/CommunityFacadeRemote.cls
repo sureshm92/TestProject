@@ -3,7 +3,8 @@
  */
 
 public without sharing class CommunityFacadeRemote {
-    public static final String COOKIE_FIELD_MARK = 'AllowedCookie__c';
+    public static final String COOKIE_FIELD_MARK = 'AllowedCookie__c';  
+    
 
     @AuraEnabled
     public static Boolean isFirstLogon() {
@@ -18,7 +19,7 @@ public without sharing class CommunityFacadeRemote {
                 SELECT Id, Contact.Is_First_Logon__c, ContactId
                 FROM User
                 WHERE Id = :UserInfo.getUserId()
-            ];
+            ]; 
             Contact cont = [SELECT Id FROM Contact WHERE Id = :user.ContactId];
             cont.Is_First_Logon__c = false;
             update cont;
@@ -49,6 +50,7 @@ public without sharing class CommunityFacadeRemote {
         Boolean eDiaryVisible;
         Boolean isMobileApp;
         Boolean hasIQVIAStudiesPI;
+        ParticipantService.ParticipantState participantData;
     }
     @testvisible
     private class CommunityType {
@@ -92,6 +94,7 @@ public without sharing class CommunityFacadeRemote {
                 cd.isDelegate = userContact.UserCommunityIsDelegate__c;
                 cd.allUserModes = UserContext.getAllUserModes();
                 cd.state = ParticipantService.getParticipantState().value.name();
+                cd.participantData = ParticipantService.getParticipantState();
                 cd.preventedCookies = getPreventedCookies(userContact.Id);
                 cd.messagesVisible = getMessagesVisibility();
                 cd.trialMatchVisible = getTrialMatchVisibility();
@@ -417,4 +420,191 @@ public without sharing class CommunityFacadeRemote {
             ]
             .size() > 0;
     }
+//RH-6579/RH-6581 - Bell Notification - Start Changes
+    //Get SessionID
+    @AuraEnabled(Cacheable=true)
+    public static Map<String,string> getSessionId() {
+        Map<string,string> getId = new Map<string,string>();
+        String sessionId = UserInfo.getOrganizationId()+','+UserInfo.getSessionId();
+        getId.put('sessionId',sessionId);
+        String userID = UserInfo.getUserId();        
+        User u = [SELECT u.Id,u.ContactId,u.IsActive 
+                  FROM User u 
+                  WHERE u.Id =: userID AND u.IsActive =: true];       
+        getId.put('userId',u.ContactId);
+        return getId;
+    }
+
+    // Get Send Results records for Logged in User
+    @AuraEnabled
+    public static SendResultWrapper getSendResults(Id contactId, String isExecute){
+        SendResultWrapper sendResultWrap= new SendResultWrapper();
+        List<Send_Result__c> listOfSendResult = new List<Send_Result__c>();
+        List<Send_Result__c> listOfResult = new List<Send_Result__c>();
+        List<LoginHistory> lstLoginHistory = new List<LoginHistory>();
+        Id userId = UserInfo.getUserId();
+        Integer numberOfEnrollments = 0;
+        String query = 'SELECT Id, Clinical_Trial_Profile__r.Study_Code_Name__c, Study_Site__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Participant_Enrollment__c WHERE Study_Site__c IN :lstOfStudySite AND CreatedById != :userId'+
+                        ' AND Participant_Status__c IN (\'Received\',\'Pre-review Passed\',\'Contact Attempted\',\'Successfully Contacted\',\'Screening In Progress\',\'Screening In Progress - Wash Out Period\',\'Screening Passed\','+
+                        ' \'Eligibility Passed\',\'Ready to Screen\',\'Participant No Show\',\'Successfully re-engaged\',\'Randomization Success\',\'Enrollment Success\') AND Participant__r.Present_Age__c >= 0 AND Participant__r.Present_Age__c <= 150';
+        List<Study_Site__c> lstOfStudySite = new List<Study_Site__c>();
+        DateTime userLogin1;
+        DateTime userLogin2;
+        List<Participant_Enrollment__c> lstOfEnrollment = new List<Participant_Enrollment__c>();
+        List<Notification__c> lstOfNotification = new List<Notification__c>();
+        String communityType = UserContext.getCurrentUserMode().template.templateName;  
+        List<String> communityTypeList = new List<String>();
+        if(communityType == 'Janssen'){
+            communityTypeList.add(communityType);
+        }else{
+            communityTypeList.add('Default');
+            communityTypeList.add('GSK');
+        }
+        String userRole = UserContext.getCurrentUserMode().userMode;
+        Map<String, List<Participant_Enrollment__c>> mapOfProtocolVsEnrollment = new Map<String, List<Participant_Enrollment__c>>();
+        Map<String, Set<String>> mapOfStudyVsSite = new Map<String, Set<String>>();
+        Map<String, String> mapOfStudyVsStringSite = new Map<String, String>();      
+        Map<String, String> mapOfStudyVsComm = new Map<String, String>();  
+
+        if(contactId != null){
+            listOfResult = [SELECT Id,CreatedById,CreatedDate,Is_Active__c,Is_Read__c,Link_to_Related_Event_or_Object__c,
+                            Msg_Id__c,Name,Notification__r.Notification_Type__c,Notification__c,Push_Message_Body__c,
+                            Push_Message_Title__c,Status__c,Target_Type__c 
+                            FROM Send_Result__c 
+                            WHERE (Is_Active__c = true) 
+                            AND (Notification__r.Recipient__r.Id =:contactId)  
+                            AND ( CreatedDate = LAST_N_DAYS:30) 
+                            AND Community_Type__c IN :communityTypeList     
+                            AND User_Role__c = :userRole                
+                            ORDER BY CreatedDate DESC];
+        }
+
+        if(!String.isBlank(isExecute) && Boolean.valueOf(isExecute)){            
+            lstOfStudySite = [SELECT Id FROM Study_Site__c 
+                              WHERE (Principal_Investigator__c = :contactId OR ID IN :DelegateService.getDelegatedStudySiteIds())];
+
+            DateTime userCreatedDate = [SELECT CreatedDate FROM User WHERE ID = :userId][0].CreatedDate;
+
+            lstLoginHistory = [SELECT Id, LoginTime, Status, LoginUrl FROM LoginHistory WHERE UserId = :userId AND NetworkId <> null ORDER BY LoginTime DESC];
+            List<LoginHistory> lstOfSuccess = new List<LoginHistory>();
+            for(LoginHistory eachRec : lstLoginHistory){
+                if(eachRec.Status == 'Success'){
+                    lstOfSuccess.add(eachRec);
+                    if(lstOfSuccess.size() == 2){
+                        break;
+                    }
+                }         
+            }
+            if(lstOfSuccess.size() == 1){
+                userLogin1 = lstOfSuccess[0].LoginTime;
+                query += ' AND CreatedDate >= :userCreatedDate AND CreatedDate <= :userLogin1 LIMIT 45000';
+            }
+
+            if(lstOfSuccess.size() == 2){
+                userLogin1 = lstOfSuccess[0].LoginTime;
+                userLogin2 = lstOfSuccess[1].LoginTime;
+                query += ' AND CreatedDate <= :userLogin1 AND CreatedDate >= :userLogin2 LIMIT 45000';
+            }
+
+            lstOfEnrollment = Database.Query(query);
+
+            if(lstOfEnrollment.size() > 0){
+                for(Participant_Enrollment__c eachRec :lstOfEnrollment){
+                    if(!mapOfProtocolVsEnrollment.containsKey(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c)){
+                        mapOfProtocolVsEnrollment.put(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c, new List<Participant_Enrollment__c>{});
+                    }
+                    mapOfProtocolVsEnrollment.get(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c).add(eachRec);
+
+                    if(!mapOfStudyVsSite.containsKey(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c)){
+                        mapOfStudyVsSite.put(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c, new Set<String>{});
+                    }
+                    mapOfStudyVsSite.get(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c).add(eachRec.Study_Site__c);
+
+                    if(!mapOfStudyVsComm.containsKey(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c)){
+                        mapOfStudyVsComm.put(eachRec.Clinical_Trial_Profile__r.Study_Code_Name__c, eachRec.Clinical_Trial_Profile__r.CommunityTemplate__c);
+                    }
+                }
+
+                for(String eachRec : mapOfStudyVsSite.keySet()){
+                    mapOfStudyVsStringSite.put(eachRec, String.join(new List<String>(mapOfStudyVsSite.get(eachRec)), '+'));
+                }
+
+                sendResultWrap.mapOfProtocolVsEnrollment = mapOfProtocolVsEnrollment;
+                for (String eachProtocol : mapOfProtocolVsEnrollment.keySet()) {                
+                    Notification__c notificationRec = BellNotificationsHelper.createNotification('BELL_Message_on_New_Referrals', contactId, userRole, mapOfStudyVsComm.get(eachProtocol), false);       
+                    lstOfNotification.add(notificationRec);     
+                }  
+        
+                if(lstOfNotification.size() > 0){
+                     TriggerHandlerExecutor.bypassHandler(
+                        NotificationTriggerHandler.CheckFieldsHandler.class
+                    );
+                    insert lstOfNotification;
+                    Map<String, String> mapOfInfo = new Map<String, String>();
+                    for(String eachStudy : mapOfProtocolVsEnrollment.keySet()){
+                        for(Notification__c eachRec : lstOfNotification){
+                            if(!mapOfInfo.containsKey(eachRec.Id)){
+                                mapOfInfo.put(eachRec.Id, eachStudy+'#'+mapOfProtocolVsEnrollment.get(eachStudy).size()+'#'+mapOfProtocolVsEnrollment.get(eachStudy)[0].Clinical_Trial_Profile__c+'#'+mapOfStudyVsStringSite.get(eachStudy));
+                                break;
+                            }
+                        }                        
+                    }                    
+                    Id jobId = System.enqueueJob(new BellNotificationQueueable(lstOfNotification, mapOfInfo)); 
+                }          
+            }
+        }
+        
+		List<Send_Result__c> listOfAllSendResult = new List<Send_Result__c>();
+		if(listOfResult.size() > 0){
+          sendResultWrap.allSendResult = listOfResult;
+          return sendResultWrap;
+        }              
+        return null;
+    }
+
+    // Update the Send Result for soft delete for a user
+    @AuraEnabled
+    public static Send_Result__c isActivate(Id sendResultId){
+        try{            
+            if(sendResultId != null){
+                Send_Result__c sendRes = new Send_Result__c(Id = sendResultId, Is_Active__c = false, Is_Read__c = true);
+                update sendRes;
+                return sendRes;
+            }else {
+                return null;
+            }
+        }
+        catch(Exception e){
+            System.debug('Error Occured while Updation==' + e.getMessage());
+            return null;
+        }        
+    }
+
+    // Update the Send Result Record as Read by the user
+    @AuraEnabled
+    public static Send_Result__c updateReadNotification(Id sendResultId){
+        try{            
+            if(sendResultId != null){
+                Send_Result__c sendRes = new Send_Result__c(Id = sendResultId, Is_Read__c = true, Is_Active__c = true);                
+                update sendRes;
+                return sendRes;
+            }else{
+                return null;
+            } 
+        }
+        catch(Exception e){
+            System.debug('Error Occured while Updation==' + e.getMessage());
+            return null;
+        }
+    }
+
+    public class SendResultWrapper {
+        @AuraEnabled
+        public List<Send_Result__c> allSendResult;
+        @AuraEnabled
+        public List<Send_Result__c> newReferralsSendResult;
+        @AuraEnabled
+        public Map<String, List<Participant_Enrollment__c>> mapOfProtocolVsEnrollment;
+    }  
+//RH-6579/RH-6581 - Bell Notification - End Changes
 }

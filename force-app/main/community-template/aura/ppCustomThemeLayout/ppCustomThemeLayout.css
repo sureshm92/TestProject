@@ -1,0 +1,658 @@
+/**
+* Created by Leonid Bartenev
+*/
+.THIS {
+    font-family: 'Proxima Nova';
+}
+
+.THIS.PHONE .rr-body-content {
+    padding-top: 2rem;
+}
+
+/* login screen background */
+.THIS .mobile-content.cLofi_LoginThemeLayout {
+    min-height: 101vh;
+}
+
+.THIS .hide-standard-nav {
+    opacity: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 1px;
+}
+
+.THIS .logo-container-RTL {
+    /* @noflip */
+    height: 50px;
+    /* @noflip */
+    display: flex;
+    /* @noflip */
+    align-items: center;
+    /* @noflip */
+    margin-left: 15px;
+    /* @noflip */
+    flex-shrink: 0;
+    /*    margin-right: -9px; */
+}
+
+.THIS .slds-backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.THIS.rr-all-content {
+    /*position: relative;*/
+    left: 0;
+    transition: t(sideMoveSpeed);
+}
+
+.THIS .menu-btn {
+    display: inline-block;
+    padding: 9px 10px 9px 0;
+    cursor: pointer;
+}
+
+.THIS .menu-btn .chevron {
+    max-height: 20px;
+    max-width: 21px;
+    margin-top: 6px;
+}
+
+.THIS .logo-container {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.THIS .layout-header {
+    height: 100%;
+    overflow: inherit;
+    display: flex;
+}
+
+.THIS .layout-header.rtl {
+    /* flex-direction: row-reverse;*/
+    /* @noflip */
+    direction: rtl;
+}
+
+.THIS .slds-table thead th {
+    font-weight: 400;
+}
+
+.THIS .title-logo {
+    /*height: 39px;*/
+    width: 165px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.THIS .big-title {
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+    opacity: 0.9;
+    vertical-align: middle;
+    margin-top: 6px;
+}
+
+.THIS .bell-container {
+    display: inline-block;
+}
+
+.THIS .bell-container .slds-button {
+    color: #fff;
+    border-radius: 0;
+    height: 50px;
+    width: auto;
+    padding: 0 8px;
+}
+
+.THIS .bell-container .slds-button.activated {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.THIS .slds-form-element__label {
+    color: #444;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 17px;
+    /*    margin-bottom: 8px; */
+}
+
+.THIS .layout-header .barsIcon {
+    height: 30px;
+    width: 30px;
+    margin-top: 18px;
+    margin-left: 1.5rem;
+}
+
+.THIS .slds-form-element__icon {
+    padding-top: 2px;
+}
+
+.THIS .slds-form-element__label:empty {
+    height: 0;
+    margin-bottom: 0;
+}
+
+.THIS .slds-dropdown__item > a {
+    color: #444;
+}
+
+.THIS .phone-menu-background .slds-dropdown-trigger .rr-icon_medium {
+    margin: 0 0.25rem 0 -2px;
+}
+
+.THIS .slds-select {
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+}
+
+.THIS .slds-select:focus,
+.THIS .slds-input:focus,
+.THIS .slds-pill:focus,
+.THIS .slds-textarea:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.THIS .slds-select:hover,
+.THIS .slds-input:hover,
+.THIS .slds-pill:hover,
+.THIS .slds-textarea:hover {
+    border: 1px solid #015FF1;
+}
+
+.THIS .slds-input {
+    box-sizing: border-box;
+    height: 32px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+}
+
+.THIS .slds-select {
+    font-size: 1rem;
+}
+
+.THIS .slds-input::placeholder {
+    font-size: 0.875rem;
+    color: #999;
+    font-weight: 400;
+}
+
+.THIS input::placeholder {
+    color: #999;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.THIS .slds-pill {
+    height: 32px;
+    font-size: 1rem;
+}
+
+.THIS .sub-title {
+    font-size: 0.65rem;
+    color: white;
+    opacity: 0.5;
+    line-height: 7px;
+}
+
+.THIS .profile-block {
+    height: 100%;
+    vertical-align: middle;
+    float: right;
+    display: inline-block;
+    padding-top: 10px;
+}
+
+.THIS .navigation-block {
+    display: inline-block;
+    height: 100%;
+    opacity: 0.8;
+    vertical-align: middle;
+    overflow: visible !important;
+    text-overflow: ellipsis;
+    flex-grow: 10;
+    position: relative;
+    margin-right: 5px;
+}
+
+.THIS .right-block {
+    flex-shrink: 0;
+    margin-left: auto;
+    align-items: center;
+    display: flex;
+}
+
+.THIS .menuheight {
+    height: 100%;
+}
+
+.THIS .helpNavigationCSS {
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 5px;
+    margin-left: 4px;
+}
+
+.THIS .calendarNavigationCss {
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 8px;
+}
+
+.THIS .helpNavigationCSS .cRRIcon.rr-icon-default {
+    height: 20px;
+    width: 20px;
+}
+
+.THIS .helpNavigationCSS:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+    cursor: pointer;
+}
+
+.THIS.bodyShift,
+.THIS .bodyShift {
+    position: fixed;
+    top: 0;
+    left: t(sideMenuWidth);
+    overflow: visible;
+    width: 100%;
+}
+
+.THIS .cRRNavigationPath.navigation-path {
+    margin-left: 0;
+    padding-top: 1rem;
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .THIS .helpNavigationCSS:hover {
+        background-color: rgba(255, 255, 255, 0);
+    }
+
+    /*Added to overcome mobile view issue*/
+    .THIS .sdv-top-bar {
+        z-index: 0 !important;
+    }
+}
+
+@media all and (max-width: 1140px) {
+    /*hide verical navigation*/
+    .THIS .navigation-block {
+        display: none !important;
+    }
+
+    /*Added to overcome mobile view issue*/
+    .THIS .sdv-top-bar {
+        z-index: 0 !important;
+    }
+}
+
+@media all and (min-width: 1140px) {
+    .THIS .menu-btn {
+        display: none !important;
+    }
+
+    /*Added to overcome mobile view issue*/
+    .THIS .sdv-top-bar {
+        z-index: 0 !important;
+    }
+}
+
+@media only screen and (max-width: 1024px) and (min-width: 765px) and (orientation: portrait) {
+    .THIS .slds-grid.vis-path {
+        padding-top: 25px;
+    }
+
+    .THIS .slds-grid.vis-path .line-div .state-ico-wrapper-large {
+        top: -25px !important;
+        left: -22px !important;
+    }
+
+    .THIS .slds-grid.vis-path .line-div .state-ico-wrapper-middle {
+        top: -20px !important;
+        left: -17px !important;
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    /*Added to overcome mobile view issue*/
+    .THIS .sdv-top-bar {
+        z-index: 0 !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .THIS {
+        padding-bottom: 50px;
+    }
+    .THIS .menu-btn {
+        display: none;
+    }
+    .THIS.bodyShift,
+    .THIS .bodyShift {
+        left: 0;
+    }
+
+    .THIS .cRRNavigationPath.navigation-path {
+        margin-left: 10px;
+    }
+
+    .THIS .apollo-btn,
+    .THIS .slds-input,
+    .THIS .slds-button_neutral,
+    .THIS .cRrInput.rri-container input,
+    .THIS .cRrSelect.rrs-container select,
+    .THIS input[type='text'],
+    .THIS input[type='password'],
+    .THIS input[type='email'] {
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .THIS .cFilterPanel .fp-search .rri-container .slds-input,
+    .THIS .cFilterPanel .fp-search-input .rri-container .slds-input {
+        background-position: 7px 50%;
+    }
+
+    .THIS .cRRPaginationRemote.rrp-container .buttons .previous-btn,
+    .THIS .cRRPaginationRemote.rrp-container .buttons .next-btn {
+        height: 40px;
+        width: 40px;
+    }
+
+    .THIS .cRRPaginationRemote.rrp-container .buttons .previous-btn svg,
+    .THIS .cRRPaginationRemote.rrp-container .buttons .next-btn svg {
+        height: 15px;
+        width: 15px;
+    }
+
+    .THIS .cRrSelect .slds-select_container:after {
+        top: 16px;
+    }
+
+    .THIS cAccountSettings.as-container .as-password {
+        margin-bottom: 0;
+    }
+
+    .THIS .cAccountSettings.as-container {
+        padding-bottom: 10px;
+    }
+
+    .THIS .cAccountSettings.as-container .as-language-switcher + div {
+        max-height: 0;
+    }
+
+    .THIS .cAccountSettings.as-container .as-info + div {
+        max-height: 25px;
+    }
+
+    .THIS .state-ico-wrapper .rr-icon-default {
+        width: 22px;
+        height: 20px;
+    }
+
+    .THIS [name='planDate'],
+    .THIS [name='reminderDate'] {
+        width: 250px;
+    }
+
+    .THIS .rtl .right-block {
+        /* @noflip */
+        margin-right: auto;
+        /* @noflip */
+        margin-left: 0;
+    }
+
+    /*Added to overcome mobile view issue*/
+    .THIS .sdv-top-bar {
+        z-index: 0 !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .THIS .vis-path.slds-grid {
+        padding-top: 25px;
+    }
+
+    .THIS .vis-path.slds-grid .line-div .state-ico-wrapper {
+        width: 30px;
+        height: 30px;
+        top: -16px;
+        left: -14px;
+    }
+
+    .THIS .vis-path.slds-grid .line-div .state-ico-wrapper-large {
+        top: -25px !important;
+        left: -22px !important;
+    }
+
+    .THIS .vis-path.slds-grid .line-div .state-ico-wrapper-middle {
+        top: -21px !important;
+        left: -18px !important;
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .THIS .arrow-border span {
+        margin-top: 9px;
+        margin-right: -2px;
+    }
+
+    .THIS .arrow-border span.arrow-borders-right {
+        margin-top: 9px;
+        margin-left: -2px;
+    }
+
+    .THIS
+        .arrow-left
+        + .slds-col
+        > .vis-path.slds-grid
+        > .slds-col:nth-of-type(n + 2)
+        .state-label {
+        padding-right: 36px;
+    }
+
+    /*Added to overcome mobile view issue*/
+    .THIS .sdv-top-bar {
+        z-index: 0 !important;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .THIS .slvi-top-container-hcp .slds-wrap div:last-child {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    /*Added to overcome mobile view issue*/
+    .THIS .sdv-top-bar {
+        z-index: 0 !important;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .THIS .ms-container > .slds-small-size--1-of-1.ms-left.visible,
+    .THIS .ms-left.slds-small-size--1-of-1.ms-left.visible {
+        height: auto;
+    }
+
+    .THIS .ms-page.rr-width-limiter {
+        padding-bottom: 0;
+    }
+
+    /*Added to overcome mobile view issue*/
+    .THIS .sdv-top-bar {
+        z-index: 0 !important;
+    }
+
+    .THIS .cRRNavigationPath.navigation-path {
+        margin-left: 0;
+    }
+}
+
+@media print {
+    .THIS .rr-header-content {
+        display: none !important;
+    }
+    .THIS .footer {
+        display: none !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .THIS .uiPanel.open {
+        margin: 0% 3% 2% 4% !important;
+        position: absolute !important;
+        top: 7% !important;
+        border-radius: 0 !important;
+        z-index: 10000 !important;
+    }
+    .THIS .uiPanel.transitioning {
+        margin: 0% 3% 2% 4% !important;
+        position: absolute !important;
+        top: 7% !important;
+        border-radius: 0 !important;
+        z-index: 10000 !important;
+    }
+
+    /*Added to overcome mobile view issue*/
+    .THIS .sdv-top-bar {
+        z-index: 0 !important;
+    }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1366px) {
+    .THIS .uiPanel.open {
+        margin: 0% 3% 2% 4% !important;
+        position: absolute !important;
+        top: 6% !important;
+        border-radius: 0 !important;
+        z-index: 10000 !important;
+    }
+    .THIS .uiPanel.transitioning {
+        margin: 0% 3% 2% 4% !important;
+        position: absolute !important;
+        top: 6% !important;
+        border-radius: 0 !important;
+        z-index: 10000 !important;
+    }
+
+    /*Added to overcome mobile view issue*/
+    .THIS .sdv-top-bar {
+        z-index: 0 !important;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    .THIS .uiPanel.open {
+        margin: 0% 3% 2% 4% !important;
+        position: absolute !important;
+        top: 7% !important;
+        border-radius: 0 !important;
+        z-index: 10000 !important;
+    }
+
+    .THIS .uiPanel.transitioning {
+        margin: 0% 3% 2% 4% !important;
+        position: absolute !important;
+        top: 7% !important;
+        border-radius: 0 !important;
+        z-index: 10000 !important;
+    }
+
+    /*Added to overcome mobile view issue*/
+    .THIS .sdv-top-bar {
+        z-index: 0 !important;
+    }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+    .THIS .uiPanel.open {
+        margin: 0% 3% 2% 4% !important;
+        position: absolute !important;
+        top: 7% !important;
+        border-radius: 0 !important;
+        z-index: 10000 !important;
+    }
+
+    .THIS .uiPanel.transitioning {
+        margin: 0% 3% 2% 4% !important;
+        position: absolute !important;
+        top: 7% !important;
+        border-radius: 0 !important;
+        z-index: 10000 !important;
+    }
+
+    /*Added to overcome mobile view issue*/
+    .THIS .sdv-top-bar {
+        z-index: 0 !important;
+    }
+}
+
+@media only screen and (min-width: 0px) and (max-width: 479px) {
+    .THIS .uiPanel.open .uiPanel.transitioning {
+        margin: 0% 3% 2% 4% !important;
+        position: absolute !important;
+        /*top: 6% !important;*/
+        border-radius: 0 !important;
+        z-index: 10000 !important;
+    }
+    .THIS .uiPanel.transitioning {
+        margin: 0% 3% 2% 4% !important;
+        position: absolute !important;
+        /*top: 6% !important;*/
+        border-radius: 0 !important;
+        z-index: 10000 !important;
+    }
+
+    .THIS.uiPanel notificationsPanel {
+        margin: 0% 3% 2% 4% !important;
+        position: absolute !important;
+        top: 6% !important;
+        border: 2px solid green;
+        border-radius: 0 !important;
+        z-index: 10000 !important;
+    }
+
+    /*Added to overcome mobile view issue*/
+    .THIS .sdv-top-bar {
+        z-index: 0 !important;
+    }
+}
+.THIS .slds-datepicker {
+    max-width: 50rem;
+}
+
+.THIS .iqvia_logo {
+    height: 24px;
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    cursor: pointer;
+    padding-right: 1.4rem;
+}
+
+.THIS .iqvia_text {
+    height: 24px;
+    width: 99px;
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 24px;
+}

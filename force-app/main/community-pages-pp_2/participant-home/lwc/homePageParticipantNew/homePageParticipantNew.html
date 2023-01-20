@@ -4,39 +4,33 @@
     <template if:true={isInitialized}>
         <template if:true={desktop}>
             <template if:true={showProgramOverview}>
-                <div class="po-container">
-                    <lightning-layout multiple-rows="true">
-                        <lightning-layout-item padding="around-small" size="12">
-                            <lightning-layout>
-                                <lightning-layout-item padding="around-small" size="3">
-                                    <div class="page-right"></div>
-                                </lightning-layout-item>
-                                <lightning-layout-item size="9">
-                                    <h2 class="po-fontsize">{userName}</h2>
-                                    <template if:true={showProgramOverview}>
-                                        <template if:true={isProgram}>
-                                            <c-program-overview
-                                                clinicalrecord={clinicalrecord}
-                                            ></c-program-overview>
-                                        </template>
-                                        <template if:false={isProgram}>
-                                            <c-study-overview
-                                                clinicalrecord={clinicalrecord}
-                                            ></c-study-overview>
-                                        </template>
-                                    </template>
-                                </lightning-layout-item>
-                            </lightning-layout>
-                        </lightning-layout-item>
-                    </lightning-layout>
-                </div>
+                <lightning-layout multiple-rows
+                    ><lightning-layout-item size="3" class="slds-p-vertical_small pad-left"
+                        ><img src={homeIllustration}
+                    /></lightning-layout-item>
+                    <lightning-layout-item size="9" class="slds-p-vertical_small slds-m-left_large">
+                        <h2 class="po-fontsize">{userName}</h2>
+                        <template if:true={showProgramOverview}>
+                            <template if:true={isProgram}>
+                                <c-program-overview
+                                    clinicalrecord={clinicalrecord}
+                                ></c-program-overview>
+                            </template>
+                            <template if:false={isProgram}>
+                                <c-study-overview
+                                    clinicalrecord={clinicalrecord}
+                                ></c-study-overview>
+                            </template>
+                        </template> 
+                    </lightning-layout-item
+                ></lightning-layout>
             </template>
 
             <lightning-layout multiple-rows="true">
                 <template if:true={showVisitCard}>
                     <template if:false={isDelegateSelfview}>
                         <lightning-layout-item size="4" class="around-small-custom">
-                            <c-pp-home-page-visits-card desktop={desktop}>
+                            <c-pp-home-page-visits-card desktop={desktop} is-program={isProgram}>
                             </c-pp-home-page-visits-card>
                         </lightning-layout-item>
                     </template>
@@ -62,11 +56,13 @@
             <template if:true={showProgramOverview}>
                 <div>
                     <lightning-layout multiple-rows="true">
-                        <lightning-layout-item size="6">
-                            <img src="" />
+                        <lightning-layout-item size="12" class="slds-align_absolute-center">
+                            <img src={homeIllustrationMble} />
                         </lightning-layout-item>
-                        <lightning-layout-item size="6" class="margin-top-bottom-20">
-                            <h2 class="po-fontsize">{userName}</h2>
+                        <lightning-layout-item size="12">
+                            <p class="po-fontsize slds-m-horizontal_large slds-m-vertical_small" >
+                                {userName}
+                            </p>
                         </lightning-layout-item>
                         <lightning-layout-item size="12">
                             <!--<template if:true={clinicalrecord}>-->
@@ -198,7 +194,12 @@
                                         >
                                         </c-web-icon>
                                     </div>
-                                    <p class="p-text">Visits</p>
+                                    <template if:true={isProgram}>
+                                        <p class="p-text">{label.EVENTS}</p>
+                                    </template>
+                                    <template if:false={isProgram}>
+                                        <p class="p-text">{label.VISITS}</p>
+                                    </template>
                                 </div>
                             </template>
                         </template>
@@ -223,7 +224,10 @@
             <template if:true={showVisitCard}>
                 <template if:false={isDelegateSelfview}>
                     <template if:true={showVisitCardMobile}>
-                        <c-pp-home-page-visits-card desktop={desktop}></c-pp-home-page-visits-card>
+                        <c-pp-home-page-visits-card
+                            desktop={desktop}
+                            is-program={isProgram}
+                        ></c-pp-home-page-visits-card>
                     </template>
                 </template>
             </template>

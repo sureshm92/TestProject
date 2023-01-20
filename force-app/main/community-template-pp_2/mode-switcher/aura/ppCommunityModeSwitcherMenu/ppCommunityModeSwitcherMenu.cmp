@@ -1,0 +1,52 @@
+<aura:component description="ppCommunityModeSwitcherMenu" controller="CommunityModeSwitcherRemote">
+    <!-- attributes: -->
+    <aura:attribute name="user" type="User" access="private" />
+    <aura:attribute name="communityModes" type="Object" />
+    <aura:attribute name="currentMode" type="Object" />
+    <aura:attribute name="reset" type="Boolean" default="false" />
+    <aura:attribute name="hasProfilePic" type="Boolean" />
+    <aura:attribute name="initialCommunityModes" type="Object" />
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!-- events: -->
+    <aura:registerEvent access="global" name="onModeChange" type="c:uiEvent" />
+    <aura:if isTrue="{!not(v.reset)}">
+        <c:ppModeHeaderMenu class="menu-block" >
+            <aura:set attribute="title">
+                <c:profileImageDropdown
+                    user="{!v.user}"
+                    isDelegate="{!v.currentMode.isDelegate}"
+                    hasProfilePic="{!v.hasProfilePic}"
+                />
+            </aura:set>
+            <li class="header">
+                <c:profileHeaderIconInfo
+                    user="{!v.user}"
+                    currentMode="{!v.currentMode}"
+                    hasProfilePic="{!v.hasProfilePic}"
+                    onpagenavigation="{!c.handleCardVisiblity}"
+                    onitemselection="{!c.doSelectItem}"
+                />
+            </li>
+            <li class="body">
+                <aura:if isTrue="{!equals(v.communityModes.type, 'PP_Only')}">
+                    <c:patientPortalMenuItems
+                        allModes="{!v.communityModes}"
+                        user="{!v.user}"
+                        onitemselection="{!c.doSelectItem}"
+                    />
+                </aura:if>
+            </li>
+            <li class="lo-button">
+                <div class="divider-line"></div>
+                <lightning:button
+                    variant="base"
+                    label="{!$Label.c.PP_Logout}"
+                    onclick="{!c.logout}"
+                    class="pp-logout"
+                ></lightning:button>
+            </li>
+        </c:ppModeHeaderMenu>
+    </aura:if>
+    <c:auraPubsub aura:id="pubsub" />
+</aura:component>

@@ -211,6 +211,26 @@ private class Test_BasePPCommunity {
     }
 
     @IsTest
+    static void test_StudyDetailViewEventAlumni() {
+        TrialDetail trialDetail;
+        Test.startTest();
+        TestData testDataInstance = new TestData();
+        delete testDataInstance.pe;
+        System.runAs(testDataInstance.participantUser) {
+            trialDetail = (TrialDetail) JSON.deserialize(
+                StudyDetailViewController.getTrialDetail(
+                    testDataInstance.ctp.Id,
+                    CommunityService.USER_MODE_PARTICIPANT,
+                    true
+                ),
+                TrialDetail.class
+            );
+        }
+        Test.stopTest();
+        System.assertEquals(true, trialDetail.pe == null ? true : false);
+    }
+
+    @IsTest
     static void test_LanguageSwitcher() {
         Test.startTest();
         TestData testDataInstance = new TestData();

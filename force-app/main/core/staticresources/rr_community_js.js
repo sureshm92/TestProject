@@ -35,6 +35,7 @@ window.communityService = (function () {
     let isMobileApp;
     let hasIQVIAStudiesPI;
     let communityName;
+    let participantData;
     const pagesWithSharedPrivacyPolicy = new Set(['my-team','new-team-member','account-settings'])
 
     //community service functions:
@@ -60,6 +61,7 @@ window.communityService = (function () {
                 eDiaryVisible = communityData.eDiaryVisible;
                 language = communityData.language;
                 participantState = communityData.state;
+                participantData = communityData.participantData;
                 baseUrl = communityData.baseUrl;
                 isInitializedFlag = true;
                 allUserModes = communityData.allUserModes;
@@ -201,8 +203,8 @@ window.communityService = (function () {
             let redirectURL = mode.template.redirectURL;
             if(page) redirectURL += '/s/' + page;
             if(!init && !isDummy && mode.template.needRedirect) document.location.href = redirectURL;
-            service.setThemeCSS();
-        },
+                service.setThemeCSS();
+                  },
 
         getMessagesVisible : function () {
             return messagesVisible;
@@ -245,6 +247,12 @@ window.communityService = (function () {
 
         getParticipantState: function(){
             return participantState;
+        },
+        getParticipantData: function(){
+            return participantData;
+        },
+        reloadPage(){
+            location.reload();
         },
 
         getLanguage: function(){

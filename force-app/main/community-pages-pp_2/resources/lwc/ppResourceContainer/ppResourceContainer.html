@@ -3,17 +3,19 @@
     <c-web-spinner class="main-spinner"></c-web-spinner>
     <!-- ************************  Desktop View  ****************************************  -->
     <template if:true={desktop}>
-        <lightning-layout multiple-rows="true" class="slds-p-vertical_xx-small">
-            <lightning-layout-item size="12">
-                <lightning-layout
-                    multiple-rows="true"
-                    vertical-align="stretch"
-                    class="container"
-                    horizontal-align="center"
-                >
+        <lightning-layout
+            multiple-rows="true"
+            class="slds-p-vertical_xx-small slds-m-horizontal_small"
+        >
+            <lightning-layout-item size="12" class="slds-m-bottom_medium">
+                <lightning-layout multiple-rows="true">
                     <!-- *************  Thumbnail  ********************  -->
                     <template if:true={isThumbnailPresent}>
-                        <lightning-layout-item size="5" flexibility="auto">
+                        <lightning-layout-item
+                            size="6"
+                            class="slds-p-right_x-small"
+                            flexibility="auto"
+                        >
                             <img
                                 src={thumbnail}
                                 alt="Image is not available"
@@ -24,8 +26,12 @@
                         </lightning-layout-item>
                     </template>
                     <template if:false={isThumbnailPresent}>
-                        <lightning-layout-item size="5" flexibility="auto" class="empty-icon">
-                            <div class="icon-center">
+                        <lightning-layout-item
+                            size="6"
+                            flexibility="auto"
+                            class="slds-p-right_x-small"
+                        >
+                            <div class="icon-center empty-icon">
                                 <c-web-icon
                                     icon-color="#b5b5b5"
                                     icon-width="120"
@@ -36,7 +42,11 @@
                         </lightning-layout-item>
                     </template>
                     <!-- *******************  Description  ***********************  -->
-                    <lightning-layout-item size="6" flexibility="auto" class="summary">
+                    <lightning-layout-item
+                        size="6"
+                        flexibility="auto"
+                        class="summary slds-p-left_x-small"
+                    >
                         <lightning-layout multiple-rows="true">
                             <lightning-layout-item size="12" class="title-row">
                                 <lightning-layout multiple-rows="true">
@@ -82,9 +92,6 @@
                                     {label.VERSION}&nbsp;
                                     <lightning-formatted-date-time
                                         value={resUploadDate}
-                                        year="numeric"
-                                        month="2-digit"
-                                        day="2-digit"
                                         time-zone={userTimeZone}
                                     >
                                     </lightning-formatted-date-time>
@@ -136,7 +143,7 @@
                             flexibility="auto"
                             class="empty-icon empty-icon-mobile"
                         >
-                            <div class="icon-center icon-center-mobile">
+                            <div class="icon-center-mobile">
                                 <c-web-icon
                                     icon-color="#b5b5b5"
                                     icon-width="100"
@@ -210,9 +217,6 @@
                                     {label.VERSION}&nbsp;
                                     <lightning-formatted-date-time
                                         value={resUploadDate}
-                                        year="numeric"
-                                        month="2-digit"
-                                        day="2-digit"
                                         time-zone={userTimeZone}
                                     >
                                     </lightning-formatted-date-time>

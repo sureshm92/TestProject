@@ -1,31 +1,32 @@
-.links-type{
+.links-type {
     color: lightgray;
     text-transform: uppercase;
     font-size: 10px;
 }
 
-.card-container{
+.card-container {
     height: 320px;
     overflow-y: auto;
-    padding-right: 5px;
+    /* padding-right: 5px; */
 }
 
-.card-container-height-small{
+.card-container-height-small {
     height: 320px;
 }
 
-.card-container-height-medium{
+.card-container-height-medium {
     height: 560px;
 }
-
-
-.links-container:hover{
+.justify-icon-center {
+    text-align: center;
+}
+.links-container:hover {
     cursor: pointer;
 }
 
 .links-header {
-    color: #015FF1;
-    font-family: "Proxima Nova";
+    color: #015ff1;
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0;
@@ -33,23 +34,29 @@
     margin-bottom: 6px;
     padding-right: 5px;
     padding-top: 2px;
+    overflow-wrap: break-word;
 }
 
 .links-desc {
-    color: #6E6E6E;
-    font-family: "Proxima Nova";
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0;
-    line-height: 17px;
+    line-height: 21px;
     padding-right: 10px;
     margin-bottom: 5px;
+    overflow-wrap: break-word;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 }
 
 .links-type {
     height: 16px;
     color: #757575;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     letter-spacing: 0.1px;
     line-height: 16px;
@@ -59,12 +66,12 @@
 .separator {
     box-sizing: border-box;
     height: 1px;
-    border-bottom: 1px solid rgba(153,153,153,0.59);
+    border-bottom: 1px solid rgba(153, 153, 153, 0.59);
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.margin{
+.margin {
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -75,13 +82,13 @@
     width: 20px;
 }
 
-.open-tab{
-    width:14px;
-    height:14px;    
+.open-tab {
+    width: 14px;
+    height: 14px;
     margin-top: -4px;
 }
 
-.discover-empty-container{
+.discover-empty-container {
     height: 335px;
     width: 100%;
     box-sizing: border-box;
@@ -92,51 +99,35 @@
     overflow-x: hidden;
 }
 
-.no-links-available{
+.no-links-available {
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     letter-spacing: 0;
     line-height: 24px;
-    text-align: center;  
-}
-
-.center-empty{
     text-align: center;
 }
 
-.container-height{
+.center-empty {
+    text-align: center;
+}
+
+.container-height {
     height: 335px;
 }
 
-.center-empty-mobile{
+.center-empty-mobile {
     text-align: center;
 }
 
-.mt-15{
+.mt-15 {
     margin-top: 15px;
 }
-
-/* Scroll bar custom */
-/* ::-webkit-scrollbar {
-    width: 10px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background-color: #fff;
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-    padding-right: 10px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-    background: #999999;
-    background-clip: padding-box;
-    padding-right: 10px;
-  } */
-
-  .height{
-      height: 100%;
-  }
+.height {
+    height: 100%;
+}
+@media all and (max-width: 500px) {
+    .card-container {
+        padding: 1rem;
+    }
+}

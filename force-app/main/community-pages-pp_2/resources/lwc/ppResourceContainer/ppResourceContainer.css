@@ -1,5 +1,5 @@
 .summary-title {
-    color: #0768fd;
+    color: #015FF1;
     font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
@@ -9,6 +9,7 @@
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
+    word-break: break-word;
 }
 .summary-text {
     color: #000000;
@@ -22,18 +23,19 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     text-align: left;
+    word-break: break-word;
 }
 
 img,
 .empty-icon {
     height: 200px;
-    object-fit: fill;
+    object-fit: cover;
     border: 1px solid #f2f2f2;
     background-color: #e8e8e8;
 }
 .summary {
     padding: 0% 2%;
-    margin-left: 1%;
+    /* margin-left: 1%; */
     border: 1px solid #f2f2f2;
     contain: size;
     overflow: hidden;
@@ -53,10 +55,11 @@ img,
     margin-left: 70%;
 }
 .resource-pointer {
+    object-fit: cover;
     cursor: pointer;
 }
 .icon-center {
-    margin: 0% 35%;
+    padding-left: 38%;
 }
 .empty-icon-mobile {
     height: 120px;
@@ -98,10 +101,11 @@ img,
     font-weight: 600;
     -webkit-line-clamp: 2;
     line-height: 19px;
+    word-break: break-word;
 }
 .title-row-mobile {
     padding: 0;
 }
 .icon-center-mobile {
-    margin: 0% 22%;
+    margin: 5% 25%;
 }

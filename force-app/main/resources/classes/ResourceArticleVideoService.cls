@@ -15,7 +15,12 @@ public virtual inherited sharing class ResourceArticleVideoService extends Resou
         ) {
             sortedResources.addAll(
                 ResourceStudyRelatedService.getInstance()
-                    .init(resourceType, resourceId, ResourceService.RESOURCE_SOURCE_STUDY)
+                    .init(
+                        resourceType,
+                        resourceId,
+                        ResourceService.RESOURCE_SOURCE_STUDY,
+                        participantData
+                    )
                     .getResources()
             );
         }
@@ -23,19 +28,16 @@ public virtual inherited sharing class ResourceArticleVideoService extends Resou
         if (pState.value == ParticipantService.ParticipantStates.ALUMNI)
             contentClass = ResourceService.RESOURCE_SOURCE_THIRD_PARTY;
 
-        if (pState.value == ParticipantService.ParticipantStates.ALUMNI) {
-            List<String> therapeuticAreas = new List<String>();
-            for (
-                Therapeutic_Area_Patient__c tap : ParticipantDecoupler.getTherapeuticAreaPatients()
-            ) {
-                therapeuticAreas.add(tap.Therapeutic_Area__c);
-            }
-            sortedResources.addAll(
-                ResourceTARelatedService.getInstance()
-                    .init(resourceType, resourceId, contentClass, therapeuticAreas)
-                    .getResources()
-            );
+        List<String> therapeuticAreas = new List<String>();
+        for (Therapeutic_Area_Patient__c tap : ParticipantDecoupler.getTherapeuticAreaPatients()) {
+            therapeuticAreas.add(tap.Therapeutic_Area__c);
         }
+        sortedResources.addAll(
+            ResourceTARelatedService.getInstance()
+                .init(resourceType, resourceId, contentClass, therapeuticAreas, participantData)
+                .getResources()
+        );
+
         return sortedResources;
     }
 

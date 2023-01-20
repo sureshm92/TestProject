@@ -34,8 +34,7 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
         PP_Account_Settings
     };
     icon_url = pp_icons + '/switcher-avatar-delegate-icon.svg';
-    spinner;
-
+    showSpinner = true;
     @track contactDetails;
     @track error;
     contactId;
@@ -127,6 +126,7 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
             .then((result) => {
                 this.contactDetails = result;
                 this.userCommunityIsDelegate = this.contactDetails.UserCommunityIsDelegate__c;
+                this.showSpinner = false;
             })
             .catch((error) => {
                 this.error = error;

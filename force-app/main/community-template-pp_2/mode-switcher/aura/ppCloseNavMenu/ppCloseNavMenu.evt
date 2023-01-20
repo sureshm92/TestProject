@@ -1,0 +1,4 @@
+<aura:event
+    type="APPLICATION"
+    description="Event to close navigation menu in mobile for PatientPortal  "
+/>

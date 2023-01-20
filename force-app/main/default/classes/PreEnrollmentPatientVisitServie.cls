@@ -60,13 +60,19 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
                     Id,
                     Study_Site__c,
                     Participant_Status__c,
+                    Clinical_Trial_Profile__r.CommunityTemplate__c,
                     Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c,
                     Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c
                 FROM Participant_Enrollment__c
                 WHERE
                     Id IN :peIds
                     AND (Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c = TRUE
-                    OR Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c = TRUE)
+                    OR Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c = TRUE
+                    OR (Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal' 
+                        AND Clinical_Trial_Profile__r.Is_Program__c = FALSE 
+                        AND Clinical_Trial_Profile__r.Initial_Visit_required__c =TRUE
+                        )
+                    )
             ]
         );
         return peWithCTPPreEnrollConsentIsOnMap;
@@ -115,7 +121,9 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
 
         //Store the Study Site Ids for each PERs in a Set.
         for (Participant_Enrollment__c pe : peWithCTPPreEnrollConsentIsOnMap.Values()) {
-            studySiteIdSet.Add(pe.Study_Site__c);
+            if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal'){
+                studySiteIdSet.Add(pe.Study_Site__c);
+            }
         }
         //Fetch the Travel Vendor Setting for the study sites of each Participant Enrollments.
         list<TravelVendorSettings__c> travelVendorSetting = [
@@ -129,8 +137,9 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
 
         //Remove the Participant Enrollment from the map if  traval Vendor is configured not for Study sites for that PER.
         for (Participant_Enrollment__c pe : peWithCTPPreEnrollConsentIsOnMap.Values()) {
-            if (!studySiteWithTravelVendor.contains(pe.Study_Site__c)) {
-                peWithCTPPreEnrollConsentIsOnMap.remove(pe.Id);
+            if (!studySiteWithTravelVendor.contains(pe.Study_Site__c) && 
+                pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal') {
+                    peWithCTPPreEnrollConsentIsOnMap.remove(pe.Id);
             }
 
             //Handle PER based on the Pre Enrollment Toggles on/Off and PER status for creating Pre Enrollment Patient Visits.
@@ -193,7 +202,8 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
         String preEnrollmentVisitPlanName = label.Pre_Enrollment_Visit_Plan;
 
         existingPreEnrollPatientVisits = [
-            SELECT id, Status__c, Participant_Enrollment__c, Visit__r.Visit_Plan__r.Id
+            SELECT id, Status__c, Participant_Enrollment__c, Visit__r.Visit_Plan__r.Id,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
             FROM Patient_Visit__c
             WHERE
                 Participant_Enrollment__c IN :perIds
@@ -215,8 +225,11 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
         boolean ignorePER = false;
         boolean preConcentToggle = pe.Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c;
         boolean enrollRandomizeConsentToggle = pe.Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c;
+        boolean isPatientPortalNew = pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal'?true:false;
 
-        if (preConcentToggle && enrollRandomizeConsentToggle) {
+        if(isPatientPortalNew && !PEStatusState.PE_STATUS_GROUP_PRE_ENROLLMENT.contains(pe.Participant_Status__c)){
+            ignorePER = true;
+        } else if (preConcentToggle && enrollRandomizeConsentToggle) {
             //If Both "Pre-consent" and "Consent through Enrolled/Randomized" toggles are On at Visit Configuration at CTP.
             if (!PEStatusState.PE_STATUS_GROUP_PRE_ENROLLMENT.contains(pe.Participant_Status__c)) {
                 ignorePER = true;
@@ -260,8 +273,10 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
             Participant_Enrollment__c pe = peMap.get(pv.Participant_Enrollment__c);
             boolean preConcentToggle = pe.Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c;
             boolean enrollRandomizeConsentToggle = pe.Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c;
-
-            if (preConcentToggle && !enrollRandomizeConsentToggle) {
+            boolean isPatientPortalNew = pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal'?true:false;
+            if(isPatientPortalNew){
+                //ignore these records
+            } else if (preConcentToggle && !enrollRandomizeConsentToggle) {
                 //If "Pre-consent" toggles is on and "Consent through Enrolled/Randomized" toggles is Off at Visit Configuration at CTP.
                 if (
                     PEStatusState.PE_STATUS_GROUP_FOR_CONSENT_ENROLL_RANDMZ_TOGGLE.contains(

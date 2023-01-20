@@ -1,0 +1,92 @@
+.THIS.menu-block {
+    width: 106px;
+    display: inline-block;
+    position: relative;
+    color: white;
+    height: 100%;
+}
+
+.THIS .pp-logout {
+    color: #e20000;
+    font-family: 'Proxima Nova';
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.5rem 0 0.5rem 0;
+    cursor: pointer;
+}
+.THIS .divider-line {
+    border-bottom: 1px solid #d9d9d9;
+    margin: 2.8em 0 0 0;
+    width: 88%;
+}
+.THIS.menu-block li.body {
+    width: 344px;
+}
+
+/*-----------------------------------------------------------------------*/
+
+.THIS .item-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 85%;
+}
+
+.THIS .header-menu-link {
+    padding: 0 1rem 0 .5rem;
+}
+
+@media all and (orientation: landscape) and (max-width: 1024px) {
+    .THIS.menu-block {
+        position: static;
+    }
+}
+
+@media all and (orientation: portrait) and (max-width: 1024px) {
+    .THIS.menu-block {
+        position: static;
+    }
+}
+
+@media all and (orientation: landscape) and (max-height: 450px) {
+    .THIS .menu-popup-panel.popupTargetContainer {
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .THIS .menu-popup-panel.popupTargetContainer::-webkit-scrollbar {
+        -webkit-appearance: none;
+    }
+
+    .THIS .menu-popup-panel.popupTargetContainer::-webkit-scrollbar:vertical {
+        width: 11px;
+    }
+
+    .THIS .menu-popup-panel.popupTargetContainer::-webkit-scrollbar:horizontal {
+        height: 11px;
+    }
+
+    .THIS .menu-popup-panel.popupTargetContainer::-webkit-scrollbar-thumb {
+        border-radius: 8px;
+        border: 2px solid white; /* should match background, can't be transparent */
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+}
+
+@media all and (max-width: 360px) {
+    .THIS .lo-button {
+        padding: 0 10px;
+    }
+
+    .THIS .logout-btn {
+        width: 100%;
+    }
+
+    .THIS.logout-btn {
+        width: 100%;
+    }
+
+    .THIS.menu-block li.body {
+        width: 300px;
+    }
+}

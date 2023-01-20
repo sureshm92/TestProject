@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>42.0</apiVersion>
+    <available>true</available>
+    <description>New Study Email Participant</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Patient1 New Study PP</name>
+    <style>none</style>
+    <subject>You have been referred to a ##isStudyorProgram</subject>
+    <type>visualforce</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
+ 

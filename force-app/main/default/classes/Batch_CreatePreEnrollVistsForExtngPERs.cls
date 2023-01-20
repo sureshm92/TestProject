@@ -30,7 +30,8 @@ global without sharing class Batch_CreatePreEnrollVistsForExtngPERs implements D
             'Participant_Status__c, ' +
             'Study_Site__c, ' +
             'Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c, ' +
-            'Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c ' +
+            'Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c, ' +
+            'Clinical_Trial_Profile__r.CommunityTemplate__c ' +
             'FROM Participant_Enrollment__c ' +
             'WHERE ' +
             'Participant_Status__c IN :peStatuses ' +
@@ -55,7 +56,9 @@ global without sharing class Batch_CreatePreEnrollVistsForExtngPERs implements D
         List<Patient_Visit__c> patentientVisitsToInsert = new List<Patient_Visit__c>();
 
         for (Participant_Enrollment__c pe : scope) {
-            peWithCTPPreEnrollConsentIsOnMap.put(pe.id, pe);
+            if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c !='PatientPortal') {
+                peWithCTPPreEnrollConsentIsOnMap.put(pe.id, pe);
+            }
         }
         //check Pre Enrollment Patient Visit Creation eligibility.
         PreEnrollmentPatientVisitServie.bypassPatientVisitUpdFromBatch = true;

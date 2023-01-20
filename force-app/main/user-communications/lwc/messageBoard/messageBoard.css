@@ -132,7 +132,9 @@
     text-align: center;
     padding-top: 20px;
 }
-
+.pointer-none {
+    pointer-events: none;
+}
 @media all and (max-width: 480px) {
     .ms-board-body {
         height: 300px !important;

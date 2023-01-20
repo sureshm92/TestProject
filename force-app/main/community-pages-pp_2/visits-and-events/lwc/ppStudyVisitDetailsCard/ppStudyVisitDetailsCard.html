@@ -22,22 +22,45 @@
                 <div class="site-phone">{sitephone}</div>
             </div>
             <div>
-                <c-pp-date-time-combo
-                    data-id="visitDateTime"
-                    if:false={past}
-                    reminder={booleanFalse}
-                    compdate={compDate}
-                    comptime={compTime}
-                    mindate={currentDate}
-                    mintime={currentTime}
-                    ondatechange={handleDate}
-                    ontimechange={handleTime}
-                    onnulldatetime={handleNullDateTime}
-                    oninitialdateload={handleInitialDateLoad}
-                    oninitialtimeload={handleInitialTimeLoad}
-                    ondate={handleOnlyDate}
-                    ontime={handleOnlyTime}
-                ></c-pp-date-time-combo>
+                <template if:true={isinitialvisit}>
+                    <div class="read-only-background">
+                        <c-pp-date-time-combo
+                            data-id="visitDateTime"
+                            if:false={past}
+                            reminder={booleanFalse}
+                            compdate={compDate}
+                            comptime={compTime}
+                            mindate={currentDate}
+                            mintime={currentTime}
+                            ondatechange={handleDate}
+                            ontimechange={handleTime}
+                            onnulldatetime={handleNullDateTime}
+                            oninitialdateload={handleInitialDateLoad}
+                            oninitialtimeload={handleInitialTimeLoad}
+                            ondate={handleOnlyDate}
+                            ontime={handleOnlyTime}
+                            read-only-mode={isinitialvisit}
+                        ></c-pp-date-time-combo>
+                    </div>
+                </template>
+                <template if:false={isinitialvisit}>
+                    <c-pp-date-time-combo
+                        data-id="visitDateTime"
+                        if:false={past}
+                        reminder={booleanFalse}
+                        compdate={compDate}
+                        comptime={compTime}
+                        mindate={currentDate}
+                        mintime={currentTime}
+                        ondatechange={handleDate}
+                        ontimechange={handleTime}
+                        onnulldatetime={handleNullDateTime}
+                        oninitialdateload={handleInitialDateLoad}
+                        oninitialtimeload={handleInitialTimeLoad}
+                        ondate={handleOnlyDate}
+                        ontime={handleOnlyTime}
+                    ></c-pp-date-time-combo>
+                </template>
                 <div if:true={past} class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-left_none">
                         {label.date}
@@ -113,7 +136,7 @@
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-p-top_xx-smal acc-pref" if:false={past}>
                     <div if:true={showEmailSms}>
-                        <a class="comm-link" href={url} target="_blank">
+                        <a class="comm-link" href={url} target={communicationTab}>
                             <span>{label.PREFERENCES}</span>
                         </a>
                     </div>

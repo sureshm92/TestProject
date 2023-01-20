@@ -17,31 +17,31 @@
        <div class="boxShadow  maxheight slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg ">
            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
                <span>
-                  <c-pir_participant-list maindivcls={maindivcls} ongetstatus={handlestatusspinner} ondateerror={handleSpinnerHide} ongotofirst={settopageone} additional-note-value={additionalNote} final-consentvalue={finalConsentvalue} consent-value ={consentData} signed-date-value={signedDateValue} selectedreasonvalue={selectedreason} onupdatestudylist={handleStudyAndSite} onpageswap={changePage} onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI} onprogressvaluechange={hanldeProgressValueChange} oncountvaluecheckbox={handleCount} onresetcount={handleReset} ondroplabel={handleDropLabel} onresetpagination={handleresetpagination} onresetparent={handleresetparent} is-checkboxhidden={cancelCheckbox} onstatusvaluechange={handleStatusChanges} fetch={setList}></c-pir_participant-list>
+                  <c-pir_participant-list maindivcls={maindivcls} ongetstatus={handlestatusspinner} ondateerror={handleSpinnerHide} ongotofirst={settopageone} additional-note-value={additionalNote} final-consentvalue={finalConsentvalue} consent-value ={consentData} signed-date-value={signedDateValue} selectedreasonvalue={selectedreason} onupdatestudylist={handleStudyAndSite} onpageswap={changePage} onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI} onprogressvaluechange={hanldeProgressValueChange} oncountvaluecheckbox={handleCount} onresetcount={handleReset} ondroplabel={handleDropLabel} onresetpagination={handleresetpagination} onresetparent={handleresetparent} is-checkboxhidden={cancelCheckbox} onstatusvaluechange={handleStatusChanges} onresetactivetab={changeActiveTab} fetch={setList}></c-pir_participant-list>
                </span>
            </div>
-		    <template if:false={progressValue}> 
+		    <template if:false={progressValue}>
            <div if:false={showZeroErr} class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 D">
                <div>
                   <c-pir_participant-header isrtl={isRTL} onhandlespinner={handleSpinner} oncallparticipantparent={docallparticipantstatusdetail} ongotodetail={gotoPartTab}></c-pir_participant-header>
                </div>
-               <div class="section-padding all-tabs"> 
+               <div class="section-padding all-tabs">
                        <lightning-tabset  active-tab-value=''>
                         <lightning-tab label={label.BTN_Status_Details} value="Status Details" onactive={handleStatusTab} class="no-padding" >
                            <c-pir_participant-Status-Details isrtl={isRTL} onhandletabs={handleTabs} onstatusdetailsvaluechange={checkStatusDetailChanges} onvalidatesavebuttons={checkvalidation} oncallpariticpantparent={docallheader}></c-pir_participant-Status-Details>
-                   </lightning-tab> 
+                   </lightning-tab>
                    <lightning-tab label={label.BTN_Participant_Details} value="Participant Details" onactive={handleParticipantTab} class="no-padding">
-                      <template if:true={isParticipantDetail}>        
+                      <template if:true={isParticipantDetail}>
                          <c-pir_participant-detail isrtl={isRTL} action-req={selectedPE.actionReq} selected-p-e={selectedPE} peid={selectedPE.id} onenabledetailsave={toggleDetailSave} ondetailupdate={detailsUpdate}  onhandletab={handleTabs} ondetailsaved={detailsaved}></c-pir_participant-detail>
                      </template>
                    </lightning-tab>
-                   <lightning-tab label={label.Tab_Sharing_Options} value="Sharing Options" onactive={handleSharingTab} class="no-padding">                                
+                   <lightning-tab label={label.Tab_Sharing_Options} value="Sharing Options" onactive={handleSharingTab} class="no-padding">
                        <c-pir_sharing-option isrtl={isRTL} selected-p-e = {selectedPE} delegate-level={delegateLevel} onformedit={checkFormChanges} onrefresh={resetFormChanges} ontoggleclick={disableAll}></c-pir_sharing-option>
                    </lightning-tab>
-                   <template if:true={isMedicalHistryAccess}> 
+                   <template if:true={isMedicalHistryAccess}>
                        <lightning-tab label={label.pir_Health_Information} value="Health Information" onactive={handleMedicalTab} class="no-padding">
-                           <c-medicalinformation isrtl={isRTL} selected-pe = {selectedPE.id} onvalidatemedicalsavebutton={checkMedicalSaveBtn} onhandletabs={handleTabs} ></c-medicalinformation>  
-                       </lightning-tab> 
+                           <c-medicalinformation isrtl={isRTL} selected-pe = {selectedPE.id} onvalidatemedicalsavebutton={checkMedicalSaveBtn} onhandletabs={handleTabs} ></c-medicalinformation>
+                       </lightning-tab>
                    </template>
                            <template if:true={enableTelevisitTab}>
                               <lightning-tab label={label.RH_TV_TabTitle} value="Televisit" onactive={handleTelevisitTab} class="no-padding">
@@ -54,10 +54,10 @@
                    <div class="">
                        <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
                    </div>
-               </template>  
+               </template>
            </div>
 		    </template>
-       <template if:true={progressValue}> 
+       <template if:true={progressValue}>
            <template if:true={saving}>
                <lightning-spinner alternative-text="Loading..." variant="brand">
                </lightning-spinner>
@@ -68,19 +68,19 @@
                         <img class="user-img slds-m-bottom_small" src={usericon}/>
                         <h2 class="slds-text-heading_large slds-m-bottom_medium headertext"> {countValue} {label.RH_ParticipantSelected} </h2>
                         <template if:false={exportItem}>
-                           <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown rtl-left"  onclick={doAction} disabled={ondisableButton} > {dropdownLabel} </button> 
+                           <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown rtl-left"  onclick={doAction} disabled={ondisableButton} > {dropdownLabel} </button>
                          </template>
                          <template if:true={exportItem}>
-                           <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown rtl-export"  disabled={exportDisable} onclick={handleExportSelcted} > {label.RH_ExportSelected} </button> 
-                           <button class="apollo-btn secondary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown"  onclick={handleExportAll}> {label.BTN_Export_All}</button> 
+                           <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown rtl-export"  disabled={exportDisable} onclick={handleExportSelcted} > {label.RH_ExportSelected} </button>
+                           <button class="apollo-btn secondary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown"  onclick={handleExportAll}> {label.BTN_Export_All}</button>
                         </template>
                         <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile btn-dropdown" onclick={onCancel}> {label.BTN_Cancel}  </button>
 
                       </div>
                 </div>
-               
-            </div> 
-           
+
+            </div>
+
          </template>
       </div>
       <template if:true={progressValue}>
@@ -98,13 +98,13 @@
                      <button class="slds-button apollo-btn secondary action-btn" onclick={onCancel}> {label.BTN_Cancel}</button>
                   </div>
                   </template>
-                  
-                  
+
+
                </div>
             </div>
             <div class="slds-grid slds-wrap slds-gutters">
                <template if:true={exportItem}>
-                  <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_small">        
+                  <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_small">
                      <button class="slds-button apollo-btn primary action-btn" disabled={exportDisable} onclick={handleExportSelcted}> {label.RH_ExportSelected}</button>
                   </div>
                   <div class="slds-col slds-size_1-of-2 slds-medium-size_12-of-12 slds-large-size_6-of-12 slds-m-bottom_small slds-p-right--none">
@@ -115,15 +115,15 @@
                    </div>
                   </template>
             </div>
-            
+
          </div>
       </template>
-       <div class="boxShadow  slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg linenone" > 
+       <div class="boxShadow  slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg linenone" >
            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
                <template if:true={totalRecord}>
                   <c-pir_participant-pagination is-r-t-l-pg={isRTL} maindivcls={maindivcls} total-records={totalRecord} onpagechange={pageChanged}></c-pir_participant-pagination>
                </template>
-           </div>   
+           </div>
 		   <template if:false={progressValue}>
            <div if:false={showZeroErr} class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 save-btn-p D savesticky">
             <template if:false={isSharingTab}>
@@ -136,16 +136,16 @@
                  </template>
                   <template if:true={isParticipantDetail}> <!--only for Medical tab -->
                      <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableDetailSaveButton}  onclick={doSaveDetail}> {label.BTN_Save} </button>
-                  </template>                  
-               </span> 
+                  </template>
+               </span>
             </template>
            </div>
 		    </template>
-          
+
        <!-- <template if:true={progressValue}>
             <div class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 save-btn-p D">
                <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" onclick={onCancel}> Cancel  </button>
-            </div> 
+            </div>
         </template>-->
       </div>
    </div>
@@ -160,7 +160,7 @@
                 <div class="slds-p-around_large">
                    <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                       <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                        <span class="title">{label.PIR_Save_Changes}</span> 
+                        <span class="title">{label.PIR_Save_Changes}</span>
                       </div>
                       <div class="slds-col slds-size_1-of-12 close-icon">
                          <div onclick={handleCloseModal}>
@@ -175,10 +175,10 @@
                      <p class="sub-text">{label.PIR_Unsaved_Changes}</p>
                      <div class="slds-grid slds-wrap slds-m-top_large">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                          <div class="slds-float_right mobile-width">                  
+                          <div class="slds-float_right mobile-width">
                               <button title="" class="slds-button apollo-btn primary btn-height save-btn" disabled={disablebtn}  onclick={doSave}> {label.BTN_Save} </button>
                               <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleDiscard}> {label.PIR_Discard}</button>
-                          </div>    
+                          </div>
                         </div>
                      </div>
                   </slot>
@@ -189,7 +189,7 @@
     </section>
     </div>
     <div class="slds-backdrop slds-backdrop_open"></div>
-</template>   
+</template>
 
    <template if:true={isMedicalModalOpen}>
       <div class={maindivcls}>
@@ -202,7 +202,7 @@
                 <div class="slds-p-around_large">
                    <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                       <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                         <span class="title">{label.PIR_Save_Changes}</span> 
+                         <span class="title">{label.PIR_Save_Changes}</span>
                       </div>
                       <div class="slds-col slds-size_1-of-12 close-icon">
                          <div onclick={handleCloseModalMedical}>
@@ -217,10 +217,10 @@
                       <p class="sub-text"> {label.PIR_Unsaved_Changes}</p>
                       <div class="slds-grid slds-wrap slds-m-top_large">
                          <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                           <div class="slds-float_right mobile-width">                  
+                           <div class="slds-float_right mobile-width">
                                <button title="" class="slds-button apollo-btn primary btn-height save-btn" disabled={disableMedicalSaveButton} onclick={doSaveMedical}> {label.BTN_Save} </button>
                                <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleDiscardMedical}>  {label.PIR_Discard}</button>
-                           </div>    
+                           </div>
                          </div>
                       </div>
                    </slot>
@@ -243,7 +243,7 @@
                <div class="slds-p-around_large">
                   <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                      <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                        <span class="title"> {label.PIR_Save_Changes}</span> 
+                        <span class="title"> {label.PIR_Save_Changes}</span>
                      </div>
                      <div class="slds-col slds-size_1-of-12 close-icon">
                         <div onclick={handleCloseModalDetail}>
@@ -258,10 +258,10 @@
                      <p class="sub-text"> {label.PIR_Unsaved_Changes}</p>
                      <div class="slds-grid slds-wrap slds-m-top_large">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                          <div class="slds-float_right mobile-width">                  
+                          <div class="slds-float_right mobile-width">
                               <button title="" class="slds-button apollo-btn primary btn-height save-btn"  onclick={doSaveDetail} disabled={disableDetailSaveButton} >{label.BTN_Save}</button>
                               <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleDiscardDetail}>{label.PIR_Discard}</button>
-                          </div>    
+                          </div>
                         </div>
                      </div>
                   </slot>
@@ -271,8 +271,8 @@
       </div>
    </section>
    </div>
-   <div class="slds-backdrop slds-backdrop_open"></div>  
-  
+   <div class="slds-backdrop slds-backdrop_open"></div>
+
    </template>
   <!--Sharing Options Modal-->
   <template if:true={isSPModalOpen}>
@@ -281,7 +281,7 @@
    </template>
 
    <template if:true={addParticipant}>
-      <!--  Change Status Model Start  -->  
+      <!--  Change Status Model Start  -->
       <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
       aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
       <template if:true={addNewParticipant}>
@@ -290,12 +290,12 @@
       </template>
       <div class="slds-modal_small addparticipantcls">
          <div class="slds-modal__container model-small">
-            <div class="slds-modal__content" id="modal-content-id-4541"> 
+            <div class="slds-modal__content" id="modal-content-id-4541">
                <div class="bar"></div>
                <div class="slds-p-around_large">
                   <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                      <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                        <span class="title">{label.RH_PP_Add_New_Participant}</span> 
+                        <span class="title">{label.RH_PP_Add_New_Participant}</span>
                      </div>
                      <div class="slds-col slds-size_1-of-12 close-icon">
                         <div onclick={handleCloseParticipant}>
@@ -305,15 +305,15 @@
                            <span class="slds-assistive-text">Close</span>
                         </div>
                      </div>
-                  </div> 
-                  <slot name="studySitediv">   
+                  </div>
+                  <slot name="studySitediv">
                      <div class="slds-grid slds-wrap slds-gutters ">
                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                               <div class="participant-text">
                                  {label.RH_PP_Select_Study_Site}
-                              </div> 
+                              </div>
                           </div>
-                          
+
                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 margin-top slds-m-bottom_small">
                               <lightning-combobox
                                  name="Study"
@@ -324,7 +324,7 @@
                                  onchange={studyhandleChange}
                                  ></lightning-combobox>
                         </div>
-                         
+
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 margin-top">
                            <lightning-combobox
                                name="studysite"
@@ -336,14 +336,14 @@
                                disabled={studysiteaccess}
                                ></lightning-combobox>
                         </div>
-  
+
                       </div>
                      <div class="slds-grid slds-wrap slds-m-top_large">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                          <div class="slds-float_right mobile-width">                  
+                          <div class="slds-float_right mobile-width">
                            <button class="slds-button apollo-btn primary btn-height save-btn" title={label.Continue} onclick={handleNewParticipant} disabled={handleContinue}> {label.Continue} </button>
                               <button class="slds-button apollo-btn secondary btn-height discard-btn" onclick={handleCloseParticipant}> {label.BTN_Cancel} </button>
-                          </div>     
+                          </div>
                         </div>
                      </div>
                   </slot>
@@ -353,7 +353,7 @@
       </div>
    </section>
    <div class="slds-backdrop slds-backdrop_open"></div>
-  <!--  Change Status Model End --> 
+  <!--  Change Status Model End -->
   </template>
   <template if:true={isStatusChange}>
    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
@@ -369,7 +369,7 @@
             <div class="slds-p-around_large">
                <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                   <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                     <span class="title"> {label.ListView_ChangeStatus}</span> 
+                     <span class="title"> {label.ListView_ChangeStatus}</span>
                   </div>
                   <div class="slds-col slds-size_1-of-12 close-icon">
                      <div onclick={handleCloseStatus}>
@@ -380,7 +380,7 @@
                      </div>
                   </div>
                </div>
-               <slot name="statusPopup">   
+               <slot name="statusPopup">
                   <div class="slds-grid slds-wrap slds-gutters">
                      <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                            <div class="status-text">
@@ -446,10 +446,10 @@
                   </div>
                   <div class="slds-grid slds-wrap slds-m-top_large">
                      <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                     <div class="slds-float_right mobile-width">                  
+                     <div class="slds-float_right mobile-width">
                            <button title={label.Submit} class="slds-button apollo-btn primary btn-height save-btn" onclick={handleBulkUpdate} disabled={bulkSubmit}> {label.Submit} </button>
                            <button title={label.BTN_Cancel} class="slds-button apollo-btn secondary btn-height discard-btn" onclick={handleCloseStatus}> {label.BTN_Cancel}</button>
-                     </div>    
+                     </div>
                      </div>
                   </div>
                </slot>
@@ -460,8 +460,8 @@
 </section>
 <div class="slds-backdrop slds-backdrop_open"></div>
 </template>
-<template if:true={importParticipant}> 
+<template if:true={importParticipant}>
    <c-pir_import-participant onclose={handleImportParticipant} > </c-pir_import-participant>
-</template> 
+</template>
 </div>
 </template>
