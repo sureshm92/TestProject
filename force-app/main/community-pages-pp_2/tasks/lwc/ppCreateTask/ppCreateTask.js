@@ -97,7 +97,10 @@ export default class PpCreateTask extends LightningElement {
                             this.disbaleDateTime = true;
                             this.readOnlyMode = true;
                         } else {
-                            if (wrapper.task.Originator__c != 'Participant' && wrapper.task.Originator__c != 'Delegate') {
+                            if (
+                                wrapper.task.Originator__c != 'Participant' &&
+                                wrapper.task.Originator__c != 'Delegate'
+                            ) {
                                 if (!wrapper.task.Activity_Datetime__c) {
                                     this.disbaleDateTime = true;
                                 }
@@ -389,6 +392,7 @@ export default class PpCreateTask extends LightningElement {
             event.detail.reminderType == 'No reminder' ? '' : event.detail.reminderType;
         if (event.detail.reminderType == 'No reminder') {
             this.initData.reminderDate = null;
+            this.taskReminderDate = null;
         }
         this.isReminderSelected =
             !event.detail.reminderType || event.detail.reminderType == 'No reminder' ? false : true;

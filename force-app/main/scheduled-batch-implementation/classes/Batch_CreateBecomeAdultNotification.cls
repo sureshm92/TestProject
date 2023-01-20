@@ -1,5 +1,5 @@
 /**
- * Created by Yulia Yakushenkova on 1/6/2020.
+ * Created by Yulia Yakushenkova on 1/6/2020. 
  */
 
 public with sharing class Batch_CreateBecomeAdultNotification extends Batch_ScheduledAbstract {

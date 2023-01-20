@@ -1,6 +1,6 @@
 /**
  * Created by Leonid Bartenev
- */
+ */ 
 
 public without sharing class Batch_DeleteProcessedNotifications extends Batch_ScheduledAbstract {
     public Database.QueryLocator start(Database.BatchableContext bc) {

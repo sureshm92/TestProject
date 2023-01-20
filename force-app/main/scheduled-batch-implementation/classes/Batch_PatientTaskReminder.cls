@@ -1,7 +1,7 @@
 /**
  * Created by Igor Malyuta on 15.05.2019.
  */
-
+ 
 public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAbstract {
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator(

@@ -2,7 +2,7 @@
  * Created by Julia Kazakevich on 18-Sep-19.
  * Refactored by Igor Malyuta on 27-Oct-19
  */
-
+ 
 public without sharing class Batch_CreateParticipantLoginNotification extends Batch_ScheduledAbstract {
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator(

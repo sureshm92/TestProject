@@ -1,7 +1,7 @@
 /**
  * Created by Julia Kazakevich on 19-Sep-19.
  * Refactored by Igor Malyuta on 27-Oct-19
- */
+ */ 
 
 public without sharing class Batch_UserCreatedDateNotification extends Batch_ScheduledAbstract {
     public Database.QueryLocator start(Database.BatchableContext param1) {
