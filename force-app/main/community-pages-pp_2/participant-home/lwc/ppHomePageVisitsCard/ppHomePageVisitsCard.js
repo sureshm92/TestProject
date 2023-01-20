@@ -128,10 +128,4 @@ export default class HomePageVisitsCard extends LightningElement {
             })
         );
     }
-    navigateToEvents() {
-        communityService.navigateToPage('events');
-    }
-    navigateToVisits() {
-        communityService.navigateToPage('visits');
-    }
 }

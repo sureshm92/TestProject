@@ -404,7 +404,7 @@
                     class="slds-card__footer-action slds-align_absolute-center label"
                 >
                     <template if:true={isProgram}>
-                        <a href="javascript:void(0);" onclick={navigateToEvents}
+                        <a href="events"
                             >{labels.View_Event_Details}
                             <span class="slds-assistive-text"
                                 >{labels.View_Event_Details}</span
@@ -412,7 +412,7 @@
                         </a>
                     </template> 
                     <template if:false={isProgram}>
-                        <a href="javascript:void(0);" onclick={navigateToVisits}
+                        <a href="visits"
                             >{labels.View_Visit_Details}
                             <span class="slds-assistive-text"
                                 >{labels.View_Visit_Details}</span
