@@ -85,7 +85,7 @@
     width: 62px;
     padding-top: 10px;
     white-space: normal;
-    color: #015FF1;
+    color: #297dfd;
     font-size: 13px;
     line-height: 14px;
     text-align: center;
@@ -111,7 +111,7 @@
 
 .THIS .sd-tab-container .sd-tab:not(.selected):hover {
     background-color: rgba(41, 125, 253, 0.1);
-    box-shadow: inset 0 -3px 0 0 #015FF1;
+    box-shadow: inset 0 -3px 0 0 #297dfd;
     opacity: 0.5;
 }
 
@@ -128,12 +128,12 @@
     opacity: 1;
     pointer-events: none;
     background-color: rgba(41, 125, 253, 0.1);
-    box-shadow: inset 0 -3px 0 0 #015FF1;
+    box-shadow: inset 0 -3px 0 0 #297dfd;
     font-weight: bold;
 }
 
 .THIS .share-btn-label {
-    color: #015FF1;
+    color: #297dfd;
     text-align: center;
 }
 
@@ -185,7 +185,7 @@
 }
 
 .THIS .change-pref {
-    color: #015FF1;
+    color: #297dfd;
     padding: 4px 8px;
     align-items: center;
     border-radius: 4px;

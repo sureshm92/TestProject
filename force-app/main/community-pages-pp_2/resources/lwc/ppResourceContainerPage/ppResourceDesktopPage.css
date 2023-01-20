@@ -205,16 +205,12 @@ p {
 .change-preferences {
     height: 24px;
     width: 118px;
-    color: #015FF1;
+    color: #0768fd;
     font-family: 'Proxima Nova';
     font-size: 13px;
     font-weight: 500;
     letter-spacing: 0;
     text-decoration: underline;
-}
-
-.change-preferences:hover {
-    color: #0557D5;
 }
 
 .resource-container {
