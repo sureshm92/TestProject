@@ -222,12 +222,16 @@
                 <template if:true={isVisitAvailable}>
                     <footer class="slds-card__footer card-wrap slds-card__footer-action slds-align_absolute-center">
                         <template if:true={isProgram}>
-                            <a class="label" href="javascript:void(0);" onclick={navigateToEvents}
+                            <a
+                                class="label"
+                                href="events"
                                 >{labels.View_Event_Details}
                             </a>
                         </template>
                         <template if:false={isProgram}>
-                            <a class="label" href="javascript:void(0);" onclick={navigateToVisits}
+                            <a
+                                class="label"
+                                href="visits"
                                 >{labels.View_Visit_Details}
                             </a>
                         </template>                        
