@@ -46,13 +46,59 @@
     fill: #00a3e0;
 }
 
+.curve-input {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 2rem;
+    border-radius: 1rem;
+    border: 1px solid #d9d9d9;
+    padding-left: 2.25rem;
+    background-color: #f2f2f2;
+}
+
+.curve-input:focus-within,
+.slds-form-element__control
+    .slds-checkbox
+    [type='checkbox']:checked
+    + .slds-checkbox__label
+    .slds-checkbox_faux:focus-within {
+    border: 1px solid #015ff1;
+}
+
 .curve-input input[type='date'] {
     width: 300px;
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    font-size: 0.875rem;
+    border-radius: 1rem;
+    border: none;
+    background: #fff;
+    color: #595959;
+    text-align: left;
 }
 
 .curve-input input[type='date']:disabled {
+    background: #f2f2f2;
     padding-left: 1rem;
-    max-width: 100%;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator,
+.curve-input .slds-input__icon-group_right {
+    position: absolute;
+    left: 0;
+    height: 25px;
+    width: 100%;
+    opacity: 0;
+}
+
+.curve-input .svg-icon {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%) translateX(-50%);
+    left: 20px;
+    fill: #00a3e0;
 }
 
 .slds-col.slds-small-size_1-of-2.slds-p-horizonal_none {
