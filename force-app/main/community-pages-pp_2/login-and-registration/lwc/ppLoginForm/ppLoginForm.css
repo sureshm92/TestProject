@@ -44,7 +44,7 @@
     width: 318px;
     color: #ffffff;
     border-radius: 16px;
-    background-color: #0768fd;
+    background-color: #015FF1;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
     margin: 22px 0 0 0;
     font-family: 'Proxima Nova';
@@ -70,7 +70,7 @@
 }
 .forgot-unable-pwd-txt {
     height: 19px;
-    color: #0768fd;
+    color: #015FF1;
     font-family: 'Proxima Nova';
     font-size: 16px;
     line-height: 19px;
@@ -123,7 +123,7 @@
     cursor: pointer;
 }
 .checkbox-container input:checked ~ .checkmark {
-    background-color: #0768fd;
+    background-color: #015FF1;
 }
 .checkmark:after {
     content: '';
@@ -153,7 +153,7 @@
 }
 .unable-to-log-in {
     height: 19px;
-    color: #0768fd;
+    color: #015FF1;
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
