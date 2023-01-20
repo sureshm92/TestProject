@@ -41,8 +41,9 @@ public without sharing class ParticipantVisitsRemote {
             additionalFields.add('Participant_Enrollment__r.Study_Site__r.Site__r.BillingAddress');
             additionalFields.add('Participant_Enrollment__r.Study_Site__r.Site__r.Name');
             additionalFields.add('Participant_Enrollment__r.Study_Site__r.Site__r.Phone');
+            additionalFields.add('Is_Pre_Enrollment_Patient_Visit__c');
             visitAndCount.visitPreviewList = ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
-                .getVisitWrappers(PatientVisitService.VISIT_MODE_CURRENT, 5, additionalFields);
+                .getVisitWrappersAndHandleInitialVisits(PatientVisitService.VISIT_MODE_CURRENT, 5, additionalFields);
             return visitAndCount;
 
         } catch (Exception e) {
@@ -120,8 +121,10 @@ public without sharing class ParticipantVisitsRemote {
     @AuraEnabled
     public static PatientVisitService.PatientVisitsAndEvent getParticipantVisitsAndStudyType(String visitMode) {
         try {
+            List<String> additionalFields = new List<String>();
+            additionalFields.add('Is_Pre_Enrollment_Patient_Visit__c');
             return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
-                .getVisitWrappersAndStudyType(visitMode);
+                .getVisitWrappersAndStudyType(visitMode, additionalFields);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
