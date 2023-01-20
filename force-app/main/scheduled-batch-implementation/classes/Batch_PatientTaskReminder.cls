@@ -62,7 +62,7 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
         for (Task t : tasks)
             allContactsIds.add(t.WhoId);
 
-        Map<Id, List<Id>> delConIdsByPACon = PatientDelegateService.getDelegateContactIdsByPAContactIs(
+        Map<Id, List<Id>> delConIdsByPACon = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
             allContactsIds
         );
         for (Id paKey : delConIdsByPACon.keySet())

@@ -728,7 +728,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public ProgramOverViewData programOverViewData = new ProgramOverViewData();
         @AuraEnabled
         public ParticipantService.ParticipantState participantState;
-
+        
     }
 
     public class ContactSectionData {
@@ -795,6 +795,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public Boolean isPrimaryDelegateWithMultiRole = false;
         @AuraEnabled
         public Boolean isWithdrawnDelegate = false;
+        @AuraEnabled
+        public Boolean isActiveDelegate = false;
     }
 
     
@@ -1080,6 +1082,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         initData.consentPreferenceData.isIQIVAOutrechToggleOnAtCTP = isIQIVAOutrechToggleOnAtCTP;
         initData.consentPreferenceData.myContact = initData.myContact;
         initData.consentPreferenceData.loggedInUserParticipantId = initData.participant.Id;
+        initData.consentPreferenceData.isActiveDelegate = PatientDelegateEnrollmentService.isActiveDelegate(initData.myContact.Id);
 
         if (isDelegateSelfView) {
             //As Patient delegate switched to his own Account setting so set isParticipantLoggedIn to false.

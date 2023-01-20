@@ -1,0 +1,237 @@
+.profile-information-rectangle {
+    box-sizing: border-box;
+    height: 46rem;
+    /*border: 1px solid #e9e9e9;
+    border-radius: 16px;
+    top: 5rem;
+    */
+    background-color: #ffffff;
+    /* margin-left: 24px; */
+    position: absolute;
+    width: 62%;
+}
+.profile-information {
+    font-size: 24px;
+    font-weight: 600;
+}
+.slds-form-element__label {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0;
+}
+.btn-save-opacity {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+:host {
+    --sds-c-checkbox-color-background-checked: #0769fd;
+    --sds-c-checkbox-mark-color-foreground: #fff;
+}
+.spins::after {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+}
+@media screen and (max-width: 768px) {
+    .profile-information-rectangle {
+        height: auto;
+        margin-left: 0px;
+        width: 22.375rem;
+        position: unset;
+    }
+    .profile-info-input {
+        margin-bottom: 31px;
+    }
+    .profile-info-input:last-child {
+        margin-bottom: 0px;
+    }
+    .mob-checkbox-txt {
+        text-align: center;
+    }
+    .addDelegateMobile {
+        width: 100% !important;
+    }
+}
+.save-del-btn {
+    height: 40px;
+    width: 128px;
+    border-radius: 4px;
+    background-color: #0768fd;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 4px;
+    text-align: center;
+    border-color: rgba(0, 0, 0, 0) transparent transparent;
+}
+
+.back-to-manage-del-btn {
+    height: 24px;
+    /* width: 191px; */
+    color: #3374ee;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 501;
+    letter-spacing: 0;
+    line-height: 24px;
+    background-color: #ffffff;
+    border-color: rgba(0, 0, 0, 0) transparent transparent;
+    /* margin-left: -7px; */
+    width: 100%;
+    text-align: left;
+    padding-left: 0px;
+}
+
+.inline{
+    display: inline;
+}
+
+.icon-chevron-right {
+    height: 13px;
+    width: 13px;
+    transform: rotate(180deg);
+    margin-left: -5px;
+}
+
+.del-access-rectangle {
+    box-sizing: border-box;
+    /* height: 151px; */
+    /*width: 768px; */
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background-color: #ffffff;
+}
+
+.what-can-your-delega {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.m-top-16 {
+    margin-top: 16px;
+}
+.m-left-24 {
+    margin-left: 24px;
+}
+.m-right-24 {
+    margin-right: 24px;
+}
+.m-left-32 {
+    margin-left: 32px;
+}
+.m-right-32 {
+    margin-right: 32px;
+}
+.m-16 {
+    margin: 16px;
+}
+
+.text-italic {
+    font-style: italic;
+    font-size: 14px;
+}
+
+.ad-text-red {
+    color: #d43e33;
+    font-weight: 600;
+}
+.ad-text-bold {
+    font-weight: 600;
+}
+.blue-highlight-text-color {
+    color: #0f6efd;
+}
+
+.blue-highlight-text-color:hover {
+    cursor: pointer;
+}
+.ad-error-container {
+    background: #fde5e5;
+    border-radius: 4px;
+}
+.ad-errorIconPosition {
+    border-right: 1px solid #ffffff;
+    padding: 20px;
+}
+.ad-warningIconPosition {
+    padding: 20px;
+}
+.ad-error-text {
+    padding: 10px 10px 10px 10px;
+    border-left: 1px solid white;
+}
+.ad-warning-container {
+    background: #fff4e5;
+    border-radius: 4px;
+    /* margin: 10px 0px 10px 0; */
+}
+.ad-warning-text {
+    /* padding: 12px 10px 12px 10px; */
+}
+.ad-static-msg {
+    font-size: 14px;
+    background-color: #fff4e5;
+    border: 1px solid #ffce89;
+    padding: 5px;
+    margin-right: 10px;
+    padding-left: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    font-weight: normal;
+}
+.ad-exclamation-orange {
+    fill: #ff9300;
+}
+.ad-pad-r-10 {
+    padding-right: 10px;
+}
+.btn-confirm-selection {
+    box-sizing: border-box;
+    height: 41px;
+    /* width: 158px; */
+    padding: 0 15px 0 15px;
+    border: 1px solid #e9e9e9;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #0768fd;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+}
+.btn-confirm-selection:disabled {
+    opacity: 0.7;
+    box-shadow: none;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.ad-border-white {
+    border-left: 1px solid #ffffff;
+}
+/* .noclk {
+    pointer-events: none;
+    cursor: pointer;
+} */
+.con-checkbox {
+    height: 16px;
+    width: 16px;
+}
+.text-for-check {
+    position: absolute;
+    padding-left: 16px;
+    font-size: 15px;
+    margin-top: -1px;
+}
+/* .input-border-radius {
+    border-radius: 20px;
+}
+
+.customThemeLayout .slds-input{
+    border-radius: 20px;
+} */
