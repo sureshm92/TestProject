@@ -14,7 +14,7 @@ public inherited sharing class PatientVisitService {
         return this.getVisitWrappers(visitMode, null);
     }
 
-    public PatientVisitsAndEvent getVisitWrappersAndStudyType(String visitMode) {
+    public PatientVisitsAndEvent getVisitWrappersAndStudyType(String visitMode , List<String> additionalFields) {
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(
                 ParticipantService.class
             ))
@@ -23,7 +23,9 @@ public inherited sharing class PatientVisitService {
             return null;
         }
         PatientVisitsAndEvent pvAndEvent = new PatientVisitsAndEvent();
-        pvAndEvent.pvList = this.getVisitWrappers(this.getVisitsData(pState,visitMode, null,null));
+        List<Patient_Visit__c> pvList = this.getVisitsData(pState,visitMode, null,additionalFields);
+        processPendingInitialVisits(pvList);
+        pvAndEvent.pvList = this.getVisitWrappers(pvList);
         pvAndEvent.isEvent = pState.pe.Clinical_Trial_Profile__r.Is_Program__c;
         return pvAndEvent;
     }
@@ -42,6 +44,12 @@ public inherited sharing class PatientVisitService {
 
     public List<VisitWrapper> getVisitWrappers(String visitMode, Integer limitNumber, List<String> additionalFields) {
         return this.getVisitWrappers(this.getVisits(visitMode, limitNumber, additionalFields));
+    }
+    
+    public List<VisitWrapper> getVisitWrappersAndHandleInitialVisits(String visitMode, Integer limitNumber, List<String> additionalFields) {
+        List<Patient_Visit__c> pvList = this.getVisits(visitMode, limitNumber, additionalFields);
+        processPendingInitialVisits(pvList);
+        return this.getVisitWrappers(pvList);
     }
     
     @TestVisible
@@ -363,6 +371,21 @@ public List<Patient_Visit__c> getPatientVisitDetails(Id visitId) {
         );
     }
 
+    public static void processPendingInitialVisits(List<Patient_Visit__c> patientVisits){
+        Boolean needsUpdate = false;
+        for(Patient_Visit__c pv : patientVisits){
+            if(pv.Is_Pre_Enrollment_Patient_Visit__c && pv.Status__c == 'Pending' && 
+                pv.Planned_Date__c !=null && pv.Planned_Date__c < DateTime.now()){
+                    //pv.Status__c = 'Missed';
+                    needsUpdate = true;
+                    pv.Status__c = 'Missed';
+            }
+        }
+        if(needsUpdate){
+            DMLService.updateRecords(patientVisits);
+        }
+    }
+    
     @AuraEnabled
     public static List<Icon_Details__c> getVisitIcons(Id visitId) {
         Id visitPlanId;
