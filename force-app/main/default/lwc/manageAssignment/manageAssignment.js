@@ -83,7 +83,7 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     connectedCallback() {
         formFactor != 'Small' ? (this.isDesktop = true) : (this.isDesktop = false);
         this.initializeData();
-        this.subscribeToMessageChannel();
+        //this.subscribeToMessageChannel();
     }
 
     render() {
@@ -240,6 +240,7 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
         })
             .then((result) => {
                 this.showpopup = false;
+                this.resetProfileMenueItems();
                 //When delegate withdrawn from all the studies.
                 if (result.length == 0) {
                     communityService.showToast(
@@ -252,8 +253,6 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
                     communityService.navigateToPage('account-settings');
                 } else {
                     this.setInitializedData(result);
-
-                    this.resetProfileMenueItems();
                     communityService.showToast(
                         '',
                         'success',
