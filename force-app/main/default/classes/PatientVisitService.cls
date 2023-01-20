@@ -104,10 +104,23 @@ public inherited sharing class PatientVisitService {
             'Visit__r.Patient_Portal_Name__c',
             'Visit__r.Icons__c',
             'Visit__r.Visit_Plan__c',
-            'Is_Pre_Enrollment_Patient_Visit__c',
             'Planned_Date__c',
             'Visit_Number__c'
         };
+        /*  List<String> fields = new List<String>{
+            'Completed_Date__c',
+            'Is_Adhoc__c',
+            'Name',
+            'Participant_Enrollment__r.Participant_Contact__c',
+            'Status__c',
+            'Visit__r.Visit_Schedule__c',
+            'Visit__r.Patient_Portal_Name__c',
+            'Visit__r.Icons__c',
+            'Visit__r.Visit_Plan__c',
+            'Is_Pre_Enrollment_Patient_Visit__c',
+            'Planned_Date__c',
+            'Visit_Number__c'
+        };*/
 
         if (additionalFields != null && additionalFields.size() > 0) {
             fields.addAll(additionalFields);
