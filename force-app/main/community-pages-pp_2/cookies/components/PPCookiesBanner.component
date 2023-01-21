@@ -283,8 +283,8 @@
                 width: 107px;
             }
             .rh-card-top-bg {
-                height: 4px;
-                padding-top: 7px !important;
+                height: 2px;
+                padding-top: 4px !important;
                 background: linear-gradient(270deg, #0076ae 0%, #250056 100%);
             }
             .modal-container {
