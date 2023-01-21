@@ -5,7 +5,11 @@
 
 public without sharing class ParticipantEnrollmentTriggerHandler {
     // Handlers: -------------------------------------------------------------------------------------------------------
-    public static final List<User> isValidUsr = [SELECT Id FROM User WHERE Profile.Name = 'API Only'];
+    public static final List<User> isValidUsr = [
+        SELECT Id
+        FROM User
+        WHERE Profile.Name = 'API Only'
+    ];
     public class PrepareAdditionalFieldsHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             prepareAdditionalFields(newList, null);
@@ -13,6 +17,19 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             prepareAdditionalFields(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
+    public class UpdateInitialVisits extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            updatePatientVisits((List<Participant_Enrollment__c>) newList, null);
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            updatePatientVisits(
+                (List<Participant_Enrollment__c>) newList,
+                (Map<Id, Participant_Enrollment__c>) oldMap
+            );
         }
     }
 
@@ -134,25 +151,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
-    /** 
-    * Logic moved to Screener response from PE due to multi screener implementation
-    public class CheckReimbursableActivities extends TriggerHandler {
-        public override void afterInsert(List<SObject> newList) {
-            ProviderPaymentsService.checkPEForReimbursableActivities(
-                (List<Participant_Enrollment__c>) newList,
-                null
-            );
-        }
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            ProviderPaymentsService.checkPEForReimbursableActivities(
-                (List<Participant_Enrollment__c>) newList,
-                (Map<Id, Participant_Enrollment__c>) oldMap
-            );
-        }
-    }
-    **/
-
     public class SendFOVtoAPI extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             sendtoAPIafterInsert((List<Participant_Enrollment__c>) newList);
@@ -217,6 +215,117 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     // Logic: ----------------------------------------------------------------------------------------------------------
+    //Update initial visit scheduled and completion date and time set by PI to
+    //Patient Visit record.
+    @TestVisible
+    private static void updatePatientVisits(
+        List<Participant_Enrollment__c> newList,
+        Map<Id, Participant_Enrollment__c> oldMap
+    ) {
+        Set<Id> perIds = new Set<Id>();
+        List<Patient_Visit__c> initialVisits;
+        for (Participant_Enrollment__c per : newList) {
+            if (
+                //Update
+                (oldMap != null &&
+                (per.Initial_visit_scheduled_date__c !=
+                oldMap.get(per.Id).Initial_visit_scheduled_date__c ||
+                per.Initial_visit_scheduled_time__c !=
+                oldMap.get(per.Id).Initial_visit_scheduled_time__c ||
+                per.Initial_visit_occurred_flag__c !=
+                oldMap.get(per.Id).Initial_visit_occurred_flag__c ||
+                per.Initial_visit_occurred_date__c !=
+                oldMap.get(per.Id).Initial_visit_occurred_date__c)) ||
+                //Insert
+                (oldMap == null &&
+                (per.Initial_visit_scheduled_date__c != null ||
+                per.Initial_visit_scheduled_time__c != null ||
+                per.Initial_visit_occurred_date__c != null ||
+                per.Initial_visit_occurred_flag__c))
+            ) {
+                perIds.add(per.Id);
+            }
+        }
+        if (perIds.isEmpty()) {
+            return;
+        }
+        initialVisits = [
+            SELECT
+                id,
+                Participant_Enrollment__c,
+                Participant_Enrollment__r.Initial_visit_scheduled_date__c,
+                Participant_Enrollment__r.Initial_visit_scheduled_time__c,
+                Participant_Enrollment__r.Initial_visit_occurred_flag__c,
+                Participant_Enrollment__r.Initial_visit_occurred_date__c,
+                Completed_Date__c,
+                Planned_Date__c,
+                Status__c,
+                Visit__c
+            FROM Patient_Visit__c
+            WHERE
+                Visit__r.Visit_Plan__r.Is_Pre_Enrollment_Visit_Plan__c = :true
+                AND Participant_Enrollment__c IN :perIds
+                //For 2.0 studies
+                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :'PatientPortal'
+                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c = :false
+        ];
+
+        if (!initialVisits.isEmpty()) {
+            List<Patient_Visit__c> visitsToUpdate = new List<Patient_Visit__c>();
+            for (Patient_Visit__c pv : initialVisits) {
+                if (
+                    //Update
+                    (oldMap != null &&
+                    pv.Participant_Enrollment__r.Initial_visit_scheduled_date__c !=
+                    oldMap.get(pv.Participant_Enrollment__c).Initial_visit_scheduled_date__c ||
+                    pv.Participant_Enrollment__r.Initial_visit_scheduled_time__c !=
+                    oldMap.get(pv.Participant_Enrollment__c).Initial_visit_scheduled_time__c) ||
+                    //Insert
+                    (oldMap == null &&
+                    (pv.Participant_Enrollment__r.Initial_visit_scheduled_date__c != null ||
+                    pv.Participant_Enrollment__r.Initial_visit_scheduled_time__c != null))
+                ) {
+                    pv.Planned_Date__c = pv.Participant_Enrollment__r.Initial_visit_scheduled_date__c !=
+                        null
+                        ? DateTime.newInstanceGmt(
+                              pv.Participant_Enrollment__r.Initial_visit_scheduled_date__c,
+                              pv.Participant_Enrollment__r.Initial_visit_scheduled_time__c != null
+                                  ? pv.Participant_Enrollment__r.Initial_visit_scheduled_time__c
+                                  : Time.newInstance(0, 0, 0, 0)
+                          )
+                        : null;
+                    visitsToUpdate.add(pv);
+                }
+                if (
+                    //Update
+                    (oldMap != null &&
+                    (pv.Participant_Enrollment__r.Initial_visit_occurred_date__c !=
+                    oldMap.get(pv.Participant_Enrollment__c).Initial_visit_occurred_date__c ||
+                    pv.Participant_Enrollment__r.Initial_visit_occurred_flag__c !=
+                    oldMap.get(pv.Participant_Enrollment__c).Initial_visit_occurred_flag__c)) ||
+                    //Insert
+                    (oldMap == null &&
+                    (pv.Participant_Enrollment__r.Initial_visit_occurred_date__c != null ||
+                    pv.Participant_Enrollment__r.Initial_visit_occurred_flag__c != null))
+                ) {
+                    pv.Completed_Date__c = pv.Participant_Enrollment__r.Initial_visit_occurred_date__c !=
+                        null
+                        ? DateTime.newInstanceGmt(
+                                  pv.Participant_Enrollment__r.Initial_visit_occurred_date__c,
+                                  Time.newInstance(0, 0, 0, 0)
+                              )
+                              .dateGMT()
+                        : null;
+                    visitsToUpdate.add(pv);
+                    if (pv.Participant_Enrollment__r.Initial_visit_occurred_flag__c) {
+                        pv.Status__c = 'Completed';
+                        visitsToUpdate.add(pv);
+                    }
+                }
+            }
+            update visitsToUpdate;
+        }
+    }
 
     @TestVisible
     private static void prepareAdditionalFields(
@@ -1217,7 +1326,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                 myPElist.add(llrhEvent);
             }
         }
-        System.debug('##### myPElist ' + myPElist);
+        //System.debug('##### myPElist ' + myPElist);
         EventBus.publish(myPElist);
     }
 
@@ -1281,8 +1390,9 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                 per.Initial_visit_occurred_flag__c !=
                 oldMap.get(per.Id).Initial_visit_occurred_flag__c) &&
                 ((per.Initial_visit_scheduled_date__c == null &&
-                per.Initial_visit_occurred_flag__c == false) || per.ParticipantNoShow__c == true
-				|| per.Initial_visit_occurred_flag__c == false)
+                per.Initial_visit_occurred_flag__c == false) ||
+                per.ParticipantNoShow__c == true ||
+                per.Initial_visit_occurred_flag__c == false)
             ) {
                 if (per.Status_Order__c > 3) {
                     per.Participant_Status__c = 'Successfully Contacted';
@@ -1559,7 +1669,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
     public static List<Profile> currentUserProfile;
     public static boolean checkCurrentusrProfile() {
         List<Profile> profiles;
-        if(currentUserProfile==null){
+        if (currentUserProfile == null) {
             Id profileId = userinfo.getProfileId();
             currentUserProfile = [SELECT Id, Name FROM Profile WHERE Id = :profileId];
         }
@@ -1571,7 +1681,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
             } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     }

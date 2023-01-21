@@ -6,7 +6,7 @@ public class Batch_RetryIPRRecord   extends Batch_ScheduledAbstract implements D
     public static final List<EPR_Validation_Message__mdt> lstEmailRecord = [SELECT SendFailedIPRReport__c FROM EPR_Validation_Message__mdt 
                                                                             WHERE SendFailedIPRReport__c != Null
                                                                             And Error_Message__c = ''];
-    
+     
     
     public Database.QueryLocator start(Database.BatchableContext bc) {
         String strQuery = 'SELECT ID,Batch_consideration__c,Is_retry_required__c,Error_Message__c,Address_Country__c,address_state__c,Retry_Count__c';

@@ -1,6 +1,6 @@
 /**
  * Created by Leonid Bartenev
- */
+ */ 
 
 public without sharing class Batch_ProcessActionSetupObjects extends Batch_ScheduledAbstract {
     private List<Action__c> processedActions = new List<Action__c>();

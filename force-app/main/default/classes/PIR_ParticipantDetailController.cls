@@ -297,7 +297,8 @@ public without sharing class PIR_ParticipantDetailController {
             Primary_Delegate__c = true,
             Participant_Delegate__c = piToInsertDelegate.Id,
             Participant__c = perRecord.Participant__c,
-            Contact__c = parti[0].Contact__c
+            Contact__c = parti[0].Contact__c,
+            Status__c = 'Disconnected'
           );
           if(pdToupdateAfterInsert.Participant__c == null && perRecord.Participant__r.Id != null){
                 pdToupdateAfterInsert.Participant__c = perRecord.Participant__r.Id;
@@ -319,6 +320,11 @@ public without sharing class PIR_ParticipantDetailController {
 
         }else if(delegateCriteria == 'updateDeligate'){
           if(useDup){
+            
+            Participant__c piToUpdateDelegate = new Participant__c();
+            piToUpdateDelegate = peDeligate.Participant_Delegate__r;
+
+            update piToUpdateDelegate;
             List<Patient_Delegate__c> pd = new List<Patient_Delegate__c>();
             List<Patient_Delegate__c> pds = new List<Patient_Delegate__c>();
             pd = [Select Id,Participant__c,Contact__c, Participant_Delegate__c,Contact__r.Participant_Opt_In_Status_SMS__c from Patient_Delegate__c where Participant__c=: perRecord.Participant__c and Participant_Delegate__c=:peDeligate.Participant_Delegate__r.Id];
@@ -345,7 +351,8 @@ public without sharing class PIR_ParticipantDetailController {
                 Primary_Delegate__c = true,
                 Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
                 Participant__c = perRecord.Participant__c,
-                Contact__c = peDeligate.Participant_Delegate__r.Contact__c
+                Contact__c = peDeligate.Participant_Delegate__r.Contact__c,
+                Status__c = 'Disconnected'
                 );
                 contactId = peDeligate.Participant_Delegate__r.Contact__c;
                 insert pdToupdateAfterInsertDuplicate;
@@ -356,7 +363,8 @@ public without sharing class PIR_ParticipantDetailController {
               Primary_Delegate__c = true,
               Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
               Participant__c = perRecord.Participant__c,
-              Contact__c = peDeligate.Participant_Delegate__r.Contact__c
+              Contact__c = peDeligate.Participant_Delegate__r.Contact__c,
+              Status__c = 'Disconnected'
             );
             contactId = peDeligate.Participant_Delegate__r.Contact__c;
             insert pdToupdateAfterInsertDuplicate;
@@ -474,6 +482,7 @@ public without sharing class PIR_ParticipantDetailController {
     Boolean getSMSValue=getsms.Participant_Opt_In_Status_SMS__c;
     Study_Site__c ss = [SELECT Id, Site__c from Study_Site__c Where Id =: perRecord.Study_Site__c];
       con.AccountId = ss.Site__c;
+      con.userCommunityIsDelegate__c = true;
       con.IQVIA_Contact_info_storage_consent__c =peDeligate.contact__r.IQVIA_Contact_info_storage_consent__c;
       con.Participant_Phone_Opt_In_Permit_Phone__c =peDeligate.contact__r.Participant_Phone_Opt_In_Permit_Phone__c;
       con.IQVIA_Assisted_Dialing_Consent__c =peDeligate.contact__r.IQVIA_Assisted_Dialing_Consent__c;

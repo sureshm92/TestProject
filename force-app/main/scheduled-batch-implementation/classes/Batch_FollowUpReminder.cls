@@ -1,4 +1,4 @@
-/**
+ /**
  * Created by Igor Malyuta on 10.06.2020.
  */
 public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract {

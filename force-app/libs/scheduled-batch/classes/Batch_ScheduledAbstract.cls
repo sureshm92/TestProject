@@ -1,6 +1,6 @@
 /**
  * Created by Igor Malyuta on 31.05.2019.
- */
+ */ 
 
 public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObject>, Database.Stateful {
     public static final String INTERVAL_MINUTES = 'Minutes';

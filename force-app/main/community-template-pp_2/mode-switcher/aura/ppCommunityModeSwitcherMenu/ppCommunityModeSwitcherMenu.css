@@ -32,7 +32,8 @@
 }
 
 .THIS .header-menu-link {
-    padding: 0 1rem 0 .5rem;
+    /* padding: 0 8px; */
+    padding: 0 24px 0 0px;
 }
 
 @media all and (orientation: landscape) and (max-width: 1024px) {

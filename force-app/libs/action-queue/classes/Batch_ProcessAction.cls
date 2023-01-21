@@ -1,7 +1,7 @@
 /**
  * Created by Nargiz Mamedova on 12/3/2019.
  */
-
+ 
 public with sharing class Batch_ProcessAction extends Batch_ScheduledAbstract implements Database.AllowsCallouts {
     public Database.QueryLocator start(Database.BatchableContext bc) {
         Datetime currentTime = System.now();
