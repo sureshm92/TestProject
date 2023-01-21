@@ -2,6 +2,7 @@
  - Created by Sandeep
  -->
  <apex:component id="PPCookiesBanner" controller="PPCookiesBannerController" allowDML="true">
+    <apex:attribute name="community" description="community Name" type="String" />
     <apex:actionFunction action="{!updateCookiePreferences}" name="updateCookies" reRender="none" />
 
     <apex:actionFunction
@@ -17,7 +18,7 @@
             left: 0;
             position: fixed;
             border-radius: 16px 16px 0 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.8);
             box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
         }
 
@@ -56,8 +57,11 @@
             width: 156px;
             border: none;
             border-radius: 16px;
-            background-color: #015FF1;
+            background-color: #015ff1;
             box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+        }
+        .rh-mobile-device {
+            display: none;
         }
 
         .btn-label {
@@ -81,7 +85,7 @@
 
         .cookie-btn {
             pointer-events: auto;
-            border-color:transparent;
+            border-color: transparent;
         }
 
         .hide-banner {
@@ -116,6 +120,12 @@
             .mob-lang-desc {
                 width: inherit;
             }
+            .rh-mobile-device {
+                display: block;
+            }
+            .rh-desktop-device {
+                display: none;
+            }
         }
         /* Modal css */
         .card-top-bg {
@@ -123,6 +133,7 @@
             border-top-right-radius: 16px;
             height: 16px;
             background: linear-gradient(90deg, #005587 0%, #008d9e 100%);
+            padding-top: 16px;
         }
 
         .modal-header-text {
@@ -158,7 +169,7 @@
 
         .acordion-title {
             transform: rotate(-360deg);
-            color: #015FF1;
+            color: #015ff1;
             font-size: 18px;
         }
 
@@ -236,26 +247,74 @@
             font-size: 16px;
             font-weight: 510;
         }
+        .modal-container {
+            top: 2rem;
+        }
+        .slds-scope
+            .slds-checkbox_toggle
+            [type='checkbox']:checked
+            + .slds-checkbox_faux_container
+            .slds-checkbox_faux:hover,
+        .slds-scope
+            .slds-checkbox_toggle
+            [type='checkbox']:checked
+            + .slds-checkbox_faux_container
+            .slds-checkbox_faux {
+            background-color: #00c221 !important;
+            border: 1px solid #00c221 !important;
+            outline: none !important;
+        }
+        .slds-scope .slds-checkbox_toggle .slds-checkbox_faux,
+        .slds-scope .slds-checkbox_toggle .slds-checkbox_faux:hover {
+            background-color: #b5b5b5;
+            border: 1px solid #b5b5b5;
+            outline: none;
+        }
     </style>
-    <div class="c-container desk-cookies-banner mob-cookies-banner hide-banner">
+    <apex:outputPanel id="thePanel" rendered="{!community=='RH'}">
+        <style>
+            .rh-border-radius {
+                border-radius: 4px !important;
+            }
+
+            .rh-accept-btn-container {
+                border-radius: 4px;
+                height: 40px;
+                width: 107px;
+            }
+            .rh-card-top-bg {
+                height: 4px;
+                padding-top: 7px !important;
+                background: linear-gradient(270deg, #0076ae 0%, #250056 100%);
+            }
+            .modal-container {
+                top: 2.2rem !important;
+            }
+        </style>
+    </apex:outputPanel>
+    <div class="c-container desk-cookies-banner mob-cookies-banner hide-banner rh-border-radius">
         <div class="slds-grid slds-wrap">
             <div class="slds-col slds-size_12-of-12 slds-large-size_9-of-12 slds-p-around_small">
                 <div class="we-care-about-your-p">
                     <div class="banner-heading slds-m-top_small">
                         {!$Label.PP_Cookie_Banner_Header}
                     </div>
-                    <div class="banner-txt slds-m-top_x-small slds-show_medium">
+                    <div class="banner-txt slds-m-top_x-small slds-show_medium rh-desktop-device">
                         {!$Label.PP_Cookies_Banner_Desc1}
                         <b>{!$Label.PP_Cookies_Banner_Desc2}</b>
                         {!$Label.PP_Cookies_Banner_Desc3}
                     </div>
-                    <div class="banner-txt slds-m-top_x-small slds-hide_medium">
+                    <div class="banner-txt slds-m-top_x-small slds-hide_medium rh-mobile-device">
                         {!$Label.PP_Cookies_Banner_Desc1}
                     </div>
-                    <div class="banner-txt slds-m-vertical_xx-small slds-hide_medium">
+                    <div
+                        class="banner-txt slds-m-vertical_xx-small slds-hide_medium rh-mobile-device"
+                    >
                         <b>{!$Label.PP_Cookies_Banner_Desc2}</b>
                     </div>
-                    <div class="banner-txt slds-hide_medium">{!$Label.PP_Cookies_Banner_Desc3}</div>
+                    <div class="banner-txt slds-hide_medium rh-mobile-device">
+                        {!$Label.PP_Cookies_Banner_Desc3}
+                    </div>
                 </div>
             </div>
             <div
@@ -264,7 +323,7 @@
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
                         <apex:commandButton
-                            styleClass="btn-container btn-label cookie-btn"
+                            styleClass="btn-container btn-label cookie-btn rh-border-radius"
                             value="{!$Label.PP_Cookies_Button_Accept}"
                             onclick="closeCookiesInfo();return false;"
                             id="accept"
@@ -274,7 +333,7 @@
                         class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-m-top_large"
                     >
                         <apex:commandButton
-                            styleClass="btn-container manage cookie-btn"
+                            styleClass="btn-container manage cookie-btn rh-border-radius"
                             value="{!$Label.PP_Cookies_Button_Manage_Prefer}"
                             onclick="showManagePreferences();return false;"
                             id="manage"
@@ -287,8 +346,8 @@
 
     <div id="bannerId" style="display: none; pointer-events: auto">
         <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
-            <div class="slds-modal__container" style=" top: 2rem;  ">
-                <div class="slds-grid card-top-bg"></div>
+            <div class="slds-modal__container modal-container">
+                <div class="slds-grid card-top-bg rh-card-top-bg"></div>
                 <div class="slds-modal__content slds-p-around_large">
                     <div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small">
                         <div class="slds-col modal-header-text">
@@ -299,8 +358,8 @@
                         {!$Label.Manage_Cookies_Desc}
                     </div>
 
-                    <div class="accordion">
-                        <div class="acordion-title right-angle-chevron slds-p-horizontal_medium">
+                    <div class="accordion rh-border-radius">
+                        <div class="acordion-title right-angle-chevron slds-p-horizontal_small">
                             {!$Label.AccountSettings_Strictly_Necessary_Cookies}
                             <span class="always-active">{!$Label.Cookie_Always_Active}</span>
                         </div>
@@ -321,9 +380,9 @@
                             </apex:outputPanel>
                         </div>
                     </div>
-                    <div class="accordion active">
+                    <div class="accordion active rh-border-radius">
                         <apex:outputPanel id="functionCookiesInfo">
-                            <div class="acordion-title slds-p-horizontal_medium">
+                            <div class="acordion-title slds-p-horizontal_small">
                                 {!$Label.AccountSettings_Functional_Cookies}
                             </div>
                             <div class="panel" style="display: block">
@@ -388,7 +447,7 @@
 
                     <div class="slds-grid slds-grid_align-end slds-m-top_medium">
                         <apex:commandButton
-                            styleClass="accept-btn-container btn-label cookie-btn"
+                            styleClass="accept-btn-container rh-accept-btn-container btn-label cookie-btn"
                             value="{!$Label.BTN_Accept}"
                             onclick="updateCookies();closeManageModal();return false;"
                             id="manageaccept"
