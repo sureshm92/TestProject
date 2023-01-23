@@ -4,7 +4,7 @@
     position: fixed;
     border-radius: 16px 16px 0 0;
     box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
-    z-index: 9999;
+    z-index: 99999;
     background: rgba(0, 0, 0, 0.8);
 }
 
@@ -102,6 +102,12 @@
 .rh-modal-container {
     top: 2.2rem !important;
 }
+@media screen and (min-width: 768px) {
+    .desk-pad-left {
+        padding-left: 10%;
+    }
+}
+
 /** RH End **/
 @media screen and (max-width: 768px) {
     .mob-cookies-banner {
