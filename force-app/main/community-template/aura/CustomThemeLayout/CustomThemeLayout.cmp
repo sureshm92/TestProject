@@ -308,8 +308,10 @@
                     </div>
                 </div>
                 <aura:if isTrue="{!not(v.isDummy)}">
-                    <aura:if isTrue="{!v.communityApiName == 'IQVIA_Patient_Portal1'}">
-                        <c:ppCookiesBanner />
+                    <aura:if
+                        isTrue="{!or(v.communityName == 'IQVIA Patient Portal',v.communityName == 'IQVIA Referral Hub')}"
+                    >
+                        <c:ppCookiesBanner communityName="{!v.communityName}" />
                         <aura:set attribute="else">
                     <c:CookiesInfo />
                         </aura:set>

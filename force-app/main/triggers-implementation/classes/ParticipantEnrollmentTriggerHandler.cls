@@ -251,7 +251,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         initialVisits = [
             SELECT
-                id,
+                Id,
                 Participant_Enrollment__c,
                 Participant_Enrollment__r.Initial_visit_scheduled_date__c,
                 Participant_Enrollment__r.Initial_visit_scheduled_time__c,
@@ -294,19 +294,17 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                                   : Time.newInstance(0, 0, 0, 0)
                           )
                         : null;
-                    visitsToUpdate.add(pv);
+                    if (!visitsToUpdate.contains(pv))
+                        visitsToUpdate.add(pv);
                 }
                 if (
                     //Update
                     (oldMap != null &&
                     (pv.Participant_Enrollment__r.Initial_visit_occurred_date__c !=
-                    oldMap.get(pv.Participant_Enrollment__c).Initial_visit_occurred_date__c ||
-                    pv.Participant_Enrollment__r.Initial_visit_occurred_flag__c !=
-                    oldMap.get(pv.Participant_Enrollment__c).Initial_visit_occurred_flag__c)) ||
+                    oldMap.get(pv.Participant_Enrollment__c).Initial_visit_occurred_date__c)) ||
                     //Insert
                     (oldMap == null &&
-                    (pv.Participant_Enrollment__r.Initial_visit_occurred_date__c != null ||
-                    pv.Participant_Enrollment__r.Initial_visit_occurred_flag__c != null))
+                    (pv.Participant_Enrollment__r.Initial_visit_occurred_date__c != null))
                 ) {
                     pv.Completed_Date__c = pv.Participant_Enrollment__r.Initial_visit_occurred_date__c !=
                         null
@@ -316,11 +314,20 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                               )
                               .dateGMT()
                         : null;
-                    visitsToUpdate.add(pv);
-                    if (pv.Participant_Enrollment__r.Initial_visit_occurred_flag__c) {
-                        pv.Status__c = 'Completed';
+                    if (!visitsToUpdate.contains(pv))
                         visitsToUpdate.add(pv);
-                    }
+                }
+                if (
+                    //Update
+                    (oldMap != null &&
+                    (pv.Participant_Enrollment__r.Initial_visit_occurred_flag__c !=
+                    oldMap.get(pv.Participant_Enrollment__c).Initial_visit_occurred_flag__c)) ||
+                    //Update
+                    (oldMap == null && pv.Participant_Enrollment__r.Initial_visit_occurred_flag__c)
+                ) {
+                    pv.Status__c = 'Completed';
+                    if (!visitsToUpdate.contains(pv))
+                        visitsToUpdate.add(pv);
                 }
             }
             update visitsToUpdate;
