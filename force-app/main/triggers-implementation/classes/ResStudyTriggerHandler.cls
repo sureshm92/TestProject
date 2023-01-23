@@ -84,9 +84,15 @@ public with sharing class ResStudyTriggerHandler {
             participantIds.add(pe.Participant__c);
         }
 
-        Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
-            participantIds
+        String fieldFilter = 'Patient_Delegate__r.Participant__c';
+        PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
+            participantIds,fieldFilter
         );
+        Map<Id, List<Id>> partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
+
+       /* Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+            participantIds
+        );*/
 
         List<Notification__c> notifications = new List<Notification__c>();
         for (Participant_Enrollment__c pe : pes)
@@ -110,6 +116,7 @@ public with sharing class ResStudyTriggerHandler {
                             new Notification__c(
                                 Recipient__c = delegateId,
                                 WhatId__c = pe.Id,
+                                IsDelegate__c = true,
                                 Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE,
                                 Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                             )

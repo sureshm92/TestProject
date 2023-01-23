@@ -7,6 +7,10 @@
         <value xsi:type="xsd:string">IQVIA Referral Hub</value>
     </values>
     <values>
+        <field>Community_Template__c</field>
+        <value xsi:type="xsd:string">Default</value>
+    </values>
+    <values>
         <field>Permission_Set_Developer_Name__c</field>
         <value xsi:type="xsd:string">Community_Default</value>
     </values>

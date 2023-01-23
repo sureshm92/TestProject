@@ -1,0 +1,27 @@
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" class={sectionClass}>
+        <div class="slds-modal__container">
+            <div class="slds-grid card-top-bg"></div>
+            <div class="slds-modal__content slds-p-around_large">
+                <div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small">
+                    <div class="slds-col modal-header-text">{headerText}</div>
+                    <div class="slds-col close-cursor">
+                        <lightning-icon
+                            icon-name="utility:close"
+                            alternative-text="close"
+                            title="close"
+                            size="x-small"
+                            onclick={handleCloseModal}
+                        >
+                        </lightning-icon>
+                    </div>
+                </div>
+                <slot name="body"></slot>
+            </div>
+            <div class="slds-modal__footer slds-p-horizontal_large footer-container">
+                <slot name="footer"></slot>
+            </div>
+        </div>
+    </section>
+    <div class={backDropClass}></div>
+</template>

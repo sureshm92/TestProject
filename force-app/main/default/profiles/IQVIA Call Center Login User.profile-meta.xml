@@ -6044,6 +6044,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Enrollment__c.UUID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Status_Integration__mdt.ApiFieldNames__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -8032,6 +8037,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Patient_Delegate__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Patient_Delegate_Enrollment__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
