@@ -374,8 +374,10 @@ public List<Patient_Visit__c> getPatientVisitDetails(Id visitId) {
     public static void processPendingInitialVisits(List<Patient_Visit__c> patientVisits){
         Boolean needsUpdate = false;
         for(Patient_Visit__c pv : patientVisits){
-            if(pv.Is_Pre_Enrollment_Patient_Visit__c && pv.Status__c == 'Pending' && 
-                pv.Planned_Date__c !=null && pv.Planned_Date__c < DateTime.now()){
+            if(pv.Is_Pre_Enrollment_Patient_Visit__c && 
+                (pv.Status__c == 'Pending' || pv.Status__c == 'Scheduled') && 
+                pv.Planned_Date__c !=null && pv.Planned_Date__c < DateTime.now()
+            ){
                     //pv.Status__c = 'Missed';
                     needsUpdate = true;
                     pv.Status__c = 'Missed';
