@@ -96,7 +96,7 @@
             </div>
 
             <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
-            <div class="rr-body-content rr-min-body-height">
+            <div class="rr-body-content rr-min-body-height" onclick="{!c.handleClickCloseNavMenu}">
                 <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
                     <c:ppCommunityNavigation
                         communityServic="{!v.communityServ}"
@@ -115,7 +115,7 @@
                 </aura:if>-->
                 {!v.body}
             </div>
-            <div class="footer">
+            <div class="footer" onclick="{!c.handleClickCloseNavMenu}">
                 <div class="rr-width-limiter" style="padding: 0 15px">
                     <c:ppCommunityFooter aura:id="ppFooter" />
                 </div>

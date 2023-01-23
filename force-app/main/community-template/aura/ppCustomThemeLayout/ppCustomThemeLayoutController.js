@@ -32,11 +32,11 @@
             component.find('ppMenu').handleClick();
         }
     },
-    handleClickCloseNavMenu : function (component, event, helper) {
-        if (component.find('ppMenu')) {
-            component.find('ppMenu').handleClickCloseNavMenu();
+    handleClickCloseNavMenu: function (component, event, helper) {
+        if ($A.get('$Browser.formFactor') != 'DESKTOP') {
+            if (component.find('ppMenu')) {
+                component.find('ppMenu').handleCloseHamberungMenu();
+            }
         }
-
     }
-
 });
