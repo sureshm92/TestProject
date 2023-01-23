@@ -3244,6 +3244,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Communication_Preference_Change__e.Payload__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Televisit_Record_Vendor__c.Default_Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
