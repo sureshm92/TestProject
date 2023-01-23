@@ -1,5 +1,5 @@
 .active-btn {
-    background: #015ff1;
+    background: rgba(7, 104, 253, 1);
     color: #ffffff;
     font-size: 1rem;
     font-weight: 600;
@@ -15,12 +15,6 @@
     line-height: 1.5rem;
 }
 
-.completed-task:hover {
-    background-color: #ecf3ff;
-    transition: .2s;
-    transition-timing-function: cubic-bezier(0.38,0,1,1);
-}
-
 .inactive-btn {
     --slds-c-button-brand-color-background: #ffffff;
     color: #595959;
@@ -29,7 +23,7 @@
     border: 1px solid #d9d9d9;
 }
 .create-task {
-    background: #015ff1;
+    background: rgba(7, 104, 253, 1);
     border-radius: 2rem;
     color: #ffffff;
     width: 510px;
@@ -45,25 +39,14 @@
     padding-right: 16px;
 }
 .before-create-task {
-    background: #015ff1;
+    background: rgba(7, 104, 253, 1);
     cursor: pointer;
 }
-
 .after-create-task {
-    background: #015ff1;
+    background: rgba(7, 104, 253, 1);
     opacity: 0.4;
     pointer-events: none;
 }
-
-.create-task:hover,
-.before-create-task:hover,
-.after-create-task:hover,
-.active-btn:hover {
-    background: #0557d5;
-    transition: .2s;
-    transition-timing-function: cubic-bezier(0.38,0,1,1);
-}
-
 .tasks {
     color: #444444;
     font-size: 32px;
@@ -359,47 +342,6 @@
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
 }
-
-.slds-dropdown-trigger {
-    cursor: pointer;
-}
-
-.slds-dropdown-trigger:before {
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 0;
-    background: #ecf3ff;
-    z-index: 1;
-    top: 19px;
-    left: 7px;
-    border-radius: 50%;
-    transition: .2s;
-    transition-timing-function: cubic-bezier(0.38,0,1,1);
-    opacity: 0;
-}
-
-.slds-dropdown-trigger:hover:before {
-    width: 36px;
-    height: 36px;
-    background: #ecf3ff;
-    z-index: 1;
-    top: 3px;
-    left: -9px;
-    border-radius: 50%;
-    transition: .2s;
-    transition-timing-function: cubic-bezier(0.38,0,1,1);
-    opacity: 1;
-}
-
-.image-result {
-    height: 40px;
-    width: 20px;
-    position: relative;
-    z-index: 10;
-}
-
-
 @media all and (max-width: 486px) {
     .inactive-custom-box {
         width: 100%;
@@ -458,4 +400,8 @@
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: #999999;
+}
+.image-result {
+    height: 40px;
+    width: 20px;
 }

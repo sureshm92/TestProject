@@ -88,7 +88,7 @@
 }
 
 .THIS .mouse-hover.navItem {
-    background: #015FF1;
+    background: #297dfd;
     color: white;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -99,7 +99,7 @@
 
 .THIS .slds-navigation-list-vertical__action:active,
 .THIS .slds-navigation-list--vertical__action:active {
-    background: #015FF1;
+    background: #297dfd;
     color: #fff;
 }
 
@@ -180,7 +180,7 @@
         border: none;
         color: #444;
         position: relative;
-        color: #015FF1;
+        color: #297dfd;
     }
 
     .THIS .mouse-hover.navItem .navItem1:after {
