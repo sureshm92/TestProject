@@ -55,6 +55,14 @@ export default class PpCommunityNavigation extends LightningElement {
     render() {
         return this.desktop ? menuDesktop : menuMobile;
     }
+    @api 
+    handleCloseHamberungMenu(){
+        let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
+        if (mobileDiv && !mobileDiv.classList.contains('slds-hide')) {
+            mobileDiv.classList.add('slds-hide');
+        }
+        this.showSubMenu = false; 
+    }
     @api
     handleClick() {
         let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);

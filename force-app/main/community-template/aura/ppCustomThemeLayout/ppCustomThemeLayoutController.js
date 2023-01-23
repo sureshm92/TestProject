@@ -32,11 +32,17 @@
             component.find('ppMenu').handleClick();
         }
     },
-    handleClickCloseNavMenu : function (component, event, helper) {
-        if (component.find('ppMenu')) {
-            component.find('ppMenu').handleClickCloseNavMenu();
+    handleClickCloseNavMenu : function (component, event, helper) {  // ontouchmove
+        if ($A.get("$Browser.formFactor") != 'DESKTOP' && !component.get('v.stopLoading')) {
+          if (component.find('ppMenu')) {
+              component.find('ppMenu').handleCloseHamberungMenu();
+              component.set('v.stopLoading',true);
+          }
         }
-
-    }
-
+      },
+      handleHamberungTouchEnd : function (component, event, helper) { // ontouchend
+        if ($A.get("$Browser.formFactor") != 'DESKTOP') {
+            component.set('v.stopLoading',false);
+        }
+      }
 });
