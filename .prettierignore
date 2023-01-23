@@ -3,6 +3,7 @@
 #
 
 **/staticresources/**
+!**/staticresources/rr_community_js.js
 .sfdx
 .vscode
 **/*.json
