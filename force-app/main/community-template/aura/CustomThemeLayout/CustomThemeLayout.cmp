@@ -60,7 +60,7 @@
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
-   <aura:handler event="c:PPMobileMenu" action="{!c.closePPMobileMenu}" />
+    <aura:handler event="c:PPMobileMenu" action="{!c.closePPMobileMenu}" />
     <aura:handler name="onBlurOverlayBellEvent" event="c:uiEvent" action="{!c.onBlurBell}" />
 
     <!-- methods: -->
@@ -78,16 +78,16 @@
                     <div
                         class="{!'layout-header' + if(v.template == 'PatientPortal', ' rr-width-limiter-pp', ' rr-width-limiter') + ' side-padding' + if(v.isRTL, ' rtl', '')}"
                     >
-                        <!--   <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
-                         <aura:if
-                             isTrue="{!and(v.template == 'PatientPortal',v.currentMode.userMode == 'Participant')}"
-                         >
-                             <img
-                                 src="{!$Resource.icon_hamburgerMenu}"
-                                 onclick="{!c.handleClick}"
-                             />
-                         </aura:if>
-                     </aura:if>-->
+                        <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
+                            <aura:if
+                                isTrue="{!and(v.template == 'PatientPortal',v.currentMode.userMode == 'Participant')}"
+                            >
+                                <img
+                                    src="{!$Resource.icon_hamburgerMenu}"
+                                    onclick="{!c.handleClick}"
+                                />
+                            </aura:if>
+                        </aura:if>
                         <aura:if isTrue="{!v.isRTL}">
                             <div class="logo-container-RTL">
                                 <img
@@ -97,7 +97,9 @@
                                 />
                             </div>
                             <aura:set attribute="else">
-                                <div class="'logo-container">
+                                <div
+                                    class="{!if(v.template == 'PatientPortal', 'logo-container-pp', 'logo-container')}"
+                                >
                                     <img
                                         src="{!if(v.currentMode.userMode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
                                         class="title-logo"
@@ -106,17 +108,35 @@
                                 </div>
                             </aura:set>
                         </aura:if>
-
-                        <div class="navigation-block">
-                            <c:CommunityNavigation
-                                aura:id="navigation"
-                                mode="{!v.currentMode.userMode}"
-                                currentPage="{!v.currentPage}"
-                                communityTemplate="{!v.template}"
-                                hasMessage="{!v.hasMessage}"
-                                userMode="{!v.currentMode.userMode}"
+                        <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
+                            <aura:if
+                                isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.currentMode.userMode == 'Participant')}"
+                            >
+                                <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
+                            </aura:if>
+                        </aura:if>
+                        <aura:if
+                            isTrue="{!and(v.communityApiName == 'IQVIA_Patient_Portal1',$Browser.formFactor != 'PHONE')}"
+                        >
+                            <!--new pp navigation-->
+                            <c:ppCommunityNavigation
+                                communityServic="{!v.communityServ}"
+                                aura:id="ppMenu"
+                                showSideMenu="{!v.showSideMenu}"
                             />
-                        </div>
+                            <aura:set attribute="else">
+                                <div class="navigation-block">
+                                    <c:CommunityNavigation
+                                        aura:id="navigation"
+                                        mode="{!v.currentMode.userMode}"
+                                        currentPage="{!v.currentPage}"
+                                        communityTemplate="{!v.template}"
+                                        hasMessage="{!v.hasMessage}"
+                                        userMode="{!v.currentMode.userMode}"
+                                    />
+                                </div>
+                            </aura:set>
+                        </aura:if>
 
                         <div class="right-block" data-gtm="community_mode_switcher">
                             <aura:if isTrue="{!v.currentMode.userMode != 'CC'}">
@@ -219,7 +239,15 @@
                                 </aura:if>
                             </aura:if>
                             <!-- Ending of REF-1343 -->
-
+                            <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
+                                <aura:if
+                                    isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.currentMode.userMode == 'Participant')}"
+                                >
+                                    <img
+                                        src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}"
+                                    />
+                                </aura:if>
+                            </aura:if>
                             <c:CommunityModeSwitcherMenu
                                 currentMode="{!v.currentMode}"
                                 onModeChange="{!c.doRefresh}"
@@ -240,8 +268,16 @@
             </div>
 
             <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
-            <div class="rr-body-content rr-min-body-height">                
-                    
+            <div class="rr-body-content rr-min-body-height">
+                <aura:if isTrue="{!v.isInitialized}">
+                    <aura:if isTrue="{!v.isPPonPhone}">
+                        <c:ppCommunityNavigation
+                            communityServic="{!v.communityServ}"
+                            showSideMenu="{!v.showSideMenu}"
+                            aura:id="ppMenu"
+                        />
+                    </aura:if>
+                    <aura:if isTrue="{!!v.isPPonPhone}">
                         <c:CommunityNavigationMobile
                             aura:id="navigationMobile"
                             showSideMenu="{!v.showSideMenu}"
@@ -252,7 +288,7 @@
                             communityTemplate="{!v.template}"
                             userMode="{!v.currentMode.userMode}"
                         />
-                    
+                    </aura:if>
                     <!-- Televisit Meet Banner Section PEH-5892 -->
                     <c:televisitMeetBanner
                         urlPathPrefix="{!v.urlPathPrefix}"
@@ -264,9 +300,13 @@
             <aura:if isTrue="{!v.isInitialized}">
                 <div class="footer">
                     <div class="rr-width-limiter" style="padding: 0 15px">
-                       
+                        <aura:if isTrue="{!v.communityApiName == 'IQVIA_Patient_Portal1'}">
+                            <!--new pp footer-->
+                            <c:ppCommunityFooter aura:id="ppFooter" />
+                            <aura:set attribute="else">
                                 <c:CommunityFooter />
-                            
+                            </aura:set>
+                        </aura:if>
                     </div>
                 </div>
                 <aura:if isTrue="{!not(v.isDummy)}">
@@ -281,8 +321,15 @@
                 </aura:if>
             </aura:if>
 
-            <aura:if isTrue="{!not(v.isDummy)}">                
-                        <c:Alerts aura:id="alerts" />                   
+            <aura:if isTrue="{!not(v.isDummy)}">
+                <aura:if
+                    isTrue="{!and(v.communityApiName == 'IQVIA_Patient_Portal1',v.currentMode.userMode == 'Participant')}"
+                >
+                    <c:ppAlerts aura:id="ppAlerts"></c:ppAlerts>
+                    <aura:set attribute="else">
+                        <c:Alerts aura:id="alerts" />
+                    </aura:set>
+                </aura:if>
             </aura:if>
         </div>
     </aura:if>
