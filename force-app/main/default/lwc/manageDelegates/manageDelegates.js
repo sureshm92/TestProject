@@ -76,7 +76,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     totalNoOfStudiesActivelyAssigned = 0;
     isAtLeastOneStudySelected = false;
     diabledAddNewButton = false;
-    dataInitialized = false;
+    //dataInitialized = false;
     isEmailConsentChecked = false;
 
     label = {
@@ -157,7 +157,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 //console.log('success', result);
                 this.setInitializedData(result);
                 this.spinner = false;
-                this.dataInitialized = true;
+                //this.dataInitialized = true;
             })
             .catch((error) => {
                 //console.log('error');
@@ -199,7 +199,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 });
                 pde['showAddAssignmentButton'] = this.showAddAssignmentButton();
                 //Filter studies which are not assigned to patient Delegates.
-                pde['studieToAssign'] = [];
+                pde['studiesToAssign'] = [];
                 this.availableStudyData.studies.forEach((std) => {
                     std['assigned'] = false;
                     std['active'] = false;
@@ -215,7 +215,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                             }
                         }
                     });
-                    pde.studieToAssign.push({
+                    pde.studiesToAssign.push({
                         label: std.label,
                         value: std.value,
                         assigned: std.assigned,
@@ -493,7 +493,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.listPDE.forEach((pde) => {
             if (pde.PatientDelegate.Id === delId) {
                 pde.addNewStudy = true;
-                pde.studieToAssign.forEach((std) => {
+                pde.studiesToAssign.forEach((std) => {
                     //if studie is not assinged or it is assinged but not active.
                     if (std.assigned == false || (std.assigned == true && std.active == false)) {
                         this.studyToAssing.push({ label: std.label, value: std.value });
@@ -624,10 +624,11 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.listPDE.forEach((pde) => {
             //check if the Delegate is the current Delegate.
             if (pde.PatientDelegate.Id === id) {
+                pde.addNewStudy = false;
                 //Iterate over the list of selected studies for current Delegate.
                 studiesSelected.forEach((stdSelected) => {
                     //Iterate over the list of studies to assign for current delegate.
-                    pde.studieToAssign.forEach((pdStdToAssign) => {
+                    pde.studiesToAssign.forEach((pdStdToAssign) => {
                         if (stdSelected.value === pdStdToAssign.value) {
                             tudyToAssing.push({
                                 label: pdStdToAssign.label,
@@ -649,13 +650,13 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             studyPERData: JSON.stringify(tudyToAssing)
         })
             .then((result) => {
-                //this.setInitializedData(result);
+                this.setInitializedData(result);
                 this.studiesSelected = [];
-                this.initializeData();
+                //this.initializeData();
                 this.spinner = false;
-                if (this.dataInitialized) {
-                    communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
-                }
+                // if (this.dataInitialized) {
+                communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
+                // }
             })
             .catch((error) => {
                 //console.log('error');
@@ -685,6 +686,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.formerListPDE.forEach((pde) => {
             //check if the Delegate is the current Delegate.
             if (pde.PatientDelegate.Id === id) {
+                pde.addNewStudyFormer = false;
                 //Iterate over the list of selected studies for current Delegate.
                 studiesSelected.forEach((stdSelected) => {
                     let assigned = false;
@@ -713,16 +715,16 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             studyPERData: JSON.stringify(tudyToAssing)
         })
             .then((result) => {
-                //this.setInitializedData(result);
+                this.setInitializedData(result);
                 this.studiesSelected = [];
-                this.initializeData();
+                //this.initializeData();
                 this.spinner = false;
                 // this.template.querySelector('[data-id="emailconsentcheck"]').checked = false;
                 // this.isEmailConsentChecked = false;
                 // this.isAtLeastOneStudySelected = false;
-                if (this.dataInitialized) {
-                    communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
-                }
+                // if (this.dataInitialized) {
+                communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
+                // }
             })
             .catch((error) => {
                 //console.log('error');
