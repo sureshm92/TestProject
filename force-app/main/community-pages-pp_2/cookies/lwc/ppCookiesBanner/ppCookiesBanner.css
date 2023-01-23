@@ -278,7 +278,12 @@
     outline: none !important;
 }
 .slds-scope .slds-checkbox_toggle .slds-checkbox_faux,
-.slds-scope .slds-checkbox_toggle .slds-checkbox_faux:hover,
+.slds-scope .slds-checkbox_toggle .slds-checkbox_faux:hover {
+    background-color: #b5b5b5 !important;
+    border: 1px solid #b5b5b5 !important;
+    outline: none !important;
+}
+
 .slds-checkbox_toggle .slds-checkbox_faux {
     background-color: #b5b5b5 !important;
     border: 1px solid #b5b5b5 !important;
