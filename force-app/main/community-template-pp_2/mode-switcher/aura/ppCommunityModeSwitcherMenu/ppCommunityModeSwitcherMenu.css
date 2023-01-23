@@ -32,7 +32,8 @@
 }
 
 .THIS .header-menu-link {
-    padding: 0 1rem 0 .5rem;
+    /* padding: 0 8px; */
+    padding: 0 1rem 0 0.5rem;
 }
 
 @media all and (orientation: landscape) and (max-width: 1024px) {
@@ -88,5 +89,10 @@
 
     .THIS.menu-block li.body {
         width: 300px;
+    }
+}
+@media all and (max-width: 500px) {
+    .THIS .header-menu-link {
+        padding: 0 8px !important;
     }
 }

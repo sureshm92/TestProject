@@ -521,6 +521,7 @@ public without sharing class PIR_ParticipantDetailController {
     Boolean getSMSValue=getsms.Participant_Opt_In_Status_SMS__c;
     Study_Site__c ss = [SELECT Id, Site__c from Study_Site__c Where Id =: perRecord.Study_Site__c];
       con.AccountId = ss.Site__c;
+      con.userCommunityIsDelegate__c = true;
       con.IQVIA_Contact_info_storage_consent__c =peDeligate.contact__r.IQVIA_Contact_info_storage_consent__c;
       con.Participant_Phone_Opt_In_Permit_Phone__c =peDeligate.contact__r.Participant_Phone_Opt_In_Permit_Phone__c;
       con.IQVIA_Assisted_Dialing_Consent__c =peDeligate.contact__r.IQVIA_Assisted_Dialing_Consent__c;

@@ -1886,7 +1886,11 @@ input[type=password]::-ms-clear
     pointer-events: none;
     overflow: hidden !important;
 }
-
+.rr-cookie-title .slds-checkbox_toggle .slds-checkbox_faux{
+    background-color: #b5b5b5 !important;
+    border: 1px solid #b5b5b5 !important;
+    outline: none !important;
+}
 /* Delegate redesing - Chages-  Starts */
 .add-delegate-input-container .slds-input{
     height: 40px !important;
