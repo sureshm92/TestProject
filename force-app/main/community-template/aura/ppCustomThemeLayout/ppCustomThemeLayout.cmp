@@ -75,15 +75,6 @@
                     </aura:if>
 
                     <div class="right-block" data-gtm="community_mode_switcher">
-                        <aura:if isTrue="{!v.currentMode.userMode != 'CC'}">
-                            <aura:if isTrue="{!v.isMobileApp}">
-                                <div class="bell-container">
-                                    <forceCommunity:notifications />
-                                </div>
-                            </aura:if>
-                            <!-- Added as per REF-1343 by Vikrant Sharma for Help icon adjacent to User Profile for PI and HCP -->
-                        </aura:if>
-                        <!-- Ending of REF-1343 -->
                         <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
                             <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
                         </aura:if>
