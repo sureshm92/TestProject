@@ -17,6 +17,18 @@
     .rr-width-limiter-pp {
         padding: 0 !important;
     }
+    .rr-width-limiter .side-padding {
+        padding-left: 0rem !important;
+        padding-right: 0rem !important;
+    }
+    .menu-block {
+        position: relative !important;
+    }
+}
+@media (max-width: 390px) {
+    .logo-container-pp {
+        width: 190px !important;
+    }
 }
 
 .task-modal-background .slds-backdrop {
