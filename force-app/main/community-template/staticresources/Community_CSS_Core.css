@@ -1874,3 +1874,16 @@ input[type=password]::-ms-clear
     pointer-events: none;
     overflow: hidden !important;
 }
+.rr-cookie-title .slds-checkbox_toggle .slds-checkbox_faux{
+    background-color: #b5b5b5 !important;
+    border: 1px solid #b5b5b5 !important;
+    outline: none !important;
+}
+.rr-cookie-title .slds-checkbox_toggle
+[type='checkbox']:checked
++ .slds-checkbox_faux_container
+.slds-checkbox_faux {
+background-color: #00c221 !important;
+border: 1px solid #00c221 !important;
+outline: none !important;
+}
