@@ -61,9 +61,10 @@
 .file-upload {
     display: inline-block;
     cursor: pointer;
+    color: blue;
 }
 .profile-label {
-    color: #015FF1;
+    color: #0768fd;
     font-size: 1rem;
     font-weight: 500;
     letter-spacing: 0;
@@ -71,9 +72,7 @@
     text-align: center;
 }
 .file-upload:hover {
-    text-decoration: underline;
-    text-decoration-style: dotted;
-    color: #015FF1;
+    background-color: #eef5ff;
 }
 .profile-btn-container {
     display: flex;
@@ -94,7 +93,7 @@
     bottom: 0;
 }
 .divider-vertical-standard-line {
-    color: #015FF1;
+    color: #0768fd;
     font-size: 1rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -103,7 +102,7 @@
 }
 .remove-photo {
     font-size: 16px;
-    color: #015FF1;
+    color: #0768fd;
     font-family: 'Proxima Nova';
     letter-spacing: 0;
     line-height: 24px;

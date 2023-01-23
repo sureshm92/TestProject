@@ -247,7 +247,7 @@
 .slds-nav-vertical__action:hover {
     color: #ffffff;
     box-shadow: none;
-    background: #015FF1;
+    background: #0768fd;
     font-weight: bold;
     width: 295px;
 }
@@ -262,7 +262,7 @@
 .slds-nav-vertical__item.slds-is-active .slds-nav-vertical__action {
     color: #ffffff;
     box-shadow: none;
-    background: #015FF1;
+    background: #0768fd;
     border-bottom: none;
     font-weight: bold;
 }
