@@ -397,6 +397,41 @@ public inherited sharing class PatientVisitService {
         return tasksByVisitIds;
     }
 
+    public static Patient_Visit__c createInitialVisit(
+        Visit__c visit,
+        Participant_Enrollment__c pe
+    ) {
+        return new Patient_Visit__c(
+            Name = visit.Name,
+            Visit__c = visit.Id,
+            Visit_Schedule__c = visit.Visit_Schedule__c,
+            Visit_Number__c = visit.Visit_Number__c,
+            Participant_Enrollment__c = pe.Id,
+            Planned_Date__c = pe.Initial_visit_scheduled_date__c != null
+                ? DateTime.newInstanceGmt(
+                      pe.Initial_visit_scheduled_date__c,
+                      pe.Initial_visit_scheduled_time__c != null
+                          ? pe.Initial_visit_scheduled_time__c
+                          : Time.newInstance(0, 0, 0, 0)
+                  )
+                : null,
+            Status__c = pe.Initial_visit_occurred_flag__c
+                ? 'Completed'
+                : (pe.Initial_visit_scheduled_date__c != null &&
+                      pe.Initial_visit_scheduled_time__c != null
+                      ? 'Scheduled'
+                      : 'Pending'),
+            Completed_Date__c = pe.Initial_visit_occurred_date__c != null
+                ? DateTime.newInstanceGmt(
+                          pe.Initial_visit_occurred_date__c,
+                          Time.newInstance(0, 0, 0, 0)
+                      )
+                      .dateGMT()
+                : null,
+            Portal_Name__c = visit.Patient_Portal_Name__c
+        );
+    }
+
     public static Patient_Visit__c createPatientVisit(Visit__c visit, Id peId) {
         return new Patient_Visit__c(
             Name = visit.Name,
