@@ -417,7 +417,10 @@ public inherited sharing class PatientVisitService {
                 : null,
             Status__c = pe.Initial_visit_occurred_flag__c
                 ? 'Completed'
-                : (Planned_Date__c != null ? 'Scheduled' : 'Pending'),
+                : (pe.Initial_visit_scheduled_date__c != null &&
+                      pe.Initial_visit_scheduled_time__c != null
+                      ? 'Scheduled'
+                      : 'Pending'),
             Completed_Date__c = pe.Initial_visit_occurred_date__c != null
                 ? DateTime.newInstanceGmt(
                           pe.Initial_visit_occurred_date__c,
