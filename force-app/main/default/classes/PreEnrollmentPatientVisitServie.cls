@@ -70,8 +70,9 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
                 FROM Participant_Enrollment__c
                 WHERE
                     Id IN :peIds
-                    AND (Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c = TRUE
-                    OR Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c = TRUE
+                    AND (((Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c = TRUE
+                    OR Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c = TRUE)
+                    AND Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal')
                     OR (Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
                     AND Clinical_Trial_Profile__r.Is_Program__c = FALSE
                     AND Clinical_Trial_Profile__r.Initial_Visit_required__c = TRUE))
@@ -171,7 +172,7 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
         List<Visit__c> preEnrollVisit = new List<Visit__c>();
         String preEnrollmentVisitPlanName = label.Pre_Enrollment_Visit_Plan;
         //Fetch the Pre Enrollment Visit Plan.
-        Visit_Plan__c PreEnrollVisitPlan = [
+        List<Visit_Plan__c> PreEnrollVisitPlan = [
             SELECT
                 Id,
                 (
@@ -180,15 +181,16 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
                 )
             FROM Visit_Plan__c
             WHERE Name = :preEnrollmentVisitPlanName AND Is_Pre_Enrollment_Visit_Plan__c = TRUE
-        ][0];
+        ];
+        if (!PreEnrollVisitPlan.isEmpty()) {
+            preEnrollVisit = PreEnrollVisitPlan.get(0).Visits__r;
 
-        preEnrollVisit = PreEnrollVisitPlan.Visits__r;
-
-        //Prepare the list of pre enrollment patient Visit record data for each participant Enrollments.
-        for (Participant_Enrollment__c pe : peWithCTPPreEnrollConsentIsOnMap.Values()) {
-            patientVisitsToInsert.Add(
-                PatientVisitService.createInitialVisit(preEnrollVisit[0], pe)
-            );
+            //Prepare the list of pre enrollment patient Visit record data for each participant Enrollments.
+            for (Participant_Enrollment__c pe : peWithCTPPreEnrollConsentIsOnMap.Values()) {
+                patientVisitsToInsert.Add(
+                    PatientVisitService.createInitialVisit(preEnrollVisit[0], pe)
+                );
+            }
         }
 
         return patientVisitsToInsert;
