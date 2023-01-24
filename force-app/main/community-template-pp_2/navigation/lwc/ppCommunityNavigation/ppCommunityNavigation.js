@@ -55,13 +55,13 @@ export default class PpCommunityNavigation extends LightningElement {
     render() {
         return this.desktop ? menuDesktop : menuMobile;
     }
-    @api 
-    handleCloseHamberungMenu(){
+    @api
+    handleCloseHamberungMenu() {
         let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
         if (mobileDiv && !mobileDiv.classList.contains('slds-hide')) {
             mobileDiv.classList.add('slds-hide');
         }
-        this.showSubMenu = false; 
+        this.showSubMenu = false;
     }
     @api
     handleClick() {
@@ -72,14 +72,6 @@ export default class PpCommunityNavigation extends LightningElement {
             : mobileDiv.classList.add('slds-hide');
         element && element.classList.contains('slds-is-open')
             ? element.classList.remove('slds-is-open')
-            : '';
-        this.showSubMenu = false;
-    }
-    @api
-    handleCloseHamberungMenu() {
-        let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
-        mobileDiv && !mobileDiv.classList.contains('slds-hide')
-            ? mobileDiv.classList.add('slds-hide')
             : '';
         this.showSubMenu = false;
     }
