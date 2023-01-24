@@ -316,7 +316,7 @@ public without sharing class PIR_ParticipantDetailController {
           update piToUpdateDelegate;
 
           Patient_Delegate_Enrollment__c pdenrollment = new Patient_Delegate_Enrollment__c();
-          pdenrollment  = [Select Id,Primary_Delegate__c,Participant_Enrollment__c,Study_info_storage_consent__c from Patient_Delegate_Enrollment__c where Primary_Delegate__c=:true and Participant_Enrollment__c=:perRecord.Id limit 1];
+          pdenrollment  = [Select Id,Primary_Delegate__c,Participant_Enrollment__c,Study_info_storage_consent__c,Patient_Delegate__r.Contact__c,Patient_Delegate__c from Patient_Delegate_Enrollment__c where Primary_Delegate__c=:true and Participant_Enrollment__c=:perRecord.Id limit 1];
           if(pdenrollment != null){
              Patient_Delegate_Enrollment__c pdenroll = new Patient_Delegate_Enrollment__c();
              pdenroll.Id = pdenrollment.Id;
@@ -327,6 +327,7 @@ public without sharing class PIR_ParticipantDetailController {
              pdenroll.Study_Phone_Consent__c=consentWrapper.Study_Phone_Consent;
              pdenroll.Study_Email_Consent__c=consentWrapper.Study_Email_Consent;
              Update pdenroll;
+             update new Contact(Id=pdenrollment.Patient_Delegate__r.Contact__c,userCommunityIsDelegate__c = true);
           }
            
         }else if(delegateCriteria == 'updateDeligate'){
@@ -384,6 +385,7 @@ public without sharing class PIR_ParticipantDetailController {
                         }
                         
                         update pdeToupdateDuplicate;    
+                        update new contact (id =pd[0].Contact__c, userCommunityIsDelegate__c = true) ; 
                  }else{
                       contactId = peDeligate.Participant_Delegate__r.Contact__c;
                       Patient_Delegate__c patdelgate = new Patient_Delegate__c();
@@ -546,13 +548,19 @@ public without sharing class PIR_ParticipantDetailController {
     
   }
   public static void createPDE(Id delcon, Patient_Delegate__c peDeligate, Participant_Enrollment__c perRecord,ConsentDetailsWrapper consentWrapper){
-      contact con = new Contact();
-      con.id =delcon;
-      con.AccountId = [Select Id,Participant__c,Participant__r.Contact__r.AccountId from Participant_Enrollment__c where Id=:perRecord.Id].Participant__r.Contact__r.AccountId;
-      if(con.AccountId != null){
-      update con;
-      }
-       
+        contact con = new Contact();
+        con.id =delcon;
+        con.AccountId = [Select Id,Participant__c,Participant__r.Contact__r.AccountId from Participant_Enrollment__c where Id=:perRecord.Id].Participant__r.Contact__r.AccountId;
+        if(con.AccountId != null){
+        con.userCommunityIsDelegate__c = true;  
+        update con;
+        }
+        else {
+          contact objcon = new Contact(Id=delcon);
+          objcon.userCommunityIsDelegate__c = true;
+          update objcon;
+        }
+    
       List<Patient_Delegate_Enrollment__c> getPDE = new List<Patient_Delegate_Enrollment__c>();
       List<Patient_Delegate_Enrollment__c> updPDE = new List<Patient_Delegate_Enrollment__c>();
       getPDE = [Select Id,Participant_Enrollment__c,Primary_Delegate__c from Patient_Delegate_Enrollment__c where Participant_Enrollment__c=:perRecord.Id AND Primary_Delegate__c= TRUE];
