@@ -29973,4 +29973,25 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Sub Event Del PP</shortDescription>
         <value>Reminder: Your participant has an upcoming event</value>
     </labels>
+     <labels>
+        <fullName>PP_Tab_Results</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lab Results tab</shortDescription>
+        <value>My Results</value>
+    </labels>
+     <labels>
+        <fullName>PP_Tab_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits tab</shortDescription>
+        <value>My Visits</value>
+    </labels>
+     <labels>
+        <fullName>PP_Tab_Events</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Events tab</shortDescription>
+        <value>My Events</value>
+    </labels>
 </CustomLabels>
