@@ -48,7 +48,7 @@
                 <div
                     class="{!'layout-header' + ' rr-width-limiter-pp' + ' side-padding' + if(v.isRTL, ' rtl', '')}"
                 >
-                    <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
+                    <aura:if isTrue="{!$Browser.formFactor != 'DESKTOP'}">
                         <div class="mob-logo-container-pp">
                             <img
                                 src="{!$Resource.icon_hamburgerMenu}"
@@ -94,7 +94,7 @@
                 ontouchmove="{!c.handleClickCloseNavMenu}"
                 ontouchend="{!c.handleHamberungTouchEnd}"
             >
-                <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
+                <aura:if isTrue="{!$Browser.formFactor != 'DESKTOP'}">
                     <c:ppCommunityNavigation
                         communityServic="{!v.communityServ}"
                         showSideMenu="{!v.showSideMenu}"
