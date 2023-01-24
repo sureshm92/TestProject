@@ -1,6 +1,6 @@
 /**
 * Created by Sravani on  7/28/2021 for PEH-3721.
-*/
+*/ 
 public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
     private String query;
     private List<Manual_Creation_Panel_Task__c> manualConfigList;

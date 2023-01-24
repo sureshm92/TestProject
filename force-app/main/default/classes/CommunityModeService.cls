@@ -243,6 +243,7 @@ public without sharing class CommunityModeService {
                         //}
                     }
                 } else if (pePastList != null) {
+                    system.debug('Line no : 246');
                     String participantName =
                         userParticipant.First_Name__c +
                         ' ' +
@@ -351,7 +352,7 @@ public without sharing class CommunityModeService {
                                     USER_MODE_PARTICIPANT,
                                     participantName,
                                     Label.No_active_studies,
-                                    null,
+                                    pe.Id,
                                     participant.Contact__c,
                                     true,
                                     true
@@ -676,14 +677,7 @@ public without sharing class CommunityModeService {
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);
             List<Participant_Enrollment__c> pastPEList = pePastMap.get(participantId);
             Boolean hasPastStudies = false;
-            if (pastPEList != null) {
-                for (Participant_Enrollment__c per : pastPEList) {
-                    if (pdeWrapperMap.contains(per.Id)) {
-                        hasPastStudies = true;
-                        break;
-                    }
-                }
-            }
+            hasPastStudies = pastPEList != null && pastPEList.size() > 0;
             CommunityMode mode = new CommunityMode(
                 USER_MODE_PARTICIPANT,
                 participant.First_Name__c +
@@ -702,19 +696,41 @@ public without sharing class CommunityModeService {
             mode.hasPastStudies = hasPastStudies;
             system.debug('mode alumni:::' + mode);
             modes.add(mode);
-            if (peList != null) {
+            Boolean skipPEPastList = false;
+            if (peList != null && pdeWrapperMap != null) {
                 for (Participant_Enrollment__c pe : peList) {
-                    mode.addSubMode(
-                        new CommunityMode(
-                            USER_MODE_PARTICIPANT,
-                            pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                            pe.Participant__r.Contact__c,
-                            pe,
-                            CommunityTemplateService.getTemplate(
-                                pe.Clinical_Trial_Profile__r.CommunityTemplate__c
+                    if (pdeWrapperMap.contains(pe.Id)) {
+                        mode.addSubMode(
+                            new CommunityMode(
+                                USER_MODE_PARTICIPANT,
+                                pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                                pe.Participant__r.Contact__c,
+                                pe,
+                                CommunityTemplateService.getTemplate(
+                                    pe.Clinical_Trial_Profile__r.CommunityTemplate__c
+                                )
                             )
-                        )
-                    );
+                        );
+                        skipPEPastList = true;
+                    }
+                }
+            }
+            if (pdeWrapperMap != null && pastPEList != null && !skipPEPastList) {
+                for (Participant_Enrollment__c per : pastPEList) {
+                    if (pdeWrapperMap.contains(per.Id)) {
+                        mode.addSubMode(
+                            new CommunityMode(
+                                USER_MODE_PARTICIPANT,
+                                Label.No_active_studies,
+                                per.Participant__r.Contact__c,
+                                per,
+                                CommunityTemplateService.getTemplate(
+                                    per.Clinical_Trial_Profile__r.CommunityTemplate__c
+                                )
+                            )
+                        );
+                        break;
+                    }
                 }
             }
         }

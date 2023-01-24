@@ -34,6 +34,13 @@ export default class PpCookiesBanner extends LightningElement {
     userMode;
     spinner;
     containerClassCss = 'c-container desk-cookies-banner mob-cookies-banner ';
+    modalTopCss = ' slds-grid card-top-bg ';
+    acceptButtonCss = 'accept-btn-container btn-label cookie-btn ';
+    acceptAllButtonCss = 'btn-container btn-label cookie-btn ';
+    modalContainer = 'slds-modal__container modal-container';
+    manageButtonCss = 'btn-container manage cookie-btn ';
+    accordionCss = 'accordion ';
+    accordionActiveCss = 'accordion active ';
     label = {
         ppCookiesBannerLoginDesc,
         ppCookiesBannerDesc1,
@@ -62,13 +69,26 @@ export default class PpCookiesBanner extends LightningElement {
     connectedCallback() {
         this.cookiesBannerDesc3 = ' ' + this.label.ppCookiesBannerDesc3;
         let rrCookies = communityService.getCookie('RRCookies');
-        if (!rrCookies || this.loginPage) {
+        let data = sessionStorage.getItem('Cookies');
+        if (data) {
+            this.showBanner = false;
+        }
+        if ((!rrCookies || this.loginPage) && !data) {
             this.showBanner = true;
             this.blockBackGroundEvents();
-            if (this.communityName == 'Default') {
+            if (this.communityName == 'Default' || this.communityName == 'IQVIA Referral Hub') {
                 this.containerClassCss = this.containerClassCss + ' rh-cookies-banner';
+                //  this.containerClassCss = this.containerClassCss + ' rh-border-radius';
+                this.modalTopCss = this.modalTopCss + ' rh-card-top-bg';
+                this.acceptButtonCss = this.acceptButtonCss + ' rh-accept-btn-container';
+                this.modalContainer = this.modalContainer + ' rh-modal-container';
+                this.manageButtonCss = this.manageButtonCss + ' rh-border-radius';
+                this.acceptAllButtonCss = this.acceptAllButtonCss + '  rh-border-radius';
+                this.accordionCss = this.accordionCss + '  rh-border-radius';
+                this.accordionActiveCss = this.accordionActiveCss + ' rh-border-radius';
             }
         }
+        sessionStorage.removeItem('Cookies');
         let accList = this.template.querySelectorAll('accordion');
     }
     blockBackGroundEvents() {
