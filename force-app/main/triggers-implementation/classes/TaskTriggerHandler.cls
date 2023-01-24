@@ -119,6 +119,7 @@ public without sharing class TaskTriggerHandler {
                 Task_Code__c,
                 Task_Type__c,
                 Survey_Invitation__c,
+                Survey_Invitation__r.Participant_Enrollment__c,
                 Visible_For__c,
                 WhatId,
                 InitialTaskNotification__c,
@@ -142,7 +143,11 @@ public without sharing class TaskTriggerHandler {
             if (t.whatId?.getSObjectType().getDescribe().getName() == 'Participant_Enrollment__c')
             {
                 allPeIds.add(t.whatId); 
-            }else{
+            }
+            else if(t.Task_Type__c == 'Survey' ){
+                allPeIds.add(t.Survey_Invitation__r.Participant_Enrollment__c);
+            }
+            else{
                 allContactsIds.add(t.WhoId);
             }
         }
