@@ -124,6 +124,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             this.desktop = true;
         } else {
             this.desktop = false;
+            this.url = this.url ? this.url + 'withprevtask' : '';
         }
         loadScript(this, COMETD_LIB).then(() => {
             loadScript(this, moment).then(() => {
