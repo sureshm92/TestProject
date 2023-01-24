@@ -356,8 +356,13 @@ export default class PpLanguageSwitcher extends LightningElement {
                 100
             );         
             communityService.navigateToPage('account-settings?lang-loc');
-            if ( (previousLangaugeKey != languageKey) || (localeKey != this.prevLocaleKey) || (timezoneKey != this.prevTimeZoneKey))   window.location.reload();
-            
+                if (
+                    previousLangaugeKey != languageKey ||
+                    localeKey != this.prevLocaleKey ||
+                    timezoneKey != this.prevTimeZoneKey
+                ) {
+                    communityService.reloadPage();
+                }
         })
         .catch((error) => {
             communityService.showToast('', 'error', 'Failed To save the Data...', 100);

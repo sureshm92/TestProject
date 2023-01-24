@@ -170,6 +170,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
             }
         };
         this[NavigationMixin.GenerateUrl](config).then((url) => {
+            sessionStorage.setItem('Cookies', 'Accepted');
             window.open(url, '_self');
         });
     }
@@ -254,6 +255,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         };
 
         this[NavigationMixin.GenerateUrl](config).then((url) => {
+            sessionStorage.setItem('Cookies', 'Accepted');
             window.open(url, '_self');
         });
     }

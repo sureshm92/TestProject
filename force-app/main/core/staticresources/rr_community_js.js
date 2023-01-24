@@ -274,6 +274,7 @@ window.communityService = (function () {
             return participantData;
         },
         reloadPage() {
+            sessionStorage.setItem('Cookies', 'Accepted');
             location.reload();
         },
 
@@ -479,9 +480,11 @@ window.communityService = (function () {
         },
 
         getCookie: function (cname) {
-            //console.log('in getCookie function');
-            //console.log('cname: ' + cname);
-
+            if (cname == 'RRCookies') {
+                if (sessionStorage.getItem('Cookies')) {
+                    return 'agreed from session';
+                }
+            }
             if (!preventedCookies || preventedCookies.indexOf(cname) !== -1) {
                 //console.log(cname + ' cookie ignored get');
                 return '';
