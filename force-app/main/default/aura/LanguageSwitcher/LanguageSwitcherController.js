@@ -43,7 +43,7 @@
                 timezoneKey: timezoneKey
             },
             function () {
-                location.reload();
+                communityService.reloadPage();
             },
             function () {
                 component.find('spinner').hide();

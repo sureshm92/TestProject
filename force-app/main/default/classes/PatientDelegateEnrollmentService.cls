@@ -516,7 +516,7 @@ public without sharing class PatientDelegateEnrollmentService {
     public static Map<Id, List<Id>> getDelegateContactIdsByPAContactIs(
         List<Id> participantContIds
     ) {
-        return getDelegateContactIdsByPAContactIs(participantContIds,null);
+        return getDelegateContactIdsByPAContactIs(participantContIds,false);
     }
      /**
      * @param partContactsIds List with participant contact ids

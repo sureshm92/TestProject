@@ -229,6 +229,7 @@ export default class Pir_participantDetail extends LightningElement {
                 this.isDayMandate = (this.studyDobFormat == 'DD-MM-YYYY');
                 this.ageInputDisabled = (this.studyDobFormat == 'DD-MM-YYYY');
                 this.getErrorMessage();
+                this.participantSelectedAge = (this.pd['pe']['Participant__r']['Age__c']!=undefined ? ((this.pd['pe']['Participant__r']['Age__c']).toString()) : null); 
                 this.valueDD = (this.pd['pe']['Participant__r']['Birth_Day__c'] ? this.pd['pe']['Participant__r']['Birth_Day__c'] : null);
                 
                 if(this.valueMM = this.pd['pe']['Participant__r']['Birth_Month__c']){
@@ -240,8 +241,7 @@ export default class Pir_participantDetail extends LightningElement {
                     this.YYYYChange();
                     this.getErrorMessage();
                 }
-                this.participantSelectedAge = (this.pd['pe']['Participant__r']['Age__c']!=undefined ? ((this.pd['pe']['Participant__r']['Age__c']).toString()) : null); 
-                
+               
                 this.handleDateChange();
 
                 if (this.pd['pe']['Permit_Mail_Email_contact_for_this_study__c']) {

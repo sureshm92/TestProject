@@ -312,6 +312,7 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
             }
         };
         this[NavigationMixin.GenerateUrl](config).then((url) => {
+            sessionStorage.setItem('Cookies', 'Accepted');
             window.open(url, '_self');
         });
     }

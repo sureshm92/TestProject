@@ -2591,6 +2591,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Communication_Preference_Change__e.Payload__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Call_Dispositions__c.IQVIA_intervention_completed__c</field>
         <readable>true</readable>
     </fieldPermissions>

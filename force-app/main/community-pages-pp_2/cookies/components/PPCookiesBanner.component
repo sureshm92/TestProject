@@ -92,6 +92,9 @@
             display: none;
         }
 
+        .cookie-desc-font-size {
+            font-size: 16px;
+        }
         @media screen and (max-width: 768px) {
             .mob-cookies-banner {
                 width: 100%;
@@ -370,7 +373,7 @@
                                         <div class="cookie-title-font-size">
                                             <apex:outputText value="{!cookieSetting.cookieName}" />
                                         </div>
-                                        <div>
+                                        <div class="cookie-desc-font-size">
                                             <apex:outputText
                                                 value="{!cookieSetting.cookieDescription}"
                                             />
@@ -391,7 +394,7 @@
                                         <div class="cookie-title-font-size">
                                             {!$Label.AccountSettings_Functional_RRCookies}
                                         </div>
-                                        <div>{!$Label.AccountSettings_RRCookies_Description}</div>
+                                        <div class="cookie-desc-font-size">{!$Label.AccountSettings_RRCookies_Description}</div>
                                     </div>
                                     <div class="slds-col slds-size_2-of-12 slds-m-top_large">
                                         <div class="slds-form-element">
@@ -418,7 +421,7 @@
                                         <div class="cookie-title-font-size">
                                             {!$Label.AccountSettings_Cookies_RRLanguage}
                                         </div>
-                                        <div class="mob-lang-desc">
+                                        <div class="cookie-desc-font-size mob-lang-desc">
                                             {!$Label.AccountSettings_Cookies_RRLanguage_Description}
                                         </div>
                                     </div>
