@@ -204,6 +204,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
 
     redirectToProfileInfoTab() {
         window.history.replaceState(null, null, '?profileInformation');
+        sessionStorage.setItem('Cookies', 'Accepted');
         window.location.reload(true);
     }
 
