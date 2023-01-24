@@ -33,13 +33,17 @@
         }
     },
     handleClickCloseNavMenu: function (component, event, helper) {
-        if (!component.get('v.stopLoading') && component.find('ppMenu')) {
+        if (
+            $A.get('$Browser.formFactor') != 'DESKTOP' &&
+            !component.get('v.stopLoading') &&
+            component.find('ppMenu')
+        ) {
             component.find('ppMenu').handleCloseHamberungMenu();
             component.set('v.stopLoading', true);
         }
     },
     handleHamberungTouchEnd: function (component, event, helper) {
-        if (component.get('v.stopLoading')) {
+        if ($A.get('$Browser.formFactor') != 'DESKTOP' && component.get('v.stopLoading')) {
             component.set('v.stopLoading', false);
         }
     }
