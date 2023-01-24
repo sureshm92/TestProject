@@ -59,8 +59,7 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
                 SELECT
                     Id,
                     Study_Site__c,
-                    Initial_visit_scheduled_date__c,
-                    Initial_visit_scheduled_time__c,
+                    Initial_Visit_Scheduled_DateTime__c,
                     Initial_visit_occurred_flag__c,
                     Initial_visit_occurred_date__c,
                     Participant_Status__c,
