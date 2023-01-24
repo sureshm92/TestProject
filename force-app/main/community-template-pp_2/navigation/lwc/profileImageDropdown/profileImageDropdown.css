@@ -10,9 +10,9 @@
     width: 30px;
 }
 .avatar-delegate-size {
-    width: 32px;
-    height: 32px;
-    margin: 4px 0 0 -4px;
+    /*  width: 32px;
+    height: 32px;*/
+    margin: 0.5rem 0.5rem 0 0;
 }
 
 .down-icon {
