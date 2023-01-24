@@ -33,11 +33,7 @@
         }
     },
     handleClickCloseNavMenu: function (component, event, helper) {
-        if (
-            $A.get('$Browser.formFactor') != 'DESKTOP' &&
-            !component.get('v.stopLoading') &&
-            component.find('ppMenu')
-        ) {
+        if (!component.get('v.stopLoading') && component.find('ppMenu')) {
             component.find('ppMenu').handleCloseHamberungMenu();
             component.set('v.stopLoading', true);
         }
