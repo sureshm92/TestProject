@@ -2,11 +2,10 @@
     bottom: 0;
     left: 0;
     position: fixed;
-    opacity: 0.8;
     border-radius: 16px 16px 0 0;
-    background-color: #000000;
     box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
     z-index: 9999;
+    background: rgba(0, 0, 0, 0.8);
 }
 
 .rh-cookies-banner {
@@ -70,6 +69,7 @@
 
 .cookie-btn {
     pointer-events: auto;
+    border-color: transparent;
 }
 
 .hide-banner {
@@ -81,6 +81,28 @@
     pointer-events: auto;
 }
 
+.modal-container {
+    top: 2rem;
+}
+
+/** RH **/
+.rh-border-radius {
+    border-radius: 4px !important;
+}
+.rh-accept-btn-container {
+    border-radius: 4px;
+    height: 40px;
+    width: 107px;
+}
+.rh-card-top-bg {
+    height: 2px !important;
+    padding-top: 4px !important;
+    background: linear-gradient(270deg, #0076ae 0%, #250056 100%);
+}
+.rh-modal-container {
+    top: 2.2rem !important;
+}
+/** RH End **/
 @media screen and (max-width: 768px) {
     .mob-cookies-banner {
         width: 100%;
@@ -132,6 +154,7 @@
     border-top-right-radius: 16px;
     height: 16px;
     background: linear-gradient(90deg, #005587 0%, #008d9e 100%);
+    padding-top: 16px;
 }
 
 .modal-header-text {
@@ -238,4 +261,31 @@
 }
 .cookie-title-font-size {
     font-size: 16px;
+    font-weight: 510;
+}
+.slds-scope
+    .slds-checkbox_toggle
+    [type='checkbox']:checked
+    + .slds-checkbox_faux_container
+    .slds-checkbox_faux:hover,
+.slds-scope
+    .slds-checkbox_toggle
+    [type='checkbox']:checked
+    + .slds-checkbox_faux_container
+    .slds-checkbox_faux {
+    background-color: #00c221 !important;
+    border: 1px solid #00c221 !important;
+    outline: none !important;
+}
+.slds-scope .slds-checkbox_toggle .slds-checkbox_faux,
+.slds-scope .slds-checkbox_toggle .slds-checkbox_faux:hover {
+    background-color: #b5b5b5 !important;
+    border: 1px solid #b5b5b5 !important;
+    outline: none !important;
+}
+
+.slds-checkbox_toggle .slds-checkbox_faux {
+    background-color: #b5b5b5 !important;
+    border: 1px solid #b5b5b5 !important;
+    outline: none !important;
 }

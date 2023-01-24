@@ -419,13 +419,18 @@
     .THIS .sdv-top-bar {
         z-index: 0 !important;
     }
+    .THIS .iqvia_logo {
+        padding-right: unset !important;
+    }
 }
 
 @media screen and (max-width: 600px) {
     .THIS .vis-path.slds-grid {
         padding-top: 25px;
     }
-
+    .THIS .mob-logo-container-pp {
+        width: 100%;
+    }
     .THIS .vis-path.slds-grid .line-div .state-ico-wrapper {
         width: 30px;
         height: 30px;
@@ -642,6 +647,8 @@
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
+    cursor: pointer;
+    padding-right: 1.4rem;
 }
 
 .THIS .iqvia_text {

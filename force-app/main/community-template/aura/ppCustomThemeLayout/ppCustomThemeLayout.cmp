@@ -48,15 +48,17 @@
                     class="{!'layout-header' + ' rr-width-limiter-pp' + ' side-padding' + if(v.isRTL, ' rtl', '')}"
                 >
                     <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
-                        <img
-                            src="{!$Resource.icon_hamburgerMenu}"
-                            onclick="{!c.handleClick}"
-                            class="barsIcon"
-                        />
+                        <div class="mob-logo-container-pp">
+                            <img
+                                src="{!$Resource.icon_hamburgerMenu}"
+                                onclick="{!c.handleClick}"
+                                class="barsIcon"
+                            />
+                        </div>
                     </aura:if>
                     <div class="logo-container-pp">
                         <!--     <img src="{!v.logoURL}" class="title-logo" onclick="{!c.doGoHome}" />-->
-                        <div class="iqvia_logo">
+                        <div class="iqvia_logo" onclick="{!c.doGoHome}">
                             IQVIA <span class="iqvia_text">Patient Portal</span>
                         </div>
                     </div>

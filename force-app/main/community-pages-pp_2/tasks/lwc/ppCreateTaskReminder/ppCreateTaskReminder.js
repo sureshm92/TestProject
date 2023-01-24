@@ -108,7 +108,6 @@ export default class PpCreateTaskReminder extends LightningElement {
     connectedCallback() {
         if (DEVICE != 'Large') {
             this.isMobile = true;
-            this.communicationTab = '_self';
         }
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
@@ -213,19 +212,16 @@ export default class PpCreateTaskReminder extends LightningElement {
             }
             if (this.systemTask || this.businessTask) {
                 if (this.initialReminderOptions.length > 1) {
-                    if (this.oldReminderDateForSystemTask) {
+                    if (this.selectedReminderOption || this.oldReminderDateForSystemTask) {
                         updatedReminderOptions = [
-                            {
-                                label: this.labels.PP_NO_REMINDER,
-                                value: 'No reminder',
-                                itemClass: 'dropdown-li'
-                            }
-                        ];
-                    } else {
-                        updatedReminderOptions = [
-                            { label: this.labels.CUSTOM, value: 'Custom', itemClass: 'dropdown-li' }
+                            ...updatedReminderOptions,
+                            this.initialReminderOptions[0]
                         ];
                     }
+                    updatedReminderOptions = [
+                        ...updatedReminderOptions,
+                        this.initialReminderOptions[5]
+                    ];
                 }
                 this.handleReminderDataChange();
             }

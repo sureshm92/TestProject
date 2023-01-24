@@ -1420,7 +1420,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                     if(partList[i]['Participant_Status__c']=='Eligibility Passed'
                        && (partList[i]['Clinical_Trial_Profile__r']['Initial_Visit_Required__c'] == true
                            || partList[i]['Clinical_Trial_Profile__r']['Promote_to_SH__c'] == true)){
-                        partList[i]['Participant_Status__c'] = 'Sent to Study Hub';
+                        partList[i]['Participant_Status__c'] = 'Sent to DCT';
                     }
                     csvStringResult +=
                         '"' + partList[i]['Participant_Status__c'] + '"' + ',';

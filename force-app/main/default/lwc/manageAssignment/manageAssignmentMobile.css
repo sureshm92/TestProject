@@ -86,7 +86,7 @@
     background-color: #ecf3ff;
     cursor: pointer;
 }
-.ma-what-I-can-see-button-1 .apollo-btn.secondary:hover {
+.ma-what-I-can-see-button-mob-1 .apollo-btn.secondary:hover {
     border-right: none !important;
     border-bottom: none !important;
     border-left: none !important;
@@ -120,12 +120,12 @@
 .conChevronle-float-right {
     position: absolute;
     right: 0;
-    margin-right: 18px;
+    margin-right: 8px;
 }
 .conChevronle-float-left {
     position: absolute;
     left: 0;
-    margin-left: 18px;
+    margin-left: 8px;
 }
 .con-chevronle-down {
     transform: rotate(90deg);

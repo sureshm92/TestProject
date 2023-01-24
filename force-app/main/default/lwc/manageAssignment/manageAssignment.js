@@ -31,6 +31,7 @@ import PP_AS_CONDITIONAL_FEATURE from '@salesforce/label/c.PP_AS_CONDITIONAL_FEA
 import PP_Delegates_Permitted_Actions from '@salesforce/label/c.PP_Delegates_Permitted_Actions';
 
 import {
+    publish,
     subscribe,
     unsubscribe,
     MessageContext,
@@ -82,7 +83,7 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     connectedCallback() {
         formFactor != 'Small' ? (this.isDesktop = true) : (this.isDesktop = false);
         this.initializeData();
-        this.subscribeToMessageChannel();
+        //this.subscribeToMessageChannel();
     }
 
     render() {
@@ -139,23 +140,23 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
         }
     }
     //Subscribe the message channel to read the message published.
-    subscribeToMessageChannel() {
-        if (!this.subscription) {
-            this.subscription = subscribe(
-                this.messageContext,
-                messageChannel,
-                (message) => this.handleMessage(message),
-                { scope: APPLICATION_SCOPE }
-            );
-        }
-    }
-    //Handler for message received by Aura component
-    handleMessage(message) {}
-    //Subscribe the message channel
-    unsubscribeToMessageChannel() {
-        unsubscribe(this.subscription);
-        this.subscription = null;
-    }
+    // subscribeToMessageChannel() {
+    //     if (!this.subscription) {
+    //         this.subscription = subscribe(
+    //             this.messageContext,
+    //             messageChannel,
+    //             (message) => this.handleMessage(message),
+    //             { scope: APPLICATION_SCOPE }
+    //         );
+    //     }
+    // }
+    // //Handler for message received by Aura component
+    // handleMessage(message) {}
+    // //Subscribe the message channel
+    // unsubscribeToMessageChannel() {
+    //     unsubscribe(this.subscription);
+    //     this.subscription = null;
+    // }
     get addDelBtnMarin() {
         return this.isRTL
             ? 'mr-5 add-Delegate-Btn slds-float_left'
@@ -239,6 +240,7 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
         })
             .then((result) => {
                 this.showpopup = false;
+                this.resetProfileMenueItems();
                 //When delegate withdrawn from all the studies.
                 if (result.length == 0) {
                     communityService.showToast(
@@ -251,8 +253,6 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
                     communityService.navigateToPage('account-settings');
                 } else {
                     this.setInitializedData(result);
-
-                    //this.resetProfileMenueItems();
                     communityService.showToast(
                         '',
                         'success',

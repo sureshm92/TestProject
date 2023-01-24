@@ -2,7 +2,7 @@ global without sharing class Batch_RHPEUpdateParticipantStatus extends Batch_Sch
     global List<Participant_Enrollment__c> PEUpdateList = new List<Participant_Enrollment__c>();
     global List<Id> PEIDList = new List<Id>();
     global Database.QueryLocator start(Database.BatchableContext BC) {
-        @TestVisible
+        @TestVisible 
         String str = label.PERHStudyId;
         @TestVisible
         String lmt = label.RHPElimit15;

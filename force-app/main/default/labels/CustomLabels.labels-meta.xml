@@ -19442,7 +19442,10 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Cookies Banner Desc1</shortDescription>
-        <value>We and our partners store and/or access information on a device, such as unique IDs, in cookies to process personal data. You may accept or manage your cookie preferences, including your right to object where legitimate interest is used, or at any time in your Account Settings.</value>
+        <value>We and our partners store and/or access information on a device, such as unique IDs,
+            in cookies to process personal data. You may accept or manage your cookie preferences,
+            including your right to object where legitimate interest is used, at any time in your
+            Account Settings.</value>
     </labels>
     <labels>
         <fullName>PP_Cookies_Banner_Desc2</fullName>
@@ -19458,8 +19461,8 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Cookies Banner Desc3</shortDescription>
-        <value>Precise geolocation data. Actively scan device characteristics for identification.
-            Store and/or access information on a device. Audience insights and product development.</value>
+        <value>Precise geolocation data, actively scan device characteristics for identification,
+            store and/or access information on a device, audience insights and product development.</value>
     </labels>
     <labels>
         <fullName>PP_Cookies_Banner_Login_Desc</fullName>
@@ -19475,7 +19478,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Cookies Button Accept</shortDescription>
-        <value>Accept All</value>
+        <value>Accept all</value>
     </labels>
     <labels>
         <fullName>PP_Cookies_Button_Manage_Prefer</fullName>
@@ -19483,7 +19486,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Cookies Button Manage Prefer</shortDescription>
-        <value>Manage preferences</value>
+        <value>Manage cookie preferences</value>
     </labels>
     <labels>
         <fullName>PP_Country</fullName>
