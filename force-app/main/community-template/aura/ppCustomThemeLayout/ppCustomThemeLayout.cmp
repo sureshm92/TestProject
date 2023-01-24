@@ -22,7 +22,6 @@
     <aura:attribute name="communityServ" type="Object" />
     <aura:attribute name="handleTelevistBanner" type="Boolean" default="false" />
     <aura:attribute name="stopLoading" type="Boolean" default="false" />
-    <<<<<<< HEAD ======= >>>>>>> 74a5db3c73d59bdc4b6457c5459be65b643a5183
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
@@ -49,7 +48,7 @@
                 <div
                     class="{!'layout-header' + ' rr-width-limiter-pp' + ' side-padding' + if(v.isRTL, ' rtl', '')}"
                 >
-                    <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
+                    <aura:if isTrue="{!$Browser.formFactor != 'DESKTOP'}">
                         <div class="mob-logo-container-pp">
                             <img
                                 src="{!$Resource.icon_hamburgerMenu}"
@@ -95,7 +94,7 @@
                 ontouchmove="{!c.handleClickCloseNavMenu}"
                 ontouchend="{!c.handleHamberungTouchEnd}"
             >
-                <aura:if isTrue="{!$Browser.formFactor != 'Desktop'}">
+                <aura:if isTrue="{!$Browser.formFactor != 'DESKTOP'}">
                     <c:ppCommunityNavigation
                         communityServic="{!v.communityServ}"
                         showSideMenu="{!v.showSideMenu}"
