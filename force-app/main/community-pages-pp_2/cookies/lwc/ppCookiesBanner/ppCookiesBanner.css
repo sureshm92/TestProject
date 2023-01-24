@@ -269,6 +269,9 @@
     font-size: 16px;
     font-weight: 510;
 }
+.cookie-desc-font-size {
+    font-size: 16px;
+}
 .slds-scope
     .slds-checkbox_toggle
     [type='checkbox']:checked
