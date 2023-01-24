@@ -33,10 +33,18 @@
         }
     },
     handleClickCloseNavMenu: function (component, event, helper) {
-        if ($A.get('$Browser.formFactor') != 'DESKTOP') {
-            if (component.find('ppMenu')) {
-                component.find('ppMenu').handleCloseHamberungMenu();
-            }
+        if (
+            $A.get('$Browser.formFactor') != 'DESKTOP' &&
+            !component.get('v.stopLoading') &&
+            component.find('ppMenu')
+        ) {
+            component.find('ppMenu').handleCloseHamberungMenu();
+            component.set('v.stopLoading', true);
+        }
+    },
+    handleHamberungTouchEnd: function (component, event, helper) {
+        if (component.get('v.stopLoading')) {
+            component.set('v.stopLoading', false);
         }
     }
 });
