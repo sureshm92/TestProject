@@ -22,7 +22,6 @@ public without sharing class PatientDelegateEnrollmentService {
         );
     }
     public PatientDelegateEnrollmentService() {
-        system.debug('called');
         list<Patient_Delegate_Enrollment__c> lstPDE = DatabaseService.query(
             new List<String>{
                 'Id',
@@ -53,9 +52,9 @@ public without sharing class PatientDelegateEnrollmentService {
             DatabaseService.fieldEqual(
                 'Patient_Delegate__r.Participant__r.Contact__c',
                 CommunityService.getInstance().getCurrentContactId()
-            ) +
+            )/* +
             ' AND ' +
-            DatabaseService.fieldNotEqual('Status__c', 'Deleted')
+            DatabaseService.fieldNotEqual('Status__c', 'Deleted') */
         );
         isDelegate = lstPDE.size() > 0;
         participant = ParticipantContext.getCurrentParticipant();
@@ -88,8 +87,10 @@ public without sharing class PatientDelegateEnrollmentService {
             Boolean isWithdrawnPDE = false;
             Boolean isDisconnectedPDE = false;
             Boolean isOnHoldPDE = false;
+            Boolean isDeletedPDE = false;
             //check if one of the PDE list is active or not.
             for(Patient_Delegate_Enrollment__c pde: mapIdPDE.get(ide)){
+                //if atlest one PDE is active then conider that delegate is active delegate.
                 if(pde.Status__c=='Active'){
                     isActivePDE = true;
                     break;
@@ -99,6 +100,8 @@ public without sharing class PatientDelegateEnrollmentService {
                     isWithdrawnPDE = true;
                 }else if(pde.Status__c=='On Hold'){
                     isOnHoldPDE = true;
+                }else if(pde.Status__c=='Deleted'){
+                    isDeletedPDE = true;
                 }
             }
             if(isActivePDE){
@@ -110,21 +113,34 @@ public without sharing class PatientDelegateEnrollmentService {
                 pdw.delAttestationTimeStamp = mapIdPDE.get(ide)[0].Patient_Delegate__r.Attestation_TimeStamp__c;
                 pdw.delAttestedBy = mapIdPDE.get(ide)[0].Patient_Delegate__r.Attested_by__c;
                 listPDEWrapper.add(pdw);
-            }else if(isWithdrawnPDE && !isDisconnectedPDE && !isOnHoldPDE ){
+            }else if(isWithdrawnPDE && !isDisconnectedPDE && !isOnHoldPDE && !isDeletedPDE ){
                 //If all the PDE List are withdrawn 
                 FormerPatientDelegateEnrollmentsWrapper fpdw = new FormerPatientDelegateEnrollmentsWrapper();
                 fpdw.PatientDelegate = del;
                 fpdw.isWithdrawn = true;
+                fpdw.isDeleted = false;
+                fpdw.pdId = mapIdPDE.get(ide)[0].Patient_Delegate__c;
+                fpdw.delAttestationTimeStamp = mapIdPDE.get(ide)[0].Patient_Delegate__r.Attestation_TimeStamp__c;
+                fpdw.delAttestedBy = mapIdPDE.get(ide)[0].Patient_Delegate__r.Attested_by__c;
+                //fpdw.PDEEnrollmentsFormer = mapIdPDE.get(ide);
+                formerListPDEWrapper.add(fpdw);
+            }else if(!isWithdrawnPDE && !isDisconnectedPDE && !isOnHoldPDE && isDeletedPDE ){
+                //If all the PDE List are Deleted 
+                FormerPatientDelegateEnrollmentsWrapper fpdw = new FormerPatientDelegateEnrollmentsWrapper();
+                fpdw.PatientDelegate = del;
+                fpdw.isWithdrawn = false;
+                fpdw.isDeleted = true;
                 fpdw.pdId = mapIdPDE.get(ide)[0].Patient_Delegate__c;
                 fpdw.delAttestationTimeStamp = mapIdPDE.get(ide)[0].Patient_Delegate__r.Attestation_TimeStamp__c;
                 fpdw.delAttestedBy = mapIdPDE.get(ide)[0].Patient_Delegate__r.Attested_by__c;
                 //fpdw.PDEEnrollmentsFormer = mapIdPDE.get(ide);
                 formerListPDEWrapper.add(fpdw);
             }else {
-                //If Disconected/OnHold/Mixed among withdrawn/Disconnected
+                //If Disconected/OnHold/Mixed among withdrawn/Disconnected/deleted
                 FormerPatientDelegateEnrollmentsWrapper fpdw = new FormerPatientDelegateEnrollmentsWrapper();
                 fpdw.PatientDelegate = del;
                 fpdw.isWithdrawn = false;
+                fpdw.isDeleted = false;
                 fpdw.pdId = mapIdPDE.get(ide)[0].Patient_Delegate__c;
                 fpdw.delAttestationTimeStamp = mapIdPDE.get(ide)[0].Patient_Delegate__r.Attestation_TimeStamp__c;
                 fpdw.delAttestedBy = mapIdPDE.get(ide)[0].Patient_Delegate__r.Attested_by__c;
@@ -144,13 +160,11 @@ public without sharing class PatientDelegateEnrollmentService {
     }
     public static Boolean isActiveDelegate(Id delContactId){
         List<Patient_Delegate_Enrollment__c> pdeList = getPDEnrollmentforDelContact(delContactId);
-        for (Patient_Delegate_Enrollment__c pde : pdeList) {
-            if(pde.Status__c == 'Active'){
-                return true;
-            }
+        if(pdeList.size() > 0 ){
+            return true;
+        }else{
+            return false;
         }
-        return false;
-
     }
     @AuraEnabled
     public static List<parAndStdAssociatedListWrapper> getParAndStdAssociatedList() {
@@ -160,15 +174,13 @@ public without sharing class PatientDelegateEnrollmentService {
         List<Patient_Delegate_Enrollment__c> pdeList = getPDEnrollmentforDelContact(loggedInContactId);
         map<id, list<Patient_Delegate_Enrollment__c>> pardIdPDEMap = new Map<id, list<Patient_Delegate_Enrollment__c>>();
         for (Patient_Delegate_Enrollment__c pde : pdeList) {
-            if(pde.Status__c == 'Active'){
-                if (pardIdPDEMap.containsKey(pde.Patient_Delegate__r.Participant__c)) {
-                    pardIdPDEMap.get(pde.Patient_Delegate__r.Participant__c).add(pde);
-                } else {
-                    pardIdPDEMap.put(
-                        pde.Patient_Delegate__r.Participant__c,
-                        new List<Patient_Delegate_Enrollment__c>{ pde }
-                    );
-                }
+            if (pardIdPDEMap.containsKey(pde.Patient_Delegate__r.Participant__c)) {
+                pardIdPDEMap.get(pde.Patient_Delegate__r.Participant__c).add(pde);
+            } else {
+                pardIdPDEMap.put(
+                    pde.Patient_Delegate__r.Participant__c,
+                    new List<Patient_Delegate_Enrollment__c>{ pde }
+                );
             }
         }
         for(Id parId: pardIdPDEMap.keyset()){
@@ -257,6 +269,8 @@ public without sharing class PatientDelegateEnrollmentService {
                 Welcome_Message_Sent__c,
                 Study_Email_Consent__c,
                 Study_SMS_Consent__c,
+                Study_Direct_Mail_Consent__c,
+                Study_Phone_Consent__c,
                 Welcome_Message_Delivered__c,
                 Patient_Delegate__r.Participant__r.Contact__c,
                 Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
@@ -280,7 +294,8 @@ public without sharing class PatientDelegateEnrollmentService {
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 Primary_Delegate__c
           FROM Patient_Delegate_Enrollment__c
-          WHERE Patient_Delegate__r.Contact__c = : pdContactId
+          WHERE Patient_Delegate__r.Contact__c = : pdContactId 
+          AND Status__c = 'Active'
 
         ];
         return pdeList;
@@ -314,7 +329,7 @@ public without sharing class PatientDelegateEnrollmentService {
         String studyPERData
     ) {
         //get the list of selected studies for Delegate.
-        List<MyTeamRemote.SelectedStudiesData> SelectedStudiesData = (List<MyTeamRemote.SelectedStudiesData>) JSON.deserialize(
+        List<MyTeamRemote.SelectedStudiesData> selectedStudiesData = (List<MyTeamRemote.SelectedStudiesData>) JSON.deserialize(
             studyPERData,
             List<MyTeamRemote.SelectedStudiesData>.class
         );
@@ -322,7 +337,7 @@ public without sharing class PatientDelegateEnrollmentService {
         List<Patient_Delegate_Enrollment__c> pdEnrollments = new List<Patient_Delegate_Enrollment__c>();
         list<Id> pDEIdList =  New List<Id>();
         List<Id> perIDList =  New List<Id>();
-        for (MyTeamRemote.SelectedStudiesData studyPER : SelectedStudiesData) {
+        for (MyTeamRemote.SelectedStudiesData studyPER : selectedStudiesData) {
             //if Study is not assigned then create new PDEnrollment Record otherwise reactive the existing PDEnrollment record.
             if(studyPER.assigned ==null || (studyPER.assigned!=null && !studyPER.assigned)){
                 
@@ -330,7 +345,7 @@ public without sharing class PatientDelegateEnrollmentService {
                 pdEnrollments.add(pde);
             } else if(studyPER.assigned!=null && studyPER.assigned && !studyPER.active){
                 if(studyPER.pdEnrollmentId!=null){
-                    //if Study is assigned to delegate but it is not active(Former/Active Delegate). 
+                    //if Study is assigned to delegate but it is not active(Former/Active Delegate/Deleted). 
                     pDEIdList.add(studyPER.pdEnrollmentId);
                 }else{
                     //When deleted/Withdrawn delegate is added. pdEnrollmentId comes null from Add New Delegate page.
@@ -457,28 +472,32 @@ public without sharing class PatientDelegateEnrollmentService {
         }
     }
     public static Map<Id, List<Id>> getDelegateContactIdsByPAContactIs(
-        List<Id> participantContIds
-    ) {
-        if (participantContIds.size() == 0) {
+        List<Id> participantContOrPeIds,Boolean isStudyLevel
+    ) { // PEH-10344 del notification issue
+        if (participantContOrPeIds.size() == 0) {
             return new Map<Id, List<Id>>();
         }
         List<Patient_Delegate_Enrollment__c> patientDelegates = new List<Patient_Delegate_Enrollment__c>();
-        if (!participantContIds.isEmpty()) {
-            patientDelegates = [
-                SELECT
-                Id,
-                Participant_Enrollment__c,
-                Patient_Delegate__c,
-                Patient_Delegate__r.Contact__c,
-                Patient_Delegate__r.Participant__c,
-                Patient_Delegate__r.Participant__r.Contact__c,
-                Name,
-                Status__c,
-                Welcome_Message_Sent__c,
-                Welcome_Message_Delivered__c,
-                Participant_Enrollment__r.study__c
-                FROM Patient_Delegate_Enrollment__c
-                WHERE Patient_Delegate__r.Participant__r.Contact__c IN : participantContIds AND Status__c = 'Active'            ];
+        String queryString = 'SELECT Id, Participant_Enrollment__c, Patient_Delegate__c, Patient_Delegate__r.Contact__c,'+
+                            ' Patient_Delegate__r.Participant__c, Patient_Delegate__r.Participant__r.Contact__c, Name, Status__c,'+
+                            ' Welcome_Message_Sent__c, Welcome_Message_Delivered__c, Participant_Enrollment__r.study__c '+
+                            'FROM Patient_Delegate_Enrollment__c WHERE';
+        String filter ;
+        if(isStudyLevel){
+            filter = ' Participant_Enrollment__c IN (\''+
+                        String.join(participantContOrPeIds, '\',\'') +
+                        '\')' +
+                        ' AND Status__c = \''+ 'Active' + '\'';
+        }else{
+            filter = ' Patient_Delegate__r.Participant__r.Contact__c IN (\''+
+                        String.join(participantContOrPeIds, '\',\'') +
+                        '\')' +
+                        ' AND Status__c = \''+ 'Active' + '\'';
+        }
+        String finalQuery = queryString + filter;
+        if (!participantContOrPeIds.isEmpty()) {
+            System.debug('Query:: '+finalQuery);
+            patientDelegates = (List<Patient_Delegate_Enrollment__c>) DatabaseService.query(finalQuery);
         }
         Map<Id, List<Id>> delContIdsByPAContId = new Map<Id, List<Id>>();
         if (patientDelegates.isEmpty())
@@ -493,6 +512,11 @@ public without sharing class PatientDelegateEnrollmentService {
         }
 
         return delContIdsByPAContId;
+    }
+    public static Map<Id, List<Id>> getDelegateContactIdsByPAContactIs(
+        List<Id> participantContIds
+    ) {
+        return getDelegateContactIdsByPAContactIs(participantContIds,false);
     }
      /**
      * @param partContactsIds List with participant contact ids
@@ -674,6 +698,8 @@ public without sharing class PatientDelegateEnrollmentService {
         public Participant__c PatientDelegate;
         @AuraEnabled
         public Boolean isWithdrawn = false;
+        @AuraEnabled
+        public Boolean isDeleted = false;
         @AuraEnabled
         public String delAttestationTimeStamp;
         @AuraEnabled

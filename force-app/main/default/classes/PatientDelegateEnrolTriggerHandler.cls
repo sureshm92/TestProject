@@ -395,16 +395,17 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             perIdList.add(pd.Participant_Enrollment__c);
         }
         for (Patient_Delegate_Enrollment__c pderList : [
-            SELECT Id, Primary_Delegate__c,Participant_Enrollment__c 
-            FROM Patient_Delegate_Enrollment__c
-            WHERE Participant_Enrollment__c IN :perIdList
+                SELECT Id, Primary_Delegate__c,Participant_Enrollment__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Participant_Enrollment__c IN :perIdList AND Primary_Delegate__c = true 
         ]) {
-            if (pderList.Primary_Delegate__c == true ) {
-                pderList.Primary_Delegate__c = false;
-                updatedList.add(pderList);
+                for(Patient_Delegate_Enrollment__c pd: patientDelegates) { 
+                    if (pd.Primary_Delegate__c == true ) { 
+                        pderList.Primary_Delegate__c = false;
+                        updatedList.add(pderList);
+                    }
+                }
             }
-        }
-       
         update updatedList;
     }
     //This method is to prevent deleting Primary PDER

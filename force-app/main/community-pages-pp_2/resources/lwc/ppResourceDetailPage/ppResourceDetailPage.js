@@ -146,6 +146,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         };
 
         this[NavigationMixin.GenerateUrl](config).then((url) => {
+            sessionStorage.setItem('Cookies', 'Accepted');
             window.open(url, '_self');
         });
     }

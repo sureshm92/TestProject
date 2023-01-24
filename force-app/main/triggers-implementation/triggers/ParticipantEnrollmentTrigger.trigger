@@ -28,9 +28,7 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
         ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
     );
     /*For Welcome Msg -- Added by Anitha*/
-    TriggerHandlerExecutor.execute(
-        ParticipantEnrollmentTriggerHandler.createNotifications.class
-    );
+    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.createNotifications.class);
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
     );
@@ -60,6 +58,9 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.EcoaEvents.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.UpdatePatientConsent.class);
-    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class);
+    TriggerHandlerExecutor.execute(
+        ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class
+    );
+    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.UpdateInitialVisits.class);
 
 }

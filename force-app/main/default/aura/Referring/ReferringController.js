@@ -307,30 +307,29 @@
     },
     
     doGoHome: function (component) {
-        if(component.get('v.patientVeiwRedirection')){
+        if (component.get('v.patientVeiwRedirection')) {
             communityService.navigateToPage('my-patients');
-            window.location.reload();
-        }else{
+            communityService.reloadPage();
+        } else {
              communityService.navigateToPage('');   
         }
     },
 
     doGoPatientsTab: function (component) {
         communityService.navigateToPage('my-patients');
-        window.location.reload();
+        communityService.reloadPage();
     },
     
     doGoFindStudySites: function (component) {
         communityService.navigateToPage('sites-search?id=' + component.get('v.trialId'));
     },
     
-    doReferrAnotherPatient: function (component,event) {
+    doReferrAnotherPatient: function (component, event) {
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
-        if(component.get('v.patientVeiwRedirection')){ 
-            
+        if (component.get('v.patientVeiwRedirection')) {
             communityService.navigateToPage('my-patients');
-            window.location.reload();
-        }else{
+            communityService.reloadPage();
+        } else {
             let hcpeId = component.get('v.hcpeId');
             communityService.navigateToPage(
                 'referring?id=' + component.get('v.trialId') + (hcpeId ? '&hcpeid=' + hcpeId : '')

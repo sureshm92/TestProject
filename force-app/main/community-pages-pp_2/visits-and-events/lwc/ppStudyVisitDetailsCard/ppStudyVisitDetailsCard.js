@@ -124,7 +124,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             this.desktop = true;
         } else {
             this.desktop = false;
-            this.communicationTab = '_self';
+            this.url = this.url ? this.url + 'withprevtask' : '';
         }
         loadScript(this, COMETD_LIB).then(() => {
             loadScript(this, moment).then(() => {
@@ -185,6 +185,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 this.smsOptIn = !initialData.Permit_SMS_Text_for_this_study__c;
                 this.email = this.emailOptIn ? false : this.email;
                 this.sms = this.smsOptIn ? false : this.sms;
+                if (!(this.sms || this.email)) {
+                    this.disableButtonSaveCancel = true;
+                }
                 if (this.spinner != null && this.spinner != undefined) {
                     this.spinner.hide();
                 }
