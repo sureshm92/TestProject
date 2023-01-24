@@ -102,6 +102,12 @@
 .rh-modal-container {
     top: 2.2rem !important;
 }
+@media screen and (min-width: 768px) {
+    .desk-pad-left {
+        padding-left: 10%;
+    }
+}
+
 /** RH End **/
 @media screen and (max-width: 768px) {
     .mob-cookies-banner {
@@ -262,6 +268,9 @@
 .cookie-title-font-size {
     font-size: 16px;
     font-weight: 510;
+}
+.cookie-desc-font-size {
+    font-size: 16px;
 }
 .slds-scope
     .slds-checkbox_toggle

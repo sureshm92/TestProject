@@ -69,7 +69,11 @@ export default class PpCookiesBanner extends LightningElement {
     connectedCallback() {
         this.cookiesBannerDesc3 = ' ' + this.label.ppCookiesBannerDesc3;
         let rrCookies = communityService.getCookie('RRCookies');
-        if (!rrCookies || this.loginPage) {
+        let data = sessionStorage.getItem('Cookies');
+        if (data) {
+            this.showBanner = false;
+        }
+        if ((!rrCookies || this.loginPage) && !data) {
             this.showBanner = true;
             this.blockBackGroundEvents();
             if (this.communityName == 'Default' || this.communityName == 'IQVIA Referral Hub') {
@@ -84,6 +88,7 @@ export default class PpCookiesBanner extends LightningElement {
                 this.accordionActiveCss = this.accordionActiveCss + ' rh-border-radius';
             }
         }
+        sessionStorage.removeItem('Cookies');
         let accList = this.template.querySelectorAll('accordion');
     }
     blockBackGroundEvents() {
