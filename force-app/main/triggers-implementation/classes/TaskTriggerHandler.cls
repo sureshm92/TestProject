@@ -108,6 +108,7 @@ public without sharing class TaskTriggerHandler {
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
         List<Notification__c> notifications = new List<Notification__c>();
         List<Id> allContactsIds = new List<Id>();
+        List<Id> allPeIds = new List<Id>();
         Set<Id> ownerIds = new Set<Id>();
         Set<Id> contactWithoutUser = new Set<Id>();
         // set to hold all tasks whose onwers are minor participants
@@ -136,11 +137,27 @@ public without sharing class TaskTriggerHandler {
                 contactWithoutUser.add(t.Owner_Contact__c);
                 tasksWithoutUser.add(t.Id);
             }
-            allContactsIds.add(t.WhoId);
+            //allContactsIds.add(t.WhoId);
+            //PEH-10344 create notif for delegate associated with study only(for study level tasks only)
+            if (t.whatId?.getSObjectType().getDescribe().getName() == 'Participant_Enrollment__c')
+            {
+                allPeIds.add(t.whatId); 
+            }else{
+                allContactsIds.add(t.WhoId);
+            }
         }
-        Map<Id, List<Id>> delConIdsByPACon = PatientDelegateService.getDelegateContactIdsByPAContactIs(
-            allContactsIds
-        );
+        Map<Id, List<Id>> delConIdsByPACon = new Map<Id, List<Id>>();
+        if (allPeIds.size() > 0)
+        {
+            delConIdsByPACon = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
+                allPeIds,true
+            );
+        }else{
+            delConIdsByPACon = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
+                allContactsIds,false
+            );
+        }
+        
         for (Id paKey : delConIdsByPACon.keySet())
             allContactsIds.addAll(delConIdsByPACon.get(paKey));
 
@@ -181,17 +198,28 @@ public without sharing class TaskTriggerHandler {
         //Adding contacts without user to same list
         partContactsIds.addAll(contactWithoutUser);
 
-        List<Patient_Delegate__c> patientDelegates = [
-            SELECT Contact__c, Status__c, Participant__r.Contact__c
-            FROM Patient_Delegate__c
-            WHERE Participant__r.Contact__c IN :partContactsIds AND Status__c = 'Active'
+        List<Patient_Delegate_Enrollment__c> patientDelegates = [
+            SELECT
+                Id,
+                Participant_Enrollment__c,
+                Patient_Delegate__c,
+                Patient_Delegate__r.Contact__c,
+                Patient_Delegate__r.Participant__c,
+                Patient_Delegate__r.Participant__r.Contact__c,
+                Name,
+                Status__c,
+                Welcome_Message_Sent__c,
+                Welcome_Message_Delivered__c,
+                Participant_Enrollment__r.study__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Patient_Delegate__r.Participant__r.Contact__c IN : partContactsIds AND Status__c = 'Active' 
         ];
         Map<Id, List<Id>> delegatesCntByPartCnt = new Map<Id, List<Id>>();
-        for (Patient_Delegate__c pd : patientDelegates) {
-            if (!delegatesCntByPartCnt.containsKey(pd.Participant__r.Contact__c)) {
-                delegatesCntByPartCnt.put(pd.Participant__r.Contact__c, new List<Id>());
+        for (Patient_Delegate_Enrollment__c pd : patientDelegates) {
+            if (!delegatesCntByPartCnt.containsKey(pd.Patient_Delegate__r.Participant__r.Contact__c)) {
+                delegatesCntByPartCnt.put(pd.Patient_Delegate__r.Participant__r.Contact__c, new List<Id>());
             }
-            delegatesCntByPartCnt.get(pd.Participant__r.Contact__c).add(pd.Contact__c);
+            delegatesCntByPartCnt.get(pd.Patient_Delegate__r.Participant__r.Contact__c).add(pd.Patient_Delegate__r.Contact__c);
         }
 
         for (Task task : tasksWithOwner) {
@@ -227,6 +255,7 @@ public without sharing class TaskTriggerHandler {
                                     notifications.add(
                                         new Notification__c(
                                             Recipient__c = delContact.Id,
+                                            IsDelegate__c = true,
                                             WhatId__c = whatId,
                                             Notification_Type__c = card.Immediate_Notification_Type__c,
                                             RemindUsing__c = 'Email'
@@ -265,6 +294,7 @@ public without sharing class TaskTriggerHandler {
                             notifications.add(
                                 new Notification__c(
                                     Recipient__c = delContact.Id,
+                                    IsDelegate__c = true,
                                     Task_Id__c = task.Id,
                                     WhatId__c = task.Id,
                                     Notification_Type__c = 'Message_To_PT_Ecoa_Task_Instant_Del_Type',
@@ -304,6 +334,7 @@ public without sharing class TaskTriggerHandler {
                                 new Notification__c(
                                     Recipient__c = delContact.Id,
                                     WhatId__c = task.Id,
+                                    IsDelegate__c = true,
                                     Notification_Type__c = 'Message_To_PT_Task_Instant_Del_Type',
                                     StartDate__c = task.Start_Date__c,
                                     RemindUsing__c = 'Email'

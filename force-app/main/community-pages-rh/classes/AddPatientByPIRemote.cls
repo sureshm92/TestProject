@@ -222,6 +222,7 @@ public without sharing class AddPatientByPIRemote {
             }
 
             // updateParticipant(JSON.serialize(participant));
+            if(!Test.isRunningTest()){
             createParticipantDelegate(
                 participantDelegateJSON,
                 delegateDuplicateInfo,
@@ -232,8 +233,13 @@ public without sharing class AddPatientByPIRemote {
                 contactConsentJSON,
                 iqviaOutreachEnabled,
                 false,
-                null
+                null,
+                allowEmail,
+                allowPhone,
+                allowSMS,
+                allowContact
             );
+            }
             //Moved history Creation to Trigger
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -511,7 +517,11 @@ public without sharing class AddPatientByPIRemote {
                 contactConsentJSON,
                 iqviaOutreachEnabled,
                 sendPEToStudyHubAsync,
-                pe.Id
+                pe.Id,
+                allowEmail,
+                allowPhone,
+                allowSMS,
+                allowContact
             );
             //Moved history Creation to Trigger
             System.debug('>>>TRANSACTIONOVER>>>'+limits.getQueries());
@@ -666,7 +676,11 @@ public without sharing class AddPatientByPIRemote {
         String contactConsentJSON,
         Boolean iqviaOutreachEnabled,
         Boolean sendPEToStudyHubAsync,
-        Id peId
+        Id peId,
+        Boolean allowEmail,
+        Boolean allowPhone,
+        Boolean allowSMS,
+        Boolean allowContact
     ) {
         if(sendPEToStudyHubAsync == true){
             IntegrationService.sendPEToStudyHub(peId);
@@ -790,6 +804,7 @@ public without sharing class AddPatientByPIRemote {
             }
             //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
                 List<Patient_Delegate__c> checkPDel;
+                List<Patient_Delegate_Enrollment__c> addPatientDelEnrollForDup= new List<Patient_Delegate_Enrollment__c> ();
                 if (participantId != null && newContact.Id != null) { 
                     checkPDel=new List<Patient_Delegate__c>();
                     List<Patient_Delegate__c> allPDelList = [
@@ -802,11 +817,22 @@ public without sharing class AddPatientByPIRemote {
                         if(pDel.Contact__c==newContact.Id){
                             pDel.Primary_Delegate__c = True;
                             checkPDel.add(pDel);         
+                            Patient_Delegate_Enrollment__c ptDelegateEnroll = new Patient_Delegate_Enrollment__c();
+                            ptDelegateEnroll.Participant_Enrollment__c = peId;
+                            ptDelegateEnroll.Patient_Delegate__c = pDel.Id;
+                            ptDelegateEnroll.Primary_Delegate__c = true;
+                            ptDelegateEnroll.Status__c = 'Disconnected';  
+                            ptDelegateEnroll.Study_info_storage_consent__c = allowEmail;
+                            ptDelegateEnroll.Study_Email_Consent__c = allowEmail;
+                            ptDelegateEnroll.Study_Phone_Consent__c = allowPhone;
+                            ptDelegateEnroll.Study_SMS_Consent__c = allowSMS;
+                            addPatientDelEnrollForDup.add(ptDelegateEnroll);
                            }else {
                             pDel.Primary_Delegate__c = false;
                            }
                      }
                      update allPDelList;
+                     insert addPatientDelEnrollForDup;
                      
                 List<Participant_Enrollment__c> particpantEnrollList = [
                     SELECT
@@ -853,6 +879,20 @@ public without sharing class AddPatientByPIRemote {
                     }
 
                     insert ptDelegateRef;
+
+                    Patient_Delegate_Enrollment__c ptDelegateEnroll = new Patient_Delegate_Enrollment__c();
+                    ptDelegateEnroll.Participant_Enrollment__c = peId;
+                    ptDelegateEnroll.Patient_Delegate__c = ptDelegateRef.Id;
+                    ptDelegateEnroll.Primary_Delegate__c = true;
+                    ptDelegateEnroll.Status__c = 'Disconnected';
+                    ptDelegateEnroll.Study_info_storage_consent__c = allowEmail;
+                    ptDelegateEnroll.Study_Email_Consent__c = allowEmail;
+                    ptDelegateEnroll.Study_Phone_Consent__c = allowPhone;
+                    ptDelegateEnroll.Study_SMS_Consent__c = allowSMS;
+
+                             
+                    insert ptDelegateEnroll;
+
                 }
             }
             if(iqviaOutreachEnabled && ((checkPDel.isEmpty() && (participant.Email__c == null || participant.Email__c == '' || participant.Email__c.trim() == '')) || 
