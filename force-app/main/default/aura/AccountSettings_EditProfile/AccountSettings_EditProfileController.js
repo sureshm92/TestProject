@@ -288,7 +288,7 @@
                 rrLanguageAllowed: initData.myContact.RRLanguageAllowedCookie__c
             },
             function () {
-                location.reload();
+                communityService.reloadPage();
             }
         );
     },

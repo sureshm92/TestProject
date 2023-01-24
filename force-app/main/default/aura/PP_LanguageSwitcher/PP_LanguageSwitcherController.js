@@ -159,7 +159,12 @@
                     100
                 );
                 communityService.navigateToPage('account-settings?langloc');
-                if ( (previousLangaugeKey != languageKey) || (localeKey != component.get("v.prevLocaleKey")) || (timezoneKey != component.get("v.prevTimeZoneKey")))   window.location.reload();
+                if (
+                    previousLangaugeKey != languageKey ||
+                    localeKey != component.get('v.prevLocaleKey') ||
+                    timezoneKey != component.get('v.prevTimeZoneKey')
+                )
+                    communityService.reloadPage();
             }
         );
     },

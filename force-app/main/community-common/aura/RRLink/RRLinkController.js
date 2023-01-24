@@ -12,16 +12,18 @@
 
     onClick: function (component, event) {
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
-        let participantVeiwRedirection = communityService.getUrlParameter('participantVeiwRedirection');
-        if(patientVeiwRedirection){ 
+        let participantVeiwRedirection = communityService.getUrlParameter(
+            'participantVeiwRedirection'
+        );
+        if (patientVeiwRedirection) {
               event.preventDefault();
             communityService.navigateToPage('my-patients');
-             window.location.reload();
-        }else if(participantVeiwRedirection){
+            communityService.reloadPage();
+        } else if (participantVeiwRedirection) {
             event.preventDefault();
             communityService.navigateToPage('my-referrals');
-            window.location.reload();
-        }else{
+            communityService.reloadPage();
+        } else {
                 if (component.get('v.identifier')) {
                 if (!component.get('v.page')) {
                     component.set('v.page', ' ');
