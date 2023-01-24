@@ -45,7 +45,7 @@
     },
 
     doRefresh: function (component, event, helper) {
-        window.location.reload();
+        communityService.reloadPage();
         helper.init(component);
         component.find('navigation').refresh();
         component.find('navigationMobile').refresh();
