@@ -52,6 +52,7 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
         };
 
         this[NavigationMixin.GenerateUrl](config).then((url) => {
+            sessionStorage.setItem('Cookies', 'Accepted');
             window.open(url, '_self');
         });
     }
