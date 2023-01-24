@@ -63,6 +63,7 @@
     text-overflow: ellipsis;
     margin-right: 30px;
     cursor: pointer;
+    word-break: break-word;
 }
 
 .document-label-desktop {
@@ -164,6 +165,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
+    word-break: break-word;
 }
 
 .date-desktop {
