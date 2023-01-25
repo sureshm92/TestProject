@@ -236,12 +236,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 oldMap.get(per.Id).Initial_visit_occurred_flag__c ||
                 per.Initial_visit_occurred_date__c !=
                 oldMap.get(per.Id).Initial_visit_occurred_date__c)) ||
+                per.ParticipantNoShow__c != oldMap.get(per.Id).ParticipantNoShow__c ||
                 //Insert
                 (oldMap == null &&
                 (per.Initial_visit_scheduled_date__c != null ||
                 per.Initial_visit_scheduled_time__c != null ||
                 per.Initial_visit_occurred_date__c != null ||
-                per.Initial_visit_occurred_flag__c))
+                per.Initial_visit_occurred_flag__c ||
+                per.ParticipantNoShow__c))
             ) {
                 perIds.add(per.Id);
             }
@@ -251,12 +253,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         initialVisits = [
             SELECT
-                id,
+                Id,
                 Participant_Enrollment__c,
-                Participant_Enrollment__r.Initial_visit_scheduled_date__c,
-                Participant_Enrollment__r.Initial_visit_scheduled_time__c,
+                Participant_Enrollment__r.Initial_Visit_Scheduled_DateTime__c,
                 Participant_Enrollment__r.Initial_visit_occurred_flag__c,
                 Participant_Enrollment__r.Initial_visit_occurred_date__c,
+                Participant_Enrollment__r.ParticipantNoShow__c,
                 Completed_Date__c,
                 Planned_Date__c,
                 Status__c,
@@ -276,51 +278,69 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 if (
                     //Update
                     (oldMap != null &&
-                    pv.Participant_Enrollment__r.Initial_visit_scheduled_date__c !=
-                    oldMap.get(pv.Participant_Enrollment__c).Initial_visit_scheduled_date__c ||
-                    pv.Participant_Enrollment__r.Initial_visit_scheduled_time__c !=
-                    oldMap.get(pv.Participant_Enrollment__c).Initial_visit_scheduled_time__c) ||
+                    pv.Participant_Enrollment__r.Initial_Visit_Scheduled_DateTime__c !=
+                    oldMap.get(pv.Participant_Enrollment__c).Initial_Visit_Scheduled_DateTime__c) ||
                     //Insert
                     (oldMap == null &&
-                    (pv.Participant_Enrollment__r.Initial_visit_scheduled_date__c != null ||
-                    pv.Participant_Enrollment__r.Initial_visit_scheduled_time__c != null))
+                    pv.Participant_Enrollment__r.Initial_Visit_Scheduled_DateTime__c != null)
                 ) {
-                    pv.Planned_Date__c = pv.Participant_Enrollment__r.Initial_visit_scheduled_date__c !=
+                    pv.Planned_Date__c = pv.Participant_Enrollment__r.Initial_Visit_Scheduled_DateTime__c !=
                         null
-                        ? DateTime.newInstanceGmt(
-                              pv.Participant_Enrollment__r.Initial_visit_scheduled_date__c,
-                              pv.Participant_Enrollment__r.Initial_visit_scheduled_time__c != null
-                                  ? pv.Participant_Enrollment__r.Initial_visit_scheduled_time__c
-                                  : Time.newInstance(0, 0, 0, 0)
-                          )
+                        ? pv.Participant_Enrollment__r.Initial_Visit_Scheduled_DateTime__c
                         : null;
-                    visitsToUpdate.add(pv);
+                    if (pv.Planned_Date__c != null) {
+                        pv.Status__c = 'Scheduled';
+                    }
+                    if (!visitsToUpdate.contains(pv))
+                        visitsToUpdate.add(pv);
                 }
                 if (
                     //Update
                     (oldMap != null &&
                     (pv.Participant_Enrollment__r.Initial_visit_occurred_date__c !=
-                    oldMap.get(pv.Participant_Enrollment__c).Initial_visit_occurred_date__c ||
-                    pv.Participant_Enrollment__r.Initial_visit_occurred_flag__c !=
-                    oldMap.get(pv.Participant_Enrollment__c).Initial_visit_occurred_flag__c)) ||
+                    oldMap.get(pv.Participant_Enrollment__c).Initial_visit_occurred_date__c)) ||
                     //Insert
                     (oldMap == null &&
-                    (pv.Participant_Enrollment__r.Initial_visit_occurred_date__c != null ||
-                    pv.Participant_Enrollment__r.Initial_visit_occurred_flag__c != null))
+                    (pv.Participant_Enrollment__r.Initial_visit_occurred_date__c != null))
                 ) {
                     pv.Completed_Date__c = pv.Participant_Enrollment__r.Initial_visit_occurred_date__c !=
                         null
-                        ? DateTime.newInstanceGmt(
+                        ? DateTime.newInstance(
                                   pv.Participant_Enrollment__r.Initial_visit_occurred_date__c,
                                   Time.newInstance(0, 0, 0, 0)
                               )
-                              .dateGMT()
+                              .date()
                         : null;
-                    visitsToUpdate.add(pv);
-                    if (pv.Participant_Enrollment__r.Initial_visit_occurred_flag__c) {
-                        pv.Status__c = 'Completed';
-                        visitsToUpdate.add(pv);
+                    if (pv.Completed_Date__c == null) {
+                        pv.Status__c = 'Scheduled';
                     }
+                    if (!visitsToUpdate.contains(pv))
+                        visitsToUpdate.add(pv);
+                }
+                if (
+                    //Update
+                    (oldMap != null &&
+                    (pv.Participant_Enrollment__r.Initial_visit_occurred_flag__c !=
+                    oldMap.get(pv.Participant_Enrollment__c).Initial_visit_occurred_flag__c)) ||
+                    //Update
+                    (oldMap == null && pv.Participant_Enrollment__r.Initial_visit_occurred_flag__c)
+                ) {
+                    pv.Status__c = 'Completed';
+                    if (!visitsToUpdate.contains(pv))
+                        visitsToUpdate.add(pv);
+                }
+                if (
+                    //Update
+                    (oldMap != null &&
+                    pv.Participant_Enrollment__r.ParticipantNoShow__c !=
+                    oldMap.get(pv.Participant_Enrollment__c).ParticipantNoShow__c &&
+                    pv.Participant_Enrollment__r.ParticipantNoShow__c) ||
+                    //Update
+                    (oldMap == null && pv.Participant_Enrollment__r.ParticipantNoShow__c)
+                ) {
+                    pv.Status__c = 'Missed';
+                    if (!visitsToUpdate.contains(pv))
+                        visitsToUpdate.add(pv);
                 }
             }
             update visitsToUpdate;
@@ -413,6 +433,28 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             pe.Initial_visit_scheduled_flag__c =
                 (pe.Initial_visit_scheduled_date__c != null &&
                 pe.Initial_visit_scheduled_time__c != null) || pe.Initial_visit_occurred_flag__c; // @Krishna Mahto: Changes for REF-1390- added Initial_visit_scheduled_time__c
+
+            if (
+                //Insert
+                (oldMap == null &&
+                (pe.Initial_visit_scheduled_date__c != null ||
+                pe.Initial_visit_scheduled_time__c != null)) ||
+                //Update
+                (oldMap != null &&
+                (pe.Initial_visit_scheduled_date__c !=
+                oldMap.get(pe.Id).Initial_visit_scheduled_date__c ||
+                pe.Initial_visit_scheduled_time__c !=
+                oldMap.get(pe.Id).Initial_visit_scheduled_time__c))
+            ) {
+                pe.Initial_Visit_Scheduled_DateTime__c = pe.Initial_visit_scheduled_date__c != null
+                    ? DateTime.newInstance(
+                          pe.Initial_visit_scheduled_date__c,
+                          pe.Initial_visit_scheduled_time__c != null
+                              ? pe.Initial_visit_scheduled_time__c
+                              : Time.newInstance(0, 0, 0, 0)
+                      )
+                    : null;
+            }
         }
 
         if (!participantContacts.isEmpty())

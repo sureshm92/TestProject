@@ -10,9 +10,9 @@ import navigationResources from '@salesforce/label/c.Navigation_Resources';
 import navigationMessages from '@salesforce/label/c.Navigation_Messages';
 import navigationEDiary from '@salesforce/label/c.Navigation_eDiary';
 import trailMatch from '@salesforce/label/c.Trial_Match';
-import navigationResults from '@salesforce/label/c.PG_SW_Tab_Lab_Results';
-import navigationVisits from '@salesforce/label/c.PG_SW_Tab_Visits';
-import navigationEvents from '@salesforce/label/c.PG_SW_Tab_Events';
+import navigationResults from '@salesforce/label/c.PP_Tab_Results';
+import navigationVisits from '@salesforce/label/c.PP_Tab_Visits';
+import navigationEvents from '@salesforce/label/c.PP_Tab_Events';
 import navigationProgram from '@salesforce/label/c.Navigation_AboutProgram';
 import navigationStudy from '@salesforce/label/c.Navigation_AboutStudy';
 import navigationTasks from '@salesforce/label/c.PG_SW_Tab_Tasks';
@@ -56,6 +56,14 @@ export default class PpCommunityNavigation extends LightningElement {
         return this.desktop ? menuDesktop : menuMobile;
     }
     @api
+    handleCloseHamberungMenu() {
+        let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
+        if (mobileDiv && !mobileDiv.classList.contains('slds-hide')) {
+            mobileDiv.classList.add('slds-hide');
+        }
+        this.showSubMenu = false;
+    }
+    @api
     handleClick() {
         let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
         let element = this.template.querySelector(`[data-id="my-menu"]`);
@@ -65,16 +73,9 @@ export default class PpCommunityNavigation extends LightningElement {
         element && element.classList.contains('slds-is-open')
             ? element.classList.remove('slds-is-open')
             : '';
-            this.showSubMenu = false;
+        this.showSubMenu = false;
     }
-    @api
-    handleClickCloseNavMenu(){
-        let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
-        mobileDiv && !mobileDiv.classList.contains('slds-hide')
-            ? mobileDiv.classList.add('slds-hide')
-            : '';
-    }
-    handleNavigationSubMenu(event){
+    handleNavigationSubMenu(event) {
         if (!this.desktop) {
             let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
             mobileDiv && !mobileDiv.classList.contains('slds-hide')
@@ -84,13 +85,13 @@ export default class PpCommunityNavigation extends LightningElement {
         if (event.currentTarget.dataset.pagename) {
             this.communityServic.navigateToPage(event.currentTarget.dataset.pagename);
         }
-        let element = this.template.querySelector('.my-submenuopen')
+        let element = this.template.querySelector('.my-submenuopen');
         if (element) {
-              element.classList.remove('block-submenu-onblur');
-              this.removeElementFocus();
+            element.classList.remove('block-submenu-onblur');
+            this.removeElementFocus();
         }
     }
-    initializeDataForDOM(){
+    initializeDataForDOM() {
         if (communityService.isInitialized()) {
             if (!this.isInitialLoad && !this.desktop) {
                 //add css class for mobile
@@ -127,7 +128,7 @@ export default class PpCommunityNavigation extends LightningElement {
                         );
                     }
                     this.showAboutStudy = !this.showAboutProgram;
-                    if(this.participantTabs.length < 1){
+                    if (this.participantTabs.length < 1) {
                         this.populateNavigationItems();
                     }
                     this.isInitialized = true;
@@ -136,7 +137,7 @@ export default class PpCommunityNavigation extends LightningElement {
                     this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                 });
         }
-    
+
         if (this.spinner) {
             this.spinner.hide();
         }
@@ -269,10 +270,10 @@ export default class PpCommunityNavigation extends LightningElement {
             ...this.allPagesSubMenu[key]
         }));
         const loadTelevisitBanner = true;
-         const valueChangeEvent = new CustomEvent("handleLoadTelevisitBanner", {
-             detail: { loadTelevisitBanner }
-         });
-         this.dispatchEvent(valueChangeEvent);
+        const valueChangeEvent = new CustomEvent('handleLoadTelevisitBanner', {
+            detail: { loadTelevisitBanner }
+        });
+        this.dispatchEvent(valueChangeEvent);
     }
 
     handleNavigation(event) {
@@ -310,7 +311,8 @@ export default class PpCommunityNavigation extends LightningElement {
         return this.navDivider;
     }
     // onclick of header menu for populating submenu and toggling dropdown
-    dropdownMenu() {
+    dropdownMenu(event) {
+        this.newVar = !this.newVar;
         var element = this.template.querySelector('.my-menu');
         var headerMenu = element.getAttribute('data-key');
         var subMenu = Object.keys(this.allPagesSubMenu).map((key) => ({
@@ -322,22 +324,22 @@ export default class PpCommunityNavigation extends LightningElement {
         if (this.submenu && this.desktop == false) {
             this.showSubMenu = !this.showSubMenu;
         }
-        var isOpen = element.classList.contains('slds-is-open');        
+        var isOpen = element.classList.contains('slds-is-open');
         //dropdown toggle->adds class if second param true and remove if false
         element.classList.toggle('slds-is-open', !isOpen);
-        //this.isStudySubMenuOpen = !isOpen ? true:false;
+        event.stopPropagation();
     }
-    handleOnMouseOver(event){
+    handleOnMouseOver(event) {
         this.template.querySelector('.my-submenuopen').classList.add('block-submenu-onblur');
     }
-    handleOnMouseLeave(event){
+    handleOnMouseLeave(event) {
         this.template.querySelector('.my-submenuopen').classList.remove('block-submenu-onblur');
     }
     //on removing focus from dropdown
-    removeElementFocus(event) {        
+    removeElementFocus(event) {
         var element = this.template.querySelector('.slds-is-open');
         //Stop closing sub menu drop when we click on sub menu item.
-        if(element && !element.classList.contains('block-submenu-onblur')){
+        if (element && !element.classList.contains('block-submenu-onblur')) {
             element.classList.remove('slds-is-open');
         }
     }
@@ -357,5 +359,4 @@ export default class PpCommunityNavigation extends LightningElement {
         console.log('calling from forceRefresh');
         this.initializeDataForDOM();
     }
-
 }

@@ -192,7 +192,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                 let programOverViewData = JSON.parse(result).programOverViewData;
                 let participantState = JSON.parse(result).participantState;
                 this.showDelPurchaseIqvia = (programOverViewData.isDelegateSelfView || participantState.isDelegate || programOverViewData.isAlumniParticipant);
-                this.showDelPurchaseStudy = (programOverViewData.isDelegateSelfView || participantState.isDelegate || programOverViewData.isAlumniParticipant);             
+                this.showDelPurchaseStudy = (programOverViewData.isDelegateSelfView || (participantState.isDelegate && (this.consentPreferenceDataLocal.isPrimaryDelegate == false)) || programOverViewData.isAlumniParticipant );
                 if (!this.isMobilePhoneNumberAvailable) {
                     this.studyError = this.checkSMSCheckedOrNot();
                 }
@@ -245,6 +245,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
 
     redirectToProfileInfoTab() {
         window.history.replaceState(null, null, '?profileInformation');
+        sessionStorage.setItem('Cookies', 'Accepted');
         window.location.reload(true);
     }
 
@@ -370,7 +371,11 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     }
 
     get getStudyConsentMargin() {
-        return this.isRTL ? 'sub-header mr-10 commsTest' : 'sub-header commsTest';
+        return this.isRTL ? 'sub-header mr-10 commsTxt' : 'sub-header commsTxt';
+    }
+
+    get getPurchaseProptyTxt() {
+        return this.isRTL ? 'sub-header mr-10 commsTxt tx-italic' : 'sub-header commsTxt tx-italic';
     }
 
     renderedCallback() {}

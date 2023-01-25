@@ -31,7 +31,7 @@
                 function (returnValue) {}
             );
             component.set('v.isOpen', false);
-            location.reload();
+            communityService.reloadPage();
         }
     },
     openModel: function (component, event, helper) {

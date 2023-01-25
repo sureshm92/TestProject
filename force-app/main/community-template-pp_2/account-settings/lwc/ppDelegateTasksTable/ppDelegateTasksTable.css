@@ -1,11 +1,11 @@
 .title-text {
     font-weight: 600;
     text-decoration: none;
-    color: #015FF1;
+    color: #0768fd;
 }
 
 .section-icon {
-    --sds-c-icon-color-foreground-default: #015FF1;
+    --sds-c-icon-color-foreground-default: #0768fd;
 }
 
 .slds-section__title-action-icon {

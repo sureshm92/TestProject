@@ -3,7 +3,6 @@
 
 //Community Service Module:
 window.communityService = (function () {
-
     let isInitializedFlag = false;
     let executeValidParams = true;
     let isTCAcceptedFlag;
@@ -36,17 +35,21 @@ window.communityService = (function () {
     let hasIQVIAStudiesPI;
     let communityName;
     let participantData;
-    const pagesWithSharedPrivacyPolicy = new Set(['my-team','new-team-member','account-settings'])
+    const pagesWithSharedPrivacyPolicy = new Set([
+        'my-team',
+        'new-team-member',
+        'account-settings'
+    ]);
 
     //community service functions:
     let service = {
         initialize: function (component) {
-            if(service.isInitialized()) return;
+            if (service.isInitialized()) return;
             service.executeAction(component, 'getCommunityData', null, function (returnValue) {
                 let communityData = JSON.parse(returnValue);
                 preventedCookies = communityData.preventedCookies;
                 isDummy = communityData.isDummy;
-                if(!isDummy) {
+                if (!isDummy) {
                     service.deleteCookies(preventedCookies);
                     console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
                 }
@@ -69,29 +72,44 @@ window.communityService = (function () {
                 sponsorName = communityData.sponsorName;
                 isMobileApp = communityData.isMobileApp;
                 hasIQVIAStudiesPI = communityData.hasIQVIAStudiesPI;
-                communityName=communityData.communityName;
+                communityName = communityData.communityName;
                 service.setCurrentCommunityMode(communityData.currentUserMode, null, true);
                 service.setCookie('RRLanguage', communityData.language, 365);
-                console.log('CommunityService initialized:');
-                console.log('is TC accepted: ' + isTCAcceptedFlag);
-                console.log('URL path prefix: ' + communityURLPathPrefix);
+                //console.log('CommunityService initialized:');
+                //console.log('is TC accepted: ' + isTCAcceptedFlag);
+                //console.log('URL path prefix: ' + communityURLPathPrefix);
                 //console.log('isMobileApp: '+isMobileApp);
                 component.init();
-                if (!service.isTCAccepted() && service.getPageName() !== 'terms-and-conditions' && service.getPageName() !== 'privacy-policy' && service.getCurrentCommunityName() !=='IQVIA Patient Portal')  {
+                if (
+                    !service.isTCAccepted() &&
+                    service.getPageName() !== 'terms-and-conditions' &&
+                    service.getPageName() !== 'privacy-policy' &&
+                    service.getCurrentCommunityName() !== 'IQVIA Patient Portal'
+                ) {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
                 } else {
                     $A.get('e.c:EventCommunityInitialized').fire();
                 }
-            })
+            });
         },
 
-        executeAction: function (component, actionName, params, successCallback, errorCallback, finalCallback) {
+        executeAction: function (
+            component,
+            actionName,
+            params,
+            successCallback,
+            errorCallback,
+            finalCallback
+        ) {
             service.logError(function () {
                 let action = component.get('c.' + actionName);
                 if (params) {
                     if (service.parametersHaveValidInputs(params)) {
-                        if(executeValidParams ===  true){
-                          service.showErrorToast('Error', $A.get('$Label.c.TST_JS_Injection_Error'));
+                        if (executeValidParams === true) {
+                            service.showErrorToast(
+                                'Error',
+                                $A.get('$Label.c.TST_JS_Injection_Error')
+                            );
                         }
                         if (errorCallback) errorCallback();
                         if (finalCallback) finalCallback();
@@ -100,25 +118,26 @@ window.communityService = (function () {
                 }
                 action.setCallback(this, function (response) {
                     try {
-                        if (response.getState() === "SUCCESS") {
+                        if (response.getState() === 'SUCCESS') {
                             if (successCallback) successCallback(response.getReturnValue());
                         } else {
                             if (errorCallback) errorCallback(response);
                             let errMessage = service.getErrorMessage(response);
-                            if (debugMode) errMessage = 'Action: ' + actionName + ', Error: ' + errMessage;
+                            if (debugMode)
+                                errMessage = 'Action: ' + actionName + ', Error: ' + errMessage;
                             throw new Error(errMessage);
                         }
                     } catch (e) {
-                        if(!isDummy) {
+                        if (!isDummy) {
                             console.error(e);
                             let message = e.message;
                             if (!debugMode) message = e.message.split('\n')[0];
                             console.log('ERROR', message);
                             let exceptionHandler = component.find('exceptionHandler');
-                            if(message.includes('INVALID_EMAIL_ADDRESS')) {
+                            if (message.includes('INVALID_EMAIL_ADDRESS')) {
                                 message = 'Invalid Email';
-                            } else  {
-                                if(message.includes('[LanguageLocaleKey]')) {
+                            } else {
+                                if (message.includes('[LanguageLocaleKey]')) {
                                     message = 'This language is not yet supported';
                                 } else {
                                     service.showErrorToast('ERROR', message);
@@ -132,17 +151,18 @@ window.communityService = (function () {
                     }
                 });
                 $A.enqueueAction(action);
-            })
+            });
         },
 
         deleteCookies: function (preventedCookies) {
             for (let i in preventedCookies) {
-                let cookieDelete = preventedCookies[i] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                console.log('cookieDelete: ' + cookieDelete);
+                let cookieDelete =
+                    preventedCookies[i] + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                //console.log('cookieDelete: ' + cookieDelete);
                 document.cookie = cookieDelete;
 
                 cookieDelete = 'LSKey[c]' + cookieDelete;
-                console.log('cookieDelete: ' + cookieDelete);
+                //console.log('cookieDelete: ' + cookieDelete);
                 document.cookie = cookieDelete;
             }
         },
@@ -157,36 +177,37 @@ window.communityService = (function () {
         },
 
         //Getters/setters:
-        isShowPastStudies: function(){
+        isShowPastStudies: function () {
             return showPastStudies;
         },
 
-        getSubDomain: function(){
+        getSubDomain: function () {
             return subDomain;
         },
 
-        getTemplateProperty: function(propertyName){
-            if(currentUserMode.template.properties) return currentUserMode.template.properties[propertyName];
+        getTemplateProperty: function (propertyName) {
+            if (currentUserMode.template.properties)
+                return currentUserMode.template.properties[propertyName];
             return null;
         },
 
-        getCurrentCommunityMode: function(){
+        getCurrentCommunityMode: function () {
             return currentUserMode;
         },
 
-        getCurrentSponsorName: function(){
+        getCurrentSponsorName: function () {
             return sponsorName;
         },
 
-        getHasIQVIAStudiesPI: function(){
+        getHasIQVIAStudiesPI: function () {
             return hasIQVIAStudiesPI;
         },
 
-        getPagesWithSharedPrivacyPolicy: function(){
+        getPagesWithSharedPrivacyPolicy: function () {
             return pagesWithSharedPrivacyPolicy;
         },
 
-        getCurrentCommunityName: function(){
+        getCurrentCommunityName: function () {
             return currentUserMode.template.communityName;
         },
 
@@ -194,75 +215,77 @@ window.communityService = (function () {
             return communityName;
         },
 
-        getCurrentCommunityTemplateName: function(){
+        getCurrentCommunityTemplateName: function () {
             return currentUserMode.template.templateName;
         },
 
-        setCurrentCommunityMode: function(mode, page, init){
+        setCurrentCommunityMode: function (mode, page, init) {
             currentUserMode = mode;
             let redirectURL = mode.template.redirectURL;
-            if(page) redirectURL += '/s/' + page;
-            if(!init && !isDummy && mode.template.needRedirect) document.location.href = redirectURL;
-                service.setThemeCSS();
-                  },
+            if (page) redirectURL += '/s/' + page;
+            if (!init && !isDummy && mode.template.needRedirect)
+                document.location.href = redirectURL;
+            service.setThemeCSS();
+        },
 
-        getMessagesVisible : function () {
+        getMessagesVisible: function () {
             return messagesVisible;
         },
 
-        setMessagesVisible : function(visible) {
+        setMessagesVisible: function (visible) {
             messagesVisible = visible;
         },
 
-        getTrialMatchVisible : function () {
+        getTrialMatchVisible: function () {
             return trialMatchVisible;
         },
 
-        setTrialMatchVisible : function(visible) {
+        setTrialMatchVisible: function (visible) {
             trialMatchVisible = visible;
         },
-        
-        getEDiaryVisible : function () {
+
+        getEDiaryVisible: function () {
             return eDiaryVisible;
         },
 
-        setEDiaryVisible : function(visible) {
+        setEDiaryVisible: function (visible) {
             eDiaryVisible = visible;
         },
 
-        setThemeCSS: function(){
-            if(isDummy) return;
+        setThemeCSS: function () {
+            if (isDummy) return;
             let cssLink = document.querySelector('link[href*="' + currentCSSTheme + '"]');
-            try{
+            try {
                 currentCSSTheme = service.getTemplateProperty('ThemeCSS');
-                if(cssLink) cssLink.setAttribute('href', currentCSSTheme);
-            }catch (e) {
+                if (cssLink) cssLink.setAttribute('href', currentCSSTheme);
+            } catch (e) {
                 console.log(e);
             }
         },
 
-        getAllUserModes: function(){
-            return allUserModes
+        getAllUserModes: function () {
+            return allUserModes;
         },
 
-        getParticipantState: function(){
+        getParticipantState: function () {
             return participantState;
         },
-        getParticipantData: function(){
+        getParticipantData: function () {
             return participantData;
         },
-        reloadPage(){
+        reloadPage() {
+            sessionStorage.setItem('Cookies', 'Accepted');
             location.reload();
         },
 
-        getLanguage: function(){
+        getLanguage: function () {
             return language;
         },
 
-        getBaseUrl: function() {
+        getBaseUrl: function () {
             return baseUrl;
         },
-        
+
         isTCAccepted: function () {
             return isTCAcceptedFlag;
         },
@@ -270,19 +293,19 @@ window.communityService = (function () {
             isTCAcceptedFlag = true;
         },
         getUserMode: function () {
-            return currentUserMode.userMode
+            return currentUserMode.userMode;
         },
         getDelegateId: function () {
-            return currentUserMode.currentHCPDelegate
+            return currentUserMode.currentHCPDelegate;
         },
-        isDelegate: function(){
+        isDelegate: function () {
             return isDelegate;
         },
-        isDummy: function() {
+        isDummy: function () {
             return isDummy;
         },
         getCommunityURLPathPrefix: function () {
-            return communityURLPathPrefix
+            return communityURLPathPrefix;
         },
 
         isInitialized: function () {
@@ -328,7 +351,7 @@ window.communityService = (function () {
                 if (sParameterName[0] === sParam) {
                     params.push(sParameterName[0] + '=' + value);
                 } else {
-                    params.push(sURLVariables[i])
+                    params.push(sURLVariables[i]);
                 }
             }
             return resURL + params.join('&');
@@ -341,12 +364,12 @@ window.communityService = (function () {
         },
 
         navigateToPage: function (pageName) {
-            if(isDummy) return;
-            let urlEvent = $A.get("e.force:navigateToURL");
+            if (isDummy) return;
+            let urlEvent = $A.get('e.force:navigateToURL');
             urlEvent.setParams({
                 url: '/' + pageName
             });
-            console.log('Navigate to page: ' + pageName);
+            //console.log('Navigate to page: ' + pageName);
             urlEvent.fire();
         },
 
@@ -355,7 +378,7 @@ window.communityService = (function () {
         },
 
         redirectToPage: function (pageName) {
-            console.log('Redirect to page: ' + pageName);
+            //console.log('Redirect to page: ' + pageName);
             document.location.href = communityURLPathPrefix + '/' + pageName;
         },
 
@@ -381,7 +404,7 @@ window.communityService = (function () {
         },
 
         showToast: function (title, type, message, duration) {
-            let toastEvent = $A.get("e.force:showToast");
+            let toastEvent = $A.get('e.force:showToast');
             toastEvent.setParams({
                 title: title,
                 message: message,
@@ -393,7 +416,7 @@ window.communityService = (function () {
         },
 
         showErrorToast: function (title, errorMessage, duration) {
-            service.showToast(title, "error", errorMessage, duration);
+            service.showToast(title, 'error', errorMessage, duration);
         },
 
         showSuccessToast: function (title, message, duration) {
@@ -447,27 +470,27 @@ window.communityService = (function () {
         },
 
         setStickyBarPosition: function () {
-            setTimeout(
-                function () {
-                    let mainBarHeight = 50;
-                    if (allUserModes.length > 1 && window.innerWidth <= 550) mainBarHeight = 80;
-                    document.getElementById('stickyBar').classList.remove('sticky');
-                    let stickyBar = document.getElementById('stickyPositionTarget');
-                    stickyBarTop = stickyBar.offsetTop - mainBarHeight;
-                }, 100
-            )
+            setTimeout(function () {
+                let mainBarHeight = 50;
+                if (allUserModes.length > 1 && window.innerWidth <= 550) mainBarHeight = 80;
+                document.getElementById('stickyBar').classList.remove('sticky');
+                let stickyBar = document.getElementById('stickyPositionTarget');
+                stickyBarTop = stickyBar.offsetTop - mainBarHeight;
+            }, 100);
         },
 
         getCookie: function (cname) {
-            console.log('in getCookie function');
-            console.log('cname: ' + cname);
-
+            if (cname == 'RRCookies') {
+                if (sessionStorage.getItem('Cookies')) {
+                    return 'agreed from session';
+                }
+            }
             if (!preventedCookies || preventedCookies.indexOf(cname) !== -1) {
-                console.log(cname + ' cookie ignored get');
-                return "";
+                //console.log(cname + ' cookie ignored get');
+                return '';
             }
 
-            let name = cname + "=";
+            let name = cname + '=';
             let decodedCookie = decodeURIComponent(document.cookie);
             let ca = decodedCookie.split(';');
             for (let i = 0; i < ca.length; i++) {
@@ -479,34 +502,35 @@ window.communityService = (function () {
                     return c.substring(name.length, c.length);
                 }
             }
-            return "";
+            return '';
         },
 
         setCookie: function (cname, cvalue, exdays) {
-            console.log('in setCookie function');
-            console.log('cname: ' + cname);
-            console.log('cvalue: ' + cvalue);
+            //console.log('in setCookie function');
+            //console.log('cname: ' + cname);
+            //console.log('cvalue: ' + cvalue);
 
             if (preventedCookies && preventedCookies.indexOf(cname) !== -1) {
-                console.log(cname + ' cookie ignored set');
+                //console.log(cname + ' cookie ignored set');
                 return;
             }
 
             let d = new Date();
-            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-            let expires = "expires=" + d.toUTCString();
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+            let expires = 'expires=' + d.toUTCString();
+            document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
         },
 
         isValidEmail: function (email) {
-            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            let re =
+                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
         },
 
         scrollToStickyBar: function () {
             window.scroll({
                 top: stickyBarTop,
-                behavior: "smooth"
+                behavior: 'smooth'
             });
         },
 
@@ -548,39 +572,40 @@ window.communityService = (function () {
 
         parametersEscapeHTML: function (params) {
             let paramsJSON = JSON.stringify(params);
-            paramsJSON = paramsJSON.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            paramsJSON = paramsJSON.replace(/</g, '&lt;').replace(/>/g, '&gt;');
             return JSON.parse(paramsJSON);
         },
         //depricated - use isMobileSDK
-        isCurrentSessionMobileApp: function() {
+        isCurrentSessionMobileApp: function () {
             return isMobileApp;
         },
 
-        isMobileSDK: function() {
-            if(/SalesforceMobileSDK/.test( navigator.userAgent)) { 
+        isMobileSDK: function () {
+            if (/SalesforceMobileSDK/.test(navigator.userAgent)) {
                 return true;
             }
             return false;
         },
 
-        isMobileOS: function() {
-            if(/android|iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase()) ) {
+        isMobileOS: function () {
+            if (/android|iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
                 return true;
-            } 
+            }
             return false;
         },
 
-        preLoginPageRedirection: function(currentUrl, redirectPage){
+        preLoginPageRedirection: function (currentUrl, redirectPage) {
+            sessionStorage.setItem('Cookies', 'Accepted');
             let urlEvent = $A.get('e.force:navigateToURL');
             let redirectUrl = '';
             if (currentUrl.includes('janssen')) {
                 redirectUrl = window.location.origin + '/janssen/s/' + redirectPage;
             } else if (currentUrl.includes('gsk')) {
-                redirectUrl =  window.location.origin + '/gsk/s/' + redirectPage;
+                redirectUrl = window.location.origin + '/gsk/s/' + redirectPage;
             } else if (currentUrl.includes('Covid19')) {
-                redirectUrl =  window.location.origin + '/Covid19/s/' + redirectPage;
+                redirectUrl = window.location.origin + '/Covid19/s/' + redirectPage;
             } else {
-                redirectUrl =  window.location.origin + '/s/' + redirectPage;
+                redirectUrl = window.location.origin + '/s/' + redirectPage;
             }
             urlEvent.setParams({
                 url: redirectUrl
@@ -594,7 +619,6 @@ window.communityService = (function () {
     };
 
     return service;
-
-}());
+})();
 
 console.log('RR Community JS loaded');

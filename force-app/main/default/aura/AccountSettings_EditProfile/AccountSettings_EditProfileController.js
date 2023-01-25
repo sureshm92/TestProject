@@ -288,7 +288,7 @@
                 rrLanguageAllowed: initData.myContact.RRLanguageAllowedCookie__c
             },
             function () {
-                location.reload();
+                communityService.reloadPage();
             }
         );
     },
@@ -669,7 +669,11 @@
     },
     
     onChangeInput: function (component, event, helper) {
-        helper.doCheckDOB(component,event,helper);
+        helper.doCheckDOB(component, event, helper);
         //component.set('v.disableSave', false);
+    },
+    setSessionCookies: function (component) {
+        sessionStorage.setItem('Cookies', 'Accepted');
+        return true;
     }
 });

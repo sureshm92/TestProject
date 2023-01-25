@@ -52,10 +52,10 @@ global without sharing class Batch_SendBellNotificationBell extends Batch_Schedu
         Set<String> contactListdefault = new Set<String>();
         Set<String> contactListJanssen = new Set<String>();
         for(String eachRec : mapOfCommVsContact.keySet()){
-            if(eachRec == 'Default' || eachRec == 'GSK'){
-                contactListdefault.addAll(mapOfCommVsContact.get(eachRec));
-            }else if(eachRec == 'Janssen'){
+            if(eachRec == 'Janssen'){
                 contactListJanssen.addAll(mapOfCommVsContact.get(eachRec));
+            }else {
+                contactListdefault.addAll(mapOfCommVsContact.get(eachRec));
             }
         }
         if(!contactListdefault.IsEmpty()){

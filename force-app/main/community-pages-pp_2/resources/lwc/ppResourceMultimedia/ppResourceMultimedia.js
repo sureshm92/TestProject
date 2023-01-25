@@ -27,6 +27,7 @@ export default class PpResourceMultimedia extends LightningElement {
         };
 
         this[NavigationMixin.GenerateUrl](config).then((url) => {
+            sessionStorage.setItem('Cookies', 'Accepted');
             window.open(url, '_self');
         });
     }

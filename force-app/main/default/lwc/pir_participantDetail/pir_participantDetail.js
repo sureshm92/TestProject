@@ -116,6 +116,12 @@ export default class Pir_participantDetail extends LightningElement {
     isInfoCheckedUS=false;
     isInfoCheckedROW=false;
     isSMSupdate=false;
+    emailRestore;
+    phoneRestore;
+    phoneTypeRestore;
+    alternatePhoneRestore;
+    alternatePhoneTypeRestore;
+    wipeOutRestore=false;
 
     @api selectedPlan = "";
     visitPlan = {};
@@ -224,11 +230,18 @@ export default class Pir_participantDetail extends LightningElement {
                 if (!this.pd['pe']['MRN_Id__c']) {
                     this.pd['pe']['MRN_Id__c'] = '';
                 }
+                this.wipeOutRestore = false;
+                this.emailRestore = this.pd['pe']['Participant__r']['Email__c'];
+                this.phoneRestore = this.pd['pe']['Participant__r']['Phone__c'];
+                this.phoneTypeRestore = this.pd['pe']['Participant__r']['Phone_Type__c'];
+                this.alternatePhoneRestore = this.pd['pe']['Participant__r']['Alternative_Phone_Number__c'];
+                this.alternatePhoneTypeRestore = this.pd['pe']['Participant__r']['Alternative_Phone_Type__c'];
                 this.studyDobFormat = this.pd['pe']['Study_Site__r']['Participant_DOB_format__c']; 
                 this.isMonthMandate = (this.studyDobFormat == 'DD-MM-YYYY' || this.studyDobFormat == 'MM-YYYY');
                 this.isDayMandate = (this.studyDobFormat == 'DD-MM-YYYY');
                 this.ageInputDisabled = (this.studyDobFormat == 'DD-MM-YYYY');
                 this.getErrorMessage();
+                this.participantSelectedAge = (this.pd['pe']['Participant__r']['Age__c']!=undefined ? ((this.pd['pe']['Participant__r']['Age__c']).toString()) : null); 
                 this.valueDD = (this.pd['pe']['Participant__r']['Birth_Day__c'] ? this.pd['pe']['Participant__r']['Birth_Day__c'] : null);
                 
                 if(this.valueMM = this.pd['pe']['Participant__r']['Birth_Month__c']){
@@ -240,8 +253,7 @@ export default class Pir_participantDetail extends LightningElement {
                     this.YYYYChange();
                     this.getErrorMessage();
                 }
-                this.participantSelectedAge = (this.pd['pe']['Participant__r']['Age__c']!=undefined ? ((this.pd['pe']['Participant__r']['Age__c']).toString()) : null); 
-                
+               
                 this.handleDateChange();
 
                 if (this.pd['pe']['Permit_Mail_Email_contact_for_this_study__c']) {
@@ -778,12 +790,22 @@ export default class Pir_participantDetail extends LightningElement {
                 adultAge = this.contObj.adultAgeByCountryStateCode[csCode];
             }
             this.isAdult = (parseInt(this.participantSelectedAge) >= parseInt(adultAge));
-            if(!this.isAdult){
+            
+            if(!this.isAdult && (this.participantSelectedAge != null || this.participantSelectedAge != undefined)){
                 this.pd.pe.Participant__r.Email__c = null;
                 this.pd.pe.Participant__r.Phone_Type__c = '';
                 this.pd.pe.Participant__r.Phone__c = null;
                 this.pd.pe.Participant__r.Alternative_Phone_Type__c = '';
                 this.pd.pe.Participant__r.Alternative_Phone_Number__c = null;
+                this.wipeOutRestore = true;
+                this.resetalt();
+            }else if(this.isAdult && this.wipeOutRestore == true){
+                this.pd.pe.Participant__r.Email__c = this.emailRestore;
+                this.pd.pe.Participant__r.Phone_Type__c = this.phoneTypeRestore;
+                this.pd.pe.Participant__r.Phone__c = this.phoneRestore;
+                this.pd.pe.Participant__r.Alternative_Phone_Type__c = this.alternatePhoneTypeRestore;
+                this.pd.pe.Participant__r.Alternative_Phone_Number__c = this.alternatePhoneRestore;
+                this.wipeOutRestore = false;
                 this.resetalt();
             }
             this.isNotAdult = !this.isAdult;

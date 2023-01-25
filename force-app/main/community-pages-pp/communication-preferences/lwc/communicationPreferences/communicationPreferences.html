@@ -460,7 +460,8 @@
                                 </lightning-layout>
                             </template>
 
-                            <div class={getStudyConsentMargin}>
+                            <!-- <div class={getStudyConsentMargin}> -->
+                            <div class={getPurchaseProptyTxt}>
                                 <template if:true={isCountryUS}>
                                     <template if:true={showDelPurchaseStudy}>{label.PP_Communication_Purchase_Pref}</template>
                                     <template if:false={showDelPurchaseStudy}>{label.PP_Communication_Purchase_Pref}</template>
@@ -646,7 +647,7 @@
                             </template>
                             <lightning-layout multiple-rows="true">
                                 <lightning-layout-item size="12">
-                                    <div class={getStudyConsentMargin}>
+                                    <div class={getPurchaseProptyTxt}>
                                         <template if:true={isCountryUS}>
                                             <template if:true={showDelPurchaseIqvia}>{label.PP_Communication_Purchase_Pref_V2}</template>
                                             <template if:false={showDelPurchaseIqvia}>{label.PP_Communication_Purchase_Pref}</template>
@@ -1086,7 +1087,8 @@
                                      
                                 </div>
                             </template>
-                            <div class={getStudyConsentMargin}>
+                            <!-- <div class={getStudyConsentMargin}> -->
+                            <div class={getPurchaseProptyTxt}>
                                 <template if:true={isCountryUS}>
                                     <template if:true={showDelPurchaseStudy}>{label.PP_Communication_Purchase_Pref_V2}</template>
                                     <template if:false={showDelPurchaseStudy}>{label.PP_Communication_Purchase_Pref}</template>
@@ -1275,7 +1277,7 @@
                             </template>
                             <lightning-layout multiple-rows="true">
                                 <lightning-layout-item size="12">
-                                    <div class={getStudyConsentMargin}>
+                                    <div class={getPurchaseProptyTxt}>
                                         <template if:true={isCountryUS}>
                                             <template if:true={showDelPurchaseIqvia}>{label.PP_Communication_Purchase_Pref_V2}</template>
                                             <template if:false={showDelPurchaseIqvia}>{label.PP_Communication_Purchase_Pref}</template>

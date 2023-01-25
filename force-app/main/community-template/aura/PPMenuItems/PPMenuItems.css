@@ -64,12 +64,12 @@
 }
 
 .THIS .selected {
-    color: #015FF1;
+    color: #0768fd;
     font-weight: bold;
 }
 
 .THIS .selected-sub-title {
-    color: #015FF1;
+    color: #0768fd;
 }
 .THIS .subtitleRTL {
   /* @noflip */  text-align: right;
@@ -95,7 +95,7 @@
 .THIS .icon-check {
     width: 20px;
     height: 20px;
-    fill: #015FF1;
+    fill: #0768fd;
     margin-left: 5px;
 }
 

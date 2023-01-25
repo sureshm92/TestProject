@@ -348,7 +348,7 @@
     margin-right: 10px;
 }
 
-.commsTest{ height: 96px;
+.commsTxt{ height: 96px;
 width: 774px;
 color: #444444;
 font-family: "Proxima Nova";
@@ -371,4 +371,7 @@ line-height: 24px;
     color: #6E6E6E;
     font-size: 14px;
     font-weight: 600;
+}
+.tx-italic{
+    font-style: italic
 }

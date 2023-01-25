@@ -22,7 +22,6 @@ public without sharing class PatientDelegateEnrollmentService {
         );
     }
     public PatientDelegateEnrollmentService() {
-        system.debug('called');
         list<Patient_Delegate_Enrollment__c> lstPDE = DatabaseService.query(
             new List<String>{
                 'Id',
@@ -473,28 +472,32 @@ public without sharing class PatientDelegateEnrollmentService {
         }
     }
     public static Map<Id, List<Id>> getDelegateContactIdsByPAContactIs(
-        List<Id> participantContIds
-    ) {
-        if (participantContIds.size() == 0) {
+        List<Id> participantContOrPeIds,Boolean isStudyLevel
+    ) { // PEH-10344 del notification issue
+        if (participantContOrPeIds.size() == 0) {
             return new Map<Id, List<Id>>();
         }
         List<Patient_Delegate_Enrollment__c> patientDelegates = new List<Patient_Delegate_Enrollment__c>();
-        if (!participantContIds.isEmpty()) {
-            patientDelegates = [
-                SELECT
-                Id,
-                Participant_Enrollment__c,
-                Patient_Delegate__c,
-                Patient_Delegate__r.Contact__c,
-                Patient_Delegate__r.Participant__c,
-                Patient_Delegate__r.Participant__r.Contact__c,
-                Name,
-                Status__c,
-                Welcome_Message_Sent__c,
-                Welcome_Message_Delivered__c,
-                Participant_Enrollment__r.study__c
-                FROM Patient_Delegate_Enrollment__c
-                WHERE Patient_Delegate__r.Participant__r.Contact__c IN : participantContIds AND Status__c = 'Active'            ];
+        String queryString = 'SELECT Id, Participant_Enrollment__c, Patient_Delegate__c, Patient_Delegate__r.Contact__c,'+
+                            ' Patient_Delegate__r.Participant__c, Patient_Delegate__r.Participant__r.Contact__c, Name, Status__c,'+
+                            ' Welcome_Message_Sent__c, Welcome_Message_Delivered__c, Participant_Enrollment__r.study__c '+
+                            'FROM Patient_Delegate_Enrollment__c WHERE';
+        String filter ;
+        if(isStudyLevel){
+            filter = ' Participant_Enrollment__c IN (\''+
+                        String.join(participantContOrPeIds, '\',\'') +
+                        '\')' +
+                        ' AND Status__c = \''+ 'Active' + '\'';
+        }else{
+            filter = ' Patient_Delegate__r.Participant__r.Contact__c IN (\''+
+                        String.join(participantContOrPeIds, '\',\'') +
+                        '\')' +
+                        ' AND Status__c = \''+ 'Active' + '\'';
+        }
+        String finalQuery = queryString + filter;
+        if (!participantContOrPeIds.isEmpty()) {
+            System.debug('Query:: '+finalQuery);
+            patientDelegates = (List<Patient_Delegate_Enrollment__c>) DatabaseService.query(finalQuery);
         }
         Map<Id, List<Id>> delContIdsByPAContId = new Map<Id, List<Id>>();
         if (patientDelegates.isEmpty())
@@ -509,6 +512,11 @@ public without sharing class PatientDelegateEnrollmentService {
         }
 
         return delContIdsByPAContId;
+    }
+    public static Map<Id, List<Id>> getDelegateContactIdsByPAContactIs(
+        List<Id> participantContIds
+    ) {
+        return getDelegateContactIdsByPAContactIs(participantContIds,false);
     }
      /**
      * @param partContactsIds List with participant contact ids
