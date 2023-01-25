@@ -566,6 +566,9 @@
             if (checkedVal) {
                 closeCookiesInfo();
             }
+            else{
+                sessionStorage.setItem('Cookies', 'Accepted');
+            }
             document.body.removeEventListener('keypress', this.bodyBlock);
             document.body.removeEventListener('keydown', this.bodyBlock);
             document.body.classList.remove('cookie-block-user');
