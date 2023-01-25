@@ -36,10 +36,24 @@ public without sharing class StudyDetailViewController {
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
-    }    
+    }
 
     @AuraEnabled
     public static Map<String, Map<String, List<String>>> visitResultSharingByGroupAndMode() {
         return VisitResultSharingService.visitResultSharingByGroupAndMode();
     }
-}
+
+    @AuraEnabled
+    public static Boolean gettelevisitData(string siteId) {
+        try {
+            List<TelevisitVendorSettings__c> televisitvendorList = [Select id,Study_Site__c,isEnable__c from TelevisitVendorSettings__c where isEnable__c = true and Televisit_Record_Vendor__r.Name = 'Vonage' and Study_Site__c = :siteId];
+            if(!televisitvendorList.isEmpty()){
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    }
