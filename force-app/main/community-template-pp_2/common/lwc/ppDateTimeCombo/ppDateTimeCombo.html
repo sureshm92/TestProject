@@ -40,6 +40,9 @@
                             disabled={readOnlyMode}
                         />
                     </div>
+                    <template if:true={isError}>
+                        <span class="error-date">{singleError}</span>
+                    </template>
                 </div>
                 <div if:false={past} class={timeClass}>
                     <template if:false={reminder}>
@@ -76,8 +79,8 @@
                             placeholder={label.timePlaceHolder}
                             message-when-bad-input={label.validTimeFormat}
                             message-when-pattern-mismatch={label.validTimeFormat}
-                            message-when-range-underflow={label.noPastValues}
-                            message-when-range-overflow={label.noFutureValues}
+                            message-when-range-underflow={pastTimeErrorLabel}
+                            message-when-range-overflow={futureDateTimeErrorLabel}
                             class="timc"
                         >
                         </lightning-input>

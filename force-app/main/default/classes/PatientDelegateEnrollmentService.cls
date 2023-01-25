@@ -484,7 +484,7 @@ public without sharing class PatientDelegateEnrollmentService {
                             'FROM Patient_Delegate_Enrollment__c WHERE';
         String filter ;
         if(isStudyLevel){
-            filter = ' Participant_Enrollment__c IN : participantContOrPeIds '+
+            filter = ' Participant_Enrollment__c IN (\''+
                         String.join(participantContOrPeIds, '\',\'') +
                         '\')' +
                         ' AND Status__c = \''+ 'Active' + '\'';
@@ -516,7 +516,7 @@ public without sharing class PatientDelegateEnrollmentService {
     public static Map<Id, List<Id>> getDelegateContactIdsByPAContactIs(
         List<Id> participantContIds
     ) {
-        return getDelegateContactIdsByPAContactIs(participantContIds,null);
+        return getDelegateContactIdsByPAContactIs(participantContIds,false);
     }
      /**
      * @param partContactsIds List with participant contact ids

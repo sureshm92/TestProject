@@ -83,6 +83,11 @@ input[type='date']::-webkit-calendar-picker-indicator,
     font-weight: bold;
 }
 
+.error-date {
+    font-size: 0.75rem;
+    color: rgb(234, 0, 30);
+}
+
 @media all and (min-width: 768px) and (max-width: 870px) {
     .slds-small-size_1-of-2.slds-p-right_xx-small,
     .slds-small-size_1-of-2.slds-p-left_xx-small {

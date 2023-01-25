@@ -255,8 +255,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         } else {
             this.isMobile = false;
         }
-        this.sfdcBaseURL =
-            window.location.origin + basePathName + communicationPreference + 'withprevtask';
+        this.sfdcBaseURL = window.location.origin + basePathName + communicationPreference;
         this.callParticipantVisit();
         getSiteAddress()
             .then((result) => {
@@ -334,6 +333,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.visitName = this.pastVisits[0].visit.Name;
             this.plannedDate = this.pastVisits[0].visit.Planned_Date__c;
             this.visitStatus = this.pastVisits[0].visit.Status__c;
+            if (this.visitStatus == 'Missed') this.visitStatus = this.label.visitUnavailable;
             if (this.isMobile == false) {
                 this.template
                     .querySelector('[data-id="' + this.column2 + '"]')
@@ -373,8 +373,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.visitid = this.pastVisits[index].visit.Id;
             this.visitName = this.pastVisits[index].visit.Name;
             this.plannedDate = this.pastVisits[index].visit.Planned_Date__c;
-            this.isInitialVisit =
-                this.pastVisits[index].visit.Is_Pre_Enrollment_Patient_Visit__c;
+            this.isInitialVisit = this.pastVisits[index].visit.Is_Pre_Enrollment_Patient_Visit__c;
             if (this.pastVisits[index].missedVisit) {
                 this.visitStatus = this.label.visitUnavailable;
                 this.isResultsCard = false;
@@ -425,6 +424,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         };
 
         this[NavigationMixin.GenerateUrl](config).then((url) => {
+            sessionStorage.setItem('Cookies', 'Accepted');
             window.open(url, '_self');
         });
     }

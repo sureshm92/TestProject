@@ -117,7 +117,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>UUID__c</field>
+                <field>PPMID__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

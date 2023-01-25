@@ -21,6 +21,7 @@
     <aura:attribute name="isGSKGuestUser" type="Boolean" default="false" />
     <aura:attribute name="urlPathPrefix" type="String" />
     <aura:attribute name="currentMode" type="Object" />
+    <aura:attribute name="communityName" type="String" />
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
@@ -61,7 +62,14 @@
                 ></c:televisitMeetBanner>
                 {!v.body}
             </div>
+            <aura:if
+                isTrue="{!or(v.communityName == 'IQVIA Patient Portal',v.communityName == 'IQVIA Referral Hub',v.communityName == 'IQVIA Referral Hub')}"
+            >
+                <c:ppCookiesBanner communityName="{!v.communityName}" />
+                <aura:set attribute="else">
             <c:CookiesInfo />
+                </aura:set>
+            </aura:if>
         </aura:if>
     </aura:if>
 </aura:component>
