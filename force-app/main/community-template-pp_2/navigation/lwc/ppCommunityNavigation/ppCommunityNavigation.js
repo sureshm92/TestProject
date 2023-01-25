@@ -116,17 +116,12 @@ export default class PpCommunityNavigation extends LightningElement {
                 .then((result) => {
                     let td = JSON.parse(result);
                     this.showVisits = td.tabs?.some(
-                        (studyTab) => studyTab.title == navigationVisits
+                        (studyTab) => studyTab.id == 'tab-visits'
                     );
                     this.showResults = td.tabs?.some(
-                        (resultTab) => resultTab.title == navigationResults
+                        (resultTab) => resultTab.id == 'tab-lab-results'
                     );
                     this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
-                    if (this.showAboutProgram === true) {
-                        this.showVisits = td.tabs?.some(
-                            (studyTab) => studyTab.title == navigationEvents
-                        );
-                    }
                     this.showAboutStudy = !this.showAboutProgram;
                     if (this.participantTabs.length < 1) {
                         this.populateNavigationItems();

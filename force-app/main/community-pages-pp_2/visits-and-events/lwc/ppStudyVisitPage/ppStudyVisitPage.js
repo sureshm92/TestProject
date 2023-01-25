@@ -333,6 +333,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.visitName = this.pastVisits[0].visit.Name;
             this.plannedDate = this.pastVisits[0].visit.Planned_Date__c;
             this.visitStatus = this.pastVisits[0].visit.Status__c;
+            if (this.visitStatus == 'Missed') this.visitStatus = this.label.visitUnavailable;
             if (this.isMobile == false) {
                 this.template
                     .querySelector('[data-id="' + this.column2 + '"]')
