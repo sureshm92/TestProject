@@ -1,8 +1,8 @@
 <template>
     <div class="prof-img-icon">
-        <span>
-            <template if:true={hasProfilePic}>
-                <lightning-avatar
+        <template if:true={hasProfilePic}>
+            <span
+                ><lightning-avatar
                     src={user.SmallPhotoUrl}
                     variant="circle"
                     size="medium"
@@ -10,33 +10,51 @@
                     alternative-text={fullName}
                     fallback-icon-name="standard:avatar"
                 >
-                </lightning-avatar>
-            </template>
-            <template if:false={hasProfilePic}>
-                <div title={fullName}>
-                    <template if:true={isDelegate}>
-                        <div class="avatar-delegate-size"><img src={icon_url} /></div>
-                    </template>
-                    <template if:false={isDelegate}>
-                        <c-web-icon
-                            color="white"
-                            svg-class="small-avatar"
-                            icon-name={profileIconName}
-                            class="profileIcon"
-                        >
-                        </c-web-icon>
-                    </template>
-                </div>
-            </template>
-        </span>
-        <span class="caret-icon"
-            ><lightning-icon
-                icon-name="utility:down"
-                size="x-small"
-                alternative-text="down"
-                class="down-icon"
-            >
-            </lightning-icon
-        ></span>
+                </lightning-avatar
+                ><span class="caret-icon"
+                    ><lightning-icon
+                        icon-name="utility:down"
+                        size="x-small"
+                        alternative-text="down"
+                        class="down-icon"
+                    >
+                    </lightning-icon></span
+            ></span>
+        </template>
+        <template if:false={hasProfilePic}>
+            <div title={fullName}>
+                <template if:true={isDelegate}>
+                    <span class="avatar-delegate-size"><img src={icon_url} />
+                    <span class="profile-caret-icon"
+                    ><lightning-icon
+                        icon-name="utility:down"
+                        size="x-small"
+                        alternative-text="down"
+                        class="down-icon"
+                    >
+                    </lightning-icon></span
+            ></span>
+                </template>
+                <template if:false={isDelegate}>
+                    <c-web-icon
+                        color="white"
+                        svg-class="small-avatar"
+                        icon-name={profileIconName}
+                        class="profileIcon"
+                    >
+                    </c-web-icon>
+                    <span class="caret-icon"
+                    ><lightning-icon
+                        icon-name="utility:down"
+                        size="x-small"
+                        alternative-text="down"
+                        class="down-icon"
+                    >
+                    </lightning-icon></span
+            ></span>
+                </template>
+            </div>
+            
+        </template>
     </div>
 </template>
