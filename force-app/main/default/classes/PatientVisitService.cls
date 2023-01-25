@@ -107,20 +107,6 @@ public inherited sharing class PatientVisitService {
             'Planned_Date__c',
             'Visit_Number__c'
         };
-        /*  List<String> fields = new List<String>{
-            'Completed_Date__c',
-            'Is_Adhoc__c',
-            'Name',
-            'Participant_Enrollment__r.Participant_Contact__c',
-            'Status__c',
-            'Visit__r.Visit_Schedule__c',
-            'Visit__r.Patient_Portal_Name__c',
-            'Visit__r.Icons__c',
-            'Visit__r.Visit_Plan__c',
-            'Is_Pre_Enrollment_Patient_Visit__c',
-            'Planned_Date__c',
-            'Visit_Number__c'
-        };*/
 
         if (additionalFields != null && additionalFields.size() > 0) {
             fields.addAll(additionalFields);
@@ -407,26 +393,18 @@ public inherited sharing class PatientVisitService {
             Visit_Schedule__c = visit.Visit_Schedule__c,
             Visit_Number__c = visit.Visit_Number__c,
             Participant_Enrollment__c = pe.Id,
-            Planned_Date__c = pe.Initial_visit_scheduled_date__c != null
-                ? DateTime.newInstanceGmt(
-                      pe.Initial_visit_scheduled_date__c,
-                      pe.Initial_visit_scheduled_time__c != null
-                          ? pe.Initial_visit_scheduled_time__c
-                          : Time.newInstance(0, 0, 0, 0)
-                  )
+            Planned_Date__c = pe.Initial_Visit_Scheduled_DateTime__c != null
+                ? pe.Initial_Visit_Scheduled_DateTime__c
                 : null,
             Status__c = pe.Initial_visit_occurred_flag__c
                 ? 'Completed'
-                : (pe.Initial_visit_scheduled_date__c != null &&
-                      pe.Initial_visit_scheduled_time__c != null
-                      ? 'Scheduled'
-                      : 'Pending'),
+                : pe.Initial_Visit_Scheduled_DateTime__c != null ? 'Scheduled' : 'Pending',
             Completed_Date__c = pe.Initial_visit_occurred_date__c != null
-                ? DateTime.newInstanceGmt(
+                ? DateTime.newInstance(
                           pe.Initial_visit_occurred_date__c,
                           Time.newInstance(0, 0, 0, 0)
                       )
-                      .dateGMT()
+                      .date()
                 : null,
             Portal_Name__c = visit.Patient_Portal_Name__c
         );
@@ -445,14 +423,17 @@ public inherited sharing class PatientVisitService {
 
     public static void processPendingInitialVisits(List<Patient_Visit__c> patientVisits) {
         Boolean needsUpdate = false;
-        for(Patient_Visit__c pv : patientVisits){
-            if(pv.Is_Pre_Enrollment_Patient_Visit__c && 
-                (pv.Status__c == 'Pending' || pv.Status__c == 'Scheduled') && 
-                pv.Planned_Date__c !=null && pv.Planned_Date__c < DateTime.now()
-            ){
-                    //pv.Status__c = 'Missed';
-                    needsUpdate = true;
-                    pv.Status__c = 'Missed';
+        for (Patient_Visit__c pv : patientVisits) {
+            if (
+                pv.Is_Pre_Enrollment_Patient_Visit__c &&
+                (pv.Status__c == 'Pending' ||
+                pv.Status__c == 'Scheduled') &&
+                pv.Planned_Date__c != null &&
+                pv.Planned_Date__c < DateTime.now()
+            ) {
+                //pv.Status__c = 'Missed';
+                needsUpdate = true;
+                pv.Status__c = 'Missed';
             }
         }
         if (needsUpdate) {
