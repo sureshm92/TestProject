@@ -1115,7 +1115,7 @@ export default class Pir_participantDetail extends LightningElement {
             this.showUpdateMsg = false;
             this.abortDup = true;
             this.hasSiteStaff = false;
-            this.pd.delegate.Participant_Delegate__r.Phone__c = this.contactPhone;
+            this.setVal(this.pd.delegate.Participant_Delegate__r.Phone__c, '3', 'dphone');
         }else{
             this.abortDup = true;
             this.showConsent=true;
