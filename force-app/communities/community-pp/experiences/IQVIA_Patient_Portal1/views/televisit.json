@@ -1,0 +1,46 @@
+{
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "dataProviders" : [ ],
+  "id" : "0d9211da-2f8a-480b-80df-7b273045c385",
+  "label" : "Televisit",
+  "regions" : [ {
+    "id" : "45b3fb07-f936-4493-aed5-6c04a32f3258",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ppTelevisit",
+      "id" : "1b1dab91-26fe-474c-bcf1-681a472f7aa5",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "5f7bc12e-db2e-474b-b7da-f5a87ee92d7d",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "c103e76e-729a-4040-bdde-af2f3d06c5ec",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "televisit"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "5074b9d2-3637-4441-aa95-aa6e5f09d9b7",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "a1438dac-4e1e-463c-87fa-ce83618ada20",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-televisit"
+}
