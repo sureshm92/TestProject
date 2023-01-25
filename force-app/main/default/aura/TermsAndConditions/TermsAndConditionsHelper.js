@@ -3,6 +3,7 @@
  */
 ({
     goBack: function (component) {
+        sessionStorage.setItem('Cookies', 'Accepted');
         var retString = communityService.getUrlParameter('ret');
         var isPortalTC = component.get('v.isPortalTC');
         if (component.get('v.isMobileApp')) {

@@ -11,6 +11,7 @@
     },
 
     onClick: function (component, event) {
+        sessionStorage.setItem('Cookies', 'Accepted');
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
         let participantVeiwRedirection = communityService.getUrlParameter(
             'participantVeiwRedirection'
