@@ -43,7 +43,7 @@
         }
     },
     handleHamberungTouchEnd: function (component, event, helper) {
-        if (component.get('v.stopLoading')) {
+        if ($A.get('$Browser.formFactor') != 'DESKTOP' && component.get('v.stopLoading')) {
             component.set('v.stopLoading', false);
         }
     }

@@ -63,6 +63,7 @@
     text-overflow: ellipsis;
     margin-right: 30px;
     cursor: pointer;
+    word-break: break-word;
 }
 
 .document-label-desktop {
@@ -150,7 +151,7 @@
 .article-title {
     height: 52px;
     width: 90%;
-    color: #444444;
+    color: #015FF1;
     font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
@@ -164,6 +165,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
+    word-break: break-word;
 }
 
 .date-desktop {
