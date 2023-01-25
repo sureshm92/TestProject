@@ -50,4 +50,11 @@
     .btn-deactivate-mob {
         margin-left: 3.8rem;
     }
+    .dlegate-email {
+        display: inline-block;
+        width: 255px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
