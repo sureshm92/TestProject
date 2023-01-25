@@ -44,10 +44,10 @@ public without sharing class StudyDetailViewController {
     }
 
     @AuraEnabled
-    public static Boolean gettelevisitData() {
+    public static Boolean gettelevisitData(string siteId) {
         try {
-            List<Televisit_Attendee__c> televisitattendeeList = [Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c from Televisit_Attendee__c where User__c =:UserInfo.getUserId()];
-            if(!televisitattendeeList.isEmpty()){
+            List<TelevisitVendorSettings__c> televisitvendorList = [Select id,Study_Site__c,isEnable__c from TelevisitVendorSettings__c where isEnable__c = true and Televisit_Record_Vendor__r.Name = 'Vonage' and Study_Site__c = :siteId];
+            if(!televisitvendorList.isEmpty()){
                 return true;
             }
             return false;
