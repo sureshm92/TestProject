@@ -25,6 +25,7 @@
             communityService.reloadPage();
         } else {
                 if (component.get('v.identifier')) {
+                sessionStorage.setItem('Cookies', 'Accepted');
                 if (!component.get('v.page')) {
                     component.set('v.page', ' ');
                 }

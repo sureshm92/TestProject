@@ -29994,4 +29994,46 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Events tab</shortDescription>
         <value>My Events</value>
     </labels>
+    <labels>
+        <fullName>Past_Date_Error_For_Due_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Past_Date_Error_For_Due_Date</shortDescription>
+        <value>Date must not be in the past.</value>
+    </labels>
+    <labels>
+        <fullName>Past_Time_Error_For_Due_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Past_Time_Error_For_Due_Date</shortDescription>
+        <value>Time must not be in the past.</value>
+    </labels>
+    <labels>
+        <fullName>Past_DateTime_Error_For_Reminder_DateTime</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Past_DateTime_Error_For_Reminder_DateTime</shortDescription>
+        <value>Reminder must not be in the past.</value>
+    </labels>
+    <labels>
+        <fullName>Future_DateTime_Error_For_Reminder_DateTime_Event</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Event</shortDescription>
+        <value>Reminder must be prior to event.</value>
+    </labels>
+    <labels>
+        <fullName>Future_DateTime_Error_For_Reminder_DateTime_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Visit</shortDescription>
+        <value>Reminder must be prior to visit.</value>
+    </labels>
+    <labels>
+        <fullName>Future_DateTime_Error_For_Reminder_DateTime_Task</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Task</shortDescription>
+        <value>Reminder must be prior to task.</value>
+    </labels>
 </CustomLabels>

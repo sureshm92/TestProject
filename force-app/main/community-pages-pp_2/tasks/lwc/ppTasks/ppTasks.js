@@ -444,4 +444,8 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         );
         radioTask.classList.remove('active-custom-box');
     }
+    setSessionCookie() {
+        sessionStorage.setItem('Cookies', 'Accepted');
+        return true;
+    }
 }

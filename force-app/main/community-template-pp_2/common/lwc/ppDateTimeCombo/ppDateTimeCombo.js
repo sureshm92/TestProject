@@ -10,8 +10,12 @@ import reminderdate from '@salesforce/label/c.Reminder_Date';
 import remindertime from '@salesforce/label/c.Reminder_Time';
 import timePlaceHolder from '@salesforce/label/c.PP_Time_Place_Holder';
 import validTimeFormat from '@salesforce/label/c.Valid_Time_Format';
-import noPastValues from '@salesforce/label/c.No_Past_Values';
-import noFutureValues from '@salesforce/label/c.No_future_Values';
+import PAST_DATE_ERROR_FOR_DUE_DATE from '@salesforce/label/c.Past_Date_Error_For_Due_Date';
+import PAST_TIME_ERROR_FOR_DUE_DATE from '@salesforce/label/c.Past_Time_Error_For_Due_Date';
+import PAST_DATETIME_ERROR_FOR_REMINDER from '@salesforce/label/c.Past_DateTime_Error_For_Reminder_DateTime';
+import FUTURE_DATETIME_ERROR_FOR_REMINDER_EVENT from '@salesforce/label/c.Future_DateTime_Error_For_Reminder_DateTime_Event';
+import FUTURE_DATETIME_ERROR_FOR_REMINDER_VISIT from '@salesforce/label/c.Future_DateTime_Error_For_Reminder_DateTime_Visit';
+import FUTURE_DATETIME_ERROR_FOR_REMINDER_TASK from '@salesforce/label/c.Future_DateTime_Error_For_Reminder_DateTime_Task';
 export default class PpDateTimeCombo extends LightningElement {
     @api compdate;
     @api comptime;
@@ -33,7 +37,10 @@ export default class PpDateTimeCombo extends LightningElement {
     @track initialDateLoaded = false;
     @track initialTimeLoaded = false;
     @track timeOnlyPresent = true;
+    @track errorForDate = false;
+    @track errorPriorDueDT;
     @api showDateTime;
+    @api isVisitEventTask = 'task';
     label = {
         date,
         time,
@@ -42,8 +49,12 @@ export default class PpDateTimeCombo extends LightningElement {
         dueDate,
         timePlaceHolder,
         validTimeFormat,
-        noPastValues,
-        noFutureValues
+        PAST_DATE_ERROR_FOR_DUE_DATE,
+        PAST_TIME_ERROR_FOR_DUE_DATE,
+        PAST_DATETIME_ERROR_FOR_REMINDER,
+        FUTURE_DATETIME_ERROR_FOR_REMINDER_EVENT,
+        FUTURE_DATETIME_ERROR_FOR_REMINDER_VISIT,
+        FUTURE_DATETIME_ERROR_FOR_REMINDER_TASK
     };
 
     @api
@@ -66,6 +77,30 @@ export default class PpDateTimeCombo extends LightningElement {
                 this.diffInMinutes = localOffset - centralOffset;
             });
         });
+    }
+
+    get pastDateErrorLabel() {
+        return this.reminder
+            ? this.label.PAST_DATETIME_ERROR_FOR_REMINDER
+            : this.label.PAST_DATE_ERROR_FOR_DUE_DATE;
+    }
+
+    get pastTimeErrorLabel() {
+        return this.reminder
+            ? this.label.PAST_DATETIME_ERROR_FOR_REMINDER
+            : this.label.PAST_TIME_ERROR_FOR_DUE_DATE;
+    }
+
+    get futureDateTimeErrorLabel() {
+        return this.reminder
+            ? this.isVisitEventTask === 'event'
+                ? this.label.FUTURE_DATETIME_ERROR_FOR_REMINDER_EVENT
+                : this.isVisitEventTask === 'visit'
+                ? this.label.FUTURE_DATETIME_ERROR_FOR_REMINDER_VISIT
+                : this.isVisitEventTask === 'task'
+                ? this.label.FUTURE_DATETIME_ERROR_FOR_REMINDER_TASK
+                : ''
+            : '';
     }
 
     get dbDate() {
@@ -110,24 +145,6 @@ export default class PpDateTimeCombo extends LightningElement {
         return this.readOnlyMode ? 'timc  read-only-field' : 'timc';
     }
     get dbTime() {
-        if (this.editMode) {
-            if (this.dbDate) {
-                let selectedDateArray = this.dbDate.split('-');
-                if (selectedDateArray.length > 0) {
-                    var sdObj = new Date(
-                        selectedDateArray[0],
-                        selectedDateArray[1] - 1,
-                        selectedDateArray[2]
-                    );
-                }
-            }
-            var inputField = this.template.querySelector('.timc');
-            if (this.maxdate) {
-                let maxDateArray = this.maxdate.split('-');
-                if (maxDateArray.length > 0)
-                    var duedObj = new Date(maxDateArray[0], maxDateArray[1] - 1, maxDateArray[2]);
-            }
-        }
         if (
             (!this.comptime && !this.editMode) ||
             (!this.comptime && !this.initialTimeLoaded && this.editMode)
@@ -209,10 +226,28 @@ export default class PpDateTimeCombo extends LightningElement {
             : 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small';
     }
 
+    get singleError() {
+        if (this.errorForDate) {
+            return this.pastDateErrorLabel;
+        } else if (this.errorPriorDueDT) {
+            return this.futureDateTimeErrorLabel;
+        }
+    }
+    get isError() {
+        return this.errorPriorDueDT || this.errorForDate;
+    }
+
     handleDate(event) {
+        this.errorForDate = false;
+        this.errorPriorDueDT = false;
         this.initialDateLoaded = true;
         this.dt = event.target.value;
         this.tm = '';
+        let timeInput = this.template.querySelector('.timc');
+        if (!timeInput.validity.valid) {
+            timeInput.value = '';
+            timeInput.reportValidity();
+        }
         if (!this.dt) {
             this.timeOnlyPresent = true;
             this.tm = event.target.value;
@@ -225,18 +260,52 @@ export default class PpDateTimeCombo extends LightningElement {
             this.dispatchEvent(nulldatetime);
         } else if (!this.tm) {
             this.timeOnlyPresent = false || this.readOnlyMode;
+            //selected date is in the past
+            if (this.mindate && new Date(this.dt) < new Date(this.mindate)) {
+                this.errorForDate = true;
+                this.timeOnlyPresent = true;
+            }
+            //selected date is in the past
+            if (!this.maxdate && !this.maxtime && new Date(this.dt) < new Date(this.mindate)) {
+                this.errorForDate = true;
+                this.timeOnlyPresent = true;
+            }
+            //selected date is in the future
+            if (this.maxdate && new Date(this.dt) > new Date(this.maxdate)) {
+                this.errorPriorDueDT = true;
+                this.timeOnlyPresent = true;
+            }
+
             const dateOnly = new CustomEvent('date', {
                 detail: {
                     compdatetime: null,
                     compdate: this.dt,
-                    comptime: null
+                    comptime: null,
+                    error: this.errorForDate || this.errorPriorDueDT
                 }
             });
             this.dispatchEvent(dateOnly);
         } else if (this.tm) {
+            //selected date is in the past
+            if (this.mindate && new Date(this.dt) < new Date(this.mindate)) {
+                this.errorForDate = true;
+            }
+            //selected date is in the past
+            if (!this.maxdate && !this.maxtime && new Date(this.dt) < new Date(this.mindate)) {
+                this.errorForDate = true;
+            }
+            //selected date is in the future
+            if (this.maxdate && new Date(this.dt) > new Date(this.maxdate)) {
+                this.errorForDate = true;
+            }
             this.timeOnlyPresent = false || this.readOnlyMode;
             this.compDateTime = this.dt + 'T' + this.tm;
             var date = new Date(this.compDateTime);
+            let currentdate = new Date(this.maxdate + 'T' + this.maxtime);
+            if (this.reminder && date > currentdate) {
+                this.errorPriorDueDT = true;
+                this.errorForDate = false;
+            }
             var ms = Date.parse(date);
             ms = ms + this.diffInMinutes * 60 * 1000;
             date = new Date(ms);
@@ -245,7 +314,8 @@ export default class PpDateTimeCombo extends LightningElement {
                 detail: {
                     compdatetime: this.compDateTime,
                     compdate: this.dt,
-                    comptime: this.tm
+                    comptime: this.tm,
+                    error: this.errorPriorDueDT || this.errorForDate
                 }
             });
             this.dispatchEvent(dateEvent);
@@ -253,6 +323,7 @@ export default class PpDateTimeCombo extends LightningElement {
     }
 
     handleTime(event) {
+        this.errorPriorDueDT = false;
         this.initialTimeLoaded = true;
         this.tm = event.target.value;
         if (!this.tm) {
@@ -283,11 +354,17 @@ export default class PpDateTimeCombo extends LightningElement {
             ms = ms + this.diffInMinutes * 60 * 1000;
             date = new Date(ms);
             this.compDateTime = date.toISOString();
+            let maxReminderDate = new Date(this.maxdate + 'T' + this.maxtime);
+            //check reminder time is greater than duedate if there is duedate
+            if (this.reminder && this.compDateTime > maxReminderDate) {
+                this.errorPriorDueDT = true;
+            }
             const dateEvent = new CustomEvent('datechange', {
                 detail: {
                     compdatetime: this.compDateTime,
                     compdate: this.dt,
-                    comptime: this.tm
+                    comptime: this.tm,
+                    error: this.errorPriorDueDT
                 }
             });
             this.dispatchEvent(dateEvent);
