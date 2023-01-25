@@ -1,0 +1,66 @@
+<template>
+        <!--<div class="slds-scrollable_y scroll-bar">-->
+               <template if:true={showupcomingtelevisits}>
+                    <template for:each={upcomingtelevisitdata} for:item="record">
+                        <div key={record}>
+                            <div
+                                class="inactive-custom-box slds-align_absolute-center"
+                            >
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-20">
+                                        <div class="left-line"></div>
+                                    </div>
+
+                                    <div class="slds-col slds-size_8-of-12">
+                                            <b>
+                                                <lightning-formatted-text
+                                                    class="name-style"
+                                                    value={record.title}
+                                                >
+                                                </lightning-formatted-text>
+                                            </b>
+                                            <p class="date-style">
+                                                <lightning-formatted-date-time
+                                                    value={record.televisitdate}
+                                                    year="numeric"
+                                                    month="long"
+                                                    day="2-digit"
+                                                ></lightning-formatted-date-time>
+                                                &nbsp;|&nbsp;
+                                                <lightning-formatted-date-time
+                                                    value={record.televisitdate}
+                                                    hour="2-digit"
+                                                    minute="2-digit"
+                                                ></lightning-formatted-date-time>
+                                                &nbsp;|&nbsp;
+                                                <lightning-formatted-text
+                                                    length = "6-digit"
+                                                    value={record.televisitduration}
+                                                >
+                                                </lightning-formatted-text>
+                                            </p>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-12">
+                                            <button
+                                            class="slds-button slds-button_neutral join-button active-button-background"
+                                            data-id={record.televisitmettingurl}
+                                            onclick={joinmeeting}
+                                        >
+                                          Join
+                                        </button>
+                                    </div>
+                                    <div class="slds-col" style = "margin-right: 22px;">
+                                        <c-custom-help-text
+                                        height = "96px"
+                                        width = "189px"
+                                        position="absolute"
+                                        related-attendees = {record.relatedAttendees}
+                                    > </c-custom-help-text>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+        <!--</div>-->
+</template>
