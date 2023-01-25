@@ -455,14 +455,16 @@ public without sharing class ContactService {
     public static List<Notification__c> addwelcomeNotifications(
         String recepientId,
         String whatId,
-        String notificationtype
+        String notificationtype,
+        Boolean isDelegate
     ) {
         List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
         welcomemsgnotifications.add(
             new Notification__c(
                 Recipient__c = recepientId, //per.Participant_contact__c,
                 WhatId__c = whatId,
-                Notification_Type__c = notificationtype
+                Notification_Type__c = notificationtype,
+                IsDelegate__c = isDelegate
             )
         );
         return welcomemsgnotifications;

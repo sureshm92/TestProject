@@ -12,7 +12,7 @@
                           signature="{!$Label.Email_Signature_New}"
                           communityTemplate="GSK">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
-            <c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}"/>
+            <c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}" recipientId="{!recipient.Id}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
                               buttonURL="/s/"/>
         </c:EmailWireframe>

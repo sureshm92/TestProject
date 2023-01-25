@@ -92,7 +92,7 @@ public with sharing class Batch_TrialMatchNotify extends Batch_ScheduledAbstract
     }
 
     public override void finalAction() {
-        Map<Id, List<Id>> delegatesContByParticipantContact = 	PatientDelegateService.getDelegateContactIdsByPAContactIs(
+        Map<Id, List<Id>> delegatesContByParticipantContact = 	PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
             new List<Id>(enrollmentsByTemplateByContact.keySet())
         );
 

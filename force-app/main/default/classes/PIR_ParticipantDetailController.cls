@@ -70,29 +70,19 @@ public without sharing class PIR_ParticipantDetailController {
         [
           SELECT
             id,
-            Contact__c,
-            Contact__r.IQVIA_Contact_info_storage_consent__c,
-            Contact__r.IQVIA_PI_Storage_Consent_Time__c,
-            Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
-            Contact__r.IQVIA_Phone_Consent_Time__c,
-            Contact__r.Participant_Opt_In_Status_Emails__c,
-            Contact__r.IQVIA_Email_Consent_Time__c,
-            Contact__r.IQVIA_Assisted_Dialing_Consent__c,
-            Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c,
-            Contact__r.IQVIA_Artificial_Voice_Consent__c,
-            Contact__r.IQVIA_Artificial_Voice_Consent_Time__c,
-            Contact__r.IQVIA_Pre_recorded_Voice_Consent__c,
-            Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c,
-            Participant_Delegate__r.First_Name__c,
-            Participant_Delegate__r.Last_Name__c,
-            Participant_Delegate__r.Phone__c,
-            Participant_Delegate__r.Email__c,
-            Participant_Delegate__r.Birth_Year__c,
-            Participant_Delegate__r.Attestation__c
-          FROM Patient_Delegate__c
+            Study_Email_Consent__c,
+            Study_info_storage_consent__c,
+            Study_Phone_Consent__c,
+            Study_SMS_Consent__c,
+            Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
+            Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
+            Patient_Delegate__r.Participant_Delegate__r.Phone__c,
+            Patient_Delegate__r.Participant_Delegate__r.Email__c,
+            Patient_Delegate__r.Participant_Delegate__r.Birth_Year__c,
+            Patient_Delegate__r.Participant_Delegate__r.Attestation__c
+          FROM Patient_Delegate_Enrollment__c
           WHERE
-            Participant__c = :((Participant_Enrollment__c) dataMap.get('pe'))
-              .Participant__r.id
+            Participant_Enrollment__c = :PEid
             AND Primary_Delegate__c = TRUE
           LIMIT 1
         ]
@@ -229,6 +219,17 @@ public without sharing class PIR_ParticipantDetailController {
     }
     return wrap;
   }
+  
+  public class ConsentDetailsWrapper {
+    @AuraEnabled
+    public Boolean Study_Email_Consent { get; set; }
+    @AuraEnabled
+    public Boolean Study_info_storage_consent { get; set; }
+    @AuraEnabled
+    public Boolean Study_Phone_Consent { get; set; }
+    @AuraEnabled
+    public Boolean Study_SMS_Consent { get; set; }
+  }
 
   @AuraEnabled
   public static Boolean doSaveParticipantDetails(
@@ -240,13 +241,15 @@ public without sharing class PIR_ParticipantDetailController {
     Boolean isOutreachUpdated,
     String delegateCriteria,
     String visitPlan,
-    Boolean useDup
+    Boolean useDup,
+    String consentJSON
   ) {
     Boolean bol = true;
     try {
       Participant_Enrollment__c perToUpdate = new Participant_Enrollment__c();
       Participant__c piToUpdate = new Participant__c();
       Patient_Delegate__c peDeligate = (Patient_Delegate__c) JSON.deserialize(peDeligateString, Patient_Delegate__c.class);
+      ConsentDetailsWrapper consentWrapper = (ConsentDetailsWrapper) JSON.deserialize(consentJSON, ConsentDetailsWrapper.class);
       //Update Participant enrollment record
       if (isPeUpdated) {
         perToUpdate.Id = perRecord.Id;
@@ -305,19 +308,28 @@ public without sharing class PIR_ParticipantDetailController {
           }
           contactId = parti[0].Contact__c;
           insert pdToupdateAfterInsert;
-          updateDelContact(parti[0].Contact__c,peDeligate,perRecord);
+          createPDE(parti[0].Contact__c,pdToupdateAfterInsert,perRecord,consentWrapper);
         }else if(delegateCriteria == 'updateParticipant'){
           Participant__c piToUpdateDelegate = new Participant__c();
           piToUpdateDelegate = peDeligate.Participant_Delegate__r;
 
           update piToUpdateDelegate;
 
-          List<Patient_Delegate__c> pd = new List<Patient_Delegate__c>();
-          pd = [Select Id,Participant__c,Contact__c,Participant_Delegate__c,Contact__r.Participant_Opt_In_Status_SMS__c from Patient_Delegate__c where Participant__c=: perRecord.Participant__c and Participant_Delegate__c=:peDeligate.Participant_Delegate__r.Id and Primary_Delegate__c=true];
-          if(pd != null && !pd.isEmpty()){
-            updateDelContact(pd[0].Contact__c,peDeligate,perRecord);  
+          Patient_Delegate_Enrollment__c pdenrollment = new Patient_Delegate_Enrollment__c();
+          pdenrollment  = [Select Id,Primary_Delegate__c,Participant_Enrollment__c,Study_info_storage_consent__c,Patient_Delegate__r.Contact__c,Patient_Delegate__c from Patient_Delegate_Enrollment__c where Primary_Delegate__c=:true and Participant_Enrollment__c=:perRecord.Id limit 1];
+          if(pdenrollment != null){
+             Patient_Delegate_Enrollment__c pdenroll = new Patient_Delegate_Enrollment__c();
+             pdenroll.Id = pdenrollment.Id;
+             pdenroll.Study_info_storage_consent__c =consentWrapper.Study_info_storage_consent;
+             if(consentWrapper.Study_SMS_Consent != null){
+              pdenroll.Study_SMS_Consent__c=consentWrapper.Study_SMS_Consent;
+             }
+             pdenroll.Study_Phone_Consent__c=consentWrapper.Study_Phone_Consent;
+             pdenroll.Study_Email_Consent__c=consentWrapper.Study_Email_Consent;
+             Update pdenroll;
+             update new Contact(Id=pdenrollment.Patient_Delegate__r.Contact__c,userCommunityIsDelegate__c = true);
           }
-
+           
         }else if(delegateCriteria == 'updateDeligate'){
           if(useDup){
             
@@ -333,7 +345,7 @@ public without sharing class PIR_ParticipantDetailController {
                   Id = pd[0].Id,
                   Primary_Delegate__c = true
                 );
-                pds = [Select Id,Participant__c,Participant_Delegate__c,Primary_Delegate__c  from Patient_Delegate__c where Participant__c=: perRecord.Participant__c and Primary_Delegate__c  =:true];
+                pds = [Select Id,Participant__c,Participant_Delegate__c,Primary_Delegate__c  from Patient_Delegate__c where Participant__c=: perRecord.Participant__c and Primary_Delegate__c =:true];
                 if(pds != null && !pds.isEmpty()){
                     List<Patient_Delegate__c> pdUpd = new List<Patient_Delegate__c>();
                     for(Patient_Delegate__c p:pds){
@@ -345,7 +357,43 @@ public without sharing class PIR_ParticipantDetailController {
                     update pdUpd;
                 }
                 update pdToupdateDuplicate;   
-                updateDelContact(pd[0].Contact__c,peDeligate,perRecord);  
+          
+                List<Patient_Delegate_Enrollment__c> updSecondaryPDE = new List<Patient_Delegate_Enrollment__c>();
+                updSecondaryPDE = [Select Id,Patient_Delegate__c,Primary_Delegate__c,Participant_Enrollment__c from  Patient_Delegate_Enrollment__c where Patient_Delegate__c=:pd[0].Id AND Participant_Enrollment__c=:perRecord.Id];
+                
+                if(updSecondaryPDE != null && !updSecondaryPDE.isEmpty()){
+                        Patient_Delegate_Enrollment__c pdeToupdateDuplicate = new Patient_Delegate_Enrollment__c();
+                        pdeToupdateDuplicate.Id = updSecondaryPDE[0].Id;
+                        pdeToupdateDuplicate.Primary_Delegate__c = true;
+                        pdeToupdateDuplicate.Study_Email_Consent__c = consentWrapper.Study_Email_Consent;
+                        pdeToupdateDuplicate.Study_info_storage_consent__c = consentWrapper.Study_info_storage_consent;
+                        pdeToupdateDuplicate.Study_Phone_Consent__c = consentWrapper.Study_Phone_Consent;
+                        if(consentWrapper.Study_SMS_Consent != null){ 
+                        pdeToupdateDuplicate.Study_SMS_Consent__c = consentWrapper.Study_SMS_Consent;
+                        }  
+                        List<Patient_Delegate_Enrollment__c> getPDE = new List<Patient_Delegate_Enrollment__c>();
+                        List<Patient_Delegate_Enrollment__c> updPDE = new List<Patient_Delegate_Enrollment__c>();
+                        getPDE = [Select Id,Participant_Enrollment__c,Primary_Delegate__c,Patient_Delegate__c from Patient_Delegate_Enrollment__c where Participant_Enrollment__c=:perRecord.Id AND Primary_Delegate__c=:true];
+                        if(getPDE != null && !getPDE.isEmpty() && getPDE.size() != 0){
+                        for(Patient_Delegate_Enrollment__c pdes:getPDE){
+                        pdes.Primary_Delegate__c = false;
+                        updPDE.add(pdes);
+                        } 
+                        }
+                        if(updPDE != null && !updPDE.isEmpty() && updPDE.size() != 0){
+                        update updPDE;
+                        }
+                        
+                        update pdeToupdateDuplicate;    
+                        update new contact (id =pd[0].Contact__c, userCommunityIsDelegate__c = true) ; 
+                 }else{
+                      contactId = peDeligate.Participant_Delegate__r.Contact__c;
+                      Patient_Delegate__c patdelgate = new Patient_Delegate__c();
+                      patdelgate = [Select Id,Participant__c,Contact__c, Participant_Delegate__c,Contact__r.Participant_Opt_In_Status_SMS__c,Attestation__c,
+                            Attestation_TimeStamp__c,Attested_by__c,isInviteToPP__c,Primary_Delegate__c from Patient_Delegate__c where Id=:pd[0].Id];
+                      createPDE(contactId,patdelgate ,perRecord,consentWrapper );
+                 }
+                  
             }else{
                 Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
                 Primary_Delegate__c = true,
@@ -356,7 +404,9 @@ public without sharing class PIR_ParticipantDetailController {
                 );
                 contactId = peDeligate.Participant_Delegate__r.Contact__c;
                 insert pdToupdateAfterInsertDuplicate;
-                updateDelContact(contactId,peDeligate,perRecord); 
+                
+                createPDE(contactId,pdToupdateAfterInsertDuplicate,perRecord,consentWrapper);
+                 
               }
           }else{
             Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
@@ -368,7 +418,8 @@ public without sharing class PIR_ParticipantDetailController {
             );
             contactId = peDeligate.Participant_Delegate__r.Contact__c;
             insert pdToupdateAfterInsertDuplicate;
-            updateDelContact(contactId,peDeligate,perRecord); 
+            createPDE(contactId,pdToupdateAfterInsertDuplicate,perRecord,consentWrapper);
+             
           }
         }else if(string.isBlank(peDeligate.Participant_Delegate__r.First_Name__c)){//if(delegateCriteria == 'deleteDelegate'){
           Patient_Delegate__c pdToupdate = new Patient_Delegate__c(
@@ -376,6 +427,17 @@ public without sharing class PIR_ParticipantDetailController {
             Primary_Delegate__c = false
           );
           update pdToupdate;
+          
+           List<Patient_Delegate_Enrollment__c> updPrimaryPDE = new List<Patient_Delegate_Enrollment__c>();
+           updPrimaryPDE = [Select Id,Patient_Delegate__c,Primary_Delegate__c,Participant_Enrollment__c from  Patient_Delegate_Enrollment__c where Primary_Delegate__c=true AND Patient_Delegate__c=:peDeligate.Id AND Participant_Enrollment__c=:perRecord.Id limit 1];
+           if(!updPrimaryPDE.isEmpty() && updPrimaryPDE != null){ 
+           Patient_Delegate_Enrollment__c pderToupdate = new Patient_Delegate_Enrollment__c(
+            Id = updPrimaryPDE[0].Id,
+            Primary_Delegate__c = false
+          );
+          update pderToupdate;    }
+          
+          
         }
         else{
           Participant__c piToUpdateDelegate = new Participant__c();
@@ -425,37 +487,16 @@ public without sharing class PIR_ParticipantDetailController {
         (perRecord.Participant__r.Email__c == null || string.isEmpty(perRecord.Participant__r.Email__c))) || 
         (patientDelegate != null && !patientDelegate.isEmpty() && patientDelegate[0].Primary_Delegate__c && 
          patientDelegate[0].Contact__c != null && patientDelegate[0].Participant__r.Email__c == null )){
-                    contact delegateContact = new Contact();	
-                    if(!isDelUpdated){	
-                      delegateContact.Participant_Opt_In_Status_Emails__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_Emails__c;	
-                      delegateContact.Participant_Opt_In_Status_SMS__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c;	
-                      delegateContact.Participant_Phone_Opt_In_Permit_Phone__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;	
-                      delegateContact.IQVIA_Artificial_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;	
-                      delegateContact.IQVIA_Assisted_Dialing_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;	
-                      delegateContact.IQVIA_Pre_recorded_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;	
-                      delegateContact.IQVIA_Direct_Mail_Consent__c = perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c;	
-                    }	
-                    else{	
-                        if(!peDeligate.contact__r.Participant_Opt_In_Status_Emails__c){	
-                        delegateContact.Participant_Opt_In_Status_Emails__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_Emails__c;	
-                        }	
-                        if(!peDeligate.contact__r.Participant_Opt_In_Status_SMS__c){	
-                        delegateContact.Participant_Opt_In_Status_SMS__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c;	
-                        }	
-                        if(!peDeligate.contact__r.Participant_Phone_Opt_In_Permit_Phone__c){	
-                        delegateContact.Participant_Phone_Opt_In_Permit_Phone__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;	
-                        }	
-                        if(!peDeligate.contact__r.IQVIA_Artificial_Voice_Consent__c){	
-                        delegateContact.IQVIA_Artificial_Voice_Consent__c = perRecord.Participant_Contact__r.IQVIA_Artificial_Voice_Consent__c;	
-                        }	
-                        if(!peDeligate.contact__r.IQVIA_Assisted_Dialing_Consent__c){	
-                        delegateContact.IQVIA_Assisted_Dialing_Consent__c = perRecord.Participant_Contact__r.IQVIA_Assisted_Dialing_Consent__c;	
-                        }	
-                        if(!peDeligate.contact__r.IQVIA_Pre_recorded_Voice_Consent__c){	
-                        delegateContact.IQVIA_Pre_recorded_Voice_Consent__c = perRecord.Participant_Contact__r.IQVIA_Pre_recorded_Voice_Consent__c;	
-                        }	
-                        delegateContact.IQVIA_Direct_Mail_Consent__c = perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c;	
-                    }
+                    contact delegateContact = new Contact();    
+  
+                      delegateContact.Participant_Opt_In_Status_Emails__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_Emails__c;   
+                      delegateContact.Participant_Opt_In_Status_SMS__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c; 
+                      delegateContact.Participant_Phone_Opt_In_Permit_Phone__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c; 
+                      delegateContact.IQVIA_Artificial_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;    
+                      delegateContact.IQVIA_Assisted_Dialing_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;    
+                      delegateContact.IQVIA_Pre_recorded_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;  
+                      delegateContact.IQVIA_Direct_Mail_Consent__c = perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c; 
+                  
                     if((delegateCriteria == 'updateDeligate' || delegateCriteria == 'insertDelegate') && isDelUpdated ){
                         delegateContact.id = contactId;
                     }else{
@@ -505,5 +546,98 @@ public without sharing class PIR_ParticipantDetailController {
       
       update con;
     
+  }
+  public static void createPDE(Id delcon, Patient_Delegate__c peDeligate, Participant_Enrollment__c perRecord,ConsentDetailsWrapper consentWrapper){
+        contact con = new Contact();
+        con.id =delcon;
+        con.AccountId = [Select Id,Participant__c,Participant__r.Contact__r.AccountId from Participant_Enrollment__c where Id=:perRecord.Id].Participant__r.Contact__r.AccountId;
+        if(con.AccountId != null){
+        con.userCommunityIsDelegate__c = true;  
+        update con;
+        }
+        else {
+          contact objcon = new Contact(Id=delcon);
+          objcon.userCommunityIsDelegate__c = true;
+          update objcon;
+        }
+    
+      List<Patient_Delegate_Enrollment__c> getPDE = new List<Patient_Delegate_Enrollment__c>();
+      List<Patient_Delegate_Enrollment__c> updPDE = new List<Patient_Delegate_Enrollment__c>();
+      getPDE = [Select Id,Participant_Enrollment__c,Primary_Delegate__c from Patient_Delegate_Enrollment__c where Participant_Enrollment__c=:perRecord.Id AND Primary_Delegate__c= TRUE];
+      if(getPDE != null && !getPDE.isEmpty() && getPDE.size() != 0){
+      for(Patient_Delegate_Enrollment__c pdes:getPDE){
+        pdes.Primary_Delegate__c = false;
+        updPDE.add(pdes);
+      } 
+      }
+      if(updPDE != null && !updPDE.isEmpty() && updPDE.size() != 0){
+          //update updPDE;
+      }
+     
+      Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
+      pde.Participant_Enrollment__c = perRecord.Id;
+      pde.Patient_Delegate__c = peDeligate.Id;
+      pde.Attested_By__c = peDeligate.Attested_by__c;
+      pde.isInviteToPP__c = peDeligate.isInviteToPP__c;
+      pde.Primary_Delegate__c = true;
+      pde.Status__c =  'Disconnected';
+      pde.Study_Email_Consent__c = consentWrapper.Study_Email_Consent;
+      pde.Study_info_storage_consent__c = consentWrapper.Study_info_storage_consent;
+      pde.Study_Phone_Consent__c = consentWrapper.Study_Phone_Consent;
+      pde.Study_SMS_Consent__c = consentWrapper.Study_SMS_Consent;
+     
+      Insert pde;
+    
+  }
+  @AuraEnabled
+  public static Boolean getDupDelegateConsent(Id PEid,Id PartDelId,Boolean isCountryUs) {
+    List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+    pder = [select id,Primary_Delegate__c,Participant_Enrollment__c,Patient_Delegate__c,Study_info_storage_consent__c,Study_Email_Consent__c,Study_Phone_Consent__c,Study_SMS_Consent__c
+             from Patient_Delegate_Enrollment__c where Patient_Delegate__r.Participant_Delegate__c=:PartDelId AND Primary_Delegate__c = false AND Participant_Enrollment__c=:PEid limit 1];
+    Boolean pderConsent = false;
+    if(pder != null && pder.size() != 0){
+       if(isCountryUs){
+            if(pder[0].Study_info_storage_consent__c && pder[0].Study_Email_Consent__c  && pder[0].Study_Phone_Consent__c && pder[0].Study_SMS_Consent__c){
+                 pderConsent = true;
+                }
+       }else{
+            if(pder[0].Study_info_storage_consent__c && pder[0].Study_Email_Consent__c  && pder[0].Study_Phone_Consent__c){
+                 pderConsent = true;
+             }
+       }
+     
+    }
+    return pderConsent;
+  }
+   @AuraEnabled
+  public static Boolean getDupDelegateExistingConsent(Id PEid,Id PartDelId,Boolean isCountryUs) {
+    List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+    pder = [select id,Primary_Delegate__c,Participant_Enrollment__c,Patient_Delegate__c,Study_info_storage_consent__c,Study_Email_Consent__c,Study_Phone_Consent__c,Study_SMS_Consent__c
+             from Patient_Delegate_Enrollment__c where Patient_Delegate__r.Participant_Delegate__c=:PartDelId AND Primary_Delegate__c = true AND Participant_Enrollment__c=:PEid limit 1];
+    Boolean pderConsent = false;
+    if(pder != null && pder.size() != 0){
+       if(isCountryUs){
+            if(pder[0].Study_info_storage_consent__c && pder[0].Study_Email_Consent__c  && pder[0].Study_Phone_Consent__c && pder[0].Study_SMS_Consent__c){
+                 pderConsent = true;
+                }
+       }else{
+            if(pder[0].Study_info_storage_consent__c && pder[0].Study_Email_Consent__c  && pder[0].Study_Phone_Consent__c){
+                 pderConsent = true;
+             }
+       }
+     
+    }
+    return pderConsent;
+  }
+  @AuraEnabled
+  public static Boolean getPDERConsent(Id PEid) {
+    List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+    pder = [select id,Primary_Delegate__c,Participant_Enrollment__c,Study_info_storage_consent__c from Patient_Delegate_Enrollment__c where Primary_Delegate__c = true AND Participant_Enrollment__c=:PEid limit 1];
+    Boolean pderConsent = false;
+    if(pder != null && pder.size() != 0){
+      if(pder[0].Study_info_storage_consent__c){
+      pderConsent = true;}
+    }
+    return pderConsent;
   }
 }

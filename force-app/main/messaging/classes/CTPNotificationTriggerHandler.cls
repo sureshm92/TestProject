@@ -37,6 +37,7 @@ public with sharing class CTPNotificationTriggerHandler {
         Topic__c topic = new Topic__c();
         for (Clinical_Trial_Profile__c ctp : listForTrigger) {
             topic = topicByTopicIdMap.get(ctp.Therapeutic_Area__c);
+            /// Platform Level Notification
             if (topic != null) {
                 notificationsForSubs.add(
                     new Notification__c(
@@ -88,8 +89,10 @@ public with sharing class CTPNotificationTriggerHandler {
 
             List<Notification__c> notificationsForSubs = new List<Notification__c>();
             Topic__c topic = new Topic__c();
+            ///PlatformLevel Notification
             for (Clinical_Trial_Profile__c ctp : ctpForNotifications) {
                 topic = topicByTopicIdMap.get(ctp.Id);
+               // pass neww class -- whatid as parameter 
                 notificationsForSubs.add(
                     new Notification__c(
                         Topic__c = topic.Id,
