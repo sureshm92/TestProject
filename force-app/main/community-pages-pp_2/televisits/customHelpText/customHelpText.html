@@ -1,0 +1,30 @@
+<template>
+    <div class="slds-float_right">
+        <div class="slds-form-element">
+            <div class="slds-form-element__icon">
+                <button
+                    class="slds-button slds-button_icon"
+                    onmouseover={togglePasswordHint}
+                    onmouseout={togglePasswordHint}
+                >
+                    <!--<lightning-icon size="small" icon-name="utility:people"></lightning-icon>-->
+                    <img src={peoplePng} alt="lampIcon" class="customIcon">
+                </button>
+                <div class={helpTextClass} role="tooltip" id="help" style = "left: -200px;top: -31px;height: 96px;">
+                    <div class="slds-popover__body">
+                        <template for:each={relatedAttendees} for:item="record">
+                            
+                            <span key = {record.firstname}>{record.firstname} {record.lastname} ({record.attendeeType}) <br/></span><!--{newline}-->
+                            <!--<template if:true = {organiger}>
+                                &nbsp;( organiger ) {newline}
+                            </template>
+                            <template if:false = {organiger}>
+                                &nbsp;( {record.attendeeType} ) {newline}
+                            </template>-->
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -36,10 +36,24 @@ public without sharing class StudyDetailViewController {
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
-    }    
+    }
 
     @AuraEnabled
     public static Map<String, Map<String, List<String>>> visitResultSharingByGroupAndMode() {
         return VisitResultSharingService.visitResultSharingByGroupAndMode();
     }
-}
+
+    @AuraEnabled
+    public static Boolean gettelevisitData() {
+        try {
+            List<Televisit_Attendee__c> televisitattendeeList = [Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c from Televisit_Attendee__c where User__c =:UserInfo.getUserId()];
+            if(!televisitattendeeList.isEmpty()){
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    }

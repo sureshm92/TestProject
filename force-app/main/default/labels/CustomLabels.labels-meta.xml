@@ -30294,4 +30294,25 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Events tab</shortDescription>
         <value>My Events</value>
     </labels>
+    <labels>
+        <fullName>No_past_televisits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No past televisits</shortDescription>
+        <value>No past televisits</value>
+    </labels>
+    <labels>
+        <fullName>No_upcoming_televisits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No upcoming televisits</shortDescription>
+        <value>No upcoming televisits</value>
+    </labels>
+    <labels>
+        <fullName>Televisits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisits</shortDescription>
+        <value>Televisits</value>
+    </labels>
 </CustomLabels>
