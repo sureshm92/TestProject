@@ -12,6 +12,7 @@
     },
 
     doNavigateDefault: function (component, event, helper) {
+        sessionStorage.setItem('Cookies', 'Accepted');
         const resourceWrapper = component.get('v.resourceWrapper');
         helper.viewResource(component,resourceWrapper.resource, resourceWrapper.translations[0].languageCode);
     }

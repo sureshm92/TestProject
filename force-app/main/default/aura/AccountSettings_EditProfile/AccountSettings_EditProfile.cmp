@@ -638,7 +638,9 @@
                                                 href="./account-settings?communication-preferences"
                                                 class="slds-p-left_xx-small"
                                                 target="_self"
-                                                >{!$Label.c.PP_Communication_Pref}</a
+                                                onclick="{!c.setSessionCookies}"
+                                            >
+                                                {!$Label.c.PP_Communication_Pref}</a
                                             >.
                                             <aura:set attribute="else">
                                                 {!$Label.c.PI_Toggle_Information}

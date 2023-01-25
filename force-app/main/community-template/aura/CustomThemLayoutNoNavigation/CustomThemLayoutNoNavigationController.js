@@ -6,6 +6,7 @@
         communityService.initialize(component);
 
         if (communityService.isInitialized()) {
+            component.set('v.communityName', communityService.getCurrentCommunityName());
             if (!communityService.isDummy())
                 component.set('v.mode', communityService.getUserMode());
             if (
