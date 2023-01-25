@@ -9,23 +9,12 @@ public without sharing class MyTeamRemote {
     private static final String HAS_DELEGATE_LEVELS = 'True';
     private static final String HAS_NOT_DELEGATE_LEVELS = 'False';
     private static final String OLD_VALUES_DELEGATE_LEVELS = 'OldMap';
-    private static final List<String> fields = new List<String>{
-        'Id',
-        'Email',
-        'FirstName',
-        'LastName',
-        'Name',
-        'Language__c',
-        'Library_Primary_Language__c',
-        'Full_Name__c',
-        'Salutation',
-        'Suffix',
-        'HCP_Opt_In_Referral_Status_Emails__c'
-    };
-
-    @AuraEnabled
-    public static Map<String, Integer> getMaxLength(Sobject so, List<String> fieldNames) {
-        return CommunityService.getMaxLength(so, fieldNames);
+    private static final List<String> fields = new List<String>{'Id', 'Email', 'FirstName', 'LastName', 'Name', 'Language__c', 'Library_Primary_Language__c', 'Full_Name__c', 'Salutation', 'Suffix', 'HCP_Opt_In_Referral_Status_Emails__c'};
+    private static Contact delContact = New Contact();
+    private static Boolean hasStudyFilter = false;
+     @AuraEnabled
+    public static Map<String,Integer> getMaxLength(Sobject so,List<String> fieldNames) {
+        return CommunityService.getMaxLength(so,fieldNames);
     }
 
     @AuraEnabled
@@ -78,9 +67,6 @@ public without sharing class MyTeamRemote {
                     ParticipantEnrollmentService.getPEnrolmentsCountCommon(userMode, '') != 0;
             }
 
-            //get ParticipantState for CTP
-            detail.ctp = ParticipantService.getInstance().getState().pe.Clinical_Trial_Profile__r;
-
             return JSON.serialize(detail);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -88,7 +74,67 @@ public without sharing class MyTeamRemote {
     }
 
     @AuraEnabled
-    public static String getContactData(String userMode, String contactEmail, String parentId) {
+	public static String getDelegateContactData(String userMode, String contactEmail, String parentId) {
+        try {
+            List<Contact> delegateContacts = new List<Contact>();
+            List<Contact> contactsToProcess = new List<Contact>();
+
+            if (contactEmail != '') {
+                delegateContacts = [
+                    SELECT Id, FirstName, LastName, Name, Email
+                    FROM Contact
+                    WHERE Email = :contactEmail AND userCommunityMode__c != 'CC'
+                ];
+            }
+
+            if (delegateContacts.isEmpty()) {
+                //if contact is not existing contact. 
+                contactsToProcess.add(
+                    new Contact(FirstName = '', LastName = '', Email = contactEmail)
+                );
+            } else {
+                Set<Id> contactIdSet = new Set<Id>();
+                for (Contact c : delegateContacts) {
+                        contactIdSet.add(c.Id);
+                }
+
+                if (contactsToProcess.isEmpty())
+                    contactsToProcess.addAll(delegateContacts);
+
+                //Id contactId = delegateContacts[0].Id;
+                List<Participant__c> participants = [
+                    SELECT Id, First_Name__c, Last_Name__c,Contact__c
+                    FROM Participant__c
+                    WHERE Contact__c = :contactIdSet
+                ];
+                Map<Id, Participant__c> parConIdParticipantMap = new Map<Id, Participant__c>();  
+                for(Participant__c par: participants){
+                    parConIdParticipantMap.put(par.Contact__c, par);    
+                }
+                
+                
+                if (!participants.isEmpty()) {
+                    for(Contact con: delegateContacts){
+                        con.FirstName = parConIdParticipantMap.get(con.Id)?.First_Name__c;
+                        con.LastName = parConIdParticipantMap.get(con.Id)?.Last_Name__c;
+                    }
+                }
+            }
+
+            MyTeamRemote.MyTeamDetail detail = new MyTeamRemote.MyTeamDetail();
+            detail.currentUserContactId = CommunityService.getUserContact().Id;
+            detail.delegates = getDelegates(userMode, false, contactsToProcess, parentId);
+            detail.delegateOptions = getDelegateOptions(userMode);
+            detail.hasStudies = true;
+            
+            return JSON.serialize(detail);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+    
+    @AuraEnabled
+	public static String getContactData(String userMode, String contactEmail, String parentId) {
         try {
             List<Contact> delegateContacts = new List<Contact>();
             List<Contact> contactsToProcess = new List<Contact>();
@@ -135,7 +181,7 @@ public without sharing class MyTeamRemote {
             detail.hasStudies = true;
             if (userMode == CommunityService.USER_MODE_PI && parentId != null && parentId != '') {
                 List<Participant__c> parentParticipant = [
-                    SELECT Id, Full_Name__c, Suffix__c, Salutation__c
+                    SELECT Id,Full_Name__c, Suffix__c, Salutation__c 
                     FROM Participant__c
                     WHERE Contact__c = :parentId
                 ];
@@ -145,16 +191,12 @@ public without sharing class MyTeamRemote {
                     WHERE Id = :parentId
                     LIMIT 1
                 ];
-                if (!parentParticipant.isEmpty()) {
+                if(!parentParticipant.isEmpty()){
                     detail.parentFullName =
-                        (parentParticipant[0].Salutation__c == null
-                            ? ''
-                            : parentParticipant[0].Salutation__c + ' ') +
+                    (parentParticipant[0].Salutation__c == null ? '' : parentParticipant[0].Salutation__c + ' ') +
                         parentParticipant[0].Full_Name__c +
-                        (parentParticipant[0].Suffix__c == null
-                            ? ''
-                            : ' ' + parentParticipant[0].Suffix__c);
-                } else {
+                        (parentParticipant[0].Suffix__c == null ? '' : ' ' + parentParticipant[0].Suffix__c);
+                }else{
                     detail.parentFullName =
                         (parentContact.Salutation == null ? '' : parentContact.Salutation + ' ') +
                         parentContact.Full_Name__c +
@@ -238,34 +280,125 @@ public without sharing class MyTeamRemote {
                 }
             }
         }
-        List<Patient_Delegate__c> patientDelegates = [
-            SELECT Contact__c, Status__c
-            FROM Patient_Delegate__c
-            WHERE
-                Contact__c IN :delegateContactsMap.keySet()
-                AND Participant__c = :ParticipantContext.getCurrentParticipant().Id
-                AND Status__c != 'Withdrawn'
-        ];
+        // List<Patient_Delegate__c> patientDelegates = [
+        //     SELECT Contact__c, Status__c
+        //     FROM Patient_Delegate__c
+        //     WHERE
+        //         Contact__c IN :delegateContactsMap.keySet()
+        //         AND Participant__c = :ParticipantContext.getCurrentParticipant().Id
+        //         //AND Status__c != 'Withdrawn'
+        // ];
+        //Get Patient Delegate Enrollments records
+        List<Patient_Delegate_Enrollment__c> PDEList = getPDEList(delegateContactsMap.keySet());
+        Boolean isActivePDE = false;
+        Boolean isWithdrawnPDE = false;
+        Boolean isDisconnectedPDE = false;
+        Boolean isOnHoldPDE = false;
+        Boolean isDeleted = false;
+        Set<Id> existingDelegateContactIdSet = new Set<Id>();
+        Id existingPatientDelegateId = null;
+        map<id, list<Patient_Delegate_Enrollment__c>> mapIdPDE = new Map<id, list<Patient_Delegate_Enrollment__c>>();
         List<DelegateWrapper> delegates = new List<DelegateWrapper>();
-        for (Patient_Delegate__c pd : patientDelegates) {
-            if (delegateContactsMap.containsKey(pd.Contact__c)) {
+       //Create a map of Delegate contact and its PDE records. 
+        for (Patient_Delegate_Enrollment__c pde : PDEList) {
+            if (mapIdPDE.containsKey(pde.Patient_Delegate__r.Contact__c)) {
+                mapIdPDE.get(pde.Patient_Delegate__r.Contact__c).add(pde);
+            } else {
+                mapIdPDE.put(
+                    pde.Patient_Delegate__r.Contact__c,
+                    new List<Patient_Delegate_Enrollment__c>{ pde }
+                );
+            }
+        }
+        //Iterate over each patient Delegate.
+        for (Id delContId : mapIdPDE.keyset()) {
+            //check if one of the PDE list is active or not.
+            for(Patient_Delegate_Enrollment__c pde: mapIdPDE.get(delContId)){
+                existingDelegateContactIdSet.Add(pde.Patient_Delegate__r.Contact__c);
+                existingPatientDelegateId =pde.Patient_Delegate__c;
+                if(pde.Status__c=='Active'){
+                    isActivePDE = true;
+                    break;
+                }else if(pde.Status__c=='Disconnected'){
+                    isDisconnectedPDE = true;
+                }else if(pde.Status__c=='Withdrawn'){
+                    isWithdrawnPDE = true;
+                }else if(pde.Status__c=='On Hold'){
+                    isOnHoldPDE = true;
+                }else if(pde.Status__c=='Deleted'){
+                    isDeleted = true;
+                }
+            }
+            String status = '';
+            if(isActivePDE){
+                //If at least one of the PDE is active then put that delegate in active list.
+                status = 'Active';
+            }else if(isWithdrawnPDE && !isDisconnectedPDE && !isOnHoldPDE && !isDeleted ){
+                //If all the PDE List are withdrawn 
+                status = 'Withdrawn';
+            }else if(!isWithdrawnPDE && !isDisconnectedPDE && !isOnHoldPDE && isDeleted){
+                //If all the PDE List are Deleted
+                status = 'Deleted';
+            }else if(!isWithdrawnPDE && isDisconnectedPDE && !isOnHoldPDE && !isDeleted){
+                //If all the PDE List are disconnected
+                status = 'Disconnected';
+            }else if(!isWithdrawnPDE && !isDisconnectedPDE && isOnHoldPDE && !isDeleted){
+                //If all the PDE List are On Hold
+                status = 'On Hold';
+            }else if(isDisconnectedPDE && (isWithdrawnPDE || isOnHoldPDE || isDeleted) ){
+                //If at least one delegate is disconnected and remaining among withdrawn/On Hold/Deleted
+                //then consider as disconnected status.
+                status = 'Disconnected';
+
+            }
+            //If the contact is an existing delegate of current participant.
+            if(existingDelegateContactIdSet.contains(delContId)){
                 DelegateWrapper dw = new DelegateWrapper();
-                dw.delegateContact = delegateContactsMap.get(pd.Contact__c);
+                dw.delegateContact = delegateContactsMap.get(delContId);
                 dw.isActive =
-                    pd.Status__c == PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS;
+                    status == PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS;
+                dw.patientDelegateId = existingPatientDelegateId;
+                dw.status = status;
                 delegates.add(dw);
             }
         }
-
         if (useProvidedContacts) {
-            if (delegates.isEmpty() && delegatesToProcess != null) {
-                DelegateWrapper dw = new DelegateWrapper();
-                dw.delegateContact = delegateContacts.get(0);
-                delegates.add(dw);
+            //When contact is not a delegate for current participant.
+            if (delegatesToProcess != null) {
+                for(Contact con: delegatesToProcess){
+                        //If contact is no a Delegate of current Participant or Initialize the contact on load.
+                        if(!existingDelegateContactIdSet.contains(con.Id) || con.Id==null){
+                            DelegateWrapper dw1 = new DelegateWrapper();
+                            dw1.delegateContact = con;
+                            delegates.add(dw1);
+                    }
+                    
+                }
+                
             }
         }
 
         return delegates;
+    }
+
+    private static List<Patient_Delegate_Enrollment__c> getPDEList(Set<Id> delContactIdSet){
+        List<Patient_Delegate_Enrollment__c> pdeList = new List<Patient_Delegate_Enrollment__c>();
+        pdeList = [
+            SELECT
+                Id,
+                Status__c,
+                Patient_Delegate__c,
+                Patient_Delegate__r.Contact__c,
+                Patient_Delegate__r.Participant__r.Contact__c,
+                Patient_Delegate__r.Participant__c,                 
+                Participant_Enrollment__c
+          FROM Patient_Delegate_Enrollment__c
+        WHERE Patient_Delegate__r.Contact__c IN :delContactIdSet
+        AND Patient_Delegate__r.Participant__c =:ParticipantContext.getCurrentParticipant().Id
+
+        ];
+        return pdeList;
+     
     }
 
     private static List<DelegateWrapper> getHCPDelegates(
@@ -458,22 +591,18 @@ public without sharing class MyTeamRemote {
             );
         }
         Boolean getParticipants = true;
-        for (Contact parent : CommunityService.getContacts(piDelegateParentIds, getParticipants)) {
+        for (Contact parent : CommunityService.getContacts(piDelegateParentIds,getParticipants)) {
             String parentFullName;
-            if (parent.Participants__r.isEmpty()) {
-                parentFullName =
+            if(parent.Participants__r.isEmpty()){
+                parentFullName = 
                     (parent.Salutation != null ? parent.Salutation + ' ' : '') +
                     parent.Full_Name__c +
                     (parent.Suffix != null ? ' ' + parent.Suffix : '');
-            } else {
-                parentFullName =
-                    (parent.Participants__r[0].Salutation__c != null
-                        ? parent.Participants__r[0].Salutation__c + ' '
-                        : '') +
+            }else{
+                parentFullName = 
+                    (parent.Participants__r[0].Salutation__c != null ? parent.Participants__r[0].Salutation__c + ' ' : '') +
                     parent.Participants__r[0].Full_Name__c +
-                    (parent.Participants__r[0].Suffix__c != null
-                        ? ' ' + parent.Participants__r[0].Suffix__c
-                        : '');
+                    (parent.Participants__r[0].Suffix__c != null ? ' ' + parent.Participants__r[0].Suffix__c : '');
             }
             parents.add(
                 new LabelValueItem(
@@ -489,7 +618,7 @@ public without sharing class MyTeamRemote {
     public static void saveDelegateLevelChanges(String userMode, String delegate, String parentId) {
         Savepoint sp = Database.setSavepoint();
         Boolean newss = false;
-
+        
         try {
             DelegateWrapper dw = (DelegateWrapper) JSON.deserialize(
                 delegate,
@@ -518,7 +647,7 @@ public without sharing class MyTeamRemote {
                         ConId.add(dw.delegateContact.Id);
                         SiteId.add(delegateRecord.enrollmentOrStudySiteId);
                     }
-                }
+                }            
                 //To check existing data present or not
                 lstss = [
                     SELECT id, Site_Contact__c, is_Invited__c, Study_Site__c
@@ -558,9 +687,9 @@ public without sharing class MyTeamRemote {
                     DelegateService.updateDelegatePermissionSetsPI(dw.delegateContact);
                 } else if (userMode == CommunityService.USER_MODE_HCP) {
                     hasDelegateLevels = saveHCPDelegate(dw, parentId);
-                    isHCP = true;
+                    isHCP = true;     
                 }
-
+                
                 if (lstss.size() > 0 || lstUsr.size() > 0 || isHCP) {
                     if (
                         (hasDelegateLevels ||
@@ -655,7 +784,7 @@ public without sharing class MyTeamRemote {
                 }
             }
         } else if (userMode == CommunityService.USER_MODE_HCP) {
-            if (delegateContact.HCP_Opt_In_Referral_Status_Emails__c) {
+            if(delegateContact.HCP_Opt_In_Referral_Status_Emails__c){
                 notifications.add(
                     new Notification__c(
                         Recipient__c = delegateContact.Id,
@@ -664,11 +793,13 @@ public without sharing class MyTeamRemote {
                     )
                 );
             }
+            
         }
         if (notifications != null) {
             insert notifications;
         }
     }
+    
     @testVisible
     private static void sendEmailNotificationWelcome(Contact delegateContact) {
         Map<Id, String> toSendNotificationMap = new Map<Id, String>();
@@ -834,6 +965,43 @@ public without sharing class MyTeamRemote {
     }
 
     @AuraEnabled
+    public static void savePatientDelegate(String delegate, String delegateFilterData) {
+        //Bypaass old methods from Patient Delegate Trigger
+        TriggerHandlerExecutor.bypassHandler(
+        PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+        PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForCCContactHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.CreatePrimaryDelegateForMinor.class
+        );
+        // TriggerHandlerExecutor.bypassHandler(
+        //     PatientDelegateEnrolTriggerHandler.UpdateDelegateConsent.class
+        // );
+        // TriggerHandlerExecutor.bypassHandler(
+        //     PatientDelegateEnrolTriggerHandler.UpdateConsentTimeStamps.class
+        // );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.SetDefaultPatientDelegateStatusHandler.class
+        );
+    
+        savePatientDelegate(delegate);
+        if(delegateFilterData!=null){
+            //Read the list of selected studies for Delegate.
+            //PEFilterData filterData = (PEFilterData) JSON.deserialize(delegateFilterData, PEFilterData.class);
+            //List<LabelValueItem> studiesSelected = filterData.studiesSelected;
+            // System.debug('studiesSelected[0].Value: '+studiesSelected[0].Value);  
+            // System.debug('studiesSelected[0].Label: '+studiesSelected[0].Label);
+            hasStudyFilter = true;
+            PatientDelegateService.getInstance().createPatientDelegate(delContact,delegateFilterData);  
+        }
+    }
+
+    @AuraEnabled
     public static void savePatientDelegate(String delegate) {
         try {
             System.debug('savePatientDelegate:');
@@ -841,10 +1009,10 @@ public without sharing class MyTeamRemote {
             User user;
             Contact contactDelegate = (Contact) JSON.deserialize(delegate, Contact.class);
             user = [
-                SELECT Contact.AccountId, ContactId, TimeZoneSidKey
-                FROM User
-                WHERE Id = :UserInfo.getUserId()
-            ];
+                    SELECT Contact.AccountId, ContactId, TimeZoneSidKey
+                    FROM User
+                    WHERE Id = :UserInfo.getUserId()
+                ];
             Boolean isNewContact = contactDelegate.Id == null;
             if (isNewContact) {
                 /*User user = [
@@ -871,7 +1039,7 @@ public without sharing class MyTeamRemote {
                 contactDelegate.Landing_Community__c = Site.getMasterLabel() == 'IQVIA RH'
                     ? CommunityService.IQVIA_NETWORK_NAME
                     : Site.getMasterLabel();
-                contactDelegate.Participant_Opt_In_Status_Emails__c = true;
+                //contactDelegate.Participant_Opt_In_Status_Emails__c=true;
                 insert contactDelegate;
                 Participant__c participantDelegate = new Participant__c(
                     Adult__c = true,
@@ -881,7 +1049,7 @@ public without sharing class MyTeamRemote {
                     Email__c = contactDelegate.Email,
                     Phone__c = contactDelegate.Phone,
                     Mailing_Zip_Postal_Code__c = contactDelegate.MailingPostalCode,
-                    Preferred_Language__c = contactDelegate.Language__c
+                    Preferred_Language__c=contactDelegate.Language__c
                     //Mailing_City__c = contactDelegate.MailingCity,
                     //Mailing_Country_Code__c = contactDelegate.MailingCountryCode,
                     //Mailing_State_Code__c = contactDelegate.MailingStateCode
@@ -906,30 +1074,26 @@ public without sharing class MyTeamRemote {
                     user.TimeZoneSidKey
                 );
                 insert delegateUser;
-            } else {
-                if (contactDelegate.Id != null) {
-                    existingUserPatientDelegate = [
-                        SELECT ID, Email
-                        FROM User
-                        WHERE ContactId = :contactDelegate.Id
-                    ];
-
-                    //update email consent for the exiting delegate contact.
-                    contact delexistingContact = new contact();
-                    delexistingContact.Id = contactDelegate.Id;
-                    delexistingContact.Participant_Opt_In_Status_Emails__c = true;
-                    update delexistingContact;
-                }
-                if (existingUserPatientDelegate.isEmpty()) {
-                    User delegateUser = CommunityService.createUser(
-                        contactDelegate,
-                        null,
-                        null,
-                        user.TimeZoneSidKey
-                    );
-                    insert delegateUser;
-                }
-            } /*else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
+            }else{
+                if(contactDelegate.Id != null){
+                        existingUserPatientDelegate = [SELECT ID, Email FROM User WHERE ContactId = :contactDelegate.Id];
+                        
+                        //update email consent for the exiting delegate contact.
+                        contact delexistingContact = new contact();
+                        delexistingContact.Id = contactDelegate.Id;
+                        delexistingContact.Participant_Opt_In_Status_Emails__c = true;
+                        update delexistingContact;
+                    }
+                 if(existingUserPatientDelegate.isEmpty()){
+                User delegateUser = CommunityService.createUser(
+                    contactDelegate,
+                    null,
+                    null,
+                    user.TimeZoneSidKey
+                );
+                insert delegateUser;
+              }
+           }/*else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
                 contactDelegate.UserCommunityIsDelegate__c = true;
                 Boolean check =
                     contactDelegate.userCommunytyType__c.contains('PI') ||
@@ -973,7 +1137,13 @@ public without sharing class MyTeamRemote {
                     PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                 );
             }
-            PatientDelegateService.getInstance().createPatientDelegate(contactDelegate);
+            //If Study filter is not sent as parameter in the method.
+            if(!hasStudyFilter){
+                PatientDelegateService.getInstance().createPatientDelegate(contactDelegate);
+            }
+            delContact = contactDelegate;
+            
+            
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -1124,7 +1294,6 @@ public without sharing class MyTeamRemote {
         public MyTeamDetail() {
             delegates = new List<DelegateWrapper>();
         }
-        public Clinical_Trial_Profile__c ctp;
     }
     public class hasDelegatelevelMap {
         public Map<String, List<Id>> hasdelegatelevelmp;
@@ -1132,13 +1301,16 @@ public without sharing class MyTeamRemote {
     }
     public class DelegateWrapper implements Comparable {
         public Contact delegateContact;
-        public Boolean isActive;
+        public Boolean isActive =false;
         public List<TrialDelegateWrapper> delegateTrials;
         public List<DelegateLevelWrapper> trialLevels;
         public DelegateLevelWrapper trialLevel;
+        public string patientDelegateId;
+        public String status;
         public DelegateWrapper() {
             delegateTrials = new List<TrialDelegateWrapper>();
         }
+        
         public Integer compareTo(Object compareTo) {
             DelegateWrapper compareToDelegate = (DelegateWrapper) compareTo;
             if (delegateContact.Id == CommunityService.getUserContact().Id)
@@ -1195,4 +1367,54 @@ public without sharing class MyTeamRemote {
             return 0;
         }
     }
+    public class PEFilterData {
+        @AuraEnabled
+        public List<LabelValueItem> studies;
+        @AuraEnabled
+        public List<LabelValueItem> studiesSelected;
+        
+    }
+    public class SelectedStudiesData {
+        @AuraEnabled
+        public String label;
+        @AuraEnabled
+        public String value;
+        @AuraEnabled
+        public Boolean assigned = false;
+        @AuraEnabled
+        public Boolean active = false;
+        @AuraEnabled
+        public String pdEnrollmentId;
+        
+    }
+    
+    /**
+     * @description: This Method return the List of available PER records for the Participant.
+     * @author: Krishna Mahto
+     * @param: userMode
+     * @return: PEFilterData
+     **/
+    @AuraEnabled
+    public static PEFilterData getFilterData(String userMode){
+        PEFilterData peFilterData =new MyTeamRemote.PEFilterData();
+        peFilterData.studies = new List<LabelValueItem>();
+        List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>();
+        
+        if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
+            ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
+                        .getState();
+            
+            List<Participant_Enrollment__c> availablePERs = [Select Id,
+                                                                   Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                                                            FROM Participant_Enrollment__c
+                                                            WHERE Participant__r.Contact__c =:participantState.participant.Contact__c
+                                                            ];
+            for(Participant_Enrollment__c per: availablePERs) {
+                peFilterData.studies.add(new LabelValueItem(per.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, per.Id));
+            } 
+        }
+            
+        
+        return PEFilterData;
+        } 
 }

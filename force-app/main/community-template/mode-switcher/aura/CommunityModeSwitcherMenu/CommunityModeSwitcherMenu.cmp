@@ -21,6 +21,13 @@
     <aura:handler name="onshow" event="c:uiEvent" action="{!c.handleShow}" />
     <aura:handler event="c:RefreshProfile" action="{!c.handleApplicationEvent}" />
 
+    <lightning:messageChannel
+        type="ppLightningMessageService__c"
+        aura:id="LMS"
+        scope="APPLICATION"
+        onMessage="{!c.handleMessage}"
+    />
+
     <aura:if isTrue="{!not(v.reset)}">
         <c:ModeHeaderMenu class="menu-block" templateName="{!v.templateName}">
             <aura:set attribute="title">

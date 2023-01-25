@@ -27,7 +27,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
     @TestVisible
     private static void notifyNewAttendees(List<Televisit_Attendee__c> attendeeList) {
         //Insert notifications for new attendees
-        Map<Id, Id> attendeeTelevisitMap = new Map<Id, Id>();
+        Map<Id, Televisit_Attendee__c> attendeeTelevisitMap = new Map<Id, Televisit_Attendee__c>();
 
         for (Televisit_Attendee__c attendee : [
             SELECT Id, Contact__c, Televisit__c, Attendee_Type__c
@@ -35,8 +35,8 @@ public without sharing class TelevisitAttendeeTriggerHandler {
             WHERE Id IN :attendeeList
         ]) {
             if (attendee.Attendee_Type__c != 'Site Staff' && attendee.Attendee_Type__c != 'PI') {
-            attendeeTelevisitMap.put(attendee.Contact__c, attendee.Televisit__c);
-        }
+                attendeeTelevisitMap.put(attendee.Contact__c, attendee);
+            }
         }
 
         createAttendeeNotifications(attendeeTelevisitMap, 'Message_to_PT_Added_Attendee_Type');
@@ -53,7 +53,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
          * 3. Notfication to delegate when participant is removed - will not occur
          */
         //Contact Id => Televisit Id
-        Map<Id, Id> delConTeleMap = new Map<Id, Id>();
+        Map<Id, Televisit_Attendee__c> delConTeleMap = new Map<Id, Televisit_Attendee__c>();
 
         for (Televisit_Attendee__c attendee : [
             SELECT Id, Contact__c, Televisit__c, Attendee_Type__c
@@ -65,8 +65,8 @@ public without sharing class TelevisitAttendeeTriggerHandler {
             ALL ROWS
         ]) {
             if (attendee.Attendee_Type__c != 'Site Staff' && attendee.Attendee_Type__c != 'PI') {
-            delConTeleMap.put(attendee.Contact__c, attendee.Televisit__c);
-        }
+                delConTeleMap.put(attendee.Contact__c, attendee);
+            }
         }
         if (!delConTeleMap.isEmpty()) {
             createAttendeeNotifications(
@@ -78,16 +78,21 @@ public without sharing class TelevisitAttendeeTriggerHandler {
 
     @TestVisible
     private static void createAttendeeNotifications(
-        Map<Id, Id> contactTelevistMap,
+        Map<Id, Televisit_Attendee__c> contactTelevistMap,
         String notificationType
     ) {
         List<Notification__c> notifications = new List<Notification__c>();
         for (Id conId : contactTelevistMap.keySet()) {
+            Boolean isdelegate = false;
+            if (contactTelevistMap.get(conId).Attendee_Type__c == 'Participant Delegate') {
+                isdelegate = true;
+            }
             notifications.add(
                 new Notification__c(
                     Recipient__c = conId,
-                    WhatId__c = contactTelevistMap.get(conId),
-                    Notification_Type__c = notificationType
+                    WhatId__c = contactTelevistMap.get(conId).Televisit__c,
+                    Notification_Type__c = notificationType,
+                    IsDelegate__c = isdelegate
                 )
             );
         }
@@ -98,11 +103,11 @@ public without sharing class TelevisitAttendeeTriggerHandler {
     private static void checkTelevisitEventNotification(List<Televisit_Attendee__c> attendeeList) {
         system.debug('checkTelevisitEventNotification');
         Set<Id> televisitIds = new Set<Id>();
-        for(Televisit_Attendee__c teleAttendee : attendeeList){
-            if(teleAttendee.Televisit__c!=null)
+        for (Televisit_Attendee__c teleAttendee : attendeeList) {
+            if (teleAttendee.Televisit__c != null)
                 televisitIds.add(teleAttendee.Televisit__c);
-}
-        if(televisitIds.size()>0){
+        }
+        if (televisitIds.size() > 0) {
             TelevisitTriggerHandler.createTelevisitEvent(televisitIds);
         }
     }
@@ -113,7 +118,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                                                     where Televisit__r.Status__c = 'Scheduled' AND Id IN:attendeeList AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff')];
         try{
             List<Notification__c> notifications = new List<Notification__c>();
-            for(Televisit_Attendee__c attendee:listAttendee){
+            for (Televisit_Attendee__c attendee : listAttendee) {
                 Notification__c notification = new Notification__c();
                 notification.Recipient__c = attendee.Contact__c;
                 notification.WhatId__c = attendee.Id;
@@ -121,19 +126,17 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                    attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
                     if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
                         notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation_Janssen';
-                    }else{
+                    } else {
                         notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation';
                     }
-
                 }
                 notifications.add(notification);
             }
-            if(!notifications.isEmpty()){
+            if (!notifications.isEmpty()) {
                 insert notifications;
             }
-
-        }catch(exception ex){
-            system.debug('++++++++++++++++'+ex.getMessage());
+        } catch (exception ex) {
+            system.debug('++++++++++++++++' + ex.getMessage());
         }
 
     }
@@ -149,15 +152,14 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                 tvAttendeeRecord.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
                 if(tvAttendeeRecord.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
                     notification.Notification_Type__c = 'Message_to_PI_Televisit_Remove_Janssen';
-                }else{
-                     notification.Notification_Type__c = 'Message_to_PI_Televisit_Remove';
+                } else {
+                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Remove';
                 }
-
             }
               notifications.add(notification);
         }
-        if(notifications != null && notifications.size() > 0){
-           insert notifications;
+        if (notifications != null && notifications.size() > 0) {
+            insert notifications;
         }
 
     }

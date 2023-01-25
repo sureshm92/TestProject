@@ -84,7 +84,7 @@
                       >
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!IF(communityTemplate == 'Default',$Label.Email_Body_Initial_Patient_Delegate_New,$Label.Email_Body_Initial_Patient_Delegate)}"/>
-        <c:EmailTemplateDelegateParticipant communityTemplate="{!communityTemplate}"/>
+        <c:EmailTemplateDelegateParticipant communityTemplate="{!communityTemplate}" recipientId="{!recordId}"/>
         <c:Paragraph rendered="{!(communityTemplate == 'Default')}" emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate_New2}" />
          <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/> 
      <!--  <c:ParticipantEmailActionBtn rendered="{!(communityTemplate == 'Default')}" buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>  -->
