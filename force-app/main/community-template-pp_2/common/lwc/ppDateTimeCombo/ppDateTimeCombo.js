@@ -226,6 +226,17 @@ export default class PpDateTimeCombo extends LightningElement {
             : 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small';
     }
 
+    get singleError() {
+        if (this.errorForDate) {
+            return this.pastDateErrorLabel;
+        } else if (this.errorPriorDueDT) {
+            return this.futureDateTimeErrorLabel;
+        }
+    }
+    get isError() {
+        return this.errorPriorDueDT || this.errorForDate;
+    }
+
     handleDate(event) {
         this.errorForDate = false;
         this.errorPriorDueDT = false;

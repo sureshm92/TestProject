@@ -40,14 +40,8 @@
                             disabled={readOnlyMode}
                         />
                     </div>
-                    <template if:true={errorForDate}>
-                        <span class="error-date">{pastDateErrorLabel}</span>
-                        <template if:true={errorPriorDueDT}>
-                            <br />
-                        </template>
-                    </template>
-                    <template if:true={errorPriorDueDT}>
-                        <span class="error-date">{futureDateTimeErrorLabel}</span>
+                    <template if:true={isError}>
+                        <span class="error-date">{singleError}</span>
                     </template>
                 </div>
                 <div if:false={past} class={timeClass}>
