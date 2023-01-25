@@ -117,9 +117,6 @@ export default class PpCreateTask extends LightningElement {
                                 ? wrapper.task.Activity_Datetime__c
                                 : false;
                         const date = new Date(this.taskDueTime);
-                        var visitDateTime = new Date(this.taskDueTime).toLocaleTimeString('en-US', {
-                            timeZone: TIME_ZONE
-                        });
                         this.initialRecord = {
                             subject: this.subject,
                             dueDatetime: this.taskDateTime ? this.taskDateTime : '',
@@ -368,7 +365,15 @@ export default class PpCreateTask extends LightningElement {
     }
 
     get isDueDateTimeSelected() {
-        return this.taskDateTime && this.taskDueTime && this.taskDueDate ? true : false;
+        let currentDateTime = new Date().toLocaleString('en-US', {
+            timeZone: TIME_ZONE
+        });
+        return this.taskDateTime &&
+            this.taskDueTime &&
+            this.taskDueDate &&
+            new Date(this.taskDateTime) >= new Date(currentDateTime)
+            ? true
+            : false;
     }
 
     handleCustomReminder(event) {
@@ -459,7 +464,18 @@ export default class PpCreateTask extends LightningElement {
                         }
                     }
                 } else {
-                    if (!this.isReminderSelected && this.editMode) {
+                    if (
+                        !this.isReminderSelected &&
+                        this.editMode &&
+                        selectedTaskDueDateTime != 'Invalid Date' &&
+                        selectedTaskDueDateTime >= currentDateTimeObject
+                    ) {
+                        this.enableSave = true;
+                    } else if (
+                        !this.isReminderSelected &&
+                        this.editMode &&
+                        selectedTaskDueDateTime == 'Invalid Date'
+                    ) {
                         this.enableSave = true;
                     } else {
                         this.enableSave = false;
