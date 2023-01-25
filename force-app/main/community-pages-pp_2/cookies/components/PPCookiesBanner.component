@@ -20,6 +20,7 @@
             border-radius: 16px 16px 0 0;
             background: rgba(0, 0, 0, 0.8);
             box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
+            font-family: "Proxima Nova";
         }
 
         .we-care-about-your-p {
