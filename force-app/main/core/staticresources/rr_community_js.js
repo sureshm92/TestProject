@@ -595,6 +595,7 @@ window.communityService = (function () {
         },
 
         preLoginPageRedirection: function (currentUrl, redirectPage) {
+            sessionStorage.setItem('Cookies', 'Accepted');
             let urlEvent = $A.get('e.force:navigateToURL');
             let redirectUrl = '';
             if (currentUrl.includes('janssen')) {
