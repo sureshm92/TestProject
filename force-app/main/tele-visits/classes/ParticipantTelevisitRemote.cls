@@ -1,7 +1,6 @@
 public without sharing class ParticipantTelevisitRemote {
     @AuraEnabled
     public static televisitWrapper getParticipantTelevisits(){
-        system.debug('Entering the methos');
         try {
             List<Televisit_Attendee__c> televisitattendeeList = [Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c from Televisit_Attendee__c where User__c =:UserInfo.getUserId() order by Televisit__r.Visit_Date_Time__c desc];
             Set<Id> televisitIdSet = new Set<Id>();
@@ -91,7 +90,7 @@ public without sharing class ParticipantTelevisitRemote {
                 }
                 tw.televisitupcomingList = finalupcomingTelevisitslist;
                 tw.televisitpastList = finalpastTelevisitslist;
-                if(!finalupcomingTelevisitslist.isEmpty()){
+                if(!finalupcomingTelevisitslist.isEmpty() || finalpastTelevisitslist.isEmpty()){
                     tw.showDefault = 'upcoming';
                 }else{
                     tw.showDefault = 'past';

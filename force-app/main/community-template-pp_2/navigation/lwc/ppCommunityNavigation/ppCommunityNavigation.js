@@ -132,7 +132,7 @@ export default class PpCommunityNavigation extends LightningElement {
                     }
                     this.showAboutStudy = !this.showAboutProgram;
                     if(td.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c){
-                        this.gettelevisitDetails();
+                        this.gettelevisitDetails(td.pe.Study_Site__c);
                     }else{
                         this.showAboutTelevisit = false;
                         if (this.participantTabs.length < 1) {
@@ -151,10 +151,9 @@ export default class PpCommunityNavigation extends LightningElement {
             this.spinner.hide();
         }
     }
-    gettelevisitDetails(){
-        gettelevisitData()
+    gettelevisitDetails( studysiteId){
+        gettelevisitData({siteId:studysiteId})
         .then((result) => {
-            console.log('++++++++++++'+result);
             this.showAboutTelevisit = result;
             if (this.participantTabs.length < 1) {
                 this.populateNavigationItems();
