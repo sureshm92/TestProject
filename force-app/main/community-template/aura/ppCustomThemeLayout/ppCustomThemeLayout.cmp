@@ -48,7 +48,7 @@
                 <div
                     class="{!'layout-header' + ' rr-width-limiter-pp' + ' side-padding' + if(v.isRTL, ' rtl', '')}"
                 >
-                    <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
+                    <aura:if isTrue="{!$Browser.formFactor != 'DESKTOP'}">
                         <div class="mob-logo-container-pp">
                             <img
                                 src="{!$Resource.icon_hamburgerMenu}"
@@ -57,7 +57,12 @@
                             />
                         </div>
                     </aura:if>
-                    <div class="logo-container-pp">
+                    <div
+                        class="logo-container-pp"
+                        onclick="{!c.handleClickCloseNavMenu}"
+                        ontouchmove="{!c.handleClickCloseNavMenu}"
+                        ontouchend="{!c.handleHamberungTouchEnd}"
+                    >
                         <!--     <img src="{!v.logoURL}" class="title-logo" onclick="{!c.doGoHome}" />-->
                         <div class="iqvia_logo" onclick="{!c.doGoHome}">
                             IQVIA <span class="iqvia_text">Patient Portal</span>
@@ -75,7 +80,13 @@
                         />
                     </aura:if>
 
-                    <div class="right-block" data-gtm="community_mode_switcher">
+                    <div
+                        class="right-block"
+                        data-gtm="community_mode_switcher"
+                        onclick="{!c.handleClickCloseNavMenu}"
+                        ontouchmove="{!c.handleClickCloseNavMenu}"
+                        ontouchend="{!c.handleHamberungTouchEnd}"
+                    >
                         <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
                             <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
                         </aura:if>
@@ -94,7 +105,7 @@
                 ontouchmove="{!c.handleClickCloseNavMenu}"
                 ontouchend="{!c.handleHamberungTouchEnd}"
             >
-                <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
+                <aura:if isTrue="{!$Browser.formFactor != 'DESKTOP'}">
                     <c:ppCommunityNavigation
                         communityServic="{!v.communityServ}"
                         showSideMenu="{!v.showSideMenu}"
