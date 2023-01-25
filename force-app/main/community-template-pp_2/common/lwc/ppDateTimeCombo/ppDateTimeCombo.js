@@ -23,7 +23,6 @@ export default class PpDateTimeCombo extends LightningElement {
     @api mintime;
     @api maxdate;
     @api maxtime;
-    @api remindertime;
     @api reminder;
     @api iconSize = 'small';
     @api iconColor = '#00A3E0';
