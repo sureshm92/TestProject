@@ -32,14 +32,21 @@
                             type="date"
                             id="date"
                             value={dbDate}
-                            min={mindate}
-                            max={maxdate}
                             onchange={handleDate}
                             placeholder="Enter Date"
                             class="datec"
                             disabled={readOnlyMode}
                         />
                     </div>
+                    <template if:true={errorForDate}>
+                        <span class="error-date">{pastDateErrorLabel}</span>
+                        <template if:true={errorPriorDueDT}>
+                            <br />
+                        </template>
+                    </template>
+                    <template if:true={errorPriorDueDT}>
+                        <span class="error-date">{futureDateTimeErrorLabel}</span>
+                    </template>
                 </div>
                 <div if:false={past} class={timeClass}>
                     <template if:false={reminder}>
@@ -76,8 +83,8 @@
                             placeholder={label.timePlaceHolder}
                             message-when-bad-input={label.validTimeFormat}
                             message-when-pattern-mismatch={label.validTimeFormat}
-                            message-when-range-underflow={label.noPastValues}
-                            message-when-range-overflow={label.noFutureValues}
+                            message-when-range-underflow={pastTimeErrorLabel}
+                            message-when-range-overflow={futureDateTimeErrorLabel}
                             class="timc"
                         >
                         </lightning-input>
