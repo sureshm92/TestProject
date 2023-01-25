@@ -1,4 +1,3 @@
-
 .THIS > div:first-child {
     height: 100%;
 }
@@ -21,8 +20,7 @@
     white-space: nowrap;
     display: flex;
     align-items: center;
-    padding: 0 5px;
-    justify-content: flex-end;
+    padding-left: 0.8rem;
 }
 
 .THIS .header-menu-link:hover,
