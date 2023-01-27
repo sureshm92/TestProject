@@ -28,12 +28,14 @@ public without sharing class UploadParticipantsDelegateHelper {
         Map<String, String> duplicateContactRowMap = new Map<String, String>();
         List<Id> contactInsertedIds = new List<Id>();
         String duplicateKey = '';
+        set<Id> setMainParticipantId = new set<Id> ();
         for (ParticipantsDelegateWrapper pWrapper : ParticipantsDelegateWrapperList) {
             //Duplicate check in the sheet
             duplicateKey =
                 pWrapper.DelegateFirstName +
                 pWrapper.DelegateLastName +
                 pWrapper.DelegateEmail;
+            setMainParticipantId.add(pWrapper.mainparticipant.Id);
             if (!duplicateRowCheckSet.contains(duplicateKey)) {
                 duplicateRowCheckSet.add(duplicateKey);
                 //Duplicate check participant and contact records for existing records in the system
@@ -435,6 +437,30 @@ public without sharing class UploadParticipantsDelegateHelper {
                     }
                 }
             }
+        }
+        Map<id,id> participantToPatientDelMap = new map<id,id>();
+        
+        for(Patient_Delegate__c getPatientDelegate : [Select id, Participant__c from Patient_Delegate__c where 
+                                                      Participant__c IN :setMainParticipantId  
+                                                      and Primary_Delegate__c=true] ){
+
+                     participantToPatientDelMap.put(getPatientDelegate.Participant__c,getPatientDelegate.id);
+                    }
+        
+        List<Patient_Delegate_Enrollment__c> updatePatientDelEnroll= new List<Patient_Delegate_Enrollment__c> ();
+        for( Patient_Delegate_Enrollment__c pder: [select id,Participant_Enrollment__c,Participant_Enrollment__r.Participant__c ,Patient_Delegate__c
+                                                from Patient_Delegate_Enrollment__c where 
+                                                Participant_Enrollment__r.Participant__c in : setMainParticipantId 
+                                                and Patient_Delegate__c=null]){
+                                                    if(participantToPatientDelMap.containsKey(pder.Participant_Enrollment__r.Participant__c))
+                                                    {
+                                                        pder.Patient_Delegate__c=ParticipantToPatientDelMap.get(pder.Participant_Enrollment__r.Participant__c);
+                                                        updatePatientDelEnroll.add(pder);
+                                                    }
+                                                    
+        }
+        if(!updatePatientDelEnroll.isEmpty()){
+            update updatePatientDelEnroll;
         }
         //Update the delegate contact with Delegate Participant Name
         Map<Id, Participant__c> contactToPart = new Map<Id, Participant__c>();
