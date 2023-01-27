@@ -9,6 +9,7 @@
     /* margin-left: 24px; */
     position: absolute;
     width: 62%;
+    min-height: 950px;
 }
 .profile-information {
     font-size: 24px;
