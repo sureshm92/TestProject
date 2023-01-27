@@ -31,11 +31,6 @@
     max-width: 85%;
 }
 
-.THIS .header-menu-link {
-    /* padding: 0 8px; */
-    padding: 0 1rem 0 0.5rem;
-}
-
 @media all and (orientation: landscape) and (max-width: 1024px) {
     .THIS.menu-block {
         position: static;
