@@ -228,6 +228,14 @@ export default class PpCommunityNavigation extends LightningElement {
                 visible: this.showAboutProgram ? this.showVisits : false,
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
+            'about-televisit': {
+                page:'televisit',
+                link: this.baseLink + '/pp/s/televisit',
+                label: televisits,
+                icon: '',
+                visible: this.showAboutTelevisit,
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
+            },
             results: {
                 page: 'results',
                 link: this.baseLink + '/pp/s/results',
@@ -243,13 +251,6 @@ export default class PpCommunityNavigation extends LightningElement {
                 icon: '',
                 visible: this.showAboutStudy,
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
-            },
-            'about-televisit': {
-                link: this.baseLink + '/pp/s/televisit',
-                label: televisits,
-                icon: '',
-                visible: this.showAboutTelevisit,
-                parentMenu: navigationMyStudy
             },
             'about-program': {
                 page: 'overview',
