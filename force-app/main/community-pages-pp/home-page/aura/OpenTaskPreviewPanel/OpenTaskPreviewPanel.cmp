@@ -13,6 +13,8 @@
     <aura:attribute name="isAlumni" type="Boolean" default="false" />
     <aura:attribute name="firstLoad" type="Boolean" default="false" />
     <aura:attribute name="cmpDef" type="Aura.Component" default="{!this}" />
+    <aura:attribute name="communityService" type="Object" />
+
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
