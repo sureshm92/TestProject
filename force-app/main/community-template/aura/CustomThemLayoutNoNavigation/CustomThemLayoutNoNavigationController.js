@@ -31,6 +31,7 @@
     },
 
     doGoHome: function () {
+        sessionStorage.setItem('Cookies', 'Accepted');
         communityService.navigateToPage('');
     }
 });

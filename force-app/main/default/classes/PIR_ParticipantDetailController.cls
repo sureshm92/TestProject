@@ -242,7 +242,8 @@ public without sharing class PIR_ParticipantDetailController {
     String delegateCriteria,
     String visitPlan,
     Boolean useDup,
-    String consentJSON
+    String consentJSON,
+    String contactIdSiteStaff
   ) {
     Boolean bol = true;
     try {
@@ -309,6 +310,28 @@ public without sharing class PIR_ParticipantDetailController {
           contactId = parti[0].Contact__c;
           insert pdToupdateAfterInsert;
           createPDE(parti[0].Contact__c,pdToupdateAfterInsert,perRecord,consentWrapper);
+        }else if(delegateCriteria == 'insertDelegateSiteStaff'){
+          Participant__c piToInsertDelegate = new Participant__c();
+          piToInsertDelegate = peDeligate.Participant_Delegate__r;
+          piToInsertDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+          piToInsertDelegate.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
+          piToInsertDelegate.id=null;
+          piToInsertDelegate.Contact__c=contactIdSiteStaff;
+          insert piToInsertDelegate;
+          List<Participant__c> parti = [SELECT Id, Contact__c FROM Participant__c WHERE Id = : piToInsertDelegate.Id];
+          Patient_Delegate__c pdToupdateAfterInsert = new Patient_Delegate__c(
+            Primary_Delegate__c = true,
+            Participant_Delegate__c = piToInsertDelegate.Id,
+            Participant__c = perRecord.Participant__c,
+            Contact__c = contactIdSiteStaff,
+            Status__c = 'Disconnected'
+          );
+          if(pdToupdateAfterInsert.Participant__c == null && perRecord.Participant__r.Id != null){
+                pdToupdateAfterInsert.Participant__c = perRecord.Participant__r.Id;
+          }
+          contactId = contactIdSiteStaff;
+          insert pdToupdateAfterInsert;
+          createPDE(contactIdSiteStaff,pdToupdateAfterInsert,perRecord,consentWrapper);
         }else if(delegateCriteria == 'updateParticipant'){
           Participant__c piToUpdateDelegate = new Participant__c();
           piToUpdateDelegate = peDeligate.Participant_Delegate__r;

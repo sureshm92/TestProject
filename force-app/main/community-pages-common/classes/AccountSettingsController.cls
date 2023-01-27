@@ -116,12 +116,12 @@ public without sharing class AccountSettingsController {
                         perListAllforCommPref.addAll(participantEnrollments);
                     }
                     
-                    //For Delegate of Alumni Participant, get the PER Record from Alumni Participant for Delegate Self View.
+                    //For Delegate of Alumni Participant, get the PER Record from Alumni Participant for Delegate View.
                     List<Id> peIdList= new List<Id>();
                     if (
                         (pastEnrollments == null || pastEnrollments.isEmpty()) &&
-                        participantState.hasPatientDelegates &&
-                        !participantState.isDelegate
+                        participantState.hasPatientDelegates                        
+                        // && !participantState.isDelegate
                     ) {
                         peIdList = PatientDelegateService.getAvailablePEIdsForDelContact(
                             participantState.participant.Contact__c

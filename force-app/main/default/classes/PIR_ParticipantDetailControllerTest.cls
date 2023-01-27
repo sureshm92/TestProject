@@ -121,7 +121,7 @@ public with sharing class PIR_ParticipantDetailControllerTest {
         String delegateString = '{ "Id": "","Participant_Delegate__c": "","Participant_Delegate__r": {"First_Name__c": "test1","Last_Name__c": "test","Email__c": "test2@test.com","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
         String consentJSON = '{ "Study_Email_Consent": true,"Study_info_storage_consent": true,"Study_Phone_Consent":true,"Study_SMS_Consent":true }';
         Test.startTest();
-        Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(perRec,delegateString,true, true,true,false,'insertDelegate','',false,consentJSON);
+        Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(perRec,delegateString,true, true,true,false,'insertDelegate','',false,consentJSON,'');
         System.assertEquals(true,isSavePrDetails);
         Test.stopTest();
     }
@@ -204,21 +204,21 @@ public with sharing class PIR_ParticipantDetailControllerTest {
          String delegateIdString1 = '{ "Id": "'+patientDelegate.Id+'","Contact__c":"'+delegate.Id+'","Participant_Delegate__c": "'+pe.Id+'","Participant_Delegate__r": {"Id":"'+patientDelegate.Participant_Delegate__r.Id+'","Contact__c":"'+delegate.Id+'","First_Name__c": "test1","Last_Name__c": "'+patientDelegate.Participant_Delegate__r.Last_Name__c+'","Email__c": "'+patientDelegate.Participant_Delegate__r.Email__c+'","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
          String consentJSON = '{ "Study_Email_Consent": true,"Study_info_storage_consent": true,"Study_Phone_Consent":true,"Study_SMS_Consent":true }';
         Test.startTest();
-        Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,false,'updateDeligate','',true,consentJSON);
-          Boolean isSavePrDetails1 = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,false,'updateDeligate','',false,consentJSON);
+        Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,false,'updateDeligate','',true,consentJSON,'');
+          Boolean isSavePrDetails1 = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,false,'updateDeligate','',false,consentJSON,'');
         
-          Boolean isSavePrDetails4 = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString1,false, false,true,false,'updateDeligate','',true,consentJSON);
+          Boolean isSavePrDetails4 = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString1,false, false,true,false,'updateDeligate','',true,consentJSON,'');
         
-          Boolean isSavePrDetails2 = PIR_ParticipantDetailController.doSaveParticipantDetails(pe,delegateIdString,false, false,true,true,'updateDeligate','',false,consentJSON);
+          Boolean isSavePrDetails2 = PIR_ParticipantDetailController.doSaveParticipantDetails(pe,delegateIdString,false, false,true,true,'updateDeligate','',false,consentJSON,'');
       
-          Boolean isSavePrDetails3 = PIR_ParticipantDetailController.doSaveParticipantDetails(pe,delegateIdString,false, false,false,true,'updateDeligate','',false,consentJSON);
+          Boolean isSavePrDetails3 = PIR_ParticipantDetailController.doSaveParticipantDetails(pe,delegateIdString,false, false,false,true,'updateDeligate','',false,consentJSON,'');
         System.assertEquals(true,isSavePrDetails);
-        PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,false,'updateParticipant','',false,consentJSON);
+        PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,false,'updateParticipant','',false,consentJSON,'');
         try{
-            PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,true,'','',false,consentJSON);
+            PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,true,'','',false,consentJSON,'');
         }catch(Exception ex){}
         String delegateDeleteString = '{ "Id": "'+patientDelegate.Id+'","Participant_Delegate__c": "'+patientDelegate.Participant_Delegate__r.Id+'","Participant_Delegate__r": {"Id":"'+patientDelegate.Participant_Delegate__r.Id+'","First_Name__c": "","Last_Name__c": "'+patientDelegate.Participant_Delegate__r.Last_Name__c+'","Email__c": "'+patientDelegate.Participant_Delegate__r.Email__c+'","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
-        PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateDeleteString,false, false,true,false,'','',false,consentJSON);
+        PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateDeleteString,false, false,true,false,'','',false,consentJSON,'');
         Test.stopTest();
     }
     
