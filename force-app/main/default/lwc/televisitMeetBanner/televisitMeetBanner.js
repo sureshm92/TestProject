@@ -33,7 +33,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     hasActiveVisits = false;
     UPCOMING_VISIT = UPCOMING_VISIT;
     showTelevisitCameraAndMicrophoneAccessPopup = false;
-
+    bgCss;
     @track labels = {
         UPCOMING_VISIT,
         PT_TV_MEET_INFO,
@@ -43,6 +43,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
     // Initializes the component
     connectedCallback() {
+        this.getCommunintyTemplateName();
         this.getVisits();
         this.loadCometdScript();
         this.timeInterval();
@@ -101,12 +102,21 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 //TODO
             });
     }
+    getCommunintyTemplateName() {
+        if(this._currentMode.template.communityName === 'IQVIA Patient Portal'){
+            this.bgCss = 'divBodyPP2 slds-p-around_medium slds-text-color_inverse';
+        }else{
+            this.bgCss = 'divBody slds-p-around_medium slds-text-color_inverse';
+        }
+        
+    }
+
     getVisits() {
         console.log('Televisit Get visits called');
         this.hasVisits = true;
         this.showMoreVisits = false;
         getVisits({
-            communityMode: this._currentMode.template.communityName,
+            communityMode: this._currentMode.template.communityName, 
             userMode: this._currentMode.userMode
         })
             .then((result) => {
@@ -167,9 +177,9 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
     @api
     get currentMode() {
-        return this._currentMode;
+        return this._currentMode;        
     }
-    set currentMode(value) {
+    set currentMode(value) {  
         this._currentMode = value;
         if (this._currentMode) {
             this.getVisits();
