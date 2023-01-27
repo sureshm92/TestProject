@@ -8,10 +8,11 @@
     border: 1px solid #e9e9e9;
     border-radius: 4px;
     background: #fff;
-    min-height: 800px;
+    min-height: 950px;
 }
 .THIS .RTL {
-   /* @noflip */  direction: rtl;
+    /* @noflip */
+    direction: rtl;
 }
 
 .THIS .cRrSelect.rrs-container select,
@@ -62,9 +63,10 @@
     min-width: 320px;
 }
 .THIS .NavContainer1 .RTL {
-    /* @noflip */  padding: 1.5rem 1.5rem 0 0;
- }
- 
+    /* @noflip */
+    padding: 1.5rem 1.5rem 0 0;
+}
+
 .THIS .NavContainer1 .LTR {
     padding: 1.5rem 0 0 1.5rem;
 }
@@ -137,7 +139,7 @@
         position: relative;
         height: 50px;
         margin-top: 0;
-         border-bottom: 1px solid #c9c9c9;
+        border-bottom: 1px solid #c9c9c9;
     }
 
     .THIS .navBar ul {
@@ -226,7 +228,6 @@
 
     .THIS .NavContainer {
         min-height: 100vh;
-        
     }
 
     .THIS .navBar ul {
