@@ -108,6 +108,7 @@ public without sharing class PreferenceManagementController {
             if (cont != null) {
                 update cont;
             }
+            /*Not Required as Part of Delegate Redesign 
             //Update consent at Primady Delegate contact also when Participant consents got updated by Participant or Primary Delegate under participant account setting.
             if (
                 consentContactData.participantLoogedIn ||
@@ -122,6 +123,7 @@ public without sharing class PreferenceManagementController {
                     updatePrimaryDelegateCommConsent(cont);
                 }
             }
+            */
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -303,6 +305,7 @@ public without sharing class PreferenceManagementController {
      * @param: parContact
      * @return:
      **/
+    /*Not required as part of Delegate Redesign
     public static Void updatePrimaryDelegateCommConsent(Contact parContact) {
         //Get Patient Delegate for the logged in Participant.
         List<Patient_Delegate__c> pdLest = PatientDelegateService.getPDelegates(parContact.Id);
@@ -323,7 +326,7 @@ public without sharing class PreferenceManagementController {
         if (primaryDelContToUpd != null && !primaryDelContToUpd.isEmpty()) {
             update primaryDelContToUpd;
         }
-    }
+    }*/
     /**
      * @description: This Method will opt out Study/Platfrom level SMS if MobilePhone is deleted.
      * @author: Krishna Mahto
