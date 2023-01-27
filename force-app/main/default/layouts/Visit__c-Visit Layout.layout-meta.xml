@@ -38,6 +38,10 @@
                 <behavior>Edit</behavior>
                 <field>Patient_Portal_Name__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Visit_Description__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsTopToBottom</style>

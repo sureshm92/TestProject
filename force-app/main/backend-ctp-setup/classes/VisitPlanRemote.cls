@@ -100,7 +100,7 @@ public without sharing class VisitPlanRemote {
                 Order__c,
                 Patient_Portal_Name__c,
                 Visit_Number__c,
-                Visit_Schedule__c
+                Visit_Description__c
             FROM Visit__c
             WHERE Visit_Plan__c = :planId
             ORDER BY Visit_Number__c NULLS LAST
