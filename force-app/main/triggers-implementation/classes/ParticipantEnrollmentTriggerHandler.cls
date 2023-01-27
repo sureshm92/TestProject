@@ -235,8 +235,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 per.Initial_visit_occurred_flag__c !=
                 oldMap.get(per.Id).Initial_visit_occurred_flag__c ||
                 per.Initial_visit_occurred_date__c !=
-                oldMap.get(per.Id).Initial_visit_occurred_date__c)) ||
-                per.ParticipantNoShow__c != oldMap.get(per.Id).ParticipantNoShow__c ||
+                oldMap.get(per.Id).Initial_visit_occurred_date__c ||
+                per.ParticipantNoShow__c != oldMap.get(per.Id).ParticipantNoShow__c)) ||
                 //Insert
                 (oldMap == null &&
                 (per.Initial_visit_scheduled_date__c != null ||

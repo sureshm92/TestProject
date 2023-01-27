@@ -154,6 +154,18 @@ export default class PpCreateTaskReminder extends LightningElement {
                                 this.editMode
                                     ? (this.isTaskDueDateTimeSelected = true)
                                     : 'Not Today!!';
+                                //for past tasks with no reminder disable reminder dropdown
+                                let currentDateTime = new Date().toLocaleString('en-US', {
+                                    timeZone: TIME_ZONE
+                                });
+                                if (
+                                    this.editMode &&
+                                    this.taskDueDateTime &&
+                                    !this.initData.reminderDate &&
+                                    new Date(this.taskDueDateTime) <= new Date(currentDateTime)
+                                ) {
+                                    this.isTaskDueDateTimeSelected = false;
+                                }
                                 this.selectedReminderDate = this.initData.reminderDate;
                                 this.selectedReminderDateTime = this.initData.reminderDate;
                             }

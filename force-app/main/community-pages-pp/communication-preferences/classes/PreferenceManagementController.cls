@@ -16,14 +16,18 @@ public without sharing class PreferenceManagementController {
     ) {
         System.debug('***Study Data: ' + studyDataJSON);
         System.debug('****Outreach Data: ' + outReachDataJSON);
-        //Update Study Consent.
+        
         if (requestFrom == 'PER') {
+            //Update Study Consent.
             saveStudyConsent(studyDataJSON);
-        }
-        //Update IQVIA Outreach Consent.
-        if (requestFrom == 'IQVIA_OUTREACH') {
+        }else if (requestFrom == 'PDE') {
+            //Update Patient Delegate enrollment Consent.
+            savePDEConsent(studyDataJSON);
+        }else if (requestFrom == 'IQVIA_OUTREACH') {
+            //Update IQVIA Outreach Consent.
             saveIQVIAOutreachConsent(outReachDataJSON);
         }
+        
     }
 
     @AuraEnabled
@@ -60,6 +64,28 @@ public without sharing class PreferenceManagementController {
                 List<Id> perIdList = new List<Id>{ consentData.perId };
                 processSMSOptOutForDelegate(perIdList, consentData.ParticipantContId);
             }
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+    /**
+     * @description: This Method will save the PDE Consent data checked/uncheck by Patient delegate.
+     * @author: Krishna Mahto
+     * @param: studyDataJSON
+     * @return:
+     **/
+    public static void savePDEConsent(String studyDataJSON) {
+        try {
+            ConsentPreferencePDEDataWrapper consentData = (ConsentPreferencePDEDataWrapper) JSON.deserialize(
+                studyDataJSON,
+                ConsentPreferencePDEDataWrapper.class
+            );
+            Patient_Delegate_Enrollment__c pde = consentData.convertToPDE();
+            system.debug('pde: ' + pde);
+            if (pde != null) {
+                update pde;
+            }
+            
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -170,6 +196,34 @@ public without sharing class PreferenceManagementController {
                 per.Welcome_Message_Delivered__c = false;
             }
             return per;
+        }
+    }
+    public class ConsentPreferencePDEDataWrapper {
+        @AuraEnabled
+        public String pdeId;
+        @AuraEnabled
+        public Boolean delegateOptInEmail;
+        @AuraEnabled
+        public Boolean delegateOptInSMSText;
+        @AuraEnabled
+        public Boolean delegateOptInPhone;
+        @AuraEnabled
+        public Boolean delegateOptInDirectEmail;
+
+        public Patient_Delegate_Enrollment__c convertToPDE() {
+            Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
+            pde.Id = pdeId;
+            pde.Study_Email_Consent__c = delegateOptInEmail;
+            pde.Study_SMS_Consent__c = delegateOptInSMSText;
+            pde.Study_Phone_Consent__c = delegateOptInPhone;
+            pde.Study_Direct_Mail_Consent__c = delegateOptInDirectEmail;
+
+            //IF SMS opt out, revert the welcome message flag at PDE.
+            if (!pde.Study_SMS_Consent__c) {
+                pde.Welcome_Message_Sent__c = false;
+                pde.Welcome_Message_Delivered__c = false;
+            }
+            return pde;
         }
     }
     public class ConsentPreferenceContactDataWrapper {
