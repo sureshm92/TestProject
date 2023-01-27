@@ -953,7 +953,7 @@ export default class Pir_participantDetail extends LightningElement {
     showDupMsg = false;
     delOp = '';
     
-    @api dupDelPartId;@api dupDelConsented = false;
+    @api dupDelPartId;@api dupDelConsented = false;@api hasSiteStaff=false;@api contactIdSiteStaff;@api contactPhone;
 
     setshowDupMsg() {
         try {
@@ -1014,12 +1014,45 @@ export default class Pir_participantDetail extends LightningElement {
                                 this.newDupDel = null;
                             }
                             else {
-                                show = true;
-                                this.duplicateDelegateInfo = { email: result.email, lastName: result.lastName, firstName: result.firstName };
-                                this.showDupMsg = show;
-                                this.newDupDel = result.DelegateParticipant;
-                                this.dupDelPartId = result.PartcipantId;
-                                this.checkDupDelegateConsent();
+                                if(JSON.stringify(result.DelegateParticipant.Id) != null && 
+                                JSON.stringify(result.DelegateParticipant.First_Name__c) != null && 
+                                JSON.stringify(result.DelegateParticipant.Email__c) != null &&
+                                JSON.stringify(result.DelegateParticipant.Last_Name__c) != null &&
+                                result.PartcipantId
+                                ){
+                                    show = true;
+                                    this.duplicateDelegateInfo = { email: result.email, lastName: result.lastName, firstName: result.firstName };
+                                    this.showDupMsg = show;
+                                    this.newDupDel = result.DelegateParticipant;
+                                    this.dupDelPartId = result.PartcipantId;
+                                    this.checkDupDelegateConsent();
+                                }else{
+                                    
+                                    show = true;
+                                    this.duplicateDelegateInfo = { email: this.pd.delegate.Participant_Delegate__r.Email__c, lastName: this.pd.delegate.Participant_Delegate__r.Last_Name__c, firstName: this.pd.delegate.Participant_Delegate__r.First_Name__c };
+                                    this.showDupMsg = show;
+                                    this.newDupDel = null;console.log('3');
+                                    this.newDel = {};
+                                    this.newDel.Email__c = this.pd.delegate.Participant_Delegate__r.Email__c;
+                                    this.newDel.Last_Name__c = this.pd.delegate.Participant_Delegate__r.Last_Name__c;
+                                    this.newDel.First_Name__c = this.pd.delegate.Participant_Delegate__r.First_Name__c;
+                                    this.newDel.Birth_Year__c = this.pd.delegate.Participant_Delegate__r.Birth_Year__c;
+                                  
+                                    this.newDel.Id = null;
+                                    this.pd.delegate.Participant_Delegate__r.Id = null;
+                                    this.pd.delegate.Participant_Delegate__r.Attestation__c = false;
+                                    this.pd.delegate.Participant_Delegate__r.Birth_Year__c = '';
+                                    this.contactPhone = result.participantPhoneNumber;
+                                    this.newDel.Birth_Year__c = null;
+                                    this.showDelYear = true;
+                                    this.showDelConsent=true;
+                                    this.noYOB = false;
+                                    this.delOp = 'insertDelegateSiteStaff';
+                                    this.hasSiteStaff = true;
+                                    this.contactIdSiteStaff = result.contactId;
+                                    
+                                }
+                              
                             }
                         }
                         else {
@@ -1077,26 +1110,34 @@ export default class Pir_participantDetail extends LightningElement {
     }
     abortDup = false;useDup=false;showConsent=false;
     useDuplicateRecord() {
-        this.abortDup = true;
-        this.showConsent=true;
-        try {
-            this.newDel = JSON.parse(JSON.stringify(this.newDupDel));
-            this.pd.delegate.Id = '';
-            this.pd.delegate.Participant_Delegate__r = JSON.parse(JSON.stringify(this.newDupDel));
-            this.pd.delegate.Participant_Delegate__c = this.pd.delegate.Participant_Delegate__r.Id;
-            this.delOp = 'updateDeligate';
-            this.showDelYear = false;
-            if(!this.dupDelConsented){
-            this.showDelConsent=true;}else{
-                this.showDelConsent=false;
-            }
+        if(this.hasSiteStaff){
             this.showDupMsg = false;
             this.showUpdateMsg = false;
+            this.abortDup = true;
+            this.hasSiteStaff = false;
             this.setVal(this.pd.delegate.Participant_Delegate__r.Phone__c, '3', 'dphone');
-            this.useDup = true;
-            this.toggleSave();
-        } catch (e) {
-            console.log(e.message);
+        }else{
+            this.abortDup = true;
+            this.showConsent=true;
+            try { 
+                this.newDel = JSON.parse(JSON.stringify(this.newDupDel));
+                this.pd.delegate.Id = '';
+                this.pd.delegate.Participant_Delegate__r = JSON.parse(JSON.stringify(this.newDupDel));
+                this.pd.delegate.Participant_Delegate__c = this.pd.delegate.Participant_Delegate__r.Id;
+                this.delOp = 'updateDeligate';
+                this.showDelYear = false;
+                if(!this.dupDelConsented){
+                this.showDelConsent=true;}else{
+                    this.showDelConsent=false;
+                }
+                this.showDupMsg = false;
+                this.showUpdateMsg = false;
+                this.setVal(this.pd.delegate.Participant_Delegate__r.Phone__c, '3', 'dphone');
+                this.useDup = true;
+                this.toggleSave();
+            } catch (e) {
+                console.log(e.message);
+            }
         }
     }
     newDel = null;
@@ -1345,7 +1386,7 @@ export default class Pir_participantDetail extends LightningElement {
         this.dispatchEvent(new CustomEvent('toggleclick'));
         this.saving = true;
         var updates = this.isUpdated();
-        doSaveParticipantDetails({ perRecord: this.pd.pe, peDeligateString: JSON.stringify(this.pd.delegate), isPeUpdated: updates.isPeUpdated, isPartUpdated: updates.isPartUpdated, isDelUpdated: updates.isDelUpdated, isOutreachUpdated: this.isOutreachUpdated, delegateCriteria: this.delOp, visitPlan: this.vPlan, useDup: this.useDup, consentJSON: JSON.stringify(this.consentfields) })
+        doSaveParticipantDetails({ perRecord: this.pd.pe, peDeligateString: JSON.stringify(this.pd.delegate), isPeUpdated: updates.isPeUpdated, isPartUpdated: updates.isPartUpdated, isDelUpdated: updates.isDelUpdated, isOutreachUpdated: this.isOutreachUpdated, delegateCriteria: this.delOp, visitPlan: this.vPlan, useDup: this.useDup, consentJSON: JSON.stringify(this.consentfields), contactIdSiteStaff:this.contactIdSiteStaff })
             .then(result => {
                 this.dispatchEvent(new CustomEvent('toggleclick'));
                 this.dispatchEvent(new CustomEvent('handletab'));
