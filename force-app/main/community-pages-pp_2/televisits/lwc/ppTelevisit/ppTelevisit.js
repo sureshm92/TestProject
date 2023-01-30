@@ -43,21 +43,25 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
     connectedCallback() {
         getParticipantDetails()
         .then((result) => {
-            this.pastTelevisitlist = result.televisitpastList;
-            this.upcomingTelevisitslist = result.televisitupcomingList;
-            if(this.pastTelevisitlist.length == 0){
-                this.showblankpasttelsvisits = true;
-            }
-            if(this.upcomingTelevisitslist.length == 0){
-                this.showblankupcomingtelevisits = true;
-                console.log('++++++++++this.showblankupcomingtelevisits'+this.showblankupcomingtelevisits);
-            }
-            if(result.showDefault == 'upcoming'){
-                this.past = false;
-                this.showupcomingtelevisits = true; 
+            if(result != undefined && result != ''){
+                this.pastTelevisitlist = result.televisitpastList;
+                this.upcomingTelevisitslist = result.televisitupcomingList;
+                if(this.pastTelevisitlist.length == 0){
+                    this.showblankpasttelsvisits = true;
+                }
+                if(this.upcomingTelevisitslist.length == 0){
+                    this.showblankupcomingtelevisits = true;
+                }
+                if(result.showDefault == 'upcoming'){
+                    this.past = false;
+                    this.showupcomingtelevisits = true; 
+                }else{
+                    this.past = true;
+                    this.showuppasttelevisits = true; 
+                }
             }else{
-                this.past = true;
-                this.showuppasttelevisits = true; 
+                this.showblankupcomingtelevisits = true;
+                this.showblankpasttelsvisits = true;
             }
             this.template.querySelector('c-web-spinner').hide();
             this.contentLoaded = true;
