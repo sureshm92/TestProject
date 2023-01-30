@@ -65,6 +65,13 @@
         <value>Showing:</value>
     </labels>
     <labels>
+        <fullName>RH_StudyDelegateConsentEmail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudyDelegateConsentEmail</shortDescription>
+        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with study team and to be contacted at the email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
+    </labels>
+    <labels>
         <fullName>RH_No_Active_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
