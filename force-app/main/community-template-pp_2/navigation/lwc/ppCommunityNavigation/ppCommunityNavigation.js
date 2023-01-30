@@ -142,7 +142,7 @@ export default class PpCommunityNavigation extends LightningElement {
             help: {
                 page: 'help',
                 label: navigationHelp,
-                icon: 'help'
+                icon: 'help-wheel'
             },
             'participant-home': {
                 page: '',
@@ -153,7 +153,7 @@ export default class PpCommunityNavigation extends LightningElement {
             'my-study': {
                 page: '',
                 label: this.showAboutProgram ? navigationMyProgram : navigationMyStudy,
-                icon: 'about-the-study',
+                icon: 'folder_study',
                 expand: true,
                 displayIcon: false
             },
@@ -165,7 +165,7 @@ export default class PpCommunityNavigation extends LightningElement {
             resources: {
                 page: 'resources',
                 label: navigationResources,
-                icon: 'resources'
+                icon: 'folder_study'
             },
             'past-studies': {
                 page: 'past-studies',
