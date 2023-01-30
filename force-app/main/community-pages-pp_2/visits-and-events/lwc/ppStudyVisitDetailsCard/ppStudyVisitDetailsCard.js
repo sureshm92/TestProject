@@ -527,6 +527,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     setAttributeValueEmail(event) {
         this.reminderChanged = true;
         if ((event.target.checked || this.sms) && this.remindmepub !== this.label.custom) {
+            this.disableButtonSaveCancel = false;
         } else if (
             (event.target.checked || this.sms) &&
             this.selectedReminderDateTime &&
@@ -549,6 +550,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     setAttributeValueSms(event) {
         this.reminderChanged = true;
         if ((event.target.checked || this.email) && this.remindmepub !== this.label.custom) {
+            this.disableButtonSaveCancel = false;
         } else if (
             (event.target.checked || this.email) &&
             this.selectedReminderDateTime &&
