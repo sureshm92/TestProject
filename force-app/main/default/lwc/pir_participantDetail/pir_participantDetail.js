@@ -1236,6 +1236,7 @@ export default class Pir_participantDetail extends LightningElement {
     }
     delAttest(event) {
         this.pd.delegate.Participant_Delegate__r.Attestation__c = event.target.checked;
+        this.pd.delegate.Participant_Delegate__r.Adult__c = event.target.checked;
         this.toggleSave();
     }
     @api consentfields={};

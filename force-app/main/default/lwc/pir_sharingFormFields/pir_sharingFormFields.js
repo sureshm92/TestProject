@@ -27,6 +27,7 @@ export default class Pir_sharingFormFields extends LightningElement {
     @api isValid;
     @api sharingObject;
     @api participantObject;
+    @api selectedPer;
     value = [];
     communityTemplate ='';
     @api isAdultDelegate;
@@ -416,7 +417,8 @@ export default class Pir_sharingFormFields extends LightningElement {
                 delegateId: this.sharingObject.delegateId ? this.sharingObject.delegateId : null,
                 ddInfo: dupObj,
                 createUser: isDelegateInvited,
-                YearOfBirth : this.sharingObject.Birth_Year__c != '' ? this.sharingObject.Birth_Year__c : ''
+                YearOfBirth : this.sharingObject.Birth_Year__c != '' ? this.sharingObject.Birth_Year__c : '',
+                perID: this.selectedPer.id
             })
             .then((result) => {
                 this.updatePER();
