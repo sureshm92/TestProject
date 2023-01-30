@@ -737,7 +737,7 @@ public without sharing class PIR_HomepageController {
     status.add('Successfully re-engaged');
     status.add('Enrollment Success');
     status.add('Randomization Success');
-    status.add(' Pre-review Failed');
+    status.add('Pre-review Failed');
     status.add('Unable to Reach');
     status.add('Contacted - Not Suitable');
     status.add('Eligibility Failed');
