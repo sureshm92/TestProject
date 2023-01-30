@@ -95,8 +95,9 @@ public without sharing class ParticipantTelevisitRemote {
                 }else{
                     tw.showDefault = 'past';
                 }
+                return tw;
             }
-            return tw;
+            return null;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
