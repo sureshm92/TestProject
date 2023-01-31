@@ -24,7 +24,4 @@
 
     <!-- component body: -->
     <div class="rr-all-content">{!v.body}</div>
-    <aura:if isTrue="{!v.initialized}">
-        <c:ppCookiesBanner />
-    </aura:if>
 </aura:component>

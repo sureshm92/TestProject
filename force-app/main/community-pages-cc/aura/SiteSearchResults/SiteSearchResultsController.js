@@ -1,5 +1,6 @@
 ({
     doNavigate: function (component, event, helper) {
+        sessionStorage.setItem('Cookies', 'Accepted');
         let index = event.currentTarget.dataset.index;
         let filteredResultSet = component.get('v.filteredResultSet');
         let siteData =
