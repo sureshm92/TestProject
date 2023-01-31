@@ -71,7 +71,13 @@
                             value="{!v.visit.Visit_Description__c}"
                         />
                     </div>
-                    <div class="slds-col slds-size--1-of-2"></div>
+                    <div class="slds-col slds-size--1-of-2">
+                        <lightning:input
+                            type="text"
+                            label="Motivational Message"
+                            value="{!v.visit.Motivational_Message__c}"
+                        />
+                    </div>
                 </div>
             </aura:if>
             <c:VisitIconsSection aura:id="iconsSet" icons="{!v.icons}" visit="{!v.visit}" />
