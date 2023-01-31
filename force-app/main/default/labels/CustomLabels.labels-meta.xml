@@ -65,6 +65,13 @@
         <value>Showing:</value>
     </labels>
     <labels>
+        <fullName>RH_StudyDelegateConsentEmail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudyDelegateConsentEmail</shortDescription>
+        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with study team and to be contacted at the email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
+    </labels>
+    <labels>
         <fullName>RH_No_Active_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -30175,7 +30182,6 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Body Follow Up Reminder PP</shortDescription>
         <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link below, so that you can enroll and view your ##isStudyorProgram progress and additional information.
 
-
         Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the ##StudyorProgramHeader.
 
         Your user name is ##UserName.</value>
@@ -30335,5 +30341,17 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Task</shortDescription>
         <value>Reminder must be prior to task.</value>
+    </labels>
+    <labels>        
+        <fullName>Email_Signature_New_Short_PP</fullName>        
+        <language>en_US</language>        
+        <protected>false</protected>        
+        <shortDescription>Email Signature New Participant Delegate PP</shortDescription>        
+        <value>&lt;br /&gt; &lt;br /&gt;We are excited to be on this journey with you.
+                
+            Sincerely,            
+    
+            ##SignatureShortCommunityName</value>    
+    </labels>  
     </labels>
 </CustomLabels>

@@ -85,6 +85,7 @@ public without sharing class StudySiteTriggerHandler {
         Map<Id, Study_Site__c> oldMap
     ) {
         List<ID> participantids = new List<ID>();
+        List<Id> perIdlst = new List<Id>();
         Map<Id, List<Id>> partPerDelegateIds = new Map<Id, List<Id>>();
         List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
         Map<Id, Study_Site__c> welcomesmsIDS = new Map<Id, Study_Site__c>(); //Added by Anitha
@@ -178,15 +179,15 @@ public without sharing class StudySiteTriggerHandler {
                     //Added for Delegate
                     if (!per.Welcome_Message_Sent__c && !String.isBlank(per.Participant__c)) {
                         participantids.add(per.Participant__c);
+                        perIdlst.add(per.Id);
                     }
                 }
             }
     
             //Added for Delegate
-            if (participantids.size() > 0) {
-                String fieldFilter = 'Patient_Delegate__r.Participant__c';
+            if (participantids.size() > 0 && perIdlst.size()> 0 ) {
             PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
-                participantIds,fieldFilter
+                participantIds,perIdlst
             );
             partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
 

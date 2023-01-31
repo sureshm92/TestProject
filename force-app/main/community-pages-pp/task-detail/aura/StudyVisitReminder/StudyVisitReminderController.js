@@ -245,7 +245,7 @@
         component.set('v.initData.today', new Date(new Date() + 60 * 1000));
 
         if (remindMe !== 'Custom') {
-            if (remindMe.toUpperCase() === '1 Week before'.toUpperCase()) {
+            if (remindMe && remindMe.toUpperCase() === '1 Week before'.toUpperCase()) {
                 isGreaterThanToday = moment(dueDateOrplanDate).subtract(7, 'days').isBefore(today);
             } else if (remindMe === '1 day before') {
                 isGreaterThanToday = moment(dueDateOrplanDate).subtract(1, 'days').isBefore(today);

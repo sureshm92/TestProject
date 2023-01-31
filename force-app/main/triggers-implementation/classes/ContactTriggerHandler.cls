@@ -452,9 +452,9 @@ public without sharing class ContactTriggerHandler {
                 system.debug('participantcontact:::' + participantcontact);
             }
             if (participantids.size() > 0) {
-                String fieldFilter = 'Patient_Delegate__r.Participant__c';
+                List<Id> perIdList = new List<Id>();
                 PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
-                    participantIds,fieldFilter
+                    participantIds,perIdList
                 );
                 partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
                 
@@ -631,6 +631,7 @@ public without sharing class ContactTriggerHandler {
         Set<ID> deleConIdSet = new Set<ID>();
         Map<Id, Contact> contMapForStatusUpdate = new Map<Id, Contact>();
         List<ID> participantids = new List<ID>();
+        List<Id> perIdlst = new List<Id>();
         List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
         Map<Id, List<Id>> partPerDelegateIds = new Map<Id, List<Id>>();
         List<Task> taskForUpdatePhoneNumber = new List<Task>();
@@ -665,14 +666,15 @@ public without sharing class ContactTriggerHandler {
             if (!peIdMap.isEmpty()) {
                 for (Participant_Enrollment__c per : peIdMap.values()) {
                     participantIds.add(per.Participant__c);
+                    perIdlst.add(per.Id);
                 }
-                if (participantids.size() > 0) {
+                if (participantids.size() > 0 && perIdlst.size()>0) {
                     /*partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
 participantIds
 );*/
                     String fieldFilter = 'Patient_Delegate__r.Participant__c';
                     PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
-                        participantIds,fieldFilter
+                        participantIds,perIdlst
                     );
                     partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
                     
