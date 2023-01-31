@@ -65,15 +65,19 @@ export default class PpCookiesBanner extends LightningElement {
     contact;
     dynamicCSSAppend = pp_icons + '/right.svg';
     cookiesBannerDesc3;
+    isDummy;
 
     connectedCallback() {
+        if (communityService.isInitialized()) {
+            this.isDummy = communityService.isDummy();
+        }
         this.cookiesBannerDesc3 = ' ' + this.label.ppCookiesBannerDesc3;
         let rrCookies = communityService.getCookie('RRCookies');
         let data = sessionStorage.getItem('Cookies');
-        if (data) {
+        if (data || this.isDummy) {
             this.showBanner = false;
         }
-        if ((!rrCookies || this.loginPage) && !data) {
+        if ((!rrCookies || this.loginPage) && !data && !this.isDummy) {
             this.showBanner = true;
             this.blockBackGroundEvents();
             if (this.communityName == 'Default' || this.communityName == 'IQVIA Referral Hub') {
