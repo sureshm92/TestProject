@@ -557,9 +557,23 @@ public without sharing class PatientDelegateEnrollmentService {
         return delContactsByPartCnt;
     }
 
-    public static list<Patient_Delegate_Enrollment__c> getPatientEnrollmentList(List<Id> idlst, String fieldFilter) {
+    public static list<Patient_Delegate_Enrollment__c> getPatientEnrollmentList(List<Id> participantIdlst, List<Id> perIdlst) {
         list<Patient_Delegate_Enrollment__c> pdedelegatesList = new list<Patient_Delegate_Enrollment__c>();
-        if(idlst != null){
+        if(participantIdlst != null){
+            String baseFilter = DatabaseService.fieldInValues(
+                'Patient_Delegate__r.Participant__c',
+                participantIdlst
+            ) +
+                ' AND ' +
+                DatabaseService.fieldEqual('Status__c', 'Active') +
+                (!perIdlst.isEmpty()
+                 ? (' AND ' +
+                    DatabaseService.fieldInValues(
+                        'Participant_Enrollment__c',
+                        perIdlst
+                    ))
+                 : '');
+            
             pdedelegatesList = DatabaseService.query(
                 new List<String>{
                     'Id',
@@ -586,19 +600,13 @@ public without sharing class PatientDelegateEnrollmentService {
                         'Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c'
                         },
                 Patient_Delegate_Enrollment__c.getSObjectType(),
-                DatabaseService.fieldInValues(
-                    fieldFilter,
-                    idlst
-                ) +
-                ' AND ' +
-                DatabaseService.fieldEqual('Status__c', 'Active') 
+                baseFilter
             );
-            
         }
         return pdedelegatesList;
     }
-    public static PDEWrapper getDelegatedContactIdsByParticipantIdMap(List<Id> idlst, String fieldFilter){
-        List<Patient_Delegate_Enrollment__c> pdlst = getPatientEnrollmentList(idlst,fieldFilter);
+    public static PDEWrapper getDelegatedContactIdsByParticipantIdMap(List<Id> idlst, List<Id> perIdlst){
+        List<Patient_Delegate_Enrollment__c> pdlst = getPatientEnrollmentList(idlst,perIdlst);
         PDEWrapper delConMap = new PDEWrapper();
         if(pdlst != null && !pdlst.isEmpty()){
             Map<Id, List<Id>> delegatedContactsByParticipantMap = new Map<Id, List<Id>>();
