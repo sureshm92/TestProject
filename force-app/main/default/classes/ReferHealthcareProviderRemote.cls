@@ -550,14 +550,13 @@ global without sharing class ReferHealthcareProviderRemote {
                 }
                 Patient_Delegate_Enrollment__c getPtDelegateEnroll = [Select id, Patient_Delegate__c, Status__c,isInviteToPP__c
                             from  Patient_Delegate_Enrollment__c where id=:delegateId];
-                           
+                getPtDelegateEnroll.Status__c = DEL_ACTIVE;
 
                 if(createUser) { //RH-5163
                 	update new Patient_Delegate__c(Id = getPtDelegateEnroll.Patient_Delegate__c, Status__c = DEL_ACTIVE, isInviteToPP__c=true);
                     getPtDelegateEnroll.isInviteToPP__c = true;
                 } else {
                     update new Patient_Delegate__c(Id = getPtDelegateEnroll.Patient_Delegate__c, Status__c = DEL_ACTIVE);
-                    getPtDelegateEnroll.Status__c = DEL_ACTIVE;
                 }
                 update getPtDelegateEnroll;
             }
