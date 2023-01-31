@@ -76,6 +76,7 @@ global without sharing class EmailTemplateDelegatePartController {
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
                 AND Patient_Delegate__r.Contact__c = :contactIds
+                and Status__c='Active'
             ORDER BY CreatedDate
         ];
         for (Patient_Delegate_Enrollment__c pe : pde)
