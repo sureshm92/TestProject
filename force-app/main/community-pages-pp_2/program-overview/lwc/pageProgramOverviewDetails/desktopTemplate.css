@@ -146,7 +146,6 @@ span:hover {
     padding: 15px;
     text-align: justify;
     word-break: break-word;
-    margin-right: 32px;
     font-size: 16px;
     font-weight: 500;
 }
@@ -272,7 +271,4 @@ span:hover {
 }
 .pointer {
     cursor: pointer;
-}
-.po-custom-card {
-    margin-top: -30px !important;
 }
