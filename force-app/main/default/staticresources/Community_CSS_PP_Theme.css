@@ -1015,9 +1015,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     font-weight: 600 !important;
 }
 
-.study-program-anchor lightning-tab-bar ul{
-    margin-right: 33px;
-}
 
 @media all and (max-width: 486px) {
     c-pp-Study-Visit-Details-Card .slds-card {
