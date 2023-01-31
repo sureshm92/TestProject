@@ -31,7 +31,7 @@ body {
     background: #f7f8fa;
     max-width: 1140px;
     margin: auto;
-    padding: 1rem 1rem;
+    padding: 0rem 1rem 1rem 1rem;
     z-index: 10001;
 }
 
