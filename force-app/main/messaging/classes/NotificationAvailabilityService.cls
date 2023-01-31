@@ -536,7 +536,18 @@ public without sharing class NotificationAvailabilityService {
                 Contact contact = contactByIdMap.get(contactId);
                 if (contact.Participant_Opt_In_Status_Emails__c)
                     isEmailAvailableAtPER = true;
-            } else if (objType == null) {
+            } 
+            else if (objType == PARTICIPANT_OBJ_NAME) {
+                Participant__c participant = (Participant__c) objectsByIds.get(Id.valueOf(whatId));
+                if (
+                    participant != null &&
+                    participant.Contact__r.Participant_Opt_In_Status_Emails__c &&
+                    !participant.IsCountry_NOT_Eligible_for_Emails__c
+                ) {
+                    isEmailAvailableAtPER = true;
+                }
+            }
+            else if (objType == null) {
                 // Platform Level
                 Contact contact = contactByIdMap.get(contactId);
                 if (contact.Participant_Opt_In_Status_Emails__c)

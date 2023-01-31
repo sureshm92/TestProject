@@ -723,7 +723,38 @@ public without sharing class PIR_HomepageController {
       }
     }
 
-    String filterString = ' Study_Site__c IN :siteIdlist ';
+    List<String> status =new List<String> (); 
+    status.add('Received');
+    status.add('Pre-review Passed');
+    status.add('Contact Attempted');
+    status.add('Successfully Contacted');
+    status.add('Screening In Progress');
+    status.add('Screening In Progress - Wash Out Period');
+    status.add('Screening Passed');
+    status.add('Eligibility Passed');
+    status.add('Ready to Screen');
+    status.add('Participant No Show');
+    status.add('Successfully re-engaged');
+    status.add('Enrollment Success');
+    status.add('Randomization Success');
+    status.add('Pre-review Failed');
+    status.add('Unable to Reach');
+    status.add('Contacted - Not Suitable');
+    status.add('Eligibility Failed');
+    status.add('Declined Consent');
+    status.add('Unable to Screen');
+    status.add('Withdrew Consent');
+    status.add('Screening Failed');
+    status.add('Withdrew Consent After Screening');
+    status.add('Enrollment Failed');
+    status.add('Declined Final Consent');
+    status.add('Randomization Failed'); 
+    status.add('Treatment Period Started');
+    status.add('Follow-Up Period Started');
+    status.add('Participation Complete');
+    status.add('Trial Complete');
+
+    String filterString = ' Study_Site__c IN :siteIdlist AND Participant_Status__c IN :status';
     queryString = queryString + filterString + sortOn;
 
     List<Participant_Enrollment__c> peList = Database.query(queryString);
