@@ -195,11 +195,11 @@ public without sharing class TaskTriggerHandler {
         }
 
         for (Task task : tasksWithOwner) {
-           if (task.Task_Code__c != null && task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
+           if (task.Task_Code__c != null ) {
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
                 if (card != null && card.Immediate_Email_Template__c != null) {
                     Id whatId = task.WhatId;
-                    if (whatId == null) {
+                    if (whatId == null&& task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
                         whatId = task.Survey_Invitation__c;
                         }
                     if (card.Immediate_Notification_Type__c != null) {
