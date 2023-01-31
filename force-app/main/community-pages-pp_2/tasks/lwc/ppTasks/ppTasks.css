@@ -509,4 +509,12 @@
         border-bottom-left-radius: 32px !important;
         border-bottom-right-radius: 32px !important;
     }
+    .tasks {
+        color: #444444;
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: 0;
+        line-height: 48px;
+    }
+    
 }

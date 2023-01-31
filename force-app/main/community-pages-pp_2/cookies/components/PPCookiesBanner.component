@@ -497,7 +497,8 @@
         var paramId = 'RRCookies';
         if (!isIE) paramId = 'LSKey[c]' + paramId;
         var rrCookies = communityService.getCookie(paramId);
-        if (!rrCookies) {
+        var sessCookies = sessionStorage.getItem('Cookies');
+        if (!rrCookies && !sessCookies) {
             $('.hide-banner').removeClass('hide-banner');
             document.body.classList.add('cookie-block-user');
             document.body.addEventListener('keypress', bodyBlock);
@@ -506,7 +507,7 @@
             let currentDate = new Date();
             var browserCookiesObj = JSON.parse(localStorage.getItem('cookieslist'));
             let additionalCookieslabel = '{!JSENCODE($Label.Additional_Cookies)}';
-            if (
+            if ( browserCookiesObj &&
                 browserCookiesObj.cookies &&
                 additionalCookieslabel != 'NONE' &&
                 additionalCookieslabel

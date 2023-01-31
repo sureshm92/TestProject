@@ -173,7 +173,7 @@
         position: relative !important;
     }
     .logo-container-pp {
-        margin: 0 0 0 55px !important;
+        margin: 0 0 0 42px !important;
     }
 }
 
@@ -1132,6 +1132,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 .cookie-block-user {
     pointer-events: none;
+    position:relative !important;
     overflow: hidden !important;
 }
 .read-only-background input {

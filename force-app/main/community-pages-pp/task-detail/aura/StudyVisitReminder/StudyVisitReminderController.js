@@ -245,7 +245,7 @@
         component.set('v.initData.today', new Date(new Date() + 60 * 1000));
 
         if (remindMe !== 'Custom') {
-            if (remindMe === '1 week before') {
+            if (remindMe && remindMe.toUpperCase() === '1 Week before'.toUpperCase()) {
                 isGreaterThanToday = moment(dueDateOrplanDate).subtract(7, 'days').isBefore(today);
             } else if (remindMe === '1 day before') {
                 isGreaterThanToday = moment(dueDateOrplanDate).subtract(1, 'days').isBefore(today);
@@ -372,6 +372,7 @@
     },
 
     doNavigateToAccountSettings: function (component, event, helper) {
+        sessionStorage.setItem('Cookies', 'Accepted');
         window.open('account-settings?communication-preferences', '_blank');
         window.focus();
         helper.hideModal(component);

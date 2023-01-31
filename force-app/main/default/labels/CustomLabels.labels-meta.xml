@@ -19,7 +19,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>New Referrals Bell Notification L1 PI</shortDescription>
-        <value>You have #Count new referral(s) for Study #StudyName since your last login. {URL}</value>
+        <value>You have ##Count new referral(s) for Study ##StudyName since your last login. {URL}</value>
     </labels>
     <labels>
         <fullName>Tele_visit_Scheduled</fullName>
@@ -29875,7 +29875,6 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Body Follow Up Reminder PP</shortDescription>
         <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link below, so that you can enroll and view your ##isStudyorProgram progress and additional information.
 
-
         Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the ##StudyorProgramHeader.
 
         Your user name is ##UserName.</value>
@@ -30036,4 +30035,15 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Task</shortDescription>
         <value>Reminder must be prior to task.</value>
     </labels>
+    <labels>        
+        <fullName>Email_Signature_New_Short_PP</fullName>        
+        <language>en_US</language>        
+        <protected>false</protected>        
+        <shortDescription>Email Signature New Participant Delegate PP</shortDescription>        
+        <value>&lt;br /&gt; &lt;br /&gt;We are excited to be on this journey with you.
+                
+            Sincerely,            
+    
+            ##SignatureShortCommunityName</value>    
+    </labels>  
 </CustomLabels>

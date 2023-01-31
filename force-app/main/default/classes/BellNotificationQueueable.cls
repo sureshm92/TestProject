@@ -112,8 +112,8 @@ public class BellNotificationQueueable implements Queueable, Database.AllowsCall
                             target.DeveloperName == 'SS_L2_New_Referrals_Added'){
                                 String paramBody = mapOfInfo.get(n.Id);
                                 String[] paramArray = paramBody.split('#');
-                                messageBody = messageBody.replace('#Count', paramArray[1]);
-                                messageBody = messageBody.replace('#StudyName', paramArray[0]);
+                                messageBody = messageBody.replace('##Count', paramArray[1]);
+                                messageBody = messageBody.replace('##StudyName', paramArray[0]);
                                 redirectTarget = redirectTarget.replace('{sid}', paramArray[2]);
                                 redirectTarget = redirectTarget.replace('{ssid}', paramArray[3]);
                         }
