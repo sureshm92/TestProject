@@ -14,6 +14,12 @@
     <aura:attribute name="initialized" type="Boolean" />
     <aura:attribute name="hasAuthorized" type="Boolean" />
     <aura:attribute name="showPastStudies" type="Boolean" />
+    <aura:attribute name="communityService" type="Object" />
+
+    <ltng:require
+    scripts="{!$Resource.rr_community_js}"
+    afterScriptsLoaded="{!c.doInit}"
+    />
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
@@ -94,6 +100,7 @@
                             <div class="slds-col slds-size_1-of-1">
                                 <c:OpenTaskPreviewPanel
                                     isAlumni="{!v.participantState.value == 'ALUMNI'}"
+                                    communityService="{!v.communityService}"
                                 />
                             </div>
                             <aura:if
@@ -120,7 +127,8 @@
                     </div>
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
                         <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
-                            <c:ParticipantStatePanel />
+                            <c:ParticipantStatePanel 
+                                communityService="{!v.communityService}"/>
                             <c:VisitResultsDashboardCard
                                 ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"
                             />
