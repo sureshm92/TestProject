@@ -66,7 +66,6 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         PP_Outreach_Communication_Pref_B,
         PP_Outreach_Communication_Pref_A,
         PP_IQVIA_Communication_US,
-        PP_Communication_Purchase_Pref,
         PP_Communication_Purchase_Pref_V2,
         PP_Study_Consent_Adult_US,
         PP_Study_Consent_Adult_ROW,
