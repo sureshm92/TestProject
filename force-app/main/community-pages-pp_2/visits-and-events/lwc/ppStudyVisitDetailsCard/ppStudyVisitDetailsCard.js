@@ -536,8 +536,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             let currentDateTime = new Date().toLocaleString('en-US', {
                 timeZone: TIME_ZONE
             });
+            let timezoneReminderDateTime =  new Date(this.selectedReminderDateTime).toLocaleString('en-US', {
+                timeZone: TIME_ZONE
+            });
             this.disableButtonSaveCancel =
-                new Date(this.selectedReminderDateTime) >= new Date(currentDateTime) &&
+                new Date(timezoneReminderDateTime) >= new Date(currentDateTime) &&
                 new Date(this.selectedReminderDateTime) <= new Date(this.visitDateTime)
                     ? false
                     : true;
@@ -559,8 +562,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             let currentDateTime = new Date().toLocaleString('en-US', {
                 timeZone: TIME_ZONE
             });
+            let timezoneReminderDateTime =  new Date(this.selectedReminderDateTime).toLocaleString('en-US', {
+                timeZone: TIME_ZONE
+            });
             this.disableButtonSaveCancel =
-                new Date(this.selectedReminderDateTime) >= new Date(currentDateTime) &&
+                new Date(timezoneReminderDateTime) >= new Date(currentDateTime) &&
                 new Date(this.selectedReminderDateTime) <= new Date(this.visitDateTime)
                     ? false
                     : true;
