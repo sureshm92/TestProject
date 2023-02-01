@@ -15,9 +15,6 @@ import PPELIGIBLECRITERIA from '@salesforce/label/c.PP_Participant_Eligible_Crit
 import PPINCLUSIONCRITERIA from '@salesforce/label/c.PP_Inclusion_Criteria';
 import PPEXCLUSIONCRITERIA from '@salesforce/label/c.PP_Exclusion_Criteria';
 
-
-
-
 export default class ProgramOverviewDetails extends LightningElement {
     label = {
         PPOVERVIEW,
@@ -28,7 +25,7 @@ export default class ProgramOverviewDetails extends LightningElement {
         PPINCLUSIONCRITERIA,
         PPEXCLUSIONCRITERIA
     };
-    
+
     programname;
     participantState;
     clinicaltrailrecrd;
@@ -47,35 +44,35 @@ export default class ProgramOverviewDetails extends LightningElement {
         return this.isRTL ? 'cardRTL' : '';
     }
 
-    get breadCrum(){
-        return this.isRTL ? 'po-mt-20 po-mr-25' : 'po-mt-20';
+    get breadCrum() {
+        return '';
     }
 
-    get programName(){
+    get programName() {
         return this.isRTL ? 'po-mr-36' : '';
     }
 
-    get breadCrumMobile(){
+    get breadCrumMobile() {
         return this.isRTL ? 'po-mt-20 po-mr-10' : 'po-mt-20';
     }
 
-    get programNameMobile(){
+    get programNameMobile() {
         return this.isRTL ? 'po-mr-26' : '';
     }
 
-    get parCriterionMRight(){
+    get parCriterionMRight() {
         return this.isRTL ? 'po-pb-10 po-mr-16plus' : 'po-pb-10 po-ml-3';
     }
 
-    get parCriterionMRightDesktop(){
+    get parCriterionMRightDesktop() {
         return this.isRTL ? 'po-pb-10 po-mr-16' : 'po-pb-10 po-ml-3';
     }
 
-    get accordianMargin(){
+    get accordianMargin() {
         return this.isRTL ? 'po-mr-16' : 'po-mr-20minus';
     }
 
-    get accordianMarginDesktop(){
+    get accordianMarginDesktop() {
         return this.isRTL ? 'po-mr-16plus' : '';
     }
 
@@ -90,7 +87,8 @@ export default class ProgramOverviewDetails extends LightningElement {
                     this.participantState = JSON.parse(result);
                     if (this.participantState.pe) {
                         if (this.participantState.pe.Clinical_Trial_Profile__r) {
-                            this.clinicaltrailrecrd = this.participantState.pe.Clinical_Trial_Profile__r;
+                            this.clinicaltrailrecrd =
+                                this.participantState.pe.Clinical_Trial_Profile__r;
                             if (this.clinicaltrailrecrd) {
                                 if (this.clinicaltrailrecrd.Study_Code_Name__c) {
                                     this.programname =
@@ -102,8 +100,7 @@ export default class ProgramOverviewDetails extends LightningElement {
                                         label: this.label.PPINCLUSIONCRITERIA,
                                         body: this.clinicaltrailrecrd.Override_Inclusion_Criteria__c
                                     });
-                                }
-                                else{
+                                } else {
                                     ctpaccordionDatalist.push({
                                         id: 0,
                                         label: this.label.PPINCLUSIONCRITERIA,
@@ -116,8 +113,7 @@ export default class ProgramOverviewDetails extends LightningElement {
                                         label: this.label.PPEXCLUSIONCRITERIA,
                                         body: this.clinicaltrailrecrd.Override_Exclusion_Criteria__c
                                     });
-                                }
-                                else{
+                                } else {
                                     ctpaccordionDatalist.push({
                                         id: 1,
                                         label: this.label.PPEXCLUSIONCRITERIA,
@@ -135,12 +131,12 @@ export default class ProgramOverviewDetails extends LightningElement {
                 this.error = error;
             });
 
-            getisRTL()
-                .then((data) => {
-                    this.isRTL = data;
-                })
-                .catch(function (error) {
-                    console.error('Error RTL: ' + JSON.stringify(error));
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
             });
     }
 

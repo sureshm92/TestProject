@@ -409,6 +409,7 @@ public class BellNotificationsHelper {
                                             WHERE is_Invited__c = TRUE)
                                         FROM Study_Site__c
                                         WHERE Id = :studySiteId];
+    if(contactId != null){
         for(Study_Site__c ss : ssList){
             if(String.valueOf(ss.Principal_Investigator__c)?.containsIgnoreCase(contactId) ){
                 return 'PI';
@@ -431,6 +432,7 @@ public class BellNotificationsHelper {
                 }
             }
         }
+    }
         return 'None';
     }
 
