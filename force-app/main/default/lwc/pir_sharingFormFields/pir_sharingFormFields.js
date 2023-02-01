@@ -4,7 +4,7 @@ import { loadScript } from 'lightning/platformResourceLoader';
 import verifyDelegateAge from '@salesforce/apex/ReferHealthcareProviderRemote.checkDelegateAge';
 import AttestedCheckboxError from '@salesforce/label/c.RH_MinorDelegateErrMsg';
 import inviteDelegate from '@salesforce/apex/ReferHealthcareProviderRemote.invitePatientDelegate';
-import checkDuplicate from '@salesforce/apex/ReferHealthcareProviderRemote.checkDuplicate';
+import checkDuplicateNew from '@salesforce/apex/ReferHealthcareProviderRemote.checkDuplicateNew';
 import StopSharing from '@salesforce/label/c.HealthCare_Provider_Stop_Sharing';
 import ConnectPatient from '@salesforce/label/c.HealthCare_Provider_Connect';
 import disconnect from '@salesforce/apex/ReferHealthcareProviderRemote.stopSharing';
@@ -541,7 +541,7 @@ export default class Pir_sharingFormFields extends LightningElement {
 
     doCheckContact() {
         this.loading = true;
-        checkDuplicate({ 
+        checkDuplicateNew({ 
             peId: this.participantObject.Id,
             email: this.sharingObject.email ? this.sharingObject.email : this.sharingObject.Email__c ,
             firstName: this.sharingObject.firstName ? this.sharingObject.firstName : this.sharingObject.First_Name__c,

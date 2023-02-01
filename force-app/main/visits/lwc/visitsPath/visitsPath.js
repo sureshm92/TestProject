@@ -489,6 +489,7 @@ export default class VisitsPath extends LightningElement {
         //this.reRender = true;
     }
     doNavigateToAccountSettings() {
+        sessionStorage.setItem('Cookies', 'Accepted');
         window.open('account-settings?communication-preferences', '_blank');
         window.focus();
         this.handleHideDialog();

@@ -164,7 +164,7 @@
                                                     <p class="no-date date-style">
                                                         {item.visit.Status__c}
                                                     <template 
-                                                        lwc:if={item.visitDate}>:
+                                                        if:true={item.visitDate}>:
                                                     </template>&nbsp;
                                                         <lightning-formatted-date-time
                                                             value={item.visitDate}
