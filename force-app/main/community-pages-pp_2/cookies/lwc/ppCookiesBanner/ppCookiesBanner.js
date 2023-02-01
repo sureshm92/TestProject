@@ -67,6 +67,9 @@ export default class PpCookiesBanner extends LightningElement {
     cookiesBannerDesc3;
 
     connectedCallback() {
+        if (communityService.isInitialized()) {
+            this.isDummy = communityService.isDummy();
+        }
         this.cookiesBannerDesc3 = ' ' + this.label.ppCookiesBannerDesc3;
         let rrCookies = communityService.getCookie('RRCookies');
         let data = sessionStorage.getItem('Cookies');

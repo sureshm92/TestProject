@@ -58,6 +58,10 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     showWhatCanISeeCard = false;
     isDesktop;
     dataInitialized = false;
+    helpTextClassMob =
+        'slds-popover slds-popover_tooltip slds-nubbin_top-right slds-fall-into-ground slds-hide popover-position';
+    helpTextClassDesktop =
+        'slds-popover slds-popover_tooltip slds-nubbin_right-bottom slds-fall-into-ground slds-hide popover-position';
 
     label = {
         PP_ManageDelegates,

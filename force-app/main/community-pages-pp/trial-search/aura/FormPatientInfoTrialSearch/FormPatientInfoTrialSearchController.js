@@ -153,7 +153,8 @@
     closePpPopup: function (component) {
         component.set('v.showPpPopup', false);
     },
-    navigateToAccoutSettingsPage : function (component){
+    navigateToAccoutSettingsPage: function (component) {
+        sessionStorage.setItem('Cookies', 'Accepted');
         window.open('account-settings?profileInformation', '_blank');
         window.focus();
     }
