@@ -536,8 +536,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             let currentDateTime = new Date().toLocaleString('en-US', {
                 timeZone: TIME_ZONE
             });
+            let timezoneReminderDateTime =  new Date(this.selectedReminderDateTime).toLocaleString('en-US', {
+                timeZone: TIME_ZONE
+            });
             this.disableButtonSaveCancel =
-                new Date(this.selectedReminderDateTime) >= new Date(currentDateTime) &&
+                new Date(timezoneReminderDateTime) >= new Date(currentDateTime) &&
                 new Date(this.selectedReminderDateTime) <= new Date(this.visitDateTime)
                     ? false
                     : true;
@@ -559,8 +562,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             let currentDateTime = new Date().toLocaleString('en-US', {
                 timeZone: TIME_ZONE
             });
+            let timezoneReminderDateTime =  new Date(this.selectedReminderDateTime).toLocaleString('en-US', {
+                timeZone: TIME_ZONE
+            });
             this.disableButtonSaveCancel =
-                new Date(this.selectedReminderDateTime) >= new Date(currentDateTime) &&
+                new Date(timezoneReminderDateTime) >= new Date(currentDateTime) &&
                 new Date(this.selectedReminderDateTime) <= new Date(this.visitDateTime)
                     ? false
                     : true;
@@ -673,7 +679,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.selectedReminderDate = event.detail.compdate;
         this.selectedReminderDateTime = event.detail.compdate;
         this.selectedReminderTime = event.detail.comptime;
-        this.selectedReminderTime = '';
         if ((this.sms || this.email) && this.selectedReminderTime) {
             this.disableButtonSaveCancel = false;
         } else {
@@ -686,6 +691,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.reminderChanged = true;
         this.selectedReminderDate = event.detail.compdate;
         this.selectedReminderDateTime = event.detail.compdatetime;
+        this.selectedReminderTime = event.detail.comptime;
         let visitDateTime = new Date(this.visitDateTime).toLocaleString('en-US', {
             timeZone: TIME_ZONE
         });
