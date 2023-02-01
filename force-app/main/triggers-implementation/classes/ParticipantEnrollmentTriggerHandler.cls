@@ -1053,6 +1053,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         Map<Id, List<Id>> partPerDelegateIds = new Map<Id, List<Id>>();
         List<ID> participantids = new List<ID>();
         List<ID> delegateconids = new List<ID>();
+        List<Id> perIdList = new List<Id>();
         Set<ID> proccessedParticipants = new Set<ID>();
         Map<ID, Map<Id, Boolean>> delegatewelcomemsg = new Map<ID, Map<ID, Boolean>>();
         Map<Id, Participant__c> participantconMap;
@@ -1111,6 +1112,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 //For study level Delegates
                 if (!String.isBlank(pe.Participant__c)) {
                     participantids.add(pe.Participant__c);
+                    perIdList.add(pe.Id);
                 }
             } else if (
                 oldMap != null &&
@@ -1124,10 +1126,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 perToBeUpdated.add(tempPer);
             }
         }
-        if (participantids.size() > 0) {
-            String fieldFilter = 'Patient_Delegate__r.Participant__c';
+        if (participantids.size() > 0 && perIdList.size()>0) {
             PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
-                participantIds,fieldFilter
+                participantIds,perIdList
             );
            partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
     

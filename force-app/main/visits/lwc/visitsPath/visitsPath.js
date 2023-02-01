@@ -347,8 +347,10 @@ export default class VisitsPath extends LightningElement {
             ) {
                 reminderdate = visitPlanDate - 4 * 3600 * 1000;
             } else if (
-                event.target.value.toUpperCase() == '1 week before'.toUpperCase() ||
-                this.reminderOption.toUpperCase() == '1 week before'.toUpperCase()
+                (event.target.value &&
+                    event.target.value.toUpperCase() == '1 week before'.toUpperCase()) ||
+                (this.reminderOption &&
+                    this.reminderOption.toUpperCase() == '1 week before'.toUpperCase())
             ) {
                 reminderdate = visitPlanDate - 7 * 24 * 3600 * 1000;
             }
@@ -487,6 +489,7 @@ export default class VisitsPath extends LightningElement {
         //this.reRender = true;
     }
     doNavigateToAccountSettings() {
+        sessionStorage.setItem('Cookies', 'Accepted');
         window.open('account-settings?communication-preferences', '_blank');
         window.focus();
         this.handleHideDialog();
