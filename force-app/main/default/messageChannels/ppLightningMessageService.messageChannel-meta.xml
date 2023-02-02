@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This Lightning Message Channel sends information b/w LWC and Aura</description>
+    <isExposed>true</isExposed>
+    <lightningMessageFields>
+        <description>Selected List Of Studies</description>
+        <fieldName>selectedListOfStudies</fieldName>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <description>Reset All</description>
+        <fieldName>ResetAll</fieldName>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <description>piclist Values</description>
+        <fieldName>piclistValues</fieldName>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <description>show Add Delegate Page</description>
+        <fieldName>showAddDelegatePage</fieldName>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <description>Is Disabled</description>
+        <fieldName>isDisabled</fieldName>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <description>Reset PP Menue Items</description>
+        <fieldName>reset_PP_Menue_Items</fieldName>
+    </lightningMessageFields>
+    <masterLabel>pplwcToAura</masterLabel>
+</LightningMessageChannel>

@@ -1180,7 +1180,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                         csvStringResult += '" "' + ',';
                     }
                 } else {
-                    if ( partList[i]['Patient_ID__c'] !== undefined) {
+                    if (partList[i]['Patient_ID__c'] !== undefined) {
                         csvStringResult += '"' + partList[i]['Patient_ID__c'] + '"' + ',';
                     } else {
                         csvStringResult += '" "' + ',';
@@ -1308,7 +1308,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 if (partList[i] ['HighRisk_Indicator__c'] !== undefined) {
                     var lowerCaseHI=partList[i] ['HighRisk_Indicator__c'].toLowerCase();
                     if (partList[i]['HighRisk_Indicator__c'] == '1' || lowerCaseHI == 'yes')
-                    {
+                      {
                         csvStringResult += '"' + 'Yes'+ '"' + ',';
                     }
                     else if (lowerCaseHI == 'no'){

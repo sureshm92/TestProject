@@ -39,11 +39,12 @@ public without sharing class AccountSettingsController {
             ) {
                 //Get the Current Participant Id where Delegate is switched. 
                 currentParticipantId = ParticipantContext.getCurrentParticipantId(); 
-                //Check if Patient Delegate is a Primary delegate if Patient Delegate clicks account setting of participant
-                initData.consentPreferenceData.isPrimaryDelegate = PatientDelegateService.isPrimaryDelegate(
-                    initData.myContact.Id,
-                    currentParticipantId
-                );
+                 //This logic is not required as part of Delegate redesing changes, as delegate will be Primary/Secondary for study specific.
+                // //Check if Patient Delegate is a Primary delegate if Patient Delegate clicks account setting of participant
+                // initData.consentPreferenceData.isPrimaryDelegate = PatientDelegateService.isPrimaryDelegate(
+                //     initData.myContact.Id,
+                //     currentParticipantId
+                // );
                 //As delegate switched to Participant Account setting so set isParticipantLoggedIn to false.
                 initData.consentPreferenceData.isParticipantLoggedIn = false;
                 //Store the Delegate contact record.
@@ -743,7 +744,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public ProgramOverViewData programOverViewData = new ProgramOverViewData();
         @AuraEnabled
         public ParticipantService.ParticipantState participantState;
-
+        
     }
 
     public class ContactSectionData {
@@ -789,6 +790,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         @AuraEnabled
         public List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
         @AuraEnabled
+        public List<Patient_Delegate_Enrollment__c> pdeList = new List<Patient_Delegate_Enrollment__c>();
+        @AuraEnabled
         public Boolean isAdultParticipant;
         @AuraEnabled
         public Boolean isPrimaryDelegate = false;
@@ -810,6 +813,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public Boolean isPrimaryDelegateWithMultiRole = false;
         @AuraEnabled
         public Boolean isWithdrawnDelegate = false;
+        @AuraEnabled
+        public Boolean isActiveDelegate = false;
     }
 
     
@@ -1095,8 +1100,11 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         initData.consentPreferenceData.isIQIVAOutrechToggleOnAtCTP = isIQIVAOutrechToggleOnAtCTP;
         initData.consentPreferenceData.myContact = initData.myContact;
         initData.consentPreferenceData.loggedInUserParticipantId = initData.participant.Id;
+        initData.consentPreferenceData.isActiveDelegate = PatientDelegateEnrollmentService.isActiveDelegate(initData.myContact.Id);
 
         if (isDelegateSelfView) {
+            //Get patient Delegate Enrollment Records for the delegate.
+            initData.consentPreferenceData.pdeList = PatientDelegateEnrollmentService.getPDEnrollmentforDelContact(initData.myContact.Id);
             //As Patient delegate switched to his own Account setting so set isParticipantLoggedIn to false.
             //But if patient Delegate is also acting as Participant then set  isParticipantLoggedIn to true and make Primary delegate to false and isDelegateSelfView to false.
             if (isDelegateAlsoAParticipant) {
@@ -1206,13 +1214,14 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 isIQIVAOutrechToggleOnAtCTP = true;
             }
         }
+        //This logic is not required as part of Delegate redesing changes, as delegate will be Primary/Secondary for study specific.
         //If Patient Delegate clicks the self Account setting, check if the Patient delegate is Primary delegate or not.
-        if (isDelegateSelfView) {
-            isPrimaryDelegate = PatientDelegateService.isPrimaryDelegate(
-                initDataMyContactId,
-                currentParticipantId
-            );
-        }
+        // if (isDelegateSelfView) {
+        //     isPrimaryDelegate = PatientDelegateService.isPrimaryDelegate(
+        //         initDataMyContactId,
+        //         currentParticipantId
+        //     );
+        // }
         //Check if Delegate is also acting as participant for other study(Multi Role).
         if (checkIfDelAlsoAParticipant) {
             checkIfDelegateIsAlsoAparticipant(initDataMyContactId);

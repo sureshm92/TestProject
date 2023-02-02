@@ -236,7 +236,7 @@ public class Test_PatientDelegateService {
                 PEStatusState.PE_STATUS_GROUP_ACTIVE
             );
             PatientDelegateService.getInstance().resetDelegate(delegateContact.Id, false);
-            PatientDelegateService.getInstance().createPatientDelegate(delegateContact);
+            PatientDelegateService.getInstance().createPatientDelegate(delegateContact,null);
             CommunityService.isUserModeValid('');
             CommunityService.getConvertedStatus('tset \\( ');
             CommunityService.getCommunityProfile();
