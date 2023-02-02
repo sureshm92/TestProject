@@ -79,6 +79,7 @@
     color: white;
     margin-top: 16px;
     pointer-events: auto;
+    cursor: pointer;
 }
 
 .modal-container {
