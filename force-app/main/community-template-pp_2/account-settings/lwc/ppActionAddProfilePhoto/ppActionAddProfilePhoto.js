@@ -193,6 +193,7 @@ export default class PpActionAddProfilePhoto extends LightningElement {
 
     reloadPage() {
         communityService.navigateToPage('account-settings?profileInformation');
+        sessionStorage.setItem('Cookies', 'Accepted');
         window.location.reload(true);
     }
 

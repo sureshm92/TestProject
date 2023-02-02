@@ -565,6 +565,7 @@
                                 $A.get('$Label.c.PP_Profile_Update_Success'),
                                 100
                             );
+                            sessionStorage.setItem('Cookies', 'Accepted');
                             window.location.reload(true);
                         }
                     );
