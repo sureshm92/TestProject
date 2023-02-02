@@ -1884,6 +1884,7 @@ input[type=password]::-ms-clear
 }
 .cookie-block-user {
     pointer-events: none;
+    position:relative !important;
     overflow: hidden !important;
 }
 .desk-pad-left .slds-checkbox_toggle .slds-checkbox_faux{

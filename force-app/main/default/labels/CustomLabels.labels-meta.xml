@@ -19,7 +19,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>New Referrals Bell Notification L1 PI</shortDescription>
-        <value>You have #Count new referral(s) for Study #StudyName since your last login. {URL}</value>
+        <value>You have ##Count new referral(s) for Study ##StudyName since your last login. {URL}</value>
     </labels>
     <labels>
         <fullName>Tele_visit_Scheduled</fullName>

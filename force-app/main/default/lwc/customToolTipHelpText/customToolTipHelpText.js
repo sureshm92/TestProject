@@ -7,13 +7,15 @@ export default class CustomToolTipHelpText extends LightningElement {
     @api left;
     @api width;
     @api isDesktop;
+    @api helpTextClass;
+    helpTextClassLocal;
 
-    helpTextClass =
-        'slds-popover slds-popover_tooltip slds-nubbin_right-bottom slds-fall-into-ground slds-hide popover-position';
+    // helpTextClass =
+    //     'slds-popover slds-popover_tooltip slds-nubbin_right-bottom slds-fall-into-ground slds-hide popover-position';
     toggleHelpText() {
         if (this.isDesktop) {
-            this.helpTextClass =
-                this.helpTextClass ==
+            this.helpTextClassLocal =
+                this.helpTextClassLocal ==
                 'slds-popover slds-popover_tooltip slds-nubbin_right-bottom slds-fall-into-ground slds-hide popover-position'
                     ? 'slds-popover slds-popover_tooltip slds-nubbin_right-bottom slds-rise-from-ground popover-position'
                     : 'slds-popover slds-popover_tooltip slds-nubbin_right-bottom slds-fall-into-ground slds-hide popover-position';
@@ -21,20 +23,22 @@ export default class CustomToolTipHelpText extends LightningElement {
     }
     onClickToggleHelpText() {
         if (!this.isDesktop) {
-            this.helpTextClass =
-                this.helpTextClass ==
-                'slds-popover slds-popover_tooltip slds-nubbin_right-bottom slds-fall-into-ground slds-hide popover-position'
-                    ? 'slds-popover slds-popover_tooltip slds-nubbin_right-bottom slds-rise-from-ground popover-position'
-                    : 'slds-popover slds-popover_tooltip slds-nubbin_right-bottom slds-fall-into-ground slds-hide popover-position';
+            this.helpTextClassLocal =
+                this.helpTextClassLocal ==
+                'slds-popover slds-popover_tooltip slds-nubbin_top-right slds-fall-into-ground slds-hide popover-position'
+                    ? 'slds-popover slds-popover_tooltip slds-nubbin_top-right slds-rise-from-ground popover-position'
+                    : 'slds-popover slds-popover_tooltip slds-nubbin_top-right slds-fall-into-ground slds-hide popover-position';
         }
     }
     onMouseLeaveToggleHelpText() {
         if (!this.isDesktop) {
-            this.helpTextClass =
-                'slds-popover slds-popover_tooltip slds-nubbin_right-bottom slds-fall-into-ground slds-hide popover-position';
+            this.helpTextClassLocal =
+                'slds-popover slds-popover_tooltip slds-nubbin_top-right slds-fall-into-ground slds-hide popover-position';
         }
     }
-    connectedCallback() {}
+    connectedCallback() {
+        this.helpTextClassLocal = this.helpTextClass;
+    }
     renderedCallback() {
         let toolTipElement = this.template.querySelector('.popover-position');
         toolTipElement.style.position = 'absolute';

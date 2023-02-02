@@ -29,10 +29,12 @@ public with sharing class Batch_UpdatePETrialCompleteAndSendNotify implements Da
         Map<Id, List<Participant_Enrollment__c>> ctpIdsByPE = new Map<Id, List<Participant_Enrollment__c>>();
 
         List<Id> participantIds = new List<Id>();
+        List<Id> perIdLst = new List<Id>();
         for (
             Participant_Enrollment__c pe : (List<Participant_Enrollment__c>) participantEnrollments
         ) {
             participantIds.add(pe.Participant__c);
+            perIdLst.add(pe.Id);
             if (ctpIdsByPE.containsKey(pe.Clinical_Trial_Profile__c))
                 ctpIdsByPE.get(pe.Clinical_Trial_Profile__c).add(pe);
             else
@@ -47,9 +49,8 @@ public with sharing class Batch_UpdatePETrialCompleteAndSendNotify implements Da
         /*Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
             participantIds
         );*/
-        String fieldFilter = 'Patient_Delegate__r.Participant__c';
         PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
-            participantIds,fieldFilter
+            participantIds,perIdLst
         );
         Map<Id, List<Id>> partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
 
