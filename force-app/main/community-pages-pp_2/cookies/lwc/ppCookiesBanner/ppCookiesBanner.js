@@ -71,6 +71,9 @@ export default class PpCookiesBanner extends LightningElement {
         this.cookiesBannerDesc3 = ' ' + this.label.ppCookiesBannerDesc3;
         let rrCookies = communityService.getCookie('RRCookies');
         let data = sessionStorage.getItem('Cookies');
+        if (localStorage.getItem('Cookies')) {
+            data = localStorage.getItem('Cookies');
+        }
         if (!this.loginPage && communityService.isInitialized()) {
             if (communityService.getParticipantData().cookiesAgreedonRegPage) {
                 data = 'Agreed';
@@ -102,6 +105,7 @@ export default class PpCookiesBanner extends LightningElement {
             }
         }
         sessionStorage.removeItem('Cookies');
+        localStorage.removeItem('Cookies');
         let accList = this.template.querySelectorAll('accordion');
     }
     blockBackGroundEvents() {
