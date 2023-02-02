@@ -20,6 +20,7 @@
             border-radius: 16px 16px 0 0;
             background: rgba(0, 0, 0, 0.8);
             box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
+            font-family: "Proxima Nova";
         }
 
         .we-care-about-your-p {
@@ -92,6 +93,9 @@
             display: none;
         }
 
+        .cookie-desc-font-size {
+            font-size: 16px;
+        }
         @media screen and (max-width: 768px) {
             .mob-cookies-banner {
                 width: 100%;
@@ -370,7 +374,7 @@
                                         <div class="cookie-title-font-size">
                                             <apex:outputText value="{!cookieSetting.cookieName}" />
                                         </div>
-                                        <div>
+                                        <div class="cookie-desc-font-size">
                                             <apex:outputText
                                                 value="{!cookieSetting.cookieDescription}"
                                             />
@@ -391,7 +395,7 @@
                                         <div class="cookie-title-font-size">
                                             {!$Label.AccountSettings_Functional_RRCookies}
                                         </div>
-                                        <div>{!$Label.AccountSettings_RRCookies_Description}</div>
+                                        <div class="cookie-desc-font-size">{!$Label.AccountSettings_RRCookies_Description}</div>
                                     </div>
                                     <div class="slds-col slds-size_2-of-12 slds-m-top_large">
                                         <div class="slds-form-element">
@@ -418,7 +422,7 @@
                                         <div class="cookie-title-font-size">
                                             {!$Label.AccountSettings_Cookies_RRLanguage}
                                         </div>
-                                        <div class="mob-lang-desc">
+                                        <div class="cookie-desc-font-size mob-lang-desc">
                                             {!$Label.AccountSettings_Cookies_RRLanguage_Description}
                                         </div>
                                     </div>
@@ -493,7 +497,8 @@
         var paramId = 'RRCookies';
         if (!isIE) paramId = 'LSKey[c]' + paramId;
         var rrCookies = communityService.getCookie(paramId);
-        if (!rrCookies) {
+        var sessCookies = sessionStorage.getItem('Cookies');
+        if (!rrCookies && !sessCookies) {
             $('.hide-banner').removeClass('hide-banner');
             document.body.classList.add('cookie-block-user');
             document.body.addEventListener('keypress', bodyBlock);
@@ -502,7 +507,7 @@
             let currentDate = new Date();
             var browserCookiesObj = JSON.parse(localStorage.getItem('cookieslist'));
             let additionalCookieslabel = '{!JSENCODE($Label.Additional_Cookies)}';
-            if (
+            if ( browserCookiesObj &&
                 browserCookiesObj.cookies &&
                 additionalCookieslabel != 'NONE' &&
                 additionalCookieslabel
@@ -562,6 +567,9 @@
             var checkedVal = $('[id$=currentRRCookies]').is(':checked');
             if (checkedVal) {
                 closeCookiesInfo();
+            }
+            else{
+                sessionStorage.setItem('Cookies', 'Accepted');
             }
             document.body.removeEventListener('keypress', this.bodyBlock);
             document.body.removeEventListener('keydown', this.bodyBlock);

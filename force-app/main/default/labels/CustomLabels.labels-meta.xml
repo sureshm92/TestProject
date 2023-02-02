@@ -19,7 +19,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>New Referrals Bell Notification L1 PI</shortDescription>
-        <value>You have #Count new referral(s) for Study #StudyName since your last login. {URL}</value>
+        <value>You have ##Count new referral(s) for Study ##StudyName since your last login. {URL}</value>
     </labels>
     <labels>
         <fullName>Tele_visit_Scheduled</fullName>
@@ -63,6 +63,13 @@
         <protected>false</protected>
         <shortDescription>RH_Showing</shortDescription>
         <value>Showing:</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudyDelegateConsentEmail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudyDelegateConsentEmail</shortDescription>
+        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with study team and to be contacted at the email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
     </labels>
     <labels>
         <fullName>RH_No_Active_Study</fullName>
@@ -30189,7 +30196,6 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Body Follow Up Reminder PP</shortDescription>
         <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link below, so that you can enroll and view your ##isStudyorProgram progress and additional information.
 
-
         Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the ##StudyorProgramHeader.
 
         Your user name is ##UserName.</value>
@@ -30287,4 +30293,78 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Sub Event Del PP</shortDescription>
         <value>Reminder: Your participant has an upcoming event</value>
     </labels>
+     <labels>
+        <fullName>PP_Tab_Results</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lab Results tab</shortDescription>
+        <value>My Results</value>
+    </labels>
+     <labels>
+        <fullName>PP_Tab_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits tab</shortDescription>
+        <value>My Visits</value>
+    </labels>
+     <labels>
+        <fullName>PP_Tab_Events</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Events tab</shortDescription>
+        <value>My Events</value>
+    </labels>
+    <labels>
+        <fullName>Past_Date_Error_For_Due_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Past_Date_Error_For_Due_Date</shortDescription>
+        <value>Date must not be in the past.</value>
+    </labels>
+    <labels>
+        <fullName>Past_Time_Error_For_Due_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Past_Time_Error_For_Due_Date</shortDescription>
+        <value>Time must not be in the past.</value>
+    </labels>
+    <labels>
+        <fullName>Past_DateTime_Error_For_Reminder_DateTime</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Past_DateTime_Error_For_Reminder_DateTime</shortDescription>
+        <value>Reminder must not be in the past.</value>
+    </labels>
+    <labels>
+        <fullName>Future_DateTime_Error_For_Reminder_DateTime_Event</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Event</shortDescription>
+        <value>Reminder must be prior to event.</value>
+    </labels>
+    <labels>
+        <fullName>Future_DateTime_Error_For_Reminder_DateTime_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Visit</shortDescription>
+        <value>Reminder must be prior to visit.</value>
+    </labels>
+    <labels>
+        <fullName>Future_DateTime_Error_For_Reminder_DateTime_Task</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Task</shortDescription>
+        <value>Reminder must be prior to task.</value>
+    </labels>
+    <labels>        
+        <fullName>Email_Signature_New_Short_PP</fullName>        
+        <language>en_US</language>        
+        <protected>false</protected>        
+        <shortDescription>Email Signature New Participant Delegate PP</shortDescription>        
+        <value>&lt;br /&gt; &lt;br /&gt;We are excited to be on this journey with you.
+                
+            Sincerely,            
+    
+            ##SignatureShortCommunityName</value>    
+    </labels>  
 </CustomLabels>

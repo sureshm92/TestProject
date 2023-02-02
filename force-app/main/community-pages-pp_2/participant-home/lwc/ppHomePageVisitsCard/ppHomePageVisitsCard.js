@@ -128,4 +128,8 @@ export default class HomePageVisitsCard extends LightningElement {
             })
         );
     }
+    setSessionCookie() {
+        sessionStorage.setItem('Cookies', 'Accepted');
+        return true;
+    }
 }

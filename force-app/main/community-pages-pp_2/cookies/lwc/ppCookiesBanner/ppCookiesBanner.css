@@ -4,7 +4,7 @@
     position: fixed;
     border-radius: 16px 16px 0 0;
     box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
-    z-index: 9999;
+    z-index: 99999;
     background: rgba(0, 0, 0, 0.8);
 }
 
@@ -79,6 +79,7 @@
     color: white;
     margin-top: 16px;
     pointer-events: auto;
+    cursor: pointer;
 }
 
 .modal-container {
@@ -102,6 +103,12 @@
 .rh-modal-container {
     top: 2.2rem !important;
 }
+@media screen and (min-width: 768px) {
+    .desk-pad-left {
+        padding-left: 10%;
+    }
+}
+
 /** RH End **/
 @media screen and (max-width: 768px) {
     .mob-cookies-banner {
@@ -262,6 +269,9 @@
 .cookie-title-font-size {
     font-size: 16px;
     font-weight: 510;
+}
+.cookie-desc-font-size {
+    font-size: 16px;
 }
 .slds-scope
     .slds-checkbox_toggle

@@ -274,6 +274,7 @@ window.communityService = (function () {
             return participantData;
         },
         reloadPage() {
+            sessionStorage.setItem('Cookies', 'Accepted');
             location.reload();
         },
 
@@ -479,9 +480,11 @@ window.communityService = (function () {
         },
 
         getCookie: function (cname) {
-            //console.log('in getCookie function');
-            //console.log('cname: ' + cname);
-
+            if (cname == 'RRCookies') {
+                if (sessionStorage.getItem('Cookies')) {
+                    return 'agreed from session';
+                }
+            }
             if (!preventedCookies || preventedCookies.indexOf(cname) !== -1) {
                 //console.log(cname + ' cookie ignored get');
                 return '';
@@ -517,7 +520,9 @@ window.communityService = (function () {
             let expires = 'expires=' + d.toUTCString();
             document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
         },
-
+        setCookiesAgreedonReg: function (val) {
+            participantData.cookiesAgreedonRegPage = val;
+        },
         isValidEmail: function (email) {
             let re =
                 /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -592,6 +597,7 @@ window.communityService = (function () {
         },
 
         preLoginPageRedirection: function (currentUrl, redirectPage) {
+            sessionStorage.setItem('Cookies', 'Accepted');
             let urlEvent = $A.get('e.force:navigateToURL');
             let redirectUrl = '';
             if (currentUrl.includes('janssen')) {

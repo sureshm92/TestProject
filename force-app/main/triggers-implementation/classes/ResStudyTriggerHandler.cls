@@ -76,17 +76,18 @@ public with sharing class ResStudyTriggerHandler {
             WHERE Clinical_Trial_Profile__c IN :resByCTPIds.keySet()
         ];
         List<Id> participantIds = new List<Id>();
+        List<Id> perIdlst = new List<Id>();
         for (Participant_Enrollment__c pe : pes) {
             participantByResources.put(
                 pe.Participant__r.Contact__c,
                 resByCTPIds.get(pe.Clinical_Trial_Profile__c)
             );
             participantIds.add(pe.Participant__c);
+            perIdlst.add(pe.Id);
         }
 
-        String fieldFilter = 'Patient_Delegate__r.Participant__c';
         PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
-            participantIds,fieldFilter
+            participantIds,perIdlst
         );
         Map<Id, List<Id>> partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
 

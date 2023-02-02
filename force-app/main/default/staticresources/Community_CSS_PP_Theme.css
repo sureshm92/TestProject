@@ -173,7 +173,7 @@
         position: relative !important;
     }
     .logo-container-pp {
-        margin: 0 0 0 55px !important;
+        margin: 0 0 0 42px !important;
     }
 }
 
@@ -1015,9 +1015,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     font-weight: 600 !important;
 }
 
-.study-program-anchor lightning-tab-bar ul{
-    margin-right: 33px;
-}
 
 @media all and (max-width: 486px) {
     c-pp-Study-Visit-Details-Card .slds-card {
@@ -1132,8 +1129,12 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 .cookie-block-user {
     pointer-events: none;
+    position:relative !important;
     overflow: hidden !important;
 }
 .read-only-background input {
     background-color: #f2f2f2 !important;
+}
+.time-error-allignment .slds-has-error .slds-form-element__help{
+    margin-left: -37px !important;
 }

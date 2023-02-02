@@ -9,7 +9,7 @@
 }
 @media screen and (max-width: 768px) {
     .THIS.ps-container .ps-body-pp {
-        padding-top: 20px;
+        /*padding-top: 20px;*/
         padding-left: 15px;
     }
 }

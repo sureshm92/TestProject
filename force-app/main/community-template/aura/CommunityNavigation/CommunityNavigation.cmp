@@ -25,31 +25,12 @@
                         data-page-name="{!item.page}"
                         onclick="{!c.onClick}"
                     >
-                        <aura:if
-                            isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.userMode == 'Participant')}"
-                        >
-                            <aura:if isTrue="{!item.label == 'Home'}">
-                                <c:RRIcon
-                                    iconName="icon-home-pplite-new"
-                                    color="white"
-                                    class="navigation-icon icon-height"
-                                />
-                                <aura:set attribute="else"> {!item.label} </aura:set>
-                            </aura:if>
-                            <aura:set attribute="else"> {!item.label} </aura:set>
-                        </aura:if>
+                        {!item.label}
                         <aura:if isTrue="{!equals(item.page, 'messages')}">
                             <c:navMessageCounter isOnPage="{!item.page == v.currentPage}" />
                         </aura:if>
                     </li>
                 </aura:set>
-            </aura:if>
-            <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
-                <aura:if
-                    isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.userMode == 'Participant')}"
-                >
-                    <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
-                </aura:if>
             </aura:if>
         </aura:iteration>
     </ul>

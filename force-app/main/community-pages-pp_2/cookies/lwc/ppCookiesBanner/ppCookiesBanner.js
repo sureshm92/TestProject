@@ -8,6 +8,7 @@ import ppCookiesButtonManagePrefer from '@salesforce/label/c.PP_Cookies_Button_M
 import ppCookieBannerHeader from '@salesforce/label/c.PP_Cookie_Banner_Header';
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
 import changeOptInCookies from '@salesforce/apex/AccountSettingsController.changeOptInCookies';
+import updateTheRegCookieAcceptance from '@salesforce/apex/AccountSettingsController.updateTheRegCookieAcceptance';
 
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 
@@ -69,7 +70,23 @@ export default class PpCookiesBanner extends LightningElement {
     connectedCallback() {
         this.cookiesBannerDesc3 = ' ' + this.label.ppCookiesBannerDesc3;
         let rrCookies = communityService.getCookie('RRCookies');
-        if (!rrCookies || this.loginPage) {
+        let data = sessionStorage.getItem('Cookies');
+        if (!this.loginPage && communityService.isInitialized()) {
+            if (communityService.getParticipantData().cookiesAgreedonRegPage) {
+                data = 'Agreed';
+                updateTheRegCookieAcceptance()
+                    .then(() => {
+                        communityService.setCookiesAgreedonReg(false);
+                    })
+                    .catch((error) => {
+                        communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                    });
+            }
+        }
+        if (!this.loginPage && data) {
+            this.showBanner = false;
+        }
+        if ((!rrCookies || this.loginPage) && !data) {
             this.showBanner = true;
             this.blockBackGroundEvents();
             if (this.communityName == 'Default' || this.communityName == 'IQVIA Referral Hub') {
@@ -84,6 +101,7 @@ export default class PpCookiesBanner extends LightningElement {
                 this.accordionActiveCss = this.accordionActiveCss + ' rh-border-radius';
             }
         }
+        sessionStorage.removeItem('Cookies');
         let accList = this.template.querySelectorAll('accordion');
     }
     blockBackGroundEvents() {

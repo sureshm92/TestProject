@@ -288,7 +288,7 @@
                 rrLanguageAllowed: initData.myContact.RRLanguageAllowedCookie__c
             },
             function () {
-                location.reload();
+                communityService.reloadPage();
             }
         );
     },
@@ -565,6 +565,7 @@
                                 $A.get('$Label.c.PP_Profile_Update_Success'),
                                 100
                             );
+                            sessionStorage.setItem('Cookies', 'Accepted');
                             window.location.reload(true);
                         }
                     );
@@ -669,7 +670,11 @@
     },
     
     onChangeInput: function (component, event, helper) {
-        helper.doCheckDOB(component,event,helper);
+        helper.doCheckDOB(component, event, helper);
         //component.set('v.disableSave', false);
+    },
+    setSessionCookies: function (component) {
+        sessionStorage.setItem('Cookies', 'Accepted');
+        return true;
     }
 });

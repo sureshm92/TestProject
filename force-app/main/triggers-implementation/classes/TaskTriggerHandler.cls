@@ -119,6 +119,7 @@ public without sharing class TaskTriggerHandler {
                 Task_Code__c,
                 Task_Type__c,
                 Survey_Invitation__c,
+                Survey_Invitation__r.Participant_Enrollment__c,
                 Visible_For__c,
                 WhatId,
                 InitialTaskNotification__c,
@@ -142,7 +143,11 @@ public without sharing class TaskTriggerHandler {
             if (t.whatId?.getSObjectType().getDescribe().getName() == 'Participant_Enrollment__c')
             {
                 allPeIds.add(t.whatId); 
-            }else{
+            }
+            else if(t.Task_Type__c == 'Survey' ){
+                allPeIds.add(t.Survey_Invitation__r.Participant_Enrollment__c);
+            }
+            else{
                 allContactsIds.add(t.WhoId);
             }
         }
@@ -223,11 +228,11 @@ public without sharing class TaskTriggerHandler {
         }
 
         for (Task task : tasksWithOwner) {
-           if (task.Task_Code__c != null && task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
+           if (task.Task_Code__c != null ) {
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
                 if (card != null && card.Immediate_Email_Template__c != null) {
                     Id whatId = task.WhatId;
-                    if (whatId == null) {
+                    if (whatId == null&& task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
                         whatId = task.Survey_Invitation__c;
                         }
                     if (card.Immediate_Notification_Type__c != null) {

@@ -6,6 +6,12 @@
     <!-- attributes: -->
     <aura:attribute name="participantItem" type="ParticipantItem" />
 	<aura:attribute name="referralSourceName" type="String" />
+    <aura:attribute name="communityService" type="Object" />
+
+    <ltng:require
+    scripts="{!$Resource.rr_community_js}"
+    afterScriptsLoaded="{!c.doInit}"
+    />
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 

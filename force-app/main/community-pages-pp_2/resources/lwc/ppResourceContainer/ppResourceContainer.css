@@ -57,6 +57,7 @@ img,
 .resource-pointer {
     object-fit: cover;
     cursor: pointer;
+    width: 100%;
 }
 .icon-center {
     padding-left: 38%;

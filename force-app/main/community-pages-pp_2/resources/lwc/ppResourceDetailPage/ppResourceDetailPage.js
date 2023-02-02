@@ -97,7 +97,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
             await getCtpName({})
                 .then((result) => {
                     let data = JSON.parse(result);
-                    this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Title__c;
+                    this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Code_Name__c;
                 })
                 .catch((error) => {
                     this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
@@ -106,9 +106,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     }
 
     handleDocumentLoad() {
+        let subDomain = communityService.getSubDomain();
         if (FORM_FACTOR == 'Large') {
             this.documentLink =
-                '/pp/apex/RRPDFViewer?resourceId=' + this.resourceId + '&language=' + this.langCode;
+                subDomain +
+                '/apex/RRPDFViewer?resourceId=' +
+                this.resourceId +
+                '&language=' +
+                this.langCode;
         } else {
             let updates = true;
             this.documentLink =
@@ -146,6 +151,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         };
 
         this[NavigationMixin.GenerateUrl](config).then((url) => {
+            sessionStorage.setItem('Cookies', 'Accepted');
             window.open(url, '_self');
         });
     }

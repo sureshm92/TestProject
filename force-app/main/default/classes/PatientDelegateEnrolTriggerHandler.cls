@@ -2,6 +2,8 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
     public static final String PATIENT_DELEGATE_ACTIVE_STATUS = 'Active';
     public static final String PATIENT_DELEGATE_ONHOLD_STATUS = 'On Hold';
     public static final String PATIENT_DELEGATE_DISCONNECTED_STATUS = 'Disconnected';
+    public static final String PATIENT_DELEGATE_DELETED_STATUS = 'Deleted';
+    public static final String PATIENT_DELEGATE_WITHDRAWN_STATUS = 'Withdrawn';
 
     public class CreateNewAssignmentNotification extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
@@ -116,16 +118,34 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         ];
 
         List<Patient_Delegate_Enrollment__c> activatedDelegateEnrolrecrds = new List<Patient_Delegate_Enrollment__c>();
+        List<Patient_Delegate_Enrollment__c> activatedDelegateEnrolrecrdsNewAssignment = new List<Patient_Delegate_Enrollment__c>();
+        
         for (Patient_Delegate_Enrollment__c pd : updatedpatientDelegateEnrollmentrecrs) {
             if (
                 pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS &&
-                oldMap.get(pd.Id).Status__c != PATIENT_DELEGATE_ACTIVE_STATUS
+                oldMap.get(pd.Id).Status__c == PATIENT_DELEGATE_DISCONNECTED_STATUS
             ) {
+                //When Delegate status change from Disconnected to Active - Send Access level change email.
                 activatedDelegateEnrolrecrds.add(pd);
+            }else if(
+                pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS &&
+                ( oldMap.get(pd.Id).Status__c == PATIENT_DELEGATE_WITHDRAWN_STATUS ||
+                oldMap.get(pd.Id).Status__c == PATIENT_DELEGATE_DELETED_STATUS )
+            ) {
+                //When Delegate status change from Deleted/Withdrawn to Active - Send New Assignment email.
+                activatedDelegateEnrolrecrdsNewAssignment.add(pd);
             }
         }
 
-        createNotifications(activatedDelegateEnrolrecrds, 'DelReactivatedNotifType');
+        //Create Access level Change notification
+        if(activatedDelegateEnrolrecrds!=null){
+            createNotifications(activatedDelegateEnrolrecrds, 'DelReactivatedNotifType');
+        }
+        //Create New Assignment notification
+        if(activatedDelegateEnrolrecrdsNewAssignment!=null){
+            createNotifications(activatedDelegateEnrolrecrdsNewAssignment, 'DelNewAssignNotifType');
+        }
+        
     }
     @TestVisible
     private static void createDelegateAssignmentNotification(
@@ -395,17 +415,18 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             perIdList.add(pd.Participant_Enrollment__c);
         }
         for (Patient_Delegate_Enrollment__c pderList : [
-                SELECT Id, Primary_Delegate__c,Participant_Enrollment__c
-                FROM Patient_Delegate_Enrollment__c
-                WHERE Participant_Enrollment__c IN :perIdList AND Primary_Delegate__c = true 
+            SELECT Id, Primary_Delegate__c,Participant_Enrollment__c 
+            FROM Patient_Delegate_Enrollment__c
+            WHERE Participant_Enrollment__c IN :perIdList AND Primary_Delegate__c = true 
         ]) {
-                for(Patient_Delegate_Enrollment__c pd: patientDelegates) { 
-                    if (pd.Primary_Delegate__c == true ) { 
-                        pderList.Primary_Delegate__c = false;
-                        updatedList.add(pderList);
-                    }
+            for(Patient_Delegate_Enrollment__c pd: patientDelegates) { 
+                if (pd.Primary_Delegate__c == true ) { 
+                    pderList.Primary_Delegate__c = false;
+                    updatedList.add(pderList);
                 }
             }
+        }
+       
         update updatedList;
     }
     //This method is to prevent deleting Primary PDER

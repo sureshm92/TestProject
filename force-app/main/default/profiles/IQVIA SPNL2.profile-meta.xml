@@ -2182,6 +2182,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Bell_Notification_Reminder__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Enable_for_Call_Center_Support__c</field>
         <readable>true</readable>
@@ -2450,7 +2455,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant_Enrollment__c.UUID__c</field>
+        <field>Participant_Enrollment__c.PPMID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

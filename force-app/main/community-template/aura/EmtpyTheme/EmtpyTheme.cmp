@@ -15,6 +15,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="initialized" type="Boolean" default="false" />
+    <aura:attribute name="communityName" type="String" />
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
@@ -25,6 +26,12 @@
     <!-- component body: -->
     <div class="rr-all-content">{!v.body}</div>
     <aura:if isTrue="{!v.initialized}">
-        <c:CookiesInfo />
+        <aura:if isTrue="{!v.communityName}">
+            <aura:if
+                isTrue="{!and(v.communityName != 'IQVIA Patient Portal',v.communityName != 'IQVIA Referral Hub')}"
+            >
+                <c:CookiesInfo />
+            </aura:if>
+        </aura:if>
     </aura:if>
 </aura:component>

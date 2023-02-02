@@ -1,5 +1,5 @@
 .THIS.menu-block {
-    width: 106px;
+    width: 98px;
     display: inline-block;
     position: relative;
     color: white;
@@ -29,11 +29,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 85%;
-}
-
-.THIS .header-menu-link {
-    /* padding: 0 8px; */
-    padding: 0 1rem 0 0.5rem;
 }
 
 @media all and (orientation: landscape) and (max-width: 1024px) {

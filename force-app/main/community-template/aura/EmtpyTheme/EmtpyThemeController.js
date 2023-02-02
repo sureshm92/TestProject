@@ -7,5 +7,8 @@
             communityService.initialize(component);
             component.set('v.initialized', true);
         }
+        if (communityService.isInitialized()) {
+            component.set('v.communityName', communityService.getCurrentCommunityName());
+        }
     }
 });
