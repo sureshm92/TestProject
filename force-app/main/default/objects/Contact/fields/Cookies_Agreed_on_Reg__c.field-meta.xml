@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cookies_Agreed_on_Reg__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Cookies acceptance during the registration process</description>
+    <externalId>false</externalId>
+    <label>Cookies Agreed on Reg</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

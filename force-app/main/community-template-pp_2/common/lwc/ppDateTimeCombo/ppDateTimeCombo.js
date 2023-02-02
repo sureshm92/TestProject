@@ -324,6 +324,7 @@ export default class PpDateTimeCombo extends LightningElement {
 
     handleTime(event) {
         this.errorPriorDueDT = false;
+        this.errorPriorDueTM = false;
         this.initialTimeLoaded = true;
         this.tm = event.target.value;
         if (!this.tm) {
@@ -355,16 +356,17 @@ export default class PpDateTimeCombo extends LightningElement {
             date = new Date(ms);
             this.compDateTime = date.toISOString();
             let maxReminderDate = new Date(this.maxdate + 'T' + this.maxtime);
+            let remdate = new Date(this.dt + 'T' + this.tm);
             //check reminder time is greater than duedate if there is duedate
-            if (this.reminder && this.compDateTime > maxReminderDate) {
-                this.errorPriorDueDT = true;
+            if (this.reminder && remdate > maxReminderDate) {
+                this.errorPriorDueTM = true;
             }
             const dateEvent = new CustomEvent('datechange', {
                 detail: {
                     compdatetime: this.compDateTime,
                     compdate: this.dt,
                     comptime: this.tm,
-                    error: this.errorPriorDueDT
+                    error: this.errorPriorDueTM
                 }
             });
             this.dispatchEvent(dateEvent);

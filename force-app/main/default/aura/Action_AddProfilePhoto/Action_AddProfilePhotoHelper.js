@@ -70,6 +70,7 @@
                 console.log('returnValue-->' + returnValue);
                 component.find('spinner').hide();
                 communityService.navigateToPage('account-settings');
+                sessionStorage.setItem('Cookies', 'Accepted');
                 window.location.reload(true);
                 /*var appEvent = $A.get("e.c:RefreshProfile");
             appEvent.setParams({
