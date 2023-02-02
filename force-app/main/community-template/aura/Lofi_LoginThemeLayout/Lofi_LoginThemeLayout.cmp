@@ -169,14 +169,8 @@
             </aura:set>
         </aura:if>
         <aura:if isTrue="{!v.communityType == 'Janssen'}">
-        <c:webBanner
-            onopenModal="{!c.selectedRecords}"
-            bodyText="{!v.cookieText}"
-            showClose="true"
-            isRTL="{!v.isRTL}"
-            isMobileView="{!v.isMobileView}"
-            commTypeName="{!v.communityType}"
-        />
+            <c:ppCookiesBanner isRTL="{!v.isRTL}" communityName="Janssen" loginPage="true"
+            />
             <aura:set attribute="else">
                 <c:ppCookiesBanner isRTL="{!v.isRTL}" communityName="Default" loginPage="true"
             /></aura:set>
