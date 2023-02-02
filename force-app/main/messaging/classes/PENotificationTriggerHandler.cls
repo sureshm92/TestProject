@@ -182,12 +182,14 @@ public without sharing class PENotificationTriggerHandler {
         List<Participant_Enrollment__c> newList
     ) {
         List<Id> participantConIds = new List<Id>();
+        List<Id> perIdList = new List<Id>();
         List<Notification__c> notifications = new List<Notification__c>();
         Map<String, Map<Id, List<Participant_Enrollment__c>>> pesByCommunityName = new Map<String, Map<Id, List<Participant_Enrollment__c>>>();
 
         for (Participant_Enrollment__c pe : newList) {
             if (pe.Participant_Contact__c != null)
                 participantConIds.add(pe.Participant_Contact__c);
+                perIdList.add(pe.Id);
         }
 
         List<Participant_Enrollment__c> allPEs = [
@@ -217,7 +219,8 @@ public without sharing class PENotificationTriggerHandler {
 
         Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateEnrollmentService.getDelegatedCntsByParticipantCnt(
             participantConIds,
-            new List<String>{ 'Id' }
+            new List<String>{ 'Id' },
+            perIdList
         );
 
         Boolean isFutureContext = System.isFuture() || System.isBatch();
