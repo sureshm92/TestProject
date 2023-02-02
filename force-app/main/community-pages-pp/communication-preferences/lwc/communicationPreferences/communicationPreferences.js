@@ -182,6 +182,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
 
                 this.updateALLFlag();
                 this.updateALLOutReachFlag();
+                this.updateAllPDEFlag();
                 //this.setConsentVisibility();
 
                 this.isCountryUS = (this.consentPreferenceDataLocal.myContact.MailingCountry!= undefined &&  this.consentPreferenceDataLocal.myContact.MailingCountry == 'United States' ? true : false);
