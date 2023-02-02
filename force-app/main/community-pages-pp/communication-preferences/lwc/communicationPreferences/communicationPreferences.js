@@ -373,6 +373,10 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         return this.isRTL ? 'sub-header mr-10 commsTxt tx-italic' : 'sub-header commsTxt tx-italic';
     }
 
+    get StudyConsentClass() {
+        return this.isRTL ? 'study-content study-content-mobile-rtl' : 'study-content study-content-mobile';
+    }
+
     renderedCallback() {}
 
     selectAllOptions(event) {

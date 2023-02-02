@@ -140,9 +140,9 @@
                                 >
                                     <lightning-layout-item
                                         size="4"
-                                        class="study-content study-content-mobile"
+                                        class={StudyConsentClass}
                                     >
-                                        <span class={getPad10}
+                                        <span class="study-header"
                                             >{study.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
                                         >
                                     </lightning-layout-item>
@@ -307,7 +307,7 @@
                                 >
                                     <lightning-layout-item
                                         size="4"
-                                        class="study-content study-content-mobile"
+                                        class={StudyConsentClass}
                                     >
                                         <span class="study-header"
                                             >{pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
@@ -315,7 +315,7 @@
                                         <p class="part-name"
                                             >assigned by  {pde.Patient_Delegate__r.Participant__r.First_Name__c} {pde.parLastNameInitial}.</p
                                         >
-                                    </lightning-layout-item>
+                                </lightning-layout-item>
 
                                     <lightning-layout-item size="8" class="study-content">
                                         <lightning-layout
@@ -501,7 +501,7 @@
                                     vertical-align="center"
                                 >
                                     <lightning-layout-item size="4" class="study-content">
-                                        <span class={getPad10}>{label.PP_Communication_Pref_Outreach_Gen_Comm}</span>
+                                        <span class="study-header">{label.PP_Communication_Pref_Outreach_Gen_Comm}</span>
                                     </lightning-layout-item>
 
                                     <lightning-layout-item size="8" class="study-content">
@@ -781,9 +781,9 @@
                                     >
                                         <lightning-layout-item
                                             size="12"
-                                            class="study-content study-content-mobile"
+                                            class={StudyConsentClass}
                                         >
-                                            <span class={getPad10}
+                                            <span class="study-header"
                                                 >{study.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
                                             >
                                         </lightning-layout-item>
@@ -941,7 +941,7 @@
                                     >
                                         <lightning-layout-item
                                             size="12"
-                                            class="study-content study-content-mobile"
+                                            class={StudyConsentClass}
                                         >
                                         <span class="study-header"
                                         >{pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
@@ -1134,9 +1134,9 @@
                                     >
                                         <lightning-layout-item
                                             size="12"
-                                            class="study-content study-content-mobile"
+                                            class={StudyConsentClass}
                                         >
-                                            <span class={getPad10}>{label.PP_Communication_Pref_Outreach_Gen_Comm}</span>
+                                            <span class="study-header">{label.PP_Communication_Pref_Outreach_Gen_Comm}</span>
                                         </lightning-layout-item>
                                     </lightning-layout>
 
