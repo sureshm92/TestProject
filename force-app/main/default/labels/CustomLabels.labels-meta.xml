@@ -4903,6 +4903,20 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Value must be ##todaysDate or earlier.</value>
     </labels>
     <labels>
+        <fullName>PP_future_date_error_month</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_future_date_error_month</shortDescription>
+        <value>Value must be current month or earlier</value>
+    </labels>
+    <labels>
+        <fullName>PP_future_date_error_day</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_future_date_error_day</shortDescription>
+        <value>Value must be current date or earlier</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Accept_a_patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
