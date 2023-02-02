@@ -545,7 +545,9 @@ public without sharing class AccountSettingsController {
                 userCommunityDelegateId__c,
                 userCommunytyType__c,
                 Phone_Type__c,
-                IQVIA_Contact_info_storage_consent__c,Is_First_Logon__c
+                IQVIA_Contact_info_storage_consent__c,
+                Is_First_Logon__c,
+                Cookies_Agreed_on_Reg__c
             FROM Contact
             WHERE Id IN (SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId())
             LIMIT 1
@@ -620,6 +622,19 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
     @AuraEnabled
     public static String getCommunityUrl() {
         return site.getMasterLabel();
+    }
+
+    @AuraEnabled
+    public static void updateTheRegCookieAcceptance() {
+        try {
+            Contact con = getCurrentContact();
+            if (con.Cookies_Agreed_on_Reg__c) {
+                con.Cookies_Agreed_on_Reg__c = false;
+            }
+            update con;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
     }
 
     public static List<CookieSettings> getCookieSettings() {
