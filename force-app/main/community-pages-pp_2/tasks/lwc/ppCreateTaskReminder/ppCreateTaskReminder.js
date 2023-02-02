@@ -503,4 +503,8 @@ export default class PpCreateTaskReminder extends LightningElement {
                 console.error(error);
             });
     }
+    setSessionCookie() {
+        sessionStorage.setItem('Cookies', 'Accepted');
+        return true;
+    }
 }
