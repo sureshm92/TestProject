@@ -96,7 +96,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                 }
             }
         } else {
-            this.selectedOptions = 'Engage';
+            this.selectedOptions = this.labels.ENGAGE;
             this.selectedResourceType = 'engage';
         }
         this.initializeData();
@@ -149,35 +149,35 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             this.isInitialized = true;
             this.createoptions();
             getInitDataNew()
-            .then((returnValue) => {
-                let initData = JSON.parse(JSON.stringify(returnValue));
-                console.log('++++++++++initData'+JSON.stringify(initData));
-                let therapeuticAssignmentsList = [];
-                let therapeuticAssignments = {
-                    resource: '',
-                    id: '',
-                    therapeuticArea: ''
-                };
+                .then((returnValue) => {
+                    let initData = JSON.parse(JSON.stringify(returnValue));
+                    let therapeuticAssignmentsList = [];
+                    let therapeuticAssignments = {
+                        resource: '',
+                        id: '',
+                        therapeuticArea: ''
+                    };
 
-                initData.resources.forEach((resObj) => {
-                    resObj.resource.Therapeutic_Area_Assignments__r?.forEach((therapeuticArea) => {
-                        therapeuticAssignments.resource = therapeuticArea.Resource__c;
-                        therapeuticAssignments.id = therapeuticArea.Id;
-                        therapeuticAssignments.therapeuticArea =
-                            therapeuticArea.Therapeutic_Area__c;
-                        therapeuticAssignmentsList.push(therapeuticAssignments);
+                    initData.resources.forEach((resObj) => {
+                        resObj.resource.Therapeutic_Area_Assignments__r?.forEach(
+                            (therapeuticArea) => {
+                                therapeuticAssignments.resource = therapeuticArea.Resource__c;
+                                therapeuticAssignments.id = therapeuticArea.Id;
+                                therapeuticAssignments.therapeuticArea =
+                                    therapeuticArea.Therapeutic_Area__c;
+                                therapeuticAssignmentsList.push(therapeuticAssignments);
+                            }
+                        );
+
+                        resObj.therapeuticAssignments = therapeuticAssignmentsList;
+                        therapeuticAssignmentsList = [];
+                        delete resObj.resource.Therapeutic_Area_Assignments__r;
                     });
-
-                    resObj.therapeuticAssignments = therapeuticAssignmentsList;
-                    therapeuticAssignmentsList = [];
-                    delete resObj.resource.Therapeutic_Area_Assignments__r;
+                    this.getUpdates(JSON.stringify(initData));
+                })
+                .catch((error) => {
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                 });
-                this.getUpdates(JSON.stringify(initData));
-            })
-            .catch((error) => {
-                console.log('++++++++++initDataError');
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-            });
         }
 
         if (this.spinner) {
