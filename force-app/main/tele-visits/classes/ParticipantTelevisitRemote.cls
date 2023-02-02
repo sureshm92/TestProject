@@ -19,21 +19,22 @@ public without sharing class ParticipantTelevisitRemote {
                         upcomingTelevisit.televisitduration = attendee.Televisit__r.Duration__c.split(' ')[0] + ' min';
                         upcomingTelevisit.televisitmettingurl = attendee.Televisit__r.Meeting_URL__c;
                         upcomingTelevisitmap.put(attendee.Televisit__r.Id,upcomingTelevisit);
-                    }else{
+                    }else if(attendee.Televisit__r.Visit_Date_Time__c.addminutes(integer.valueof(attendee.Televisit__r.Duration__c.split(' ')[0])) < system.now() || 
+                             attendee.Televisit__r.Status__c == 'Cancelled'){
                         pastTelevisits pastTelevisit = new pastTelevisits();
                         pastTelevisit.title = attendee.Televisit__r.Title__c;
                         pastTelevisit.televisitdate = attendee.Televisit__r.Visit_Date_Time__c;
                         pastTelevisit.televisitduration = attendee.Televisit__r.Duration__c;
                         pastTelevisit.televisitId = attendee.Televisit__r.Id;
                         if(attendee.Televisit__r.Status__c == 'Cancelled'){
-                            pastTelevisit.status = attendee.Televisit__r.Status__c;
+                            pastTelevisit.status = 'Canceled';
                             pastTelevisit.iscancelledone = true;
                         }
                         pastTelevisitsmap.put(attendee.Televisit__r.Id,pastTelevisit);
                     }                    
                 }
                 List<Televisit__c> televisitList = [Select id,(select id,Attendee_Type__c,Firstname__c,Televisit__c,Lastname__c,CreatedBy.Name  from Televisit_Attendee__r) from Televisit__c 
-                where Id IN : televisitIdSet order by Visit_Date_Time__c asc];
+                where Id IN : televisitIdSet order by Visit_Date_Time__c,Duration__c asc];
                 List<Televisit_Attendee__c> attendeelist = new List<Televisit_Attendee__c>();
                 if(televisitList != null && !televisitList.isempty()){
                     for(Televisit__c televisit: televisitList){
@@ -48,16 +49,13 @@ public without sharing class ParticipantTelevisitRemote {
                     taw.firstname = ta.Firstname__c;
                     taw.lastname = ta.Lastname__c;
                     taw.attendeeType = ta.Attendee_Type__c;
-                    /*if(ta.CreatedBy.Name == ta.Firstname__c + ' '+ ta.Lastname__c){
-                        taw.organiger = true;
-                    }*/
                     if(pastTelevisitsmap.containskey(ta.Televisit__c)){
                         if(pastattendeesmap.containskey(ta.Televisit__c)){
                             pastattendeesmap.get(ta.Televisit__c).add(taw);
                         }else{                        
                             pastattendeesmap.put(ta.Televisit__c,new List<televisitattendeeWrapper> {taw});
                         }
-                    }else{
+                    }else if(upcomingTelevisitmap.containskey(ta.Televisit__c)){
                         if(upcomingattendeesmap.containskey(ta.Televisit__c)){
                             upcomingattendeesmap.get(ta.Televisit__c).add(taw);
                         }else{                        
@@ -90,11 +88,12 @@ public without sharing class ParticipantTelevisitRemote {
                 }
                 tw.televisitupcomingList = finalupcomingTelevisitslist;
                 tw.televisitpastList = finalpastTelevisitslist;
-                if(!finalupcomingTelevisitslist.isEmpty() || finalpastTelevisitslist.isEmpty()){
+                tw.showDefault = 'upcoming';
+                /*if(!finalupcomingTelevisitslist.isEmpty() || finalpastTelevisitslist.isEmpty()){
                     tw.showDefault = 'upcoming';
                 }else{
                     tw.showDefault = 'past';
-                }
+                }*/
                 return tw;
             }
             return null;
