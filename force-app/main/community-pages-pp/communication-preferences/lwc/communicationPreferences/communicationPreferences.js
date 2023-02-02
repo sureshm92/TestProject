@@ -111,17 +111,14 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     showIQIVAOutreachConsentFlag = false;
     showStudyConsentFlag = false;
     DisableConsentsForDelInParView = false;
-    //hideConsentsForDelegateView = false;
     showPERConsents = false;
     ShowPDEConsents = false;
-    //showStaticMessageForDelSelfView = false;
     isDelegateAlsoAParticipant =false;
     isParticipantLoggedIn = false;
     isPrimaryDelegate = false;
     isDelegateSelfView = false;
     isAdultParticipant = false;
     isEmailAvailabelForParticipant = false;
-    isWithdrawnDelegate = false;
     currentPERId = '';
     currentPDEId = '';
     updatedPerRecord = {};
@@ -255,7 +252,6 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
             this.consentPreferenceDataLocal.isMobilePhoneNumberAvailable;
         this.currentParticipantId = this.consentPreferenceDataLocal.currentParticipant.Id;
         this.currentContactId = this.consentPreferenceDataLocal.currentParticipant.Contact__c;
-        this.isWithdrawnDelegate = this.consentPreferenceDataLocal.isWithdrawnDelegate;
         this.isDelegateAlsoAParticipant= this.consentPreferenceDataLocal.isDelegateAlsoAParticipant;
 
         //when pure partipant Logs in
@@ -281,10 +277,6 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
             this.showIQIVAOutreachConsentFlag = true;
         }
         //Check Study Consent Visibility
-        // if (this.showStudyConsent()) {
-        //     this.showStudyConsentFlag = true;
-        // }
-        //Check Study Consent Visibility
         if (this.consentPreferenceDataLocal.perList.length > 0 || this.consentPreferenceDataLocal.pdeList.length > 0) {
             this.showStudyConsentFlag = true;
         }
@@ -292,20 +284,6 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         if (!this.isParticipantLoggedIn && !this.isDelegateSelfView) {
             this.DisableConsentsForDelInParView = true;
         }
-
-        /*if (!this.showIQIVAOutreachConsentFlag && !this.showStudyConsentFlag) {
-            if (!this.isParticipantLoggedIn && this.isDelegateSelfView) {
-                this.hideConsentsForDelegateView = true;
-                console.log('Hide for Delegate self View');
-            }
-        }
-        */
-
-        //Show Static message for delegate self view.
-        // if (!this.isParticipantLoggedIn && this.isDelegateSelfView && !this.isWithdrawnDelegate) {
-        //     //this.showStaticMessageForDelSelfView = true;
-        //     //console.log('Hide for Delegate self View');
-        // }
 
         this.consentPreferenceDataLocal.isSelfAccountSettingWarningMessage
             ? (this.errorLabelText = this.label.PP_Communication_Pref_Mobile_Required)
@@ -954,44 +932,12 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     showIQVIAOutreachConsent() {
         //If IQVIA Outreach Consent is ON at CTP then only IQVIA Outreach Consent section should be visible.
         if (this.consentPreferenceDataLocal.isIQIVAOutrechToggleOnAtCTP) {
-            //If Participant Visit at Communication Preference tab at his Account setting.
-            // if (this.isParticipantLoggedIn) {
-            //     return true;
-            // }
-            // //If any Delegate visit to Communication Preference of Patient's account setting
-            // if (!this.isParticipantLoggedIn && !this.isDelegateSelfView) {
-            //     return true;
-            // }
-            // //If Delegate Visits Communication Preference tab of his own Account setting(self View).
-            // if (this.isDelegateSelfView) {
-            //     return true;
-            // }
+            
             return true;
         }
         return false;
     }
-    //Set Visibility of Study Consent
-    // showStudyConsent() {
-    //     // //If Participant Visit at Communication Preference tab at his Account setting.
-    //     // if (this.isParticipantLoggedIn) {
-    //     //     this.DisableConsentsForDelInParView = false;
-    //     // }
-
-    //     // If delegate visit Communication Preference tab at Participant's Account setting.
-    //     if (!this.isParticipantLoggedIn && !this.isDelegateSelfView) {
-    //         //If Primary Delegate, dont hide Study Consent else hide.
-    //         //if (this.isPrimaryDelegate) {                         //Make this Checking from The Patient Delegate enrollment not Patient Delegate
-    //         //    this.DisableConsentsForDelInParView = false;
-    //         //} else {
-    //             this.DisableConsentsForDelInParView = true;
-    //        // }
-    //     }
-    //     //If any Delegate Visits Communication Preference tab of his own Account setting(self View),  show study Consent.
-    //     // if (this.isDelegateSelfView) {
-    //     // }
-    //     return true;
-    // }
-
+    
     isInputValid(event) {
         let numbers = /^[0-9]*$/;
         //let numbers = '((([0-9]{3}) |[0-9]{3}-)[0-9]{3}-[0-9]{4})|\\d';
