@@ -338,52 +338,10 @@ public without sharing class PreferenceManagementController {
         List<Participant_Enrollment__c> perToUpdate,
         Id contactId
     ) {
-        List<Contact> contactToUpdate = new List<Contact>();
-
-        Boolean isParticipantLoggedIn = AccountSettingsController.isParticipantLoggedIn;
-        Boolean isDelegateAlsoAParticipant = AccountSettingsController.isDelegateAlsoAParticipant;
-        Boolean isDelegateSelfView = AccountSettingsController.isDelegateSelfView;
-        Boolean isPrimaryDelegate = AccountSettingsController.isPrimaryDelegate;
-        Boolean isPrimaryDelegateWithMultiRole = AccountSettingsController.isPrimaryDelegateWithMultiRole;
-
-        //If Pure Participant deleted his MobilePhone.
-        if (isParticipantLoggedIn && !isDelegateAlsoAParticipant) {
-            Contact cont = optOutPlatFormLevelSMS(contactId);
-            contactToUpdate.Add(cont);
-        }
-
-        //If Participant deleted his MobilePhone but Participant is also a delegate for another participant.
-        if (isParticipantLoggedIn && isDelegateAlsoAParticipant) {
-            Contact cont = optOutPlatFormLevelSMS(contactId);
-            contactToUpdate.Add(cont);
-            //if Participant is also a Primary Delegate of Minor/Adult without email participant.
-            if (isPrimaryDelegateWithMultiRole) {
-                //All all the contact record of Minor/Adult without email Participant of Primary Delegate.
-                contactToUpdate.addAll(getConOfMinorOfAdultWithoutEmailPar(contactId));
-                //get the PER records for Minor/Adult without email Participants.
-                perToUpdate.addAll(
-                    PatientDelegateService.getPERRecords(minorOrAdultWithNoEmailParIdSet)
-                );
-            }
-        }
-
-        //If Delegate deleted his own MobilePhone and Delegate is not a Participant for another study.
-        if (isDelegateSelfView) {
-            Contact cont = optOutPlatFormLevelSMS(contactId);
-            contactToUpdate.Add(cont);
-            //if Delegate is Primary Delegate.
-            if (isPrimaryDelegate) {
-                //Store all the contact record of Minor/Adult without email Participant of Primary Delegate.
-                contactToUpdate.addAll(getConOfMinorOfAdultWithoutEmailPar(contactId));
-                //get the PER records for Minor/Adult without email Participants.
-                perToUpdate.addAll(
-                    PatientDelegateService.getPERRecords(minorOrAdultWithNoEmailParIdSet)
-                );
-            }
-        }
-
         //Opt out Platform level SMS and Revert welcome message flags.
-        if (contactToUpdate != null && !contactToUpdate.isEmpty()) {
+        // if (contactToUpdate != null && !contactToUpdate.isEmpty()) {
+        if (contactId != null) {
+            Contact contactToUpdate = optOutPlatFormLevelSMS(contactId);
             update contactToUpdate;
         }
         //Opt out Study level SMS and Revert welcome message flags.

@@ -1135,3 +1135,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .read-only-background input {
     background-color: #f2f2f2 !important;
 }
+.time-error-allignment .slds-has-error .slds-form-element__help{
+    margin-left: -37px !important;
+}

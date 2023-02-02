@@ -230,6 +230,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
 
     redirectToProfileInfoTab() {
         window.history.replaceState(null, null, '?profileInformation');
+        sessionStorage.setItem('Cookies', 'Accepted');
         window.location.reload(true);
     }
 
