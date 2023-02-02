@@ -1,74 +1,127 @@
 <template>
     <!--<div class="slds-scrollable_y scroll-bar">-->
         <template if:true = {showuppasttelevisits}>
-            <template for:each={pasttelevisitdata} for:item="item">
-                <div key={item}>
-                    <div
-                        class="inactive-custom-box slds-align_absolute-center"
-                    >
-                        <div class="slds-grid slds-wrap">
-                            <div class="slds-col slds-size_1-of-20">
-                                <template if:true={item.iscancelledone}>
-                                    <div class="left-grey-line"></div>
-                                </template>
-                                <template if:false={item.iscancelledone}>
-                                    <div class="left-line"></div>
-                                </template>
-                            </div>
-
-                            <div class="slds-col slds-size_9-of-12">
-                                    <b>
-                                        <lightning-formatted-text
-                                            class="name-style"
-                                            value={item.title}
-                                        >
-                                        </lightning-formatted-text>
-                                    </b>
+            <template if:false = {ismobile}>
+                <template for:each={pasttelevisitdata} for:item="item">
+                    <div key={item}>
+                        <div
+                            class="inactive-custom-box slds-align_absolute-center"
+                        >
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-20">
                                     <template if:true={item.iscancelledone}>
-                                        <p class="unavailable-style">
-                                            {item.status} - &nbsp;
-                                            <lightning-formatted-date-time
-                                                value={item.televisitdate}
-                                                year="numeric"
-                                                month="long"
-                                                day="2-digit"
-                                            ></lightning-formatted-date-time>
-                                            &nbsp;&nbsp;|&nbsp;&nbsp;
-                                            <lightning-formatted-date-time
-                                                value={item.televisitdate}
-                                                hour="2-digit"
-                                                minute="2-digit"
-                                            ></lightning-formatted-date-time>
-                                        </p>
+                                        <div class="left-grey-line"></div>
                                     </template>
                                     <template if:false={item.iscancelledone}>
-                                        <p class="date-style">
-                                            <lightning-formatted-date-time
-                                                value={item.televisitdate}
-                                                year="numeric"
-                                                month="long"
-                                                day="2-digit"
-                                            ></lightning-formatted-date-time>
-                                            &nbsp;&nbsp;|&nbsp;&nbsp;
-                                            <lightning-formatted-date-time
-                                                value={item.televisitdate}
-                                                hour="2-digit"
-                                                minute="2-digit"
-                                            ></lightning-formatted-date-time>
-                                        </p>
-                                   </template>
+                                        <div class="left-line"></div>
+                                    </template>
+                                </div>
+    
+                                <div class="slds-col slds-size_9-of-12">
+                                        <b>
+                                            <lightning-formatted-text
+                                                class="name-style"
+                                                value={item.title}
+                                            >
+                                            </lightning-formatted-text>
+                                        </b>
+                                        <template if:true={item.iscancelledone}>
+                                            <p class="unavailable-style">
+                                                {item.status} - &nbsp;
+                                                <lightning-formatted-date-time
+                                                    value={item.televisitdate}
+                                                    year="numeric"
+                                                    month="long"
+                                                    day="2-digit"
+                                                ></lightning-formatted-date-time>
+                                                <!--&nbsp;&nbsp;|&nbsp;&nbsp;
+                                                <lightning-formatted-date-time
+                                                    value={item.televisitdate}
+                                                    hour="2-digit"
+                                                    minute="2-digit"
+                                                ></lightning-formatted-date-time>-->
+                                            </p>
+                                        </template>
+                                        <template if:false={item.iscancelledone}>
+                                            <p class="date-style">
+                                                <lightning-formatted-date-time
+                                                    value={item.televisitdate}
+                                                    year="numeric"
+                                                    month="long"
+                                                    day="2-digit"
+                                                ></lightning-formatted-date-time>
+                                               <!-- &nbsp;&nbsp;|&nbsp;&nbsp;
+                                                <lightning-formatted-date-time
+                                                    value={item.televisitdate}
+                                                    hour="2-digit"
+                                                    minute="2-digit"
+                                                ></lightning-formatted-date-time>-->
+                                            </p>
+                                       </template>
+                                </div>
+                                <!--<div class="slds-size_2-of-12">
+                                        <c-custom-help-text
+                                        height = "96px"
+                                        width = "189px"
+                                        position="absolute"
+                                        related-attendees = {item.relatedAttendees}
+                                    > </c-custom-help-text>
+                                </div>-->
                             </div>
-                            <!--<div class="slds-size_2-of-12">
-                                    <c-custom-help-text
-                                    height = "96px"
-                                    width = "189px"
-                                    position="absolute"
-                                    related-attendees = {item.relatedAttendees}
-                                > </c-custom-help-text>
-                            </div>-->
                         </div>
                     </div>
-                </div>
+                </template>
+            </template>
+            <template if:true = {ismobile}>
+                <template for:each={pasttelevisitdata} for:item="item">
+                    <div key={item}>
+                        <div
+                            class="inactive-custom-box-mobile slds-align_absolute-center"
+                        >
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-20">
+                                    <template if:true={item.iscancelledone}>
+                                        <div class="left-grey-line"></div>
+                                    </template>
+                                    <template if:false={item.iscancelledone}>
+                                        <div class="left-line"></div>
+                                    </template>
+                                </div>
+    
+                                <div class="slds-col slds-size_9-of-12">
+                                        <b>
+                                            <lightning-formatted-text
+                                                class="name-style"
+                                                value={item.title}
+                                            >
+                                            </lightning-formatted-text>
+                                        </b>
+                                        <template if:true={item.iscancelledone}>
+                                            <p class="unavailable-style-mobile">
+                                                {item.status} - &nbsp;
+                                                <lightning-formatted-date-time
+                                                    value={item.televisitdate}
+                                                    year="numeric"
+                                                    month="long"
+                                                    day="2-digit"
+                                                ></lightning-formatted-date-time> 
+                                            </p>
+                                        </template>
+                                        <template if:false={item.iscancelledone}>
+                                            <p class="date-style-mobile">
+                                                <lightning-formatted-date-time
+                                                    value={item.televisitdate}
+                                                    year="numeric"
+                                                    month="long"
+                                                    day="2-digit"
+                                                ></lightning-formatted-date-time>
+                                            </p>
+                                       </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
             </template>
         </template>
                     

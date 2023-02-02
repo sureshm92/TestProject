@@ -520,7 +520,9 @@ window.communityService = (function () {
             let expires = 'expires=' + d.toUTCString();
             document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
         },
-
+        setCookiesAgreedonReg: function (val) {
+            participantData.cookiesAgreedonRegPage = val;
+        },
         isValidEmail: function (email) {
             let re =
                 /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

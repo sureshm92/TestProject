@@ -68,6 +68,16 @@
     padding: 0.9rem 0 1rem 0.2rem;
     margin-bottom: 0.5rem;
 }
+.inactive-custom-box-mobile{
+    box-sizing: border-box;
+    height: 80px;
+    width: 320px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    padding: 0.9rem 0 1rem 0.2rem;
+    margin-bottom: 0.5rem;
+}
 
 .inactive-custom-box:hover,
 .active-custom-box:hover {
@@ -89,6 +99,21 @@
 
 .date-style {
     width: 600px;
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+}
+.unavailable-style-mobile {
+    width: 270px;
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+}
+
+.date-style-mobile{
+    width: 270px;
     color: #595959;
     font-family: 'Proxima Nova';
     font-size: 16px;

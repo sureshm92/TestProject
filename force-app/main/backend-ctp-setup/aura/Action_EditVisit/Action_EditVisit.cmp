@@ -67,14 +67,14 @@
                     <div class="slds-col slds-size--1-of-2">
                         <lightning:input
                             type="text"
-                            label="Visit Description"
+                            label="Visit/Event Description"
                             value="{!v.visit.Visit_Description__c}"
                         />
                     </div>
                     <div class="slds-col slds-size--1-of-2">
                         <lightning:input
                             type="text"
-                            label="Motivational Message"
+                            label="Visit/Event Motivational Message"
                             value="{!v.visit.Motivational_Message__c}"
                         />
                     </div>

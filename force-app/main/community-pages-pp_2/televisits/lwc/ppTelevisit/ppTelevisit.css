@@ -9,12 +9,30 @@
   line-height: 48px;
   padding-left: 32px;
 }
+.my-televisits-mobile{
+  height: 32px;
+  width: 217px;
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 32px;
+  }
 .televisit-card-upcoming {
     height: 152px;
     width: 630px;
     display: grid;
     border-radius: 16px;
     border: 1px solid #D9D9D9;
+}
+.televisit-card-upcoming-mobile {
+  height: 152px;
+  width: 315px;
+  border: 1px solid #D9D9D9;
+  border-radius: 16px;
+  background-color: #FFFFFF;
+  display : grid;
 }
 .text-colour {
   height: 24px;
@@ -27,6 +45,13 @@
   line-height: 45px;
   text-align: center;
 }
+.text-colour-mobile {
+    color: #999999;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 45px;
+    text-align: center;
+  }
 .center-align {
     text-align: center;
 }
@@ -98,3 +123,4 @@
     }
 
 
+    

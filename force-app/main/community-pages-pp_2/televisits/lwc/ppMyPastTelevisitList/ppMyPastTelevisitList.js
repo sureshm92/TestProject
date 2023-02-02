@@ -4,6 +4,7 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
     pasttelevisitdata = [];
     showuppasttelevisits = false;
     @api pasttelevisitsrecords;
+    @api ismobile;
     connectedCallback() {
         this.pasttelevisitdata = this.pasttelevisitsrecords;
         this.showuppasttelevisits = true;
