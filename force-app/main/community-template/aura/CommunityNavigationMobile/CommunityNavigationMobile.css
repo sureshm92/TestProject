@@ -219,7 +219,74 @@
         line-height: 1.25rem;
     }
 }
+@media screen and (orientation:landscape) and (min-width: 769px) and (max-width: 1139px){
 
+    .THIS .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
+        border: none;
+        background-color: white;
+        box-shadow: none;
+        width: 100%;
+        color: #fff;
+        height: 90px;
+        position: absolute;
+        display: flex;
+        visibility: visible;
+        opacity: 1;
+        display: none;
+
+    }
+}
+@media screen and (orientation:landscape)
+and (max-device-width: 898px) 
+ {
+   /* Your CSS Here*/
+     .THIS.rr-overlay {
+        display: none;
+    }
+    .THIS.overlay {
+        pointer-events: auto;
+        top: 100%;
+    }
+     
+
+    .THIS .nav-menu {
+        display: flex;
+        width: 100%;
+        height: 60px;
+        position: absolute;
+        bottom: 0;
+        transition: none;
+        left: 0;
+    }
+
+    .THIS .nav-menu .nav-item {
+        padding: 0 5px 0;
+        flex: 1 1 0;
+    }
+
+    .THIS .nav-menu-item-content {
+        padding: 3px 5px 0;
+        flex: 1 1 0;
+        position: relative;
+        justify-content: flex-start;
+        flex-direction: column;
+        margin-top: 3px;
+    }
+
+    .THIS .nav-menu > .nav-menu-item-content {
+        padding: 0 5px 0 10px;
+        margin-top: 0;
+    }
+
+    .THIS .nav-menu > .nav-menu-item-content > .navigation-icon {
+        margin: 7px 17px 7px 0;
+    }
+
+    .THIS .nav-menu .nav-menu-item-content > span {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+}
 @media screen and (max-width: 550px) {
     .THIS .nav-menu {
         height: 65px;
