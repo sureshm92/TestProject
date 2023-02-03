@@ -199,13 +199,13 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             FROM Patient_Delegate_Enrollment__c
             WHERE Id IN :pdeIdset AND Status__c = :PATIENT_DELEGATE_ACTIVE_STATUS
         ];
-        Set<Id> pdIdCommTemplateNewAssDupCheckSet = new set<Id>();
+        Set<Id> pdIdNewAssDupCheckSet = new set<Id>();
         List<Patient_Delegate_Enrollment__c> pdeRecrdsToProcess = New List<Patient_Delegate_Enrollment__c>();
         for(Patient_Delegate_Enrollment__c pde: patientDelegateEnrollRecrds ){
             Id delId = pde.Patient_Delegate__c;
             //Avoid creating duplicate notification records when Patient delegate is added for multiple for same community studis at a time. 
-            if(!pdIdCommTemplateNewAssDupCheckSet.contains(delId)){
-                pdIdCommTemplateNewAssDupCheckSet.add(delId);
+            if(!pdIdNewAssDupCheckSet.contains(delId)){
+                pdIdNewAssDupCheckSet.add(delId);
                 pdeRecrdsToProcess.add(pde);
             }
         }
