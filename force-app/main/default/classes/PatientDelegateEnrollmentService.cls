@@ -422,6 +422,11 @@ public without sharing class PatientDelegateEnrollmentService {
             if(!perIdSetForExistingPDE.contains(perId)){
                 Patient_Delegate_Enrollment__c pde = createPDEObject(newDelegate,perId);
                 pdeList.Add(pde);
+                //Bypass the notification creation for Update of PDE record to avoid duplicate notifications.
+                //In this case, notification will get triggered for new PDE creation. 
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.CreateReactivatedNotification.class          
+                );
             }
         }
         
