@@ -170,6 +170,7 @@ public without sharing class RRChangePasswordController {
                 Contact.MailingStateCode,
                 Contact.MailingStreet,
                 Contact.Is_First_Logon__c,
+                Contact.Cookies_Agreed_on_Reg__c,
                 Contact.Participant_Opt_In_Status_Emails__c,
                 Contact.Participant_Opt_In_Status_SMS__c ,
                 Contact.Participant_Phone_Opt_In_Permit_Phone__c ,
@@ -398,6 +399,9 @@ public without sharing class RRChangePasswordController {
             contact cont = new contact();
 
             cont.Id = contact.Id;
+            if(contact.Is_First_Logon__c){
+            cont.Cookies_Agreed_on_Reg__c = true;
+            }
             cont.Is_First_Logon__c = false;
             cont.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
                 ? CommunityService.IQVIA_NETWORK_NAME
@@ -465,6 +469,9 @@ public without sharing class RRChangePasswordController {
             PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
             contact cont = new contact();
             cont.Id = contact.Id;
+            if(contact.Is_First_Logon__c){
+            cont.Cookies_Agreed_on_Reg__c = true;
+            }
             cont.Is_First_Logon__c = false;
             cont.Landing_Community__c = Site.getMasterLabel();
             if (isParticipant) {

@@ -3434,6 +3434,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Cookies_Agreed_on_Reg__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Current_Participant_Enrollment__c</field>
         <readable>true</readable>
     </fieldPermissions>
