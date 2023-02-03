@@ -156,7 +156,7 @@
         component.set('v.showPpPopup', false);
     },
     navigateToAccoutSettingsPage: function (component) {
-        sessionStorage.setItem('Cookies', 'Accepted');
+        localStorage.setItem('Cookies', 'Accepted');
         window.open('account-settings?profileInformation', '_blank');
         window.focus();
     }
