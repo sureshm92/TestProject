@@ -42,7 +42,7 @@ public without sharing class MessageTriggerHandler {
             piContactIds.add(con.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c);
         }
 
-        Map<Id, List<Id>> delegatesByPAConId = PatientDelegateService.getDelegateContactIdsByPAContactIs(
+        Map<Id, List<Id>> delegatesByPAConId = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
             participantConIds
         );
 
@@ -103,7 +103,8 @@ public without sharing class MessageTriggerHandler {
                             new Notification__c(
                                 Recipient__c = delConId,
                                 WhatId__c = conversation.Participant_Enrollment__c,
-                                Notification_Type__c = notType
+                                IsDelegate__c = true,
+                                Notification_Type__c = notType //Message to PT when there is a new message	
                             )
                         );
                     }

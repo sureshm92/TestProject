@@ -577,6 +577,19 @@ lightning-datepicker lightning-button-icon .slds-button svg {
     display: none;
 }
 
+
+[c-ppaddnewdelegate_ppaddnewdelegate] .slds-form-element__label {
+    padding: 0 0 0 5px;
+    text-align: left;
+    font-size: 14px !important;
+    margin-top: -4px;
+    line-height: 22px !important;
+}
+
+[c-ppaddnewdelegate_ppaddnewdelegate] .slds-checkbox__label {
+    display: flex;
+}
+
 .mr_left_5 > .slds-col {
     padding: .25rem;
 }
@@ -1849,7 +1862,6 @@ input[type=password]::-ms-clear
 }
 
 /* trial item - contact to study - alumni participant */
-
 .trialItemPopUpContainer .cPopup .p-header h2 {
     font-size: 24px;
     font-weight: 500;
@@ -1888,3 +1900,111 @@ background-color: #00c221 !important;
 border: 1px solid #00c221 !important;
 outline: none !important;
 }
+/* Delegate redesing - Chages-  Starts */
+.add-delegate-input-container .slds-input{
+    height: 40px !important;
+}
+.add-delegate-input-container .slds-input[disabled]{
+    /* opacity: .4; */
+    cursor: not-allowed;
+    pointer-events: none;
+    border: 1px solid #D9D9D9;
+    background-color: #F2F2F2;
+    color: #747474; 
+    -webkit-text-fill-color: #747474;
+    opacity: 1; /* required on iOS */
+}
+.e-consent-aligment .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    font-size: 14px !important;
+    padding: 0 5px 0 5px;
+    margin-top: -4px;
+    line-height: 21px;
+}
+.e-consent-aligment .slds-checkbox__label {
+    display: flex;
+}
+
+.add-del-fn-ln-cls input:disabled{
+    /* color: #747474;
+    background-color: #f2f2f2; */
+    color: red;
+    background-color: magenta;
+
+}
+.std .text-checked-bold .slds-checkbox .slds-checkbox__label .slds-form-element__label{
+    font-weight: 600 !important;
+}
+.adn-multi-picklist .slds-media__body {
+    height: 30px !important;
+    line-height: 42px !important;
+}
+.adn-multi-picklist .slds-truncate{
+	line-height: 35px !important;
+    height: 30px !important;
+}
+.ma-what-I-can-see-button .apollo-btn{
+    justify-content: left;
+}
+.ma-what-I-can-see-button .apollo-btn.secondary {
+    position: relative;
+    font-size: 18px;
+    font-weight: 600;
+    height: 56px;
+    padding: 16px 16px 16px 24px;
+    width: 100%
+}
+.ma-what-I-can-see-button-mob .apollo-btn{
+    justify-content: left;
+}
+.ma-what-I-can-see-button-mob .apollo-btn.secondary {
+    position: relative;
+    font-size: 18px;
+    font-weight: 600;
+    height: 56px;
+    padding: 16px 11px 16px 11px;
+    width: 100%
+}
+
+
+.ma-what-I-can-see-button-1 .apollo-btn.secondary {
+    background: #fff;
+    position: relative;
+    color: #297dfd;
+    border-right: none !important;
+    border-bottom: 1px solid transparent !important;
+    border-left: none !important;
+    border-top: 1px solid #e9e9e9;
+    box-shadow: none !important;
+    padding: 16px 16px 16px 24px;
+    font-size: 18px;
+    font-weight: 600;
+    height: 56px;
+    width: 100%
+}
+.ma-what-I-can-see-button-1 .apollo-btn{
+    justify-content: left;
+}
+.ma-what-I-can-see-button-mob-1 .apollo-btn.secondary {
+    background: #fff;
+    position: relative;
+    color: #297dfd;
+    border-right: none !important;
+    border-bottom: 1px solid transparent !important;
+    border-left: none !important;
+    border-top: 1px solid #e9e9e9;
+    box-shadow: none !important;
+    padding: 16px 11px 16px 11px;
+    font-size: 18px;
+    font-weight: 600;
+    height: 56px;
+    width: 100%
+}
+.ma-what-I-can-see-button-mob-1 .apollo-btn{
+    justify-content: left;
+}
+.ma-icon-color .slds-icon_small {
+    width: 20px;
+    height: 20px;
+}
+
+/* Delegate redesing - Chages-  Ends */

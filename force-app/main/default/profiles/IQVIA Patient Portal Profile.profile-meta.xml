@@ -5128,6 +5128,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Enrollment__c.PPMID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Status_Integration__mdt.ApiFieldNames__c</field>
         <readable>false</readable>
     </fieldPermissions>
