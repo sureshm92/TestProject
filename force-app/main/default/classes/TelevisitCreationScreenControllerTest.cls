@@ -83,16 +83,7 @@ Public Class TelevisitCreationScreenControllerTest{
         ta.User__c = UserInfo.getUserId();
         ta.Televisit__c = tv.id;
         ta.Contact__c = testData.piDelegateContact.Id;
-        insert ta;  
-        Televisit_Attendee__c ta1 = new Televisit_Attendee__c();
-        ta1.Firstname__c = 'test';
-        ta1.Lastname__c = 'test';
-        ta1.Attendee_Type__c = 'Participant';
-        ta1.User__c = UserInfo.getUserId();
-        ta1.Televisit__c = tv.id;
-        ta1.Contact__c = testData.piContact.Id;
-        insert ta1;  
-        
+        insert ta;
         tv.Visit_Date_Time__c = system.now()+(15/1440);
         tv.Visit_End_Date_Time__c = system.now()+(30/1440);
         update tv;
@@ -110,6 +101,7 @@ Public Class TelevisitCreationScreenControllerTest{
         TelevisitCreationScreenController.fetchTelevisitRecord('Scheduled',participantEnrollmentId[0]);
         TelevisitCreationScreenController.fetchTelevisitRecord('Canceled/Completed',participantEnrollmentId[0]);
         TelevisitCreationScreenController.fetchAttendees(participantEnrollmentId[0]);
+        TelevisitCreationScreenController.fetchParticipantDetails(participantEnrollmentId[0]);
         TelevisitCreationScreenController.cancelTelevisit(tv.id);
         TelevisitCreationScreenController.fetchSelectedAttendees(tv.id);
         
@@ -122,5 +114,5 @@ Public Class TelevisitCreationScreenControllerTest{
         TelevisitTriggerHandler.createTelevisitEvent();
         TelevisitCreationScreenController.insertTelevisitRecord('{"attendeesList":'+json+',"id":"","title":"1111111","duration":"15 minutes","startTime":"02:15:00.000","visitDate":"2022-07-18"}');
         Test.StopTest();
-	}
+	}       
 }
