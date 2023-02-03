@@ -9,8 +9,6 @@ public without sharing class AccountSettingsController {
     public static Boolean isEmailAvailabelForParticipant = false;
     public static Boolean isDelegateSelfView = false;
     public static Boolean isIQIVAOutrechToggleOnAtCTP = false;
-    public static Boolean isPrimaryDelegate = false;
-    public static Boolean isPrimaryDelegateWithMultiRole = false;
     public static Boolean isDelegateAlsoAParticipant = false;
     public static Boolean isParticipantLoggedIn = true;
     public static Boolean checkIfDelAlsoAParticipant = false;
@@ -131,29 +129,6 @@ public without sharing class AccountSettingsController {
                         if (availablePEsForDel != null)
                         perListAllforCommPref.addAll(availablePEsForDel);
                     }
-
-                    //TODO: Redesign this logic for delegate redesign changes - Start
-                    //When delegate was delegate of Alumi Participant and Delegate withdrawn from Alumi Participant.
-                    //Note: In this case there wont be any PER record associated with Delegate via Participant. 
-                    if (
-                        !participantState.hasPatientDelegates &&
-                        !participantState.isDelegate && 
-                        (perListAllforCommPref == null || perListAllforCommPref.isEmpty())
-                    ) {
-                        //Get the PER Record from the alumni Participant.
-                        peIdList = PatientDelegateService.getAvailablePEIdsForDelContact(
-                            participantState.participant.Contact__c
-                        );
-
-                        List<Participant_Enrollment__c> availablePEsForDel = getPERRecords(peIdList);
-                        if (availablePEsForDel != null)
-                        perListAllforCommPref.addAll(availablePEsForDel);
-                        initData.consentPreferenceData.isWithdrawnDelegate = true;
-                        //isDelegateSelfView = true;
-                        //checkIfDelAlsoAParticipant = true;
-                    }
-                     //TODO: Redesign this logic for delegate redesign changes - Start
-
                     //if (perListAllforCommPref != null) {
                         //Prepare Communication Preference data.
                         prepareCommunicationPreferenceData(perListAllforCommPref, initData);
@@ -287,11 +262,8 @@ public without sharing class AccountSettingsController {
                 //Populte Account Setting switcher variables.
                 isAdultParticipant = commWrapper.isAdultParticipant;
                 isDelegateSelfView = commWrapper.isDelegateSelfView;
-                isPrimaryDelegate = commWrapper.isPrimaryDelegate;
                 isDelegateAlsoAParticipant = commWrapper.isDelegateAlsoAParticipant;
                 isParticipantLoggedIn = commWrapper.isParticipantLoggedIn;
-                isPrimaryDelegateWithMultiRole = commWrapper.isPrimaryDelegateWithMultiRole;
-
                 //Check if mobilePhone is deleted
                 Boolean isMobilePhoneDeleted = checkIfMobilePhoneIsdeleted(commWrapper.myContact.Id, commWrapper.loggedInUserParticipantId);
                 //if Mobile Phone is not available
@@ -545,7 +517,9 @@ public without sharing class AccountSettingsController {
                 userCommunityDelegateId__c,
                 userCommunytyType__c,
                 Phone_Type__c,
-                IQVIA_Contact_info_storage_consent__c,Is_First_Logon__c
+                IQVIA_Contact_info_storage_consent__c,
+                Is_First_Logon__c,
+                Cookies_Agreed_on_Reg__c
             FROM Contact
             WHERE Id IN (SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId())
             LIMIT 1
@@ -620,6 +594,19 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
     @AuraEnabled
     public static String getCommunityUrl() {
         return site.getMasterLabel();
+    }
+
+    @AuraEnabled
+    public static void updateTheRegCookieAcceptance() {
+        try {
+            Contact con = getCurrentContact();
+            if (con.Cookies_Agreed_on_Reg__c) {
+                con.Cookies_Agreed_on_Reg__c = false;
+            }
+            update con;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
     }
 
     public static List<CookieSettings> getCookieSettings() {
@@ -1093,11 +1080,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             //As Patient delegate switched to his own Account setting so set isParticipantLoggedIn to false.
             //But if patient Delegate is also acting as Participant then set  isParticipantLoggedIn to true and make Primary delegate to false and isDelegateSelfView to false.
             if (isDelegateAlsoAParticipant) {
-                if(isPrimaryDelegate){
-                    initData.consentPreferenceData.isPrimaryDelegateWithMultiRole = true;
-                }
                 initData.consentPreferenceData.isParticipantLoggedIn = true;
-                initData.consentPreferenceData.isPrimaryDelegate = false;
                 initData.consentPreferenceData.isDelegateSelfView = false;
                 initData.consentPreferenceData.isDelegateAlsoAParticipant = true; 
                 if (perListforCommPref != null) {
@@ -1106,7 +1089,6 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             } else {
                 //Pure Delegate Self View. 
                 initData.consentPreferenceData.isParticipantLoggedIn = false;
-                initData.consentPreferenceData.isPrimaryDelegate = isPrimaryDelegate;
                 initData.consentPreferenceData.studySiteYOBFormat = 'YYYY';
             }
         } else {

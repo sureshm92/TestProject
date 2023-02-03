@@ -59,8 +59,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         }
 
         //get clicked resource details
-
-        await getResourceDetails({
+        getResourceDetails({
             resourceId: this.resourceId,
             resourceType: this.resourceType
         })
@@ -83,26 +82,28 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 if (this.isDocument) {
                     this.handleDocumentLoad();
                 }
-                this.isInitialized = true;
-
-                if (this.spinner) {
-                    this.spinner.hide();
+                //get study Title
+                if (this.state != 'ALUMNI' && resourceData.Content_Class__c == 'Study-Specific') {
+                    getCtpName({})
+                        .then((result) => {
+                            let data = JSON.parse(result);
+                            this.studyTitle =
+                                data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Code_Name__c;
+                        })
+                        .catch((error) => {
+                            this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
+                        });
                 }
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+            })
+            .finally(() => {
+                this.isInitialized = true;
+                if (this.spinner) {
+                    this.spinner.hide();
+                }
             });
-        //get study Title
-        if (this.state != 'ALUMNI') {
-            await getCtpName({})
-                .then((result) => {
-                    let data = JSON.parse(result);
-                    this.studyTitle = data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Code_Name__c;
-                })
-                .catch((error) => {
-                    this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-                });
-        }
     }
 
     handleDocumentLoad() {

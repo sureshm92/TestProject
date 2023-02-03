@@ -8,6 +8,7 @@ import ppCookiesButtonManagePrefer from '@salesforce/label/c.PP_Cookies_Button_M
 import ppCookieBannerHeader from '@salesforce/label/c.PP_Cookie_Banner_Header';
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
 import changeOptInCookies from '@salesforce/apex/AccountSettingsController.changeOptInCookies';
+import updateTheRegCookieAcceptance from '@salesforce/apex/AccountSettingsController.updateTheRegCookieAcceptance';
 
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 
@@ -67,13 +68,22 @@ export default class PpCookiesBanner extends LightningElement {
     cookiesBannerDesc3;
 
     connectedCallback() {
-        if (communityService.isInitialized()) {
-            this.isDummy = communityService.isDummy();
-        }
         this.cookiesBannerDesc3 = ' ' + this.label.ppCookiesBannerDesc3;
         let rrCookies = communityService.getCookie('RRCookies');
         let data = sessionStorage.getItem('Cookies');
-        if (data) {
+        if (!this.loginPage && communityService.isInitialized()) {
+            if (communityService.getParticipantData().cookiesAgreedonRegPage) {
+                data = 'Agreed';
+                updateTheRegCookieAcceptance()
+                    .then(() => {
+                        communityService.setCookiesAgreedonReg(false);
+                    })
+                    .catch((error) => {
+                        communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                    });
+            }
+        }
+        if (!this.loginPage && data) {
             this.showBanner = false;
         }
         if ((!rrCookies || this.loginPage) && !data) {

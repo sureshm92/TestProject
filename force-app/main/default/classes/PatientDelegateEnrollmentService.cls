@@ -422,6 +422,11 @@ public without sharing class PatientDelegateEnrollmentService {
             if(!perIdSetForExistingPDE.contains(perId)){
                 Patient_Delegate_Enrollment__c pde = createPDEObject(newDelegate,perId);
                 pdeList.Add(pde);
+                //Bypass the notification creation for Update of PDE record to avoid duplicate notifications.
+                //In this case, notification will get triggered for new PDE creation. 
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.CreateReactivatedNotification.class          
+                );
             }
         }
         
@@ -518,13 +523,15 @@ public without sharing class PatientDelegateEnrollmentService {
     ) {
         return getDelegateContactIdsByPAContactIs(participantContIds,false);
     }
-     /**
+    /**
      * @param partContactsIds List with participant contact ids
      * @param delegatedCntFields List with required contact fields
+     * @param perIds List with required per ids
      */
     public static Map<Id, List<Contact>> getDelegatedCntsByParticipantCnt(
         List<Id> partContactsIds,
-        List<String> delegatedCntFields
+        List<String> delegatedCntFields,
+        List<Id> perIdlst
     ) {
         if (partContactsIds.isEmpty()) {
             return new Map<Id, List<Contact>>();
@@ -539,7 +546,14 @@ public without sharing class PatientDelegateEnrollmentService {
             pdFields,
             Patient_Delegate_Enrollment__c.getSObjectType(),
             DatabaseService.fieldInValues('Patient_Delegate__r.Participant__r.Contact__c', partContactsIds) +
-            ' AND ' +
+            ' AND ' + 
+            ((perIdlst!=null && !perIdlst.isEmpty())
+            ? (
+               DatabaseService.fieldInValues(
+                   'Participant_Enrollment__c',
+                   perIdlst
+               ) + ' AND ')
+            : '') +
             DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
         
         );
@@ -555,6 +569,16 @@ public without sharing class PatientDelegateEnrollmentService {
         }
 
         return delContactsByPartCnt;
+    }
+     /**
+     * @param partContactsIds List with participant contact ids
+     * @param delegatedCntFields List with required contact fields
+     */
+    public static Map<Id, List<Contact>> getDelegatedCntsByParticipantCnt(
+        List<Id> partContactsIds,
+        List<String> delegatedCntFields
+    ) {
+        return getDelegatedCntsByParticipantCnt(partContactsIds,delegatedCntFields,null);
     }
 
     public static list<Patient_Delegate_Enrollment__c> getPatientEnrollmentList(List<Id> participantIdlst, List<Id> perIdlst) {
