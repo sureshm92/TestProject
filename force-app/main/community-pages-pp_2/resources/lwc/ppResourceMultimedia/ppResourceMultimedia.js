@@ -1,4 +1,4 @@
-import { LightningElement,api } from 'lwc';
+import { LightningElement, api } from 'lwc';
 
 export default class PpResourceMultimedia extends LightningElement {
     @api resourcedData = [];
@@ -9,8 +9,7 @@ export default class PpResourceMultimedia extends LightningElement {
     }
 
     initializeData() {
-        console.log('+++++++++123'+JSON.stringify(this.resourcedData));
-        if(this.resourcedData != undefined && this.resourcedData.length >0 ){
+        if (this.resourcedData != undefined && this.resourcedData.length > 0) {
             this.resourcePresent = true;
         }
     }

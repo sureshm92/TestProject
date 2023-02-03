@@ -93,9 +93,11 @@
                 parentId: component.get('v.recordId')
             },
             function (returnValue) {
+                sessionStorage.setItem('Cookies', 'Accepted');
                 window.location.reload(true);
             }
         );
+        sessionStorage.setItem('Cookies', 'Accepted');
         window.location.reload(true);
     }
 });
