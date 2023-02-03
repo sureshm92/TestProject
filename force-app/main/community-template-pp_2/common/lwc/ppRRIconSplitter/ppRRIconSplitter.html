@@ -1,5 +1,42 @@
 <template>
     <div>
+        <template if:true={morethan6or7}>
+            <div class="parent">
+                <div class="wide slds-grid slds-gutters">
+                    <div class="slds-align--absolute-center chevronLp slds-col" style={mobileOrDesktopSizeLeft}>
+                        <lightning-icon size="x-small" icon-name="utility:chevronleft" alternative-text="left" class="chevronL disableCursor" onclick={goLeft}></lightning-icon>
+                    </div>
+                    <div class="topdiv slds-col panel-width">   
+                        <template for:each={icons} for:item="icon" for:index="index">
+                            <lightning-layout-item key={icon.index} class="slds-p-right_medium bio-icons" style="height: 20px;">
+                                <c-web-icon
+                                    icon-size="medium"
+                                    icon-name={icon.Name}
+                                    onclick={handleonclick}
+                                    data-label={icon.Label__c}
+                                    data-description={icon.Description__c}
+                                    data-name={icon.Name}
+                                    data-index={index}
+                                >
+                                </c-web-icon>
+                            </lightning-layout-item>
+                        </template> 
+                    </div>
+                    <div class="slds-align--absolute-center chevronRp slds-col" style={mobileOrDesktopSizeRight}>
+                        <lightning-icon size="x-small" icon-name="utility:chevronright" alternative-text="right" onclick={goRight} class="chevronR"></lightning-icon>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span>
+                    <span class="iconBold"> {label}</span>
+                </span>
+                <div class="scrollbar">
+                <p class="before-your-visits">{description}</p>
+                </div>
+            </div>
+        </template>
+        <template if:false={morethan6or7}>
         <div>
             <lightning-layout
                 vertical-align="left"
@@ -30,5 +67,6 @@
                 </div>
             </div>
         </div>
+        </template>
     </div>
 </template>
