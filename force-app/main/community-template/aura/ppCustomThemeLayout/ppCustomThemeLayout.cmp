@@ -115,12 +115,12 @@
                     />
                 </aura:if>
                 <!-- Televisit Meet Banner Section PEH-5892 -->
-                <!--      <aura:if isTrue="{!v.handleTelevistBanner}">                   
+                <aura:if isTrue="{!v.handleTelevistBanner}">                 
                     <c:televisitMeetBanner
                                            urlPathPrefix="{!v.urlPathPrefix}"
                                            currentMode="{!v.currentMode}"
                                            ></c:televisitMeetBanner>
-                </aura:if>-->
+                </aura:if>
                 {!v.body}
             </div>
             <div
