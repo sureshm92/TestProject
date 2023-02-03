@@ -468,7 +468,7 @@ public without sharing class CommunityFacadeRemote {
                                 WHERE (Is_Active__c = true) 
                                 AND (Notification__r.Recipient__r.Id =:contactId)  
                                 AND ( CreatedDate = LAST_N_DAYS:30) 
-                                AND Community_Type__c =:'Janssen'     
+                                AND Community_Type__c = 'Janssen'     
                                 AND User_Role__c = :userRole                
                                 ORDER BY CreatedDate DESC];
             }else{
