@@ -459,29 +459,30 @@ public without sharing class CommunityFacadeRemote {
         Map<String, String> mapOfStudyVsStringSite = new Map<String, String>();      
         Map<String, String> mapOfStudyVsComm = new Map<String, String>();  
 
-        if(communityType == 'Janssen'){
-            listOfResult = [SELECT Id,CreatedById,CreatedDate,Is_Active__c,Is_Read__c,Link_to_Related_Event_or_Object__c,
-                            Msg_Id__c,Name,Notification__r.Notification_Type__c,Notification__c,Push_Message_Body__c,
-                            Push_Message_Title__c,Status__c,Target_Type__c 
-                            FROM Send_Result__c 
-                            WHERE (Is_Active__c = true) 
-                            AND (Notification__r.Recipient__r.Id =:contactId)  
-                            AND ( CreatedDate = LAST_N_DAYS:30) 
-                            AND Community_Type__c =:'Janssen'     
-                            AND User_Role__c = :userRole                
-                            ORDER BY CreatedDate DESC];
-        }else{
-            listOfResult = [SELECT Id,CreatedById,CreatedDate,Is_Active__c,Is_Read__c,Link_to_Related_Event_or_Object__c,
-                            Msg_Id__c,Name,Notification__r.Notification_Type__c,Notification__c,Push_Message_Body__c,
-                            Push_Message_Title__c,Status__c,Target_Type__c 
-                            FROM Send_Result__c 
-                            WHERE (Is_Active__c = true) 
-                            AND (Notification__r.Recipient__r.Id =:contactId)  
-                            AND ( CreatedDate = LAST_N_DAYS:30)
-                            AND User_Role__c = :userRole                
-                            ORDER BY CreatedDate DESC];
+        if(contactId != null){
+            if(communityType == 'Janssen'){
+                listOfResult = [SELECT Id,CreatedById,CreatedDate,Is_Active__c,Is_Read__c,Link_to_Related_Event_or_Object__c,
+                                Msg_Id__c,Name,Notification__r.Notification_Type__c,Notification__c,Push_Message_Body__c,
+                                Push_Message_Title__c,Status__c,Target_Type__c 
+                                FROM Send_Result__c 
+                                WHERE (Is_Active__c = true) 
+                                AND (Notification__r.Recipient__r.Id =:contactId)  
+                                AND ( CreatedDate = LAST_N_DAYS:30) 
+                                AND Community_Type__c =:'Janssen'     
+                                AND User_Role__c = :userRole                
+                                ORDER BY CreatedDate DESC];
+            }else{
+                listOfResult = [SELECT Id,CreatedById,CreatedDate,Is_Active__c,Is_Read__c,Link_to_Related_Event_or_Object__c,
+                                Msg_Id__c,Name,Notification__r.Notification_Type__c,Notification__c,Push_Message_Body__c,
+                                Push_Message_Title__c,Status__c,Target_Type__c 
+                                FROM Send_Result__c 
+                                WHERE (Is_Active__c = true) 
+                                AND (Notification__r.Recipient__r.Id =:contactId)  
+                                AND ( CreatedDate = LAST_N_DAYS:30)
+                                AND User_Role__c = :userRole                
+                                ORDER BY CreatedDate DESC];
+            }
         }
-    }
 
         if(!String.isBlank(isExecute) && Boolean.valueOf(isExecute)){            
             lstOfStudySite = [SELECT Id FROM Study_Site__c 
