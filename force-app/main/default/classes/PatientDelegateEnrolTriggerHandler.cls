@@ -405,7 +405,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
                 participantDelegate.Status__c = PATIENT_DELEGATE_ACTIVE_STATUS;
             }
         }
-    }
+    } 
 
     //This method is to make existing PDER primary as false if new primary PDER added
     public static void checkPrimaryDelegate(List<Patient_Delegate_Enrollment__c> patientDelegates) {
