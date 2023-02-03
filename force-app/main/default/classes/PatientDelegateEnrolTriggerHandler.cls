@@ -112,29 +112,45 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
             Participant_Enrollment__r.Name,
             Participant_Enrollment__r.Clinical_Trial_Profile__c,
-            Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Id IN :patientDelegateEnrollmentrecrs AND Status__c = :PATIENT_DELEGATE_ACTIVE_STATUS
         ];
 
         List<Patient_Delegate_Enrollment__c> activatedDelegateEnrolrecrds = new List<Patient_Delegate_Enrollment__c>();
         List<Patient_Delegate_Enrollment__c> activatedDelegateEnrolrecrdsNewAssignment = new List<Patient_Delegate_Enrollment__c>();
-        
+        Set<Id> pdIdReactivatedDupCheckSet = new set<Id>();
+        Set<Id> pdIdReaddeddDupCheckSet = new set<Id>();
+
         for (Patient_Delegate_Enrollment__c pd : updatedpatientDelegateEnrollmentrecrs) {
+            Id delId = pd.Patient_Delegate__c;
             if (
                 pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS &&
                 oldMap.get(pd.Id).Status__c == PATIENT_DELEGATE_DISCONNECTED_STATUS
             ) {
                 //When Delegate status change from Disconnected to Active - Send Access level change email.
-                activatedDelegateEnrolrecrds.add(pd);
+                //Avoid creating duplicate notification records when Patient delegate is reactivated for multiple studis for same community at a time. 
+                if(!pdIdReactivatedDupCheckSet.contains(delId)){
+                    pdIdReactivatedDupCheckSet.add(delId);
+                    activatedDelegateEnrolrecrds.add(pd);
+
+                }
+               
             }else if(
                 pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS &&
                 ( oldMap.get(pd.Id).Status__c == PATIENT_DELEGATE_WITHDRAWN_STATUS ||
                 oldMap.get(pd.Id).Status__c == PATIENT_DELEGATE_DELETED_STATUS )
             ) {
                 //When Delegate status change from Deleted/Withdrawn to Active - Send New Assignment email.
-                activatedDelegateEnrolrecrdsNewAssignment.add(pd);
+                //Avoid creating duplicate notification records when Patient delegate is readded for multiple studis  same community at a time. 
+                if(!pdIdReaddeddDupCheckSet.contains(delId)){
+                    pdIdReaddeddDupCheckSet.add(delId);
+                    activatedDelegateEnrolrecrdsNewAssignment.add(pd);
+                }
+                
             }
+          
         }
 
         //Create Access level Change notification
@@ -178,48 +194,33 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
             Participant_Enrollment__r.Name,
             Participant_Enrollment__r.Clinical_Trial_Profile__c,
-            Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Id IN :pdeIdset AND Status__c = :PATIENT_DELEGATE_ACTIVE_STATUS
         ];
-        createNotifications(patientDelegateEnrollRecrds, 'DelNewAssignNotifType');
+        Set<Id> pdIdNewAssDupCheckSet = new set<Id>();
+        List<Patient_Delegate_Enrollment__c> pdeRecrdsToProcess = New List<Patient_Delegate_Enrollment__c>();
+        for(Patient_Delegate_Enrollment__c pde: patientDelegateEnrollRecrds ){
+            Id delId = pde.Patient_Delegate__c;
+            //Avoid creating duplicate notification records when Patient delegate is added for multiple for same community studis at a time. 
+            if(!pdIdNewAssDupCheckSet.contains(delId)){
+                pdIdNewAssDupCheckSet.add(delId);
+                pdeRecrdsToProcess.add(pde);
+            }
+        }
+        //Create New Assignment notification
+        if(pdeRecrdsToProcess!=null){
+           createNotifications(pdeRecrdsToProcess, 'DelNewAssignNotifType');
+        }
+        
     }
     @TestVisible
     @Future
     private static void createDelegateAssignmentNotificationFuture(
         set<Id> pdeIdset
     )  {
-        List<Patient_Delegate_Enrollment__c> patientDelegateEnrollRecrds = [
-            SELECT Id,
-            Patient_Delegate__r.Participant__r.Full_Name__c,
-            Patient_Delegate__r.Id,
-            Welcome_Message_Sent__c,
-            Study_Email_Consent__c,
-            Study_SMS_Consent__c,
-            Welcome_Message_Delivered__c,
-            Patient_Delegate__r.Participant__r.Contact__c,
-            Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-            Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
-            Patient_Delegate__r.Participant__r.First_Name__c,
-            Patient_Delegate__r.Participant__r.Last_Name__c,
-            Patient_Delegate__r.Contact__c,
-            Patient_Delegate__r.Participant__c,   
-            Patient_Delegate__r.Participant_Delegate__r.Id,
-            Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
-            Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
-            Patient_Delegate__r.Participant_Delegate__r.Email__c,
-            Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-            Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
-            Status__c,
-            Participant_Enrollment__c,
-            Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
-            Participant_Enrollment__r.Name,
-            Participant_Enrollment__r.Clinical_Trial_Profile__c,
-            Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
-            FROM Patient_Delegate_Enrollment__c
-            WHERE Id IN :pdeIdset AND Status__c = :PATIENT_DELEGATE_ACTIVE_STATUS
-        ];
-        createNotifications(patientDelegateEnrollRecrds, 'DelNewAssignNotifType');
+        createDelegateAssignmentNotification(pdeIdset);
     }
 
     private static List<Notification__c> createwelcomemsgSMSNotifications(
@@ -304,6 +305,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         ) {
             notifications.addAll(createwelcomemsgSMSNotifications(patientDelegates));
         }
+        set<String> pdeCommunityTemplateSet = new set<String>();
         for(Patient_Delegate_Enrollment__c pde:patientDelegates){
             if(!participantsByDelContId.containsKey(pde.Patient_Delegate__r.Contact__c)){
                 participantsByDelContId.put(pde.Patient_Delegate__r.Contact__c, new List<Participant__c>());
@@ -311,6 +313,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             participantsByDelContId.get(pde.Patient_Delegate__r.Contact__c).add(pde.Patient_Delegate__r.Participant__r);
             participantContacts.add(pde.Patient_Delegate__r.Participant__r.Contact__c);
             perIds.add(pde.Participant_Enrollment__r.Id);
+            pdeCommunityTemplateSet.Add(pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
         }
         List<Participant_Enrollment__c> enrollments = [
             SELECT Clinical_Trial_Profile__r.CommunityTemplate__c, Participant__c
@@ -362,7 +365,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
                     }
                 }
                 for (CommunityTemplate template : communityTemplates){
-                    if (delPermissions.contains(template.permissionSet)){
+                    if (delPermissions.contains(template.permissionSet) && pdeCommunityTemplateSet.contains(template.templateName)){
                         notifications.add(
                             new Notification__c(
                                 Notification_Type__c = template.properties.get(templateProperty),
