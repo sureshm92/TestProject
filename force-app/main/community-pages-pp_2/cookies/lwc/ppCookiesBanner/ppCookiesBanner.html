@@ -133,73 +133,93 @@
                                     </div>
                                 </div>
                             </template>
-                        </div>
-                    </div>
-                    <div class={accordionActiveCss} id="functionalcookies" onclick={showCookieDiv}>
-                        <div class="acordion-title slds-p-horizontal_medium">
-                            {label.accountSettingsFunctionalCookiesLabel}
-                        </div>
-                        <div class="panel" style="display: block">
-                            <div
-                                class="slds-grid rr-cookie-title slds-p-horizontal_medium slds-p-vertical_x-small"
-                            >
-                                <div class="slds-col slds-size_9-of-12">
+                            <template if:true={isJanssenCommunity}>
+                                <div
+                                    class="cookie-title slds-p-horizontal_medium slds-p-vertical_x-small"
+                                >
                                     <div class="cookie-title-font-size">
                                         {label.accountSettingsFunctionalRRCookiesLabel}
                                     </div>
-                                    <div class="cookie-desc-font-size">{label.accountSettingsRRCookiesDescriptionLabel}</div>
-                                </div>
-                                <div
-                                    class="slds-col slds-size_3-of-12 slds-m-top_large desk-pad-left"
-                                >
-                                    <div class="slds-form-element">
-                                        <lightning-input
-                                            type="toggle"
-                                            label=""
-                                            data-id="PPCookie"
-                                            messagetoggleactive={label.BTN_On}
-                                            variant="label-hidden"
-                                            messagetoggleinactive={label.BTN_Off}
-                                            class="slds-col ah-toggle"
-                                            checked={contact.RRCookiesAllowedCookie__c}
-                                            onchange={doSwitchOptInCookies}
-                                        >
-                                        </lightning-input>
+                                    <div class="cookie-desc-font-size">
+                                        {label.accountSettingsRRCookiesDescriptionLabel}
                                     </div>
                                 </div>
+                            </template>
+                        </div>
+                    </div>
+                    <template if:false={isJanssenCommunity}>
+                        <div
+                            class={accordionActiveCss}
+                            id="functionalcookies"
+                            onclick={showCookieDiv}
+                        >
+                            <div class="acordion-title slds-p-horizontal_medium">
+                                {label.accountSettingsFunctionalCookiesLabel}
                             </div>
-                            <div
-                                class="slds-grid rr-language-title slds-p-horizontal_medium slds-p-vertical_x-small"
-                            >
-                                <div class="slds-col slds-size_9-of-12">
-                                    <div class="cookie-title-font-size">
-                                        {label.accountSettingsCookiesRRLanguageLabel}
+                            <div class="panel" style="display: block">
+                                <div
+                                    class="slds-grid rr-cookie-title slds-p-horizontal_medium slds-p-vertical_x-small"
+                                >
+                                    <div class="slds-col slds-size_9-of-12">
+                                        <div class="cookie-title-font-size">
+                                            {label.accountSettingsFunctionalRRCookiesLabel}
+                                        </div>
+                                        <div class="cookie-desc-font-size">
+                                            {label.accountSettingsRRCookiesDescriptionLabel}
+                                        </div>
                                     </div>
-                                    <div class="cookie-desc-font-size mob-lang-desc">
-                                        {label.accountSettingsCookiesRRLanguageDescriptionLabel}
+                                    <div
+                                        class="slds-col slds-size_3-of-12 slds-m-top_large desk-pad-left"
+                                    >
+                                        <div class="slds-form-element">
+                                            <lightning-input
+                                                type="toggle"
+                                                label=""
+                                                data-id="PPCookie"
+                                                messagetoggleactive={label.BTN_On}
+                                                variant="label-hidden"
+                                                messagetoggleinactive={label.BTN_Off}
+                                                class="slds-col ah-toggle"
+                                                checked={contact.RRCookiesAllowedCookie__c}
+                                                onchange={doSwitchOptInCookies}
+                                            >
+                                            </lightning-input>
+                                        </div>
                                     </div>
                                 </div>
                                 <div
-                                    class="slds-col slds-size_3-of-12 slds-m-top_large desk-pad-left"
+                                    class="slds-grid rr-language-title slds-p-horizontal_medium slds-p-vertical_x-small"
                                 >
-                                    <div class="slds-form-element">
-                                        <lightning-input
-                                            type="toggle"
-                                            label=""
-                                            data-id="PPLang"
-                                            messagetoggleactive={label.BTN_On}
-                                            variant="label-hidden"
-                                            messagetoggleinactive={label.BTN_Off}
-                                            class="slds-col ah-toggle"
-                                            checked={contact.RRLanguageAllowedCookie__c}
-                                            onchange={doSwitchOptInCookies}
-                                        >
-                                        </lightning-input>
+                                    <div class="slds-col slds-size_9-of-12">
+                                        <div class="cookie-title-font-size">
+                                            {label.accountSettingsCookiesRRLanguageLabel}
+                                        </div>
+                                        <div class="cookie-desc-font-size mob-lang-desc">
+                                            {label.accountSettingsCookiesRRLanguageDescriptionLabel}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="slds-col slds-size_3-of-12 slds-m-top_large desk-pad-left"
+                                    >
+                                        <div class="slds-form-element">
+                                            <lightning-input
+                                                type="toggle"
+                                                label=""
+                                                data-id="PPLang"
+                                                messagetoggleactive={label.BTN_On}
+                                                variant="label-hidden"
+                                                messagetoggleinactive={label.BTN_Off}
+                                                class="slds-col ah-toggle"
+                                                checked={contact.RRLanguageAllowedCookie__c}
+                                                onchange={doSwitchOptInCookies}
+                                            >
+                                            </lightning-input>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </template>
                     <div class="slds-grid slds-grid_align-end slds-m-top_medium">
                         <button class={acceptButtonCss} onclick={updateCookies}>
                             {label.bTN_AcceptLabel}

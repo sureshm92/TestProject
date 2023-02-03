@@ -275,7 +275,7 @@
             outline: none;
         }
     </style>
-    <apex:outputPanel id="thePanel" rendered="{!community=='RH'}">
+    <apex:outputPanel id="thePanel" rendered="{!community=='IQVIA Referral Hub'}">
         <style>
             .rh-border-radius {
                 border-radius: 4px !important;
@@ -381,10 +381,20 @@
                                         </div>
                                     </div>
                                 </apex:repeat>
+                                <div class="cookie-title slds-p-horizontal_medium" style="{!IF(community=='Janssen Community' , 'display:block', 'display:none')}">
+                                    <div class="cookie-title-font-size">
+                                        <apex:outputText value="{!$Label.AccountSettings_Functional_RRCookies}" />
+                                    </div>
+                                    <div class="cookie-desc-font-size">
+                                        <apex:outputText
+                                            value="{!$Label.AccountSettings_RRCookies_Description}"
+                                        />
+                                    </div>
+                                </div>
                             </apex:outputPanel>
                         </div>
                     </div>
-                    <div class="accordion active rh-border-radius">
+                    <div class="accordion active rh-border-radius" style="{!IF(community!='Janssen Community' , 'display:block', 'display:none')}">
                         <apex:outputPanel id="functionCookiesInfo">
                             <div class="acordion-title slds-p-horizontal_small">
                                 {!$Label.AccountSettings_Functional_Cookies}
