@@ -372,7 +372,7 @@
     },
 
     doNavigateToAccountSettings: function (component, event, helper) {
-        sessionStorage.setItem('Cookies', 'Accepted');
+        localStorage.setItem('Cookies', 'Accepted');
         window.open('account-settings?communication-preferences', '_blank');
         window.focus();
         helper.hideModal(component);

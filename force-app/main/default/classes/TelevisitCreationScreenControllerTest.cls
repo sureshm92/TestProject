@@ -76,6 +76,7 @@ Public Class TelevisitCreationScreenControllerTest{
         tv1.Visit_End_Date_Time__c = system.now()+(15/1440);
         tv1.Title__c = 'Test Televisit1';
         insert tv1;
+        List<Televisit_Attendee__c> taList = new List<Televisit_Attendee__c>();
         Televisit_Attendee__c ta = new Televisit_Attendee__c();
         ta.Firstname__c = 'test';
         ta.Lastname__c = 'test';
@@ -83,7 +84,7 @@ Public Class TelevisitCreationScreenControllerTest{
         ta.User__c = UserInfo.getUserId();
         ta.Televisit__c = tv.id;
         ta.Contact__c = testData.piDelegateContact.Id;
-        insert ta;  
+        taList.add(ta);
         Televisit_Attendee__c ta1 = new Televisit_Attendee__c();
         ta1.Firstname__c = 'test';
         ta1.Lastname__c = 'test';
@@ -91,8 +92,8 @@ Public Class TelevisitCreationScreenControllerTest{
         ta1.User__c = UserInfo.getUserId();
         ta1.Televisit__c = tv.id;
         ta1.Contact__c = testData.piContact.Id;
-        insert ta1;  
-        
+        taList.add(ta1); 
+        insert taList;
         tv.Visit_Date_Time__c = system.now()+(15/1440);
         tv.Visit_End_Date_Time__c = system.now()+(30/1440);
         update tv;
@@ -110,11 +111,12 @@ Public Class TelevisitCreationScreenControllerTest{
         TelevisitCreationScreenController.fetchTelevisitRecord('Scheduled',participantEnrollmentId[0]);
         TelevisitCreationScreenController.fetchTelevisitRecord('Canceled/Completed',participantEnrollmentId[0]);
         TelevisitCreationScreenController.fetchAttendees(participantEnrollmentId[0]);
+        TelevisitCreationScreenController.fetchParticipantDetails(participantEnrollmentId[0]);
         TelevisitCreationScreenController.cancelTelevisit(tv.id);
         TelevisitCreationScreenController.fetchSelectedAttendees(tv.id);
         
         String json='[{"id":"'+testData.piContact.Id+'"}]';
-		String json1='[{"attendeeId":"'+ta.id+'"}]';
+		String json1='[{"attendeeId":"'+taList[0].id+'"}]';
         
         TelevisitCreationScreenController.insertTelevisitRecord('{"title":"1111111","duration":"15 minutes","startTime":"02:15:00.000","visitDate":"2022-07-18"}');
         TelevisitCreationScreenController.updateAttendees(tv.id,json1,json);
@@ -123,4 +125,5 @@ Public Class TelevisitCreationScreenControllerTest{
         TelevisitCreationScreenController.insertTelevisitRecord('{"attendeesList":'+json+',"id":"","title":"1111111","duration":"15 minutes","startTime":"02:15:00.000","visitDate":"2022-07-18"}');
         Test.StopTest();
 	}
+        
 }

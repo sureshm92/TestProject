@@ -28,7 +28,7 @@
     <aura:if isTrue="{!v.initialized}">
         <aura:if isTrue="{!v.communityName}">
             <aura:if
-                isTrue="{!and(v.communityName != 'IQVIA Patient Portal',v.communityName != 'IQVIA Referral Hub')}"
+                isTrue="{!and(v.communityName != 'IQVIA Patient Portal',v.communityName != 'IQVIA Referral Hub',v.communityName != 'Janssen Community')}"
             >
                 <c:CookiesInfo />
             </aura:if>
