@@ -517,7 +517,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     WHERE
                         Participant__c = :participantObj.id
                         AND Contact__c = :delegateDuplicate.contactId
-                        AND Status__c = 'Withdrawn'
+                        
                 ];
             }
             system.debug('>>>lstPatientDelegate>>' + lstPatientDelegate);
