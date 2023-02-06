@@ -6,6 +6,8 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import getTrialDetail from '@salesforce/apex/StudyDetailViewController.getTrialDetail';
 import getLinksData from '@salesforce/apex/RelevantLinksRemote.getInitData';
+import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
+import getUpdateResources from '@salesforce/apex/ResourceRemote.getUpdateResource';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import RELEVANT_LINKS from '@salesforce/label/c.Home_Page_RelevantLinks_Title';
 import DISCOVER_TITLE from '@salesforce/label/c.Discover_Title';
@@ -51,6 +53,8 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     };
     @track linksData;
     @track trialdata;
+    spinner;
+    showSpinner = true;
     redirecturl = '';
     disableSave = true;
     @track textValue;
@@ -61,7 +65,10 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     containerElement;
     enableChangePref = false;
     enableChangePrefOnDocs = false;
-
+    isDisabled = false;
+    @track resourcesFilterData;
+    @track resourcesData;
+    multimedia = false;
     empty_state = pp_community_icons + '/' + 'engage_empty.png';
 
     get cardRTL() {
@@ -89,7 +96,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                 }
             }
         } else {
-            this.selectedOptions = 'Engage';
+            this.selectedOptions = this.labels.ENGAGE;
             this.selectedResourceType = 'engage';
         }
         this.initializeData();
@@ -141,10 +148,77 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             }
             this.isInitialized = true;
             this.createoptions();
+            getInitDataNew()
+                .then((returnValue) => {
+                    let initData = JSON.parse(JSON.stringify(returnValue));
+                    let therapeuticAssignmentsList = [];
+                    let therapeuticAssignments = {
+                        resource: '',
+                        id: '',
+                        therapeuticArea: ''
+                    };
+
+                    initData.resources.forEach((resObj) => {
+                        resObj.resource.Therapeutic_Area_Assignments__r?.forEach(
+                            (therapeuticArea) => {
+                                therapeuticAssignments.resource = therapeuticArea.Resource__c;
+                                therapeuticAssignments.id = therapeuticArea.Id;
+                                therapeuticAssignments.therapeuticArea =
+                                    therapeuticArea.Therapeutic_Area__c;
+                                therapeuticAssignmentsList.push(therapeuticAssignments);
+                            }
+                        );
+
+                        resObj.therapeuticAssignments = therapeuticAssignmentsList;
+                        therapeuticAssignmentsList = [];
+                        delete resObj.resource.Therapeutic_Area_Assignments__r;
+                    });
+                    this.getUpdates(JSON.stringify(initData));
+                })
+                .catch((error) => {
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                });
         }
 
         if (this.spinner) {
             this.spinner.hide();
+        }
+    }
+    async getUpdates(returnValue) {
+        let state;
+        if (communityService.isInitialized()) {
+            state = communityService.getCurrentCommunityMode().participantState;
+            this.pData = communityService.getParticipantData();
+            let data = JSON.stringify(this.pData);
+
+            await getUpdateResources({ linkWrapperText: returnValue, participantData: data })
+                .then((result) => {
+                    this.resourcesData = result.wrappers;
+                    this.resourcesData.forEach((resObj) => {
+                        if (
+                            resObj.resource.Content_Type__c == 'Article' ||
+                            resObj.resource.Content_Type__c == 'Video'
+                        ) {
+                            resObj.isExplore = true;
+                        } else if (resObj.resource.Content_Type__c == 'Study_Document') {
+                            resObj.isDoc = true;
+                        } else if (resObj.resource.Content_Type__c == 'Multimedia') {
+                            resObj.isMultimedia = true;
+                            if (!this.multimedia) {
+                                this.multimedia = true;
+                            }
+                        } else {
+                            resObj.isLink = true;
+                        }
+                    });
+                    this.resourcesFilterData = this.resourcesData[0] ? this.resourcesData : false;
+                    this.isDisabled = this.resourcesData[0] ? false : true;
+                    this.isInitialized = true;
+                    this.showSpinner = false;
+                })
+                .catch((error) => {
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                });
         }
     }
     showErrorToast(titleText, messageText, variantType) {
@@ -165,6 +239,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             }
         };
         this[NavigationMixin.GenerateUrl](config).then((url) => {
+            sessionStorage.setItem('Cookies', 'Accepted');
             window.open(url, '_self');
         });
     }

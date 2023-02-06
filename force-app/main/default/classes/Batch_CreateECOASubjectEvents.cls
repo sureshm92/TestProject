@@ -64,6 +64,7 @@ public class Batch_CreateECOASubjectEvents implements Database.Batchable<SObject
             }
         }
     }
+    
 
     public void finish(Database.BatchableContext param1) {
         system.debug('The job is finished');

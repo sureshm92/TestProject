@@ -4,31 +4,22 @@
 
 ({
     doInit: function (component, event, helper) {
-        communityService.executeAction(component, 'getSwitcherInitData', null, function (
-            returnValue
-        ) {
-            const userData = JSON.parse(returnValue);
-            component.set('v.user', userData.user);
-            component.set('v.hasProfilePic', userData.hasProfilePic);
-            component.set('v.communityModes', userData.communityModes);
-            component.set(
-                'v.initialCommunityModes',
-                JSON.parse(JSON.stringify(component.get('v.communityModes')))
-            );
-            component.set('v.currentMode', communityService.getCurrentCommunityMode());
-        });
+        helper.doInit(component, event, helper);
     },
 
     handleApplicationEvent: function (component, event, helper) {
-        communityService.executeAction(component, 'getSwitcherInitData', null, function (
-            returnValue
-        ) {
-            const userData = JSON.parse(returnValue);
-            component.set('v.user', userData.user);
-            component.set('v.hasProfilePic', userData.hasProfilePic);
-            component.set('v.communityModes', userData.communityModes);
-            component.set('v.currentMode', communityService.getCurrentCommunityMode());
-        });
+        communityService.executeAction(
+            component,
+            'getSwitcherInitData',
+            null,
+            function (returnValue) {
+                const userData = JSON.parse(returnValue);
+                component.set('v.user', userData.user);
+                component.set('v.hasProfilePic', userData.hasProfilePic);
+                component.set('v.communityModes', userData.communityModes);
+                component.set('v.currentMode', communityService.getCurrentCommunityMode());
+            }
+        );
 
         //$A.get('e.force:refreshView').fire();
     },
@@ -78,7 +69,10 @@
 
                         if (comData.currentMode.template.needRedirect) {
                             var networkId;
-                            if (navigateTo == 'account-settings' || navigateTo == 'my-team') {
+                            if (
+                                navigateTo == 'account-settings' ||
+                                navigateTo == 'account-settings?manage-delegates'
+                            ) {
                                 networkId = comData.currentMode.template.networkId;
                                 comData.currentMode.template.redirectURL =
                                     comData.currentMode.template.currentCommunityURL +
@@ -137,6 +131,7 @@
     },
 
     logout: function (component, event, helper) {
+        sessionStorage.clear();
         communityService.executeAction(component, 'getLogoutURL', null, function (url) {
             window.location.replace(url + '/secur/logout.jsp');
         });
@@ -144,5 +139,15 @@
     handleCardVisiblity: function (component, event, helper) {
         component.set('v.reset', true);
         component.set('v.reset', false);
+    },
+    //Reset the menue items.
+    handleMessage: function (component, event, helper) {
+        // Read the message argument to get the values in the message payload
+        if (event != null && event.getParams() != null) {
+            const message = event.getParam('reset_PP_Menue_Items');
+            if (message) {
+                helper.doInit(component, event, helper);
+            }
+        }
     }
 });

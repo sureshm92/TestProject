@@ -61,6 +61,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     @track sitePhoneNumber;
     @track contentLoaded = false;
     @track past = false;
+    @track isInitialVisit = false;
     @track showChild = false;
     visitimage1 = pp_icons + '/' + 'VisitPageResultImage.png';
     @track visitDetail;
@@ -81,7 +82,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
 
     connectedCallback() {
-        if(window.location.pathname.includes('event')){
+        if (window.location.pathname.includes('event')) {
             this.isEvent = true;
             this.missedVisit = true;
         }
@@ -108,10 +109,12 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                         this.plannedDate = this.visitDetail[0].Planned_Date__c;
                         this.visitStatus = this.visitDetail[0].Status__c;
                         this.visitTimezone = TIME_ZONE;
+                        this.isInitialVisit =
+                            this.visitDetail[0].Is_Pre_Enrollment_Patient_Visit__c;
                     }
                     if (this.visitStatus == 'Missed') {
                         this.visitStatus = this.label.Unavailable;
-                        if(this.isEvent != true){
+                        if (this.isEvent != true) {
                             this.missedVisit = true;
                         }
                     }
@@ -122,9 +125,9 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         }
     }
     getParams() {
-        if(this.isEvent){
-            this.visitid = communityService.getUrlParameter('eventid');            
-        }else{
+        if (this.isEvent) {
+            this.visitid = communityService.getUrlParameter('eventid');
+        } else {
             this.visitid = communityService.getUrlParameter('visitid');
         }
         this.cblabel = '';
@@ -153,12 +156,12 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
 
     handleBackClick() {
-        if(this.isEvent){
+        if (this.isEvent) {
             this.visitdetailpageurl =
-            window.location.origin + basePathName + '/events' + '?ispast=' + this.past;
-        }else{
+                window.location.origin + basePathName + '/events' + '?ispast=' + this.past;
+        } else {
             this.visitdetailpageurl =
-            window.location.origin + basePathName + '/visits' + '?ispast=' + this.past;
+                window.location.origin + basePathName + '/visits' + '?ispast=' + this.past;
         }
         const config = {
             type: 'standard__webPage',
@@ -167,6 +170,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
             }
         };
         this[NavigationMixin.GenerateUrl](config).then((url) => {
+            sessionStorage.setItem('Cookies', 'Accepted');
             window.open(url, '_self');
         });
     }
@@ -214,6 +218,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                 ) {
                     this.past = true;
                 }
+                //this.isInitialVisit = this.visitdata.Is_Pre_Enrollment_Patient_Visit__c;
                 this.taskId = this.visitdata.task.Id;
                 this.taskSubject = this.visitdata.visit.Name;
                 this.contentLoaded = true;
@@ -234,12 +239,12 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     }
 
     redirectPage(visitid) {
-        if(this.isEvent){
+        if (this.isEvent) {
             this.visitdetailurl =
-            window.location.origin + basePathName + '/event-details' + '?eventid=' + visitid;
-        }else{
+                window.location.origin + basePathName + '/event-details' + '?eventid=' + visitid;
+        } else {
             this.visitdetailurl =
-            window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
+                window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
         }
         const config = {
             type: 'standard__webPage',
@@ -250,6 +255,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         };
 
         this[NavigationMixin.GenerateUrl](config).then((url) => {
+            sessionStorage.setItem('Cookies', 'Accepted');
             window.open(url, '_self');
         });
     }

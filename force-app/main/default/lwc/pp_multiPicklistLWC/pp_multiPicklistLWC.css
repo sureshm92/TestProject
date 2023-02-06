@@ -149,20 +149,29 @@
 .std .slds-truncate {
     width: 100%;
     cursor: pointer;
+     height: 32px;
+    line-height: 30px; 
 }
+/* .std .slds-media__body{
+    height: 35px;
+} */
 .std .text-for-check {
     position: absolute;
     padding-left: 7px;
+    /* margin-left: 23px; */
     font-size: 14px;
     margin-top: -2px;
+    /* margin-top: -15px; */
     max-width: 84%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.std .input-width:checked + .text-for-check {
+
+/* .text-checked-bold{
     font-weight: 600;
-}
+} */
+
 .std input:focus {
     box-shadow: none;
 }
@@ -249,7 +258,7 @@
 /* placeholder code */
 [contentEditable=false]:empty:before {
     content: attr(placeholder);
-    opacity: 0.6;
+    color: #747474;
   }
 .padding-placeholder{
     padding: 4px 0px 0px 22px;
@@ -265,14 +274,17 @@
     cursor: not-allowed;
     border: 1px solid #D9D9D9;
     background-color: #F2F2F2;
-    box-sizing: border-box
+    box-sizing: border-box;
+    color: #747474;
 }
 .std-disable-select-all{
     pointer-events: none;
     cursor: not-allowed !important;
-    color: #999999 !important;
+    color: #747474 !important;
 }
 .std-height{
     height: 73px;
 }
-    
+.std-input-box-height{
+    height: 40px;
+} 

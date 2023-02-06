@@ -3,7 +3,7 @@
         component.set('v.isOpened', true);
         component.getEvent('onshow').fire();
         if ($A.get('$Browser.formFactor') == 'PHONE') {
-            var compEvent = component.getEvent('closeNavigationMenu');
+            var compEvent = $A.get("e.c:ppCloseNavMenu");
             compEvent.fire();
         }
     },

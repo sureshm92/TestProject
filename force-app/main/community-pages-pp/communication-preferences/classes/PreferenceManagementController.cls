@@ -1,7 +1,7 @@
 public without sharing class PreferenceManagementController {
-    public static  Set<Id> minorOrAdultWithNoEmailParIdSet = new Set<Id>();
+    public static Set<Id> minorOrAdultWithNoEmailParIdSet = new Set<Id>();
     /**
-     * @description: This Method will save the Consent data checked/uncheck by participant/Patient delegate.
+     * @description: This Method will save the Consent data checked/uncheck by participant/Patient delegate..
      * @author: Krishna Mahto
      * @param: studyDataJSON
      * @param: outReachData
@@ -16,20 +16,25 @@ public without sharing class PreferenceManagementController {
     ) {
         System.debug('***Study Data: ' + studyDataJSON);
         System.debug('****Outreach Data: ' + outReachDataJSON);
-        //Update Study Consent.
+        
         if (requestFrom == 'PER') {
+            //Update Study Consent.
             saveStudyConsent(studyDataJSON);
-        }
-        //Update IQVIA Outreach Consent.
-        if (requestFrom == 'IQVIA_OUTREACH') {
+        }else if (requestFrom == 'PDE') {
+            //Update Patient Delegate enrollment Consent.
+            savePDEConsent(studyDataJSON);
+        }else if (requestFrom == 'IQVIA_OUTREACH') {
+            //Update IQVIA Outreach Consent.
             saveIQVIAOutreachConsent(outReachDataJSON);
         }
+        
     }
 
     @AuraEnabled
     public static Boolean createCommPrefEvent() {
         try {
             Communication_Preference_Change__e commPrefEvent = new Communication_Preference_Change__e();
+            commPrefEvent.Payload__c = String.valueOf(UserInfo.getUserId());
             EventBus.publish(commPrefEvent);
             return true;
         } catch (Exception e) {
@@ -63,6 +68,28 @@ public without sharing class PreferenceManagementController {
             AuraHelper.throwException(e);
         }
     }
+    /**
+     * @description: This Method will save the PDE Consent data checked/uncheck by Patient delegate.
+     * @author: Krishna Mahto
+     * @param: studyDataJSON
+     * @return:
+     **/
+    public static void savePDEConsent(String studyDataJSON) {
+        try {
+            ConsentPreferencePDEDataWrapper consentData = (ConsentPreferencePDEDataWrapper) JSON.deserialize(
+                studyDataJSON,
+                ConsentPreferencePDEDataWrapper.class
+            );
+            Patient_Delegate_Enrollment__c pde = consentData.convertToPDE();
+            system.debug('pde: ' + pde);
+            if (pde != null) {
+                update pde;
+            }
+            
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
 
     /**
      * @description: This Method will save the IQVIA Outreach Consent data checked/uncheck by participant/Patient delegate.
@@ -81,6 +108,7 @@ public without sharing class PreferenceManagementController {
             if (cont != null) {
                 update cont;
             }
+            /*Not Required as Part of Delegate Redesign 
             //Update consent at Primady Delegate contact also when Participant consents got updated by Participant or Primary Delegate under participant account setting.
             if (
                 consentContactData.participantLoogedIn ||
@@ -95,6 +123,7 @@ public without sharing class PreferenceManagementController {
                     updatePrimaryDelegateCommConsent(cont);
                 }
             }
+            */
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -171,6 +200,34 @@ public without sharing class PreferenceManagementController {
             return per;
         }
     }
+    public class ConsentPreferencePDEDataWrapper {
+        @AuraEnabled
+        public String pdeId;
+        @AuraEnabled
+        public Boolean delegateOptInEmail;
+        @AuraEnabled
+        public Boolean delegateOptInSMSText;
+        @AuraEnabled
+        public Boolean delegateOptInPhone;
+        @AuraEnabled
+        public Boolean delegateOptInDirectEmail;
+
+        public Patient_Delegate_Enrollment__c convertToPDE() {
+            Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
+            pde.Id = pdeId;
+            pde.Study_Email_Consent__c = delegateOptInEmail;
+            pde.Study_SMS_Consent__c = delegateOptInSMSText;
+            pde.Study_Phone_Consent__c = delegateOptInPhone;
+            pde.Study_Direct_Mail_Consent__c = delegateOptInDirectEmail;
+
+            //IF SMS opt out, revert the welcome message flag at PDE.
+            if (!pde.Study_SMS_Consent__c) {
+                pde.Welcome_Message_Sent__c = false;
+                pde.Welcome_Message_Delivered__c = false;
+            }
+            return pde;
+        }
+    }
     public class ConsentPreferenceContactDataWrapper {
         @AuraEnabled
         public String contactId;
@@ -200,8 +257,8 @@ public without sharing class PreferenceManagementController {
             cont.Participant_Opt_In_Status_SMS__c = contactOptInSMSText;
             cont.Participant_Phone_Opt_In_Permit_Phone__c = contactOptInPhone;
             cont.IQVIA_Direct_Mail_Consent__c = contactOptInDirectEmail;
-            if(contactStorageOptIn!=null){
-                cont.IQVIA_Contact_info_storage_consent__c=contactStorageOptIn;
+            if (contactStorageOptIn != null) {
+                cont.IQVIA_Contact_info_storage_consent__c = contactStorageOptIn;
             }
             //IF SMS opt out, revert the welcome message flag at contact.
             if (!cont.Participant_Opt_In_Status_SMS__c) {
@@ -248,6 +305,7 @@ public without sharing class PreferenceManagementController {
      * @param: parContact
      * @return:
      **/
+    /*Not required as part of Delegate Redesign
     public static Void updatePrimaryDelegateCommConsent(Contact parContact) {
         //Get Patient Delegate for the logged in Participant.
         List<Patient_Delegate__c> pdLest = PatientDelegateService.getPDelegates(parContact.Id);
@@ -268,115 +326,79 @@ public without sharing class PreferenceManagementController {
         if (primaryDelContToUpd != null && !primaryDelContToUpd.isEmpty()) {
             update primaryDelContToUpd;
         }
-    }
+    }*/
     /**
-    * @description: This Method will opt out Study/Platfrom level SMS if MobilePhone is deleted.
-    * @author: Krishna Mahto
-    * @param: perIdsSet
-    * @param: contactId
-    * @return:
-    **/
-    public static void optOutSMSWhenMobileIsDeleted(List<Participant_Enrollment__c> perToUpdate, Id contactId){
-        List<Contact> contactToUpdate = new List<Contact>();
-        
-		Boolean isParticipantLoggedIn = AccountSettingsController.isParticipantLoggedIn;
-        Boolean isDelegateAlsoAParticipant = AccountSettingsController.isDelegateAlsoAParticipant;
-        Boolean isDelegateSelfView = AccountSettingsController.isDelegateSelfView;
-        Boolean isPrimaryDelegate = AccountSettingsController.isPrimaryDelegate;
-        Boolean isPrimaryDelegateWithMultiRole = AccountSettingsController.isPrimaryDelegateWithMultiRole;
-        
-        
-        //If Pure Participant deleted his MobilePhone.
-        if(isParticipantLoggedIn && !isDelegateAlsoAParticipant){
-            Contact cont = optOutPlatFormLevelSMS(contactId);
-            contactToUpdate.Add(cont);
-        }
-        
-        //If Participant deleted his MobilePhone but Participant is also a delegate for another participant. 
-        if(isParticipantLoggedIn && isDelegateAlsoAParticipant){
-            Contact cont = optOutPlatFormLevelSMS(contactId);
-            contactToUpdate.Add(cont);
-            //if Participant is also a Primary Delegate of Minor/Adult without email participant.
-            if(isPrimaryDelegateWithMultiRole){
-                //All all the contact record of Minor/Adult without email Participant of Primary Delegate.
-               contactToUpdate.addAll(getConOfMinorOfAdultWithoutEmailPar(contactId));
-               //get the PER records for Minor/Adult without email Participants. 
-               perToUpdate.addAll(PatientDelegateService.getPERRecords(minorOrAdultWithNoEmailParIdSet));
-
-            }
-        }
-
-        //If Delegate deleted his own MobilePhone and Delegate is not a Participant for another study.
-        if(isDelegateSelfView){
-            Contact cont = optOutPlatFormLevelSMS(contactId);
-            contactToUpdate.Add(cont);
-            //if Delegate is Primary Delegate.
-            if(isPrimaryDelegate){
-               //Store all the contact record of Minor/Adult without email Participant of Primary Delegate.
-               contactToUpdate.addAll(getConOfMinorOfAdultWithoutEmailPar(contactId));
-               //get the PER records for Minor/Adult without email Participants. 
-               perToUpdate.addAll(PatientDelegateService.getPERRecords(minorOrAdultWithNoEmailParIdSet));
-            }
-        }
-                
+     * @description: This Method will opt out Study/Platfrom level SMS if MobilePhone is deleted.
+     * @author: Krishna Mahto
+     * @param: perIdsSet
+     * @param: contactId
+     * @return:
+     **/
+    public static void optOutSMSWhenMobileIsDeleted(
+        List<Participant_Enrollment__c> perToUpdate,
+        Id contactId
+    ) {
         //Opt out Platform level SMS and Revert welcome message flags.
-        if(contactToUpdate!=null && !contactToUpdate.isEmpty()){
+        // if (contactToUpdate != null && !contactToUpdate.isEmpty()) {
+        if (contactId != null) {
+            Contact contactToUpdate = optOutPlatFormLevelSMS(contactId);
             update contactToUpdate;
         }
         //Opt out Study level SMS and Revert welcome message flags.
-        if(perToUpdate!=null && !perToUpdate.isEmpty()){
+        if (perToUpdate != null && !perToUpdate.isEmpty()) {
             optOutStudyLevelSMS(perToUpdate);
-            update perToUpdate;  
-            
-        }        
+            update perToUpdate;
+        }
     }
-     /**
-    * @description: This Method will prepare data to opt out Platfrom level SMS. 
-    * @author: Krishna Mahto
-    * @param: perIdsSet
-    * @param: contactId
-    * @return:
-    **/
-    public static Contact  optOutPlatFormLevelSMS(Id contactId){
+    /**
+     * @description: This Method will prepare data to opt out Platfrom level SMS.
+     * @author: Krishna Mahto
+     * @param: perIdsSet
+     * @param: contactId
+     * @return:
+     **/
+    public static Contact optOutPlatFormLevelSMS(Id contactId) {
         Contact contToUpdate = new Contact();
-        contToUpdate.Id=contactId;
+        contToUpdate.Id = contactId;
         contToUpdate.Participant_Opt_In_Status_SMS__c = false;
         contToUpdate.Welcome_Message_Sent__c = false;
         contToUpdate.Welcome_Message_Delivered__c = false;
-       
+
         return contToUpdate;
     }
-     /**
-    * @description: This Method will prepare data to opt out Study level SMS 
-    * @author: Krishna Mahto
-    * @param: perIdsSet
-    * @param: contactId
-    * @return:
-    **/
-    public static List<Participant_Enrollment__c>  optOutStudyLevelSMS(List<Participant_Enrollment__c>  perToUpdate){
+    /**
+     * @description: This Method will prepare data to opt out Study level SMS
+     * @author: Krishna Mahto
+     * @param: perIdsSet
+     * @param: contactId
+     * @return:
+     **/
+    public static List<Participant_Enrollment__c> optOutStudyLevelSMS(
+        List<Participant_Enrollment__c> perToUpdate
+    ) {
         List<Id> perIdList = new List<Id>();
-        for(Participant_Enrollment__c per: perToUpdate){
+        for (Participant_Enrollment__c per : perToUpdate) {
             perIdList.Add(per.Id);
             per.Id = per.Id;
             per.Permit_SMS_Text_for_this_study__c = false;
             per.Welcome_Message_Sent__c = false;
-            per.Welcome_Message_Delivered__c = false;                
+            per.Welcome_Message_Delivered__c = false;
         }
         //Revert Study level Welcome message flags for Patient Delegates also.
-         processSMSOptOutForDelegate(perIdList,perToUpdate[0].Participant_Contact__c);
+        processSMSOptOutForDelegate(perIdList, perToUpdate[0].Participant_Contact__c);
         return perToUpdate;
     }
 
-     /**
-    * @description: This Method will get the contact record of Minor/Adult 
-    *               without email Participant of Primary Delegate.
-    * @author: Krishna Mahto
-    * @param: perIdsSet
-    * @param: contactId
-    * @return:
-    **/
-    public static List<Contact>  getConOfMinorOfAdultWithoutEmailPar(Id contactId){
-        List<Contact> contactToUpdate = New List<Contact>();
+    /**
+     * @description: This Method will get the contact record of Minor/Adult
+     *               without email Participant of Primary Delegate.
+     * @author: Krishna Mahto
+     * @param: perIdsSet
+     * @param: contactId
+     * @return:
+     **/
+    public static List<Contact> getConOfMinorOfAdultWithoutEmailPar(Id contactId) {
+        List<Contact> contactToUpdate = new List<Contact>();
         //check if Primary Delegate has any Minor Participant or Adult Participant without email.
         List<Patient_Delegate_Enrollment__c> PDEnrollmentList = PatientDelegateEnrollmentService.getPDForMinorOrAdultWithoutEmailPar(contactId);
         //Opt out Platfrom level SMS for Participants also. 
@@ -384,7 +406,7 @@ public without sharing class PreferenceManagementController {
             minorOrAdultWithNoEmailParIdSet.add(pd.Participant_Enrollment__r.Participant__c);
             Contact cont = optOutPlatFormLevelSMS(pd.Participant_Enrollment__r.Participant__r.Contact__c);
             contactToUpdate.Add(cont);
-        }       
+        }
         return contactToUpdate;
     }
 }

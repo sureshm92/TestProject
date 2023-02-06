@@ -23,6 +23,16 @@ import PP_Communication_Pref_Outreach_Gen_Comm from '@salesforce/label/c.PP_Comm
 import PP_Communication_Pref_Warning from '@salesforce/label/c.PP_Communication_Pref_Warning';
 import PP_Communication_Pref_Mobile_Required from '@salesforce/label/c.PP_Communication_Pref_Mobile_Required';
 import PP_Communication_Pref_Mobile_Required_Del from '@salesforce/label/c.PP_Communication_Pref_Mobile_Required_Del';
+import PP_Study_Consent_Adult_ROW from '@salesforce/label/c.PP_Study_Consent_Adult_ROW';
+import PP_Study_Consent_Adult_US from '@salesforce/label/c.PP_Study_Consent_Adult_US';
+import PP_Communication_Purchase_Pref from '@salesforce/label/c.PP_Communication_Purchase_Pref';
+import PP_IQVIA_Communication_US from '@salesforce/label/c.PP_IQVIA_Communication_US';
+import PP_Outreach_Communication_Pref_A from '@salesforce/label/c.PP_Outreach_Communication_Pref_A';
+import PP_Outreach_Communication_Pref_B from '@salesforce/label/c.PP_Outreach_Communication_Pref_B';
+import PP_Outreach_Communication_Pref_C from '@salesforce/label/c.PP_Outreach_Communication_Pref_C';
+import PP_Outreach_Communication_Pref_D from '@salesforce/label/c.PP_Outreach_Communication_Pref_D';
+
+
 import PP_Communication_Par_Mobile_Upd_Success from '@salesforce/label/c.PP_Communication_Par_Mobile_Upd_Success';
 import PP_Communication_Del_Mobile_Upd_Success from '@salesforce/label/c.PP_Communication_Del_Mobile_Upd_Success';
 import PP_Profile_Information from '@salesforce/label/c.PP_Profile_Information';
@@ -55,6 +65,14 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     @api isRTL;
 
     label = {
+        PP_Outreach_Communication_Pref_D,
+        PP_Outreach_Communication_Pref_C,
+        PP_Outreach_Communication_Pref_B,
+        PP_Outreach_Communication_Pref_A,
+        PP_IQVIA_Communication_US,
+        PP_Communication_Purchase_Pref,
+        PP_Study_Consent_Adult_US,
+        PP_Study_Consent_Adult_ROW,
         PP_Communication_Pref,
         PP_Communication_Pref_Study,
         PP_Communication_Pref_Study_consent,
@@ -108,6 +126,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     currentPERId = '';
     updatedPerRecord = {};
     commPrefForPrivacyPolicy = true;
+    emailSMSConsent = false;
 
     studyError = false;
     isMobilePhoneNumberAvailable = true;
@@ -120,6 +139,8 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     delegateObject;
 
     errorIconPosition = 'margin-left: 0px';
+
+    isCountryUS = false;
 
     //@track phoneSvg = rr_community_icons +'/'+'logo.svg';
     phoneSvg = rr_community_icons + '/' + 'com-phone.svg' + '#' + 'com-phone';
@@ -145,6 +166,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                     study['error'] = false;
                 });
 
+                this.isCountryUS = (this.consentPreferenceDataLocal.myContact.MailingCountry!= undefined &&  this.consentPreferenceDataLocal.myContact.MailingCountry == 'United States' ? true : false);
                 let conData = JSON.parse(result).myContact;
                 this.contactDataLocal.push(conData);
                 this.contactDataLocal.forEach(function (con) {
@@ -208,6 +230,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
 
     redirectToProfileInfoTab() {
         window.history.replaceState(null, null, '?profileInformation');
+        sessionStorage.setItem('Cookies', 'Accepted');
         window.location.reload(true);
     }
 
@@ -319,6 +342,10 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     }
 
     showMenuBar(event) {
+        let queryString = window.location.href;
+        if (queryString.includes('communication-preferenceswithprevtask')) {
+            window.close();
+        }
         if (event.target.dataset.header) {
             this.dispatchEvent(
                 new CustomEvent('shownavmenubar', {
@@ -344,6 +371,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         let template = this.template;
 
         let checkOtherSMSOptInsAvailable = false;
+        let isEmailSMSConsentChecked = false;
 
         if (label == 'All') {
             this.consentPreferenceDataLocal.perList.forEach(function (study) {
@@ -378,6 +406,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                             study.Permit_SMS_Text_for_this_study__c =
                                 value;
                         processConsentSave = true;
+                        isEmailSMSConsentChecked = true;
                         //studyError = false;
                         // Update checkOtherSMSOptInsAvailable flag to check if SMS channel is checked for other studies/IQVIA outreach
                         study.Permit_SMS_Text_for_this_study__c == false
@@ -419,6 +448,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                             ? (study.Permit_Mail_Email_contact_for_this_study__c = value)
                             : '';
                         processConsentSave = true;
+                        isEmailSMSConsentChecked = true;
                         break;
                     case 'SMS':
                         if (study.Id == studyId) {
@@ -448,6 +478,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                             if (processSave) {
                                 study.Permit_SMS_Text_for_this_study__c = value;
                                 processConsentSave = true;
+                                isEmailSMSConsentChecked = true;
                                 //studyError = false;
                                 // Update checkOtherSMSOptInsAvailable flag to check if SMS channel is checked for other studies/IQVIA outreach
                                 study.Permit_SMS_Text_for_this_study__c == false
@@ -478,6 +509,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             this.studyError = this.checkSMSCheckedOrNot();
         }
         if (processConsentSave) {
+            this.emailSMSConsent = isEmailSMSConsentChecked;
             this.updateALLFlag();
             this.doSaveCommunicationPref('PER');
         }
@@ -537,11 +569,13 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             .then((result) => {
                 this.spinner = false;
                 this.showCustomToast('', this.label.PP_Profile_Update_Success, 'success');
-                createCommPrefEvent()
-                    .then((responseSuccess) => {})
-                    .catch((responseFailure) => {
-                        this.showCustomToast('', 'Failed to publish Platfrom Event', 'error');
-                    });
+                if (this.emailSMSConsent) {
+                    createCommPrefEvent()
+                        .then((responseSuccess) => {})
+                        .catch((responseFailure) => {
+                            this.showCustomToast('', 'Failed to publish Platfrom Event', 'error');
+                        });
+                }
                 this.currentPERId = '';
                 conObj = {};
             })
@@ -578,6 +612,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         let studyError = this.studyError;
         let template = this.template;
         let checkOtherSMSOptInsAvailable = false;
+        let isEmailSMSConsentChecked = false;
 
         this.contactDataLocal.forEach(function (con) {
             switch (label) {
@@ -613,6 +648,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                             con.IQVIA_Direct_Mail_Consent__c =
                                 value;
                         processConsentSave = true;
+                        isEmailSMSConsentChecked = true;
                         //studyError = false;
                         // Update checkOtherSMSOptInsAvailable flag to check if SMS channel is checked for other studies/IQVIA outreach
                         con.Participant_Opt_In_Status_SMS__c == false
@@ -643,6 +679,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                 case 'Email':
                     con.Participant_Opt_In_Status_Emails__c = value;
                     processConsentSave = true;
+                    isEmailSMSConsentChecked = true;
                     break;
                 case 'SMS':
                     let processOutreachSave = true;
@@ -672,6 +709,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                     if (processOutreachSave) {
                         con.Participant_Opt_In_Status_SMS__c = value;
                         processConsentSave = true;
+                        isEmailSMSConsentChecked = true;
                         //studyError = false;
                         // Update checkOtherSMSOptInsAvailable flag to check if SMS channel is checked for other studies/IQVIA outreach
                         con.Participant_Opt_In_Status_SMS__c == false
@@ -697,6 +735,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             this.studyError = this.checkSMSCheckedOrNot();
         }
         if (processConsentSave) {
+            this.emailSMSConsent = isEmailSMSConsentChecked;
             this.updateALLOutReachFlag();
             this.doSaveCommunicationPref('IQVIA_OUTREACH');
         }

@@ -22,6 +22,7 @@ public class Batch_CleanUpBatchNotifications extends Batch_ScheduledAbstract {
     public override String getRecommendedIntervalMode() {
         return Batch_ScheduledAbstract.INTERVAL_DAYS;
     }
+    
 
     public override Integer getRecommendedRelaunchInterval() {
         return 10;

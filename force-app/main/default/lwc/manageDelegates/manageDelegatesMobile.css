@@ -88,6 +88,12 @@
 .p-right-6{
     padding-right: 6.8px;
 } */
+.p-right-12{
+    padding-right: 12px;
+}
+.p-left-12{
+    padding-left: 12px;
+}
 .manage-del-continer {
     margin-top: 19px;
     margin-left: 23px;
@@ -96,6 +102,9 @@
 }
 .manage-del-items {
     margin: 24px 24px 0 24px;
+}
+.manage-former-del-items {
+    margin: 24px 24px 24px 24px;
 }
 .height-32 {
     height: 32px;
@@ -123,9 +132,10 @@
 }
 .delegate-email {
     height: 24px;
-    width: 303px;
+    width: 170px;
     color: #595959;
     font-size: 16px;
+    overflow: hidden;
 }
 .study-rectangle {
     box-sizing: border-box;
@@ -231,6 +241,7 @@
     border-radius: 4px;
     background-color: #e9e9e9;
     padding: 6px 31px;
+    width: 100%;
 }
 .no-active-delegates {
     color: #999999;
@@ -293,5 +304,9 @@
 }
 .md-help-text-style-none{
     display: none;
+}
+:host {
+    --sds-c-checkbox-color-background-checked: #0769fd;
+    --sds-c-checkbox-mark-color-foreground: #fff;
 }
 

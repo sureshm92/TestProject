@@ -48,6 +48,8 @@
                 component.find('spinner').hide();
             }
         );
+        let copyParticipant = JSON.parse(JSON.stringify(component.get('v.participant')));
+        component.set('v.participantInfo', copyParticipant);
     },
 
     doCheckFields: function (component, event, hepler) {
@@ -153,7 +155,8 @@
     closePpPopup: function (component) {
         component.set('v.showPpPopup', false);
     },
-    navigateToAccoutSettingsPage : function (component){
+    navigateToAccoutSettingsPage: function (component) {
+        localStorage.setItem('Cookies', 'Accepted');
         window.open('account-settings?profileInformation', '_blank');
         window.focus();
     }

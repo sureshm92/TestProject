@@ -793,6 +793,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PP_EmailWireframeController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmptyPagePanelRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2178,6 +2182,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Bell_Notification_Reminder__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Enable_for_Call_Center_Support__c</field>
         <readable>true</readable>
@@ -2285,6 +2294,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Delegate__c.Attested_by__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Attestation_TimeStamp__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Attested_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Delegate_Attestation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2445,6 +2469,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.PPMID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Callout_Log__c.Comment__c</field>
         <readable>true</readable>
@@ -2497,6 +2526,11 @@
 	<fieldPermissions>
         <editable>true</editable>
         <field>Patient_Delegate__c.Participant_Delegate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Patient_Delegate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <objectPermissions>

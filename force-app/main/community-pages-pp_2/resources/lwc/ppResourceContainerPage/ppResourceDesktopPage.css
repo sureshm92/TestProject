@@ -267,7 +267,16 @@ p {
     margin-top: 84%;
     text-align: center;
 }
-
+.no-links-availables {
+    color: #999999;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    margin-top: 130%;
+    text-align: center;
+}
 .empty-state {
     max-height: 100%;
     max-width: 100%;
@@ -285,4 +294,8 @@ p {
 
 .newHeight {
     height: 607px;
+}
+
+.left-column{
+    overflow-y: hidden;
 }

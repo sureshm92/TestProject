@@ -1,5 +1,5 @@
 /**
- * Created by Anitha Chavva on 27.04.2022
+ * Created by Anitha Chavva on 27.04.2022.
  */
 
 public without sharing class SendResultTriggerHandler {
@@ -8,6 +8,7 @@ public without sharing class SendResultTriggerHandler {
     public class updatewelcomeMsgflagsHandler extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             updatewelcomeMsgflags(newList, null);
+            BellNotificationsHelper.publishPEForBellNotifications((List<Send_Result__c>)newList);
         }
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updatewelcomeMsgflags(newList, (Map<Id, Send_Result__c>) oldMap);

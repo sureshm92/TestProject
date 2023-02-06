@@ -265,7 +265,7 @@ private without sharing class Test_ReferringRemote {
         ];
         System.assertEquals('false', checkNeeds);
         System.assertEquals('true', delAge);
-    }
+    } 
      @IsTest
     static void saveParticipantV2() {
         TestData.loadTestData();
@@ -273,6 +273,9 @@ private without sharing class Test_ReferringRemote {
         TestData testDataInstance = new TestData();
         String checkNeeds;
         String delAge;
+        
+        List<Id> lstPatientDelegateId = new List<Id> ();
+        List<Id> lstPatientDelegateIdNonPrimary = new list<Id> ();
 
         System.runAs(testDataInstance.hcpUser) {
             Participant_Enrollment__c pe = new Participant_Enrollment__c(
@@ -355,11 +358,14 @@ private without sharing class Test_ReferringRemote {
                 Primary_Delegate__c=true
             );
             insert patientDelegate;
+            lstPatientDelegateId.add(patientDelegate.Id);
 
             Participant_PrescreenerResponse__c response = new Participant_PrescreenerResponse__c(
                 PreScreener_Survey__c = screenerList[0].Id,
                 Screener_Response__c = 'Test Response'
             );
+		 	ReferringRemote.updatePatientDelegateNew(lstPatientDelegateId);
+            ReferringRemote.updatePatientDelegateExisting(lstPatientDelegateIdNonPrimary,lstPatientDelegateId);
             
             Test.startTest();
            
@@ -403,7 +409,9 @@ private without sharing class Test_ReferringRemote {
         System.assertEquals('false', checkNeeds);
         System.assertEquals('true', delAge);
         System.assertEquals(2, testParticipants.size());
-    }
+    } 
+    
+    
     
 
      @IsTest
@@ -530,12 +538,105 @@ private without sharing class Test_ReferringRemote {
         System.assertEquals('false', checkNeeds);
         System.assertEquals('true', delAge);
         System.assertEquals(2, testParticipants.size());
+    } 
+    
+    
+      @IsTest
+    static void saveParticipantEnrollmentDuplicateDelegate() {
+        TestData.loadTestData();
+        
+        TestData testDataInstance = new TestData();
+        String checkNeeds;
+        String delAge;
+        
+        ReferHealthcareProviderRemote.HealthcareProvider objHeal = new ReferHealthcareProviderRemote.HealthcareProvider();
+        System.runAs(testDataInstance.hcpUser) {
+            Participant_Enrollment__c pe = new Participant_Enrollment__c(
+                HCP__c = testDataInstance.hcpEnrollment.Id,
+                Study_Site__c = testDataInstance.ss.Id,
+                Patient_ID__c = 'SomePatientId1',
+                Referral_Source__c = 'HCP',
+                Screening_ID__c = 'TestScrId12345',
+                Participant__c=testDataInstance.participant.Id
+            );
+            Participant__c participant = new Participant__c(
+                First_Name__c = 'PTest',
+                Last_Name__c = 'PTest',
+                Phone__c = '13413223',
+                Date_of_Birth__c = '1990-11-11',
+                Email__c = 'partTest@email.com',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL'
+            );
+            insert participant;
+              Account SiteAccount = new Account(
+            Name = 'Study Site Account',
+            BillingCountry = 'United States');
+        
+        	insert SiteAccount;
+
+              Contact con = new Contact(
+            FirstName = 'testCon',
+            LastName = 'testConLast',
+            AccountId = SiteAccount.id,
+            Email = 'testConLast@email.com');
+        	insert con;
+            Participant__c participantDelegate = new Participant__c(
+                First_Name__c = 'PTestDelegate',
+                Last_Name__c = 'PTestDelegate',
+                Phone__c = '13413123',
+                Email__c = 'PTestDelegate@email.com',
+                Birth_Year__c = '1980',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Contact__c = con.id
+            );
+            
+             objHeal.email = 'testConLast@email.com';
+            objHeal.firstName = 'testCon';
+            objHeal.lastName = 'testConLast';
+            objHeal.contactId = con.id;  
+             List<PreScreener_Survey__c> screenerList = new List<PreScreener_Survey__c>();
+            screenerList.add(new PreScreener_Survey__c(
+                Link_to_Pre_screening__c = 'https://link.test',
+                Prescreener__c = true,
+                ProviderName__c = 'surveygizmo',
+                Study__c = testDataInstance.ctp.Id,
+                Survey_Name__c = 'Prescreener'
+            ));
+
+            insert screenerList;
+
+            Participant_PrescreenerResponse__c response = new Participant_PrescreenerResponse__c(
+                PreScreener_Survey__c = screenerList[0].Id,
+                Screener_Response__c = 'Test Response'
+            );
+            Test.startTest(); 
+            Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c();
+            ctp.Id = testDataInstance.ctp.Id;
+            ctp.IQVIA_Outreach__c = true;
+            ctp.Patient_Auth_Upload_Required__c = true;
+            update ctp;
+            ReferringRemote.saveParticipantEnrollment(
+                testDataInstance.hcpEnrollment.Id,
+                JSON.serialize(pe),
+                JSON.serialize(participant),
+                JSON.serialize(participantDelegate),
+                JSON.serialize(response),
+                null,
+                JSON.serialize(objHeal),
+                null
+            );  
+        } 
+        Test.stopTest();
+        
+         
     }
 
     @IsTest
     static void getInitDataTest() {
         
-        Test.startTest();
+        
         TestData.loadTestData();
         TestData testDataInstance = new TestData();
         List<PreScreener_Survey__c> screenerList = new List<PreScreener_Survey__c>();
@@ -561,6 +662,7 @@ private without sharing class Test_ReferringRemote {
         update testDataInstance.pe;
         
         String initDataStr;
+        Test.startTest();
         System.runAs(testDataInstance.hcpUser) {
             initDataStr = ReferringRemote.getInitData(
                 testDataInstance.ctp.Id,

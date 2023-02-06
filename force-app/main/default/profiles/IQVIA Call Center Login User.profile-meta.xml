@@ -793,6 +793,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PP_EmailWireframeController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmptyPagePanelRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -6036,6 +6040,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.utmz__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.PPMID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

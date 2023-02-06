@@ -115,8 +115,8 @@ public without sharing class MyTeamRemote {
                 
                 if (!participants.isEmpty()) {
                     for(Contact con: delegateContacts){
-                        con.FirstName = parConIdParticipantMap.get(con.Id).First_Name__c;
-                        con.LastName = parConIdParticipantMap.get(con.Id).Last_Name__c;
+                        con.FirstName = parConIdParticipantMap.get(con.Id)?.First_Name__c;
+                        con.LastName = parConIdParticipantMap.get(con.Id)?.Last_Name__c;
                     }
                 }
             }
@@ -295,83 +295,79 @@ public without sharing class MyTeamRemote {
         Boolean isDisconnectedPDE = false;
         Boolean isOnHoldPDE = false;
         Boolean isDeleted = false;
-        Id existingDelegateContactId = null;
+        Set<Id> existingDelegateContactIdSet = new Set<Id>();
         Id existingPatientDelegateId = null;
-        //check if one of the PDE list is active or not.
-        for(Patient_Delegate_Enrollment__c pde: PDEList){
-            existingDelegateContactId = pde.Patient_Delegate__r.Contact__c;
-            existingPatientDelegateId =pde.Patient_Delegate__c;
-            if(pde.Status__c=='Active'){
-                isActivePDE = true;
-                break;
-            }else if(pde.Status__c=='Disconnected'){
-                isDisconnectedPDE = true;
-            }else if(pde.Status__c=='Withdrawn'){
-                isWithdrawnPDE = true;
-            }else if(pde.Status__c=='On Hold'){
-                isOnHoldPDE = true;
-            }else if(pde.Status__c=='Deleted'){
-                isDeleted = true;
+        map<id, list<Patient_Delegate_Enrollment__c>> mapIdPDE = new Map<id, list<Patient_Delegate_Enrollment__c>>();
+        List<DelegateWrapper> delegates = new List<DelegateWrapper>();
+       //Create a map of Delegate contact and its PDE records. 
+        for (Patient_Delegate_Enrollment__c pde : PDEList) {
+            if (mapIdPDE.containsKey(pde.Patient_Delegate__r.Contact__c)) {
+                mapIdPDE.get(pde.Patient_Delegate__r.Contact__c).add(pde);
+            } else {
+                mapIdPDE.put(
+                    pde.Patient_Delegate__r.Contact__c,
+                    new List<Patient_Delegate_Enrollment__c>{ pde }
+                );
             }
         }
-        String status = '';
-        if(isActivePDE){
-            //If at least one of the PDE is active then put that delegate in active list.
-            status = 'Active';
-        }else if(isWithdrawnPDE && !isDisconnectedPDE && !isOnHoldPDE && !isDeleted ){
-            //If all the PDE List are withdrawn 
-            status = 'Withdrawn';
-        }else if(!isWithdrawnPDE && !isDisconnectedPDE && !isOnHoldPDE && isDeleted){
-            //If all the PDE List are Deleted
-            status = 'Deleted';
-        }else if(!isWithdrawnPDE && isDisconnectedPDE && !isOnHoldPDE && !isDeleted){
-            //If all the PDE List are disconnected
-            status = 'Disconnected';
-        }else if(!isWithdrawnPDE && !isDisconnectedPDE && isOnHoldPDE && !isDeleted){
-            //If all the PDE List are On Hold
-            status = 'On Hold';
-        }else if(isDisconnectedPDE && (isWithdrawnPDE || isOnHoldPDE || isDeleted) ){
-            //If at least one delegate is disconnected and remaining among withdrawn/On Hold/Deleted
-            //then consider as disconnected status.
-            status = 'Disconnected';
+        //Iterate over each patient Delegate.
+        for (Id delContId : mapIdPDE.keyset()) {
+            //check if one of the PDE list is active or not.
+            for(Patient_Delegate_Enrollment__c pde: mapIdPDE.get(delContId)){
+                existingDelegateContactIdSet.Add(pde.Patient_Delegate__r.Contact__c);
+                existingPatientDelegateId =pde.Patient_Delegate__c;
+                if(pde.Status__c=='Active'){
+                    isActivePDE = true;
+                    break;
+                }else if(pde.Status__c=='Disconnected'){
+                    isDisconnectedPDE = true;
+                }else if(pde.Status__c=='Withdrawn'){
+                    isWithdrawnPDE = true;
+                }else if(pde.Status__c=='On Hold'){
+                    isOnHoldPDE = true;
+                }else if(pde.Status__c=='Deleted'){
+                    isDeleted = true;
+                }
+            }
+            String status = '';
+            if(isActivePDE){
+                //If at least one of the PDE is active then put that delegate in active list.
+                status = 'Active';
+            }else if(isWithdrawnPDE && !isDisconnectedPDE && !isOnHoldPDE && !isDeleted ){
+                //If all the PDE List are withdrawn 
+                status = 'Withdrawn';
+            }else if(!isWithdrawnPDE && !isDisconnectedPDE && !isOnHoldPDE && isDeleted){
+                //If all the PDE List are Deleted
+                status = 'Deleted';
+            }else if(!isWithdrawnPDE && isDisconnectedPDE && !isOnHoldPDE && !isDeleted){
+                //If all the PDE List are disconnected
+                status = 'Disconnected';
+            }else if(!isWithdrawnPDE && !isDisconnectedPDE && isOnHoldPDE && !isDeleted){
+                //If all the PDE List are On Hold
+                status = 'On Hold';
+            }else if(isDisconnectedPDE && (isWithdrawnPDE || isOnHoldPDE || isDeleted) ){
+                //If at least one delegate is disconnected and remaining among withdrawn/On Hold/Deleted
+                //then consider as disconnected status.
+                status = 'Disconnected';
 
+            }
+            //If the contact is an existing delegate of current participant.
+            if(existingDelegateContactIdSet.contains(delContId)){
+                DelegateWrapper dw = new DelegateWrapper();
+                dw.delegateContact = delegateContactsMap.get(delContId);
+                dw.isActive =
+                    status == PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS;
+                dw.patientDelegateId = existingPatientDelegateId;
+                dw.status = status;
+                delegates.add(dw);
+            }
         }
-
-        List<DelegateWrapper> delegates = new List<DelegateWrapper>();
-        if(existingDelegateContactId!=null){
-            DelegateWrapper dw = new DelegateWrapper();
-            dw.delegateContact = delegateContactsMap.get(existingDelegateContactId);
-            dw.isActive =
-                status == PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS;
-            dw.patientDelegateId = existingPatientDelegateId;
-            dw.status = status;
-            delegates.add(dw);
-        }
-        
-        
-        // List<DelegateWrapper> delegates = new List<DelegateWrapper>();
-        // Set<Id> isPatientDelegateCont = new Set<Id>();
-        // for (Patient_Delegate__c pd : patientDelegates) {
-        //     if (delegateContactsMap.containsKey(pd.Contact__c)) {
-        //         DelegateWrapper dw = new DelegateWrapper();
-        //         dw.delegateContact = delegateContactsMap.get(pd.Contact__c);
-        //         dw.isActive =
-        //             pd.Status__c == PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS;
-        //         dw.patientDelegateId = pd.Id;
-        //         dw.status = pd.Status__c;
-        //         delegates.add(dw);
-        //         isPatientDelegateCont.add(pd.Contact__c);
-        //     }
-        // }
-
         if (useProvidedContacts) {
             //When contact is not a delegate for current participant.
-            //if (delegates.isEmpty() && delegatesToProcess != null) {
             if (delegatesToProcess != null) {
                 for(Contact con: delegatesToProcess){
-                    // if(!isPatientDelegateCont.contains(con.Id)){
-                        //If contact is Delegate of current Participant or Initialize the contact on load.
-                        if(con.Id!=existingDelegateContactId || con.Id==null){
+                        //If contact is no a Delegate of current Participant or Initialize the contact on load.
+                        if(!existingDelegateContactIdSet.contains(con.Id) || con.Id==null){
                             DelegateWrapper dw1 = new DelegateWrapper();
                             dw1.delegateContact = con;
                             delegates.add(dw1);
@@ -637,6 +633,11 @@ public without sharing class MyTeamRemote {
             if (dw.delegateContact.Id == null) {
                 createDelegate(dw, userMode, parentId);
             } else {
+                if(dw.delegateContact.Id !=null ){
+                    Contact con = [Select Id,UserCommunityIsDelegate__c from Contact where Id=:dw.delegateContact.Id];
+                    con.UserCommunityIsDelegate__c = true;
+                    update con;
+                  }
                 checkAndCreateDelegateUser(dw.delegateContact, dw.delegateTrials, userMode);
                 Map<String, LIst<Id>> hasDelegateLevelsPIMap = new Map<String, List<Id>>();
                 hasDelegateLevelsPIMap.put(HAS_NOT_DELEGATE_LEVELS, new List<Id>());
@@ -965,6 +966,29 @@ public without sharing class MyTeamRemote {
 
     @AuraEnabled
     public static void savePatientDelegate(String delegate, String delegateFilterData) {
+        //Bypaass old methods from Patient Delegate Trigger
+        TriggerHandlerExecutor.bypassHandler(
+        PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+        PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForCCContactHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.CreatePrimaryDelegateForMinor.class
+        );
+        // TriggerHandlerExecutor.bypassHandler(
+        //     PatientDelegateEnrolTriggerHandler.UpdateDelegateConsent.class
+        // );
+        // TriggerHandlerExecutor.bypassHandler(
+        //     PatientDelegateEnrolTriggerHandler.UpdateConsentTimeStamps.class
+        // );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.SetDefaultPatientDelegateStatusHandler.class
+        );
+    
         savePatientDelegate(delegate);
         if(delegateFilterData!=null){
             //Read the list of selected studies for Delegate.
@@ -1277,7 +1301,7 @@ public without sharing class MyTeamRemote {
     }
     public class DelegateWrapper implements Comparable {
         public Contact delegateContact;
-        public Boolean isActive;
+        public Boolean isActive =false;
         public List<TrialDelegateWrapper> delegateTrials;
         public List<DelegateLevelWrapper> trialLevels;
         public DelegateLevelWrapper trialLevel;
@@ -1379,25 +1403,17 @@ public without sharing class MyTeamRemote {
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
                         .getState();
-            List<Id> peIds = new List<Id>();
-            peIds = PatientDelegateService.getAvailablePEIdsForContact(
-                participantState.participant.Contact__c
-            );
-
-            List<Participant_Enrollment__c> availablePEs = AccountSettingsController.getPERRecords(peIds);
-
-            if (availablePEs != null)
-                participantEnrollments.addAll(availablePEs);
-            List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
-                participantState.participant.Contact__c
-            );
-
-            if (pastEnrollments != null)
-                participantEnrollments.addAll(pastEnrollments);
-            }
-            for(Participant_Enrollment__c per: participantEnrollments) {
+            
+            List<Participant_Enrollment__c> availablePERs = [Select Id,
+                                                                   Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                                                            FROM Participant_Enrollment__c
+                                                            WHERE Participant__r.Contact__c =:participantState.participant.Contact__c
+                                                            ];
+            for(Participant_Enrollment__c per: availablePERs) {
                 peFilterData.studies.add(new LabelValueItem(per.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, per.Id));
             } 
+        }
+            
         
         return PEFilterData;
         } 

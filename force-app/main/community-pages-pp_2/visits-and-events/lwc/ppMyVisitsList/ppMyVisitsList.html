@@ -162,7 +162,10 @@
                                                 </template>
                                                 <template if:false={item.missedVisit}>
                                                     <p class="no-date date-style">
-                                                        {item.visit.Status__c}:&nbsp;
+                                                        {item.visit.Status__c}
+                                                    <template 
+                                                        if:true={item.visitDate}>:
+                                                    </template>&nbsp;
                                                         <lightning-formatted-date-time
                                                             value={item.visitDate}
                                                             year="numeric"

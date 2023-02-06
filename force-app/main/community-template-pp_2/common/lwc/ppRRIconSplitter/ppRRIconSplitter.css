@@ -12,6 +12,31 @@
     position: absolute;
 }
 
+.disableCursor{
+    opacity: 50%;
+    cursor: unset !important;
+}
+
+.topdiv{
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    height: 50px;
+    padding-top: 10px;
+    padding-left: 11px;
+    padding-right: 11px;
+}
+
+.topdiv > div:last-child{
+    margin-right: 0px;
+}
+
+.scrolling-br{
+    overflow: auto;
+    white-space: nowrap;
+}
+
 .icon {
     position: relative;
     display: flex;
@@ -121,7 +146,7 @@
     color: #595959;
     font-family: 'Proxima Nova';
     font-size: 16px;
-    text-align: justify;
+    text-align: left;
     padding-bottom: 16px;
     height: 70px;
     padding-left: 24px;
@@ -137,9 +162,18 @@
     height: 8px;
 }
 
+.panel-width {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 @media (max-width: 468px) {
     .before-your-visits {
         height: 100px!important;
+    }
+    .panel-width {
+        padding-left: 15px!important;
+        padding-right: 15px!important;
     }
 }
 .icons-pad {

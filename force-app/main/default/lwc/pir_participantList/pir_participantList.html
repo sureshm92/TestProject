@@ -3,7 +3,7 @@
         <div class="dividerTop slds-border--right slds-grid slds-wrap slds-p-top--medium">
 
             <div class="slds-col slds-size_9-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12 slds-p-right_none"
-                onclick={resetPagination}>
+               >
                 <div class="slds-form-element slds-m-left_x-small labelHide rtl-margin-right">
                     <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right labelhide_1">
                         <lightning-icon icon-name="utility:search" size="x-small" alternative-text="search"
@@ -13,7 +13,9 @@
                         <!-- <input type="text" id="searchText" placeholder="Search Participants" class="slds-input" onblur={handlesearch} /> -->
                         <lightning-input type="text" id="searchText" value={srchTxt}
                             placeholder={label.pir_Search_Participants} variant="label-hidden"
-                            onchange={handleParticipantsearch}>
+                            onchange={handleParticipantsearch}
+                            disabled={isEnabled}
+                            >
 
                         </lightning-input>
                     </div>
@@ -50,7 +52,7 @@
         </div> -->
             <div if:true={showFilter} class="slds-col slds-size_12-of-12 filter-relative slds-hide">
                 <c-pir_filter maindivcls={maindivcls} sponser={communityTemplate} onpresetcreated={refreshAllPreset}
-                    ongetdefaultfilter={setDefaultFilter} urlstudyid={urlStudyId} urlsiteid={urlSiteId}
+                    ongetdefaultfilter={setDefaultFilter} urlstudyid={urlStudyId} urlsiteid={urlSiteId} urlstatus={urlStatus}
                     onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue}
                     filters={filterWrapper} onclosefilter={toggleFilter}></c-pir_filter>
             </div>
@@ -80,20 +82,20 @@
             </div>
             <div class="slds-col slds-size_12-of-12 dropsize">
                 <div class="slds-grid slds-wrap slds-m-left_x-small slds-m-right--x-small slds-m-top--small">
-                    <div class="slds-col slds-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                    <div class="slds-col slds-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 sort">
                         <div class="slds-p-top--x-small textBolds text-overflow" title={label.pir_Sort_By}>
                             {label.pir_Sort_By}</div>
                     </div>
                     <div
-                        class="slds-col slds-size_4-of-12 slds-medium-size_5-of-12 slds-large-size_4-of-12 dropdown-fonts">
+                        class="slds-col slds-size_4-of-12 slds-medium-size_5-of-12 slds-large-size_4-of-12 dropdown-fonts last-mod">
                         <lightning-combobox options={sortOptions} value={sortValue} onchange={handleSortChange}
-                            variant="label-hidden"></lightning-combobox>
+                            variant="label-hidden"
+                            disabled={isEnabled}></lightning-combobox>
                     </div>
                     <div class="slds-col slds-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 w-action">
-
                         <div class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 D">
                             <button
-                                class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small j-content"
+                                class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small j-content actionsList"
                                 aria-haspopup="true" aria-expanded="true" title={dropDownLabel} onclick={opendropdown}
                                 disabled={dropDownChange} onblur={handleonblur}>
                                 <span class="slds-truncate text-width">{dropDownLabel}</span>
@@ -194,12 +196,23 @@
 
                 </div>
             </div>
+            <template if:true={isEnabled}>
+                <div class="slds-col slds-size_12-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium slds-m-left_small">
+                    <button class="slds-button apollo-btn primary ipad-mode-btn clearFilterBtn"
+                            onclick={handleToggleChange}
+                            id="toggleUIFeatures"
+                            >
+                            Clear Filter
+                    </button>
+                </div>
+            </template>
+
             <template if:true={isCheckboxhidden}>
                 <!-- <template if:true={changeStatus}>
                 <div class="slds-col slds-size_12-of-12 slds-p-bottom_small slds-p-around_small ">
                     <lightning-combobox name="ChangeStatusTo" variant="label-hidden"  value={statusSelected}
                       options={statusChangeList}  onchange={handleChangeOfStatus} ></lightning-combobox>
-                </div> 
+                </div>
             </template> -->
                 <template if:false={noRecords}>
                     <template if:false={dctCheck}>
@@ -317,7 +330,7 @@
                                                             checked={p.check} data-value={p.id}
                                                             onchange={handleCheckChange}></lightning-input>
                                                     </div>
-                                                </template>                                                
+                                                </template>
                                             </template>
                                         </template>
                                     </template>

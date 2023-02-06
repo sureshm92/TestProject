@@ -301,15 +301,27 @@ public class TranslateHelper {
             }
             if (param == 'trialorprogram') {
                 if (paramValue == 'true')
-                    paramValue = System.Label.Programs_PP;
+                    paramValue = System.Label.Program_Header_PP;
                 else
                     paramValue = System.Label.Trial_pp;
             }
             if (param == 'clinicalstudyorprogram') {
                 if (paramValue == 'true')
-                    paramValue = System.Label.Programs_PP;
+                    paramValue = System.Label.Program_Header_PP;
                 else
-                    paramValue = System.Label.Clinical_Study;
+                    paramValue = System.Label.Clinical_Study_PP;
+            }
+            if (param == 'visitorevent') {
+                if (paramValue == 'true')
+                    paramValue = System.Label.Event_PP;
+                else
+                    paramValue = System.Label.Visit_PP;
+            }
+            if (param == 'VisitorEvent') {
+                if (paramValue == 'true')
+                    paramValue = System.Label.Event_Date_PP;
+                else
+                    paramValue = System.Label.Visit_Date_PP;
             }
 
             result = result.replaceAll(paramId, paramValue);

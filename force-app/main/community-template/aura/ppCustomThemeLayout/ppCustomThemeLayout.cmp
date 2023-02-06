@@ -19,19 +19,25 @@
     <aura:attribute name="logoURL" type="String" />
     <aura:attribute name="isRTL" type="Boolean" />
     <aura:attribute name="urlPathPrefix" type="String" />
-    <aura:attribute name="isPPonPhone" type="Boolean" default="false" />
     <aura:attribute name="communityServ" type="Object" />
+    <aura:attribute name="handleTelevistBanner" type="Boolean" default="false" />
+    <aura:attribute name="stopLoading" type="Boolean" default="false" />
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
-    <aura:handler name="closeNavigationMenu" event="c:ppCloseNavMenu" action="{!c.handleClick}" />
+    <aura:handler event="c:ppCloseNavMenu" action="{!c.handleClickCloseNavMenu}" />
 
-    <aura:handler event="c:PPMobileMenu" action="{!c.closePPMobileMenu}" />
+    <aura:handler event="c:PPMobileMenu" action="{!c.handleClickCloseNavMenu}" />
 
     <!-- methods: -->
     <aura:method name="init" action="{!c.doInit}" access="public" />
 
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
+
+    <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
+        <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" showFullSpinner="true" />
+    </aura:if>
+
     <aura:if isTrue="{!v.isInitialized}">
         <div
             class="{!'rr-all-content ' + $Browser.formFactor + ' ' + if(v.showSideMenu, ' bodyShift ', ' ') + if(v.availableModes.length > 1, ' with-selector ', '')}"
@@ -42,11 +48,25 @@
                 <div
                     class="{!'layout-header' + ' rr-width-limiter-pp' + ' side-padding' + if(v.isRTL, ' rtl', '')}"
                 >
-                    <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
-                        <img src="{!$Resource.icon_hamburgerMenu}" onclick="{!c.handleClick}" />
+                    <aura:if isTrue="{!$Browser.formFactor != 'DESKTOP'}">
+                        <div class="mob-logo-container-pp">
+                            <img
+                                src="{!$Resource.icon_hamburgerMenu}"
+                                onclick="{!c.handleClick}"
+                                class="barsIcon"
+                            />
+                        </div>
                     </aura:if>
-                    <div class="logo-container-pp">
-                        <img src="{!v.logoURL}" class="title-logo" onclick="{!c.doGoHome}" />
+                    <div
+                        class="logo-container-pp"
+                        onclick="{!c.handleClickCloseNavMenu}"
+                        ontouchmove="{!c.handleClickCloseNavMenu}"
+                        ontouchend="{!c.handleHamberungTouchEnd}"
+                    >
+                        <!--     <img src="{!v.logoURL}" class="title-logo" onclick="{!c.doGoHome}" />-->
+                        <div class="iqvia_logo" onclick="{!c.doGoHome}">
+                            IQVIA <span class="iqvia_text">Patient Portal</span>
+                        </div>
                     </div>
 
                     <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
@@ -56,19 +76,17 @@
                             communityServic="{!v.communityServ}"
                             aura:id="ppMenu"
                             showSideMenu="{!v.showSideMenu}"
+                            onhandleLoadTelevisitBanner="{!c.handleLoadTelevisitBanner}"
                         />
                     </aura:if>
 
-                    <div class="right-block" data-gtm="community_mode_switcher">
-                        <aura:if isTrue="{!v.currentMode.userMode != 'CC'}">
-                            <aura:if isTrue="{!v.isMobileApp}">
-                                <div class="bell-container">
-                                    <forceCommunity:notifications />
-                                </div>
-                            </aura:if>
-                            <!-- Added as per REF-1343 by Vikrant Sharma for Help icon adjacent to User Profile for PI and HCP -->
-                        </aura:if>
-                        <!-- Ending of REF-1343 -->
+                    <div
+                        class="right-block"
+                        data-gtm="community_mode_switcher"
+                        onclick="{!c.handleClickCloseNavMenu}"
+                        ontouchmove="{!c.handleClickCloseNavMenu}"
+                        ontouchend="{!c.handleHamberungTouchEnd}"
+                    >
                         <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
                             <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
                         </aura:if>
@@ -81,30 +99,43 @@
             </div>
 
             <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
-            <div class="rr-body-content rr-min-body-height">
-                <aura:if isTrue="{!v.isPPonPhone}">
+            <div
+                class="rr-body-content rr-min-body-height"
+                onclick="{!c.handleClickCloseNavMenu}"
+                ontouchmove="{!c.handleClickCloseNavMenu}"
+                ontouchend="{!c.handleHamberungTouchEnd}"
+            >
+                <aura:if isTrue="{!$Browser.formFactor != 'DESKTOP'}">
                     <c:ppCommunityNavigation
                         communityServic="{!v.communityServ}"
                         showSideMenu="{!v.showSideMenu}"
                         aura:id="ppMenu"
+                        is-initial-load="{!v.isInitialized}"
+                        onhandleLoadTelevisitBanner="{!c.handleLoadTelevisitBanner}"
                     />
                 </aura:if>
-
                 <!-- Televisit Meet Banner Section PEH-5892 -->
-                <c:televisitMeetBanner
-                    urlPathPrefix="{!v.urlPathPrefix}"
-                    currentMode="{!v.currentMode}"
-                ></c:televisitMeetBanner>
+                <!--      <aura:if isTrue="{!v.handleTelevistBanner}">                   
+                    <c:televisitMeetBanner
+                                           urlPathPrefix="{!v.urlPathPrefix}"
+                                           currentMode="{!v.currentMode}"
+                                           ></c:televisitMeetBanner>
+                </aura:if>-->
                 {!v.body}
             </div>
-            <div class="footer">
+            <div
+                class="footer"
+                onclick="{!c.handleClickCloseNavMenu}"
+                ontouchmove="{!c.handleClickCloseNavMenu}"
+                ontouchend="{!c.handleHamberungTouchEnd}"
+            >
                 <div class="rr-width-limiter" style="padding: 0 15px">
                     <c:ppCommunityFooter aura:id="ppFooter" />
                 </div>
             </div>
             <aura:if isTrue="{!not(v.isDummy)}">
-                <c:CookiesInfo />
                 <c:ppAlerts aura:id="ppAlerts"></c:ppAlerts>
+                <c:ppCookiesBanner />
             </aura:if>
         </div>
     </aura:if>

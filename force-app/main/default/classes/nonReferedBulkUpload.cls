@@ -445,7 +445,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         peRec.mailing_country_code__c= countryCode;
                         peRec.mailing_state_code__c= stateCode;
                         peRec.Phone__c=rec[11];
-                        peRec.Patient_Phone_Type__c=rec[12];
+                        peRec.Patient_Phone_Type__c = (rec[11] != '' && rec[12] == '') ? 'Home' : rec[12];
                         peRec.Participant_Alternative_Phone__c=rec[13];
                         peRec.Participant_Alt_Phone_Type__c=rec[14];
                         if(!hasDelErrRow){

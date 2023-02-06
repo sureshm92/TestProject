@@ -60,7 +60,7 @@
                                 <div class={phoneErrorHeaderMarPad}>{label.Mob_Phone_Field}</div>
                                 <lightning-layout
                                     multiple-rows="true"
-                                    class="po-error-container po-mr-10"
+                                    class="po-error-container po-mr-10 pp2-errorFields"
                                 >
                                     <lightning-layout-item size="8">
                                         <lightning-input
@@ -114,7 +114,14 @@
                                     large-device-size="12"
                                 >
                                     <div class={getStudyConsentMargin}>
-                                        {label.PP_Communication_Pref_Study_consent}
+                                        <!--{label.PP_Communication_Pref_Study_consent} {isCountryUS}-->
+                                    
+                                        <template if:true={isCountryUS}>
+                                            {label.PP_Study_Consent_Adult_US}
+                                        </template>
+                                        <template if:false={isCountryUS}>
+                                            {label.PP_Study_Consent_Adult_ROW}
+                                        </template>
                                     </div>
                                 </lightning-layout-item>
                             </lightning-layout>
@@ -296,6 +303,10 @@
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </template>
+                            <div class={getStudyConsentMargin}>
+                                <template if:true={isCountryUS}>
+                                {label.PP_Communication_Purchase_Pref}</template>
+                            </div>
                         </div>
                     </div>
                 </Template>
@@ -307,12 +318,15 @@
                             <lightning-layout multiple-rows="true">
                                 <lightning-layout-item size="12">
                                     <div class={getStudyConsentMargin}>
-                                        {label.PP_Communication_Pref_Outreach_consentA}&nbsp;
+                                        {label.PP_Outreach_Communication_Pref_A}&nbsp;
+                                        <template if:true={isCountryUS}>{label.PP_Outreach_Communication_Pref_B}&nbsp;</template>
+                                        {label.PP_Outreach_Communication_Pref_C}&nbsp;
                                         <span
                                             class="blue-highlight-text-color"
                                             onclick={openPrivacyPolicy}
-                                            >{label.PP_Communication_Pref_Outreach_consentB}</span
-                                        >{label.PP_Communication_Pref_Outreach_consentC}
+                                            >{label.PP_Communication_Pref_Outreach_consentB}
+                                        </span>
+                                        {label.PP_Outreach_Communication_Pref_D}
                                     </div>
                                 </lightning-layout-item>
                             </lightning-layout>
@@ -473,6 +487,13 @@
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </template>
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12">
+                                    <div class={getStudyConsentMargin}>
+                                        <template if:true={isCountryUS}>{label.PP_Communication_Purchase_Pref}</template>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
                         </div>
                     </div>
                 </Template>
@@ -545,7 +566,7 @@
                                             {label.Mob_Phone_Field}
                                         </div>
                                     </lightning-layout-item>
-                                    <lightning-layout-item size="7" class="pad-r-10">
+                                    <lightning-layout-item size="7" class="pad-r-10 pp2-errorFields">
                                         <lightning-input
                                             type="tel"
                                             label="Phone Input"
@@ -557,7 +578,7 @@
                                         ></lightning-input>
                                     </lightning-layout-item>
 
-                                    <lightning-layout-item size="5" class="pb-10">
+                                    <lightning-layout-item size="5" class="pb-10 pp2-errorFields">
                                         <button
                                             disabled
                                             title="Non-primary action"

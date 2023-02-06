@@ -84,7 +84,12 @@ public without sharing class PatientDelegateTriggerHandler {
         for (Patient_Delegate__c pd : changedPDList)
             contactIds.add(pd.Contact__c);
         System.debug('CONTACTS FOR UPDATE PERMISSIONS:' + contactIds);
-        PatientDelegateService.updatePermissionSets(contactIds);
+        if(!System.isBatch() && !System.isFuture()){
+            PatientDelegateService.updatePermissionSetsAsync(contactIds);
+        }else{
+           PatientDelegateService.updatePermissionSets(contactIds); 
+        }
+        
     }
 
     @TestVisible

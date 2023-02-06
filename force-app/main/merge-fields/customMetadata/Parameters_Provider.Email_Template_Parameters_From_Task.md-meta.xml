@@ -14,7 +14,13 @@ Taskdate = Activity_Datetime__c
 StudyName = Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
 PlannedDate=Patient_Visit__r.Planned_Date__c
 ContactID=WhoId
-ShortTaskName = Subject</value>
+ShortTaskName = Subject
+isEventorVisit=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
+isStudyorProgram=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
+studiesOrPrograms=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
+visitorevent=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
+StudyorProgramHeader=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
+</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>

@@ -33,7 +33,6 @@ import largeTemplate from './manageDelegatesDesktop.html';
 import mobileTemplate from './manageDelegatesMobile.html';
 import formFactor from '@salesforce/client/formFactor';
 
-
 import {
     subscribe,
     unsubscribe,
@@ -41,10 +40,8 @@ import {
     APPLICATION_SCOPE
 } from 'lightning/messageService';
 export default class ManageDelegates extends NavigationMixin(LightningElement) {
-    @api isDelegate;
-    @api participantState;
     isDesktop;
-    @api consentPreferenceData;
+    @api participantState;
     @api userMode;
     @api isRTL;
     @track listPDE = [];
@@ -79,7 +76,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     totalNoOfStudiesActivelyAssigned = 0;
     isAtLeastOneStudySelected = false;
     diabledAddNewButton = false;
-    dataInitialized = false;
+    //dataInitialized = false;
     isEmailConsentChecked = false;
 
     label = {
@@ -160,7 +157,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 //console.log('success', result);
                 this.setInitializedData(result);
                 this.spinner = false;
-                this.dataInitialized = true;
+                //this.dataInitialized = true;
             })
             .catch((error) => {
                 //console.log('error');
@@ -189,6 +186,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 //For Active Delegates.
                 pde['addNewStudy'] = false;
                 pde['disableAddAssignmentButton'] = false;
+                pde['isEmailConsentChecked'] = false;
                 this.totalNoOfStudiesActivelyAssigned = 0;
                 pde.PDEEnrollments.forEach((pden) => {
                     pden['disableRemoveButton'] = false;
@@ -201,7 +199,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 });
                 pde['showAddAssignmentButton'] = this.showAddAssignmentButton();
                 //Filter studies which are not assigned to patient Delegates.
-                pde['studieToAssign'] = [];
+                pde['studiesToAssign'] = [];
                 this.availableStudyData.studies.forEach((std) => {
                     std['assigned'] = false;
                     std['active'] = false;
@@ -217,7 +215,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                             }
                         }
                     });
-                    pde.studieToAssign.push({
+                    pde.studiesToAssign.push({
                         label: std.label,
                         value: std.value,
                         assigned: std.assigned,
@@ -231,6 +229,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 pde['addNewStudyFormer'] = false;
                 pde['disableAddAssignmentButton'] = false;
                 pde['disableDeleteButton'] = false;
+                pde['isEmailConsentChecked'] = false;
                 // pde.PDEEnrollmentsFormer.forEach((pdenFormer) => {
                 //     //If not withdrawn delegate.
                 //     if(!std.isWithdrawn){
@@ -337,33 +336,65 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             ? 'save-del-btn addDelegateMobile'
             : 'save-del-btn btn-save-opacity addDelegateMobile';
     }
-    get delInfoFormer(){
-        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
+    get delInfoFormer() {
+        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large';
     }
-    get delInfoFormer1(){
-        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
+    get delInfoFormerMob() {
+        return this.isRTL ? 'slds-p-right_small' : 'slds-p-left_small';
     }
-    get delInfoActive(){
-        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large'
+    get delInfoFormer1() {
+        return this.isRTL ? 'p-right-41' : 'p-left-41';
     }
-    get delAvararIcon(){
-        return this.isRTL ? 'slds-p-right_small slds-p-top_xx-small' : 'slds-p-left_small slds-p-top_xx-small'
+    get delInfoFormer1Mob() {
+        return this.isRTL ? 'p-right-12' : 'p-left-12';
     }
-    get delAvararIconMobile(){
-        return this.isRTL ? 'slds-p-right_small slds-p-top_x-small' : 'slds-p-left_small slds-p-top_x-small'
+    get delInfoActive() {
+        return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large';
     }
-    get deleteIconClassMobile(){
-        return this.isRTL ? ' slds-align_absolute-center slds-p-right_medium' : ' slds-align_absolute-center slds-p-left_medium'
+    get delInfoActiveMob() {
+        return this.isRTL ? 'slds-p-right_small' : 'slds-p-left_small';
+    }
+    get delAvararIcon() {
+        return this.isRTL
+            ? 'slds-p-right_small slds-p-top_xx-small'
+            : 'slds-p-left_small slds-p-top_xx-small';
+    }
+    get delAvararIconMobile() {
+        return this.isRTL
+            ? 'slds-p-right_small slds-p-top_x-small'
+            : 'slds-p-left_small slds-p-top_x-small';
+    }
+    get deleteIconClassMobile() {
+        return this.isRTL
+            ? ' slds-align_absolute-center slds-p-right_medium'
+            : ' slds-align_absolute-center slds-p-left_medium';
     }
 
     get disableSaveButton() {
         return this.isEmailConsentChecked && this.isAtLeastOneStudySelected ? false : true;
     }
-    get isAddNewDelegate(){
+    get isAddNewDelegate() {
         return false;
     }
-    handleConsentCheck(event) {
-        this.isEmailConsentChecked = event.target.checked;
+    handleConsentCheckActiveDel(event) {
+        let delId = event.currentTarget.dataset.pdid;
+        let isEmailConsentChecked = event.target.checked;
+        this.listPDE.forEach((pde) => {
+            if (pde.PatientDelegate.Id === delId) {
+                pde.isEmailConsentChecked = isEmailConsentChecked;
+                this.isEmailConsentChecked = isEmailConsentChecked;
+            }
+        });
+    }
+    handleConsentCheckFormerDel(event) {
+        let delId = event.currentTarget.dataset.pdid;
+        let isEmailConsentChecked = event.target.checked;
+        this.formerListPDE.forEach((pde) => {
+            if (pde.PatientDelegate.Id === delId) {
+                pde.isEmailConsentChecked = isEmailConsentChecked;
+                this.isEmailConsentChecked = isEmailConsentChecked;
+            }
+        });
     }
     showAddAssignmentButton() {
         return this.totalNoOfStudies != this.totalNoOfStudiesActivelyAssigned ? true : false;
@@ -462,7 +493,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.listPDE.forEach((pde) => {
             if (pde.PatientDelegate.Id === delId) {
                 pde.addNewStudy = true;
-                pde.studieToAssign.forEach((std) => {
+                pde.studiesToAssign.forEach((std) => {
                     //if studie is not assinged or it is assinged but not active.
                     if (std.assigned == false || (std.assigned == true && std.active == false)) {
                         this.studyToAssing.push({ label: std.label, value: std.value });
@@ -515,6 +546,8 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.listPDE.forEach((pde) => {
             if (pde.PatientDelegate.Id === delId) {
                 pde.addNewStudy = false;
+                pde.isEmailConsentChecked = false;
+                this.isEmailConsentChecked = false;
             }
             //Re Enable Add Assignment button for active delegates.
             pde.disableAddAssignmentButton = false;
@@ -528,6 +561,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             pde.disableAddAssignmentButton = false;
             pde.disableDeleteButton = false;
         });
+        this.isAtLeastOneStudySelected = false;
     }
     //Discard Assignment from Former delegate section.
     discardAssignmentFormer(event) {
@@ -536,6 +570,8 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.formerListPDE.forEach((pde) => {
             if (pde.PatientDelegate.Id === delId) {
                 pde.addNewStudyFormer = false;
+                pde.isEmailConsentChecked = false;
+                this.isEmailConsentChecked = false;
             }
             //Re enable Add assignment and Delete buttons for former delegates.
             pde.disableAddAssignmentButton = false;
@@ -550,6 +586,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 pden.disableRemoveButton = false;
             });
         });
+        this.isAtLeastOneStudySelected = false;
     }
 
     //Flipt the delete icon between gray and red.
@@ -568,6 +605,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     doSave(event) {
         this.spinner = true;
         this.diabledAddNewButton = false;
+        this.template.querySelector('[data-id="emailconsentcheck"]').checked = false;
+        this.isEmailConsentChecked = false;
+        this.isAtLeastOneStudySelected = false;
         let id = event.currentTarget.dataset.id;
         let pdid = event.currentTarget.dataset.pdid;
         let attestedtimestmp = event.currentTarget.dataset.attestedtimestmp;
@@ -584,10 +624,11 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.listPDE.forEach((pde) => {
             //check if the Delegate is the current Delegate.
             if (pde.PatientDelegate.Id === id) {
+                pde.addNewStudy = false;
                 //Iterate over the list of selected studies for current Delegate.
                 studiesSelected.forEach((stdSelected) => {
                     //Iterate over the list of studies to assign for current delegate.
-                    pde.studieToAssign.forEach((pdStdToAssign) => {
+                    pde.studiesToAssign.forEach((pdStdToAssign) => {
                         if (stdSelected.value === pdStdToAssign.value) {
                             tudyToAssing.push({
                                 label: pdStdToAssign.label,
@@ -609,13 +650,13 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             studyPERData: JSON.stringify(tudyToAssing)
         })
             .then((result) => {
-                //this.setInitializedData(result);
+                this.setInitializedData(result);
                 this.studiesSelected = [];
-                this.initializeData();
+                //this.initializeData();
                 this.spinner = false;
-                if (this.dataInitialized) {
-                    communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
-                }
+                // if (this.dataInitialized) {
+                communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
+                // }
             })
             .catch((error) => {
                 //console.log('error');
@@ -626,6 +667,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     doSaveFormer(event) {
         this.spinner = true;
         this.diabledAddNewButton = false;
+        this.template.querySelector('[data-id="emailconsentcheck"]').checked = false;
+        this.isEmailConsentChecked = false;
+        this.isAtLeastOneStudySelected = false;
         let id = event.currentTarget.dataset.id;
         let pdid = event.currentTarget.dataset.pdid;
         let attestedtimestmp = event.currentTarget.dataset.attestedtimestmp;
@@ -642,6 +686,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.formerListPDE.forEach((pde) => {
             //check if the Delegate is the current Delegate.
             if (pde.PatientDelegate.Id === id) {
+                pde.addNewStudyFormer = false;
                 //Iterate over the list of selected studies for current Delegate.
                 studiesSelected.forEach((stdSelected) => {
                     let assigned = false;
@@ -670,13 +715,16 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             studyPERData: JSON.stringify(tudyToAssing)
         })
             .then((result) => {
-                //this.setInitializedData(result);
+                this.setInitializedData(result);
                 this.studiesSelected = [];
-                this.initializeData();
+                //this.initializeData();
                 this.spinner = false;
-                if (this.dataInitialized) {
-                    communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
-                }
+                // this.template.querySelector('[data-id="emailconsentcheck"]').checked = false;
+                // this.isEmailConsentChecked = false;
+                // this.isAtLeastOneStudySelected = false;
+                // if (this.dataInitialized) {
+                communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
+                // }
             })
             .catch((error) => {
                 //console.log('error');

@@ -1828,6 +1828,7 @@ public without sharing class ParticipantInformationRemote {
                 objDelegate.email = objTempCon.Email;
                 objDelegate.firstName = objTempCon.FirstName;
                 objDelegate.lastName = objTempCon.LastName;
+                objDelegate.contactId = objTempCon.Id;
                 objDelegate.isDuplicateDelegate = false;
                 objDelegate.participantPhoneNumber = String.isBlank(objTempCon.Phone)
                     ? ''

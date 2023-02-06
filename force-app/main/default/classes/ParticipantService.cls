@@ -64,6 +64,8 @@ public without sharing class ParticipantService {
         public Boolean isTeleVendorEnabled;
         @AuraEnabled
         public String loggedInUserName;
+        @AuraEnabled
+        public Boolean cookiesAgreedonRegPage;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -105,6 +107,7 @@ public without sharing class ParticipantService {
         if (participantState.currentContactId == null || userContact!= null)
             participantState.currentContactId = userContact.Id;
         participantState.isDelegate = userContact.userCommunityDelegateId__c != null;
+        participantState.cookiesAgreedonRegPage = userContact.Cookies_Agreed_on_Reg__c;
         participantState.hasPatientDelegates = PatientDelegateService.getInstance().hasDelegates;
 
         List<User> participantUser = [

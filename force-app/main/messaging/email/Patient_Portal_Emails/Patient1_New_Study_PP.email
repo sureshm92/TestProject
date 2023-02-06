@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="{!IF(relatedTo.Clinical_Trial_Profile__r.Is_Program__c, $Label.Email_Subject_Initial_Patient_Program_PP,$Label.Email_Subject_Initial_Patient)}"
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Initial_Patient_Program_PP}"
                         recipientType="Contact"
                         relatedToType="Participant_Enrollment__c"
                         language="{!relatedTo.Participant__r.Contact__r.Language__c}">
@@ -11,37 +11,29 @@
                         header="{!$Label.Email_Header_Patient_PP}"
                         title="##EmailTemplateTitleNewTM"
                         greeting="{!$Label.Email_User_Greeting_FirstName}"
-                        signature="{!$Label.Email_Signature_Patient}">
+                        signature="{!$Label.Email_Sign_Patient_New_PP}">
         <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Patient_New_PP}"/>
+        <c:ParticipantParagraph learnmoreLabel="{!$Label.Learn_more_about_study_PP}"   
+                            discoverLabel="{!$Label.Discover_future_Clinical_New_PP}"
+                            trackLabel="{!$Label.Track_your_study_PP}" 
+                            communityNameHelpLabel="{!$Label.The_Patient_Portal_Help}" />
     </c:PP_EmailWireframe>
+</messaging:htmlEmailBody>
+<messaging:plainTextEmailBody >
     <c:PP_EmailWireframeText recipientId="{!relatedTo.Participant__r.Contact__c}"
                         sourceId="{!relatedTo.Id}"
                         header="{!$Label.Email_Header_Patient_PP}"
                         title="##EmailTemplateTitleNewTM"
                         greeting="{!$Label.Email_User_Greeting_FirstName}"
-                        signature="{!$Label.Email_Signature_Patient_Short}"
+                        signature="{!$Label.Email_Signature_Patient1_PP_New}"
                         communityTemplate="PatientPortal">
         <c:Paragraph emailLabel="{!$Label.Email_Body_Patient_New_PP}"/>
-        <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/> 
-    <c:ParticipantParagraph learnmoreLabel="{!$Label.Discover_future_Clinical_PP}"   
+        <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/> 
+    <c:ParticipantParagraph learnmoreLabel="{!$Label.Learn_more_about_study_PP}"   
                             discoverLabel="{!$Label.Discover_future_Clinical_New_PP}"
                             trackLabel="{!$Label.Track_your_study_PP}" 
                             communityNameHelpLabel="{!$Label.The_Patient_Portal_Help}" />
 
-
-    <!-- <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/> -->
-    </c:PP_EmailWireframeText>
-</messaging:htmlEmailBody>
-
-<messaging:plainTextEmailBody >
-    <c:PP_EmailWireframeText recipientId="{!relatedTo.Participant__r.Contact__c}"
-                            sourceId="{!relatedTo.Id}"
-                            header="{!$Label.Email_Header_Patient_PP}"
-                            title="##EmailTemplateTitleNewTM"
-                            greeting="{!$Label.Email_User_Greeting_FirstName}"
-                            signature="{!$Label.Email_Signature_Patient}">
-        <c:ParagraphText emailLabel="{!$Label.Email_Body_Patient_New_PP}"/>
-        <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
     </c:PP_EmailWireframeText>
 </messaging:plainTextEmailBody>
 

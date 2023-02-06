@@ -9,6 +9,9 @@
         } else {
             link = component.get('v.link');
         }
+        if (link.indexOf('http') != 0) {
+            sessionStorage.setItem('Cookies', 'Accepted');
+        }
         var urlEvent = $A.get('e.force:navigateToURL');
         urlEvent.setParams({
             url: link

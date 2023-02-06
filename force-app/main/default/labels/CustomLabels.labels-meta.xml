@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Bell_Notification_Pending_Action_PI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bell Notification Pending Action PI</shortDescription>
+        <value>You have participant(s) awaiting your action. {URL}</value>
+    </labels>
+    <labels>
+        <fullName>Bell_Notification_Pending_Action_PI_High_Priority</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bell Notification Pending Action PI	High Priority</shortDescription>
+        <value>You have participant(s) in High Priority status awaiting your action. {URL}</value>
+    </labels>
+    <labels>
+        <fullName>New_Referrals_Bell_Notification_L1_PI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New Referrals Bell Notification L1 PI</shortDescription>
+        <value>You have ##Count new referral(s) for Study ##StudyName since your last login. {URL}</value>
+    </labels>
+    <labels>
+        <fullName>Tele_visit_Scheduled</fullName>
+        <categories>Bell Notification Message</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Tele visit Scheduled</shortDescription>
+        <value>You have been added to a new televisit appointment</value>
+    </labels>
+    <labels>
         <fullName>E_Consent_Record_Vendor_URL</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -34,6 +63,13 @@
         <protected>false</protected>
         <shortDescription>RH_Showing</shortDescription>
         <value>Showing:</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudyDelegateConsentEmail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudyDelegateConsentEmail</shortDescription>
+        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with study team and to be contacted at the email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
     </labels>
     <labels>
         <fullName>RH_No_Active_Study</fullName>
@@ -221,7 +257,7 @@ Duration: ##VisitDuration</value>
         <value>This is an email to inform you about an upcoming televisit for the ##StudyCodeName.
 
 Televisit title: ##VisitName
-Televisit Date/Time: ##VisitTime 
+Televisit Date/Time: ##VisitTime
 Duration: ##VisitDuration</value>
     </labels>
     <labels>
@@ -346,7 +382,7 @@ Duration: ##VisitDuration</value>
         <value>This is an email to remind you about an upcoming televisit for the ##StudyCodeName.
 
 Televisit title: ##VisitName
-Televisit Date/Time: ##VisitTime 
+Televisit Date/Time: ##VisitTime
 Duration: ##VisitDuration</value>
     </labels>
     <labels>
@@ -682,6 +718,20 @@ Duration: ##VisitDuration</value>
         <value>Send Invites to Not Yet Invited</value>
     </labels>
     <labels>
+        <fullName>Bell_Notification_Link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Bell Notification Link</shortDescription>
+        <value>Click here to view them.</value>
+    </labels>
+    <labels>
+        <fullName>Blank_Bell_Notifications</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Blank Bell Notifications</shortDescription>
+        <value>You don't have any notifications right now.</value>
+    </labels>
+    <labels>
         <fullName>BulkImport_Instructions</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -715,6 +765,27 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>BulkImport_Rejected</shortDescription>
         <value>Rejected</value>
+    </labels>
+    <labels>
+        <fullName>Bulk_Import_Success_Bell_Notification_L1_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Bulk Import Success Bell Notification L1 PI</shortDescription>
+        <value>A new Bulk Import has been processed successfully.{URL}</value>
+    </labels>
+    <labels>
+        <fullName>Bulk_Import_Success_Bell_Notification_L2_L3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Bulk Import Success Bell Notification L2 L3</shortDescription>
+        <value>New Participants were added via bulk import.{URL}</value>
+    </labels>
+    <labels>
+        <fullName>Bulk_Import_Success_Bell_Notification_Self</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Bulk Import Success Bell Notification Self</shortDescription>
+        <value>Your Bulk Import is now complete.{URL}</value>
     </labels>
     <labels>
         <fullName>BulkImport_Uploaded_By</fullName>
@@ -4500,6 +4571,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Continue</value>
     </labels>
     <labels>
+        <fullName>Cookie_Always_Active</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cookie Always Active</shortDescription>
+        <value>ALWAYS ACTIVE</value>
+    </labels>
+    <labels>
         <fullName>Cookies_Info_Text</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4529,6 +4607,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <shortDescription>Cookies Info Text Registration Page</shortDescription>
         <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist only during one session and disappear from your computer when you close your browser or turn off your computer. Persistent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website.&lt;br/&gt;
 By using our website, you are accepting our use of cookies.</value>
+    </labels>
+    <labels>
+        <fullName>Cookies_Manage_Cookies</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cookies Manage Cookies</shortDescription>
+        <value>Manage Cookie Preferences</value>
     </labels>
     <labels>
         <fullName>Copy_of_my_personal_information</fullName>
@@ -4823,6 +4908,20 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>false</protected>
         <shortDescription>RH_future_date_error</shortDescription>
         <value>Value must be ##todaysDate or earlier.</value>
+    </labels>
+    <labels>
+        <fullName>PP_future_date_error_month</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_future_date_error_month</shortDescription>
+        <value>Value must be current month or earlier</value>
+    </labels>
+    <labels>
+        <fullName>PP_future_date_error_day</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_future_date_error_day</shortDescription>
+        <value>Value must be current date or earlier</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Accept_a_patient</fullName>
@@ -5598,7 +5697,7 @@ Due Date and Time: ##expirationDate</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Complete Baseline Survey New</shortDescription>
-        <value>You have a new task awaiting your action: ##SurveyName 
+        <value>You have a new task awaiting your action: ##SurveyName
                Due Date and Time: ##expirationDate.</value>
     </labels>
     <labels>
@@ -5777,7 +5876,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate New2</shortDescription>
-        <value>Please register for the IQVIA Patient Portal. 
+        <value>Please register for the IQVIA Patient Portal.
 Your username is ##UserName.</value>
     </labels>
     <labels>
@@ -6216,7 +6315,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Plain Summary</shortDescription>
-        <value>New documents from ##StudyName clinical research study are now available on the ##ShortCommunityName.   
+        <value>New documents from ##StudyName clinical research study are now available on the ##ShortCommunityName.
 
             Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
@@ -6350,7 +6449,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <shortDescription>Email Body SS on PE Was Changed To Participant</shortDescription>
         <value>&lt;/br&gt;You have been transferred to ##SSName for the clinical study: ##StudyCodeName&lt;/br&gt;
 
-             
+
 
             ##PIName&lt;/br&gt;
 
@@ -6358,7 +6457,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 
             ##SSCity ##SSPostalCode&lt;/br&gt;
 
-             
+
 
             Please contact ##SSName  with any questions at ##SSPhone.</value>
     </labels>
@@ -6385,7 +6484,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Summary Certificate</shortDescription>
-        <value>A new reward certificate from ##StudyName clinical research study is  now available on the ##ShortCommunityName.   
+        <value>A new reward certificate from ##StudyName clinical research study is  now available on the ##ShortCommunityName.
 
             Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
@@ -6431,7 +6530,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 
 &lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##Taskdate.&lt;/span&gt;
 
-&lt;span &gt;Please login to update the status of your task.&lt;/span&gt; </value>
+&lt;span &gt;Please login to update the status of your task.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Deleg_PP</fullName>
@@ -6442,7 +6541,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 
 &lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot; &gt;Please login to update the status of this task.&lt;/span&gt; </value>
+&lt;span style=&quot;color:#444444;&quot; &gt;Please login to update the status of this task.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</fullName>
@@ -6645,7 +6744,7 @@ Please log in to the ##CommunityName to view your clinical trial matches anytime
         <protected>false</protected>
         <shortDescription>Email Body Trial Match Delegate</shortDescription>
         <value>We have found new trial matches for ##PatientFirstName.
- 
+
 Please log in to ##CommunityName to view your clinical research trial matches anytime.</value>
     </labels>
     <labels>
@@ -6684,11 +6783,11 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder PP</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot; &gt;This is a an email to remind you of your upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot; &gt;This is an email to remind you of your upcoming ##visitorevent for the ##StudyorProgramHeader: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span  style=&quot;color:black;&quot; &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt;##PlannedDate&lt;/span&gt;.&lt;/div&gt;
+&lt;div&gt;&lt;span  style=&quot;color:black;&quot; &gt;##VisitorEvent Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt;##PlannedDate&lt;/span&gt;.&lt;/div&gt;
 
-&lt;span style=&quot;color:black;&quot; &gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot; &gt;If you are unable to make this appointment, please contact the ##isStudyorProgram team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
@@ -6706,11 +6805,11 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate PP</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot; &gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot; &gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming ##visitorevent for the ##StudyorProgramHeader: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span style=&quot;color:black;&quot; &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot; &gt;##VisitorEvent Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
 
-&lt;span style=&quot;color:black;&quot; &gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot; &gt; If ##ParticipantFirstName is unable to make this appointment, please contact the ##isStudyorProgram team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>
@@ -7261,6 +7360,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Thank you for your interest in using the</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Thank_You_For_Your_Interest_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Thank You For Your Interest</shortDescription>
+        <value>Thank you for your interest in using the IQVIA Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Thank_you_for_submitting_a_request</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7279,7 +7385,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Visit Task Reminder</shortDescription>
-        <value>This is a reminder of your upcoming visit</value>
+        <value>This is a reminder of your upcoming ##visitorevent</value>
     </labels>
     <labels>
         <fullName>Email_Header_Visit_Task_Reminder_Delegate</fullName>
@@ -7293,7 +7399,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Header_Visit_Task_Reminder_Delegate_PP</shortDescription>
-        <value>This is a reminder of your participant&apos;s upcoming visit</value>
+        <value>This is a reminder of your participant&apos;s upcoming ##visitorevent</value>
     </labels>
     <labels>
         <fullName>Email_Header_Welcome_to_Study_Delegate</fullName>
@@ -7573,7 +7679,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Signature Participant Delegate New</shortDescription>
-        <value>We are excited to be on this journey with you. 
+        <value>We are excited to be on this journey with you.
 
 Sincerely,
 
@@ -7848,7 +7954,7 @@ Sincerely,
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial Patient</shortDescription>
-        <value>You have been referred to a clinical research study.</value>
+        <value>You have been referred to a clinical research study</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Login_GSK</fullName>
@@ -8038,6 +8144,13 @@ Sincerely,
         <protected>false</protected>
         <shortDescription>Email Subject Reset Your Password</shortDescription>
         <value>Reset Your Password</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Reset_Your_Password_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Reset Your Password</shortDescription>
+        <value>Reset your password</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Share_By_RP</fullName>
@@ -8397,7 +8510,7 @@ Sincerely,
         <shortDescription>Email for Outage</shortDescription>
         <value>IQVIA Referral Hub Release 4.0
 
-This weekend IQVIA will be launching an update to the referral management workflow.  
+This weekend IQVIA will be launching an update to the referral management workflow.
 
 Release 4.0 includes additional details around the screening process, which has the following capabilities:
 •	Ability to load in Initial visit scheduled and actual completion dates
@@ -10546,6 +10659,14 @@ The expected format is REF##### to REF########</value>
         <value>Version Date</value>
     </labels>
     <labels>
+        <fullName>Library_Uploaded_document_Success</fullName>
+        <categories>Bell Notification Message</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Library Upload Document Success  Bell Notification PI L1 L2 L3</shortDescription>
+        <value>New resource has been uploaded to Library.{URL}</value>
+    </labels>
+    <labels>
         <fullName>Link_Back_To_Home</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -11174,6 +11295,14 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>MS Toast Message ST Send</shortDescription>
         <value>Your message was successfully sent to Study Team!</value>
+    </labels>
+    <labels>
+        <fullName>Manage_Cookies_Desc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Manage Cookies Desc</shortDescription>
+        <value>We use cookies to operate this website, improve usability and personalize your
+            experience.</value>
     </labels>
     <labels>
         <fullName>Manage_My_Payments</fullName>
@@ -11854,7 +11983,7 @@ Click on New Outreach to place recruitment campaigns across various media outlet
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT_DPI_S12_T</shortDescription>
-        <value>Access general resources related to study conduct, as well as information specific to studies in which you are involved. 
+        <value>Access general resources related to study conduct, as well as information specific to studies in which you are involved.
 
 Click on the resources title to view content or download (if applicable). Information can be shared with participants and delegates as appropriate.</value>
     </labels>
@@ -11967,7 +12096,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>OT DPI S8 T</shortDescription>
         <value>Tabs at the top of the modal allow you to view and manage personal demographic and contact details, manage participant’s study enrollment progress, control sharing options, and view pre-screening questions and responses when available.
-            Click the Print icon in the upper-right corner of the modal to download or print participant’s full profile of information, including all tabs. 
+            Click the Print icon in the upper-right corner of the modal to download or print participant’s full profile of information, including all tabs.
 
             IMPORTANT NOTE: Study site team members are responsible for the appropriate handling and use of individual’s personal identifiable information (including performing redactions where appropriate) when exported or printed from our platform.</value>
     </labels>
@@ -11976,7 +12105,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT_DPI_S8_T_New</shortDescription>
-        <value>Tabs at the top of the section allow you to view and manage personal demographic and contact details, manage participants&apos;s health information,manage participant’s study enrollment progress, control sharing options, and view pre-screening questions and responses when available. Click the Print icon in the upper-right corner of the modal to download or print participant’s full profile of information, including all tabs. 
+        <value>Tabs at the top of the section allow you to view and manage personal demographic and contact details, manage participants&apos;s health information,manage participant’s study enrollment progress, control sharing options, and view pre-screening questions and responses when available. Click the Print icon in the upper-right corner of the modal to download or print participant’s full profile of information, including all tabs.
 
         IMPORTANT NOTE: Study site team members are responsible for the appropriate handling and use of individual’s personal identifiable information (including performing redactions where appropriate) when exported or printed from our platform.</value>
     </labels>
@@ -12302,7 +12431,7 @@ Click on New Request to place recruitment campaigns across various media outlets
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT_PI_S12_T</shortDescription>
-        <value>Access general resources related to study conduct, as well as information specific to studies in which you are involved. 
+        <value>Access general resources related to study conduct, as well as information specific to studies in which you are involved.
 
 Click on the resources title to view content or download (if applicable). Information can be shared with participants and delegates as appropriate.</value>
     </labels>
@@ -12362,7 +12491,7 @@ Track and learn about rewards that you could claim for completing tasks toward s
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT PI S5 T</shortDescription>
-        <value>Click Invite Referring Provider to invite physicians from whom you would like to receive referrals. 
+        <value>Click Invite Referring Provider to invite physicians from whom you would like to receive referrals.
 
 Activate, place on hold, or decline Referring Provider requests to refer to your study site(s). You are able to activate a provider for a single study or for all current and future studies for which you are recruiting.</value>
     </labels>
@@ -12401,7 +12530,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>OT PI S8 T</shortDescription>
         <value>Tabs at the top of the modal allow you to view and manage personal demographic and contact details, manage participant’s study enrollment progress, control sharing options, and view pre-screening questions and responses when available.
-            Click the Print icon in the upper-right corner of the modal to download or print participant’s full profile of information, including all tabs. 
+            Click the Print icon in the upper-right corner of the modal to download or print participant’s full profile of information, including all tabs.
 
             IMPORTANT NOTE: Study site team members are responsible for the appropriate handling and use of individual’s personal identifiable information (including performing redactions where appropriate) when exported or printed from our platform.</value>
     </labels>
@@ -12410,7 +12539,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT_PI_S8_T_New</shortDescription>
-        <value>Tabs at the top of the section allow you to view and manage personal demographic and contact details, manage participants&apos;s health information,manage  participant’s study enrollment progress, control sharing options, and view pre-screening questions and responses when available. Click the Print icon in the upper-right corner of the modal to download or print participant’s full profile of information, including all tabs. 
+        <value>Tabs at the top of the section allow you to view and manage personal demographic and contact details, manage participants&apos;s health information,manage  participant’s study enrollment progress, control sharing options, and view pre-screening questions and responses when available. Click the Print icon in the upper-right corner of the modal to download or print participant’s full profile of information, including all tabs.
 
         IMPORTANT NOTE: Study site team members are responsible for the appropriate handling and use of individual’s personal identifiable information (including performing redactions where appropriate) when exported or printed from our platform.</value>
     </labels>
@@ -18919,21 +19048,35 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Participant_Eligible_Criteria</shortDescription>
-        <value>To be eligible to participate in the program, one must meet the following criteria: </value>
+        <value>To be eligible to participate in the program, one must meet the following criteria:</value>
     </labels>
     <labels>
         <fullName>PP_Participant_Study_Eligible_Criteria</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Participant_Study_Eligible_Criteria</shortDescription>
-        <value>To be eligible to participate in the study, one must meet the following criteria: </value>
+        <value>To be eligible to participate in the study, one must meet the following criteria:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Study_Consent_Adult_ROW</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Consent Adult ROW</shortDescription>
+        <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Study_Consent_Adult_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Consent Adult US</shortDescription>
+        <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Study_Overview</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Study_Overview</shortDescription>
-        <value>Study Overview </value>
+        <value>Study Overview</value>
     </labels>
     <labels>
         <fullName>PP_Inclusion_Criteria</fullName>
@@ -19081,6 +19224,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Cookiesnote</shortDescription>
         <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist ony during one session and disappear from your computer when you close your browser or turn off your computer. Persisent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website. By using our website, you are accepting our use of cookies.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Purchase_Pref</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Communication Purchase Pref</shortDescription>
+        <value>Your consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Purchase_Pref_V2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Communication Purchase Pref V2</shortDescription>
+        <value>This consent is not required as a condition of purchasing any property, goods, or services.</value>
     </labels>
     <labels>
         <fullName>PP_Communication_Pref_Outreach_consentA</fullName>
@@ -19306,7 +19463,10 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Cookies Banner Desc1</shortDescription>
-        <value>We and our partners store and/or access information on a device, such as unique IDs, in cookies to process personal data. You may accept or manage your cookie preferences, including your right to object where legitimate interest is used, or at any time in your Account Settings.</value>
+        <value>We and our partners store and/or access information on a device, such as unique IDs,
+            in cookies to process personal data. You may accept or manage your cookie preferences,
+            including your right to object where legitimate interest is used, at any time in your
+            Account Settings.</value>
     </labels>
     <labels>
         <fullName>PP_Cookies_Banner_Desc2</fullName>
@@ -19322,7 +19482,8 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Cookies Banner Desc3</shortDescription>
-        <value>precise geolocation data. Actively scan device characteristics for identification. Store and/or access information on a device. Audience insights and product development.</value>
+        <value>Precise geolocation data, actively scan device characteristics for identification,
+            store and/or access information on a device, audience insights and product development.</value>
     </labels>
     <labels>
         <fullName>PP_Cookies_Banner_Login_Desc</fullName>
@@ -19338,7 +19499,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Cookies Button Accept</shortDescription>
-        <value>Accept All</value>
+        <value>Accept all</value>
     </labels>
     <labels>
         <fullName>PP_Cookies_Button_Manage_Prefer</fullName>
@@ -19346,7 +19507,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Cookies Button Manage Prefer</shortDescription>
-        <value>Manage preferences</value>
+        <value>Manage cookie preferences</value>
     </labels>
     <labels>
         <fullName>PP_Country</fullName>
@@ -19616,7 +19777,15 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_ExistingDelError</shortDescription>
-        <value>The user associated with email address provided is already assigned as your delegate. You may add assignments to existing delegates in</value>
+        <value>You already have a delegate associated to the email address provided. Please add new
+            assignments to existing delegates on the</value>
+    </labels>
+    <labels>
+        <fullName>PP_ExistingDelError_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ExistingDelError_1</shortDescription>
+        <value>page or enter a unique email address to add a new delegate.</value>
     </labels>
     <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
@@ -19687,6 +19856,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_HelpResponse</shortDescription>
         <value>To update all other information, please go to your</value>
+    </labels>
+    <labels>
+        <fullName>PP_IQVIA_Communication_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP IQVIA Communication US</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_IRB_Button_Review</fullName>
@@ -19813,6 +19989,55 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_ManageDelegates</shortDescription>
         <value>Manage Delegates</value>
+    </labels>
+    <labels>
+        <fullName>PP_Assignments</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assignments</shortDescription>
+        <value>Manage Assignments</value>
+    </labels>
+    <labels>
+        <fullName>PP_Assignments_Updated_Successfully</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assignments</shortDescription>
+        <value>Assignments updated successfully</value>
+    </labels>
+    <labels>
+        <fullName>PP_WithdraDel_info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_WithdraDel_info</shortDescription>
+        <value>You may choose to withdraw from your delegate appointment at any time. Doing so will prevent you from seeing any more information associated with a participant. If you withdraw in error, kindly contact your participant to be reappointed as a delegate.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Withdraw</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Withdraw</shortDescription>
+        <value>Withdraw</value>
+    </labels>
+    <labels>
+        <fullName>PP_What_can_I_see_Or_Do</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_What_can_I_see_Or_Do</shortDescription>
+        <value>What can I as a delegate see or do?</value>
+    </labels>
+    <labels>
+        <fullName>PP_Assigned_As_Primary_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assigned_As_Primary_Delegate</shortDescription>
+        <value>Assigned as Primary Delegate</value>
+    </labels>
+    <labels>
+        <fullName>PP_Assigned_As_Primary_Delegate_help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assigned_As_Primary_Delegate_help</shortDescription>
+        <value>To withdraw as a primary delegate, you must contact the participant or study team.</value>
     </labels>
     <labels>
         <fullName>PP_MatchMyEmailAddress</fullName>
@@ -19946,6 +20171,34 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_One_Week_Before</shortDescription>
         <value>1 week before</value>
+    </labels>
+    <labels>
+        <fullName>PP_Outreach_Communication_Pref_A</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Outreach Communication Pref A</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided,</value>
+    </labels>
+    <labels>
+        <fullName>PP_Outreach_Communication_Pref_B</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Outreach Communication Pref B</shortDescription>
+        <value>via automated dialing and/or artificial or pre-recorded voice,</value>
+    </labels>
+    <labels>
+        <fullName>PP_Outreach_Communication_Pref_C</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Outreach Communication Pref C</shortDescription>
+        <value>for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of</value>
+    </labels>
+    <labels>
+        <fullName>PP_Outreach_Communication_Pref_D</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Outreach Communication Pref D</shortDescription>
+        <value>, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Page</fullName>
@@ -20442,7 +20695,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Toggle_Information</shortDescription>
-        <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent. Additionally you can choose to receive optional communications by setting your preferences in </value>
+        <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent. Additionally you can choose to receive optional communications by setting your preferences in</value>
     </labels>
     <labels>
         <fullName>PP_Travel_Booking</fullName>
@@ -20653,9 +20906,9 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Withdraw_Delegate</shortDescription>
-        <value>You  may  choose  to  withdraw  from  your  delegate  appointment  at  any  time.  
- Doing  so  will  prevent  you  from  seeing  any  more  information  associated  with 
- ##PatientFirstName.  If  you  withdraw  in  error, kindly  contact  your  patient  to  be 
+        <value>You  may  choose  to  withdraw  from  your  delegate  appointment  at  any  time.
+ Doing  so  will  prevent  you  from  seeing  any  more  information  associated  with
+ ##PatientFirstName.  If  you  withdraw  in  error, kindly  contact  your  patient  to  be
  reappointed  as  a  delegate.</value>
     </labels>
     <labels>
@@ -21696,7 +21949,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>RH_MaxNoWeek</shortDescription>
         <value>4</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>RH_MinNoWeek</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -24912,7 +25165,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         The report in this email contains records from ePR which were unable to be processed in Referral Hub due to validation errors. Please check the error report for further details and make any required changes. Referral Hub will attempt to reprocess these records at regular intervals for the next 30 days. &lt;br/&gt;
         If the records are unable to be successfully processed after 30 days of retrials, they will be archived.
         &lt;br/&gt;&lt;br/&gt;
-        
+
         Thanks,&lt;br/&gt;
         Referral Hub Team</value>
     </labels>
@@ -24984,7 +25237,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SMS Body Visit Task Reminder</shortDescription>
-        <value>##ShortCommunityName: You have a ##StudyName visit on ##PlannedDate. Log in for details ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
+        <value>##ShortCommunityName: You have a ##StudyName ##isEventorVisit on ##PlannedDate. Log in for details ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Sodium</fullName>
@@ -25246,7 +25499,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Popup text</shortDescription>
-        <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If you have not received a packet, travel support may not be available at your study center and you should check with a member of your study team. 
+        <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If you have not received a packet, travel support may not be available at your study center and you should check with a member of your study team.
 
             By clicking OK, you are consenting to participate in the travel support service and leaving the IQVIA TM Patient Portal website. The Terms of Use and Privacy Policy on other  websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be  responsible for their policies, terms of use, or legal/regulatory compliance.</value>
     </labels>
@@ -28165,7 +28418,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You must grant microphone permission to join televisit</shortDescription>
-        <value>You must grant microphone permission to join the Televisit. Please grant permission and Join.</value>
+        <value>You must grant microphone and camera permissions to join the Televisit. Please grant permissions and Join.</value>
     </labels>
     <labels>
         <fullName>Back</fullName>
@@ -28238,7 +28491,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>registerpage privacy note1</shortDescription>
-        <value>Your privacy is important to us. By clicking “Save &amp; Continue”, you confirm via your electronic signature that you have read and agree to our </value>
+        <value>Your privacy is important to us. By clicking “Save &amp; Continue”, you confirm via your electronic signature that you have read and agree to our</value>
     </labels>
     <labels>
         <fullName>PP_StudyPrivacyPolicyNote2</fullName>
@@ -29023,7 +29276,7 @@ Please contact the Study Team for further updates or please login for additional
         <fullName>Cannot_Reuse_Old_Password</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>cannot reuse Old Password </shortDescription>
+        <shortDescription>cannot reuse Old Password</shortDescription>
         <value>Error: You cannot reuse this old password.</value>
     </labels>
     <labels>
@@ -29127,7 +29380,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>version date</shortDescription>
-        <value>Version: </value>
+        <value>Version:</value>
     </labels>
     <labels>
         <fullName>PP_Email_Tech_Support</fullName>
@@ -29341,7 +29594,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Plain Summary PP</shortDescription>
-        <value>New documents for ##StudyName are now available on the ##ShortCommunityName.   
+        <value>New documents for ##StudyName are now available on the ##ShortCommunityName.
 
             Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
@@ -29458,6 +29711,13 @@ Please contact the Study Team for further updates or please login for additional
         <value>events</value>
     </labels>
     <labels>
+        <fullName>Event_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Event_PP</shortDescription>
+        <value>event</value>
+    </labels>
+    <labels>
         <fullName>Event_No_Past_Event</fullName>
         <categories></categories>
         <language>en_US</language>
@@ -29488,7 +29748,13 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Visits_PP</shortDescription>
         <value>visits</value>
     </labels>
-
+    <labels>
+        <fullName>Visit_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit_PP</shortDescription>
+        <value>visit</value>
+    </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Created_By_PI_New_PP</fullName>
         <language>en_US</language>
@@ -29512,6 +29778,21 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>Email Signature Patient New  PP</shortDescription>
         <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram center.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Sign_Patient_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Sign Patient New  PP</shortDescription>
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
 
@@ -29712,7 +29993,7 @@ Please contact the Study Team for further updates or please login for additional
         <fullName>Program_SMS_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Program_SMS_PP </shortDescription>
+        <shortDescription>Program_SMS_PP</shortDescription>
         <value>Program</value>
     </labels>
     <labels>
@@ -29840,13 +30121,13 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient15 PP</shortDescription>
-        <value>Congratulations, you have been enrolled in ##StudyorProgramHeader.
+        <value>Congratulations, you have been enrolled in ##StudyName.
 
             You will be contacted by the ##isStudyorProgram team regarding next steps in the ##isStudyorProgram process.
 
             To assist you in tracking where you are in the  ##isStudyorProgram, please log in to the ##ShortCommunityName.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement for enrollment into the research ##isStudyorProgram: ##StudyName.</value>
+            Please note that enrollment in the ##ShortCommunityName is not a requirement for enrollment into the research ##isStudyorProgram: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient_New_PP</fullName>
@@ -29857,15 +30138,8 @@ Please contact the Study Team for further updates or please login for additional
  
             We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the enrollment process.
             
-            The IQVIA Patient Portal includes:
-            
-            information about ##isEventorVisit and activities
-            your ##isStudyorProgram timeline to help you keep track of your progress 
-            interesting articles and additional information about research.
-            
-            Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram team.
-            
-            Your user name is ##UserName.</value>
+                     
+            </value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Dele_Reactivated_PP</fullName>
@@ -29936,7 +30210,6 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Body Follow Up Reminder PP</shortDescription>
         <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link below, so that you can enroll and view your ##isStudyorProgram progress and additional information.
 
-
         Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the ##StudyorProgramHeader.
 
         Your user name is ##UserName.</value>
@@ -29946,7 +30219,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9  pp</shortDescription>
-        <value>The ##isStudyorProgram team has updated referral status for ##isStudyorProgram: ##StudyName.
+        <value>The ##isStudyorProgram team has updated your referral status for ##isStudyorProgram: ##StudyName.
 
             To see additional information, log in to the ##ShortCommunityName</value>
     </labels>
@@ -29955,21 +30228,21 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Welcome To The Study pp</shortDescription>
-        <value>You have been enrolled in a Program</value>
+        <value>You have been enrolled in a program</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Patient_Dropped_Out_Program_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Patient Dropped Out pp</shortDescription>
-        <value>We are sorry to see you leave your Program</value>
+        <value>We are sorry to see you leave your program</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient_Program_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial Patient Program</shortDescription>
-        <value>You have been referred to a program.</value>
+        <value>You have been referred to a program</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Patient_Dropped_Out_Study_PP</fullName>
@@ -29979,11 +30252,39 @@ Please contact the Study Team for further updates or please login for additional
         <value>We are sorry to see you leave your clinical research study </value>
     </labels>
     <labels>
-        <fullName>Clinical_Study</fullName>
+        <fullName>Clinical_Study_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Clinical Study</shortDescription>
         <value>clinical study </value>
+    </labels>
+    <labels>
+        <fullName>Event_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Event_PP</shortDescription>
+        <value>event</value>
+    </labels>
+    <labels>
+        <fullName>Event_Date_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Event Date PP</shortDescription>
+        <value>Event</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Date_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Date PP</shortDescription>
+        <value>Visit</value>
+    </labels>
+    <labels>
+        <fullName>Visit_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_PP</shortDescription>
+        <value>visit</value>
     </labels>
     <labels>
         <fullName>Email_Header_Patient_PP</fullName>
@@ -29992,4 +30293,106 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Header Patient2 PP</shortDescription>
         <value>Thank you for your interest in participating in a ##StudyorProgramHeader</value>
     </labels>
+    <labels>
+        <fullName>Email_Subject_Referral_Status_Changed_Del_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Referral Status Changed PP</shortDescription>
+        <value>Your participant&apos;s referral status has changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Referral_Status_Updated_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Referral Status Updated Delegate PP</shortDescription>
+        <value>Your participant&apos;s referral status has changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Sub_Event_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Sub Event PP</shortDescription>
+        <value>Reminder: You have an upcoming event</value>
+    </labels>
+    <labels>
+        <fullName>Email_Sub_Event_Del_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Sub Event Del PP</shortDescription>
+        <value>Reminder: Your participant has an upcoming event</value>
+    </labels>
+     <labels>
+        <fullName>PP_Tab_Results</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lab Results tab</shortDescription>
+        <value>My Results</value>
+    </labels>
+     <labels>
+        <fullName>PP_Tab_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits tab</shortDescription>
+        <value>My Visits</value>
+    </labels>
+     <labels>
+        <fullName>PP_Tab_Events</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Events tab</shortDescription>
+        <value>My Events</value>
+    </labels>
+    <labels>
+        <fullName>Past_Date_Error_For_Due_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Past_Date_Error_For_Due_Date</shortDescription>
+        <value>Date must not be in the past.</value>
+    </labels>
+    <labels>
+        <fullName>Past_Time_Error_For_Due_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Past_Time_Error_For_Due_Date</shortDescription>
+        <value>Time must not be in the past.</value>
+    </labels>
+    <labels>
+        <fullName>Past_DateTime_Error_For_Reminder_DateTime</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Past_DateTime_Error_For_Reminder_DateTime</shortDescription>
+        <value>Reminder must not be in the past.</value>
+    </labels>
+    <labels>
+        <fullName>Future_DateTime_Error_For_Reminder_DateTime_Event</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Event</shortDescription>
+        <value>Reminder must be prior to event.</value>
+    </labels>
+    <labels>
+        <fullName>Future_DateTime_Error_For_Reminder_DateTime_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Visit</shortDescription>
+        <value>Reminder must be prior to visit.</value>
+    </labels>
+    <labels>
+        <fullName>Future_DateTime_Error_For_Reminder_DateTime_Task</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Task</shortDescription>
+        <value>Reminder must be prior to task.</value>
+    </labels>
+    <labels>        
+        <fullName>Email_Signature_New_Short_PP</fullName>        
+        <language>en_US</language>        
+        <protected>false</protected>        
+        <shortDescription>Email Signature New Participant Delegate PP</shortDescription>        
+        <value>&lt;br /&gt; &lt;br /&gt;We are excited to be on this journey with you.
+                
+            Sincerely,            
+    
+            ##SignatureShortCommunityName</value>    
+    </labels>  
 </CustomLabels>

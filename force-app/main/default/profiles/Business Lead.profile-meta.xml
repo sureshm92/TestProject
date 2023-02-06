@@ -817,6 +817,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PP_EmailWireframeController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmptyPagePanelRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2148,6 +2152,11 @@
     <custom>true</custom>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Bell_Notification_Reminder__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>User.IsCommunityUserRegistered__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2188,12 +2197,62 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Is_Created_by_Bulk_Import__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.isInviteToPP__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Patient_Delegate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Primary_Delegate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Artificial_Voice_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Artificial_Voice_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Assisted_Dialing_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Assisted_Dialing_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Patient_Delegate_Enrollment__c.Study_Direct_Mail_Consent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Direct_Mail_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Patient_Delegate_Enrollment__c.Study_Email_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Email_Consent_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2206,9 +2265,44 @@
         <field>Patient_Delegate_Enrollment__c.Study_Phone_Consent__c</field>
         <readable>true</readable>
     </fieldPermissions>
+      <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Phone_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Pre_recorded_Calls_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Pre_recorded_Voice_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Delegate_Enrollment__c.Study_SMS_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_SMS_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Storage_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Welcome_Message_Delivered__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Welcome_Message_Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2312,11 +2406,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-		<editable>true</editable>
-		<field>Clinical_Trial_Profile__c.Program_Overview__c</field>
-		<readable>true</readable>
-	</fieldPermissions>
-        <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Program_Overview__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Privacy_Policy_ID__c</field>
         <readable>true</readable>
@@ -2632,6 +2726,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.PPMID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Participant_Opt_In_Status_SMS__c</field>
         <readable>true</readable>
@@ -2731,7 +2830,7 @@
         <editable>true</editable>
         <field>PreScreener_Survey__c.ProviderName__c</field>
         <readable>true</readable>
-    </fieldPermissions> 
+    </fieldPermissions>
 
     <fieldPermissions>
         <editable>true</editable>
@@ -3284,6 +3383,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Communication_Preference_Change__e.Payload__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Televisit_Record_Vendor__c.Default_Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3337,7 +3441,7 @@
         <field>Study_Site__c.Banner_Dispose_Offset_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     
+
     <layoutAssignments>
         <layout>PreScreener_Survey__c-PreScreener Survey Layout</layout>
     </layoutAssignments>
@@ -3424,7 +3528,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Integration_Callout_Log__c </object>
+        <object>Integration_Callout_Log__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -3521,7 +3625,7 @@
         <default>true</default>
         <recordType>Comorbidities__c.Comorbidity</recordType>
         <visible>true</visible>
-    </recordTypeVisibilities>  
+    </recordTypeVisibilities>
     <pageAccesses>
         <apexPage>ShowPrivacyPolicyAsPDF</apexPage>
         <enabled>true</enabled>

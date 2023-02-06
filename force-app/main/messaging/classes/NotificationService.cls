@@ -11,6 +11,7 @@ public without sharing class NotificationService {
     public static Map<Id, Boolean> welcomemsgSent = new Map<Id, Boolean>();
     public static Map<Id, Boolean> welcomemsgDelivered = new Map<Id, Boolean>();
     public static Map<String, Boolean> perIdDelConIdWelcomeMessageSentMap = new Map<String, Boolean>();
+    public static Map<Id, Task> taskMap = new Map<Id, Task>();
 
     public static Map<String, Boolean> perIdDelConIdWelcomeMessageDeleveredMap = new Map<String, Boolean>();
 
@@ -44,6 +45,7 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
+      
     };
 
     static public List<String> instantNotificationTypes = new List<String>{
@@ -119,7 +121,11 @@ public without sharing class NotificationService {
                         Target_Type__c,
                         Title__c,
                         Message_Body__c,
-                        Org_Wide_Email_Address__c
+                        Org_Wide_Email_Address__c,
+                        Is_Redirect__c,
+                        Redirect_URL__c,
+                        Target_User_Group__c,
+                        DeveloperName
                     FROM Notification_Targets__r
                 )
             FROM Notification_Type__mdt
@@ -410,7 +416,7 @@ public without sharing class NotificationService {
                                 if (
                                     (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
                                     (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
-                                    !String.isBlank(n.Task_Id__c))
+                                     !String.isBlank(n.Task_Id__c))
                                 ) {
                                     if (
                                         !String.isBlank(n.Task_Id__c) &&

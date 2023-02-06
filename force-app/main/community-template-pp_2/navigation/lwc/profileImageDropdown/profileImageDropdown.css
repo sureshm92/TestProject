@@ -1,18 +1,19 @@
 .prof-img-icon {
     display: inline-flex;
-    padding-left: 1rem;
+    padding-left: 0.5rem;
 }
 .caret-icon {
     margin: 3px 0px 0px 5px;
+}
+.profile-caret-icon {
+    padding: 0 0px 0 10px;
 }
 .small-avatar {
     height: 30px;
     width: 30px;
 }
 .avatar-delegate-size {
-    width: 32px;
-    height: 32px;
-    margin: 4px 0 0 -4px;
+    margin: 0 0px 0 -4px;
 }
 
 .down-icon {
@@ -21,5 +22,11 @@
 @media all and (max-width: 768px) {
     .caret-icon {
         display: none;
+    }
+    .profile-caret-icon {
+        display: none;
+    }
+    .prof-img-icon {
+        padding-left: 2rem;
     }
 }

@@ -10,13 +10,13 @@
     <aura:attribute name="isDelegate" type="Boolean" />
     <aura:attribute name="disableToggle" type="Boolean" />
     <aura:attribute name="desktop" type="Boolean" />
-    
+
     <aura:attribute name="disableEmailToggle" type="Boolean" />
     <aura:attribute name="placeHolder" type="String" />
 
     <aura:attribute name="delegateContact" type="Contact" />
     <aura:attribute name="hasProfilePic" type="Boolean" />
-    
+
     <aura:attribute name="institute" type="Object" />
     <aura:attribute name="participant" type="Object" />
     <aura:attribute name="previousCC" type="String" />
@@ -355,69 +355,64 @@
                                 </aura:if>
                             </div>
                         </div>
-                        
+
                         <aura:if isTrue="{!and(not(v.isDelegate),!v.personWrapper.showBirthDate)}">
                             <div style="height: 30px"></div>
                             <div class="as-info">
                                 <div class="as-title">{!$Label.c.AccountSetting_Date_Of_Birth}</div>
                                 <aura:if isTrue="{!v.desktop}">
-                                    
                                     <div
-                                         class="{! 'rr-form-element slds-grid slds-wrap slds-gutters delegate-birthDate'}"
-                                         >
-                                        <div
-                                             class="rr-form-element slds-col slds-size_1-of-2"
-                                             >           
+                                        class="{! 'rr-form-element slds-grid slds-wrap slds-gutters delegate-birthDate'}"
+                                    >
+                                        <div class="rr-form-element slds-col slds-size_1-of-2">
                                             <lightning:input
-                                                             type="text"
-                                                             label="{!$Label.c.Year_of_Birth}"
-                                                             disabled="true" required="true"
-                                                             value="{!v.personWrapper.birthYear}"
-                                                             />
-                                            
+                                                type="text"
+                                                label="{!$Label.c.Year_of_Birth}"
+                                                disabled="true"
+                                                required="true"
+                                                value="{!v.personWrapper.birthYear}"
+                                            />
                                         </div>
                                     </div>
                                     <aura:set attribute="else">
-                                        <div
-                                             class="rr-form-element slds-col slds-size_1-of-2"
-                                             >           
+                                        <div class="rr-form-element slds-col slds-size_1-of-2">
                                             <lightning:input
-                                                             type="text"
-                                                             label="{!$Label.c.Year_of_Birth}"
-                                                             disabled="true" required="true"
-                                                             value="{!v.personWrapper.birthYear}"
-                                                             />
-                                            
+                                                type="text"
+                                                label="{!$Label.c.Year_of_Birth}"
+                                                disabled="true"
+                                                required="true"
+                                                value="{!v.personWrapper.birthYear}"
+                                            />
                                         </div>
                                     </aura:set>
                                 </aura:if>
                             </div>
                             <aura:set attribute="else">
                                 <div
-                                     class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start"
-                                     >
-                                    
+                                    class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start"
+                                >
                                     <aura:if
-                                             isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
-                                             >   
+                                        isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
+                                    >
                                         <!-- Added by Anitha-->
                                         <aura:if isTrue="{!(v.showDay)}">
                                             <div
-                                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
-                                                 >  
-                                                
+                                                class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
+                                            >
                                                 <div class="label">
-                                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.RH_DOB}
+                                                    <abbr title="required" class="slds-required"
+                                                        >*</abbr
+                                                    >{!$Label.c.RH_DOB}
                                                 </div>
                                                 <c:rrSelect
-                                                            options="{!v.optionsDD}"
-                                                            placeholder="{!$Label.c.Date_Placeholder}"
-                                                            value="{!v.personWrapper.birthDay}"
-                                                            required="true"
-                                                            useSentenceFont="false"
-                                                            onchange="{!c.DDChange}"
-                                                            errorMessage="{!v.futureDateDDErr}"
-                                                            />
+                                                    options="{!v.optionsDD}"
+                                                    placeholder="{!$Label.c.Date_Placeholder}"
+                                                    value="{!v.personWrapper.birthDay}"
+                                                    required="true"
+                                                    useSentenceFont="false"
+                                                    onchange="{!c.DDChange}"
+                                                    errorMessage="{!v.futureDateDDErr}"
+                                                />
                                             </div>
                                         </aura:if>
                                     </aura:if>
@@ -425,48 +420,51 @@
                                         <!-- Added by Anitha-->
                                         <aura:if isTrue="{!(v.showDay)}">
                                             <div
-                                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
-                                                 >  
-                                                
+                                                class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
+                                            >
                                                 <div class="label">
-                                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.RH_DOB}
+                                                    <abbr title="required" class="slds-required"
+                                                        >*</abbr
+                                                    >{!$Label.c.RH_DOB}
                                                 </div>
-                                                
+
                                                 <c:rrSelect
-                                                            options="{!v.optionsDD}"
-                                                            placeholder="{!$Label.c.Date_Placeholder}"
-                                                            value="{!v.personWrapper.birthDay}"
-                                                            required="true"
-                                                            useSentenceFont="false"
-                                                            onchange="{!c.DDChange}"
-                                                            errorMessage="{!v.futureDateDDErr}" disabled="true"
-                                                            
-                                                            />
+                                                    options="{!v.optionsDD}"
+                                                    placeholder="{!$Label.c.Date_Placeholder}"
+                                                    value="{!v.personWrapper.birthDay}"
+                                                    required="true"
+                                                    useSentenceFont="false"
+                                                    onchange="{!c.DDChange}"
+                                                    errorMessage="{!v.futureDateDDErr}"
+                                                    disabled="true"
+                                                />
                                             </div>
                                         </aura:if>
                                     </aura:if>
                                     <!--- Month-->
-                                    
+
                                     <aura:if
-                                             isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
-                                             > 
+                                        isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
+                                    >
                                         <!-- Added by Anitha-->
                                         <aura:if isTrue="{!(v.showMonth)}">
                                             <div
-                                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
-                                                 >
+                                                class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
+                                            >
                                                 <div class="label">
-                                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.RH_MOB}
+                                                    <abbr title="required" class="slds-required"
+                                                        >*</abbr
+                                                    >{!$Label.c.RH_MOB}
                                                 </div>
                                                 <c:rrSelect
-                                                            options="{!v.optionsMM}"
-                                                            placeholder="{!$Label.c.Month_Placeholder}"
-                                                            value="{!v.personWrapper.birthMonth}"
-                                                            required="true"
-                                                            useSentenceFont="false"
-                                                            onchange="{!c.MMChange}"
-                                                            errorMessage="{!v.futureDateMMErr}"
-                                                            />
+                                                    options="{!v.optionsMM}"
+                                                    placeholder="{!$Label.c.Month_Placeholder}"
+                                                    value="{!v.personWrapper.birthMonth}"
+                                                    required="true"
+                                                    useSentenceFont="false"
+                                                    onchange="{!c.MMChange}"
+                                                    errorMessage="{!v.futureDateMMErr}"
+                                                />
                                             </div>
                                         </aura:if>
                                     </aura:if>
@@ -474,128 +472,135 @@
                                         <!-- Added by Anitha-->
                                         <aura:if isTrue="{!(v.showMonth)}">
                                             <div
-                                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
-                                                 >
+                                                class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
+                                            >
                                                 <div class="label">
-                                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.RH_MOB}
+                                                    <abbr title="required" class="slds-required"
+                                                        >*</abbr
+                                                    >{!$Label.c.RH_MOB}
                                                 </div>
                                                 <c:rrSelect
-                                                            options="{!v.optionsMM}"
-                                                            placeholder="{!$Label.c.Month_Placeholder}"
-                                                            value="{!v.personWrapper.birthMonth}"
-                                                            required="true"
-                                                            useSentenceFont="false"
-                                                            onchange="{!c.MMChange}" disabled="true"
-                                                            errorMessage="{!v.futureDateMMErr}"
-                                                            />
+                                                    options="{!v.optionsMM}"
+                                                    placeholder="{!$Label.c.Month_Placeholder}"
+                                                    value="{!v.personWrapper.birthMonth}"
+                                                    required="true"
+                                                    useSentenceFont="false"
+                                                    onchange="{!c.MMChange}"
+                                                    disabled="true"
+                                                    errorMessage="{!v.futureDateMMErr}"
+                                                />
                                             </div>
                                         </aura:if>
                                     </aura:if>
                                     <!--- Year-->
                                     <aura:if
-                                             isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
-                                             > 
+                                        isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
+                                    >
                                         <div
-                                             class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
-                                             >   
-                                            
+                                            class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
+                                        >
                                             <!-- Added by Anitha-->
                                             <div class="label">
-                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.Year_of_Birth}
+                                                <abbr title="required" class="slds-required">*</abbr
+                                                >{!$Label.c.Year_of_Birth}
                                             </div>
                                             <c:rrSelect
-                                                        options="{!v.optionsYYYY}"
-                                                        placeholder="{!$Label.c.Year_Placeholder}"
-                                                        value="{!v.personWrapper.birthYear}" 
-                                                        required="true"
-                                                        useSentenceFont="false"
-                                                        onchange="{!c.YYYYChange}"
-                                                        />
+                                                options="{!v.optionsYYYY}"
+                                                placeholder="{!$Label.c.Year_Placeholder}"
+                                                value="{!v.personWrapper.birthYear}"
+                                                required="true"
+                                                useSentenceFont="false"
+                                                onchange="{!c.YYYYChange}"
+                                            />
                                         </div>
                                     </aura:if>
                                     <aura:if isTrue="{!(v.isDelegate)}">
                                         <div
-                                             class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
-                                             >   
-                                            
+                                            class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
+                                        >
                                             <!-- Added by Anitha-->
                                             <div class="label">
-                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.Year_of_Birth}
+                                                <abbr title="required" class="slds-required">*</abbr
+                                                >{!$Label.c.Year_of_Birth}
                                             </div>
                                             <c:rrSelect
-                                                        options="{!v.optionsYYYY}"
-                                                        placeholder="{!$Label.c.Year_Placeholder}"
-                                                        value="{!v.personWrapper.birthYear}"
-                                                        required="true"
-                                                        useSentenceFont="false"
-                                                        onchange="{!c.YYYYChange}" disabled="true"
-                                                        />
+                                                options="{!v.optionsYYYY}"
+                                                placeholder="{!$Label.c.Year_Placeholder}"
+                                                value="{!v.personWrapper.birthYear}"
+                                                required="true"
+                                                useSentenceFont="false"
+                                                onchange="{!c.YYYYChange}"
+                                                disabled="true"
+                                            />
                                         </div>
                                     </aura:if>
                                     <!--- Age-->
                                     <aura:if
-                                             isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
-                                             >
+                                        isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
+                                    >
                                         <div
-                                             class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
-                                             >   
-                                            
+                                            class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
+                                        >
                                             <!-- Added by Anitha-->
                                             <aura:if isTrue="{!v.ageInputDisabled}">
                                                 <div class="label">
-                                                    <abbr title="required" class="slds-required"></abbr>{!$Label.c.Age}
+                                                    <abbr
+                                                        title="required"
+                                                        class="slds-required"
+                                                    ></abbr
+                                                    >{!$Label.c.Age}
                                                 </div>
-                                                <div class="input-text alignAge">
-                                                    
-                                                    {!v.valueAge}
-                                                </div>
-                                                
-                                                
+                                                <div class="input-text alignAge">{!v.valueAge}</div>
+
                                                 <aura:set attribute="else">
                                                     <div class="label">
-                                                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.Age}
+                                                        <abbr title="required" class="slds-required"
+                                                            >*</abbr
+                                                        >{!$Label.c.Age}
                                                     </div>
                                                     <c:rrSelect
-                                                                options="{!v.ageOpt}"
-                                                                placeholder="{!$Label.c.PG_AC_Select}"
-                                                                value="{!v.valueAge}"
-                                                                onchange="{!c.ageChange}"
-                                                                required="true"
-                                                                useSentenceFont="false"/>
+                                                        options="{!v.ageOpt}"
+                                                        placeholder="{!$Label.c.PG_AC_Select}"
+                                                        value="{!v.valueAge}"
+                                                        onchange="{!c.ageChange}"
+                                                        required="true"
+                                                        useSentenceFont="false"
+                                                    />
                                                 </aura:set>
-                                                
                                             </aura:if>
                                         </div>
                                     </aura:if>
                                     <aura:if isTrue="{!(v.isDelegate)}">
                                         <div
-                                             class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
-                                             >   
-                                            
+                                            class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
+                                        >
                                             <!-- Added by Anitha-->
                                             <aura:if isTrue="{!v.ageInputDisabled}">
                                                 <div class="label">
-                                                    <abbr title="required" class="slds-required"></abbr>{!$Label.c.Age}
+                                                    <abbr
+                                                        title="required"
+                                                        class="slds-required"
+                                                    ></abbr
+                                                    >{!$Label.c.Age}
                                                 </div>
-                                                <div class="input-text alignAge">
-                                                    {!v.valueAge}
-                                                </div>
+                                                <div class="input-text alignAge">{!v.valueAge}</div>
                                                 <aura:set attribute="else">
-                                                    
                                                     <div class="label">
-                                                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.Age}
+                                                        <abbr title="required" class="slds-required"
+                                                            >*</abbr
+                                                        >{!$Label.c.Age}
                                                     </div>
                                                     <c:rrSelect
-                                                                options="{!v.ageOpt}"
-                                                                placeholder="{!$Label.c.PG_AC_Select}"
-                                                                value="{!v.valueAge}"
-                                                                onchange="{!c.ageChange}"
-                                                                required="true" 
-                                                                useSentenceFont="false" disabled="true"/>
-                                                    
-                                                </aura:set> 
+                                                        options="{!v.ageOpt}"
+                                                        placeholder="{!$Label.c.PG_AC_Select}"
+                                                        value="{!v.valueAge}"
+                                                        onchange="{!c.ageChange}"
+                                                        required="true"
+                                                        useSentenceFont="false"
+                                                        disabled="true"
+                                                    />
+                                                </aura:set>
                                             </aura:if>
-                                            
                                         </div>
                                     </aura:if>
                                 </div>
@@ -607,7 +612,7 @@
 
                     <div style="height: 30px"></div>
 
-                    <aura:if isTrue="{!v.isDelegate}">
+                    <!-- <aura:if isTrue="{!v.isDelegate}">
                         <div class="delegateInfo">
                             <c:DelegateInformation
                                 contact="{!v.delegateContact}"
@@ -616,7 +621,7 @@
                             />
                         </div>
                         <div style="height: 30px"></div>
-                    </aura:if>
+                    </aura:if> -->
 
                     <!--  <aura:if isTrue="{!v.userMode != 'PI'}">  -->
                     <div class="as-email-preference">
@@ -638,7 +643,9 @@
                                                 href="./account-settings?communication-preferences"
                                                 class="slds-p-left_xx-small"
                                                 target="_self"
-                                                >{!$Label.c.PP_Communication_Pref}</a
+                                                onclick="{!c.setSessionCookies}"
+                                            >
+                                                {!$Label.c.PP_Communication_Pref}</a
                                             >.
                                             <aura:set attribute="else">
                                                 {!$Label.c.PI_Toggle_Information}

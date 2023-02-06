@@ -29,6 +29,7 @@ export default class ppFooterLink extends NavigationMixin(LightningElement) {
         };
 
         this[NavigationMixin.GenerateUrl](config).then((url) => {
+            localStorage.setItem('Cookies', 'Accepted');
             window.open(url, '_blank');
         });
     }

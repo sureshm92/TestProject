@@ -1,11 +1,15 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
+import VERSION_DATE from '@salesforce/label/c.Version_date';
 
 export default class PpExploreUpdates extends NavigationMixin(LightningElement) {
     @api exploreData;
     @api showVisitSection;
     @api desktop;
     noExploreImage = false;
+    labels = {
+        VERSION_DATE
+    };
 
     connectedCallback() {
         this.noExploreImage = this.exploreData.resource.Image__c ? false : true;
@@ -41,6 +45,7 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
         };
 
         this[NavigationMixin.GenerateUrl](config).then((url) => {
+            sessionStorage.setItem('Cookies', 'Accepted');
             window.open(url, '_self');
         });
     }

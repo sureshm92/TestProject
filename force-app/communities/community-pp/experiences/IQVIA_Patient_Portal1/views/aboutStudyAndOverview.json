@@ -1,6 +1,7 @@
 {
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
-  "componentName" : "c:EmptyLayout",
+  "componentName" : "c:PPOneColumnLayout",
+  "dataProviders" : [ ],
   "id" : "8f6d13a7-a501-4136-82a5-ca724cf852f4",
   "label" : "About Study And Overview",
   "regions" : [ {

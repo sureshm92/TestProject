@@ -1,0 +1,27 @@
+<!--
+ - Created by Jayashree J on Jan 11th 2023
+ -->
+
+<aura:component
+    description="ppEmtpyTheme"
+    implements="forceCommunity:themeLayout"
+    controller="CommunityFacadeRemote"
+>
+    <ltng:require
+        styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_PP_Theme, $Resource.proximanova + '/proximanova.css')}"
+        scripts="{!join(',', $Resource.rr_community_js)}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
+
+    <!-- attributes: -->
+    <aura:attribute name="initialized" type="Boolean" default="false" />
+
+    <!-- events: -->
+    <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
+
+    <!-- methods: -->
+    <aura:method name="init" action="{!c.doInit}" access="public" />
+
+    <!-- component body: -->
+    <div class="rr-all-content">{!v.body}</div>
+</aura:component>

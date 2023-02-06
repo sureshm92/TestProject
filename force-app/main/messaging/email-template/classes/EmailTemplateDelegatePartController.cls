@@ -54,8 +54,16 @@ global without sharing class EmailTemplateDelegatePartController {
         String contactIds;
         list<User> c;
         if (delegateId != null) {
-            c = [SELECT contactid FROM user WHERE id = :delegateId];
-            contactIds = c[0].contactid;
+            String objType = String.valueOf(delegateId.getSobjectType());
+            system.debug('objType:::' + objType);
+            if (objType == 'User') {
+                c = [SELECT contactid FROM user WHERE id = :delegateId];
+                contactIds = c[0].contactid;
+            }else if(objType == 'Contact'){
+                contactIds = delegateId;
+            }
+
+            
         }
         List<Patient_Delegate_Enrollment__c> pde = [
             SELECT Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
@@ -68,6 +76,7 @@ global without sharing class EmailTemplateDelegatePartController {
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
                 AND Patient_Delegate__r.Contact__c = :contactIds
+                and Status__c='Active'
             ORDER BY CreatedDate
         ];
         for (Patient_Delegate_Enrollment__c pe : pde)

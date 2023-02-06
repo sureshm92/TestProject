@@ -2,6 +2,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
   @TestVisible
   private static Boolean isTestRunning = false;
   private static final String PARTICIPANT_USER_MODE = 'Participant';
+  private static final String READY_TO_SCREEN_PARTICIPANT_STATUS = 'Ready to Screen';
+  private static final String SCREENING_IN_PROGRESS_PARTICIPANT_STATUS = 'Screening In Progress';
 
   private List<List<String>> csvLines = new List<List<String>>();
   private Map<String, Integer> headerIndexes = new Map<String, Integer>();
@@ -251,6 +253,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
       List<Participant__c> participantPatient = new List<Participant__c>();
 
       Set<String> duplicateRowCheckSet = new Set<String>();
+
+      Map<Id,Boolean> mapParticipantToDelegate = new Map<Id,Boolean> ();
+
 
       for (List<String> csvRecordData : csvChunkLines) {
         if (csvRecordData == null || csvRecordData.isEmpty()) {
@@ -1089,7 +1094,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             Age__c = Integer.valueOf(age),
             Email__c = EmailAddress,
             Phone__c = Phone,
-            Phone_Type__c = PhoneType,
+            Phone_Type__c = (!String.isEmpty(Phone) && String.isEmpty(PhoneType)) ? 'Home' : PhoneType,
             Alternative_Phone_Number__c = Phone2,
             Alternative_Phone_Type__c = PhoneType2,
             Preferred_Language__c = (String.isBlank(Language) ||
@@ -1452,6 +1457,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 ) {
                   participantDuplicate.Phone_Type__c = PhoneType;
                 }
+                if (!String.isEmpty(Phone) && String.isEmpty(PhoneType) && participantDuplicate.Adult__c) {
+                  participantDuplicate.Phone_Type__c = 'Home';
+                }
                 if (
                   String.isNotBlank(Phone2) && participantDuplicate.Adult__c
                 ) {
@@ -1646,6 +1654,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             if (countIndexParticipant == d.totalRecordCount) {
               d.mainparticipant = mapParticipant.get(countIndexParticipant);
               delegateWithpartList.add(d);
+              mapParticipantToDelegate.put(mapParticipant.get(countIndexParticipant).Id,true);
             }
           }
         }
@@ -1946,6 +1955,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 trackIndex.get(i)
               );
               delegateWithpartList.add(d);
+              mapParticipantToDelegate.put(mapDuplicateParticipant.get(trackIndex.get(i)).id,true);
             }
           }
         } else {
@@ -1966,6 +1976,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
       Integer countIndexPER;
       Set<Id> newlyCreatedPER = new Set<Id>();
       Database.SaveResult[] perSR = Database.insert(mapPER.values(), false);
+      List<Patient_Delegate_Enrollment__c> patientDelEnrollList = new List<Patient_Delegate_Enrollment__c>();
 
       for (Integer k = 0; k < perSR.size(); k++) {
         List<Integer> setToList = new List<Integer>(mapPER.keySet());
@@ -2008,8 +2019,26 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             mapPER.get(countIndexPER).Participant_Contact__c,
             permissionSetName
           );
+          if(mapParticipantToDelegate.containsKey(mapPER.get(countIndexPER).Participant__c)){
+            patientDelEnrollList.add(
+              new Patient_Delegate_Enrollment__c(
+                  Status__c = 'Disconnected',
+                  Participant_Enrollment__c = perSR[k].getId(),
+                  Primary_Delegate__c = true,
+                  Is_Created_by_Bulk_Import__c = true,
+                  Study_Artificial_Voice_Consent__c=allowPhone,
+                  Study_Assisted_Dialing_Consent__c = allowPhone,
+                  Study_Email_Consent__c = allowEmail,
+                  Study_info_storage_consent__c = doContact, 
+                  Study_Phone_Consent__c = allowPhone, 
+                  Study_Pre_recorded_Voice_Consent__c = allowPhone,
+                  Study_SMS_Consent__c = allowSMS 
+              )
+            );
+          }
         }
       }
+      Database.insert(patientDelEnrollList, false);
       //Participant Enrollment insertion ends.
       //Delete the contacts which were newly created but their participant/enrollment were not created.
       List<Contact> conDelete = new List<Contact>();
@@ -2160,6 +2189,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         fileName,
         bulkHistory
       );
+      sendBellNotifications(bulkHistory,studySiteDetails, selectedStatus);
     } catch (Exception exp) {
       system.debug(
         'ERROR during sending file with failed records: ' + exp.getMessage()
@@ -2414,6 +2444,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
   }
 
   //This method will concatenate all the fields of the list.
+  
 
   public static String getConcatenateString(List<String> rowString) {
     String uniqueString = '';
@@ -2421,5 +2452,27 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
       uniqueString = uniqueString + s.trim();
     }
     return uniqueString.toLowerCase();
+  }
+  /*
+   * @description: this method will be used to send bell notification on completion of Bulk Import of participants
+   * @created Date: 26 Oct 2022
+   * 
+   * @param: bulkImpHistory - instance of Bulk Import History record; used to get the context user details
+   * @param: studySiteDetails -  instance of Study Site record; used to get study site details
+   */
+  public static void sendBellNotifications(Bulk_Import_History__c bulkImpHistory, Study_Site__c studySiteDetails, String selectedStatus){
+    
+    List<Notification_Target__mdt> notificationMdt = BellNotificationsHelper.getTarget('BELL_Message_on_Bulk_Import_Success');
+    List<String> userGroupList = new List<String>();
+    for(Notification_target__mdt mdt : notificationMdt){
+        usergroupList.add(mdt.Target_User_Group__c);
+    }
+    Map<String,List<Contact> > resultMap = BellNotificationsHelper.getRecipientVsContact(userGroupList, studySiteDetails.Id, bulkImpHistory.Uploaded_By__c);
+    
+    List<Notification__c> notificationList = BellNotificationsHelper.createNotification('BELL_Message_on_Bulk_Import_Success', resultMap, true);
+    
+    Id jobId = System.enqueueJob(new BellNotificationQueueable(notificationList, studySiteDetails, selectedStatus, BellNotificationsHelper.userRole));
+
+    
   }
 }

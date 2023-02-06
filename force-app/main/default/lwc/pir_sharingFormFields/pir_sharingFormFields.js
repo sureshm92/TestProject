@@ -4,7 +4,7 @@ import { loadScript } from 'lightning/platformResourceLoader';
 import verifyDelegateAge from '@salesforce/apex/ReferHealthcareProviderRemote.checkDelegateAge';
 import AttestedCheckboxError from '@salesforce/label/c.RH_MinorDelegateErrMsg';
 import inviteDelegate from '@salesforce/apex/ReferHealthcareProviderRemote.invitePatientDelegate';
-import checkDuplicate from '@salesforce/apex/ReferHealthcareProviderRemote.checkDuplicate';
+import checkDuplicateNew from '@salesforce/apex/ReferHealthcareProviderRemote.checkDuplicateNew';
 import StopSharing from '@salesforce/label/c.HealthCare_Provider_Stop_Sharing';
 import ConnectPatient from '@salesforce/label/c.HealthCare_Provider_Connect';
 import disconnect from '@salesforce/apex/ReferHealthcareProviderRemote.stopSharing';
@@ -20,13 +20,14 @@ import ProvidersLastnameLabel from '@salesforce/label/c.HealthCare_Providers_Las
 import YearOfBirth from '@salesforce/label/c.RH_YearofBirth';
 import DelegateAttestation from '@salesforce/label/c.RH_DelegateAttestation';
 import DifferentHealthCareProvider from '@salesforce/label/c.Different_HealthCare_Provider';
-import RH_DelegateConsentEmail from '@salesforce/label/c.RH_DelegateConsentEmail' 
+import RH_StudyDelegateConsentEmail from '@salesforce/label/c.RH_StudyDelegateConsentEmail' ;
 export default class Pir_sharingFormFields extends LightningElement {
     @api yob;
     @api pe;
     @api isValid;
     @api sharingObject;
     @api participantObject;
+    @api selectedPer;
     value = [];
     communityTemplate ='';
     @api isAdultDelegate;
@@ -79,7 +80,7 @@ export default class Pir_sharingFormFields extends LightningElement {
         YearOfBirth,
         DelegateAttestation,
         DifferentHealthCareProvider,
-        RH_DelegateConsentEmail
+        RH_StudyDelegateConsentEmail
     }
 
     connectedCallback(){
@@ -416,7 +417,8 @@ export default class Pir_sharingFormFields extends LightningElement {
                 delegateId: this.sharingObject.delegateId ? this.sharingObject.delegateId : null,
                 ddInfo: dupObj,
                 createUser: isDelegateInvited,
-                YearOfBirth : this.sharingObject.Birth_Year__c != '' ? this.sharingObject.Birth_Year__c : ''
+                YearOfBirth : this.sharingObject.Birth_Year__c != '' ? this.sharingObject.Birth_Year__c : '',
+                perID: this.selectedPer.id
             })
             .then((result) => {
                 this.updatePER();
@@ -539,7 +541,7 @@ export default class Pir_sharingFormFields extends LightningElement {
 
     doCheckContact() {
         this.loading = true;
-        checkDuplicate({ 
+        checkDuplicateNew({ 
             peId: this.participantObject.Id,
             email: this.sharingObject.email ? this.sharingObject.email : this.sharingObject.Email__c ,
             firstName: this.sharingObject.firstName ? this.sharingObject.firstName : this.sharingObject.First_Name__c,
