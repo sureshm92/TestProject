@@ -122,8 +122,15 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         List<Patient_Delegate_Enrollment__c> activatedDelegateEnrolrecrdsNewAssignment = new List<Patient_Delegate_Enrollment__c>();
         Set<Id> pdIdReactivatedDupCheckSet = new set<Id>();
         Set<Id> pdIdReaddeddDupCheckSet = new set<Id>();
+        Map<Id,Set<String>> communityTemplateForDelContIdMap = new Map<Id,Set<String>>();
 
         for (Patient_Delegate_Enrollment__c pd : updatedpatientDelegateEnrollmentrecrs) {
+            if (!communityTemplateForDelContIdMap.containsKey(pd.Patient_Delegate__r.Contact__c)){
+                communityTemplateForDelContIdMap.put(pd.Patient_Delegate__r.Contact__c, new Set<String>());
+            }
+            communityTemplateForDelContIdMap.get(pd.Patient_Delegate__r.Contact__c)
+                .add(pd.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
+
             Id delId = pd.Patient_Delegate__c;
             if (
                 pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS &&
@@ -155,11 +162,11 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
 
         //Create Access level Change notification
         if(activatedDelegateEnrolrecrds!=null){
-            createNotifications(activatedDelegateEnrolrecrds, 'DelReactivatedNotifType');
+            createNotifications(activatedDelegateEnrolrecrds, 'DelReactivatedNotifType',communityTemplateForDelContIdMap);
         }
         //Create New Assignment notification
         if(activatedDelegateEnrolrecrdsNewAssignment!=null){
-            createNotifications(activatedDelegateEnrolrecrdsNewAssignment, 'DelNewAssignNotifType');
+            createNotifications(activatedDelegateEnrolrecrdsNewAssignment, 'DelNewAssignNotifType',communityTemplateForDelContIdMap);
         }
         
     }
@@ -201,7 +208,14 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         ];
         Set<Id> pdIdNewAssDupCheckSet = new set<Id>();
         List<Patient_Delegate_Enrollment__c> pdeRecrdsToProcess = New List<Patient_Delegate_Enrollment__c>();
+        Map<Id,Set<String>> communityTemplateForDelContIdMap = new Map<Id,Set<String>>();
         for(Patient_Delegate_Enrollment__c pde: patientDelegateEnrollRecrds ){
+            if (!communityTemplateForDelContIdMap.containsKey(pde.Patient_Delegate__r.Contact__c)){
+                communityTemplateForDelContIdMap.put(pde.Patient_Delegate__r.Contact__c, new Set<String>());
+            }
+            communityTemplateForDelContIdMap.get(pde.Patient_Delegate__r.Contact__c)
+                .add(pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
+
             Id delId = pde.Patient_Delegate__c;
             //Avoid creating duplicate notification records when Patient delegate is added for multiple for same community studis at a time. 
             if(!pdIdNewAssDupCheckSet.contains(delId)){
@@ -211,7 +225,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         }
         //Create New Assignment notification
         if(pdeRecrdsToProcess!=null){
-           createNotifications(pdeRecrdsToProcess, 'DelNewAssignNotifType');
+           createNotifications(pdeRecrdsToProcess, 'DelNewAssignNotifType',communityTemplateForDelContIdMap);
         }
         
     }
@@ -293,7 +307,8 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
     }
     private static void createNotifications(
         List<Patient_Delegate_Enrollment__c> patientDelegates,
-        String templateProperty
+        String templateProperty,
+        Map<Id,Set<String>> communityTemplateForDelContIdMap
     ) {
         Set<Id> participantContacts = new Set<Id>();
         Set<Id> perIds=new Set<Id>();
@@ -305,7 +320,6 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         ) {
             notifications.addAll(createwelcomemsgSMSNotifications(patientDelegates));
         }
-        set<String> pdeCommunityTemplateSet = new set<String>();
         for(Patient_Delegate_Enrollment__c pde:patientDelegates){
             if(!participantsByDelContId.containsKey(pde.Patient_Delegate__r.Contact__c)){
                 participantsByDelContId.put(pde.Patient_Delegate__r.Contact__c, new List<Participant__c>());
@@ -313,7 +327,6 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             participantsByDelContId.get(pde.Patient_Delegate__r.Contact__c).add(pde.Patient_Delegate__r.Participant__r);
             participantContacts.add(pde.Patient_Delegate__r.Participant__r.Contact__c);
             perIds.add(pde.Participant_Enrollment__r.Id);
-            pdeCommunityTemplateSet.Add(pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
         }
         List<Participant_Enrollment__c> enrollments = [
             SELECT Clinical_Trial_Profile__r.CommunityTemplate__c, Participant__c
@@ -365,7 +378,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
                     }
                 }
                 for (CommunityTemplate template : communityTemplates){
-                    if (delPermissions.contains(template.permissionSet) && pdeCommunityTemplateSet.contains(template.templateName)){
+                    if (delPermissions.contains(template.permissionSet) && communityTemplateForDelContIdMap.get(delCont).contains(template.templateName)){
                         notifications.add(
                             new Notification__c(
                                 Notification_Type__c = template.properties.get(templateProperty),
