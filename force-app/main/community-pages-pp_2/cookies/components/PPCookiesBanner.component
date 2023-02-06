@@ -513,6 +513,8 @@
             document.body.classList.add('cookie-block-user');
             document.body.addEventListener('keypress', bodyBlock);
             document.body.addEventListener('keydown', bodyBlock);
+            let htmlDivs = document.getElementsByTagName('html');
+            htmlDivs[0].classList.add('cookie-block-user');
         } else {
             let currentDate = new Date();
             var browserCookiesObj = JSON.parse(localStorage.getItem('cookieslist'));
@@ -546,6 +548,8 @@
             document.body.removeEventListener('keydown', this.bodyBlock);
             $('.c-container').addClass('hide-banner');
             document.body.classList.remove('cookie-block-user');
+            let htmlDivs = document.getElementsByTagName('html');
+            htmlDivs[0].classList.remove('cookie-block-user');
             closeManageModal();
             event.preventDefault();
         }
@@ -584,6 +588,8 @@
             document.body.removeEventListener('keypress', this.bodyBlock);
             document.body.removeEventListener('keydown', this.bodyBlock);
             document.body.classList.remove('cookie-block-user');
+            let htmlDivs = document.getElementsByTagName('html');
+            htmlDivs[0].classList.remove('cookie-block-user');
             event.preventDefault();
         }
     </script>
