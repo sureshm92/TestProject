@@ -7,6 +7,7 @@ import No_past_televisits from '@salesforce/label/c.No_past_televisits';
 import getParticipantDetails from '@salesforce/apex/ParticipantTelevisitRemote.getParticipantTelevisits';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { NavigationMixin } from 'lightning/navigation';
+import DEVICE from '@salesforce/client/formFactor';
 export default class PpTelevisit extends NavigationMixin(LightningElement) {
     @track contentLoaded = false;
     @track upcomingTelevisitslist = [];
@@ -24,7 +25,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
         No_upcoming_televisits,
         No_past_televisits
     };
-    past = false;
+    past = false;   
     onPastClick (){
         this.past = true;
         this.showupcomingtelevisits = false;
@@ -41,6 +42,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
     }
 
     connectedCallback() {
+        DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
         getParticipantDetails()
         .then((result) => {
             if(result != undefined && result != ''){
