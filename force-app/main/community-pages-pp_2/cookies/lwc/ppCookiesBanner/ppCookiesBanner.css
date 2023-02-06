@@ -100,6 +100,9 @@
     padding-top: 4px !important;
     background: linear-gradient(270deg, #0076ae 0%, #250056 100%);
 }
+.janssen-card-top-bg {
+    background: linear-gradient(90deg, #230357 0%, #026da7 100%) !important;
+}
 .rh-modal-container {
     top: 2.2rem !important;
 }
