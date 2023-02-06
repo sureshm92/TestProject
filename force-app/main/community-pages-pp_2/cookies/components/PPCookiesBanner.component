@@ -157,6 +157,25 @@
             line-height: 24px;
         }
 
+        .slds-modal__content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .slds-modal__content::-webkit-scrollbar-track {
+            /* box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08); */
+            box-shadow: none;
+            border-radius: 8px;
+        }
+
+        .slds-modal__content::-webkit-scrollbar-thumb {
+            background: #999999;
+            border-radius: 8px;
+        }
+
+        .slds-modal__content::-webkit-scrollbar-thumb:hover {
+            background: #999999;
+        }
+
         .accordion {
             box-sizing: border-box;
             height: auto;
