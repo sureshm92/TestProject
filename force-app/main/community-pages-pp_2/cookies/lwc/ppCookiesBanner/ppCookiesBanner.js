@@ -108,6 +108,9 @@ export default class PpCookiesBanner extends LightningElement {
                 this.accordionCss = this.accordionCss + '  rh-border-radius';
                 this.accordionActiveCss = this.accordionActiveCss + ' rh-border-radius';
             }
+            if (this.communityName == 'Janssen Community') {
+                this.modalTopCss = this.modalTopCss + ' janssen-card-top-bg';
+            }
         }
         sessionStorage.removeItem('Cookies');
         localStorage.removeItem('Cookies');
