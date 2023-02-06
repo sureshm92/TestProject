@@ -1,6 +1,7 @@
 <template>
         <!--<div class="slds-scrollable_y scroll-bar">-->
                <template if:true={showupcomingtelevisits}>
+                   <template if:false={ismobile}>
                     <template for:each={upcomingtelevisitdata} for:item="record">
                         <div key={record}>
                             <div
@@ -25,12 +26,14 @@
                                                     year="numeric"
                                                     month="long"
                                                     day="2-digit"
+                                                    time-zone={zonetime}
                                                 ></lightning-formatted-date-time>
                                                 &nbsp;&nbsp;|&nbsp;&nbsp;
                                                 <lightning-formatted-date-time
                                                     value={record.televisitdate}
                                                     hour="2-digit"
                                                     minute="2-digit"
+                                                    time-zone={zonetime}
                                                 ></lightning-formatted-date-time>
                                                 &nbsp;&nbsp;|&nbsp;&nbsp;
                                                 <lightning-formatted-text
@@ -40,27 +43,93 @@
                                                 </lightning-formatted-text>
                                             </p>
                                     </div>
-                                    <div class="slds-col slds-size_2-of-12">
-                                            <button
-                                            class="slds-button slds-button_neutral join-button active-button-background"
-                                            data-id={record.televisitmettingurl}
-                                            onclick={joinmeeting}
-                                        >
-                                          Join
-                                        </button>
-                                    </div>
+                                        <div class="slds-col slds-size_2-of-12">
+                                                <button
+                                                class="slds-button slds-button_neutral join-button active-button-background"
+                                                data-tv={record.televisitId} data-id={record.televisitmettingurl}
+                                                onclick={joinmeeting} style="display:none"
+                                            >
+                                            Join
+                                            </button>
+                                        </div>
+                                    
                                     <div class="slds-col" style = "margin-right: 22px;">
                                         <c-custom-help-text
                                         height = "96px"
                                         width = "189px"
                                         position="absolute"
                                         related-attendees = {record.relatedAttendees}
+                                        ismobile = {ismobile}
                                     > </c-custom-help-text>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </template>
+                   </template>
+                   <template if:true={ismobile}>
+                    <template for:each={upcomingtelevisitdata} for:item="record">
+                        <div key={record} class="slds-align_absolute-center">
+                            <div data-tv1={record.televisitId}
+                                class="inactive-custom-box-mobil"
+                            >
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col">
+                                        <div class="left-line"></div>
+                                    </div>
+
+                                    <div>
+                                            <b>
+                                                <lightning-formatted-text
+                                                    class="name-style"
+                                                    value={record.title}
+                                                >
+                                                </lightning-formatted-text>
+                                            </b>
+                                            <p class="date-style-mobile">
+                                                <lightning-formatted-date-time
+                                                    value={record.televisitdate}
+                                                    year="numeric"
+                                                    month="long"
+                                                    day="2-digit"
+                                                    time-zone={zonetime}
+                                                ></lightning-formatted-date-time>
+                                                &nbsp;&nbsp;|&nbsp;&nbsp;
+                                                <lightning-formatted-date-time
+                                                    value={record.televisitdate}
+                                                    hour="2-digit"
+                                                    minute="2-digit"
+                                                    time-zone={zonetime}
+                                                ></lightning-formatted-date-time>
+                                                &nbsp;&nbsp;|&nbsp;&nbsp;
+                                                <lightning-formatted-text
+                                                    length = "6-digit"
+                                                    value={record.televisitduration}
+                                                >
+                                                </lightning-formatted-text>
+                                            </p>
+                                            <p><c-custom-help-text
+                                            height = "96px"
+                                            width = "189px"
+                                            position="absolute"
+                                            class="group-icon"
+                                            related-attendees = {record.relatedAttendees}
+                                            ismobile = {ismobile}
+                                        > </c-custom-help-text><br/><br/></p>
+                                       
+                                    <p><button
+                                        class="slds-button slds-button_neutral join-button-mobile active-button-background"
+                                        data-id={record.televisitmettingurl} data-tv={record.televisitId}
+                                        onclick={joinmeeting} style="display:none"
+                                        > 
+                                        Join
+                                        </button></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                   </template> 
                 </template>
         <!--</div>-->
 </template>

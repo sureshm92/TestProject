@@ -31,7 +31,7 @@ public without sharing class ParticipantTelevisitRemote {
                             pastTelevisit.iscancelledone = true;
                         }
                         pastTelevisitsmap.put(attendee.Televisit__r.Id,pastTelevisit);
-                    }                    
+                    }                                       
                 }
                 List<Televisit__c> televisitList = [Select id,(select id,Attendee_Type__c,Firstname__c,Televisit__c,Lastname__c,CreatedBy.Name  from Televisit_Attendee__r) from Televisit__c 
                 where Id IN : televisitIdSet order by Visit_Date_Time__c,Duration__c asc];
@@ -89,6 +89,7 @@ public without sharing class ParticipantTelevisitRemote {
                 tw.televisitupcomingList = finalupcomingTelevisitslist;
                 tw.televisitpastList = finalpastTelevisitslist;
                 tw.showDefault = 'upcoming';
+                tw.tz = [Select TimeZoneSidKey from User where id =: UserInfo.getUserId()][0].TimeZoneSidKey;
                 /*if(!finalupcomingTelevisitslist.isEmpty() || finalpastTelevisitslist.isEmpty()){
                     tw.showDefault = 'upcoming';
                 }else{
@@ -123,6 +124,7 @@ public without sharing class ParticipantTelevisitRemote {
         @AuraEnabled public List<upcomingTelevisits> televisitupcomingList;
         @AuraEnabled public List<pastTelevisits> televisitpastList;
         @AuraEnabled public string showDefault;
+        @AuraEnabled public string tz;
     }
     public class televisitattendeeWrapper{
         @AuraEnabled public string firstname;
