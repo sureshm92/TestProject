@@ -66,13 +66,21 @@ export default class PpCookiesBanner extends LightningElement {
     contact;
     dynamicCSSAppend = pp_icons + '/right.svg';
     cookiesBannerDesc3;
+    isJanssenCommunity;
 
     connectedCallback() {
         this.cookiesBannerDesc3 = ' ' + this.label.ppCookiesBannerDesc3;
+        this.isJanssenCommunity = this.communityName == 'Janssen Community';
         let rrCookies = communityService.getCookie('RRCookies');
         let data = sessionStorage.getItem('Cookies');
+        if (localStorage.getItem('Cookies')) {
+            data = localStorage.getItem('Cookies');
+        }
         if (!this.loginPage && communityService.isInitialized()) {
             if (communityService.getParticipantData().cookiesAgreedonRegPage) {
+                if (this.isJanssenCommunity) {
+                    this.setRRCookie();
+                }
                 data = 'Agreed';
                 updateTheRegCookieAcceptance()
                     .then(() => {
@@ -102,6 +110,7 @@ export default class PpCookiesBanner extends LightningElement {
             }
         }
         sessionStorage.removeItem('Cookies');
+        localStorage.removeItem('Cookies');
         let accList = this.template.querySelectorAll('accordion');
     }
     blockBackGroundEvents() {
@@ -168,26 +177,34 @@ export default class PpCookiesBanner extends LightningElement {
         communityService.setCookie('RRCookies', 'agreed', 365);
         document.body.classList.remove('cookie-block-user');
         this.showBanner = false;
-        changeOptInCookies({
-            rrCookieAllowed: true,
-            rrLanguageAllowed: true
-        })
-            .then((returnValue) => {
-                if (this.spinner) this.spinner.hide();
-                if (this.contact) {
-                    this.contact.RRCookiesAllowedCookie__c = true;
-                    this.contact.RRLanguageAllowedCookie__c = true;
-                }
-                this.setRRCookie();
-                this.setRRCookieLanguage();
-                this.closeTheBanner();
-                this.showmodal = false;
-                this.initData = undefined;
+        if (!this.isJanssenCommunity) {
+            changeOptInCookies({
+                rrCookieAllowed: true,
+                rrLanguageAllowed: true
             })
-            .catch((error) => {
-                communityService.showToast('', 'error', 'Failed To read the Data...', 100);
-                this.spinner.hide();
-            });
+                .then((returnValue) => {
+                    if (this.spinner) this.spinner.hide();
+                    if (this.contact) {
+                        this.contact.RRCookiesAllowedCookie__c = true;
+                        this.contact.RRLanguageAllowedCookie__c = true;
+                    }
+                    this.setRRCookie();
+                    this.setRRCookieLanguage();
+                    this.closeTheBanner();
+                    this.showmodal = false;
+                    this.initData = undefined;
+                })
+                .catch((error) => {
+                    communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                    this.spinner.hide();
+                });
+        } else {
+            if (this.spinner) this.spinner.hide();
+            this.setRRCookie();
+            this.closeTheBanner();
+            this.showmodal = false;
+            this.initData = undefined;
+        }
     }
 
     get backDropClass() {
@@ -196,32 +213,40 @@ export default class PpCookiesBanner extends LightningElement {
 
     updateCookies() {
         this.spinner.show();
-        let ppLangChecked = this.template.querySelector('[data-id=PPLang]').checked;
-        let ppCookieChecked = this.template.querySelector('[data-id=PPCookie]').checked;
-        this.contact.RRCookiesAllowedCookie__c = ppCookieChecked;
-        this.contact.RRLanguageAllowedCookie__c = ppLangChecked;
-        changeOptInCookies({
-            rrCookieAllowed: this.contact.RRCookiesAllowedCookie__c,
-            rrLanguageAllowed: this.contact.RRLanguageAllowedCookie__c
-        })
-            .then((returnValue) => {
-                this.spinner.hide();
-                if (this.contact.RRCookiesAllowedCookie__c) {
-                    this.setRRCookie();
-                    document.body.classList.remove('cookie-block-user');
-                }
-                if (this.contact.RRLanguageAllowedCookie__c) {
-                    this.setRRCookieLanguage();
-                }
-                this.closeTheBanner();
-                this.updateBrowserCookies();
-                this.showmodal = false;
-                this.initData = undefined;
+        if (!this.isJanssenCommunity) {
+            let ppLangChecked = this.template.querySelector('[data-id=PPLang]').checked;
+            let ppCookieChecked = this.template.querySelector('[data-id=PPCookie]').checked;
+            this.contact.RRCookiesAllowedCookie__c = ppCookieChecked;
+            this.contact.RRLanguageAllowedCookie__c = ppLangChecked;
+            changeOptInCookies({
+                rrCookieAllowed: this.contact.RRCookiesAllowedCookie__c,
+                rrLanguageAllowed: this.contact.RRLanguageAllowedCookie__c
             })
-            .catch((error) => {
-                communityService.showToast('', 'error', 'Failed To read the Data...', 100);
-                this.spinner.hide();
-            });
+                .then((returnValue) => {
+                    this.spinner.hide();
+                    if (this.contact.RRCookiesAllowedCookie__c) {
+                        this.setRRCookie();
+                        document.body.classList.remove('cookie-block-user');
+                    }
+                    if (this.contact.RRLanguageAllowedCookie__c) {
+                        this.setRRCookieLanguage();
+                    }
+                    this.closeTheBanner();
+                    this.updateBrowserCookies();
+                    this.showmodal = false;
+                    this.initData = undefined;
+                })
+                .catch((error) => {
+                    communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                    this.spinner.hide();
+                });
+        } else {
+            this.setRRCookie();
+            this.spinner.hide();
+            this.closeTheBanner();
+            this.showmodal = false;
+            this.initData = undefined;
+        }
     }
     setRRCookie() {
         let d = new Date();
