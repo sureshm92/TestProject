@@ -1128,9 +1128,10 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     margin-left: 4px;
 }
 .cookie-block-user {
-    pointer-events: none;
+    pointer-events: none !important;
     position:relative !important;
     overflow: hidden !important;
+    height: 100% !important;
 }
 .read-only-background input {
     background-color: #f2f2f2 !important;

@@ -1871,9 +1871,10 @@ input[type=password]::-ms-clear
     padding-top: 0px;
 }
 .cookie-block-user {
-    pointer-events: none;
+    pointer-events: none !important;
     position:relative !important;
     overflow: hidden !important;
+    height: 100% !important;
 }
 .desk-pad-left .slds-checkbox_toggle .slds-checkbox_faux{
     background-color: #b5b5b5 !important;
