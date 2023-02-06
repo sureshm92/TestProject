@@ -1138,3 +1138,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .time-error-allignment .slds-has-error .slds-form-element__help{
     margin-left: -37px !important;
 }
+
+.pp2-errorFields input{
+    border-radius: 20px !important;
+}

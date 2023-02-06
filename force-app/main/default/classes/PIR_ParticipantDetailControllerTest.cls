@@ -76,6 +76,7 @@ public with sharing class PIR_ParticipantDetailControllerTest {
     @isTest
     static void testDoSaveParticipantDetails_peUpdated(){
         TestData testData = new TestData();
+        byPassTriggersMethod();
         Participant_Enrollment__c perRec = [
             SELECT
             Id,
