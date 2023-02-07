@@ -69,6 +69,9 @@ get mobileOrDesktopSizeRight(){
         if(this.showRight){
             var contents = this.template.querySelector(".topdiv");
             contents.scrollLeft -= this.scrollby;
+            if(this.template.querySelector(".chevronR")){
+                this.template.querySelector(".chevronR").className="chevronR";
+                }
             if(contents.scrollLeft<=this.scrollby){
                 if(this.template.querySelector(".chevronL")){
                 this.template.querySelector(".chevronL").className="chevronL disableCursor";
