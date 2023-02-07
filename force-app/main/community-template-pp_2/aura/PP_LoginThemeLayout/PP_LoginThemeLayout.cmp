@@ -25,10 +25,10 @@
             />
             <div class="slds-col slds-size_1-of-1 login-card">
                 <div class="wave slds-show_small">
-                    <img class="" src="{!$Resource.PP_DesktopLogos + '/wave_desktop.png'}" />
+                    <img src="{!$Resource.PP_DesktopLogos + '/wave_desktop.png'}" />
                 </div>
                 <div class="wave slds-hide_small">
-                    <img class="" src="{!$Resource.PP_DesktopLogos + '/wave_mobile.png'}" />
+                    <img src="{!$Resource.PP_DesktopLogos + '/wave_mobile.png'}" />
                 </div>
                 <div class="slds-grid slds-grid_align-center">
                     <div class="slds-col slds-size_1-of-1 login-form-layout">
@@ -45,7 +45,9 @@
                     <div class="slds-col slds-size_1-of-1 slds-text-align_center footer-logo">
                         <img src="{!$Resource.PP_DesktopLogos + '/iqvia_logo.svg'}" />
                     </div>
-                    <div class="slds-col slds-text-align_center footer-powered">
+                    <div
+                        class="slds-col slds-text-align_center footer-powered slds-m-vertical_x-small"
+                    >
                         <span class="footer-label"
                             >Powered by IQVIA © 2022. All rights reserved.</span
                         >

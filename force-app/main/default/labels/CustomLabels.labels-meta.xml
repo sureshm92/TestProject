@@ -6785,7 +6785,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>Email Body Visit Task Reminder PP</shortDescription>
         <value>&lt;span style=&quot;color:black;&quot; &gt;This is an email to remind you of your upcoming ##visitorevent for the ##StudyorProgramHeader: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span  style=&quot;color:black;&quot; &gt;##VisitorEvent Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt;##PlannedDate&lt;/span&gt;.&lt;/div&gt;
+&lt;div&gt;&lt;span  style=&quot;color:black;&quot; &gt;##VisitDateorEventDate Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt;##PlannedDate&lt;/span&gt;.&lt;/div&gt;
 
 &lt;span style=&quot;color:black;&quot; &gt;If you are unable to make this appointment, please contact the ##isStudyorProgram team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -6807,7 +6807,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>Email Body Visit Task Reminder Delegate PP</shortDescription>
         <value>&lt;span style=&quot;color:black;&quot; &gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming ##visitorevent for the ##StudyorProgramHeader: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span style=&quot;color:black;&quot; &gt;##VisitorEvent Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot; &gt;##VisitDateorEventDate Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
 
 &lt;span style=&quot;color:black;&quot; &gt; If ##ParticipantFirstName is unable to make this appointment, please contact the ##isStudyorProgram team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -13380,6 +13380,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>RH_ParticipantSelected</shortDescription>
         <value>Participant(s) Selected</value>
+    </labels>
+    <labels>
+        <fullName>RH_PatientAuthComplete</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_PatientAuthComplete</shortDescription>
+        <value>You must upload the completed and signed Patient Authorization Form to submit your referral.</value>
+    </labels>
+    <labels>
+        <fullName>RH_PatientAuthInfo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_PatientAuthInfo</shortDescription>
+        <value>IMPORTANT: You will need to upload documentation of your patient&apos;s authorization to share their information with the study team before they can be referred to this study.</value>
     </labels>
     <labels>
         <fullName>pir_Received_History</fullName>
@@ -22539,6 +22553,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Add televisit for Initial Visit</value>
     </labels>
     <labels>
+        <fullName>RH_Pir_Add_Televisit_ForScreeningVisit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH Pir Add Televisit for Screening Visit</shortDescription>
+        <value>Add televisit for Screening Visit</value>
+    </labels>
+    <labels>
         <fullName>RH_Pir_Confirm_Televisit</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -30321,21 +30342,21 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Sub Event Del PP</shortDescription>
         <value>Reminder: Your participant has an upcoming event</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Tab_Results</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Lab Results tab</shortDescription>
         <value>My Results</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Tab_Visits</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Visits tab</shortDescription>
         <value>My Visits</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Tab_Events</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -30384,15 +30405,22 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Task</shortDescription>
         <value>Reminder must be prior to task.</value>
     </labels>
-    <labels>        
-        <fullName>Email_Signature_New_Short_PP</fullName>        
-        <language>en_US</language>        
-        <protected>false</protected>        
-        <shortDescription>Email Signature New Participant Delegate PP</shortDescription>        
+    <labels>
+               
+        <fullName>Email_Signature_New_Short_PP</fullName>
+               
+        <language>en_US</language>
+               
+        <protected>false</protected>
+               
+        <shortDescription>Email Signature New Participant Delegate PP</shortDescription>
+               
         <value>&lt;br /&gt; &lt;br /&gt;We are excited to be on this journey with you.
                 
             Sincerely,            
     
-            ##SignatureShortCommunityName</value>    
-    </labels>  
+            ##SignatureShortCommunityName</value>
+           
+    </labels>
+     
 </CustomLabels>
