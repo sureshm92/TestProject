@@ -1,0 +1,40 @@
+<template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+            <lightning-spinner
+                alternative-text="Loading"
+                variant="brand"
+                size="medium"
+                class="spins"
+            >
+            </lightning-spinner>
+        </template>
+    </div>
+
+    <template if:true={showmodal}>
+        <c-pp-modal-old
+            header-text={tittext}
+            size="small"
+            onclose={handleModalClose}
+            is-show={showmodal}
+        >
+            <div slot="body">
+                <div class="body-container">{messtext}</div>
+            </div>
+            <div slot="footer">
+                <div class="slds-grid slds-gutters slds-grid_align-end">
+                    <div class="slds-col">
+                        <button class="slds-button button-cancel" onclick={handleModalClose}>
+                            {label.BTN_Cancel}
+                        </button>
+                    </div>
+                    <div class="slds-col">
+                        <button class="slds-button button-delete" onclick={deleteModal}>
+                            {label.BTN_Delete}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </c-pp-modal-old>
+    </template>
+</template>

@@ -76,17 +76,24 @@ public with sharing class ResStudyTriggerHandler {
             WHERE Clinical_Trial_Profile__c IN :resByCTPIds.keySet()
         ];
         List<Id> participantIds = new List<Id>();
+        List<Id> perIdlst = new List<Id>();
         for (Participant_Enrollment__c pe : pes) {
             participantByResources.put(
                 pe.Participant__r.Contact__c,
                 resByCTPIds.get(pe.Clinical_Trial_Profile__c)
             );
             participantIds.add(pe.Participant__c);
+            perIdlst.add(pe.Id);
         }
 
-        Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
-            participantIds
+        PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
+            participantIds,perIdlst
         );
+        Map<Id, List<Id>> partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
+
+       /* Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+            participantIds
+        );*/
 
         List<Notification__c> notifications = new List<Notification__c>();
         for (Participant_Enrollment__c pe : pes)
@@ -110,6 +117,7 @@ public with sharing class ResStudyTriggerHandler {
                             new Notification__c(
                                 Recipient__c = delegateId,
                                 WhatId__c = pe.Id,
+                                IsDelegate__c = true,
                                 Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE,
                                 Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                             )

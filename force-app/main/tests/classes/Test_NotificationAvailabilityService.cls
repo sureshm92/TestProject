@@ -93,7 +93,8 @@ private class Test_NotificationAvailabilityService {
             'Participant',
             NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
             recipientIds[0],
-            notificationType
+            notificationType,
+            null
         );
         Test.stopTest();
     }
@@ -144,7 +145,9 @@ private class Test_NotificationAvailabilityService {
             'Participant',
             NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
             recipientIds[0],
-            notificationType
+            notificationType,
+            null
+            
         );
         Test.stopTest();
         
@@ -192,7 +195,8 @@ private class Test_NotificationAvailabilityService {
             'Participant',
             NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
             recipientIds[0],
-            notificationType
+            notificationType,
+            null
         );
         Test.stopTest();
         
@@ -240,7 +244,8 @@ private class Test_NotificationAvailabilityService {
             'Participant',
             NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
             recipientIds[0],
-            notificationType
+            notificationType,
+            null
         );
         
         Test.stopTest();
@@ -283,7 +288,8 @@ private class Test_NotificationAvailabilityService {
             'HCP',
             NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
             recipientIds[0],
-            notificationType
+            notificationType,
+            null
         );
         
         Test.stopTest();
@@ -316,7 +322,8 @@ private class Test_NotificationAvailabilityService {
             'PI',
             NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
             recipientIds[0],
-            notificationType
+            notificationType,
+            null
         );
         
         Test.stopTest();

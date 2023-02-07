@@ -127,13 +127,13 @@ public without sharing class PENotificationTriggerHandler {
                         checkVisitedCommunity = visitedCommunities.contains(currentCommunityName);
                     if (checkVisitedCommunity) {
                         participantConIds.add(pe.Participant__r.Contact__c);
-                        notificationTypePT = NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE;
+                        notificationTypePT = NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE; // study Level
                     }
                 }
 
                 //Forming additional notification for Drop Out
                 if (pe.Participant_Status__c == PEStatusState.PE_STATUS_DROP_OUT) {
-                    notificationTypePT = NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE;
+                    notificationTypePT = NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE; // study Level
                 }
                 if (notificationTypePT != null) {
                     notifications.add(
@@ -150,11 +150,12 @@ public without sharing class PENotificationTriggerHandler {
 
         //get Delegates for Participant
         List<Notification__c> delegateNotifications = new List<Notification__c>();
-        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateService.getDelegatedCntsByParticipantCnt(
+        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateEnrollmentService.getDelegatedCntsByParticipantCnt(
             participantConIds,
             new List<String>{ 'Id' }
         );
-        for (Notification__c n : notifications) {
+        // !skipNotifyTypesDel -- all are hcp or virual study Notifications .
+        for (Notification__c n : notifications) { //
             if (
                 !skipNotifyTypesDel.contains(n.Notification_Type__c) &&
                 delegateContactsByPartCnt.containsKey(n.Recipient__c)
@@ -181,12 +182,14 @@ public without sharing class PENotificationTriggerHandler {
         List<Participant_Enrollment__c> newList
     ) {
         List<Id> participantConIds = new List<Id>();
+        List<Id> perIdList = new List<Id>();
         List<Notification__c> notifications = new List<Notification__c>();
         Map<String, Map<Id, List<Participant_Enrollment__c>>> pesByCommunityName = new Map<String, Map<Id, List<Participant_Enrollment__c>>>();
 
         for (Participant_Enrollment__c pe : newList) {
             if (pe.Participant_Contact__c != null)
                 participantConIds.add(pe.Participant_Contact__c);
+                perIdList.add(pe.Id);
         }
 
         List<Participant_Enrollment__c> allPEs = [
@@ -214,9 +217,10 @@ public without sharing class PENotificationTriggerHandler {
             pesByPartCont.get(pe.Participant_Contact__c).add(pe);
         }
 
-        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateService.getDelegatedCntsByParticipantCnt(
+        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateEnrollmentService.getDelegatedCntsByParticipantCnt(
             participantConIds,
-            new List<String>{ 'Id' }
+            new List<String>{ 'Id' },
+            perIdList
         );
 
         Boolean isFutureContext = System.isFuture() || System.isBatch();
@@ -245,7 +249,7 @@ public without sharing class PENotificationTriggerHandler {
                             new Notification__c(
                                 Recipient__c = delegate.Id,
                                 WhatId__c = pe.Id,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,// when existing delegate added to new study
                                 IsDelegate__c = true
                             )
                         );
