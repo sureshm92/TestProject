@@ -6764,7 +6764,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>Email Body Visit Task Reminder PP</shortDescription>
         <value>&lt;span style=&quot;color:black;&quot; &gt;This is an email to remind you of your upcoming ##visitorevent for the ##StudyorProgramHeader: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span  style=&quot;color:black;&quot; &gt;##VisitorEvent Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt;##PlannedDate&lt;/span&gt;.&lt;/div&gt;
+&lt;div&gt;&lt;span  style=&quot;color:black;&quot; &gt;##VisitDateorEventDate Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt;##PlannedDate&lt;/span&gt;.&lt;/div&gt;
 
 &lt;span style=&quot;color:black;&quot; &gt;If you are unable to make this appointment, please contact the ##isStudyorProgram team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -6786,7 +6786,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>Email Body Visit Task Reminder Delegate PP</shortDescription>
         <value>&lt;span style=&quot;color:black;&quot; &gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming ##visitorevent for the ##StudyorProgramHeader: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span style=&quot;color:black;&quot; &gt;##VisitorEvent Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot; &gt;##VisitDateorEventDate Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
 
 &lt;span style=&quot;color:black;&quot; &gt; If ##ParticipantFirstName is unable to make this appointment, please contact the ##isStudyorProgram team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
