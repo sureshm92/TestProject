@@ -476,7 +476,11 @@
         
     },
     handleUploadFinished: function (component, event) {
-        // Get the list of uploaded files
+       
+        var cmpTarget1 = component.find("uploadfile");
+        $A.util.removeClass(cmpTarget1, "fileBoxwoFile");
+        $A.util.addClass(cmpTarget1, "fileBox");
+         // Get the list of uploaded files
         var uploadedFiles = event.getParam("files");
         component.set("v.fileName",uploadedFiles[0].name);
         component.set("v.disableFile",true);
@@ -497,6 +501,9 @@
                 component.set("v.fileName",'');
                 component.set("v.disableFile",false);
                 component.set('v.fileRequired',false);
+                var cmpTarget1 = component.find("uploadfile");
+                $A.util.addClass(cmpTarget1, "fileBoxwoFile");
+                $A.util.removeClass(cmpTarget1, "fileBox");
             }
         );
     },
