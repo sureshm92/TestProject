@@ -1524,6 +1524,7 @@
             
             .headerbg-pp2 {
                 background: linear-gradient(to top, #005587 0%, #008299 100%);
+                border-radius:0 0 20px 0;
                 
             }
             
