@@ -27,6 +27,12 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
     };
     past = false;
     timechanges ;
+    selectedNavHandler(event) {
+        const playerName = event.detail;
+        if(event.detail){
+            this.gettelevisitdetails();
+        }
+    }
     onPastClick (){
         this.past = true;
         this.showupcomingtelevisits = false;
@@ -41,9 +47,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
             this.showupcomingtelevisits = true;
         }            
     }
-
-    connectedCallback() {
-        DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
+    gettelevisitdetails(){
         getParticipantDetails()
         .then((result) => {
             if(result != undefined && result != ''){
@@ -74,5 +78,9 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
             this.template.querySelector('c-web-spinner').hide();
             this.contentLoaded = true;
         });
+    }
+    connectedCallback() {
+        DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
+        this.gettelevisitdetails();
     }
 }

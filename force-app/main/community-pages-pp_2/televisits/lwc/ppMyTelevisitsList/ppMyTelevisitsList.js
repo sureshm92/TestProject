@@ -10,6 +10,7 @@ import JOIN_MEET from '@salesforce/label/c.WelcomeModal_Join';
 import UPCOMING_VISIT from '@salesforce/label/c.Televisit_Upcoming_Meet';
 import USER_LOCALE from '@salesforce/i18n/locale';
 import USER_TIME_ZONE from '@salesforce/i18n/timeZone';
+import USER_ID from '@salesforce/user/Id';
 
 export default class PpMyTelevisitsList extends NavigationMixin (LightningElement) {
     showupcomingtelevisits = false;
@@ -17,17 +18,32 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
     @api upcomingtelevisitsrecords;
     @api ismobile;
     @api channel = '/event/Televisit_Event__e';
-    allActiveVisits = [];
+    //allActiveVisits = [];
     showJoinButton = [];
-    allVisits = [];
+    //allVisits = [];
     @api zonetime;
+    @api urlPathPrefix = '';
+    USER_ID = USER_ID;
+    cometd;
+    meetMainInfo = 'Text';
+    meetLinkUrl;
+    singleMeetDetail = {};
+    singleActiveVisit = true;
+    showMoreVisits = false;
+    moreVisitIconName = 'utility:chevrondown';
+    allVisits = [];
+    allActiveVisits = [];
+    hasActiveVisits = false;
+    UPCOMING_VISIT = UPCOMING_VISIT;
+    showTelevisitCameraAndMicrophoneAccessPopup = false;
+    bgCss;
     @track labels = {
         UPCOMING_VISIT,
         PT_TV_MEET_INFO,
         PI_TV_MEET_INFO,
         JOIN_MEET
     };
- 
+
     connectedCallback() {
         this.upcomingtelevisitdata = this.upcomingtelevisitsrecords;
         this.showupcomingtelevisits = true;
@@ -37,7 +53,7 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
         this.loadCometdScript();
         this.timeInterval();
     }
-
+/*
     joinmeeting (event){
         this[NavigationMixin.GenerateUrl]({
             type: 'standard__webPage',
@@ -48,6 +64,12 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
             window.open(generatedUrl);
         });
 
+    }
+*/
+    joinmeeting (event){
+        this.urlPathPrefix = '/pp/s';
+        let url = this.urlPathPrefix.replace('/s', '') + event.currentTarget.dataset.id;
+        window.open(url, '_blank');
     }
 
 
@@ -81,10 +103,14 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
                 this.cometd.handshake((status) => {
                     console.log('Status',status);
                     this.cometd.subscribe(this.channel, (message) => {
+                        let reLoadRequired = message.data.payload.Payload__c.includes(USER_ID);
                         console.log(message);
                         console.log('Televisit event Fired');
                         //TODO check update banner cases
-                        this.getVisits();
+                        if (reLoadRequired) {
+                            console.log('Televisit event Fired on banner : reload requested');
+                            this.getVisits();
+                        }
                         
                     });
                 });
@@ -98,8 +124,8 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
 
     getVisits() {
         console.log('Televisit Get visits called');
-        //this.hasVisits = true;
-        //this.showMoreVisits = false;
+        this.hasVisits = true;
+        this.showMoreVisits = false;
         getVisits({communityMode : 'IQVIA Patient Portal', userMode : 'Participant'})
             .then((result) => {
                 console.log('result',result);
@@ -116,10 +142,14 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
     }
 
     loadVisitData(visitData) {
-        console.log('visitData :',visitData);
         this.allVisits = visitData;
-        //this.hasActiveVisits = false;
+        this.hasActiveVisits = false;
         let activeVisits = [];
+        let totalexistingvisits = [];
+        let upcomingvisits = [];
+        let pastvisits = [];
+        let activevisitids = [];
+        console.log(this.allActiveVisits);
         visitData.forEach((visitInfo) => {
             let visitDetail = visitInfo;
             var now = new Date();
@@ -137,31 +167,68 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
             if (dateNow >= bannerStartTime && dateNow <= bannerEndTime) {
                 activeVisits.push(visitDetail);
                 console.log('activeVisits:',activeVisits);
+                activevisitids.push(visitDetail.Televisit__c);
             }
         });
+        for(var i=0; i<this.allActiveVisits.length; i++){
+            totalexistingvisits.push(this.allActiveVisits[i].Televisit__c);
+        }
+        for(var i=0; i<activeVisits.length; i++){
+            if(!totalexistingvisits.includes(activeVisits[i].Televisit__c)){
+                upcomingvisits.push(activeVisits[i].Televisit__c);
+            }           
+        }
+        for(var i=0; i<totalexistingvisits.length; i++){
+            if(!activevisitids.includes(totalexistingvisits[i])){
+                pastvisits.push(totalexistingvisits[i]);
+            }           
+        }
+        if(pastvisits.length > 0 ){
+            const selectEvent = new CustomEvent('selection', {
+            detail: true
+        });
+        // Fire the custom event
+        this.dispatchEvent(selectEvent);
+        }
         this.allActiveVisits = activeVisits;
-        
-        this.processData();
-    }
-
-    processData(){
-        console.log('this.allActiveVisits',this.allActiveVisits);
+        console.log('this.upcomingtelevisitdata :',this.upcomingtelevisitdata);
         for(var i=0; i<this.upcomingtelevisitdata.length; i++){
-            this.template.querySelector('[data-tv='+this.upcomingtelevisitdata[i].televisitId+']').style="display:none;"; 
-            for(var j=0; j<this.allActiveVisits.length; j++){
-                if(this.upcomingtelevisitdata[i].televisitId === this.allActiveVisits[j].Televisit__r.Id){
-                    this.showJoinButton.push(this.upcomingtelevisitdata[i].televisitId);
-                    this.template.querySelector('[data-tv='+this.upcomingtelevisitdata[i].televisitId+']').style="display:block;";
-                } 
-            }
+            this.template.querySelector('[data-tv='+this.upcomingtelevisitdata[i].televisitId+']').style = 'display:none';
+        }
+        console.log('this.allActiveVisits :',this.allActiveVisits);
+        for(var i=0; i<this.allActiveVisits.length; i++){
+            this.template.querySelector('[data-tv='+this.allActiveVisits[i].Televisit__c+']').style = 'display:block';
         }
 
-        console.log('this.showJoinButton',this.showJoinButton);
-       // console.log(this.template.querySelector('[data-tv='+this.showJoinButton+']').style="display:block;");
+        this.showMoreVisits =
+            this.showMoreVisits && (activeVisits.length === 0 || activeVisits.length === 1)
+                ? false
+                : this.showMoreVisits;
+        if (activeVisits.length > 0) {
+            this.hasActiveVisits = true;
+        }
+        if (activeVisits.length === 1) {
+            this.singleMeetDetail = activeVisits[0];
+            this.meetMainInfo = this.getIsPTorPTDelegate(activeVisits[0].Attendee_Type__c)
+                ? this.labels.PT_TV_MEET_INFO
+                : this.labels.PI_TV_MEET_INFO;
+            this.meetMainInfo = this.getTelevisitMeetInfo(this.meetMainInfo, activeVisits[0]);
+            this.singleActiveVisit = true;
+            this.meetLinkUrl = activeVisits[0].Televisit__r.Meeting_URL__c;
+        } else if (activeVisits.length > 1) {
+            this.singleActiveVisit = false;
+            this.meetMainInfo = this.labels.UPCOMING_VISIT.replace('##NoOfTV', activeVisits.length);
+        }
     }
 
+    handleSingleMeetJoin(event) {
+        console.log('this.meetLinkUrl',this.meetLinkUrl);
+        console.log(this.urlPathPrefix);
+        this.urlPathPrefix = '/pp/s';
+        let url = this.urlPathPrefix.replace('/s', '') + this.meetLinkUrl;
+        window.open(url, '_blank');
+    }
     
-
     getIsPTorPTDelegate(attendeeType) {
         let isPTorPTDelegate =
             attendeeType === 'Participant' || attendeeType === 'Participant Delegate'
@@ -211,11 +278,15 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
         });
     }
 
+    handleJoinClick(event) {
+        this.urlPathPrefix = '/pp/s';
+        let url = this.urlPathPrefix.replace('/s', '') + event.target.dataset.name;
+        window.open(url, '_blank');
+    }
+
     timeInterval() {
         setInterval(() => {
-            console,log('In');
-            this.getVisits(); 
-            //this.loadVisitData(this.allVisits);
+            this.loadVisitData(this.allVisits);
         }, 60 * 1000);
     }
 }
