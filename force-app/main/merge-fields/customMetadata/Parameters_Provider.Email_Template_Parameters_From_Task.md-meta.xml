@@ -20,6 +20,7 @@ isStudyorProgram=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profi
 studiesOrPrograms=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
 visitorevent=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
 StudyorProgramHeader=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
+VisitorEvent =Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
 </value>
     </values>
     <values>
