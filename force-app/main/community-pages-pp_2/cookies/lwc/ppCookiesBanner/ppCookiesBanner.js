@@ -31,6 +31,10 @@ export default class PpCookiesBanner extends LightningElement {
     @api
     isRTL = false;
     @api
+    termsAndConditions = false;
+    @api
+    isDummy = false;
+    @api
     communityName;
     userMode;
     spinner;
@@ -95,7 +99,26 @@ export default class PpCookiesBanner extends LightningElement {
             this.showBanner = false;
         }
         if ((!rrCookies || this.loginPage) && !data) {
-            this.showBanner = true;
+            if (this.isDummy && !localStorage.getItem('CookiesOnTC') && !this.termsAndConditions) {
+                this.showBanner = true;
+            }
+            if (this.isDummy) {
+                localStorage.setItem('CookiesOnTC', 'Accepted');
+            }
+
+            if (!this.termsAndConditions && !this.isDummy) {
+                //Home Page
+                this.showBanner = true;
+            }
+
+            if (this.termsAndConditions && !localStorage.getItem('CookiesOnTC') && !this.isDummy) {
+                //Cookies banner for terms page
+                this.showBanner = true;
+            }
+            if (this.termsAndConditions) {
+                localStorage.setItem('CookiesOnTC', 'Accepted');
+            }
+
             this.blockBackGroundEvents();
             if (this.communityName == 'Default' || this.communityName == 'IQVIA Referral Hub') {
                 this.containerClassCss = this.containerClassCss + ' rh-cookies-banner';
@@ -114,6 +137,9 @@ export default class PpCookiesBanner extends LightningElement {
         }
         sessionStorage.removeItem('Cookies');
         localStorage.removeItem('Cookies');
+        if (!this.isDummy && !this.termsAndConditions) {
+            localStorage.removeItem('CookiesOnTC');
+        }
         let accList = this.template.querySelectorAll('accordion');
     }
     blockBackGroundEvents() {
