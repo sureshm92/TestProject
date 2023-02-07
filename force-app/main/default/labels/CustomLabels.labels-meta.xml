@@ -13382,6 +13382,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Participant(s) Selected</value>
     </labels>
     <labels>
+        <fullName>RH_PatientAuthComplete</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_PatientAuthComplete</shortDescription>
+        <value>You must upload the completed and signed Patient Authorization Form to submit your referral.</value>
+    </labels>
+    <labels>
+        <fullName>RH_PatientAuthInfo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_PatientAuthInfo</shortDescription>
+        <value>IMPORTANT: You will need to upload documentation of your patient&apos;s authorization to share their information with the study team before they can be referred to this study.</value>
+    </labels>
+    <labels>
         <fullName>pir_Received_History</fullName>
         <language>en_US</language>
         <protected>false</protected>
