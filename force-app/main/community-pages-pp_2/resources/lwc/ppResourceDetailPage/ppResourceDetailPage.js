@@ -83,7 +83,10 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                     this.handleDocumentLoad();
                 }
                 //get study Title
-                if (this.state != 'ALUMNI' && resourceData.Content_Class__c == 'Study-Specific') {
+                if (
+                    this.state != 'ALUMNI' &&
+                    (resourceData.Content_Class__c == 'Study-Specific' || this.isDocument)
+                ) {
                     getCtpName({})
                         .then((result) => {
                             let data = JSON.parse(result);
