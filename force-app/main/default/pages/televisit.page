@@ -2211,7 +2211,8 @@
             <h1 class="slds-text-heading_small">{!appNamestr}</h1>
             </apex:outputPanel>
             <apex:outputPanel rendered="{!(commTemplate=='PatientPortal')}">
-            <h1 class="slds-text-heading_small">{!appNamestr}</h1>
+                <!--<h1 class="slds-text-heading_small">{!appNamestr}</h1>-->
+                <img src="{!$Resource.PP_DesktopLogos + '/Patient_Portal_Logo.svg'}" style="width:155px;margin-left: 63px;height: 25px;display: flex;" />
             </apex:outputPanel>
             
         </header>
