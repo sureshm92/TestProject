@@ -317,7 +317,7 @@ public class TranslateHelper {
                 else
                     paramValue = System.Label.Visit_PP;
             }
-            if (param == 'VisitorEvent') {
+            if (param == 'VisitDateorEventDate') {
                 if (paramValue == 'true')
                     paramValue = System.Label.Event_Date_PP;
                 else
