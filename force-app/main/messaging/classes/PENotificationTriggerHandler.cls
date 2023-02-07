@@ -42,7 +42,6 @@ public without sharing class PENotificationTriggerHandler {
         };
         List<Notification__c> notifications = new List<Notification__c>();
         List<Id> participantConIds = new List<Id>();
-        List<Id> perIdList = new List<Id>();
         List<Participant_Enrollment__c> PEs = [
             SELECT
                 Id,
@@ -65,7 +64,6 @@ public without sharing class PENotificationTriggerHandler {
         for (Participant_Enrollment__c pe : PEs) {
             String notifyHCPType, notifyPTType;
 
-            perIdList.add(pe.Id);
             //Forming list notifications for HCPs and Patients
             Boolean notContainsForPT = false, notContainsForHCP = false;
             if (
@@ -154,8 +152,7 @@ public without sharing class PENotificationTriggerHandler {
         List<Notification__c> delegateNotifications = new List<Notification__c>();
         Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateEnrollmentService.getDelegatedCntsByParticipantCnt(
             participantConIds,
-            new List<String>{ 'Id' },
-            perIdList
+            new List<String>{ 'Id' }
         );
         // !skipNotifyTypesDel -- all are hcp or virual study Notifications .
         for (Notification__c n : notifications) {
