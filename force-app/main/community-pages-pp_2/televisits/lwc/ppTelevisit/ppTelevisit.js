@@ -25,7 +25,8 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
         No_upcoming_televisits,
         No_past_televisits
     };
-    past = false;   
+    past = false;
+    timechanges ;
     onPastClick (){
         this.past = true;
         this.showupcomingtelevisits = false;
@@ -46,6 +47,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
         getParticipantDetails()
         .then((result) => {
             if(result != undefined && result != ''){
+                this.timechanges = result.tz;
                 this.pastTelevisitlist = result.televisitpastList;
                 this.upcomingTelevisitslist = result.televisitupcomingList;
                 if(this.pastTelevisitlist.length == 0){

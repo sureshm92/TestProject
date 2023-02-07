@@ -33,12 +33,14 @@
                                                     year="numeric"
                                                     month="long"
                                                     day="2-digit"
+                                                    time-zone={zonetime}
                                                 ></lightning-formatted-date-time>
                                                 <!--&nbsp;&nbsp;|&nbsp;&nbsp;
                                                 <lightning-formatted-date-time
                                                     value={item.televisitdate}
                                                     hour="2-digit"
                                                     minute="2-digit"
+                                                    time-zone={zonetime}
                                                 ></lightning-formatted-date-time>-->
                                             </p>
                                         </template>
@@ -49,12 +51,14 @@
                                                     year="numeric"
                                                     month="long"
                                                     day="2-digit"
+                                                    time-zone={zonetime}
                                                 ></lightning-formatted-date-time>
-                                               <!-- &nbsp;&nbsp;|&nbsp;&nbsp;
+                                                <!-- &nbsp;&nbsp;|&nbsp;&nbsp;
                                                 <lightning-formatted-date-time
                                                     value={item.televisitdate}
                                                     hour="2-digit"
                                                     minute="2-digit"
+                                                    time-zone={zonetime}
                                                 ></lightning-formatted-date-time>-->
                                             </p>
                                        </template>
@@ -104,7 +108,8 @@
                                                     year="numeric"
                                                     month="long"
                                                     day="2-digit"
-                                                ></lightning-formatted-date-time> 
+                                                    time-zone={zonetime}
+                                                ></lightning-formatted-date-time>
                                             </p>
                                         </template>
                                         <template if:false={item.iscancelledone}>
@@ -114,6 +119,7 @@
                                                     year="numeric"
                                                     month="long"
                                                     day="2-digit"
+                                                    time-zone={zonetime}
                                                 ></lightning-formatted-date-time>
                                             </p>
                                        </template>
