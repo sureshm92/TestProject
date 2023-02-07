@@ -9,8 +9,10 @@ export default class PpRRIconSplitter extends LightningElement {
     @track classListArry = [];
     @track testArray = [];
     @api name = '';
+    @api ismobile=false;
     isloaded = false;
-
+    showRight=false;
+    scrollby = 160;
     @api
     resetValues() {
         this.name = '';
@@ -20,13 +22,115 @@ export default class PpRRIconSplitter extends LightningElement {
     }
 
     renderedCallback() {
+        if(this.ismobile){
+            this.scrollby = 160;
+        }
         let webIcons = this.template.querySelectorAll('.bio-icons');
         if (webIcons[0] && this.isloaded != true) {
             webIcons.forEach((ele) => {
                 ele.classList.remove('active');
             });
             webIcons[0].classList.add('active');
+            if(this.template.querySelector(".topdiv")){
+                this.template.querySelector(".topdiv").addEventListener('scroll', () => this.checkChevrons());
+                var contents = this.template.querySelector(".topdiv");
+                var divWidth = contents.offsetWidth;
+                var scrollwidth =contents.scrollWidth;
+                if(divWidth!=scrollwidth){
+                    this.showRight=true;         
+                }
+                if(divWidth<250){
+                    this.scrollby = 160;
+                }
+                //this.start = true;
+                //this.end = false;
+            }
             this.isloaded = true;
+        }
+    }
+
+get mobileOrDesktopSizeLeft(){
+    if(this.ismobile){
+        return 'padding-left: 28px;';
+    }else{
+        return 'padding-left: 25px;';
+    }
+}
+
+get mobileOrDesktopSizeRight(){
+    if(this.ismobile){
+        return 'padding-right: 28px;';
+    }else{
+        return 'padding-right: 25px;';
+    }
+}
+
+    goLeft(){
+        if(this.showRight){
+            var contents = this.template.querySelector(".topdiv");
+            contents.scrollLeft -= this.scrollby;
+            if(contents.scrollLeft<=this.scrollby){
+                if(this.template.querySelector(".chevronL")){
+                this.template.querySelector(".chevronL").className="chevronL disableCursor";
+                }         
+                if(this.template.querySelector(".chevronR")){
+                    this.template.querySelector(".chevronR").className="chevronR";
+                    }     
+            }else{
+                if(this.template.querySelector(".chevronL")){
+                    this.template.querySelector(".chevronL").className = "chevronL";
+                }
+            }        
+        }
+    }
+
+    goRight(){
+        if(this.showRight){
+            var contents = this.template.querySelector(".topdiv");
+            contents.scrollLeft += this.scrollby;
+            if(this.template.querySelector(".chevronL")){
+                this.template.querySelector(".chevronL").className = "chevronL";
+            }
+            var newScrollLeft=contents.scrollLeft;
+            var divWidth = contents.offsetWidth;
+            var scrollwidth =contents.scrollWidth;
+            if(scrollwidth - divWidth - newScrollLeft < this.scrollby){
+                if(this.template.querySelector(".chevronR")){
+                    this.template.querySelector(".chevronR").className="chevronR disableCursor"; 
+                }
+            }else{
+                if(this.template.querySelector(".chevronR")){
+                    this.template.querySelector(".chevronR").className = "chevronR";
+                }
+            }
+        }
+    }    
+
+    checkChevrons(){
+        clearTimeout(this.timeoutId);
+        this.timeoutId = setTimeout(this.doValidateChevron.bind(this), 750);
+    }
+
+    doValidateChevron(){
+        var contents = this.template.querySelector(".topdiv");
+        var newScrollLeft=contents.scrollLeft;
+        var divWidth = contents.offsetWidth;
+        var scrollwidth =contents.scrollWidth;
+        if(scrollwidth - divWidth - newScrollLeft <1){
+            if(this.template.querySelector(".chevronR")){
+                this.template.querySelector(".chevronR").className="chevronR disableCursor";
+            }   
+        }
+        if(contents.scrollLeft==0){
+            this.template.querySelector(".chevronL").className="chevronL disableCursor";            
+        }            
+    }
+
+    get morethan6or7(){
+        if(this.icons!='' && this.icons && this.ismobile?this.icons.length >6:this.icons.length >7){
+            return true;
+        }else{
+            return false;
         }
     }
 

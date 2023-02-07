@@ -4910,6 +4910,20 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Value must be ##todaysDate or earlier.</value>
     </labels>
     <labels>
+        <fullName>PP_future_date_error_month</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_future_date_error_month</shortDescription>
+        <value>Value must be current month or earlier</value>
+    </labels>
+    <labels>
+        <fullName>PP_future_date_error_day</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_future_date_error_day</shortDescription>
+        <value>Value must be current date or earlier</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Accept_a_patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6771,7 +6785,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>Email Body Visit Task Reminder PP</shortDescription>
         <value>&lt;span style=&quot;color:black;&quot; &gt;This is an email to remind you of your upcoming ##visitorevent for the ##StudyorProgramHeader: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span  style=&quot;color:black;&quot; &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt;##PlannedDate&lt;/span&gt;.&lt;/div&gt;
+&lt;div&gt;&lt;span  style=&quot;color:black;&quot; &gt;##VisitorEvent Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt;##PlannedDate&lt;/span&gt;.&lt;/div&gt;
 
 &lt;span style=&quot;color:black;&quot; &gt;If you are unable to make this appointment, please contact the ##isStudyorProgram team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -6793,7 +6807,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>Email Body Visit Task Reminder Delegate PP</shortDescription>
         <value>&lt;span style=&quot;color:black;&quot; &gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming ##visitorevent for the ##StudyorProgramHeader: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span style=&quot;color:black;&quot; &gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot; &gt;##VisitorEvent Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;color:black;&quot;&gt; ##PlannedDate&lt;/span&gt;.&lt;/div&gt;
 
 &lt;span style=&quot;color:black;&quot; &gt; If ##ParticipantFirstName is unable to make this appointment, please contact the ##isStudyorProgram team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -12765,7 +12779,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Opt Out</shortDescription>
-        <value>If you have previously opted in to any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
+        <value>If you have previously opted into any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
     </labels>
     <labels>
         <fullName>PP_Opt_Out_Update_Communication_Pref</fullName>
@@ -29774,6 +29788,21 @@ Please contact the Study Team for further updates or please login for additional
 &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Sign_Patient_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Sign Patient New  PP</shortDescription>
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Patient1_PP_New</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -30109,7 +30138,6 @@ Please contact the Study Team for further updates or please login for additional
  
             We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the enrollment process.
             
-            The IQVIA Patient Portal includes:
                      
             </value>
     </labels>
@@ -30236,6 +30264,20 @@ Please contact the Study Team for further updates or please login for additional
         <protected>true</protected>
         <shortDescription>Event_PP</shortDescription>
         <value>event</value>
+    </labels>
+    <labels>
+        <fullName>Event_Date_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Event Date PP</shortDescription>
+        <value>Event</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Date_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Date PP</shortDescription>
+        <value>Visit</value>
     </labels>
     <labels>
         <fullName>Visit_PP</fullName>
