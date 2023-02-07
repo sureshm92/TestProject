@@ -22539,6 +22539,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Add televisit for Initial Visit</value>
     </labels>
     <labels>
+        <fullName>RH_Pir_Add_Televisit_ForScreeningVisit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH Pir Add Televisit for Screening Visit</shortDescription>
+        <value>Add televisit for Screening Visit</value>
+    </labels>
+    <labels>
         <fullName>RH_Pir_Confirm_Televisit</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -30321,21 +30328,21 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Sub Event Del PP</shortDescription>
         <value>Reminder: Your participant has an upcoming event</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Tab_Results</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Lab Results tab</shortDescription>
         <value>My Results</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Tab_Visits</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Visits tab</shortDescription>
         <value>My Visits</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Tab_Events</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -30384,15 +30391,22 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Task</shortDescription>
         <value>Reminder must be prior to task.</value>
     </labels>
-    <labels>        
-        <fullName>Email_Signature_New_Short_PP</fullName>        
-        <language>en_US</language>        
-        <protected>false</protected>        
-        <shortDescription>Email Signature New Participant Delegate PP</shortDescription>        
+    <labels>
+               
+        <fullName>Email_Signature_New_Short_PP</fullName>
+               
+        <language>en_US</language>
+               
+        <protected>false</protected>
+               
+        <shortDescription>Email Signature New Participant Delegate PP</shortDescription>
+               
         <value>&lt;br /&gt; &lt;br /&gt;We are excited to be on this journey with you.
                 
             Sincerely,            
     
-            ##SignatureShortCommunityName</value>    
-    </labels>  
+            ##SignatureShortCommunityName</value>
+           
+    </labels>
+     
 </CustomLabels>
