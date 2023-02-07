@@ -977,7 +977,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         );
     }
     setSessionCookie() {
-        sessionStorage.setItem('Cookies', 'Accepted');
+        localStorage.setItem('Cookies', 'Accepted');
         return true;
     }
 }

@@ -101,10 +101,11 @@ public class BellNotificationQueueable implements Queueable, Database.AllowsCall
                             target.DeveloperName == 'SS_L1_as_Tele_visit_Attendee' ||
                             target.DeveloperName == 'SS_L2_as_Tele_visit_Attendee'||
                             target.DeveloperName == 'SS_L3_as_Tele_visit_Attendee'){
-
-                                redirectTarget = redirectTarget.replace('{perName}',perObj.Name);
-                                redirectTarget = redirectTarget.replace('{FName}',perObj.Participant__r.First_Name__c);
-                                redirectTarget = redirectTarget.replace('{LName}',perObj.Participant__r.Last_Name__c);
+                                if(perObj != null && perObj.Participant__r != null ){
+                                    redirectTarget = redirectTarget.replace('{perName}',perObj.Name);
+                                    redirectTarget = redirectTarget.replace('{FName}',perObj.Participant__r.First_Name__c);
+                                    redirectTarget = redirectTarget.replace('{LName}',perObj.Participant__r.Last_Name__c);
+                                }
                         }
                         if(target.DeveloperName == 'PI_New_Referrals_Added' ||
                             target.DeveloperName == 'SS_L1_New_Referrals_Added' ||

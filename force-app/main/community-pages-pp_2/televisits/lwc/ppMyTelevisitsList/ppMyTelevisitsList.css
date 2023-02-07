@@ -11,7 +11,18 @@
     background-color: #015FF1;
     color: #FFFFFF;
 }
-
+.join-button-mobile{
+    border-radius: 16px 0 0 16px;
+    border: 1px solid #d9d9d9 !important;
+    height: 32px;
+    width: 300px;
+    border-radius: 16px;
+    background-color: #015FF1;
+    color: #FFFFFF;
+    margin-top: 7%;
+    margin-left: -20px;
+   /* margin-top: 18%;*/
+}
 .name-style,
 .nameStyle {
     color: #595959;
@@ -19,6 +30,10 @@
     font-size: 18px;
     font-weight: 600;
     letter-spacing: 0;
+}
+.group-icon{
+    position:absolute;
+    margin-top: 3%;
 }
 
 .scroll-bar {
@@ -82,7 +97,26 @@
     padding: 0.9rem 0 1rem 0.2rem;
     margin-bottom: 0.5rem;
 }
-
+.inactive-custom-box-mobile {
+    box-sizing: border-box;
+    /*height: 170px;*/
+    width: 330px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    padding: 0.9rem 0 1rem 0.2rem;
+    margin-bottom: 0.5rem;
+}
+.inactive-custom-box-mobil {
+    box-sizing: border-box;
+    /*height: 120px;*/
+    width: 330px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    padding: 0.9rem 0 1rem 0.2rem;
+    margin-bottom: 0.5rem;
+}
 .inactive-custom-box:hover,
 .active-custom-box:hover {
     cursor: pointer;
@@ -103,7 +137,14 @@
 
 .date-style {
     width: 600px;
-    color: #595959;
+    color: #6E6E6E;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+}
+.date-style-mobile {
+    width: 295px;
+    color: #6E6E6E;
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;

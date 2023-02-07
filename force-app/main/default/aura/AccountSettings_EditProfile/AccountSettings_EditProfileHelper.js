@@ -247,13 +247,16 @@
                 component.set('v.futureDate', true);
                 if (new Date().getMonth() < new Date(dt).getMonth()) {
                     component.set('v.invalidDOB', true);
-                    component.set('v.futureDateMMErr', 'Value must be current month or earlier');
+                    var DateMMErr = $A.get("$Label.c.PP_future_date_error_month");
+                    component.set('v.futureDateMMErr', DateMMErr);
                 }
-                component.set('v.futureDateDDErr', 'Value must be current date or earlier ');
+                var DateDDErr = $A.get("$Label.c.PP_future_date_error_day");
+                component.set('v.futureDateDDErr', DateDDErr);
             } else if (dt > today && format == 'MM-YYYY') {
                 component.set('v.futureDate', true);
                 component.set('v.invalidDOB', true);
-                component.set('v.futureDateMMErr', 'Value must be current month or earlier');
+                var DateMMErr = $A.get("$Label.c.PP_future_date_error_month");
+                component.set('v.futureDateMMErr', DateMMErr);
             } else {
                 component.set('v.invalidDOB', false);
                 component.set('v.futureDate', false);

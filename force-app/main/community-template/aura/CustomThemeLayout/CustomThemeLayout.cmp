@@ -258,7 +258,7 @@
                 </div>
                 <aura:if isTrue="{!not(v.isDummy)}">
                     <aura:if
-                        isTrue="{!or(v.communityName == 'IQVIA Patient Portal',v.communityName == 'IQVIA Referral Hub')}"
+                        isTrue="{!or(v.communityName == 'IQVIA Patient Portal',or(v.communityName == 'IQVIA Referral Hub',v.communityName=='Janssen Community'))}"
                     >
                         <c:ppCookiesBanner communityName="{!v.communityName}" />
                         <aura:set attribute="else">

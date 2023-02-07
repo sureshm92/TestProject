@@ -63,7 +63,7 @@
                 {!v.body}
             </div>
             <aura:if
-                isTrue="{!and(v.communityName != 'IQVIA Patient Portal',v.communityName != 'IQVIA Referral Hub')}"
+                isTrue="{!and(v.communityName != 'IQVIA Patient Portal',and(v.communityName != 'IQVIA Referral Hub',v.communityName != 'Janssen Community'))}"
             >
                 <c:CookiesInfo />
             </aura:if>

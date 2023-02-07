@@ -2332,6 +2332,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Patient_Delegate_Enrollment__c.Is_Created_by_Bulk_Import__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Patient_Delegate_Enrollment__c.isInviteToPP__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Patient_Delegate_Enrollment__c.Patient_Delegate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Patient_Delegate_Enrollment__c.Primary_Delegate__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2413,6 +2428,16 @@
      <fieldPermissions>
         <editable>false</editable>
         <field>Patient_Delegate_Enrollment__c.Study_Storage_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Patient_Delegate_Enrollment__c.Welcome_Message_Delivered__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Patient_Delegate_Enrollment__c.Welcome_Message_Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
