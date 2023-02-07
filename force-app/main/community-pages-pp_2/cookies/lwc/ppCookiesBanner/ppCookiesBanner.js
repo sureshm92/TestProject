@@ -108,6 +108,9 @@ export default class PpCookiesBanner extends LightningElement {
                 this.accordionCss = this.accordionCss + '  rh-border-radius';
                 this.accordionActiveCss = this.accordionActiveCss + ' rh-border-radius';
             }
+            if (this.communityName == 'Janssen Community') {
+                this.modalTopCss = this.modalTopCss + ' janssen-card-top-bg';
+            }
         }
         sessionStorage.removeItem('Cookies');
         localStorage.removeItem('Cookies');
@@ -117,6 +120,8 @@ export default class PpCookiesBanner extends LightningElement {
         document.body.addEventListener('keypress', this.bodyBlock);
         document.body.addEventListener('keydown', this.bodyBlock);
         document.body.classList.add('cookie-block-user');
+        let htmlDivs = document.getElementsByTagName('html');
+        htmlDivs[0].classList.add('cookie-block-user');
     }
     bodyBlock(event) {
         event.preventDefault();
@@ -166,6 +171,8 @@ export default class PpCookiesBanner extends LightningElement {
 
     closeTheBanner() {
         document.body.classList.remove('cookie-block-user');
+        let htmlDivs = document.getElementsByTagName('html');
+        htmlDivs[0].classList.remove('cookie-block-user');
         this.showBanner = false;
         document.body.removeEventListener('keypress', this.bodyBlock);
         document.body.removeEventListener('keydown', this.bodyBlock);
@@ -176,6 +183,8 @@ export default class PpCookiesBanner extends LightningElement {
     acceptAll() {
         communityService.setCookie('RRCookies', 'agreed', 365);
         document.body.classList.remove('cookie-block-user');
+        let htmlDivs = document.getElementsByTagName('html');
+        htmlDivs[0].classList.remove('cookie-block-user');
         this.showBanner = false;
         if (!this.isJanssenCommunity) {
             changeOptInCookies({
@@ -227,6 +236,8 @@ export default class PpCookiesBanner extends LightningElement {
                     if (this.contact.RRCookiesAllowedCookie__c) {
                         this.setRRCookie();
                         document.body.classList.remove('cookie-block-user');
+                        let htmlDivs = document.getElementsByTagName('html');
+                        htmlDivs[0].classList.remove('cookie-block-user');
                     }
                     if (this.contact.RRLanguageAllowedCookie__c) {
                         this.setRRCookieLanguage();
