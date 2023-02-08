@@ -992,6 +992,10 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     .pp-change-pwd [lightning-input_input-host] {
         width: 100% !important;
     }
+
+    .cPpCustomThemeLayout .curve-input .timc .slds-input{
+        height: 1.875rem !important;
+    }
 }
 
 /* Resource Page */
