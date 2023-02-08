@@ -19,12 +19,14 @@ public without sharing class AccountSettingsController {
     public static List<Participant_Enrollment__c> perListforCommPref = new List<Participant_Enrollment__c>();
     public static List<Participant_Enrollment__c> perListAllforCommPref = new List<Participant_Enrollment__c>();
     @AuraEnabled
-    public static PIR_ParticipantDetailController.CountyrStateInfo getCountryCodes(String userMode) {
+    public static PIR_ParticipantDetailController.CountyrStateInfo getCountryCodes(
+        String userMode
+    ) {
         PIR_ParticipantDetailController.CountyrStateInfo countyrStateInfo = new PIR_ParticipantDetailController.CountyrStateInfo();
         countyrStateInfo = PIR_ParticipantDetailController.getCnData();
-        return  countyrStateInfo;
+        return countyrStateInfo;
     }
-    
+
     @AuraEnabled
     public static String getInitData(String userMode) {
         try {
@@ -35,9 +37,9 @@ public without sharing class AccountSettingsController {
                 loggedInUserMode != USER_MODE_HCP &&
                 initData.myContact.userCommunityDelegateId__c != null
             ) {
-                //Get the Current Participant Id where Delegate is switched. 
-                currentParticipantId = ParticipantContext.getCurrentParticipantId(); 
-                 //This logic is not required as part of Delegate redesing changes, as delegate will be Primary/Secondary for study specific.
+                //Get the Current Participant Id where Delegate is switched.
+                currentParticipantId = ParticipantContext.getCurrentParticipantId();
+                //This logic is not required as part of Delegate redesing changes, as delegate will be Primary/Secondary for study specific.
                 // //Check if Patient Delegate is a Primary delegate if Patient Delegate clicks account setting of participant
                 // initData.consentPreferenceData.isPrimaryDelegate = PatientDelegateService.isPrimaryDelegate(
                 //     initData.myContact.Id,
@@ -92,7 +94,7 @@ public without sharing class AccountSettingsController {
                     );
                     ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
                         .getState();
-                        initData.participantState = participantState;
+                    initData.participantState = participantState;
                     List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>();
                     List<Id> peIds = new List<Id>();
                     peIds = PatientDelegateService.getAvailablePEIdsForContact(
@@ -110,28 +112,30 @@ public without sharing class AccountSettingsController {
                     if (pastEnrollments != null)
                         participantEnrollments.addAll(pastEnrollments);
 
-                    if (participantEnrollments != null){
+                    if (participantEnrollments != null) {
                         perListAllforCommPref.addAll(participantEnrollments);
                     }
-                    
+
                     //For Delegate of Alumni Participant, get the PER Record from Alumni Participant for Delegate View.
-                    List<Id> peIdList= new List<Id>();
+                    List<Id> peIdList = new List<Id>();
                     if (
                         (pastEnrollments == null || pastEnrollments.isEmpty()) &&
-                        participantState.hasPatientDelegates                        
-                        // && !participantState.isDelegate
+                        participantState.hasPatientDelegates
                     ) {
+                        // && !participantState.isDelegate
                         peIdList = PatientDelegateService.getAvailablePEIdsForDelContact(
                             participantState.participant.Contact__c
                         );
 
-                        List<Participant_Enrollment__c> availablePEsForDel = getPERRecords(peIdList);
+                        List<Participant_Enrollment__c> availablePEsForDel = getPERRecords(
+                            peIdList
+                        );
                         if (availablePEsForDel != null)
-                        perListAllforCommPref.addAll(availablePEsForDel);
+                            perListAllforCommPref.addAll(availablePEsForDel);
                     }
                     //if (perListAllforCommPref != null) {
-                        //Prepare Communication Preference data.
-                        prepareCommunicationPreferenceData(perListAllforCommPref, initData);
+                    //Prepare Communication Preference data.
+                    prepareCommunicationPreferenceData(perListAllforCommPref, initData);
                     //}
 
                     //Prepare Program Overview data
@@ -248,55 +252,70 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
-    public static void updatePersonMain(String wrapperJSON,String commPrefWrapperJSON, String userMode ) {
+    public static void updatePersonMain(
+        String wrapperJSON,
+        String commPrefWrapperJSON,
+        String userMode
+    ) {
         updatePerson(wrapperJSON);
         //If loggied in user is Participant or Patient Delegate.
-        if(userMode=='Participant'){
+        if (userMode == 'Participant') {
             //Pefrorm SMS opt out if mobilePhone is deleted from Patient Portal profile information.
             try {
                 ConsentPreferenceData commWrapper = (ConsentPreferenceData) JSON.deserialize(
                     commPrefWrapperJSON,
                     ConsentPreferenceData.class
                 );
-                
+
                 //Populte Account Setting switcher variables.
                 isAdultParticipant = commWrapper.isAdultParticipant;
                 isDelegateSelfView = commWrapper.isDelegateSelfView;
                 isDelegateAlsoAParticipant = commWrapper.isDelegateAlsoAParticipant;
                 isParticipantLoggedIn = commWrapper.isParticipantLoggedIn;
                 //Check if mobilePhone is deleted
-                Boolean isMobilePhoneDeleted = checkIfMobilePhoneIsdeleted(commWrapper.myContact.Id, commWrapper.loggedInUserParticipantId);
+                Boolean isMobilePhoneDeleted = checkIfMobilePhoneIsdeleted(
+                    commWrapper.myContact.Id,
+                    commWrapper.loggedInUserParticipantId
+                );
                 //if Mobile Phone is not available
-                if(!isMobilePhoneDeleted){ 
-                  PreferenceManagementController.optOutSMSWhenMobileIsDeleted(commWrapper.perList, commWrapper.myContact.Id);
+                if (!isMobilePhoneDeleted) {
+                    PreferenceManagementController.optOutSMSWhenMobileIsDeleted(
+                        commWrapper.perList,
+                        commWrapper.myContact.Id
+                    );
                 }
             } catch (Exception e) {
                 AuraHelper.throwException(e);
             }
         }
     }
-    
-     /**
-    * @description: This Method will check if MobilePhone is deleted, if yes then process SMS opt out. 
-    * @author: Krishna Mahto
-    * @param: contId
-    * @param: ParticipantId
-    * @return: Boolean
-    **/
-    public static Boolean checkIfMobilePhoneIsdeleted(Id contId, Id ParticipantId){
-        Contact contact = [select Id, 
-                        MobilePhone 
-                        from contact 
-                        Where Id =:contId][0];
-        
-        Participant__c participant = [select Id,
-                              Alternative_Phone_Type__c, 
-                              Alternative_Phone_Number__c, 
-                              Phone_Type__c,Phone__c 
-                              from Participant__c 
-                              Where Id =:ParticipantId][0];
 
-        return checkMobilePhoneIsAvailable(contact, participant);      
+    /**
+     * @description: This Method will check if MobilePhone is deleted, if yes then process SMS opt out.
+     * @author: Krishna Mahto
+     * @param: contId
+     * @param: ParticipantId
+     * @return: Boolean
+     **/
+    public static Boolean checkIfMobilePhoneIsdeleted(Id contId, Id ParticipantId) {
+        Contact contact = [
+            SELECT Id, MobilePhone
+            FROM contact
+            WHERE Id = :contId
+        ][0];
+
+        Participant__c participant = [
+            SELECT
+                Id,
+                Alternative_Phone_Type__c,
+                Alternative_Phone_Number__c,
+                Phone_Type__c,
+                Phone__c
+            FROM Participant__c
+            WHERE Id = :ParticipantId
+        ][0];
+
+        return checkMobilePhoneIsAvailable(contact, participant);
     }
 
     @AuraEnabled
@@ -354,9 +373,7 @@ public without sharing class AccountSettingsController {
                 ex.getMessage().contains(System.Label.Pswd_Val_strng2)
             ) {
                 throw new AuraHandledException(
-                    System.Label.Pswd_ValidationMsg3_1 +
-                    ' ' +
-                    System.Label.Pswd_ValidationMsg3_2
+                    System.Label.Pswd_ValidationMsg3_1 + ' ' + System.Label.Pswd_ValidationMsg3_2
                 );
             }
             if (ex.getMessage().contains(System.Label.Passwords_Do_Not_Match)) {
@@ -366,20 +383,26 @@ public without sharing class AccountSettingsController {
             } else if (ex.getMessage().contains(System.Label.Password_Cannot_Be_Null)) {
                 throw new AuraHandledException(System.Label.Pswd_ValidationMsg8);
             } else {
-                if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal){
-                    if ((ex.getMessage() == System.Label.Cannot_Reuse_Old_Password) && (oldPassword ==  newPassword)){
-                    throw new AuraHandledException(System.Label.PP_NewPwdCantCurrentPwd);
-                }
-                    else if (ex.getMessage() == System.Label.Old_Password_Invalid ){
-                    throw new AuraHandledException(System.Label.TST_Your_current_password_is_invalid);
-                }
-                     else if (ex.getMessage() == System.Label.Cannot_Reuse_Old_Password ){
-                    throw new AuraHandledException(System.Label.PP_CannotReuseOldPwd);
-                }
-                    else {
-                        throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+                if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal) {
+                    if (
+                        (ex.getMessage() == System.Label.Cannot_Reuse_Old_Password) &&
+                        (oldPassword == newPassword)
+                    ) {
+                        throw new AuraHandledException(System.Label.PP_NewPwdCantCurrentPwd);
+                    } else if (ex.getMessage() == System.Label.Old_Password_Invalid) {
+                        throw new AuraHandledException(
+                            System.Label.TST_Your_current_password_is_invalid
+                        );
+                    } else if (ex.getMessage() == System.Label.Cannot_Reuse_Old_Password) {
+                        throw new AuraHandledException(System.Label.PP_CannotReuseOldPwd);
+                    } else {
+                        throw new AuraHandledException(
+                            ex.getMessage() + '\n' + ex.getStackTraceString()
+                        );
                     }
-                    throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+                    throw new AuraHandledException(
+                        ex.getMessage() + '\n' + ex.getStackTraceString()
+                    );
                 }
             }
         }
@@ -459,11 +482,11 @@ public without sharing class AccountSettingsController {
                 Initials__c,
                 Gender__c,
                 Date_of_Birth__c,
-            	Birth_Year__c,
-            	Birth_Month__c,
-            	Birth_Day__c,
-            	Age__c,
-            	Nickname__c,
+                Birth_Year__c,
+                Birth_Month__c,
+                Birth_Day__c,
+                Age__c,
+                Nickname__c,
                 Suffix__c,
                 Use_as_Daytime_Phone__c,
                 Phone_Type__c,
@@ -716,7 +739,6 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public ProgramOverViewData programOverViewData = new ProgramOverViewData();
         @AuraEnabled
         public ParticipantService.ParticipantState participantState;
-        
     }
 
     public class ContactSectionData {
@@ -789,7 +811,6 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public Boolean isActiveDelegate = false;
     }
 
-    
     public class ProgramOverViewData {
         public Boolean isDelegateSelfView = false;
         @AuraEnabled
@@ -797,7 +818,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         @AuraEnabled
         public String communityName;
     }
-    
+
     public class PersonWrapper {
         @AuraEnabled
         public Id contactId;
@@ -863,8 +884,6 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         @AuraEnabled
         public Boolean isAdultPar;
 
-
-
         public PersonWrapper(Contact contact, Participant__c participant) {
             contactId = contact.Id;
             isParticipant = participant != null;
@@ -919,7 +938,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 suffix = participant.Suffix__c;
                 nickname = participant.Nickname__c;
                 age = participant.Age__c;
-                birthYear = participant.Birth_Year__c != null ? participant.Birth_Year__c : null; 
+                birthYear = participant.Birth_Year__c != null ? participant.Birth_Year__c : null;
                 birthMonth = participant.Birth_Month__c != null ? participant.Birth_Month__c : null;
                 birthDay = participant.Birth_Day__c != null ? participant.Birth_Day__c : null;
                 isAdultPar = participant.Adult__c;
@@ -932,7 +951,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 ];
                 if (peList.size() > 0) {
                     showBirthDate = true;
-                } else { 
+                } else {
                     showBirthDate = false;
                 }
             }
@@ -941,9 +960,9 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public Contact convertToContact() {
             Contact personContact = new Contact(Id = contactId);
             personContact.MobilePhone = mobilePhone;
-            
+
             if (isParticipant)
-                return personContact;               
+                return personContact;
 
             personContact.FirstName = firstName;
             personContact.MiddleName = MiddleName;
@@ -1011,40 +1030,42 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
      * @param: perList
      * @return:
      **/
-    public static String leastYOBFormat(List<Participant_Enrollment__c> participantEnrollments){
+    public static String leastYOBFormat(List<Participant_Enrollment__c> participantEnrollments) {
         Set<String> participantSiteFormat = new Set<String>();
-        Map<Integer,String> studySiteLenghtVsFormatMap = New Map<Integer,String>();
+        Map<Integer, String> studySiteLenghtVsFormatMap = new Map<Integer, String>();
         Integer minStudySiteFormateLen = 0;
         String leastYOBFormat;
-        if(participantEnrollments != null && participantEnrollments.size()>0){
-            for(Participant_Enrollment__c per : participantEnrollments){
+        if (participantEnrollments != null && participantEnrollments.size() > 0) {
+            for (Participant_Enrollment__c per : participantEnrollments) {
                 participantSiteFormat.add(per.Study_Site__r.Participant_DOB_format__c);
             }
-            if(!participantSiteFormat.isEmpty()){
-                    List<String> yobStudySiteFormats = new List<String>(participantSiteFormat);    
-                    if(yobStudySiteFormats.size() > 1){
-                        for(String studySiteFormat : yobStudySiteFormats){
-                            //get the lenght of each YOB formate
-                            Integer siteFormatSize = studySiteFormat.length();
-                            studySiteLenghtVsFormatMap.put(siteFormatSize,studySiteFormat);
-                        }
-                        //Define first element of Map as minimun.
-                        minStudySiteFormateLen = yobStudySiteFormats[0].length();//studySiteLenghtVsFormatMap.keySet()[0]; // 10
-                        for(Integer len: studySiteLenghtVsFormatMap.keySet()){
-                            if(len< minStudySiteFormateLen){  
-                                minStudySiteFormateLen = len;
-                            }
+            if (!participantSiteFormat.isEmpty()) {
+                List<String> yobStudySiteFormats = new List<String>(participantSiteFormat);
+                if (yobStudySiteFormats.size() > 1) {
+                    for (String studySiteFormat : yobStudySiteFormats) {
+                        //get the lenght of each YOB formate
+                        Integer siteFormatSize = studySiteFormat.length();
+                        studySiteLenghtVsFormatMap.put(siteFormatSize, studySiteFormat);
+                    }
+                    //Define first element of Map as minimun.
+                    minStudySiteFormateLen = yobStudySiteFormats[0].length(); //studySiteLenghtVsFormatMap.keySet()[0]; // 10
+                    for (Integer len : studySiteLenghtVsFormatMap.keySet()) {
+                        if (len < minStudySiteFormateLen) {
+                            minStudySiteFormateLen = len;
                         }
                     }
-                    else{
-                        List<String> participantStudySiteFormat = new List<String>(participantSiteFormat);
-                        Integer siteFormatSize = participantStudySiteFormat[0].length();
-                        studySiteLenghtVsFormatMap.put(siteFormatSize,participantStudySiteFormat[0]);
-                        minStudySiteFormateLen = siteFormatSize;
-                    }
+                } else {
+                    List<String> participantStudySiteFormat = new List<String>(
+                        participantSiteFormat
+                    );
+                    Integer siteFormatSize = participantStudySiteFormat[0].length();
+                    studySiteLenghtVsFormatMap.put(siteFormatSize, participantStudySiteFormat[0]);
+                    minStudySiteFormateLen = siteFormatSize;
+                }
             }
-            leastYOBFormat = studySiteLenghtVsFormatMap.isEmpty()?null:studySiteLenghtVsFormatMap.get(minStudySiteFormateLen);
-
+            leastYOBFormat = studySiteLenghtVsFormatMap.isEmpty()
+                ? null
+                : studySiteLenghtVsFormatMap.get(minStudySiteFormateLen);
         }
         return leastYOBFormat;
     }
@@ -1069,36 +1090,61 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         initData.consentPreferenceData.isAdultParticipant = isAdultParticipant;
         initData.consentPreferenceData.isEmailAvailabelForParticipant = isEmailAvailabelForParticipant;
         initData.consentPreferenceData.isDelegateSelfView = isDelegateSelfView;
-        initData.consentPreferenceData.isIQIVAOutrechToggleOnAtCTP = isIQIVAOutrechToggleOnAtCTP;
+        //initData.consentPreferenceData.isIQIVAOutrechToggleOnAtCTP = isIQIVAOutrechToggleOnAtCTP;
         initData.consentPreferenceData.myContact = initData.myContact;
         initData.consentPreferenceData.loggedInUserParticipantId = initData.participant.Id;
-        initData.consentPreferenceData.isActiveDelegate = PatientDelegateEnrollmentService.isActiveDelegate(initData.myContact.Id);
+        initData.consentPreferenceData.isActiveDelegate = PatientDelegateEnrollmentService.isActiveDelegate(
+            initData.myContact.Id
+        );
 
         if (isDelegateSelfView) {
-            //Get patient Delegate Enrollment Records for the delegate.
-            initData.consentPreferenceData.pdeList = PatientDelegateEnrollmentService.getPDEnrollmentforDelContact(initData.myContact.Id);
+            //Get all the patient Delegate Enrollment Records for the delegate.
+            List<Patient_Delegate_Enrollment__c> pdeListAll = PatientDelegateEnrollmentService.getAllPDEnrollmentforDelContact(
+                initData.myContact.Id
+            );
+            Boolean isIQIVAOutrechToggleOnAtCTPForDel = false;
+            for (Patient_Delegate_Enrollment__c pde : pdeListAll) {
+                if (pde.Status__c == 'Active') {
+                    initData.consentPreferenceData.pdeList.Add(pde); //Show Active Patient Delegate Enrollment Records for Delegate
+                }
+                if (pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
+                    isIQIVAOutrechToggleOnAtCTPForDel = true; //Need all Records to check for Toggle ON/OFF
+                }
+            }
+            //initData.consentPreferenceData.pdeList = PatientDelegateEnrollmentService.getPDEnrollmentforDelContact(initData.myContact.Id);
             //As Patient delegate switched to his own Account setting so set isParticipantLoggedIn to false.
             //But if patient Delegate is also acting as Participant then set  isParticipantLoggedIn to true and make Primary delegate to false and isDelegateSelfView to false.
             if (isDelegateAlsoAParticipant) {
                 initData.consentPreferenceData.isParticipantLoggedIn = true;
                 initData.consentPreferenceData.isDelegateSelfView = false;
-                initData.consentPreferenceData.isDelegateAlsoAParticipant = true; 
+                initData.consentPreferenceData.isDelegateAlsoAParticipant = true;
+                initData.consentPreferenceData.isIQIVAOutrechToggleOnAtCTP = (!isIQIVAOutrechToggleOnAtCTP &&
+                    !isIQIVAOutrechToggleOnAtCTPForDel)
+                    ? false
+                    : true;
                 if (perListforCommPref != null) {
                     initData.consentPreferenceData.perList.addAll(perListforCommPref);
                 }
             } else {
-                //Pure Delegate Self View. 
+                //Pure Delegate Self View.
+                initData.consentPreferenceData.isIQIVAOutrechToggleOnAtCTP = isIQIVAOutrechToggleOnAtCTPForDel;
                 initData.consentPreferenceData.isParticipantLoggedIn = false;
                 initData.consentPreferenceData.studySiteYOBFormat = 'YYYY';
             }
         } else {
             //Participant Logged In or Delegate switched to participant View.
+            initData.consentPreferenceData.isIQIVAOutrechToggleOnAtCTP = isIQIVAOutrechToggleOnAtCTP;
             initData.consentPreferenceData.perList.addAll(participantEnrollments);
         }
 
-        if(initData.consentPreferenceData.perList != null && initData.consentPreferenceData.perList.size()>0){
-            initData.consentPreferenceData.studySiteYOBFormat = leastYOBFormat(initData.consentPreferenceData.perList);
-        } 
+        if (
+            initData.consentPreferenceData.perList != null &&
+            initData.consentPreferenceData.perList.size() > 0
+        ) {
+            initData.consentPreferenceData.studySiteYOBFormat = leastYOBFormat(
+                initData.consentPreferenceData.perList
+            );
+        }
         Boolean isParticipantLoggedInTemp = initData.consentPreferenceData.isParticipantLoggedIn;
         Boolean isDelegateSelfViewTemp = initData.consentPreferenceData.isDelegateSelfView;
         Participant__c currentParticipantTemp = new Participant__c();
@@ -1175,10 +1221,11 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 isDelegateSelfView = true;
                 checkIfDelAlsoAParticipant = true;
                 currentParticipantId = per.Participant__c;
-            }
-            //Check if IQVIA outreach toggle is on at any of the CTP for the Participant.
-            if (per.Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
-                isIQIVAOutrechToggleOnAtCTP = true;
+            } else {
+                //Check if IQVIA outreach toggle is on at any of the CTP for the Participant.
+                if (per.Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
+                    isIQIVAOutrechToggleOnAtCTP = true;
+                }
             }
         }
         //This logic is not required as part of Delegate redesing changes, as delegate will be Primary/Secondary for study specific.
@@ -1237,7 +1284,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 Adult__c,
                 Gender__c,
                 Date_of_Birth__c,
-            	Birth_Year__c,
+                Birth_Year__c,
                 Birth_Month__c,
                 Birth_Day__c,
                 Age__c,
@@ -1299,13 +1346,13 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 Id,
                 Participant__c,
                 Participant_Contact__c,
-            	Participant__r.Birth_Year__c,
-            	Participant__r.Birth_Month__c,
+                Participant__r.Birth_Year__c,
+                Participant__r.Birth_Month__c,
                 Participant__r.Birth_Day__c,
-            	Participant__r.Age__c,
+                Participant__r.Age__c,
                 Participant__r.Contact__c,
-                Participant__r.Adult__c, 
-                Participant__r.Email__c, 
+                Participant__r.Adult__c,
+                Participant__r.Email__c,
                 Study_Site__r.SMS_Are_Available__c,
                 Permit_Mail_Email_contact_for_this_study__c,
                 Permit_SMS_Text_for_this_study__c,
@@ -1314,7 +1361,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 Clinical_Trial_Profile__r.IQVIA_Outreach__c,
                 Clinical_Trial_Profile__c,
                 Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-            	Study_Site__r.Participant_DOB_format__c
+                Study_Site__r.Participant_DOB_format__c
             FROM Participant_Enrollment__c
             WHERE Id = :peIds
         ];

@@ -19296,6 +19296,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Below are the consent status and communication preferences for the participant. As a delegate you do not have access to edit these preferences.</value>
     </labels>
     <labels>
+        <fullName>PP_Communication_Pref_Del_Blank_Page</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Communication_Pref_Del_Blank_Page</shortDescription>
+        <value>No communication preference selections available.</value>
+    </labels>
+    <labels>
         <fullName>PP_Communication_Pref</fullName>
         <language>en_US</language>
         <protected>true</protected>
