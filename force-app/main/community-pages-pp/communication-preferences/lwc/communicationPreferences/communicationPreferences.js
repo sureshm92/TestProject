@@ -3,6 +3,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
+import PP_Communication_Pref_Del_Blank_Page from '@salesforce/label/c.PP_Communication_Pref_Del_Blank_Page';
 import PP_Communication_Pref from '@salesforce/label/c.PP_Communication_Pref';
 import PP_Communication_Pref_Study from '@salesforce/label/c.PP_Communication_Pref_Study';
 import PP_Communication_Pref_Study_consent from '@salesforce/label/c.PP_Communication_Pref_Study_consent';
@@ -61,6 +62,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     @api userMode;
 
     label = {
+        PP_Communication_Pref_Del_Blank_Page,
         PP_Outreach_Communication_Pref_D,
         PP_Outreach_Communication_Pref_C,
         PP_Outreach_Communication_Pref_B,
@@ -111,6 +113,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     showIQIVAOutreachConsentFlag = false;
     showStudyConsentFlag = false;
     DisableConsentsForDelInParView = false;
+    showStaticMessageForDelSelfViewEmpty =false;
     showPERConsents = false;
     ShowPDEConsents = false;
     isDelegateAlsoAParticipant =false;
@@ -279,6 +282,10 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         //Check Study Consent Visibility
         if (this.consentPreferenceDataLocal.perList.length > 0 || this.consentPreferenceDataLocal.pdeList.length > 0) {
             this.showStudyConsentFlag = true;
+        }
+        //Check if Delegate is in self View with no Studies associated and Iqvia Outreach Toggle Off
+        if (this.isDelegateSelfView && this.consentPreferenceDataLocal.pdeList.length == 0 && !this.consentPreferenceDataLocal.isIQIVAOutrechToggleOnAtCTP) {
+            this.showStaticMessageForDelSelfViewEmpty = true;
         }
         //
         if (!this.isParticipantLoggedIn && !this.isDelegateSelfView) {
@@ -932,7 +939,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     showIQVIAOutreachConsent() {
         //If IQVIA Outreach Consent is ON at CTP then only IQVIA Outreach Consent section should be visible.
         if (this.consentPreferenceDataLocal.isIQIVAOutrechToggleOnAtCTP) {
-            
+
             return true;
         }
         return false;
