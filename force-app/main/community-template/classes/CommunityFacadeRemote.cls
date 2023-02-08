@@ -503,13 +503,13 @@ public without sharing class CommunityFacadeRemote {
             }
             if(lstOfSuccess.size() == 1){
                 userLogin1 = lstOfSuccess[0].LoginTime;
-                query += ' AND CreatedDate >= :userCreatedDate AND CreatedDate <= :userLogin1 LIMIT 45000';
+                query += ' AND ((CreatedDate >= :userCreatedDate AND CreatedDate <= :userLogin1) OR (Created_Date_RPtoPI__c != null AND Created_Date_RPtoPI__c >= :userCreatedDate AND Created_Date_RPtoPI__c <= :userLogin1)) LIMIT 45000';
             }
 
             if(lstOfSuccess.size() == 2){
                 userLogin1 = lstOfSuccess[0].LoginTime;
                 userLogin2 = lstOfSuccess[1].LoginTime;
-                query += ' AND CreatedDate <= :userLogin1 AND CreatedDate >= :userLogin2 LIMIT 45000';
+                query += ' AND ((CreatedDate <= :userLogin1 AND CreatedDate >= :userLogin2) OR (Created_Date_RPtoPI__c != null AND Created_Date_RPtoPI__c <= :userLogin1 AND Created_Date_RPtoPI__c >= :userLogin2)) LIMIT 45000';
             }
 
             lstOfEnrollment = Database.Query(query);
