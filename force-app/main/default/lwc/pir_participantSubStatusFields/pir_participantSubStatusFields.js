@@ -37,6 +37,7 @@ import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import Log_in_and_sign from '@salesforce/label/c.Log_in_and_sign';
 import RH_Pir_Add_Televisit from '@salesforce/label/c.RH_Pir_Add_Televisit';
 import { NavigationMixin } from "lightning/navigation";
+import RH_Pir_Add_Televisit_ForScreeningVisit from '@salesforce/label/c.RH_Pir_Add_Televisit_ForScreeningVisit';
 export default class Pir_participantSubStatusFields extends NavigationMixin(LightningElement) {
   @api index = "";
   @api outcomeToReasonMap = {};
@@ -107,7 +108,8 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
     RH_TV_Confirm,
     BTN_Cancel,
     RH_Pir_Add_Televisit,
-    Log_in_and_sign
+    Log_in_and_sign,
+    RH_Pir_Add_Televisit_ForScreeningVisit
   };
   connectedCallback() {
     if (this.isrtl) {

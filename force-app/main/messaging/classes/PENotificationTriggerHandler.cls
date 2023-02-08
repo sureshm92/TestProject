@@ -42,6 +42,7 @@ public without sharing class PENotificationTriggerHandler {
         };
         List<Notification__c> notifications = new List<Notification__c>();
         List<Id> participantConIds = new List<Id>();
+        List<Id> perIdList = new List<Id>();
         List<Participant_Enrollment__c> PEs = [
             SELECT
                 Id,
@@ -64,6 +65,7 @@ public without sharing class PENotificationTriggerHandler {
         for (Participant_Enrollment__c pe : PEs) {
             String notifyHCPType, notifyPTType;
 
+            perIdList.add(pe.Id);
             //Forming list notifications for HCPs and Patients
             Boolean notContainsForPT = false, notContainsForHCP = false;
             if (
@@ -152,10 +154,12 @@ public without sharing class PENotificationTriggerHandler {
         List<Notification__c> delegateNotifications = new List<Notification__c>();
         Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateEnrollmentService.getDelegatedCntsByParticipantCnt(
             participantConIds,
-            new List<String>{ 'Id' }
+            new List<String>{ 'Id' },
+            perIdList
         );
         // !skipNotifyTypesDel -- all are hcp or virual study Notifications .
-        for (Notification__c n : notifications) { //
+        for (Notification__c n : notifications) {
+            //
             if (
                 !skipNotifyTypesDel.contains(n.Notification_Type__c) &&
                 delegateContactsByPartCnt.containsKey(n.Recipient__c)
@@ -189,7 +193,7 @@ public without sharing class PENotificationTriggerHandler {
         for (Participant_Enrollment__c pe : newList) {
             if (pe.Participant_Contact__c != null)
                 participantConIds.add(pe.Participant_Contact__c);
-                perIdList.add(pe.Id);
+            perIdList.add(pe.Id);
         }
 
         List<Participant_Enrollment__c> allPEs = [
@@ -249,7 +253,7 @@ public without sharing class PENotificationTriggerHandler {
                             new Notification__c(
                                 Recipient__c = delegate.Id,
                                 WhatId__c = pe.Id,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,// when existing delegate added to new study
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE, // when existing delegate added to new study
                                 IsDelegate__c = true
                             )
                         );
@@ -278,50 +282,50 @@ public without sharing class PENotificationTriggerHandler {
                 peIds.add(pe.Id);
             }
         }
-        if(!peIds.isEmpty()){
-        for (Participant_Enrollment__c pe : [
-            SELECT
-                Id,
-                Study_Site__c,
-                Study_Site__r.Principal_Investigator__c,
-                Participant_Contact__c
-            FROM Participant_Enrollment__c
-            WHERE Id IN :peIds
-        ]) {
-            if (pe.Participant_Contact__c != null) {
-                notificationList.add(
-                    new Notification__c(
-                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE,
-                        Recipient__c = pe.Participant_Contact__c,
-                        WhatId__c = pe.Id
-                    )
-                );
-            }
-            if (pe.Study_Site__r.Principal_Investigator__c != null) {
-                notificationList.add(
-                    new Notification__c(
-                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE,
-                        Recipient__c = pe.Study_Site__r.Principal_Investigator__c,
-                        WhatId__c = pe.Id
-                    )
-                );
-                for (Site_Staff__c delegate : [
-                    SELECT Id, Site_Contact__c
-                    FROM Site_Staff__c
-                    WHERE
-                        Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
-                        AND Study_Site__c = :pe.Study_Site__c
-                ]) {
+        if (!peIds.isEmpty()) {
+            for (Participant_Enrollment__c pe : [
+                SELECT
+                    Id,
+                    Study_Site__c,
+                    Study_Site__r.Principal_Investigator__c,
+                    Participant_Contact__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN :peIds
+            ]) {
+                if (pe.Participant_Contact__c != null) {
                     notificationList.add(
                         new Notification__c(
-                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE,
-                            Recipient__c = delegate.Site_Contact__c,
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE,
+                            Recipient__c = pe.Participant_Contact__c,
                             WhatId__c = pe.Id
                         )
                     );
                 }
+                if (pe.Study_Site__r.Principal_Investigator__c != null) {
+                    notificationList.add(
+                        new Notification__c(
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE,
+                            Recipient__c = pe.Study_Site__r.Principal_Investigator__c,
+                            WhatId__c = pe.Id
+                        )
+                    );
+                    for (Site_Staff__c delegate : [
+                        SELECT Id, Site_Contact__c
+                        FROM Site_Staff__c
+                        WHERE
+                            Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
+                            AND Study_Site__c = :pe.Study_Site__c
+                    ]) {
+                        notificationList.add(
+                            new Notification__c(
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE,
+                                Recipient__c = delegate.Site_Contact__c,
+                                WhatId__c = pe.Id
+                            )
+                        );
+                    }
+                }
             }
-        }
         }
         if (!notificationList.isEmpty())
             insert notificationList;

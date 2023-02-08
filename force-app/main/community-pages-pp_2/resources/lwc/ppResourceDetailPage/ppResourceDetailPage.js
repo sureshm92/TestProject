@@ -79,16 +79,21 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 }
                 this.isFavourite = result.wrappers[0].isFavorite;
                 this.isVoted = result.wrappers[0].isVoted;
-                if (this.isDocument) {
-                    this.handleDocumentLoad();
-                }
+
                 //get study Title
-                if (this.state != 'ALUMNI' && resourceData.Content_Class__c == 'Study-Specific') {
+                if (
+                    this.state != 'ALUMNI' &&
+                    (resourceData.Content_Class__c == 'Study-Specific' || this.isDocument)
+                ) {
                     getCtpName({})
                         .then((result) => {
                             let data = JSON.parse(result);
                             this.studyTitle =
                                 data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Code_Name__c;
+                            if (this.isDocument) {
+                                this.handleDocumentLoad();
+                            }
+                            this.isInitialized = true;
                         })
                         .catch((error) => {
                             this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
@@ -99,7 +104,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             })
             .finally(() => {
-                this.isInitialized = true;
                 if (this.spinner) {
                     this.spinner.hide();
                 }
@@ -109,12 +113,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     handleDocumentLoad() {
         let subDomain = communityService.getSubDomain();
         if (FORM_FACTOR == 'Large') {
-            this.documentLink =
-                subDomain +
-                '/apex/RRPDFViewer?resourceId=' +
-                this.resourceId +
-                '&language=' +
-                this.langCode;
+            if (subDomain) {
+                this.documentLink =
+                    subDomain +
+                    '/apex/RRPDFViewer?resourceId=' +
+                    this.resourceId +
+                    '&language=' +
+                    this.langCode;
+            }
         } else {
             let updates = true;
             this.documentLink =

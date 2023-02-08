@@ -31,6 +31,10 @@ export default class PpCookiesBanner extends LightningElement {
     @api
     isRTL = false;
     @api
+    termsAndConditions = false;
+    @api
+    isDummy = false;
+    @api
     communityName;
     userMode;
     spinner;
@@ -95,7 +99,26 @@ export default class PpCookiesBanner extends LightningElement {
             this.showBanner = false;
         }
         if ((!rrCookies || this.loginPage) && !data) {
-            this.showBanner = true;
+            if (this.isDummy && !localStorage.getItem('CookiesOnTC') && !this.termsAndConditions) {
+                this.showBanner = true;
+            }
+            if (this.isDummy) {
+                localStorage.setItem('CookiesOnTC', 'Accepted');
+            }
+
+            if (!this.termsAndConditions && !this.isDummy) {
+                //Home Page
+                this.showBanner = true;
+            }
+
+            if (this.termsAndConditions && !localStorage.getItem('CookiesOnTC') && !this.isDummy) {
+                //Cookies banner for terms page
+                this.showBanner = true;
+            }
+            if (this.termsAndConditions) {
+                localStorage.setItem('CookiesOnTC', 'Accepted');
+            }
+
             this.blockBackGroundEvents();
             if (this.communityName == 'Default' || this.communityName == 'IQVIA Referral Hub') {
                 this.containerClassCss = this.containerClassCss + ' rh-cookies-banner';
@@ -108,15 +131,23 @@ export default class PpCookiesBanner extends LightningElement {
                 this.accordionCss = this.accordionCss + '  rh-border-radius';
                 this.accordionActiveCss = this.accordionActiveCss + ' rh-border-radius';
             }
+            if (this.communityName == 'Janssen Community') {
+                this.modalTopCss = this.modalTopCss + ' janssen-card-top-bg';
+            }
         }
         sessionStorage.removeItem('Cookies');
         localStorage.removeItem('Cookies');
+        if (!this.isDummy && !this.termsAndConditions) {
+            localStorage.removeItem('CookiesOnTC');
+        }
         let accList = this.template.querySelectorAll('accordion');
     }
     blockBackGroundEvents() {
         document.body.addEventListener('keypress', this.bodyBlock);
         document.body.addEventListener('keydown', this.bodyBlock);
         document.body.classList.add('cookie-block-user');
+        let htmlDivs = document.getElementsByTagName('html');
+        htmlDivs[0].classList.add('cookie-block-user');
     }
     bodyBlock(event) {
         event.preventDefault();
@@ -166,6 +197,8 @@ export default class PpCookiesBanner extends LightningElement {
 
     closeTheBanner() {
         document.body.classList.remove('cookie-block-user');
+        let htmlDivs = document.getElementsByTagName('html');
+        htmlDivs[0].classList.remove('cookie-block-user');
         this.showBanner = false;
         document.body.removeEventListener('keypress', this.bodyBlock);
         document.body.removeEventListener('keydown', this.bodyBlock);
@@ -176,6 +209,8 @@ export default class PpCookiesBanner extends LightningElement {
     acceptAll() {
         communityService.setCookie('RRCookies', 'agreed', 365);
         document.body.classList.remove('cookie-block-user');
+        let htmlDivs = document.getElementsByTagName('html');
+        htmlDivs[0].classList.remove('cookie-block-user');
         this.showBanner = false;
         if (!this.isJanssenCommunity) {
             changeOptInCookies({
@@ -227,6 +262,8 @@ export default class PpCookiesBanner extends LightningElement {
                     if (this.contact.RRCookiesAllowedCookie__c) {
                         this.setRRCookie();
                         document.body.classList.remove('cookie-block-user');
+                        let htmlDivs = document.getElementsByTagName('html');
+                        htmlDivs[0].classList.remove('cookie-block-user');
                     }
                     if (this.contact.RRLanguageAllowedCookie__c) {
                         this.setRRCookieLanguage();
