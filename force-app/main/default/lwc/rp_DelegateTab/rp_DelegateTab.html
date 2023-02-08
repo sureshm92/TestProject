@@ -56,7 +56,7 @@
                                 <lightning-input type="text" disabled={isaccesslevelthree} name="Phone Number"
                                     label={label.RH_RP_Delegate_Phone_Number}
                                     value={pe.peRecord.Primary_Delegate_Phone_Number__c} data-value="DelPhoneNumber"
-                                    data-id={pe.peRecord.Id} required="true" onchange={changeInputValue}>
+                                    data-id={pe.peRecord.Id} required="true" onchange={changeInputValue} class="del-phonelandscape">
                                 </lightning-input>
                             </div>
                         </lightning-layout-item>
@@ -89,7 +89,7 @@
                         <lightning-layout-item padding="around-small" size="12">
                             <div>
                                 <div class="tooltip">
-                                    <div class="textoverlap">{label.RH_RP_Delegate_Alt_Phone_Type}</div>
+                                    <div class="textoverlap altphone-landscape">{label.RH_RP_Delegate_Alt_Phone_Type}</div>
                                  <lightning-combobox disabled={isaccesslevelthree}
                                     variant="label-hidden" name="PDAT"
                                     placeholder={label.RH_RP_Select_Alternative_Type}
