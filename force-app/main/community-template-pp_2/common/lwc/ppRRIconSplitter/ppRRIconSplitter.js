@@ -69,6 +69,9 @@ get mobileOrDesktopSizeRight(){
         if(this.showRight){
             var contents = this.template.querySelector(".topdiv");
             contents.scrollLeft -= this.scrollby;
+            if(this.template.querySelector(".chevronR")){
+                this.template.querySelector(".chevronR").className="chevronR";
+                }
             if(contents.scrollLeft<=this.scrollby){
                 if(this.template.querySelector(".chevronL")){
                 this.template.querySelector(".chevronL").className="chevronL disableCursor";
@@ -126,8 +129,8 @@ get mobileOrDesktopSizeRight(){
         }            
     }
 
-    get morethan6or7(){
-        if(this.icons!='' && this.icons && this.ismobile?this.icons.length >6:this.icons.length >7){
+    get morethan7or8(){
+        if(this.icons!='' && this.icons && this.ismobile?this.icons.length >7:this.icons.length >8){
             return true;
         }else{
             return false;

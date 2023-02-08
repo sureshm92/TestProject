@@ -368,8 +368,7 @@ public without sharing class RRChangePasswordController {
         Id ctpId;
 
         ctpId = per?.Clinical_Trial_Profile__c;
-        String baseUrl=Site.getBaseUrl().replace('pp', 'terms');
-
+        String baseUrl = Site.getBaseUrl().replace('/pp', '/terms');
 
         if (
             (ctpId != null) &&

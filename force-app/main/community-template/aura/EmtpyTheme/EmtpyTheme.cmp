@@ -16,6 +16,8 @@
     <!-- attributes: -->
     <aura:attribute name="initialized" type="Boolean" default="false" />
     <aura:attribute name="communityName" type="String" />
+    <aura:attribute name="communitySiteName" type="String" />
+    <aura:attribute name="isDummy" type="Boolean" />
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
@@ -28,10 +30,20 @@
     <aura:if isTrue="{!v.initialized}">
         <aura:if isTrue="{!v.communityName}">
             <aura:if
-                isTrue="{!and(v.communityName != 'IQVIA Patient Portal',v.communityName != 'IQVIA Referral Hub',v.communityName != 'Janssen Community')}"
+                isTrue="{!and(v.communityName != 'IQVIA Patient Portal',and(v.communityName != 'IQVIA Referral Hub',v.communityName != 'Janssen Community'))}"
             >
                 <c:CookiesInfo />
             </aura:if>
+        </aura:if>
+        <aura:if isTrue="{!v.communitySiteName == 'Policies_and_Terms1'}">
+            <c:ppCookiesBanner
+                loginPage="true"
+                communityName="PatientPortal"
+                termsAndConditions="true"
+            />
+        </aura:if>
+        <aura:if isTrue="{!v.isDummy}">
+            <c:ppCookiesBanner loginPage="true" communityName="{!v.communityName}" isDummy="true" />
         </aura:if>
     </aura:if>
 </aura:component>

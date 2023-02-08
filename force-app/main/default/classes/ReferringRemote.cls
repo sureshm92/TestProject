@@ -411,6 +411,7 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             enrollment.Contacted__c = true;
             enrollment.Contacted_Date__c = System.today();
+            enrollment.Created_Date_RPtoPI__c = Datetime.now(); //created this field for RH-9902
             enrollment.Consulted__c = true;
             enrollment.Consulted_Date__c = System.today();
             enrollment.Have_you_Documented_the_Discussion__c = true;
@@ -966,6 +967,7 @@ return String.join(addressList, ', ');
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             enrollment.Contacted__c = true;
             enrollment.Contacted_Date__c = System.today();
+            enrollment.Created_Date_RPtoPI__c = Datetime.now(); //created this field for RH-9902
             enrollment.Consulted__c = true;
             enrollment.Consulted_Date__c = System.today();
             enrollment.Have_you_Documented_the_Discussion__c = true;
@@ -1112,6 +1114,7 @@ return String.join(addressList, ', ');
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             enrollment.Contacted__c = true;
             enrollment.Contacted_Date__c = System.today();
+            enrollment.Created_Date_RPtoPI__c = Datetime.now(); //created this field for RH-9902
             enrollment.Consulted__c = true;
             enrollment.Consulted_Date__c = System.today();
             enrollment.Have_you_Documented_the_Discussion__c = true;
