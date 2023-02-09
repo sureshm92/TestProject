@@ -81,11 +81,11 @@ public without sharing class ParametrizedMessageService {
                         valueStr = System.Label.Not_Available;
                     }
                 }
+                /**PEH-9758*/
                 if (paramName == 'TaskOnlydate') {
                     if (valueStr == '') {
                         valueStr = System.Label.Not_Available;
                     } else {
-                        //convert it to date
                         if (value instanceof Datetime) {
                             DateTime tempDateTime = (DateTime) value;
                             valueStr = UserService.formatDatebyLocale(
