@@ -46,54 +46,35 @@ export default class Documents extends NavigationMixin(LightningElement) {
     }
 
     handleNavigateDefault() {
-        let detailLink =
-            window.location.origin +
-            '/pp/s/resource-detail' +
-            '?resourceid=' +
-            this.id +
-            '&resourcetype=' +
-            this.document.resource.RecordType.DeveloperName +
-            '&state=' +
-            this.state;
-
-        const config = {
-            type: 'standard__webPage',
-
-            attributes: {
-                url: detailLink
+        sessionStorage.setItem('Cookies', 'Accepted');		
+        this[NavigationMixin.Navigate]({
+        type: 'comm__namedPage',
+        attributes: {
+            pageName: 'resource-detail'
+        },
+        state: {
+            resourceid : this.id,
+            resourcetype : this.document.resource.RecordType.DeveloperName,
+            state : this.state
             }
-        };
-
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
-        });
+        });	
     }
 
     doMenuItemSelected(event) {
         let translationItem = event.target.dataset.itemvalue;
         let langCode = event.target.dataset.langcode;
         let contentId = event.target.dataset.contentid;
-
-        let detailLink =
-            window.location.origin +
-            '/pp/s/resource-detail' +
-            '?resourceid=' +
-            this.id +
-            '&resourcetype=' +
-            this.document.resource.RecordType.DeveloperName;
-        if (langCode) detailLink += '&lang=' + langCode;
-        const config = {
-            type: 'standard__webPage',
-
-            attributes: {
-                url: detailLink
+        sessionStorage.setItem('Cookies', 'Accepted');		
+        this[NavigationMixin.Navigate]({
+        type: 'comm__namedPage',
+        attributes: {
+            pageName: 'resource-detail'
+        },
+        state: {
+            resourceid : this.id,
+            resourcetype : this.document.resource.RecordType.DeveloperName,
+            lang : langCode
             }
-        };
-
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
         });
     }
 
