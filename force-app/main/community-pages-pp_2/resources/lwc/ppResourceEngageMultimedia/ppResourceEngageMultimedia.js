@@ -21,28 +21,17 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
         if (communityService.isInitialized()) {
             state = communityService.getCurrentCommunityMode().participantState;
         }
-        let detailLink =
-            window.location.origin +
-            subDomain +
-            '/s/resource-detail' +
-            '?resourceid=' +
-            this.exploreData.resource.Id +
-            '&resourcetype=' +
-            this.exploreData.resource.RecordType.DeveloperName +
-            '&state=' +
-            state;
-
-        const config = {
-            type: 'standard__webPage',
-
-            attributes: {
-                url: detailLink
+        sessionStorage.setItem('Cookies', 'Accepted');		
+        this[NavigationMixin.Navigate]({
+        type: 'comm__namedPage',
+        attributes: {
+            pageName: 'resource-detail'
+        },
+        state: {
+            resourceid : this.exploreData.resource.Id,
+            resourcetype : this.exploreData.resource.RecordType.DeveloperName,
+            state : state
             }
-        };
-
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
         });
     }
 }
