@@ -151,6 +151,19 @@ public without sharing class ParametersProviderService {
                     valueStr = System.Label.Not_Available;
                 }
             }
+            if (paramName == 'TaskOnlydate') {
+                if (valueStr == '') {
+                    valueStr = System.Label.Not_Available;
+                } else {
+                    //convert it to date
+                    if (value instanceof Datetime) {
+                        DateTime tempDateTime = (DateTime) value;
+                        valueStr = UserService.formatDatebyLocale(tempDateTime.date(), language);
+                    } else if (value instanceof Date) {
+                        valueStr = UserService.formatDatebyLocale((Date) value, language);
+                    }
+                }
+            }
             valueByParam.put(paramName, valueStr);
         }
 

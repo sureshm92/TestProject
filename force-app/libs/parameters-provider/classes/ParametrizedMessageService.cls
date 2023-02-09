@@ -81,6 +81,23 @@ public without sharing class ParametrizedMessageService {
                         valueStr = System.Label.Not_Available;
                     }
                 }
+                if (paramName == 'TaskOnlydate') {
+                    if (valueStr == '') {
+                        valueStr = System.Label.Not_Available;
+                    } else {
+                        //convert it to date
+                        if (value instanceof Datetime) {
+                            DateTime tempDateTime = (DateTime) value;
+                            valueStr = UserService.formatDatebyLocale(
+                                tempDateTime.date(),
+                                language
+                            );
+                        } else if (value instanceof Date) {
+                            valueStr = UserService.formatDatebyLocale((Date) value, language);
+                        }
+                    }
+                }
+
                 if (paramName == 'STUDYorPROGRAM') {
                     if (valueStr == 'true') {
                         valueStr = System.Label.Program_SMS_PP;
@@ -95,14 +112,14 @@ public without sharing class ParametrizedMessageService {
                         valueStr = System.Label.Study_PP;
                     }
                 }
-                if(paramName == 'isEventorVisit') {
+                if (paramName == 'isEventorVisit') {
                     if (valueStr == 'true') {
                         valueStr = System.Label.Event_PP;
                     } else {
                         valueStr = System.Label.Visit_PP;
                     }
                 }
-                
+
                 valuesMap.put(paramName, valueStr);
             }
             resultMessage = sourceMessage;

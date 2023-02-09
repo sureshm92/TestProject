@@ -1,6 +1,6 @@
 /**
  * Created by Igor Malyuta on 04.10.2019.
- */ 
+ */
 
 public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContactWrapper>, Database.Stateful {
     private TaskService.TaskConfig taskConfig;
@@ -63,7 +63,8 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                     AND Profile.Name = :CommunityService.COMMUNITY_USER_PROFILE_NAME
             ];
             List<Task> tasks = new List<Task>();
-             Time eodTime = Time.newInstance(23, 59, 0, 0);
+            Time eodTime = Time.newInstance(23, 59, 0, 0);
+            Map<Id, TimeZone> contactWithTimezone = new Map<Id, TimeZone>();
             for (User user : users) {
                 contactWithoutUser.remove(user.ContactId);
                 TimeZone userTZ = TimeZone.getTimeZone(user.TimeZoneSidKey);
@@ -143,24 +144,86 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
             }
             List<Id> contactListOfId = new List<Id>(contactWithoutUser);
             if (!contactListOfId.isEmpty()) {
+                //List of Primary Delegates of participants having no user
+                List<Patient_Delegate__c> patientdelegatesList = [
+                    SELECT Contact__c, Participant__r.Contact__c
+                    FROM Patient_Delegate__c
+                    WHERE
+                        Participant__r.Contact__c IN :contactListOfId
+                        AND Primary_Delegate__c = TRUE
+                ];
+                //create map of contactIds with their primary delegatecontact
+                Map<Id, Id> contactsWithPrimaryDelegateCon = new Map<Id, Id>();
+                if (!patientdelegatesList.isEmpty()) {
+                    for (Patient_Delegate__c patientDel : patientdelegatesList) {
+                        contactsWithPrimaryDelegateCon.put(
+                            patientDel.Participant__r.Contact__c,
+                            patientDel.Contact__c
+                        );
+                    }
+                }
+                List<User> primaryDelUsers = [
+                    SELECT Id, ContactId, Name, TimeZoneSidKey
+                    FROM User
+                    WHERE
+                        ContactId IN :contactsWithPrimaryDelegateCon.values()
+                        AND IsActive = TRUE
+                        AND Profile.Name = :CommunityService.COMMUNITY_USER_PROFILE_NAME
+                ];
+                if (primaryDelUsers != null && !primaryDelUsers.isEmpty()) {
+                    for (User delUser : primaryDelUsers) {
+                        contactWithTimezone.put(
+                            delUser.ContactId,
+                            TimeZone.getTimeZone(delUser.TimeZoneSidKey)
+                        );
+                    }
+                }
+
+                //for each contact without user, use it's primary delegates timezone
+
                 for (Id contactIds : contactListOfId) {
                     for (Id whatId : whatIdByContactIds.get(contactIds)) {
-                         Datetime reminderDT_GMT;
-                         Datetime reminderDT;
-                    if (taskConfig.reminderDate != null) {
-                        reminderDT_GMT = Datetime.newInstanceGmt(
-                            taskConfig.reminderDate,
-                            Datetime.now().timeGmt()
-                        );
+                        //get primary del con of contact without user
+                        Id primaryDelContact = contactsWithPrimaryDelegateCon.get(contactIds);
+                        TimeZone primaryDelTimezone = contactWithTimezone.get(primaryDelContact);
+
+                        Datetime reminderDT_GMT;
+                        Datetime reminderDT;
+                        if (taskConfig.reminderDate != null) {
+                            reminderDT_GMT = Datetime.newInstanceGmt(
+                                taskConfig.reminderDate,
+                                Datetime.now().timeGmt()
+                            );
                             reminderDT = Datetime.newInstance(
                                 taskConfig.reminderDate,
                                 Datetime.now().time()
                             );
-                    }
+                        }
                         Datetime activityDT;
+                        Integer offsetSeconds;
                         if (taskConfig.endTime != null) {
-                        activityDT = Datetime.newInstanceGmt(taskConfig.endTime, eodTime).addSeconds(120);
-                    }
+                            try {
+                                if (primaryDelContact != null && primaryDelTimezone != null) {
+                                    offsetSeconds =
+                                        primaryDelTimezone.getOffset(taskConfig.endTime) / 1000;
+                                    activityDT = Datetime.newInstanceGmt(
+                                            taskConfig.endTime,
+                                            eodTime
+                                        )
+                                        .addSeconds(-offsetSeconds);
+                                } else {
+                                    activityDT = Datetime.newInstanceGmt(
+                                            taskConfig.endTime,
+                                            eodTime
+                                        )
+                                        .addSeconds(120);
+                                }
+                            } catch (Exception e) {
+                                IntegrationLog__c aa = new IntegrationLog__c();
+                                aa.Error_Message__c = 'RK:::' + String.valueOf(e.getMessage());
+                                insert aa;
+                            }
+                        }
                         String TypeOfContactTemp = IdTypeOfContactMap.get(contactIds);
                         String VisibleFor = taskConfig.visibility;
                         if (

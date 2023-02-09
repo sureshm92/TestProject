@@ -44,48 +44,51 @@
                         <div class="error-date">{singleError}</div>
                     </template>
                 </div>
-                <div if:false={past} class={timeClass}>
-                    <template if:false={reminder}>
-                        <template if:false={createTask}>
-                            <label>{label.time}</label>
+                <template if:false={hideTimeInput}>
+                    <div if:false={past} class={timeClass}>
+                        <template if:false={reminder}>
+                            <template if:false={createTask}>
+                                <label>{label.time}</label>
+                            </template>
+                            <template if:true={createTask}>
+                                <label
+                                    >{label.time}<abbr class="slds-required" title="required"
+                                        >*
+                                    </abbr></label
+                                >
+                            </template>
                         </template>
-                        <template if:true={createTask}>
-                            <label
-                                >{label.time}<abbr class="slds-required" title="required"
-                                    >*
-                                </abbr></label
+                        <template if:true={reminder}>
+                            <label>{label.remindertime}</label>
+                        </template>
+                        <div class="curve-input time-error-allignment">
+                            <c-web-icon
+                                class="svg-icon"
+                                icon-size={iconSize}
+                                icon-name="time_clock"
+                                data-id="time"
+                                icon-color={iconColor}
                             >
-                        </template>
-                    </template>
-                    <template if:true={reminder}>
-                        <label>{label.remindertime}</label>
-                    </template>
-                    <div class="curve-input  time-error-allignment">
-                        <c-web-icon
-                            class="svg-icon"
-                            icon-size={iconSize}
-                            icon-name="time_clock"
-                            data-id="time"
-                            icon-color={iconColor}
-                        >
-                        </c-web-icon>
-                        <lightning-input
-                            type="time"
-                            value={dbTime}
-                            min={mintime}
-                            max={maxtime}
-                            onblur={handleTime}
-                            disabled={timeOnlyPresent}
-                            placeholder={label.timePlaceHolder}
-                            message-when-bad-input={label.validTimeFormat}
-                            message-when-pattern-mismatch={label.validTimeFormat}
-                            message-when-range-underflow={pastTimeErrorLabel}
-                            message-when-range-overflow={futureDateTimeErrorLabel}
-                            class="timc"
-                        >
-                        </lightning-input>
+                            </c-web-icon>
+
+                            <lightning-input
+                                type="time"
+                                value={dbTime}
+                                min={mintime}
+                                max={maxtime}
+                                onblur={handleTime}
+                                disabled={timeOnlyPresent}
+                                placeholder={label.timePlaceHolder}
+                                message-when-bad-input={label.validTimeFormat}
+                                message-when-pattern-mismatch={label.validTimeFormat}
+                                message-when-range-underflow={pastTimeErrorLabel}
+                                message-when-range-overflow={futureDateTimeErrorLabel}
+                                class="timc"
+                            >
+                            </lightning-input>
+                        </div>
                     </div>
-                </div>
+                </template>
             </div>
         </div>
     </template>
