@@ -126,7 +126,7 @@ export default class PpCommunityNavigation extends LightningElement {
                     );
                     this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
                     this.showAboutStudy = !this.showAboutProgram;
-                    if(td.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c){
+                    if(td.pe && td.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c){
                         this.gettelevisitDetails(td.pe.Study_Site__c);
                     }else{
                         this.showAboutTelevisit = false;
