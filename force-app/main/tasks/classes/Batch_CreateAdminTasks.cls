@@ -152,7 +152,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                         Participant__r.Contact__c IN :contactListOfId
                         AND Primary_Delegate__c = TRUE
                 ];
-                //create map of contactIds with their primary delegatecontact
+                //Map of contactIds with their primary delegate contacts
                 Map<Id, Id> contactsWithPrimaryDelegateCon = new Map<Id, Id>();
                 if (!patientdelegatesList.isEmpty()) {
                     for (Patient_Delegate__c patientDel : patientdelegatesList) {
@@ -170,6 +170,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                         AND IsActive = TRUE
                         AND Profile.Name = :CommunityService.COMMUNITY_USER_PROFILE_NAME
                 ];
+                /** Map of Primary Delegates of Contacts without user and their Timezone*/
                 if (primaryDelUsers != null && !primaryDelUsers.isEmpty()) {
                     for (User delUser : primaryDelUsers) {
                         contactWithTimezone.put(
@@ -179,11 +180,9 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                     }
                 }
 
-                //for each contact without user, use it's primary delegates timezone
-
                 for (Id contactIds : contactListOfId) {
                     for (Id whatId : whatIdByContactIds.get(contactIds)) {
-                        //get primary del con of contact without user
+                        /** Find Primary Delegate and get its Timezone*/
                         Id primaryDelContact = contactsWithPrimaryDelegateCon.get(contactIds);
                         TimeZone primaryDelTimezone = contactWithTimezone.get(primaryDelContact);
 
@@ -202,26 +201,14 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                         Datetime activityDT;
                         Integer offsetSeconds;
                         if (taskConfig.endTime != null) {
-                            try {
-                                if (primaryDelContact != null && primaryDelTimezone != null) {
-                                    offsetSeconds =
-                                        primaryDelTimezone.getOffset(taskConfig.endTime) / 1000;
-                                    activityDT = Datetime.newInstanceGmt(
-                                            taskConfig.endTime,
-                                            eodTime
-                                        )
-                                        .addSeconds(-offsetSeconds);
-                                } else {
-                                    activityDT = Datetime.newInstanceGmt(
-                                            taskConfig.endTime,
-                                            eodTime
-                                        )
-                                        .addSeconds(120);
-                                }
-                            } catch (Exception e) {
-                                IntegrationLog__c aa = new IntegrationLog__c();
-                                aa.Error_Message__c = 'RK:::' + String.valueOf(e.getMessage());
-                                insert aa;
+                            if (primaryDelContact != null && primaryDelTimezone != null) {
+                                offsetSeconds =
+                                    primaryDelTimezone.getOffset(taskConfig.endTime) / 1000;
+                                activityDT = Datetime.newInstanceGmt(taskConfig.endTime, eodTime)
+                                    .addSeconds(-offsetSeconds);
+                            } else {
+                                activityDT = Datetime.newInstanceGmt(taskConfig.endTime, eodTime)
+                                    .addSeconds(120);
                             }
                         }
                         String TypeOfContactTemp = IdTypeOfContactMap.get(contactIds);
