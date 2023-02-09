@@ -7,6 +7,7 @@ public without sharing class PPCookiesBannerController {
     public String userJsonString;
 
     public void fetchTheCookieData() {
+        try{
         userMode = UserContext.getCurrentUserMode().userMode;
         userAccountSetting = AccountSettingsController.getInitData(userMode);
         AccountSettingsController.AccountData accData = (AccountSettingsController.AccountData) JSON.deserialize(
@@ -19,6 +20,10 @@ public without sharing class PPCookiesBannerController {
             currentContact.RRCookiesAllowedCookie__c = false;
             currentContact.RRLanguageAllowedCookie__c = false;
         }
+    }catch(Exception e)
+    {
+        System.debug(e.getStackTraceString());
+    }
     }
     public void updateCookiePreferences() {
         update currentContact;
