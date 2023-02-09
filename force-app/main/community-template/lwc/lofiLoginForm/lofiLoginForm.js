@@ -252,6 +252,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         }
     }
     handleForgotPassword() {
+        sessionStorage.setItem('CookiesonLoginPage', 'Accepted');
         let userName = this.template.querySelector('lightning-input[data-id=userName]').value;
         this.lockedOutUsrName = userName;
 
