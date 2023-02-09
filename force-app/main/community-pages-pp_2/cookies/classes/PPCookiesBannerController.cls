@@ -8,14 +8,8 @@ public without sharing class PPCookiesBannerController {
 
     public void fetchTheCookieData() {
         try {
-            userMode = UserContext.getCurrentUserMode().userMode;
-            userAccountSetting = AccountSettingsController.getInitData(userMode);
-            AccountSettingsController.AccountData accData = (AccountSettingsController.AccountData) JSON.deserialize(
-                userAccountSetting,
-                AccountSettingsController.AccountData.class
-            );
-            cookieSettings = accData.cookieSettings;
-            currentContact = accData.myContact;
+            cookieSettings = AccountSettingsController.getCookieSettings();
+            currentContact = AccountSettingsController.getCurrentContact();
             if (currentContact.Is_First_Logon__c) {
                 currentContact.RRCookiesAllowedCookie__c = false;
                 currentContact.RRLanguageAllowedCookie__c = false;
