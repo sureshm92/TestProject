@@ -7,7 +7,7 @@ import LINKS_EMPTY from '@salesforce/label/c.Discover_Links_Empty';
 export default class PpDiscoverLinks extends LightningElement {
     isInitialized = false;
     isAvailable = false;
-    @api linksWrappers;
+    @api linksWrappers=[];
     @api discoverEmptyState;
     desktop = true;
     isRendered = false;
