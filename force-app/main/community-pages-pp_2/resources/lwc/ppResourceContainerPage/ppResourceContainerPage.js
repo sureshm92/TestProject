@@ -68,6 +68,8 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     isDisabled = false;
     @track resourcesFilterData;
     @track resourcesData;
+    @track linksWrappers = [];
+    discoverEmptyState = false;
     multimedia = false;
     empty_state = pp_community_icons + '/' + 'engage_empty.png';
 
@@ -159,6 +161,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                     };
 
                     initData.resources.forEach((resObj) => {
+                        this.linksWrappers.push(resObj.resource);
                         resObj.resource.Therapeutic_Area_Assignments__r?.forEach(
                             (therapeuticArea) => {
                                 therapeuticAssignments.resource = therapeuticArea.Resource__c;
@@ -173,6 +176,9 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                         therapeuticAssignmentsList = [];
                         delete resObj.resource.Therapeutic_Area_Assignments__r;
                     });
+                    this.linksWrappers.length == 0
+                    ? (this.discoverEmptyState = true)
+                    : (this.discoverEmptyState = false);
                     this.getUpdates(JSON.stringify(initData));
                 })
                 .catch((error) => {
