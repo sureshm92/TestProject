@@ -422,6 +422,14 @@
         margin-top: -8px;
     }
 }
+/** landscape changes**/
+@media screen and (orientation:landscape)
+and (max-device-width: 898px) 
+{
+    .w-date{
+        width: 48%;
+    }
+}
 /*RTL start*/
 .rtl .w-date {
     width: 46%;

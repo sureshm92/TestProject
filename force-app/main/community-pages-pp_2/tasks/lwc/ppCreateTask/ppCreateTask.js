@@ -43,6 +43,7 @@ export default class PpCreateTask extends LightningElement {
     @api taskId;
     @api editMode = false;
     disbaleDateTime = false;
+    isSystemOrBusinessTask = false;
     initialRecord;
     updatedRecord;
 
@@ -94,6 +95,7 @@ export default class PpCreateTask extends LightningElement {
                         this.template.querySelector('[data-id="taskName"]').value =
                             wrapper.task.Subject;
                         if (this.taskCodeList.includes(wrapper.task.Task_Code__c)) {
+                            this.isSystemOrBusinessTask = true;
                             this.disbaleDateTime = true;
                             this.readOnlyMode = true;
                         } else {
@@ -104,6 +106,7 @@ export default class PpCreateTask extends LightningElement {
                                 if (!wrapper.task.Activity_Datetime__c) {
                                     this.disbaleDateTime = true;
                                 }
+                                this.isSystemOrBusinessTask = true;
                                 if (wrapper.task.Activity_Datetime__c) this.readOnlyMode = true;
                             }
                         }

@@ -16,6 +16,8 @@
     <!-- attributes: -->
     <aura:attribute name="initialized" type="Boolean" default="false" />
     <aura:attribute name="communityName" type="String" />
+    <aura:attribute name="communitySiteName" type="String" />
+    <aura:attribute name="isDummy" type="Boolean" />
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
@@ -32,6 +34,16 @@
             >
                 <c:CookiesInfo />
             </aura:if>
+        </aura:if>
+        <aura:if isTrue="{!v.communitySiteName == 'Policies_and_Terms1'}">
+            <c:ppCookiesBanner
+                loginPage="true"
+                communityName="PatientPortal"
+                termsAndConditions="true"
+            />
+        </aura:if>
+        <aura:if isTrue="{!v.isDummy}">
+            <c:ppCookiesBanner loginPage="true" communityName="{!v.communityName}" isDummy="true" />
         </aura:if>
     </aura:if>
 </aura:component>

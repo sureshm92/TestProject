@@ -8,6 +8,7 @@ public with sharing class SiteStaffTableRemote {
     public static final String IQVIAREFERRALHUB = 'Default';
     public static final String GSKPANONCOLOGY = 'GSK';
     public static final String JANSSEN = 'Janssen';
+    public static final String IQVIAPatientPortalNew = 'PatientPortal';
     public static final Set<String> INVITATION_ACTIVE_STATUSES = new Set<String>{
         StudySiteService.PI_S_INVITATION_SENT,
         StudySiteService.PI_S_ACCEPTED,
@@ -118,7 +119,7 @@ public with sharing class SiteStaffTableRemote {
                 Set<String> permissions = actionAssignContactPermissions.getAssignedPermissions(
                     staffMemberId
                 );
-                if (permissions != null && ss.Clinical_Trial_Profile__r.CommunityTemplate__c == GSKPANONCOLOGY && permissions.contains(CommunityTemplateService.getTemplate(IQVIAREFERRALHUB).permissionSet)) {
+                if (permissions != null && (ss.Clinical_Trial_Profile__r.CommunityTemplate__c == GSKPANONCOLOGY || ss.Clinical_Trial_Profile__r.CommunityTemplate__c == IQVIAPatientPortalNew)&& permissions.contains(CommunityTemplateService.getTemplate(IQVIAREFERRALHUB).permissionSet)) {
                     siteStaffWrapperMap.get(staffMemberId).hasPendingActions = true;
                 }else if (permissions != null && ss.Clinical_Trial_Profile__r.CommunityTemplate__c == IQVIAREFERRALHUB && permissions.contains(CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet)) {
                        siteStaffWrapperMap.get(staffMemberId).hasPendingActions = true;
@@ -130,7 +131,7 @@ public with sharing class SiteStaffTableRemote {
 
         for (User u : CommunityService.getCommunityUsersByContactIds(staffContactIds)) {
             for (PermissionSetAssignment psa : u.PermissionSetAssignments) {
-                if (ss.Clinical_Trial_Profile__r.CommunityTemplate__c == GSKPANONCOLOGY && psa.PermissionSet.Name == CommunityTemplateService.getTemplate(IQVIAREFERRALHUB).permissionSet) {
+                if ((ss.Clinical_Trial_Profile__r.CommunityTemplate__c == GSKPANONCOLOGY || ss.Clinical_Trial_Profile__r.CommunityTemplate__c == IQVIAPatientPortalNew)&& psa.PermissionSet.Name == CommunityTemplateService.getTemplate(IQVIAREFERRALHUB).permissionSet) {
                     siteStaffWrapperMap.get(u.ContactId).hasUser = true;
                 }else if (ss.Clinical_Trial_Profile__r.CommunityTemplate__c == IQVIAREFERRALHUB && psa.PermissionSet.Name == CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet) {
                         siteStaffWrapperMap.get(u.ContactId).hasUser = true;
@@ -178,7 +179,7 @@ public with sharing class SiteStaffTableRemote {
                     .createPortalUsers(new Set<Id>{ contactId });
             } 
 
-            if(ss.Clinical_Trial_Profile__r.CommunityTemplate__c == GSKPANONCOLOGY){
+            if(ss.Clinical_Trial_Profile__r.CommunityTemplate__c == GSKPANONCOLOGY || ss.Clinical_Trial_Profile__r.CommunityTemplate__c == IQVIAPatientPortalNew){
                 actionAssignContactPermissions.addPermission(contactId,CommunityTemplateService.getTemplate(IQVIAREFERRALHUB).permissionSet);
             }else{
                 actionAssignContactPermissions.addPermission(contactId,CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet);

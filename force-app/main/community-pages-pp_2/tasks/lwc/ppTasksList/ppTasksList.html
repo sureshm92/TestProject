@@ -190,13 +190,15 @@
                                                                 day="2-digit"
                                                                 time-zone={userTimeZone}
                                                             ></lightning-formatted-date-time
-                                                            >&nbsp;|&nbsp;
-                                                            <lightning-formatted-date-time
-                                                                value={item.task.Activity_Datetime__c}
-                                                                hour="numeric"
-                                                                minute="numeric"
-                                                                time-zone={userTimeZone}
-                                                            ></lightning-formatted-date-time>
+                                                            ><template if:false={item.isMCPTask}
+                                                                >&nbsp;|&nbsp;
+                                                                <lightning-formatted-date-time
+                                                                    value={item.task.Activity_Datetime__c}
+                                                                    hour="numeric"
+                                                                    minute="numeric"
+                                                                    time-zone={userTimeZone}
+                                                                ></lightning-formatted-date-time>
+                                                            </template>
                                                         </template>
                                                     </span>
                                                 </lightning-layout-item> </lightning-layout
@@ -378,8 +380,8 @@
                                             </lightning-layout-item>
                                         </lightning-layout>
                                         <template if:false={item.completed}>
-                                            <template if:true={item.dueDate}
-                                                ><lightning-layout>
+                                            <template if:true={item.dueDate}>
+                                                <lightning-layout>
                                                     <lightning-layout-item
                                                         ><span class={dueTimeClass}
                                                             ><template if:true={item.isClosed}
@@ -393,13 +395,17 @@
                                                                     day="2-digit"
                                                                     time-zone={userTimeZone}
                                                                 ></lightning-formatted-date-time
-                                                                >&nbsp;|&nbsp;
-                                                                <lightning-formatted-date-time
-                                                                    value={item.task.Activity_Datetime__c}
-                                                                    hour="numeric"
-                                                                    minute="numeric"
-                                                                    time-zone={userTimeZone}
-                                                                ></lightning-formatted-date-time>
+                                                                ><template
+                                                                    if:false={item.isMCPTask}
+                                                                >
+                                                                    &nbsp;|&nbsp;
+                                                                    <lightning-formatted-date-time
+                                                                        value={item.task.Activity_Datetime__c}
+                                                                        hour="numeric"
+                                                                        minute="numeric"
+                                                                        time-zone={userTimeZone}
+                                                                    ></lightning-formatted-date-time>
+                                                                </template>
                                                             </template>
                                                         </span>
                                                     </lightning-layout-item> </lightning-layout
@@ -492,14 +498,16 @@
                                                     day="2-digit"
                                                     time-zone={userTimeZone}
                                                 ></lightning-formatted-date-time
-                                                >&nbsp;|&nbsp;
-                                                <lightning-formatted-date-time
-                                                    value={item.task.Activity_Datetime__c}
-                                                    hour="numeric"
-                                                    minute="numeric"
-                                                    time-zone={userTimeZone}
-                                                ></lightning-formatted-date-time
-                                            ></template>
+                                                ><template if:false={item.isMCPTask}
+                                                    >&nbsp;|&nbsp;
+                                                    <lightning-formatted-date-time
+                                                        value={item.task.Activity_Datetime__c}
+                                                        hour="numeric"
+                                                        minute="numeric"
+                                                        time-zone={userTimeZone}
+                                                    ></lightning-formatted-date-time>
+                                                </template>
+                                            </template>
                                         </span>
                                     </lightning-layout-item>
                                 </lightning-layout>
@@ -583,13 +591,15 @@
                                                         day="2-digit"
                                                         time-zone={userTimeZone}
                                                     ></lightning-formatted-date-time
-                                                    >&nbsp;|&nbsp;
-                                                    <lightning-formatted-date-time
-                                                        value={item.task.Activity_Datetime__c}
-                                                        hour="numeric"
-                                                        minute="numeric"
-                                                        time-zone={userTimeZone}
-                                                    ></lightning-formatted-date-time>
+                                                    ><template if:false={item.isMCPTask}
+                                                        >&nbsp;|&nbsp;
+                                                        <lightning-formatted-date-time
+                                                            value={item.task.Activity_Datetime__c}
+                                                            hour="numeric"
+                                                            minute="numeric"
+                                                            time-zone={userTimeZone}
+                                                        ></lightning-formatted-date-time
+                                                    ></template>
                                                 </template>
                                             </span>
                                         </lightning-layout-item>

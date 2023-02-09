@@ -20,3 +20,10 @@
     font-size: 14px;
     line-height: 24px;
 }
+@media screen and (orientation:landscape)
+and (max-device-width: 898px) 
+{
+    .filter-landscape{
+     width: 100%;
+    }
+}
