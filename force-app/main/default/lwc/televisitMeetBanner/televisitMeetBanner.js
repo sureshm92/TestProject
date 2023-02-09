@@ -11,6 +11,7 @@ import PT_TV_MEET_INFO from '@salesforce/label/c.PT_Televisit_Meet_Info';
 import PI_TV_MEET_INFO from '@salesforce/label/c.PI_Televisit_Meet_Info';
 import JOIN_MEET from '@salesforce/label/c.WelcomeModal_Join';
 import UPCOMING_VISIT from '@salesforce/label/c.Televisit_Upcoming_Meet';
+import FORM_FACTOR from '@salesforce/client/formFactor';
 
 export default class TelevisitMeetBanner extends NavigationMixin(LightningElement) {
     @api channel = '/event/Televisit_Event__e';
@@ -104,7 +105,12 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     }
     getCommunintyTemplateName() {
         if(this._currentMode.template.communityName === 'IQVIA Patient Portal'){
-            this.bgCss = 'divBodyPP2 slds-p-around_medium slds-text-color_inverse';
+            if(FORM_FACTOR == 'Large'){
+                this.bgCss = 'divBodyPP2 slds-p-around_medium slds-text-color_inverse';
+            }else{
+                this.bgCss = 'divBodyPP2Mobile slds-p-around_medium slds-text-color_inverse';
+            }
+            
         }else{
             this.bgCss = 'divBody slds-p-around_medium slds-text-color_inverse';
         }
@@ -116,7 +122,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         this.hasVisits = true;
         this.showMoreVisits = false;
         getVisits({
-            communityMode: this._currentMode.template.communityName, 
+            communityMode: this._currentMode.template.communityName,
             userMode: this._currentMode.userMode
         })
             .then((result) => {
@@ -180,7 +186,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         return this._currentMode;        
     }
     set currentMode(value) {  
-        this._currentMode = value;
+        this._currentMode = value;        
         if (this._currentMode) {
             this.getVisits();
         }
