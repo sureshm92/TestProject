@@ -70,7 +70,6 @@ export default class SiteWeeklyCalendar extends LightningElement {
     let dayn = 0;
     let daym = 0;
     var dayy = 0;
-    this.isCurrentWeek = true;
 
     for (let i = 0; i < 7; i++) {
       let calData = {};
@@ -99,7 +98,18 @@ export default class SiteWeeklyCalendar extends LightningElement {
       let selectedYear = this.selectedDate.getFullYear();
       this.currentMonth = this.selectedmonth;
       this.currentYear = selectedYear;
+      let selectedDatee=this.selectedDate.getDate(); 		
+        if(selectedDatee!=this.currentDate){		
+          this.isCurrentWeek=false;		
+        }		
+        else{		
+          this.isCurrentWeek=true;		
+        }		
+    }	
+    else{	
+      this.isCurrentWeek=true;	
     }
+    
     this.currentMonth = daym;
     this.currentYear = dayy;
   }
@@ -243,6 +253,13 @@ export default class SiteWeeklyCalendar extends LightningElement {
 
   selectDate(event) {
     let selectedDate = new Date(event.currentTarget.dataset.whichdate);
+    let selectedDatee=selectedDate.getDate(); 		
+    if(selectedDatee!=this.currentDate){		
+      this.isCurrentWeek=false;		
+    }		
+    else{		
+      this.isCurrentWeek=true;		
+    }
     this.fetchDataOnDateSelected(selectedDate);
   }
 
