@@ -662,9 +662,15 @@ public without sharing class ParticipantInformationRemote {
                 if(patientDelegatesToInsert!=null && patientDelegatesToInsert.size()>0){
                     
                     List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
-                    pder = [Select Id,Participant_Enrollment__c,Patient_Delegate__c,Status__c  from Patient_Delegate_Enrollment__c where Patient_Delegate__c=:patientDelegatesToInsert[0].Id and Participant_Enrollment__c=: perId limit 1];
+                    pder = [Select Id,Participant_Enrollment__c,Patient_Delegate__c,Status__c,Study_Email_Consent__c,Study_Email_Consent_Time__c from Patient_Delegate_Enrollment__c where Patient_Delegate__c=:patientDelegatesToInsert[0].Id and Participant_Enrollment__c=: perId limit 1];
                     if(!pder.isEmpty()){
-                    pder[0].Status__c ='Active';
+                    if(pder[0].Status__c == 'Withdrawn'){
+                         pder[0].Study_Email_Consent__c = true;
+                         pder[0].Status__c ='Active';
+                         pder[0].Study_Email_Consent_Time__c = Datetime.now();
+                    }else{
+                         pder[0].Status__c ='Active';
+                    }
                     update pder;
                     }else{
                     Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
@@ -674,7 +680,7 @@ public without sharing class ParticipantInformationRemote {
                     pde.Study_Email_Consent__c = true;
                     pde.Study_info_storage_consent__c = true;
                     Insert pde;
-                    }
+                    }              
                 }
             }
             if (String.isBlank(ddi.contactId) && NoInvite == false) {
