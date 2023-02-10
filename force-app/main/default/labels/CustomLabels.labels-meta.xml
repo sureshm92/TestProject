@@ -324,7 +324,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PT Televisit Meet Info</shortDescription>
-        <value>##TVName with ##PIName will take place at ##StartTime to ##EndTime</value>
+        <value>##TVName with ##PIName will take place from ##StartTime to ##EndTime</value>
     </labels>
     <labels>
         <fullName>PT_Session_Ended</fullName>
@@ -30426,15 +30426,21 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Televisits</shortDescription>
         <value>Televisits</value>
     </labels>
-    <labels>        
-        <fullName>Email_Signature_New_Short_PP</fullName>        
-        <language>en_US</language>        
-        <protected>false</protected>        
-        <shortDescription>Email Signature New Participant Delegate PP</shortDescription>        
+    <labels>
+               
+        <fullName>Email_Signature_New_Short_PP</fullName>
+               
+        <language>en_US</language>
+               
+        <protected>false</protected>
+               
+        <shortDescription>Email Signature New Participant Delegate PP</shortDescription>
+               
         <value>&lt;br /&gt; &lt;br /&gt;We are excited to be on this journey with you.
                 
             Sincerely,            
     
-            ##SignatureShortCommunityName</value>    
+            ##SignatureShortCommunityName</value>
+           
     </labels>
 </CustomLabels>
