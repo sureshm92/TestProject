@@ -2,6 +2,7 @@ import { LightningElement,api,track,wire } from 'lwc';
 import pirResources from '@salesforce/resourceUrl/pirResources';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getParticipantDelegates from '@salesforce/apex/ParticipantInformationRemote.getParticipantDelegates';
+import getParticipantPDER from '@salesforce/apex/ParticipantInformationRemote.getParticipantPDER';
 import updateParticipantAndDelegates from '@salesforce/apex/ParticipantInformationRemote.updateParticipantAndDelegates';
 import getHCPData from '@salesforce/apex/PIR_SharingOptionsController.getHCPData';
 import getpeData from '@salesforce/apex/PIR_SharingOptionsController.getpeData';
@@ -50,6 +51,7 @@ export default class Pir_participantEmancipated extends LightningElement {
     addHCPListNew = [];
     inviteOptions = false;
     delegates = [];
+    delegatesConsents = [];
     hcpDelegates = [];
     @api studySiteId = '';
     @api participant;
@@ -65,7 +67,7 @@ export default class Pir_participantEmancipated extends LightningElement {
     @api isValid = false;
     @api isDelValid = false;
     @api isNewDelValid = false;
-    isDelConsentValid = true;
+    isDelConsentValid = false;
     @api pathdetails = [];
     @api finalAgree = false;
     @api participantContact;
@@ -92,6 +94,7 @@ export default class Pir_participantEmancipated extends LightningElement {
         ["09", September], ["10", October],["11", November], ["12", December]
     ]);
     @api maindivcls;
+    @api alreadyconsentedrow;
     
     label = {
         PG_AC_Select,
@@ -159,18 +162,30 @@ export default class Pir_participantEmancipated extends LightningElement {
     }
     @api mailingCountry;@api mailingState;
     getInitialData(){
-        getParticipantDelegates({participantId: this.selectedPE.participantId })
+        getParticipantPDER({participantId: this.selectedPE.participantId,perId: this.selectedPE.id })
         .then((result) => {
-            for(let i = 0; i < result.length; i++) {
-                result[i].isConnected = true;   
-                result[i].selectedOption = '1';   
-                result[i].continue = true;
-                result[i].donotcontinue = false;
-                if(!result[i].Phone_Type__c){
-                    result[i].Phone_Type__c = 'Home';
+            for(let i = 0; i < result.ParticipantList.length; i++) {
+                result.ParticipantList[i].isConnected = true;   
+                result.ParticipantList[i].selectedOption = '1';   
+                result.ParticipantList[i].continue = true;
+                result.ParticipantList[i].donotcontinue = false;
+                if(!result.ParticipantList[i].Phone_Type__c){
+                    result.ParticipantList[i].Phone_Type__c = 'Home';
                 }
+                //delegateconsent
+                for(let j = 0; j < result.ParticipantConsent.length; j++) {
+                    if(result.ParticipantList[i].Id == result.ParticipantConsent[j].delgParticipantId){
+                    result.ParticipantList[i].delgParticipantId = result.ParticipantConsent[j].delgParticipantId;
+                    result.ParticipantList[i].Study_Email_Consent = result.ParticipantConsent[j].Study_Email_Consent;
+                    result.ParticipantList[i].Study_info_storage_consent = result.ParticipantConsent[j].Study_info_storage_consent;
+                    result.ParticipantList[i].Study_Phone_Consent = result.ParticipantConsent[j].Study_Phone_Consent;
+                    result.ParticipantList[i].Study_SMS_Consent = result.ParticipantConsent[j].Study_SMS_Consent;
+                    result.ParticipantList[i].partEnrollId = result.ParticipantConsent[j].partEnrollId;
+                    }
+                }        
             }
-            this.delegates = result;
+            this.delegates = result.ParticipantList;
+            this.delegatesConsents = result.ParticipantConsent;
             for(let i=0; i < this.delegates.length;i++){
                 let partmsgname = this.utilLabels.PG_Ref_L_Delegate_continue_be_delegate;
                 var partmsg = partmsgname.replace("##delegateName",this.delegates[i].First_Name__c+' '+this.delegates[i].Last_Name__c);
@@ -257,6 +272,35 @@ export default class Pir_participantEmancipated extends LightningElement {
                 if(result.dobconfig.includes("MM")){
                     this.isMonthMandate=true;
                 }
+                //new change
+                for(let i=0; i < this.delegates.length;i++){
+                    if(this.iscountryus){
+                        if(this.delegates[i].Study_Email_Consent == true &&
+                           this.delegates[i].Study_info_storage_consent == true &&
+                           this.delegates[i].Study_Phone_Consent == true && 
+                           this.delegates[i].Study_SMS_Consent == true  )
+                           {
+                            this.delegates[i].alreadyConsented = true;
+                            this.delegates[i].alreadyconsentedrow = false;
+                           }else{
+                            this.delegates[i].alreadyConsented = false;
+                            this.delegates[i].alreadyconsentedrow = false;
+                           }
+                    }else{
+                        if(this.delegates[i].Study_Email_Consent == true &&
+                            this.delegates[i].Study_info_storage_consent == true &&
+                            this.delegates[i].Study_Phone_Consent == true )
+                            {
+                             this.delegates[i].alreadyConsented = true;
+                             this.delegates[i].alreadyconsentedrow = true;
+                            }else{
+                             this.delegates[i].alreadyConsented = false;
+                             this.delegates[i].alreadyconsentedrow = false;
+                            }
+                    }
+                   
+                }
+
             }).then(()=> {
                 this.currentTab = "1"; 
                 this.customButtonValidation();
@@ -333,6 +377,13 @@ export default class Pir_participantEmancipated extends LightningElement {
         this.delegates[event.detail.indexvalue].consentrow = event.detail.consentrow;
         this.delegates[event.detail.indexvalue].consentsms = event.detail.consentsms;
         this.delegates[event.detail.indexvalue].Delegate_Consent_SMS__c = event.detail.consentsms;
+
+        this.delegates[event.detail.indexvalue].Study_Email_Consent = event.detail.studyemailconsent;
+        this.delegates[event.detail.indexvalue].Study_info_storage_consent = event.detail.studyinfostorageconsent;
+        this.delegates[event.detail.indexvalue].Study_Phone_Consent = event.detail.studyphoneconsent;
+        this.delegates[event.detail.indexvalue].Study_SMS_Consent = event.detail.studysmsconsent;
+
+
         
         let validationListDelegate = [];
         const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -344,12 +395,25 @@ export default class Pir_participantEmancipated extends LightningElement {
             let isConsentEmpty; //= this.delegates[i].consent ;
             if(this.iscountryus){
                 isConsentEmpty = this.delegates[i].consent ;
-            }
+               
+                if(this.delegates[i].Study_Email_Consent == true && this.delegates[i].Study_info_storage_consent == true && this.delegates[i].Study_Phone_Consent == true && this.delegates[i].Study_SMS_Consent == true){
+                    if(iscont == "true")
+                    {validationListDelegate.push(true);}
+                }else{
+                    if(iscont == "true")  
+                    {validationListDelegate.push(false); console.log('consent failed');}}
+            } 
             else{
                 isConsentEmpty = this.delegates[i].consentrow ;
+                if(this.delegates[i].Study_Email_Consent == true && this.delegates[i].Study_info_storage_consent == true && this.delegates[i].Study_Phone_Consent == true){
+                    if(iscont == "true")
+                    {validationListDelegate.push(true);}
+                }else{  
+                    if(iscont == "true")  
+                    {validationListDelegate.push(false); console.log('consent failed');}}
             }
             if (
-                (iscont == "true" && isPhoneEmpty && isEmailEmpty && isConsentEmpty)
+                (iscont == "true" && isPhoneEmpty && isEmailEmpty )
                 || (iscont == "false" && isEmailEmpty )
             ) {
                 validationListDelegate.push(true);
@@ -663,14 +727,28 @@ export default class Pir_participantEmancipated extends LightningElement {
                 let isConsentEmpty;
                 if(this.iscountryus){
                     isConsentEmpty = this.delegates[i].consent ;
+                    if(this.delegates[i].Study_Email_Consent == true && this.delegates[i].Study_info_storage_consent == true && this.delegates[i].Study_Phone_Consent == true && this.delegates[i].Study_SMS_Consent == true){
+                        if(iscont == "true")
+                        {validationListDelegate.push(true);}
+                    }else{
+                        if(iscont == "true")  
+                        {validationListDelegate.push(false); console.log('consent failed');}}
+
                 }
                 else{
                     isConsentEmpty = this.delegates[i].consentrow ;
+                    if(this.delegates[i].Study_Email_Consent == true && this.delegates[i].Study_info_storage_consent == true && this.delegates[i].Study_Phone_Consent == true){
+                        if(iscont == "true")
+                        {validationListDelegate.push(true);}
+                    }else{  
+                        if(iscont == "true")  
+                        {validationListDelegate.push(false); }}
+
                 }
             let isPhoneEmpty = (this.delegates[i].Phone__c != null && this.delegates[i].Phone__c != '' && this.delegates[i].Phone__c.trim() && this.delegates[i].Phone__c.length !=0);
             let isEmailEmpty = (this.delegates[i].Email__c != null && this.delegates[i].Email__c != '' && this.delegates[i].Email__c.trim() && this.delegates[i].Email__c.length !=0);
             if (
-                (iscont == "true" && isPhoneEmpty && isEmailEmpty && isConsentEmpty)
+                (iscont == "true" && isPhoneEmpty && isEmailEmpty)
                 || (iscont == "false" && isEmailEmpty)
             ) {
                 validationListDelegate.push(true);
@@ -682,7 +760,7 @@ export default class Pir_participantEmancipated extends LightningElement {
                 if(emailVal.match(emailRegex)){
                     validationListDelegate.push(true);
                 }else{
-                    validationListDelegate.push(false);
+                    validationListDelegate.push(false); 
                 }
             }
             if(validationListDelegate.includes(false)){ 
@@ -1007,10 +1085,26 @@ export default class Pir_participantEmancipated extends LightningElement {
         this.saving = true;
         let doNotContinueIds = [];
         let delegateToProceedItems = [];
+        let delegateConsentItems = [];
         for(let i = 0; i < this.delegates.length; i++){
             if(this.delegates[i].isCont == "false" && this.delegates[i].Contact__c){
                 doNotContinueIds.push(this.delegates[i].Contact__c);
             } 
+            delegateConsentItems.push({
+                delgParticipantId:this.delegates[i].delgParticipantId,
+                Study_Email_Consent:this.delegates[i].Study_Email_Consent,
+                Study_info_storage_consent:this.delegates[i].Study_info_storage_consent,
+                Study_Phone_Consent:this.delegates[i].Study_Phone_Consent,
+                Study_SMS_Consent:this.delegates[i].Study_SMS_Consent
+            });
+            delete this.delegates[i].delgParticipantId;
+            delete this.delegates[i].Study_Email_Consent;
+            delete this.delegates[i].Study_info_storage_consent;
+            delete this.delegates[i].Study_Phone_Consent;
+            delete this.delegates[i].Study_SMS_Consent;
+            delete this.delegates[i].alreadyConsented;
+            delete this.delegates[i].alreadyconsentedrow;
+
             delete this.delegates[i].isConnected;
             delete this.delegates[i].selectedOption;
             delete this.delegates[i].continue;
@@ -1033,7 +1127,8 @@ export default class Pir_participantEmancipated extends LightningElement {
                                          delegatesS: JSON.stringify(this.delegates),
                                          doNotContinueIds: doNotContinueIds,
                                          needsInvite: this.inviteOptions,
-                                         studySiteId: this.siteid
+                                         studySiteId: this.siteid,
+                                         delegateConsentItems:JSON.stringify(delegateConsentItems)
                                         })
         .then((result) => {
           this.saving = false;
