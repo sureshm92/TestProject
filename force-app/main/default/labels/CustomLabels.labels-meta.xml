@@ -12790,7 +12790,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Opt Out</shortDescription>
-        <value>If you have already opted in to any of the following contact methods, you can opt-out of that method by checking the relevant box below.</value>
+        <value>If you have previously opted into any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
     </labels>
     <labels>
         <fullName>PP_Opt_Out_Update_Communication_Pref</fullName>
@@ -12806,7 +12806,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Opt Out</shortDescription>
-        <value>If you have previously opted into any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
+        <value>If you have already opted in to any of the following contact methods, you can opt-out of that method by checking the relevant box below.</value>
     </labels>
     <labels>
         <fullName>Originator</fullName>
