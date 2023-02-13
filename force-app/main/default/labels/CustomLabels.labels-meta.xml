@@ -27133,7 +27133,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Icons</shortDescription>
-        <value>Visit Icons</value>
+        <value>VISIT/EVENT ICONS</value>
     </labels>
     <labels>
         <fullName>Visit_Number</fullName>
@@ -27141,7 +27141,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>visit configuration</shortDescription>
-        <value>visit number</value>
+        <value>VISIT/EVENT NUMBER</value>
     </labels>
     <labels>
         <fullName>Visit_Order</fullName>
@@ -27368,7 +27368,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Schedule</shortDescription>
-        <value>Visit Schedule</value>
+        <value>VISIT/EVENT SCHEDULE</value>
     </labels>
     <labels>
         <fullName>Visit_b_Add_Visit</fullName>
