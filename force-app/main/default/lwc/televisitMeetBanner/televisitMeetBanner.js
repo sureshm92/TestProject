@@ -35,6 +35,9 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     UPCOMING_VISIT = UPCOMING_VISIT;
     showTelevisitCameraAndMicrophoneAccessPopup = false;
     bgCss;
+    multipleJoinCss;
+    singleJoinCss;
+    isPP2View = false;
     @track labels = {
         UPCOMING_VISIT,
         PT_TV_MEET_INFO,
@@ -105,14 +108,20 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     }
     getCommunintyTemplateName() {
         if(this._currentMode.template.communityName === 'IQVIA Patient Portal'){
+            this.isPP2View = true;
             if(FORM_FACTOR == 'Large'){
                 this.bgCss = 'divBodyPP2 slds-p-around_medium slds-text-color_inverse';
+                this.multipleJoinCss = 'slds-text-color_inverse join multipleJoinPP2';
+                this.singleJoinCss = 'slds-text-color_inverse join singleJoinPP2';
             }else{
                 this.bgCss = 'divBodyPP2Mobile slds-p-around_medium slds-text-color_inverse';
+                this.multipleJoinCss = 'slds-text-color_inverse join multipleJoinPP2Mobile';
+                this.singleJoinCss = 'slds-text-color_inverse join singleJoinPP2Mobile';
             }
             
         }else{
             this.bgCss = 'divBody slds-p-around_medium slds-text-color_inverse';
+            this.isPP2View = false;
         }
         
     }

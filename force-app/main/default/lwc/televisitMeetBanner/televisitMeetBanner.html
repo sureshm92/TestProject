@@ -20,10 +20,20 @@
                 </lightning-layout-item>
                 <lightning-layout-item size="1" class="singleMeet">
                     <template if:true={singleActiveVisit}>
-                        <a class="slds-text-color_inverse join" href="javascript:void(0);"
+                        <template if:true={isPP2View}>
+                            <a class={singleJoinCss} 
+                            href="javascript:void(0);"
                             onclick={handleSingleMeetJoin}>
-                            {labels.JOIN_MEET}
-                        </a>
+                                {labels.JOIN_MEET}
+                            </a>
+                        </template>
+                        <template if:false={isPP2View}>
+                            <a class="slds-text-color_inverse join" href="javascript:void(0);"
+                                onclick={handleSingleMeetJoin}>
+                                {labels.JOIN_MEET}
+                            </a>
+                        </template>
+                        
                     </template>
                     <template if:false={singleActiveVisit}>
                         <lightning-button-icon icon-name={moreVisitIconName} variant="bare-inverse"
@@ -44,8 +54,18 @@
                                 {visit.eachMeetInfo}
                             </lightning-layout-item>
                             <lightning-layout-item size="2" class="slds-text-align_right slds-p-right_medium">
-                                <lightning-button data-name={visit.Televisit__r.Meeting_URL__c} label={labels.JOIN_MEET}
-                                    title="Click To Join" onclick={handleJoinClick} variant="base"></lightning-button>
+                                <template if:true={isPP2View}>
+                                    <a data-name={visit.Televisit__r.Meeting_URL__c} 
+                                    class={multipleJoinCss}
+                                    href="javascript:void(0);"
+                                    onclick={handleJoinClick}>
+                                        {labels.JOIN_MEET}
+                                    </a>
+                                </template>
+                                <template if:false={isPP2View}>
+                                    <lightning-button data-name={visit.Televisit__r.Meeting_URL__c} label={labels.JOIN_MEET}
+                                        title="Click To Join" onclick={handleJoinClick} variant="base"></lightning-button>
+                                </template>
                             </lightning-layout-item>
                         </lightning-layout>
                     </div>
