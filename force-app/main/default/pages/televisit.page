@@ -1524,6 +1524,7 @@
             
             .headerbg-pp2 {
                 background: linear-gradient(to top, #005587 0%, #008299 100%);
+                border-radius:0 0 20px 0;
                 
             }
             
@@ -2029,6 +2030,12 @@
                 .video-container {
                     background-color: #f6f7fb;
                 }
+                .communityTitle{
+                    width: 142px;
+                    margin-left: 21px;
+                    height: 36px !important;
+                    display: flex;
+                }
             }
 
             @media screen and (max-width: 768px) {
@@ -2058,6 +2065,11 @@
                 .height-full {
                     height: 550px !important;
                 }
+                .communityTitle {
+                     width: 142px;
+                     height: 36px !important;
+                }
+                
             }
 
             .OT_name.OT_mode-off {
@@ -2211,7 +2223,8 @@
             <h1 class="slds-text-heading_small">{!appNamestr}</h1>
             </apex:outputPanel>
             <apex:outputPanel rendered="{!(commTemplate=='PatientPortal')}">
-            <h1 class="slds-text-heading_small">{!appNamestr}</h1>
+                <!--<h1 class="slds-text-heading_small">{!appNamestr}</h1>-->
+                <img src="{!$Resource.PP_DesktopLogos + '/Patient_Portal_Logo.svg'}" class="communityTitle" />
             </apex:outputPanel>
             
         </header>

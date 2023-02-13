@@ -31,6 +31,10 @@ export default class PpCookiesBanner extends LightningElement {
     @api
     isRTL = false;
     @api
+    termsAndConditions = false;
+    @api
+    isDummy = false;
+    @api
     communityName;
     userMode;
     spinner;
@@ -66,13 +70,21 @@ export default class PpCookiesBanner extends LightningElement {
     contact;
     dynamicCSSAppend = pp_icons + '/right.svg';
     cookiesBannerDesc3;
+    isJanssenCommunity;
 
     connectedCallback() {
         this.cookiesBannerDesc3 = ' ' + this.label.ppCookiesBannerDesc3;
+        this.isJanssenCommunity = this.communityName == 'Janssen Community';
         let rrCookies = communityService.getCookie('RRCookies');
         let data = sessionStorage.getItem('Cookies');
+        if (localStorage.getItem('Cookies')) {
+            data = localStorage.getItem('Cookies');
+        }
         if (!this.loginPage && communityService.isInitialized()) {
             if (communityService.getParticipantData().cookiesAgreedonRegPage) {
+                if (this.isJanssenCommunity) {
+                    this.setRRCookie();
+                }
                 data = 'Agreed';
                 updateTheRegCookieAcceptance()
                     .then(() => {
@@ -87,7 +99,26 @@ export default class PpCookiesBanner extends LightningElement {
             this.showBanner = false;
         }
         if ((!rrCookies || this.loginPage) && !data) {
-            this.showBanner = true;
+            if (this.isDummy && !localStorage.getItem('CookiesOnTC') && !this.termsAndConditions) {
+                this.showBanner = true;
+            }
+            if (this.isDummy) {
+                localStorage.setItem('CookiesOnTC', 'Accepted');
+            }
+
+            if (!this.termsAndConditions && !this.isDummy) {
+                //Home Page
+                this.showBanner = true;
+            }
+
+            if (this.termsAndConditions && !localStorage.getItem('CookiesOnTC') && !this.isDummy) {
+                //Cookies banner for terms page
+                this.showBanner = true;
+            }
+            if (this.termsAndConditions) {
+                localStorage.setItem('CookiesOnTC', 'Accepted');
+            }
+
             this.blockBackGroundEvents();
             if (this.communityName == 'Default' || this.communityName == 'IQVIA Referral Hub') {
                 this.containerClassCss = this.containerClassCss + ' rh-cookies-banner';
@@ -100,14 +131,23 @@ export default class PpCookiesBanner extends LightningElement {
                 this.accordionCss = this.accordionCss + '  rh-border-radius';
                 this.accordionActiveCss = this.accordionActiveCss + ' rh-border-radius';
             }
+            if (this.communityName == 'Janssen Community') {
+                this.modalTopCss = this.modalTopCss + ' janssen-card-top-bg';
+            }
         }
         sessionStorage.removeItem('Cookies');
+        localStorage.removeItem('Cookies');
+        if (!this.isDummy && !this.termsAndConditions) {
+            localStorage.removeItem('CookiesOnTC');
+        }
         let accList = this.template.querySelectorAll('accordion');
     }
     blockBackGroundEvents() {
         document.body.addEventListener('keypress', this.bodyBlock);
         document.body.addEventListener('keydown', this.bodyBlock);
         document.body.classList.add('cookie-block-user');
+        let htmlDivs = document.getElementsByTagName('html');
+        htmlDivs[0].classList.add('cookie-block-user');
     }
     bodyBlock(event) {
         event.preventDefault();
@@ -157,6 +197,8 @@ export default class PpCookiesBanner extends LightningElement {
 
     closeTheBanner() {
         document.body.classList.remove('cookie-block-user');
+        let htmlDivs = document.getElementsByTagName('html');
+        htmlDivs[0].classList.remove('cookie-block-user');
         this.showBanner = false;
         document.body.removeEventListener('keypress', this.bodyBlock);
         document.body.removeEventListener('keydown', this.bodyBlock);
@@ -167,27 +209,37 @@ export default class PpCookiesBanner extends LightningElement {
     acceptAll() {
         communityService.setCookie('RRCookies', 'agreed', 365);
         document.body.classList.remove('cookie-block-user');
+        let htmlDivs = document.getElementsByTagName('html');
+        htmlDivs[0].classList.remove('cookie-block-user');
         this.showBanner = false;
-        changeOptInCookies({
-            rrCookieAllowed: true,
-            rrLanguageAllowed: true
-        })
-            .then((returnValue) => {
-                if (this.spinner) this.spinner.hide();
-                if (this.contact) {
-                    this.contact.RRCookiesAllowedCookie__c = true;
-                    this.contact.RRLanguageAllowedCookie__c = true;
-                }
-                this.setRRCookie();
-                this.setRRCookieLanguage();
-                this.closeTheBanner();
-                this.showmodal = false;
-                this.initData = undefined;
+        if (!this.isJanssenCommunity) {
+            changeOptInCookies({
+                rrCookieAllowed: true,
+                rrLanguageAllowed: true
             })
-            .catch((error) => {
-                communityService.showToast('', 'error', 'Failed To read the Data...', 100);
-                this.spinner.hide();
-            });
+                .then((returnValue) => {
+                    if (this.spinner) this.spinner.hide();
+                    if (this.contact) {
+                        this.contact.RRCookiesAllowedCookie__c = true;
+                        this.contact.RRLanguageAllowedCookie__c = true;
+                    }
+                    this.setRRCookie();
+                    this.setRRCookieLanguage();
+                    this.closeTheBanner();
+                    this.showmodal = false;
+                    this.initData = undefined;
+                })
+                .catch((error) => {
+                    communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                    this.spinner.hide();
+                });
+        } else {
+            if (this.spinner) this.spinner.hide();
+            this.setRRCookie();
+            this.closeTheBanner();
+            this.showmodal = false;
+            this.initData = undefined;
+        }
     }
 
     get backDropClass() {
@@ -196,32 +248,42 @@ export default class PpCookiesBanner extends LightningElement {
 
     updateCookies() {
         this.spinner.show();
-        let ppLangChecked = this.template.querySelector('[data-id=PPLang]').checked;
-        let ppCookieChecked = this.template.querySelector('[data-id=PPCookie]').checked;
-        this.contact.RRCookiesAllowedCookie__c = ppCookieChecked;
-        this.contact.RRLanguageAllowedCookie__c = ppLangChecked;
-        changeOptInCookies({
-            rrCookieAllowed: this.contact.RRCookiesAllowedCookie__c,
-            rrLanguageAllowed: this.contact.RRLanguageAllowedCookie__c
-        })
-            .then((returnValue) => {
-                this.spinner.hide();
-                if (this.contact.RRCookiesAllowedCookie__c) {
-                    this.setRRCookie();
-                    document.body.classList.remove('cookie-block-user');
-                }
-                if (this.contact.RRLanguageAllowedCookie__c) {
-                    this.setRRCookieLanguage();
-                }
-                this.closeTheBanner();
-                this.updateBrowserCookies();
-                this.showmodal = false;
-                this.initData = undefined;
+        if (!this.isJanssenCommunity) {
+            let ppLangChecked = this.template.querySelector('[data-id=PPLang]').checked;
+            let ppCookieChecked = this.template.querySelector('[data-id=PPCookie]').checked;
+            this.contact.RRCookiesAllowedCookie__c = ppCookieChecked;
+            this.contact.RRLanguageAllowedCookie__c = ppLangChecked;
+            changeOptInCookies({
+                rrCookieAllowed: this.contact.RRCookiesAllowedCookie__c,
+                rrLanguageAllowed: this.contact.RRLanguageAllowedCookie__c
             })
-            .catch((error) => {
-                communityService.showToast('', 'error', 'Failed To read the Data...', 100);
-                this.spinner.hide();
-            });
+                .then((returnValue) => {
+                    this.spinner.hide();
+                    if (this.contact.RRCookiesAllowedCookie__c) {
+                        this.setRRCookie();
+                        document.body.classList.remove('cookie-block-user');
+                        let htmlDivs = document.getElementsByTagName('html');
+                        htmlDivs[0].classList.remove('cookie-block-user');
+                    }
+                    if (this.contact.RRLanguageAllowedCookie__c) {
+                        this.setRRCookieLanguage();
+                    }
+                    this.closeTheBanner();
+                    this.updateBrowserCookies();
+                    this.showmodal = false;
+                    this.initData = undefined;
+                })
+                .catch((error) => {
+                    communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                    this.spinner.hide();
+                });
+        } else {
+            this.setRRCookie();
+            this.spinner.hide();
+            this.closeTheBanner();
+            this.showmodal = false;
+            this.initData = undefined;
+        }
     }
     setRRCookie() {
         let d = new Date();

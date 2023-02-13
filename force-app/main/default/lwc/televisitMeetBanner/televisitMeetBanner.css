@@ -12,7 +12,7 @@ a:hover {
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
-    width: 100vw;
+    width: 100vw;  
 }
 .divBodyPP2 {
     background-color: #2b3942;
@@ -23,7 +23,7 @@ a:hover {
     margin-left: -50vw;
     margin-right: -50vw;
     width: 100vw;
-    top: 14px;
+    top:14px;
 }
 .divBodyPP2::before {
     content: "";
@@ -37,7 +37,33 @@ a:hover {
     top: 0px;
     /*border-top-left-radius: 25px;*/
     box-shadow: 0 -25px 0 0 #2b3942;
-  }
+}
+
+.divBodyPP2Mobile {
+    background-color: #2b3942;
+    position: relative;
+    /* top: -29px; */
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+    top:-29px;
+}
+.divBodyPP2Mobile::before {
+    content: "";
+    position: absolute;
+    
+    background-color: transparent;
+    /*bottom: -50px;*/
+    height: 50px;
+    width: 25px;
+    right: 0px;
+    top: 0px;
+    /*border-top-left-radius: 25px;*/
+    box-shadow: 0 -25px 0 0 #2b3942;
+}
+
 .allVisits {
     z-index: 100;
     position: absolute;
@@ -50,6 +76,7 @@ a:hover {
     padding-left: 10px;
     padding-top: 8px;
     text-align: left;
+    margin-top: 25px;
 }
 .singleMeet{
     font-size: 16px;
@@ -99,4 +126,66 @@ a:hover {
     .mobile{
         display: block;
     }
+}
+
+.singleJoinPP2{
+    width: 100px;
+    text-align: center; 
+    border-radius: 35px; 
+    height: 24px;
+    background: #015FF1;
+    /*margin-left: -120px;*/
+    font-size: 14px;
+}
+
+.singleJoinPP2Mobile{
+    background: #015FF1;
+    font-size: 14px;
+    margin-left: -15px;
+    padding: 4px 14px;
+    border-radius: 12px;
+}
+
+.multipleJoinPP2{
+    text-align: center;
+    border-radius: 35px;
+    height: 22px;
+    color: rgb(1, 95, 241);
+    font-size: 14px;
+    border: 1px solid;
+    display: block;
+    width: 90px !important;
+}
+
+.multipleJoinPP2:hover{
+    text-align: center;
+    border-radius: 35px;
+    height: 22px;
+    color: rgb(1, 95, 241);
+    font-size: 14px;
+    border: 1px solid;
+    display: block;
+    width: 90px !important;
+}
+
+.multipleJoinPP2Mobile{
+    text-align: center;
+    border-radius: 35px;
+    height: 30px;
+    color: rgb(1, 95, 241);
+    font-size: 14px;
+    border: 1px solid;
+    display: block;
+    width: 60px !important;
+}
+
+.multipleJoinPP2Mobile:hover{
+    text-align: center;
+    border-radius: 35px;
+    height: 22px;
+    color: rgb(1, 95, 241);
+    font-size: 14px;
+    border: 1px solid;
+    display: block;
+    width: 90px !important;
 }

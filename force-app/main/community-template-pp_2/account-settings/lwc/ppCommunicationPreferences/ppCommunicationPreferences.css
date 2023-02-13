@@ -4,7 +4,7 @@
     font-weight: 500;
     letter-spacing: 0;
     line-height: 2rem;
-    margin-top: 15px;
+    /*margin-top: 15px;*/
     margin-left: 21px;
     margin-bottom: -15px;
 }
@@ -109,7 +109,7 @@
     font-weight: 500;
     margin-top: 12px;
     padding-right: 11px;
-    text-align: justify;
+    text-align: left;
 }
 
 .study-card {
@@ -368,4 +368,9 @@
 .mobile-align {
     text-align: right;
     margin-right: 10px;
+}
+
+.pp2-errorFields button{
+    border-radius: 20px;
+    height: 32px;
 }
