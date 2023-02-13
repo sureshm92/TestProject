@@ -678,6 +678,8 @@ global without sharing class ReferHealthcareProviderRemote {
                 if (!lstPatientDelegateEnroll.isEmpty()) {
                     ptDelegateEnroll.ID = lstPatientDelegateEnroll[0].ID;
                     ptDelegateEnroll.Status__c = DEL_ACTIVE;  
+                    ptDelegateEnroll.Study_Email_Consent_Time__c = Datetime.now();
+                    ptDelegateEnroll.Study_Email_Consent__c = true;
                     update ptDelegateEnroll;
                 }
                 else{
