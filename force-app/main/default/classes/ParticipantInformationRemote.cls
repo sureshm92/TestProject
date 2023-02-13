@@ -527,10 +527,11 @@ public without sharing class ParticipantInformationRemote {
         String email,
         String firstName,
         String lastName,
-        String participantId
+        String participantId,
+        String perId
     ) {
-        return ReferHealthcareProviderRemote.checkDuplicate(
-            null,
+         return ReferHealthcareProviderRemote.checkDuplicateNew(
+            perId,
             email,
             firstName,
             lastName,
@@ -545,7 +546,8 @@ public without sharing class ParticipantInformationRemote {
         String studySiteId,
         Boolean isConnected,
         String duplicateDelegateInfo,
-        Boolean NoInvite
+        Boolean NoInvite,
+        Id perId
     ) {
         DelegateConnectedInfo isConnectedRes = new DelegateConnectedInfo();
         isConnectedRes.isConnected = isConnected;
@@ -590,17 +592,9 @@ public without sharing class ParticipantInformationRemote {
                     Third_Choice_Language__c = '',
                     userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT,
                     userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
-                    userCommunityIsDelegate__c = true,
-                    IQVIA_Contact_info_storage_consent__c =true,
-                    Participant_Opt_In_Status_Emails__c =true,
-                    IQVIA_PI_Storage_Consent_Time__c =Datetime.now(),
-                    IQVIA_Email_Consent_Time__c =Datetime.now()
+                    userCommunityIsDelegate__c = true
+                    
                 );
-                /*if (duplicateService.findDuplicateContact(delegateParticipant) != null) {
-                    delegateContact.Id = duplicateService.findDuplicateContact(delegateParticipant).Id;
-                } else if (!String.isBlank(delegateParticipant.Contact__c)) {
-                    delegateContact.Id = delegateParticipant.Contact__c;
-                }*/
                 insert delegateContact;
             } else {
                 delegateContact = new Contact(Id = ddi.contactId,
@@ -609,7 +603,7 @@ public without sharing class ParticipantInformationRemote {
                     IQVIA_PI_Storage_Consent_Time__c =Datetime.now(),
                     IQVIA_Email_Consent_Time__c =Datetime.now()
                     );
-                    update delegateContact;
+                    //update delegateContact;
             }
 
             List<Patient_Delegate__c> patientDelegatesEver = [
@@ -665,6 +659,29 @@ public without sharing class ParticipantInformationRemote {
             if (!patientDelegatesToInsert.isEmpty()) {
                 upsert patientDelegatesToInsert;
                 isConnectedRes.delegateId = patientDelegatesToInsert!=null && patientDelegatesToInsert.size()>0?patientDelegatesToInsert[0].Id:null;
+                if(patientDelegatesToInsert!=null && patientDelegatesToInsert.size()>0){
+                    
+                    List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+                    pder = [Select Id,Participant_Enrollment__c,Patient_Delegate__c,Status__c,Study_Email_Consent__c,Study_Email_Consent_Time__c from Patient_Delegate_Enrollment__c where Patient_Delegate__c=:patientDelegatesToInsert[0].Id and Participant_Enrollment__c=: perId limit 1];
+                    if(!pder.isEmpty()){
+                    if(pder[0].Status__c == 'Withdrawn'){
+                         pder[0].Study_Email_Consent__c = true;
+                         pder[0].Status__c ='Active';
+                         pder[0].Study_Email_Consent_Time__c = Datetime.now();
+                    }else{
+                         pder[0].Status__c ='Active';
+                    }
+                    update pder;
+                    }else{
+                    Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
+                    pde.Participant_Enrollment__c = perId;
+                    pde.Patient_Delegate__c = patientDelegatesToInsert[0].Id;
+                    pde.Status__c =  'Active';
+                    pde.Study_Email_Consent__c = true;
+                    pde.Study_info_storage_consent__c = true;
+                    Insert pde;
+                    }              
+                }
             }
             if (String.isBlank(ddi.contactId) && NoInvite == false) {
                 createCommunityUser(toCreateUser, userNotExists);
@@ -678,13 +695,18 @@ public without sharing class ParticipantInformationRemote {
 
     @AuraEnabled
     public static String disconnectDelegateToPatient(
-        String delegateId
+        String delegateId, String perId
     ) {
         try {
             Patient_Delegate__c pd = new Patient_Delegate__c();
             pd.Id = delegateId;
             pd.Status__c = 'Disconnected';
             update pd;
+            List<Patient_Delegate_Enrollment__c> pde = new List<Patient_Delegate_Enrollment__c>();
+            pde = [Select Id,Participant_Enrollment__c,Patient_Delegate__c,Status__c  from Patient_Delegate_Enrollment__c where Patient_Delegate__c=:delegateId and Participant_Enrollment__c=:perId];
+            pde[0].Status__c ='Disconnected';
+            update pde;
+            
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -707,7 +729,8 @@ public without sharing class ParticipantInformationRemote {
         String delegatesS,
         List<String> doNotContinueIds,
         Boolean needsInvite,
-        String studySiteId
+        String studySiteId,
+        String delegateConsentItems
     ) {
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(
@@ -721,6 +744,10 @@ public without sharing class ParticipantInformationRemote {
             List<Participant__c> delegates = (List<Participant__c>) JSON.deserialize(
                 delegatesS,
                 List<Participant__c>.class
+            );
+             List<ConsentDetailsWrapper> consentDetails = (List<ConsentDetailsWrapper>) JSON.deserialize(
+                delegateConsentItems,
+                List<ConsentDetailsWrapper>.class
             );
             List<id> delContact= new List<id> ();
             Study_Site__c studySite = StudySiteService.getStudySiteForPIById(studySiteId);
@@ -799,15 +826,82 @@ public without sharing class ParticipantInformationRemote {
                     );
                 }
             }
-            if(!delContact.isEmpty()){
-                if(participant.Mailing_Country_Code__c=='US'){
-                    updateDelContact(delContact, true,mapContactIdToSMS);
+           if(!consentDetails.isEmpty()){
+               List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+               List<Patient_Delegate_Enrollment__c> updPDER = new List<Patient_Delegate_Enrollment__c>();
+               pder =[Select Id,Study_Email_Consent__c,Study_info_storage_consent__c,Study_Phone_Consent__c,Study_SMS_Consent__c,Participant_Enrollment__c,
+                        Patient_Delegate__c,Patient_Delegate__r.Participant__c,Patient_Delegate__r.Contact__c,Patient_Delegate__r.Participant_Delegate__c,Status__c from Patient_Delegate_Enrollment__c where Patient_Delegate__r.Participant__c=:participant.Id and Status__c!='Withdrawn' ];
+            Set<Id> duplicates = new Set<Id>();
+            Set<Id> nonDuplicates = new Set<Id>();
+            for(Patient_Delegate_Enrollment__c pd:pder){
+                if(nonDuplicates.contains(pd.Patient_Delegate__c)){
+                    duplicates.add(pd.Patient_Delegate__c);
+                }else{
+                    nonDuplicates.add(pd.Patient_Delegate__c);
                 }
-                else{
-
-                    updateDelContact(delContact, false,mapContactIdToSMS);
-                }
-                
+             }
+               for(Patient_Delegate_Enrollment__c pde:pder){
+                    if(!duplicates.contains(pde.Patient_Delegate__c)){
+                       Patient_Delegate_Enrollment__c pdes = new Patient_Delegate_Enrollment__c();
+                       pdes.Id = pde.Id;
+                       for(ConsentDetailsWrapper cdw:consentDetails){
+                           if(cdw.delgParticipantId == pde.Patient_Delegate__r.Participant_Delegate__c){
+                                   pdes.Study_Email_Consent__c = cdw.Study_Email_Consent;
+                                   pdes.Study_info_storage_consent__c= cdw.Study_info_storage_consent;
+                                   pdes.Study_Phone_Consent__c= cdw.Study_Phone_Consent;
+                                   pdes.Study_SMS_Consent__c= cdw.Study_SMS_Consent;
+                                   if (
+                                    idsToCheck.contains(pde.Patient_Delegate__r.Contact__c) &&
+                                    PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS !=
+                                    pde.Status__c
+                                    ){
+                                    pdes.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS;
+                                    }
+                                    
+                                    if (
+                                    !idsToCheck.contains(pde.Patient_Delegate__r.Contact__c) &&
+                                    PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS ==
+                                    pde.Status__c
+                                    ){
+                                      pdes.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS;
+                                    }
+                           }
+                       }
+                        updPDER.add(pdes);
+                    }else{
+                        
+                           Patient_Delegate_Enrollment__c pdes = new Patient_Delegate_Enrollment__c();
+                           pdes.Id = pde.Id;
+                           for(ConsentDetailsWrapper cdw:consentDetails){
+                               if(cdw.delgParticipantId == pde.Patient_Delegate__r.Participant_Delegate__c){
+                                       if(pde.Participant_Enrollment__c == peId){
+                                           pdes.Study_Email_Consent__c = cdw.Study_Email_Consent;
+                                           pdes.Study_info_storage_consent__c= cdw.Study_info_storage_consent;
+                                           pdes.Study_Phone_Consent__c= cdw.Study_Phone_Consent;
+                                           pdes.Study_SMS_Consent__c= cdw.Study_SMS_Consent;
+                                       }
+                                       if (
+                                        idsToCheck.contains(pde.Patient_Delegate__r.Contact__c) &&
+                                        PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS !=
+                                        pde.Status__c
+                                        ){
+                                        pdes.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS;
+                                        }
+                                        
+                                        if (
+                                        !idsToCheck.contains(pde.Patient_Delegate__r.Contact__c) &&
+                                        PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS ==
+                                        pde.Status__c
+                                        ){
+                                          pdes.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS;
+                                        }
+                               }
+                           }
+                            updPDER.add(pdes);
+                           
+                    }
+               }
+                  update updPDER;      
            }
             if (!delegates.isEmpty() && needsInvite == true) {
                 update delegates;
@@ -956,6 +1050,99 @@ public without sharing class ParticipantInformationRemote {
                     )
             ];
             return participants;
+        } catch (Exception exp) {
+            throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
+        }
+    }
+    public class ConsentDetailsWrapper {
+    @AuraEnabled
+    public Boolean Study_Email_Consent { get; set; }
+    @AuraEnabled
+    public Boolean Study_info_storage_consent { get; set; }
+    @AuraEnabled
+    public Boolean Study_Phone_Consent { get; set; }
+    @AuraEnabled
+    public Boolean Study_SMS_Consent { get; set; }
+    @AuraEnabled
+    public String delgParticipantId { get; set; }
+    @AuraEnabled
+    public String partEnrollId { get; set; }
+  }
+  public class ParticipantConsentWrapper {
+    @AuraEnabled
+    public List<Participant__c> ParticipantList { get; set; }
+    @AuraEnabled
+    Public List<ConsentDetailsWrapper> ParticipantConsent { get; set; }
+  }
+     @AuraEnabled
+    public static ParticipantConsentWrapper getParticipantPDER(String participantId,String perId) {
+        try {
+            List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+            pder  = [Select Id,Participant_Enrollment__c,Patient_Delegate__c,Patient_Delegate__r.Participant__c,Patient_Delegate__r.Participant_Delegate__c,Study_Email_Consent__c,
+            Study_info_storage_consent__c,Study_Phone_Consent__c,Study_SMS_Consent__c,Status__c from Patient_Delegate_Enrollment__c where Patient_Delegate__r.Participant__c=:participantId and Status__c!='Withdrawn'];
+            List<Id> partId = new List<Id>();
+            List<ConsentDetailsWrapper> cdw = new List<ConsentDetailsWrapper>();
+            ParticipantConsentWrapper pcw = new ParticipantConsentWrapper();
+            Set<Id> duplicates = new Set<Id>();
+            Set<Id> nonDuplicates = new Set<Id>();
+            for(Patient_Delegate_Enrollment__c pd:pder){
+                if(nonDuplicates.contains(pd.Patient_Delegate__c)){
+                    duplicates.add(pd.Patient_Delegate__c);
+                }else{
+                    nonDuplicates.add(pd.Patient_Delegate__c);
+                }
+             }
+            for(Patient_Delegate_Enrollment__c pd:pder){
+                if(!duplicates.contains(pd.Patient_Delegate__c)){
+                partId.add(pd.Patient_Delegate__r.Participant_Delegate__c);
+                
+                ConsentDetailsWrapper cd= new ConsentDetailsWrapper();
+                cd.Study_Email_Consent = pd.Study_Email_Consent__c;
+                cd.Study_info_storage_consent = pd.Study_info_storage_consent__c;
+                cd.Study_Phone_Consent  = pd.Study_Phone_Consent__c;
+                cd.Study_SMS_Consent = pd.Study_SMS_Consent__c;
+                cd.delgParticipantId  = pd.Patient_Delegate__r.Participant_Delegate__c;
+                cd.partEnrollId = pd.Participant_Enrollment__c;
+                cdw.add(cd);
+                }else{
+                if(pd.Participant_Enrollment__c == perId){
+                    partId.add(pd.Patient_Delegate__r.Participant_Delegate__c);
+                    
+                    ConsentDetailsWrapper cd= new ConsentDetailsWrapper();
+                    cd.Study_Email_Consent = pd.Study_Email_Consent__c;
+                    cd.Study_info_storage_consent = pd.Study_info_storage_consent__c;
+                    cd.Study_Phone_Consent  = pd.Study_Phone_Consent__c;
+                    cd.Study_SMS_Consent = pd.Study_SMS_Consent__c;
+                    cd.delgParticipantId  = pd.Patient_Delegate__r.Participant_Delegate__c;
+                    cd.partEnrollId = pd.Participant_Enrollment__c;
+                    cdw.add(cd);
+                 }
+                }
+               
+            }
+            List<Participant__c> participants = [
+                SELECT
+                    Id,
+                    Contact__c,
+                    First_Name__c,
+                    Middle_Name__c,
+                    Last_Name__c,
+                    Mailing_Zip_Postal_Code__c,
+                    Mailing_State_Code__c,
+                    Mailing_State__c,
+                    Mailing_Country_Code__c,
+                    Mailing_Country__c,
+                    Email__c,
+                    Phone__c,
+                    Phone_Type__c,
+                    Delegate_Consent_SMS__c
+                FROM Participant__c
+                WHERE
+                    Id IN:partId
+            ];
+            pcw.ParticipantList = participants;
+            pcw.ParticipantConsent = cdw;
+            return pcw;
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
