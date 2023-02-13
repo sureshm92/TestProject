@@ -69,7 +69,7 @@
                             type="text"
                             label="Visit/Event Description"
                             value="{!v.visit.Visit_Description__c}"
-                            placeholder = "200 characters only"
+                            placeholder = "Please enter 200 characters only"
                             messageWhenPatternMismatch="Only First 200 characters will be saved" 
                             pattern=".{0,200}" 
                         />
@@ -79,7 +79,7 @@
                             type="text"
                             label="Visit/Event Motivational Message"
                             value="{!v.visit.Motivational_Message__c}"
-                            placeholder = "200 characters only"
+                            placeholder = "Please enter 200 characters only"
                             messageWhenPatternMismatch="Only First 100 characters will be saved" 
                             pattern=".{0,100}" 
                         />
