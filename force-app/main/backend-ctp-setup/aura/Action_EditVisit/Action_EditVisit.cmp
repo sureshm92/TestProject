@@ -69,6 +69,10 @@
                             type="text"
                             label="Visit/Event Description"
                             value="{!v.visit.Visit_Description__c}"
+                            placeholder = "Field take 200 fields max"
+                            maxlength="200"
+                            messageWhenPatternMismatch="Only First 200 characters will be saved" 
+                            pattern=".{0,200}" 
                         />
                     </div>
                     <div class="slds-col slds-size--1-of-2">
@@ -76,6 +80,10 @@
                             type="text"
                             label="Visit/Event Motivational Message"
                             value="{!v.visit.Motivational_Message__c}"
+                            placeholder = "Field take 100 fields max"
+                            maxlength="100"
+                            messageWhenPatternMismatch="Only First 100 characters will be saved" 
+                            pattern=".{0,100}" 
                         />
                     </div>
                 </div>
