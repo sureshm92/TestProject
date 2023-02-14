@@ -69,33 +69,34 @@
         action.setCallback(this, function(response) {
             if(response.getState() === 'SUCCESS'){
                 var res = response.getReturnValue();
-                var numberOfUnreadNotifications = 0;
-                for (var i = 0; i < res.allSendResult.length; i++) {
-                    if (!res.allSendResult[i].Is_Read__c) {
-                        numberOfUnreadNotifications++;
-                    }
+                if(res != null){
+                    var numberOfUnreadNotifications = 0;
+                    for (var i = 0; i < res.allSendResult.length; i++) {
+                        if (!res.allSendResult[i].Is_Read__c) {
+                            numberOfUnreadNotifications++;
+                        }
 
-                    if(res.allSendResult[i].Push_Message_Body__c.includes('URL')){
-                        var tempBody = res.allSendResult[i].Push_Message_Body__c.split('{')[0];
-                        var tempData = res.allSendResult[i];
-                        tempData.Push_Message_Body__c = tempBody;
-                        res.allSendResult[i] = tempData;
+                        if(res.allSendResult[i].Push_Message_Body__c.includes('URL')){
+                            var tempBody = res.allSendResult[i].Push_Message_Body__c.split('{')[0];
+                            var tempData = res.allSendResult[i];
+                            tempData.Push_Message_Body__c = tempBody;
+                            res.allSendResult[i] = tempData;
+                        }
+                    }
+                    component.set("v.allNotificationData", res.allSendResult);
+                    notificationData = res.allSendResult.splice(0, 5);
+                    component.set("v.sendResultsData", notificationData);
+
+                    if (numberOfUnreadNotifications >= 0 && numberOfUnreadNotifications <= 99) {
+                        component.set("v.unreadNotificationsCount", numberOfUnreadNotifications);
+                        component.set("v.unreadNotifyCount", numberOfUnreadNotifications);
+                    } else if(numberOfUnreadNotifications > 99 ){
+                        let count;
+                        count = "99+" ;
+                        component.set("v.unreadNotificationsCount", count);
+                        component.set("v.unreadNotifyCount", numberOfUnreadNotifications);
                     }
                 }
-                component.set("v.allNotificationData", res.allSendResult);
-                notificationData = res.allSendResult.splice(0, 5);
-                component.set("v.sendResultsData", notificationData);
-
-                if (numberOfUnreadNotifications >= 0 && numberOfUnreadNotifications <= 99) {
-                    component.set("v.unreadNotificationsCount", numberOfUnreadNotifications);
-                    component.set("v.unreadNotifyCount", numberOfUnreadNotifications);
-                 } else if(numberOfUnreadNotifications > 99 ){
-                    let count;
-                    count = "99+" ;
-                    component.set("v.unreadNotificationsCount", count);
-                    component.set("v.unreadNotifyCount", numberOfUnreadNotifications);
-                 }
-
             }else{
                 console.error(response);
             }
