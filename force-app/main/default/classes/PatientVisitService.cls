@@ -297,6 +297,7 @@ public inherited sharing class PatientVisitService {
                 Visit__c,
                 Visit_Number__c,
                 Visit__r.Visit_Plan__c,
+                Visit__r.Patient_Portal_Name__c,
                 Is_Pre_Enrollment_Patient_Visit__c,
                 Planned_Date__c,
                 Completed_Date__c,

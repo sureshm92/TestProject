@@ -406,13 +406,15 @@ public without sharing class TaskEditRemote {
             peIds = PatientDelegateService.getAvailablePEIdsForContact(
                 participantState.participant.Contact__c
             );
+            Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
+            
             availablePEs = [
                 SELECT
                     Id,
                     Permit_SMS_Text_for_this_study__c,
                     Permit_Mail_Email_contact_for_this_study__c
                 FROM Participant_Enrollment__c
-                WHERE Id = :peIds
+                WHERE Id = :currentPE.Id
             ];
         } catch (Exception e) {
             AuraHelper.throwException(e);

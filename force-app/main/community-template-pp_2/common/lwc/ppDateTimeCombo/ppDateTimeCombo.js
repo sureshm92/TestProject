@@ -41,6 +41,7 @@ export default class PpDateTimeCombo extends LightningElement {
     @track errorPriorDueDT;
     @api showDateTime;
     @api isVisitEventTask = 'task';
+    @api hideTimeInput;
     label = {
         date,
         time,
@@ -210,7 +211,9 @@ export default class PpDateTimeCombo extends LightningElement {
         return 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small';
     }
     get timeClass() {
-        return 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small';
+        return this.hideTimeInput
+            ? 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small slds-hide'
+            : 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small';
     }
     get gridClass() {
         return this.createTask == true

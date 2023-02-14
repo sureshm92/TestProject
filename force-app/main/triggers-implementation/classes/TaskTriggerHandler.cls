@@ -63,7 +63,6 @@ public without sharing class TaskTriggerHandler {
                 );
                 continue;
             }
-            System.debug('SOBJTYPE: ' + sourceObjectType);
             String errorsInParameters = CatalogParametersHelper.getErrorInParameters(
                 sourceObjectType,
                 card.Parameters__c
@@ -108,7 +107,7 @@ public without sharing class TaskTriggerHandler {
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
         List<Notification__c> notifications = new List<Notification__c>();
         List<Id> allContactsIds = new List<Id>();
-        List<Id> allPeIds = new List<Id>();
+        Map<Id,List<Task>> allPeIds = new Map<Id,List<Task>>();
         Set<Id> ownerIds = new Set<Id>();
         Set<Id> contactWithoutUser = new Set<Id>();
         // set to hold all tasks whose onwers are minor participants
@@ -142,10 +141,16 @@ public without sharing class TaskTriggerHandler {
             //PEH-10344 create notif for delegate associated with study only(for study level tasks only)
             if (t.whatId?.getSObjectType().getDescribe().getName() == 'Participant_Enrollment__c')
             {
-                allPeIds.add(t.whatId); 
+                if (!allPeIds.containsKey(t.whatId)) {
+                    allPeIds.put(t.whatId, new List<Task>());
+                }
+                allPeIds.get(t.whatId).add(t); 
             }
             else if(t.Task_Type__c == 'Survey' ){
-                allPeIds.add(t.Survey_Invitation__r.Participant_Enrollment__c);
+                if (!allPeIds.containsKey(t.Survey_Invitation__r.Participant_Enrollment__c)) {
+                    allPeIds.put(t.Survey_Invitation__r.Participant_Enrollment__c, new List<Task>());
+                }
+                allPeIds.get(t.Survey_Invitation__r.Participant_Enrollment__c).add(t);
             }
             else{
                 allContactsIds.add(t.WhoId);
@@ -155,18 +160,18 @@ public without sharing class TaskTriggerHandler {
         if (allPeIds.size() > 0)
         {
             delConIdsByPACon = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
-                allPeIds,true
+                new List<Id>(allPeIds.keySet()),true
             );
         }else{
             delConIdsByPACon = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
                 allContactsIds,false
             );
         }
-        
         for (Id paKey : delConIdsByPACon.keySet())
-            allContactsIds.addAll(delConIdsByPACon.get(paKey));
+            allContactsIds.addAll(delConIdsByPACon.get(paKey)); 
 
         Map<Id, List<Contact>> delegatesByPAContact = new Map<Id, List<Contact>>();
+        Map<Id, List<Patient_Delegate_Enrollment__c>> perIdPdeMap = new Map<Id, List<Patient_Delegate_Enrollment__c>>();
         if (allContactsIds.size() > 0) {
             Map<Id, Contact> contactsMap = new Map<Id, Contact>(
                 [
@@ -175,9 +180,9 @@ public without sharing class TaskTriggerHandler {
                     WHERE Id IN :allContactsIds
                 ]
             );
-            for (Id paKey : delConIdsByPACon.keySet()) {
+            for (Id paKey : delConIdsByPACon.keySet()) { 
                 List<Contact> delegateContacts = new List<Contact>();
-                for (Id delId : delConIdsByPACon.get(paKey))
+                for (Id delId : delConIdsByPACon.get(paKey)) 
                     delegateContacts.add(contactsMap.get(delId));
 
                 delegatesByPAContact.put(paKey, delegateContacts);
@@ -195,15 +200,32 @@ public without sharing class TaskTriggerHandler {
                 WHERE Id IN :ownerIds AND IsActive = TRUE
             ]
         );
-
         List<Id> partContactsIds = new List<Id>();
         for (Id usId : usersByIds.keySet()) {
             partContactsIds.add(usersByIds.get(usId).ContactId);
         }
         //Adding contacts without user to same list
         partContactsIds.addAll(contactWithoutUser);
-
-        List<Patient_Delegate_Enrollment__c> patientDelegates = [
+        List<Patient_Delegate_Enrollment__c> patientDelegates = new List<Patient_Delegate_Enrollment__c>(); 
+        if (allPeIds.size() > 0){
+            patientDelegates = [
+            SELECT
+                Id,
+                Participant_Enrollment__c,
+                Patient_Delegate__c,
+                Patient_Delegate__r.Contact__c,
+                Patient_Delegate__r.Participant__c,
+                Patient_Delegate__r.Participant__r.Contact__c,
+                Name,
+                Status__c,
+                Welcome_Message_Sent__c,
+                Welcome_Message_Delivered__c,
+                Participant_Enrollment__r.study__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Participant_Enrollment__c IN : allPeIds.keySet() AND Status__c = 'Active' 
+            ];
+        }else{
+            patientDelegates = [
             SELECT
                 Id,
                 Participant_Enrollment__c,
@@ -219,8 +241,13 @@ public without sharing class TaskTriggerHandler {
                 FROM Patient_Delegate_Enrollment__c
                 WHERE Patient_Delegate__r.Participant__r.Contact__c IN : partContactsIds AND Status__c = 'Active' 
         ];
+        }
         Map<Id, List<Id>> delegatesCntByPartCnt = new Map<Id, List<Id>>();
         for (Patient_Delegate_Enrollment__c pd : patientDelegates) {
+            if(!perIdPdeMap.containsKey(pd.Participant_Enrollment__c)){
+               perIdPdeMap.put(pd.Participant_Enrollment__c,new List<Patient_Delegate_Enrollment__c>()); 
+            }
+            perIdPdeMap.get(pd.Participant_Enrollment__c).add(pd);
             if (!delegatesCntByPartCnt.containsKey(pd.Patient_Delegate__r.Participant__r.Contact__c)) {
                 delegatesCntByPartCnt.put(pd.Patient_Delegate__r.Participant__r.Contact__c, new List<Id>());
             }
@@ -254,18 +281,34 @@ public without sharing class TaskTriggerHandler {
                              List<Contact> delegates = delegatesByPAContact.containskey(task.WhoId)
                              ? delegatesByPAContact.get(task.WhoId) : null;
                            
-                            if (delegates != null && !delegates.isEmpty()) {
-                                for (Contact delContact : delegates)
-                                  {
+                            if(patientDelegates != null && !patientDelegates.isEmpty()){
+                                List<Patient_Delegate_Enrollment__c> pdEnrollments = perIdPdeMap.containsKey(task.Survey_Invitation__r.Participant_Enrollment__c) 
+                                            ? perIdPdeMap.get(task.Survey_Invitation__r.Participant_Enrollment__c) : null;
+                                for(Patient_Delegate_Enrollment__c pde:pdEnrollments){
                                     notifications.add(
                                         new Notification__c(
-                                            Recipient__c = delContact.Id,
+                                            Recipient__c = pde.Patient_Delegate__r.Contact__c,
                                             IsDelegate__c = true,
                                             WhatId__c = whatId,
                                             Notification_Type__c = card.Immediate_Notification_Type__c,
                                             RemindUsing__c = 'Email'
                                         )
                                     );
+                                }
+                            }else{
+                                if (delegates != null && !delegates.isEmpty()) {
+                                    for (Contact delContact : delegates)
+                                    {
+                                        notifications.add(
+                                            new Notification__c(
+                                                Recipient__c = delContact.Id,
+                                                IsDelegate__c = true,
+                                                WhatId__c = whatId,
+                                                Notification_Type__c = card.Immediate_Notification_Type__c,
+                                                RemindUsing__c = 'Email'
+                                            )
+                                        );
+                                    }
                                 }
                             }
                         }
@@ -350,6 +393,7 @@ public without sharing class TaskTriggerHandler {
                 }
             }
         }
+        System.debug('notifications:: '+notifications);
         if (!notifications.isEmpty())
             insert notifications;
     }

@@ -1145,6 +1145,7 @@
                                                     participantCountry="{!v.mailingCountryCode}"
                                                     callSource="ReferParticipantRP" studySiteId="{!v.siteId}">
                                                 </c:consentManager>
+                                        <aura:if isTrue="{!v.authorizationForm}">
                                            <div class="signedForm"> 
                                            {!$Label.c.Signed_Auth_Form}
                                            </div>
@@ -1184,6 +1185,7 @@
                                                </div>
                                             </div>
                                          </div>
+                                        </aura:if>
                                             <button class="apollo-btn primary"
                                                 style="width: 100%; margin: 20px 0 50px 0"
                                                 data-gtm="btn_SaveParticipant_referring"
@@ -1775,6 +1777,7 @@
                                                         participantEnrollment="{!v.pEnrollment}"
                                                         participantCountry="{!v.mailingCountryCode}"
                                                         callSource="ReferParticipantRP"></c:consentManager>
+                                            <aura:if isTrue="{!v.authorizationForm}">        
                                                <div class="signedForm">
                                                {!$Label.c.Signed_Auth_Form}
                                                </div>
@@ -1814,6 +1817,7 @@
                                                    </div>
                                                 </div>
                                              </div>
+                                            </aura:if>
                                                 <button class="apollo-btn primary"
                                                     style="width: 100%; margin: 20px 0 50px 0"
                                                     data-gtm="btn_SaveParticipant_referring"

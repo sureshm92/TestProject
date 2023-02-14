@@ -229,6 +229,14 @@ innerbox {
         justify-content: flex-start;
     }
 }
+/** landscape changes**/
+@media screen and (orientation:landscape)
+and (max-device-width: 898px) 
+{
+    .buttons_Landscape{
+        width: 100%;
+    }
+}
 /* @media (max-width: 768px) {
   .sldsmodalcontainer {
     max-width: 100%;
