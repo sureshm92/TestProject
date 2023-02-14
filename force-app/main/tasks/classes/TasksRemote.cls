@@ -179,7 +179,7 @@ public without sharing class TasksRemote {
                 }
                 when else {
                     taskWrapper.originator = Label.Admin;
-                    taskWrapper.isMCPTask = false;
+                    taskWrapper.isMCPTask = true;
                 }
             }
         }
