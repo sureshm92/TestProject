@@ -98,7 +98,11 @@ export default class PpCookiesBanner extends LightningElement {
         if (!this.loginPage && data) {
             this.showBanner = false;
         }
-        if ((!rrCookies || this.loginPage) && !data) {
+        if (
+            (!rrCookies || this.loginPage) &&
+            !data &&
+            !sessionStorage.getItem('CookiesonLoginPage')
+        ) {
             if (this.isDummy && !localStorage.getItem('CookiesOnTC') && !this.termsAndConditions) {
                 this.showBanner = true;
             }
@@ -137,6 +141,7 @@ export default class PpCookiesBanner extends LightningElement {
         }
         sessionStorage.removeItem('Cookies');
         localStorage.removeItem('Cookies');
+        sessionStorage.removeItem('CookiesonLoginPage');
         if (!this.isDummy && !this.termsAndConditions) {
             localStorage.removeItem('CookiesOnTC');
         }
