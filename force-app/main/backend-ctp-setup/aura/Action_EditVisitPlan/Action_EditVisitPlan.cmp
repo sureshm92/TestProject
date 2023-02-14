@@ -26,7 +26,7 @@
     <c:uiModal
         aura:id="createVisitPlan"
         size="medium"
-        headerText="{!if(v.mode == 'edit','Edit Visit Plan',
+        headerText="{!if(v.mode == 'edit','Edit Visit/Event Plan',
                                                                      if(v.mode == 'clone', 'Clone Visit Plan',
                                                                      if(v.mode == 'view', 'View Visit Plan', 'Create Visit/Event Plan')))}"
     >
