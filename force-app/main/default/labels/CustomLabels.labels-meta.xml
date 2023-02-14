@@ -30484,6 +30484,6 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Body Instant Task Reminder Type Not Selected PP Only Date</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;
 
-&lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;&lt;/div&gt;</value>
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
 </CustomLabels>
