@@ -35,7 +35,9 @@
                 component.set('v.sessionId', res);
                 component.set('v.contactId', key['userId']);
                 if (component.get('v.sessionId') != null) {
+                    if(component.get('v.contactId') != null){
                     helper.connectCometd(component, event);
+                    }
                     helper.getSendResult(component, event);
                 }
             } else {
