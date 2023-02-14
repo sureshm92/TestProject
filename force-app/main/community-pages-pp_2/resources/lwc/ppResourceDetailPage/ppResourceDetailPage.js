@@ -134,10 +134,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     }
 
     handleBackClick() {
-        let pageLink;
-        let subDomain = communityService.getSubDomain();
+        sessionStorage.setItem('Cookies', 'Accepted');
         if (FORM_FACTOR == 'Large') {
-            pageLink = window.location.origin + subDomain + '/s/resources';
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'resources'
+                }
+            });
         } else {
             let resType;
             if (this.isMultimedia) {
@@ -146,21 +150,17 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 resType = 'documents';
             } else if (this.resourceType == 'Video' || this.resourceType == 'Article') {
                 resType = 'explore';
-            }
-            pageLink = window.location.origin + subDomain + '/s/resources?resType=' + resType;
+            }    
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'resources'
+                },
+                state: {
+                    resType : resType
+                }
+            });
         }
-        const config = {
-            type: 'standard__webPage',
-
-            attributes: {
-                url: pageLink
-            }
-        };
-
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
-        });
     }
 
     handleFavourite() {

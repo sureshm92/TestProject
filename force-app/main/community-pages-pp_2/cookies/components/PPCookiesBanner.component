@@ -1,7 +1,7 @@
 <!--
  - Created by Sandeep
  -->
- <apex:component id="PPCookiesBanner" controller="PPCookiesBannerController" allowDML="true">
+ <apex:component id="PPCookiesBanner" controller="PPCookiesBannerController" allowDML="true" >
     <apex:attribute name="community" description="community Name" type="String" />
     <apex:actionFunction action="{!updateCookiePreferences}" name="updateCookies" reRender="none" />
 
@@ -521,7 +521,6 @@
         var agreedtoPolicy = false;
         var init = true;
         var dataIsAvailable = false;
-        fetchTheData();
         var acc = document.getElementsByClassName('accordion');
         var i;
 
@@ -595,6 +594,7 @@
             event.preventDefault();
         }
         function showManagePreferences() {
+            fetchTheData();
             init = false;
             $('#spinner').css('display', 'block');
             $('.c-container').addClass('hide-banner');
@@ -610,7 +610,7 @@
             dataIsAvailable = true;
             $('#spinner').css('display', 'none');
             let ele = document.getElementById('bannerId');
-            if (!agreedtoPolicy && !rrCookies && !init) ele.style.display = 'block';
+            if (!agreedtoPolicy && !rrCookies && !init && ele) ele.style.display = 'block';
         }
         function closeManageModal() {
             agreedtoPolicy = true;
