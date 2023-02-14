@@ -355,3 +355,10 @@
   }
 
 }
+@media screen and (orientation:landscape)
+and (max-device-width: 898px) 
+{
+    .header-landscape{
+     width: 35%;
+    }
+}

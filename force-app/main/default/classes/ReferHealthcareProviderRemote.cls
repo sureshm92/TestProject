@@ -506,6 +506,8 @@ global without sharing class ReferHealthcareProviderRemote {
             );
             PDWrapper delegateObj = (PDWrapper) JSON.deserialize(delegateContact, PDWrapper.class);
             List<Patient_Delegate__c> lstPatientDelegate = new List<Patient_Delegate__c>();
+            List<Patient_Delegate__c> lstPatientDelegateWithdrwan = new List<Patient_Delegate__c>();
+            List<Patient_Delegate_Enrollment__c> lstPatientDelegateEnroll = new List<Patient_Delegate_Enrollment__c>();
             if (
                 delegateDuplicate != null &&
                 delegateDuplicate.contactId != null &&
@@ -519,8 +521,8 @@ global without sharing class ReferHealthcareProviderRemote {
                         AND Contact__c = :delegateDuplicate.contactId
                         
                 ];
+               
             }
-            system.debug('>>>lstPatientDelegate>>' + lstPatientDelegate);
             Boolean boolisUserCreated;
             Id ContactId;
 			Id delegateContactId;
@@ -663,14 +665,44 @@ global without sharing class ReferHealthcareProviderRemote {
                 }
                 upsert ptDelegateRef;
 				delegateContactId = newContact.Id;
-                
-                ptDelegateEnroll.Patient_Delegate__c=ptDelegateRef.ID;
-                ptDelegateEnroll.Status__c = DEL_ACTIVE;
-                ptDelegateEnroll.Participant_Enrollment__c=perID;
-                ptDelegateEnroll.Study_info_storage_consent__c= true;
-                ptDelegateEnroll.Study_Email_Consent__c = true;
+
+                if (
+                delegateDuplicate != null &&
+                delegateDuplicate.contactId != null &&
+                delegateDuplicate.participantId != null
+            ){
+                lstPatientDelegateEnroll = [
+                    SELECT ID, Status__c,Patient_Delegate__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE
+                        Patient_Delegate__r.Participant__c = :participantObj.id
+                        AND Participant_Enrollment__c = :perID
+                        AND Patient_Delegate__r.Contact__c = :delegateDuplicate.contactId
+                        AND Patient_Delegate__c = :ptDelegateRef.id
+                ];
+            }
+
+                if (!lstPatientDelegateEnroll.isEmpty()) {
+                    if(lstPatientDelegateEnroll[0].Status__c == 'Withdrawn'){	
+                        ptDelegateEnroll.ID = lstPatientDelegateEnroll[0].ID;	
+                        ptDelegateEnroll.Status__c = DEL_ACTIVE;	
+                        ptDelegateEnroll.Study_Email_Consent__c = true;	
+                        ptDelegateEnroll.Study_Email_Consent_Time__c = Datetime.now();	
+                   }else{	
+                        ptDelegateEnroll.ID = lstPatientDelegateEnroll[0].ID;
+                        ptDelegateEnroll.Status__c ='Active';	
+                   }
+                   update ptDelegateEnroll;
+                }
+                else{
+                    ptDelegateEnroll.Patient_Delegate__c=ptDelegateRef.ID;
+                    ptDelegateEnroll.Status__c = DEL_ACTIVE;
+                    ptDelegateEnroll.Participant_Enrollment__c=perID;
+                    ptDelegateEnroll.Study_info_storage_consent__c= true;
+                    ptDelegateEnroll.Study_Email_Consent__c = true;
                 
                 insert ptDelegateEnroll;
+                }
                 
                 if(createUser && delegateDuplicate == null) {
                     //system.debug('INSIDEFIRST');

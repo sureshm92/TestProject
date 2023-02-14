@@ -1,7 +1,7 @@
 <!--
  - Created by Sandeep
  -->
- <apex:component id="PPCookiesBanner" controller="PPCookiesBannerController" allowDML="true">
+ <apex:component id="PPCookiesBanner" controller="PPCookiesBannerController" allowDML="true" >
     <apex:attribute name="community" description="community Name" type="String" />
     <apex:actionFunction action="{!updateCookiePreferences}" name="updateCookies" reRender="none" />
 
@@ -157,6 +157,25 @@
             line-height: 24px;
         }
 
+        .slds-modal__content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .slds-modal__content::-webkit-scrollbar-track {
+            /* box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08); */
+            box-shadow: none;
+            border-radius: 8px;
+        }
+
+        .slds-modal__content::-webkit-scrollbar-thumb {
+            background: #999999;
+            border-radius: 8px;
+        }
+
+        .slds-modal__content::-webkit-scrollbar-thumb:hover {
+            background: #999999;
+        }
+
         .accordion {
             box-sizing: border-box;
             height: auto;
@@ -275,7 +294,7 @@
             outline: none;
         }
     </style>
-    <apex:outputPanel id="thePanel" rendered="{!community=='RH'}">
+    <apex:outputPanel id="thePanel" rendered="{!community=='IQVIA Referral Hub'}">
         <style>
             .rh-border-radius {
                 border-radius: 4px !important;
@@ -293,6 +312,14 @@
             }
             .modal-container {
                 top: 2.2rem !important;
+            }
+        </style>
+    </apex:outputPanel>
+
+    <apex:outputPanel id="theJanPanel" rendered="{!community=='Janssen Community'}">
+        <style>
+            .janssen-card-top-bg {
+                background: linear-gradient(90deg, #230357 0%, #026da7 100%);
             }
         </style>
     </apex:outputPanel>
@@ -351,7 +378,7 @@
     <div id="bannerId" style="display: none; pointer-events: auto">
         <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
             <div class="slds-modal__container modal-container">
-                <div class="slds-grid card-top-bg rh-card-top-bg"></div>
+                <div class="slds-grid card-top-bg rh-card-top-bg janssen-card-top-bg"></div>
                 <div class="slds-modal__content slds-p-around_large">
                     <div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small">
                         <div class="slds-col modal-header-text">
@@ -381,10 +408,28 @@
                                         </div>
                                     </div>
                                 </apex:repeat>
+                                <div
+                                    class="cookie-title slds-p-horizontal_medium"
+                                    style="{!IF(community=='Janssen Community' , 'display:block', 'display:none')}"
+                                >
+                                    <div class="cookie-title-font-size">
+                                        <apex:outputText
+                                            value="{!$Label.AccountSettings_Functional_RRCookies}"
+                                        />
+                                    </div>
+                                    <div class="cookie-desc-font-size">
+                                        <apex:outputText
+                                            value="{!$Label.AccountSettings_RRCookies_Description}"
+                                        />
+                                    </div>
+                                </div>
                             </apex:outputPanel>
                         </div>
                     </div>
-                    <div class="accordion active rh-border-radius">
+                    <div
+                        class="accordion active rh-border-radius"
+                        style="{!IF(community!='Janssen Community' , 'display:block', 'display:none')}"
+                    >
                         <apex:outputPanel id="functionCookiesInfo">
                             <div class="acordion-title slds-p-horizontal_small">
                                 {!$Label.AccountSettings_Functional_Cookies}
@@ -395,7 +440,9 @@
                                         <div class="cookie-title-font-size">
                                             {!$Label.AccountSettings_Functional_RRCookies}
                                         </div>
-                                        <div class="cookie-desc-font-size">{!$Label.AccountSettings_RRCookies_Description}</div>
+                                        <div class="cookie-desc-font-size">
+                                            {!$Label.AccountSettings_RRCookies_Description}
+                                        </div>
                                     </div>
                                     <div class="slds-col slds-size_2-of-12 slds-m-top_large">
                                         <div class="slds-form-element">
@@ -474,7 +521,6 @@
         var agreedtoPolicy = false;
         var init = true;
         var dataIsAvailable = false;
-        fetchTheData();
         var acc = document.getElementsByClassName('accordion');
         var i;
 
@@ -503,11 +549,14 @@
             document.body.classList.add('cookie-block-user');
             document.body.addEventListener('keypress', bodyBlock);
             document.body.addEventListener('keydown', bodyBlock);
+            let htmlDivs = document.getElementsByTagName('html');
+            htmlDivs[0].classList.add('cookie-block-user');
         } else {
             let currentDate = new Date();
             var browserCookiesObj = JSON.parse(localStorage.getItem('cookieslist'));
             let additionalCookieslabel = '{!JSENCODE($Label.Additional_Cookies)}';
-            if ( browserCookiesObj &&
+            if (
+                browserCookiesObj &&
                 browserCookiesObj.cookies &&
                 additionalCookieslabel != 'NONE' &&
                 additionalCookieslabel
@@ -536,6 +585,8 @@
             document.body.removeEventListener('keydown', this.bodyBlock);
             $('.c-container').addClass('hide-banner');
             document.body.classList.remove('cookie-block-user');
+            let htmlDivs = document.getElementsByTagName('html');
+            htmlDivs[0].classList.remove('cookie-block-user');
             closeManageModal();
             event.preventDefault();
         }
@@ -543,6 +594,7 @@
             event.preventDefault();
         }
         function showManagePreferences() {
+            fetchTheData();
             init = false;
             $('#spinner').css('display', 'block');
             $('.c-container').addClass('hide-banner');
@@ -558,7 +610,7 @@
             dataIsAvailable = true;
             $('#spinner').css('display', 'none');
             let ele = document.getElementById('bannerId');
-            if (!agreedtoPolicy && !rrCookies && !init) ele.style.display = 'block';
+            if (!agreedtoPolicy && !rrCookies && !init && ele) ele.style.display = 'block';
         }
         function closeManageModal() {
             agreedtoPolicy = true;
@@ -567,13 +619,14 @@
             var checkedVal = $('[id$=currentRRCookies]').is(':checked');
             if (checkedVal) {
                 closeCookiesInfo();
-            }
-            else{
+            } else {
                 sessionStorage.setItem('Cookies', 'Accepted');
             }
             document.body.removeEventListener('keypress', this.bodyBlock);
             document.body.removeEventListener('keydown', this.bodyBlock);
             document.body.classList.remove('cookie-block-user');
+            let htmlDivs = document.getElementsByTagName('html');
+            htmlDivs[0].classList.remove('cookie-block-user');
             event.preventDefault();
         }
     </script>

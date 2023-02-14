@@ -8,6 +8,7 @@ import { label } from "c/pir_label";
 import DelegateAttestation from '@salesforce/label/c.RH_DelegateAttestation';
 import YearOfBirth from '@salesforce/label/c.RH_YearofBirth';
 import RH_DelegateConsentEmail from '@salesforce/label/c.RH_DelegateConsentEmail';
+import RH_StudyDelegateConsentEmail from '@salesforce/label/c.RH_StudyDelegateConsentEmail';
 
 export default class Pir_participantEmancipatedDelegate extends LightningElement {
     @api emailAddress = '';
@@ -42,10 +43,12 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
     @api isDisplay = false;
     isDisplayFormFields = false;
     @api isDisplayConsent=false;
+    @api perId;
     labels = {
         DelegateAttestation,
         YearOfBirth,
-        RH_DelegateConsentEmail
+        RH_DelegateConsentEmail,
+        RH_StudyDelegateConsentEmail
     }
     connectedCallback(){
         this.displayOptions();
@@ -157,7 +160,8 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
             checkDelegateDuplicate({ email: this.emailAddress,
                 firstName: this.firstName,
                 lastName: this.lastName,
-                participantId: this.participantid })
+                participantId: this.participantid,
+                perId: this.perId })
             .then((result) => {
                 if(result.firstName){
                     this.isDisplayFormFields = false;
@@ -303,7 +307,8 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
                                    studySiteId: this.siteid,
                                    isConnected: this.isDelegateConnected,
                                    duplicateDelegateInfo:  JSON.stringify(this.duplicateDelegateInfo),
-                                   NoInvite : this.isvirtualsite
+                                   NoInvite : this.isvirtualsite,
+                                   perId : this.perId
         })
         .then((result) => {
             this.isConnected = true;
@@ -344,7 +349,7 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
     }
 
     doDisConnectDelegate(){
-        disconnectDelegateToPatient({ delegateId: this.delegateId })
+        disconnectDelegateToPatient({ delegateId: this.delegateId, perId : this.perId })
         .then((result) => {
             this.isConnected = false;
             this.isDisconnected = true;

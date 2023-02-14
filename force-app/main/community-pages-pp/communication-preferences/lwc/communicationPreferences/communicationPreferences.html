@@ -97,6 +97,13 @@
                         </lightning-layout-item>
                     </lightning-layout>
                 </Template> -->
+                <Template if:true={showStaticMessageForDelSelfViewEmpty}>
+                    <lightning-layout class="po-mr-15">
+                        <lightning-layout-item size="12" class="po-no-communication-del">
+                            <div>{label.PP_Communication_Pref_Del_Blank_Page}</div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </Template>
                 <Template if:true={showStudyConsentFlag}>
                     <div class="study-container">
                         <div class="header">
@@ -738,6 +745,13 @@
                         </lightning-layout-item>
                     </lightning-layout>
                 </Template> -->
+                <Template if:true={showStaticMessageForDelSelfViewEmpty}>
+                    <lightning-layout class="po-mr-15">
+                        <lightning-layout-item size="12" class="po-no-communication-del">
+                            <div>{label.PP_Communication_Pref_Del_Blank_Page}</div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </Template>
                 <Template if:true={showStudyConsentFlag}>
                     <div class="study-container study-container-mobile">
                         <div class="header headerMobile">

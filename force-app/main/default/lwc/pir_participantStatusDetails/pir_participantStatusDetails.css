@@ -502,6 +502,19 @@
         padding: 0px;
     }
 }
+/** landscape changes**/
+@media screen and (orientation:landscape)
+and (max-device-width: 898px) 
+{
+    .hideDesktopView{
+        display: none;
+    }
+    .hideMobile{
+        display: block;
+        padding-left: 4px;
+    }
+
+}
 
 /*rtl start*/
 .rtl .vertical-scroll{

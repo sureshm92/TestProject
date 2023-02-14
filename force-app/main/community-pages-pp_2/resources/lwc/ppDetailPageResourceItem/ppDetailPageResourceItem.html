@@ -4,7 +4,12 @@
     <!-- ****************  ARTICLE  ********************  -->
     <template if:true={showArticle}>
         <template if:true={isThumbnailPresent}>
-            <img src={resourceLink} alt="Image is not available" onerror={handleError} />
+            <img
+                src={resourceLink}
+                class="slds-align--absolute-center"
+                alt="Image is not available"
+                onerror={handleError}
+            />
         </template>
         <template if:false={isThumbnailPresent}>
             <div class="icon-container">

@@ -453,13 +453,6 @@ public without sharing class CommunityFacadeRemote {
         List<Participant_Enrollment__c> lstOfEnrollment = new List<Participant_Enrollment__c>();
         List<Notification__c> lstOfNotification = new List<Notification__c>();
         String communityType = UserContext.getCurrentUserMode().template.templateName;  
-        List<String> communityTypeList = new List<String>();
-        if(communityType == 'Janssen'){
-            communityTypeList.add(communityType);
-        }else{
-            communityTypeList.add('Default');
-            communityTypeList.add('GSK');
-        }
         String userRole = UserContext.getCurrentUserMode().userMode;
         Map<String, List<Participant_Enrollment__c>> mapOfProtocolVsEnrollment = new Map<String, List<Participant_Enrollment__c>>();
         Map<String, Set<String>> mapOfStudyVsSite = new Map<String, Set<String>>();
@@ -467,16 +460,29 @@ public without sharing class CommunityFacadeRemote {
         Map<String, String> mapOfStudyVsComm = new Map<String, String>();  
 
         if(contactId != null){
-            listOfResult = [SELECT Id,CreatedById,CreatedDate,Is_Active__c,Is_Read__c,Link_to_Related_Event_or_Object__c,
-                            Msg_Id__c,Name,Notification__r.Notification_Type__c,Notification__c,Push_Message_Body__c,
-                            Push_Message_Title__c,Status__c,Target_Type__c 
-                            FROM Send_Result__c 
-                            WHERE (Is_Active__c = true) 
-                            AND (Notification__r.Recipient__r.Id =:contactId)  
-                            AND ( CreatedDate = LAST_N_DAYS:30) 
-                            AND Community_Type__c IN :communityTypeList     
-                            AND User_Role__c = :userRole                
-                            ORDER BY CreatedDate DESC];
+            if(communityType == 'Janssen'){
+                listOfResult = [SELECT Id,CreatedById,CreatedDate,Is_Active__c,Is_Read__c,Link_to_Related_Event_or_Object__c,
+                                Msg_Id__c,Name,Notification__r.Notification_Type__c,Notification__c,Push_Message_Body__c,
+                                Push_Message_Title__c,Status__c,Target_Type__c 
+                                FROM Send_Result__c 
+                                WHERE (Is_Active__c = true) 
+                                AND (Notification__r.Recipient__r.Id =:contactId)  
+                                AND ( CreatedDate = LAST_N_DAYS:30) 
+                                AND Community_Type__c = 'Janssen'     
+                                AND User_Role__c = :userRole                
+                                ORDER BY CreatedDate DESC];
+            }else{
+                listOfResult = [SELECT Id,CreatedById,CreatedDate,Is_Active__c,Is_Read__c,Link_to_Related_Event_or_Object__c,
+                                Msg_Id__c,Name,Notification__r.Notification_Type__c,Notification__c,Push_Message_Body__c,
+                                Push_Message_Title__c,Status__c,Target_Type__c 
+                                FROM Send_Result__c 
+                                WHERE (Is_Active__c = true) 
+                                AND (Notification__r.Recipient__r.Id =:contactId)  
+                                AND ( CreatedDate = LAST_N_DAYS:30)
+                                AND (Community_Type__c != null AND Community_Type__c != 'Janssen') 
+                                AND User_Role__c = :userRole                
+                                ORDER BY CreatedDate DESC];
+            }
         }
 
         if(!String.isBlank(isExecute) && Boolean.valueOf(isExecute)){            
@@ -497,13 +503,13 @@ public without sharing class CommunityFacadeRemote {
             }
             if(lstOfSuccess.size() == 1){
                 userLogin1 = lstOfSuccess[0].LoginTime;
-                query += ' AND CreatedDate >= :userCreatedDate AND CreatedDate <= :userLogin1 LIMIT 45000';
+                query += ' AND ((CreatedDate >= :userCreatedDate AND CreatedDate <= :userLogin1) OR (Created_Date_RPtoPI__c != null AND Created_Date_RPtoPI__c >= :userCreatedDate AND Created_Date_RPtoPI__c <= :userLogin1)) LIMIT 45000';
             }
 
             if(lstOfSuccess.size() == 2){
                 userLogin1 = lstOfSuccess[0].LoginTime;
                 userLogin2 = lstOfSuccess[1].LoginTime;
-                query += ' AND CreatedDate <= :userLogin1 AND CreatedDate >= :userLogin2 LIMIT 45000';
+                query += ' AND ((CreatedDate <= :userLogin1 AND CreatedDate >= :userLogin2) OR (Created_Date_RPtoPI__c != null AND Created_Date_RPtoPI__c <= :userLogin1 AND Created_Date_RPtoPI__c >= :userLogin2)) LIMIT 45000';
             }
 
             lstOfEnrollment = Database.Query(query);

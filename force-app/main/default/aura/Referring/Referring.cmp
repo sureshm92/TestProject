@@ -609,43 +609,15 @@
                                                 <div class="rr-form-element part-header">
                                                     <b><label>{!$Label.c.PG_Ref_L_Patient_Authorization}</label></b>
                                                     <div class="rr-form-element slds-no-label" style="margin-top: 15px">
-                                                        <div class="rr-cb-container">
-                                                            <lightning:input type="checkbox" label=""
-                                                                checked="{!v.agreePolicy}"
-                                                                onchange="{!c.doCheckfields}" />
-                                                        </div>
-                                                        <div class="label rr-cb-label"
-                                                            style="{!if(v.isRTL, 'padding-right: 7px;','')}">
-                                                            {!$Label.c.PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_study_top}
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <lightning:fileUpload label="{!$Label.c.Signed_Auth_Form}"
-                                                            name="fileUploader" multiple="false"
-                                                            disabled="{!v.disableFile}"
-                                                            onuploadfinished="{!c.handleUploadFinished}" />
-                                                        <div class="slds-grid slds-gutters slds-wrap"
-                                                            style="padding-top: 5px">
-                                                            <div class="slds-col slds-size--2-of-5">
-                                                                <a style="padding-top: 5px" onclick="{!c.openModel}">
-                                                                    {!v.fileName}
-                                                                </a>
-                                                            </div>
-                                                            <div class="slds-col slds-size--1-of-5">
-                                                                <aura:if isTrue="{!v.disableFile}">
-                                                                    <lightning:buttonIcon iconName="utility:delete"
-                                                                        alternativeText="Delete" title="Delete"
-                                                                        size="small" onclick="{!c.handleDeleteFile}" />
-                                                                </aura:if>
-                                                            </div>
-                                                        </div>
+                                                      <div class="pauth"> {!$Label.c.RH_PatientAuthInfo} </div>  
                                                     </div>
                                                     <br />
-                                                    <div>
-                                                        <a href="{!v.contentDoc.baseURL + '/sfc/servlet.shepherd/document/download/'+ v.contentDoc.attachments[0].Id +'?operationContext=S1'}"
-                                                            target="_blank"
-                                                            download="{!v.contentDoc.attachments.Title}">
-                                                            {!$Label.c.PG_Ref_L_Download_Authorization}</a>
+                                                    <div class="slds-box slds-box_xx-small pauthdownload">
+                                                    <a href="{!v.contentDoc.baseURL + '/sfc/servlet.shepherd/document/download/'+ v.contentDoc.attachments[0].Id +'?operationContext=S1'}"
+                                                    target="_blank"
+                                                    download="{!v.contentDoc.attachments.Title}">
+                                                    <span class="slds-button__icon_left"><img src="{!$Resource.iconDownload}" width="16"  /></span>
+                                                    <span> {!$Label.c.PG_Ref_L_Download_Authorization}</span></a>
                                                     </div>
                                                 </div>
                                             </aura:if>
@@ -1166,14 +1138,54 @@
                                                         </div>
                                                 </aura:if>
                                             </aura:if>
-                                            <aura:if isTrue="{!(!v.authorizationForm)}">
+
                                                 <c:consentManager peUpdation="true"
                                                     onconsentchange="{!c.handleConsentUpdate}"
                                                     participantEnrollment="{!v.pEnrollment}"
                                                     participantCountry="{!v.mailingCountryCode}"
                                                     callSource="ReferParticipantRP" studySiteId="{!v.siteId}">
                                                 </c:consentManager>
-                                            </aura:if>
+                                        <aura:if isTrue="{!v.authorizationForm}">
+                                           <div class="signedForm"> 
+                                           {!$Label.c.Signed_Auth_Form}
+                                           </div>
+                                           <div class="marTop marBottom">
+                                            {!$Label.c.RH_PatientAuthComplete}
+                                            </div>
+                                           <div class="fileHolder" >
+                                            
+                                            <div class="fileBoxwoFile slds-grid slds-wrap uploadPadding " aura:id="uploadfile">
+                                                 
+                                               <div class="slds-col slds-size_10-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                                  <div class="slds-size_full slds-text-align_center slds-text_center uploadLabel marTop">  
+                                                    <div  > 
+                                                        
+                                                        <lightning:fileUpload 
+                                                            name="fileUploader" multiple="false"
+                                                            disabled="{!v.disableFile}"
+                                                            onuploadfinished="{!c.handleUploadFinished}" />
+                                                        <div class="slds-grid slds-gutters slds-wrap"
+                                                            style="padding-top: 5px">
+                                                            <div class="slds-col slds-size--5-of-5">
+                                                                <a style="padding-top: 5px" onclick="{!c.openModel}">
+                                                                    {!v.fileName}
+                                                                </a>
+                                                            </div>
+                                                            <div class="slds-col slds-size--5-of-5">
+                                                                <aura:if isTrue="{!v.disableFile}">
+                                                                    <lightning:buttonIcon iconName="utility:delete"
+                                                                        alternativeText="Delete" title="Delete"
+                                                                        size="small" onclick="{!c.handleDeleteFile}" />
+                                                                </aura:if>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                  </div>
+                                                  
+                                               </div>
+                                            </div>
+                                         </div>
+                                        </aura:if>
                                             <button class="apollo-btn primary"
                                                 style="width: 100%; margin: 20px 0 50px 0"
                                                 data-gtm="btn_SaveParticipant_referring"
@@ -1230,45 +1242,15 @@
                                                         <b><label>{!$Label.c.PG_Ref_L_Patient_Authorization}</label></b>
                                                         <div class="rr-form-element slds-no-label"
                                                             style="margin-top: 15px">
-                                                            <div class="rr-cb-container">
-                                                                <lightning:input type="checkbox" label=""
-                                                                    checked="{!v.agreePolicy}"
-                                                                    onchange="{!c.doCheckfields}" />
-                                                            </div>
-                                                            <div class="label rr-cb-label"
-                                                                style="{!if(v.isRTL, 'padding-right: 7px;','')}">
-                                                                {!$Label.c.PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_study_top}
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <lightning:fileUpload label="{!$Label.c.Signed_Auth_Form}"
-                                                                name="fileUploader" multiple="false"
-                                                                disabled="{!v.disableFile}"
-                                                                onuploadfinished="{!c.handleUploadFinished}" />
-                                                            <div class="slds-grid slds-gutters slds-wrap"
-                                                                style="padding-top: 5px">
-                                                                <div class="slds-col slds-size--2-of-5">
-                                                                    <a style="padding-top: 5px"
-                                                                        onclick="{!c.openModel}">
-                                                                        {!v.fileName}
-                                                                    </a>
-                                                                </div>
-                                                                <div class="slds-col slds-size--1-of-5">
-                                                                    <aura:if isTrue="{!v.disableFile}">
-                                                                        <lightning:buttonIcon iconName="utility:delete"
-                                                                            alternativeText="Delete" title="Delete"
-                                                                            size="small"
-                                                                            onclick="{!c.handleDeleteFile}" />
-                                                                    </aura:if>
-                                                                </div>
-                                                            </div>
+                                                            <div class="pauth"> {!$Label.c.RH_PatientAuthInfo} </div>
                                                         </div>
                                                         <br />
-                                                        <div>
-                                                            <a href="{!v.contentDoc.baseURL + '/sfc/servlet.shepherd/document/download/'+ v.contentDoc.attachments[0].Id +'?operationContext=S1'}"
-                                                                target="_blank"
-                                                                download="{!v.contentDoc.attachments.Title}">
-                                                                {!$Label.c.PG_Ref_L_Download_Authorization}</a>
+                                                        <div class="slds-box slds-box_xx-small pauthdownload">
+                                                        <a href="{!v.contentDoc.baseURL + '/sfc/servlet.shepherd/document/download/'+ v.contentDoc.attachments[0].Id +'?operationContext=S1'}"
+                                                        target="_blank"
+                                                        download="{!v.contentDoc.attachments.Title}">
+                                                        <span class="slds-button__icon_left"><img src="{!$Resource.iconDownload}" width="16"  /></span>
+                                                        <span>{!$Label.c.PG_Ref_L_Download_Authorization}</span></a>
                                                         </div>
                                                     </div>
                                                 </aura:if>
@@ -1789,13 +1771,53 @@
                                                         </div>
                                                     </aura:if>
                                                 </aura:if>
-                                                <aura:if isTrue="{!(!v.authorizationForm)}">
+
                                                     <c:consentManager peUpdation="true"
                                                         onconsentchange="{!c.handleConsentUpdate}"
                                                         participantEnrollment="{!v.pEnrollment}"
                                                         participantCountry="{!v.mailingCountryCode}"
                                                         callSource="ReferParticipantRP"></c:consentManager>
-                                                </aura:if>
+                                            <aura:if isTrue="{!v.authorizationForm}">        
+                                               <div class="signedForm">
+                                               {!$Label.c.Signed_Auth_Form}
+                                               </div>
+                                               <div class="marTop marBottom">
+                                                {!$Label.c.RH_PatientAuthComplete}
+                                                </div>
+                                               <div class="fileHolder" >
+                                            
+                                                <div class="fileBoxwoFile slds-grid slds-wrap uploadPadding "  aura:id="uploadfile">
+                                                     
+                                                   <div class="slds-col slds-size_10-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                                      <div class="slds-size_full slds-text-align_center slds-text_center uploadLabel marTop">  
+                                                        <div>
+                                                            
+                                                            <lightning:fileUpload 
+                                                                name="fileUploader" multiple="false"
+                                                                disabled="{!v.disableFile}"
+                                                                onuploadfinished="{!c.handleUploadFinished}" />
+                                                            <div class="slds-grid slds-gutters slds-wrap"
+                                                                style="padding-top: 5px">
+                                                                <div class="slds-col slds-size--5-of-5">
+                                                                    <a style="padding-top: 5px" onclick="{!c.openModel}">
+                                                                        {!v.fileName}
+                                                                    </a>
+                                                                </div>
+                                                                <div class="slds-col slds-size--5-of-5">
+                                                                    <aura:if isTrue="{!v.disableFile}">
+                                                                        <lightning:buttonIcon iconName="utility:delete"
+                                                                            alternativeText="Delete" title="Delete"
+                                                                            size="small" onclick="{!c.handleDeleteFile}" />
+                                                                    </aura:if>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                      </div>
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                            </aura:if>
                                                 <button class="apollo-btn primary"
                                                     style="width: 100%; margin: 20px 0 50px 0"
                                                     data-gtm="btn_SaveParticipant_referring"

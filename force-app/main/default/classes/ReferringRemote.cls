@@ -411,6 +411,7 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             enrollment.Contacted__c = true;
             enrollment.Contacted_Date__c = System.today();
+            enrollment.Created_Date_RPtoPI__c = Datetime.now(); //created this field for RH-9902
             enrollment.Consulted__c = true;
             enrollment.Consulted_Date__c = System.today();
             enrollment.Have_you_Documented_the_Discussion__c = true;
@@ -966,6 +967,7 @@ return String.join(addressList, ', ');
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             enrollment.Contacted__c = true;
             enrollment.Contacted_Date__c = System.today();
+            enrollment.Created_Date_RPtoPI__c = Datetime.now(); //created this field for RH-9902
             enrollment.Consulted__c = true;
             enrollment.Consulted_Date__c = System.today();
             enrollment.Have_you_Documented_the_Discussion__c = true;
@@ -1112,6 +1114,7 @@ return String.join(addressList, ', ');
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             enrollment.Contacted__c = true;
             enrollment.Contacted_Date__c = System.today();
+            enrollment.Created_Date_RPtoPI__c = Datetime.now(); //created this field for RH-9902
             enrollment.Consulted__c = true;
             enrollment.Consulted_Date__c = System.today();
             enrollment.Have_you_Documented_the_Discussion__c = true;
@@ -1319,31 +1322,7 @@ FOR UPDATE
                     newContact.MailingCountry = participant.Mailing_Country__c;
                     newContact.MailingState = participant.Mailing_State__c;
                     newContact.MailingPostalCode = participant.Mailing_Zip_Postal_Code__c;
-                        newContact.IQVIA_Contact_info_storage_consent__c =true;
-                        newContact.Participant_Phone_Opt_In_Permit_Phone__c =true;
-                        newContact.IQVIA_Assisted_Dialing_Consent__c =true;
-                        newContact.Participant_Opt_In_Status_Emails__c =true;
-                        newContact.IQVIA_Artificial_Voice_Consent__c =true;
-                        newContact.IQVIA_Pre_recorded_Voice_Consent__c =true;
-                        if(participant.Mailing_Country_Code__c=='US'){
-                            newContact.Participant_Opt_In_Status_SMS__c=true;
-                            newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
-                        }
-                        else{
-                            if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c)
-                            {
-                                newContact.Participant_Opt_In_Status_SMS__c=true;
-                            }
-                            if(newContact.Participant_Opt_In_Status_SMS__c){
-                                newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
-                            }
-                        }
-                        newContact.IQVIA_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_PI_Storage_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Phone_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Email_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Assisted_Dialing_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Artificial_Voice_Consent_Time__c = Datetime.now();
+                    
                         
                     
                     if ('Home' == participantDelegate.Phone_Type__c) {
@@ -1383,40 +1362,7 @@ FOR UPDATE
                         FROM Contact
                         WHERE Id = :delegateDuplicateInfo.contactId
                     ];
-                        Boolean getSms=newContact.Participant_Opt_In_Status_SMS__c;
-                        newContact.IQVIA_Contact_info_storage_consent__c =true;
-                        newContact.Participant_Phone_Opt_In_Permit_Phone__c =true;
-                        newContact.IQVIA_Assisted_Dialing_Consent__c =true;
-                        newContact.Participant_Opt_In_Status_Emails__c =true;
-                        newContact.IQVIA_Artificial_Voice_Consent__c =true;
-                        newContact.IQVIA_Pre_recorded_Voice_Consent__c =true;
-                        if(participant.Mailing_Country_Code__c=='US'){
-                            newContact.Participant_Opt_In_Status_SMS__c=true;
-                            newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
-                        }
-                        else{
-                            if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c)
-                            {
-                                newContact.Participant_Opt_In_Status_SMS__c=true;
-                            }
-                            else{
-                                newContact.Participant_Opt_In_Status_SMS__c=false;
-                            }
-                            if(newContact.Participant_Opt_In_Status_SMS__c){
-                                newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
-                               }
-                              else if(getSms!=newContact.Participant_Opt_In_Status_SMS__c){
-                                newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
-                            }
-                            
-                        }
-                        newContact.IQVIA_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_PI_Storage_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Phone_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Email_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Assisted_Dialing_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Artificial_Voice_Consent_Time__c = Datetime.now();
-                        update newContact;
+                     
                     createDelegateuser = false;
                 }
                 if (delegateDuplicateInfo == null || delegateDuplicateInfo.participantId == null) {
@@ -1444,6 +1390,7 @@ FOR UPDATE
                 }
                 //if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {
                 List<Patient_Delegate__c> checkPDel;
+                List<Patient_Delegate_Enrollment__c> lstPatientDelEnrollForDup= new List<Patient_Delegate_Enrollment__c> ();
                 List<Id> lstPrimaryDelegate = new List<Id> ();
                 List<Id> lstNonPrimaryDelegtae = new list<Id> ();
                 if (participantId != null && newContact.Id != null) {
@@ -1459,6 +1406,16 @@ FOR UPDATE
                             pDel.Primary_Delegate__c = True;
                             checkPDel.add(pDel);  
                             lstPrimaryDelegate.add(pDel.Id); 
+                            Patient_Delegate_Enrollment__c objPDPER = new Patient_Delegate_Enrollment__c ();
+                        objPDPER.Participant_Enrollment__c = enrollment.Id;
+                        objPDPER.Patient_Delegate__c = pDel.Id;
+                        objPDPER.Study_SMS_Consent__c = enrollment.Delegate_SMS_Consent__c;
+                         objPDPER.Study_Phone_Consent__c = enrollment.Delegate_Consent__c;
+                        objPDPER.Study_info_storage_consent__c = enrollment.Delegate_Consent__c;
+                        objPDPER.Study_Email_Consent__c = enrollment.Delegate_Consent__c;
+                        objPDPER.Status__c = 'Disconnected';
+                        objPDPER.Primary_Delegate__c = true;
+                        lstPatientDelEnrollForDup.add(objPDPER);
                            }else {
                             pDel.Primary_Delegate__c = false;
                             lstNonPrimaryDelegtae.add(pDel.Id);
@@ -1467,6 +1424,8 @@ FOR UPDATE
                      if(!lstPrimaryDelegate.isEmpty()  || !lstNonPrimaryDelegtae.isEmpty())
                         updatePatientDelegateExisting(lstPrimaryDelegate,lstNonPrimaryDelegtae);
                      //update allPDelList;
+                     if(!lstPatientDelEnrollForDup.isEmpty())
+                        insert lstPatientDelEnrollForDup;
 
                     List<Participant_Enrollment__c> particpantEnrollList = [
                         SELECT
@@ -1506,6 +1465,18 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                         }
                         
                         insert ptDelegateRef;
+
+                        Patient_Delegate_Enrollment__c objPDPER = new Patient_Delegate_Enrollment__c ();
+                        objPDPER.Participant_Enrollment__c = enrollment.Id;
+                        objPDPER.Patient_Delegate__c = ptDelegateRef.Id;
+                        objPDPER.Study_SMS_Consent__c = enrollment.Delegate_SMS_Consent__c;
+                         objPDPER.Study_Phone_Consent__c = enrollment.Delegate_Consent__c;
+                        objPDPER.Study_info_storage_consent__c = enrollment.Delegate_Consent__c;
+                        objPDPER.Study_Email_Consent__c = enrollment.Delegate_Consent__c;
+                        objPDPER.Status__c = 'Disconnected';
+                        objPDPER.Primary_Delegate__c = true;
+
+                        insert objPDPER;
                     }
                 }                
                 if(enrollment != null && (enrollment.Clinical_Trial_Profile__r.IQVIA_Outreach__c || (hcpEnrollment!=null && hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c) )   
@@ -1517,31 +1488,20 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                       Contact getCon=[Select id, Participant_Opt_In_Status_Emails__c, Participant_Opt_In_Status_SMS__c,
                                         Participant_Phone_Opt_In_Permit_Phone__c,IQVIA_Artificial_Voice_Consent__c,
                                         IQVIA_Pre_recorded_Voice_Consent__c, IQVIA_Assisted_Dialing_Consent__c from Contact where id=:con.id];
-                    if(!getCon.Participant_Opt_In_Status_Emails__c){
+
                         con.Participant_Opt_In_Status_Emails__c =enrollment.Participant_Opt_In_Status_Emails__c;
-                    }                 
-                    if(!getCon.Participant_Phone_Opt_In_Permit_Phone__c){
+                             
                       con.Participant_Phone_Opt_In_Permit_Phone__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
-                    }
-                    if(!getCon.IQVIA_Artificial_Voice_Consent__c){
                       con.IQVIA_Artificial_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
-                    }
-                    if(!getCon.IQVIA_Assisted_Dialing_Consent__c){
                       con.IQVIA_Assisted_Dialing_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
-                    }
-                    if(!getCon.IQVIA_Pre_recorded_Voice_Consent__c){
                       con.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c; 
-                    }
-                    if(!getCon.Participant_Opt_In_Status_SMS__c){
                       con.Participant_Opt_In_Status_SMS__c = enrollment.Participant_Opt_In_Status_SMS__c;
-                    }
                       con.IQVIA_Direct_Mail_Consent__c = enrollment.IQVIA_Direct_Mail_Consent__c;
                       
                       //update con; moved to future method
                       String objJSONStr = Json.serialize(con);
                       updateParticipantContact(objJSONStr);
                   }
-                //}
                 if (createDelegateuser) {
                     createParticipantUsers(
                         new Map<Id, Id>{ newContact.Id => null },
