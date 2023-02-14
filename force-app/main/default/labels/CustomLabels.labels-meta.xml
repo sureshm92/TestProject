@@ -6550,7 +6550,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <shortDescription>Email Body Task Reminder Type Not Selected Deleg PP OnlyDate</shortDescription>
         <value>&lt;span&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming task: ##TaskName.&lt;/span&gt;
 
-&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;
+&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot; &gt;Please login to update the status of this task.&lt;/span&gt;</value>
     </labels>
@@ -30453,7 +30453,7 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Body Instant Del Task Reminder Type Not Selected PP Only Date</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;&lt;/div&gt;</value>
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
 	<labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_PP_OnlyDate</fullName>
@@ -30462,7 +30462,7 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Body Task Reminder Type Not Selected PP OnlyDate</shortDescription>
         <value>&lt;span &gt;This is an email to remind you of your upcoming task: ##TaskName&lt;/span&gt;
 
-&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate.&lt;/span&gt;
+&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate.&lt;/span&gt;
 
 &lt;span &gt;Please login to update the status of your task.&lt;/span&gt;</value>
     </labels>
@@ -30473,7 +30473,7 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Task Reminder Type Not Selected Deleg PP OnlyDate</shortDescription>
         <value>&lt;span&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming task: ##TaskName.&lt;/span&gt;
 
-&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;
+&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot; &gt;Please login to update the status of this task.&lt;/span&gt;</value>
     </labels>
@@ -30484,6 +30484,6 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Body Instant Task Reminder Type Not Selected PP Only Date</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;
 
-&lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;&lt;/div&gt;</value>
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
 </CustomLabels>
