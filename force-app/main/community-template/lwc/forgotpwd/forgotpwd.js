@@ -114,6 +114,7 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
     }
 
     goBack() {
+        sessionStorage.setItem('CookiesonLoginPage', 'Accepted');
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {

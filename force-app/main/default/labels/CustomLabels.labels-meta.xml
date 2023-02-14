@@ -30437,9 +30437,15 @@ Please contact the Study Team for further updates or please login for additional
                 
             Sincerely,            
     
-            ##SignatureShortCommunityName</value>
-           
-    </labels>
+            ##SignatureShortCommunityName</value>    
+    </labels> 
+    <labels>
+        <fullName>Email_Body_Reset_Password_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Reset Password PP</shortDescription>
+        <value>You recently requested a password reset for your account. To complete the process, you can set a new password by clicking on the button above.</value>
+    </labels> 
     <labels>
         <fullName>Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected_PP_OnlyDate</fullName>
         <language>en_US</language>
