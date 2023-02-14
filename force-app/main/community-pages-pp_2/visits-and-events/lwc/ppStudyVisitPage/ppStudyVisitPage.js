@@ -211,7 +211,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     }
                     if (!this.upcomingVisitId && this.upcomingVisits.length > 0) {
                         this.upcomingVisitId = this.upcomingVisits[0].visit.Id;
-                        this.visitName = this.upcomingVisits[0].visit.Name;
+                        this.visitName =
+                            this.upcomingVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
                         this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
                     }
                     this.showList = true;

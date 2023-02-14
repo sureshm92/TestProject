@@ -16,18 +16,17 @@ public without sharing class PreferenceManagementController {
     ) {
         System.debug('***Study Data: ' + studyDataJSON);
         System.debug('****Outreach Data: ' + outReachDataJSON);
-        
+
         if (requestFrom == 'PER') {
             //Update Study Consent.
             saveStudyConsent(studyDataJSON);
-        }else if (requestFrom == 'PDE') {
+        } else if (requestFrom == 'PDE') {
             //Update Patient Delegate enrollment Consent.
             savePDEConsent(studyDataJSON);
-        }else if (requestFrom == 'IQVIA_OUTREACH') {
+        } else if (requestFrom == 'IQVIA_OUTREACH') {
             //Update IQVIA Outreach Consent.
             saveIQVIAOutreachConsent(outReachDataJSON);
         }
-        
     }
 
     @AuraEnabled
@@ -62,7 +61,6 @@ public without sharing class PreferenceManagementController {
             //SMS Opt out for Patient Delegate.
             if (!per.Permit_SMS_Text_for_this_study__c) {
                 List<Id> perIdList = new List<Id>{ consentData.perId };
-                processSMSOptOutForDelegate(perIdList, consentData.ParticipantContId);
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -85,7 +83,6 @@ public without sharing class PreferenceManagementController {
             if (pde != null) {
                 update pde;
             }
-            
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -270,36 +267,6 @@ public without sharing class PreferenceManagementController {
     }
 
     /**
-     * @description: This Method will set the consent Preference data to the static variables.
-     * @author: Krishna Mahto
-     * @param: perList
-     * @return:
-     **/
-    public static Void processSMSOptOutForDelegate(List<Id> perIdList, Id ParticipantContId) {
-        Set<Id> delContactIdSet = new Set<Id>();
-        //List<Id> perIdList = new List<Id>{ perId };
-        //Get Patient Delegate for the logged in Participant.
-        List<Patient_Delegate__c> pdLest = PatientDelegateService.getPDelegates(ParticipantContId);
-        for (Patient_Delegate__c pd : pdLest) {
-            delContactIdSet.Add(pd.Contact__c);
-        }
-
-        //Get list of ParticipantEnrollmentPatientDelJunction records
-        List<Patient_Delegate_Enrollment__c> perDelJunctionRecList = Action_SendSMS.getPERPatientDelJunctionRecords(
-            perIdList,
-            delContactIdSet
-        );
-        for (Patient_Delegate_Enrollment__c pdJunObj : perDelJunctionRecList) {
-            pdJunObj.Welcome_Message_Sent__c = false;
-            pdJunObj.Welcome_Message_Delivered__c = false;
-        }
-
-        if (perDelJunctionRecList != null && !perDelJunctionRecList.isEmpty()) {
-            update perDelJunctionRecList;
-        }
-    }
-
-    /**
      * @description: This Method will update the Participant Contact Communication consent to Primary Delegate contact.
      * @author: Krishna Mahto
      * @param: parContact
@@ -385,7 +352,6 @@ public without sharing class PreferenceManagementController {
             per.Welcome_Message_Delivered__c = false;
         }
         //Revert Study level Welcome message flags for Patient Delegates also.
-        processSMSOptOutForDelegate(perIdList, perToUpdate[0].Participant_Contact__c);
         return perToUpdate;
     }
 
@@ -400,11 +366,15 @@ public without sharing class PreferenceManagementController {
     public static List<Contact> getConOfMinorOfAdultWithoutEmailPar(Id contactId) {
         List<Contact> contactToUpdate = new List<Contact>();
         //check if Primary Delegate has any Minor Participant or Adult Participant without email.
-        List<Patient_Delegate_Enrollment__c> PDEnrollmentList = PatientDelegateEnrollmentService.getPDForMinorOrAdultWithoutEmailPar(contactId);
-        //Opt out Platfrom level SMS for Participants also. 
-        for(Patient_Delegate_Enrollment__c pd: PDEnrollmentList){
+        List<Patient_Delegate_Enrollment__c> PDEnrollmentList = PatientDelegateEnrollmentService.getPDForMinorOrAdultWithoutEmailPar(
+            contactId
+        );
+        //Opt out Platfrom level SMS for Participants also.
+        for (Patient_Delegate_Enrollment__c pd : PDEnrollmentList) {
             minorOrAdultWithNoEmailParIdSet.add(pd.Participant_Enrollment__r.Participant__c);
-            Contact cont = optOutPlatFormLevelSMS(pd.Participant_Enrollment__r.Participant__r.Contact__c);
+            Contact cont = optOutPlatFormLevelSMS(
+                pd.Participant_Enrollment__r.Participant__r.Contact__c
+            );
             contactToUpdate.Add(cont);
         }
         return contactToUpdate;

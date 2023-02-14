@@ -612,6 +612,10 @@
     font-size: 14px;
     font-weight: 540;
 }
+.THIS {
+    --lwc-colorTextButtonBrandDisabled:rgb(201, 201, 201);
+}
+
 
 
 @media all and (max-width: 500px) {
