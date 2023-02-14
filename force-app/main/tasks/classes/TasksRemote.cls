@@ -179,9 +179,7 @@ public without sharing class TasksRemote {
                 }
                 when else {
                     taskWrapper.originator = Label.Admin;
-                    taskWrapper.isMCPTask = taskWrapper.openTask.Task_Type__c == 'Not Selected'
-                        ? true
-                        : false;
+                    taskWrapper.isMCPTask = false;
                 }
             }
         }
@@ -189,17 +187,13 @@ public without sharing class TasksRemote {
 
     private static void createMCPList(List<CompletedTask> tasks) {
         for (CompletedTask taskWrapper : tasks) {
-            if (taskWrapper.task.Task_Type__c == 'Not Selected') {
-                if (
-                    taskWrapper.task.Originator__c == 'Participant' ||
-                    taskWrapper.task.Originator__c == 'Delegate'
-                ) {
-                    taskWrapper.isMCPTask = false;
-                } else {
-                    taskWrapper.isMCPTask = true;
-                }
-            } else {
+            if (
+                taskWrapper.task.Originator__c == 'Participant' ||
+                taskWrapper.task.Originator__c == 'Delegate'
+            ) {
                 taskWrapper.isMCPTask = false;
+            } else {
+                taskWrapper.isMCPTask = true;
             }
         }
     }
