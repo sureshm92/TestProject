@@ -16,7 +16,9 @@
             });
             setTimeout(
                 $A.getCallback(function () {
-                    //helper.init(component);
+                    if (communityService.isDummy()) {
+                        helper.init(component);
+                    }
                 }),
                 1000
             );
