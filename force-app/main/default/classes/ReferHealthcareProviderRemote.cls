@@ -523,7 +523,6 @@ global without sharing class ReferHealthcareProviderRemote {
                 ];
                
             }
-            system.debug('>>>lstPatientDelegate>>' + lstPatientDelegate);
             Boolean boolisUserCreated;
             Id ContactId;
 			Id delegateContactId;
