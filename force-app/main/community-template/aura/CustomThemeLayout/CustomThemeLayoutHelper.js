@@ -69,6 +69,7 @@
         action.setCallback(this, function(response) {
             if(response.getState() === 'SUCCESS'){
                 var res = response.getReturnValue();
+                if(res != null){
                 var numberOfUnreadNotifications = 0;
                 for (var i = 0; i < res.allSendResult.length; i++) {
                     if (!res.allSendResult[i].Is_Read__c) {
@@ -95,7 +96,7 @@
                     component.set("v.unreadNotificationsCount", count);
                     component.set("v.unreadNotifyCount", numberOfUnreadNotifications);
                  }
-
+                }
             }else{
                 console.error(response);
             }

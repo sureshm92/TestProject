@@ -16,7 +16,9 @@
             });
             setTimeout(
                 $A.getCallback(function () {
-                    //helper.init(component);
+                    if (communityService.isDummy()) {
+                        helper.init(component);
+                    }
                 }),
                 1000
             );
@@ -33,7 +35,9 @@
                 component.set('v.sessionId', res);
                 component.set('v.contactId', key['userId']);
                 if (component.get('v.sessionId') != null) {
+                    if(component.get('v.contactId') != null){
                     helper.connectCometd(component, event);
+                    }
                     helper.getSendResult(component, event);
                 }
             } else {
