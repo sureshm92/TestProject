@@ -179,7 +179,9 @@ public without sharing class TasksRemote {
                 }
                 when else {
                     taskWrapper.originator = Label.Admin;
-                    taskWrapper.isMCPTask = true;
+                    taskWrapper.isMCPTask = taskWrapper.openTask.Task_Type__c == 'Not Selected'
+                        ? true
+                        : false;
                 }
             }
         }
