@@ -198,3 +198,15 @@ overflow: hidden;
     line-height: 45px;
   }
 }
+@media screen and (orientation:landscape)
+and (max-device-width: 898px) 
+{
+    .del-phonelandscape{
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .altphone-landscape{
+      width: 13rem;
+    }
+}

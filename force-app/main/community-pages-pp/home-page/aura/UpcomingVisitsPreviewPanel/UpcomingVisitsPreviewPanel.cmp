@@ -40,6 +40,7 @@
                                         <aura:if isTrue="{!not(v.isVisitPathEnabled)}">
                                             <lightning:button
                                                 variant="base"
+                                                class="PP_Name_Btn"
                                                 value="{!index}"
                                                 onclick="{!c.createEditTask}"
                                                 >{!visitWrapper.visit.Visit__r.Patient_Portal_Name__c}</lightning:button
