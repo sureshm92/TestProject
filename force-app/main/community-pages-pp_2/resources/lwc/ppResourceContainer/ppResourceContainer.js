@@ -31,30 +31,19 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
             this.state = communityService.getCurrentCommunityMode().participantState;
         }
     }
-
     handleNavigate() {
-        let detailLink =
-            window.location.origin +
-            '/pp/s/resource-detail' +
-            '?resourceid=' +
-            this.resourceId +
-            '&resourcetype=' +
-            this.resourceType +
-            '&state=' +
-            this.state;
-
-        const config = {
-            type: 'standard__webPage',
-
+        sessionStorage.setItem('Cookies', 'Accepted');		
+			this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: detailLink
+                pageName: 'resource-detail'
+            },
+			state: {
+                resourceid : this.resourceId,
+                resourcetype : this.resourceType,
+                state : this.state
             }
-        };
-
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
-        });
+		});	
     }
     handleFavourite() {
         this.isFavourite = !this.isFavourite;

@@ -47,7 +47,7 @@
                                     data-index={index}
                                     data-past="false"
                                     data-id={item.visit.Id}
-                                    data-name={item.visit.Name}
+                                    data-name={item.visit.Visit__r.Patient_Portal_Name__c}
                                 >
                                     <div class="slds-grid slds-wrap">
                                         <div class="slds-col slds-size_1-of-12">
@@ -55,10 +55,13 @@
                                         </div>
 
                                         <div class="slds-col slds-size_9-of-12">
-                                            <div class="slds-truncate" title={item.visit.Name}>
+                                            <div
+                                                class="slds-truncate"
+                                                title={item.visit.Visit__r.Patient_Portal_Name__c}
+                                            >
                                                 <lightning-formatted-text
                                                     class="name-style"
-                                                    value={item.visit.Name}
+                                                    value={item.visit.Visit__r.Patient_Portal_Name__c}
                                                 >
                                                 </lightning-formatted-text>
 
@@ -147,11 +150,14 @@
                                         </div>
 
                                         <div class="slds-col slds-size_9-of-12">
-                                            <div class="slds-truncate" title={item.visit.Name}>
+                                            <div
+                                                class="slds-truncate"
+                                                title={item.visit.Visit__r.Patient_Portal_Name__c}
+                                            >
                                                 <b>
                                                     <lightning-formatted-text
                                                         class="name-style"
-                                                        value={item.visit.Name}
+                                                        value={item.visit.Visit__r.Patient_Portal_Name__c}
                                                     >
                                                     </lightning-formatted-text>
                                                 </b>
@@ -163,9 +169,9 @@
                                                 <template if:false={item.missedVisit}>
                                                     <p class="no-date date-style">
                                                         {item.visit.Status__c}
-                                                    <template 
-                                                        if:true={item.visitDate}>:
-                                                    </template>&nbsp;
+                                                        <template if:true={item.visitDate}
+                                                            >: </template
+                                                        >&nbsp;
                                                         <lightning-formatted-date-time
                                                             value={item.visitDate}
                                                             year="numeric"

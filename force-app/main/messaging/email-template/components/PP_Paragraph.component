@@ -6,8 +6,8 @@
     <apex:attribute name="emailLabel" type="String" assignTo="{!labelName}" description="" access="global" />
     <apex:attribute name="outputType" type="String" assignTo="{!outputMode}" description="" default="HTML" />
 
-    <div style="margin-top: 15px;
-                margin-bottom: 15px;
+    <div style="margin-top: 0px;
+                margin-bottom: 0px;
                 color:#444444;
                 font-size: 1rem;
                 font-weight: 500;
