@@ -343,8 +343,8 @@
         width: 100%;
     }
     .path-2-copy {
-        width: 301px;
-        margin-left: 0.3rem;
+        width: 95% !important;
+        margin-left: 0.7rem;
     }
 
     .mob-task-sub {
@@ -516,5 +516,4 @@
         letter-spacing: 0;
         line-height: 48px;
     }
-    
 }

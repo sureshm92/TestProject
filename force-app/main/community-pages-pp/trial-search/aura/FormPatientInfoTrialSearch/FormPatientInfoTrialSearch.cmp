@@ -270,13 +270,7 @@
                     value="/privacy-policy?ret"
                 />
                 {!$Label.c.TS_Disclaimer1} -->
-                {!$Label.c.PP_Outreach_Communication_Pref_A}&nbsp;
-                {!$Label.c.PP_Outreach_Communication_Pref_B}&nbsp;
-                {!$Label.c.PP_Outreach_Communication_Pref_C}&nbsp;
-                <span class="blue-highlight-text-color" onclick="{!c.OpenPPPopup}">
-                    {!$Label.c.PP_Communication_Pref_Outreach_consentB}
-                </span>
-                {!$Label.c.PP_Outreach_Communication_Pref_D}
+                {!$Label.c.PP_Outreach_Communication_Pref_A}&nbsp;{!$Label.c.PP_Outreach_Communication_Pref_B}&nbsp;{!$Label.c.PP_Outreach_Communication_Pref_C}&nbsp;<span class="blue-highlight-text-color" onclick="{!c.OpenPPPopup}">{!$Label.c.PP_Communication_Pref_Outreach_consentB}</span>{!$Label.c.PP_Outreach_Communication_Pref_D}
                 
             </div>
         </div>
