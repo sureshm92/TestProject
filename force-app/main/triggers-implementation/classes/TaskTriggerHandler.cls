@@ -282,18 +282,23 @@ public without sharing class TaskTriggerHandler {
                              ? delegatesByPAContact.get(task.WhoId) : null;
                            
                             if(patientDelegates != null && !patientDelegates.isEmpty()){
-                                List<Patient_Delegate_Enrollment__c> pdEnrollments = perIdPdeMap.containsKey(task.Survey_Invitation__r.Participant_Enrollment__c) 
+                                List<Patient_Delegate_Enrollment__c> pdEnrollments = new List<Patient_Delegate_Enrollment__c>();
+                                if(task.Survey_Invitation__c != null){
+                                     pdEnrollments = perIdPdeMap.containsKey(task.Survey_Invitation__r.Participant_Enrollment__c) 
                                             ? perIdPdeMap.get(task.Survey_Invitation__r.Participant_Enrollment__c) : null;
-                                for(Patient_Delegate_Enrollment__c pde:pdEnrollments){
-                                    notifications.add(
-                                        new Notification__c(
-                                            Recipient__c = pde.Patient_Delegate__r.Contact__c,
-                                            IsDelegate__c = true,
-                                            WhatId__c = whatId,
-                                            Notification_Type__c = card.Immediate_Notification_Type__c,
-                                            RemindUsing__c = 'Email'
-                                        )
-                                    );
+                                }
+                                if(pdEnrollments != null && !pdEnrollments.isEmpty()){
+                                    for(Patient_Delegate_Enrollment__c pde:pdEnrollments){
+                                        notifications.add(
+                                            new Notification__c(
+                                                Recipient__c = pde.Patient_Delegate__r.Contact__c,
+                                                IsDelegate__c = true,
+                                                WhatId__c = whatId,
+                                                Notification_Type__c = card.Immediate_Notification_Type__c,
+                                                RemindUsing__c = 'Email'
+                                            )
+                                        );
+                                    }
                                 }
                             }else{
                                 if (delegates != null && !delegates.isEmpty()) {

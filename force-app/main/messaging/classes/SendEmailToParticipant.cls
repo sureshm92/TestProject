@@ -8,7 +8,6 @@ public without sharing class SendEmailToParticipant {
         TaskService.TASK_TYPE_VISIT => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,
         TaskService.TASK_TYPE_MEDICATION => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_TYPE,
         TaskService.TASK_TYPE_ECOA => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_TYPE_ECOA
-
     };
 
     public static final Map<String, String> PATIENT_DELEGATE_EMAIL_REMINDERS_TYPE_MAP = new Map<String, String>{
@@ -20,7 +19,8 @@ public without sharing class SendEmailToParticipant {
     public static List<Notification__c> createTaskReminderEmail(
         Task task,
         Contact paCont,
-        List<Contact> delegates
+        List<Contact> delegates,
+        List<Patient_Delegate_Enrollment__c> pdeList
     ) {
         List<Notification__c> notifications = new List<Notification__c>();
         if (task.Task_Type__c == null)
@@ -31,7 +31,7 @@ public without sharing class SendEmailToParticipant {
             task.Task_Type__c
         );
         Id whatId = task.Id;
-        if(task.Task_Type__c.equals(TaskService.TASK_TYPE_ECOA)){
+        if (task.Task_Type__c.equals(TaskService.TASK_TYPE_ECOA)) {
             whatId = task.Id;
         }
         if (
@@ -87,7 +87,24 @@ public without sharing class SendEmailToParticipant {
             task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES) &&
             delegateNotificationType != null
         ) {
-            if (delegates != null && !delegates.isEmpty()) {
+            if (pdeList != null && !pdeList.isEmpty()) {
+                for(Patient_Delegate_Enrollment__c pde:pdeList){
+                    Notification__c objDelNotification = new Notification__c(
+                        Recipient__c = pde.Patient_Delegate__r.Contact__c,
+                        WhatId__c = whatId,
+                        IsDelegate__c = true,
+                        Notification_Type__c = delegateNotificationType
+                    );
+                    if (
+                        task.Remind_Using_Email__c ||
+                        task.CreatedByAdmin__c == true ||
+                        task.Remind_Using_SMS__c
+                    ) {
+                        objDelNotification.Task_Id__c = task.Id;
+                    }
+                    notifications.add(objDelNotification);
+                }
+            } else if (delegates != null && !delegates.isEmpty()) {
                 for (Contact delContact : delegates) {
                     Notification__c objDelNotification = new Notification__c(
                         Recipient__c = delContact.Id,

@@ -241,16 +241,18 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
 
     //mask Email for active/former delegate
     maskEmail(pde) {
-        let pdeEmailLength = pde.PatientDelegate.Email__c.length;
         let maskedEmail = '';
-        for (let i = 0; i < pdeEmailLength; i++) {
-            if (i <= 2) {
-                maskedEmail += pde.PatientDelegate.Email__c.charAt(i);
-            } else {
-                maskedEmail += '*';
+        let pdeEmailBeforeAt= pde.PatientDelegate.Email__c.substring(0, pde.PatientDelegate.Email__c .lastIndexOf("@"));
+        let pdeEmailBeforeAtCiel=Math.ceil(pdeEmailBeforeAt.length/2);
+        let pdeEmailPostfix= pde.PatientDelegate.Email__c.substring(pde.PatientDelegate.Email__c .lastIndexOf("@"));
+        for (let i = 0; i < pdeEmailBeforeAt.length; i++) { 
+            if(i<pdeEmailBeforeAtCiel){          
+                maskedEmail += pde.PatientDelegate.Email__c.charAt(i);   
+            }else {
+                maskedEmail += '*'; 
             }
         }
-        pde.PatientDelegate.Email__c = maskedEmail;
+            pde.PatientDelegate.Email__c = maskedEmail+pdeEmailPostfix;
     }
     //Subscribe the message channel to read the message published.
     subscribeToMessageChannel() {
