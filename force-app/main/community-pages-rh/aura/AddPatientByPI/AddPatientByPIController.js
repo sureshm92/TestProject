@@ -93,13 +93,7 @@
     },
 
     doCancel: function (component) {
-        if(communityService.getUrlParameter('participantVeiwRedirection')=='true'){
-        var urlEvent = $A.get("e.force:navigateToURL");
-        urlEvent.setParams({ "url": "/my-referrals" });  
-        urlEvent.fire(); 
-        }else{
         communityService.navigateToHome();
-        }
     },
 
     doSaveAndExit: function (component, event, helper) {
