@@ -27,13 +27,35 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
     };
     past = false;
     timechanges ;
+    reloadupcomingcomponent = false;
     selectedNavHandler(event) {
-        const playerName = event.detail;
-        if(event.detail){
-            this.gettelevisitdetails();
+        if(event.detail.filter == 'showblankupcomingtelevisits:false'){
+            this.upcomingTelevisitslist = event.detail.upcomingdata;
+            this.pastTelevisitlist = event.detail.details;
+            this.showblankupcomingtelevisits = false;
+        }
+        if(event.detail.filter == 'showblankupcomingtelevisits:true'){
+            this.showblankupcomingtelevisits = true;
+            this.pastTelevisitlist = event.detail.details;
+            this.upcomingTelevisitslist = event.detail.upcomingdata;    
+            this.showblankpasttelsvisits = false;       
+            if(this.past){
+                this.showuppasttelevisits = true;
+            }
+            
+        }
+        if(event.detail.filter == 'datachange'){
+            this.pastTelevisitlist = event.detail.details;
+            this.upcomingTelevisitslist = event.detail.upcomingdata; 
+            this.showblankpasttelsvisits = false; 
+            if(this.past){
+                this.showuppasttelevisits = true;
+            }
+            
         }
     }
     onPastClick (){
+        this.reloadupcomingcomponent = false;
         this.past = true;
         this.showupcomingtelevisits = false;
         if(!this.showblankpasttelsvisits){
@@ -42,13 +64,14 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
     }
     onUpcomingClick (){  
         this.past = false; 
+        this.reloadupcomingcomponent = true;
         this.showuppasttelevisits = false;
         if(!this.showblankupcomingtelevisits){
             this.showupcomingtelevisits = true;
         }            
     }
     gettelevisitdetails(){
-        getParticipantDetails()
+        getParticipantDetails({joinbuttonids : null})
         .then((result) => {
             if(result != undefined && result != ''){
                 this.timechanges = result.tz;
@@ -73,6 +96,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
             }
             this.template.querySelector('c-web-spinner').hide();
             this.contentLoaded = true;
+            this.reloadupcomingcomponent = true;
         })
         .catch((error) => {
             this.template.querySelector('c-web-spinner').hide();

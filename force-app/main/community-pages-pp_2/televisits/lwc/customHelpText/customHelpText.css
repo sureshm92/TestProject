@@ -20,7 +20,8 @@
 .slds-popover--tooltip ::after {
     background-color: #444444 !important;
 }
-.slds-nubbin_right:before, .slds-nubbin--right:before {
+/*
+.slds-nubbin_left:before, .slds-nubbin--left:before {
     width: 10px;
     height: 10px;
     position: absolute;
@@ -32,7 +33,7 @@
     margin-top: -0.5rem;
 }
 
-.slds-nubbin_right:after, .slds-nubbin--right:after {
+.slds-nubbin_left:after, .slds-nubbin--left:after {
     width: 10px;
     height: 10px;
     position: absolute;
@@ -42,4 +43,4 @@
     top: 50%;
     right: -5px;
     margin-top: -0.5rem;
-}
+}*/
