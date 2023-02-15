@@ -241,7 +241,7 @@ public with sharing class TrialSearchHelper {
     ) {
         List<Clinical_Trial_Profile__c> ctpsLanguageApprove = new List<Clinical_Trial_Profile__c>();
         for (Clinical_Trial_Profile__c ctp : ctps)
-            if (!ctp.Study_Site_Profiles__r.isEmpty())
+            if (ctp.Study_Site_Profiles__r.size()>0)
                 ctpsLanguageApprove.add(ctp);
         return ctpsLanguageApprove;
     }
