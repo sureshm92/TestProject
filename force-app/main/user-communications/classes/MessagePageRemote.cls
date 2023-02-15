@@ -231,7 +231,7 @@ public without sharing class MessagePageRemote {
                             messagesByConversation.get(conversation.Id),
                             documentLinksByMesByCon.get(conversation.Id),
                             isIE,
-                            participantsDelegateNames,
+                            ConversationService.getYourParticipantsDelegateNames(conversation.Participant_Enrollment__c),
                             pageData.piContactNames
                         )
                     );
@@ -387,7 +387,7 @@ public without sharing class MessagePageRemote {
                 CommunityService.USER_MODE_PI
             ) {
                 participantsDelegateNames = ConversationService.getYourParticipantsDelegateNames(
-                    UserInfo.getUserId()
+                    conversation.Participant_Enrollment__c
                 );
             }
 
@@ -435,7 +435,7 @@ public without sharing class MessagePageRemote {
                 CommunityService.USER_MODE_PI
             ) {
                 participantsDelegateNames = ConversationService.getYourParticipantsDelegateNames(
-                    UserInfo.getUserId()
+                    conversation.Participant_Enrollment__c
                 );
             }
 
