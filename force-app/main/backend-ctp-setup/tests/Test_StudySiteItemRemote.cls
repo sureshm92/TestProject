@@ -8,7 +8,8 @@ public class Test_StudySiteItemRemote {
         TestData testData = new TestData();
         Visit_Plan__c visitPlan = new Visit_Plan__c(Name = 'Test_StudySiteVisitConfigRemote VP');
         insert visitPlan;
-        Integer count = 0;
+        StudySiteItemRemote.CountAndProgram cAndL = new StudySiteItemRemote.CountAndProgram();
+        cAndL.count =0;
         List<Participant_Enrollment__c> peList = [SELECT Id,Study_Site__c,Clinical_Trial_Profile__c,
                                                   Participant_Status__c FROM Participant_Enrollment__c];
         if(!peList.isEmpty()){
@@ -17,12 +18,12 @@ public class Test_StudySiteItemRemote {
             pe.Id = peList[0].Id;
             pe.Participant_Status__c = 'Enrollment Success';
             update pe;
-	        count =StudySiteItemRemote.totalPEs(peList[0].Study_Site__c, peList[0].Clinical_Trial_Profile__c);
+	        cAndL =StudySiteItemRemote.totalPEs(peList[0].Study_Site__c, peList[0].Clinical_Trial_Profile__c);
             
         }
 
         Test.stopTest();
-        system.assertEquals(1, count);
+        system.assertEquals(1, cAndL.count);
     }
     @isTest
     private static void getLatestBatchStatusForStudySite_gettrue(){

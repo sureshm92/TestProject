@@ -85,9 +85,20 @@
                         component.find('spinner').hide();  
                         component.set('v.isModalOpen',true);
                         if(response.limitReached == true){
-                            component.set('v.popupMessage',$A.get("$Label.c.TOTAL_PE_WITHOUT_VP_LIMIT").replace('##PEs',response.count));
+                            component.set('v.popupMessage',(response.isProgram?$A.get("$Label.c.TOTAL_PE_WITHOUT_EP_LIMIT"):$A.get("$Label.c.TOTAL_PE_WITHOUT_VP_LIMIT")).replace('##PEs',response.count));
                         }else{
-                            component.set('v.popupMessage',$A.get("$Label.c.TOTAL_PE_WITHOUT_VP").replace('##PEs',response.count));
+                            component.set('v.popupMessage',(response.isProgram?$A.get("$Label.c.TOTAL_PE_WITHOUT_EP"):$A.get("$Label.c.TOTAL_PE_WITHOUT_VP")).replace('##PEs',response.count));
+                        }
+                        if(response.isProgram === true){
+                            var options = [];
+                            options.push({'label':' ' + $A.get("$Label.c.ASSOCIATE_EVENT_PLAN_TO_PE_AND_STUDY_SITE"), 'value': 'option1'});
+                            options.push({'label':' ' + $A.get("$Label.c.ASSOCIATE_EVENT_PLAN_TO_STUDY_SITE_ONLY"), 'value': 'option2'});
+                            component.set('v.options',options);
+                        }else{
+                            var options = [];
+                            options.push({'label':' ' + $A.get("$Label.c.ASSOCIATE_VISIT_PLAN_TO_PE_AND_STUDY_SITE"), 'value': 'option1'});
+                            options.push({'label':' ' + $A.get("$Label.c.ASSOCIATE_VISIT_PLAN_TO_STUDY_SITE_ONLY"), 'value': 'option2'});
+                            component.set('v.options',options);
                         }
                         var cmpTarget = component.find('PopupModal');
                         $A.util.addClass(cmpTarget, 'slds-fade-in-open');                        
