@@ -295,14 +295,16 @@ public without sharing class PreferenceManagementController {
         }
     }*/
     /**
-     * @description: This Method will opt out Study/Platfrom level SMS if MobilePhone is deleted.
+     * @description: This Method will opt out Study/Delegate/Platfrom level SMS if MobilePhone is deleted.
      * @author: Krishna Mahto
      * @param: perIdsSet
+     * @param: pdeIdsSet
      * @param: contactId
      * @return:
      **/
     public static void optOutSMSWhenMobileIsDeleted(
         List<Participant_Enrollment__c> perToUpdate,
+        List<Patient_Delegate_Enrollment__c> pdeToUpdate,
         Id contactId
     ) {
         //Opt out Platform level SMS and Revert welcome message flags.
@@ -315,6 +317,10 @@ public without sharing class PreferenceManagementController {
         if (perToUpdate != null && !perToUpdate.isEmpty()) {
             optOutStudyLevelSMS(perToUpdate);
             update perToUpdate;
+        }
+        if (pdeToUpdate != null && !pdeToUpdate.isEmpty()) {
+            optOutDelegateStudySMS(pdeToUpdate);
+            update pdeToUpdate;
         }
     }
     /**
@@ -353,6 +359,26 @@ public without sharing class PreferenceManagementController {
         }
         //Revert Study level Welcome message flags for Patient Delegates also.
         return perToUpdate;
+    }
+    /**
+     * @description: This Method will prepare data to opt out Delegate Study SMS
+     * @author: Faizaan Baig
+     * @param: pdeIdsSet
+     * @param: contactId
+     * @return:
+     **/
+    public static List<Patient_Delegate_Enrollment__c> optOutDelegateStudySMS(
+        List<Patient_Delegate_Enrollment__c> pdeToUpdate
+    ) {
+        List<Id> pdeIdList = new List<Id>();
+        for (Patient_Delegate_Enrollment__c pde : pdeToUpdate) {
+            pdeIdList.Add(pde.Id);
+            pde.Id = pde.Id;
+            pde.Study_SMS_Consent__c = false;
+            pde.Welcome_Message_Sent__c = false;
+            pde.Welcome_Message_Delivered__c = false;
+        }
+        return pdeToUpdate;
     }
 
     /**
