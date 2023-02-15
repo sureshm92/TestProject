@@ -52,6 +52,13 @@ public without sharing class StudySiteVisitConfigRemote {
             ssIds.add(ss.Id);
         }
         Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
+        Boolean isProgram = false;
+        if(ctpId!=null){
+            List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,Is_Program__c FROM Clinical_Trial_Profile__c WHERE id=:ctpId];
+            if(ctpList.size()>0){
+                isProgram =  ctpList[0].Is_Program__c;
+            }
+        }
         if (ssIds != null && !ssIds.isEmpty() && ctpId != null) {
             List<Participant_Enrollment__c> totalParticipants = new List<Participant_Enrollment__c>();
             totalParticipants = [
@@ -74,6 +81,7 @@ public without sharing class StudySiteVisitConfigRemote {
         CountAndLimit cl = new CountAndLimit();
         cl.count = count;
         cl.limitReached = limitReached;
+        cl.isProgram = isProgram;
         return cl;
     }
     @TestVisible
@@ -82,6 +90,8 @@ public without sharing class StudySiteVisitConfigRemote {
         public Integer count;
         @AuraEnabled
         public Boolean limitReached;
+        @AuraEnabled
+        public Boolean isProgram;
     }
 
     @AuraEnabled

@@ -1663,6 +1663,20 @@ Duration: ##VisitDuration</value>
         <value>3- Asian</value>
     </labels>
     <labels>
+        <fullName>ASSOCIATE_EVENT_PLAN_TO_PE_AND_STUDY_SITE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ASSOCIATE_EVENT_PLAN_TO_PE_AND_STUDY_SITE</shortDescription>
+        <value>Proceed to select this event plan to assign to all these participants.</value>
+    </labels>
+    <labels>
+        <fullName>ASSOCIATE_EVENT_PLAN_TO_STUDY_SITE_ONLY</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ASSOCIATE_EVENT_PLAN_TO_STUDY_SITE_ONLY</shortDescription>
+        <value>Proceed to only associate this event plan to the study site (Note: This will not assign any event plan to these participants).</value>
+    </labels>
+    <labels>
         <fullName>ASSOCIATE_VISIT_PLAN_TO_PE_AND_STUDY_SITE</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -26523,6 +26537,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Cholesterol is a type of fat made by the liver that is found in your blood. You can also take in cholesterol by eating certain foods, such as meat, fish, eggs, and dairy products. Your total cholesterol value is the sum of your low-density lipoprotein (LDL, or &quot;bad&quot; cholesterol) and your high-density lipoprotein (HDL, or &quot;good&quot; cholesterol).</value>
     </labels>
     <labels>
+        <fullName>TOTAL_PE_WITHOUT_EP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TOTAL_PE_WITHOUT_EP</shortDescription>
+        <value>There are ##PEs participants with no event plan attached.</value>
+    </labels>
+    <labels>
+        <fullName>TOTAL_PE_WITHOUT_EP_LIMIT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TOTAL_PE_WITHOUT_EP_LIMIT</shortDescription>
+        <value>There are more than ##PEs participants with no event plan attached.</value>
+    </labels>
+    <labels>
         <fullName>TOTAL_PE_WITHOUT_VP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -29079,6 +29107,14 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>No_active_program</shortDescription>
         <value>No active program</value>
     </labels>
+    <labels>
+        <fullName>No_date_available</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No_date_available</shortDescription>
+        <value>No date available</value>
+    </labels>    
     <labels>
         <fullName>Navigation_AboutProgram</fullName>
         <language>en_US</language>
