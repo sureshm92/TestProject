@@ -490,6 +490,8 @@
     handleDeleteFile:function(component,event){
         //alert('inside delete file');
         let conDocId=component.get("v.contentDocId");
+        let spinner = component.find('mainSpinner');
+        spinner.show();
         //alert('conDocId-'+conDocId);
         communityService.executeAction(
             component,
@@ -504,6 +506,7 @@
                 var cmpTarget1 = component.find("uploadfile");
                 $A.util.addClass(cmpTarget1, "fileBoxwoFile");
                 $A.util.removeClass(cmpTarget1, "fileBox");
+                spinner.hide();
             }
         );
     },

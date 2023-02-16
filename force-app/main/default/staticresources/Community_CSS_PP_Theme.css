@@ -1151,3 +1151,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .pp2-errorFields input{
     border-radius: 20px !important;
 }
+
+.no-border article{
+    border:none !important;
+}

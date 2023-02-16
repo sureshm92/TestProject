@@ -1257,7 +1257,7 @@ global without sharing class ReferHealthcareProviderRemote {
             'SELECT Id, Patient_Delegate__c FROM Patient_Delegate_Enrollment__c WHERE Participant_Enrollment__c = \'' +
             peId +
             '\' AND Patient_Delegate__r.Contact__r.Email = \'' +
-            email +
+            email.toLowerCase() +
             '\' AND (Status__c = \'Active\' OR Status__c = \'Disconnected\')';
 
         if (firstName != null || lastName != null) {

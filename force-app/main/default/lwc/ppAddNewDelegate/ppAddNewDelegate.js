@@ -369,23 +369,49 @@ export default class PpAddNewDelegate extends LightningElement {
     partiallyMaskFields() {
         this.allDelegate.forEach((del) => {
             let firstName = del.delegateContact.FirstName;
+            let firstNameLength=firstName.length;
+            let firstNameCiel=Math.ceil(firstNameLength/2);
             let maskedFirstName = '';
-            for (let i = 0; i < firstName.length; i++) {
-                if (i <= 1) {
-                    maskedFirstName += firstName.charAt(i);
-                } else {
-                    maskedFirstName += '*';
+            for (let i = 0; i < firstNameLength; i++) {
+                switch(true){
+                    case (firstNameLength >= 5 ) : 
+                        if (i<firstNameCiel) {
+                                maskedFirstName += firstName.charAt(i);
+                            } else {
+                                maskedFirstName += '*';
+                            }
+                        break
+                    case (firstNameLength < 5 ) :
+                        if(i<=1){
+                                maskedFirstName += firstName.charAt(i);
+                            } else {
+                                maskedFirstName += '*';
+                            }
+                        break
                 }
             }
             del.delegateContact.FirstName = maskedFirstName;
 
             let lastName = del.delegateContact.LastName;
+            let lastNameLength=lastName.length;
+            let lastNameCiel=Math.ceil(lastNameLength/2);
             let maskedLastName = '';
-            for (let i = 0; i < lastName.length; i++) {
-                if (i <= 1) {
-                    maskedLastName += lastName.charAt(i);
-                } else {
-                    maskedLastName += '*';
+            for (let i = 0; i < lastNameLength; i++) {
+                switch(true){
+                    case (lastNameLength >= 5 ) : 
+                        if (i<lastNameCiel) {
+                                maskedLastName += lastName.charAt(i);
+                            } else {
+                                maskedLastName += '*';
+                            }
+                        break
+                    case (lastNameLength < 5 ) :
+                        if(i<=1){
+                                maskedLastName += lastName.charAt(i);
+                            } else {
+                                maskedLastName += '*';
+                            }
+                        break
                 }
             }
             del.delegateContact.LastName = maskedLastName;
