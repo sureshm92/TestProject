@@ -60,15 +60,21 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
 
     private void sendRemindersParticipantTeam(List<Task> tasks) {
         List<Id> allContactsIds = new List<Id>();
-        List<Id> allPeIds = new List<Id>();
+        Map<Id,List<Task>> allPeIds = new Map<Id,List<Task>>();
         for (Task t : tasks){
             if (t.whatId?.getSObjectType().getDescribe().getName() == 'Participant_Enrollment__c')
             {
-                allPeIds.add(t.whatId);
+                if (!allPeIds.containsKey(t.whatId)) {
+                    allPeIds.put(t.whatId, new List<Task>());
+                }
+                allPeIds.get(t.whatId).add(t);
                 allContactsIds.add(t.WhoId); 
             }
             else if(t.Task_Type__c == 'Survey' ){
-                allPeIds.add(t.Survey_Invitation__r.Participant_Enrollment__c);
+                if (!allPeIds.containsKey(t.Survey_Invitation__r.Participant_Enrollment__c)) {
+                    allPeIds.put(t.Survey_Invitation__r.Participant_Enrollment__c, new List<Task>());
+                }
+                allPeIds.get(t.Survey_Invitation__r.Participant_Enrollment__c).add(t);
                 allContactsIds.add(t.WhoId);
             }
             else{
@@ -79,12 +85,38 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
         if (allPeIds.size() > 0)
         {
             delConIdsByPACon = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
-                allPeIds,true
+                new List<Id>(allPeIds.keySet()),true
             );
         }else{
             delConIdsByPACon = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
                 allContactsIds,false
             );
+        }
+        List<Patient_Delegate_Enrollment__c> patientDelegates = new List<Patient_Delegate_Enrollment__c>();
+        Map<Id, List<Patient_Delegate_Enrollment__c>> perIdPdeMap = new Map<Id, List<Patient_Delegate_Enrollment__c>>();
+        if (allPeIds.size() > 0){
+            patientDelegates = [
+            SELECT
+                Id,
+                Participant_Enrollment__c,
+                Patient_Delegate__c,
+                Patient_Delegate__r.Contact__c,
+                Patient_Delegate__r.Participant__c,
+                Patient_Delegate__r.Participant__r.Contact__c,
+                Name,
+                Status__c,
+                Welcome_Message_Sent__c,
+                Welcome_Message_Delivered__c,
+                Participant_Enrollment__r.study__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Participant_Enrollment__c IN : allPeIds.keySet() AND Status__c = 'Active' 
+            ];
+        }
+        for (Patient_Delegate_Enrollment__c pd : patientDelegates) {
+            if(!perIdPdeMap.containsKey(pd.Participant_Enrollment__c)){
+               perIdPdeMap.put(pd.Participant_Enrollment__c,new List<Patient_Delegate_Enrollment__c>()); 
+            }
+            perIdPdeMap.get(pd.Participant_Enrollment__c).add(pd);
         }
         for (Id paKey : delConIdsByPACon.keySet())
             allContactsIds.addAll(delConIdsByPACon.get(paKey));
@@ -111,11 +143,13 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
         List<Notification__c> notifications = new List<Notification__c>();
         for (Task task : tasks) {
             Contact paContact = contactsMap.get(task.WhoId);
+            List<Patient_Delegate_Enrollment__c> pdeList = perIdPdeMap.size() > 0 ? perIdPdeMap.get(task.Survey_Invitation__r.Participant_Enrollment__c) : null ;
             notifications.addAll(
                 SendEmailToParticipant.createTaskReminderEmail(
                     task,
                     paContact,
-                    delegatesByPAContact.get(paContact.Id)
+                    delegatesByPAContact.get(paContact.Id),
+                    pdeList
                 )
             );
         }

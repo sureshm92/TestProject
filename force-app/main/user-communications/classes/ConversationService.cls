@@ -4,12 +4,21 @@
 
 public without sharing class ConversationService {
     public static List<Conversation__c> getSharedConversations(Id userId) {
-        List<Conversation__Share> conversationShares = (List<Conversation__Share>) DatabaseService.query(
-            new List<String>{ 'Id', 'ParentID' },
-            Conversation__Share.getSObjectType(),
-            DatabaseService.fieldEqual('UserOrGroupId', userId)
-        );
-
+        List<Conversation__Share> conversationShares = new List<Conversation__Share>();
+        if(userId.getSObjectType().getDescribe().getName()== 'Participant_Enrollment__c'){
+            conversationShares = (List<Conversation__Share>) DatabaseService.query(
+                new List<String>{ 'Id', 'ParentID' },
+                Conversation__Share.getSObjectType(),
+                DatabaseService.fieldEqual('Parent.Participant_Enrollment__c', userId)
+            );
+        }else{
+            conversationShares = (List<Conversation__Share>) DatabaseService.query(
+                new List<String>{ 'Id', 'ParentID' },
+                Conversation__Share.getSObjectType(),
+                DatabaseService.fieldEqual('UserOrGroupId', userId)
+            );
+        }
+        
         Set<String> conversationIds = new Set<String>();
         for (Conversation__Share conShare : conversationShares)
             conversationIds.add(conShare.ParentId);
@@ -49,8 +58,10 @@ public without sharing class ConversationService {
     }
 
     public static Integer getUnreadConversationCount(Id userId, String userMode) {
+        ParticipantService.ParticipantState pState = ParticipantService.getInstance().getState();
+        
         Integer unreadCount = 0;
-        List<Conversation__c> sharedConversations = getSharedConversations(userId);
+        List<Conversation__c> sharedConversations = getSharedConversations(pState.pe.Id);
         if (sharedConversations == null || sharedConversations.isEmpty())
             return unreadCount;
 
@@ -64,7 +75,7 @@ public without sharing class ConversationService {
                 List<Participant_Enrollment__c> enrollments = [
                     SELECT Id
                     FROM Participant_Enrollment__c
-                    WHERE Participant__c = :ParticipantContext.getCurrentParticipantId()
+                    WHERE Id = :pState.pe.Id
                 ];
                 for (Participant_Enrollment__c enrollment : enrollments) {
                     if (conversation.Participant_Enrollment__c == enrollment.Id)
@@ -171,10 +182,28 @@ public without sharing class ConversationService {
     public static Map<Id, List<String>> getYourParticipantsDelegateNames(Id piUserId) {
         List<Conversation__c> sharedConversations = getSharedConversations(piUserId);
         List<Id> participantIds = new List<Id>();
+        List<Id> peIds = new List<Id>();
         for (Conversation__c conversation : sharedConversations) {
             participantIds.add(conversation.Participant_Enrollment__r.Participant__c);
+            peIds.add(conversation.Participant_Enrollment__c);
         }
-
+        List<Patient_Delegate_Enrollment__c> pdeList = [    
+                                                            SELECT
+                                                            Id,
+                                                            Participant_Enrollment__c,
+                                                            Patient_Delegate__c,
+                                                            Patient_Delegate__r.Contact__c,
+                                                            Patient_Delegate__r.Contact__r.Full_Name__c,
+                                                            Patient_Delegate__r.Participant__c,
+                                                            Patient_Delegate__r.Participant__r.Contact__c,
+                                                            Name,
+                                                            Status__c,
+                                                            Welcome_Message_Sent__c,
+                                                            Welcome_Message_Delivered__c,
+                                                            Participant_Enrollment__r.study__c
+                                                            FROM Patient_Delegate_Enrollment__c
+                                                            WHERE Participant_Enrollment__c IN :peIds
+                                                        ]; 
         List<Patient_Delegate__c> patientDelegates = [
             SELECT Id, Contact__c, Contact__r.Full_Name__c, Participant__c
             FROM Patient_Delegate__c
@@ -182,8 +211,8 @@ public without sharing class ConversationService {
             ORDER BY Participant__c
         ];
         List<Id> delegateContactIds = new List<Id>();
-        for (Patient_Delegate__c pd : patientDelegates)
-            delegateContactIds.add(pd.Contact__c);
+        for (Patient_Delegate_Enrollment__c pd : pdeList)
+            delegateContactIds.add(pd.Patient_Delegate__r.Contact__c);
 
         List<Participant__c> decoupledParticipants = [
             SELECT Id, Contact__c, Full_Name__c
@@ -199,16 +228,16 @@ public without sharing class ConversationService {
         }
 
         Map<Id, List<String>> delegateNamesByParticipant = new Map<Id, List<String>>();
-        for (Patient_Delegate__c pd : patientDelegates) {
-            if (!delegateNamesByParticipant.containsKey(pd.Participant__c)) {
-                delegateNamesByParticipant.put(pd.Participant__c, new List<String>());
+        for (Patient_Delegate_Enrollment__c pd : pdeList) {
+            if (!delegateNamesByParticipant.containsKey(pd.Patient_Delegate__r.Participant__c)) {
+                delegateNamesByParticipant.put(pd.Patient_Delegate__r.Participant__c, new List<String>());
             }
-            Id delConId = pd.Contact__c;
+            Id delConId = pd.Patient_Delegate__r.Contact__c;
             String delegateName = decoupledParticipantsMap != null &&
                 decoupledParticipantsMap.containsKey(delConId)
                 ? ((Participant__c) decoupledParticipantsMap.get(delConId)).Full_Name__c
-                : pd.Contact__r.Full_Name__c;
-            delegateNamesByParticipant.get(pd.Participant__c).add(delegateName);
+                : pd.Patient_Delegate__r.Contact__r.Full_Name__c;
+            delegateNamesByParticipant.get(pd.Patient_Delegate__r.Participant__c).add(delegateName);
         }
 
         return delegateNamesByParticipant;

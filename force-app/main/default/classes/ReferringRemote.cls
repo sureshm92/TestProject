@@ -1409,10 +1409,17 @@ FOR UPDATE
                             Patient_Delegate_Enrollment__c objPDPER = new Patient_Delegate_Enrollment__c ();
                         objPDPER.Participant_Enrollment__c = enrollment.Id;
                         objPDPER.Patient_Delegate__c = pDel.Id;
-                        objPDPER.Study_SMS_Consent__c = enrollment.Delegate_SMS_Consent__c;
-                         objPDPER.Study_Phone_Consent__c = enrollment.Delegate_Consent__c;
-                        objPDPER.Study_info_storage_consent__c = enrollment.Delegate_Consent__c;
-                        objPDPER.Study_Email_Consent__c = enrollment.Delegate_Consent__c;
+                        if(participant.Mailing_Country_Code__c=='US'){
+                            objPDPER.Study_SMS_Consent__c=true;
+                        }
+                        else{
+                            if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c){
+                                objPDPER.Study_SMS_Consent__c=true;
+                            }
+                        }
+                        objPDPER.Study_Phone_Consent__c = true;
+                        objPDPER.Study_info_storage_consent__c = true;
+                        objPDPER.Study_Email_Consent__c = true;
                         objPDPER.Status__c = 'Disconnected';
                         objPDPER.Primary_Delegate__c = true;
                         lstPatientDelEnrollForDup.add(objPDPER);
@@ -1469,10 +1476,17 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                         Patient_Delegate_Enrollment__c objPDPER = new Patient_Delegate_Enrollment__c ();
                         objPDPER.Participant_Enrollment__c = enrollment.Id;
                         objPDPER.Patient_Delegate__c = ptDelegateRef.Id;
-                        objPDPER.Study_SMS_Consent__c = enrollment.Delegate_SMS_Consent__c;
-                         objPDPER.Study_Phone_Consent__c = enrollment.Delegate_Consent__c;
-                        objPDPER.Study_info_storage_consent__c = enrollment.Delegate_Consent__c;
-                        objPDPER.Study_Email_Consent__c = enrollment.Delegate_Consent__c;
+                        if(participant.Mailing_Country_Code__c=='US'){
+                            objPDPER.Study_SMS_Consent__c=true;
+                        }
+                        else{
+                            if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c){
+                                objPDPER.Study_SMS_Consent__c=true;
+                            }
+                        }
+                        objPDPER.Study_Phone_Consent__c = true;
+                        objPDPER.Study_info_storage_consent__c = true;
+                        objPDPER.Study_Email_Consent__c = true;
                         objPDPER.Status__c = 'Disconnected';
                         objPDPER.Primary_Delegate__c = true;
 

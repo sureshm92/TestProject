@@ -3,6 +3,7 @@
     <fullName>Study_Email_Consent_Time__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
+    <inlineHelpText>Date and Timestamp on when the consent was provided in the frontend by the delegate to contact them via Email for the associated study</inlineHelpText>
     <label>Study Email Consent Time</label>
     <required>false</required>
     <trackHistory>true</trackHistory>

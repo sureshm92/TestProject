@@ -3,6 +3,7 @@
     <fullName>Patient_Delegate__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
+    <inlineHelpText>Associated Patient Delegate Record of the delegate</inlineHelpText>
     <label>Patient Delegate</label>
     <referenceTo>Patient_Delegate__c</referenceTo>
     <relationshipLabel>Patient Delegate Enrollments</relationshipLabel>
