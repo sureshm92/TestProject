@@ -202,7 +202,8 @@ public without sharing class ConversationService {
                                                             Welcome_Message_Delivered__c,
                                                             Participant_Enrollment__r.study__c
                                                             FROM Patient_Delegate_Enrollment__c
-                                                            WHERE Participant_Enrollment__c IN :peIds
+                                                            WHERE Participant_Enrollment__c IN :peIds AND
+                                                            Status__c = 'Active'
                                                         ]; 
         List<Patient_Delegate__c> patientDelegates = [
             SELECT Id, Contact__c, Contact__r.Full_Name__c, Participant__c
