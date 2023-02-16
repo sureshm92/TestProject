@@ -58,8 +58,10 @@ public without sharing class ConversationService {
     }
 
     public static Integer getUnreadConversationCount(Id userId, String userMode) {
+        ParticipantService.ParticipantState pState = ParticipantService.getInstance().getState();
+        
         Integer unreadCount = 0;
-        List<Conversation__c> sharedConversations = getSharedConversations(userId);
+        List<Conversation__c> sharedConversations = getSharedConversations(pState.pe.Id);
         if (sharedConversations == null || sharedConversations.isEmpty())
             return unreadCount;
 
@@ -73,7 +75,7 @@ public without sharing class ConversationService {
                 List<Participant_Enrollment__c> enrollments = [
                     SELECT Id
                     FROM Participant_Enrollment__c
-                    WHERE Participant__c = :ParticipantContext.getCurrentParticipantId()
+                    WHERE Id = :pState.pe.Id
                 ];
                 for (Participant_Enrollment__c enrollment : enrollments) {
                     if (conversation.Participant_Enrollment__c == enrollment.Id)
@@ -200,7 +202,8 @@ public without sharing class ConversationService {
                                                             Welcome_Message_Delivered__c,
                                                             Participant_Enrollment__r.study__c
                                                             FROM Patient_Delegate_Enrollment__c
-                                                            WHERE Participant_Enrollment__c IN :peIds
+                                                            WHERE Participant_Enrollment__c IN :peIds AND
+                                                            Status__c = 'Active'
                                                         ]; 
         List<Patient_Delegate__c> patientDelegates = [
             SELECT Id, Contact__c, Contact__r.Full_Name__c, Participant__c

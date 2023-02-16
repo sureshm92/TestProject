@@ -456,13 +456,13 @@ public without sharing class PatientDelegateService {
                     )
                 );
             } else {
-                alertList.add(
+                /*alertList.add(
                     new Alert__c(
                         Contact__c = contactDelegate.Id,
                         Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
                         Record_ID__c = participantState.pe.Id
                     )
-                );
+                );*/
             }
         }
 
