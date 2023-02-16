@@ -3,6 +3,7 @@
     <fullName>Study_Storage_Consent_Time__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
+    <inlineHelpText>Date and Timestamp when the consent was provided in the frontend to store delegates information for the associated study</inlineHelpText>
     <label>Study Storage Consent Time</label>
     <required>false</required>
     <trackHistory>true</trackHistory>
