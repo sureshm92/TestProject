@@ -7,23 +7,30 @@
                     onmouseover={togglePasswordHint}
                     onmouseout={togglePasswordHint}
                 >
-                    <!--<lightning-icon size="small" icon-name="utility:people"></lightning-icon>-->
+                    <!--<lightning-icon size="small" icon-name="utility:people">style = "left: -200px;top: -31px;</lightning-icon>-->
+                    <template if:false={ismobile}>
+                        <div class={helpTextClass} role="tooltip" id="help" style = "width: max-content;position: absolute;right: 37px;text-align:left;">
+                            <div class="slds-popover__body">
+                                <template for:each={relatedAttendees} for:item="record">
+                                    
+                                    <p key = {record.firstname}>{record.firstname} {record.lastname} ({record.attendeeType})</p>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:true={ismobile}>
+                        <div class={helpTextClassmobile} role="tooltip" style = "width: 270px;position: absolute;left: 37px;text-align:left;">
+                            <div class="slds-popover__body">
+                                <template for:each={relatedAttendees} for:item="record">
+                                    
+                                    <p key = {record.firstname}>{record.firstname} {record.lastname} ({record.attendeeType})</p>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
                     <img src={peoplePng} alt="lampIcon" class="customIcon">
                 </button>
-                <div class={helpTextClass} role="tooltip" id="help" style = "left: -200px;top: -31px;height: 96px;">
-                    <div class="slds-popover__body">
-                        <template for:each={relatedAttendees} for:item="record">
-                            
-                            <span key = {record.firstname}>{record.firstname} {record.lastname} ({record.attendeeType}) <br/></span><!--{newline}-->
-                            <!--<template if:true = {organiger}>
-                                &nbsp;( organiger ) {newline}
-                            </template>
-                            <template if:false = {organiger}>
-                                &nbsp;( {record.attendeeType} ) {newline}
-                            </template>-->
-                        </template>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
