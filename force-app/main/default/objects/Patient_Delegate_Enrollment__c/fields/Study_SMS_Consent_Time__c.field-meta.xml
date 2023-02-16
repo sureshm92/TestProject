@@ -3,6 +3,7 @@
     <fullName>Study_SMS_Consent_Time__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
+    <inlineHelpText>Date and Timestamp on when the consent was provided in the frontend by the delegate to contact them via SMS for the associated study</inlineHelpText>
     <label>Study SMS Consent Time</label>
     <required>false</required>
     <trackHistory>true</trackHistory>
