@@ -3,6 +3,7 @@
     <fullName>Study_Pre_recorded_Voice_Consent__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
+    <inlineHelpText>A check on this field indicates consent is provided in the frontend by the delegate to contact them via Pre-recorded Voice for the associated study</inlineHelpText>
     <label>Study Pre-recorded Voice Consent</label>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

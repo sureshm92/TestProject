@@ -3,6 +3,7 @@
     <fullName>Primary_Delegate__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
+    <inlineHelpText>This checkbox is to say if this delegate is a primary delegate on the study</inlineHelpText>
     <label>Primary Delegate</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

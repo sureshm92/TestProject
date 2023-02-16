@@ -3,6 +3,7 @@
     <fullName>Attested_By__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
+    <inlineHelpText>PI / Site Staff / Participant added and attested in the frontend</inlineHelpText>
     <label>Attested By</label>
     <referenceTo>Contact</referenceTo>
     <relationshipLabel>Patient Delegate Enrollments</relationshipLabel>
