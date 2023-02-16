@@ -521,17 +521,8 @@ global without sharing class ReferHealthcareProviderRemote {
                         AND Contact__c = :delegateDuplicate.contactId
                         
                 ];
-                lstPatientDelegateEnroll = [
-                    SELECT ID, Status__c,Patient_Delegate__c
-                    FROM Patient_Delegate_Enrollment__c
-                    WHERE
-                        Patient_Delegate__r.Participant__c = :participantObj.id
-                        AND Participant_Enrollment__c = :perID
-                        AND Patient_Delegate__r.Contact__c = :delegateDuplicate.contactId
-                        AND Status__c = 'Withdrawn'
-                ];
+               
             }
-            system.debug('>>>lstPatientDelegate>>' + lstPatientDelegate);
             Boolean boolisUserCreated;
             Id ContactId;
 			Id delegateContactId;
@@ -675,12 +666,33 @@ global without sharing class ReferHealthcareProviderRemote {
                 upsert ptDelegateRef;
 				delegateContactId = newContact.Id;
 
+                if (
+                delegateDuplicate != null &&
+                delegateDuplicate.contactId != null &&
+                delegateDuplicate.participantId != null
+            ){
+                lstPatientDelegateEnroll = [
+                    SELECT ID, Status__c,Patient_Delegate__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE
+                        Patient_Delegate__r.Participant__c = :participantObj.id
+                        AND Participant_Enrollment__c = :perID
+                        AND Patient_Delegate__r.Contact__c = :delegateDuplicate.contactId
+                        AND Patient_Delegate__c = :ptDelegateRef.id
+                ];
+            }
+
                 if (!lstPatientDelegateEnroll.isEmpty()) {
-                    ptDelegateEnroll.ID = lstPatientDelegateEnroll[0].ID;
-                    ptDelegateEnroll.Status__c = DEL_ACTIVE;  
-                    ptDelegateEnroll.Study_Email_Consent_Time__c = Datetime.now();
-                    ptDelegateEnroll.Study_Email_Consent__c = true;
-                    update ptDelegateEnroll;
+                    if(lstPatientDelegateEnroll[0].Status__c == 'Withdrawn'){	
+                        ptDelegateEnroll.ID = lstPatientDelegateEnroll[0].ID;	
+                        ptDelegateEnroll.Status__c = DEL_ACTIVE;	
+                        ptDelegateEnroll.Study_Email_Consent__c = true;	
+                        ptDelegateEnroll.Study_Email_Consent_Time__c = Datetime.now();	
+                   }else{	
+                        ptDelegateEnroll.ID = lstPatientDelegateEnroll[0].ID;
+                        ptDelegateEnroll.Status__c ='Active';	
+                   }
+                   update ptDelegateEnroll;
                 }
                 else{
                     ptDelegateEnroll.Patient_Delegate__c=ptDelegateRef.ID;
@@ -1245,7 +1257,7 @@ global without sharing class ReferHealthcareProviderRemote {
             'SELECT Id, Patient_Delegate__c FROM Patient_Delegate_Enrollment__c WHERE Participant_Enrollment__c = \'' +
             peId +
             '\' AND Patient_Delegate__r.Contact__r.Email = \'' +
-            email +
+            email.toLowerCase() +
             '\' AND (Status__c = \'Active\' OR Status__c = \'Disconnected\')';
 
         if (firstName != null || lastName != null) {

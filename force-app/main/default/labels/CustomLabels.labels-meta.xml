@@ -1663,6 +1663,20 @@ Duration: ##VisitDuration</value>
         <value>3- Asian</value>
     </labels>
     <labels>
+        <fullName>ASSOCIATE_EVENT_PLAN_TO_PE_AND_STUDY_SITE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ASSOCIATE_EVENT_PLAN_TO_PE_AND_STUDY_SITE</shortDescription>
+        <value>Proceed to select this event plan to assign to all these participants.</value>
+    </labels>
+    <labels>
+        <fullName>ASSOCIATE_EVENT_PLAN_TO_STUDY_SITE_ONLY</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ASSOCIATE_EVENT_PLAN_TO_STUDY_SITE_ONLY</shortDescription>
+        <value>Proceed to only associate this event plan to the study site (Note: This will not assign any event plan to these participants).</value>
+    </labels>
+    <labels>
         <fullName>ASSOCIATE_VISIT_PLAN_TO_PE_AND_STUDY_SITE</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6550,7 +6564,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <shortDescription>Email Body Task Reminder Type Not Selected Deleg PP OnlyDate</shortDescription>
         <value>&lt;span&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming task: ##TaskName.&lt;/span&gt;
 
-&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;
+&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot; &gt;Please login to update the status of this task.&lt;/span&gt;</value>
     </labels>
@@ -26523,6 +26537,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Cholesterol is a type of fat made by the liver that is found in your blood. You can also take in cholesterol by eating certain foods, such as meat, fish, eggs, and dairy products. Your total cholesterol value is the sum of your low-density lipoprotein (LDL, or &quot;bad&quot; cholesterol) and your high-density lipoprotein (HDL, or &quot;good&quot; cholesterol).</value>
     </labels>
     <labels>
+        <fullName>TOTAL_PE_WITHOUT_EP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TOTAL_PE_WITHOUT_EP</shortDescription>
+        <value>There are ##PEs participants with no event plan attached.</value>
+    </labels>
+    <labels>
+        <fullName>TOTAL_PE_WITHOUT_EP_LIMIT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TOTAL_PE_WITHOUT_EP_LIMIT</shortDescription>
+        <value>There are more than ##PEs participants with no event plan attached.</value>
+    </labels>
+    <labels>
         <fullName>TOTAL_PE_WITHOUT_VP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27133,7 +27161,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Icons</shortDescription>
-        <value>Visit Icons</value>
+        <value>VISIT/EVENT ICONS</value>
     </labels>
     <labels>
         <fullName>Visit_Number</fullName>
@@ -27141,7 +27169,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>visit configuration</shortDescription>
-        <value>visit number</value>
+        <value>VISIT/EVENT NUMBER</value>
     </labels>
     <labels>
         <fullName>Visit_Order</fullName>
@@ -27368,7 +27396,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Schedule</shortDescription>
-        <value>Visit Schedule</value>
+        <value>VISIT/EVENT SCHEDULE</value>
     </labels>
     <labels>
         <fullName>Visit_b_Add_Visit</fullName>
@@ -29080,6 +29108,14 @@ Please contact the Study Team for further updates or please login for additional
         <value>No active program</value>
     </labels>
     <labels>
+        <fullName>No_date_available</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No_date_available</shortDescription>
+        <value>No date available</value>
+    </labels>    
+    <labels>
         <fullName>Navigation_AboutProgram</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -30437,9 +30473,15 @@ Please contact the Study Team for further updates or please login for additional
                 
             Sincerely,            
     
-            ##SignatureShortCommunityName</value>
-           
-    </labels>
+            ##SignatureShortCommunityName</value>    
+    </labels> 
+    <labels>
+        <fullName>Email_Body_Reset_Password_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Reset Password PP</shortDescription>
+        <value>You recently requested a password reset for your account. To complete the process, you can set a new password by clicking on the button above.</value>
+    </labels> 
     <labels>
         <fullName>Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected_PP_OnlyDate</fullName>
         <language>en_US</language>
@@ -30447,7 +30489,7 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Body Instant Del Task Reminder Type Not Selected PP Only Date</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;&lt;/div&gt;</value>
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
 	<labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_PP_OnlyDate</fullName>
@@ -30456,7 +30498,7 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Body Task Reminder Type Not Selected PP OnlyDate</shortDescription>
         <value>&lt;span &gt;This is an email to remind you of your upcoming task: ##TaskName&lt;/span&gt;
 
-&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate.&lt;/span&gt;
+&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate.&lt;/span&gt;
 
 &lt;span &gt;Please login to update the status of your task.&lt;/span&gt;</value>
     </labels>
@@ -30467,7 +30509,7 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Task Reminder Type Not Selected Deleg PP OnlyDate</shortDescription>
         <value>&lt;span&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming task: ##TaskName.&lt;/span&gt;
 
-&lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;
+&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot; &gt;Please login to update the status of this task.&lt;/span&gt;</value>
     </labels>
@@ -30478,6 +30520,6 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Body Instant Task Reminder Type Not Selected PP Only Date</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;
 
-&lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;&lt;/div&gt;</value>
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span &gt; ##TaskOnlydate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
 </CustomLabels>

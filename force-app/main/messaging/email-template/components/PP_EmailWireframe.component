@@ -111,7 +111,7 @@
             <!-- Body Paragraph-->
             <apex:componentBody rendered="{!isInitialized}" />
             <!-- Pre-Signature Text-->
-            <apex:outputPanel style="display:block; margin: 25px 0; color: #444444 !important;" rendered="{!preSignatureText != null}">
+            <apex:outputPanel style="display:block; color: #444444 !important;" rendered="{!preSignatureText != null}">
                 <apex:outputText value="{!preSignatureText}" escape="false" />
             </apex:outputPanel>
             <!-- Signature-->

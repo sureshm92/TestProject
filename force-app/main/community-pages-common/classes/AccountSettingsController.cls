@@ -281,6 +281,7 @@ public without sharing class AccountSettingsController {
                 if (!isMobilePhoneDeleted) {
                     PreferenceManagementController.optOutSMSWhenMobileIsDeleted(
                         commWrapper.perList,
+                        commWrapper.pdeList,
                         commWrapper.myContact.Id
                     );
                 }

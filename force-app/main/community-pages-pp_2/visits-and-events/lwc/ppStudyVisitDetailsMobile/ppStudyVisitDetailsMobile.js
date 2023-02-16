@@ -105,7 +105,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                 .then((result) => {
                     this.visitDetail = result;
                     if (result.length != 0 || result != null || result != '') {
-                        this.visitName = this.visitDetail[0].Name;
+                        this.visitName = this.visitDetail[0]?.Visit__r?.Patient_Portal_Name__c;
                         this.plannedDate = this.visitDetail[0].Planned_Date__c;
                         this.visitStatus = this.visitDetail[0].Status__c;
                         this.visitTimezone = TIME_ZONE;
