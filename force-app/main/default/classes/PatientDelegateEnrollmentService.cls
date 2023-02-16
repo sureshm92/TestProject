@@ -517,14 +517,15 @@ public without sharing class PatientDelegateEnrollmentService {
                     pde.Status__c = 'Deleted';
                 }
                 update pdeList;
+                List<Alert__c> alertlst = [
+                    SELECT Id,Viewed__c 
+                    FROM Alert__c 
+                    WHERE Contact__c = : delConIdslt and Viewed__c = False
+                ];
+                delete alertlst;
+                
+                return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
             }
-            List<Alert__c> alertlst = [
-                 SELECT Id,Viewed__c 
-                 FROM Alert__c 
-                 WHERE Contact__c = : delConIdslt and Viewed__c = False
-            ];
-               delete alertlst;
-            }            
             return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());

@@ -147,10 +147,11 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             }
             else if (
                 pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS &&
-                oldMap.get(pd.Id).Status__c == PATIENT_DELEGATE_DISCONNECTED_STATUS &&
+                oldMap.get(pd.Id).Status__c == PATIENT_DELEGATE_DISCONNECTED_STATUS
             ) {
                 //When Delegate status change from Disconnected to Active - Send Access level change email.
                 //Avoid creating duplicate notification records when Patient delegate is reactivated for multiple studis for same community at a time. 
+                withdrawnPDEORDelORNewRecrs.add(pd); 
                 if(!pdIdReactivatedDupCheckSet.contains(delId)){
                     pdIdReactivatedDupCheckSet.add(delId);
                     activatedDelegateEnrolrecrds.add(pd);
