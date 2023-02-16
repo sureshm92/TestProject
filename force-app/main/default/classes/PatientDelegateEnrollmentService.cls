@@ -419,6 +419,7 @@ public without sharing class PatientDelegateEnrollmentService {
         pde.Attestation_TimeStamp__c = newDelegate.Attestation_TimeStamp__c;
         pde.Attested_by__c = newDelegate.Attested_by__c;
         pde.Status__c = 'Active';
+        pde.isInviteToPP__c = true;
         pde.Study_Email_Consent__c = true;
         return pde;
     }
@@ -426,13 +427,15 @@ public without sharing class PatientDelegateEnrollmentService {
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain reActivateAssignment(List<String> pDEIdList) {
         list<Patient_Delegate_Enrollment__c> pdeList = [
-            SELECT id, Status__c
+            SELECT id, Status__c,isInviteToPP__c
             FROM Patient_Delegate_Enrollment__c
             WHERE id = :pDEIdList
         ];
         for(Patient_Delegate_Enrollment__c pde: pdeList) {
             pde.Status__c = 'Active';
-            
+            if(!pde.isInviteToPP__c){
+                pde.isInviteToPP__c  = true; 
+            }
         }
         
         try{
@@ -447,7 +450,7 @@ public without sharing class PatientDelegateEnrollmentService {
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain reActivateAssignmentForDeletedOrWithDrawnDel(Patient_Delegate__c newDelegate, List<Id> perIDList) {
         list<Patient_Delegate_Enrollment__c> pdeList = [
-            SELECT id, Status__c, Participant_Enrollment__c
+            SELECT id, Status__c, Participant_Enrollment__c,isInviteToPP__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Participant_Enrollment__c = :perIDList
             AND Patient_Delegate__c =: newDelegate.Id
@@ -455,6 +458,9 @@ public without sharing class PatientDelegateEnrollmentService {
         Set<Id> perIdSetForExistingPDE = new Set<Id>();
         for(Patient_Delegate_Enrollment__c pde: pdeList) {
             pde.Status__c = 'Active';  
+            if(!pde.isInviteToPP__c){
+                pde.isInviteToPP__c  = true; 
+            }
             perIdSetForExistingPDE.add(pde.Participant_Enrollment__c);
         }
         for(Id perId: perIDList){
@@ -499,18 +505,26 @@ public without sharing class PatientDelegateEnrollmentService {
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain deleteDelegates(String pdId) {
         try {
+            Set<Id> delConIdslt = new Set<Id>();
             list<Patient_Delegate_Enrollment__c> pdeList = [
-                SELECT id, Status__c
+                SELECT id, Status__c,Patient_Delegate__r.Contact__c
                 FROM Patient_Delegate_Enrollment__c
                 WHERE Patient_Delegate__c = :pdId
             ];
             if (pdeList!=null && !pdeList.isEmpty()) {
                 for(Patient_Delegate_Enrollment__c pde: pdeList){
+                    delConIdslt.add(pde.Patient_Delegate__r.Contact__c);
                     pde.Status__c = 'Deleted';
                 }
                 update pdeList;
-                return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
             }
+            List<Alert__c> alertlst = [
+                 SELECT Id,Viewed__c 
+                 FROM Alert__c 
+                 WHERE Contact__c = : delConIdslt and Viewed__c = False
+            ];
+               delete alertlst;
+            }            
             return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
