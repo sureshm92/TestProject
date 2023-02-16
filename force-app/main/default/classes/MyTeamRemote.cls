@@ -988,17 +988,12 @@ public without sharing class MyTeamRemote {
         TriggerHandlerExecutor.bypassHandler(
             PatientDelegateEnrolTriggerHandler.SetDefaultPatientDelegateStatusHandler.class
         );
-    
-        savePatientDelegate(delegate);
         if(delegateFilterData!=null){
-            //Read the list of selected studies for Delegate.
-            //PEFilterData filterData = (PEFilterData) JSON.deserialize(delegateFilterData, PEFilterData.class);
-            //List<LabelValueItem> studiesSelected = filterData.studiesSelected;
-            // System.debug('studiesSelected[0].Value: '+studiesSelected[0].Value);  
-            // System.debug('studiesSelected[0].Label: '+studiesSelected[0].Label);
             hasStudyFilter = true;
-            PatientDelegateService.getInstance().createPatientDelegate(delContact,delegateFilterData);  
         }
+        savePatientDelegate(delegate);
+        PatientDelegateService.getInstance().createPatientDelegate(delContact,delegateFilterData);  
+       
     }
 
     @AuraEnabled
