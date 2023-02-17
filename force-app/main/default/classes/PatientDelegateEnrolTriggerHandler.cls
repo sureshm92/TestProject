@@ -79,6 +79,19 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
                 updatePermissionSets(pdeIdSet);
             }
         }
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            Set<Id> pdeIdSet = new set<Id>();
+            for(SObject pde: newList ){
+                pdeIdSet.add(pde.Id);
+            }
+            
+            if (!System.isFuture() && !System.isBatch()) {
+                updatePermissionSetsAsync(pdeIdSet);
+            }
+            else{
+                updatePermissionSets(pdeIdSet);
+            }
+        }
     }
 
     @TestVisible

@@ -1019,7 +1019,7 @@ public without sharing class PatientDelegateService {
         Set<Id> allContactIds = new Set<Id>(invitedPartContactIds);
         for (Id partKey : delegatesByParticipant.keySet()) {
             for (Id delConId : delegatesByParticipant.get(partKey)) {
-                allContactIds.add(delConId);
+                //allContactIds.add(delConId);
             }
         }
         PatientDelegateService.updatePermissionSets(allContactIds);
