@@ -2,7 +2,7 @@
     <c-web-spinner fixed="true"></c-web-spinner>
     <template if:true={contentLoaded}>
         <template if:false={isMobile}>
-            <h2 class="my-televisits">{label.Televisits}</h2><br/>
+            <h2 class="my-televisits">{label.Televisits}</h2><br/><br/><br/>
             <div class="slds-grid slds-wrap slds-gutters">
                 <div
                     class="slds-col slds-size_1-of-1 col1"
@@ -38,17 +38,20 @@
                                 </button>
                             </template>
                         </div>
-                        <template if:true={showupcomingtelevisits}>
-                            <template if:false={showblankupcomingtelevisits}>
-                                <c-pp-my-televisits-list
-                                upcomingtelevisitsrecords = {upcomingTelevisitslist}
-                                ismobile = {isMobile} zonetime= {timechanges}
-                                onselection={selectedNavHandler}
-                            >
-                            </c-pp-my-televisits-list>
-                            </template>
+                        <!--<template if:true={showupcomingtelevisits}>
+                            <template if:false={showblankupcomingtelevisits}>-->
+                                <template if:true= {reloadupcomingcomponent}>
+                                    <c-pp-my-televisits-list
+                                    upcomingtelevisitsrecords = {upcomingTelevisitslist}
+                                    pasttelevisitsrecords = {pastTelevisitlist}
+                                    ismobile = {isMobile} zonetime= {timechanges} past = {past}
+                                    onselection={selectedNavHandler}
+                                >
+                                </c-pp-my-televisits-list>
+                                </template>
+                            <!--</template>
                             
-                        </template>
+                        </template>-->
                         <template if:true={showuppasttelevisits}>
                             <template if:false={showblankpasttelsvisits}>
                                 <c-pp-my-past-televisit-list
@@ -126,16 +129,20 @@
                                 </button>
                             </template>
                         </div>
-                        <template if:true={showupcomingtelevisits}>
-                            <template if:false={showblankupcomingtelevisits}>
-                                <c-pp-my-televisits-list
-                                upcomingtelevisitsrecords = {upcomingTelevisitslist}
-                                ismobile = {isMobile} zonetime= {timechanges}
-                                onselection={selectedNavHandler}
-                            >
-                            </c-pp-my-televisits-list>
-                            </template>
-                        </template>
+                        <!--<template if:true={showupcomingtelevisits}>
+                            <template if:false={showblankupcomingtelevisits}>-->
+                                <template if:true= {reloadupcomingcomponent}>
+                                    <c-pp-my-televisits-list
+                                    upcomingtelevisitsrecords = {upcomingTelevisitslist}
+                                    pasttelevisitsrecords = {pastTelevisitlist}
+                                    ismobile = {isMobile} zonetime= {timechanges} past = {past}
+                                    onselection={selectedNavHandler}
+                                >
+                                </c-pp-my-televisits-list>
+                                </template>
+                            <!--</template>
+                            
+                        </template>-->
                         <template if:true={showuppasttelevisits}>
                             <template if:false={showblankpasttelsvisits}>
                                 <c-pp-my-past-televisit-list

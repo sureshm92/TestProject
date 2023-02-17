@@ -3,6 +3,7 @@
     <fullName>Study_Assisted_Dialing_Consent__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
+    <inlineHelpText>A check on this field indicates consent is provided in the frontend by the delegate to contact them via Assisted Dialing for the associated study</inlineHelpText>
     <label>Study Assisted Dialing Consent</label>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

@@ -131,16 +131,18 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     //mask Email for participants
     maskEmail(par) {
         if (par.Participant.Email__c !== undefined && par.Participant.Email__c != null) {
-            let pdeEmailLength = par.Participant.Email__c.length;
             let maskedEmail = '';
-            for (let i = 0; i < pdeEmailLength; i++) {
-                if (i <= 2) {
+            let pdeEmailBeforeAt= par.Participant.Email__c.substring(0, par.Participant.Email__c .lastIndexOf("@"));
+            let pdeEmailBeforeAtCiel=Math.ceil(pdeEmailBeforeAt.length/2);
+            let pdeEmailPostfix= par.Participant.Email__c.substring(par.Participant.Email__c .lastIndexOf("@"));
+            for (let i = 0; i < pdeEmailBeforeAt.length; i++) {
+                if(i<pdeEmailBeforeAtCiel){
                     maskedEmail += par.Participant.Email__c.charAt(i);
-                } else {
+                }else {
                     maskedEmail += '*';
                 }
             }
-            par.Participant.Email__c = maskedEmail;
+            par.Participant.Email__c =maskedEmail+pdeEmailPostfix;
         }
     }
     //Subscribe the message channel to read the message published.

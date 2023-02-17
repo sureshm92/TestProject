@@ -113,7 +113,8 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             Participant_Enrollment__r.Name,
             Participant_Enrollment__r.Clinical_Trial_Profile__c,
             Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+            Participant_Enrollment__r.Participant_Status__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Id IN :patientDelegateEnrollmentrecrs AND Status__c = :PATIENT_DELEGATE_ACTIVE_STATUS
         ];
@@ -123,7 +124,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         Set<Id> pdIdReactivatedDupCheckSet = new set<Id>();
         Set<Id> pdIdReaddeddDupCheckSet = new set<Id>();
         Map<Id,Set<String>> communityTemplateForDelContIdMap = new Map<Id,Set<String>>();
-
+        List<Patient_Delegate_Enrollment__c> withdrawnPDEORDelORNewRecrs = new List<Patient_Delegate_Enrollment__c>();
         for (Patient_Delegate_Enrollment__c pd : updatedpatientDelegateEnrollmentrecrs) {
             if (!communityTemplateForDelContIdMap.containsKey(pd.Patient_Delegate__r.Contact__c)){
                 communityTemplateForDelContIdMap.put(pd.Patient_Delegate__r.Contact__c, new Set<String>());
@@ -134,14 +135,26 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             Id delId = pd.Patient_Delegate__c;
             if (
                 pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS &&
+                oldMap.get(pd.Id).Status__c == PATIENT_DELEGATE_DISCONNECTED_STATUS &&
+                oldMap.get(pd.Id).isInviteToPP__c == false &&
+                pd.isInviteToPP__c == true
+                ) {
+                    withdrawnPDEORDelORNewRecrs.add(pd); 
+                    if(!pdIdReaddeddDupCheckSet.contains(delId)){
+                        pdIdReaddeddDupCheckSet.add(delId);
+                        activatedDelegateEnrolrecrdsNewAssignment.add(pd);
+                    }
+            }
+            else if (
+                pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS &&
                 oldMap.get(pd.Id).Status__c == PATIENT_DELEGATE_DISCONNECTED_STATUS
             ) {
                 //When Delegate status change from Disconnected to Active - Send Access level change email.
                 //Avoid creating duplicate notification records when Patient delegate is reactivated for multiple studis for same community at a time. 
+                withdrawnPDEORDelORNewRecrs.add(pd); 
                 if(!pdIdReactivatedDupCheckSet.contains(delId)){
                     pdIdReactivatedDupCheckSet.add(delId);
                     activatedDelegateEnrolrecrds.add(pd);
-
                 }
                
             }else if(
@@ -149,17 +162,19 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
                 ( oldMap.get(pd.Id).Status__c == PATIENT_DELEGATE_WITHDRAWN_STATUS ||
                 oldMap.get(pd.Id).Status__c == PATIENT_DELEGATE_DELETED_STATUS )
             ) {
+                // To make it work when del is part of Multiple studies create Alerts for each studies
+                withdrawnPDEORDelORNewRecrs.add(pd);
                 //When Delegate status change from Deleted/Withdrawn to Active - Send New Assignment email.
                 //Avoid creating duplicate notification records when Patient delegate is readded for multiple studis  same community at a time. 
                 if(!pdIdReaddeddDupCheckSet.contains(delId)){
                     pdIdReaddeddDupCheckSet.add(delId);
                     activatedDelegateEnrolrecrdsNewAssignment.add(pd);
                 }
-                
             }
-          
         }
-
+        if(withdrawnPDEORDelORNewRecrs != null){
+            createPDEnrollmentAlerts(withdrawnPDEORDelORNewRecrs);
+        }
         //Create Access level Change notification
         if(activatedDelegateEnrolrecrds!=null){
             createNotifications(activatedDelegateEnrolrecrds, 'DelReactivatedNotifType',communityTemplateForDelContIdMap);
@@ -202,7 +217,8 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             Participant_Enrollment__r.Name,
             Participant_Enrollment__r.Clinical_Trial_Profile__c,
             Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+            Participant_Enrollment__r.Participant_Status__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Id IN :pdeIdset AND Status__c = :PATIENT_DELEGATE_ACTIVE_STATUS
         ];
@@ -220,14 +236,14 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             //Avoid creating duplicate notification records when Patient delegate is added for multiple for same community studis at a time. 
             if(!pdIdNewAssDupCheckSet.contains(delId)){
                 pdIdNewAssDupCheckSet.add(delId);
-                pdeRecrdsToProcess.add(pde);
+                pdeRecrdsToProcess.add(pde); // Might be part of two different studies - del is same but enrollments hould be two
             }
         }
+        createPDEnrollmentAlerts(patientDelegateEnrollRecrds);
         //Create New Assignment notification
         if(pdeRecrdsToProcess!=null){
            createNotifications(pdeRecrdsToProcess, 'DelNewAssignNotifType',communityTemplateForDelContIdMap);
         }
-        
     }
     @TestVisible
     @Future
@@ -305,6 +321,26 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         
         return welcomemsgnotifications;
     }
+    public static void  createPDEnrollmentAlerts(
+        List<Patient_Delegate_Enrollment__c> patientDelegates
+    ) {
+        List<Alert__c> alertList = new List<Alert__c>();
+        Map<Id,List<Participant_Enrollment__c>> pdConPerlst = new Map<Id,List<Participant_Enrollment__c>>();
+        for(Patient_Delegate_Enrollment__c pde: patientDelegates){
+            if(PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(
+                pde.Participant_Enrollment__r.Participant_Status__c
+            )){
+            alertList.add(
+                new Alert__c(
+                    Contact__c = pde.Patient_Delegate__r.Contact__c,
+                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
+                    Record_ID__c = pde.Participant_Enrollment__c
+                )
+            ); 
+          } 
+        }
+        if(!alertList.isEmpty() && alertList != null) insert alertList;
+    }
     private static void createNotifications(
         List<Patient_Delegate_Enrollment__c> patientDelegates,
         String templateProperty,
@@ -329,7 +365,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             perIds.add(pde.Participant_Enrollment__r.Id);
         }
         List<Participant_Enrollment__c> enrollments = [
-            SELECT Clinical_Trial_Profile__r.CommunityTemplate__c, Participant__c
+            SELECT Clinical_Trial_Profile__r.CommunityTemplate__c, Participant__c,Participant_Status__c
             FROM Participant_Enrollment__c
             WHERE Id in :perIds
         ];
@@ -431,7 +467,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             perIdList.add(pd.Participant_Enrollment__c);
         }
         for (Patient_Delegate_Enrollment__c pderList : [
-            SELECT Id, Primary_Delegate__c,Participant_Enrollment__c 
+            SELECT Id, Primary_Delegate__c,Participant_Enrollment__c,Participant_Enrollment__r.Participant_Status__c 
             FROM Patient_Delegate_Enrollment__c
             WHERE Participant_Enrollment__c IN :perIdList AND Primary_Delegate__c = true 
         ]) {
@@ -607,7 +643,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
 
     //This Method will update the permission set to the patient Delegate.
     private static void updatePermissionSets(Set<Id> pdeIdSet) {
-        List<Patient_Delegate_Enrollment__c> pdeList = [select id,Patient_Delegate__r.Participant__r.Contact__c,Patient_Delegate__r.Contact__c,Patient_Delegate__r.Participant__c,Participant_Enrollment__r.Id,Participant_Enrollment__r.Participant__c,Participant_Enrollment__r.Participant_Contact__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.Id,Participant_Enrollment__r.Clinical_Trial_Profile__r.ShortCommunityName__c
+        List<Patient_Delegate_Enrollment__c> pdeList = [select id,Patient_Delegate__r.Participant__r.Contact__c,Patient_Delegate__r.Contact__c,Patient_Delegate__r.Participant__c,Participant_Enrollment__r.Id,Participant_Enrollment__r.Participant__c,Participant_Enrollment__r.Participant_Contact__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.Id,Participant_Enrollment__r.Clinical_Trial_Profile__r.ShortCommunityName__c,Participant_Enrollment__r.Participant_Status__c
                                                   from Patient_Delegate_Enrollment__c where id in: pdeIdSet  and Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS and Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN :CommunityModeService.rhSponsorsByCommunity.keySet()
                                                   and Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c != 'Virtual' and Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c != 'Hybrid'
                                                   and  Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE

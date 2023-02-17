@@ -30,7 +30,7 @@ import none from '@salesforce/label/c.PP_None';
 import custom from '@salesforce/label/c.PP_Custom';
 import visitdetailsupdated from '@salesforce/label/c.Visit_details_updated_successfully';
 import eventdetailsupdated from '@salesforce/label/c.Event_details_updated_successfully';
-
+import nodateavailable from '@salesforce/label/c.No_date_available';
 export default class PpStudyVisitDetailsCard extends LightningElement {
     label = {
         date,
@@ -50,7 +50,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         visitdetailsupdated,
         eventdetailsupdated,
         none,
-        REMIND_ME
+        REMIND_ME,
+        nodateavailable
     };
 
     @api visitid;

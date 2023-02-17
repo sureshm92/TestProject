@@ -1,6 +1,6 @@
 public without sharing class ParticipantTelevisitRemote {
     @AuraEnabled
-    public static televisitWrapper getParticipantTelevisits(){
+    public static televisitWrapper getParticipantTelevisits(List<Id> joinbuttonids){
         try {
             List<Televisit_Attendee__c> televisitattendeeList = [Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c from Televisit_Attendee__c where User__c =:UserInfo.getUserId() order by Televisit__r.Visit_Date_Time__c desc];
             Set<Id> televisitIdSet = new Set<Id>();
@@ -18,6 +18,11 @@ public without sharing class ParticipantTelevisitRemote {
                         upcomingTelevisit.televisitdate = attendee.Televisit__r.Visit_Date_Time__c;
                         upcomingTelevisit.televisitduration = attendee.Televisit__r.Duration__c.split(' ')[0] + ' min';
                         upcomingTelevisit.televisitmettingurl = attendee.Televisit__r.Meeting_URL__c;
+                        if(joinbuttonids.contains(attendee.Televisit__r.Id)){
+                            upcomingTelevisit.showjoinbutton = true;
+                        }else{
+                            upcomingTelevisit.showjoinbutton = false;
+                        }
                         upcomingTelevisitmap.put(attendee.Televisit__r.Id,upcomingTelevisit);
                     }else if(attendee.Televisit__r.Visit_Date_Time__c.addminutes(integer.valueof(attendee.Televisit__r.Duration__c.split(' ')[0])) < system.now() || 
                              attendee.Televisit__r.Status__c == 'Cancelled'){
@@ -109,6 +114,7 @@ public without sharing class ParticipantTelevisitRemote {
         @AuraEnabled public string televisitduration;
         @AuraEnabled public id televisitId;
         @AuraEnabled public string televisitmettingurl;
+        @AuraEnabled public boolean showjoinbutton;
         @AuraEnabled public List<televisitattendeeWrapper> relatedAttendees;
     }
     public class pastTelevisits{

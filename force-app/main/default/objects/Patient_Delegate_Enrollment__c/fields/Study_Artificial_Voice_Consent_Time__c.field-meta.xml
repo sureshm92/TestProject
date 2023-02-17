@@ -3,6 +3,7 @@
     <fullName>Study_Artificial_Voice_Consent_Time__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
+    <inlineHelpText>Date and Timestamp on when the consent was provided in the frontend by the delegate to contact them via Artificial Voice for the associated study</inlineHelpText>
     <label>Study Artificial Voice Consent Time</label>
     <required>false</required>
     <trackHistory>true</trackHistory>
