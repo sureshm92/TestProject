@@ -143,10 +143,12 @@ public with sharing class ResStudyTriggerHandler {
     private static void notifyPIAndDelegateAboutStudyResources(List<SObject> newList) {          
         List<Id> resStudyIds = new List<Id>();              
         List<Id> lstOfStudy = new List<Id>();
+        Map<String, List<Contact>> mapofStudyContactList = new Map<String, List<Contact>>();
+        Map<String, Set<Contact>> mapofStudyContactSet = new Map<String, Set<Contact>>();
         Map<String, List<Contact>> mapofStudyContact = new Map<String, List<Contact>>();
         List<Notification__c> allNotificationList = new List<Notification__c>();
         Map<String, String> mapOfCommTemp = new Map<String, String>();
-
+        
         for (SObject obj : newList){
             resStudyIds.add(obj.Id);
         }         
@@ -156,20 +158,26 @@ public with sharing class ResStudyTriggerHandler {
             FROM Res_study__c
             WHERE Visible_To_PI__c = TRUE AND Id IN :resStudyIds
         ]);
-
+        
         for(Id eachRec : mapOfResStudy.keySet()){
             lstOfStudy.add(mapOfResStudy.get(eachRec).Clinical_Trial_Profile__c);
             mapOfCommTemp.put(mapOfResStudy.get(eachRec).Clinical_Trial_Profile__c, mapOfResStudy.get(eachRec).Clinical_Trial_Profile__r.CommunityTemplate__c);
         }     
         
-        mapofStudyContact = BellNotificationsHelper.getContactForStudy(lstOfStudy); 
-
+        mapofStudyContactList = BellNotificationsHelper.getContactForStudy(lstOfStudy); 
+        for (String key : mapofStudyContactList.keySet()) {
+            mapofStudyContactSet.put(key, new Set<Contact>(mapofStudyContactList.get(key)));
+        }
+        for (String key : mapofStudyContactSet.keySet()) {
+            mapofStudyContact.put(key, new List<Contact>(mapofStudyContactSet.get(key)));
+        }
+        
         for(String eachRec : mapofStudyContact.keySet()){
             Map<String,List<Contact>> contactResultMap =  new Map<String,list<Contact>>{'PI' => mapofStudyContact.get(eachRec)};
-            List<Notification__c> notificationList = BellNotificationsHelper.createNotification('BELL_Message_on_Library_Upload_Document', contactResultMap, mapOfCommTemp.get(eachRec), null, false);
+                List<Notification__c> notificationList = BellNotificationsHelper.createNotification('BELL_Message_on_Library_Upload_Document', contactResultMap, mapOfCommTemp.get(eachRec), null, false);
             allNotificationList.addAll(notificationList);
         } 
-
+        
         if(allNotificationList.size() > 0 && allNotificationList.size() <= 8000){
             insert allNotificationList;
         }else if(allNotificationList.size() > 0 && allNotificationList.size() > 8000){
