@@ -601,7 +601,6 @@ public without sharing class PIR_ParticipantDetailController {
       pde.Participant_Enrollment__c = perRecord.Id;
       pde.Patient_Delegate__c = peDeligate.Id;
       pde.Attested_By__c = peDeligate.Attested_by__c;
-      pde.isInviteToPP__c = peDeligate.isInviteToPP__c;
       pde.Primary_Delegate__c = true;
       pde.Status__c =  'Disconnected';
       pde.Study_Email_Consent__c = consentWrapper.Study_Email_Consent;
