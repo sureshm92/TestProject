@@ -147,7 +147,7 @@
     border-radius: 4px;
 }
 @media screen and (max-width: 390px) {
-  .text-wrap-max-width-390{
+  .text-wrap-max-width-404{
       width: 80%;
       text-align: left;
   }
