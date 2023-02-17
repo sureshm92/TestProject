@@ -11,6 +11,9 @@
         <value xsi:type="xsd:string">SurveyName = Survey__r.Name
 invId= Id
 expirationDate = ExpireDateTime__c
+expirationOnlyDate = ExpireDateTime__c
+endDateVisible = Is_End_Date_Visible__c
+SMSexpirationDate = ExpireDateTime__c
 ContactID=Participant_Enrollment__r.Participant_Contact__c</value>
     </values>
     <values>

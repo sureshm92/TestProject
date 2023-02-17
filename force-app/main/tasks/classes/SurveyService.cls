@@ -81,7 +81,8 @@ public without sharing class SurveyService {
             SurveyId = ts.Survey__c,
             Survey__c = ts.Survey__c,
             Trial_Survey__c = ts.Id,
-            IsTrialSurvey__c = true
+            IsTrialSurvey__c = true,
+            Is_End_Date_Visible__c = ts.Display_in_UI__c
         );
 
         Date today;
