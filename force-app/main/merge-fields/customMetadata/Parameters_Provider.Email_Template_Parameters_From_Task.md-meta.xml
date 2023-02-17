@@ -12,6 +12,8 @@
 CompleteByDate = ActivityDate
 Taskdate = Activity_Datetime__c
 TaskOnlydate = Activity_Datetime__c
+Originator = Originator__c
+SMSTaskdate = Activity_Datetime__c
 StudyName = Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
 PlannedDate=Patient_Visit__r.Planned_Date__c
 ContactID=WhoId
