@@ -127,7 +127,8 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             Participant_Enrollment__r.Clinical_Trial_Profile__c,
             Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
             Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
-            Participant_Enrollment__r.Participant_Status__c
+            Participant_Enrollment__r.Participant_Status__c,
+            isInviteToPP__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Id IN :patientDelegateEnrollmentrecrs AND Status__c = :PATIENT_DELEGATE_ACTIVE_STATUS
         ];
@@ -231,7 +232,8 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             Participant_Enrollment__r.Clinical_Trial_Profile__c,
             Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
             Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
-            Participant_Enrollment__r.Participant_Status__c
+            Participant_Enrollment__r.Participant_Status__c,
+            isInviteToPP__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Id IN :pdeIdset AND Status__c = :PATIENT_DELEGATE_ACTIVE_STATUS
         ];
