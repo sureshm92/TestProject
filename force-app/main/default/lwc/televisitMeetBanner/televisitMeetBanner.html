@@ -2,23 +2,41 @@
     <template if:true={hasActiveVisits}>
         <div class={bgCss}>
             <lightning-layout>
-                <lightning-layout-item size="11">
-                    <div class="slds-align_absolute-center slds-grid slds-col_bump-left">
-                        <div class="slds-p-right_small">
-                            <lightning-icon icon-name="utility:video" variant="inverse" size="small"></lightning-icon>
-                        </div>
-                        <div class="slds-p-right_xx-small meet_info singleMeet">
-                            {meetMainInfo}
-                            <template if:false={singleActiveVisit}>
-                                <lightning-button-icon icon-name={moreVisitIconName} variant="bare-inverse"
-                                    onclick={handleOpenCloseVisits} alternative-text="Show Visits"
-                                    class="arrow_icn desktop"></lightning-button-icon>
-                            </template>
-                        </div>
+                <lightning-layout-item size="10">
+                    <template if:true={singleActiveVisit}>
+                        <div class="slds-align_absolute-center slds-grid slds-col_bump-left" >
+                            <div class="slds-p-right_small">
+                                <lightning-icon icon-name="utility:video" variant="inverse" size="small"></lightning-icon>
+                            </div>
+                            <div class="slds-p-right_xx-small meet_info singleMeet">
+                                {meetMainInfo}
+                                <template if:false={singleActiveVisit}>
+                                    <lightning-button-icon icon-name={moreVisitIconName} variant="bare-inverse"
+                                        onclick={handleOpenCloseVisits} alternative-text="Show Visits"
+                                        class="arrow_icn desktop"></lightning-button-icon>
+                                </template>
+                            </div>
 
-                    </div>
+                        </div>
+                    </template>
+                    <template if:false={singleActiveVisit}>
+                        <div class="slds-align_absolute-center slds-grid slds-col_bump-left" style="padding-left:20%;">
+                            <div class="slds-p-right_small">
+                                <lightning-icon icon-name="utility:video" variant="inverse" size="small"></lightning-icon>
+                            </div>
+                            <div class="slds-p-right_xx-small meet_info singleMeet">
+                                {meetMainInfo}
+                                <template if:false={singleActiveVisit}>
+                                    <lightning-button-icon icon-name={moreVisitIconName} variant="bare-inverse"
+                                        onclick={handleOpenCloseVisits} alternative-text="Show Visits"
+                                        class="arrow_icn desktop"></lightning-button-icon>
+                                </template>
+                            </div>
+
+                        </div>
+                    </template>
                 </lightning-layout-item>
-                <lightning-layout-item size="1" class="singleMeet">
+                <lightning-layout-item size="2" class="singleMeet">
                     <template if:true={singleActiveVisit}>
                         <template if:true={isPP2View}>
                             <a class={singleJoinCss} 
@@ -46,11 +64,11 @@
 
         </div>
         <lightning-layout>
-            <div class="allVisits" if:true={showMoreVisits}>
+            <div class={allVisitCss} if:true={showMoreVisits}>
                 <template for:each={allActiveVisits} for:item="visit">
                     <div key={visit.Id}>
                         <lightning-layout class="slds-p-bottom_x-small meet_info eachMeetInfo meetList">
-                            <lightning-layout-item size="10" class="slds-text-align_left">
+                            <lightning-layout-item size="10" class="slds-text-align_left meetingInfo">
                                 {visit.eachMeetInfo}
                             </lightning-layout-item>
                             <lightning-layout-item size="2" class="slds-text-align_right slds-p-right_medium">
@@ -67,8 +85,11 @@
                                         title="Click To Join" onclick={handleJoinClick} variant="base"></lightning-button>
                                 </template>
                             </lightning-layout-item>
+                            
                         </lightning-layout>
+                        <!--<hr class="hrline"/>-->
                     </div>
+                    
                 </template>
             </div>
         </lightning-layout>

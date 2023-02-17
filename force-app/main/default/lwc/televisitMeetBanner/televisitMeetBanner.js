@@ -37,6 +37,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     bgCss;
     multipleJoinCss;
     singleJoinCss;
+    allVisitCss;
     isPP2View = false;
     @track labels = {
         UPCOMING_VISIT,
@@ -109,6 +110,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     getCommunintyTemplateName() {
         if(this._currentMode.template.communityName === 'IQVIA Patient Portal'){
             this.isPP2View = true;
+            this.allVisitCss = 'allVisitsPP2';
             if(FORM_FACTOR == 'Large'){
                 this.bgCss = 'divBodyPP2 slds-p-around_medium slds-text-color_inverse';
                 this.multipleJoinCss = 'slds-text-color_inverse join multipleJoinPP2';
@@ -122,7 +124,10 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         }else{
             this.bgCss = 'divBody slds-p-around_medium slds-text-color_inverse';
             this.isPP2View = false;
+            this.allVisitCss = 'allVisits';
         }
+
+        
         
     }
 
