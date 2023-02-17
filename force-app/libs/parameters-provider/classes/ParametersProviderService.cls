@@ -164,6 +164,74 @@ public without sharing class ParametersProviderService {
                     }
                 }
             }
+            /**PEH-8622*/
+            if (paramName == 'expirationOnlyDate') {
+                if (valueStr == '') {
+                    valueStr = System.Label.Not_Available;
+                } else {
+                    if (value instanceof Datetime) {
+                        DateTime tempDateTime = (DateTime) value;
+                        valueStr = UserService.formatDatebyLocale(tempDateTime.date(), language);
+                    } else if (value instanceof Date) {
+                        valueStr = UserService.formatDatebyLocale((Date) value, language);
+                    }
+                }
+            }
+
+            /**PEH-11453*/
+            if (paramName == 'SMSTaskdate') {
+                if (valueStr == '') {
+                    valueStr = System.Label.Not_Available;
+                } else {
+                    //get originator field values
+                    String originatorField = paramsMap.get('Originator');
+                    Object originatorFieldValue = SObjectHelper.getSObjectFieldValue(
+                        sourceObject,
+                        originatorField
+                    );
+                    //check originator if MCP show convert datetime to date
+                    if (
+                        (String) originatorFieldValue != 'Participant' ||
+                        (String) originatorFieldValue != 'Delegate'
+                    ) {
+                        if (value instanceof Datetime) {
+                            DateTime tempDateTime = (DateTime) value;
+                            valueStr = UserService.formatDatebyLocale(
+                                tempDateTime.date(),
+                                language
+                            );
+                        } else if (value instanceof Date) {
+                            valueStr = UserService.formatDatebyLocale((Date) value, language);
+                        }
+                    }
+                }
+            }
+
+            if (paramName == 'SMSexpirationDate') {
+                if (valueStr == '') {
+                    valueStr = System.Label.Not_Available;
+                } else {
+                    //get endDateVisible field values
+                    String endDateVisibleField = paramsMap.get('endDateVisible');
+                    Object endDateVisibleFieldValue = SObjectHelper.getSObjectFieldValue(
+                        sourceObject,
+                        endDateVisibleField
+                    );
+                    //check originator if MCP show convert datetime to date
+                    if (!(Boolean) endDateVisibleFieldValue) {
+                        if (value instanceof Datetime) {
+                            DateTime tempDateTime = (DateTime) value;
+                            valueStr = UserService.formatDatebyLocale(
+                                tempDateTime.date(),
+                                language
+                            );
+                        } else if (value instanceof Date) {
+                            valueStr = UserService.formatDatebyLocale((Date) value, language);
+                        }
+                    }
+                }
+            }
+
             valueByParam.put(paramName, valueStr);
         }
 

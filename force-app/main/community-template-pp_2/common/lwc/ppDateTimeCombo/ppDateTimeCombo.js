@@ -58,6 +58,15 @@ export default class PpDateTimeCombo extends LightningElement {
         FUTURE_DATETIME_ERROR_FOR_REMINDER_TASK
     };
 
+    get maxOnlyDate() {
+        //need to add this
+        let processlocaltimezonedate = new Date(this.maxdate);
+        let dd = String(processlocaltimezonedate.getDate()).padStart(2, '0');
+        let mm = String(processlocaltimezonedate.getMonth() + 1).padStart(2, '0');
+        let yyyy = processlocaltimezonedate.getFullYear();
+        return yyyy + '-' + mm + '-' + dd;
+    }
+
     @api
     callFromParent() {
         this.dt = '';
