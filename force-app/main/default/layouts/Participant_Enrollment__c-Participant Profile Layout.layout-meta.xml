@@ -721,6 +721,13 @@
         <relatedList>RH_Biomarker__c.Participant_Enrollment__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <fields>NAME</fields>
+        <fields>Patient_Delegate__c</fields>
+        <fields>Primary_Delegate__c</fields>
+        <fields>Status__c</fields>
+        <relatedList>Patient_Delegate_Enrollment__c.Participant_Enrollment__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <excludeButtons>MassChangeOwner</excludeButtons>
         <excludeButtons>New</excludeButtons>
         <fields>PreScreener_Survey__c</fields>

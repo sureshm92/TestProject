@@ -105,7 +105,7 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
         // below date build moved from fetch visit to this method to handle parameter-- remove this comment
         var todayDate = new Date();
         let userDate = new Date(
-          todayDate.toLocaleString(locale, { timeZone: timeZone })
+          todayDate.toLocaleDateString(locale, { timeZone: timeZone })
         );
         var dd = String(userDate.getDate()).padStart(2, "0");
         var mm = String(userDate.getMonth() + 1).padStart(2, "0"); //January is 0!
