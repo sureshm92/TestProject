@@ -103,7 +103,12 @@ export default class PpCreateTask extends LightningElement {
                                 wrapper.task.Originator__c != 'Participant' &&
                                 wrapper.task.Originator__c != 'Delegate'
                             ) {
-                                if (!wrapper.task.Activity_Datetime__c) {
+                                if (
+                                    !wrapper.task.Activity_Datetime__c ||
+                                    (wrapper.task.Survey_Invitation__c &&
+                                        wrapper.task.Survey_Invitation__r.IsTrialSurvey__c &&
+                                        !wrapper.task.Survey_Invitation__r.Is_End_Date_Visible__c)
+                                ) {
                                     this.disbaleDateTime = true;
                                 }
                                 this.isSystemOrBusinessTask = true;
