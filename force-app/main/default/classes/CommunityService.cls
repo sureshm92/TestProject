@@ -632,7 +632,7 @@ public without sharing class CommunityService {
                     .createParticipantUsers(contactIdsMap);
 
                 if (participantContactIds != null && !participantContactIds.isEmpty()) {
-                    Map<Id, List<Id>> delegatesByParticipant = PatientDelegateService.getDelegateContactIdsByPAContactIs(
+                    Map<Id, List<Id>> delegatesByParticipant = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
                         new List<Id>(participantContactIds)
                     );
                     Set<Id> allContactIds = new Set<Id>(participantContactIds);

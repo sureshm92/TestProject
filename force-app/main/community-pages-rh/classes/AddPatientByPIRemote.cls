@@ -682,6 +682,14 @@ public without sharing class AddPatientByPIRemote {
         Boolean allowSMS,
         Boolean allowContact
     ) {
+        //Bypaass old methods from Patient Delegate Trigger
+        TriggerHandlerExecutor.bypassHandler(
+        PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+        PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+        );
+        
         if(sendPEToStudyHubAsync == true){
             IntegrationService.sendPEToStudyHub(peId);
         }

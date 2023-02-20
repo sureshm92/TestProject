@@ -296,22 +296,30 @@ Public without sharing Class TelevisitCreationScreenController {
         lstAttendeesWrapper.add(wrap1);
         
         Set<String> preventDuplicate = new Set<String>();
-        for(Patient_Delegate__c participantDelegate : [SELECT Id,Participant__c,Participant__r.Adult__c,Participant__r.Email__c, Primary_Delegate__c,Participant_Delegate__c,Participant_Delegate__r.First_Name__c, 
-                                                  Participant_Delegate__r.Last_Name__c, Contact__c,Contact__r.FirstName, contact__r.LastName FROM Patient_Delegate__c WHERE 
-                                                  Participant__c =: per.Participant__c Order by Primary_Delegate__c Desc]){
-            if(preventDuplicate.add(participantDelegate.Contact__c)){
+        for(Patient_Delegate_Enrollment__c participantDelegate : [SELECT Id,Patient_Delegate__c,Patient_Delegate__r.Participant__c,
+                                                    Patient_Delegate__r.Participant__r.Adult__c,Patient_Delegate__r.Participant__r.Email__c, 
+                                                    Primary_Delegate__c,Patient_Delegate__r.Participant_Delegate__c,
+                                                    Patient_Delegate__r.Participant_Delegate__r.First_Name__c, 
+                                                    Patient_Delegate__r.Participant_Delegate__r.Last_Name__c, 
+                                                    Patient_Delegate__r.Contact__c,Patient_Delegate__r.Contact__r.FirstName, 
+                                                    Patient_Delegate__r.contact__r.LastName 
+                                                    FROM Patient_Delegate_Enrollment__c 
+                                                    WHERE 
+                                                    Participant_Enrollment__c =: per.id AND 
+                                                    Patient_Delegate__r.Participant__c =: per.Participant__c Order by Primary_Delegate__c Desc]){
+            if(preventDuplicate.add(participantDelegate.Patient_Delegate__r.Contact__c)){
                 AttendeesWrapper wrap2 = new AttendeesWrapper();
-                if(participantDelegate.Participant_Delegate__c != null){
-                    wrap2.firstName= participantDelegate.Participant_Delegate__r.First_Name__c;
-                    wrap2.lastName= participantDelegate.Participant_Delegate__r.Last_Name__c;
+                if(participantDelegate.Patient_Delegate__r.Participant_Delegate__c != null){
+                    wrap2.firstName= participantDelegate.Patient_Delegate__r.Participant_Delegate__r.First_Name__c;
+                    wrap2.lastName= participantDelegate.Patient_Delegate__r.Participant_Delegate__r.Last_Name__c;
                 }else{
-                    wrap2.firstName= participantDelegate.Contact__r.FirstName;
-                    wrap2.lastName= participantDelegate.contact__r.LastName;
+                    wrap2.firstName= participantDelegate.Patient_Delegate__r.Contact__r.FirstName;
+                    wrap2.lastName= participantDelegate.Patient_Delegate__r.contact__r.LastName;
                 }
                 wrap2.attendeeType= 'Participant Delegate';
-                wrap2.contactId= participantDelegate.Contact__c;
-                wrap2.participantAdult = participantDelegate.Participant__r.Adult__c;
-                if(participantDelegate.Participant__r.Email__c != null){
+                wrap2.contactId= participantDelegate.Patient_Delegate__r.Contact__c;
+                wrap2.participantAdult = participantDelegate.Patient_Delegate__r.Participant__r.Adult__c;
+                if(participantDelegate.Patient_Delegate__r.Participant__r.Email__c != null){
                     wrap2.participantHasEmail = true;
                 }else{
                     wrap2.participantHasEmail = false;
@@ -455,10 +463,15 @@ Public without sharing Class TelevisitCreationScreenController {
                 contactId.add(per.Participant_Contact__c);   
             }
             
-            List<Patient_Delegate__c> participantDelegate = [SELECT Id,Contact__c,Primary_Delegate__c FROM Patient_Delegate__c WHERE Participant__c =: per.Participant__c and Primary_Delegate__c = true];
+            List<Patient_Delegate_Enrollment__c> participantDelegate = [SELECT Id,Patient_Delegate__c,Patient_Delegate__r.Contact__c,Primary_Delegate__c 
+                                                                        FROM Patient_Delegate_Enrollment__c 
+                                                                        WHERE Patient_Delegate__r.Participant__c =: per.Participant__c 
+                                                                        AND Primary_Delegate__c = true
+                                                                        AND Participant_Enrollment__c =: per.id];
+
             if(participantDelegate.size() > 0){
-                if(!String.isBlank(participantDelegate[0].Contact__c)){
-                    contactId.add(participantDelegate[0].Contact__c);  
+                if(!String.isBlank(participantDelegate[0].Patient_Delegate__r.Contact__c)){
+                    contactId.add(participantDelegate[0].Patient_Delegate__r.Contact__c);  
                 }
             }
             
