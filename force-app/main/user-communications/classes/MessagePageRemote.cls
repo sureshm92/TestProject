@@ -3,6 +3,7 @@
  */
 
 public without sharing class MessagePageRemote {
+    public class applicationException extends Exception {}
     public class MSPageData {
         @AuraEnabled
         public String userMode;
@@ -113,7 +114,7 @@ public without sharing class MessagePageRemote {
             pageData.isRTL = (System.Label.RTL_Languages).contains(UserInfo.getLanguage());
             List<Conversation__c> sharedConversations = ConversationService.getSharedConversations(
                 UserInfo.getUserId()
-            );
+            ); //24
             List<Conversation__c> conversations = new List<Conversation__c>();
             if (pageData.userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 //Collect Enrollments
@@ -182,9 +183,11 @@ public without sharing class MessagePageRemote {
                 //Collect Enrollments
                 pageData.enrollments = getEnrollmentsForPI(null);
             }
+            Set<Id> allPeIds = new Set<Id>();
             if(pageData.enrollments!=null){
                 for(Participant_Enrollment__c pe : pageData.enrollments){
                     pIContactIds.add(pe.Study_Site__r.Principal_Investigator__c);
+                    allPeIds.add(pe.Id);
                 }
                 pageData.piContactNames = ViewPatientsRemote.getPINames(pIContactIds);
             }
@@ -196,14 +199,10 @@ public without sharing class MessagePageRemote {
                 Map<Id, List<Message__c>> messagesByConversation = MessageService.getMessagesByConversations(
                     new List<Id>(conversationsByIds.keySet())
                 );
-
                 Map<Id, Map<Id, ContentDocumentLink>> documentLinksByMesByCon = MessageService.getAttachmentsByConversation(
                     new List<Id>(conversationsByIds.keySet())
                 );
-
-                /*Map<Id, List<String>> participantsDelegateNames = ConversationService.getYourParticipantsDelegateNames(
-                    UserInfo.getUserId()
-                );*/
+                Map<Id,Map<Id, List<String>>> peDelegateNamesMap = ConversationService.peParticipantDelegateNameMap(allPeIds);
 
                 String firstConId = (String) messagesByConversation.keySet().iterator().next();
                 pageData.conversationWrappers = new List<ConversationWrapper>();
@@ -224,6 +223,7 @@ public without sharing class MessagePageRemote {
                             update conversation;
                         }
                     }
+                    Map<Id, List<String>> namesMap = peDelegateNamesMap.containsKey(conversation.Participant_Enrollment__c) ? peDelegateNamesMap.get(conversation.Participant_Enrollment__c) : new  Map<Id, List<String>>();
                     pageData.conversationWrappers.add(
                         getConversationWrapper(
                             pageData.userMode,
@@ -231,7 +231,7 @@ public without sharing class MessagePageRemote {
                             messagesByConversation.get(conversation.Id),
                             documentLinksByMesByCon.get(conversation.Id),
                             isIE,
-                            ConversationService.getYourParticipantsDelegateNames(conversation.Participant_Enrollment__c),
+                            namesMap,
                             pageData.piContactNames
                         )
                     );
@@ -544,7 +544,7 @@ public without sharing class MessagePageRemote {
         ConversationWrapper conWr = new ConversationWrapper();
         conWr.conversation = conversation;
 
-        String conTitle;
+        String conTitle;    
         String conFullName;
         String conDescription;
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
@@ -575,7 +575,14 @@ public without sharing class MessagePageRemote {
             conWr.unread = conversation.haveUnreadForPI__c;
             Participant__c participant = conversation.Participant_Enrollment__r.Participant__r;
             conTitle = participant.Full_Name__c;
-            if (delegateNamesByParticipant.containsKey(participant.Id)) {
+            if(delegateNamesByParticipant.containsKey(conversation.Participant_Enrollment__c)){
+                conWr.patientDelegates = String.join(
+                    delegateNamesByParticipant.get(conversation.Participant_Enrollment__c),
+                    ', '
+                );
+                conTitle += ', ' + conWr.patientDelegates;
+            }
+            else if (delegateNamesByParticipant.containsKey(participant.Id)) {
                 conWr.patientDelegates = String.join(
                     delegateNamesByParticipant.get(participant.Id),
                     ', '
