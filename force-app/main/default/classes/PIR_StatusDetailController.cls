@@ -1959,10 +1959,20 @@ public without sharing class PIR_StatusDetailController {
         contactIds.add(perRecord.Participant_Contact__c);
         contactIds.add(televisitCreatedUserContactId);
         
-        for(Patient_Delegate__c participantDelegate : [SELECT Id,Participant__c,Participant__r.Adult__c,Participant__r.Email__c, Primary_Delegate__c,Participant_Delegate__c,Participant_Delegate__r.First_Name__c, 
-                                              Participant_Delegate__r.Last_Name__c, Contact__c,Contact__r.FirstName, contact__r.LastName FROM Patient_Delegate__c WHERE 
-                                              Participant__c =: perRecord.Participant__c AND Primary_Delegate__c = true]){
-              contactIds.add(participantDelegate.Contact__c);                                    
+        for(Patient_Delegate_Enrollment__c participantDelegate : [SELECT Id,Patient_Delegate__c,Patient_Delegate__r.Participant__c,Patient_Delegate__r.Participant__r.Adult__c,
+                                              Patient_Delegate__r.Participant__r.Email__c, 
+                                              Primary_Delegate__c,Patient_Delegate__r.Participant_Delegate__c,
+                                              Patient_Delegate__r.Participant_Delegate__r.First_Name__c, 
+                                              Patient_Delegate__r.Participant_Delegate__r.Last_Name__c, 
+                                              Patient_Delegate__r.Contact__c,
+                                              Patient_Delegate__r.Contact__r.FirstName, 
+                                              Patient_Delegate__r.contact__r.LastName 
+                                              FROM Patient_Delegate_Enrollment__c WHERE 
+                                              Participant_Enrollment__c =: perRecord.id
+                                              AND
+                                              Patient_Delegate__r.Participant__c =: perRecord.Participant__c 
+                                              AND Primary_Delegate__c = true]){
+              contactIds.add(participantDelegate.Patient_Delegate__r.Contact__c);                                    
         }
         
         
@@ -2023,21 +2033,32 @@ public without sharing class PIR_StatusDetailController {
             lstAttendees.add(televisitAttendee1);
         }
         Televisit_Attendee__c televisitAttendee2 = new Televisit_Attendee__c();
-        for(Patient_Delegate__c participantDelegate : [SELECT Id,Participant__c,Participant__r.Adult__c,Participant__r.Email__c, Primary_Delegate__c,Participant_Delegate__c,Participant_Delegate__r.First_Name__c, 
-                                              Participant_Delegate__r.Last_Name__c, Contact__c,Contact__r.FirstName, contact__r.LastName FROM Patient_Delegate__c WHERE 
-                                              Participant__c =: perRecord.Participant__c AND Primary_Delegate__c = true]){
-                                                 
+        for(Patient_Delegate_Enrollment__c participantDelegate : [SELECT Id,Patient_Delegate__c,Patient_Delegate__r.Participant__c,
+                                                Patient_Delegate__r.Participant__r.Adult__c,Patient_Delegate__r.Participant__r.Email__c, 
+                                                Primary_Delegate__c,Patient_Delegate__r.Participant_Delegate__c,
+                                                Patient_Delegate__r.Participant_Delegate__r.First_Name__c, 
+                                                Patient_Delegate__r.Participant_Delegate__r.Last_Name__c, 
+                                                Patient_Delegate__r.Contact__c,
+                                                Patient_Delegate__r.Contact__r.FirstName, 
+                                                Patient_Delegate__r.contact__r.LastName 
+                                                FROM Patient_Delegate_Enrollment__c 
+                                                WHERE 
+                                                Participant_Enrollment__c =: perRecord.id 
+                                                AND
+                                                Patient_Delegate__r.Participant__c =: perRecord.Participant__c 
+                                                AND Primary_Delegate__c = true]){
+        
             televisitAttendee2.Televisit__c = televisitRecord.id;
-            televisitAttendee2.Contact__c = participantDelegate.Contact__c;
-            if(mapUser.get(participantDelegate.Contact__c) != null){
-                televisitAttendee2.User__c = (String) mapUser.get(participantDelegate.Contact__c).Id;
+            televisitAttendee2.Contact__c = participantDelegate.Patient_Delegate__r.Contact__c;
+            if(mapUser.get(participantDelegate.Patient_Delegate__r.Contact__c) != null){
+                televisitAttendee2.User__c = (String) mapUser.get(participantDelegate.Patient_Delegate__r.Contact__c).Id;
             }
-            if(participantDelegate.Participant_Delegate__c != null){
-                televisitAttendee2.Firstname__c= participantDelegate.Participant_Delegate__r.First_Name__c;
-                televisitAttendee2.Lastname__c= participantDelegate.Participant_Delegate__r.Last_Name__c;
+            if(participantDelegate.Patient_Delegate__r.Participant_Delegate__c != null){
+                televisitAttendee2.Firstname__c= participantDelegate.Patient_Delegate__r.Participant_Delegate__r.First_Name__c;
+                televisitAttendee2.Lastname__c= participantDelegate.Patient_Delegate__r.Participant_Delegate__r.Last_Name__c;
             }else{
-                televisitAttendee2.Firstname__c= participantDelegate.Contact__r.FirstName;
-                televisitAttendee2.Lastname__c= participantDelegate.contact__r.LastName;
+                televisitAttendee2.Firstname__c= participantDelegate.Patient_Delegate__r.Contact__r.FirstName;
+                televisitAttendee2.Lastname__c= participantDelegate.Patient_Delegate__r.contact__r.LastName;
             }
             televisitAttendee2.Attendee_Type__c = 'Participant Delegate';
             
