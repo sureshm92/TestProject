@@ -60,7 +60,7 @@ public without sharing class ConversationService {
     public static Integer getUnreadConversationCount(Id userId, String userMode) {
         ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
         Integer unreadCount = 0;
-        if(userMode == CommunityService.USER_MODE_PI){
+        if(userMode != CommunityService.USER_MODE_PI){
             pState = ParticipantService.getInstance().getState();
         }
         Id useThisId = userMode == CommunityService.USER_MODE_PI ? userId : pState.pe.Id;
@@ -243,7 +243,6 @@ public without sharing class ConversationService {
                 : pd.Patient_Delegate__r.Contact__r.Full_Name__c;
             delegateNamesByParticipant.get(pd.Patient_Delegate__r.Participant__c).add(delegateName);
         }
-
         return delegateNamesByParticipant;
     }
 }
