@@ -676,15 +676,25 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant_Enrollment__c> enrollments,
         Map<Id, Participant_Enrollment__c> oldMap
     ) {
+        //Bypaass old methods from Patient Delegate Trigger
+        TriggerHandlerExecutor.bypassHandler(
+        PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+        PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+        );
+        
         List<Id> petoUpdate = new List<Id>();
         List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
         List<Participant_Enrollment_Status_History__c> historiestoupdate = new List<Participant_Enrollment_Status_History__c>();
         List<Participant_Enrollment__c> peListForTaskCreation = new List<Participant_Enrollment__c>();
         Set<Id> participantContactIds = new Set<Id>();
         Set<Id> invitedContactIds = new Set<Id>();
+        Set<Id> perIds = new Set<Id>();
         List<Notification__c> notifications = new List<Notification__c>();
 
         for (Participant_Enrollment__c pe : enrollments) {
+            perIds.add(pe.Id);
             if (pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED) {
                 if (
                     oldMap == null ||
@@ -799,7 +809,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         createTasks(peListForTaskCreation);
         PatientDelegateService.updateContactPermSetsWithDelegates(
             participantContactIds,
-            invitedContactIds
+            invitedContactIds,
+            perIds
         );
 
         if (!notifications.isEmpty())
