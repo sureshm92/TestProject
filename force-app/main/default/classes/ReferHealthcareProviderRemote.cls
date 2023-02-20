@@ -493,6 +493,13 @@ global without sharing class ReferHealthcareProviderRemote {
         String YearOfBirth,
         Id perID
     ) {
+        //Bypaass old methods from Patient Delegate Trigger
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+            );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+            );
         try {
             HealthcareProvider delegateDuplicate;
             if (ddInfo != null)
@@ -728,6 +735,9 @@ global without sharing class ReferHealthcareProviderRemote {
                 if (!createUser) {
                     TriggerHandlerExecutor.bypassHandler(
                         PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(
+                        PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
                     );
                 }
                 Patient_Delegate_Enrollment__c getPtDelegateEnroll = [Select id, Patient_Delegate__c, Status__c,isInviteToPP__c

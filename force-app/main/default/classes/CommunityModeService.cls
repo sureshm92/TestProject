@@ -352,7 +352,7 @@ public without sharing class CommunityModeService {
                                     USER_MODE_PARTICIPANT,
                                     participantName,
                                     Label.No_active_studies,
-                                    pe.Id,
+                                    null,
                                     participant.Contact__c,
                                     true,
                                     true
@@ -672,12 +672,25 @@ public without sharing class CommunityModeService {
         Map<Id, String> firstCommunityPermSetMap = getFirstPermissionSetMap(
             delegatedParticipantIds
         );
+        Set<Id> parIdwhereDelegateHasPastStudy = new Set<Id>();
+        List<Participant_Enrollment__c> pastParticipantPER = new List<Participant_Enrollment__c>();
+        for(Id parId: pePastMap.keySet()){
+            pastParticipantPER.addAll(pePastMap.get(parId));
+        }
+        for(Participant_Enrollment__c per: pastParticipantPER){
+            if(parIdwhereDelegateHasPastStudy.contains(per.Participant__c)){
+                continue;
+            }
+            if(pdeWrapperMap.contains(per.Id)){
+                parIdwhereDelegateHasPastStudy.Add(per.Participant__c);
+            }
+        }
         for (Id participantId : delegatedParticipantIds) {
             Participant__c participant = participantsMap.get(participantId);
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);
             List<Participant_Enrollment__c> pastPEList = pePastMap.get(participantId);
             Boolean hasPastStudies = false;
-            hasPastStudies = pastPEList != null && pastPEList.size() > 0;
+            hasPastStudies = parIdwhereDelegateHasPastStudy.contains(participantId) ? true : false;
             CommunityMode mode = new CommunityMode(
                 USER_MODE_PARTICIPANT,
                 participant.First_Name__c +
@@ -696,7 +709,6 @@ public without sharing class CommunityModeService {
             mode.hasPastStudies = hasPastStudies;
             system.debug('mode alumni:::' + mode);
             modes.add(mode);
-            Boolean skipPEPastList = false;
             if (peList != null && pdeWrapperMap != null) {
                 for (Participant_Enrollment__c pe : peList) {
                     if (pdeWrapperMap.contains(pe.Id)) {
@@ -711,25 +723,6 @@ public without sharing class CommunityModeService {
                                 )
                             )
                         );
-                        skipPEPastList = true;
-                    }
-                }
-            }
-            if (pdeWrapperMap != null && pastPEList != null && !skipPEPastList) {
-                for (Participant_Enrollment__c per : pastPEList) {
-                    if (pdeWrapperMap.contains(per.Id)) {
-                        mode.addSubMode(
-                            new CommunityMode(
-                                USER_MODE_PARTICIPANT,
-                                Label.No_active_studies,
-                                per.Participant__r.Contact__c,
-                                per,
-                                CommunityTemplateService.getTemplate(
-                                    per.Clinical_Trial_Profile__r.CommunityTemplate__c
-                                )
-                            )
-                        );
-                        break;
                     }
                 }
             }

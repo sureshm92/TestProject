@@ -66,7 +66,8 @@ public without sharing class TaskService {
         'Survey_Invitation__r.Participant_Enrollment__c',
         'Survey_Invitation__r.IsTrialSurvey__c',
         'Start_Date__c',
-        'Survey_Invitation__r.ExpireDateTime__c'
+        'Survey_Invitation__r.ExpireDateTime__c',
+        'Survey_Invitation__r.Is_End_Date_Visible__c'
     };
 
     public static final List<String> TASK_STATUS_GROUP_EXPIRE_AVAILABLE = new List<String>{
@@ -164,10 +165,14 @@ public without sharing class TaskService {
         if (sortOrder != null)
             commonFilter += ' ' + sortOrder;
         List<Task> tasks;
-        if(currentMode.participantState == 'ALUMNI' && currentMode.isDelegate && ParticipantContext.getCurrentUserId() != null){
+        if (
+            currentMode.participantState == 'ALUMNI' &&
+            currentMode.isDelegate &&
+            ParticipantContext.getCurrentUserId() != null
+        ) {
             String alumniFilter;
             alumDlgtPtView = true;
-           /* alumniFilter = 'WhatId IN (Select Participant_Enrollment__c from Patient_Delegate_Enrollment__c Where Patient_Delegate__r.Contact__c = \''+
+            /* alumniFilter = 'WhatId IN (Select Participant_Enrollment__c from Patient_Delegate_Enrollment__c Where Patient_Delegate__r.Contact__c = \''+
             ParticipantContext.getOwnParticipant().Contact__c + '\'' +
             ' AND Patient_Delegate__r.Participant__r.Contact__c = \''+
             ParticipantContext.getCurrentContact().Id + '\'' +')';
@@ -180,7 +185,7 @@ public without sharing class TaskService {
                 Task.getSObjectType(),
                 commonFilter
             );
-        }else {
+        } else {
             tasks = (List<Task>) DatabaseService.query(
                 DEFAULT_FIELDS,
                 Task.getSObjectType(),
@@ -189,23 +194,30 @@ public without sharing class TaskService {
         }
         //send task list after filtering delegate tasks in patient view only
         TaskTriggerHandler.processDefaultFieldValues(tasks);
-        return filterTasks(tasks,currentMode,alumDlgtPtView);
+        return filterTasks(tasks, currentMode, alumDlgtPtView);
     }
 
-    private List<Task> filterTasks(List<Task> tasks,CommunityMode currentMode,Boolean alumDlgtPtView) {
+    private List<Task> filterTasks(
+        List<Task> tasks,
+        CommunityMode currentMode,
+        Boolean alumDlgtPtView
+    ) {
         List<Task> filteredList = new List<Task>();
         Set<Id> skipPEIds = new Set<Id>();
         Set<Id> skipSurveyInvIds = new Set<Id>();
         Set<Id> skipPEAlumnIds = new Set<Id>();
-        if(alumDlgtPtView){
-            for(Patient_Delegate_Enrollment__c pde :[ SELECT Participant_Enrollment__c
-                                                        FROM Patient_Delegate_Enrollment__c
-                                                        WHERE
-                                                            Patient_Delegate__r.Contact__c =:ParticipantContext.getOwnParticipant().Contact__c
-                                                            AND Patient_Delegate__r.Participant__r.Contact__c =: ParticipantContext.getCurrentContact().Id
-                ]){
-                    skipPEAlumnIds.add(pde.Participant_Enrollment__c);
-                }
+        if (alumDlgtPtView) {
+            for (Patient_Delegate_Enrollment__c pde : [
+                SELECT Participant_Enrollment__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE
+                    Patient_Delegate__r.Contact__c = :ParticipantContext.getOwnParticipant()
+                        .Contact__c
+                    AND Patient_Delegate__r.Participant__r.Contact__c = :ParticipantContext.getCurrentContact()
+                        .Id
+            ]) {
+                skipPEAlumnIds.add(pde.Participant_Enrollment__c);
+            }
         }
         for (Task t : tasks) {
             if (
@@ -364,7 +376,8 @@ public without sharing class TaskService {
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                 Reminder_Schedule__c,
                 Reminder_Schedule__r.First_Reminder_day__c,
-                Survey.Name
+                Survey.Name,
+                Is_End_Date_Visible__c
             FROM SurveyInvitation
             WHERE
                 Id IN :invitationsVisible.keySet()
@@ -389,7 +402,7 @@ public without sharing class TaskService {
                 WHERE Participant__r.Contact__c IN :contactIds
             ];
         }
-        if(!peIds.isEmpty()){
+        if (!peIds.isEmpty()) {
             pdEnrollments = [
                 SELECT
                     id,
@@ -397,14 +410,13 @@ public without sharing class TaskService {
                     Participant_Enrollment__c,
                     Patient_Delegate__r.Contact__c
                 FROM Patient_Delegate_Enrollment__c
-                WHERE Participant_Enrollment__c IN :peIds
-                AND Status__c = 'Active'
+                WHERE Participant_Enrollment__c IN :peIds AND Status__c = 'Active'
             ];
         }
         Set<Id> delContactIds = new Set<Id>();
         Map<Id, Set<Id>> delegatesByParticipant = new Map<Id, Set<Id>>();
         Map<Id, Set<Id>> delegatesByPes = new Map<Id, Set<Id>>();
-       /* for (Patient_Delegate__c pd : patientDelegates) {
+        /* for (Patient_Delegate__c pd : patientDelegates) {
             if (!delegatesByParticipant.containsKey(pd.Participant__r.Contact__c)) {
                 delegatesByParticipant.put(pd.Participant__r.Contact__c, new Set<Id>());
             }
@@ -412,9 +424,10 @@ public without sharing class TaskService {
             delContactIds.add(pd.Contact__c);
         }*/
         for (Patient_Delegate_Enrollment__c pde : pdEnrollments) {
-            if(!delegatesByPes.containsKey(pde.Participant_Enrollment__c))
-            delegatesByPes.put(pde.Participant_Enrollment__c,new Set<Id>());
-            delegatesByPes.get(pde.Participant_Enrollment__c).add(pde.Patient_Delegate__r.Contact__c);
+            if (!delegatesByPes.containsKey(pde.Participant_Enrollment__c))
+                delegatesByPes.put(pde.Participant_Enrollment__c, new Set<Id>());
+            delegatesByPes.get(pde.Participant_Enrollment__c)
+                .add(pde.Patient_Delegate__r.Contact__c);
             delContactIds.add(pde.Patient_Delegate__r.Contact__c);
         }
 
@@ -434,12 +447,14 @@ public without sharing class TaskService {
             Id partUserId = participantContactUser.get(partContactId);
 
             userContact.put(partUserId, partContactId);
-           /* Set<Id> patientDelContactIds = delegatesByParticipant.containsKey(partContactId)
+            /* Set<Id> patientDelContactIds = delegatesByParticipant.containsKey(partContactId)
                 ? delegatesByParticipant.get(partContactId)
                 : new Set<Id>();
             */
 
-            Set<Id> patientDelContactIds = delegatesByPes.containsKey(peId) ? delegatesByPes.get(peId) :new Set<Id>() ;
+            Set<Id> patientDelContactIds = delegatesByPes.containsKey(peId)
+                ? delegatesByPes.get(peId)
+                : new Set<Id>();
             List<TaskConfig> tmpConfigs = new List<TaskConfig>();
             String visible = invitationsVisible.get(inv.Id);
             switch on visible {
@@ -549,37 +564,37 @@ public without sharing class TaskService {
                         tsc.reminderDatetime = inv.ReminderDateTime__c;
                         tsc.reminderGMT = inv.ReminderDateTime__c;
                     }
-                }else {
+                } else {
                     Id userId;
-                     TimeZone tz;
-                     if(!patientDelContactIds.isEmpty() && tsc.ownerId == null){
-                     for (Id pdId : patientDelContactIds) {
-                        userId = userTimezoneMap.get(delContactUser.get(pdId)) != null
-                            ? delContactUser.get(pdId)
-                            : null;
-                         tz = userTimezoneMap.get(userId);
+                    TimeZone tz;
+                    if (!patientDelContactIds.isEmpty() && tsc.ownerId == null) {
+                        for (Id pdId : patientDelContactIds) {
+                            userId = userTimezoneMap.get(delContactUser.get(pdId)) != null
+                                ? delContactUser.get(pdId)
+                                : null;
+                            tz = userTimezoneMap.get(userId);
+                        }
+                        if (tz == null)
+                            continue;
+                        Datetime userDatetime = DateTimeConverterUtil.getUserDT(
+                            Datetime.now().dateGMT(),
+                            Datetime.now().timeGmt(),
+                            tz
+                        );
+                        tsc.startDate = userDatetime.dateGMT();
+                        if (inv.ExpireDateTime__c != null) {
+                            tsc.activityDate = inv.ExpireDateTime__c;
+                        }
+                        if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
+                            Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
+                            tsc.reminderDatetime = userDatetime.addDays(firstReminderDay);
+                            tsc.reminderGMT = Datetime.now().addDays(firstReminderDay);
+                        }
+                        if (inv.ReminderDateTime__c != null) {
+                            tsc.reminderDatetime = inv.ReminderDateTime__c;
+                            tsc.reminderGMT = inv.ReminderDateTime__c;
+                        }
                     }
-                    if (tz == null)
-                        continue;
-                    Datetime userDatetime = DateTimeConverterUtil.getUserDT(
-                        Datetime.now().dateGMT(),
-                        Datetime.now().timeGmt(),
-                        tz
-                    );
-                    tsc.startDate = userDatetime.dateGMT();
-                    if (inv.ExpireDateTime__c != null) {
-                        tsc.activityDate = inv.ExpireDateTime__c;
-                    }
-                    if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
-                        Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
-                        tsc.reminderDatetime = userDatetime.addDays(firstReminderDay);
-                        tsc.reminderGMT = Datetime.now().addDays(firstReminderDay);
-                    }
-                    if (inv.ReminderDateTime__c != null) {
-                        tsc.reminderDatetime = inv.ReminderDateTime__c;
-                        tsc.reminderGMT = inv.ReminderDateTime__c;
-                    }
-                }
                 }
                 tsc.subject = subject;
                 tsc.type = TASK_TYPE_SURVEY;

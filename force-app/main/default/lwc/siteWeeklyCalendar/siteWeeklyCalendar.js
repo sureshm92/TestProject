@@ -57,7 +57,7 @@ export default class SiteWeeklyCalendar extends LightningElement {
 
   connectedCallback() {
     let userDate = new Date(
-      todayDate.toLocaleDateString(locale, { timeZone: timeZone })
+      todayDate.toJSON(locale, { timeZone: timeZone })
     );
     let date;
     this.dayList = [];
@@ -117,9 +117,9 @@ export default class SiteWeeklyCalendar extends LightningElement {
   fetchDay(i) {
     let date = new Date();
     let userDate = new Date(
-      date.toLocaleDateString(locale, { timeZone: timeZone })
+      date.toJSON(locale, { timeZone: timeZone })
     );
-    userDate.toLocaleDateString(locale, { timeZone: timeZone });
+    userDate.toJSON(locale, { timeZone: timeZone });
     userDate.setDate(i);
     return userDate;
   }
@@ -300,7 +300,7 @@ export default class SiteWeeklyCalendar extends LightningElement {
     this.selectedNextWeek = 0;
     this.selectedPrevWeek = 0;
     let userDate = new Date(
-      todayDate.toLocaleDateString(locale, { timeZone: timeZone })
+      todayDate.toJSON(locale, { timeZone: timeZone })
     );    
     this.selectedDate = userDate;
     this.selectedDay = userDate.getDate();

@@ -553,6 +553,13 @@ public without sharing class ParticipantInformationRemote {
         isConnectedRes.isConnected = isConnected;
 
         try {
+            //Bypaass old methods from Patient Delegate Trigger
+            TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+            );
             ReferHealthcareProviderRemote.HealthcareProvider ddi = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(
                 duplicateDelegateInfo,
                 ReferHealthcareProviderRemote.HealthcareProvider.class
@@ -732,6 +739,14 @@ public without sharing class ParticipantInformationRemote {
         String studySiteId,
         String delegateConsentItems
     ) {
+        //Bypaass old methods from Patient Delegate Trigger
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+            );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+            );
+            
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantS,
@@ -916,6 +931,12 @@ public without sharing class ParticipantInformationRemote {
                 TriggerHandlerExecutor.bypassHandler(
                     PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                 );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.CreateReactivatedNotification.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
+                );
                 update delegates;
             }
             if (!delegatesToUpdate.isEmpty() && needsInvite == false) {
@@ -924,6 +945,12 @@ public without sharing class ParticipantInformationRemote {
                 );
                 TriggerHandlerExecutor.bypassHandler(
                     PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.CreateReactivatedNotification.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
                 );
                 update delegatesToUpdate;
             }

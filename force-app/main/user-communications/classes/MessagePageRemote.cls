@@ -201,9 +201,9 @@ public without sharing class MessagePageRemote {
                     new List<Id>(conversationsByIds.keySet())
                 );
 
-                Map<Id, List<String>> participantsDelegateNames = ConversationService.getYourParticipantsDelegateNames(
+                /*Map<Id, List<String>> participantsDelegateNames = ConversationService.getYourParticipantsDelegateNames(
                     UserInfo.getUserId()
-                );
+                );*/
 
                 String firstConId = (String) messagesByConversation.keySet().iterator().next();
                 pageData.conversationWrappers = new List<ConversationWrapper>();

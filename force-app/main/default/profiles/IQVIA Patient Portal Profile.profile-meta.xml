@@ -7328,6 +7328,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>SurveyInvitation.Is_End_Date_Visible__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>SurveyInvitation.Is_Expired__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -8064,6 +8069,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Trial_Survey__c.Expires_After_Days__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Trial_Survey__c.Display_in_UI__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
