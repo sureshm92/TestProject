@@ -332,8 +332,6 @@ public without sharing class PatientDelegateService {
             }
         }
 
-        createPDAlerts(newDelegate);
-
         List<Participant__c> participant = DatabaseService.getInstance()
             .queryImpl(
                 new List<String>{
@@ -413,6 +411,7 @@ public without sharing class PatientDelegateService {
             pd.Attested_by__c = participant.get(0).Contact__c;
             insert pd;
             patientDel = pd;
+            createPDAlerts(newDelegate);
         }
     }
 
