@@ -30,6 +30,7 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
     ) {
         List<Participant__c> participants = new List<Participant__c>();
         List<Id> participantIds = new List<Id>();
+        List<Id> perIdLst = new List<Id>();
 
         System.debug('>>>> Participants enrollment' + JSON.serializePretty(participantEnrollments));
         Map<Id, Participant_Enrollment__c> prtByPEs = new Map<Id, Participant_Enrollment__c>();
@@ -37,14 +38,23 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
             participants.add(pe.Participant__r);
             participantIds.add(pe.Participant__c);
             prtByPEs.put(pe.Participant__r.Id, pe);
+            perIdLst.add(pe.Id);
         }
 
         List<Participant__c> nowAdultParticipantOrBecome = calculateParticipantsAgeOfMajority(
             participants
         );
-        Map<Id, List<Id>> dlgIdsByPartIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
-            participantIds
+
+        PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
+            participantIds,perIdLst
         );
+        Map<Id, List<Id>> dlgIdsByPartIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
+        
+        //Commented as part of PD redesign 
+        /*Map<Id, List<Id>> dlgIdsByPartIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+            participantIds
+        );*/
+
         List<Alert__c> alerts = new List<Alert__c>();
         List<Notification__c> notifications = new List<Notification__c>();
 
