@@ -1185,7 +1185,8 @@ public without sharing class PIR_HomepageController {
       if (lst.Participant__r.Phone__c != null) {
         wrap.participantPhone = lst.Participant__r.Phone__c;
       } else {
-        List<Patient_Delegate__c> patientDelegate = new List<Patient_Delegate__c>();
+       //Commented as part of PD redesign 
+       /* List<Patient_Delegate__c> patientDelegate = new List<Patient_Delegate__c>();
         patientDelegate = [
           SELECT
             Id,
@@ -1198,9 +1199,26 @@ public without sharing class PIR_HomepageController {
             Participant__c = :lst.Participant__c
             AND Primary_Delegate__c = TRUE
           LIMIT 1
+        ];*/
+        List<Patient_Delegate_Enrollment__c> patientDelegate = new List<Patient_Delegate_Enrollment__c>();
+        patientDelegate = [
+          SELECT
+            Id,
+            Patient_Delegate__c,
+            Patient_Delegate__r.Primary_Delegate__c,
+            Patient_Delegate__r.Contact__c,
+            Patient_Delegate__r.Contact__r.Phone,
+            Patient_Delegate__r.Participant__c
+          FROM Patient_Delegate_Enrollment__c
+          WHERE
+          Participant_Enrollment__c =: lst.id
+          AND  
+          Patient_Delegate__r.Participant__c = :lst.Participant__c
+          AND Primary_Delegate__c = TRUE
+          LIMIT 1
         ];
         if (patientDelegate != null && !patientDelegate.isEmpty()) {
-          wrap.participantPhone = patientDelegate[0].Contact__r.Phone;
+          wrap.participantPhone = patientDelegate[0].Patient_Delegate__r.Contact__r.Phone;
         } else {
           wrap.participantPhone = '';
         }

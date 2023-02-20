@@ -736,8 +736,8 @@ public without sharing class ParticipantTriggerHandler {
                 }
             }
         }
-
-        List<Patient_Delegate__c> patientDelegatesToUpdate = new List<Patient_Delegate__c>();
+        // commented as part of new PD redesign 
+       /* List<Patient_Delegate__c> patientDelegatesToUpdate = new List<Patient_Delegate__c>();
         List<Patient_Delegate__c> patientDelegates = PatientDelegateService.getPDelegates(
             new List<Id>(patientIsAdult)
         );
@@ -753,7 +753,8 @@ public without sharing class ParticipantTriggerHandler {
         }
         if (!patientDelegatesToUpdate.isEmpty()) {
             update patientDelegatesToUpdate;
-        }
+        }*/
+
         //update PDER only if changed to adult
         if (!participantsByContactId.isEmpty()) {
              List<Patient_Delegate_Enrollment__c> pdersToUpdate = new List<Patient_Delegate_Enrollment__c>();

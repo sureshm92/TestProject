@@ -513,11 +513,21 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         }
 
         List<Id> participantIds = new List<Id>();
-        for (Participant_Enrollment__c pe : peSuccess)
+        List<Id> perIdLst = new List<Id>();
+        for (Participant_Enrollment__c pe : peSuccess){
             participantIds.add(pe.Participant__c);
-        Map<Id, List<Id>> delegateCntByParticipant = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
-            participantIds
+            perIdLst.add(pe.Id);
+        }
+
+        PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
+            participantIds,perIdLst
         );
+        Map<Id, List<Id>> delegateCntByParticipant = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
+
+        //Commented as part of PD design 
+       /* Map<Id, List<Id>> delegateCntByParticipant = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+            participantIds
+        );*/
 
         List<Alert__c> alerts = new List<Alert__c>();
         for (Participant_Enrollment__c pe : peSuccess) {
