@@ -488,7 +488,7 @@ public without sharing class PatientDelegateEnrollmentService {
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain removeAssignment(String pDEId) {
         list<Patient_Delegate_Enrollment__c> lst = [
-            SELECT Id, Status__c
+            SELECT Id, Status__c,Patient_Delegate__r.Contact__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Id = :pDEId
         ];
@@ -497,6 +497,13 @@ public without sharing class PatientDelegateEnrollmentService {
             pde.Id = lst[0].Id;
             pde.Status__c = 'Disconnected';
             update pde;
+            List<Alert__c> alertlst = [
+                SELECT Id,Viewed__c 
+                FROM Alert__c 
+                WHERE Contact__c = : pde.Patient_Delegate__r.Contact__c and Viewed__c = False
+            ];
+            delete alertlst;
+
             return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
         }
         return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
