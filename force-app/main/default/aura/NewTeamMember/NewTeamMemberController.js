@@ -281,8 +281,8 @@
         let delegate = component.get('v.delegate');
         component.set(
             'v.isCorrectContactData',
-            delegate.delegateContact.FirstName.trim() !== '' &&
-                delegate.delegateContact.LastName.trim() !== ''
+            (delegate.delegateContact.FirstName  &&  delegate.delegateContact.FirstName.trim() !== '') &&
+           ( delegate.delegateContact.LastName  &&   delegate.delegateContact.LastName.trim() !== '')
         );
     }
 });
