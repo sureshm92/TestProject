@@ -144,4 +144,15 @@ public without sharing class NotificationCatalog {
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE
     };
+
+    //Updates
+    public static final String UPDATE_TO_PT_NEW_ARTICLE_TYPE = 'Update_to_PT_New_Article_Type';
+    public static final String UPDATE_TO_PT_NEW_LINK_TYPE = 'Update_to_PT_New_Link_Type';
+    public static final String UPDATE_TO_PT_NEW_MULTIMEDIA_TYPE= 'Update_to_PT_New_Multimedia_Type';
+    public static final String UPDATE_TO_PT_NEW_VIDEO_TYPE = 'Update_to_PT_New_Video_Type';
+    public static final String UPDATE_TO_PT_NEW_PLATFROM_ARTICLE_TYPE = 'Update_to_PT_New_Platform_Article_Type';	
+    public static final String UPDATE_TO_PT_NEW_PLATFROM_DOCUMENT_TYPE='Update_to_PT_New_Platform_Document_Type';
+    public static final String UPDATE_TO_PT_NEW_PLATFORM_LINK_TYPE = 'Update_to_PT_New_Platform_Link_Type';
+    public static final String UPDATE_TO_PT_NEW_PLATFROMMULTIMEDIA_TYPE = 'Update_to_PT_New_PlatformMultimedia_Type';
+    public static final String UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE = 'Update_to_PT_New_Platform_Video_Type';
 }
