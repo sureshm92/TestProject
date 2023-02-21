@@ -143,7 +143,7 @@ public without sharing class ParametrizedMessageService {
                     }
                 }
 
-                /**For Survey SMS, we will alwats consider only date*/
+                /**For Survey SMS, we will always consider only date*/
                 if (paramName == 'SMSexpirationDate') {
                     if (valueStr == '') {
                         valueStr = System.Label.Not_Available;
