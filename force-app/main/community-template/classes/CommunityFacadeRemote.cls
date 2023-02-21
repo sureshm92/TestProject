@@ -532,8 +532,20 @@ public without sharing class CommunityFacadeRemote {
                 }
 
                 for(String eachRec : mapOfStudyVsSite.keySet()){
-                    mapOfStudyVsStringSite.put(eachRec, String.join(new List<String>(mapOfStudyVsSite.get(eachRec)), '+'));
-                }
+                    List<String> siteList = new List<String>(mapOfStudyVsSite.get(eachRec));
+                    if(siteList.size() > 3){
+                        String Sites='';
+                        Sites = siteList[0];
+                        Sites=Sites+'+';
+                        Sites=Sites+siteList[1] ;
+                        Sites=Sites+'+';
+                        Sites=Sites+siteList[2] ;
+                        mapOfStudyVsStringSite.put(eachRec, Sites);
+                    }else{
+                        mapOfStudyVsStringSite.put(eachRec, String.join(new List<String>(mapOfStudyVsSite.get(eachRec)), '+'));
+                    }
+                    siteList.clear();   
+               }
 
                 sendResultWrap.mapOfProtocolVsEnrollment = mapOfProtocolVsEnrollment;
                 for (String eachProtocol : mapOfProtocolVsEnrollment.keySet()) {                
