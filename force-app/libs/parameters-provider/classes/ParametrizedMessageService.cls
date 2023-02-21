@@ -143,6 +143,7 @@ public without sharing class ParametrizedMessageService {
                     }
                 }
 
+                /**For Survey SMS, we will always consider only date*/
                 if (paramName == 'SMSexpirationDate') {
                     if (valueStr == '') {
                         valueStr = System.Label.Not_Available;
@@ -153,17 +154,14 @@ public without sharing class ParametrizedMessageService {
                             sobj,
                             endDateVisibleField
                         );
-                        //check originator if MCP show convert datetime to date
-                        if (!(Boolean) endDateVisibleFieldValue) {
-                            if (value instanceof Datetime) {
-                                DateTime tempDateTime = (DateTime) value;
-                                valueStr = UserService.formatDatebyLocale(
-                                    tempDateTime.date(),
-                                    language
-                                );
-                            } else if (value instanceof Date) {
-                                valueStr = UserService.formatDatebyLocale((Date) value, language);
-                            }
+                        if (value instanceof Datetime) {
+                            DateTime tempDateTime = (DateTime) value;
+                            valueStr = UserService.formatDatebyLocale(
+                                tempDateTime.date(),
+                                language
+                            );
+                        } else if (value instanceof Date) {
+                            valueStr = UserService.formatDatebyLocale((Date) value, language);
                         }
                     }
                 }
