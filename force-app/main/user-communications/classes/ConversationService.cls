@@ -181,7 +181,61 @@ public without sharing class ConversationService {
         if (!shares.isEmpty())
             delete shares;
     }
-
+    public static Map<Id,Map<Id, List<String>>> peParticipantDelegateNameMap(Set<Id> peIds) {
+        List<Patient_Delegate_Enrollment__c> pdeList = [    
+                                                            SELECT
+                                                            Id,
+                                                            Participant_Enrollment__c,
+                                                            Patient_Delegate__c,
+                                                            Patient_Delegate__r.Contact__c,
+                                                            Patient_Delegate__r.Contact__r.Full_Name__c,
+                                                            Patient_Delegate__r.Participant__c,
+                                                            Patient_Delegate__r.Participant__r.Contact__c,
+                                                            Name,
+                                                            Status__c,
+                                                            Welcome_Message_Sent__c,
+                                                            Welcome_Message_Delivered__c,
+                                                            Participant_Enrollment__r.study__c
+                                                            FROM Patient_Delegate_Enrollment__c
+                                                            WHERE Participant_Enrollment__c IN :peIds AND
+                                                            Status__c = 'Active'
+                                                        ];
+        List<Id> delegateContactIds = new List<Id>();
+        for (Patient_Delegate_Enrollment__c pd : pdeList)
+            delegateContactIds.add(pd.Patient_Delegate__r.Contact__c);
+        List<Participant__c> decoupledParticipants = [
+            SELECT Id, Contact__c, Full_Name__c
+            FROM Participant__c
+            WHERE Contact__c IN :delegateContactIds
+        ];
+         Map<String, SObject> decoupledParticipantsMap;
+        if (!decoupledParticipants.isEmpty()) {
+            decoupledParticipantsMap = CollectionUtil.getSObjectMap(
+                decoupledParticipants,
+                'Contact__c'
+            );
+        }
+        Map<Id, List<String>> delegateNamesByParticipant = new Map<Id, List<String>>();
+        Map<Id,Map<Id, List<String>>> peDelegateNamesMap = new Map<Id,Map<Id, List<String>>>();
+        for (Patient_Delegate_Enrollment__c pd : pdeList) {
+            if(!peDelegateNamesMap.containsKey(pd.Participant_Enrollment__c)){
+                peDelegateNamesMap.put(pd.Participant_Enrollment__c,new Map<Id, List<String>>());
+            }
+            if (!delegateNamesByParticipant.containsKey(pd.Participant_Enrollment__c)) {
+                delegateNamesByParticipant.put(pd.Participant_Enrollment__c, new List<String>());
+            }
+            Id delConId = pd.Patient_Delegate__r.Contact__c;
+            String delegateName = decoupledParticipantsMap != null &&
+                decoupledParticipantsMap.containsKey(delConId)
+                ? ((Participant__c) decoupledParticipantsMap.get(delConId)).Full_Name__c
+                : pd.Patient_Delegate__r.Contact__r.Full_Name__c;
+            delegateNamesByParticipant.get(pd.Participant_Enrollment__c).add(delegateName);
+        }
+        for (Patient_Delegate_Enrollment__c pd : pdeList) {
+            peDelegateNamesMap.get(pd.Participant_Enrollment__c).put(pd.Participant_Enrollment__c,delegateNamesByParticipant.get(pd.Participant_Enrollment__c));
+        }
+        return peDelegateNamesMap;
+    }
     public static Map<Id, List<String>> getYourParticipantsDelegateNames(Id piUserId) {
         List<Conversation__c> sharedConversations = getSharedConversations(piUserId);
         List<Id> participantIds = new List<Id>();
@@ -208,12 +262,6 @@ public without sharing class ConversationService {
                                                             WHERE Participant_Enrollment__c IN :peIds AND
                                                             Status__c = 'Active'
                                                         ]; 
-        List<Patient_Delegate__c> patientDelegates = [
-            SELECT Id, Contact__c, Contact__r.Full_Name__c, Participant__c
-            FROM Patient_Delegate__c
-            WHERE Participant__c IN :participantIds
-            ORDER BY Participant__c
-        ];
         List<Id> delegateContactIds = new List<Id>();
         for (Patient_Delegate_Enrollment__c pd : pdeList)
             delegateContactIds.add(pd.Patient_Delegate__r.Contact__c);
