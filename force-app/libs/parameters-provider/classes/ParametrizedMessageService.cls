@@ -143,6 +143,7 @@ public without sharing class ParametrizedMessageService {
                     }
                 }
 
+                /**For Survey SMS, we will alwats consider only date*/
                 if (paramName == 'SMSexpirationDate') {
                     if (valueStr == '') {
                         valueStr = System.Label.Not_Available;
@@ -153,7 +154,6 @@ public without sharing class ParametrizedMessageService {
                             sobj,
                             endDateVisibleField
                         );
-                        //check originator if MCP show convert datetime to date
                         if (value instanceof Datetime) {
                             DateTime tempDateTime = (DateTime) value;
                             valueStr = UserService.formatDatebyLocale(

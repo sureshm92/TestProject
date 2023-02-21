@@ -207,17 +207,16 @@ public without sharing class ParametersProviderService {
                 }
             }
 
+            /**For Survey SMS, we will alwats consider only date*/
             if (paramName == 'SMSexpirationDate') {
                 if (valueStr == '') {
                     valueStr = System.Label.Not_Available;
                 } else {
-                    //get endDateVisible field values
                     String endDateVisibleField = paramsMap.get('endDateVisible');
                     Object endDateVisibleFieldValue = SObjectHelper.getSObjectFieldValue(
                         sourceObject,
                         endDateVisibleField
                     );
-                    //check originator if MCP show convert datetime to date
                     if (value instanceof Datetime) {
                         DateTime tempDateTime = (DateTime) value;
                         valueStr = UserService.formatDatebyLocale(tempDateTime.date(), language);
