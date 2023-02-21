@@ -45,7 +45,6 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
-      
     };
 
     static public List<String> instantNotificationTypes = new List<String>{
@@ -416,7 +415,7 @@ public without sharing class NotificationService {
                                 if (
                                     (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
                                     (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
-                                     !String.isBlank(n.Task_Id__c))
+                                    !String.isBlank(n.Task_Id__c))
                                 ) {
                                     if (
                                         !String.isBlank(n.Task_Id__c) &&
@@ -489,6 +488,7 @@ public without sharing class NotificationService {
                             sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                         }
                     } else {
+                        smsNotifications.add(n);
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_PUSH) {

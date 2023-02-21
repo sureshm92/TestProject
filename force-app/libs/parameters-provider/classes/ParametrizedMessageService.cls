@@ -154,16 +154,14 @@ public without sharing class ParametrizedMessageService {
                             endDateVisibleField
                         );
                         //check originator if MCP show convert datetime to date
-                        if (!(Boolean) endDateVisibleFieldValue) {
-                            if (value instanceof Datetime) {
-                                DateTime tempDateTime = (DateTime) value;
-                                valueStr = UserService.formatDatebyLocale(
-                                    tempDateTime.date(),
-                                    language
-                                );
-                            } else if (value instanceof Date) {
-                                valueStr = UserService.formatDatebyLocale((Date) value, language);
-                            }
+                        if (value instanceof Datetime) {
+                            DateTime tempDateTime = (DateTime) value;
+                            valueStr = UserService.formatDatebyLocale(
+                                tempDateTime.date(),
+                                language
+                            );
+                        } else if (value instanceof Date) {
+                            valueStr = UserService.formatDatebyLocale((Date) value, language);
                         }
                     }
                 }

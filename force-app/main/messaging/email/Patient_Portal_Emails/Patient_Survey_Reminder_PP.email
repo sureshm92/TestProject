@@ -13,7 +13,7 @@
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
                           signature="{!$Label.Email_Signature_Survey_New}"
                           communityTemplate="PatientPortal">
-            <c:PP_Paragraph emailLabel="{!IF(!relatedTo.IsTrialSurvey__c, $Label.Email_Body_Survey_New_Reminder_PP_OnlyDate, IF(relatedTo.Is_End_Date_Visible__c, $Label.Email_Body_Survey_New_Reminder_PP_OnlyDate, $Label.Email_Body_Survey_New_Reminder_PP_Display_In_UI))}"/>
+            <c:PP_Paragraph emailLabel="{!IF(!relatedTo.IsTrialSurvey__c, $Label.Email_Body_Survey_New_Reminder_PP_OnlyDate, IF(relatedTo.Is_End_Date_Visible__c, $Label.Email_Body_Survey_New_Reminder_PP_OnlyDate, $Label.Email_Body_Survey_New_Reminder_PP_OnlyDate))}"/>
         </c:PP_EmailWireframe>
     </messaging:htmlEmailBody>
 
@@ -23,7 +23,7 @@
                               header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
                               greeting="{!$Label.Email_User_Greeting_FirstName}"
                               signature="{!$Label.Email_Signature_Survey}">
-            <c:ParagraphText emailLabel="{!IF(!relatedTo.IsTrialSurvey__c, $Label.Email_Body_Survey_New_Reminder_PP_OnlyDate, IF(relatedTo.Is_End_Date_Visible__c, $Label.Email_Body_Survey_New_Reminder_PP_OnlyDate, $Label.Email_Body_Survey_New_Reminder_PP_Display_In_UI))}"/>
+            <c:ParagraphText emailLabel="{!IF(!relatedTo.IsTrialSurvey__c, $Label.Email_Body_Survey_New_Reminder_PP_OnlyDate, IF(relatedTo.Is_End_Date_Visible__c, $Label.Email_Body_Survey_New_Reminder_PP_OnlyDate, $Label.Email_Body_Survey_New_Reminder_PP_OnlyDate))}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
                                   surveyId="{!relatedTo.Id}"/>
         </c:PP_EmailWireframeText>
