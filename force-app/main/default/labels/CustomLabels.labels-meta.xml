@@ -30540,4 +30540,23 @@ Please contact the Study Team for further updates or please login for additional
 
 &lt;div&gt;&lt;span&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot;&gt; ##expirationOnlyDate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
+
+    <labels>
+        <fullName>Email_Body_Baseline_Survey_New_PP_Display_In_UI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Baseline Survey New PP Display In UI</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##SurveyName&lt;/span&gt;
+
+&lt;div&gt;&lt;span&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot;&gt; Not Available. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Survey_New_Reminder_PP_Display_In_UI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Survey New Reminder PP Display In UI</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;This is an email to remind you of your upcoming  task ##SurveyName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; Not Available. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
 </CustomLabels>
