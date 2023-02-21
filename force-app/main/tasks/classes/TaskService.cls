@@ -264,6 +264,7 @@ public without sharing class TaskService {
             } else if (t.Survey_Invitation__c != null) {
                 skipTask =
                     skipSurveyInvIds.contains(t.Survey_Invitation__c) ||
+                    (!skipPEAlumnIds.contains(t.Survey_Invitation__r.Participant_Enrollment__c) && alumDlgtPtView) ||
                     (curPEId != null &&
                     t.Survey_Invitation__r.Participant_Enrollment__c != curPEId);
             }
