@@ -488,7 +488,6 @@ public without sharing class NotificationService {
                             sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                         }
                     } else {
-                        smsNotifications.add(n);
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_PUSH) {
