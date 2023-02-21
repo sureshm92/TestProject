@@ -2,7 +2,29 @@ public without sharing class ParticipantTelevisitRemote {
     @AuraEnabled
     public static televisitWrapper getParticipantTelevisits(List<Id> joinbuttonids){
         try {
-            List<Televisit_Attendee__c> televisitattendeeList = [Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c from Televisit_Attendee__c where User__c =:UserInfo.getUserId() order by Televisit__r.Visit_Date_Time__c desc];
+            Boolean isDelegate = ParticipantContext.isCurrentDelegate();
+            Id userId;
+            String timezonechanges;
+            Boolean delegatecheck = false;
+            user u = [Select id,contactid,TimeZoneSidKey from User where id =: UserInfo.getUserId()];
+            if(isDelegate){
+                List<Patient_Delegate__c> delegateList = [select id,Participant__c,Participant__r.Contact__c from Patient_Delegate__c
+                                                          where Contact__c =:u.contactid];
+                if(!delegateList.isEmpty()){
+                    user ur = [select id,TimeZoneSidKey from user where contactid =:delegateList[0].Participant__r.Contact__c];
+                    if(ur != null){
+                        userId = ur.Id;
+                        timezonechanges = ur.TimeZoneSidKey;
+                    }
+                }                
+            }else{
+                userId = u.Id;
+                timezonechanges = u.TimeZoneSidKey;
+                contact con = [select id,UserCommunityIsDelegate__c from contact where Id =: u.contactid];
+                delegatecheck = con.UserCommunityIsDelegate__c;
+
+            }
+            List<Televisit_Attendee__c> televisitattendeeList = [Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c from Televisit_Attendee__c where User__c =:userId order by Televisit__r.Visit_Date_Time__c desc];
             Set<Id> televisitIdSet = new Set<Id>();
             televisitWrapper  tw = new televisitWrapper();
             if(televisitattendeeList != null && !televisitattendeeList.isempty()){
@@ -12,34 +34,34 @@ public without sharing class ParticipantTelevisitRemote {
                     televisitIdSet.add(attendee.Televisit__r.Id);
                     if(attendee.Televisit__r.Status__c != 'Cancelled' && attendee.Televisit__r.Status__c != 'Completed' &&
                        attendee.Televisit__r.Visit_Date_Time__c.addminutes(integer.valueof(attendee.Televisit__r.Duration__c.split(' ')[0])) >= system.now()){
-                        upcomingTelevisits upcomingTelevisit = new upcomingTelevisits();
-                        upcomingTelevisit.televisitId = attendee.Televisit__r.Id;
-                        upcomingTelevisit.title = attendee.Televisit__r.Title__c;
-                        upcomingTelevisit.televisitdate = attendee.Televisit__r.Visit_Date_Time__c;
-                        upcomingTelevisit.televisitduration = attendee.Televisit__r.Duration__c.split(' ')[0] + ' min';
-                        upcomingTelevisit.televisitmettingurl = attendee.Televisit__r.Meeting_URL__c;
-                        if(joinbuttonids.contains(attendee.Televisit__r.Id)){
-                            upcomingTelevisit.showjoinbutton = true;
-                        }else{
-                            upcomingTelevisit.showjoinbutton = false;
-                        }
-                        upcomingTelevisitmap.put(attendee.Televisit__r.Id,upcomingTelevisit);
-                    }else if(attendee.Televisit__r.Visit_Date_Time__c.addminutes(integer.valueof(attendee.Televisit__r.Duration__c.split(' ')[0])) < system.now() || 
-                             attendee.Televisit__r.Status__c == 'Cancelled'){
-                        pastTelevisits pastTelevisit = new pastTelevisits();
-                        pastTelevisit.title = attendee.Televisit__r.Title__c;
-                        pastTelevisit.televisitdate = attendee.Televisit__r.Visit_Date_Time__c;
-                        pastTelevisit.televisitduration = attendee.Televisit__r.Duration__c;
-                        pastTelevisit.televisitId = attendee.Televisit__r.Id;
-                        if(attendee.Televisit__r.Status__c == 'Cancelled'){
-                            pastTelevisit.status = 'Canceled';
-                            pastTelevisit.iscancelledone = true;
-                        }
-                        pastTelevisitsmap.put(attendee.Televisit__r.Id,pastTelevisit);
-                    }                                       
+                           upcomingTelevisits upcomingTelevisit = new upcomingTelevisits();
+                           upcomingTelevisit.televisitId = attendee.Televisit__r.Id;
+                           upcomingTelevisit.title = attendee.Televisit__r.Title__c;
+                           upcomingTelevisit.televisitdate = attendee.Televisit__r.Visit_Date_Time__c;
+                           upcomingTelevisit.televisitduration = attendee.Televisit__r.Duration__c.split(' ')[0] + ' min';
+                           upcomingTelevisit.televisitmettingurl = attendee.Televisit__r.Meeting_URL__c;
+                           if(joinbuttonids.contains(attendee.Televisit__r.Id) && !isDelegate){
+                               upcomingTelevisit.showjoinbutton = true;
+                           }else{
+                               upcomingTelevisit.showjoinbutton = false;
+                           }
+                           upcomingTelevisitmap.put(attendee.Televisit__r.Id,upcomingTelevisit);
+                       }else if(attendee.Televisit__r.Visit_Date_Time__c.addminutes(integer.valueof(attendee.Televisit__r.Duration__c.split(' ')[0])) < system.now() || 
+                                attendee.Televisit__r.Status__c == 'Cancelled'){
+                                    pastTelevisits pastTelevisit = new pastTelevisits();
+                                    pastTelevisit.title = attendee.Televisit__r.Title__c;
+                                    pastTelevisit.televisitdate = attendee.Televisit__r.Visit_Date_Time__c;
+                                    pastTelevisit.televisitduration = attendee.Televisit__r.Duration__c;
+                                    pastTelevisit.televisitId = attendee.Televisit__r.Id;
+                                    if(attendee.Televisit__r.Status__c == 'Cancelled'){
+                                        pastTelevisit.status = 'Canceled';
+                                        pastTelevisit.iscancelledone = true;
+                                    }
+                                    pastTelevisitsmap.put(attendee.Televisit__r.Id,pastTelevisit);
+                                }                                       
                 }
                 List<Televisit__c> televisitList = [Select id,(select id,Attendee_Type__c,Firstname__c,Televisit__c,Lastname__c,CreatedBy.Name  from Televisit_Attendee__r) from Televisit__c 
-                where Id IN : televisitIdSet order by Visit_Date_Time__c,Duration__c asc];
+                                                    where Id IN : televisitIdSet order by Visit_Date_Time__c,Duration__c asc];
                 List<Televisit_Attendee__c> attendeelist = new List<Televisit_Attendee__c>();
                 if(televisitList != null && !televisitList.isempty()){
                     for(Televisit__c televisit: televisitList){
@@ -48,7 +70,7 @@ public without sharing class ParticipantTelevisitRemote {
                 }
                 Map<Id,List<televisitattendeeWrapper>> upcomingattendeesmap = new Map<Id,List<televisitattendeeWrapper>>();
                 Map<Id,List<televisitattendeeWrapper>> pastattendeesmap = new Map<Id,List<televisitattendeeWrapper>>();
-
+                
                 for(Televisit_Attendee__c ta:attendeelist){
                     televisitattendeeWrapper taw = new televisitattendeeWrapper();
                     taw.firstname = ta.Firstname__c;
@@ -67,7 +89,7 @@ public without sharing class ParticipantTelevisitRemote {
                             upcomingattendeesmap.put(ta.Televisit__c,new List<televisitattendeeWrapper> {taw});
                         }
                     }
-                   
+                    
                 }
                 List<upcomingTelevisits> finalupcomingTelevisitslist = new List<upcomingTelevisits>();
                 List<pastTelevisits> finalpastTelevisitslist = new List<pastTelevisits>();
@@ -94,20 +116,26 @@ public without sharing class ParticipantTelevisitRemote {
                 tw.televisitupcomingList = finalupcomingTelevisitslist;
                 tw.televisitpastList = finalpastTelevisitslist;
                 tw.showDefault = 'upcoming';
-                tw.tz = [Select TimeZoneSidKey from User where id =: UserInfo.getUserId()][0].TimeZoneSidKey;
+                tw.tz = timezonechanges;
+                tw.isdelegate = delegatecheck;
                 /*if(!finalupcomingTelevisitslist.isEmpty() || finalpastTelevisitslist.isEmpty()){
-                    tw.showDefault = 'upcoming';
-                }else{
-                    tw.showDefault = 'past';
-                }*/
+tw.showDefault = 'upcoming';
+}else{
+tw.showDefault = 'past';
+}*/
                 return tw;
             }
-            return null;
+            tw.televisitupcomingList = new List<upcomingTelevisits>();
+            tw.televisitpastList = new List<pastTelevisits>();
+            tw.showDefault = 'upcoming';
+            tw.tz = timezonechanges;
+            tw.isdelegate = delegatecheck;
+            return tw;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
-
+    
     public class upcomingTelevisits{
         @AuraEnabled public string title;
         @AuraEnabled public datetime televisitdate;
@@ -131,6 +159,7 @@ public without sharing class ParticipantTelevisitRemote {
         @AuraEnabled public List<pastTelevisits> televisitpastList;
         @AuraEnabled public string showDefault;
         @AuraEnabled public string tz;
+        @AuraEnabled public boolean isdelegate;
     }
     public class televisitattendeeWrapper{
         @AuraEnabled public string firstname;
