@@ -1,5 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import getTrialDetail from '@salesforce/apex/StudyDetailViewController.getTrialDetail';
+import gettelevisitData from '@salesforce/apex/StudyDetailViewController.gettelevisitData';
 import menuDesktop from './ppCommunityNavigation.html';
 import menuMobile from './ppCommunityNavigationMobile.html';
 import navigationHelp from '@salesforce/label/c.Navigation_Help';
@@ -17,6 +18,7 @@ import navigationProgram from '@salesforce/label/c.Navigation_AboutProgram';
 import navigationStudy from '@salesforce/label/c.Navigation_AboutStudy';
 import navigationTasks from '@salesforce/label/c.PG_SW_Tab_Tasks';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
+import televisits from '@salesforce/label/c.Televisits';
 import navigationPastStudy from '@salesforce/label/c.Navigation_Past_Studies';
 import desktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -38,12 +40,12 @@ export default class PpCommunityNavigation extends LightningElement {
     showAboutProgram = false;
     showAboutStudy = false;
     isInitialized = false;
+    showAboutTelevisit = false;
     desktop = false;
     menuCss = 'phone-menu-background nav-menu slds-border_top ';
     showSubMenu = false;
     @api isInitialLoad = false;
     hasRendered = false;
-
     renderedCallback() {
         if (!this.hasRendered) {
             this.hasRendered = true;
@@ -113,37 +115,46 @@ export default class PpCommunityNavigation extends LightningElement {
         if (communityService.isInitialized()) {
             var recId = communityService.getUrlParameter('id');
             var userMode = communityService.getUserMode();
-            if (communityService.isDummy()) {
-                const showNavBar = true;
-                const valueChangeEvent = new CustomEvent('handleNavBar', {
-                    detail: { showNavBar }
-                });
-                this.dispatchEvent(valueChangeEvent);
-            } else {
-                getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
-                    .then((result) => {
-                        let td = JSON.parse(result);
-                        this.showVisits = td.tabs?.some((studyTab) => studyTab.id == 'tab-visits');
-                        this.showResults = td.tabs?.some(
-                            (resultTab) => resultTab.id == 'tab-lab-results'
-                        );
-                        this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
-                        communityService.setVisResultsAvailable(this.showResults);
-                        this.showAboutStudy = !this.showAboutProgram;
+            getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
+                .then((result) => {
+                    let td = JSON.parse(result);
+                    this.showVisits = td.tabs?.some((studyTab) => studyTab.id == 'tab-visits');
+                    this.showResults = td.tabs?.some(
+                        (resultTab) => resultTab.id == 'tab-lab-results'
+                    );
+                    this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
+                    this.showAboutStudy = !this.showAboutProgram;
+                    if (td.pe && td.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c) {
+                        this.gettelevisitDetails(td.pe.Study_Site__c);
+                    } else {
+                        this.showAboutTelevisit = false;
                         if (this.participantTabs.length < 1) {
                             this.populateNavigationItems();
                         }
                         this.isInitialized = true;
-                    })
-                    .catch((error) => {
-                        this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-                    });
-            }
+                    }
+                })
+                .catch((error) => {
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                });
         }
 
         if (this.spinner) {
             this.spinner.hide();
         }
+    }
+    gettelevisitDetails(studysiteId) {
+        gettelevisitData({ siteId: studysiteId })
+            .then((result) => {
+                this.showAboutTelevisit = result;
+                if (this.participantTabs.length < 1) {
+                    this.populateNavigationItems();
+                }
+                this.isInitialized = true;
+            })
+            .catch((error) => {
+                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+            });
     }
     populateNavigationItems() {
         this.allPagesMap = {
@@ -214,6 +225,14 @@ export default class PpCommunityNavigation extends LightningElement {
                 visible: this.showAboutProgram ? this.showVisits : false,
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
+            'about-televisit': {
+                page: 'televisit',
+                link: this.baseLink + '/pp/s/televisit',
+                label: televisits,
+                icon: '',
+                visible: this.showAboutTelevisit,
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
+            },
             results: {
                 page: 'results',
                 link: this.baseLink + '/pp/s/results',
@@ -272,9 +291,9 @@ export default class PpCommunityNavigation extends LightningElement {
             key: key,
             ...this.allPagesSubMenu[key]
         }));
-        const showNavBar = true;
-        const valueChangeEvent = new CustomEvent('handleNavBar', {
-            detail: { showNavBar }
+        const loadTelevisitBanner = true;
+        const valueChangeEvent = new CustomEvent('handleLoadTelevisitBanner', {
+            detail: { loadTelevisitBanner }
         });
         this.dispatchEvent(valueChangeEvent);
     }
