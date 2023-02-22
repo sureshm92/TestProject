@@ -74,7 +74,7 @@
                                             value="{!v.options.countrySelectionType}"
                                             onchange="{!c.doCountrySelectionTypeChange}"
                                             disabled="{!and(notequals(v.options.countrySelectionType,'Disabled'),
-                                                                                    notequals(v.options.countrySelectionType,'All'))}"
+                                                                                 notequals(v.options.countrySelectionType,'All'))}"
                                         >
                                             <aura:iteration
                                                 items="{!v.initData.typeSelectCountryLevelList}"
@@ -92,7 +92,7 @@
                                     >
                                         <aura:if
                                             isTrue="{!and(notequals(v.options.countrySelectionType,'Disabled'),
-                                                                          notequals(v.options.countrySelectionType,'All'))}"
+                                                                       notequals(v.options.countrySelectionType,'All'))}"
                                         >
                                             <c:VisitResultSharingCountryLookup
                                                 aura:id="shareBackCountryLookup"
