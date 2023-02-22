@@ -15,6 +15,7 @@
     <aura:attribute name="options" type="Object" />
     <aura:attribute name="dataSnapshot" type="String" />
     <aura:attribute name="userPermission" type="String" />
+    <aura:attribute name="communityTemplate" type="String" />
 
     <aura:method name="refresh" action="{!c.doInit}" />
 
@@ -73,7 +74,7 @@
                                             value="{!v.options.countrySelectionType}"
                                             onchange="{!c.doCountrySelectionTypeChange}"
                                             disabled="{!and(notequals(v.options.countrySelectionType,'Disabled'),
-                                                                                    notequals(v.options.countrySelectionType,'All'))}"
+                                                                                 notequals(v.options.countrySelectionType,'All'))}"
                                         >
                                             <aura:iteration
                                                 items="{!v.initData.typeSelectCountryLevelList}"
@@ -91,7 +92,7 @@
                                     >
                                         <aura:if
                                             isTrue="{!and(notequals(v.options.countrySelectionType,'Disabled'),
-                                                                          notequals(v.options.countrySelectionType,'All'))}"
+                                                                       notequals(v.options.countrySelectionType,'All'))}"
                                         >
                                             <c:VisitResultSharingCountryLookup
                                                 aura:id="shareBackCountryLookup"
