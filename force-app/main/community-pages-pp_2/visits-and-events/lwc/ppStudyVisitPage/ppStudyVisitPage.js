@@ -93,7 +93,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track noVisitDate = false;
     @track showUpcomingVisits = true;
     @track onVisitSelection = false;
-    visitimage1 = pp_icons + '/' + 'VisitPageResultImage.png';
     visitimage2 = pp_icons + '/' + 'VisitPage_1.png';
     @track missedVisit = false;
     @track showList = false;
@@ -199,8 +198,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     if (this.upcomingVisits.length > 0) {
                         this.visitid = this.upcomingVisits[0].visit.Id;
                         this.taskSubject = this.upcomingVisits[0].visit.Name;
-                        this.isInitialVisit =
-                            this.upcomingVisits[0].visit.Is_Pre_Enrollment_Patient_Visit__c;
+                        this.isInitialVisit = this.upcomingVisits[0].visit.Is_Pre_Enrollment_Patient_Visit__c;
                         this.isUpcomingVisits = true;
                     } else {
                         this.isUpcomingVisits = false;
@@ -211,8 +209,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     }
                     if (!this.upcomingVisitId && this.upcomingVisits.length > 0) {
                         this.upcomingVisitId = this.upcomingVisits[0].visit.Id;
-                        this.visitName =
-                            this.upcomingVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
+                        this.visitName = this.upcomingVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
                         this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
                     }
                     this.showList = true;
@@ -387,8 +384,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         } else {
             this.visitid = this.upcomingVisits[index].visit.Id;
             this.visitName = this.upcomingVisits[index].visit?.Visit__r?.Patient_Portal_Name__c;
-            this.isInitialVisit =
-                this.upcomingVisits[index].visit.Is_Pre_Enrollment_Patient_Visit__c;
+            this.isInitialVisit = this.upcomingVisits[
+                index
+            ].visit.Is_Pre_Enrollment_Patient_Visit__c;
             this.selectedIndex = index;
             this.past = false;
         }
@@ -480,14 +478,16 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 if (!this.past) {
-                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
-                        this.visitdata.visitDate;
+                    this.upcomingVisits[
+                        this.selectedIndex
+                    ].visit.Planned_Date__c = this.visitdata.visitDate;
                 }
                 if (this.upcomingVisits.length > 0) {
                     if (this.visitdata.visitDate && this.showUpcomingVisits) {
                         this.upcomingVisits[this.selectedIndex].noVisitDate = false;
-                        this.plannedDate =
-                            this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
+                        this.plannedDate = this.upcomingVisits[
+                            this.selectedIndex
+                        ].visit.Planned_Date__c;
                     } else {
                         this.upcomingVisits[this.selectedIndex].noVisitDate = true;
                         this.plannedDate = '';

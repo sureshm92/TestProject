@@ -8,9 +8,9 @@
         }
     },
 
-    handleLoadTelevisitBanner: function (component, event, helper) {
-        let loadTelevisitBanner = event.getParam('loadTelevisitBanner');
-        component.set('v.handleTelevistBanner', loadTelevisitBanner);
+    handleNavBarVisiblity: function (component, event, helper) {
+        let showNavBar = event.getParam('showNavBar');
+        component.set('v.handleTelevistBanner', showNavBar);
         component.find('spinner').hide();
     },
     doRefresh: function (component, event, helper) {

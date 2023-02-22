@@ -20,7 +20,7 @@
     <aura:attribute name="isRTL" type="Boolean" />
     <aura:attribute name="urlPathPrefix" type="String" />
     <aura:attribute name="communityServ" type="Object" />
-    <aura:attribute name="handleTelevistBanner" type="Boolean" default="false" />
+    <aura:attribute name="showNavBar" type="Boolean" default="false" />
     <aura:attribute name="stopLoading" type="Boolean" default="false" />
 
     <!-- events: -->
@@ -76,7 +76,7 @@
                             communityServic="{!v.communityServ}"
                             aura:id="ppMenu"
                             showSideMenu="{!v.showSideMenu}"
-                            onhandleLoadTelevisitBanner="{!c.handleLoadTelevisitBanner}"
+                            onhandleNavBar="{!c.handleNavBarVisiblity}"
                         />
                     </aura:if>
 
@@ -111,16 +111,16 @@
                         showSideMenu="{!v.showSideMenu}"
                         aura:id="ppMenu"
                         is-initial-load="{!v.isInitialized}"
-                        onhandleLoadTelevisitBanner="{!c.handleLoadTelevisitBanner}"
+                        onhandleNavBar="{!c.handleNavBarVisiblity}"
                     />
                 </aura:if>
-                <!-- Televisit Meet Banner Section PEH-5892 -->
-                <aura:if isTrue="{!v.handleTelevistBanner}">                 
+                <!-- Televisit Meet Banner Section PEH-5892 
+                <aura:if isTrue="{!v.handleTelevistBanner}">
                     <c:televisitMeetBanner
-                                           urlPathPrefix="{!v.urlPathPrefix}"
-                                           currentMode="{!v.currentMode}"
-                                           ></c:televisitMeetBanner>
-                </aura:if>
+                        urlPathPrefix="{!v.urlPathPrefix}"
+                        currentMode="{!v.currentMode}"
+                    ></c:televisitMeetBanner>
+                </aura:if>-->
                 {!v.body}
             </div>
             <div
