@@ -15,6 +15,7 @@
     <aura:attribute name="options" type="Object" />
     <aura:attribute name="dataSnapshot" type="String" />
     <aura:attribute name="userPermission" type="String" />
+    <aura:attribute name="communityTemplate" type="String" />
 
     <aura:method name="refresh" action="{!c.doInit}" />
 
