@@ -1160,7 +1160,7 @@
                                                         <div class="slds-grid slds-gutters slds-wrap"
                                                             style="padding-top: 10px">
                                                             <div class="slds-col slds-size--5-of-5">
-                                                                <a style="padding-top: 5px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;display:inline-block;width:100%" onclick="{!c.openModel}">
+                                                                <a title="{!v.fileName}" style="padding-top: 5px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;display:inline-block;width:100%" onclick="{!c.openModel}">
                                                                     {!v.fileName}
                                                                 </a>
                                                             </div>
