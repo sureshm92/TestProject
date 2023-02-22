@@ -306,6 +306,7 @@ public without sharing class RRChangePasswordController {
         isSaveButtonDisabled = false;
         if (participant != null) {
             maskLastName = participant.Last_Name__c.substring(0, 1) + '************';
+            system.debug('participant.Phone__c---'+participant.Phone__c);
             maskDaytimephone = participant.Phone__c != null
                 ? '************' +
                   participant.Phone__c.substring(
