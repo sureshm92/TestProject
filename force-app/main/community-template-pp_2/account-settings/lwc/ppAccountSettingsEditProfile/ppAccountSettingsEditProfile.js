@@ -201,12 +201,8 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 };
 
                 this.initData = initialData;
-                this.contactChanged = initialData.contactChanged;
                 this.personWrapper = initialData.contactSectionData.personWrapper;
-                this.newPrefix = initialData.contactSectionData.personWrapper.prefix;
                 this.contactSectionData = initialData.contactSectionData;
-                this.optInEmail = initialData.contactSectionData.personWrapper.optInEmail;
-                this.optInSMS = initialData.contactSectionData.personWrapper.optInSMS;
                 this.isUseAsDaytimePhoneChecked =
                     initialData.contactSectionData.personWrapper.useAsDaytimePhone;
 
@@ -261,8 +257,6 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 }
                 this.initializeLabels();
                 this.isInitialized = true;
-                console.log('Thanos:::', this.contactSectionData);
-                console.log('End Game:::', this.initData);
                 this.spinner.hide();
             })
             .catch((error) => {
