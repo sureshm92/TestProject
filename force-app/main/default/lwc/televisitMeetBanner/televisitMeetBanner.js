@@ -39,6 +39,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     singleJoinCss;
     allVisitCss;
     isPP2View = false;
+    _handler;
     @track labels = {
         UPCOMING_VISIT,
         PT_TV_MEET_INFO,
@@ -52,6 +53,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         this.getVisits();
         this.loadCometdScript();
         this.timeInterval();
+        document.addEventListener('click', this._handler = this.close.bind(this));
     }
 
     loadCometdScript() {
@@ -226,6 +228,19 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 : 'utility:chevrondown';
     }
 
+    ignore(event) {
+        event.stopPropagation();
+        return false;
+    }
+    disconnectedCallback() {
+        document.removeEventListener('click', this._handler);
+    }
+    close() { 
+        console.log('we should close now');
+        this.showMoreVisits = false;
+        this.moreVisitIconName = 'utility:chevrondown';
+    }
+
     handleCloseAccessPopup(event) {
         this.showTelevisitCameraAndMicrophoneAccessPopup = event.detail;
     }
@@ -284,4 +299,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         );
         return teleMeetMainInfo;
     }
+
+    
+    
 }
