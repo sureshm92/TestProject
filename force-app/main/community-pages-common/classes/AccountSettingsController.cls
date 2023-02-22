@@ -207,6 +207,21 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
+    public static string getInitDataforAccPage() {
+        try {
+            AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
+            initData.myContact = getCurrentContact();
+            initData.participant = getParticipantRecord(initData.myContact.Id);
+            initData.contactSectionData.personWrapper = new PersonWrapper(
+                initData.myContact,
+                initData.participant
+            );
+            return JSON.serialize(initData, false);
+        } catch (Exception e) {
+            return (String) AuraHelper.throwException(e);
+        }
+    }
+    @AuraEnabled
     public static void updateParticipant(String cont, String participantJSON) {
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(
