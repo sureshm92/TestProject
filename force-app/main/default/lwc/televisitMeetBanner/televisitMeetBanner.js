@@ -40,6 +40,8 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     allVisitCss;
     isPP2View = false;
     _handler;
+    deviceSize = 10;
+    isMobileDevice;
     @track labels = {
         UPCOMING_VISIT,
         PT_TV_MEET_INFO,
@@ -117,16 +119,26 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 this.bgCss = 'divBodyPP2 slds-p-around_medium slds-text-color_inverse';
                 this.multipleJoinCss = 'slds-text-color_inverse join multipleJoinPP2';
                 this.singleJoinCss = 'slds-text-color_inverse join singleJoinPP2';
+                this.deviceSize = 10;
+                this.isMobileDevice = false;
             }else{
                 this.bgCss = 'divBodyPP2Mobile slds-p-around_medium slds-text-color_inverse';
                 this.multipleJoinCss = 'slds-text-color_inverse join multipleJoinPP2Mobile';
                 this.singleJoinCss = 'slds-text-color_inverse join singleJoinPP2Mobile';
+                this.deviceSize = 10;
+                this.isMobileDevice = true;
             }
             
         }else{
             this.bgCss = 'divBody slds-p-around_medium slds-text-color_inverse';
             this.isPP2View = false;
             this.allVisitCss = 'allVisits';
+            this.deviceSize = 11;
+            if(FORM_FACTOR == 'Large'){
+                this.isMobileDevice = false;
+            }else{
+                this.isMobileDevice = true;
+            }
         }
 
         
@@ -217,8 +229,10 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         window.open(url, '_blank');
     }
     handleSingleMeetJoin(event) {
+        event.target.style.color = 'white';
         let url = this.urlPathPrefix.replace('/s', '') + this.meetLinkUrl;
         window.open(url, '_blank');
+        
     }
     handleOpenCloseVisits() {
         this.showMoreVisits = !this.showMoreVisits;

@@ -123,6 +123,8 @@ a:hover {
     .divBody{      
         /* top: -16px; */
     }   
+    
+    
 }
 
 @media all and (max-width: 540px){
@@ -259,4 +261,34 @@ a:hover {
 .hrline{
     margin-left: -10px;
     margin-bottom: -1px;
+}
+
+
+@media screen and (orientation: landscape) { 
+    .multipleJoinPP2Mobile{
+        text-align: center;
+        border-radius: 35px;
+        height: 34px;
+        color: rgb(1, 95, 241);
+        font-size: 14px;
+        border: 1px solid #d6d6d6;
+        display: block;
+        width: 66px !important;
+        font-weight: 600;
+        padding: 8px;
+    }
+    
+    .multipleJoinPP2Mobile:hover{
+        text-align: center;
+        border-radius: 35px;
+        height: 34px;
+        color: rgb(1, 95, 241);
+        font-size: 14px;
+        border: 1px solid;
+        display: block;
+        width: 66px !important;
+        background: aliceblue;
+        font-weight: 600;
+        padding: 8px;
+    }
 }
