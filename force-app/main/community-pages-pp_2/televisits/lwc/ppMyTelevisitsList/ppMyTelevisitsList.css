@@ -1,0 +1,226 @@
+.icon-cont1 .slds-wrap {
+    flex-direction: column;
+    align-items: center;
+}
+.join-button{
+    border-radius: 16px 0 0 16px;
+    border: 1px solid #d9d9d9 !important;
+    height: 32px;
+    width: 88px;
+    border-radius: 16px;
+    background-color: #015FF1;
+    color: #FFFFFF;
+}
+.join-button-mobile{
+    border-radius: 16px 0 0 16px;
+    border: 1px solid #d9d9d9 !important;
+    height: 32px;
+    width: 300px;
+    border-radius: 16px;
+    background-color: #015FF1;
+    color: #FFFFFF;
+    margin-top: 7%;
+    margin-left: -20px;
+   /* margin-top: 18%;*/
+}
+.name-style,
+.nameStyle {
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+.group-icon{
+    position:absolute;
+    margin-top: 3%;
+}
+
+.scroll-bar {
+    height: 39rem;
+    border-radius: 4px;
+    margin-right: 1rem;
+}
+
+.left-line,
+.left-grey-line {
+    position: relative;
+    height: 48px;
+}
+
+.left-line:before,
+.left-grey-line:before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 100%;
+
+    top: 0;
+    left: 0;
+    border-radius: 2px;
+}
+.left-line:before {
+    background-color: #009dd6;
+}
+.left-grey-line:before {
+    background-color: #999999;
+}
+
+.active-custom-box {
+    box-sizing: border-box;
+    height: 80px;
+    width: 313px;
+    border: 1px solid #015ff1;
+    border-radius: 16px;
+    background-color: #ffffff;
+    padding: 0.9rem 0 1rem 0.2rem;
+    margin-bottom: 0.5rem;
+    color: #595959;
+}
+.list-selection,
+.list-align-mob {
+    display: flex;
+    justify-content: center;
+}
+
+.list-selection {
+    margin-bottom: 1.5rem;
+}
+
+.inactive-custom-box {
+    box-sizing: border-box;
+    height: 80px;
+    width: 630px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    padding: 0.9rem 0 1rem 0.2rem;
+    margin-bottom: 0.5rem;
+}
+.inactive-custom-box-mobile {
+    box-sizing: border-box;
+    /*height: 170px;*/
+    width: 330px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    padding: 0.9rem 0 1rem 0.2rem;
+    margin-bottom: 0.5rem;
+}
+.inactive-custom-box-mobil {
+    box-sizing: border-box;
+    /*height: 120px;*/
+    width: 330px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    padding: 0.9rem 0 1rem 0.2rem;
+    margin-bottom: 0.5rem;
+}
+.inactive-custom-box:hover,
+.active-custom-box:hover {
+    cursor: pointer;
+}
+
+.active-custom-box .slds-grid,
+.inactive-custom-box .slds-grid {
+    align-items: center;
+}
+
+.unavailable-style {
+    width: 600px;
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+}
+
+.date-style {
+    width: 600px;
+    color: #6E6E6E;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+}
+.date-style-mobile {
+    width: 295px;
+    color: #6E6E6E;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+}
+/*
+@media all and (max-width: 1200px) {
+    .col3 {
+        min-width: 50%;
+        margin-top: 2rem;
+        margin-left: auto;
+    }
+
+    .active-custom-box,
+    .inactive-custom-box {
+        min-width: 75%;
+        margin-inline: auto;
+    }
+
+    .upcomingButton {
+        text-align: center;
+    }
+
+    .upcomingButton .up-button {
+        margin-left: unset;
+    }
+
+    .slds-border_right,
+    .slds-border--right {
+        border-right: unset;
+    }
+
+    .what-to-expect {
+        margin: unset;
+    }
+}
+
+@media all and (min-width: 1024px) and (max-width: 1200px) {
+    .col1,
+    .col2 {
+        min-width: 50%;
+    }
+}
+
+@media all and (min-width: 768px) and (max-width: 850px) {
+    .col2 {
+        max-width: 45%;
+    }
+}
+
+@media all and (min-width: 468px) and (max-width: 768px) {
+    .active-custom-box-class,
+    .inactive-custom-box-class {
+        min-width: 100%;
+    }
+}
+
+@media all and (max-width: 768px) {
+    .image-result-visit {
+        display: none;
+    }
+}
+
+@media all and (max-width: 486px) {
+    .active-custom-box,
+    .inactive-custom-box {
+        min-width: unset;
+        width: 100%;
+    }
+}
+
+@media all and (max-width: 486px) {
+    .visit-card-upcoming {
+        height: 213px;
+        width: 326px;
+    }
+}*/
+.card-wrap {
+    padding: 0;
+}

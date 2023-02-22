@@ -11,6 +11,7 @@ import PT_TV_MEET_INFO from '@salesforce/label/c.PT_Televisit_Meet_Info';
 import PI_TV_MEET_INFO from '@salesforce/label/c.PI_Televisit_Meet_Info';
 import JOIN_MEET from '@salesforce/label/c.WelcomeModal_Join';
 import UPCOMING_VISIT from '@salesforce/label/c.Televisit_Upcoming_Meet';
+import FORM_FACTOR from '@salesforce/client/formFactor';
 
 export default class TelevisitMeetBanner extends NavigationMixin(LightningElement) {
     @api channel = '/event/Televisit_Event__e';
@@ -33,7 +34,11 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     hasActiveVisits = false;
     UPCOMING_VISIT = UPCOMING_VISIT;
     showTelevisitCameraAndMicrophoneAccessPopup = false;
-
+    bgCss;
+    multipleJoinCss;
+    singleJoinCss;
+    allVisitCss;
+    isPP2View = false;
     @track labels = {
         UPCOMING_VISIT,
         PT_TV_MEET_INFO,
@@ -43,6 +48,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
     // Initializes the component
     connectedCallback() {
+        this.getCommunintyTemplateName();
         this.getVisits();
         this.loadCometdScript();
         this.timeInterval();
@@ -101,6 +107,30 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 //TODO
             });
     }
+    getCommunintyTemplateName() {
+        if(this._currentMode.template.communityName === 'IQVIA Patient Portal'){
+            this.isPP2View = true;
+            this.allVisitCss = 'allVisitsPP2';
+            if(FORM_FACTOR == 'Large'){
+                this.bgCss = 'divBodyPP2 slds-p-around_medium slds-text-color_inverse';
+                this.multipleJoinCss = 'slds-text-color_inverse join multipleJoinPP2';
+                this.singleJoinCss = 'slds-text-color_inverse join singleJoinPP2';
+            }else{
+                this.bgCss = 'divBodyPP2Mobile slds-p-around_medium slds-text-color_inverse';
+                this.multipleJoinCss = 'slds-text-color_inverse join multipleJoinPP2Mobile';
+                this.singleJoinCss = 'slds-text-color_inverse join singleJoinPP2Mobile';
+            }
+            
+        }else{
+            this.bgCss = 'divBody slds-p-around_medium slds-text-color_inverse';
+            this.isPP2View = false;
+            this.allVisitCss = 'allVisits';
+        }
+
+        
+        
+    }
+
     getVisits() {
         console.log('Televisit Get visits called');
         this.hasVisits = true;
@@ -143,6 +173,9 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 activeVisits.push(visitDetail);
             }
         });
+        if(this.allActiveVisits.length != activeVisits.length){
+            this.moreVisitIconName = 'utility:chevrondown';
+        }
         this.allActiveVisits = activeVisits;
         this.showMoreVisits =
             this.showMoreVisits && (activeVisits.length === 0 || activeVisits.length === 1)
@@ -167,10 +200,10 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
     @api
     get currentMode() {
-        return this._currentMode;
+        return this._currentMode;        
     }
-    set currentMode(value) {
-        this._currentMode = value;
+    set currentMode(value) {  
+        this._currentMode = value;        
         if (this._currentMode) {
             this.getVisits();
         }

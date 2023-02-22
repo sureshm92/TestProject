@@ -324,7 +324,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PT Televisit Meet Info</shortDescription>
-        <value>##TVName with ##PIName will take place at ##StartTime to ##EndTime</value>
+        <value>##TVName with ##PIName will take place from ##StartTime to ##EndTime</value>
     </labels>
     <labels>
         <fullName>PT_Session_Ended</fullName>
@@ -30458,6 +30458,27 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Task</shortDescription>
         <value>Reminder must be prior to task.</value>
+    </labels>
+    <labels>
+        <fullName>No_past_televisits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No past televisits</shortDescription>
+        <value>No past televisits</value>
+    </labels>
+    <labels>
+        <fullName>No_upcoming_televisits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No upcoming televisits</shortDescription>
+        <value>No upcoming televisits</value>
+    </labels>
+    <labels>
+        <fullName>Televisits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisits</shortDescription>
+        <value>Televisits</value>
     </labels>
     <labels>
                

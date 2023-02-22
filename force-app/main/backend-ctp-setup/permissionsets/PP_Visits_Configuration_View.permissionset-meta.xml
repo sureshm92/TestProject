@@ -21,6 +21,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Visit__c.Motivational_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Visit__c.Order__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -32,6 +37,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Visit__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit__c.Visit_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -1,0 +1,46 @@
+.popover-position{
+    position: absolute;
+    
+}
+.customIcon{
+    width: 24px;
+}
+
+.slds-popover_tooltip .slds-popover__body{
+    color: #FFFFFF;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.slds-popover_tooltip .slds-popover__body .help-text-header-class{
+    font-weight: 600;
+}
+.slds-popover_tooltip,
+.slds-popover--tooltip ::after {
+    background-color: #444444 !important;
+}
+/*
+.slds-nubbin_left:before, .slds-nubbin--left:before {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    transform: rotate(45deg);
+    content: '';
+    background-color: inherit;
+    top: 50%;
+    right: -5px;
+    margin-top: -0.5rem;
+}
+
+.slds-nubbin_left:after, .slds-nubbin--left:after {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    transform: rotate(45deg);
+    content: '';
+    background-color: inherit;
+    top: 50%;
+    right: -5px;
+    margin-top: -0.5rem;
+}*/
