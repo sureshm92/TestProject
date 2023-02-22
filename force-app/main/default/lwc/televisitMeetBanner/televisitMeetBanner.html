@@ -2,10 +2,10 @@
     <template if:true={hasActiveVisits}>
         <div class={bgCss} onclick={ignore}>
             <lightning-layout>
-                <lightning-layout-item size="10">
+                <lightning-layout-item size={deviceSize} style="padding: 6px;">
                     
                     <template if:true={singleActiveVisit}>
-                        <div class="slds-align_absolute-center slds-grid slds-col_bump-left" >
+                        <div class="slds-align_absolute-center slds-grid slds-col_bump-left " >
                             <div class="slds-p-right_small">
                                 <lightning-icon icon-name="utility:video" variant="inverse" size="small"></lightning-icon>
                             </div>
@@ -26,28 +26,52 @@
                         </div>
                     </template>
                     <template if:false={singleActiveVisit}>
-                        <div class="slds-align_absolute-center slds-grid slds-col_bump-left" style="padding-left:20%;">
-                            <div class="slds-p-right_small">
-                                <lightning-icon icon-name="utility:video" variant="inverse" size="small"></lightning-icon>
-                            </div>
-                            <div class="slds-p-right_xx-small meet_info singleMeet">
-                                {meetMainInfo}
-                                <template if:false={singleActiveVisit}>
-                                    <!--
-                                    <lightning-button-icon icon-name={moreVisitIconName} variant="bare-inverse"
-                                        onclick={handleOpenCloseVisits} alternative-text="Show Visits"
-                                        class="arrow_icn desktop"></lightning-button-icon>
-                                    -->
-                                    <lightning-icon icon-name={moreVisitIconName} size="x-small" variant="inverse"
-                                        onclick={handleOpenCloseVisits} alternative-text="Show Visits"
-                                        class="arrow_icn desktop"></lightning-icon>
-                                </template>
-                            </div>
+                        <template if:false={isMobileDevice}>
+                            <div class="slds-align_absolute-center slds-grid slds-col_bump-left " style="padding-left: 20%;" >
+                                <div class="slds-p-right_small">
+                                    <lightning-icon icon-name="utility:video" variant="inverse" size="small"></lightning-icon>
+                                </div>
+                                <div class="slds-p-right_xx-small meet_info singleMeet">
+                                    {meetMainInfo}
+                                    <template if:false={singleActiveVisit}>
+                                        <!--
+                                        <lightning-button-icon icon-name={moreVisitIconName} variant="bare-inverse"
+                                            onclick={handleOpenCloseVisits} alternative-text="Show Visits"
+                                            class="arrow_icn desktop"></lightning-button-icon>
+                                        -->
+                                        <lightning-icon icon-name={moreVisitIconName} size="x-small" variant="inverse"
+                                            onclick={handleOpenCloseVisits} alternative-text="Show Visits"
+                                            class="arrow_icn desktop"></lightning-icon>
+                                    </template>
+                                </div>
 
-                        </div>
+                            </div>
+                        </template>
+
+                        <template if:true={isMobileDevice}>
+                            <div class="slds-align_absolute-center slds-grid slds-col_bump-left " >
+                                <div class="slds-p-right_small">
+                                    <lightning-icon icon-name="utility:video" variant="inverse" size="small"></lightning-icon>
+                                </div>
+                                <div class="slds-p-right_xx-small meet_info singleMeet">
+                                    {meetMainInfo}
+                                    <template if:false={singleActiveVisit}>
+                                        <!--
+                                        <lightning-button-icon icon-name={moreVisitIconName} variant="bare-inverse"
+                                            onclick={handleOpenCloseVisits} alternative-text="Show Visits"
+                                            class="arrow_icn desktop"></lightning-button-icon>
+                                        -->
+                                        <lightning-icon icon-name={moreVisitIconName} size="x-small" variant="inverse"
+                                            onclick={handleOpenCloseVisits} alternative-text="Show Visits"
+                                            class="arrow_icn desktop"></lightning-icon>
+                                    </template>
+                                </div>
+
+                            </div>
+                        </template>
                     </template>
                 </lightning-layout-item>
-                <lightning-layout-item size="2" class="singleMeet">
+                <lightning-layout-item  class="singleMeet">
                     <template if:true={singleActiveVisit}>
                         <template if:true={isPP2View}>
                             <a class={singleJoinCss} 
