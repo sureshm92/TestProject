@@ -575,6 +575,8 @@ public without sharing class PatientDelegateEnrollmentService {
             if (!delContIdsByPAContId.containsKey(paConId))
                 delContIdsByPAContId.put(paConId, new List<Id>());
 
+            List<Id> pdDelConLst = delContIdsByPAContId.get(paConId) ;
+            if(!pdDelConLst.contains(pd.Patient_Delegate__r.Contact__c))
             delContIdsByPAContId.get(paConId).add(pd.Patient_Delegate__r.Contact__c);
         }
 
@@ -626,7 +628,8 @@ public without sharing class PatientDelegateEnrollmentService {
             if (!delContactsByPartCnt.containsKey(partCntId)) {
                 delContactsByPartCnt.put(partCntId, new List<Contact>());
             }
-
+            List<Contact> pdDelConLst = delContactsByPartCnt.get(partCntId);
+            if(!pdDelConLst.contains(pd.Patient_Delegate__r.Contact__r))
             delContactsByPartCnt.get(partCntId).add(pd.Patient_Delegate__r.Contact__r);
         }
 
