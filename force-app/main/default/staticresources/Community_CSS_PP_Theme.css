@@ -1155,3 +1155,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .no-border article{
     border:none !important;
 }
+
+.icon-chevron-right svg{
+    width: 10px;
+}

@@ -8,6 +8,7 @@ import getParticipantDetails from '@salesforce/apex/ParticipantTelevisitRemote.g
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { NavigationMixin } from 'lightning/navigation';
 import DEVICE from '@salesforce/client/formFactor';
+import homeicon from '@salesforce/resourceUrl/Home_Icon';
 export default class PpTelevisit extends NavigationMixin(LightningElement) {
     @track contentLoaded = false;
     @track upcomingTelevisitslist = [];
@@ -28,6 +29,8 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
     past = false;
     timechanges ;
     reloadupcomingcomponent = false;
+    isdelegate = false;
+    home_icon = homeicon;
     selectedNavHandler(event) {
         if(event.detail.filter == 'showblankupcomingtelevisits:false'){
             this.upcomingTelevisitslist = event.detail.upcomingdata;
@@ -73,10 +76,12 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
     gettelevisitdetails(){
         getParticipantDetails({joinbuttonids : null})
         .then((result) => {
-            if(result != undefined && result != ''){
+            if(result != undefined && result != '' &&
+               (result.televisitupcomingList.length > 0 || result.televisitpastList.length > 0)){
                 this.timechanges = result.tz;
                 this.pastTelevisitlist = result.televisitpastList;
                 this.upcomingTelevisitslist = result.televisitupcomingList;
+                this.isdelegate = result.isdelegate;
                 if(this.pastTelevisitlist.length == 0){
                     this.showblankpasttelsvisits = true;
                 }
@@ -93,6 +98,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
             }else{
                 this.showblankupcomingtelevisits = true;
                 this.showblankpasttelsvisits = true;
+                this.isdelegate = result.isdelegate;
             }
             this.template.querySelector('c-web-spinner').hide();
             this.contentLoaded = true;
@@ -106,5 +112,8 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
     connectedCallback() {
         DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
         this.gettelevisitdetails();
+    }
+    redircttohomepage(){
+        window.open(window.location.origin + '/pp/s/',"_self");
     }
 }
