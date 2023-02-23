@@ -30,7 +30,7 @@ global without sharing class Batch_SendNotificationBellHighPriority extends Batc
         }    
     }
     
-    global override void finish(Database.BatchableContext bc){
+    Public void createNotifications(){
         // System.debug('mapOfCommTemp=='+mapOfCommTemp);
         // System.debug('mapOfSiteVsStudy=='+mapOfSiteVsStudy);
         List<Notification__c> allNotificationList = new List<Notification__c>();
@@ -80,6 +80,10 @@ global without sharing class Batch_SendNotificationBellHighPriority extends Batc
             Database.executeBatch(notifyBatch);
         }
     } 
+    
+    public override void finalAction() {
+        createNotifications();
+    }
     
     public override Type getType() {
         return Batch_SendNotificationBellHighPriority.class;

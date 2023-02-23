@@ -210,7 +210,8 @@ public inherited sharing class PatientVisitService {
                 'Status__c',
                 'Planned_Date__c',
                 'Portal_Name__c',
-                'Visit_Number__c'
+                'Visit_Number__c',
+                'Visit__c'
             },
             Patient_Visit__c.getSObjectType(),
             filter,
@@ -218,10 +219,34 @@ public inherited sharing class PatientVisitService {
             null
         );
 
-        TranslateHelper.translate(
+        List<Id> recordIds = new List<Id>();
+        for(Patient_Visit__c pv: patientVisits){
+            recordIds.add(pv.Visit__c);
+        }
+		String language=IRBParticipantService.getSuitableLanguageForIRBTranslation(peId);
+        if (language == null)
+            language = UserInfo.getLanguage();
+        
+        List<Translation__c> translations = [
+            SELECT Id, Field_Name__c, Language__c, Object_Name__c, Record_Id__c, Value__c
+            FROM Translation__c
+            WHERE Record_Id__c IN :recordIds AND Language__c = :language and Object_Name__c ='Visit__c'
+        	and Field_Name__c='patient_portal_name__c'];
+        map<id,Translation__c> mapVisitIdToTranslations=new Map<id,Translation__c>();
+        for(Translation__c tt:translations){
+            mapVisitIdToTranslations.put(tt.Record_Id__c,tt);
+        }
+        for(Patient_Visit__c pv: patientVisits){
+            if(mapVisitIdToTranslations.containskey(pv.Visit__c)){
+                Translation__c tt=mapVisitIdToTranslations.get(pv.Visit__c);
+                pv.Portal_Name__c=tt.Value__c;
+            }
+        }
+
+        /*TranslateHelper.translate(
             patientVisits,
             IRBParticipantService.getSuitableLanguageForIRBTranslation(peId)
-        );
+        );*/
         return patientVisits;
     }
     public List<VisitWrapper> getVisitDetails(Id visitId) {
