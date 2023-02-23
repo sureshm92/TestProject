@@ -76,17 +76,24 @@ public with sharing class ResStudyTriggerHandler {
             WHERE Clinical_Trial_Profile__c IN :resByCTPIds.keySet()
         ];
         List<Id> participantIds = new List<Id>();
+										   
         for (Participant_Enrollment__c pe : pes) {
             participantByResources.put(
                 pe.Participant__r.Contact__c,
                 resByCTPIds.get(pe.Clinical_Trial_Profile__c)
             );
             participantIds.add(pe.Participant__c);
+								
         }
 
         Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
             participantIds
         );
+																																									 
+
+																												 
+						  
+			
 
         List<Notification__c> notifications = new List<Notification__c>();
         for (Participant_Enrollment__c pe : pes)
@@ -110,6 +117,7 @@ public with sharing class ResStudyTriggerHandler {
                             new Notification__c(
                                 Recipient__c = delegateId,
                                 WhatId__c = pe.Id,
+													 
                                 Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE,
                                 Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                             )
@@ -135,6 +143,8 @@ public with sharing class ResStudyTriggerHandler {
     private static void notifyPIAndDelegateAboutStudyResources(List<SObject> newList) {          
         List<Id> resStudyIds = new List<Id>();              
         List<Id> lstOfStudy = new List<Id>();
+		Map<String, List<Contact>> mapofStudyContactList = new Map<String, List<Contact>>();
+        Map<String, Set<Contact>> mapofStudyContactSet = new Map<String, Set<Contact>>(); 
         Map<String, List<Contact>> mapofStudyContact = new Map<String, List<Contact>>();
         List<Notification__c> allNotificationList = new List<Notification__c>();
         Map<String, String> mapOfCommTemp = new Map<String, String>();
@@ -154,7 +164,13 @@ public with sharing class ResStudyTriggerHandler {
             mapOfCommTemp.put(mapOfResStudy.get(eachRec).Clinical_Trial_Profile__c, mapOfResStudy.get(eachRec).Clinical_Trial_Profile__r.CommunityTemplate__c);
         }     
         
-        mapofStudyContact = BellNotificationsHelper.getContactForStudy(lstOfStudy); 
+        mapofStudyContactList = BellNotificationsHelper.getContactForStudy(lstOfStudy); 
+        for (String key : mapofStudyContactList.keySet()) {
+            mapofStudyContactSet.put(key, new Set<Contact>(mapofStudyContactList.get(key)));
+        }
+        for (String key : mapofStudyContactSet.keySet()) {
+            mapofStudyContact.put(key, new List<Contact>(mapofStudyContactSet.get(key)));
+        }
 
         for(String eachRec : mapofStudyContact.keySet()){
             Map<String,List<Contact>> contactResultMap =  new Map<String,list<Contact>>{'PI' => mapofStudyContact.get(eachRec)};
