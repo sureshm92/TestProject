@@ -1,41 +1,14 @@
 <template>
     <span class="my-results">{label.myResults}</span>
-    <template if:true={isDesktop}>
-        <div class="row">
-            <div class="column1 slds-border_right"></div>
-            <div class="column2 slds-box no-result">
-                <div class="slds-align_absolute-center slds-p-bottom_small">
-                    <img src={resultsIllustration} />
-                </div>
-                <div class="slds-align_absolute-center no-item">{label.noItemToDisplay}</div>
-            </div>
-        </div>
-        <!--   <div class="c-container">
-            <div class="slds-border_right col-sty"></div>
-
-            <div class="slds-box no-result">
-                <div class="slds-align_absolute-center slds-p-bottom_small">
-                    <img src={resultsIllustration} />
-                </div>
-                <div class="slds-align_absolute-center no-item">{label.noItemToDisplay}</div>
-            </div>
-        </div>
-        -->
-    </template>
-    <template if:true={isMobile}>
-        <div class="slds-box no-result results-mob slds-align_absolute-center">
-            <div class="slds-align_absolute-center slds-p-bottom_small">
-                <img src={resultsIllustration} />
-            </div>
-            <div class="slds-align_absolute-center no-item">{label.noItemToDisplay}</div>
-        </div>
-    </template>
-    <template if:true={isTablet}>
-        <div class="slds-box no-result results-tab slds-align_absolute-center">
-            <div class="slds-align_absolute-center slds-p-bottom_small">
-                <img src={resultsIllustration} />
-            </div>
-            <div class="slds-align_absolute-center no-item">{label.noItemToDisplay}</div>
-        </div>
-    </template>
+    <lightning-layout multiple-rows>
+        <lightning-layout-item size="4" class="slds-show_large"
+            ><div class="slds-border_right col1-height"></div
+        ></lightning-layout-item>
+        <lightning-layout-item size="8"
+            ><div class="slds-align--absolute-center no-task-box">
+                <span class="center"><img src={resultsIllustration} /></span
+                ><span class="no-result-txt slds-m-top_medium">{label.noItemToDisplay}</span>
+            </div></lightning-layout-item
+        >
+    </lightning-layout>
 </template>
