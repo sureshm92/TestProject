@@ -2,7 +2,17 @@
     <c-web-spinner fixed="true"></c-web-spinner>
     <template if:true={contentLoaded}>
         <template if:false={isMobile}>
-            <h2 class="my-televisits">{label.Televisits}</h2><br/><br/><br/>
+            <template if:true = {isdelegate}>
+              <div class = "delegatecss">
+                <img src={home_icon} style="height: 30px;cursor:pointer;margin-left: -10px;" onclick = {redircttohomepage}>
+                <lightning-icon icon-name="utility:chevronright" class = "icon-chevron-right"></lightning-icon>
+                <span class = "delegate-televisit" > &nbsp;{label.Televisits}</span>
+                <h2 class="my-televisits-delegate">{label.Televisits}</h2><br/><br/><br/>
+              </div>
+            </template>
+            <template if:false = {isdelegate}>
+                <h2 class="my-televisits">{label.Televisits}</h2><br/><br/><br/>
+            </template>
             <div class="slds-grid slds-wrap slds-gutters">
                 <div
                     class="slds-col slds-size_1-of-1 col1"
