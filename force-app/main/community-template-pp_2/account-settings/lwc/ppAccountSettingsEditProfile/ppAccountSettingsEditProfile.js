@@ -49,7 +49,7 @@ import EMAIL_FORMAT_ERROR from '@salesforce/label/c.PP_Email_Error';
 import REQUIRED_FIELD from '@salesforce/label/c.PP_AS_REQUIRED_FIELD';
 import INVALID_PHONE_FORMAT from '@salesforce/label/c.PP_AS_INVALID_PHONE_FORMAT';
 import DATA_UPDATE from '@salesforce/label/c.PP_AS_DATA_UPDATE';
-import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
+import getInitData from '@salesforce/apex/AccountSettingsController.getInitDataSettingsEdit';
 import changeEmail from '@salesforce/apex/AccountSettingsController.changeEmail';
 import updatePerson from '@salesforce/apex/AccountSettingsController.updatePerson';
 export default class PpAccountSettingsEditProfile extends LightningElement {
@@ -194,11 +194,6 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         getInitData({ userMode: this.userMode })
             .then((result) => {
                 let initialData = JSON.parse(result);
-                initialData.password = {
-                    old: '',
-                    new: '',
-                    reNew: ''
-                };
 
                 this.initData = initialData;
                 this.personWrapper = initialData.contactSectionData.personWrapper;
