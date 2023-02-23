@@ -3,6 +3,7 @@
  */
 
 public without sharing class TaskTriggerHandler {
+    public class applicationException extends Exception {}
     public static Map<Id, Boolean> surveyInvitationNewPPMap = new Map<Id, Boolean>();
     // Handlers: -------------------------------------------------------------------------------------------------------
 
@@ -106,6 +107,7 @@ public without sharing class TaskTriggerHandler {
     private static void processSendImmediateEmails(List<Task> tasks) {
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
         List<Notification__c> notifications = new List<Notification__c>();
+        Set<Notification__c> deDupeNotifications = new Set<Notification__c>();
         List<Id> allContactsIds = new List<Id>();
         Map<Id,List<Task>> allPeIds = new Map<Id,List<Task>>();
         Set<Id> ownerIds = new Set<Id>();
@@ -169,7 +171,6 @@ public without sharing class TaskTriggerHandler {
         }
         for (Id paKey : delConIdsByPACon.keySet())
             allContactsIds.addAll(delConIdsByPACon.get(paKey)); 
-
         Map<Id, List<Contact>> delegatesByPAContact = new Map<Id, List<Contact>>();
         Map<Id, List<Patient_Delegate_Enrollment__c>> perIdPdeMap = new Map<Id, List<Patient_Delegate_Enrollment__c>>();
         if (allContactsIds.size() > 0) {
@@ -188,7 +189,6 @@ public without sharing class TaskTriggerHandler {
                 delegatesByPAContact.put(paKey, delegateContacts);
             }
         }
-
         Map<Id, User> usersByIds = new Map<Id, User>(
             [
                 SELECT
@@ -280,7 +280,6 @@ public without sharing class TaskTriggerHandler {
                         if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
                              List<Contact> delegates = delegatesByPAContact.containskey(task.WhoId)
                              ? delegatesByPAContact.get(task.WhoId) : null;
-                           
                             if(patientDelegates != null && !patientDelegates.isEmpty()){
                                 List<Patient_Delegate_Enrollment__c> pdEnrollments = new List<Patient_Delegate_Enrollment__c>();
                                 if(task.Survey_Invitation__c != null){
@@ -367,7 +366,7 @@ public without sharing class TaskTriggerHandler {
                     task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) &&
                     !tasksWithoutUser.contains(task.Id) //added check to prevent notifications from being created for minors
                 ) {
-                    notifications.add(
+                    deDupeNotifications.add(
                         new Notification__c(
                             Recipient__c = task.WhoId,
                             WhatId__c = task.Id,
@@ -383,7 +382,7 @@ public without sharing class TaskTriggerHandler {
                         : null;
                     if (delegates != null && !delegates.isEmpty()) {
                         for (Contact delContact : delegates) {
-                            notifications.add(
+                            deDupeNotifications.add(
                                 new Notification__c(
                                     Recipient__c = delContact.Id,
                                     WhatId__c = task.Id,
@@ -398,7 +397,8 @@ public without sharing class TaskTriggerHandler {
                 }
             }
         }
-        System.debug('notifications:: '+notifications);
+        if (!deDupeNotifications.isEmpty())
+        notifications.addAll(deDupeNotifications);
         if (!notifications.isEmpty())
             insert notifications;
     }
