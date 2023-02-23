@@ -1,4 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
+import DEVICE from '@salesforce/client/formFactor';
 
 export default class PpRRIconSplitter extends LightningElement {
     @api icons = '';
@@ -13,12 +14,17 @@ export default class PpRRIconSplitter extends LightningElement {
     isloaded = false;
     showRight=false;
     scrollby = 160;
+    desktop = true;
     @api
     resetValues() {
         this.name = '';
         this.description = '';
         this.label = '';
         this.icons = '';
+    }
+    
+    connectedCallback(){
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
     }
 
     renderedCallback() {

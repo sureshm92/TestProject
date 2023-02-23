@@ -49,8 +49,9 @@
     font-size: 18px;
     font-weight: 600;
     letter-spacing: 0;
-    line-height: 40px;
+    line-height: 27px;
     padding: 15px 0 0 24px;
+    padding-top: 0px;
 }
 
 .icon-item {
@@ -153,6 +154,17 @@
     padding-right: 24px;
 }
 
+.before-your-visits-mobile {
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    text-align: left;
+    padding-bottom: 16px;
+    height: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
 .scrollbar{
     overflow-x: auto;
     margin: 0px 0 24px 0px;
@@ -190,5 +202,9 @@
 }
 .xyzcss svg {
     fill: yellow;
+}
+
+.pad-r-8{
+    padding-right: 8px;
 }
 
