@@ -115,49 +115,57 @@ export default class PpCommunityNavigation extends LightningElement {
         if (communityService.isInitialized()) {
             var recId = communityService.getUrlParameter('id');
             var userMode = communityService.getUserMode();
-            getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
-                .then((result) => {
-                    let td = JSON.parse(result);
-                    this.showVisits = td.tabs?.some(
-                        (studyTab) => studyTab.id == 'tab-visits'
-                    );
-                    this.showResults = td.tabs?.some(
-                        (resultTab) => resultTab.id == 'tab-lab-results'
-                    );
-                    this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
-                    this.showAboutStudy = !this.showAboutProgram;
-                    if(td.pe && td.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c){
-                        this.gettelevisitDetails(td.pe.Study_Site__c);
-                    }else{
-                        this.showAboutTelevisit = false;
-                        if (this.participantTabs.length < 1) {
-                            this.populateNavigationItems();
-                        }
-                        this.isInitialized = true;
-                    }
-                    
-                })
-                .catch((error) => {
-                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+            if (communityService.isDummy()) {
+                const loadTelevisitBanner = true;
+                const valueChangeEvent = new CustomEvent('handleLoadTelevisitBanner', {
+                    detail: { loadTelevisitBanner }
                 });
+                this.dispatchEvent(valueChangeEvent);
+            } else {
+                getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
+                    .then((result) => {
+                        let td = JSON.parse(result);
+                        this.showVisits = td.tabs?.some((studyTab) => studyTab.id == 'tab-visits');
+                        this.showResults = td.tabs?.some(
+                            (resultTab) => resultTab.id == 'tab-lab-results'
+                        );
+                        this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
+                        this.showAboutStudy = !this.showAboutProgram;
+                        if (
+                            td.pe &&
+                            td.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c
+                        ) {
+                            this.gettelevisitDetails(td.pe.Study_Site__c);
+                        } else {
+                            this.showAboutTelevisit = false;
+                            if (this.participantTabs.length < 1) {
+                                this.populateNavigationItems();
+                            }
+                            this.isInitialized = true;
+                        }
+                    })
+                    .catch((error) => {
+                        this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                    });
+            }
         }
 
         if (this.spinner) {
             this.spinner.hide();
         }
     }
-    gettelevisitDetails( studysiteId){
-        gettelevisitData({siteId:studysiteId})
-        .then((result) => {
-            this.showAboutTelevisit = result;
-            if (this.participantTabs.length < 1) {
-                this.populateNavigationItems();
-            }
-            this.isInitialized = true;
-        })
-        .catch((error) => {
-            this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-        });
+    gettelevisitDetails(studysiteId) {
+        gettelevisitData({ siteId: studysiteId })
+            .then((result) => {
+                this.showAboutTelevisit = result;
+                if (this.participantTabs.length < 1) {
+                    this.populateNavigationItems();
+                }
+                this.isInitialized = true;
+            })
+            .catch((error) => {
+                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+            });
     }
     populateNavigationItems() {
         this.allPagesMap = {
@@ -229,7 +237,7 @@ export default class PpCommunityNavigation extends LightningElement {
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
             'about-televisit': {
-                page:'televisit',
+                page: 'televisit',
                 link: this.baseLink + '/pp/s/televisit',
                 label: televisits,
                 icon: '',
@@ -268,25 +276,25 @@ export default class PpCommunityNavigation extends LightningElement {
         }
         if (this.communityServic.getCurrentCommunityMode().hasPastStudies)
             this.participantTabs.push(this.allPagesMap['past-studies']);
-            if (this.communityServic.getEDiaryVisible()) {
-                if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
-                    if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-                        this.participantTabs.push(this.allPagesMap['e-diaries']);
-                    }
-                }
-            }
-            if (this.communityServic.getMessagesVisible()) {
+        if (this.communityServic.getEDiaryVisible()) {
+            if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
                 if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-                    this.participantTabs.push(this.allPagesMap['messages']);
+                    this.participantTabs.push(this.allPagesMap['e-diaries']);
                 }
             }
-            if (this.communityServic.getTrialMatchVisible()) {
-                if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
-                    if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-                        this.participantTabs.push(this.allPagesMap['trial-match']);
-                    }
+        }
+        if (this.communityServic.getMessagesVisible()) {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                this.participantTabs.push(this.allPagesMap['messages']);
+            }
+        }
+        if (this.communityServic.getTrialMatchVisible()) {
+            if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
+                if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                    this.participantTabs.push(this.allPagesMap['trial-match']);
                 }
             }
+        }
         this.participantTabs.push(this.allPagesMap['tasks']);
         this.participantTabs.push(this.allPagesMap['resources']);
         this.participantTabs.push(this.allPagesMap['help']);

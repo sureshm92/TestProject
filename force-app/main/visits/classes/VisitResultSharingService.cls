@@ -408,6 +408,7 @@ public without sharing class VisitResultSharingService {
                 Shareback_Settings_Countries__c,
                 Participant_Visit_Result_Group__c,
                 Visit_Data_Shareback__c,
+                CommunityTemplate__c,
                 (
                     SELECT
                         Id,

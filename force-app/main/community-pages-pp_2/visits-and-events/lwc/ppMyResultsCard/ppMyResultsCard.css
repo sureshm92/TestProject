@@ -1,0 +1,42 @@
+.no-result {
+    height: 213px;
+    border-radius: 15px;
+    background-color: #ffffff;
+    padding-left: 1.68%;
+}
+.results-mob {
+    width: 366px;
+}
+.results-tab {
+    width: 624px;
+}
+
+.no-item {
+    color: #999999;
+}
+.my-results {
+    height: 5.45%;
+    width: 24.89%;
+    color: #444444;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 48px;
+}
+
+.slds-border_right {
+    height: 627px;
+    width: 1px;
+    opacity: 0.75;
+}
+
+.row {
+    display: flex;
+}
+.column1 {
+    width: 27.23%;
+}
+.column2 {
+    width: 72.77%;
+    margin-left: 1.68%;
+}

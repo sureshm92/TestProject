@@ -141,6 +141,8 @@ public without sharing class VisitResultSharingPanelRemote {
 
         @AuraEnabled
         public OptionsWrapper options;
+        @AuraEnabled
+        public String communityTemplate;
     }
 
     @AuraEnabled
@@ -153,6 +155,7 @@ public without sharing class VisitResultSharingPanelRemote {
             Map<String, List<VisitResultWrapper>> resultGroupToVisitResults = new Map<String, List<VisitResultWrapper>>();
 
             InitData initData = new InitData();
+            initData.communityTemplate = ctp.CommunityTemplate__c;
             initData.groups = new List<VisitResultGroupWrapper>();
             initData.userPermission = GetPermissions.getViewMode(FEATURE_VISIT_RESULT_SHARING);
 
