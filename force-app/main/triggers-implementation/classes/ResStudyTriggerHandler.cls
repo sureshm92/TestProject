@@ -89,12 +89,6 @@ public with sharing class ResStudyTriggerHandler {
         Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
             participantIds
         );
-																																									 
-
-																												 
-						  
-			
-
         List<Notification__c> notifications = new List<Notification__c>();
         for (Participant_Enrollment__c pe : pes)
             for (Res_study__c res : participantByResources.get(pe.Participant__r.Contact__c)) {
