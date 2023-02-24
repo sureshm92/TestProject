@@ -124,7 +124,7 @@ public without sharing class MessagePageRemote {
                 if (participantState.pe != null)
                     participantEnrollments.add(participantState.pe);
                 List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
-                    participantState.participant.Contact__c
+                    ParticipantContext.getCurrentContactId()
                 );
                 if (!pastEnrollments.isEmpty())
                     participantEnrollments.addAll(pastEnrollments);
@@ -237,6 +237,8 @@ public without sharing class MessagePageRemote {
                     );
                 }
             }
+            //if(pageData != null)
+            //throw new applicationException('You cant do that here');
             return pageData;
         } catch (Exception e) {
             return (MSPageData) AuraHelper.throwException(e);

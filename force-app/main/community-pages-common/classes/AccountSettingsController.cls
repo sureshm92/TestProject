@@ -207,6 +207,74 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
+    public static String getInitDataSettingsEdit(String userMode) {
+        try {
+            loggedInUserMode = userMode;
+            AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
+            initData.myContact = getCurrentContact(); //needed
+            if (
+                loggedInUserMode != USER_MODE_HCP &&
+                initData.myContact.userCommunityDelegateId__c != null
+            ) {
+                //Store the Delegate contact record.
+                delegateContact = initData.myContact;
+                //get the delegate's own participant record.
+                initData.myContact = ContactService.getContact(
+                    initData.myContact.userCommunityDelegateId__c
+                );
+            }
+            ContactService.applyRelevantNames(initData.myContact);
+            if (initData.myContact.primaryContact__c == null) {
+                if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
+                    // get the Participant record from contact Id.
+                    initData.participant = getParticipantRecord(initData.myContact.Id);
+                    //translate country:
+                    initData.participant.Mailing_Country__c = CountryStateUtil.getCountryName(
+                        initData.participant.Mailing_Country_Code__c
+                    );
+
+                    //translate state
+                    initData.participant.Mailing_State__c = CountryStateUtil.getStateName(
+                        initData.participant.Mailing_Country_Code__c,
+                        initData.participant.Mailing_State_Code__c
+                    );
+                }
+            }
+            initData.contactSectionData.personWrapper = new PersonWrapper(
+                initData.myContact,
+                initData.participant
+            );
+            initData.userName = UserInfo.getUserName();
+            User uval = [SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()];
+            initData.delegateContact = [SELECT Id FROM Contact WHERE Id = :uval.ContactId];
+
+            if (
+                initData.participant.Adult__c ||
+                (userMode == 'PI' ||
+                userMode == 'HCP' ||
+                userMode == 'CC')
+            ) {
+                List<User> delUsers = [
+                    SELECT Id, Email, Name, Username, FullPhotoUrl
+                    FROM User
+                    WHERE ContactId = :initData.myContact.Id
+                ];
+                if (delUsers != null && !delUsers.isEmpty()) {
+                    initData.delegateUserName = delUsers[0];
+                }
+                if (initData.delegateUserName != null) {
+                    initData.hasProfilePic = !initData.delegateUserName.FullPhotoUrl.contains(
+                        'profilephoto/005/F'
+                    );
+                }
+            }
+            return JSON.serialize(initData, false);
+        } catch (Exception e) {
+            return (String) AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
     public static string getInitDataforAccPage() {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();

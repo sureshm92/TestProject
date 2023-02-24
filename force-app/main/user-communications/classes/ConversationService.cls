@@ -3,6 +3,7 @@
  */
 
 public without sharing class ConversationService {
+    public class applicationException extends Exception {}
     public static List<Conversation__c> getSharedConversations(Id userId) {
         List<Conversation__Share> conversationShares = new List<Conversation__Share>();
         if(userId.getSObjectType().getDescribe().getName()== 'Participant_Enrollment__c'){
@@ -60,10 +61,23 @@ public without sharing class ConversationService {
     public static Integer getUnreadConversationCount(Id userId, String userMode) {
         ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
         Integer unreadCount = 0;
-        if(userMode != CommunityService.USER_MODE_PI){
+        Boolean hasPe = true;
+        //System.debug('userMode: '+userMode);
+       // System.debug('Current Contact: '+ParticipantContext.getCurrentContact().Current_Participant_Enrollment__c);
+       // System.debug('current PE: '+ParticipantContext.getCurrentPE());
+        //System.debug('CommunityMode: '+UserContext.getCurrentUserMode().currentPE);
+        
+        if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             pState = ParticipantService.getInstance().getState();
+            System.debug('pState: '+pState);
+            if(ParticipantContext.getCurrentContact().Current_Participant_Enrollment__c == null){
+                hasPe = false;
+            }
         }
-        Id useThisId = userMode == CommunityService.USER_MODE_PI ? userId : pState.pe.Id;
+        //if(userMode != null)
+        //throw new applicationException('Counter Error');
+        
+        Id useThisId = userMode.equals(CommunityService.USER_MODE_PI) || !hasPe ? userId : pState.pe.Id;
         List<Conversation__c> sharedConversations = getSharedConversations(useThisId);
         if (sharedConversations == null || sharedConversations.isEmpty())
             return unreadCount;
