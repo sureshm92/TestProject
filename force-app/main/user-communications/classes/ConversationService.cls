@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 25.12.2019.
  */
 
-public without sharing class ConversationService {
+public without sharing class ConversationService {  
     public class applicationException extends Exception {}
     public static List<Conversation__c> getSharedConversations(Id userId) {
         List<Conversation__Share> conversationShares = new List<Conversation__Share>();
