@@ -44,7 +44,7 @@
                                 icons={icondetails}
                                 label={cblabel}
                                 description={cbdescription}
-                                ismobile=true
+                                ismobile="true"
                             ></c-pp-r-r-icon-splitter>
                         </template>
                     </div>
@@ -88,10 +88,10 @@
             </div>
 
             <template if:false={missedVisit}>
-                <h1 class="what-to-expect">{label.results}</h1>
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 icon-cont1-mobile">
+                <c-pp-study-visit-result-card></c-pp-study-visit-result-card>
+                <!--     <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 icon-cont1-mobile">
                     <c-pp-study-visit-result-card></c-pp-study-visit-result-card>
-                </div>
+                </div>-->
             </template>
         </div>
     </template>
