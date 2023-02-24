@@ -10500,6 +10500,13 @@ The expected format is REF##### to REF########</value>
         <value>https://fun-nosoftware-4733-dev-ed--c.documentforce.com/servlet/servlet.FileDownload?file=01554000001U88V</value>
     </labels>
     <labels>
+        <fullName>ImgPathRegistrationEmail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ImgPathRegistrationEmail</shortDescription>
+        <value></value>
+    </labels>
+    <labels>
         <fullName>Initial_Visit_Date</fullName>
         <language>en_US</language>
         <protected>false</protected>
