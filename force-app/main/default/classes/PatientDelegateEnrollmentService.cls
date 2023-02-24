@@ -21,6 +21,18 @@ public without sharing class PatientDelegateEnrollmentService {
             stubProvider
         );
     }
+    public static Set<Id> getPEIdSet(Id participantConId , Id delContactId){
+        Set<Id> peIdSet = new Set<Id>();
+        for(Patient_Delegate_Enrollment__c pde : [Select Id,Participant_Enrollment__c 
+                                                from Patient_Delegate_Enrollment__c 
+                                                where Participant_Enrollment__r.Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_ALUMNI 
+                                                AND Participant_Enrollment__r.Participant_Contact__c =: participantConId
+                                                AND Patient_Delegate__r.Contact__c =: delContactId ])
+        {
+            peIdSet.add(pde.Participant_Enrollment__c);
+        }
+        return peIdSet;
+    }
     public static List<Participant_Enrollment__c> getPEList(Id participantConId , Id delContactId){
         Set<Id> peIdSet = new Set<Id>();
         List<Id> peIdList = new List<Id>();
