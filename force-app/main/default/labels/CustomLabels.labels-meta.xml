@@ -10504,7 +10504,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>ImgPathRegistrationEmail</shortDescription>
-        <value></value>
+        <value>update ImgPathRegistrationEmail</value>
     </labels>
     <labels>
         <fullName>Initial_Visit_Date</fullName>
