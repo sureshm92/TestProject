@@ -12,6 +12,7 @@ public without sharing class AccountSettingsController {
     public static Boolean isDelegateAlsoAParticipant = false;
     public static Boolean isParticipantLoggedIn = true;
     public static Boolean checkIfDelAlsoAParticipant = false;
+    public static Boolean isDelegateSwitchedToParView = false;
     public static Id currentParticipantId = null;
     public static Participant__c delegateParticipant = new Participant__c();
     public static Contact delegateContact = new Contact();
@@ -39,14 +40,10 @@ public without sharing class AccountSettingsController {
             ) {
                 //Get the Current Participant Id where Delegate is switched.
                 currentParticipantId = ParticipantContext.getCurrentParticipantId();
-                //This logic is not required as part of Delegate redesing changes, as delegate will be Primary/Secondary for study specific.
-                // //Check if Patient Delegate is a Primary delegate if Patient Delegate clicks account setting of participant
-                // initData.consentPreferenceData.isPrimaryDelegate = PatientDelegateService.isPrimaryDelegate(
-                //     initData.myContact.Id,
-                //     currentParticipantId
-                // );
+                
                 //As delegate switched to Participant Account setting so set isParticipantLoggedIn to false.
                 initData.consentPreferenceData.isParticipantLoggedIn = false;
+                isDelegateSwitchedToParView = true;
                 //Store the Delegate contact record.
                 delegateContact = initData.myContact;
                 //get the delegate's own participant record.
@@ -1301,7 +1298,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 isEmailAvailabelForParticipant = true;
             }
             //Check if Delegate is on self View
-            if (initDataParticipantId != per.Participant__c) {
+            if (!isDelegateSwitchedToParView && initDataParticipantId != per.Participant__c) {
                 isDelegateSelfView = true;
                 checkIfDelAlsoAParticipant = true;
                 currentParticipantId = per.Participant__c;
