@@ -1,5 +1,5 @@
 <template>
-    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
     <template for:each={tasksList} for:item="item" for:index="index">
         <template if:false={item.expandCard}>
             <div key={item} class={containerClass} data-parentdiv={item.task.Id}>

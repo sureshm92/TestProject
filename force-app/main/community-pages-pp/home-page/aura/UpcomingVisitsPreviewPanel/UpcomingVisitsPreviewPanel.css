@@ -24,6 +24,7 @@
 
 .THIS .PP_Name_Btn {
     line-height: unset !important;
+    text-align: left;
 }
 
 .THIS .sv-btn {
@@ -248,8 +249,4 @@
     .THIS .cRRTable.rr-table tr td .cRRIconSplitter .icon {
         position: static;
     }
-}
-
-.THIS .PP_Name_Btn button{
-    text-align: left;
 }
