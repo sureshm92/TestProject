@@ -21,6 +21,36 @@ public without sharing class PatientDelegateEnrollmentService {
             stubProvider
         );
     }
+    public static List<Participant_Enrollment__c> getPEList(Id participantConId , Id delContactId){
+        Set<Id> peIdSet = new Set<Id>();
+        List<Id> peIdList = new List<Id>();
+        List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
+        for(Patient_Delegate_Enrollment__c pde : [Select Id,Participant_Enrollment__c 
+                                                from Patient_Delegate_Enrollment__c 
+                                                where Participant_Enrollment__r.Participant_Contact__c =: participantConId
+                                                AND Patient_Delegate__r.Contact__c =: delContactId ])
+        {
+            peIdSet.add(pde.Participant_Enrollment__c);
+        }
+        peIdList.addAll(peIdSet);
+        if(!peIdSet.isEmpty()){
+            String filter =
+            DatabaseService.fieldInValues('Id', peIdList) +
+            'AND' +
+            DatabaseService.fieldInValues(
+                'Participant_Status__c',
+                PEStatusState.PE_STATUS_GROUP_ALUMNI
+            );
+
+            return (List<Participant_Enrollment__c>) DatabaseService.query(
+            ParticipantEnrollmentService.PE_COMMON_FIELDS,
+            Participant_Enrollment__c.getSObjectType(),
+            filter
+            ); 
+        } else{
+           return peList; 
+        }
+    }
     public PatientDelegateEnrollmentService() {
         list<Patient_Delegate_Enrollment__c> lstPDE = DatabaseService.query(
             new List<String>{

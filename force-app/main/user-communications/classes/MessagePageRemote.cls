@@ -123,9 +123,21 @@ public without sharing class MessagePageRemote {
                 List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>();
                 if (participantState.pe != null)
                     participantEnrollments.add(participantState.pe);
-                List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
+                List<Participant_Enrollment__c> pastEnrollments = new List<Participant_Enrollment__c>();
+                if(participantState.isDelegate){
+                    pastEnrollments =  PatientDelegateEnrollmentService.getPEList(
+                    ParticipantContext.getCurrentContactId(),
+                    UserContext.getUserContactId()
+                    ) ; 
+                }else{
+                   pastEnrollments = ContactService.getPastEnrollments(
+                        ParticipantContext.getCurrentContactId()
+                    );
+                }
+                
+                /*List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
                     ParticipantContext.getCurrentContactId()
-                );
+                );*/
                 if (!pastEnrollments.isEmpty())
                     participantEnrollments.addAll(pastEnrollments);
 
