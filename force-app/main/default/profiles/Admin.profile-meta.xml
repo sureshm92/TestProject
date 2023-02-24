@@ -3413,7 +3413,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.Visit_Schedule_Is_Available__c</field>
+        <field>Clinical_Trial_Profile__c.Status_Milestone_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
