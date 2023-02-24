@@ -249,3 +249,7 @@
         position: static;
     }
 }
+
+.THIS .PP_Name_Btn button{
+    text-align: left;
+}
