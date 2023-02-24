@@ -166,3 +166,9 @@
         margin-left: 55px;
     }
 }
+
+.THIS .study-code-name-container{
+    max-width: 80%;
+    word-break: break-word;
+    text-align: left;
+}

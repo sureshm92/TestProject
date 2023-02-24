@@ -690,7 +690,7 @@ global without sharing class ReferHealthcareProviderRemote {
             }
 
                 if (!lstPatientDelegateEnroll.isEmpty()) {
-                    if(lstPatientDelegateEnroll[0].Status__c == 'Withdrawn'){	
+                    if(lstPatientDelegateEnroll[0].Status__c == 'Withdrawn' || lstPatientDelegateEnroll[0].Status__c == 'Deleted'){	
                         ptDelegateEnroll.ID = lstPatientDelegateEnroll[0].ID;	
                         ptDelegateEnroll.Status__c = DEL_ACTIVE;	
                         ptDelegateEnroll.Study_Email_Consent__c = true;	

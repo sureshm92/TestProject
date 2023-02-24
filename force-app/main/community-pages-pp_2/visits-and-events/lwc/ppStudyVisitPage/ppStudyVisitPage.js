@@ -104,6 +104,10 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     column2 = 'col2';
     column3 = 'col3';
 
+    get iconContainerCss(){
+       return this.isMobile ? "icon-cont-mobile" : "icon-cont";
+    }
+
     callParticipantVisit() {
         this.cbload = true;
         this.initialPageLoad = true;
