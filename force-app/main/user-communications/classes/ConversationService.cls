@@ -2,7 +2,26 @@
  * Created by Igor Malyuta on 25.12.2019.
  */
 
-public without sharing class ConversationService {
+public without sharing class ConversationService {  
+    public class applicationException extends Exception {}
+    public static List<Conversation__c> getPeSharedConversations(List<Id> peIds) {
+        List<Conversation__Share> conversationShares = new List<Conversation__Share>();
+        conversationShares = (List<Conversation__Share>) DatabaseService.query(
+            new List<String>{ 'Id', 'ParentID' },
+            Conversation__Share.getSObjectType(),
+            DatabaseService.fieldInValues('Parent.Participant_Enrollment__c', peIds)
+        );
+        Set<String> conversationIds = new Set<String>();
+        for (Conversation__Share conShare : conversationShares)
+            conversationIds.add(conShare.ParentId);
+        if (conversationIds.isEmpty())
+            return null;
+
+        List<String> conIds = new List<String>();
+        conIds.addAll(conversationIds);
+
+        return getConversations(conIds);
+    }
     public static List<Conversation__c> getSharedConversations(Id userId) {
         List<Conversation__Share> conversationShares = new List<Conversation__Share>();
         if(userId.getSObjectType().getDescribe().getName()== 'Participant_Enrollment__c'){
@@ -59,12 +78,41 @@ public without sharing class ConversationService {
 
     public static Integer getUnreadConversationCount(Id userId, String userMode) {
         ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
+        Set<Id> peSet = new Set<Id>();
+        List<Id> peList = new List<Id>();
+        List<Id> peIdList = new List<Id>();
         Integer unreadCount = 0;
-        if(userMode != CommunityService.USER_MODE_PI){
+        Boolean hasPe = true;
+
+        if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             pState = ParticipantService.getInstance().getState();
+            System.debug('pState: '+pState);
+            System.debug('UserContext.getUserContact() :'+UserContext.getUserContact());
+            if(UserContext.getUserContact().Current_Participant_Enrollment__c == null){
+                hasPe = false;
+                if(pState.isDelegate){
+                    peSet = PatientDelegateEnrollmentService.getPEIdSet(
+                                ParticipantContext.getCurrentContactId(),
+                                UserContext.getUserContactId()
+                            ) ;
+                }
+            }
         }
-        Id useThisId = userMode == CommunityService.USER_MODE_PI ? userId : pState.pe.Id;
-        List<Conversation__c> sharedConversations = getSharedConversations(useThisId);
+        //if(userMode != null)
+        //throw new applicationException('Counter Error');
+        
+        Id useThisId = userMode.equals(CommunityService.USER_MODE_PI) || !hasPe ? userId : pState.pe.Id;
+        if(useThisId != null){
+            peIdList.add(useThisId);
+        }
+        List<Conversation__c> sharedConversations = new List<Conversation__c>();
+        if(!peSet.isEmpty()){
+            peList.addAll(peSet);
+            sharedConversations = getPeSharedConversations(peList);
+            peIdList.addAll(peSet);
+        }else{
+            sharedConversations = getSharedConversations(useThisId);
+        }
         if (sharedConversations == null || sharedConversations.isEmpty())
             return unreadCount;
 
@@ -78,7 +126,7 @@ public without sharing class ConversationService {
                 List<Participant_Enrollment__c> enrollments = [
                     SELECT Id
                     FROM Participant_Enrollment__c
-                    WHERE Id = :useThisId
+                    WHERE Id IN :peIdList
                 ];
                 for (Participant_Enrollment__c enrollment : enrollments) {
                     if (conversation.Participant_Enrollment__c == enrollment.Id)

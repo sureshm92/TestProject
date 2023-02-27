@@ -94,7 +94,7 @@
     <!--Task detail page-->
     <template if:false={ishomepage}>
         <!-- Loading Spinner-->
-        <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+        <c-web-spinner class="main-spinner" fixed="true" show-spinner={showSpinner}></c-web-spinner>
         <div class={cardRTL}>
             <div>
                 <lightning-layout class="slds-align_absolute-center" multiple-rows="true">
