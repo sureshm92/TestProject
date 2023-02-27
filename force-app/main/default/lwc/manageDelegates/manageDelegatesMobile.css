@@ -310,3 +310,7 @@
     --sds-c-checkbox-mark-color-foreground: #fff;
 }
 
+.elipsis{
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

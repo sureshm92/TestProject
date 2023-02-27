@@ -71,8 +71,7 @@
 }
 
 /* SIDEBAR MENU - SUBMENU */
-@media screen and (min-width: 769px) and (max-width: 1139px){
-
+@media screen and (min-width: 769px) and (max-width: 1139px) {
     .THIS .cUiHeaderMenu.cCommunityResourcesNavigation {
         display: flex;
         flex-direction: column;
@@ -92,20 +91,23 @@
         visibility: visible;
         opacity: 1;
         display: none;
-
     }
 
-    .THIS .nav-menu > .nav-menu-item-content.open .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
+    .THIS
+        .nav-menu
+        > .nav-menu-item-content.open
+        .cUiHeaderMenu
+        .menu-popup-panel.popupTargetContainer {
         display: block;
     }
 
-    .THIS .nav-menu > .nav-menu-item-content.open .cUiHeaderMenu .uiPopupTrigger .arrow-down{
+    .THIS .nav-menu > .nav-menu-item-content.open .cUiHeaderMenu .uiPopupTrigger .arrow-down {
         transform: scaleY(-1);
     }
 
     .THIS .nav-menu > .nav-menu-item-content:hover,
     .THIS .nav-menu > .nav-menu-item-content:active {
-        background-color:transparent;
+        background-color: transparent;
         cursor: default;
     }
 
@@ -119,7 +121,7 @@
         cursor: pointer;
     }
 
-    .THIS .nav-menu>.nav-menu-item-content .navigation-icon.cRRIcon.rr-icon-default {
+    .THIS .nav-menu > .nav-menu-item-content .navigation-icon.cRRIcon.rr-icon-default {
         margin-left: 20px;
         margin-top: 15px;
         position: absolute;
@@ -136,7 +138,7 @@
 
     .THIS .cCommunityResourcesNavigation .header-menu-link:hover {
         background-color: transparent;
-        cursor: default
+        cursor: default;
     }
 
     .THIS .nav-menu-item-content span {
@@ -149,15 +151,15 @@
 
     .THIS .cUiHeaderMenu .menu-popup-panel ul li {
         padding-left: 60px;
-        font-size: .875rem;
+        font-size: 0.875rem;
     }
 
     .THIS .cUiHeaderMenu .menu-popup-panel li:hover:not(.active) {
         background: rgba(255, 255, 255, 0.15);
     }
 
-    .THIS .menu-popup-panel ul li a{
-        color: #fff
+    .THIS .menu-popup-panel ul li a {
+        color: #fff;
     }
 
     .THIS .nav-menu-item-content {
@@ -165,12 +167,7 @@
         align-items: flex-start;
         position: relative;
     }
-
-
-
 }
-
-
 
 @media screen and (max-width: 768px) {
     .THIS.rr-overlay {
@@ -218,9 +215,12 @@
         font-size: 0.875rem;
         line-height: 1.25rem;
     }
+    .THIS .navigation-icon.cRRIcon.rr-icon-default {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
 }
-@media screen and (orientation:landscape) and (min-width: 769px) and (max-width: 1139px){
-
+@media screen and (orientation: landscape) and (min-width: 769px) and (max-width: 1139px) {
     .THIS .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
         border: none;
         background-color: white;
@@ -233,21 +233,17 @@
         visibility: visible;
         opacity: 1;
         display: none;
-
     }
 }
-@media screen and (orientation:landscape)
-and (max-device-width: 898px) 
- {
-   /* Your CSS Here*/
-     .THIS.rr-overlay {
+@media screen and (orientation: landscape) and (max-device-width: 898px) {
+    /* Your CSS Here*/
+    .THIS.rr-overlay {
         display: none;
     }
     .THIS.overlay {
         pointer-events: auto;
         top: 100%;
     }
-     
 
     .THIS .nav-menu {
         display: flex;
@@ -310,6 +306,10 @@ and (max-device-width: 898px)
 
     .THIS .navigation-icon {
         max-height: 32px;
+    }
+    .THIS .navigation-icon.cRRIcon.rr-icon-default {
+        margin-right: 0px;
+        margin-left: 0px;
     }
 }
 
