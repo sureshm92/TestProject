@@ -359,7 +359,6 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             this.toggleUIFeatures(true);
             this.totalRecordCount =-1;
             this.isResetPagination = true;
-            this.fetchList();
             const selectEvent = new CustomEvent('resetparent', {
                 detail: ''
             });
@@ -1893,6 +1892,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     }
     setDefaultFilter(event){
         this.filterWrapper= event.detail;
+        this.fetchList();
     }
     get filterCount(){
         if(!(Object.keys(this.filterWrapper).length === 0)){
