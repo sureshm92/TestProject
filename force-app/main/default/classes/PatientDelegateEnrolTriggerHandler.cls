@@ -113,6 +113,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             Patient_Delegate__r.Participant__r.First_Name__c,
             Patient_Delegate__r.Participant__r.Last_Name__c,
             Patient_Delegate__r.Contact__c,
+            Patient_Delegate__r.Contact__r.Is_First_Logon__c,
             Patient_Delegate__r.Participant__c,   
             Patient_Delegate__r.Participant_Delegate__r.Id,
             Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
@@ -217,6 +218,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             Patient_Delegate__r.Participant__r.First_Name__c,
             Patient_Delegate__r.Participant__r.Last_Name__c,
             Patient_Delegate__r.Contact__c,
+            Patient_Delegate__r.Contact__r.Is_First_Logon__c,
             Patient_Delegate__r.Participant__c,   
             Patient_Delegate__r.Participant_Delegate__r.Id,
             Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
@@ -365,6 +367,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         Set<Id> perIds=new Set<Id>();
         List<Notification__c> notifications = new List<Notification__c>();
         Map<Id, List<Participant__c>> participantsByDelContId = new Map<Id, List<Participant__c>>();
+        Map<Id, contact> delContIdDelContMap = new Map<Id, contact>();
         if (
             templateProperty == 'DelReactivatedNotifType' ||
             templateProperty == 'DelNewAssignNotifType'
@@ -378,6 +381,10 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             participantsByDelContId.get(pde.Patient_Delegate__r.Contact__c).add(pde.Patient_Delegate__r.Participant__r);
             participantContacts.add(pde.Patient_Delegate__r.Participant__r.Contact__c);
             perIds.add(pde.Participant_Enrollment__r.Id);
+            contact c = new contact();
+            c.Id = pde.Patient_Delegate__r.Contact__c;
+            c.Is_First_Logon__c = pde.Patient_Delegate__r.Contact__r.Is_First_Logon__c;
+            delContIdDelContMap.put(pde.Patient_Delegate__r.Contact__c, c);
         }
         List<Participant_Enrollment__c> enrollments = [
             SELECT Clinical_Trial_Profile__r.CommunityTemplate__c, Participant__c,Participant_Status__c
@@ -430,13 +437,17 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
                 }
                 for (CommunityTemplate template : communityTemplates){
                     if (delPermissions.contains(template.permissionSet) && communityTemplateForDelContIdMap.get(delCont).contains(template.templateName)){
-                        notifications.add(
-                            new Notification__c(
-                                Notification_Type__c = template.properties.get(templateProperty),
-                                Recipient__c = delCont,
-                                WhatId__c = participant.Id
-                            )
-                        );
+                        Contact delegateContact = delContIdDelContMap.get(delCont);
+                        //If Delegate is registered then only send New Assignment email for new study assigned to delegate.
+                        if(!delegateContact.Is_First_Logon__c){
+                            notifications.add(
+                                new Notification__c(
+                                    Notification_Type__c = template.properties.get(templateProperty),
+                                    Recipient__c = delCont,
+                                    WhatId__c = participant.Id
+                                    )
+                                );
+                        }
                     }
                 }
             }
