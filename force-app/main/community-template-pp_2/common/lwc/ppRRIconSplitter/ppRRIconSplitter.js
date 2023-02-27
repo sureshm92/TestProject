@@ -24,7 +24,18 @@ export default class PpRRIconSplitter extends LightningElement {
     }
     
     connectedCallback(){
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        //DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        switch(DEVICE) {
+            case "Small":
+                this.desktop = false;
+                break;
+            case "Medium":
+                this.desktop = true;
+                break;
+            case "Large":
+                this.desktop = true;
+                break;
+          }
     }
 
     renderedCallback() {
@@ -157,6 +168,6 @@ get mobileOrDesktopSizeRight(){
             ele.classList.remove('active');
         });
         webIcons[index].classList.add('active');
-        this.template.querySelector('.before-your-visits').scrollTop = 0;
+        this.template.querySelector('.scrollbar').scrollTop = 0;
     }
 }
