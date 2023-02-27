@@ -2137,6 +2137,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantTelevisitRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>UserContext</apexClass>
         <enabled>true</enabled>
     </classAccesses>

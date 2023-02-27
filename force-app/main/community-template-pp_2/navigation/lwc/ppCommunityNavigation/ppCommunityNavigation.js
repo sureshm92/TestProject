@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
 import getTrialDetail from '@salesforce/apex/StudyDetailViewController.getTrialDetail';
 import gettelevisitData from '@salesforce/apex/StudyDetailViewController.gettelevisitData';
 import menuDesktop from './ppCommunityNavigation.html';
@@ -23,6 +23,8 @@ import navigationPastStudy from '@salesforce/label/c.Navigation_Past_Studies';
 import desktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import DEVICE from '@salesforce/client/formFactor';
+import { publish, MessageContext } from 'lightning/messageService';
+import messagingChannel from '@salesforce/messageChannel/ppVisResults__c';
 
 export default class PpCommunityNavigation extends LightningElement {
     @api communityServic;
@@ -46,6 +48,8 @@ export default class PpCommunityNavigation extends LightningElement {
     showSubMenu = false;
     @api isInitialLoad = false;
     hasRendered = false;
+    @wire(MessageContext)
+    messageContext;
     renderedCallback() {
         if (!this.hasRendered) {
             this.hasRendered = true;
@@ -134,6 +138,13 @@ export default class PpCommunityNavigation extends LightningElement {
                         if (this.showAboutStudy) {
                             this.communityServic.setVisResultsAvailable(this.showResults);
                         }
+                        if (DEVICE != 'Large' && this.showAboutStudy && this.showResults) {
+                            let isResultTab = {
+                                isVisResultsAvailable: this.showResults
+                            };
+                            publish(this.messageContext, messagingChannel, isResultTab);
+                        }
+
                         if (
                             td.pe &&
                             td.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c
