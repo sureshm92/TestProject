@@ -18,6 +18,18 @@
            let itemValue = event.getParam('itemValue');
            let navigateTo = event.getParam('navigateTo');        
         var comModes = component.get('v.communityModes');
+        let reloadRequired = false;
+        try {
+            if (itemValue) {
+                let newCurrentPE = JSON.parse(JSON.stringify(itemValue)).peId;
+                let currentPE = communityService.getCurrentCommunityMode().currentPE;
+                if (newCurrentPE != currentPE) {
+                    reloadRequired = true;
+                }
+            }
+        } catch (e) {
+            console.log(e);
+        }
         if (navigateTo && !itemValue) {
             communityService.navigateToPage(navigateTo);
             component.set('v.reset', true);
@@ -86,7 +98,14 @@
                                 communityService.setEDiaryVisible(userVisibility.eDiaryVisible);
                                 component.getEvent('onModeChange').fire();
                                 //component.find('pubsub').fireEvent('reload');
+                                if (
+                                    (reloadRequired && navigateTo == 'account-settings') ||
+                                    navigateTo != 'account-settings'
+                                ) {
                                 communityService.reloadPage();
+                                } else {
+                                    component.find('pubsub').fireEvent('reload');
+                                }
                             }
                         );
                     }
