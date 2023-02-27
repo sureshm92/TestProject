@@ -36,6 +36,8 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     @api usermode;
     @api
     paramTaskId;
+    spinner;
+    showSpinner = true;
 
     @api
     get selectedTasks() {
@@ -43,6 +45,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     }
     set selectedTasks(value) {
         if (value !== undefined) {
+            this.showSpinner = true;
             this.tasksList = JSON.parse(JSON.stringify(value));
             // <!--Check if it has survey invitation, then-->
             // <!--Check if it has IsTrialSurvey__c, then-->
@@ -75,10 +78,10 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
                     this.tasksList = JSON.parse(JSON.stringify(tempTaskList));
                 }
             }
+            this.showSpinner = false;
         }
     }
     @api completedTasks;
-    spinner;
     @api webIconClass;
     @api systemIconClass;
     taskCodeList = [
@@ -140,7 +143,6 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     completedTasksList = [];
     expiredTasksList = [];
     ignoredTasksList = [];
-    spinner;
     isMobile = false;
     selectedTaskId;
     readOnlyMode = false;
