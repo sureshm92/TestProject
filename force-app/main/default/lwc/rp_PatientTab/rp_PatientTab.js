@@ -79,6 +79,7 @@ export default class Rp_PatientTab extends LightningElement {
     @api yearDateValue;
     @api isMinor = false;
     @api isaccesslevelthree = false;
+    issavesuccess = true;
 
     @api
     get patientrecordlist() {
@@ -320,6 +321,7 @@ export default class Rp_PatientTab extends LightningElement {
             record.peRecord.Patient_Sex__c = event.target.value;
         }
         else if (event.target.dataset.value === 'Country') {
+            this.issavesuccess = false;
             record.peRecord.Mailing_Country_Code__c = event.target.value;
             this.states = this.patientrecord[0].statesByCountryMap[record.peRecord.Mailing_Country_Code__c];
             if (this.states.length > 0) {
@@ -329,6 +331,7 @@ export default class Rp_PatientTab extends LightningElement {
                 this.stateRequired = false;
                 record.peRecord.Mailing_State_Code__c = '';
             }
+            this.issavesuccess = true;
         }
         else if (event.target.dataset.value === 'States') {
             record.peRecord.Mailing_State_Code__c = event.target.value;
@@ -550,18 +553,21 @@ export default class Rp_PatientTab extends LightningElement {
 
     proceedDetailsModal(event) {
         this.disableButton = true;
+        this.issavesuccess = false;
         updatePeRecords({ peRecord: this.patientrecord[0].peRecord })
             .then((result) => {
                 this.showSuccessToastSave(this.patientrecord[0].peRecord.Participant_Name__c + ' ' + this.label.RH_RP_success_message);
-
+                this.issavesuccess = true;
                 const selectedvalue = { patientRecord: this.patientrecord };
                 const selectedEvent = new CustomEvent('refreshpatienttabchange', { detail: selectedvalue });
                 this.dispatchEvent(selectedEvent);
             })
             .catch((error) => {
+                this.issavesuccess = true;
                 this.showErrorToast(JSON.stringify(error.body.message));
             })
             .finally(() => {
+                this.issavesuccess = true;
                 this.isUnsavedModalOpen = false;
                 this.disabledsavebutton = true;
             })
