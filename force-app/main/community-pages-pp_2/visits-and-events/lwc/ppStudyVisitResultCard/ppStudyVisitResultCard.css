@@ -19,6 +19,7 @@
 }
 .view-result {
     color: #2e7cf3;
+    cursor: pointer;
 }
 .what-to-expect {
     height: 32px;
