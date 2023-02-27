@@ -494,6 +494,7 @@ public without sharing class NotificationAvailabilityService {
                             )
                             .get(surveyInvitation.Participant_Enrollment__c);
                         perEmailToSend =
+                            pdelEnrollmentrecrd != null &&
                             pdelEnrollmentrecrd.Study_Email_Consent__c &&
                             !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                             !pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
@@ -536,8 +537,7 @@ public without sharing class NotificationAvailabilityService {
                 Contact contact = contactByIdMap.get(contactId);
                 if (contact.Participant_Opt_In_Status_Emails__c)
                     isEmailAvailableAtPER = true;
-            } 
-            else if (objType == PARTICIPANT_OBJ_NAME) {
+            } else if (objType == PARTICIPANT_OBJ_NAME) {
                 Participant__c participant = (Participant__c) objectsByIds.get(Id.valueOf(whatId));
                 if (
                     participant != null &&
@@ -546,8 +546,7 @@ public without sharing class NotificationAvailabilityService {
                 ) {
                     isEmailAvailableAtPER = true;
                 }
-            }
-            else if (objType == null) {
+            } else if (objType == null) {
                 // Platform Level
                 Contact contact = contactByIdMap.get(contactId);
                 if (contact.Participant_Opt_In_Status_Emails__c)
