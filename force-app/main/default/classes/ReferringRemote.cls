@@ -1695,4 +1695,11 @@ update objConVersion;*/
             
         update lstPTUpdate;
     }
+    @AuraEnabled
+    public static string getContentVersion(String contDocId) {
+        String versionData;
+        ContentVersion cv = [SELECT Id, VersionData,ContentDocumentId FROM ContentVersion where ContentDocumentId=:contDocId LIMIT 1];       
+        versionData = EncodingUtil.base64Encode(cv.VersionData);
+        return versionData;
+    }
 }
