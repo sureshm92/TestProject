@@ -1,4 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
+import DEVICE from '@salesforce/client/formFactor';
 
 export default class PpRRIconSplitter extends LightningElement {
     @api icons = '';
@@ -13,12 +14,28 @@ export default class PpRRIconSplitter extends LightningElement {
     isloaded = false;
     showRight=false;
     scrollby = 160;
+    desktop = true;
     @api
     resetValues() {
         this.name = '';
         this.description = '';
         this.label = '';
         this.icons = '';
+    }
+    
+    connectedCallback(){
+        //DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        switch(DEVICE) {
+            case "Small":
+                this.desktop = false;
+                break;
+            case "Medium":
+                this.desktop = true;
+                break;
+            case "Large":
+                this.desktop = true;
+                break;
+          }
     }
 
     renderedCallback() {
@@ -151,6 +168,6 @@ get mobileOrDesktopSizeRight(){
             ele.classList.remove('active');
         });
         webIcons[index].classList.add('active');
-        this.template.querySelector('.before-your-visits').scrollTop = 0;
+        this.template.querySelector('.scrollbar').scrollTop = 0;
     }
 }

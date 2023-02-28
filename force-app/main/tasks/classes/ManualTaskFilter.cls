@@ -60,13 +60,13 @@ public without sharing class ManualTaskFilter {
 
         Map<Id, List<Participant_Enrollment__c>> peByContactIds = new Map<Id, List<Participant_Enrollment__c>>();
         for (Participant_Enrollment__c pe : enrollments) {
-            peSet.add(pe.Id);
             if (
                 countryCodes != null &&
                 !countryCodes.contains(pe.Participant__r.Mailing_Country_Code__c)
             ) {
                 continue;
             }
+            peSet.add(pe.Id);
             participantwithContact.put(pe.Participant__c, pe.Participant__r.Contact__c);
             if (!peByContactIds.containsKey(pe.Participant__r.Contact__c)) {
                 peByContactIds.put(
@@ -290,7 +290,6 @@ public without sharing class ManualTaskFilter {
                     for (Id delcon : delconIds) {
                         studyDelContactPerIds.put(delcon, new List<Id>(peMap.keySet()));
                     }
-                    system.debug('studyDelContactPerIds:::' + studyDelContactPerIds);
                 }
             }
         }

@@ -37,6 +37,7 @@ public without sharing class ReferringRemote {
         Id trialId,
         Id peId,
         Id hcpeId,
+        Boolean patientDoesNotExist,
         String userMode,
         String delegateId,
         String language
@@ -70,11 +71,39 @@ public without sharing class ReferringRemote {
             );
         }
         if (initData.mrrSurvey != null) {
+            List<String> customFields = new List<String>{
+            'Id',
+        'isAuthorized__c',
+        'HCP__r.Status__c',
+        'HCP__r.HCP_Contact__r.FirstName',
+        'HCP__r.HCP_Contact__r.LastName',
+        'Patient_ID__c',
+        'Participant__r.First_Name__c',
+        'Participant__r.Last_Name__c',
+        'Participant__r.Email__c',
+        'Participant__r.Phone__c',
+        'Participant__r.Phone_Type__c',
+        'Participant__r.Date_of_Birth__c',
+        'Participant__r.Birth_Year__c',
+        'Participant__r.Mailing_Country_Code__c',
+        'Primary_Delegate_First_Name__c',
+        'Primary_Delegate_Last_Name__c',
+        'Primary_Delegate_Email__c',
+        'Primary_Delegate_Phone_Number__c',
+        'Primary_Delegate_Phone_Type__c',
+        'Primary_Delegate_YOB__c',
+        'Is_Delegate_Certify__c',
+        'Birth_Month__c',
+        'YOB__c'
+            };
+            if(patientDoesNotExist != true){
             initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(
                 trialId,
                 null,
-                delegateId
+                delegateId,
+                customFields
             );
+            }
             if(initData.pendingPEnrollments != null && !initData.pendingPEnrollments.isEmpty()) {
                 Map<Id, List<Participant_PrescreenerResponse__c>> peIdResponseMap = new Map<Id, List<Participant_PrescreenerResponse__c>>();
                 for(Participant_PrescreenerResponse__c response : [

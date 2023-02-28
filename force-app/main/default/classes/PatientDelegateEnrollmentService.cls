@@ -21,6 +21,48 @@ public without sharing class PatientDelegateEnrollmentService {
             stubProvider
         );
     }
+    public static Set<Id> getPEIdSet(Id participantConId , Id delContactId){
+        Set<Id> peIdSet = new Set<Id>();
+        for(Patient_Delegate_Enrollment__c pde : [Select Id,Participant_Enrollment__c 
+                                                from Patient_Delegate_Enrollment__c 
+                                                where Participant_Enrollment__r.Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_ALUMNI 
+                                                AND Participant_Enrollment__r.Participant_Contact__c =: participantConId
+                                                AND Patient_Delegate__r.Contact__c =: delContactId ])
+        {
+            peIdSet.add(pde.Participant_Enrollment__c);
+        }
+        return peIdSet;
+    }
+    public static List<Participant_Enrollment__c> getPEList(Id participantConId , Id delContactId){
+        Set<Id> peIdSet = new Set<Id>();
+        List<Id> peIdList = new List<Id>();
+        List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
+        for(Patient_Delegate_Enrollment__c pde : [Select Id,Participant_Enrollment__c 
+                                                from Patient_Delegate_Enrollment__c 
+                                                where Participant_Enrollment__r.Participant_Contact__c =: participantConId
+                                                AND Patient_Delegate__r.Contact__c =: delContactId ])
+        {
+            peIdSet.add(pde.Participant_Enrollment__c);
+        }
+        peIdList.addAll(peIdSet);
+        if(!peIdSet.isEmpty()){
+            String filter =
+            DatabaseService.fieldInValues('Id', peIdList) +
+            'AND' +
+            DatabaseService.fieldInValues(
+                'Participant_Status__c',
+                PEStatusState.PE_STATUS_GROUP_ALUMNI
+            );
+
+            return (List<Participant_Enrollment__c>) DatabaseService.query(
+            ParticipantEnrollmentService.PE_COMMON_FIELDS,
+            Participant_Enrollment__c.getSObjectType(),
+            filter
+            ); 
+        } else{
+           return peList; 
+        }
+    }
     public PatientDelegateEnrollmentService() {
         list<Patient_Delegate_Enrollment__c> lstPDE = DatabaseService.query(
             new List<String>{
@@ -488,7 +530,7 @@ public without sharing class PatientDelegateEnrollmentService {
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain removeAssignment(String pDEId) {
         list<Patient_Delegate_Enrollment__c> lst = [
-            SELECT Id, Status__c
+            SELECT Id, Status__c,Patient_Delegate__r.Contact__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Id = :pDEId
         ];
@@ -497,6 +539,13 @@ public without sharing class PatientDelegateEnrollmentService {
             pde.Id = lst[0].Id;
             pde.Status__c = 'Disconnected';
             update pde;
+            List<Alert__c> alertlst = [
+                SELECT Id,Viewed__c 
+                FROM Alert__c 
+                WHERE Contact__c = : pde.Patient_Delegate__r.Contact__c and Viewed__c = False
+            ];
+            delete alertlst;
+
             return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
         }
         return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
@@ -568,6 +617,8 @@ public without sharing class PatientDelegateEnrollmentService {
             if (!delContIdsByPAContId.containsKey(paConId))
                 delContIdsByPAContId.put(paConId, new List<Id>());
 
+            List<Id> pdDelConLst = delContIdsByPAContId.get(paConId) ;
+            if(!pdDelConLst.contains(pd.Patient_Delegate__r.Contact__c))
             delContIdsByPAContId.get(paConId).add(pd.Patient_Delegate__r.Contact__c);
         }
 
@@ -619,7 +670,8 @@ public without sharing class PatientDelegateEnrollmentService {
             if (!delContactsByPartCnt.containsKey(partCntId)) {
                 delContactsByPartCnt.put(partCntId, new List<Contact>());
             }
-
+            List<Contact> pdDelConLst = delContactsByPartCnt.get(partCntId);
+            if(!pdDelConLst.contains(pd.Patient_Delegate__r.Contact__r))
             delContactsByPartCnt.get(partCntId).add(pd.Patient_Delegate__r.Contact__r);
         }
 

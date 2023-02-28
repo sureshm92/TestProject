@@ -191,8 +191,6 @@ public without sharing class RRChangePasswordController {
             FROM User
             WHERE Id = :userId
         ];
-        System.debug('userId is ' + userId);
-        System.debug('UserVal is ' + userVal);
 
         contact = userVal.Contact;
         system.debug('userVal.FullPhotoUrl' + userVal.FullPhotoUrl);
@@ -306,7 +304,8 @@ public without sharing class RRChangePasswordController {
         isSaveButtonDisabled = false;
         if (participant != null) {
             maskLastName = participant.Last_Name__c.substring(0, 1) + '************';
-            maskDaytimephone = participant.Phone__c != null
+
+            maskDaytimephone = participant.Phone__c != null && participant.Phone__c.length()>4
                 ? '************' +
                   participant.Phone__c.substring(
                       participant.Phone__c.length() - 4,

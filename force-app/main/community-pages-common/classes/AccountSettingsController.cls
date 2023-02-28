@@ -12,6 +12,7 @@ public without sharing class AccountSettingsController {
     public static Boolean isDelegateAlsoAParticipant = false;
     public static Boolean isParticipantLoggedIn = true;
     public static Boolean checkIfDelAlsoAParticipant = false;
+    public static Boolean isDelegateSwitchedToParView = false;
     public static Id currentParticipantId = null;
     public static Participant__c delegateParticipant = new Participant__c();
     public static Contact delegateContact = new Contact();
@@ -39,14 +40,10 @@ public without sharing class AccountSettingsController {
             ) {
                 //Get the Current Participant Id where Delegate is switched.
                 currentParticipantId = ParticipantContext.getCurrentParticipantId();
-                //This logic is not required as part of Delegate redesing changes, as delegate will be Primary/Secondary for study specific.
-                // //Check if Patient Delegate is a Primary delegate if Patient Delegate clicks account setting of participant
-                // initData.consentPreferenceData.isPrimaryDelegate = PatientDelegateService.isPrimaryDelegate(
-                //     initData.myContact.Id,
-                //     currentParticipantId
-                // );
+                
                 //As delegate switched to Participant Account setting so set isParticipantLoggedIn to false.
                 initData.consentPreferenceData.isParticipantLoggedIn = false;
+                isDelegateSwitchedToParView = true;
                 //Store the Delegate contact record.
                 delegateContact = initData.myContact;
                 //get the delegate's own participant record.
@@ -206,6 +203,89 @@ public without sharing class AccountSettingsController {
         }
     }
 
+    @AuraEnabled
+    public static String getInitDataSettingsEdit(String userMode) {
+        try {
+            loggedInUserMode = userMode;
+            AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
+            initData.myContact = getCurrentContact(); //needed
+            if (
+                loggedInUserMode != USER_MODE_HCP &&
+                initData.myContact.userCommunityDelegateId__c != null
+            ) {
+                //Store the Delegate contact record.
+                delegateContact = initData.myContact;
+                //get the delegate's own participant record.
+                initData.myContact = ContactService.getContact(
+                    initData.myContact.userCommunityDelegateId__c
+                );
+            }
+            ContactService.applyRelevantNames(initData.myContact);
+            if (initData.myContact.primaryContact__c == null) {
+                if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
+                    // get the Participant record from contact Id.
+                    initData.participant = getParticipantRecord(initData.myContact.Id);
+                    //translate country:
+                    initData.participant.Mailing_Country__c = CountryStateUtil.getCountryName(
+                        initData.participant.Mailing_Country_Code__c
+                    );
+
+                    //translate state
+                    initData.participant.Mailing_State__c = CountryStateUtil.getStateName(
+                        initData.participant.Mailing_Country_Code__c,
+                        initData.participant.Mailing_State_Code__c
+                    );
+                }
+            }
+            initData.contactSectionData.personWrapper = new PersonWrapper(
+                initData.myContact,
+                initData.participant
+            );
+            initData.userName = UserInfo.getUserName();
+            User uval = [SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()];
+            initData.delegateContact = [SELECT Id FROM Contact WHERE Id = :uval.ContactId];
+
+            if (
+                initData.participant.Adult__c ||
+                (userMode == 'PI' ||
+                userMode == 'HCP' ||
+                userMode == 'CC')
+            ) {
+                List<User> delUsers = [
+                    SELECT Id, Email, Name, Username, FullPhotoUrl
+                    FROM User
+                    WHERE ContactId = :initData.myContact.Id
+                ];
+                if (delUsers != null && !delUsers.isEmpty()) {
+                    initData.delegateUserName = delUsers[0];
+                }
+                if (initData.delegateUserName != null) {
+                    initData.hasProfilePic = !initData.delegateUserName.FullPhotoUrl.contains(
+                        'profilephoto/005/F'
+                    );
+                }
+            }
+            return JSON.serialize(initData, false);
+        } catch (Exception e) {
+            return (String) AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static string getInitDataforAccPage() {
+        try {
+            AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
+            initData.myContact = getCurrentContact();
+            initData.participant = getParticipantRecord(initData.myContact.Id);
+            initData.contactSectionData.personWrapper = new PersonWrapper(
+                initData.myContact,
+                initData.participant
+            );
+            return JSON.serialize(initData, false);
+        } catch (Exception e) {
+            return (String) AuraHelper.throwException(e);
+        }
+    }
     @AuraEnabled
     public static void updateParticipant(String cont, String participantJSON) {
         try {
@@ -1218,7 +1298,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 isEmailAvailabelForParticipant = true;
             }
             //Check if Delegate is on self View
-            if (initDataParticipantId != per.Participant__c) {
+            if (!isDelegateSwitchedToParView && initDataParticipantId != per.Participant__c) {
                 isDelegateSelfView = true;
                 checkIfDelAlsoAParticipant = true;
                 currentParticipantId = per.Participant__c;
