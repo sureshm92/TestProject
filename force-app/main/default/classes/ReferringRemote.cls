@@ -85,6 +85,7 @@ public without sharing class ReferringRemote {
         'Participant__r.Phone_Type__c',
         'Participant__r.Date_of_Birth__c',
         'Participant__r.Birth_Year__c',
+        'Participant__r.Mailing_Country_Code__c',
         'Primary_Delegate_First_Name__c',
         'Primary_Delegate_Last_Name__c',
         'Primary_Delegate_Email__c',
@@ -1693,5 +1694,12 @@ update objConVersion;*/
             }
             
         update lstPTUpdate;
+    }
+    @AuraEnabled
+    public static string getContentVersion(String contDocId) {
+        String versionData;
+        ContentVersion cv = [SELECT Id, VersionData,ContentDocumentId FROM ContentVersion where ContentDocumentId=:contDocId LIMIT 1];       
+        versionData = EncodingUtil.base64Encode(cv.VersionData);
+        return versionData;
     }
 }
