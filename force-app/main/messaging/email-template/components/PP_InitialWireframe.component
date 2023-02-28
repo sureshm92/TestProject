@@ -7,7 +7,7 @@
     <!-- Participant referred by PI-->
     <c:PP_EmailWireframe rendered="{!userMode == 'Participant referred by PI'}" recipientId="{!recordId}" sourceId="{!sourceId}"
         header="{!$Label.Email_Header_Initial_Patient_PP}" isPreBodyButton="true" preBodyButtonName="{!BTNLabel}" preBodyButtonURL="{!buttonURL}"
-        greeting="{!$Label.Email_User_Greeting_FirstName}" signature="{!$Label.Email_Signature_Patient_New_PP}" communityTemplate="PatientPortal"
+        greeting="{!$Label.Email_User_Greeting_FirstName}" signature="{$Label.Email_Signature_Patient_New_PP}" communityTemplate="PatientPortal"
         isInitialEmail="true">
 
 
