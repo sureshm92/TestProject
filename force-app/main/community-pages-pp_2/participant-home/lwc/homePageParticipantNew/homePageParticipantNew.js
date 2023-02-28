@@ -80,7 +80,7 @@ export default class HomePageParticipantNew extends LightningElement {
                     this.isDelegateSelfview =
                         this.participantState.value == 'ALUMNI' ||
                         (this.participantState.hasPatientDelegates &&
-                            !this.participantState.isDelegate);
+                            !this.participantState.isDelegate && !this.participantState.pe);
                 }
                 this.spinner ? this.spinner.hide() : '';
             })
