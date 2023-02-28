@@ -34,6 +34,15 @@ public inherited sharing class PatientVisitService {
         );
         processPendingInitialVisits(pvList);
         pvAndEvent.pvList = this.getVisitWrappers(pvList);
+        if(pState.pe !=null){
+            Id studySiteId = pState.pe.Study_Site__c; 
+            if(studySiteId !=null){
+                List<Study_Site__c> ssList = [SELECT Id,Site__r.BillingAddress,Site__r.Phone, Site__r.Name FROM Study_Site__c WHERE Id =:studySiteId];
+                if(ssList.size()>0){
+                    pvAndEvent.studySiteAddress = ssList[0];
+                }
+            }
+        }
         pvAndEvent.isEvent = pState.pe.Clinical_Trial_Profile__r.Is_Program__c;
         return pvAndEvent;
     }
@@ -43,6 +52,8 @@ public inherited sharing class PatientVisitService {
         public List<VisitWrapper> pvList;
         @AuraEnabled
         public Boolean isEvent = false;
+        @AuraEnabled
+        public Study_Site__c studySiteAddress;
     }
 
     public List<VisitWrapper> getVisitWrappers(String visitMode, Integer limitNumber) {
