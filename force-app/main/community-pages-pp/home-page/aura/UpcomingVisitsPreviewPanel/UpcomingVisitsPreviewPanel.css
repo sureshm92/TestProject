@@ -24,6 +24,7 @@
 
 .THIS .PP_Name_Btn {
     line-height: unset !important;
+    text-align: left;
 }
 
 .THIS .sv-btn {
