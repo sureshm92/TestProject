@@ -19,17 +19,7 @@
            let navigateTo = event.getParam('navigateTo');        
         var comModes = component.get('v.communityModes');
         let reloadRequired = false;
-        try {
-            if (itemValue) {
-                let newCurrentPE = JSON.parse(JSON.stringify(itemValue)).peId;
-                let currentPE = communityService.getCurrentCommunityMode().currentPE;
-                if (newCurrentPE != currentPE) {
-                    reloadRequired = true;
-                }
-            }
-        } catch (e) {
-            console.log(e);
-        }
+        let oldCommunityMode = communityService.getCurrentCommunityMode();
         if (navigateTo && !itemValue) {
             communityService.navigateToPage(navigateTo);
             component.set('v.reset', true);
@@ -56,6 +46,17 @@
                     function (returnValue) {
                         const comData = JSON.parse(returnValue);
                         component.set('v.currentMode', comData.currentMode);
+                        try {
+                            if (itemValue) {
+                                let oldModeKey = oldCommunityMode.key;
+                                let newModeKey = comData.currentMode.key;
+                                if (oldModeKey != newModeKey) {
+                                    reloadRequired = true;
+                                }
+                            }
+                        } catch (e) {
+                            console.log(e);
+                        }
                         component.set('v.communityModes', comData.communityModes);
 
                         if (comData.currentMode.template.needRedirect) {
@@ -103,8 +104,6 @@
                                     navigateTo != 'account-settings'
                                 ) {
                                 communityService.reloadPage();
-                                } else {
-                                    component.find('pubsub').fireEvent('reload');
                                 }
                             }
                         );
