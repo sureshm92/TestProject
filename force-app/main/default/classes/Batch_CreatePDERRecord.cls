@@ -39,13 +39,15 @@ public without sharing class Batch_CreatePDERRecord implements Database.Batchabl
     ) {
         set<Id> setParticipantId = new Set<Id>();
         Map<Id, List<Participant_Enrollment__c>> mapParticipantIdToParticipantEnrollment = new Map<Id, list<Participant_Enrollment__c>>();
-        set<Id> setExistingPer = new Set<Id>();
+        list<Id> lstPatientDelegateToIgnore = new list<Id> ();
+        set<String> setExistingPer = new Set<String>();
         for (Patient_Delegate_Enrollment__c objPDER : [
             SELECT ID, Participant_Enrollment__c, Patient_Delegate__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Patient_Delegate__c IN :lstPatientDelegate
         ]) {
-            setExistingPer.add(objPDER.Participant_Enrollment__c);
+          setExistingPer.add(objPDER.Participant_Enrollment__c + '__'+objPDER.Patient_Delegate__c); 
+          lstPatientDelegateToIgnore.add(objPDER.Patient_Delegate__c) ;
         }
 
         for (Patient_Delegate__c objDel : lstPatientDelegate) {
@@ -77,13 +79,13 @@ public without sharing class Batch_CreatePDERRecord implements Database.Batchabl
         }
         List<Patient_Delegate_Enrollment__c> lstPDER = new List<Patient_Delegate_Enrollment__c>();
         for (Patient_Delegate__c objDel : lstPatientDelegate) {
-            if (mapParticipantIdToParticipantEnrollment.containskey(objDel.Participant__c)) {
+          if (mapParticipantIdToParticipantEnrollment.containskey(objDel.Participant__c)  && !lstPatientDelegateToIgnore.contains(objDel.id)) {
                 for (
                     Participant_Enrollment__c objper : mapParticipantIdToParticipantEnrollment.get(
                         objDel.Participant__c
                     )
                 ) {
-                    if (!setExistingPer.contains(objper.Id)) {
+                  if(!setExistingPer.contains(objper.Id + '__' + objDel.Id)) {
                         Patient_Delegate_Enrollment__c objPDER = new Patient_Delegate_Enrollment__c();
                         objPDER.Participant_Enrollment__c = objper.Id;
                         objPDER.Patient_Delegate__c = objDel.Id;
@@ -137,7 +139,7 @@ public without sharing class Batch_CreatePDERRecord implements Database.Batchabl
             TriggerHandlerExecutor.bypassHandler(
                 PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
             );
-            insert lstPDER;
+            database.insert(lstPDER,false);
         }
 
     }

@@ -27,15 +27,17 @@ public with sharing class Batch_CreatePDERRecord_IqviaOutReach implements Databa
     ) {
         set<Id> setParticipantId = new Set<Id>();
         Map<Id, List<Participant_Enrollment__c>> mapParticipantIdToParticipantEnrollment = new Map<Id, list<Participant_Enrollment__c>>();
-        set<Id> setExistingPer = new Set<Id>();
+        list<Id> lstPatientDelegateToIgnore = new list<Id> ();
+        set<string> setExistingPer = new Set<string>();
         for (Patient_Delegate_Enrollment__c objPDER : [
             SELECT ID, Participant_Enrollment__c, Patient_Delegate__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Patient_Delegate__c IN :lstPatientDelegate
         ]) {
-            setExistingPer.add(objPDER.Participant_Enrollment__c);
+            setExistingPer.add(objPDER.Participant_Enrollment__c + '__'+objPDER.Patient_Delegate__c); 
+            lstPatientDelegateToIgnore.add(objPDER.Patient_Delegate__c) ;
         }
-
+         
         for (Patient_Delegate__c objDel : lstPatientDelegate) {
             setParticipantId.add(objDel.Participant__c);
         }
@@ -68,15 +70,13 @@ public with sharing class Batch_CreatePDERRecord_IqviaOutReach implements Databa
         }
         List<Patient_Delegate_Enrollment__c> lstPDER = new List<Patient_Delegate_Enrollment__c>();
         for (Patient_Delegate__c objDel : lstPatientDelegate) {
-            if (
-                mapParticipantIdToParticipantEnrollment.containskey(objDel.Participant__c) 
-            ) {
+            if (mapParticipantIdToParticipantEnrollment.containskey(objDel.Participant__c)  && !lstPatientDelegateToIgnore.contains(objDel.id)) {
                 for (
                     Participant_Enrollment__c objper : mapParticipantIdToParticipantEnrollment.get(
                         objDel.Participant__c
                     )
                 ) {
-                    if (!setExistingPer.contains(objper.Id)) {
+                    if(!setExistingPer.contains(objper.Id + '__' + objDel.Id)) {
                         Patient_Delegate_Enrollment__c objPDER = new Patient_Delegate_Enrollment__c();
                         objPDER.Participant_Enrollment__c = objper.Id;
                         objPDER.Patient_Delegate__c = objDel.Id;
@@ -131,6 +131,7 @@ public with sharing class Batch_CreatePDERRecord_IqviaOutReach implements Databa
                 }
             }
         }
+        system.debug('????lstPDER>>'+lstPDER.size());
 
         if (!lstPDER.isEmpty()) {
             TriggerHandlerExecutor.bypassHandler(
@@ -154,7 +155,7 @@ public with sharing class Batch_CreatePDERRecord_IqviaOutReach implements Databa
             TriggerHandlerExecutor.bypassHandler(
                 PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
             );
-            insert lstPDER;
+            database.insert(lstPDER,false);
         }
     }
 
