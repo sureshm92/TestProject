@@ -1,7 +1,6 @@
 import { LightningElement, track, api } from 'lwc';
 import getParticipantVisits from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsAndStudyType';
 import getParticipantVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsDetails';
-import getSiteAddress from '@salesforce/apex/ParticipantVisitsRemote.getSiteAddress';
 import basePathName from '@salesforce/community/basePath';
 import communicationPreference from '@salesforce/label/c.Communication_Preference_Url';
 import noVisitsLabel from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Entered';
@@ -120,6 +119,19 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.visitTimezone = TIME_ZONE;
                 var result = pvResult.pvList;
                 this.isEvent = pvResult.isEvent;
+                let location = pvResult?.studySiteAddress?.Site__r?.BillingAddress;
+
+            this.siteAddress = location
+                ? (location.street ? location.street : '') +
+                  ', ' +
+                  (location.city ? location.city : '') +
+                  ', ' +
+                  (location.stateCode ? location.stateCode : '') +
+                  ' ' +
+                  (location.postalCode ? location.postalCode : '')
+                : '';
+                this.siteName = pvResult?.studySiteAddress?.Site__r?.Name;
+                this.sitePhoneNumber = pvResult?.studySiteAddress?.Site__r?.Phone;
                 this.isResultsCard = this.isEvent != true;
                 if (result.length > 0) {
                     for (let i = 0; i < result.length; i++) {
@@ -220,9 +232,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
                     }
                     this.showList = true;
-                    if (this.visitid) {
-                        this.initializeData(this.visitid);
-                    }
+                    //if (this.visitid) {
+                         //this.initializeData(this.visitid);
+                     //}
                     this.createEditTask();
                 } else {
                     this.isUpcomingVisits = false;
@@ -262,18 +274,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         }
         this.sfdcBaseURL = window.location.origin + basePathName + communicationPreference;
         this.callParticipantVisit();
-        getSiteAddress()
-            .then((result) => {
-                this.template.querySelector('c-web-spinner').show();
-                var data = JSON.parse(result);
-                this.siteAddress = data.accountAddress;
-                this.siteName = data.accountName;
-                this.sitePhoneNumber = data.accountPhone;
-                this.template.querySelector('c-web-spinner').show();
-            })
-            .catch((error) => {
-                this.showErrorToast('Error occured', error.message, 'error');
-            });
     }
 
     getParams() {
@@ -346,7 +346,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.template
                     .querySelector('[data-id="' + this.column3 + '"]')
                     .classList.remove('hide');
-                this.initializeData(this.visitid);
+                //this.initializeData(this.visitid);
             }
 
             this.createEditTask();
@@ -499,13 +499,14 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 this.showChild = true;
-                if (!this.initialPageLoad) {
+                if(!this.isMobile){
                     this.initializeData(this.visitid);
+                }
+                if (!this.initialPageLoad) {
                     this.contentLoaded = true;
                     this.template.querySelector('c-web-spinner').hide();
                     this.template.querySelector('c-pp-Study-Visit-Details-Card')?.callFromParent();
                 } else {
-                    this.initializeData(this.visitid);
                     this.contentLoaded = true;
                     this.template.querySelector('c-web-spinner').hide();
                 }
