@@ -24,6 +24,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
     @track listOfHeaders = [];
     @track paraList = [];
     @api defaultCommunityBoolean;
+    @api isCalledFromIqviaLogin;
     @track pdfId;
     @track dwnldUrl;
     @track headerLogo;
