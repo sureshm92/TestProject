@@ -99,14 +99,16 @@ public without sharing class ConversationService {
                     peSet = new Map<Id,Participant_Enrollment__c>([SELECT Id FROM Participant_Enrollment__c Where Participant_Contact__c =:ParticipantContext.getCurrentContactId()]).keyset();
                 }
             }else{
-                List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
-                    pState.participant.Contact__c
-                );
-                if(!pastEnrollments.isEmpty()){
-                    for(Participant_Enrollment__c pe: pastEnrollments){
-                       peSet.add(pe.Id); 
+                if(!pState.isDelegate){
+                    List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
+                        pState.participant.Contact__c
+                    );
+                    if(!pastEnrollments.isEmpty()){
+                        for(Participant_Enrollment__c pe: pastEnrollments){
+                            peSet.add(pe.Id); 
+                        }
+                        peSet.add(pState.pe.Id);
                     }
-                    peSet.add(pState.pe.Id);
                 }
             }
         }
