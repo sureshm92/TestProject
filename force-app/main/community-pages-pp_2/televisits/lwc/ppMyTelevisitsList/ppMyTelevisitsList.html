@@ -87,11 +87,11 @@
                                 class="inactive-custom-box-mobil"
                             >
                                 <div class="slds-grid slds-wrap">
-                                    <div class="slds-col">
+                                    <div class="slds-col slds-size_1-of-20">
                                         <div class="left-line"></div>
                                     </div>
 
-                                    <div>
+                                    <div class="slds-col slds-size_11-of-12">
                                             <b>
                                                 <lightning-formatted-text
                                                     class="name-style"
@@ -129,7 +129,8 @@
                                             related-attendees = {record.relatedAttendees}
                                             ismobile = {ismobile}
                                         > </c-custom-help-text><br/><br/></p>
-                                       
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-12">
                                     <p>
                                         <template if:true = {record.showjoinbutton}>
                                             <button

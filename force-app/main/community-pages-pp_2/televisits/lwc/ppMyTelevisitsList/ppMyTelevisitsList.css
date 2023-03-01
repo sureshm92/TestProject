@@ -19,13 +19,13 @@
     border-radius: 16px;
     background-color: #015FF1;
     color: #FFFFFF;
-    margin-top: 7%;
-    margin-left: -20px;
-   /* margin-top: 18%;*/
+    margin-top: 60%;
+    /*margin-left: -20px;
+    margin-top: 18%;*/
 }
 .name-style,
 .nameStyle {
-    color: #595959;
+    color: #444444;
     font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
@@ -89,7 +89,7 @@
 
 .inactive-custom-box {
     box-sizing: border-box;
-    height: 80px;
+    /*height: 80px;*/
     width: 630px;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
@@ -117,7 +117,7 @@
     padding: 0.9rem 0 1rem 0.2rem;
     margin-bottom: 0.5rem;
 }
-.inactive-custom-box:hover,
+/*.inactive-custom-box:hover,*/
 .active-custom-box:hover {
     cursor: pointer;
 }

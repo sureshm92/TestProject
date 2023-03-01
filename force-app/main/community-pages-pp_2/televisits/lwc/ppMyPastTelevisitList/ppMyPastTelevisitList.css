@@ -4,7 +4,7 @@
 }
 .name-style,
 .nameStyle {
-    color: #595959;
+    color: #444444;
     font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
@@ -60,7 +60,7 @@
 
 .inactive-custom-box {
     box-sizing: border-box;
-    height: 80px;
+    /*height: 80px;*/
     width: 630px;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
@@ -70,7 +70,7 @@
 }
 .inactive-custom-box-mobile{
     box-sizing: border-box;
-    height: 80px;
+    /*height: 80px;*/
     width: 320px;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
@@ -79,7 +79,7 @@
     margin-bottom: 0.5rem;
 }
 
-.inactive-custom-box:hover,
+/*.inactive-custom-box:hover,*/
 .active-custom-box:hover {
     cursor: pointer;
 }
