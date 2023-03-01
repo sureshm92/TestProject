@@ -185,3 +185,74 @@
 .pad-left {
     margin-left: -30px !important;
 }
+
+.visit-button {
+    border-radius: 16px 0 0 16px;
+    border: 1px solid #d9d9d9 !important;
+    font-size: 14px;
+    padding: 0px 36px;
+}
+.active-button-background {
+    color: white !important;
+    background-color: #015ff1;
+}
+
+.inactive-button-background {
+    color: #595959 !important;
+    background-color: #ffffff !important;
+}
+
+.televisit-button {
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+    border-radius: 0 16px 16px 0 !important;
+    font-family: 'Proxima Nova';
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    height: 32px;
+    width: 109px;
+    margin-left: -1px;
+    font-size: 14px;
+}
+
+.upcomingheader {
+    height: 3.14%;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+
+.taskHeader {
+    height: 3.14%;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+
+.card-wrap {
+    padding: 0;
+}
+.container-card {
+    background-color: rgb(246, 247, 249);
+    border-top-color: #0096FF;
+    border-top-width: 8px;
+    padding: 0;
+    border-radius: 7px;
+    /* width: 412px; */
+    height: 416px;
+}
+
+.overflow-scroll {
+    height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 1rem 0 1rem;
+}

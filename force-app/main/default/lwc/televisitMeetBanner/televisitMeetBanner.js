@@ -187,14 +187,21 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 activeVisits.push(visitDetail);
             }
         });
+        /*
         if(this.allActiveVisits.length != activeVisits.length){
             this.moreVisitIconName = 'utility:chevrondown';
-        }
+        }*/
+        
+
         this.allActiveVisits = activeVisits;
         this.showMoreVisits =
             this.showMoreVisits && (activeVisits.length === 0 || activeVisits.length === 1)
                 ? false
                 : this.showMoreVisits;
+
+        if(!this.showMoreVisits){
+            this.moreVisitIconName = 'utility:chevrondown';
+        }
         if (activeVisits.length > 0) {
             this.hasActiveVisits = true;
         }
