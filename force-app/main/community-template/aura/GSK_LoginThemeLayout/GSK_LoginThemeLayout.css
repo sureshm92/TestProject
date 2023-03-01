@@ -51,6 +51,7 @@
     color: #297dfd;
     display: inline-flex;
     align-items: center;
+    /* margin-bottom: 45px; */
 }
 
 .THIS .rr-link:hover {
@@ -71,7 +72,14 @@
     background: white;
     border-radius: 4px;
     padding-top: 50px;
-    padding-bottom: 10px;
+    /* padding-bottom: 10px; */
+}
+
+.THIS .CPRAFooter{
+    background-color : #F2F2F2;
+    height: 116px;
+    margin-top: 40px;
+    text-align: center;
 }
 
 .THIS .login-form-panel .brand-header {
@@ -115,14 +123,30 @@
 /*}*/
 
 .THIS .powered-by {
-    color: #ffffff;
+    color: black;
     font-size: 14px;
-    text-align: center;
-    padding: 11px;
+    /* text-align: center; */
+    /* padding: 11px;  */
+}
+.THIS .page-link {
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    color : #0768fd;
+    /* text-align: center; */
+    width: 100%;
+    /* padding-top: 33px; */
 }
 
 .THIS .lg-form-element input {
     border: none !important;
+}
+.THIS .imgclass{
+    margin-left: 5px;
+    padding-bottom: 2px;
 }
 
 @media (max-width: 500px) {
