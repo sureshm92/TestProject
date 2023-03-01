@@ -120,7 +120,7 @@
                                     <div class="slds-grid">
                                         <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-4', 'slds-size_1-of-3')}">
                                         <!-- <div class="{!v.cssClassName}"> -->
-                                            <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
+                                            <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" class="slds-p-left--medium"/>
                                         </div>
                                         <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-5', 'slds-size_1-of-3')}">
                                             <c:privacyPolicyViewer
@@ -132,14 +132,14 @@
                                         </div>
                                         <div class="divider slds-size_1-of-6" ></div> 
                                         <aura:if isTrue="{!v.isCPRAavailable}">
-                                        <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-col slds-size_1-of-3 slds-p-right--small">
                                             <div class="page-link" onclick="{!c.onLinkClick}">
                                                 {!v.CPRAlabel}
                                                 <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
                                             </div>
                                         </div>
                                         </aura:if>
-                                        <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-6', 'slds-size_1-of-3')}">© IQVIA</div>
+                                        <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-6 slds-p-right--large', 'slds-size_1-of-3')}">© IQVIA</div>
                                     </div>
                                 </footer>
                             </aura:set>
@@ -268,12 +268,12 @@
                 </div>
             </aura:set>
         </aura:if>
-        <aura:if isTrue="{!v.communityType == 'Janssen'}">
+        <!-- <aura:if isTrue="{!v.communityType == 'Janssen'}">
             <c:ppCookiesBanner isRTL="{!v.isRTL}" communityName="Janssen" loginPage="true"
             />
             <aura:set attribute="else">
                 <c:ppCookiesBanner isRTL="{!v.isRTL}" communityName="Default" loginPage="true"
             /></aura:set>
-        </aura:if>
+        </aura:if> -->
     </aura:if>
 </aura:component>
