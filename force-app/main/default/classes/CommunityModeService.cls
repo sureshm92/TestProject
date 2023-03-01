@@ -704,7 +704,7 @@ public without sharing class CommunityModeService {
                       )
                     : CommunityTemplateService.getTemplateByCommunityName(
                         UserContext.getCurrentCommunityName()
-                    );
+                    )
             );
             mode.hasPastStudies = hasPastStudies;
             system.debug('mode alumni:::' + mode);
