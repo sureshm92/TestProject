@@ -16,6 +16,14 @@
                         </c-pp-footer-link>
                     </template>
                 </div>
+                 <!-- Your Privacy Choices-->
+                <div class="cf-link">
+                    <template if:true={isCPRAAvailable}>
+                        <c-pp-footer-link label={labels.CPRA_DoNotSell_PatientPortal} link={CPRALinkToredirect} iscpra-available={isCPRAAvailable}>
+                        </c-pp-footer-link>
+                        
+                    </template>
+                </div>
                 <!-- Terms Of Use-->
                 <div class="cf-link">
                     <template if:true={initialized}>

@@ -60,9 +60,60 @@
 
 @media all and (max-width: 500px) {
     .THIS .cf-links {
-        margin: 0;
+        display: grid;
+        justify-content: center;
         width: 100%;
-        display: flex;
-        justify-content: space-evenly;
     }
+    .THIS.rrc-footer {
+        margin-bottom: 25px;
+        margin-top : 10px;
+        overflow: hidden;
+    }
+    .THIS .cf-linksMobile{
+        /* margin-right: 28px; */
+    }
+
+    .THIS .cf-margin-cutter{
+        display: revert;
+    justify-content: space-between;
+    flex-wrap: wrap;
+     margin: unset; 
+    text-align: center;
+    width: 105%;
+    }
+
+    .THIS .cf-link {
+        display: inline-block;
+        padding: 5px 0px;
+    }
+
+    .THIS .cf-copyright{
+            padding: 10px;
+    text-align: center;
+    width: 100%;
+    /* padding: 10px 0px 10px; */
+    }
+}
+
+@media all and (min-width: 500px) and (max-width: 768px) {
+
+    .THIS.rrc-footer {
+        margin: 10px 0px 25px 0px;
+        overflow: hidden;
+    }
+
+.THIS .cf-copyright,     
+.THIS .cf-links {
+    text-align: center;
+    width: 100%;
+    padding: 10px 0px;
+}
+
+.THIS .cf-margin-cutter {
+    display: unset;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: -10px;
+}
+
 }
