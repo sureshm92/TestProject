@@ -29884,14 +29884,10 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Created By PI New PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the participation journey.&lt;/span&gt;
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the enrollment process.&lt;/span&gt;</value>
 
-&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram center.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
-</value>
     </labels>
 
     <labels>
@@ -29906,11 +29902,15 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient New  PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the IQVIA Patient Portal will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram center.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Sign_Patient_New_PP</fullName>
@@ -30003,11 +30003,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
-        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more ##studiesOrPrograms listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.
-
-            &lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
-            &lt;span style=&quot;color:#444444;&quot;&gt;Your username is ##UserName.&lt;/span&gt;
-        </value>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more ##studiesOrPrograms that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
     </labels>
     <labels>
         <fullName>Programs_PP</fullName>
@@ -30064,44 +30060,45 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Initial_Patient_ePR_PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information. A member of the ##isStudyorProgram team will contact you regarding the next steps in the ##isStudyorProgram process.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information.A member of the ##isStudyorProgram team will contact you regarding the next steps in the ##isStudyorProgram process.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Patient_ePR_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Signature_Patient_ePR_PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the IQVIA Patient Portal will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Participant_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Signature_Participant_Delegate_PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;We are excited to be on this journey with you.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
+            &lt;span style=&quot;color:#444444;&quot;&gt;Your username is ##UserName.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are excited to be on this journey with you.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_RP_Referral_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Initial_Patient_RP_Referral_PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the referral process.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the referral process.&lt;/span&gt;</value>
     </labels>
 
     <labels>
@@ -30109,11 +30106,13 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Signature_Patient_RP_Referral_PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the IQVIA Patient Portal will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Program_SMS_PP</fullName>
