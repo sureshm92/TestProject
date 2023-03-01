@@ -109,16 +109,15 @@ public without sharing class ConversationService {
                         }
                         peSet.add(pState.pe.Id);
                     }
-                }else{
-                    List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
-                        ParticipantContext.getCurrentContactId()
-                    );
-                    if(!pastEnrollments.isEmpty()){
-                        for(Participant_Enrollment__c pe: pastEnrollments){
-                            peSet.add(pe.Id); 
-                        }
-                        peSet.add(pState.pe.Id);
+                }else{// delegate active
+                    Set<Id> peIdSet = PatientDelegateEnrollmentService.getPEIdSet(
+                                        ParticipantContext.getCurrentContactId(),
+                                        UserContext.getUserContactId()
+                                    ) ;
+                    if(!peIdSet.isEmpty()){
+                        peSet.addAll(peIdSet);
                     }
+                    peSet.add(pState.pe.Id);
                 }
             }
         }
