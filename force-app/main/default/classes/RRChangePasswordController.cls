@@ -994,6 +994,18 @@ public without sharing class RRChangePasswordController {
             lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
                         where Active__c = true and Link_to_redirect__c != Null and Community_Name__c = 'GSK Community' LIMIT 1];
         }
+        else if(strCommunityType == 'IQVIA Patient Portal')
+        {
+            
+            lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
+                        where Active__c = true and Link_to_redirect__c != Null and Community_Name__c = 'IQVIA Patient Portal' LIMIT 1];
+        }
+        else{
+             
+            lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
+                        where Active__c = true and Link_to_redirect__c != Null and Community_Name__c =:strCommunityType LIMIT 1];
+
+        }
         isCPRAAvailable = false;
         if(!lstMd.isEmpty())
         {
