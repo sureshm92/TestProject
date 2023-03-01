@@ -1,0 +1,91 @@
+<template>
+    <!--<div class="slds-grid card-wrap">
+        <header class="slds-has-flexi-truncate">
+            <h2 class="slds-card__header-title">
+                <p class="slds-card__header-link slds-truncate taskHeader">
+                    <span>Upcoming</span>
+                </p>
+            </h2>
+        </header>
+    </div>-->
+
+    
+        <!--<div class="slds-card__body slds-card__body_inner card-wrap " style="overflow: hidden">
+            <article class="slds-card slds-card_boundary container-card">
+                <div class="slds-card__body slds-card__body_inner slds-scrollable_y" style="height:50rem;width:24rem">
+                -->
+                    <template if:false={showBlankTelevisit}>
+                        <template for:each={allActiveVisits} for:item="visit" >
+                            <div key={visit.Id}>
+                                <lightning-card>
+                                    <p class="tvheader">{visit.Televisit__r.Title__c} </p>
+                                    <p class="tvbody">
+                                        <img src={televisitDatePP2} style="width:30px;"></img>
+                                        <lightning-formatted-date-time style="padding-left: 8px;" month="long" year="numeric" day="2-digit" value={visit.Televisit__r.Visit_Date_Time__c}></lightning-formatted-date-time></p>
+                                    <p class="tvbody">
+                                        <img src={televisitTimePP2} style="width:30px;"></img>
+                                        <lightning-formatted-date-time style="padding-left: 8px;" value={visit.Televisit__r.Visit_Date_Time__c} hour="2-digit" minute="2-digit" 
+                                        ></lightning-formatted-date-time> -&nbsp; 
+                                        <lightning-formatted-date-time value={visit.Televisit__r.Visit_End_Date_Time__c} hour="2-digit" minute="2-digit" 
+                                        ></lightning-formatted-date-time>
+                                    </p>
+                                    <hr class="hrline"/>
+                                    <p class="tvbody">
+                                        <img src={televisitAttendeePP2} style="width:35px"></img>
+                                        <span>{visit.PINameWithoutSalutation} (PI)</span> 
+                                       
+                                        <!--
+                                        <span class="tooltip" style="float:right">+ {visit.numberOfParticipants} more 
+                                            <span class="tooltiptext"> 
+                                                <template for:each={visit.televisitAttendees} for:item="attendee" >
+                                                        <span  key={attendee.Id} >{attendee.Firstname__c} {attendee.Lastname__c} ({attendee.Attendee_Type__c}) </span>
+                                                    <br key={attendee.Id}/>
+                                                </template>
+                                            </span>
+                                        </span>-->
+                                        <span>
+                                            <c-upcoming-televisit-tooltip
+                                        height = "96px"
+                                        width = "149px"
+                                        position="absolute"
+                                        related-attendees = {visit.relatedAttendees}
+                                        displaytext = {visit.numberOfParticipants}
+                                    
+                                    > </c-upcoming-televisit-tooltip>
+                                        </span>
+                                    </p> 
+                                        
+                                        
+
+                                      
+                                        
+                                    <p class="tvbody" style="text-align:center; padding:10px"><a href="televisit" onclick={setSessionCookie}>View Televisit Details</a> </p>
+                                    <!--{visit.eachMeetInfo} &nbsp;-->
+                                    
+                                    <!--<lightning-button data-name={visit.Televisit__r.Meeting_URL__c} label={labels.JOIN_MEET}
+                                        title="Click To Join" onclick={handleJoinClick} variant="base"></lightning-button>
+                                        <br/>-->
+                                </lightning-card>
+                            </div>
+                            <br key={visit.Id}/>
+                        </template> 
+                    </template>
+                    <template if:true={showBlankTelevisit}>
+                        <div class="slds-card-wrapper slds-card_boundary slds-align_absolute-center televisit-card-upcoming">
+                            <span class="center-align">
+                                <img src={empty_state} />
+                            </span>
+                           <span class="text-colour"> No upcoming televisits </span>
+                           <div style="margin-bottom: -200px;text-align:center;font-size:14px;font-weight:600;">
+                                <a class="label" href="televisit" onclick={setSessionCookie}>
+                                    View All Televisits
+                                </a>
+                            </div>
+                        </div>
+                    </template>
+                        
+                
+                <!--</div>
+            </article>
+        </div> -->
+</template>
