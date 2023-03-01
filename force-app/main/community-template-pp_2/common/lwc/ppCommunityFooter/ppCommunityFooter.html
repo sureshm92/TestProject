@@ -17,13 +17,12 @@
                     </template>
                 </div>
                  <!-- Your Privacy Choices-->
+                 <template if:true={isCPRAAvailable}>
                 <div class="cf-link">
-                    <template if:true={isCPRAAvailable}>
                         <c-pp-footer-link label={labels.CPRA_DoNotSell_PatientPortal} link={CPRALinkToredirect} iscpra-available={isCPRAAvailable}>
-                        </c-pp-footer-link>
-                        
-                    </template>
+                        </c-pp-footer-link> 
                 </div>
+                </template>
                 <!-- Terms Of Use-->
                 <div class="cf-link">
                     <template if:true={initialized}>
