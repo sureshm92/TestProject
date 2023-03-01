@@ -3058,6 +3058,34 @@ Duration: ##VisitDuration</value>
         <value>Search for a phone number</value>
     </labels>
     <labels>
+        <fullName>CPRA_DoNotSell_GSK</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPRA_DoNotSell_GSK</shortDescription>
+        <value>Your Privacy Choices</value>
+    </labels>
+    <labels>
+        <fullName>CPRA_DoNotSell_IQVIA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPRA_DoNotSell_IQVIA</shortDescription>
+        <value>Your Privacy Choices</value>
+    </labels>
+    <labels>
+        <fullName>CPRA_DoNotSell_PatientPortal</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPRA_DoNotSell_PatientPortal</shortDescription>
+        <value>Your Privacy Choices</value>
+    </labels>
+    <labels>
+        <fullName>CPRA_DoNotSell_Janssen</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPRA_DoNotSell_Janssen</shortDescription>
+        <value>Your Privacy Choices</value>
+    </labels>
+    <labels>
         <fullName>CPD_About_you</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>

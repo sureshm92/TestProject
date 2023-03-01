@@ -86,8 +86,8 @@ public without sharing class ConversationService {
 
         if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             pState = ParticipantService.getInstance().getState();
-            System.debug('pState: '+pState);
-            System.debug('UserContext.getUserContact() :'+UserContext.getUserContact());
+            //System.debug('pState: '+pState.value);
+            //System.debug('UserContext.getUserContact() :'+UserContext.getUserContact());
             if(UserContext.getUserContact().Current_Participant_Enrollment__c == null){
                 hasPe = false;
                 if(pState.isDelegate){
@@ -95,6 +95,20 @@ public without sharing class ConversationService {
                                 ParticipantContext.getCurrentContactId(),
                                 UserContext.getUserContactId()
                             ) ;
+                }else{
+                    peSet = new Map<Id,Participant_Enrollment__c>([SELECT Id FROM Participant_Enrollment__c Where Participant_Contact__c =:ParticipantContext.getCurrentContactId()]).keyset();
+                }
+            }else{
+                if(!pState.isDelegate){
+                    List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
+                        pState.participant.Contact__c
+                    );
+                    if(!pastEnrollments.isEmpty()){
+                        for(Participant_Enrollment__c pe: pastEnrollments){
+                            peSet.add(pe.Id); 
+                        }
+                        peSet.add(pState.pe.Id);
+                    }
                 }
             }
         }

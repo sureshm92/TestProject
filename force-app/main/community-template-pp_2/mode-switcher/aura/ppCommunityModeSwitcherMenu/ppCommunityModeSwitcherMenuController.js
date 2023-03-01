@@ -87,26 +87,12 @@
                         component.set('v.reset', true);
                         component.set('v.reset', false);
 
-                        communityService.executeAction(
-                            component,
-                            'getCommunityUserVisibility',
-                            null,
-                            function (userVisibility) {
-                                communityService.setMessagesVisible(userVisibility.messagesVisible);
-                                communityService.setTrialMatchVisible(
-                                    userVisibility.trialMatchVisible
-                                );
-                                communityService.setEDiaryVisible(userVisibility.eDiaryVisible);
-                                component.getEvent('onModeChange').fire();
-                                //component.find('pubsub').fireEvent('reload');
                                 if (
                                     (reloadRequired && navigateTo == 'account-settings') ||
                                     navigateTo != 'account-settings'
                                 ) {
                                 communityService.reloadPage();
                                 }
-                            }
-                        );
                     }
                 );
             }
