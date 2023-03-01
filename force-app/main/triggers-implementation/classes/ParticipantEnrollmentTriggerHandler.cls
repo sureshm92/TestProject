@@ -807,12 +807,13 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             upsert histories;
         }
         createTasks(peListForTaskCreation);
-        PatientDelegateService.updateContactPermSetsWithDelegates(
+        if(oldMap == null){
+            PatientDelegateService.updateContactPermSetsWithDelegates(
             participantContactIds,
             invitedContactIds,
             perIds
-        );
-
+            );
+        }
         if (!notifications.isEmpty())
             insert notifications;
     }
