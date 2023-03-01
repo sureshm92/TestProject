@@ -160,6 +160,11 @@
     letter-spacing: 0;
     line-height: 24px;
 }
+.THIS .policyCss{
+    text-align: right;
+    padding-right: 2rem;
+}
+
 
 .THIS .slds-form-element__label {
     height: 24px;

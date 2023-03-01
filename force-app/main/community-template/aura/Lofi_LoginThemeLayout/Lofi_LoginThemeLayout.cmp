@@ -81,35 +81,70 @@
                         </div>
                     </div>
                     <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-p-left_medium', '')}">
-                        <footer class="{!'footer' + if(v.isRTL ,' align-rtl', '')}">
-                            <div class="slds-col" style="font-weight: 600; margin-bottom: 1em">
-                                <aura:unescapedHtml value="{!$Label.c.Lofi_Optimized_Message}" />
-                            </div>
-                            <div class="slds-grid">
-                                <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-4', 'slds-size_1-of-3')}">
-                                <!-- <div class="{!v.cssClassName}"> -->
-                                    <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
+                        <aura:if isTrue="{!v.communityType == 'Janssen'}">
+                            <footer class="{!'footer' + if(v.isRTL ,' align-rtl', '')}">
+                                <div class="slds-col" style="font-weight: 600; margin-bottom: 1em">
+                                    <aura:unescapedHtml value="{!$Label.c.Lofi_Optimized_Message}" />
                                 </div>
-                                <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-5', 'slds-size_1-of-3')}">
-                                    <c:privacyPolicyViewer
-                                        isRtl="{!v.isRTL}"
-                                        isModalOpen="{!v.showPpPopup}"
-                                        onclosePpModal="{!c.closePpPopup}"
-                                        communityTypeName="{!v.communityType}"
-                                    />
-                                </div>
-                                <div class="divider slds-size_1-of-6" ></div> 
-                                <aura:if isTrue="{!v.isCPRAavailable}">
-                                <div class="slds-col slds-size_1-of-3">
-                                    <div class="page-link" onclick="{!c.onLinkClick}">
-                                        {!v.CPRAlabel}
-                                        <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+                                <div class="slds-col">
+                                    <!-- <div class="{!v.cssClassName}"> -->
+                                        <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
                                     </div>
+                                <div class="slds-grid slds-p-top--medium">
+                                    <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-2 policyCss', 'slds-size_1-of-1')}">
+                                        <c:privacyPolicyViewer
+                                            isRtl="{!v.isRTL}"
+                                            isModalOpen="{!v.showPpPopup}"
+                                            onclosePpModal="{!c.closePpPopup}"
+                                            communityTypeName="{!v.communityType}"
+                                        />
+                                    </div>
+                                    <div class="divider slds-size_1-of-2" ></div> 
+                                    <aura:if isTrue="{!v.isCPRAavailable}">
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="page-link" onclick="{!c.onLinkClick}">
+                                            {!v.CPRAlabel}
+                                            <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+                                        </div>
+                                    </div>
+                                    </aura:if>  
                                 </div>
-                                </aura:if>
-                                <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-6', 'slds-size_1-of-3')}">© IQVIA</div>
-                            </div>
-                        </footer>
+                                <div class="slds-col">© IQVIA</div>
+                                
+                            </footer>
+                            <aura:set attribute="else">
+                                <footer class="{!'footer' + if(v.isRTL ,' align-rtl', '')}">
+                                    <div class="slds-col" style="font-weight: 600; margin-bottom: 1em">
+                                        <aura:unescapedHtml value="{!$Label.c.Lofi_Optimized_Message}" />
+                                    </div>
+                                    <div class="slds-grid">
+                                        <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-4', 'slds-size_1-of-3')}">
+                                        <!-- <div class="{!v.cssClassName}"> -->
+                                            <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
+                                        </div>
+                                        <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-5', 'slds-size_1-of-3')}">
+                                            <c:privacyPolicyViewer
+                                                isRtl="{!v.isRTL}"
+                                                isModalOpen="{!v.showPpPopup}"
+                                                onclosePpModal="{!c.closePpPopup}"
+                                                communityTypeName="{!v.communityType}"
+                                            />
+                                        </div>
+                                        <div class="divider slds-size_1-of-6" ></div> 
+                                        <aura:if isTrue="{!v.isCPRAavailable}">
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <div class="page-link" onclick="{!c.onLinkClick}">
+                                                {!v.CPRAlabel}
+                                                <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+                                            </div>
+                                        </div>
+                                        </aura:if>
+                                        <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-6', 'slds-size_1-of-3')}">© IQVIA</div>
+                                    </div>
+                                </footer>
+                            </aura:set>
+                            </aura:if>
+                      
                     </div>
                 </div>
             </div>
@@ -171,32 +206,63 @@
                                 src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Tech_White.svg'}"
                             />
                         </div>
-                        <div class="slds-col"> 
-                            <div class="slds-grid slds-grid_align-center">
-                                 <div class="slds-col ">
-                                    <c:privacyPolicyViewer
-                                    isRtl="{!v.isRTL}"
-                                    isModalOpen="{!v.showPpPopup}"
-                                    onclosePpModal="{!c.closePpPopup}"
-                                    communityTypeName="{!v.communityType}"
-                                    isCalledFromIqviaLogin = "true"
-                                />
-                                 </div>
-                                 <aura:if isTrue="{!v.isCPRAavailable}">
-                                 <div class="dividerMobile slds-m-horizontal_small "></div>
-                                  <div class="slds-col slds-m-right_medium">
-                                    <div class="page-linkMobile" onclick="{!c.onLinkClick}">
-                                        {!v.CPRAlabel}
-                                        <img src="{!$Resource.CCPA_White_icon}" class="imgclass"/> 
+                        <aura:if isTrue="{!v.communityType == 'Janssen'}"> 
+                            <div class="slds-col"> 
+                                <div class="slds-grid slds-grid_align-center">
+                                     <div class="slds-col">
+                                        <c:privacyPolicyViewer
+                                        isRtl="{!v.isRTL}"
+                                        isModalOpen="{!v.showPpPopup}"
+                                        onclosePpModal="{!c.closePpPopup}"
+                                        communityTypeName="{!v.communityType}"
+                                        isCalledFromIqviaLogin = "true"
+                                    />
+                                     </div>
+                                     <aura:if isTrue="{!v.isCPRAavailable}">
+                                     <div class="dividerMobile slds-m-horizontal_small "></div>
+                                      <div class="slds-col slds-m-right_medium">
+                                        <div class="page-linkMobile" onclick="{!c.onLinkClick}">
+                                            {!v.CPRAlabel}
+                                            <img src="{!$Resource.CCPA_White_icon}" class="imgclass"/> 
+                                        </div>
+                                     </div>
+                                     </aura:if> 
                                     </div>
-                                 </div>
-                                 </aura:if>
-                                  <div class="slds-col slds-m-left_xx-small">
-                                         © IQVIA 
-                                 </div>
-                                
+                                   
+                                    <div class="slds-col slds-m-left_xx-small slds-m-right--large">
+                                        © IQVIA 
                                 </div>
-                        </div>
+                               
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-col"> 
+                                    <div class="slds-grid slds-grid_align-center">
+                                         <div class="slds-col ">
+                                            <c:privacyPolicyViewer
+                                            isRtl="{!v.isRTL}"
+                                            isModalOpen="{!v.showPpPopup}"
+                                            onclosePpModal="{!c.closePpPopup}"
+                                            communityTypeName="{!v.communityType}"
+                                            isCalledFromIqviaLogin = "true"
+                                        />
+                                         </div>
+                                         <aura:if isTrue="{!v.isCPRAavailable}">
+                                         <div class="dividerMobile slds-m-horizontal_small "></div>
+                                          <div class="slds-col slds-m-right_medium">
+                                            <div class="page-linkMobile" onclick="{!c.onLinkClick}">
+                                                {!v.CPRAlabel}
+                                                <img src="{!$Resource.CCPA_White_icon}" class="imgclass"/> 
+                                            </div>
+                                         </div>
+                                         </aura:if>
+                                          <div class="slds-col slds-m-left_xx-small">
+                                                 © IQVIA 
+                                         </div>
+                                    </div>
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                        
                     </div>
                     </div>
                 </div>
