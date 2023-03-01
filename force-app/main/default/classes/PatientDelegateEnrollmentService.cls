@@ -278,7 +278,7 @@ public without sharing class PatientDelegateEnrollmentService {
             if(pde.Id!=null){
                 update pde;
                 //Remove permission set if there is no Active PDE available for the withdrawn Study.
-                if(activePDEPermissionsetName == null || (activePDEPermissionsetName != null && 
+                if(lst.size()> 1 && activePDEPermissionsetName == null || (activePDEPermissionsetName != null && 
                                                         !activePDEPermissionsetName.contains(permissionSetNameToRemove))
                                                         )
                 {
@@ -615,7 +615,7 @@ public without sharing class PatientDelegateEnrollmentService {
                 delete alertlst;
 
                 //Remove permission set if there is no Active PDE available for the deleted Study.
-                if(activePDEPermissionsetName == null || (activePDEPermissionsetName != null && 
+                if(lst.size()> 1 && activePDEPermissionsetName == null || (activePDEPermissionsetName != null && 
                                                         !activePDEPermissionsetName.contains(permissionSetNameToRemove))
                                                         )
                 {
