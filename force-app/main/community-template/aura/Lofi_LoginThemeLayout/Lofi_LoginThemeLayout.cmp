@@ -268,12 +268,12 @@
                 </div>
             </aura:set>
         </aura:if>
-        <!-- <aura:if isTrue="{!v.communityType == 'Janssen'}">
+        <aura:if isTrue="{!v.communityType == 'Janssen'}">
             <c:ppCookiesBanner isRTL="{!v.isRTL}" communityName="Janssen" loginPage="true"
             />
             <aura:set attribute="else">
                 <c:ppCookiesBanner isRTL="{!v.isRTL}" communityName="Default" loginPage="true"
             /></aura:set>
-        </aura:if> -->
+        </aura:if>
     </aura:if>
 </aura:component>
