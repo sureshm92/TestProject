@@ -528,29 +528,73 @@ public without sharing class PatientDelegateEnrollmentService {
 
 
     @AuraEnabled
-    public static PatientDelegateEnrollmentsWrapperMain removeAssignment(String pDEId) {
+    public static PatientDelegateEnrollmentsWrapperMain removeAssignment(String pDEId,String pDId) {
         list<Patient_Delegate_Enrollment__c> lst = [
-            SELECT Id, Status__c,Patient_Delegate__r.Contact__c
+            SELECT Id, Status__c,Patient_Delegate__r.Contact__c, Participant_enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
             FROM Patient_Delegate_Enrollment__c
-            WHERE Id = :pDEId
+            WHERE Patient_Delegate__c = :pDId 
+            AND Status__c = 'Active'
         ];
+        Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
+        String permissionSetNameToRemove = '';
+        Set<String> activePDEPermissionsetName =  new Set<String>();
+        Id delContactId = null;
+        account acc = new account();
         if (lst.size() > 0) {
-            Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
-            pde.Id = lst[0].Id;
-            pde.Status__c = 'Disconnected';
-            update pde;
-            List<Alert__c> alertlst = [
-                SELECT Id,Viewed__c 
-                FROM Alert__c 
-                WHERE Contact__c = : pde.Patient_Delegate__r.Contact__c and Viewed__c = False
-            ];
-            delete alertlst;
+            for(Patient_Delegate_Enrollment__c pden:lst){
+                if(pden.Id == pDEId){
+                    //acc.description = acc.description + '****inside if, ';
+                    pde.Id = lst[0].Id;
+                    pde.Status__c = 'Disconnected';
+                    permissionSetNameToRemove = pden.Participant_enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                    delContactId = pden.Patient_Delegate__r.Contact__c; 
+                }else{
+                    activePDEPermissionsetName.Add(pden.Participant_enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
+                }
+            }
+            
+            if(pde.Id!=null){
+                //acc.description =  acc.description + '_ Inside PDE upd: '; 
+                update pde;
+                //Delete alerts
+                List<Alert__c> alertlst = [
+                    SELECT Id,Viewed__c 
+                    FROM Alert__c 
+                    WHERE Contact__c = : pde.Patient_Delegate__r.Contact__c and Viewed__c = False
+                ];
+                delete alertlst;
+
+                //Remove permission set if there is no Active PDE available for the deleted Study.
+                if(activePDEPermissionsetName == null || (activePDEPermissionsetName != null && 
+                                                        !activePDEPermissionsetName.contains(permissionSetNameToRemove))
+                                                        )
+                {
+                    List<PermissionSetAssignment> permissionSetToRemoveList = [select id,
+                                                                    PermissionSet.Name 
+                                                                    FROM PermissionSetAssignment 
+                                                                    WHERE Assignee.ContactId =:delContactId];
+                    PermissionSetAssignment permissionSetToRemove = new PermissionSetAssignment();
+                    for(PermissionSetAssignment permSet: permissionSetToRemoveList){
+                        if(permSet.PermissionSet.Name.contains(permissionSetNameToRemove)){
+                            permissionSetToRemove = permSet;
+                        }
+                    }
+                    if(permissionSetToRemove.Id != null){
+                        removePermissionSet(permissionSetToRemove.Id);
+                    }
+                }
+            }          
 
             return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
         }
         return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
     }
 
+    @future
+    public static void removePermissionSet(String permissionSetId) {
+        PermissionSetAssignment permSetAssignment = [select Id from PermissionSetAssignment where Id =:permissionSetId];
+        delete permSetAssignment;
+    }
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain deleteDelegates(String pdId) {
         try {

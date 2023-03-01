@@ -13,6 +13,7 @@
     <template if:true={showpopup}>
         <c-pp-remove-delegate-modal-old
             pdenrollmentid={removeStudyPDEId}
+            remove-study-p-d-id ={removeStudyPDId}
             messtext={modalMesstext}
             tittext={label.PG_PST_L_Delegates_Remove_Himself_Header}
             onconfirmmodal={handleRemoveDelegate}
@@ -208,6 +209,7 @@
                                                                 title=""
                                                                 onclick={openRemoveDelegateModal}
                                                                 data-pdeid={pdEnrollment.Id}
+                                                                data-pdid ={del.pdId}
                                                                 data-pdfn={del.PatientDelegate.First_Name__c}
                                                                 data-pdln={del.PatientDelegate.Last_Name__c}
                                                                 disabled={pdEnrollment.disableRemoveButton}
