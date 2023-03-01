@@ -1,19 +1,25 @@
 <template>
-        <!--<div class="slds-scrollable_y scroll-bar">-->
-               <template if:true={showupcomingtelevisits}>
-                   <template if:false={past}>
-                   <template if:false={ismobile}>
+    <!--<div class="slds-scrollable_y scroll-bar">-->
+        <template if:true={showupcomingtelevisits}>
+            <template if:false={past}>
+                <template if:false={ismobile}>
+                    <div class="slds-scrollable_y scroll-bar">
+
                     <template for:each={upcomingtelevisitdata} for:item="record">
+                        
                         <div key={record}>
                             <div
                                 class="inactive-custom-box slds-align_absolute-center"
                             >
                                 <div class="slds-grid slds-wrap">
-                                    <div class="slds-col slds-size_1-of-20">
+                                   <!-- <div class="slds-col slds-size_1-of-20">
                                         <div class="left-line"></div>
-                                    </div>
+                                    </div>-->
 
                                     <div class="slds-col slds-size_8-of-12">
+                                        <div class="left-line1">
+                                            <div class="left-line2">
+
                                             <b>
                                                 <lightning-formatted-text
                                                     class="name-style"
@@ -43,6 +49,8 @@
                                                 >
                                                 </lightning-formatted-text>
                                             </p>
+                                        </div>
+                                    </div>
                                     </div>
                                         <div class="slds-col slds-size_2-of-12">
                                             <template if:true = {record.showjoinbutton}>
@@ -78,8 +86,9 @@
                                 </div>
                             </div>
                         </div>
-                    </template>
-                   </template>
+                </template>
+                </div>
+            </template>
                    <template if:true={ismobile}>
                     <template for:each={upcomingtelevisitdata} for:item="record">
                         <div key={record} class="slds-align_absolute-center">
@@ -87,11 +96,13 @@
                                 class="inactive-custom-box-mobil"
                             >
                                 <div class="slds-grid slds-wrap">
-                                    <div class="slds-col slds-size_1-of-20">
+                                    <!--<div class="slds-col slds-size_1-of-20">
                                         <div class="left-line"></div>
-                                    </div>
+                                    </div>-->
 
-                                    <div class="slds-col slds-size_11-of-12">
+                                    <div class="slds-size_11-of-12">
+                                        <div class="left-line1">
+                                            <div class="left-line2">
                                             <b>
                                                 <lightning-formatted-text
                                                     class="name-style"
@@ -128,29 +139,31 @@
                                             class="group-icon"
                                             related-attendees = {record.relatedAttendees}
                                             ismobile = {ismobile}
-                                        > </c-custom-help-text><br/><br/></p>
+                                        > </c-custom-help-text><br/><br/></p> 
                                     </div>
+                                    </div>                                      
+                                </div>
                                     <div class="slds-col slds-size_2-of-12">
-                                    <p>
-                                        <template if:true = {record.showjoinbutton}>
-                                            <button
-                                            class="slds-button slds-button_neutral join-button-mobile active-button-background"
-                                            data-id={record.televisitmettingurl} data-tv={record.televisitId}
-                                            onclick={joinmeeting} style="display:block"
-                                            > 
-                                            Join
-                                            </button>
-                                        </template>
-                                        <template if:false = {record.showjoinbutton}>
-                                            <button
-                                            class="slds-button slds-button_neutral join-button-mobile active-button-background"
-                                            data-id={record.televisitmettingurl} data-tv={record.televisitId}
-                                            onclick={joinmeeting} style="display:none"
-                                            > 
-                                            Join
-                                            </button>
-                                        </template>
-                                        </p>
+                                        <p>
+                                            <template if:true = {record.showjoinbutton}>
+                                                <button
+                                                class="slds-button slds-button_neutral join-button-mobile active-button-background"
+                                                data-id={record.televisitmettingurl} data-tv={record.televisitId}
+                                                onclick={joinmeeting} style="display:block"
+                                                > 
+                                                Join
+                                                </button>
+                                            </template>
+                                            <template if:false = {record.showjoinbutton}>
+                                                <button
+                                                class="slds-button slds-button_neutral join-button-mobile active-button-background"
+                                                data-id={record.televisitmettingurl} data-tv={record.televisitId}
+                                                onclick={joinmeeting} style="display:none"
+                                                > 
+                                                Join
+                                                </button>
+                                            </template>
+                                            </p>
                                     </div>
                                 </div>
                             </div>

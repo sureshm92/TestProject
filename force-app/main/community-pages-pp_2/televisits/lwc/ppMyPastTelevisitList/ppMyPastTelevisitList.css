@@ -12,9 +12,10 @@
 }
 
 .scroll-bar {
-    height: 39rem;
+    height: 90%;
+    /*height: 39rem;
     border-radius: 4px;
-    margin-right: 1rem;
+    margin-right: 1rem;*/
 }
 
 .left-line,
@@ -118,6 +119,22 @@
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
+}
+.left-line1{
+    border-left: 4px solid #009dd6;
+    border-radius: 4px;
+    margin-left: 16px;
+}
+.left-line2 {
+margin-left: 16px;
+}
+.left-grey-line1{
+    border-left: 4px solid #B5B5B5;
+    border-radius: 4px;
+    margin-left: 16px;
+}
+.left-grey-line2 {
+    margin-left: 16px;
 }
 /*
 @media all and (max-width: 1200px) {

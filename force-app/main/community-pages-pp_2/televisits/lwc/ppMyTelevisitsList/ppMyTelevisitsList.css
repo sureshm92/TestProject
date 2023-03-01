@@ -37,9 +37,27 @@
 }
 
 .scroll-bar {
-    height: 39rem;
+    height: 90%;
+    /*height: 39rem;
     border-radius: 4px;
-    margin-right: 1rem;
+    margin-right: 1rem;*/
+}
+.left-line1{
+        border-left: 4px solid #009dd6;
+        border-radius: 4px;
+        margin-left: 16px;
+}
+
+
+.left-line2 {
+    margin-left: 16px;
+}
+
+.innerbox {
+    max-height: 360px;
+    padding-right: 15px;
+    overflow-y: scroll;
+    margin-bottom: 20px;
 }
 
 .left-line,

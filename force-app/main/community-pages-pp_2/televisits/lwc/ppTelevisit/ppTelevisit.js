@@ -56,6 +56,11 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
             }
             
         }
+        if(this.delegatecheck && this.upcomingTelevisitslist.length > 0 ){
+            this.isdelegate = true;
+        }else{
+            this.isdelegate = false;
+        }
     }
     onPastClick (){
         this.reloadupcomingcomponent = false;
@@ -81,7 +86,9 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
                 this.timechanges = result.tz;
                 this.pastTelevisitlist = result.televisitpastList;
                 this.upcomingTelevisitslist = result.televisitupcomingList;
-                this.isdelegate = result.isdelegate;
+                if(result.isdelegate && result.televisitupcomingList.length > 0){
+                    this.isdelegate = true;
+                }
                 if(this.pastTelevisitlist.length == 0){
                     this.showblankpasttelsvisits = true;
                 }
@@ -98,7 +105,9 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
             }else{
                 this.showblankupcomingtelevisits = true;
                 this.showblankpasttelsvisits = true;
-                this.isdelegate = result.isdelegate;
+                if(result.isdelegate && result.televisitupcomingList.length > 0){
+                    this.isdelegate = true;
+                }
             }
             this.template.querySelector('c-web-spinner').hide();
             this.contentLoaded = true;
