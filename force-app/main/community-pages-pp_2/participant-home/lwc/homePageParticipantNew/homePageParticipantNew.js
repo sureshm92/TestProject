@@ -25,6 +25,7 @@ export default class HomePageParticipantNew extends LightningElement {
     isInitialized = false;
     isProgram = false;
     showVisitCard = false;
+    showTelevisitCard = false;
     updatesSection = false;
     @track showVisitCardMobile = false;
     updateSize;
@@ -33,6 +34,8 @@ export default class HomePageParticipantNew extends LightningElement {
     @track taskList = false;
     homeIllustration = pp_icons + '/' + 'HomePage_Illustration.svg';
     homeIllustrationMble = pp_icons + '/' + 'HomePage_Illustration_Mble.svg';
+    isTelevisits = false;
+    showUpcomingSection =  true;
 
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
@@ -72,6 +75,14 @@ export default class HomePageParticipantNew extends LightningElement {
                                 res.pvCount != undefined &&
                                 res.pvCount > 0;
                         }
+                            this.showTelevisitCard = this.clinicalrecord.Televisit_Vendor_is_Available__c;
+                            if(this.showTelevisitCard && !this.showVisitCard){
+                                this.isTelevisits = true;
+                            }
+
+                            if(!this.showTelevisitCard && !this.showVisitCard){
+                                this.showUpcomingSection = false;
+                            }
                     }
                     if (this.desktop != true) {
                         this.updatesSection = true;
@@ -135,4 +146,13 @@ export default class HomePageParticipantNew extends LightningElement {
             })
         );
     }
+
+    visitsTab(){
+        this.isTelevisits = false;
+    }
+
+    televisitsTab(){
+        this.isTelevisits = true;
+    }
+
 }

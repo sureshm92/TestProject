@@ -3,7 +3,7 @@
     <template if:true={isInitialized}>
         <template if:true={desktop}>
             <article class="slds-card header-card">
-                    <div class="slds-card__header slds-grid card-wrap">
+                    <!--<div class="slds-card__header slds-grid card-wrap">
                         <header class="slds-has-flexi-truncate">
                             <h2 class="slds-card__header-title">
                                 <p
@@ -13,12 +13,12 @@
                                 </p>
                             </h2>
                         </header>
-                    </div>
+                    </div>-->
                     <template if:true={isUpcomingDetails}>
                         <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
-                        <div class="slds-card__body slds-card__body_inner card-wrap">
+                        <!--<div class="slds-card__body slds-card__body_inner card-wrap">
                             <article class="slds-card slds-card_boundary container-card">
-                                <div class="content card-wrap">
+                                <div class="content card-wrap">-->
                                     <div class="slds-card-wrapper slds-card_boundary visit-card">
                                         <article
                                             class="slds-card slds-has-bottom-magnet slds-has-bottom-magnet"
@@ -189,15 +189,15 @@
                                             </template>
                                         </template>
                                     </article>
-                                </div>
+                                <!--</div>
                             </article>
-                        </div>
+                        </div>-->
                     </template>
                 <template if:false={isUpcomingDetails}>
                     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
-                    <div class="slds-card__body slds-card__body_inner card-wrap">
+                    <!--<div class="slds-card__body slds-card__body_inner card-wrap">
                         <article class="slds-card slds-card_boundary container-card-upcoming">
-                            <div class="slds-card__body slds-card__body_inner upcoming-m-top">
+                            <div class="slds-card__body slds-card__body_inner upcoming-m-top">-->
                                 <div
                                     class="slds-card-wrapper slds-card_boundary slds-align_absolute-center visit-card-upcoming"
                                 >
@@ -215,9 +215,9 @@
                                         </span>
                                     </template>                                    
                                 </div>
-                            </div>
+                            <!--</div>
                         </article>
-                    </div>
+                    </div>-->
                 </template>
                 <template if:true={isVisitAvailable}>
                     <footer class="slds-card__footer card-wrap slds-card__footer-action slds-align_absolute-center">
