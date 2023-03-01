@@ -27546,6 +27546,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077jMc&amp;oid=00D1I000001V1t1&amp;lastMod=1607842028000</value>
     </labels>
     <labels>
+        <fullName>Withdrew_Assignment</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Withdrew Assignment</shortDescription>
+        <value>Withdraw assignment</value>
+    </labels>
+    <labels>
+        <fullName>Withdrew_Assignment_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Withdrew Assignment Consent</shortDescription>
+        <value>By withdrawing, you will no longer be able to access this assignment. Are you sure you would like to continue?</value>
+    </labels>
+    <labels>
         <fullName>Withdrew_Consent</fullName>
         <language>en_US</language>
         <protected>true</protected>
