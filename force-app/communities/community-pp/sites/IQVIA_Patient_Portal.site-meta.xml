@@ -14,6 +14,11 @@
     <changePasswordPage>PPChangePassword</changePasswordPage>
     <clickjackProtectionLevel>SameOriginOnly</clickjackProtectionLevel>
     <contentSniffingProtection>true</contentSniffingProtection>
+    <customWebAddresses>
+        <certificate>clinicalresearch_com</certificate>
+        <domainName>pp.clinicalresearch.com</domainName>
+        <primary>false</primary>
+    </customWebAddresses>
     <enableAuraRequests>true</enableAuraRequests>
     <fileNotFoundPage>FileNotFound</fileNotFoundPage>
     <genericErrorPage>Exception</genericErrorPage>
@@ -24,6 +29,5 @@
     <referrerPolicyOriginWhenCrossOrigin>true</referrerPolicyOriginWhenCrossOrigin>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
     <siteType>ChatterNetwork</siteType>
-    <subdomain>ability-business-7757-dev-ed-17f444c2987</subdomain>
-    <urlPathPrefix>pp</urlPathPrefix>
+    <subdomain>iqviaconnect</subdomain>
 </CustomSite>
