@@ -702,9 +702,9 @@ public without sharing class CommunityModeService {
                     ? CommunityTemplateService.getTemplate(
                           pastPEList[0].Clinical_Trial_Profile__r.CommunityTemplate__c
                       )
-                    : CommunityTemplateService.getTemplateByPermissionSetName(
-                          firstCommunityPermSetMap.get(participantId)
-                      )
+                    : CommunityTemplateService.getTemplateByCommunityName(
+                        UserContext.getCurrentCommunityName()
+                    );
             );
             mode.hasPastStudies = hasPastStudies;
             system.debug('mode alumni:::' + mode);
