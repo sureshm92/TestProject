@@ -219,7 +219,7 @@
                                     />
                                      </div>
                                      <aura:if isTrue="{!v.isCPRAavailable}">
-                                     <div class="dividerMobile slds-m-horizontal_small "></div>
+                                     <div class="dividerMobileJansen slds-m-horizontal_small "></div>
                                       <div class="slds-col slds-m-right_medium">
                                         <div class="page-linkMobile" onclick="{!c.onLinkClick}">
                                             {!v.CPRAlabel}
