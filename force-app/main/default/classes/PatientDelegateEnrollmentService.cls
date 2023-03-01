@@ -277,11 +277,8 @@ public without sharing class PatientDelegateEnrollmentService {
             
             if(pde.Id!=null){
                 update pde;
-                //Remove permission set if there is no Active PDE available for the withdrawn Study.
-                if(lst.size()> 1 && activePDEPermissionsetName == null || (activePDEPermissionsetName != null && 
-                                                        !activePDEPermissionsetName.contains(permissionSetNameToRemove))
-                                                        )
-                {
+                //Remove permission set if there is no Active PDE available for the withdrawn Study except when it is the last active study withdrawn.
+                if(activePDEPermissionsetName.size() > 0  && !activePDEPermissionsetName.contains(permissionSetNameToRemove)){
                     List<PermissionSetAssignment> permissionSetToRemoveList = [select id,
                                                                     PermissionSet.Name 
                                                                     FROM PermissionSetAssignment 
@@ -614,11 +611,8 @@ public without sharing class PatientDelegateEnrollmentService {
                 ];
                 delete alertlst;
 
-                //Remove permission set if there is no Active PDE available for the deleted Study.
-                if(lst.size()> 1 && activePDEPermissionsetName == null || (activePDEPermissionsetName != null && 
-                                                        !activePDEPermissionsetName.contains(permissionSetNameToRemove))
-                                                        )
-                {
+                //Remove permission set if there is no Active PDE available for the deleted Study except when it is the last active study removed.
+                if(activePDEPermissionsetName.size() > 0 && !activePDEPermissionsetName.contains(permissionSetNameToRemove)){
                     List<PermissionSetAssignment> permissionSetToRemoveList = [select id,
                                                                     PermissionSet.Name 
                                                                     FROM PermissionSetAssignment 
