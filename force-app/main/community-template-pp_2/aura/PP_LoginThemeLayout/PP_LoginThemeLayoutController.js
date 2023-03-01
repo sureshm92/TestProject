@@ -3,6 +3,27 @@
         let rtl_language = $A.get('$Label.c.RTL_Languages');
         let paramLanguage = communityService.getUrlParameter('language');
         let communityType = component.get('v.communityType');
+
+        var action = component.get("c.getCPRALink");
+        action.setParams({ strCommunityType : 'IQVIA Patient Portal' });
+        action.setCallback(this, function(response) {
+            console.log('>>>responseback>>'+response.getReturnValue());
+            if(response.getReturnValue())
+            {
+                var getReturnValueMD = response.getReturnValue();
+                component.set('v.isCPRAavailable',true);
+                var labelReference = $A.getReference("$Label.c." + getReturnValueMD.CPRA_Label__c);
+ 
+                component.set('v.CPRAlabel', labelReference); 
+                component.set('v.CPRALinkToredirect',getReturnValueMD.Link_to_redirect__c); 
+            }
+            else {
+                component.set('v.isCPRAavailable',false); 
+            } 
+            
+        });
+        $A.enqueueAction(action);
+         
         let isMobileApp = communityService.isMobileSDK();
         let windowUrl = window.location.href;
         let bodyText =
@@ -43,5 +64,14 @@
     },
     closePpPopup: function (component, event, helper) {
         component.set('v.showPpPopup', false);
+    },
+    onLinkClick: function (component) {
+
+         var link = component.get('v.CPRALinkToredirect'); 
+        var urlEvent = $A.get('e.force:navigateToURL');
+        urlEvent.setParams({
+            url: link
+        });
+        urlEvent.fire();
     }
 });
