@@ -2,12 +2,10 @@
     <div class="slds-float_right">
         <div class="slds-form-element">
             <div class="slds-form-element__icon">
-                <button
-                    class="slds-button slds-button_icon"
+                <button class="slds-button slds-button_icon"
                     onmouseover={togglePasswordHint}
                     onmouseout={togglePasswordHint}
                 >
-                    <!--<lightning-icon size="small" icon-name="utility:people">style = "left: -200px;top: -31px;</lightning-icon>-->
                     <template if:false={ismobile}>
                         <div class={helpTextClass} role="tooltip" id="help" style = "width: 250px;position: absolute;right: 81px;text-align:left;">
                             <div class="slds-popover__body">
@@ -28,13 +26,10 @@
                             </div>
                         </div>
                     </template>
-                    <!--<img src={peoplePng} alt="lampIcon" class="customIcon">-->
                     <span class="upcomingToolTip">
-                        
                         {displaytext}
-                      </span>
+                    </span>
                 </button>
-                
             </div>
         </div>
     </div>

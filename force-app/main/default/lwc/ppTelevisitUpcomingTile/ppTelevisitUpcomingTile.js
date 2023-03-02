@@ -55,7 +55,7 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
         PI_TV_MEET_INFO,
         JOIN_MEET
     };
- 
+    isLoading = true;
 
     @api
     get currentMode() {
@@ -71,6 +71,7 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
         this.loadCometdScript();
         //this.loadSessionId();
         this.timeInterval();
+        
     }
  
     
@@ -198,7 +199,8 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
                     visitInfo.Televisit__r.Visit_Link_Activation_Start_Time__c
                 );
                     
-                visitDetail.PINameWithoutSalutation = visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c.split('Mr.')[1];
+                //visitDetail.PINameWithoutSalutation = visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c.split('Mr.')[1];
+                visitDetail.PINameWithoutSalutation = visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c;
 
                 let bannerEndTime = new Date(visitInfo.Televisit__r.Visit_Link_Activation_End_Time__c);
                 if (dateNow >= bannerStartTime && dateNow <= bannerEndTime) {
@@ -230,6 +232,7 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
                 this.singleActiveVisit = false;
                 this.meetMainInfo = this.labels.UPCOMING_VISIT.replace('##NoOfTV', activeVisits.length);
             }
+            this.isLoading = false;
         }
 
         handleSingleMeetJoin(event) {

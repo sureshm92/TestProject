@@ -14,6 +14,11 @@
             <article class="slds-card slds-card_boundary container-card">
                 <div class="slds-card__body slds-card__body_inner slds-scrollable_y" style="height:50rem;width:24rem">
                 -->
+                <template if:true={isLoading}>
+                    <lightning-spinner
+                        alternative-text="Loading..." variant="brand">
+                    </lightning-spinner>
+                </template>
                     <template if:false={showBlankTelevisit}>
                         <template for:each={allActiveVisits} for:item="visit" >
                             <div key={visit.Id}>

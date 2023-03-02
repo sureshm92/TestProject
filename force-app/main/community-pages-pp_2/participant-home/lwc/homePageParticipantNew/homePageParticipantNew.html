@@ -45,11 +45,25 @@
                                         <template if:true={showTelevisitCard}>
                                             <template if:true={showVisitCard}>
                                                 <template if:true={isTelevisits}>
-                                                    <button class="slds-button slds-button_neutral visit-button inactive-button-background" onclick={visitsTab}> Visits </button>
+                                                    <button class="slds-button slds-button_neutral visit-button inactive-button-background" onclick={visitsTab}> 
+                                                        <template if:true={isProgram}>
+                                                            Events
+                                                        </template> 
+                                                        <template if:false={isProgram}>
+                                                            Visits
+                                                        </template>
+                                                    </button>
                                                     <button class="slds-button slds-button_brand televisit-button active-button-background" onclick={televisitsTab}> Televisits </button>
                                                 </template>
                                                 <template if:false={isTelevisits}>
-                                                    <button class="slds-button slds-button_neutral visit-button active-button-background" onclick={visitsTab}> Visits </button>
+                                                    <button class="slds-button slds-button_neutral visit-button active-button-background" onclick={visitsTab}> 
+                                                        <template if:true={isProgram}>
+                                                            Events
+                                                        </template> 
+                                                        <template if:false={isProgram}>
+                                                            Visits
+                                                        </template>
+                                                    </button>
                                                     <button class="slds-button slds-button_brand televisit-button inactive-button-background" onclick={televisitsTab}> Televisits </button>
                                                 </template>
                                             </template>
