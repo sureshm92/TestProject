@@ -46,10 +46,12 @@ export default class PpAlerts extends LightningElement {
 
     initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
+        let queryString = window.location.href;
+        if (!queryString.includes('account-settings')) {
         if (this.spinner) {
             this.spinner.show();
         }
-
+        }
         if (rtlLanguages.includes(communityService.getLanguage())) {
             this.isRTL = true;
         }
@@ -61,7 +63,7 @@ export default class PpAlerts extends LightningElement {
                     this.currentAlert = this.alerts[this.currentAlertIndex];
                 }
                 this.isInitialized = true;
-                this.spinner.hide();
+                if (this.spinner) this.spinner.hide();
             })
             .catch((error) => {
                 this.showToast(error.message, error.message, 'error');
