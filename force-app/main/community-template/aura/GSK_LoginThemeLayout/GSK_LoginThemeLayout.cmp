@@ -6,6 +6,7 @@
     description="GSK_LoginThemeLayout"
     implements="forceCommunity:themeLayout"
     extends="c:CheckLanguage"
+    controller="LofiLoginController"
 >
     <ltng:require
         styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_GSK_Theme, $Resource.proximanova + '/proximanova.css')}"
@@ -16,6 +17,9 @@
     <aura:attribute name="subTitle" type="String" />
     <aura:attribute name="translatedSubTitle" type="String" />
     <aura:attribute name="translatedSubTitle2" type="String" />
+    <aura:attribute name="isCPRAavailable" type="String" />
+    <aura:attribute name="CPRAlabel" type="String" />
+    <aura:attribute name="CPRALinkToredirect" type="String" />
 
     <!--handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
@@ -37,8 +41,19 @@
                             <div class="brand-sub-header">{!v.translatedSubTitle2}</div>
                         </aura:if>
                         <div class="body-components">{!v.body}</div>
+                        <div class="CPRAFooter  slds-p-top_x-large">
+                        <aura:if isTrue="{!v.isCPRAavailable}">
+                            
+                                <div class="page-link" onclick="{!c.onLinkClick}">
+                                    {!v.CPRAlabel}
+                                    <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+                                </div>
+                            
+                        </aura:if>
+                        <div class="powered-by slds-m-top_small">Powered by <b>IQVIA</b></div>
                     </div>
-                    <div class="powered-by">Powered by <b>IQVIA</b></div>
+                    </div>
+                   
                 </div>
             </div>
         </div>

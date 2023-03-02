@@ -36,8 +36,7 @@ iframe {
     }
 }
 
-@media screen and (orientation:landscape)
-and (max-width: 844px) {
+@media screen and (orientation: landscape) and (max-width: 896px) {
     iframe {
         min-height: 470px;
         min-width: 99.5%;
