@@ -13,6 +13,7 @@
     <template if:true={showpopup}>
         <c-pp-remove-delegate-modal-old
             pdenrollmentid={removeStudyPDEId}
+            remove-study-p-d-id ={removeStudyPDId}
             messtext={modalMesstext}
             tittext={label.PG_PST_L_Delegates_Remove_Himself_Header}
             onconfirmmodal={handleRemoveDelegate}
@@ -208,6 +209,7 @@
                                                                 title=""
                                                                 onclick={openRemoveDelegateModal}
                                                                 data-pdeid={pdEnrollment.Id}
+                                                                data-pdid ={del.pdId}
                                                                 data-pdfn={del.PatientDelegate.First_Name__c}
                                                                 data-pdln={del.PatientDelegate.Last_Name__c}
                                                                 disabled={pdEnrollment.disableRemoveButton}
@@ -388,16 +390,17 @@
                                                                     <lightning-layout-item
                                                                         size="12"
                                                                         class="delegate-email"
-                                                                        >{del.PatientDelegate.Email__c}
+                                                                        >
+                                                                        <p class="elipsis">{del.PatientDelegate.Email__c}</p>
                                                                     </lightning-layout-item>
                                                                 </lightning-layout>
                                                             </lightning-layout-item>
                                                             <!--Delegate Name: Ends-->
-                                                            <!--Trash Logo: Stats-->
+                                                            <!--Trash Logo: Stats-->                                                          
                                                             <lightning-layout-item
-                                                                size="2"
-                                                                class={deleteIconClassMobile}
-                                                            >
+                                                            size="2"
+                                                            class=""
+                                                        >
                                                                 <button
                                                                     class="delete-btn"
                                                                     onclick={openDeleteDelegateModal}
@@ -492,7 +495,8 @@
                                                                 <lightning-layout-item
                                                                     size="12"
                                                                     class="delegate-email"
-                                                                    >{del.PatientDelegate.Email__c}
+                                                                    >
+                                                                    <p class="elipsis">{del.PatientDelegate.Email__c}</p>
                                                                 </lightning-layout-item>
                                                             </lightning-layout>
                                                         </lightning-layout-item>
@@ -500,7 +504,7 @@
                                                         <!--Trash Logo: Stats-->
                                                         <lightning-layout-item
                                                             size="2"
-                                                            class={deleteIconClassMobile}
+                                                            class=""
                                                         >
                                                             <button
                                                                 class="delete-btn"

@@ -88,6 +88,11 @@ public without sharing class RRChangePasswordController {
     public String maskDaytimephone { get; set; }
     public String addPhotoLabel { get; set; }
 
+    public String CPRAlabel {get;set;}
+    public Boolean isCPRAAvailable {get;set;}
+    public CPRA_DoNotSell__mdt CPRAMd {get;set;}
+    public String CPRALink {get;set;}
+
     public Boolean mainPortal {
         get {
             return !Site.getPathPrefix().startsWith('/gsk');
@@ -191,8 +196,6 @@ public without sharing class RRChangePasswordController {
             FROM User
             WHERE Id = :userId
         ];
-        System.debug('userId is ' + userId);
-        System.debug('UserVal is ' + userVal);
 
         contact = userVal.Contact;
         system.debug('userVal.FullPhotoUrl' + userVal.FullPhotoUrl);
@@ -306,8 +309,8 @@ public without sharing class RRChangePasswordController {
         isSaveButtonDisabled = false;
         if (participant != null) {
             maskLastName = participant.Last_Name__c.substring(0, 1) + '************';
-            system.debug('participant.Phone__c---'+participant.Phone__c);
-            maskDaytimephone = participant.Phone__c != null
+
+            maskDaytimephone = participant.Phone__c != null && participant.Phone__c.length()>4
                 ? '************' +
                   participant.Phone__c.substring(
                       participant.Phone__c.length() - 4,
@@ -321,6 +324,7 @@ public without sharing class RRChangePasswordController {
 
             /* Communitcation preference*/
             if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal && contact.Is_First_Logon__c) {
+            
                 List<Participant_Enrollment__c> loginUserPEs = [
                     SELECT
                         Id,
@@ -968,6 +972,49 @@ public without sharing class RRChangePasswordController {
         resetPassLogo = currentTemplate.properties.get(
             CommunityTemplateService.PROPERTY_RESET_PASS_LOGO
         );
+        CPRAMd = getCPRALink(currentCommunityName);
+       
+    } 
+    
+    public CPRA_DoNotSell__mdt getCPRALink(String strCommunityType){
+        
+        list<CPRA_DoNotSell__mdt> lstMd = new list<CPRA_DoNotSell__mdt> ();
+        if(strCommunityType == 'IQVIA Referral Hub')
+        {
+              lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
+                                                where Active__c = true and Link_to_redirect__c != Null and Community_Name__c = 'Default' LIMIT 1];
+        }
+        else if(strCommunityType == 'Janssen Community')
+        {
+            lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
+                        where Active__c = true and Link_to_redirect__c != Null and Community_Name__c = 'Janssen Community' LIMIT 1];
+        }
+        else if(strCommunityType == 'GSK Community')
+        {
+            lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
+                        where Active__c = true and Link_to_redirect__c != Null and Community_Name__c = 'GSK Community' LIMIT 1];
+        }
+        else if(strCommunityType == 'IQVIA Patient Portal')
+        {
+            
+            lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
+                        where Active__c = true and Link_to_redirect__c != Null and Community_Name__c = 'IQVIA Patient Portal' LIMIT 1];
+        }
+        else{
+             
+            lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
+                        where Active__c = true and Link_to_redirect__c != Null and Community_Name__c =:strCommunityType LIMIT 1];
+
+        }
+        isCPRAAvailable = false;
+        if(!lstMd.isEmpty())
+        {
+            isCPRAAvailable =   true ;
+            CPRAlabel =  lstMd[0].CPRA_Label__c;
+            CPRALink = lstMd[0].Link_to_redirect__c;
+            return lstMd[0];
+        }
+        else  return null ;
     }
 
     public void updateBrowserLanguageAction() {

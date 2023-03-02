@@ -148,8 +148,8 @@
     font-family: 'Proxima Nova';
     font-size: 16px;
     text-align: left;
-    padding-bottom: 16px;
-    height: 70px;
+    /* padding-bottom: 16px;
+    height: 70px; */
     padding-left: 24px;
     padding-right: 24px;
 }
@@ -168,6 +168,7 @@
 .scrollbar{
     overflow-x: auto;
     margin: 0px 0 24px 0px;
+    height: 105px;
 }
 
 ::-webkit-scrollbar{

@@ -20,7 +20,6 @@
     <apex:attribute name="preBodyButtonName" assignTo="{!preBodyButtonNameValue}" type="String" description="" />
     <apex:attribute name="preBodyButtonURL" assignTo="{!preBodyButtonURLValue}" type="String" description="Pass Register URL From Initial Email"
     />
-
     <!-- Other -->
     <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="HTML" />
     <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}" description="Community template name"
@@ -114,6 +113,7 @@
             <apex:outputPanel style="display:block; color: #444444 !important;" rendered="{!preSignatureText != null}">
                 <apex:outputText value="{!preSignatureText}" escape="false" />
             </apex:outputPanel>
+
             <!-- Signature-->
             <table style="border-spacing: 0;">
                 <tr>

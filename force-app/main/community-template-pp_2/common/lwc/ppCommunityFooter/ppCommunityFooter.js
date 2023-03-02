@@ -5,9 +5,11 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import PRIVACY_POLICY from '@salesforce/label/c.Footer_Link_Privacy_Policy';
 import TERMS_OF_USE from '@salesforce/label/c.Footer_Link_Terms_Of_Use';
+import CPRA_DoNotSell_PatientPortal from '@salesforce/label/c.CPRA_DoNotSell_PatientPortal';
 import ABOUT_IQVIA from '@salesforce/label/c.Footer_Link_About_IQVIA';
 import COPYRIGHT from '@salesforce/label/c.Footer_T_Copyright';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error'; 
+
 
 export default class PpCommunityFooter extends LightningElement {
     //String var
@@ -19,19 +21,24 @@ export default class PpCommunityFooter extends LightningElement {
     privacyLabel;
     privacyLink;
     termsOfUseLabel;
+    CPRALinkToredirect;
 
     //Boolean var
     defaultTC = false;
     isGSK = false;
     initialized = false;
     isRTL = false;
+    isCPRAAvailable = false;
+
+    
 
     labels = {
         PRIVACY_POLICY,
         TERMS_OF_USE,
         ABOUT_IQVIA,
         COPYRIGHT,
-        ERROR_MESSAGE
+        ERROR_MESSAGE,
+        CPRA_DoNotSell_PatientPortal
     };
 
     connectedCallback() {
@@ -66,6 +73,10 @@ export default class PpCommunityFooter extends LightningElement {
         getInitData({})
             .then((result) => {
                 let ps = JSON.parse(result);
+                if(ps.objCPRA){
+                    this.isCPRAAvailable = true;
+                    this.CPRALinkToredirect = ps.objCPRA.Link_to_redirect__c;
+                }
                 if (ps.ctp != null) {
                     if (ps.ctp.Terms_And_Conditions_ID__c != null) {
                         this.ctpId = ps.ctp.Id;
