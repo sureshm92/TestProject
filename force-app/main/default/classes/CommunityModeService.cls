@@ -674,14 +674,14 @@ public without sharing class CommunityModeService {
         );
         Set<Id> parIdwhereDelegateHasPastStudy = new Set<Id>();
         List<Participant_Enrollment__c> pastParticipantPER = new List<Participant_Enrollment__c>();
-        for(Id parId: pePastMap.keySet()){
+        for (Id parId : pePastMap.keySet()) {
             pastParticipantPER.addAll(pePastMap.get(parId));
         }
-        for(Participant_Enrollment__c per: pastParticipantPER){
-            if(parIdwhereDelegateHasPastStudy.contains(per.Participant__c)){
+        for (Participant_Enrollment__c per : pastParticipantPER) {
+            if (parIdwhereDelegateHasPastStudy.contains(per.Participant__c)) {
                 continue;
             }
-            if(pdeWrapperMap.contains(per.Id)){
+            if (pdeWrapperMap.contains(per.Id)) {
                 parIdwhereDelegateHasPastStudy.Add(per.Participant__c);
             }
         }
@@ -698,13 +698,9 @@ public without sharing class CommunityModeService {
                 participant.Last_Name__c,
                 participant.Contact__c,
                 null,
-                hasPastStudies
-                    ? CommunityTemplateService.getTemplate(
-                          pastPEList[0].Clinical_Trial_Profile__r.CommunityTemplate__c
-                      )
-                    : CommunityTemplateService.getTemplateByCommunityName(
-                        UserContext.getCurrentCommunityName()
-                    )
+                CommunityTemplateService.getTemplateByCommunityName(
+                    UserContext.getCurrentCommunityName()
+                )
             );
             mode.hasPastStudies = hasPastStudies;
             system.debug('mode alumni:::' + mode);
