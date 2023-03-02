@@ -1,5 +1,5 @@
 <template>
-    <div class="slds-scrollable_y scroll-bar">
+    <!--<div class="slds-scrollable_y scroll-bar">-->
         <template if:true = {showuppasttelevisits}>
             <template if:false = {ismobile}>
                 <template for:each={pasttelevisitdata} for:item="item">
@@ -20,6 +20,7 @@
                                 <div class="slds-size_11-of-12">                                  
                                         <template if:true={item.iscancelledone}>
                                             <div class="left-grey-line1">
+                                                <div class="left-grey-line3"></div>
                                                 <div class="left-grey-line2">
                                                     <b>
                                                         <lightning-formatted-text
@@ -51,6 +52,7 @@
                                         </template>
                                         <template if:false={item.iscancelledone}>
                                             <div class="left-line1">
+                                                <div class = "leftline3"></div>
                                                 <div class="left-line2">
                                                     <b>
                                                         <lightning-formatted-text
@@ -110,7 +112,8 @@
                                 <div class="slds-size_11-of-12">
                                         
                                         <template if:true={item.iscancelledone}>
-                                            <div class="left-grey-line1">
+                                            <div class="left-grey-line1-mobile">
+                                                <div class = "left-grey-line3"></div>
                                                 <div class="left-grey-line2">
                                                     <b>
                                                         <lightning-formatted-text
@@ -134,7 +137,8 @@
                                             
                                         </template>
                                         <template if:false={item.iscancelledone}>
-                                            <div class="left-line1">
+                                            <div class="left-line1-mobile">
+                                                <div class = "leftline3"></div>
                                                 <div class="left-line2">
                                                     <b>
                                                         <lightning-formatted-text
@@ -164,5 +168,5 @@
             </template>
         </template>
                     
-    </div>
+    <!--</div>-->
 </template>
