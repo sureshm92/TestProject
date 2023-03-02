@@ -44,6 +44,7 @@ public without sharing class StudySiteTriggerHandler {
 
         //START INC9339329 14/02/2020 Sumit S
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            studySiteIntegration(newList, (Map<Id, Study_Site__c>) oldMap); 
             piDoesNotReimburse(newList);
         }
         //END INC9339329
@@ -428,6 +429,20 @@ public without sharing class StudySiteTriggerHandler {
                     pi.Investigator_Key__c +
                     '_' +
                     ctp.Protocol_ID__c;
+            }
+        }
+    }
+
+    private static void studySiteIntegration(
+        List<Study_Site__c> newList,
+        Map<Id, Study_Site__c> oldMap
+    ) {
+        Profile profile = [SELECT Name FROM Profile WHERE Id = :UserInfo.getProfileId()];
+        String profileName = profile.Name;
+        Study_Site__c studysite = new Study_Site__c();
+        for (Study_Site__c site : newList) {
+            if(oldMap != null && profileName == 'API Only' && oldMap.get(site.Id).Site__c != site.Site__c){
+                site.Site__c = oldMap.get(site.Id).Site__c;
             }
         }
     }
