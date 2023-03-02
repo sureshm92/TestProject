@@ -13,7 +13,7 @@ export default class PpRRIconSplitter extends LightningElement {
     @api ismobile=false;
     isloaded = false;
     showRight=false;
-    scrollby = 160;
+    scrollby = 156;
     desktop = true;
     @api
     resetValues() {
@@ -89,10 +89,10 @@ get mobileOrDesktopSizeRight(){
             if(this.template.querySelector(".chevronR")){
                 this.template.querySelector(".chevronR").className="chevronR";
                 }
-            if(contents.scrollLeft<=this.scrollby){
+            if(contents.scrollLeft<=0){
                 if(this.template.querySelector(".chevronL")){
                 this.template.querySelector(".chevronL").className="chevronL disableCursor";
-                }         
+                }
                 if(this.template.querySelector(".chevronR")){
                     this.template.querySelector(".chevronR").className="chevronR";
                     }     
@@ -114,7 +114,7 @@ get mobileOrDesktopSizeRight(){
             var newScrollLeft=contents.scrollLeft;
             var divWidth = contents.offsetWidth;
             var scrollwidth =contents.scrollWidth;
-            if(scrollwidth - divWidth - newScrollLeft < this.scrollby){
+            if(scrollwidth - divWidth - newScrollLeft <=0){
                 if(this.template.querySelector(".chevronR")){
                     this.template.querySelector(".chevronR").className="chevronR disableCursor"; 
                 }
