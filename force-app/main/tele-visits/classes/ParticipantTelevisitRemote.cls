@@ -6,6 +6,12 @@ public without sharing class ParticipantTelevisitRemote {
             Id userId;
             String timezonechanges;
             Boolean delegatecheck = false;
+            participantservice.participantstate pstate = ((participantservice) classfactory.newinstance(participantservice.class)).getState(); 
+            system.debug('+++++++++pstate'+pstate);
+            String ctpId;
+            if(pstate != null && pstate.pe != null){
+                ctpId = pstate.pe.Clinical_Trial_Profile__c;
+            }
             user u = [Select id,contactid,TimeZoneSidKey from User where id =: UserInfo.getUserId()];
             if(isDelegate){
                 List<Patient_Delegate__c> delegateList = [select id,Participant__c,Participant__r.Contact__c from Patient_Delegate__c
@@ -24,7 +30,9 @@ public without sharing class ParticipantTelevisitRemote {
                 delegatecheck = con.UserCommunityIsDelegate__c;
 
             }
-            List<Televisit_Attendee__c> televisitattendeeList = [Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c from Televisit_Attendee__c where User__c =:userId order by Televisit__r.Visit_Date_Time__c desc];
+            List<Televisit_Attendee__c> televisitattendeeList = [Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c from Televisit_Attendee__c 
+                                                                 where User__c =:userId and Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c = :ctpId
+                                                                 order by Televisit__r.Visit_Date_Time__c desc];
             Set<Id> televisitIdSet = new Set<Id>();
             televisitWrapper  tw = new televisitWrapper();
             if(televisitattendeeList != null && !televisitattendeeList.isempty()){
@@ -97,21 +105,13 @@ public without sharing class ParticipantTelevisitRemote {
                     upcomingTelevisits ut = new upcomingTelevisits();
                     ut = upcomingTelevisitmap.get(i);
                     ut.relatedAttendees = upcomingattendeesmap.get(i);
-                    if(finalupcomingTelevisitslist.size()<=6){
-                        finalupcomingTelevisitslist.add(ut);
-                    }else{
-                        break;
-                    }
+                    finalupcomingTelevisitslist.add(ut);
                 }
                 for(Id i:pastTelevisitsmap.keyset()){
                     pastTelevisits pt = new pastTelevisits();
                     pt = pastTelevisitsmap.get(i);
                     pt.relatedAttendees = pastattendeesmap.get(i);
-                    if(finalpastTelevisitslist.size()<=6){
-                        finalpastTelevisitslist.add(pt);
-                    }else{
-                        break;
-                    }
+                    finalpastTelevisitslist.add(pt);
                 }
                 tw.televisitupcomingList = finalupcomingTelevisitslist;
                 tw.televisitpastList = finalpastTelevisitslist;

@@ -5,7 +5,10 @@
 .customIcon{
     width: 24px;
 }
-
+.my-icon {
+    --sds-c-icon-color-foreground: orange;
+    --sds-c-icon-color-background: #ECF3FF;
+}
 .slds-popover_tooltip .slds-popover__body{
     color: #FFFFFF;
     font-family: "Proxima Nova";
