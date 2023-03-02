@@ -30,4 +30,5 @@
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
     <siteType>ChatterNetwork</siteType>
     <subdomain>iqviaconnect</subdomain>
+    <urlPathPrefix>pp</urlPathPrefix>
 </CustomSite>
