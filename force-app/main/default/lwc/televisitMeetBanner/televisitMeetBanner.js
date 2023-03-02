@@ -125,7 +125,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 this.bgCss = 'divBodyPP2Mobile slds-p-around_medium slds-text-color_inverse';
                 this.multipleJoinCss = 'slds-text-color_inverse join multipleJoinPP2Mobile';
                 this.singleJoinCss = 'slds-text-color_inverse join singleJoinPP2Mobile';
-                this.deviceSize = 10;
+                this.deviceSize = 11;
                 this.isMobileDevice = true;
             }
             
@@ -133,11 +133,13 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
             this.bgCss = 'divBody slds-p-around_medium slds-text-color_inverse';
             this.isPP2View = false;
             this.allVisitCss = 'allVisits';
-            this.deviceSize = 11;
+            
             if(FORM_FACTOR == 'Large'){
                 this.isMobileDevice = false;
+                this.deviceSize = 10;
             }else{
                 this.isMobileDevice = true;
+                this.deviceSize = 11;
             }
         }
 
@@ -187,14 +189,21 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 activeVisits.push(visitDetail);
             }
         });
+        /*
         if(this.allActiveVisits.length != activeVisits.length){
             this.moreVisitIconName = 'utility:chevrondown';
-        }
+        }*/
+        
+
         this.allActiveVisits = activeVisits;
         this.showMoreVisits =
             this.showMoreVisits && (activeVisits.length === 0 || activeVisits.length === 1)
                 ? false
                 : this.showMoreVisits;
+
+        if(!this.showMoreVisits){
+            this.moreVisitIconName = 'utility:chevrondown';
+        }
         if (activeVisits.length > 0) {
             this.hasActiveVisits = true;
         }
