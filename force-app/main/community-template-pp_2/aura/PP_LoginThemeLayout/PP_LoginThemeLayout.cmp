@@ -2,6 +2,7 @@
     description="Lofi_LoginThemeLayout"
     implements="forceCommunity:themeLayout"
     extends="c:CheckLanguage"
+    controller="communityFooterController"
 >
     <ltng:require
         styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_PP_Theme, $Resource.proximanova + '/proximanova.css')}"
@@ -16,6 +17,9 @@
     <aura:attribute name="isMobileApp" type="Boolean" default="false" />
     <aura:attribute name="showPpPopup" type="Boolean" default="false" />
     <aura:attribute name="cookieText" type="String" />
+    <aura:attribute name="isCPRAavailable" type="Boolean" default="false" />
+    <aura:attribute name="CPRAlabel" type="String" />
+    <aura:attribute name="CPRALinkToredirect" type="String" />
 
     <aura:if isTrue="{!v.languageChecked}">
         <div class="body-content slds-grid slds-wrap body-image">
@@ -41,12 +45,19 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="slds-grid slds-wrap footer">
-                    <div class="slds-col slds-size_1-of-1 slds-text-align_center footer-logo">
-                        <img src="{!$Resource.PP_DesktopLogos + '/iqvia_logo.svg'}" />
+                    <div class="{!'slds-col  slds-text-align_center footer-logo footerorientimage ' +  if(v.isCPRAavailable == true,'slds-size_1-of-2', 'slds-size_1-of-1')}">
+                        <img src="{!$Resource.PP_DesktopLogos + '/iqvia_logo.svg'}" class="footerorientpadding"/>
                     </div>
+                    <aura:if isTrue="{!v.isCPRAavailable}">
+                        <div class="slds-col slds-size_1-of-2 pagelinkcss  footer-logo footerOrientPrivacy " onclick="{!c.onLinkClick}">
+                            {!v.CPRAlabel}
+                            <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+                        </div>
+                    </aura:if>
                     <div
-                        class="slds-col slds-text-align_center footer-powered slds-m-vertical_x-small"
+                        class="slds-col slds-size_1-of-1 slds-text-align_center footer-powered slds-m-vertical_x-small"
                     >
                         <span class="footer-label"
                             >Powered by IQVIA © 2022. All rights reserved.</span

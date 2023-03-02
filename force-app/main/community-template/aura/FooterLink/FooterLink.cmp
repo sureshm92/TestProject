@@ -6,5 +6,12 @@
     <aura:attribute name="label" type="String" />
     <aura:attribute name="page" type="String" />
     <aura:attribute name="link" type="String" />
-    <div class="page-link" onclick="{!c.onClick}">{!v.label}</div>
+    <aura:attribute name="enablePrivacyChoice" type="Boolean" default="false" />
+    
+    <div class="page-link" onclick="{!c.onClick}">
+        {!v.label}
+        <aura:if isTrue="{!v.enablePrivacyChoice}">
+            <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+            </aura:if>
+    </div>
 </aura:component>

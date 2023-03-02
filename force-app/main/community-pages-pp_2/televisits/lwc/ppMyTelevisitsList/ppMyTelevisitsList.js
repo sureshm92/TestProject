@@ -159,19 +159,20 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
         });
         console.log('+++++++++this.allActiveVisits.length'+this.allActiveVisits.length);
         console.log('+++++++++activevisitids.length'+activevisitids.length);
-        if(this.allActiveVisits.length > activevisitids.length || this.allActiveVisits.length < activevisitids.length){
+        if(this.allActiveVisits.length > activevisitids.length || ((this.allActiveVisits.length < activevisitids.length) || 
+            (activevisitids.length > 0 && this.allActiveVisits.length == activevisitids.length))){
             getParticipantDetails({joinbuttonids :activevisitids })
             .then((result) => {
                 if(result != undefined && result != ''){
-                this.upcomingtelevisitdata = result.televisitupcomingList;
-                    if(this.allActiveVisits.length < activevisitids.length){
+                    if(this.allActiveVisits.length < activevisitids.length || 
+                       (activevisitids.length > 0 && this.allActiveVisits.length == activevisitids.length && 
+                        this.upcomingtelevisitdata.length == result.televisitupcomingList.length)){
                         this.showupcomingtelevisits = false;
-                    
-                        if(this.upcomingtelevisitdata.length > 0){
-                            this.showupcomingtelevisits = true;
-                            this.allActiveVisits = activeVisits;
-                            console.log('this.upcomingtelevisitdata :',this.upcomingtelevisitdata);
-                            /*for(var i=0; i<this.upcomingtelevisitdata.length; i++){
+                        this.upcomingtelevisitdata = result.televisitupcomingList;
+                        this.showupcomingtelevisits = true;
+                        this.allActiveVisits = activeVisits;
+                        console.log('this.upcomingtelevisitdata :',this.upcomingtelevisitdata);
+                        /*for(var i=0; i<this.upcomingtelevisitdata.length; i++){
                                 if(this.template.querySelector('[data-tv='+this.upcomingtelevisitdata[i].televisitId+']') != null &&
                                 this.template.querySelector('[data-tv='+this.upcomingtelevisitdata[i].televisitId+']') != undefined){
                                     this.template.querySelector('[data-tv='+this.upcomingtelevisitdata[i].televisitId+']').style = 'display:none';
@@ -186,41 +187,41 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
                                 }
                                 
                             }*/
-    
-                            this.showMoreVisits =
-                                this.showMoreVisits && (activeVisits.length === 0 || activeVisits.length === 1)
-                                    ? false
-                                    : this.showMoreVisits;
-                            if (activeVisits.length > 0) {
-                                this.hasActiveVisits = true;
-                            }
-                            if (activeVisits.length === 1) {
-                                this.singleMeetDetail = activeVisits[0];
-                                this.meetMainInfo = this.getIsPTorPTDelegate(activeVisits[0].Attendee_Type__c)
-                                    ? this.labels.PT_TV_MEET_INFO
-                                    : this.labels.PI_TV_MEET_INFO;
-                                this.meetMainInfo = this.getTelevisitMeetInfo(this.meetMainInfo, activeVisits[0]);
-                                this.singleActiveVisit = true;
-                                this.meetLinkUrl = activeVisits[0].Televisit__r.Meeting_URL__c;
-                            } else if (activeVisits.length > 1) {
-                                this.singleActiveVisit = false;
-                                this.meetMainInfo = this.labels.UPCOMING_VISIT.replace('##NoOfTV', activeVisits.length);
-                            }
-                            if(this.upcomingtelevisitdata.length > 0){
-                                const selectEvent = new CustomEvent('selection', {
-                                    detail: 
-                                            {
-                                                filter:'showblankupcomingtelevisits:false',
-                                                details:result.televisitpastList,
-                                                upcomingdata:this.upcomingtelevisitdata
-                                            }
+                            
+                        this.showMoreVisits =
+                        this.showMoreVisits && (activeVisits.length === 0 || activeVisits.length === 1)
+                            ? false
+                            : this.showMoreVisits;
+                        if (activeVisits.length > 0) {
+                            this.hasActiveVisits = true;
+                        }
+                        if (activeVisits.length === 1) {
+                            this.singleMeetDetail = activeVisits[0];
+                            this.meetMainInfo = this.getIsPTorPTDelegate(activeVisits[0].Attendee_Type__c)
+                                ? this.labels.PT_TV_MEET_INFO
+                                : this.labels.PI_TV_MEET_INFO;
+                            this.meetMainInfo = this.getTelevisitMeetInfo(this.meetMainInfo, activeVisits[0]);
+                            this.singleActiveVisit = true;
+                            this.meetLinkUrl = activeVisits[0].Televisit__r.Meeting_URL__c;
+                        } else if (activeVisits.length > 1) {
+                            this.singleActiveVisit = false;
+                            this.meetMainInfo = this.labels.UPCOMING_VISIT.replace('##NoOfTV', activeVisits.length);
+                        }
+                        if(this.upcomingtelevisitdata.length > 0){
+                            const selectEvent = new CustomEvent('selection', {
+                                detail: 
+                                    {
+                                        filter:'showblankupcomingtelevisits:false',
+                                        details:result.televisitpastList,
+                                        upcomingdata:this.upcomingtelevisitdata
+                                    }
                                 });
-                                this.dispatchEvent(selectEvent);
-                            }
+                            this.dispatchEvent(selectEvent);
                         }
                 }
                 
                 if(this.allActiveVisits.length > activevisitids.length){
+                    this.upcomingtelevisitdata = result.televisitupcomingList;
                     this.allActiveVisits = activeVisits;
                     if(this.upcomingtelevisitdata.length == 0 && activevisitids.length == 0){
                         const selectEvent = new CustomEvent('selection', {

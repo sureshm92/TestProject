@@ -10,7 +10,7 @@
 .rtl {
     /* @noflip */
     direction: rtl;
-}
+} 
 
 .cf-margin-cutter {
     display: flex;
@@ -43,12 +43,40 @@
     .cf-links {
         margin: 0;
         width: 100%;
-        display: flex;
+        display: grid;
         justify-content: space-evenly;
+        text-align: center;
     }
     
 .footer-copyright{
     width: 100%;
     text-align: center;
+} 
+
 }
+
+@media all and (min-width: 500px) and (max-width: 768px) {
+    .cf-margin-cutter {
+        
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin: -10px;
+    }
+
+     .cf-copyright,     
+     .cf-links {
+        text-align: center;
+        width: 100%;
+        padding: 10px 0px;
+        margin: unset;
+        justify-content: space-evenly;
+    }
+
+    /* .cf-links {
+       
+        width: 100%;
+        
+        text-align: center;
+      
+    } */
 }

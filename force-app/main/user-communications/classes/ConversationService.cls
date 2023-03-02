@@ -88,7 +88,7 @@ public without sharing class ConversationService {
             pState = ParticipantService.getInstance().getState();
             //System.debug('pState: '+pState.value);
             //System.debug('UserContext.getUserContact() :'+UserContext.getUserContact());
-            if(UserContext.getUserContact().Current_Participant_Enrollment__c == null){
+            if(UserContext.getUserContact().Current_Participant_Enrollment__c == null){// alumni pt and delegate
                 hasPe = false;
                 if(pState.isDelegate){
                     peSet = PatientDelegateEnrollmentService.getPEIdSet(
@@ -98,13 +98,24 @@ public without sharing class ConversationService {
                 }else{
                     peSet = new Map<Id,Participant_Enrollment__c>([SELECT Id FROM Participant_Enrollment__c Where Participant_Contact__c =:ParticipantContext.getCurrentContactId()]).keyset();
                 }
-            }else{
-                List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
-                    pState.participant.Contact__c
-                );
-                if(!pastEnrollments.isEmpty()){
-                    for(Participant_Enrollment__c pe: pastEnrollments){
-                       peSet.add(pe.Id); 
+            }else{// active pt and delegate in half alumni
+                if(!pState.isDelegate){
+                    List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
+                        pState.participant.Contact__c
+                    );
+                    if(!pastEnrollments.isEmpty()){
+                        for(Participant_Enrollment__c pe: pastEnrollments){
+                            peSet.add(pe.Id); 
+                        }
+                        peSet.add(pState.pe.Id);
+                    }
+                }else{// delegate active
+                    Set<Id> peIdSet = PatientDelegateEnrollmentService.getPEIdSet(
+                                        ParticipantContext.getCurrentContactId(),
+                                        UserContext.getUserContactId()
+                                    ) ;
+                    if(!peIdSet.isEmpty()){
+                        peSet.addAll(peIdSet);
                     }
                     peSet.add(pState.pe.Id);
                 }
