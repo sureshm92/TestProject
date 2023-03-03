@@ -16479,7 +16479,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_MRR_BTN_Back_to_My_Participant</shortDescription>
-        <value>Back to My participants</value>
+        <value>Back to My Participants</value>
     </labels>
     <labels>
         <fullName>Primary</fullName>
