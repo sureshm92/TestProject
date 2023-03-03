@@ -9970,6 +9970,9 @@
         <layout>Community_Template__mdt-Community Template Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CPRA_DoNotSell__mdt-CPRA_DoNotSell Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Completed_Incentive_Task__c-Completed Incentive Task Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
