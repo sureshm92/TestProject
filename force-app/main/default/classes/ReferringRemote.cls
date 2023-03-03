@@ -37,7 +37,6 @@ public without sharing class ReferringRemote {
         Id trialId,
         Id peId,
         Id hcpeId,
-        Boolean patientDoesNotExist,
         String userMode,
         String delegateId,
         String language
