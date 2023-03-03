@@ -1,19 +1,19 @@
 {
   "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
-  "componentName" : "c:pir_OneColumnLayout",
+  "componentName" : "c:OneColumnLayout",
   "dataProviders" : [ ],
-  "id" : "70bbf488-4424-44b2-88b9-511b201de8ac",
-  "label" : "My Referrals",
+  "id" : "ffa75f1e-6e32-4fdc-9b90-bbb6406e5c6d",
+  "label" : "My Patients",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:pir_participantParent",
-      "id" : "61077d4f-a7a6-4db0-9cd5-3a8cf1122582",
+      "componentName" : "c:ViewPatients",
+      "id" : "9b905bd3-a198-4e0a-93d0-742c4f42e601",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "877ddc05-baca-435f-8dca-a5e59e469303",
+    "id" : "7c48fea1-ff3f-4065-8aea-74cd5a91575c",
     "regionName" : "column1",
     "type" : "region"
   }, {
@@ -21,18 +21,18 @@
       "componentAttributes" : {
         "customHeadTags" : "",
         "description" : "",
-        "title" : "My Referrals"
+        "title" : "My Patients"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "96e53513-a2e9-4bc4-8d80-67f394115584",
+      "id" : "9bd07824-ccfe-4a88-8893-0c084c604676",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "b433500a-2326-4949-9b7b-e8fc76596c41",
+    "id" : "bef1254f-e968-406f-bd86-87aef91a5b5b",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
   "themeLayoutType" : "Inner",
   "type" : "view",
-  "viewType" : "custom-my-referrals"
+  "viewType" : "custom-my-patients"
 }
