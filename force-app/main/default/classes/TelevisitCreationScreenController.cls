@@ -306,7 +306,8 @@ Public without sharing Class TelevisitCreationScreenController {
                                                     FROM Patient_Delegate_Enrollment__c 
                                                     WHERE 
                                                     Participant_Enrollment__c =: per.id AND 
-                                                    Patient_Delegate__r.Participant__c =: per.Participant__c Order by Primary_Delegate__c Desc]){
+                                                    Patient_Delegate__r.Participant__c =: per.Participant__c 
+                                                    and Status__c in 'Active' Order by Primary_Delegate__c Desc]){
             if(preventDuplicate.add(participantDelegate.Patient_Delegate__r.Contact__c)){
                 AttendeesWrapper wrap2 = new AttendeesWrapper();
                 if(participantDelegate.Patient_Delegate__r.Participant_Delegate__c != null){
