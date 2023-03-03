@@ -1,38 +1,38 @@
 {
   "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
-  "componentName" : "c:pir_OneColumnLayout",
+  "componentName" : "c:EmptyLayout",
   "dataProviders" : [ ],
-  "id" : "c63fbed1-ae08-4d72-b45f-acaeefca4d30",
-  "label" : "My Referrals",
+  "id" : "4a91bf09-6ee3-46f4-8de6-856af84e551a",
+  "label" : "Communication Preferences",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:pir_participantParent",
-      "id" : "256d31d2-d80e-40e6-84e9-d193bea83ec7",
+      "componentName" : "c:communicationPreferences",
+      "id" : "de854188-c722-4ddc-a773-d33fdcca9627",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "b6dda92e-f3d5-4e1b-a326-ae3ba6b700bb",
+    "id" : "9ea22acd-7652-44b0-bee6-7b2284423f48",
     "regionName" : "column1",
     "type" : "region"
   }, {
     "components" : [ {
       "componentAttributes" : {
-        "customHeadTags" : "<meta name=\"viewport\" content=\"width=device-width, minimum-scale=1.0, maximum-scale=1.0\" />",
+        "customHeadTags" : "",
         "description" : "",
-        "title" : "My Referrals"
+        "title" : "Communication Preferences"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "4bb93a2d-8229-4b31-bb1a-b0f8ce3fa898",
+      "id" : "78d4b043-b361-44b7-aed8-f9b04a7d1c98",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "2b015368-ba4d-45dc-90f4-489e82066309",
+    "id" : "6fc3d174-c4e5-4853-a40c-7855fe0d8b91",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
   "themeLayoutType" : "Inner",
   "type" : "view",
-  "viewType" : "custom-my-referrals"
+  "viewType" : "custom-communication-preferences"
 }
