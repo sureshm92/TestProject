@@ -27,6 +27,7 @@ export default class PpResourceEngage extends LightningElement {
         emptyLabel: All_EMPTY
     };
     spinner;
+    showSpinner = true;
     isRendered = false;
     //Boolean vars
     isInitialized = false;
@@ -62,9 +63,6 @@ export default class PpResourceEngage extends LightningElement {
 
     async initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
-        if (this.spinner) {
-            this.spinner.show();
-        }
 
         if (communityService.isInitialized()) {
             this.pData = communityService.getParticipantData();
