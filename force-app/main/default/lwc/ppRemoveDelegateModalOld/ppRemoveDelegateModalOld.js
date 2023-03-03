@@ -11,6 +11,7 @@ export default class PpRemoveDelegateModalOld extends LightningElement {
     @api selectedparent;
     @api isDelegate = false;
     @api pdenrollmentid;
+    @api removeStudyPDId;
     isLoading = false;
 
     label = {
@@ -33,7 +34,8 @@ export default class PpRemoveDelegateModalOld extends LightningElement {
     confirmModal() {
         const selectedEvent = new CustomEvent('confirmmodal', {
             detail: {
-                pdenrollmentid: this.pdenrollmentid
+                pdenrollmentid: this.pdenrollmentid,
+                removeStudyPDId: this.removeStudyPDId
             }
         });
 

@@ -5,7 +5,7 @@
     <changePasswordTemplate>unfiled$public/CommunityChangePasswordEmailTemplate</changePasswordTemplate>
     <communityRoles/>
     <disableReputationRecordConversations>false</disableReputationRecordConversations>
-    <emailSenderAddress>updates@cp.clinicalresearch.com</emailSenderAddress>
+    <emailSenderAddress>patientupdates@mail.clinicalresearch.com</emailSenderAddress>
     <emailSenderName>IQVIA Patient Portal</emailSenderName>
     <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
     <enableDirectMessages>true</enableDirectMessages>

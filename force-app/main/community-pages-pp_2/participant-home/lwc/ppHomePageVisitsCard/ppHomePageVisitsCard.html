@@ -1,5 +1,5 @@
 <template>
-    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <c-web-spinner class="main-spinner" ></c-web-spinner>
     <template if:true={isInitialized}>
         <template if:true={desktop}>
             <article class="slds-card header-card">
@@ -15,7 +15,7 @@
                         </header>
                     </div>-->
                     <template if:true={isUpcomingDetails}>
-                        <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+                        <c-web-spinner class="main-spinner" ></c-web-spinner>
                         <!--<div class="slds-card__body slds-card__body_inner card-wrap">
                             <article class="slds-card slds-card_boundary container-card">
                                 <div class="content card-wrap">-->
@@ -194,7 +194,7 @@
                         </div>-->
                     </template>
                 <template if:false={isUpcomingDetails}>
-                    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+                    <c-web-spinner class="main-spinner" ></c-web-spinner>
                     <!--<div class="slds-card__body slds-card__body_inner card-wrap">
                         <article class="slds-card slds-card_boundary container-card-upcoming">
                             <div class="slds-card__body slds-card__body_inner upcoming-m-top">-->

@@ -1,14 +1,26 @@
 <template>
     <template if:false={commPref}>
         <template if:false={isCommunityFooter}>
-            <div class="slds-p-around_medium">
-                <template if:true={isJanssen}>
-                    <span class="ppLabel" onclick={openModal}>{labels.janssenHeaderLabel} </span>
-                </template>
-                <template if:false={isJanssen}>
-                    <span class="ppLabel" onclick={openModal}>{labels.ppHeaderLabel}</span>
-                </template>
-            </div>
+            <template if:true={isCalledFromIqviaLogin}>
+                <div class="">
+                    <template if:true={isJanssen}>
+                        <span class="ppLabel" onclick={openModal}>{labels.janssenHeaderLabel} </span>
+                    </template>
+                    <template if:false={isJanssen}>
+                        <span class="ppLabel" onclick={openModal}>{labels.ppHeaderLabel}</span>
+                    </template>
+                </div>
+            </template>
+            <template if:false={isCalledFromIqviaLogin}>
+                <div class="slds-p-around_medium">
+                    <template if:true={isJanssen}>
+                        <span class="ppLabel" onclick={openModal}>{labels.janssenHeaderLabel} </span>
+                    </template>
+                    <template if:false={isJanssen}>
+                        <span class="ppLabel" onclick={openModal}>{labels.ppHeaderLabel}</span>
+                    </template>
+                </div>
+            </template>
         </template>
         <template if:true={isCommunityFooter}>
             <div class="">

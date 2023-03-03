@@ -66,6 +66,8 @@ public without sharing class ParticipantService {
         public String loggedInUserName;
         @AuraEnabled
         public Boolean cookiesAgreedonRegPage;
+        @AuraEnabled 
+        public CPRA_DoNotSell__mdt objCPRA;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -226,6 +228,24 @@ public without sharing class ParticipantService {
         participantState.welcomeMessage = getWelcomeMessage(participants);
         participantState.communityName = UserContext.getCurrentCommunityName();
         participantState.loggedInUserName = getLoggedInUserName(participants);
+        participantState.objCPRA = getCPRALink('IQVIA Patient Portal'); 
+    }
+
+    public static CPRA_DoNotSell__mdt getCPRALink(String strCommunityType){
+        list<CPRA_DoNotSell__mdt> lstMd = new list<CPRA_DoNotSell__mdt> ();
+        if( strCommunityType == 'IQVIA Referral Hub' || strCommunityType == 'null')
+        {
+              lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
+                                                where Active__c = true and Link_to_redirect__c != Null and Community_Name__c = 'Default' LIMIT 1];
+        }
+        else  
+        {
+            lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
+                        where Active__c = true and Link_to_redirect__c != Null and Community_Name__c =:strCommunityType LIMIT 1];
+        }
+       
+        return lstMd.isEmpty() ? Null : lstMd[0];
+                                         
     }
 
     public static Participant__c getParticipant(Id sourceId) {
