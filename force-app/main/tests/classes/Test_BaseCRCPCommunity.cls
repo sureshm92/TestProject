@@ -1046,7 +1046,6 @@ private class Test_BaseCRCPCommunity {
                 testData.ctp.Id,
                 testData.pe.Id,
                 testData.hcpEnrollment.Id,
-                false,
                 CommunityService.USER_MODE_HCP,
                 null,null
             );

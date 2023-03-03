@@ -6,7 +6,6 @@
         if (!communityService.isInitialized()) return;
         
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
-        var patientDoesNotExist = communityService.getUrlParameter('patientVeiwRedirection');
         if(patientVeiwRedirection){
             component.set('v.patientVeiwRedirection',true); 
         }
@@ -44,7 +43,6 @@
                     trialId: trialId,
                     peId: peId,
                     hcpeId: hcpeId,
-                    patientDoesNotExist: patientDoesNotExist,
                     userMode: communityService.getUserMode(),
                     delegateId: communityService.getDelegateId(),
                     language: language

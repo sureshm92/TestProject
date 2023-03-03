@@ -1,12 +1,13 @@
 import { LightningElement, api } from 'lwc';
-import myPNG_icon from '@salesforce/resourceUrl/Icon';
+import My_Resource from '@salesforce/resourceUrl/Televisit_Icons_List';
 export default class CustomHelpText extends LightningElement {
     @api top;
     @api left;
     @api width;
     @api relatedAttendees;
     @api ismobile;
-    peoplePng = myPNG_icon;
+    attendeehover = My_Resource + '/televisitAttendees_icon_HOVER.svg';
+    attendeewithouthover = My_Resource + '/televisitAttendees_icon.svg';
     //newline = '<br/>';
     helpTextClass =
         'slds-popover slds-popover_tooltip slds-nubbin_right slds-fall-into-ground slds-hide popover-position';
@@ -14,7 +15,7 @@ export default class CustomHelpText extends LightningElement {
         'slds-popover slds-popover_tooltip slds-nubbin_left slds-fall-into-ground slds-hide popover-position';
     avatareffect = false;
     togglePasswordHint() {
-        //this.avatareffect = true;
+        this.avatareffect = true;
         if(!this.ismobile){
             this.helpTextClass = 'slds-popover slds-popover_tooltip slds-nubbin_right slds-rise-from-ground popover-position';
         }else{
