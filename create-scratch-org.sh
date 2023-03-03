@@ -1,5 +1,5 @@
 #!/bin/sh
-#v2.8 PP-R12.0 RH-14.0
+#v2.8 PP-13.0 RH-15.0
 echo "Clean up previous scratch org"
 sfdx force:org:delete -p
 
@@ -51,7 +51,8 @@ sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
 #Reduce component size
 echo "Deploying static files..."
 sfdx force:org:open -p 'lightning/setup/DeployStatus/home'
-sfdx force:source:deploy -p "force-app/main/onboarding-tour,force-app/main/default/staticresources,force-app/unpackaged/main/default/staticresources,force-app/main/default/namedCredentials,force-app/main/default/remoteSiteSettings,force-app/main/default/cspTrustedSites,force-app/main/default/labels" --tracksource
+sfdx force:source:deploy -p "force-app/main/onboarding-tour,force-app/main/default/staticresources" --tracksource
+sfdx force:source:deploy -p "force-app/unpackaged/main/default/staticresources,force-app/main/default/namedCredentials,force-app/main/default/remoteSiteSettings,force-app/main/default/cspTrustedSites,force-app/main/default/labels" --tracksource
 
 if [ $? = 0 ]; 
 then
