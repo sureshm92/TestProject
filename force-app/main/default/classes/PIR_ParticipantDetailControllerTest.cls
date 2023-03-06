@@ -472,7 +472,6 @@ public with sharing class PIR_ParticipantDetailControllerTest {
             Primary_Delegate__c = true
         );
         
-        //insert patientDelegate;
         String delegateIdString = '{ "Id": "'+patientDelegate.Id+'","Contact__c":"'+delegate.Id+'","Participant_Delegate__c": "'+patientDelegate.Participant_Delegate__r.Id+'","Participant_Delegate__r": {"Id":"'+patientDelegate.Participant_Delegate__r.Id+'","Contact__c":"'+delegate.Id+'","First_Name__c": "test1","Last_Name__c": "'+patientDelegate.Participant_Delegate__r.Last_Name__c+'","Email__c": "'+patientDelegate.Participant_Delegate__r.Email__c+'","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
          String delegateIdString1 = '{ "Id": "'+patientDelegate.Id+'","Contact__c":"'+delegate.Id+'","Participant_Delegate__c": "'+pe.Id+'","Participant_Delegate__r": {"Id":"'+patientDelegate.Participant_Delegate__r.Id+'","Contact__c":"'+delegate.Id+'","First_Name__c": "test1","Last_Name__c": "'+patientDelegate.Participant_Delegate__r.Last_Name__c+'","Email__c": "'+patientDelegate.Participant_Delegate__r.Email__c+'","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
          String consentJSON = '{ "Study_Email_Consent": true,"Study_info_storage_consent": true,"Study_Phone_Consent":true,"Study_SMS_Consent":true }';
