@@ -22,7 +22,7 @@ global without sharing class PP_EmailWireframeController {
     global String userModeValue { get; set; }
     global Id surveyIdString { get; set; }
     private EmailTemplateProvider templateProvider;
-    //global Boolean isInitialEmailValue { get; set; }
+    global Boolean isInitialEmailValue { get; set; }
 
     global String getUserLanguageCode() {
         return getProvider().getUserLanguage();
