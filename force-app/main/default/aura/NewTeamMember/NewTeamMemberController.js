@@ -192,8 +192,12 @@
         }
 
         component.find('mainSpinner').show();
+        if(delegate.delegateContact.FirstName){
         delegate.delegateContact.FirstName = delegate.delegateContact.FirstName.trim();
+        }
+        if(delegate.delegateContact.LastName){
         delegate.delegateContact.LastName = delegate.delegateContact.LastName.trim();
+        }
 
         if (component.get('v.userMode') === 'Participant') {
             console.log(
@@ -280,8 +284,8 @@
         let delegate = component.get('v.delegate');
         component.set(
             'v.isCorrectContactData',
-            delegate.delegateContact.FirstName.trim() !== '' &&
-                delegate.delegateContact.LastName.trim() !== ''
+            ((delegate.delegateContact.FirstName  &&  delegate.delegateContact.FirstName.trim() !== '') &&
+           ( delegate.delegateContact.LastName  &&   delegate.delegateContact.LastName.trim() !== ''))
         );
     }
 });
