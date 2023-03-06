@@ -103,7 +103,17 @@
                 </div>
         </template>
         <template if:true={isMobile}>
-            <h2 class="my-televisits-mobile">{label.Televisits}</h2><br/>
+            <template if:true = {isdelegate}>
+                <div class = "delegatecssmobile">
+                    <img src={home_icon} class="delegatetelevisitmobile" onclick = {redircttohomepage}>
+                    <lightning-icon icon-name="utility:chevronright" class = "icon-chevron-right"></lightning-icon>
+                    <span class = "delegate-televisit" > &nbsp;{label.Televisits}</span>
+                    <h2 class="my-televisits-mobile">{label.Televisits}</h2><br/>
+                  </div>
+            </template>
+            <template if:false = {isdelegate}>
+                <h2 class="my-televisits-mobile">{label.Televisits}</h2><br/>
+            </template>
             <div class="slds-grid slds-wrap slds-gutters">
                 <div
                     class="slds-col slds-size_1-of-1"
