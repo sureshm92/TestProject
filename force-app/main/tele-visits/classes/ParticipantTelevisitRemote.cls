@@ -28,6 +28,12 @@ public without sharing class ParticipantTelevisitRemote {
                 timezonechanges = u.TimeZoneSidKey;
                 contact con = [select id,UserCommunityIsDelegate__c from contact where Id =: u.contactid];
                 delegatecheck = con.UserCommunityIsDelegate__c;
+                if(delegatecheck && (ctpId == null || ctpId == '')){
+                    List<Patient_Delegate__c> delegateList = [select id,Participant__c,Participant__r.Contact__c from Patient_Delegate__c
+                    where Contact__c =:con.Id];
+                    List<Participant_Enrollment__c> perList = [select id,Clinical_Trial_Profile__c from Participant_Enrollment__c where Participant__c =:delegateList[0].Participant__c];
+                    ctpId = perList[0].Clinical_Trial_Profile__c;
+                }
 
             }
             List<Televisit_Attendee__c> televisitattendeeList = [Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c from Televisit_Attendee__c 

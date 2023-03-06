@@ -23,6 +23,14 @@
     padding-left: 32px; 
     padding-top: 13px;
 }
+.delegatecssmobile{
+    padding-left: 32px;
+}
+.delegatetelevisitmobile{
+    height: 30px;
+    cursor:pointer;
+    margin-left: -10px;
+}
 .my-televisits-mobile{
   height: 32px;
   width: 217px;
