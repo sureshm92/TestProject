@@ -435,13 +435,31 @@ public without sharing class StudySiteTriggerHandler {
 
     private static void studySiteIntegration(
         List<Study_Site__c> newList,
-        Map<Id, Study_Site__c> oldMap
-    ) {
+        Map<Id, Study_Site__c> oldMap) {
+        Set<Id> siteIds = new Set<Id>();
+        Map<Id,Study_Site__c> siteMapDetails = new Map<Id,Study_Site__c>();
         Profile profile = [SELECT Name FROM Profile WHERE Id = :UserInfo.getProfileId()];
         String profileName = profile.Name;
+         if(oldMap != null && profileName == 'API Only'){
+        for (Study_Site__c site : newList) {
+            if(oldMap.get(site.Id).Site__c != null && oldMap.get(site.Id).Site__c != site.Site__c){
+            siteIds.add(site.Id);
+        }
+            }
+             if(!siteIds.isEmpty()){
+         siteMapDetails = new Map<Id,Study_Site__c>([
+            SELECT
+            Id,
+            Site__c,
+            Site__r.Org_Key__c
+            FROM Study_Site__c
+            WHERE Id IN :siteIds
+        ]);
+            }
+             }
         Study_Site__c studysite = new Study_Site__c();
         for (Study_Site__c site : newList) {
-            if(oldMap != null && profileName == 'API Only' && oldMap.get(site.Id).Site__c != site.Site__c){
+            if(oldMap != null && profileName == 'API Only' && oldMap.get(site.Id).Site__c != site.Site__c && siteMapDetails.get(site.Id) != null && siteMapDetails.get(site.Id).Site__r.Org_Key__c == null){
                 site.Site__c = oldMap.get(site.Id).Site__c;
             }
         }
