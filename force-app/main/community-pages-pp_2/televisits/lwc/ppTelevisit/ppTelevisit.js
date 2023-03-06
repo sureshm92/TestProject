@@ -31,6 +31,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
     reloadupcomingcomponent = false;
     isdelegate = false;
     home_icon = homeicon;
+    delegatecheck = false;
     selectedNavHandler(event) {
         if(event.detail.filter == 'showblankupcomingtelevisits:false'){
             this.upcomingTelevisitslist = event.detail.upcomingdata;
@@ -86,6 +87,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
                 this.timechanges = result.tz;
                 this.pastTelevisitlist = result.televisitpastList;
                 this.upcomingTelevisitslist = result.televisitupcomingList;
+                this.delegatecheck = result.isdelegate;
                 if(result.isdelegate && result.televisitupcomingList.length > 0){
                     this.isdelegate = true;
                 }
@@ -105,6 +107,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
             }else{
                 this.showblankupcomingtelevisits = true;
                 this.showblankpasttelsvisits = true;
+                this.delegatecheck = result.isdelegate;
                 if(result.isdelegate && result.televisitupcomingList.length > 0){
                     this.isdelegate = true;
                 }

@@ -396,7 +396,7 @@ public without sharing class NotificationService {
                     if (n.Recipient__c != null) {
                         Boolean isDeferedFlag = availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c);
                         Boolean platformTask = false;
-                        if(taskMap.containsKey(n.Task_Id__c)){
+                        if(n.Task_Id__c != null && n.Task_Id__c != '' && taskMap.containsKey(n.Task_Id__c)){
                             Id wId = Id.valueOf(taskMap.get(n.Task_Id__c).WhatId);
                             platformTask = String.valueOf(wId.getSobjectType()) == 'Participant__c'  && !taskMap.get(n.Task_Id__c).CreatedByAdmin__c ? true : false ;
                         }
