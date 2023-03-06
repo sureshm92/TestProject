@@ -1485,7 +1485,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                 Status = TaskService.TASK_STATUS_OPEN,
                 Priority = TaskService.TASK_PRIORITY_CRITICAL,
                 Action_URL__c = 'e-diaries',
-                WhatId = per.Id,
+                WhatId = per.Participant__c,
                 WhoId = per.Participant_Contact__c,
                 Visible_For__c = TaskService.TASK_VISIBILITY_ALL,
                 Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED
