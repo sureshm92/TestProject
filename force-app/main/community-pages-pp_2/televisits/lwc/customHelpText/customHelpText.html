@@ -9,7 +9,7 @@
                 >
                     <!--<lightning-icon size="small" icon-name="utility:people">style = "left: -200px;top: -31px;</lightning-icon>-->
                     <template if:false={ismobile}>
-                        <div class={helpTextClass} role="tooltip" id="help" style = "width: max-content;position: absolute;right: 37px;text-align:left;">
+                        <div class={helpTextClass} role="tooltip" id="help" style = "width: max-content;position: absolute;right: 50px;text-align:left;">
                             <div class="slds-popover__body">
                                 <template for:each={relatedAttendees} for:item="record">
                                     
@@ -19,7 +19,7 @@
                         </div>
                     </template>
                     <template if:true={ismobile}>
-                        <div class={helpTextClassmobile} role="tooltip" style = "width: 270px;position: absolute;left: 37px;text-align:left;">
+                        <div class={helpTextClassmobile} role="tooltip" style = "width: 270px;position: absolute;left: 73px;text-align:left;">
                             <div class="slds-popover__body">
                                 <template for:each={relatedAttendees} for:item="record">
                                     
@@ -28,13 +28,23 @@
                             </div>
                         </div>
                     </template>
-                    <template if:true={avatareffect}>
-                        <span class="slds-avatar slds-avatar_circle my-icon slds-icon-standard-user slds-avatar_medium">
-                            <img src={peoplePng} alt="lampIcon" class="customIcon"> 
-                        </span>
+                    <template if:false={ismobile}>
+                        <template if:true={avatareffect}>
+                            <!--<span class="slds-avatar slds-avatar_circle my-icon slds-icon-standard-user slds-avatar_medium">-->
+                                <img src={attendeehover}  class="customIcon2"> 
+                            <!--</span>-->
+                        </template>
+                        <template if:false={avatareffect}>
+                            <img src={attendeewithouthover} class="customIcon">
+                        </template>
                     </template>
-                    <template if:false={avatareffect}>
-                        <img src={peoplePng} alt="lampIcon" class="customIcon">
+                    <template if:true={ismobile}>
+                        <template if:true={avatareffect}>
+                            <img src={attendeehover}  class="customIcon2-mobile"> 
+                        </template>
+                        <template if:false={avatareffect}>
+                            <img src={attendeewithouthover} class="customIcon-mobile">
+                        </template>
                     </template>
                 </button>
                 
