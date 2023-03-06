@@ -41,6 +41,7 @@ public with sharing class Batch_CreatePDERRecord_IqviaOutReach implements Databa
         for (Patient_Delegate__c objDel : lstPatientDelegate) {
             setParticipantId.add(objDel.Participant__c);
         }
+        List<String> lstPPStudy = system.label.PP_Studies_For_Data_Load.split(';');
 
         Date objstartdate = date.newInstance(2022, 12, 10);
         Date objEndDate = date.newInstance(2023, 03, 26);
@@ -50,7 +51,8 @@ public with sharing class Batch_CreatePDERRecord_IqviaOutReach implements Databa
                 id,
                 Participant__c,
                 Clinical_Trial_Profile__c,
-                Clinical_Trial_Profile__r.IQVIA_Outreach__c
+                Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                Clinical_Trial_Profile__r.Name
             FROM Participant_Enrollment__c
             WHERE
                 Participant__c IN :setParticipantId
@@ -86,45 +88,47 @@ public with sharing class Batch_CreatePDERRecord_IqviaOutReach implements Databa
                         objPDER.isInviteToPP__c = objDel.isInviteToPP__c;
                         objPDER.Primary_Delegate__c = objDel.Primary_Delegate__c;
                         objPDER.Status__c = objDel.Status__c;
-                        if(objDel.Contact__r.IQVIA_Artificial_Voice_Consent_Time__c  > objstartdate 
+                        if((!lstPPStudy.isEmpty() && !lstPPStudy.contains(objper.Clinical_Trial_Profile__r.Name)) || lstPPStudy.isEmpty()){
+                        if(objDel.Contact__r.IQVIA_Artificial_Voice_Consent_Time__c  > objstartdate
                         && objDel.Contact__r.IQVIA_Artificial_Voice_Consent_Time__c <= objEndDate) {
                         objPDER.Study_Artificial_Voice_Consent__c = objDel.Contact__r.IQVIA_Artificial_Voice_Consent__c;
                         objPDER.Study_Artificial_Voice_Consent_Time__c = objDel.Contact__r.IQVIA_Artificial_Voice_Consent_Time__c;
                         }
-                        if(objDel.Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c  > objstartdate 
+                        if(objDel.Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c  > objstartdate
                         && objDel.Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c <= objEndDate) {
                         objPDER.Study_Assisted_Dialing_Consent__c = objDel.Contact__r.IQVIA_Assisted_Dialing_Consent__c;
-                        objPDER.Study_Assisted_Dialing_Consent_Time__c = objDel.Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c;
-                        }
+                            objPDER.Study_Assisted_Dialing_Consent_Time__c = objDel.Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c;
+                            }
                         if(objDel.Contact__r.IQVIA_Direct_Mail_Consent_Time__c  > objstartdate 
-                        && objDel.Contact__r.IQVIA_Direct_Mail_Consent_Time__c <= objEndDate) {
-                        objPDER.Study_Direct_Mail_Consent__c = objDel.Contact__r.IQVIA_Direct_Mail_Consent__c;
-                        objPDER.Study_Direct_Mail_Consent_Time__c = objDel.Contact__r.IQVIA_Direct_Mail_Consent_Time__c;
-                        }
+                            && objDel.Contact__r.IQVIA_Direct_Mail_Consent_Time__c <= objEndDate) {
+                            objPDER.Study_Direct_Mail_Consent__c = objDel.Contact__r.IQVIA_Direct_Mail_Consent__c;
+                            objPDER.Study_Direct_Mail_Consent_Time__c = objDel.Contact__r.IQVIA_Direct_Mail_Consent_Time__c;
+                            }
                         if(objDel.Contact__r.IQVIA_Email_Consent_Time__c  > objstartdate 
-                        && objDel.Contact__r.IQVIA_Email_Consent_Time__c <= objEndDate) {
-                        objPDER.Study_Email_Consent__c = objDel.Contact__r.Participant_Opt_In_Status_Emails__c;
-                        objPDER.Study_Email_Consent_Time__c = objDel.Contact__r.IQVIA_Email_Consent_Time__c;
-                        }
+                            && objDel.Contact__r.IQVIA_Email_Consent_Time__c <= objEndDate) {
+                            objPDER.Study_Email_Consent__c = objDel.Contact__r.Participant_Opt_In_Status_Emails__c;
+                            objPDER.Study_Email_Consent_Time__c = objDel.Contact__r.IQVIA_Email_Consent_Time__c;
+                            }
                         if(objDel.Contact__r.IQVIA_PI_Storage_Consent_Time__c  > objstartdate 
-                        && objDel.Contact__r.IQVIA_PI_Storage_Consent_Time__c <= objEndDate) {
-                        objPDER.Study_info_storage_consent__c = objDel.Contact__r.IQVIA_Contact_info_storage_consent__c;
-                        objPDER.Study_Storage_Consent_Time__c = objDel.Contact__r.IQVIA_PI_Storage_Consent_Time__c;
-                        }
+                            && objDel.Contact__r.IQVIA_PI_Storage_Consent_Time__c <= objEndDate) {
+                            objPDER.Study_info_storage_consent__c = objDel.Contact__r.IQVIA_Contact_info_storage_consent__c;
+                            objPDER.Study_Storage_Consent_Time__c = objDel.Contact__r.IQVIA_PI_Storage_Consent_Time__c;
+                            }
                         if(objDel.Contact__r.IQVIA_Phone_Consent_Time__c  > objstartdate 
-                        && objDel.Contact__r.IQVIA_Phone_Consent_Time__c <= objEndDate) {
-                        objPDER.Study_Phone_Consent__c = objDel.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;
-                        objPDER.Study_Phone_Consent_Time__c = objDel.Contact__r.IQVIA_Phone_Consent_Time__c;
-                        }
+                            && objDel.Contact__r.IQVIA_Phone_Consent_Time__c <= objEndDate) {
+                            objPDER.Study_Phone_Consent__c = objDel.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c;
+                            objPDER.Study_Phone_Consent_Time__c = objDel.Contact__r.IQVIA_Phone_Consent_Time__c;
+                            }
                         if(objDel.Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c  > objstartdate 
-                        && objDel.Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c <= objEndDate) {
-                        objPDER.Study_Pre_recorded_Voice_Consent__c = objDel.Contact__r.IQVIA_Pre_recorded_Voice_Consent__c;
-                        objPDER.Study_Pre_recorded_Calls_Consent_Time__c = objDel.Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c;
-                        }
+                            && objDel.Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c <= objEndDate) {
+                            objPDER.Study_Pre_recorded_Voice_Consent__c = objDel.Contact__r.IQVIA_Pre_recorded_Voice_Consent__c;
+                            objPDER.Study_Pre_recorded_Calls_Consent_Time__c = objDel.Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c;
+                            }
                         if(objDel.Contact__r.IQVIA_SMS_Consent_Time__c  > objstartdate 
-                        && objDel.Contact__r.IQVIA_SMS_Consent_Time__c <= objEndDate) {
-                        objPDER.Study_SMS_Consent__c = objDel.Contact__r.Participant_Opt_In_Status_SMS__c;
-                        objPDER.Study_SMS_Consent_Time__c = objDel.Contact__r.IQVIA_SMS_Consent_Time__c;
+                            && objDel.Contact__r.IQVIA_SMS_Consent_Time__c <= objEndDate) {
+                            objPDER.Study_SMS_Consent__c = objDel.Contact__r.Participant_Opt_In_Status_SMS__c;
+                            objPDER.Study_SMS_Consent_Time__c = objDel.Contact__r.IQVIA_SMS_Consent_Time__c;
+                        }
                         }
                         lstPDER.add(objPDER);
                     }

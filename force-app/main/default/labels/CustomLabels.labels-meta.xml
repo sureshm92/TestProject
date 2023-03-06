@@ -508,6 +508,20 @@ Duration: ##VisitDuration</value>
         <value>Discard</value>
     </labels>
     <labels>
+        <fullName>PDE_Created_By_for_Data_Load</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Studies For Data Load</shortDescription>
+        <value>Mani Deepak</value>
+    </labels>
+    <labels>
+        <fullName>PP_Studies_For_Data_Load</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Studies For Data Load</shortDescription>
+        <value>S-71111;S-71112;S-62415;S-70716</value>
+    </labels>
+    <labels>
         <fullName>PIR_Discard_Changes</fullName>
         <language>en_US</language>
         <protected>false</protected>
