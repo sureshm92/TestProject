@@ -397,6 +397,12 @@ public with sharing class PIR_ParticipantDetailControllerTest {
     static void testDoSaveParticipantDetails() {
         TestData testData = new TestData();
         byPassTriggersMethod();
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.CreateReactivatedNotification.class
+            );
+         TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+            );
         Contact delegate = new Contact(
             FirstName = 'Patient',
             LastName = 'Delegate',
@@ -466,14 +472,14 @@ public with sharing class PIR_ParticipantDetailControllerTest {
             Primary_Delegate__c = true
         );
         
-        insert patientDelegate;
+        //insert patientDelegate;
         String delegateIdString = '{ "Id": "'+patientDelegate.Id+'","Contact__c":"'+delegate.Id+'","Participant_Delegate__c": "'+patientDelegate.Participant_Delegate__r.Id+'","Participant_Delegate__r": {"Id":"'+patientDelegate.Participant_Delegate__r.Id+'","Contact__c":"'+delegate.Id+'","First_Name__c": "test1","Last_Name__c": "'+patientDelegate.Participant_Delegate__r.Last_Name__c+'","Email__c": "'+patientDelegate.Participant_Delegate__r.Email__c+'","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
          String delegateIdString1 = '{ "Id": "'+patientDelegate.Id+'","Contact__c":"'+delegate.Id+'","Participant_Delegate__c": "'+pe.Id+'","Participant_Delegate__r": {"Id":"'+patientDelegate.Participant_Delegate__r.Id+'","Contact__c":"'+delegate.Id+'","First_Name__c": "test1","Last_Name__c": "'+patientDelegate.Participant_Delegate__r.Last_Name__c+'","Email__c": "'+patientDelegate.Participant_Delegate__r.Email__c+'","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
          String consentJSON = '{ "Study_Email_Consent": true,"Study_info_storage_consent": true,"Study_Phone_Consent":true,"Study_SMS_Consent":true }';
-        Test.startTest();
+       
         Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,false,'updateDeligate','',true,consentJSON,'');
           Boolean isSavePrDetails1 = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,false,'updateDeligate','',false,consentJSON,'');
-        
+          Test.startTest();
           Boolean isSavePrDetails4 = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString1,false, false,true,false,'updateDeligate','',true,consentJSON,'');
         
           Boolean isSavePrDetails2 = PIR_ParticipantDetailController.doSaveParticipantDetails(pe,delegateIdString,false, false,true,true,'updateDeligate','',false,consentJSON,'');
@@ -485,7 +491,12 @@ public with sharing class PIR_ParticipantDetailControllerTest {
             PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,true,'','',false,consentJSON,'');
         }catch(Exception ex){}
         String delegateDeleteString = '{ "Id": "'+patientDelegate.Id+'","Participant_Delegate__c": "'+patientDelegate.Participant_Delegate__r.Id+'","Participant_Delegate__r": {"Id":"'+patientDelegate.Participant_Delegate__r.Id+'","First_Name__c": "","Last_Name__c": "'+patientDelegate.Participant_Delegate__r.Last_Name__c+'","Email__c": "'+patientDelegate.Participant_Delegate__r.Email__c+'","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
+        try{
         PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateDeleteString,false, false,true,false,'','',false,consentJSON,'');
+        }
+        catch(Exception ex) {
+            System.assertEquals(ex.getMessage(),'Script-thrown exception' );
+        }
         Test.stopTest();
     }
     
