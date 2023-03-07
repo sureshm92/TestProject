@@ -104,9 +104,11 @@ public class Test_CommunityService {
             pe =[select Id,Participant_Contact__c,PI_Contact__c,Participant__r.Contact__c,HCP__r.HCP_Contact__c from Participant_Enrollment__c where Participant__c!=null and Participant__r.Contact__c !=null and HCP__r.HCP_Contact__c!=null limit 1];
             toCreateUser.put(pe.Participant__r.Contact__c, pe.HCP__r.HCP_Contact__c);
             Set<Id> participantContactIds = new Set<Id>();
+            Set<Id> peIds = new Set<Id>();
+            peIds.add(pe.Id);
             participantContactIds.add(pe.Participant__r.Contact__c);
             ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                            .createParticipantUsersAsync(toCreateUser, participantContactIds);
+                            .createParticipantUsersAsync(toCreateUser, participantContactIds, peIds);
         }catch(Exception ex){}
     }
 }
