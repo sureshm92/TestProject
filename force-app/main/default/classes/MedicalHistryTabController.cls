@@ -127,18 +127,21 @@ public without sharing class MedicalHistryTabController {
                     objWrapper.lstbioMarkerMediaFiles  = BioMarkerRecordController.getRelatedMediaFiles(objPer.Id,objWrapper.biomarkerdata.InitialValue);
                 }
             }
-
+            String strParticipantId = objPer.Participant__c;
             if(String.isNotBlank(peid)) {
 
-                objWrapper.surveyResponses = [
-                    SELECT Id, Completed_Date__c, Screener_Response__c, PreScreener_Survey__c, PreScreener_Survey__r.MRR__c, 
-                        PreScreener_Survey__r.Survey_Name__c, Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        MRR_EPR__c, MRR__c, Prescreener__c 
-                    FROM Participant_PrescreenerResponse__c 
-                    WHERE (Participant_enrollment__c = :peid OR Participant__c = :objPer.Participant__c)
-                        AND (PreScreener_Survey__c != null OR Participant_enrollment__c != null)
-                    ORDER BY Completed_Date__c DESC
-                ];
+                String strQuerySurveyResponse = '  SELECT Id, Completed_Date__c, Screener_Response__c, PreScreener_Survey__c, PreScreener_Survey__r.MRR__c,PreScreener_Survey__r.Survey_Name__c ';
+                strQuerySurveyResponse += ' ,Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,MRR_EPR__c, MRR__c, Prescreener__c FROM Participant_PrescreenerResponse__c ';
+                strQuerySurveyResponse += ' WHERE (Participant_enrollment__c = :peid ';
+                if(string.isNotBlank(objPer.Participant__c))
+                {
+                    strQuerySurveyResponse += ' OR Participant__c = :strParticipantId' ;
+                }
+                strQuerySurveyResponse += ') AND (PreScreener_Survey__c != null OR Participant_enrollment__c != null) ';
+                strQuerySurveyResponse += ' ORDER BY Completed_Date__c DESC LIMIT 30000'; 
+
+                objWrapper.surveyResponses =  Database.query(strQuerySurveyResponse);
+              
             }
         return  objWrapper;
     }
