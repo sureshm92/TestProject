@@ -13,7 +13,6 @@
     <template if:true={showpopup}>
         <c-pp-remove-delegate-modal-old
             pdenrollmentid={withdrawStudyPDEId}
-            remove-study-p-d-id ={withdrawStudyPDId}
             messtext={label.Withdrew_Assignment_Consent}
             tittext={label.Withdrew_Assignment}
             onconfirmmodal={handleWithdrawDelegate}
@@ -102,7 +101,6 @@
                                                     title=""
                                                     onclick={openWithdrawDelegateModal}
                                                     data-pdeid={pdEnrollment.Id}
-                                                    data-pdid={par.pdId}
                                                 >
                                                     {label.PP_Withdraw}
                                                 </button></lightning-layout-item
