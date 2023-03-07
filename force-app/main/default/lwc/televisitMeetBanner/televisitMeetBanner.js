@@ -280,7 +280,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
             timeZone: USER_TIME_ZONE,
             hour: '2-digit',
             minute: '2-digit',
-            hour12: true
+            //hour12: true
         });
     }
 
