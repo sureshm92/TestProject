@@ -20,6 +20,11 @@
     <apex:attribute name="preBodyButtonName" assignTo="{!preBodyButtonNameValue}" type="String" description="" />
     <apex:attribute name="preBodyButtonURL" assignTo="{!preBodyButtonURLValue}" type="String" description="Pass Register URL From Initial Email"
     />
+
+    <!-- Initial Email -->
+    <apex:attribute name="isInitialEmail" assignTo="{!isInitialEmailValue}" type="Boolean" default="false" description="to check whether it is a registration email"
+    />
+
     <!-- Other -->
     <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="HTML" />
     <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}" description="Community template name"
@@ -30,7 +35,42 @@
     />
     <apex:attribute name="OptOut" assignTo="{!displayOptOut}" type="String" description="" default="Yes" access="global" />
     <apex:attribute name="surveyId" type="Id" description="" access="global" assignTo="{!surveyIdString}" />
-
+	<head>
+         <style>
+            .row {
+              display: flex;
+              box-shadow: inset 0 0 16px 0 rgba(0,0,0,0.1);
+              height: 194px; 
+              justify-content: center;
+              align-items: center; 
+              margin: 0px -32px;
+              background: #fafafa;
+    		  border-radius: 5px;
+            }
+            
+            .column {
+              flex: 33.33%;
+              padding: 5px;
+              text-align: center;
+              margin: auto;              
+            }
+             .label{
+              height: 22px;
+              color: #6E6E6E;
+              font-family: "Proxima Nova";
+              font-size: 18px;
+              font-weight: 500;
+              letter-spacing: 0;
+              line-height: 22px;
+              text-align: center;
+              margin-top: 4px;
+             }
+             .dimension{
+               height: 90px;
+             }
+    </style>    
+    </head>
+   
     <!--Parent Container -->
     <div style="{!IF(isRTL=true,templateMap['emailTemplateBackgroundRTL'], templateMap['emailTemplateBackground'])}">
         <!-- Top Background-->
@@ -112,6 +152,27 @@
             <!-- Pre-Signature Text-->
             <apex:outputPanel style="display:block; color: #444444 !important;" rendered="{!preSignatureText != null}">
                 <apex:outputText value="{!preSignatureText}" escape="false" />
+            </apex:outputPanel>
+
+            <!-- Image for initial email -->
+            <apex:outputPanel rendered="{!isInitialEmail=true}">
+                <!-- <img style="margin-left: -32px !important;
+                margin-right: -32px !important;
+                width: -webkit-fill-available;" src="{!$Label.ImgPathRegistrationEmail}" /> -->
+                <div class="row">
+                    <div class="column">
+                         <img class="dimension" src="{!$Label.InitailEmail_task_illustration}" />
+                         <p class="label">Complete Tasks</p>
+                    </div>
+                    <div class="column">
+                         <img class="dimension" src="{!$Label.InitailEmail_stayInformed_illustration}" />
+                         <p class="label">Stay Informed</p>
+                    </div>
+                    <div class="column">
+                        <img class="dimension" src="{!$Label.InitailEmail_trackProgress_illustration}" />
+                        <p class="label">Stay Informed</p>
+                    </div>
+                </div>
             </apex:outputPanel>
 
             <!-- Signature-->
