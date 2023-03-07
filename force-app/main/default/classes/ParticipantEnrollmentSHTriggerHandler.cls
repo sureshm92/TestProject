@@ -471,7 +471,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                         .createParticipantUsers(toCreateUser);
                 } else {
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                        .createParticipantUsersAsync(toCreateUser, participantContactIds);
+                        .createParticipantUsersAsync(toCreateUser, participantContactIds, peIds);
                 }
             }
             if (!notifications.isEmpty())
