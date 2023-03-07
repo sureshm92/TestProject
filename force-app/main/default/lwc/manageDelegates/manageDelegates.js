@@ -60,7 +60,6 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     showAddDelegatePage = false;
     showpopup = false;
     removeStudyPDEId;
-    removeStudyPDId
     deletePatientDelId;
     showDeletePopup = false;
     modalMesstext;
@@ -413,7 +412,6 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         let pdfn = event.target.dataset.pdfn;
         let pdln = event.target.dataset.pdln;
         this.removeStudyPDEId = event.currentTarget.dataset.pdeid;
-        this.removeStudyPDId = event.currentTarget.dataset.pdid;
         //console.log('removeStudyPDEId:', this.removeStudyPDEId);
 
         this.modalMesstext =
@@ -436,11 +434,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     handleRemoveDelegate(event) {
         this.spinner = true;
         let pdEnrollmentId = event.detail.pdenrollmentid;
-        let removeStudyPDId = event.detail.removeStudyPDId;
         ////console.log('m-del pdEnrollmentId: ',this.removeStudyPDEId);
         removeAssignment({
-            pDEId: pdEnrollmentId,
-            pDId : removeStudyPDId
+            pDEId: pdEnrollmentId
         })
             .then((result) => {
                 this.showpopup = false;
