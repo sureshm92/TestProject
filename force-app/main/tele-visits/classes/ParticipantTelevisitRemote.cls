@@ -36,7 +36,7 @@ public without sharing class ParticipantTelevisitRemote {
                 }
 
             }
-            List<Televisit_Attendee__c> televisitattendeeList = [Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c from Televisit_Attendee__c 
+            List<Televisit_Attendee__c> televisitattendeeList = [Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c,Televisit__r.Visit_End_Date_Time__c from Televisit_Attendee__c 
                                                                  where User__c =:userId and Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c = :ctpId
                                                                  order by Televisit__r.Visit_Date_Time__c desc];
             Set<Id> televisitIdSet = new Set<Id>();
@@ -47,7 +47,7 @@ public without sharing class ParticipantTelevisitRemote {
                 for(Televisit_Attendee__c attendee:televisitattendeeList){
                     televisitIdSet.add(attendee.Televisit__r.Id);
                     if(attendee.Televisit__r.Status__c != 'Cancelled' && attendee.Televisit__r.Status__c != 'Completed' &&
-                       attendee.Televisit__r.Visit_Date_Time__c.addminutes(integer.valueof(attendee.Televisit__r.Duration__c.split(' ')[0])) >= system.now()){
+                       attendee.Televisit__r.Visit_End_Date_Time__c >= system.now()){
                            upcomingTelevisits upcomingTelevisit = new upcomingTelevisits();
                            upcomingTelevisit.televisitId = attendee.Televisit__r.Id;
                            upcomingTelevisit.title = attendee.Televisit__r.Title__c;
@@ -60,7 +60,7 @@ public without sharing class ParticipantTelevisitRemote {
                                upcomingTelevisit.showjoinbutton = false;
                            }
                            upcomingTelevisitmap.put(attendee.Televisit__r.Id,upcomingTelevisit);
-                       }else if(attendee.Televisit__r.Visit_Date_Time__c.addminutes(integer.valueof(attendee.Televisit__r.Duration__c.split(' ')[0])) < system.now() || 
+                       }else if(attendee.Televisit__r.Visit_End_Date_Time__c < system.now() || 
                                 attendee.Televisit__r.Status__c == 'Cancelled'){
                                     pastTelevisits pastTelevisit = new pastTelevisits();
                                     pastTelevisit.title = attendee.Televisit__r.Title__c;
