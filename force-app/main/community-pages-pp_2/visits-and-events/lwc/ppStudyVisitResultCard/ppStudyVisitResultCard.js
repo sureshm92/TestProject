@@ -1,10 +1,11 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, wire, api, track } from 'lwc';
 import resultsCheck from '@salesforce/label/c.Visit_Check_Result';
 import results from '@salesforce/label/c.Visit_Result';
 import viewAllResults from '@salesforce/label/c.Visits_View_All_Results';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { NavigationMixin } from 'lightning/navigation';
 import formFactor from '@salesforce/client/formFactor';
+import visitResultSharingByGroupAndMode from '@salesforce/apex/StudyDetailViewController.visitResultSharingByGroupAndMode';
 import {
     subscribe,
     unsubscribe,
@@ -20,9 +21,16 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
         viewAllResults,
         results
     };
-
+    @api past;
+    @api currentVisit;
+    @api visitId;
+    participantState;
     showVisResults;
     participantState;
+    selectedResult;
+    @track availableTabs = [];
+    visitResultSMap = [];
+    visitResultSharings;
     isMobile = false;
     isTablet = false;
     isDesktop = false;
@@ -57,11 +65,37 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
             } else {
                 this.handleSubscribe();
             }
+            this.participantState = communityService.getCurrentCommunityMode().participantState;
+            if (this.participantState !== 'ALUMNI') {
+                this.fetchVisibleResultTab();
+            }
         }
+    }
+
+    fetchVisibleResultTab() {
+        visitResultSharingByGroupAndMode({})
+            .then((result) => {
+                this.visitResultSharings = result;
+                let options = [];
+                for (var key in this.visitResultSharings) {
+                    options.push({ label: key, value: key });
+                }
+                if (options) {
+                    this.availableTabs = options;
+                    this.selectedResult = this.availableTabs[0].value;
+                }
+            })
+            .catch((error) => {
+                console.log('error', error);
+            });
+    }
+    handleChange(event) {
+        this.selectedResult = event.detail.value;
     }
     get isMobileOrTablet() {
         return this.isDesktop ? false : true;
     }
+
     handleSubscribe() {
         if (this.subscription) {
             return;
@@ -86,7 +120,7 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
     }
 
     disconnectedCallback() {
-        //    this.unsubscribeToMessageChannel();
+        this.unsubscribeToMessageChannel();
     }
 
     navigateToMyResults() {

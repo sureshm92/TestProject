@@ -2,25 +2,35 @@
     <template if:true={isDesktop}>
         <template if:true={showVisResults}>
             <h1 class="what-to-expect">{label.results}</h1>
+
             <div class="icon-cont1 slds-align_absolute-center">
-                <div class="slds-grid slds-wrap">
-                    <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12 slds-p-around_large"
-                    >
-                        <img src={visitimage1} class="image-result-mobile" />
+                <template if:false={past}>
+                    <div class="slds-grid slds-wrap">
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12 slds-p-around_large"
+                        >
+                            <img src={visitimage1} class="image-result-mobile" />
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12 slds-p-bottom_xx-large check-for-results-on"
+                        >
+                            {label.resultsCheck}
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12 view-result"
+                            onclick={navigateToMyResults}
+                        >
+                            {label.viewAllResults}
+                        </div>
                     </div>
-                    <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12 slds-p-bottom_xx-large check-for-results-on"
-                    >
-                        {label.resultsCheck}
-                    </div>
-                    <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12 view-result"
-                        onclick={navigateToMyResults}
-                    >
-                        {label.viewAllResults}
-                    </div>
-                </div>
+                </template>
+                <template if:true={past}>
+                    <lightning-combobox
+                        value={selectedResult}
+                        options={availableTabs}
+                        onchange={handleChange}
+                    ></lightning-combobox>
+                </template>
             </div>
         </template>
     </template>

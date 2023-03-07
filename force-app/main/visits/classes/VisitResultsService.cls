@@ -232,9 +232,11 @@ public inherited sharing class VisitResultsService {
                     Set<String> visitResultGroupSet = visitResultAvailabilityByGroupForReport(
                         queryResult.get(i).Visit_Results__r
                     );
-                    if(visitResultGroupSet!=null && visitResultGroupSet.size()>0){
+                    if (visitResultGroupSet != null && visitResultGroupSet.size() > 0) {
                         if (
-                            visitResultGroupSet.contains(VisitResultSharingService.VITAL_RECORDTYPE) &&
+                            visitResultGroupSet.contains(
+                                VisitResultSharingService.VITAL_RECORDTYPE
+                            ) &&
                             !visitResultGroupwithPatientVisitMap
                                 .containsKey(VisitResultSharingService.VITAL_RECORDTYPE)
                         ) {
@@ -253,7 +255,9 @@ public inherited sharing class VisitResultsService {
                             }
                         }
                         if (
-                            visitResultGroupSet.contains(VisitResultSharingService.LAB_RECORDTYPE) &&
+                            visitResultGroupSet.contains(
+                                VisitResultSharingService.LAB_RECORDTYPE
+                            ) &&
                             !visitResultGroupwithPatientVisitMap
                                 .containsKey(VisitResultSharingService.LAB_RECORDTYPE)
                         ) {
@@ -288,7 +292,9 @@ public inherited sharing class VisitResultsService {
                             } else {
                                 patientVisitbyVisitGroupMap.put(
                                     queryResult.get(i).Id,
-                                    new Set<String>{ VisitResultSharingService.BIOMARKER_RECORDTYPE }
+                                    new Set<String>{
+                                        VisitResultSharingService.BIOMARKER_RECORDTYPE
+                                    }
                                 );
                             }
                         }
@@ -407,9 +413,11 @@ public inherited sharing class VisitResultsService {
         for (
             VisitResultSharingService.VisitResultWithAvailableSign visitResultWithAvailableSign : resultsWithAvailableSing
         ) {
-            if (visitResultWithAvailableSign.visitResult != null)
+            if (visitResultWithAvailableSign.visitResult != null) {
                 visitResults.add(visitResultWithAvailableSign.visitResult);
+            }
         }
+        //Visit result is returned if exists
 
         return visitResults;
     }
@@ -420,6 +428,9 @@ public inherited sharing class VisitResultsService {
         String visitResultGroupName,
         Id ctpId
     ) {
+        //resultsWithAvailableSign all result types on CTP enabled
+        //visitResultTypes metadata wch are enabled on ctp for group
+        //Heart arte, VisitResultSharingService.VisitResultWithAvailableSign
         Map<String, VisitResultSharingService.VisitResultWithAvailableSign> visitResultsByType = getVisitResultsByTypeDeveloperNames(
             resultsWithAvailableSign
         );
@@ -435,6 +446,7 @@ public inherited sharing class VisitResultsService {
                 }
             }
         }
+
         List<Visit_Result_Type_Sharing__c> visitResulTypeSharingList = [
             SELECT Id, Custom_Tooltip__c, Type__c
             FROM Visit_Result_Type_Sharing__c
@@ -453,11 +465,13 @@ public inherited sharing class VisitResultsService {
             }
         }
         List<VisitResultWrapper> wrappers = new List<VisitResultWrapper>();
+
         for (Visit_Result_TypeM__mdt singleVRT : visitResultTypes) {
             String description = '';
             if (visitResultTypeWithDesMap.containsKey(singleVRT.DeveloperName)) {
                 description = visitResultTypeWithDesMap.get(singleVRT.DeveloperName);
             }
+
             VisitResultSharingService.VisitResultWithAvailableSign resultWithAvailableSign = visitResultsByType.get(
                 singleVRT.DeveloperName
             );

@@ -216,7 +216,6 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
 
         if (this.ismobile == true) {
         }
-
         const visitEvent = new CustomEvent('visitchange', {
             detail: { past: this.past, indexval: index, tasksubject: this.taskSubject }
         });

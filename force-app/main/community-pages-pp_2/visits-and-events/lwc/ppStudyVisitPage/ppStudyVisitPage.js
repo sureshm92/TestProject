@@ -102,9 +102,10 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     isPastVisits = true;
     column2 = 'col2';
     column3 = 'col3';
+    @track currentVisit;
 
-    get iconContainerCss(){
-       return this.isMobile ? "icon-cont-mobile" : "icon-cont";
+    get iconContainerCss() {
+        return this.isMobile ? 'icon-cont-mobile' : 'icon-cont';
     }
 
     callParticipantVisit() {
@@ -120,15 +121,15 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.isEvent = pvResult.isEvent;
                 let location = pvResult?.studySiteAddress?.Site__r?.BillingAddress;
 
-            this.siteAddress = location
-                ? (location.street ? location.street : '') +
-                  ', ' +
-                  (location.city ? location.city : '') +
-                  ', ' +
-                  (location.stateCode ? location.stateCode : '') +
-                  ' ' +
-                  (location.postalCode ? location.postalCode : '')
-                : '';
+                this.siteAddress = location
+                    ? (location.street ? location.street : '') +
+                      ', ' +
+                      (location.city ? location.city : '') +
+                      ', ' +
+                      (location.stateCode ? location.stateCode : '') +
+                      ' ' +
+                      (location.postalCode ? location.postalCode : '')
+                    : '';
                 this.siteName = pvResult?.studySiteAddress?.Site__r?.Name;
                 this.sitePhoneNumber = pvResult?.studySiteAddress?.Site__r?.Phone;
                 this.isResultsCard = this.isEvent != true;
@@ -230,8 +231,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     }
                     this.showList = true;
                     //if (this.visitid) {
-                         //this.initializeData(this.visitid);
-                     //}
+                    //this.initializeData(this.visitid);
+                    //}
                     this.createEditTask();
                 } else {
                     this.isUpcomingVisits = false;
@@ -296,6 +297,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.isUpcomingVisits = true;
             this.visitid = this.upcomingVisitId;
             this.visitName = this.upcomingVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
+            this.currentVisit = this.upcomingVisits[0].visit;
             this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
             this.visitStatus = this.upcomingVisits[0].visit.Status__c;
             this.isInitialVisit = this.upcomingVisits[0].visit.Is_Pre_Enrollment_Patient_Visit__c;
@@ -333,6 +335,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.isPastVisits = true;
             this.visitid = this.pastVisitId;
             this.visitName = this.pastVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
+            this.currentVisit = this.pastVisits[0].visit;
             this.plannedDate = this.pastVisits[0].visit.Planned_Date__c;
             this.visitStatus = this.pastVisits[0].visit.Status__c;
             if (this.visitStatus == 'Missed') this.visitStatus = this.label.visitUnavailable;
@@ -370,10 +373,12 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         this.initialPageLoad = false;
         var index = event.detail.indexval;
         var past = event.detail.past;
+
         if (past) {
             this.past = true;
             this.visitid = this.pastVisits[index].visit.Id;
             this.visitName = this.pastVisits[index].visit?.Visit__r?.Patient_Portal_Name__c;
+            this.currentVisit = this.pastVisits[index].visit;
             this.plannedDate = this.pastVisits[index].visit.Planned_Date__c;
             this.isInitialVisit = this.pastVisits[index].visit.Is_Pre_Enrollment_Patient_Visit__c;
             if (this.pastVisits[index].missedVisit) {
@@ -387,6 +392,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             }
         } else {
             this.visitid = this.upcomingVisits[index].visit.Id;
+            this.currentVisit = this.upcomingVisits[index].visit;
             this.visitName = this.upcomingVisits[index].visit?.Visit__r?.Patient_Portal_Name__c;
             this.isInitialVisit = this.upcomingVisits[
                 index
@@ -499,7 +505,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 this.showChild = true;
-                if(!this.isMobile){
+                if (!this.isMobile) {
                     this.initializeData(this.visitid);
                 }
                 if (!this.initialPageLoad) {

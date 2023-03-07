@@ -8,11 +8,20 @@ public without sharing class VisitResultsRemote {
         Map<String, Map<String, List<String>>> visitResultSharings
     ) {
         try {
-            List<Visit_Result__c> visitResultsForMode = VisitResultsService.getVisitResults(
-                ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c,
-                ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c,
-                visitResultsMode
-            );
+            List<Visit_Result__c> visitResultsForMode = [
+                SELECT
+                    Patient_Visit__c,
+                    Id,
+                    Actual_Value__c,
+                    Max_Value__c,
+                    Measurement__c,
+                    Min_Value__c,
+                    Result_Type__c,
+                    RecordTypeId
+                FROM Visit_Result__c
+                WHERE ID = 'a1r6s000004CLcoAAG'
+            ];
+
             InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(
                 InitDataWrapper.class
             );
@@ -40,6 +49,71 @@ public without sharing class VisitResultsRemote {
             AuraHelper.throwException(e);
         }
         return null;
+    }
+
+    @AuraEnabled
+    public static InitDataWrapper getInitData_PP(
+        String visitResultsMode,
+        Map<String, Map<String, List<String>>> visitResultSharings,
+        List<Visit_Result__c> visitResultsForMode
+    ) {
+        try {
+            List<Visit_Result__c> visitResultsForMode = [
+                SELECT
+                    Patient_Visit__c,
+                    Id,
+                    Actual_Value__c,
+                    Max_Value__c,
+                    Measurement__c,
+                    Min_Value__c,
+                    Result_Type__c,
+                    RecordTypeId
+                FROM Visit_Result__c
+                WHERE ID = 'a1r6s000004CLcoAAG'
+            ];
+
+            InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(
+                InitDataWrapper.class
+            );
+            wrapper.isVisitResultsAvailable = isVisitResultAvailable();
+            wrapper.contact = ParticipantContext.getCurrentContact();
+            // this is to check if result is enabled on CTP
+            wrapper.isResultsExist = existForModeAndAvailableByCTP(
+                visitResultSharings.get(visitResultsMode),
+                visitResultsForMode
+            );
+            // this is to check if result is enabled for country
+            wrapper.isCountryWiseResultExist = existResultForCountry(
+                visitResultsMode,
+                ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c,
+                visitResultsForMode
+            );
+            // While displaying Biomarker, result is available for Lab, but biomarker enabled on CTP with no results
+            wrapper.visitResultsGroupNames = notEmptyVisitResultsGroupName(
+                visitResultsMode,
+                visitResultSharings,
+                visitResultsForMode
+            );
+            wrapper.visitResultsShares = visitResultSharings.get(visitResultsMode);
+            wrapper.isDelegate = ParticipantContext.isCurrentDelegate();
+            wrapper.toggleState = toggleState(visitResultsMode);
+            return wrapper;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
+    @AuraEnabled
+    public static Map<String, InitDataWrapper> getInitDataForAllResultModes_PP(
+        Map<String, Map<String, List<String>>> visitResultSharings
+    ) {
+        Map<String, InitDataWrapper> allResultWrapper = new Map<String, InitDataWrapper>();
+        for (String resultMode : visitResultSharings.keySet()) {
+            InitDataWrapper wrapper = getInitData(resultMode, visitResultSharings);
+            allResultWrapper.put(resultMode, wrapper);
+        }
+        return allResultWrapper;
     }
 
     @AuraEnabled

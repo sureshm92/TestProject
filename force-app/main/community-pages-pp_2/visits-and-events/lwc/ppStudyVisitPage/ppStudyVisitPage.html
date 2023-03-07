@@ -134,13 +134,13 @@
                     data-id={column3}
                 >
                     <img src={visitimage2} class="image-result-visit" />
+
                     <template if:true={isResultsCard}>
-                        <c-pp-study-visit-result-card></c-pp-study-visit-result-card>
-                        <!--
-                        <div class="icon-cont1 slds-align_absolute-center">
-                            <c-pp-study-visit-result-card></c-pp-study-visit-result-card>
-                        </div>
-                        -->
+                        <c-pp-study-visit-result-card
+                            past={past}
+                            current-visit={currentVisit}
+                            visit-id={visitid}
+                        ></c-pp-study-visit-result-card>
                     </template>
                 </div>
             </div>
