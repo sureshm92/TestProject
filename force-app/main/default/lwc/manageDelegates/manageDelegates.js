@@ -76,7 +76,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     totalNoOfStudiesActivelyAssigned = 0;
     isAtLeastOneStudySelected = false;
     diabledAddNewButton = false;
-    //dataInitialized = false;
+    dataInitialized = false;
     isEmailConsentChecked = false;
 
     label = {
@@ -157,7 +157,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 //console.log('success', result);
                 this.setInitializedData(result);
                 this.spinner = false;
-                //this.dataInitialized = true;
+                this.dataInitialized = true;
             })
             .catch((error) => {
                 //console.log('error');
