@@ -169,14 +169,12 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
                     this.upcomingVisits[this.selectedIndex].isReminderDate = true;
                 }
                 if (!this.past && this.upcomingVisits) {
-                    this.upcomingVisits[
-                        this.selectedIndex
-                    ].visit.Planned_Date__c = this.visitdata.visitDate;
+                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
+                        this.visitdata.visitDate;
                     if (this.visitdata.visitDate && this.showupcomingvisits) {
                         this.upcomingvisits[this.selectedIndex].noVisitDate = false;
-                        this.plannedDate = this.upcomingvisits[
-                            this.selectedIndex
-                        ].visit.Planned_Date__c;
+                        this.plannedDate =
+                            this.upcomingvisits[this.selectedIndex].visit.Planned_Date__c;
                     } else {
                         this.upcomingvisits[this.selectedIndex].noVisitDate = true;
                         this.plannedDate = '';
