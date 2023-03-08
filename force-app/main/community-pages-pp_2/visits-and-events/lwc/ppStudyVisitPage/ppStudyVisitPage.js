@@ -83,7 +83,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     visitWrappers = [];
     @api icondetails = [];
     isError = false;
-    initialized = '';
     dateloaded = false;
     @track buttonClicked = false;
     cbload = false;
@@ -101,11 +100,12 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track isEvent = false;
     isUpcomingVisits = true;
     isPastVisits = true;
+    showSpinner = true;
     column2 = 'col2';
     column3 = 'col3';
 
-    get iconContainerCss(){
-       return this.isMobile ? "icon-cont-mobile" : "icon-cont";
+    get iconContainerCss() {
+        return this.isMobile ? 'icon-cont-mobile' : 'icon-cont';
     }
 
     callParticipantVisit() {
@@ -121,15 +121,15 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.isEvent = pvResult.isEvent;
                 let location = pvResult?.studySiteAddress?.Site__r?.BillingAddress;
 
-            this.siteAddress = location
-                ? (location.street ? location.street : '') +
-                  ', ' +
-                  (location.city ? location.city : '') +
-                  ', ' +
-                  (location.stateCode ? location.stateCode : '') +
-                  ' ' +
-                  (location.postalCode ? location.postalCode : '')
-                : '';
+                this.siteAddress = location
+                    ? (location.street ? location.street : '') +
+                      ', ' +
+                      (location.city ? location.city : '') +
+                      ', ' +
+                      (location.stateCode ? location.stateCode : '') +
+                      ' ' +
+                      (location.postalCode ? location.postalCode : '')
+                    : '';
                 this.siteName = pvResult?.studySiteAddress?.Site__r?.Name;
                 this.sitePhoneNumber = pvResult?.studySiteAddress?.Site__r?.Phone;
                 this.isResultsCard = this.isEvent != true;
@@ -233,8 +233,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     }
                     this.showList = true;
                     //if (this.visitid) {
-                         //this.initializeData(this.visitid);
-                     //}
+                    //this.initializeData(this.visitid);
+                    //}
                     this.createEditTask();
                 } else {
                     this.isUpcomingVisits = false;
@@ -255,7 +255,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.template.querySelector('c-web-spinner').show();
             this.hasRendered = true;
         }
-        this.template.querySelector('c-web-spinner').hide();
+        //this.template.querySelector('c-web-spinner').hide();
         if (
             !this.isUpcomingVisits &&
             this.showUpcomingVisits == true &&
@@ -499,7 +499,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 this.showChild = true;
-                if(!this.isMobile){
+                if (!this.isMobile) {
                     this.initializeData(this.visitid);
                 }
                 if (!this.initialPageLoad) {
