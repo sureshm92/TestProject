@@ -29,12 +29,13 @@
                                                 </lightning-formatted-text>
                                             </b>
                                             <p class="date-style">
-                                                <lightning-formatted-date-time
+                                                <lightning-formatted-date-time 
                                                     value={record.televisitdate}
                                                     year="numeric"
                                                     month="long"
                                                     day="2-digit"
                                                     time-zone={zonetime}
+                                                    class = "televisitdate"
                                                 ></lightning-formatted-date-time>
                                                 &nbsp;&nbsp;|&nbsp;&nbsp;
                                                 <lightning-formatted-date-time
@@ -42,11 +43,13 @@
                                                     hour="2-digit"
                                                     minute="2-digit"
                                                     time-zone={zonetime}
+                                                    class = "televisittime"
                                                 ></lightning-formatted-date-time>
                                                 &nbsp;&nbsp;|&nbsp;&nbsp;
                                                 <lightning-formatted-text
                                                     length = "6-digit"
                                                     value={record.televisitduration}
+                                                    class = "televisitduration"
                                                 >
                                                 </lightning-formatted-text>
                                             </p>
@@ -119,6 +122,7 @@
                                                         month="long"
                                                         day="2-digit"
                                                         time-zone={zonetime}
+                                                        class = "televisitdate"
                                                     ></lightning-formatted-date-time>
                                                     &nbsp;&nbsp;|&nbsp;&nbsp;
                                                     <lightning-formatted-date-time
@@ -126,11 +130,13 @@
                                                         hour="2-digit"
                                                         minute="2-digit"
                                                         time-zone={zonetime}
+                                                        class = "televisittime"
                                                     ></lightning-formatted-date-time>
                                                     &nbsp;&nbsp;|&nbsp;&nbsp;
                                                     <lightning-formatted-text
                                                         length = "6-digit"
                                                         value={record.televisitduration}
+                                                        class = "televisitduration"
                                                     >
                                                     </lightning-formatted-text>
                                                 </p> 

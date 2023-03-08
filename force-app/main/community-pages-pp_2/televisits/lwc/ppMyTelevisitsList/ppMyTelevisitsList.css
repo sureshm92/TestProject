@@ -191,6 +191,15 @@
     font-size: 16px;
     letter-spacing: 0;
 }
+.televisitdate{
+    display:inline;
+}
+.televisittime{
+    display:inline-block;
+}
+.televisitduration{
+    display:inline-block;
+}
 /*
 @media all and (max-width: 1200px) {
     .col3 {
