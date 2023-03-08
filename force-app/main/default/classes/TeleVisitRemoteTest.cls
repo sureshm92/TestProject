@@ -44,8 +44,8 @@ Public Class TeleVisitRemoteTest{
         if (partStatus == null)
             partStatus = PEStatusState.PE_STATUS_REFERRAL_DECLINED;
 
-        Terms_And_Conditions__c tc = new Terms_And_Conditions__c(Active__c = false);
-
+        Terms_And_Conditions__c tc = new Terms_And_Conditions__c(Active__c = false);  
+        
         Clinical_Trial_Profile__c trial = new Clinical_Trial_Profile__c(
             Id = TestDataFactory.getFakeId(Clinical_Trial_Profile__c.getSObjectType()),
             Protocol_ID__c = 'Prot-333',
@@ -69,7 +69,7 @@ Public Class TeleVisitRemoteTest{
             First_Name__c = patientContact.FirstName,
             Contact__r = patientContact
         );
-
+        
         Contact pi = new Contact(
             FirstName = 'Joseph',
             LastName = 'Davis PI And HCP',
@@ -86,7 +86,7 @@ Public Class TeleVisitRemoteTest{
             Study_Site_Key__c = '12132123132313',
             Study_Site_Phone__c = '+1(232) 222-3434'
         );
-
+        
         return new Participant_Enrollment__c(
             Participant_Status__c = partStatus,
             Participant__c = participant.Id,
@@ -117,12 +117,16 @@ Public Class TeleVisitRemoteTest{
         
         List<Televisit__c> lstTV = new List<Televisit__c>();
         TestData testData = new TestData();
+        
         List<String> participantEnrollmentId = new List<String>();
-        participantEnrollmentId.add(getPE(null).Id);
+        participantEnrollmentId.add(testData.pe.Id);
+        
         Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c();
         ctp = testData.ctp;
-        Study_Site__c ss = new Study_Site__c();
-        ss = testData.ss;
+        ctp.Televisit_Vendor_is_Available__c = true;
+        update ctp;
+        
+        
         Televisit__c tv = new Televisit__c();
         tv.Duration__c = '15 minutes';
         tv.Participant_Enrollment__c = participantEnrollmentId[0];
@@ -134,6 +138,7 @@ Public Class TeleVisitRemoteTest{
         tv.Visit_Date_Time__c = system.now();
         tv.Visit_End_Date_Time__c = system.now()+(15/1440);
         insert tv;
+        
         Televisit__c tv1 = new Televisit__c();
         tv1.Duration__c = '15 minutes';
         tv1.Participant_Enrollment__c = participantEnrollmentId[0];
@@ -143,6 +148,7 @@ Public Class TeleVisitRemoteTest{
         tv1.Visit_End_Date_Time__c = system.now()+(15/1440);
         tv1.Title__c = 'Test Televisit1';
         insert tv1;
+        
         Televisit_Attendee__c ta = new Televisit_Attendee__c();
         ta.Firstname__c = 'test';
         ta.Lastname__c = 'test';
@@ -151,6 +157,7 @@ Public Class TeleVisitRemoteTest{
         ta.Televisit__c = tv.id;
         ta.Contact__c = testData.piDelegateContact.Id;
         insert ta;  
+        
         Televisit_Attendee__c ta1 = new Televisit_Attendee__c();
         ta1.Firstname__c = 'test';
         ta1.Lastname__c = 'test';
@@ -158,17 +165,21 @@ Public Class TeleVisitRemoteTest{
         ta1.User__c = UserInfo.getUserId();
         ta1.Televisit__c = tv.id;
         ta1.Contact__c = testData.piContact.Id;
-        insert ta1; 
+        insert ta1;
         
         TelevisitVendorSettings__c vs = new TelevisitVendorSettings__c();
         vs.isEnable__c = true;
-        vs.Study_Site__c = getPE(null).Study_Site__r.Id;
+        vs.Study_Site__c = testData.pe.Study_Site__c; 
         insert vs;
-        
+      
         lstTV.add(tv);
         lstTV.add(tv1);
         
-        TeleVisitRemote.generateVisitWrappers(lstTV);
+        List<Televisit__c> televisits = [select Duration__c,Participant_Enrollment__r.Study_Site__c,Status__c,
+                                         Meeting_URL__c,Visit_Date_Time__c,Visit_End_Date_Time__c,Title__c,Visit_Date__c,Start_Time__c,
+                                         (select Firstname__c,Lastname__c,Attendee_Type__c,User__c,Televisit__c,Contact__c from Televisit_Attendee__r )
+                                         from Televisit__c ];
+        TeleVisitRemote.generateVisitWrappers(televisits);
         Test.StopTest();
     }
 
