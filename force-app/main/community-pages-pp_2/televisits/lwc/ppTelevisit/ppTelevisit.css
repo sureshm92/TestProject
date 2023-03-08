@@ -6,8 +6,6 @@
   font-size: 32px;
   font-weight: 600;
   letter-spacing: 0;
-  line-height: 110px;
-  padding-left: 32px; 
 }
 .my-televisits-delegate{
     height: 48px;
@@ -24,8 +22,7 @@
     padding-top: 13px;
 }
 .delegatecssmobile{
-    padding-left: 16px;
-    margin-top: -19px;
+    margin-left: 1rem;
 }
 .delegatetelevisitmobile{
     height: 30px;
@@ -41,7 +38,18 @@
   font-weight: 600;
   letter-spacing: 0;
   line-height: 32px;
+  margin-left: 1rem;
   }
+  .my-televisits-mobiledelegate{
+    height: 32px;
+    width: 217px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+    }
 .delegate-televisit {
     height: 24px;
     width: 67px;
