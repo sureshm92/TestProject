@@ -142,9 +142,6 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 this.deviceSize = 10;
             }
         }
-
-        
-        
     }
 
     getVisits() {
