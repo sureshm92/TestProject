@@ -3,7 +3,7 @@
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
   "configurationTags" : [ ],
   "id" : "60dc49d8-882e-4d09-8f88-491e6797bc64",
-  "label" : "televisit",
+  "label" : "Televisit",
   "pageAccess" : "UseParent",
   "routeType" : "custom-televisit",
   "type" : "route",
