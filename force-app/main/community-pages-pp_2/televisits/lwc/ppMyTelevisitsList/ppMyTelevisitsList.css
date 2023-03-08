@@ -11,6 +11,17 @@
     background-color: #015FF1;
     color: #FFFFFF;
 }
+.join-button:hover{
+    background-color: #0557D5;
+    font-weight: 600;
+}
+
+.desktop-icon{
+    margin-right: 40px;
+}
+.desktop-join{
+    margin-left: 5px;
+}
 .join-button-mobile{
     border-radius: 16px 0 0 16px;
     border: 1px solid #d9d9d9 !important;
@@ -22,6 +33,10 @@
     margin-top: 60%;
     /*margin-left: -20px;
     margin-top: 18%;*/
+}
+.join-button-mobile:hover{
+    background-color: #0557D5;
+    font-weight: 600;
 }
 .name-style,
 .nameStyle {
