@@ -3,15 +3,15 @@
     <template if:true={contentLoaded}>
         <template if:false={isMobile}>
             <template if:true = {isdelegate}>
-              <div class = "delegatecss">
+              <div>
                 <img src={home_icon} style="height: 30px;cursor:pointer;margin-left: -10px;" onclick = {redircttohomepage}>
                 <lightning-icon icon-name="utility:chevronright" class = "icon-chevron-right"></lightning-icon>
                 <span class = "delegate-televisit" > &nbsp;{label.Televisits}</span>
-                <h2 class="my-televisits-delegate">{label.Televisits}</h2><br/><br/><br/>
+                <h2 class="my-televisits-delegate">{label.Televisits}</h2><br/>
               </div>
             </template>
             <template if:false = {isdelegate}>
-                <h2 class="my-televisits">{label.Televisits}</h2><br/><br/><br/>
+                <h2 class="my-televisits">{label.Televisits}</h2><br/>
             </template>
             <div class="slds-grid slds-wrap slds-gutters">
                 <div
@@ -108,7 +108,7 @@
                     <img src={home_icon} class="delegatetelevisitmobile" onclick = {redircttohomepage}>
                     <lightning-icon icon-name="utility:chevronright" class = "icon-chevron-right"></lightning-icon>
                     <span class = "delegate-televisit" > &nbsp;{label.Televisits}</span>
-                    <h2 class="my-televisits-mobile">{label.Televisits}</h2><br/>
+                    <h2 class="my-televisits-mobiledelegate">{label.Televisits}</h2><br/>
                   </div>
             </template>
             <template if:false = {isdelegate}>
