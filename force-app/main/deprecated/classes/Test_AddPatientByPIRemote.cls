@@ -167,6 +167,8 @@ private without sharing class Test_AddPatientByPIRemote {
             objCon.Participant_Opt_In_Status_Emails__c = true;
             objCon.Participant_Opt_In_Status_SMS__c = true;
             
+            
+            
             Test.startTest();
                 
                  Account studySiteAccount = new Account(
@@ -191,6 +193,20 @@ private without sharing class Test_AddPatientByPIRemote {
                     Mailing_Zip_Postal_Code__c = '12345'
                 );
                 insert participant4;
+                            Participant__c participant5 = new Participant__c(
+                    First_Name__c = 'PI1',
+                    Last_Name__c = 'PI1',
+                    Phone__c = '8343212',
+                    Email__c = '04ipremaill@gmtesstail.com',
+                    Mailing_Country_Code__c = 'US',
+                    Mailing_State_Code__c = 'AL',
+                    Adult__c = false,
+                    Site__c = studySiteAccount.Id,
+                    Date_of_Birth__c = '2020-03-01',
+                    Contact__c = testdata.piContact.Id,
+                    Mailing_Zip_Postal_Code__c = '12345'
+                );
+                insert participant5;
                 
                 
                 AddPatientByPIRemote.saveParticipants(
@@ -199,6 +215,22 @@ private without sharing class Test_AddPatientByPIRemote {
                 null,
                 testData.ss.Id,
                 false,
+                JSON.serialize(participantDel1),
+                null,
+                false,
+                false,
+                false,
+                false,
+                false,
+                JSON.serialize(objCon),
+                true);
+            
+                AddPatientByPIRemote.saveParticipants(
+                JSON.serialize(participant5),
+                JSON.serialize(testData.pe),
+                null,
+                testData.ss.Id,
+                true,
                 JSON.serialize(participantDel1),
                 null,
                 false,
@@ -226,7 +258,22 @@ private without sharing class Test_AddPatientByPIRemote {
                 JSON.serialize(objCon),
                 true
                 );
-                
+                AddPatientByPIRemote.saveParticipant(
+                JSON.serialize(participant5),
+                JSON.serialize(testData.pe),
+                null,
+                testData.ss.Id,
+                true,
+                JSON.serialize(participantDel1),
+                null,
+                false,
+                false,
+                false,
+                false,
+                false,
+                JSON.serialize(objCon),
+                true
+                );
                 AddPatientByPIRemote.getInitData(testData.ss.Id);
                 
                 Test.stopTest();
