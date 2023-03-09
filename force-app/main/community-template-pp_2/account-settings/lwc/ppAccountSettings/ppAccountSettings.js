@@ -257,12 +257,12 @@ export default class PpAccountSettings extends LightningElement {
     handleActiveNavigationClass(selectedHeader) {
         this.template.querySelector('.slds-is-active')
             ? this.template.querySelector('.slds-is-active').classList.remove('slds-is-active')
-            : 'I am Iron Man!!';
+            : '';
         this.template.querySelector(`[data-header="${selectedHeader}"]`)
             ? this.template
                   .querySelector(`[data-header="${selectedHeader}"]`)
                   .classList.add('slds-is-active')
-            : 'Avengers Assemble!!';
+            : '';
     }
 
     /**Reusable Methods END*/
