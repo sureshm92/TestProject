@@ -194,7 +194,7 @@
         component.find('mainSpinner').show();
         if(delegate.delegateContact.FirstName){
         delegate.delegateContact.FirstName = delegate.delegateContact.FirstName.trim();
-        }
+        } 
         if(delegate.delegateContact.LastName){
         delegate.delegateContact.LastName = delegate.delegateContact.LastName.trim();
         }

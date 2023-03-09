@@ -501,24 +501,24 @@
         }
  
         if(participant.Adult__c === false){
-            if(emailCmp){
-            emailCmp.setCustomValidity('');
-            } 
-            if(emailRepeatCmp){
-            emailRepeatCmp.setCustomValidity('');
-            } 
-            if(emailCmp){
-           emailCmp.reportValidity();
+             if(emailCmp){
+             emailCmp.setCustomValidity('');
+             } 
+             if(emailRepeatCmp){
+             emailRepeatCmp.setCustomValidity('');
+             } 
+             if(emailCmp){
+            emailCmp.reportValidity();
+         }
+          if(emailRepeatCmp){
+         emailRepeatCmp.reportValidity();
+         }
+        var PhoneField = component.find('PhoneName');
+         if(PhoneField){
+        PhoneField.setCustomValidity('');
+        PhoneField.reportValidity(); 
         }
-         if(emailRepeatCmp){
-        emailRepeatCmp.reportValidity();
-        }
-       var PhoneField = component.find('PhoneName');
-        if(PhoneField){
-       PhoneField.setCustomValidity('');
-       PhoneField.reportValidity(); 
-       }
-    }
+     }
         if(selectedParticipantAge == "null" && selectedParticipantAge == undefined && selectedParticipantAge == ''){
             isValid = false; 
         }
