@@ -52,7 +52,7 @@ public without sharing class ParticipantTelevisitRemote {
                            upcomingTelevisit.televisitId = attendee.Televisit__r.Id;
                            upcomingTelevisit.title = attendee.Televisit__r.Title__c;
                            upcomingTelevisit.televisitdate = attendee.Televisit__r.Visit_Date_Time__c;
-                           upcomingTelevisit.televisitduration = attendee.Televisit__r.Duration__c.split(' ')[0] + ' min';
+                           upcomingTelevisit.televisitduration = attendee.Televisit__r.Duration__c.split(' ')[0] + ' '+System.Label.Minutesinshort;
                            upcomingTelevisit.televisitmettingurl = attendee.Televisit__r.Meeting_URL__c;
                            if(joinbuttonids.contains(attendee.Televisit__r.Id) /*&& !isDelegate*/){
                                upcomingTelevisit.showjoinbutton = true;
