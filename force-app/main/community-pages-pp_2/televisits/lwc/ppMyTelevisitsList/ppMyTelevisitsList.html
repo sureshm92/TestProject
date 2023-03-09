@@ -63,7 +63,7 @@
                                                 data-tv={record.televisitId} data-id={record.televisitmettingurl}
                                                 onclick={joinmeeting} style="display:block"
                                             >
-                                            Join
+                                            {labels.JOIN_MEET}
                                             </button>
                                             </template>
                                             <template if:false = {record.showjoinbutton}>
@@ -72,13 +72,13 @@
                                                 data-tv={record.televisitId} data-id={record.televisitmettingurl}
                                                 onclick={joinmeeting} style="display:none"
                                             >
-                                            Join
+                                            {labels.JOIN_MEET}
                                             </button>
                                             </template>
                                                 
                                         </div>
                                         
-                                    <div class="slds-col desktop-icon">
+                                    <div class="slds-col slds-size_1-of-12 desktop-icon">
                                         <c-custom-help-text
                                         height = "96px"
                                         width = "189px"
@@ -159,7 +159,7 @@
                                                 data-id={record.televisitmettingurl} data-tv={record.televisitId}
                                                 onclick={joinmeeting} style="display:block"
                                                 > 
-                                                Join
+                                                {labels.JOIN_MEET}
                                                 </button>
                                             </template>
                                             <template if:false = {record.showjoinbutton}>
@@ -168,7 +168,7 @@
                                                 data-id={record.televisitmettingurl} data-tv={record.televisitId}
                                                 onclick={joinmeeting} style="display:none"
                                                 > 
-                                                Join
+                                                {labels.JOIN_MEET}
                                                 </button>
                                             </template>
                                             </p>
