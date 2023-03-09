@@ -10,6 +10,7 @@
     border-radius: 16px;
     background-color: #015FF1;
     color: #FFFFFF;
+    font-size: 14px;
 }
 .join-button:hover{
     background-color: #0557D5;
@@ -17,7 +18,7 @@
 }
 
 .desktop-icon{
-    margin-right: 40px;
+    margin-left: 9px;
 }
 .desktop-join{
     margin-left: 5px;
@@ -31,6 +32,7 @@
     background-color: #015FF1;
     color: #FFFFFF;
     margin-top: 60%;
+    font-size: 14px;
     /*margin-left: -20px;
     margin-top: 18%;*/
 }
