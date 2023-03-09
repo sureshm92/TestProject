@@ -2,9 +2,10 @@
  - Created by Olga Skrynnikova on 1/30/2020.
  -->
 
-<apex:component id="EmailTemplateDelegateParticipantText" controller="EmailTemplateDelegatePartController" access="global">
+ <apex:component id="EmailTemplateDelegateParticipantText" controller="EmailTemplateDelegatePartController" access="global">
     <!-- attributes: -->
     <apex:attribute name="sourceId" type="Id" assignTo="{!sourceIdValue}" description="" access="global"/>
+    <apex:attribute name="recipientId" type="Id" assignTo="{!delegateId}" description="" access="global"/>
     <apex:attribute name="userId" type="Id" description="DEPRECATED" access="global"/>
     <apex:attribute name="afterText" type="String" description="DEPRECATED" access="global"/>
     <apex:attribute name="commTemplate" type="String" description="DEPRECATED" access="global"/>

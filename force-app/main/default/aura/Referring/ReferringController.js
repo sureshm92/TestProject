@@ -476,16 +476,33 @@
         
     },
     handleUploadFinished: function (component, event) {
-        // Get the list of uploaded files
+       
+        var cmpTarget1 = component.find("uploadfile");
+        $A.util.removeClass(cmpTarget1, "fileBoxwoFile");
+        $A.util.addClass(cmpTarget1, "fileBox");
+         // Get the list of uploaded files
         var uploadedFiles = event.getParam("files");
         component.set("v.fileName",uploadedFiles[0].name);
         component.set("v.disableFile",true);
         component.set("v.contentDocId",uploadedFiles[0].documentId);
         component.set('v.fileRequired',true);
+        communityService.executeAction(
+            component,
+            'getContentVersion',
+            {
+                contDocId: uploadedFiles[0].documentId
+            },
+            function (returnValue) {
+                component.set('v.blobData',returnValue);
+                component.set('v.pdfData',returnValue);
+            }
+        );
     },
     handleDeleteFile:function(component,event){
         //alert('inside delete file');
         let conDocId=component.get("v.contentDocId");
+        let spinner = component.find('mainSpinner');
+        spinner.show();
         //alert('conDocId-'+conDocId);
         communityService.executeAction(
             component,
@@ -497,6 +514,10 @@
                 component.set("v.fileName",'');
                 component.set("v.disableFile",false);
                 component.set('v.fileRequired',false);
+                var cmpTarget1 = component.find("uploadfile");
+                $A.util.addClass(cmpTarget1, "fileBoxwoFile");
+                $A.util.removeClass(cmpTarget1, "fileBox");
+                spinner.hide();
             }
         );
     },
@@ -721,5 +742,30 @@
             participantId: ''
         });
         component.set('v.mrrResult', 'Pending');
-    }
+    },
+    loadpdf : function(component, event, helper) { 
+        var pdfjsframe = component.find('pdfFrame');
+        var idParamValue = component.get('v.pdfData');
+        var resId = helper.getURLParameterValue().resId;
+        var lang = helper.getURLParameterValue().lang;
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const updates = urlParams.get('updates');
+        if (updates) {
+            var button = component.find('button');
+            $A.util.addClass(button, 'button-hide');
+        }
+        if (typeof idParamValue !== 'undefined') {
+            component.set('v.hideDivResource', 'slds-hide');
+            component.set('v.isResourceVisible', 'true');
+            var ss = idParamValue.split(' ').join('+');
+            window.setTimeout(
+                $A.getCallback(function () { 
+                    component.set('v.pdfData', ss);
+                    helper.loadpdf(component, event);
+                }),
+                500
+            );
+        }
+	}
 });

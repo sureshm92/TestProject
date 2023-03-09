@@ -94,7 +94,7 @@
     <!--Task detail page-->
     <template if:false={ishomepage}>
         <!-- Loading Spinner-->
-        <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+        <c-web-spinner class="main-spinner" fixed="true" show-spinner={showSpinner}></c-web-spinner>
         <div class={cardRTL}>
             <div>
                 <lightning-layout class="slds-align_absolute-center" multiple-rows="true">
@@ -192,11 +192,17 @@
                                                     {label.taskPPIgnored}
                                                 </div></lightning-layout-item
                                             >
-                                            <lightning-layout-item size="8"
-                                                ><div
-                                                    class="path-2-copy"
-                                                ></div></lightning-layout-item
-                                        ></lightning-layout>
+                                            <template if:true={isMobile}>
+                                                <lightning-layout-item size="10"
+                                                    ><div class="path-2-copy"></div
+                                                ></lightning-layout-item>
+                                            </template>
+                                            <template if:false={isMobile}>
+                                                <lightning-layout-item size="8"
+                                                    ><div class="path-2-copy"></div
+                                                ></lightning-layout-item>
+                                            </template>
+                                        </lightning-layout>
                                         <!-- Dispaying Task Card for Ignored Tasks ignoredTasksList-->
                                         <c-pp-tasks-list
                                             container-class="inactive-custom-box slds-align_absolute-center ignore-container"
@@ -215,11 +221,17 @@
                                                     {label.taskPPExpired}
                                                 </div></lightning-layout-item
                                             >
-                                            <lightning-layout-item size="8"
-                                                ><div
-                                                    class="path-2-copy"
-                                                ></div></lightning-layout-item
-                                        ></lightning-layout>
+                                            <template if:true={isMobile}>
+                                                <lightning-layout-item size="10"
+                                                    ><div class="path-2-copy"></div
+                                                ></lightning-layout-item>
+                                            </template>
+                                            <template if:false={isMobile}>
+                                                <lightning-layout-item size="10"
+                                                    ><div class="path-2-copy"></div
+                                                ></lightning-layout-item>
+                                            </template>
+                                        </lightning-layout>
                                         <c-pp-tasks-list
                                             container-class="inactive-custom-box slds-align_absolute-center expire-container"
                                             web-icon-class="open-task-icon slds-p-left_medium empty-oval cursor-default"

@@ -11,7 +11,7 @@ import LANG_LOCATION from '@salesforce/label/c.PP_Language_and_Location';
 import CUSTOMIZE_EXP from '@salesforce/label/c.PP_Customize_Experience';
 import COOKIE_SETTINGS from '@salesforce/label/c.PP_Cookie_Settings';
 import MEDICAL_RECORD_ACCESS from '@salesforce/label/c.Medical_Record_Access';
-import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
+import getInitData from '@salesforce/apex/AccountSettingsController.getInitDataforAccPage';
 export default class PpAccountSettings extends LightningElement {
     @api userMode;
     @api isRTL = false;
@@ -21,14 +21,8 @@ export default class PpAccountSettings extends LightningElement {
     @track initData;
     @track personWrapper;
     @track contactSectionData;
-    @track contact;
     componentId = 'asHome';
     partipantStateInfo;
-    userType = '';
-    currentEmail = '';
-    optInEmail = false;
-    optInSMS = false;
-    contactChanged = false;
     showMobileNavComponent = false;
     spinner;
     participantState;
@@ -162,12 +156,11 @@ export default class PpAccountSettings extends LightningElement {
     }
 
     initializeData() {
-        getInitData({ userMode: this.userMode })
+        getInitData()
             .then((result) => {
                 let initialData = JSON.parse(result);
-                this.medicalRecordVendorToggle = initialData.participantState.pe
-                    ? initialData.participantState.pe.Clinical_Trial_Profile__r
-                          .Medical_Vendor_is_Available__c
+                this.medicalRecordVendorToggle = communityService.getParticipantData().ctp
+                    ? communityService.getParticipantData().ctp.Medical_Vendor_is_Available__c
                     : false;
                 if (this.medicalRecordVendorToggle) {
                     this.navHeadersList.push({
@@ -175,26 +168,13 @@ export default class PpAccountSettings extends LightningElement {
                         value: 'medRecAccess'
                     });
                 }
-                initialData.password = {
-                    old: '',
-                    new: '',
-                    reNew: ''
-                };
 
                 const queryString = window.location.href;
 
-                this.initData = initialData;
-                this.contactChanged = initialData.contactChanged;
                 this.personWrapper = initialData.contactSectionData.personWrapper;
                 this.contactSectionData = initialData.contactSectionData;
-                this.optInEmail = initialData.contactSectionData.personWrapper.optInEmail;
-                this.optInSMS = initialData.contactSectionData.personWrapper.optInSMS;
-                this.userType = initialData.myContact.UserCommunytyType__c;
-                this.contact = initialData.myContact;
-                this.currentEmail = initialData.myContact.Email;
-                this.consentPreferenceData = initialData.consentPreferenceData;
+
                 this.isInitialized = true;
-                this.partipantStateInfo = initialData.participantState;
                 this.setComponentId(queryString);
                 this.spinner.hide();
             })

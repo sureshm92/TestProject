@@ -117,13 +117,13 @@ Public Class TelevisitCreationScreenControllerTest{
         
         String json='[{"id":"'+testData.piContact.Id+'"}]';
 		String json1='[{"attendeeId":"'+taList[0].id+'"}]';
-        
-        TelevisitCreationScreenController.insertTelevisitRecord('{"title":"1111111","duration":"15 minutes","startTime":"02:15:00.000","visitDate":"2022-07-18"}');
+
+    	TelevisitCreationScreenController.insertTelevisitRecord('{"title":"1111111","duration":"15 minutes","startTime":"02:15:00.000","visitDate":"2022-07-18","peid":"'+participantEnrollmentId[0]+'"}');
         TelevisitCreationScreenController.updateAttendees(tv.id,json1,json);
         TelevisitCreationScreenController.addNewAttendees(tv.id,json);
         TelevisitTriggerHandler.createTelevisitEvent();
-        TelevisitCreationScreenController.insertTelevisitRecord('{"attendeesList":'+json+',"id":"","title":"1111111","duration":"15 minutes","startTime":"02:15:00.000","visitDate":"2022-07-18"}');
-        Test.StopTest();
+        TelevisitCreationScreenController.insertTelevisitRecord('{"attendeesList":'+json+',"id":"","title":"1111111","duration":"15 minutes","startTime":"02:15:00.000","visitDate":"2022-07-18","peid":"'+participantEnrollmentId[0]+'"}');       
+	  Test.StopTest();
 	}
         
 }

@@ -6,6 +6,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>communityFooterController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LofiLoginController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CommunityMode</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -5128,6 +5136,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Enrollment__c.PPMID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Status_Integration__mdt.ApiFieldNames__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -7323,6 +7336,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>SurveyInvitation.Is_End_Date_Visible__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>SurveyInvitation.Is_Expired__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -8059,6 +8077,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Trial_Survey__c.Expires_After_Days__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Trial_Survey__c.Display_in_UI__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

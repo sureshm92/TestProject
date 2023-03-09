@@ -30,7 +30,7 @@ import none from '@salesforce/label/c.PP_None';
 import custom from '@salesforce/label/c.PP_Custom';
 import visitdetailsupdated from '@salesforce/label/c.Visit_details_updated_successfully';
 import eventdetailsupdated from '@salesforce/label/c.Event_details_updated_successfully';
-
+import nodateavailable from '@salesforce/label/c.No_date_available';
 export default class PpStudyVisitDetailsCard extends LightningElement {
     label = {
         date,
@@ -50,7 +50,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         visitdetailsupdated,
         eventdetailsupdated,
         none,
-        REMIND_ME
+        REMIND_ME,
+        nodateavailable
     };
 
     @api visitid;
@@ -87,6 +88,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     @track diffInMinutes;
     @track currentBrowserTime;
     @track communicationChanged = false;
+    showSpinner = true;
     @track initData = {
         reminderDate: null,
         emailOptIn: false,
@@ -194,6 +196,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 if (isInitial) {
                     this.loadSessionId();
                 }
+                this.showSpinner = false;
             })
             .catch((error) => {
                 this.showToast('', error.body.message, 'error');
@@ -536,9 +539,12 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             let currentDateTime = new Date().toLocaleString('en-US', {
                 timeZone: TIME_ZONE
             });
-            let timezoneReminderDateTime =  new Date(this.selectedReminderDateTime).toLocaleString('en-US', {
-                timeZone: TIME_ZONE
-            });
+            let timezoneReminderDateTime = new Date(this.selectedReminderDateTime).toLocaleString(
+                'en-US',
+                {
+                    timeZone: TIME_ZONE
+                }
+            );
             this.disableButtonSaveCancel =
                 new Date(timezoneReminderDateTime) >= new Date(currentDateTime) &&
                 new Date(this.selectedReminderDateTime) <= new Date(this.visitDateTime)
@@ -562,9 +568,12 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             let currentDateTime = new Date().toLocaleString('en-US', {
                 timeZone: TIME_ZONE
             });
-            let timezoneReminderDateTime =  new Date(this.selectedReminderDateTime).toLocaleString('en-US', {
-                timeZone: TIME_ZONE
-            });
+            let timezoneReminderDateTime = new Date(this.selectedReminderDateTime).toLocaleString(
+                'en-US',
+                {
+                    timeZone: TIME_ZONE
+                }
+            );
             this.disableButtonSaveCancel =
                 new Date(timezoneReminderDateTime) >= new Date(currentDateTime) &&
                 new Date(this.selectedReminderDateTime) <= new Date(this.visitDateTime)

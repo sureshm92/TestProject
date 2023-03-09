@@ -52,7 +52,7 @@
                                             <c:menuItemButton
                                                 class="icon-delegate"
                                                 iconName="delegate"
-                                                navigateTo="my-team"
+                                                navigateTo="account-settings?manage-delegates"
                                                 itemValue="{!subItem}"
                                                 onclick="{!c.doOnClick}"
                                             />

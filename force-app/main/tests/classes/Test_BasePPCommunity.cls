@@ -132,7 +132,7 @@ private class Test_BasePPCommunity {
         }
         Test.stopTest();
         //System.assertEquals(true, isExceptionThrown);
-    }
+    } 
 
     @IsTest
     static void test_AlertRemote() {

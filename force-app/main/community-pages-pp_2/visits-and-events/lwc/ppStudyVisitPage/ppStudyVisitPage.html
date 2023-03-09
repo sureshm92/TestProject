@@ -1,5 +1,5 @@
 <template>
-    <c-web-spinner fixed="true"></c-web-spinner>
+    <c-web-spinner fixed="true" show-spinner={showSpinner}></c-web-spinner>
     <template if:true={contentLoaded}>
         <template if:false={isMobile}>
             <template if:true={isEvent}>
@@ -66,7 +66,7 @@
                     </h1>
                     <div>
                         <h1 class="what-to-expect">{label.WTELabel}</h1>
-                        <div class="icon-cont">
+                        <div class={iconContainerCss}>
                             <div class="slds-clearfix">
                                 <template if:false={isError}>
                                     <!--<template if:true={contentLoaded}>-->

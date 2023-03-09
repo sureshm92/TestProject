@@ -2192,6 +2192,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>SurveyInvitation.Is_End_Date_Visible__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Enable_RP_Outreach_Email__c</field>
         <readable>true</readable>
@@ -2294,6 +2299,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Delegate__c.Attested_by__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Attestation_TimeStamp__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Attested_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Delegate_Attestation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2454,6 +2474,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.PPMID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Callout_Log__c.Comment__c</field>
         <readable>true</readable>
@@ -2506,6 +2531,11 @@
 	<fieldPermissions>
         <editable>true</editable>
         <field>Patient_Delegate__c.Participant_Delegate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Patient_Delegate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <objectPermissions>

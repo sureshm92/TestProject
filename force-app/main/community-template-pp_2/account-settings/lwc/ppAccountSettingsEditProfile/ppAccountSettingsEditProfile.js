@@ -49,7 +49,7 @@ import EMAIL_FORMAT_ERROR from '@salesforce/label/c.PP_Email_Error';
 import REQUIRED_FIELD from '@salesforce/label/c.PP_AS_REQUIRED_FIELD';
 import INVALID_PHONE_FORMAT from '@salesforce/label/c.PP_AS_INVALID_PHONE_FORMAT';
 import DATA_UPDATE from '@salesforce/label/c.PP_AS_DATA_UPDATE';
-import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
+import getInitData from '@salesforce/apex/AccountSettingsController.getInitDataSettingsEdit';
 import changeEmail from '@salesforce/apex/AccountSettingsController.changeEmail';
 import updatePerson from '@salesforce/apex/AccountSettingsController.updatePerson';
 export default class PpAccountSettingsEditProfile extends LightningElement {
@@ -194,19 +194,10 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         getInitData({ userMode: this.userMode })
             .then((result) => {
                 let initialData = JSON.parse(result);
-                initialData.password = {
-                    old: '',
-                    new: '',
-                    reNew: ''
-                };
 
                 this.initData = initialData;
-                this.contactChanged = initialData.contactChanged;
                 this.personWrapper = initialData.contactSectionData.personWrapper;
-                this.newPrefix = initialData.contactSectionData.personWrapper.prefix;
                 this.contactSectionData = initialData.contactSectionData;
-                this.optInEmail = initialData.contactSectionData.personWrapper.optInEmail;
-                this.optInSMS = initialData.contactSectionData.personWrapper.optInSMS;
                 this.isUseAsDaytimePhoneChecked =
                     initialData.contactSectionData.personWrapper.useAsDaytimePhone;
 
@@ -261,8 +252,6 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 }
                 this.initializeLabels();
                 this.isInitialized = true;
-                console.log('Thanos:::', this.contactSectionData);
-                console.log('End Game:::', this.initData);
                 this.spinner.hide();
             })
             .catch((error) => {

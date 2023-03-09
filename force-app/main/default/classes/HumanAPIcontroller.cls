@@ -29,25 +29,25 @@ public with sharing class HumanAPIcontroller {
     
     public class RH_MulesoftWrapper {
 
-	public String salesforce_Id;
-	public String enrollmentName;
-	public String humanId;
-	public String participantFullName;
-	public String participantFirstName;
-	public String participantLastName;
-	public String participantEmail;
-	public String studySiteName;
-	public String studyCodeName;
-	public String uniqueHumanId;
-	public String primaryDelegateEmail;
-	public String primaryDelegateFirstName;
-	public String primaryDelegateLastName;
-	public String pIname;
-	public String language;
-	public String country;
-	public String salutation;
+    public String salesforce_Id;
+    public String enrollmentName;
+    public String humanId;
+    public String participantFullName;
+    public String participantFirstName;
+    public String participantLastName;
+    public String participantEmail;
+    public String studySiteName;
+    public String studyCodeName;
+    public String uniqueHumanId;
+    public String primaryDelegateEmail;
+    public String primaryDelegateFirstName;
+    public String primaryDelegateLastName;
+    public String pIname;
+    public String language;
+    public String country;
+    public String salutation;
   Public String protocolId; 
-	 
+     
     }
 
   public class ResponseWrapperReportListOrganization {
@@ -186,9 +186,9 @@ public with sharing class HumanAPIcontroller {
   }
     
   public class HumanAPIErrorWrapper{
-    public Integer statusCode;	 
-    public String error;	 
-    public String message;	  
+    public Integer statusCode;   
+    public String error;     
+    public String message;    
    }
 
   @AuraEnabled
@@ -259,6 +259,7 @@ public with sharing class HumanAPIcontroller {
       }
 
       System.debug('##### wrap: ' + wrap);
+       
       return wrap;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
@@ -298,12 +299,18 @@ public with sharing class HumanAPIcontroller {
     }
     	 
       if(String.isBlank(email) || isAdult == false){
-         List<Patient_Delegate__c> lstPatientDelegate = [SELECT ID,Participant_Delegate__c From Patient_Delegate__c 
-                                                        Where Participant__c =:ParticipantId AND Primary_Delegate__c = True LIMIT 1];
+         List<Patient_Delegate_Enrollment__c> lstPatientDelegate = [SELECT ID,Patient_Delegate__c,Patient_Delegate__r.Participant_Delegate__c 
+                                                        FROM Patient_Delegate_Enrollment__c 
+                                                        WHERE 
+                                                        Participant_Enrollment__c =: peId
+                                                        AND
+                                                        Patient_Delegate__r.Participant__c =:ParticipantId 
+                                                        AND 
+                                                        Primary_Delegate__c = True LIMIT 1];
           if(!lstPatientDelegate.isEmpty())
           {
                objParticipantDelegate = [SELECT ID,Email__c,First_Name__c,Last_Name__c FROM Participant__c Where 
-                                               id=:lstPatientDelegate[0].Participant_Delegate__c];
+                                               id=:lstPatientDelegate[0].Patient_Delegate__r.Participant_Delegate__c];
               if(String.isBlank(objParticipantDelegate.Email__c))
               {
                   return 'EmailError';

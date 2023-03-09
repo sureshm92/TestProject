@@ -65,6 +65,13 @@
         <value>Showing:</value>
     </labels>
     <labels>
+        <fullName>RH_StudyDelegateConsentEmail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudyDelegateConsentEmail</shortDescription>
+        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with study team and to be contacted at the email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
+    </labels>
+    <labels>
         <fullName>RH_No_Active_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -499,6 +506,20 @@ Duration: ##VisitDuration</value>
         <protected>false</protected>
         <shortDescription>PIR_Discard</shortDescription>
         <value>Discard</value>
+    </labels>
+    <labels>
+        <fullName>PDE_Created_By_for_Data_Load</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Studies For Data Load</shortDescription>
+        <value>Mani Deepak</value>
+    </labels>
+    <labels>
+        <fullName>PP_Studies_For_Data_Load</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Studies For Data Load</shortDescription>
+        <value>S-71111;S-71112;S-62415;S-70716</value>
     </labels>
     <labels>
         <fullName>PIR_Discard_Changes</fullName>
@@ -1654,6 +1675,20 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>Asian</shortDescription>
         <value>3- Asian</value>
+    </labels>
+    <labels>
+        <fullName>ASSOCIATE_EVENT_PLAN_TO_PE_AND_STUDY_SITE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ASSOCIATE_EVENT_PLAN_TO_PE_AND_STUDY_SITE</shortDescription>
+        <value>Proceed to select this event plan to assign to all these participants.</value>
+    </labels>
+    <labels>
+        <fullName>ASSOCIATE_EVENT_PLAN_TO_STUDY_SITE_ONLY</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ASSOCIATE_EVENT_PLAN_TO_STUDY_SITE_ONLY</shortDescription>
+        <value>Proceed to only associate this event plan to the study site (Note: This will not assign any event plan to these participants).</value>
     </labels>
     <labels>
         <fullName>ASSOCIATE_VISIT_PLAN_TO_PE_AND_STUDY_SITE</fullName>
@@ -3035,6 +3070,34 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>CC_search_for_a_participant</shortDescription>
         <value>Search for a phone number</value>
+    </labels>
+    <labels>
+        <fullName>CPRA_DoNotSell_GSK</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPRA_DoNotSell_GSK</shortDescription>
+        <value>Your Privacy Choices</value>
+    </labels>
+    <labels>
+        <fullName>CPRA_DoNotSell_IQVIA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPRA_DoNotSell_IQVIA</shortDescription>
+        <value>Your Privacy Choices</value>
+    </labels>
+    <labels>
+        <fullName>CPRA_DoNotSell_PatientPortal</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPRA_DoNotSell_PatientPortal</shortDescription>
+        <value>Your Privacy Choices</value>
+    </labels>
+    <labels>
+        <fullName>CPRA_DoNotSell_Janssen</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPRA_DoNotSell_Janssen</shortDescription>
+        <value>Your Privacy Choices</value>
     </labels>
     <labels>
         <fullName>CPD_About_you</fullName>
@@ -4903,6 +4966,20 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Value must be ##todaysDate or earlier.</value>
     </labels>
     <labels>
+        <fullName>PP_future_date_error_month</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_future_date_error_month</shortDescription>
+        <value>Value must be current month or earlier</value>
+    </labels>
+    <labels>
+        <fullName>PP_future_date_error_day</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_future_date_error_day</shortDescription>
+        <value>Value must be current date or earlier</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Accept_a_patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6519,6 +6596,17 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <value>&lt;span&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming task: ##TaskName.&lt;/span&gt;
 
 &lt;span &gt;Due Date &amp; Time:&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot; &gt;Please login to update the status of this task.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Deleg_PP_OnlyDate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Task Reminder Type Not Selected Deleg PP OnlyDate</shortDescription>
+        <value>&lt;span&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming task: ##TaskName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##TaskOnlydate. &lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot; &gt;Please login to update the status of this task.&lt;/span&gt;</value>
     </labels>
@@ -10454,6 +10542,13 @@ The expected format is REF##### to REF########</value>
         <value>https://fun-nosoftware-4733-dev-ed--c.documentforce.com/servlet/servlet.FileDownload?file=01554000001U88V</value>
     </labels>
     <labels>
+        <fullName>ImgPathRegistrationEmail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ImgPathRegistrationEmail</shortDescription>
+        <value>update ImgPathRegistrationEmail</value>
+    </labels>
+    <labels>
         <fullName>Initial_Visit_Date</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11510,14 +11605,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Final Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
+        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##SMSexpirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Message_PT_Survey_Reminder_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
+        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##SMSexpirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Message_Studies_Length</fullName>
@@ -12758,7 +12853,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Opt Out</shortDescription>
-        <value>If you have previously opted in to any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
+        <value>If you have previously opted into any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
     </labels>
     <labels>
         <fullName>PP_Opt_Out_Update_Communication_Pref</fullName>
@@ -13359,6 +13454,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>RH_ParticipantSelected</shortDescription>
         <value>Participant(s) Selected</value>
+    </labels>
+    <labels>
+        <fullName>RH_PatientAuthComplete</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_PatientAuthComplete</shortDescription>
+        <value>You must upload the completed and signed Patient Authorization Form to submit your referral.</value>
+    </labels>
+    <labels>
+        <fullName>RH_PatientAuthInfo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_PatientAuthInfo</shortDescription>
+        <value>IMPORTANT: You will need to upload documentation of your patient&apos;s authorization to share their information with the study team before they can be referred to this study.</value>
     </labels>
     <labels>
         <fullName>pir_Received_History</fullName>
@@ -17085,6 +17194,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Complete tasks on my behalf</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_Compl_Task_Behalf_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Complete tasks on my behalf New</shortDescription>
+        <value>Complete tasks on your behalf</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17136,6 +17252,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>See my measurements</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_My_Measur_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My measurements New</shortDescription>
+        <value>See your measurements</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_Not_Patient_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17155,6 +17278,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Receive emails</shortDescription>
         <value>Receive emails about my study status</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Receive_Emails_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Receive emails New</shortDescription>
+        <value>Receive emails about your study status</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Delegate</fullName>
@@ -17192,11 +17322,32 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You are about to remove</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Mess_P1_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_PST_L_Delegates_Remove_Mess_P1_New</shortDescription>
+        <value>You are about to remove this assignment from</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_Remove_Mess_P2</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Remove_Mess_P2</shortDescription>
         <value>from your account. You cannot undo this action. Do you want to proceed?</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Mess_P3</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove_Mess_P1</shortDescription>
+        <value>as your delegate for this study. Are you sure you would like to continue?</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Mess_P3_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_PST_L_Delegates_Remove_Mess_P3_New</shortDescription>
+        <value>Are you sure you would like to continue?</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Save</fullName>
@@ -17213,6 +17364,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>See my lab results</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_See_Lab_Result_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lab result New</shortDescription>
+        <value>See your lab results</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_See_Survey_Resp</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17225,6 +17383,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>My vitals</shortDescription>
         <value>See my vitals</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_See_Vitals_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My vitals New</shortDescription>
+        <value>See your vitals</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_SuccRemove</fullName>
@@ -18876,6 +19041,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate(s)</value>
     </labels>
     <labels>
+        <fullName>PP_Delegate_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Delegate_Delegate</shortDescription>
+        <value>Delete Delegate</value>
+    </labels>
+    <labels>
+        <fullName>PP_Delegate_Delegate_Warning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Delegate_Delegate_Warning</shortDescription>
+        <value>If you delete a delegate they will no longer remain in your list of delegates. Are you sure you would like to delete this delegate?</value>
+    </labels>
+    <labels>
         <fullName>PP_ProgramOverview_LearnMore_Desktop</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18967,6 +19146,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>To be eligible to participate in the study, one must meet the following criteria:</value>
     </labels>
     <labels>
+        <fullName>PP_Study_Consent_Adult_ROW</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Consent Adult ROW</shortDescription>
+        <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Study_Consent_Adult_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Consent Adult US</shortDescription>
+        <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
         <fullName>PP_Study_Overview</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19015,11 +19208,26 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate already exists.</value>
     </labels>
     <labels>
+        <fullName>PP_ActiveDelegates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ActiveDelegates</shortDescription>
+        <value>Active Delegates</value>
+    </labels>
+
+    <labels>
         <fullName>PP_AddPhoto</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AddPhoto</shortDescription>
         <value>Add photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_AddAssignment</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AddAssignment</shortDescription>
+        <value>Add Assignment</value>
     </labels>
     <labels>
         <fullName>PP_AddProfilePhoto</fullName>
@@ -19106,6 +19314,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist ony during one session and disappear from your computer when you close your browser or turn off your computer. Persisent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website. By using our website, you are accepting our use of cookies.</value>
     </labels>
     <labels>
+        <fullName>PP_Communication_Purchase_Pref</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Communication Purchase Pref</shortDescription>
+        <value>Your consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Purchase_Pref_V2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Communication Purchase Pref V2</shortDescription>
+        <value>This consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+    <labels>
         <fullName>PP_Communication_Pref_Outreach_consentA</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19146,6 +19368,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Communication_Pref_Blank_Del_View_Par</shortDescription>
         <value>Below are the consent status and communication preferences for the participant. As a delegate you do not have access to edit these preferences.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Del_Blank_Page</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Communication_Pref_Del_Blank_Page</shortDescription>
+        <value>No communication preference selections available.</value>
     </labels>
     <labels>
         <fullName>PP_Communication_Pref</fullName>
@@ -19286,6 +19515,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_ConsentRequired</shortDescription>
         <value>Your consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Confirm_Selection</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Confirm_Selection</shortDescription>
+        <value>Confirm Selection</value>
     </labels>
     <labels>
         <fullName>PP_ContactInfo_Change</fullName>
@@ -19490,6 +19726,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>##PatientFirstName has designated you as their delegate.</value>
     </labels>
     <labels>
+        <fullName>PP_Delegates_Permitted_Actions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>What can your delegate see or do?</shortDescription>
+        <value>What can your delegate see or do?</value>
+    </labels>
+    <labels>
         <fullName>PP_Details</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19625,6 +19868,21 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Enter New Password</value>
     </labels>
     <labels>
+        <fullName>PP_ExistingDelError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ExistingDelError</shortDescription>
+        <value>You already have a delegate associated to the email address provided. Please add new
+            assignments to existing delegates on the</value>
+    </labels>
+    <labels>
+        <fullName>PP_ExistingDelError_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ExistingDelError_1</shortDescription>
+        <value>page or enter a unique email address to add a new delegate.</value>
+    </labels>
+    <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19644,6 +19902,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_ForgotPwd</shortDescription>
         <value>Forgot Password?</value>
+    </labels>
+    <labels>
+        <fullName>PP_FormerDelegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_FormerDelegates</shortDescription>
+        <value>Former Delegates</value>
     </labels>
     <labels>
         <fullName>PP_Four_Hours_Before</fullName>
@@ -19686,6 +19951,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_HelpResponse</shortDescription>
         <value>To update all other information, please go to your</value>
+    </labels>
+    <labels>
+        <fullName>PP_IQVIA_Communication_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP IQVIA Communication US</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_IRB_Button_Review</fullName>
@@ -19812,6 +20084,55 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_ManageDelegates</shortDescription>
         <value>Manage Delegates</value>
+    </labels>
+    <labels>
+        <fullName>PP_Assignments</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assignments</shortDescription>
+        <value>Manage Assignments</value>
+    </labels>
+    <labels>
+        <fullName>PP_Assignments_Updated_Successfully</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assignments</shortDescription>
+        <value>Assignments updated successfully</value>
+    </labels>
+    <labels>
+        <fullName>PP_WithdraDel_info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_WithdraDel_info</shortDescription>
+        <value>You may choose to withdraw from your delegate appointment at any time. Doing so will prevent you from seeing any more information associated with a participant. If you withdraw in error, kindly contact your participant to be reappointed as a delegate.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Withdraw</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Withdraw</shortDescription>
+        <value>Withdraw</value>
+    </labels>
+    <labels>
+        <fullName>PP_What_can_I_see_Or_Do</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_What_can_I_see_Or_Do</shortDescription>
+        <value>What can I as a delegate see or do?</value>
+    </labels>
+    <labels>
+        <fullName>PP_Assigned_As_Primary_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assigned_As_Primary_Delegate</shortDescription>
+        <value>Assigned as Primary Delegate</value>
+    </labels>
+    <labels>
+        <fullName>PP_Assigned_As_Primary_Delegate_help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assigned_As_Primary_Delegate_help</shortDescription>
+        <value>To withdraw as a primary delegate, you must contact the participant or study team.</value>
     </labels>
     <labels>
         <fullName>PP_MatchMyEmailAddress</fullName>
@@ -19945,6 +20266,34 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_One_Week_Before</shortDescription>
         <value>1 week before</value>
+    </labels>
+    <labels>
+        <fullName>PP_Outreach_Communication_Pref_A</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Outreach Communication Pref A</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided,</value>
+    </labels>
+    <labels>
+        <fullName>PP_Outreach_Communication_Pref_B</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Outreach Communication Pref B</shortDescription>
+        <value>via automated dialing and/or artificial or pre-recorded voice,</value>
+    </labels>
+    <labels>
+        <fullName>PP_Outreach_Communication_Pref_C</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Outreach Communication Pref C</shortDescription>
+        <value>for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of</value>
+    </labels>
+    <labels>
+        <fullName>PP_Outreach_Communication_Pref_D</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Outreach Communication Pref D</shortDescription>
+        <value>, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Page</fullName>
@@ -20233,6 +20582,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Remove Photo</value>
     </labels>
     <labels>
+        <fullName>PP_Remove</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Remove</shortDescription>
+        <value>Remove</value>
+    </labels>
+    <labels>
         <fullName>PP_RequestSubmitted</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20287,6 +20643,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Select_FAQ</shortDescription>
         <value>Select a FAQ</value>
+    </labels>
+    <labels>
+        <fullName>PP_Select_User</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Select_User</shortDescription>
+        <value>Select the user you would like to assign as delegate.</value>
     </labels>
     <labels>
         <fullName>PP_SendBtn</fullName>
@@ -20351,6 +20714,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Task Success Toast</shortDescription>
         <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.;Visit scheduled successfully.</value>
+    </labels>
+    <labels>
+        <fullName>PP_There_Are</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_There_Are</shortDescription>
+        <value>There are</value>
     </labels>
     <labels>
         <fullName>PP_Third_Lang</fullName>
@@ -20498,6 +20868,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_UsefulInfo</shortDescription>
         <value>Create tickets here for changing useful information</value>
+    </labels>
+    <labels>
+        <fullName>PP_Users_Associated</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Users_Associated</shortDescription>
+        <value>user(s) associated with the email address you have
+            provided.</value>
     </labels>
     <labels>
         <fullName>PP_User_Email</fullName>
@@ -20689,7 +21067,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Complete BL Survey SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new task ##SurveyName to complete, due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
+        <value>##ShortCommunityName: You have a new task ##SurveyName to complete, due on ##SMSexpirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>PP_Edit_Year_of_Birth</fullName>
@@ -20745,14 +21123,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Instant Task Del SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new task  ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
+        <value>##ShortCommunityName: You have a new task  ##ShortTaskName to complete, due on ##SMSTaskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>PT_Instant_Task_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Instant Task SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new task ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
+        <value>##ShortCommunityName: You have a new task ##ShortTaskName to complete, due on ##SMSTaskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>PT_New_Certificate_SMS</fullName>
@@ -22254,6 +22632,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>RH Pir Add Televisit</shortDescription>
         <value>Add televisit for Initial Visit</value>
+    </labels>
+    <labels>
+        <fullName>RH_Pir_Add_Televisit_ForScreeningVisit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH Pir Add Televisit for Screening Visit</shortDescription>
+        <value>Add televisit for Screening Visit</value>
     </labels>
     <labels>
         <fullName>RH_Pir_Confirm_Televisit</fullName>
@@ -24947,7 +25332,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SMS Body Task Reminder</shortDescription>
-        <value>##ShortCommunityName: Reminder! ##ShortTaskName due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
+        <value>##ShortCommunityName: Reminder! ##ShortTaskName due on ##SMSTaskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>SMS_Body_Visit_Task_Reminder</fullName>
@@ -26201,6 +26586,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Cholesterol is a type of fat made by the liver that is found in your blood. You can also take in cholesterol by eating certain foods, such as meat, fish, eggs, and dairy products. Your total cholesterol value is the sum of your low-density lipoprotein (LDL, or &quot;bad&quot; cholesterol) and your high-density lipoprotein (HDL, or &quot;good&quot; cholesterol).</value>
     </labels>
     <labels>
+        <fullName>TOTAL_PE_WITHOUT_EP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TOTAL_PE_WITHOUT_EP</shortDescription>
+        <value>There are ##PEs participants with no event plan attached.</value>
+    </labels>
+    <labels>
+        <fullName>TOTAL_PE_WITHOUT_EP_LIMIT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TOTAL_PE_WITHOUT_EP_LIMIT</shortDescription>
+        <value>There are more than ##PEs participants with no event plan attached.</value>
+    </labels>
+    <labels>
         <fullName>TOTAL_PE_WITHOUT_VP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -26811,7 +27210,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Icons</shortDescription>
-        <value>Visit Icons</value>
+        <value>VISIT/EVENT ICONS</value>
     </labels>
     <labels>
         <fullName>Visit_Number</fullName>
@@ -26819,7 +27218,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>visit configuration</shortDescription>
-        <value>visit number</value>
+        <value>VISIT/EVENT NUMBER</value>
     </labels>
     <labels>
         <fullName>Visit_Order</fullName>
@@ -27046,7 +27445,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Schedule</shortDescription>
-        <value>Visit Schedule</value>
+        <value>VISIT/EVENT SCHEDULE</value>
     </labels>
     <labels>
         <fullName>Visit_b_Add_Visit</fullName>
@@ -27159,6 +27558,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>WelcomeEmail_TrackLogo</shortDescription>
         <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077jMc&amp;oid=00D1I000001V1t1&amp;lastMod=1607842028000</value>
+    </labels>
+    <labels>
+        <fullName>Withdrew_Assignment</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Withdrew Assignment</shortDescription>
+        <value>Withdraw assignment</value>
+    </labels>
+    <labels>
+        <fullName>Withdrew_Assignment_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Withdrew Assignment Consent</shortDescription>
+        <value>By withdrawing, you will no longer be able to access this assignment. Are you sure you would like to continue?</value>
     </labels>
     <labels>
         <fullName>Withdrew_Consent</fullName>
@@ -28159,6 +28572,27 @@ Please contact the Study Team for further updates or please login for additional
         <value>IQVIA™ Patient Portal would like to access the microphone and camera.</value>
     </labels>
     <labels>
+        <fullName>InitailEmail_stayInformed_illustration	</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>	InitailEmail_stayInformed_illustration	</shortDescription>
+        <value>Update value</value>
+    </labels>
+    <labels>
+        <fullName>InitailEmail_task_illustration</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InitailEmail_task_illustration</shortDescription>
+        <value>Update value</value>
+    </labels>
+    <labels>
+        <fullName>InitailEmail_trackProgress_illustration</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InitailEmail_trackProgress_illustration	</shortDescription>
+        <value>Update value</value>
+    </labels>
+    <labels>
         <fullName>Don_t_allow</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -28601,6 +29035,13 @@ Please contact the Study Team for further updates or please login for additional
         <value>Add New Delegate</value>
     </labels>
     <labels>
+        <fullName>Add_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add Delegate</shortDescription>
+        <value>Add Delegate</value>
+    </labels>
+    <labels>
         <fullName>Profile_Information</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -28653,7 +29094,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AS_CONDITIONAL_FEATURE</shortDescription>
-        <value>*all features may not be available for each program</value>
+        <value>*all features may not be available for each study</value>
     </labels>
     <labels>
         <fullName>PP_AS_Delegate_Header</fullName>
@@ -28688,12 +29129,35 @@ Please contact the Study Team for further updates or please login for additional
         <value>You have been succesfully removed from the Delegates list</value>
     </labels>
     <labels>
+        <fullName>PP_Delegate_Added_Successfully</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP Delegate Added Successfully</shortDescription>
+        <value>Delegate added successfully.</value>
+    </labels>
+    <labels>
         <fullName>PP_Delegate_Deactivated</fullName>
         <categories>PPAccountSettings</categories>
         <language>en_US</language>
         <protected>flase</protected>
         <shortDescription>PP Delegate Deactivated</shortDescription>
         <value>Delegate was successfully deactivated</value>
+    </labels>
+    <labels>
+        <fullName>PP_Delegate_Updated</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP Delegate Updated</shortDescription>
+        <value>Delegate updated successfully.</value>
+    </labels>
+    <labels>
+        <fullName>PP_DelegateWithdrawn</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DelegateWithdrawn</shortDescription>
+        <value>Delegate withdrawn</value>
     </labels>
     <labels>
         <fullName>PP_Delegate_Activated</fullName>
@@ -28726,6 +29190,14 @@ Please contact the Study Team for further updates or please login for additional
         <protected>true</protected>
         <shortDescription>No_active_program</shortDescription>
         <value>No active program</value>
+    </labels>
+    <labels>
+        <fullName>No_date_available</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No_date_available</shortDescription>
+        <value>No date available</value>
     </labels>
     <labels>
         <fullName>Navigation_AboutProgram</fullName>
@@ -28996,6 +29468,14 @@ Please contact the Study Team for further updates or please login for additional
         <protected>flase</protected>
         <shortDescription>PP_NO_REMINDER</shortDescription>
         <value>No reminder</value>
+    </labels>
+    <labels>
+        <fullName>PP_NO_Active_Delegate</fullName>
+        <categories>PPCreateTask</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP_NO_Active_Delegate</shortDescription>
+        <value>No active delegates</value>
     </labels>
     <labels>
         <fullName>Upcoming_Visits_Clock</fullName>
@@ -29439,9 +29919,15 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Created By PI New PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the enrollment process.&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the participation journey.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram center.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+            </value>
+
     </labels>
 
     <labels>
@@ -29456,15 +29942,11 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient New  PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram center.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+                        
+            &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Sign_Patient_New_PP</fullName>
@@ -29486,11 +29968,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient1 PP New</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in clinical research.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in clinical research.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
 
@@ -29557,7 +30035,11 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
-        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more ##studiesOrPrograms that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more ##studiesOrPrograms listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.
+
+            &lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
+            &lt;span style=&quot;color:#444444;&quot;&gt;Your username is ##UserName.&lt;/span&gt;
+        </value>
     </labels>
     <labels>
         <fullName>Programs_PP</fullName>
@@ -29614,45 +30096,44 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Initial_Patient_ePR_PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information.A member of the ##isStudyorProgram team will contact you regarding the next steps in the ##isStudyorProgram process.&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information. A member of the ##isStudyorProgram team will contact you regarding the next steps in the ##isStudyorProgram process.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Patient_ePR_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Signature_Patient_ePR_PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the IQVIA Patient Portal will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+                        
+            &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Participant_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Signature_Participant_Delegate_PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
-&lt;span style=&quot;color:#444444;&quot;&gt;Your username is ##UserName.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;We are excited to be on this journey with you.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;We are excited to be on this journey with you.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+                        
+            &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_RP_Referral_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Initial_Patient_RP_Referral_PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the referral process.&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the referral process.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;</value>
     </labels>
 
     <labels>
@@ -29660,13 +30141,11 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Signature_Patient_RP_Referral_PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the IQVIA Patient Portal will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+                        
+            &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Program_SMS_PP</fullName>
@@ -30000,21 +30479,21 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Email Sub Event Del PP</shortDescription>
         <value>Reminder: Your participant has an upcoming event</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Tab_Results</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Lab Results tab</shortDescription>
         <value>My Results</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Tab_Visits</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Visits tab</shortDescription>
         <value>My Visits</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Tab_Events</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -30063,22 +30542,87 @@ Please contact the Study Team for further updates or please login for additional
         <shortDescription>Future_DateTime_Error_For_Reminder_DateTime_Task</shortDescription>
         <value>Reminder must be prior to task.</value>
     </labels>
-    <labels>        
-        <fullName>Email_Signature_New_Short_PP</fullName>        
-        <language>en_US</language>        
-        <protected>false</protected>        
-        <shortDescription>Email Signature New Participant Delegate PP</shortDescription>        
+    <labels>
+               
+        <fullName>Email_Signature_New_Short_PP</fullName>
+               
+        <language>en_US</language>
+               
+        <protected>false</protected>
+               
+        <shortDescription>Email Signature New Participant Delegate PP</shortDescription>
+               
         <value>&lt;br /&gt; &lt;br /&gt;We are excited to be on this journey with you.
                 
             Sincerely,            
     
-            ##SignatureShortCommunityName</value>    
-    </labels> 
+            ##SignatureShortCommunityName</value>
+           
+    </labels>
+     
     <labels>
         <fullName>Email_Body_Reset_Password_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Reset Password PP</shortDescription>
         <value>You recently requested a password reset for your account. To complete the process, you can set a new password by clicking on the button above.</value>
-    </labels> 
+    </labels>
+    <labels>
+        <fullName>Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected_PP_OnlyDate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Instant Del Task Reminder Type Not Selected PP Only Date</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##TaskOnlydate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Task_Reminder_Type_Not_Selected_PP_OnlyDate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Task Reminder Type Not Selected PP OnlyDate</shortDescription>
+        <value>&lt;span &gt;This is an email to remind you of your upcoming task: ##TaskName&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##TaskOnlydate.&lt;/span&gt;
+
+&lt;span &gt;Please login to update the status of your task.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Task_Reminder_Type_Not_Selected_Deleg_PP_OnlyDate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Reminder Type Not Selected Deleg PP OnlyDate</shortDescription>
+        <value>&lt;span&gt;This is an email to remind you of ##ParticipantFirstName&apos;s upcoming task: ##TaskName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##TaskOnlydate. &lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot; &gt;Please login to update the status of this task.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Instant_Task_Reminder_Type_Not_Selected_PPOnlyDate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Instant Task Reminder Type Not Selected PP Only Date</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##TaskOnlydate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Survey_New_Reminder_PP_OnlyDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Survey New Reminder PP OnlyDate</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;This is an email to remind you of your upcoming  task ##SurveyName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##expirationOnlyDate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Complete_Baseline_Survey_New_PP_OnlyDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Complete Baseline Survey New PP OnlyDate</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##SurveyName&lt;/span&gt;
+
+&lt;div&gt;&lt;span&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot;&gt; ##expirationOnlyDate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
 </CustomLabels>

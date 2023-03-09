@@ -23,6 +23,8 @@ public without sharing class TasksRemote {
         public Date activityDate;
         @AuraEnabled
         public Date reminder;
+        @AuraEnabled
+        public Boolean isMCPTask;
     }
 
     public class CompletedTask {
@@ -30,6 +32,8 @@ public without sharing class TasksRemote {
         public Task task;
         @AuraEnabled
         public Date completedDate;
+        @AuraEnabled
+        public Boolean isMCPTask;
     }
 
     @AuraEnabled
@@ -127,7 +131,7 @@ public without sharing class TasksRemote {
 
                 participantTasks.completedTasks.add(completedTask);
             }
-
+            createMCPList(participantTasks.completedTasks);
             ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
                 .getState();
             if (participantState.isDelegate) {
@@ -167,13 +171,29 @@ public without sharing class TasksRemote {
             switch on taskWrapper.openTask.Originator__c {
                 when 'Participant' {
                     taskWrapper.originator = Label.PP_Participant;
+                    taskWrapper.isMCPTask = false;
                 }
                 when 'Delegate' {
                     taskWrapper.originator = Label.Delegate;
+                    taskWrapper.isMCPTask = false;
                 }
                 when else {
                     taskWrapper.originator = Label.Admin;
+                    taskWrapper.isMCPTask = true;
                 }
+            }
+        }
+    }
+
+    private static void createMCPList(List<CompletedTask> tasks) {
+        for (CompletedTask taskWrapper : tasks) {
+            if (
+                taskWrapper.task.Originator__c == 'Participant' ||
+                taskWrapper.task.Originator__c == 'Delegate'
+            ) {
+                taskWrapper.isMCPTask = false;
+            } else {
+                taskWrapper.isMCPTask = true;
             }
         }
     }
@@ -211,7 +231,7 @@ public without sharing class TasksRemote {
             if (taskObj.Survey_Invitation__c != null) {
                 // add it to study level surveys
                 if (taskObj.Survey_Invitation__r.IsTrialSurvey__c) {
-                groupATasks.add(taskObj);
+                    groupATasks.add(taskObj);
                 } else {
                     // add it to platform level surveys
                     groupBTasks.add(taskObj);
@@ -477,9 +497,9 @@ public without sharing class TasksRemote {
             sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithCompletedDate));
         }
         if (taskStatus == 'Ignored') {
-        sortedTasksList.addAll(sortListOrderbyAsc(tasksMapwithDueDate));
-        sortedTasksList.addAll(sortListOrderbyAsc(tasksMapwithStartDate));
-        sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithCreatedDate));
+            sortedTasksList.addAll(sortListOrderbyAsc(tasksMapwithDueDate));
+            sortedTasksList.addAll(sortListOrderbyAsc(tasksMapwithStartDate));
+            sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithCreatedDate));
         }
         if (taskStatus == 'Expired') {
             sortedTasksList.addAll(sortListOrderbyDesc(tasksMapwithDueDate));

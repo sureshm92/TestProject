@@ -36,14 +36,15 @@ public without sharing class MessageTriggerHandler {
         );
 
         List<Id> participantConIds = new List<Id>();
+        Set<Id> peIds = new Set<Id>();
         List<Id> piContactIds = new List<Id>();
         for (Conversation__c con : conversationMap.values()) {
-            participantConIds.add(con.Participant_Enrollment__r.Participant_Contact__c);
+            peIds.add(con.Participant_Enrollment__c);
             piContactIds.add(con.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c);
         }
-
-        Map<Id, List<Id>> delegatesByPAConId = PatientDelegateService.getDelegateContactIdsByPAContactIs(
-            participantConIds
+        participantConIds.addAll(peIds);
+        Map<Id, List<Id>> delegatesByPAConId = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
+            participantConIds,true
         );
 
         List<Site_Staff__c> siteStaff = [
@@ -103,7 +104,8 @@ public without sharing class MessageTriggerHandler {
                             new Notification__c(
                                 Recipient__c = delConId,
                                 WhatId__c = conversation.Participant_Enrollment__c,
-                                Notification_Type__c = notType
+                                IsDelegate__c = true,
+                                Notification_Type__c = notType //Message to PT when there is a new message	
                             )
                         );
                     }

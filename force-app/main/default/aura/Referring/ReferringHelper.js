@@ -375,14 +375,25 @@
               }
             
                   if( component.get('v.needsGuardian') && participant.Adult__c && (participant.email__c ==''|| !participant.email__c) ){
+                    if(emailCmp){
                       emailCmp.setCustomValidity('');
+                        } 
+                        if(emailRepeatCmp){
                         emailRepeatCmp.setCustomValidity('');
+                        } 
+                        if(emailCmp){
                         emailCmp.reportValidity();
+                    }
+                     if(emailRepeatCmp){
                         emailRepeatCmp.reportValidity();
+                    }
                         var PhoneField = component.find('PhoneName');
+                    if(PhoneField){
                         PhoneField.setCustomValidity('');
                         PhoneField.reportValidity();
                      }
+                     }
+
               if(needsDelegate && needsGuardian &&
                delegateParticipant &&
                participant.Health_care_proxy_is_needed__c &&
@@ -466,14 +477,25 @@
         if(needsDelegate && isNewPrimaryDelegate)
         {
             if(  needsDelegate && participant.Adult__c && (participant.email__c ==''|| !participant.email__c) ){
+                if(emailCmp){
                 emailCmp.setCustomValidity('');
+                    } 
+                    if(emailRepeatCmp){
                   emailRepeatCmp.setCustomValidity('');
+                    } 
+                    if(emailCmp){
                   emailCmp.reportValidity();
+                }
+                 if(emailRepeatCmp){
                   emailRepeatCmp.reportValidity();
+                }
                   var PhoneField = component.find('PhoneName');
+                if(PhoneField){
                   PhoneField.setCustomValidity('');
                   PhoneField.reportValidity();
                } 
+               }
+
             if(!(isAdultDel && attestAge && confirmConsent))
                 isValid = false;
         }
@@ -1005,6 +1027,27 @@
                 }
             }
         }
-    }
+    },
+    loadpdf:function(component,event){
+		try{ 
+			var pdfData = component.get('v.blobData');
+			var pdfjsframe = component.find('pdfFrame')
+			if(typeof pdfData != 'undefined'){
+				pdfjsframe.getElement().contentWindow.postMessage(pdfData,'*');	
+			}
+		}catch(e){
+			alert('Error: ' + e.message);
+		}
+	},
+    getURLParameterValue: function() { 
+        var querystring = location.search.substr(1);
+        var paramValue = {};
+        querystring.split("&").forEach(function(part) {
+            var param = part.split("=");
+            paramValue[param[0]] = decodeURIComponent(param[1]);
+        });
+        return paramValue;
+    } 
+
 
 });

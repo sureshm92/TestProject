@@ -658,7 +658,8 @@ private class Test_BaseCRCPCommunity {
                     null,
                     null,
                     true,
-                   ''
+                   '',
+                   testdata.pe.id
                 );
                 //Id patientDelegateId = [SELECT ID, Contact__r.Email FROM Patient_Delegate__c WHERE Contact__r.Email='testdelegate@testdelegate.testdelegate'].Id;
             }
@@ -691,7 +692,8 @@ private class Test_BaseCRCPCommunity {
                     patientDelegateId,
                     null,
                     true,
-                    ''
+                    '',
+                    testdata.pe.id
                 );
             }
         }

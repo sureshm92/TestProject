@@ -676,15 +676,25 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant_Enrollment__c> enrollments,
         Map<Id, Participant_Enrollment__c> oldMap
     ) {
+        //Bypaass old methods from Patient Delegate Trigger
+        TriggerHandlerExecutor.bypassHandler(
+        PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+        PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+        );
+        
         List<Id> petoUpdate = new List<Id>();
         List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
         List<Participant_Enrollment_Status_History__c> historiestoupdate = new List<Participant_Enrollment_Status_History__c>();
         List<Participant_Enrollment__c> peListForTaskCreation = new List<Participant_Enrollment__c>();
         Set<Id> participantContactIds = new Set<Id>();
         Set<Id> invitedContactIds = new Set<Id>();
+        Set<Id> perIds = new Set<Id>();
         List<Notification__c> notifications = new List<Notification__c>();
 
         for (Participant_Enrollment__c pe : enrollments) {
+            perIds.add(pe.Id);
             if (pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED) {
                 if (
                     oldMap == null ||
@@ -797,11 +807,13 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             upsert histories;
         }
         createTasks(peListForTaskCreation);
-        PatientDelegateService.updateContactPermSetsWithDelegates(
+        if(oldMap == null){
+            PatientDelegateService.updateContactPermSetsWithDelegates(
             participantContactIds,
-            invitedContactIds
-        );
-
+            invitedContactIds,
+            perIds
+            );
+        }
         if (!notifications.isEmpty())
             insert notifications;
     }
@@ -1053,6 +1065,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         Map<Id, List<Id>> partPerDelegateIds = new Map<Id, List<Id>>();
         List<ID> participantids = new List<ID>();
         List<ID> delegateconids = new List<ID>();
+        List<Id> perIdList = new List<Id>();
         Set<ID> proccessedParticipants = new Set<ID>();
         Map<ID, Map<Id, Boolean>> delegatewelcomemsg = new Map<ID, Map<ID, Boolean>>();
         Map<Id, Participant__c> participantconMap;
@@ -1074,7 +1087,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     ContactService.addwelcomeNotifications(
                         pe.Participant_Contact__c,
                         pe.Participant__c,
-                        NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG
+                        NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG,
+                        false
                     )
                 );
             }
@@ -1102,13 +1116,15 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         ContactService.addwelcomeNotifications(
                             pe.Participant_Contact__c,
                             pe.Id,
-                            NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG
+                            NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG,
+                            false
                         )
                     );
                 }
                 //For study level Delegates
                 if (!String.isBlank(pe.Participant__c)) {
                     participantids.add(pe.Participant__c);
+                    perIdList.add(pe.Id);
                 }
             } else if (
                 oldMap != null &&
@@ -1122,28 +1138,18 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 perToBeUpdated.add(tempPer);
             }
         }
-        if (participantids.size() > 0) {
-            partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
-                participantIds
+        if (participantids.size() > 0 && perIdList.size()>0) {
+            PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
+                participantIds,perIdList
             );
-            // needed for code for now will delete later
-            /*if(!partPerDelegateIds.isEmpty()){
-Map<Id,Boolean> delcon = new Map<Id,Boolean>();
-participantconMap = new Map<Id,Participant__c>([Select Id, (SELECT Id, Participant__c, Status__c,Contact__c,Contact__r.Welcome_Message_Sent__c,Contact__r.Welcome_Message_Delivered__c FROM Participants__r where Status__c = 'Active' ) From Participant__c where ID IN : participantids]);
-if(!participantconMap.isEmpty()){
-for(Participant__c per : participantconMap.values()){
-for(Patient_Delegate__c del : per.Participants__r){
-delcon.put(del.Contact__c, del.Contact__r.Welcome_Message_Sent__c);
-}
-delegatewelcomemsg.put(per.Id,delcon);
-delcon = new Map<Id,Boolean>();
-system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
-}   
-}
-}*/
+           partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
+    
+            /*partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+                participantIds
+            );*/
         }
         //Added for study Level Delegate
-        List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = new List<ParticipantEnrollmentPatientDelJunction__c>();
+        //List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = new List<ParticipantEnrollmentPatientDelJunction__c>();
         for (Participant_Enrollment__c pe : newList) {
             if (
                 oldMap == null &&
@@ -1158,15 +1164,16 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                         ContactService.addwelcomeNotifications(
                             delegateId,
                             pe.Id,
-                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
+                            true
                         )
                     );
                     //Create jonction object record between PER and Patient Delegate contact records
-                    ParticipantEnrollmentPatientDelJunction__c perPDJunObj = new ParticipantEnrollmentPatientDelJunction__c();
+                    /*ParticipantEnrollmentPatientDelJunction__c perPDJunObj = new ParticipantEnrollmentPatientDelJunction__c();
                     perPDJunObj.Participant_Enrollment__c = pe.Id;
                     perPDJunObj.Patient_Delegate_Contact__c = delegateId;
                     perPDJunObj.Process_Type__c = 'Welcome Message';
-                    perDelJunctionRecList.Add(perPDJunObj);
+                    perDelJunctionRecList.Add(perPDJunObj);*/
                     Boolean isDelegatePlatformNotification =
                         ContactService.patientdelList.containskey(delegateId) &&
                         ContactService.patientdelList.get(delegateId)
@@ -1181,7 +1188,8 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                             ContactService.addwelcomeNotifications(
                                 delegateId,
                                 pe.Participant__c,
-                                NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG,
+                                true
                             )
                         );
                     }
@@ -1196,9 +1204,9 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
         )
             update perToBeUpdated;
 
-        if (perDelJunctionRecList != null && !perDelJunctionRecList.isEmpty()) {
+        /*if (perDelJunctionRecList != null && !perDelJunctionRecList.isEmpty()) {
             insert perDelJunctionRecList;
-        }
+        }*/
     }
     /*For Welcome Msg -- Added by Anitha End*/
     @TestVisible

@@ -1,6 +1,6 @@
 /**
  * Created by Igor Malyuta on 29.05.2019.
- */ 
+ */
 
 public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAbstract {
     private List<Trial_Survey__c> trialSurveyList = new List<Trial_Survey__c>();
@@ -75,7 +75,8 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 Reminder_in_days_before_the_end_date__c,
                 Survey_start_date__c,
                 Survey_end_date__c,
-                Whose_response_needed__c
+                Whose_response_needed__c,
+                Display_in_UI__c
             FROM Trial_Survey__c
             WHERE
                 Clinical_Trial_Profile__c IN (

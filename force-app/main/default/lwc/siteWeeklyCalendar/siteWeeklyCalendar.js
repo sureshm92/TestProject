@@ -57,7 +57,7 @@ export default class SiteWeeklyCalendar extends LightningElement {
 
   connectedCallback() {
     let userDate = new Date(
-      todayDate.toLocaleString(locale, { timeZone: timeZone })
+      todayDate.toJSON(locale, { timeZone: timeZone })
     );
     let date;
     this.dayList = [];
@@ -70,7 +70,6 @@ export default class SiteWeeklyCalendar extends LightningElement {
     let dayn = 0;
     let daym = 0;
     var dayy = 0;
-    this.isCurrentWeek = true;
 
     for (let i = 0; i < 7; i++) {
       let calData = {};
@@ -99,7 +98,18 @@ export default class SiteWeeklyCalendar extends LightningElement {
       let selectedYear = this.selectedDate.getFullYear();
       this.currentMonth = this.selectedmonth;
       this.currentYear = selectedYear;
+      let selectedDatee=this.selectedDate.getDate(); 		
+        if(selectedDatee!=this.currentDate){		
+          this.isCurrentWeek=false;		
+        }		
+        else{		
+          this.isCurrentWeek=true;		
+        }		
+    }	
+    else{	
+      this.isCurrentWeek=true;	
     }
+    
     this.currentMonth = daym;
     this.currentYear = dayy;
   }
@@ -107,9 +117,9 @@ export default class SiteWeeklyCalendar extends LightningElement {
   fetchDay(i) {
     let date = new Date();
     let userDate = new Date(
-      date.toLocaleString(locale, { timeZone: timeZone })
+      date.toJSON(locale, { timeZone: timeZone })
     );
-    userDate.toLocaleString(locale, { timeZone: timeZone });
+    userDate.toJSON(locale, { timeZone: timeZone });
     userDate.setDate(i);
     return userDate;
   }
@@ -243,6 +253,13 @@ export default class SiteWeeklyCalendar extends LightningElement {
 
   selectDate(event) {
     let selectedDate = new Date(event.currentTarget.dataset.whichdate);
+    let selectedDatee=selectedDate.getDate(); 		
+    if(selectedDatee!=this.currentDate){		
+      this.isCurrentWeek=false;		
+    }		
+    else{		
+      this.isCurrentWeek=true;		
+    }
     this.fetchDataOnDateSelected(selectedDate);
   }
 
@@ -283,7 +300,7 @@ export default class SiteWeeklyCalendar extends LightningElement {
     this.selectedNextWeek = 0;
     this.selectedPrevWeek = 0;
     let userDate = new Date(
-      todayDate.toLocaleString(locale, { timeZone: timeZone })
+      todayDate.toJSON(locale, { timeZone: timeZone })
     );    
     this.selectedDate = userDate;
     this.selectedDay = userDate.getDate();

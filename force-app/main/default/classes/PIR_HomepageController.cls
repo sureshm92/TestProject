@@ -723,7 +723,38 @@ public without sharing class PIR_HomepageController {
       }
     }
 
-    String filterString = ' Study_Site__c IN :siteIdlist ';
+    List<String> status =new List<String> (); 
+    status.add('Received');
+    status.add('Pre-review Passed');
+    status.add('Contact Attempted');
+    status.add('Successfully Contacted');
+    status.add('Screening In Progress');
+    status.add('Screening In Progress - Wash Out Period');
+    status.add('Screening Passed');
+    status.add('Eligibility Passed');
+    status.add('Ready to Screen');
+    status.add('Participant No Show');
+    status.add('Successfully re-engaged');
+    status.add('Enrollment Success');
+    status.add('Randomization Success');
+    status.add('Pre-review Failed');
+    status.add('Unable to Reach');
+    status.add('Contacted - Not Suitable');
+    status.add('Eligibility Failed');
+    status.add('Declined Consent');
+    status.add('Unable to Screen');
+    status.add('Withdrew Consent');
+    status.add('Screening Failed');
+    status.add('Withdrew Consent After Screening');
+    status.add('Enrollment Failed');
+    status.add('Declined Final Consent');
+    status.add('Randomization Failed'); 
+    status.add('Treatment Period Started');
+    status.add('Follow-Up Period Started');
+    status.add('Participation Complete');
+    status.add('Trial Complete');
+
+    String filterString = ' Study_Site__c IN :siteIdlist AND Participant_Status__c IN :status';
     queryString = queryString + filterString + sortOn;
 
     List<Participant_Enrollment__c> peList = Database.query(queryString);
@@ -1154,7 +1185,8 @@ public without sharing class PIR_HomepageController {
       if (lst.Participant__r.Phone__c != null) {
         wrap.participantPhone = lst.Participant__r.Phone__c;
       } else {
-        List<Patient_Delegate__c> patientDelegate = new List<Patient_Delegate__c>();
+       //Commented as part of PD redesign 
+       /* List<Patient_Delegate__c> patientDelegate = new List<Patient_Delegate__c>();
         patientDelegate = [
           SELECT
             Id,
@@ -1167,9 +1199,26 @@ public without sharing class PIR_HomepageController {
             Participant__c = :lst.Participant__c
             AND Primary_Delegate__c = TRUE
           LIMIT 1
+        ];*/
+        List<Patient_Delegate_Enrollment__c> patientDelegate = new List<Patient_Delegate_Enrollment__c>();
+        patientDelegate = [
+          SELECT
+            Id,
+            Patient_Delegate__c,
+            Patient_Delegate__r.Primary_Delegate__c,
+            Patient_Delegate__r.Contact__c,
+            Patient_Delegate__r.Contact__r.Phone,
+            Patient_Delegate__r.Participant__c
+          FROM Patient_Delegate_Enrollment__c
+          WHERE
+          Participant_Enrollment__c =: lst.id
+          AND  
+          Patient_Delegate__r.Participant__c = :lst.Participant__c
+          AND Primary_Delegate__c = TRUE
+          LIMIT 1
         ];
         if (patientDelegate != null && !patientDelegate.isEmpty()) {
-          wrap.participantPhone = patientDelegate[0].Contact__r.Phone;
+          wrap.participantPhone = patientDelegate[0].Patient_Delegate__r.Contact__r.Phone;
         } else {
           wrap.participantPhone = '';
         }

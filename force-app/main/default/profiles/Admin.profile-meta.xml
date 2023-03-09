@@ -5,6 +5,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>communityFooterController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LofiLoginController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>preScreenerTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1159,6 +1167,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PatientDelegateService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientDelegateEnrollmentService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -6809,6 +6821,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.PPMID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Atid__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7519,6 +7536,136 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Attestation_TimeStamp__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Attested_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Delegate_Attestation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Is_Created_by_Bulk_Import__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.isInviteToPP__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Patient_Delegate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Primary_Delegate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Artificial_Voice_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Artificial_Voice_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Assisted_Dialing_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Assisted_Dialing_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Direct_Mail_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Direct_Mail_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Email_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Email_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_info_storage_consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Phone_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+      <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Phone_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Pre_recorded_Calls_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Pre_recorded_Voice_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_SMS_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_SMS_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Study_Storage_Consent_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Welcome_Message_Delivered__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.Welcome_Message_Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Patient_Visit__c.Completed_Date__c</field>
         <readable>true</readable>
@@ -8117,7 +8264,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+    <editable>false</editable>
         <field>Resource__c.Multimedia__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8708,6 +8855,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>SurveyInvitation.Is_End_Date_Visible__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>SurveyInvitation.Is_Expired__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9194,6 +9346,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Trial_Survey__c.Expires_After_Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Trial_Survey__c.Display_in_UI__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9813,6 +9970,9 @@
         <layout>Community_Template__mdt-Community Template Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CPRA_DoNotSell__mdt-CPRA_DoNotSell Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Completed_Incentive_Task__c-Completed Incentive Task Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -9997,6 +10157,9 @@
         <layout>Patient_Delegate__c-Caregiver Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Patient_Delegate_Enrollment__c-Patient Delegate Enrollment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Patient_Visit__c-Patient Visit Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -10066,7 +10229,7 @@
         <recordType>Resource__c.Video</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Resource__c-Multimedia</layout>
+    <layout>Resource__c-Multimedia</layout>
         <recordType>Resource__c.Multimedia</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -10799,6 +10962,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>Patient_Delegate_Enrollment__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Patient_Visit__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -11439,6 +11611,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Patient_Delegate__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Patient_Delegate_Enrollment__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
