@@ -21,7 +21,7 @@
 
     <c:PP_EmailWireframe rendered="{!userMode == 'Participant Virtual'}" recipientId="{!recordId}" sourceId="{!sourceId}" header="{!$Label.Email_Header_Initial_Patient_PP}"
         isPreBodyButton="true" preBodyButtonName="{!BTNLabel}" preBodyButtonURL="{!buttonURL}" greeting="{!$Label.Email_User_Greeting_FirstName}"
-        signature="{!$Label.Email_Signature_Patient_ePR_PP}" communityTemplate="PatientPortal">
+        signature="{!$Label.Email_Signature_Patient_ePR_PP}" communityTemplate="PatientPortal" isInitialEmail="true">
 
         <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_ePR_PP}" />
         <!--    <c:ParticipantParagraph learnmoreLabel="{!$Label.Learn_more_about_study}" discoverLabel="{!$Label.Discover_future_Clinical}"
@@ -42,7 +42,8 @@
     <!-- Participant referred by HCP -->
     <c:PP_EmailWireframe rendered="{!userMode=='Participant referred by HCP'}" recipientId="{!recordId}" sourceId="{!sourceId}"
         header="{!$Label.Email_Header_Initial_Patient_PP}" isPreBodyButton="true" preBodyButtonName="{!BTNLabel}" preBodyButtonURL="{!buttonURL}"
-        greeting="{!$Label.Email_User_Greeting_FirstName}" signature="{!$Label.Email_Signature_Patient_RP_Referral_PP}" communityTemplate="PatientPortal">
+        greeting="{!$Label.Email_User_Greeting_FirstName}" signature="{!$Label.Email_Signature_Patient_RP_Referral_PP}" communityTemplate="PatientPortal"
+        isInitialEmail="true">
 
         <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_RP_Referral_PP}" />
         <!--   <c:ParticipantParagraph learnmoreLabel="{!$Label.Learn_more_about_study}" discoverLabel="{!$Label.Discover_future_Clinical_PP}"
