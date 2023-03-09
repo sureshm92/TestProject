@@ -1,4 +1,4 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, track } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
 import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesById';
 import getCtpName from '@salesforce/apex/ParticipantStateRemote.getInitData';
@@ -31,6 +31,9 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     };
     isMultimedia = false;
     isArticleVideo = false;
+    @track landscape = false;
+
+    desktop = true;
     spinner;
 
     connectedCallback() {
@@ -45,7 +48,24 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
             this.isDocument = true;
         }
 
+        switch(FORM_FACTOR) {
+            case "Small":
+                this.desktop = false;
+                break;
+            case "Medium":
+                this.desktop = true;
+                break;
+            case "Large":
+                this.desktop = true;
+                break;
+          }
+
         this.initializeData();
+        // window.addEventListener("orientationchange", function() {
+        //     alert("the orientation of the device is now1 " + screen.orientation.angle);
+        //     screen.orientation.angle > 0 ? this.landscape = true : this.landscape = false;
+        //     alert(this.landscape);         
+        // });
     }
 
     get showSpinner() {
@@ -64,6 +84,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
             resourceType: this.resourceType
         })
             .then((result) => {
+                this.requestFullScreen();
                 let resourceData = result.wrappers[0].resource;
                 this.resUploadDate = resourceData.Version_Date__c;
                 this.resourceTitle = resourceData.Title__c;
@@ -74,7 +95,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                     this.resourceType == 'Article' ? resourceData.Image__c : resourceData.Video__c;
                 if (this.resourceType == 'Multimedia') {
                     this.resourceLink = resourceData.Multimedia__c;
-                    this.resourceType = 'Video';
+                    this.resourceType = 'Multimedia';
                     this.isMultimedia = true;
                 }
                 this.isFavourite = result.wrappers[0].isFavorite;
@@ -183,5 +204,40 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 variant: variantType
             })
         );
+    }
+
+    requestFullScreen(){
+        let ele = this.template.querySelectorAll(".forceOrientation");
+       
+    }
+
+    goBackToPortraitMode(){
+        // console.log("goBackToPortraitMode");
+        // let ele = window.document.documentElement;
+        // // ele[0].style.transform = "rotate(90deg)";
+        //  if (ele.requestFullscreen) {
+        //     ele.requestFullscreen();
+        // } else if (ele.webkitRequestFullscreen) { /* Safari */
+        //     ele.webkitRequestFullscreen();
+        // } else if (ele.msRequestFullscreen) { /* IE11 */
+        //     ele.msRequestFullscreen();
+        // }
+
+        // ele.requestFullscreen({ navigationUI: "show" })
+        // .then(() => {
+        //     console.log("success");
+        // })
+        // .catch((err) => {
+        //     console.log(
+        //     `An error occurred while trying to switch into fullscreen mode: ${err.message} (${err.name})`
+        //     );
+        // });
+        // screen.orientation.lock("portrait-primary")
+        // .then(function(){
+        //     console.log("success");
+        // })
+        // .catch(function(error){
+        //     console.log(error);
+        // })
     }
 }
