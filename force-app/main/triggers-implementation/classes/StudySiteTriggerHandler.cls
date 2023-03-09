@@ -432,7 +432,7 @@ public without sharing class StudySiteTriggerHandler {
             }
         }
     }
-
+    @TestVisible
     private static void studySiteIntegration(
         List<Study_Site__c> newList,
         Map<Id, Study_Site__c> oldMap) {
