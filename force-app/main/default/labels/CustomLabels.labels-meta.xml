@@ -30536,6 +30536,13 @@ Please contact the Study Team for further updates or please login for additional
         <value>Reminder must be prior to visit.</value>
     </labels>
     <labels>
+        <fullName>Minutesinshort</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Minutesinshort</shortDescription>
+        <value>min</value>
+    </labels>
+    <labels>
         <fullName>Future_DateTime_Error_For_Reminder_DateTime_Task</fullName>
         <language>en_US</language>
         <protected>false</protected>
