@@ -37,7 +37,6 @@
         <loginPageOverrideSetting>Designer</loginPageOverrideSetting>
         <selfRegProfilePageOverrideSetting>Designer</selfRegProfilePageOverrideSetting>
     </networkPageOverrides>
-    <newSenderAddress>updates@cp.clinicalresearch.com</newSenderAddress>
     <picassoSite>Policies_and_Terms1</picassoSite>
     <selfRegistration>false</selfRegistration>
     <sendWelcomeEmail>false</sendWelcomeEmail>
