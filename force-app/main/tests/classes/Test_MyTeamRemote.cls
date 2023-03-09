@@ -15,17 +15,21 @@ private class Test_MyTeamRemote {
     @IsTest
     static void hcpDelegateTest() {
         TestData testData = new TestData();
-        Contact hcpContact = [SELECT Id, HCP_Opt_In_Referral_Status_Emails__c FROM Contact WHERE Email = 'hcp@emil.com'];
+        Contact hcpContact = [
+            SELECT Id, HCP_Opt_In_Referral_Status_Emails__c
+            FROM Contact
+            WHERE Email = 'hcp@emil.com'
+        ];
         hcpContact.HCP_Opt_In_Referral_Status_Emails__c = true;
         Database.update(hcpContact);
         Test.startTest();
         System.runAs(testData.hcpUser) {
             MyTeamRemote.getInitData(CommunityService.USER_MODE_HCP, null);
             RP_Delegate_Relationship__c rpDelegate = new RP_Delegate_Relationship__c(
-        Referring_Provider__c = hcpContact.Id,
-        Delegate_Access_Level__c = DelegateService.DELEGATE_LEVEL_1,
-        Delegate__c = hcpContact.id
-        );
+                Referring_Provider__c = hcpContact.Id,
+                Delegate_Access_Level__c = DelegateService.DELEGATE_LEVEL_1,
+                Delegate__c = hcpContact.id
+            );
             MyTeamRemote.MyTeamDetail detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
                     CommunityService.USER_MODE_HCP,
@@ -62,11 +66,15 @@ private class Test_MyTeamRemote {
                 JSON.serialize(detail.delegates[0]),
                 hcpContact.Id
             );
-            MyTeamRemote.sendEmailNotification(hcpContact ,'HCP', new Map<String, List<Id>>());
-            MyTeamRemote.sendEmailNotification(hcpContact ,'Participant', new Map<String, List<Id>>());
-            MyTeamRemote.sendEmailNotification(hcpContact ,'PI', new Map<String, List<Id>>());
+            MyTeamRemote.sendEmailNotification(hcpContact, 'HCP', new Map<String, List<Id>>());
+            MyTeamRemote.sendEmailNotification(
+                hcpContact,
+                'Participant',
+                new Map<String, List<Id>>()
+            );
+            MyTeamRemote.sendEmailNotification(hcpContact, 'PI', new Map<String, List<Id>>());
         }
-        
+
         Test.stopTest();
         RP_Delegate_Relationship__c testHcpRelationship = [
             SELECT Id, Delegate_Access_Level__c, Delegate__r.FirstName, Delegate__r.LastName
@@ -80,21 +88,25 @@ private class Test_MyTeamRemote {
         System.assertEquals('Test New HCP Delegate', testHcpRelationship.Delegate__r.FirstName);
         System.assertEquals('Test New HCP Delegate', testHcpRelationship.Delegate__r.LastName);
     }
-    
-     @IsTest
+
+    @IsTest
     static void hcpDelegateWithParentTest() {
         TestData testData = new TestData();
-        Contact hcpContact = [SELECT Id, HCP_Opt_In_Referral_Status_Emails__c FROM Contact WHERE Email = 'hcp@emil.com'];
+        Contact hcpContact = [
+            SELECT Id, HCP_Opt_In_Referral_Status_Emails__c
+            FROM Contact
+            WHERE Email = 'hcp@emil.com'
+        ];
         hcpContact.HCP_Opt_In_Referral_Status_Emails__c = true;
         Database.update(hcpContact);
         Test.startTest();
         System.runAs(testData.hcpUser) {
             MyTeamRemote.getInitData(CommunityService.USER_MODE_HCP, testData.hcpUser.ContactId);
             RP_Delegate_Relationship__c rpDelegate = new RP_Delegate_Relationship__c(
-        Referring_Provider__c = hcpContact.Id,
-        Delegate_Access_Level__c = DelegateService.DELEGATE_LEVEL_1,
-        Delegate__c = hcpContact.id
-        );
+                Referring_Provider__c = hcpContact.Id,
+                Delegate_Access_Level__c = DelegateService.DELEGATE_LEVEL_1,
+                Delegate__c = hcpContact.id
+            );
             MyTeamRemote.MyTeamDetail detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
                     CommunityService.USER_MODE_HCP,
@@ -131,11 +143,15 @@ private class Test_MyTeamRemote {
                 JSON.serialize(detail.delegates[0]),
                 hcpContact.Id
             );
-            MyTeamRemote.sendEmailNotification(hcpContact ,'HCP', new Map<String, List<Id>>());
-            MyTeamRemote.sendEmailNotification(hcpContact ,'Participant', new Map<String, List<Id>>());
-            MyTeamRemote.sendEmailNotification(hcpContact ,'PI', new Map<String, List<Id>>());
+            MyTeamRemote.sendEmailNotification(hcpContact, 'HCP', new Map<String, List<Id>>());
+            MyTeamRemote.sendEmailNotification(
+                hcpContact,
+                'Participant',
+                new Map<String, List<Id>>()
+            );
+            MyTeamRemote.sendEmailNotification(hcpContact, 'PI', new Map<String, List<Id>>());
         }
-        
+
         Test.stopTest();
         RP_Delegate_Relationship__c testHcpRelationship = [
             SELECT Id, Delegate_Access_Level__c, Delegate__r.FirstName, Delegate__r.LastName
@@ -221,13 +237,16 @@ private class Test_MyTeamRemote {
         TestData testData = new TestData();
         Test.startTest();
         MyTeamRemote.MyTeamDetail detail;
-        List<Contact> parentContact = [SELECT Id, Salutation FROM Contact WHERE Id=:testData.piUser.ContactId];
-        if(parentContact!=NULL && !parentContact.isEmpty()){
+        List<Contact> parentContact = [
+            SELECT Id, Salutation
+            FROM Contact
+            WHERE Id = :testData.piUser.ContactId
+        ];
+        if (parentContact != null && !parentContact.isEmpty()) {
             parentContact[0].Salutation = 'Mr';
             Database.update(parentContact);
         }
         System.runAs(testData.piUser) {
-            
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, testData.piUser.ContactId);
             detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
@@ -246,7 +265,10 @@ private class Test_MyTeamRemote {
                 JSON.serialize(detail.delegates[0]),
                 null
             );
-            detail.delegates[0].delegateTrials[0].siteLevels[0].delegateLevel = DelegateService.DELEGATE_LEVEL_1;
+            detail.delegates[0]
+                .delegateTrials[0]
+                .siteLevels[0]
+                .delegateLevel = DelegateService.DELEGATE_LEVEL_1;
             MyTeamRemote.saveDelegateLevelChanges(
                 CommunityService.USER_MODE_PI,
                 JSON.serialize(detail.delegates[0]),
@@ -287,34 +309,37 @@ private class Test_MyTeamRemote {
         System.assertEquals('Test New PI Delegate', testPiDel.Site_Contact__r.FirstName);
         System.assertEquals('Test New PI Delegate', testPiDel.Site_Contact__r.LastName);
     }
-    
+
     @IsTest
     static void getInitDataNegativeTest() {
         TestData testData = new TestData();
         Test.startTest();
         MyTeamRemote.MyTeamDetail detail;
         System.runAs(testData.piUser) {
-            try{
+            try {
                 MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, 'invalidParentId');
             } catch (AuraHandledException e) {
                 System.assertEquals('Script-thrown exception', e.getMessage());
-            } 
+            }
         }
         Test.stopTest();
     }
-    
+
     @IsTest
     static void piDelegateWithoutParentSalutationTest() {
         TestData testData = new TestData();
         Test.startTest();
         MyTeamRemote.MyTeamDetail detail;
-        List<Contact> parentContact = [SELECT Id, Salutation FROM Contact WHERE Id=:testData.piUser.ContactId];
-        if(parentContact!=NULL && !parentContact.isEmpty()){
+        List<Contact> parentContact = [
+            SELECT Id, Salutation
+            FROM Contact
+            WHERE Id = :testData.piUser.ContactId
+        ];
+        if (parentContact != null && !parentContact.isEmpty()) {
             parentContact[0].Salutation = null;
             Database.update(parentContact);
         }
         System.runAs(testData.piUser) {
-            
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, testData.piUser.ContactId);
             detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
@@ -333,7 +358,10 @@ private class Test_MyTeamRemote {
                 JSON.serialize(detail.delegates[0]),
                 null
             );
-            detail.delegates[0].delegateTrials[0].siteLevels[0].delegateLevel = DelegateService.DELEGATE_LEVEL_1;
+            detail.delegates[0]
+                .delegateTrials[0]
+                .siteLevels[0]
+                .delegateLevel = DelegateService.DELEGATE_LEVEL_1;
             MyTeamRemote.saveDelegateLevelChanges(
                 CommunityService.USER_MODE_PI,
                 JSON.serialize(detail.delegates[0]),
@@ -380,8 +408,12 @@ private class Test_MyTeamRemote {
         TestData testData = new TestData();
         Test.startTest();
         MyTeamRemote.MyTeamDetail detail;
-        List<Contact> parentContact = [SELECT Id, Salutation FROM Contact WHERE Id=:testData.piUser.ContactId];
-        try{
+        List<Contact> parentContact = [
+            SELECT Id, Salutation
+            FROM Contact
+            WHERE Id = :testData.piUser.ContactId
+        ];
+        try {
             System.runAs(testData.piUser) {
                 MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, testData.piUser.ContactId);
                 detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
@@ -401,23 +433,29 @@ private class Test_MyTeamRemote {
                     JSON.serialize(detail.delegates[0]),
                     null
                 );
-                detail.delegates[0].delegateTrials[0].siteLevels[0].delegateLevel = DelegateService.DELEGATE_LEVEL_1;
-              
+                detail.delegates[0]
+                    .delegateTrials[0]
+                    .siteLevels[0]
+                    .delegateLevel = DelegateService.DELEGATE_LEVEL_1;
             }
-        }catch (AuraHandledException e) {
+        } catch (AuraHandledException e) {
             System.assertEquals('Script-thrown exception', e.getMessage());
         }
         Test.stopTest();
     }
-    
+
     @IsTest
     static void piDelegateGetContactDataNegativeTest() {
         TestData.createPIDelegateUser();
         TestData testData = new TestData();
         Test.startTest();
         MyTeamRemote.MyTeamDetail detail;
-        List<Contact> parentContact = [SELECT Id, Salutation FROM Contact WHERE Id=:testData.piUser.ContactId];
-        try{
+        List<Contact> parentContact = [
+            SELECT Id, Salutation
+            FROM Contact
+            WHERE Id = :testData.piUser.ContactId
+        ];
+        try {
             System.runAs(testData.piDelUser) {
                 MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, testData.piUser.ContactId);
                 detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
@@ -437,9 +475,12 @@ private class Test_MyTeamRemote {
                     JSON.serialize(detail.delegates[0]),
                     null
                 );
-                detail.delegates[0].delegateTrials[0].siteLevels[0].delegateLevel = DelegateService.DELEGATE_LEVEL_1;
+                detail.delegates[0]
+                    .delegateTrials[0]
+                    .siteLevels[0]
+                    .delegateLevel = DelegateService.DELEGATE_LEVEL_1;
             }
-        }catch (AuraHandledException e) {
+        } catch (AuraHandledException e) {
             System.assertEquals('Script-thrown exception', e.getMessage());
         }
         Test.stopTest();
@@ -463,7 +504,7 @@ private class Test_MyTeamRemote {
             );
         }
         Contact con = new Contact();
-        MyTeamRemote.getMaxLength(con, new List<String>{'Id', 'Email', 'FirstName', 'LastName'});
+        MyTeamRemote.getMaxLength(con, new List<String>{ 'Id', 'Email', 'FirstName', 'LastName' });
         Test.stopTest();
         System.assert(detail.hasStudies);
         System.assertEquals(tstData.participant.Contact__c, detail.currentUserContactId);
@@ -507,27 +548,40 @@ private class Test_MyTeamRemote {
         Test.stopTest();
         System.assertEquals(false, result);
     }
-    
+
     @isTest
-    static void Test_savePatientDelegate(){
+    static void Test_savePatientDelegate() {
         TestData tstData = new TestData();
         tstData.createPatientDelegate();
         MyTeamRemote.MyTeamDetail detail;
         Test.startTest();
         System.runAs(tstData.participantUser) {
-           Contact c = new Contact();
+            Contact c = new Contact();
             c.FirstName = 'dummy';
             c.LastName = 'd';
             c.Email = 'lol@l.com';
-            MyTeamRemote.savePatientDelegate(JSON.serialize(c));
+
+            String studyData =
+                '[' +
+                '{' +
+                '"label":"Hello Study 1",' +
+                '"value": "' +
+                tstData.pe.Id +
+                '",' +
+                '"assigned":false,' +
+                '"active":false,' +
+                '"pdEnrollmentId":null}]';
+            MyTeamRemote.savePatientDelegate(JSON.serialize(c), studyData);
             Boolean isExistingDelegate = MyTeamRemote.isExistingDelegate(JSON.serialize(c));
             System.assertEquals(false, isExistingDelegate);
+            String userMode = CommunityService.USER_MODE_PARTICIPANT;
+            MyTeamRemote.getFilterData(userMode);
         }
         Test.stopTest();
     }
 
     @isTest
-    static void Test_savePatientDelegateExistingUser(){
+    static void Test_savePatientDelegateExistingUser() {
         TestData tstData = new TestData();
         tstData.createPatientDelegate();
         MyTeamRemote.MyTeamDetail detail;
@@ -538,15 +592,20 @@ private class Test_MyTeamRemote {
             c.LastName = 'd';
             c.Email = 'lol@l.com';
             MyTeamRemote.savePatientDelegate(JSON.serialize(c));
-            Contact c2 = [SELECT Id, FirstName, LastName, EMail FROM Contact WHERE Email='lol@l.com' LIMIT 1];
-            MyTeamRemote.savePatientDelegate(JSON.serialize(c2));  
+            Contact c2 = [
+                SELECT Id, FirstName, LastName, EMail
+                FROM Contact
+                WHERE Email = 'lol@l.com'
+                LIMIT 1
+            ];
+            MyTeamRemote.savePatientDelegate(JSON.serialize(c2));
         }
-        
+
         Test.stopTest();
     }
 
     @isTest
-    static void Test_sendEmailNotificationWelcome(){
+    static void Test_sendEmailNotificationWelcome() {
         TestData tstData = new TestData();
         tstData.createPatientDelegate();
         MyTeamRemote.MyTeamDetail detail;
@@ -557,35 +616,40 @@ private class Test_MyTeamRemote {
             c.LastName = 'd';
             c.Email = 'lol@l.com';
             MyTeamRemote.savePatientDelegate(JSON.serialize(c));
-            
-            Contact c2 = [SELECT Id, FirstName, LastName, EMail FROM Contact WHERE Email='lol@l.com' LIMIT 1];
-			MyTeamRemote.sendEmailNotificationWelcome(c2);
+
+            Contact c2 = [
+                SELECT Id, FirstName, LastName, EMail
+                FROM Contact
+                WHERE Email = 'lol@l.com'
+                LIMIT 1
+            ];
+            MyTeamRemote.sendEmailNotificationWelcome(c2);
         }
-        
+
         Test.stopTest();
     }
 
     @isTest
-    static void Test_DelegateWrapper(){
+    static void Test_DelegateWrapper() {
         TestData tstData = new TestData();
         tstData.createPatientDelegate();
         MyTeamRemote.MyTeamDetail detail;
         Test.startTest();
-        System.runAs(tstData.participantUser) {             
+        System.runAs(tstData.participantUser) {
             Contact c1 = new Contact();
             c1.FirstName = 'dummy';
             c1.LastName = 'd';
             c1.Email = 'lol@l.com';
-			MyTeamRemote.DelegateWrapper dw1 = new MyTeamRemote.DelegateWrapper();
+            MyTeamRemote.DelegateWrapper dw1 = new MyTeamRemote.DelegateWrapper();
             dw1.delegateContact = c1;
-            
+
             Contact c2 = new Contact();
             c2.FirstName = 'dummy';
             c2.LastName = 'd';
             c2.Email = 'lol@l.com';
-			MyTeamRemote.DelegateWrapper dw2 = new MyTeamRemote.DelegateWrapper();
+            MyTeamRemote.DelegateWrapper dw2 = new MyTeamRemote.DelegateWrapper();
             dw2.delegateContact = c2;
-            
+
             List<MyTeamRemote.DelegateWrapper> dwList = new List<MyTeamRemote.DelegateWrapper>();
             dwList.add(dw1);
             dwList.add(dw2);
@@ -593,9 +657,9 @@ private class Test_MyTeamRemote {
         }
         Test.stopTest();
     }
-    
+
     @isTest
-    static void Test_DelegateWrapper2(){
+    static void Test_DelegateWrapper2() {
         TestData tstData = new TestData();
         tstData.createPatientDelegate();
         MyTeamRemote.MyTeamDetail detail;
@@ -605,16 +669,16 @@ private class Test_MyTeamRemote {
             c1.FirstName = 'dummy';
             c1.LastName = 'd';
             c1.Email = 'lol@l.com';
-			MyTeamRemote.DelegateWrapper dw1 = new MyTeamRemote.DelegateWrapper();
+            MyTeamRemote.DelegateWrapper dw1 = new MyTeamRemote.DelegateWrapper();
             dw1.delegateContact = c1;
-            
+
             Contact c2 = new Contact();
             c2.FirstName = 'dummy2';
             c2.LastName = 'd2';
             c2.Email = 'lol@l2.com';
-			MyTeamRemote.DelegateWrapper dw2 = new MyTeamRemote.DelegateWrapper();
+            MyTeamRemote.DelegateWrapper dw2 = new MyTeamRemote.DelegateWrapper();
             dw2.delegateContact = c2;
-            
+
             Integer compareCheck;
             compareCheck = dw1.compareTo(dw2);
             System.assertEquals(1, compareCheck);
@@ -623,9 +687,9 @@ private class Test_MyTeamRemote {
         }
         Test.stopTest();
     }
-    
+
     @isTest
-    static void Test_ParticipantDelegateWrapper(){
+    static void Test_ParticipantDelegateWrapper() {
         TestData tstData = new TestData();
         User dataUser = tstData.createPatientDelegate();
         MyTeamRemote.MyTeamDetail detail;
@@ -635,13 +699,13 @@ private class Test_MyTeamRemote {
             c1.FirstName = 'dummy';
             c1.LastName = 'd';
             c1.Email = 'lol@l.com';
-			MyTeamRemote.DelegateWrapper dw1 = new MyTeamRemote.DelegateWrapper();
+            MyTeamRemote.DelegateWrapper dw1 = new MyTeamRemote.DelegateWrapper();
             dw1.delegateContact = c1;
 
-            Contact c2 = new Contact(Id=dataUser.ContactId);
-			MyTeamRemote.DelegateWrapper dw2 = new MyTeamRemote.DelegateWrapper();
+            Contact c2 = new Contact(Id = dataUser.ContactId);
+            MyTeamRemote.DelegateWrapper dw2 = new MyTeamRemote.DelegateWrapper();
             dw2.delegateContact = c2;
-            
+
             Integer compareCheck;
             compareCheck = dw1.compareTo(dw2);
             System.assertEquals(1, compareCheck);
@@ -650,21 +714,21 @@ private class Test_MyTeamRemote {
         }
         Test.stopTest();
     }
-    
+
     @isTest
-    static void Test_DelegateLevelWrapper(){
+    static void Test_DelegateLevelWrapper() {
         TestData tstData = new TestData();
         tstData.createPatientDelegate();
         Test.startTest();
         System.runAs(tstData.participantUser) {
-			MyTeamRemote.DelegateLevelWrapper dw1 = new MyTeamRemote.DelegateLevelWrapper();
+            MyTeamRemote.DelegateLevelWrapper dw1 = new MyTeamRemote.DelegateLevelWrapper();
             dw1.delegateLevel = 'Test';
             dw1.entityName = 'entityNameTest';
 
-			MyTeamRemote.DelegateLevelWrapper dw2 = new MyTeamRemote.DelegateLevelWrapper();
-			dw2.delegateLevel = 'Test2';
+            MyTeamRemote.DelegateLevelWrapper dw2 = new MyTeamRemote.DelegateLevelWrapper();
+            dw2.delegateLevel = 'Test2';
             dw2.entityName = 'entityNameTest2';
-            
+
             Integer compareCheck;
             compareCheck = dw1.compareTo(dw2);
             System.assertEquals(-1, compareCheck);
@@ -675,9 +739,9 @@ private class Test_MyTeamRemote {
         }
         Test.stopTest();
     }
-    
+
     @isTest
-    static void Test_getDelegateParents(){
+    static void Test_getDelegateParents() {
         TestData.createPIDelegateUser();
         TestData tstData = new TestData();
         MyTeamRemote.MyTeamDetail detail;
@@ -691,32 +755,35 @@ private class Test_MyTeamRemote {
                 Clinical_Trial_Profile__c,
                 Site_Contact__c,
                 is_Invited__c
-            FROM Site_Staff__c LIMIT 1];
+            FROM Site_Staff__c
+            LIMIT 1
+        ];
         piStaffs[0].is_Invited__c = true;
         Database.update(piStaffs);
         Test.startTest();
         List<LabelValueItem> labelValueList = new List<LabelValueItem>();
         System.runAs(tstData.piDelUser) {
-        try{
-             MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, tstData.piUser.ContactId);
-             labelValueList = MyTeamRemote.getDelegateParents();
-        }catch(Exception ex){}
+            try {
+                MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, tstData.piUser.ContactId);
+                labelValueList = MyTeamRemote.getDelegateParents();
+            } catch (Exception ex) {
+            }
         }
         Test.stopTest();
     }
-    
+
     @isTest
-    static void Test_TrialDelegateWrapper(){
+    static void Test_TrialDelegateWrapper() {
         TestData tstData = new TestData();
         tstData.createPatientDelegate();
         Test.startTest();
         System.runAs(tstData.participantUser) {
-			MyTeamRemote.TrialDelegateWrapper dw1 = new MyTeamRemote.TrialDelegateWrapper();
+            MyTeamRemote.TrialDelegateWrapper dw1 = new MyTeamRemote.TrialDelegateWrapper();
             dw1.trialName = 'Test';
 
-			MyTeamRemote.TrialDelegateWrapper dw2 = new MyTeamRemote.TrialDelegateWrapper();
-			dw2.trialName = 'Test2';
-            
+            MyTeamRemote.TrialDelegateWrapper dw2 = new MyTeamRemote.TrialDelegateWrapper();
+            dw2.trialName = 'Test2';
+
             Integer compareCheck;
             compareCheck = dw1.compareTo(dw2);
             System.assertEquals(-1, compareCheck);
@@ -727,20 +794,19 @@ private class Test_MyTeamRemote {
         }
         Test.stopTest();
     }
-    
+
     @IsTest
     static void test_getFilterData() {
         TestData testData = new TestData();
         Test.startTest();
         MyTeamRemote.PEFilterData detail = new MyTeamRemote.PEFilterData();
         System.runAs(testData.participantUser) {
-            try{
+            try {
                 MyTeamRemote.getFilterData(CommunityService.USER_MODE_PARTICIPANT);
             } catch (AuraHandledException e) {
                 System.assertEquals('Script-thrown exception', e.getMessage());
-            } 
+            }
         }
         Test.stopTest();
     }
-
 }
