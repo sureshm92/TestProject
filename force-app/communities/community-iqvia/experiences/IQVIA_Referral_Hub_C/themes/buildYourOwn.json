@@ -11,6 +11,7 @@
     "Login" : "9084f5cd-d942-4cf7-81b3-1b9940fdd76b",
     "OoPK6S0erFtEyweyKxkJhnM5iY2u2F" : "ec1e8f70-ad63-4ff3-9426-f816f8bddd0a",
     "ServiceNotAvailable" : "0f53b3e4-2f5b-4142-b8a2-82efae2eb55b",
+    "ixKi95W2FX0dO28Wu1awb7JXG2T8E7" : "f3878c28-9b2d-4e7e-a123-fc2388aa5a0c",
     "jFh2MimfxMkpZAWuEWEDaWQxqPYyp9" : "358b080f-2a9f-46db-9862-b5490c3660c0",
     "m08vvjxriVvQ2irWE1QZ12cOlhzFJQ" : "e9a43fa6-2f53-46aa-80ac-bcb666182629"
   },
@@ -540,6 +541,77 @@
     }, {
       "id" : "3d18fe0d-164a-4c03-9b53-c459cec0d060",
       "regionName" : "themeFooter",
+      "type" : "region"
+    } ],
+    "type" : "view"
+  }, {
+    "componentAttributes" : { },
+    "componentName" : "c:GuestUserThemeLayout",
+    "id" : "f3878c28-9b2d-4e7e-a123-fc2388aa5a0c",
+    "label" : "GuestTheme",
+    "regions" : [ {
+      "components" : [ {
+        "componentAttributes" : {
+          "maxAutoCompleteResults" : 5,
+          "searchLabel" : "Search...",
+          "searchObjects" : [ {
+            "isPublic" : true,
+            "name" : "Account"
+          } ]
+        },
+        "componentName" : "forceCommunity:globalSearchInput",
+        "id" : "5870ebbc-447a-4146-90af-191fd5dd1d92",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
+      "id" : "1c373dce-636e-4a2d-ab44-73cac411244c",
+      "regionName" : "search",
+      "type" : "region"
+    }, {
+      "components" : [ {
+        "componentAttributes" : {
+          "accountManagementLabel" : "Account Management",
+          "communityBuilderLabel" : "Community Builder",
+          "communitySetupLabel" : "Community Setup",
+          "contactSupportLabel" : "Contact Support",
+          "filterName" : "MyCases",
+          "homeLabel" : "Home",
+          "includeContactSupport" : true,
+          "includeMessages" : false,
+          "loginLabel" : "Login",
+          "logoutLabel" : "Logout",
+          "myAccountLabel" : "My Account",
+          "showAccountManagement" : false,
+          "showUserSettings" : true,
+          "userSettingsLabel" : "My Settings",
+          "viewProfileLabel" : "My Profile"
+        },
+        "componentName" : "selfService:userProfileMenu",
+        "id" : "a60e05ac-42b6-474c-a5b6-83132a2d3bd7",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
+      "id" : "2d9d766d-3a35-4ef5-8360-640587f7d6fb",
+      "regionName" : "profileMenu",
+      "type" : "region"
+    }, {
+      "components" : [ {
+        "componentAttributes" : {
+          "NavigationMenuEditorRefresh" : "",
+          "hideAppLauncher" : true,
+          "hideHomeText" : true
+        },
+        "componentName" : "forceCommunity:globalNavigation",
+        "id" : "ae60b0e4-c90b-4833-bf14-22215b81423e",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
+      "id" : "19a2020c-7587-4ff3-b915-61e579feab66",
+      "regionName" : "navBar",
+      "type" : "region"
+    }, {
+      "id" : "aec527aa-69ab-48a5-8303-7e137443e6a4",
+      "regionName" : "sidebarFooter",
       "type" : "region"
     } ],
     "type" : "view"
