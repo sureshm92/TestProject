@@ -99,7 +99,7 @@ public without sharing class ReferringRemote {
                     } 
                 }
             }
-        }
+    }
         StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance()
             .getSiteFilterDataImpl(trialId, 'HCP');
 
