@@ -57,7 +57,6 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     loaded = false;
     showpopup = false;
     withdrawStudyPDEId;
-    withdrawStudyPDId
     showWhatCanISeeCard = false;
     isDesktop;
     dataInitialized = false;
@@ -238,18 +237,16 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     //This method will open Remove Delegate Modal.
     openWithdrawDelegateModal(event) {
         this.withdrawStudyPDEId = event.currentTarget.dataset.pdeid;
-        this.withdrawStudyPDId = event.currentTarget.dataset.pdid;
         this.showpopup = true;
+        //this.withdrawStudyPDEId = event.currentTarget.dataset.pdeid;
     }
 
     //This method will remove the delegate once Confirm button clicked on Remove Delegate Modal.
     handleWithdrawDelegate(event) {
         this.spinner = true;
         let pdEnrollmentId = event.detail.pdenrollmentid;
-        let withdrawStudyPDId = event.detail.removeStudyPDId;
         WithdrawAssignment({
-            pdeId: pdEnrollmentId,
-            pDId: withdrawStudyPDId
+            pdeId: pdEnrollmentId
         })
             .then((result) => {
                 this.showpopup = false;

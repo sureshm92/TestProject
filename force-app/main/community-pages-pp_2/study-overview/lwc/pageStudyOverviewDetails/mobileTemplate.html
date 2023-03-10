@@ -1,23 +1,40 @@
 <template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
     <template if:true={clinicaltrailrecrd}>
         <div class={cardRTL}>
             <div class="po-bg">
-                <lightning-layout multiple-rows="true" vertical-align="center" horizontal-align="center" class="po-custom-card">
-
+                <lightning-layout
+                    multiple-rows="true"
+                    vertical-align="center"
+                    horizontal-align="center"
+                    class="po-custom-card"
+                >
                     <lightning-layout-item size="12" class={breadCrumMobile}>
-                        <div id="variants" class="so-mb-17 slds-grid slds-grid_vertical-align-center">                                
-                            <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="com-icon pointer">
-                    <use xlink:href={homeSvg} onclick={handleHomePage}></use>
-                    </svg>
-                    <lightning-formatted-text class="slds-form-element__label slds-col gray-arrow" value=">"></lightning-formatted-text>
-                            <lightning-formatted-text class="slds-form-element__label slds-col po-program-home-text"  value={programname}></lightning-formatted-text>
+                        <div
+                            id="variants"
+                            class="so-mb-17 slds-grid slds-grid_vertical-align-center"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="com-icon pointer">
+                                <use xlink:href={homeSvg} onclick={handleHomePage}></use>
+                            </svg>
+                            <lightning-formatted-text
+                                class="slds-form-element__label slds-col gray-arrow"
+                                value=">"
+                            ></lightning-formatted-text>
+                            <lightning-formatted-text
+                                class="slds-form-element__label slds-col po-program-home-text"
+                                value={programname}
+                            ></lightning-formatted-text>
                         </div>
                     </lightning-layout-item>
 
                     <lightning-layout-item size="12" class={programNameMobile}>
-                        <p class="po-about-program"><lightning-formatted-text value={programname}></lightning-formatted-text></p>   
+                        <p class="po-about-program">
+                            <lightning-formatted-text
+                                value={programname}
+                            ></lightning-formatted-text>
+                        </p>
                     </lightning-layout-item>
 
                     <lightning-layout-item size="6" class="po-pl-0" padding="around-small">
@@ -33,36 +50,60 @@
 
                     <template if:true={tabContent}>
                         <lightning-layout-item size="12">
-                        <div class="po-tab-overview"> 
-                            <p class="po-pb-10"><lightning-formatted-text value={label.PPOBJECTIVE} class="po-tab-header"></lightning-formatted-text></p>   
-                            <div class="po-tab-content">
-                                <template if:true={clinicaltrailrecrd.Brief_Summary__c}>
-                                    <lightning-formatted-rich-text value={clinicaltrailrecrd.Brief_Summary__c}></lightning-formatted-rich-text>
-                                </template>
+                            <div class="po-tab-overview">
+                                <p class="po-pb-10">
+                                    <lightning-formatted-text
+                                        value={label.PPOBJECTIVE}
+                                        class="po-tab-header"
+                                    ></lightning-formatted-text>
+                                </p>
+                                <div class="po-tab-content">
+                                    <template if:true={clinicaltrailrecrd.Brief_Summary__c}>
+                                        <lightning-formatted-rich-text
+                                            value={clinicaltrailrecrd.Brief_Summary__c}
+                                        ></lightning-formatted-rich-text>
+                                    </template>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="po-tab-overview po-mt-10"> 
-                            <p class="po-pb-10"><lightning-formatted-text value={label.PPSTUDYOVERVIEW} class="po-tab-header"></lightning-formatted-text></p>   
-                            <div class="po-tab-content">
-                                <template if:true={clinicaltrailrecrd.Detailed_Description__c}>
-                                    <lightning-formatted-rich-text value={clinicaltrailrecrd.Detailed_Description__c}></lightning-formatted-rich-text>
-                                </template>
+                            <div class="po-tab-overview po-mt-10">
+                                <p class="po-pb-10">
+                                    <lightning-formatted-text
+                                        value={label.PPSTUDYOVERVIEW}
+                                        class="po-tab-header"
+                                    ></lightning-formatted-text>
+                                </p>
+                                <div class="po-tab-content">
+                                    <template if:true={clinicaltrailrecrd.Detailed_Description__c}>
+                                        <lightning-formatted-rich-text
+                                            value={clinicaltrailrecrd.Detailed_Description__c}
+                                        ></lightning-formatted-rich-text>
+                                    </template>
+                                </div>
                             </div>
-                        </div>
                         </lightning-layout-item>
                     </template>
 
                     <template if:false={tabContent}>
                         <lightning-layout-item size="12">
-                        <div class="po-tab-pc">
-                            <p class={parCriterionMRight}><lightning-formatted-text value={label.PPSTUDYELIGIBLECRITERIA} class="po-pc-text"></lightning-formatted-text></p>   
-                            <div class={accordianMargin}>
-                            <c-custom-base-accordion  clinicaltrailrecrd ={clinicaltrailrecrd} clinicaltrail-accordion-data ={ctpAccordionData} allow-all-section-default-open =false allow-only-one-section-at-time =false ></c-custom-base-accordion>  
+                            <div class="po-tab-pc">
+                                <p class={parCriterionMRight}>
+                                    <lightning-formatted-text
+                                        value={label.PPSTUDYELIGIBLECRITERIA}
+                                        class="po-pc-text"
+                                    ></lightning-formatted-text>
+                                </p>
+                                <div class={accordianMargin}>
+                                    <c-custom-base-accordion
+                                        clinicaltrailrecrd={clinicaltrailrecrd}
+                                        clinicaltrail-accordion-data={ctpAccordionData}
+                                        allow-all-section-default-open="false"
+                                        allow-only-one-section-at-time="false"
+                                    ></c-custom-base-accordion>
+                                </div>
                             </div>
-                        </div>
                         </lightning-layout-item>
-                </template>
+                    </template>
                 </lightning-layout>
             </div>
         </div>

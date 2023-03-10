@@ -1,6 +1,6 @@
 <template>
     <!-- Loading Spinner-->
-    <c-web-spinner fixed="true"></c-web-spinner>
+    <c-web-spinner fixed="true" show-spinner={showSpinner}></c-web-spinner>
     <template if:true={isInitialized}>
         <template if:true={desktop}>
             <template if:true={showProgramOverview}>
@@ -21,8 +21,7 @@
                                     clinicalrecord={clinicalrecord}
                                 ></c-study-overview>
                             </template>
-                        </template> 
-                    </lightning-layout-item
+                        </template> </lightning-layout-item
                 ></lightning-layout>
             </template>
 
@@ -114,7 +113,7 @@
                             <img src={homeIllustrationMble} />
                         </lightning-layout-item>
                         <lightning-layout-item size="12">
-                            <p class="po-fontsize slds-m-horizontal_large slds-m-vertical_small" >
+                            <p class="po-fontsize slds-m-horizontal_large slds-m-vertical_small">
                                 {userName}
                             </p>
                         </lightning-layout-item>
