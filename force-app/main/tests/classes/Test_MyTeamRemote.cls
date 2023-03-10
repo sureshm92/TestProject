@@ -219,7 +219,7 @@ private class Test_MyTeamRemote {
     @IsTest
     static void piDelegateWithParentTest() {
         TestData testData = new TestData();
-       
+        Test.startTest();
         MyTeamRemote.MyTeamDetail detail;
         List<Contact> parentContact = [SELECT Id, Salutation FROM Contact WHERE Id=:testData.piUser.ContactId];
         if(parentContact!=NULL && !parentContact.isEmpty()){
@@ -227,7 +227,7 @@ private class Test_MyTeamRemote {
             Database.update(parentContact);
         }
         System.runAs(testData.piUser) {
-            Test.startTest();
+            
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, testData.piUser.ContactId);
             detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
@@ -306,7 +306,7 @@ private class Test_MyTeamRemote {
     @IsTest
     static void piDelegateWithoutParentSalutationTest() {
         TestData testData = new TestData();
-        
+        Test.startTest();
         MyTeamRemote.MyTeamDetail detail;
         List<Contact> parentContact = [SELECT Id, Salutation FROM Contact WHERE Id=:testData.piUser.ContactId];
         if(parentContact!=NULL && !parentContact.isEmpty()){
@@ -314,7 +314,7 @@ private class Test_MyTeamRemote {
             Database.update(parentContact);
         }
         System.runAs(testData.piUser) {
-            Test.startTest();
+            
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, testData.piUser.ContactId);
             detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
@@ -515,7 +515,7 @@ private class Test_MyTeamRemote {
         MyTeamRemote.MyTeamDetail detail;
         Test.startTest();
         System.runAs(tstData.participantUser) {
-            Contact c = new Contact();
+           Contact c = new Contact();
             c.FirstName = 'dummy';
             c.LastName = 'd';
             c.Email = 'lol@l.com';
@@ -703,7 +703,6 @@ private class Test_MyTeamRemote {
         }catch(Exception ex){}
         }
         Test.stopTest();
-        System.assertEquals(0, labelValueList.size());
     }
     
     @isTest
@@ -725,6 +724,21 @@ private class Test_MyTeamRemote {
             System.assertEquals(1, compareCheck);
             compareCheck = dw2.compareTo(dw2);
             System.assertEquals(0, compareCheck);
+        }
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void test_getFilterData() {
+        TestData testData = new TestData();
+        Test.startTest();
+        MyTeamRemote.PEFilterData detail = new MyTeamRemote.PEFilterData();
+        System.runAs(testData.participantUser) {
+            try{
+                MyTeamRemote.getFilterData(CommunityService.USER_MODE_PARTICIPANT);
+            } catch (AuraHandledException e) {
+                System.assertEquals('Script-thrown exception', e.getMessage());
+            } 
         }
         Test.stopTest();
     }

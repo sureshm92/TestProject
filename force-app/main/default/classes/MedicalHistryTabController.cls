@@ -138,7 +138,10 @@ public without sharing class MedicalHistryTabController {
                     strQuerySurveyResponse += ' OR Participant__c = :strParticipantId' ;
                 }
                 strQuerySurveyResponse += ') AND (PreScreener_Survey__c != null OR Participant_enrollment__c != null) ';
-                strQuerySurveyResponse += ' ORDER BY Completed_Date__c DESC LIMIT 30000'; 
+                strQuerySurveyResponse += ' ORDER BY Completed_Date__c DESC LIMIT 30000';
+
+                
+                 
 
                 objWrapper.surveyResponses =  Database.query(strQuerySurveyResponse);
               

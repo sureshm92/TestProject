@@ -100,7 +100,7 @@
         }else{
         communityService.navigateToHome();
         }
-    },
+        },
 
     doSaveAndExit: function (component, event, helper) {
         /**  helper.createParticipant(component, function () {
