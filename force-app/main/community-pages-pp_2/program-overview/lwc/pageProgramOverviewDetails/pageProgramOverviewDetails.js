@@ -39,6 +39,7 @@ export default class ProgramOverviewDetails extends LightningElement {
     pcCss = 'po-tab-menu pt';
 
     isRTL = false;
+    showSpinner = true;
 
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
@@ -123,6 +124,7 @@ export default class ProgramOverviewDetails extends LightningElement {
                                 this.ctpAccordionData = ctpaccordionDatalist;
                             }
                         }
+                        this.showSpinner = false;
                     }
                 }
             })

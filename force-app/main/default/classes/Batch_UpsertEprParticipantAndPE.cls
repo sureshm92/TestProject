@@ -605,6 +605,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         List<Patient_Delegate__c> ptDelegateList = new List<Patient_Delegate__c>();
         List<Patient_Delegate__c> ptDelegateRefs = new List<Patient_Delegate__c>();        
         Map<Id, Id> existingPdMap = new Map<Id, Id>();
+        List<String> pdDuplicate = new List<String>();
         
         //If existing participant entering into system without delegate and different study
         if(!duplicatePatientsSet.isEmpty()){    
@@ -618,6 +619,8 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                                         AND Participant__c IN: duplicatePatientsSet
                                        ])
             {
+                string pddupid = String.ValueOf(pd.Participant__c) + String.ValueOf(pd.Contact__c);
+                pdDuplicate.add(pddupid);
                 if(pd.Primary_Delegate__c == True && 
                    !(participantIdByParticipantDelegateContactId.values().contains(pd.Participant__r.Id))){
                        pd.Primary_Delegate__c = False;
@@ -652,8 +655,11 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                 ptDelegateRef.Contact__c = cntId;
                 ptDelegateRef.Primary_Delegate__c = True;
                 ptDelegateRef.Status__c = 'Disconnected';
-                if(!duplicatePatientsSet.contains(ptDelegateRef.Participant__c) && participantsWithoutErrors.contains(ptDelegateRef.Participant__c)){
-                    ptDelegateRefs.add(ptDelegateRef);
+                if(!duplicatePatientsSet.contains(ptDelegateRef.Participant__c) || participantsWithoutErrors.contains(ptDelegateRef.Participant__c)){
+                    string partCont = String.ValueOf(ptDelegateRef.Participant__c) + String.ValueOf(cntId);
+                    if(!pdDuplicate.contains(partCont)){
+                        ptDelegateRefs.add(ptDelegateRef);
+                    }
                 }    
                 
                 ptDelegateContSet.add(ptDelegateRef.Contact__r.Id); 
