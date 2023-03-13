@@ -452,6 +452,7 @@ private class Test_MyTeamRemote {
         MyTeamRemote.MyTeamDetail detail;
         Test.startTest();
         System.runAs(tstData.participantUser) {
+            MyTeamRemote.getDelegateContactData(CommunityService.USER_MODE_PARTICIPANT, 'jsmith@somemail.com', null );
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PARTICIPANT, null);
             detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
@@ -513,13 +514,25 @@ private class Test_MyTeamRemote {
         TestData tstData = new TestData();
         tstData.createPatientDelegate();
         MyTeamRemote.MyTeamDetail detail;
+        List<LabelValueItem> items = new List<LabelValueItem>();
+        MyTeamRemote.PEFilterData fltrdatas = new MyTeamRemote.PEFilterData();
+        fltrdatas.studies=items;
+        fltrdatas.studiesSelected=items;
+        
+        List<Participant_Enrollment__c> peid = new List<Participant_Enrollment__c>();
+        MyTeamRemote.SelectedStudiesData slctddata = new MyTeamRemote.SelectedStudiesData();
+        slctddata.active=false;
+        slctddata.assigned=false;
+        slctddata.label='test';
+        slctddata.value = 'tstvalue';
+
         Test.startTest();
         System.runAs(tstData.participantUser) {
            Contact c = new Contact();
             c.FirstName = 'dummy';
             c.LastName = 'd';
             c.Email = 'lol@l.com';
-            MyTeamRemote.savePatientDelegate(JSON.serialize(c));
+            MyTeamRemote.savePatientDelegate(JSON.serialize(c),JSON.serialize(items));
             Boolean isExistingDelegate = MyTeamRemote.isExistingDelegate(JSON.serialize(c));
             System.assertEquals(false, isExistingDelegate);
         }
@@ -703,6 +716,7 @@ private class Test_MyTeamRemote {
         }catch(Exception ex){}
         }
         Test.stopTest();
+        System.assertEquals(1, labelValueList.size());
     }
     
     @isTest
