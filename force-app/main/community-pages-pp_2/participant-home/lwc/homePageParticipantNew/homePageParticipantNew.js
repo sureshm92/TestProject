@@ -85,14 +85,15 @@ export default class HomePageParticipantNew extends LightningElement {
                             }
                     }
                     if (this.desktop != true) {
-                        this.updatesSection = true;
+                        //this.updatesSection = true;
+                        this.showVisitCardMobile = true;
                     }
                     //For Delegate Self view
                     this.isDelegateSelfview =
                         this.participantState.value == 'ALUMNI' ||
                         (this.participantState.hasPatientDelegates &&
                             !this.participantState.isDelegate &&
-                            !this.participantState.pe);
+                            !this.participantState.pe); 
                 }
                 this.isInitialized = true;
                 this.spinner ? this.spinner.hide() : '';
