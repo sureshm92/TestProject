@@ -47,7 +47,7 @@ public with sharing class ResStudyTriggerHandler {
 
         List<Res_study__c> resStudies = new List<Res_study__c>();
         for (SObject resStudy : [
-            SELECT Id, Clinical_Trial_Profile__c, Visible_To_Delegates__c, Visible_To_Participant__c
+            SELECT Id, Clinical_Trial_Profile__c,Resource__c, Visible_To_Delegates__c, Visible_To_Participant__c
             FROM Res_study__c
             WHERE
                 Resource__r.document_type__c = 'Certificate'
@@ -103,6 +103,7 @@ public with sharing class ResStudyTriggerHandler {
                         new Notification__c(
                             Recipient__c = pe.Participant__r.Contact__c,
                             WhatId__c = pe.Id,
+                            Target_Record_Id__c = String.valueOf(res.Id),
                             Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE,
                             Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                         )

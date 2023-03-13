@@ -2,6 +2,7 @@ import { LightningElement, track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
 import getUpdateResources from '@salesforce/apex/ResourceRemote.getUpdateResources';
+import getSendResultCount from '@salesforce/apex/PPUpdatesController.getSendResultCount';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import DEVICE from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
@@ -39,6 +40,15 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        getInitDataNew()
+            .then((returnValue) => {
+
+            })
+            .catch((error) => {
+                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                this.spinner.hide();
+            });
+
         getInitDataNew()
             .then((returnValue) => {
                 this.isInitialized = true;
@@ -87,6 +97,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             await getUpdateResources({ linkWrapperText: returnValue, participantData: data })
                 .then((result) => {
                     var counterForLoop = 0;
+                    console.log('resource data : '+JSON.stringify(result));
                     let data = JSON.parse(JSON.stringify(result));
                     this.counter = data.counter;
                     if (this.counter > 0 && state != 'ALUMNI') {
