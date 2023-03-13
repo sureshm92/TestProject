@@ -11686,6 +11686,34 @@ The expected format is REF##### to REF########</value>
         <value>You are already associated with this study.</value>
     </labels>
     <labels>
+        <fullName>Medical_Record_Retrieval</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Medical Record Retrieval</shortDescription>
+        <value>Medical Record Authorization</value>
+    </labels>
+    <labels>
+        <fullName>HAPI_Provider</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HAPI_Provider</shortDescription>
+        <value>You have not authorized any providers</value>
+    </labels>
+    <labels>
+        <fullName>Manage_Authorization</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manage_Authorization</shortDescription>
+        <value>Manage Authorizations</value>
+    </labels>
+    <labels>
+        <fullName>HAPI_Start_Loading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HAPI_Start_Loading</shortDescription>
+        <value>Retrieving medical records. . . Please wait.</value>
+    </labels>
+    <labels>
         <fullName>Navigation_eDiary</fullName>
         <language>en_US</language>
         <protected>false</protected>
