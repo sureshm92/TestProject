@@ -1,9 +1,10 @@
 public class Provider {
 
-     @AuraEnabled
+        @AuraEnabled
         public String providerName;
-        
         @AuraEnabled
         public String status;
+         @AuraEnabled
+        public string dotClass;
     
 }
