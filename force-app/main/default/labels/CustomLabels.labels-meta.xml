@@ -10941,7 +10941,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Can&apos;t rembeber my username</shortDescription>
-        <value>I can not remember my username</value>
+        <value>I cannot remember my username</value>
     </labels>
     <labels>
         <fullName>PP_Don_t_want_to_receive</fullName>
