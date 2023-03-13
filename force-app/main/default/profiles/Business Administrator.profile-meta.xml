@@ -3499,6 +3499,7 @@
     <layoutAssignments>
         <layout>PreScreener_Survey__c-PreScreener Survey Layout</layout>
     </layoutAssignments>
+     
      <layoutAssignments>
         <layout>Resource__c-Multimedia</layout>
         <recordType>Resource__c.Multimedia</recordType>
@@ -3530,6 +3531,16 @@
         <object>Participant_PrescreenerResponse__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Patient_Delegate_Enrollment__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>

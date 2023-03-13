@@ -125,7 +125,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 this.bgCss = 'divBodyPP2Mobile slds-p-around_medium slds-text-color_inverse';
                 this.multipleJoinCss = 'slds-text-color_inverse join multipleJoinPP2Mobile';
                 this.singleJoinCss = 'slds-text-color_inverse join singleJoinPP2Mobile';
-                this.deviceSize = 11;
+                this.deviceSize = 10;
                 this.isMobileDevice = true;
             }
             
@@ -139,12 +139,9 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 this.deviceSize = 10;
             }else{
                 this.isMobileDevice = true;
-                this.deviceSize = 11;
+                this.deviceSize = 10;
             }
-        }
-
-        
-        
+        } 
     }
 
     getVisits() {
@@ -280,7 +277,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
             timeZone: USER_TIME_ZONE,
             hour: '2-digit',
             minute: '2-digit',
-            hour12: true
+            //hour12: true
         });
     }
 

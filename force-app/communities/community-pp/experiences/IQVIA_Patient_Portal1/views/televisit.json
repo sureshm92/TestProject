@@ -1,6 +1,6 @@
 {
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
-  "componentName" : "siteforce:sldsOneColLayout",
+  "componentName" : "c:PPOneColumnLayout",
   "dataProviders" : [ ],
   "id" : "0d9211da-2f8a-480b-80df-7b273045c385",
   "label" : "Televisit",
@@ -29,7 +29,7 @@
       "componentAttributes" : {
         "customHeadTags" : "",
         "description" : "",
-        "title" : "televisit"
+        "title" : "Televisits"
       },
       "componentName" : "forceCommunity:seoAssistant",
       "id" : "5074b9d2-3637-4441-aa95-aa6e5f09d9b7",
@@ -38,6 +38,18 @@
     } ],
     "id" : "a1438dac-4e1e-463c-87fa-ce83618ada20",
     "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ppTelevisit",
+      "id" : "cdf83058-f2b6-4882-a5ca-2ac16d61a024",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "ed068165-296e-4de3-b840-2527b7bbc4d4",
+    "regionName" : "column1",
     "type" : "region"
   } ],
   "themeLayoutType" : "Inner",

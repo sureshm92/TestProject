@@ -3,11 +3,27 @@
     
 }
 .customIcon{
-    width: 24px;
+    width: 24px;    
 }
-.my-icon {
-    --sds-c-icon-color-foreground: orange;
-    --sds-c-icon-color-background: #ECF3FF;
+.imageBg{
+    border-radius: 38px;
+    height: 40px;
+    width: 40px;
+}
+.imageBg:hover{
+    background-color: #ECF3FF;
+}
+.customIcon2{
+    width: 41px;
+}
+.customIcon-mobile{
+    width: 24px;
+    margin-left: 35px;
+}
+.customIcon2-mobile{
+    width: 41px;
+    margin-left: 26px;
+    margin-top: -8px;
 }
 .slds-popover_tooltip .slds-popover__body{
     color: #FFFFFF;

@@ -1,6 +1,6 @@
 <template>
     <!-- Loading Spinner-->
-    <c-web-spinner fixed="true"></c-web-spinner>
+    <c-web-spinner fixed="true" show-spinner={showSpinner}></c-web-spinner>
     <template if:true={isInitialized}>
         <template if:true={desktop}>
             <template if:true={showProgramOverview}>
@@ -114,7 +114,7 @@
                             <img src={homeIllustrationMble} />
                         </lightning-layout-item>
                         <lightning-layout-item size="12">
-                            <p class="po-fontsize slds-m-horizontal_large slds-m-vertical_small" >
+                            <p class="po-fontsize slds-m-horizontal_large slds-m-vertical_small">
                                 {userName}
                             </p>
                         </lightning-layout-item>
@@ -275,16 +275,64 @@
                     </div>
                 </div>
             </div>
-            <template if:true={showVisitCard}>
-                <template if:false={isDelegateSelfview}>
-                    <template if:true={showVisitCardMobile}>
-                        <c-pp-home-page-visits-card
-                            desktop={desktop}
-                            is-program={isProgram}
-                        ></c-pp-home-page-visits-card>
-                    </template>
+            <template if:true={showVisitCardMobile}>
+                <div class="upcoming-card slds-m-around_small">
+                    <div class = "uc-text-mobile">
+                        <template if:true={isProgram}>
+                            UPCOMING EVENTS
+                        </template>
+                        <template if:false={isProgram}>
+                            UPCOMING VISITS
+                        </template>
+                    </div>
+                    
+                        <template if:true={showVisitCardMobile}>
+                            <template if:true={showTelevisitCard}>
+                                <template if:true={showVisitCard}>
+                                    <div style="text-align: center;margin-top:20px;">
+                                        <template if:true={isTelevisits}>
+                                            <button class="slds-button slds-button_neutral visit-button inactive-button-background" onclick={visitsTab}> 
+                                                <template if:true={isProgram}>
+                                                    Events
+                                                </template> 
+                                                <template if:false={isProgram}>
+                                                    Visits
+                                                </template>
+                                            </button>
+                                            <button class="slds-button slds-button_brand televisit-button active-button-background" onclick={televisitsTab}> Televisits </button>
+                                        </template>
+                                        <template if:false={isTelevisits}>
+                                            <button class="slds-button slds-button_neutral visit-button active-button-background" onclick={visitsTab}> 
+                                                <template if:true={isProgram}>
+                                                    Events
+                                                </template> 
+                                                <template if:false={isProgram}>
+                                                    Visits
+                                                </template>
+                                            </button>
+                                            <button class="slds-button slds-button_brand televisit-button inactive-button-background" onclick={televisitsTab}> Televisits </button>
+                                        </template>
+                                    </div>
+                                </template>
+                            </template>
+                        </template>
+                        <template if:true={isTelevisits}>
+                            <c-pp-televisit-upcoming-tile ></c-pp-televisit-upcoming-tile>
+                        </template>
+                        <template if:true={showVisitCard}>
+                            <template if:false={isDelegateSelfview}>
+                                <template if:true={showVisitCardMobile}>
+                                    <template if:false={isTelevisits}>
+                                        <c-pp-home-page-visits-card
+                                            desktop={desktop}
+                                            is-program={isProgram}
+                                        ></c-pp-home-page-visits-card>
+                                    </template>
+                                </template>
+                            </template>
+                        </template> 
+                    </div>
                 </template>
-            </template>
             <template if:true={taskList}>
                 <template if:false={showVisitCardMobile}>
                     <c-pp-tasks desktop={desktop}></c-pp-tasks>
@@ -293,6 +341,6 @@
             <template if:true={updatesSection}>
                 <c-pp-updates oncounterupdate={updateCounter} desktop={desktop}></c-pp-updates>
             </template>
-        </template>
+        </template>        
     </template>
 </template>

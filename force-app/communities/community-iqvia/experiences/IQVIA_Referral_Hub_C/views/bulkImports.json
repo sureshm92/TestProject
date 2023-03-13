@@ -1,0 +1,38 @@
+{
+  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "componentName" : "c:pir_OneColumnLayout",
+  "dataProviders" : [ ],
+  "id" : "50f396e9-8818-4238-9c7d-c79ea09de784",
+  "label" : "Bulk Imports",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:pir_BulkImport",
+      "id" : "35880474-e097-4e47-8554-ea08db9b527a",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "de2cd98e-251e-4d2f-9edf-d7120ae91cec",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Bulk Imports"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "2d437240-721f-4fea-add9-9c85b8c7bd0c",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "e3c45f45-5bcb-4434-a927-ad4c79b303bd",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-bulk-imports"
+}

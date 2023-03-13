@@ -29,12 +29,13 @@
                                                 </lightning-formatted-text>
                                             </b>
                                             <p class="date-style">
-                                                <lightning-formatted-date-time
+                                                <lightning-formatted-date-time 
                                                     value={record.televisitdate}
                                                     year="numeric"
                                                     month="long"
                                                     day="2-digit"
                                                     time-zone={zonetime}
+                                                    class = "televisitdate"
                                                 ></lightning-formatted-date-time>
                                                 &nbsp;&nbsp;|&nbsp;&nbsp;
                                                 <lightning-formatted-date-time
@@ -42,25 +43,27 @@
                                                     hour="2-digit"
                                                     minute="2-digit"
                                                     time-zone={zonetime}
+                                                    class = "televisittime"
                                                 ></lightning-formatted-date-time>
                                                 &nbsp;&nbsp;|&nbsp;&nbsp;
                                                 <lightning-formatted-text
                                                     length = "6-digit"
                                                     value={record.televisitduration}
+                                                    class = "televisitduration"
                                                 >
                                                 </lightning-formatted-text>
                                             </p>
                                         </div>
                                     </div>
                                     </div>
-                                        <div class="slds-col slds-size_2-of-12">
+                                        <div class="slds-col slds-size_2-of-12 desktop-join">
                                             <template if:true = {record.showjoinbutton}>
                                                 <button
                                                 class="slds-button slds-button_neutral join-button active-button-background"
                                                 data-tv={record.televisitId} data-id={record.televisitmettingurl}
                                                 onclick={joinmeeting} style="display:block"
                                             >
-                                            Join
+                                            {labels.JOIN_MEET}
                                             </button>
                                             </template>
                                             <template if:false = {record.showjoinbutton}>
@@ -69,13 +72,13 @@
                                                 data-tv={record.televisitId} data-id={record.televisitmettingurl}
                                                 onclick={joinmeeting} style="display:none"
                                             >
-                                            Join
+                                            {labels.JOIN_MEET}
                                             </button>
                                             </template>
                                                 
                                         </div>
-                                    
-                                    <div class="slds-col" style = "margin-right: 22px;">
+                                        
+                                    <div class="slds-col slds-size_1-of-12 desktop-icon">
                                         <c-custom-help-text
                                         height = "96px"
                                         width = "189px"
@@ -105,46 +108,49 @@
                                         <div class="left-line1-mobile">
                                             <div class = "leftline3"></div>
                                             <div class="left-line2">
-                                            <b>
-                                                <lightning-formatted-text
-                                                    class="name-style"
-                                                    value={record.title}
-                                                >
-                                                </lightning-formatted-text>
-                                            </b>
-                                            <p class="date-style-mobile">
-                                                <lightning-formatted-date-time
-                                                    value={record.televisitdate}
-                                                    year="numeric"
-                                                    month="long"
-                                                    day="2-digit"
-                                                    time-zone={zonetime}
-                                                ></lightning-formatted-date-time>
-                                                &nbsp;&nbsp;|&nbsp;&nbsp;
-                                                <lightning-formatted-date-time
-                                                    value={record.televisitdate}
-                                                    hour="2-digit"
-                                                    minute="2-digit"
-                                                    time-zone={zonetime}
-                                                ></lightning-formatted-date-time>
-                                                &nbsp;&nbsp;|&nbsp;&nbsp;
-                                                <lightning-formatted-text
-                                                    length = "6-digit"
-                                                    value={record.televisitduration}
-                                                >
-                                                </lightning-formatted-text>
-                                            </p>
-                                            <p><c-custom-help-text
+                                                <b>
+                                                    <lightning-formatted-text
+                                                        class="name-style"
+                                                        value={record.title}
+                                                    >
+                                                    </lightning-formatted-text>
+                                                </b>
+                                                <p class="date-style-mobile">
+                                                    <lightning-formatted-date-time
+                                                        value={record.televisitdate}
+                                                        year="numeric"
+                                                        month="long"
+                                                        day="2-digit"
+                                                        time-zone={zonetime}
+                                                        class = "televisitdate"
+                                                    ></lightning-formatted-date-time>
+                                                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                                                    <lightning-formatted-date-time
+                                                        value={record.televisitdate}
+                                                        hour="2-digit"
+                                                        minute="2-digit"
+                                                        time-zone={zonetime}
+                                                        class = "televisittime"
+                                                    ></lightning-formatted-date-time>
+                                                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                                                    <lightning-formatted-text
+                                                        length = "6-digit"
+                                                        value={record.televisitduration}
+                                                        class = "televisitduration"
+                                                    >
+                                                    </lightning-formatted-text>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                        <p><c-custom-help-text
                                             height = "96px"
                                             width = "189px"
                                             position="absolute"
                                             class="group-icon"
                                             related-attendees = {record.relatedAttendees}
                                             ismobile = {ismobile}
-                                        > </c-custom-help-text><br/><br/></p> 
+                                        > </c-custom-help-text><br/><br/></p>                                      
                                     </div>
-                                    </div>                                      
-                                </div>
                                     <div class="slds-col slds-size_2-of-12">
                                         <p>
                                             <template if:true = {record.showjoinbutton}>
@@ -153,7 +159,7 @@
                                                 data-id={record.televisitmettingurl} data-tv={record.televisitId}
                                                 onclick={joinmeeting} style="display:block"
                                                 > 
-                                                Join
+                                                {labels.JOIN_MEET}
                                                 </button>
                                             </template>
                                             <template if:false = {record.showjoinbutton}>
@@ -162,7 +168,7 @@
                                                 data-id={record.televisitmettingurl} data-tv={record.televisitId}
                                                 onclick={joinmeeting} style="display:none"
                                                 > 
-                                                Join
+                                                {labels.JOIN_MEET}
                                                 </button>
                                             </template>
                                             </p>

@@ -88,6 +88,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     @track diffInMinutes;
     @track currentBrowserTime;
     @track communicationChanged = false;
+    showSpinner = true;
     @track initData = {
         reminderDate: null,
         emailOptIn: false,
@@ -195,6 +196,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 if (isInitial) {
                     this.loadSessionId();
                 }
+                this.showSpinner = false;
             })
             .catch((error) => {
                 this.showToast('', error.body.message, 'error');
@@ -537,9 +539,12 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             let currentDateTime = new Date().toLocaleString('en-US', {
                 timeZone: TIME_ZONE
             });
-            let timezoneReminderDateTime =  new Date(this.selectedReminderDateTime).toLocaleString('en-US', {
-                timeZone: TIME_ZONE
-            });
+            let timezoneReminderDateTime = new Date(this.selectedReminderDateTime).toLocaleString(
+                'en-US',
+                {
+                    timeZone: TIME_ZONE
+                }
+            );
             this.disableButtonSaveCancel =
                 new Date(timezoneReminderDateTime) >= new Date(currentDateTime) &&
                 new Date(this.selectedReminderDateTime) <= new Date(this.visitDateTime)
@@ -563,9 +568,12 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             let currentDateTime = new Date().toLocaleString('en-US', {
                 timeZone: TIME_ZONE
             });
-            let timezoneReminderDateTime =  new Date(this.selectedReminderDateTime).toLocaleString('en-US', {
-                timeZone: TIME_ZONE
-            });
+            let timezoneReminderDateTime = new Date(this.selectedReminderDateTime).toLocaleString(
+                'en-US',
+                {
+                    timeZone: TIME_ZONE
+                }
+            );
             this.disableButtonSaveCancel =
                 new Date(timezoneReminderDateTime) >= new Date(currentDateTime) &&
                 new Date(this.selectedReminderDateTime) <= new Date(this.visitDateTime)

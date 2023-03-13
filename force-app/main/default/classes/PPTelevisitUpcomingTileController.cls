@@ -12,13 +12,13 @@ Public Class PPTelevisitUpcomingTileController{
             wrap.televisitAttendees = tv.Televisit_Attendee__r;
             
             for(Televisit_Attendee__c ta : tv.Televisit_Attendee__r){
-                if(ta.Attendee_Type__c != 'PI'){
+                //if(ta.Attendee_Type__c != 'PI'){
                     televisitattendeeWrapper taw = new televisitattendeeWrapper();
                     taw.firstname = ta.Firstname__c;
                     taw.lastname = ta.Lastname__c;
                     taw.attendeeType = ta.Attendee_Type__c;
                     lstTelevisitAttendeeWrapper.add(taw);
-                }
+                //}
             }
             
             wrap.relatedAttendees = lstTelevisitAttendeeWrapper;

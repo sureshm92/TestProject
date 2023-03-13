@@ -375,14 +375,25 @@
               }
             
                   if( component.get('v.needsGuardian') && participant.Adult__c && (participant.email__c ==''|| !participant.email__c) ){
+                    if(emailCmp){
                       emailCmp.setCustomValidity('');
+                        } 
+                        if(emailRepeatCmp){
                         emailRepeatCmp.setCustomValidity('');
+                        } 
+                        if(emailCmp){
                         emailCmp.reportValidity();
+                    }
+                     if(emailRepeatCmp){
                         emailRepeatCmp.reportValidity();
+                    }
                         var PhoneField = component.find('PhoneName');
+                    if(PhoneField){
                         PhoneField.setCustomValidity('');
                         PhoneField.reportValidity();
                      }
+                     }
+
               if(needsDelegate && needsGuardian &&
                delegateParticipant &&
                participant.Health_care_proxy_is_needed__c &&
@@ -466,37 +477,48 @@
         if(needsDelegate && isNewPrimaryDelegate)
         {
             if(  needsDelegate && participant.Adult__c && (participant.email__c ==''|| !participant.email__c) ){
+                if(emailCmp){
                 emailCmp.setCustomValidity('');
+                    } 
+                    if(emailRepeatCmp){
                   emailRepeatCmp.setCustomValidity('');
+                    } 
+                    if(emailCmp){
                   emailCmp.reportValidity();
+                }
+                 if(emailRepeatCmp){
                   emailRepeatCmp.reportValidity();
+                }
                   var PhoneField = component.find('PhoneName');
+                if(PhoneField){
                   PhoneField.setCustomValidity('');
                   PhoneField.reportValidity();
                } 
+               }
+
             if(!(isAdultDel && attestAge && confirmConsent))
                 isValid = false;
         }
  
         if(participant.Adult__c === false){
-            if(emailCmp){
-            emailCmp.setCustomValidity('');
-            } 
-            if(emailRepeatCmp){
-            emailRepeatCmp.setCustomValidity('');
-            } 
-            if(emailCmp){
-           emailCmp.reportValidity();
+             if(emailCmp){
+             emailCmp.setCustomValidity('');
+             } 
+             if(emailRepeatCmp){
+             emailRepeatCmp.setCustomValidity('');
+             } 
+             if(emailCmp){
+            emailCmp.reportValidity();
+         }
+          if(emailRepeatCmp){
+         emailRepeatCmp.reportValidity();
+         }
+        var PhoneField = component.find('PhoneName');
+         if(PhoneField){
+        PhoneField.setCustomValidity('');
+        PhoneField.reportValidity(); 
         }
-         if(emailRepeatCmp){
-        emailRepeatCmp.reportValidity();
-        }
-       var PhoneField = component.find('PhoneName');
-        if(PhoneField){
-       PhoneField.setCustomValidity('');
-       PhoneField.reportValidity(); 
-       }
-    }
+     }
         if(selectedParticipantAge == "null" && selectedParticipantAge == undefined && selectedParticipantAge == ''){
             isValid = false; 
         }

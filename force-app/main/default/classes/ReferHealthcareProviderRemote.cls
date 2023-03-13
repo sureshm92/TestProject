@@ -571,6 +571,24 @@ global without sharing class ReferHealthcareProviderRemote {
                 Contact newContact;
                 if (delegateDuplicate == null || delegateDuplicate.contactId == null) {
                     newContact = new Contact();
+                    //Added for performance improvement
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.createNotificationsHandler.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.SetShowTourDefaultHandler.class);
+                    TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
+                    TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
+                    TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
+                    );
+                    //
                     newContact.FirstName = delegateObj.firstName;
                     newContact.LastName = delegateObj.lastName;
                     newContact.Email = delegateObj.email;
@@ -609,6 +627,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     } else {
                         newContact.Phone = participantObj.Phone__c;
                     }
+                    
                     insert newContact;
                 } else {
                     newContact = [
@@ -627,6 +646,14 @@ global without sharing class ReferHealthcareProviderRemote {
                 }
 
                 Participant__c participantDelegate;
+                //Added for performance improvement
+                TriggerHandlerExecutor.bypassHandler(
+                        ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                        ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class
+                );
+                
                 if (delegateDuplicate == null || delegateDuplicate.participantId == null) {
                     participantDelegate = new Participant__c(
                         Adult__c = true,
@@ -690,7 +717,7 @@ global without sharing class ReferHealthcareProviderRemote {
             }
 
                 if (!lstPatientDelegateEnroll.isEmpty()) {
-                    if(lstPatientDelegateEnroll[0].Status__c == 'Withdrawn' || lstPatientDelegateEnroll[0].Status__c == 'Deleted'){	
+                    if(lstPatientDelegateEnroll[0].Status__c == 'Withdrawn'){	
                         ptDelegateEnroll.ID = lstPatientDelegateEnroll[0].ID;	
                         ptDelegateEnroll.Status__c = DEL_ACTIVE;	
                         ptDelegateEnroll.Study_Email_Consent__c = true;	
