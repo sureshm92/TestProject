@@ -27,9 +27,7 @@
         ];
         if (resource.videoLink || resource.link) {
             var urlLink = resource.format == 'Video' ? resource.videoLink : resource.link;
-            let urlEvent = $A.get('e.force:navigateToURL');
-            urlEvent.setParams({ url: urlLink });
-            urlEvent.fire();
+            window.open(urlLink);
         } else {
             // This change is made to open the study document (under library section) in new window for mobile browsers
             var device = $A.get("$Browser.formFactor");
