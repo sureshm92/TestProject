@@ -51,7 +51,6 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
         if(this.upcomingtelevisitdata.length > 0){
             this.showupcomingtelevisits = true;
         }
-        console.log('++++++++this.zonetime'+ JSON.stringify(this.zonetime));
         this.getVisits(); 
         this.loadCometdScript();
         this.timeInterval();
@@ -71,7 +70,6 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
             })
             .catch((error) => {
                 let message = error.message || error.body.message;
-                console.log('Error::' + message);
             });
     } 
 
@@ -91,14 +89,10 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
                 });
                 this.cometd.websocketEnabled = false;
                 this.cometd.handshake((status) => {
-                    console.log('Status',status);
                     this.cometd.subscribe(this.channel, (message) => {
                         let reLoadRequired = message.data.payload.Payload__c.includes(USER_ID);
-                        console.log(message);
-                        console.log('Televisit event Fired');
                         //TODO check update banner cases
                         if (reLoadRequired) {
-                            console.log('Televisit event Fired on banner : reload requested');
                             this.getVisits();
                         }
                         
@@ -107,18 +101,15 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
             })
             .catch((error) => {
                 let message = error.message || error.body.message;
-                console.log('Error ;;' + message);
                 //TODO
             });
     }
 
     getVisits() {
-        console.log('Televisit Get visits called');
         this.hasVisits = true;
         this.showMoreVisits = false;
         getVisits({communityMode : 'IQVIA Patient Portal', userMode : 'Participant'})
             .then((result) => {
-                console.log('result',result);
                 var televisitInformation = JSON.parse(result);
             if (televisitInformation) {
                 let visitData = Object.assign(televisitInformation);
@@ -127,7 +118,6 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
             })
             .catch((error) => {
                 let message = error.message || error.body.message;
-                console.log('Error' + message);
             });
     }
 
@@ -153,12 +143,9 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
             let bannerEndTime = new Date(visitInfo.Televisit__r.Visit_Link_Activation_End_Time__c);
             if (dateNow >= bannerStartTime && dateNow <= bannerEndTime) {
                 activeVisits.push(visitDetail);
-                console.log('activeVisits:',activeVisits);
                 activevisitids.push(visitDetail.Televisit__c);
             }
         });
-        console.log('+++++++++this.allActiveVisits.length'+this.allActiveVisits.length);
-        console.log('+++++++++activevisitids.length'+activevisitids.length);
         if(this.allActiveVisits.length > activevisitids.length || ((this.allActiveVisits.length < activevisitids.length) || 
             (activevisitids.length > 0 && this.allActiveVisits.length == activevisitids.length))){
             getParticipantDetails({joinbuttonids :activevisitids })
@@ -171,23 +158,6 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
                         this.upcomingtelevisitdata = result.televisitupcomingList;
                         this.showupcomingtelevisits = true;
                         this.allActiveVisits = activeVisits;
-                        console.log('this.upcomingtelevisitdata :',this.upcomingtelevisitdata);
-                        /*for(var i=0; i<this.upcomingtelevisitdata.length; i++){
-                                if(this.template.querySelector('[data-tv='+this.upcomingtelevisitdata[i].televisitId+']') != null &&
-                                this.template.querySelector('[data-tv='+this.upcomingtelevisitdata[i].televisitId+']') != undefined){
-                                    this.template.querySelector('[data-tv='+this.upcomingtelevisitdata[i].televisitId+']').style = 'display:none';
-                                }
-                                
-                            }
-                            console.log('this.allActiveVisits :',this.allActiveVisits);
-                            for(var i=0; i<this.allActiveVisits.length; i++){
-                                if(this.template.querySelector('[data-tv='+this.allActiveVisits[i].Televisit__c+']') != null &&
-                                this.template.querySelector('[data-tv='+this.allActiveVisits[i].Televisit__c+']') != undefined){
-                                    this.template.querySelector('[data-tv='+this.allActiveVisits[i].Televisit__c+']').style = 'display:block';
-                                }
-                                
-                            }*/
-                            
                         this.showMoreVisits =
                         this.showMoreVisits && (activeVisits.length === 0 || activeVisits.length === 1)
                             ? false
@@ -263,7 +233,6 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
     }
 
     handleSingleMeetJoin(event) {
-        console.log('this.meetLinkUrl',this.meetLinkUrl);
         console.log(this.urlPathPrefix);
         this.urlPathPrefix = '/pp/s';
         let url = this.urlPathPrefix.replace('/s', '') + this.meetLinkUrl;

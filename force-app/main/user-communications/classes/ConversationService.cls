@@ -207,19 +207,21 @@ public without sharing class ConversationService {
 
         List<Conversation__Share> conversationShares = new List<Conversation__Share>();
         List<User> usersForSharing = [
-            SELECT Id
+            SELECT Id,Name,ContactId
             FROM User
             WHERE ContactId IN :contactsForSharing AND IsActive = TRUE
         ];
         if (!usersForSharing.isEmpty()) {
             for (User user : usersForSharing) {
-                conversationShares.add(
-                    new Conversation__Share(
-                        AccessLevel = 'Edit',
-                        ParentId = conversationId,
-                        UserOrGroupId = user.Id
-                    )
-                );
+                if (user.ContactId != userContact.Id){ 
+                    conversationShares.add(
+                        new Conversation__Share(
+                            AccessLevel = 'Edit',
+                            ParentId = conversationId,
+                            UserOrGroupId = user.Id
+                        )
+                    );
+                }
             }
 
             insert conversationShares;

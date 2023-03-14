@@ -83,7 +83,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     visitWrappers = [];
     @api icondetails = [];
     isError = false;
-    initialized = '';
     dateloaded = false;
     @track buttonClicked = false;
     cbload = false;
@@ -100,6 +99,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track isEvent = false;
     isUpcomingVisits = true;
     isPastVisits = true;
+    showSpinner = true;
     column2 = 'col2';
     column3 = 'col3';
     @track currentVisit;
@@ -253,7 +253,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.template.querySelector('c-web-spinner').show();
             this.hasRendered = true;
         }
-        this.template.querySelector('c-web-spinner').hide();
+        //this.template.querySelector('c-web-spinner').hide();
         if (
             !this.isUpcomingVisits &&
             this.showUpcomingVisits == true &&

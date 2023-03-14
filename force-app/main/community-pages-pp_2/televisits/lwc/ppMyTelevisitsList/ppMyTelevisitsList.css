@@ -10,6 +10,18 @@
     border-radius: 16px;
     background-color: #015FF1;
     color: #FFFFFF;
+    font-size: 14px;
+}
+.join-button:hover{
+    background-color: #0557D5;
+    font-weight: 600;
+}
+
+.desktop-icon{
+    margin-left: 9px;
+}
+.desktop-join{
+    margin-left: 5px;
 }
 .join-button-mobile{
     border-radius: 16px 0 0 16px;
@@ -20,8 +32,13 @@
     background-color: #015FF1;
     color: #FFFFFF;
     margin-top: 60%;
+    font-size: 14px;
     /*margin-left: -20px;
     margin-top: 18%;*/
+}
+.join-button-mobile:hover{
+    background-color: #0557D5;
+    font-weight: 600;
 }
 .name-style,
 .nameStyle {
@@ -175,6 +192,15 @@
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
+}
+.televisitdate{
+    display:inline;
+}
+.televisittime{
+    display:inline-block;
+}
+.televisitduration{
+    display:inline-block;
 }
 /*
 @media all and (max-width: 1200px) {

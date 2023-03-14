@@ -4,7 +4,7 @@
   "configurationTags" : [ ],
   "id" : "65f81467-5093-4c9f-a7fe-40bf21037641",
   "label" : "Terms And Conditions",
-  "pageAccess" : "UseParent",
+  "pageAccess" : "Public",
   "routeType" : "custom-terms-and-conditions",
   "type" : "route",
   "urlPrefix" : "terms-and-conditions"
