@@ -1,0 +1,75 @@
+<template>
+
+   <template if:true={showspinner}>
+        <lightning-card>      
+            <div class="mrr-main_container">
+                    <div id="loading" class="slds-scope">
+                            <div class="slds-align_absolute-center">
+                                <div class="spinner-border slds-m-right_medium"></div>
+                                 {label.HAPI_Start_Loading}
+                            </div>
+                    </div>
+                <lightning-spinner data-id="spinner"  variant="brand" size="small" ></lightning-spinner>
+            </div>
+        </lightning-card> 
+   </template> 
+ 
+    <template if:true={medicalCard}>
+        <div class="slds-m-left--large slds-m-top--large">
+            <div class="slds-grid card-wrap MRRHeader slds-p-around-xx--small">
+                <span class="slds-p-bottom--x-small header">{label.MRRHeader}</span>
+                &nbsp;<lightning-helptext content={externalLinkDisclaimer}></lightning-helptext>
+            </div>
+ 
+        <lightning-card>
+            <template if:true={innerspinner}>
+                <lightning-spinner data-id="spinner"  variant="brand" size="small" ></lightning-spinner>
+           </template>
+                <div class="mrr-main_container">
+
+                <template if:true={pastStudiesVisibility}>
+                    <div class="slds-size--1-of-1">
+                        <lightning-combobox
+                                name="opt"
+                                class="slds-float_left slds-p-horizontal--small slds-p-bottom--x-small combostyle"
+                                placeholder={label.Select}
+                                value={defaultStudy}
+                                onchange={doListProviders}
+                                options={studyProviders}>
+                        </lightning-combobox> 
+                    </div>
+                </template>
+                <template if:true={isAuthorised}>
+                    <template for:each= {medicalProviders} for:item ="provider" for:index="index">
+                        <div class="slds-grid slds-wrap slds-m-around--small slds-p-around--xx-small border1 slds-m-top_none" key={provider.providerName}>
+                            <div class="namesize slds-col slds-size_3-of-5 slds-truncate" key={provider.providerName}>
+                                 {provider.providerName}
+                            </div>
+                        <div class="slds-size_2-of-5 statussize" key={provider.providerName}>
+                                {provider.mappedStatus}
+                            <span class={provider.dotClass}>●</span>
+                        </div>
+                        </div>
+                    </template>    
+                </template>
+                <template if:true={showEmptySpace}>
+                    <div class="slds-text-align_center slds-p-top--xx-large">
+                        <div class="slds-p-around--medium"><img src={MRRImage}></div>
+                        <div class="text_para">{label.HAPI_Provider}</div>
+                    </div>
+                </template>
+                </div>
+            <div class="slds-align_absolute-center mrr-footer_container slds-m-bottom--medium">
+                <footer>
+                    <template if:true={authorisedVisibility}>
+                        <a class="AuthButton" href="javascript:void(0)" onclick={manageSources}
+                                        >{label.Manage_Authorization}</a>
+                    </template>
+                        
+                </footer>
+            </div>
+                                               
+        </lightning-card>
+    </div>
+    </template>
+</template>
