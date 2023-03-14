@@ -75,7 +75,8 @@
 }
 
 .po-mr-20minus {
-    margin-right: -20px;
+    /* margin-right: -20px; */
+    width: 96%;
 }
 
 .po-ml-3 {
