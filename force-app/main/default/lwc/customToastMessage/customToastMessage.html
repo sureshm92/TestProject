@@ -1,0 +1,75 @@
+<template>
+    <template if:true={isDesktop}>
+        <template if:true={showToastBar}>
+            <lightning-layout class="custom-notify-container">
+                <div class="slds-notify_container">
+                    <div class="slds-notify slds-notify_toast PP-Mot-Message-Toast" role="status">
+                        <lightning-layout-item size="1">
+                            <div class="custom-icon" title={message}>
+                                <img src={motivationalicon} />
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="10">
+                            <div class="slds-notify__content">
+                                <h2 class="slds-text-heading_small">
+                                    <lightning-formatted-rich-text value={message}>
+                                    </lightning-formatted-rich-text>
+                                </h2>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="1">
+                            <div class="slds-notify__close">
+                                <lightning-icon
+                                    icon-name="utility:close"
+                                    size="x-small"
+                                    variant="bare"
+                                    alternative-text="Close"
+                                    title="Close"
+                                    onclick={closeModel}
+                                ></lightning-icon>
+                            </div>
+                        </lightning-layout-item>
+                    </div>
+                </div>
+            </lightning-layout>
+        </template>
+    </template>
+    <template if:false={isDesktop}>
+        <template if:true={showToastBar}>
+            <lightning-layout class="custom-notify-container">
+                <div class="slds-notify_container">
+                    <div
+                        class="slds-notify slds-notify_toast PP-Mot-Message-Toast_mobile"
+                        role="status"
+                    >
+                        <lightning-layout-item size="1">
+                            <div class="custom-icon" title={message}>
+                                <img src={motivationalicon} />
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="10">
+                            <div class="slds-notify__content_mobile">
+                                <h2 class="slds-text-heading_small">
+                                    <lightning-formatted-rich-text value={message}>
+                                    </lightning-formatted-rich-text>
+                                </h2>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="1">
+                            <div class="slds-notify__close">
+                                <lightning-icon
+                                    icon-name="utility:close"
+                                    size="x-small"
+                                    variant="bare"
+                                    alternative-text="Close"
+                                    title="Close"
+                                    onclick={closeModel}
+                                ></lightning-icon>
+                            </div>
+                        </lightning-layout-item>
+                    </div>
+                </div>
+            </lightning-layout>
+        </template>
+    </template>
+</template>
