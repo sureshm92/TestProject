@@ -35,8 +35,8 @@ force-app/main/default/workflows/Case.workflow-meta.xml
 
 
 
-#force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
-#force-app/main/onboarding-tour
+force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
+force-app/main/onboarding-tour
 #force-app/main/messaging/customMetadata
 #force-app/unpackaged
 #force-app/libs
@@ -45,19 +45,25 @@ force-app/main/default/workflows/Case.workflow-meta.xml
 #Ignore all onboarding slides, comment line for include
 
 #**/onboarding-tour/staticresources
-#force-app/unpackaged/main/default/staticresources/os_*
-#force-app/main/onboarding-tour/staticresources/os_*
-#force-app/main/default/staticresources/Flags.svg
-#force-app/main/default/staticresources/Flags.resource-meta.xml
-#force-app/main/tools/staticresources/*
+force-app/unpackaged/main/default/staticresources/os_*
+force-app/main/onboarding-tour/staticresources/os_*
+force-app/main/default/staticresources/Flags.svg
+force-app/main/default/staticresources/Flags.resource-meta.xml
+force-app/main/tools/staticresources/*
 
 
 #Uncomment during full package deployment
 #force-app/main/default/staticresources/WalkMeCommunity*
 
 #Ignore State globalValueSet
-#force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
-#force-app/main/default/profiles
-#force-app/communities
-#force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
-#force-app/main/default/profiles/PRDBAPI*
+force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
+force-app/main/default/profiles
+force-app/communities
+force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
+force-app/main/default/profiles/PRDBAPI*
+force-app/main/default/staticresources/SNA_IQVIA_Patient_Portal1_sf_default_cdn_QWA2M
+force-app/main/default/staticresources/SNA_IQVIA_Referral_Hub1_sf_default_cdn_zPyAN
+force-app/main/default/staticresources/SNA_Policies_and_Terms1_sf_default_cdn_gzZ*
+force-app/main/default/staticresources/SNA_Policies_and_Terms1_sf_default_cdn_gzZnA.resource-meta.xml
+force-app/main/default/customMetadata/Notification_Target.Patient_Televisit_***
+force-app/main/default/flows/Patient_Welcome_to_the_Study_Email.flow-meta.xmlforce-app/unpackaged/main/default/translations/ar.translation-meta.xml
