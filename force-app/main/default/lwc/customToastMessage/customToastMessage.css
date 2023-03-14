@@ -9,7 +9,7 @@
 .slds-notify_container{
     height: 80px;
     border-radius: 8px;
-    margin-top: 4px;
+    margin-top: 15px;
 }
 .slds-notify__content{
     width: 508px;
@@ -19,6 +19,11 @@
     margin-right: 15px;
     text-align: right;
     margin-top: 2px
+}
+.custom-icon-mobile{
+   margin-right: 10px;
+    text-align: right;
+    margin-top: 5px;
 }
 /* .slds-notify_container_mobile{
     height:80px;
@@ -35,4 +40,19 @@
 .slds-notify__content_mobile{
     font-weight: 600;
     word-wrap: break-word;
+}
+
+.custom-notify-container-mobile{
+    position: fixed;
+    top: -1%;
+    background-color: #C42EA5;
+    padding: 8px;
+    margin: 20px;
+    border-radius: 8px;
+    z-index: 10000000;
+    margin-top: 27px
+}
+
+.mt-0{
+    top: 15% !important;
 }
