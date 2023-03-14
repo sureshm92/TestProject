@@ -1159,3 +1159,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .icon-chevron-right svg{
     width: 10px;
 }
+
+.custom-notify-container .slds-notify_toast, .slds-notify--toast {
+    align-items: flex-start;
+   }
