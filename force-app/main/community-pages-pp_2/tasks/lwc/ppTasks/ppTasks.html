@@ -93,8 +93,10 @@
     </template>
     <!--Task detail page-->
     <template if:false={ishomepage}>
+        <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-stretch">
+        <div class="slds-col slds-large-size--2-of-3 slds-size_1-of-1">
         <!-- Loading Spinner-->
-        <c-web-spinner class="main-spinner" fixed="true" show-spinner={showSpinner}></c-web-spinner>
+        <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
         <div class={cardRTL}>
             <div>
                 <lightning-layout class="slds-align_absolute-center" multiple-rows="true">
@@ -265,5 +267,12 @@
                 </lightning-layout>
             </div>
         </div>
+    </div>
+    <div class="slds-col slds-large-size--1-of-3 slds-size_1-of-1 divider">
+
+          <c-pp-medical-record-retrieval-panel participant-state={participantState}></c-pp-medical-record-retrieval-panel>
+
+    </div>
+    </div>
     </template>
 </template>
