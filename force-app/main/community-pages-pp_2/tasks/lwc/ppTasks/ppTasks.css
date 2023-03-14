@@ -516,4 +516,16 @@
         letter-spacing: 0;
         line-height: 48px;
     }
+    
+}
+.divider{
+    border-left:1px solid #D3D3D3;
+}
+@media all and (max-width: 1023px) {
+.divider{
+    border-left:none;
+    border-top: 1px solid #D3D3D3;
+    margin: inherit;
+    margin-top: 50px;
+}
 }
