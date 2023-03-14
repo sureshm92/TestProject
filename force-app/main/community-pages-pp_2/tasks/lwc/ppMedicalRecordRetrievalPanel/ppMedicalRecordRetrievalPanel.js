@@ -28,7 +28,7 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
         Manage_Authorization,
         HAPI_Start_Loading
     };
-    @api participantState;
+    participantState;
     peId;
     defaultStudy;
     isHumanApiChecked;
@@ -53,6 +53,7 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
     showspinner = true;
 
     connectedCallback(){
+       //load human API JS and then initialize component data
         Promise.all([
             loadScript(this,humanapijs)
         ]).then(() => {
@@ -63,28 +64,31 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
             console.error('error in load:'+JSON.stringify(error));
         })
     }
+
+
     initialize(){
+        //method responsible to fetch possible past studies
         getHumanAPIAlunmiPastPEListRevamp()
                 .then(response =>{
                     this.returnValue = response;
                     this.referrals = this.returnValue.referrals;
-                    console.log('referrals:'+ response.participantState);
                     this.populateDisclaimerText(this.returnValue.communityName);
-                    this.participantState = JSON.parse(this.returnValue.participantState);
-                    if(this.referrals.length > 0){
-                        let currentPe = this.participantState.pe ? this.participantState.pe.Id : null;
-                        return getStudyProviderList({itemstr : JSON.stringify(this.referrals),peId : currentPe})
+                    this.peId = this.returnValue.currentPerId;
+                    this.participantState = this.returnValue.currentPerStatus;
+                    if(this.referrals.length > 0){                        
+                        //method responsible to fetch studies providers from HAPI.
+                        return getStudyProviderList({itemstr : JSON.stringify(this.referrals),
+                                                     peId : this.peId,
+                                                     status : this.participantState});
                     }
                     return false;
                 })
                 .then(response =>{
-                    console.log('in promise 2');
                     this.studyProviders = response;
                     if(this.studyProviders.length > 0){
                         this.medicalProviders = this.studyProviders[0].providers;
                         this.defaultStudy = this.studyProviders[0].value;
                         this.initialized = true;
-
                     }
                     this.showspinner = false;
                     
@@ -111,8 +115,6 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
         }
     }
 
-
-
     manageSources(){
         this.calloutSession(this.defaultStudy);
     }
@@ -127,10 +129,10 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
         this.calloutAccessToken(this.defaultStudy);
     }
 
+    //this method is used to call HAPI UI
     calloutSession(referralId){
         var self = this;
         getSessionToken({referralId: referralId}).then(response=>{
-            console.log('callout response:'+JSON.stringify(response));
             let returnValue = response;
             if(returnValue){
                 this.humanid = returnValue.humanId;
@@ -154,19 +156,17 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
 
     }
 
+    // this method is used to fetch ondemand providers for study
     listProviders(referralId) {  
-        var obj = this.participantState; 
+
         getHumanSourcesList({referralId:referralId}).then(response=>{
             this.returnValue=response;
             if(this.returnValue) {               
-                console.log('returned providers:'+JSON.stringify(this.returnValue));
                 this.medicalProviders = this.returnValue;  
-               
                 if(this.studyProviders.length >0){
-                    if(this.returnValue.length === 0 && ((obj.pe && !this.defaultStudy.includes(obj.pe.Id)) || !obj.pe)){
+                    if(this.returnValue.length === 0 && ((this.peId && !this.defaultStudy.includes(this.peId)) || this.participantState === 'ALUMINI')){
                         let itemIndex =  this.studyProviders.findIndex( item => this.defaultStudy === item.value );
                         if(itemIndex != -1){
-                            console.log('item getting spliced');
                             this.studyProviders.splice(itemIndex,1);
                             this.defaultStudy =  this.studyProviders.length >0 ? this.studyProviders[0].value : '';
                             this.medicalProviders =this.studyProviders.length >0 ? this.studyProviders[0].providers : [];   
@@ -180,22 +180,7 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
                         let itemIndex  = this.studyProviders.findIndex( item => this.defaultStudy === item.value );
                         this.studyProviders[itemIndex].providers = this.returnValue;
                     }
-                   // this.showMedicalCard = true;
                     
-                } 
-                
-
-               if(obj.value !== 'ALUMNI'){
-                    if(obj.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c){
-                        if(this.isHumanApiChecked){
-                            this.showMedicalCard = true;
-                        }
-                        else {
-                            if(this.isAuthorised && obj.pe.Human_Id__c){
-                                this.showMedicalCard =true;
-                            }
-                        }
-                    }
                 } 
                 this.showspinner = false;
                 this.innerspinner  = false;
