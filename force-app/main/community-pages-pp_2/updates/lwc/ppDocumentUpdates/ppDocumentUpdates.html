@@ -33,9 +33,9 @@
                     <p
                         class="document-label"
                         onclick={navigateResourceDetail}
-                        title={documentData.resource.Title__c}
+                        title={documentData.title}
                     >
-                        {documentData.resource.Title__c}
+                        {documentData.title}
                     </p>
                 </div>
                 <div class="slds-grid date-section-mobile">
@@ -43,7 +43,7 @@
                         <p class="date">
                             {label.versionDate}&nbsp;
                             <lightning-formatted-date-time
-                                value={documentData.resource.Version_Date__c}
+                                value={documentData.versionDate}
                             ></lightning-formatted-date-time>
                         </p>
                     </div>
@@ -86,9 +86,9 @@
                         <p
                             class="document-label"
                             onclick={navigateResourceDetail}
-                            title={documentData.resource.Title__c}
+                            title={documentData.title__c}
                         >
-                            {documentData.resource.Title__c}
+                            {documentData.title__c}
                         </p>
                     </div>
                     <div class="slds-grid date-section">
@@ -96,7 +96,7 @@
                             <p class="date">
                                 {label.versionDate}&nbsp;
                                 <lightning-formatted-date-time
-                                    value={documentData.resource.Version_Date__c}
+                                    value={documentData.versionDate}
                                 ></lightning-formatted-date-time>
                             </p>
                         </div>
@@ -133,14 +133,14 @@
             <div
                 class="slds-grid slds-wrap document-label-desktop document-label-section-horizontal"
             >
-                <p onclick={navigateResourceDetail} title={documentData.resource.Title__c}>
-                    {documentData.resource.Title__c}
+                <p onclick={navigateResourceDetail} title={documentData.title}>
+                    {documentData.title}
                 </p>
             </div>
             <div class="date-desktop">
                 {label.versionDate}&nbsp;
                 <lightning-formatted-date-time
-                    value={documentData.resource.Version_Date__c}
+                    value={documentData.versionDate}
                 ></lightning-formatted-date-time>
             </div>
         </template>

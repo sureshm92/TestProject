@@ -15,6 +15,7 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
     };
 
     connectedCallback() {
+        console.log('thumbnail : '+this.documentData.thumbnailDocId);
         if (this.documentData.thumbnailDocId) {
             this.subDomain = communityService.getSubDomain();
             this.thumbnail =
@@ -26,6 +27,7 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
     }
 
     handleNoThumnnailError() {
+        console.log('coming here');
         this.thumbnailPresent = false;
     }
 
