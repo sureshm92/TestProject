@@ -224,6 +224,7 @@ private class Test_BaseCRCPCommunity {
             TermsAndConditionsRemote.getTrialTcData(testData.ctp.Id);
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
             TermsAndConditionsRemote.getTC('CookiePolicy', 'en_US', false); //TODO: check code
+            TermsAndConditionsRemote.getPPTC('CookiePolicy', 'en_US', false,ppTC.Id);
             TermsAndConditionsRemote.generatePDF(ppTC.Id);
             TermsAndConditionsRemote.getCommunityName();
             List<HelpController.FileContainer> files = new List<HelpController.FileContainer>();
@@ -845,7 +846,7 @@ private class Test_BaseCRCPCommunity {
             );
 
             testData.pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW;
-            update testData.pe;
+           // update testData.pe;
 
             String jsonResult2 = MedicalRecordReviewRemote.createParticipantEnrollmentHcpe(
                 testData.ctp.Id,
@@ -857,7 +858,7 @@ private class Test_BaseCRCPCommunity {
             );
 
             testData.pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL;
-            update testData.pe;
+            //update testData.pe;
 
             String jsonResult3 = MedicalRecordReviewRemote.createParticipantEnrollmentHcpe(
                 testData.ctp.Id,
@@ -886,7 +887,7 @@ private class Test_BaseCRCPCommunity {
             );
 
             testData.pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL;
-            update testData.pe;
+           // update testData.pe;
 
             String jsonResult5 = MedicalRecordReviewRemote.createParticipantEnrollmentHcpe(
                 testData.ctp.Id,
@@ -923,7 +924,7 @@ private class Test_BaseCRCPCommunity {
             );
 
             testData.pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW;
-            update testData.pe;
+           // update testData.pe;
 
             String jsonResult2 = MedicalRecordReviewRemote.createParticipantEnrollment(
                 testData.ctp.Id,
@@ -934,7 +935,7 @@ private class Test_BaseCRCPCommunity {
             );
 
             testData.pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL;
-            update testData.pe;
+            //update testData.pe;
 
             String jsonResult3 = MedicalRecordReviewRemote.createParticipantEnrollment(
                 testData.ctp.Id,
@@ -961,7 +962,7 @@ private class Test_BaseCRCPCommunity {
             );
 
             testData.pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL;
-            update testData.pe;
+           // update testData.pe;
 
             String jsonResult5 = MedicalRecordReviewRemote.createParticipantEnrollment(
                 testData.ctp.Id,
