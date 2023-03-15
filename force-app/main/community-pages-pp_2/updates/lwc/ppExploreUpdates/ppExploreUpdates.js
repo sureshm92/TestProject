@@ -12,10 +12,11 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
     };
 
     connectedCallback() {
-        this.noExploreImage = this.exploreData.resource.Image__c ? false : true;
+        this.noExploreImage = this.exploreData.thumbnailImage ? false : true;
     }
 
     handleNoExploreImageError() {
+        console.log('No thumbnail Image');
         this.noExploreImage = true;
     }
 

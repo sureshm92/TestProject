@@ -15,7 +15,7 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
     };
 
     connectedCallback() {
-        console.log('thumbnail : '+this.documentData.thumbnailDocId);
+        console.log(this.documentData.thumbnailDocId);
         if (this.documentData.thumbnailDocId) {
             this.subDomain = communityService.getSubDomain();
             this.thumbnail =
@@ -24,10 +24,11 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
                 this.documentData.thumbnailDocId;
             this.thumbnailPresent = true;
         }
+        console.log('thumbnail : '+this.thumbnail)
     }
 
     handleNoThumnnailError() {
-        console.log('coming here');
+        console.log('coming here to no thumbnail')
         this.thumbnailPresent = false;
     }
 
@@ -42,9 +43,9 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
             subDomain +
             '/s/resource-detail' +
             '?resourceid=' +
-            this.documentData.resource.Id +
+            this.documentData.recId +
             '&resourcetype=' +
-            this.documentData.resource.RecordType.DeveloperName +
+            this.documentData.resourceDevRecordType +
             '&state=' +
             state;
 

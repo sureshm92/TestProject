@@ -43,6 +43,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         getSendResultUpdates()
             .then((returnValue) => {
                 this.spinner.hide();
+                console.log('getSendResultUpdates : '+JSON.stringify(returnValue));
                 this.resourcePresent = true;
                 this.resourcedData = returnValue;
                 this.resourcedData.forEach((resObj) => {
@@ -62,6 +63,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 console.log('getSendResultUpdates : '+JSON.stringify(returnValue));
             })
             .catch((error) => {
+                console.log('error message');
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                 this.spinner.hide();
             });
