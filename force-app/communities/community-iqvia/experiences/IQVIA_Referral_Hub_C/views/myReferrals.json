@@ -1,14 +1,13 @@
 {
   "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
-  "componentName" : "c:pir_OneColumnLayout",
-  "dataProviders" : [ ],
+  "componentName" : "c:OneColumnLayout",
   "id" : "c63fbed1-ae08-4d72-b45f-acaeefca4d30",
   "label" : "My Referrals",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:pir_participantParent",
-      "id" : "256d31d2-d80e-40e6-84e9-d193bea83ec7",
+      "componentName" : "c:ViewPatients",
+      "id" : "c04f8649-5afe-4f72-990d-62419f5d1cb4",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
@@ -19,7 +18,7 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
-        "customHeadTags" : "<meta name=\"viewport\" content=\"width=device-width, minimum-scale=1.0, maximum-scale=1.0\" />",
+        "customHeadTags" : "",
         "description" : "",
         "title" : "My Referrals"
       },
