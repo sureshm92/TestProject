@@ -123,7 +123,7 @@ public without sharing class PPUpdatesController {
     @AuraEnabled
     public static String getSendResultCount(){
         ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
-        Integer updateCount = [SELECT count() FROM Send_Result__c where Target_Type__c='Updates' AND Status__c='In Progress' AND Notification__r.Recipient__r.email=:ps.Participant.Email__c];
+        Integer updateCount = [SELECT count() FROM Send_Result__c where Target_Type__c='Updates' AND Status__c='In Progress' AND Notification__r.Recipient__c=:ps.Participant.Contact__c];
         if(updateCount>99){
             return '99+';
         }else{

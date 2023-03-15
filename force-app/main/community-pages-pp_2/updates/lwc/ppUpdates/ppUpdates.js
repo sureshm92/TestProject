@@ -1,8 +1,8 @@
 import { LightningElement, track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
-import getUpdateResources from '@salesforce/apex/ResourceRemote.getUpdateResources';
+
 import getSendResultUpdates from '@salesforce/apex/PPUpdatesController.getSendResultUpdates';
+import getSendResultCount from '@salesforce/apex/PPUpdatesController.getSendResultCount';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import DEVICE from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
@@ -40,6 +40,16 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        getSendResultCount()
+            .then((returnValue) => {
+                this.counter = returnValue;
+                this.displayCounter = true;
+            })
+            .catch((error) => {
+                console.log('error message');
+                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                this.spinner.hide();
+            });
         getSendResultUpdates()
             .then((returnValue) => {
                 this.spinner.hide();
@@ -71,64 +81,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
 
     openLink(event) {
         window.open(event.currentTarget.dataset.link, '_blank');
-    }
-
-    async getUpdates(returnValue) {
-        this.spinner = this.template.querySelector('c-web-spinner');
-        this.spinner ? this.spinner.show() : '';
-        let state;
-        if (communityService.isInitialized()) {
-            state = communityService.getCurrentCommunityMode().participantState;
-            this.pData = communityService.getParticipantData();
-            let data = JSON.stringify(this.pData);
-
-            await getUpdateResources({ linkWrapperText: returnValue, participantData: data })
-                .then((result) => {
-                    var counterForLoop = 0;
-                    console.log('resource data : '+JSON.stringify(result));
-                    let data = JSON.parse(JSON.stringify(result));
-                    this.counter = data.counter;
-                    if (this.counter > 0 && state != 'ALUMNI') {
-                        this.displayCounter = true;
-                        const counterUpdateEvent = new CustomEvent('counterupdate', {
-                            detail: {
-                                counter: this.counter,
-                                displayCounter: this.displayCounter
-                            }
-                        });
-                        this.dispatchEvent(counterUpdateEvent);
-                    }
-                    data.resources.every((resObj) => {
-                        ++counterForLoop;
-                        this.resourcedData.push(resObj);
-                        if (counterForLoop >= 4) {
-                            return false;
-                        }
-                        return true;
-                    });
-                    if (counterForLoop > 0) {
-                        this.resourcePresent = true;
-                    }
-                    this.resourcedData.forEach((resObj) => {
-                        if (
-                            resObj.resource.Content_Type__c == 'Article' ||
-                            resObj.resource.Content_Type__c == 'Video'
-                        ) {
-                            resObj.isExplore = true;
-                        } else if (resObj.resource.Content_Type__c == 'Study_Document') {
-                            resObj.isDoc = true;
-                        } else if (resObj.resource.Content_Type__c == 'Multimedia') {
-                            resObj.isMultimedia = true;
-                        } else {
-                            resObj.isLink = true;
-                        }
-                    });
-                    this.spinner.hide();
-                })
-                .catch((error) => {
-                    this.showErrorToast('Error occured', error.message, 'error');
-                });
-        }
     }
 
     showErrorToast(titleText, messageText, variantType) {
