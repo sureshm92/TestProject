@@ -30084,6 +30084,13 @@ Please contact the Study Team for further updates or please login for additional
         <value>studies</value>
     </labels>
     <labels>
+        <fullName>Studies_And_Program_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies And Program PP</shortDescription>
+        <value>Studies and Programs</value>
+    </labels>
+    <labels>
         <fullName>Delegate_learnmore_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>

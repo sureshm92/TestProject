@@ -119,6 +119,8 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                         .catch((error) => {
                             this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
                         });
+                }else{
+                    this.isInitialized = true;
                 }
             })
             .catch((error) => {

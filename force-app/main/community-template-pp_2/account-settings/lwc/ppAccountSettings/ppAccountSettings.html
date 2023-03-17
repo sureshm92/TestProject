@@ -149,6 +149,19 @@
                         <template if:true={showMedicalRecordAccess}>
                             <!--Medical Record Access Component-->
                         </template>
+                        <template if:true={showManageDelegates}>
+                            <c-manage-delegates
+                                user-mode={userMode}
+                                participant-contact-id={initData.myContact.Id}
+                                is-r-t-l={isRTL}
+                                picklist-label={labels.STUDIES_AND_PROGRAM_PP}
+                            ></c-manage-delegates>
+                        </template>
+                        <template if:true={showManageAssignments}>
+                            <c-manage-assignment
+                                is-r-t-l={isRTL}
+                        ></c-manage-assignment>
+                        </template>
                     </div>
                 </div>
             </template>

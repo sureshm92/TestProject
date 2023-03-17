@@ -53,6 +53,7 @@ import PP_Select_User from '@salesforce/label/c.PP_Select_User';
 import PP_There_Are from '@salesforce/label/c.PP_There_Are';
 import PP_Users_Associated from '@salesforce/label/c.PP_Users_Associated';
 
+
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
 import {
     publish,
@@ -66,6 +67,7 @@ export default class PpAddNewDelegate extends LightningElement {
     @track delegate = {};
     @track allDelegate = {};
     @api selectedParent;
+    @api picklistLabel;
     @api isRTL;
     isAttested = false;
     isEmailConsentChecked = false;
@@ -212,8 +214,8 @@ export default class PpAddNewDelegate extends LightningElement {
     }
     get saveButtonClass() {
         return this.validateData
-            ? 'save-del-btn btn-save-opacity addDelegateMobile'
-            : 'save-del-btn addDelegateMobile';
+            ? 'save-del-btn btn-save-opacity addDelegateMobile manage-del-add-Del-page-save-btn'
+            : 'save-del-btn addDelegateMobile manage-del-add-Del-page-save-btn';
     }
     get whatDelCanSeeSection() {
         return this.isRTL

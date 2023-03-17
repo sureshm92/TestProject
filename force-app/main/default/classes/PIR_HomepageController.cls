@@ -2825,6 +2825,7 @@ public without sharing class PIR_HomepageController {
         }else{
             communityTypeList.add('Default');
             communityTypeList.add('GSK');
+            communityTypeList.add('PatientPortal');
         }
       List<Study_Site__c> lstOfStudySite = new List<Study_Site__c>();
       List<Participant_Enrollment__c> lstOfPE = new List<Participant_Enrollment__c>();
