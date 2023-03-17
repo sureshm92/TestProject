@@ -12,6 +12,9 @@ import CUSTOMIZE_EXP from '@salesforce/label/c.PP_Customize_Experience';
 import COOKIE_SETTINGS from '@salesforce/label/c.PP_Cookie_Settings';
 import MEDICAL_RECORD_ACCESS from '@salesforce/label/c.Medical_Record_Access';
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitDataforAccPage';
+import MANAGE_DELEGATES from '@salesforce/label/c.PP_ManageDelegates';
+import MANAGE_ASSIGNMENTS from '@salesforce/label/c.PP_Assignments';
+import STUDIES_AND_PROGRAM_PP from '@salesforce/label/c.Studies_And_Program_PP';
 export default class PpAccountSettings extends LightningElement {
     @api userMode;
     @api isRTL = false;
@@ -38,7 +41,11 @@ export default class PpAccountSettings extends LightningElement {
         CUSTOMIZE_EXP,
         COOKIE_SETTINGS,
         MEDICAL_RECORD_ACCESS,
-        ERROR_MESSAGE
+        ERROR_MESSAGE,
+        MANAGE_DELEGATES,
+        MANAGE_ASSIGNMENTS,
+        STUDIES_AND_PROGRAM_PP
+
     };
 
     navHeadersList = [
@@ -154,6 +161,12 @@ export default class PpAccountSettings extends LightningElement {
     get showMedicalRecordAccess() {
         return this.componentId === 'medRecAccess' ? true : false;
     }
+    get showManageDelegates(){
+        return this.componentId === 'manage-delegates' ? true : false;
+    }
+    get showManageAssignments(){
+        return this.componentId === 'manage-assignmens' ? true : false;
+    }
 
     initializeData() {
         getInitData()
@@ -168,6 +181,57 @@ export default class PpAccountSettings extends LightningElement {
                         value: 'medRecAccess'
                     });
                 }
+                var isParticipantLoggedIn = initialData.consentPreferenceData.isParticipantLoggedIn;
+                var isDelegateSelfView = initialData.consentPreferenceData.isDelegateSelfView;
+                var isDelegateAlsoAParticipant =
+                initialData.consentPreferenceData.isDelegateAlsoAParticipant;
+                var isActiveDelegate = initialData.consentPreferenceData.isActiveDelegate;
+                var showManageDelegateTab = false;
+                var showMamanageAssignmentTab = false;
+
+                this.initData = initialData;
+                //When delegate switch to participant View, Don't show Manage Delegate as well as Manage Assignment tabs.
+                if (this.isDelegate) {
+                   showManageDelegateTab = false;
+                   showMamanageAssignmentTab = false;
+                } else {
+                    if (isParticipantLoggedIn && !isDelegateAlsoAParticipant) {
+                        //When Pure Participant Logs in, Show only Manage Delegate Tab.
+                        showManageDelegateTab= true;
+                        showMamanageAssignmentTab = false;
+                    } else if (isParticipantLoggedIn && isDelegateAlsoAParticipant) {
+                        //When Participant(also a delegate) Logs in, Show both Manage Delegate and Manage Assignment Tabs.
+                        showManageDelegateTab= true;
+                        //When delegate is active delegate.
+                        if (isActiveDelegate) {
+                            showMamanageAssignmentTab= true;
+                        } else {
+                            showMamanageAssignmentTab = false;
+                        }
+                    } else if (isDelegateSelfView && isActiveDelegate) {
+                        //When pure delegate login to Self View, show only Manage Assignment tab.
+                       showManageDelegateTab = false;
+                       showMamanageAssignmentTab= true;
+                    }
+                }
+
+                if (showManageDelegateTab) {
+                    this.navHeadersList.push({
+                        label: MANAGE_DELEGATES,
+                        value: 'manage-delegates'
+                    });
+                }
+                if (showMamanageAssignmentTab) {
+                    this.navHeadersList.push({
+                        label: MANAGE_ASSIGNMENTS,
+                        value: 'manage-assignmens'
+                    });
+                }
+                initialData.password = {
+                    old: '',
+                    new: '',
+                    reNew: ''
+                };
 
                 const queryString = window.location.href;
 
@@ -209,6 +273,12 @@ export default class PpAccountSettings extends LightningElement {
         } else if (queryString.includes('medRecAccess')) {
             this.componentId = 'medRecAccess';
             window.history.replaceState(null, null, '?medRecAccess');
+        } else if (queryString.includes('manage-delegates')) {
+            this.componentId = 'manage-delegates';
+            window.history.replaceState(null, null, '?manage-delegates');
+        } else if (queryString.includes('manage-assignmens')) {
+            this.componentId = 'manage-assignmens';
+            window.history.replaceState(null, null, '?manage-assignmens');
         } else {
             if (!this.isMobile) {
                 this.componentId = 'profileInformation';

@@ -26,6 +26,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     @api totalNoOfStudies;
     @api isDesktop;
     @api addNewDelegate;
+    @api picklistLabel;
 
     @track firstThreeselectedStudyies = [];
     subscription = null;

@@ -38,11 +38,12 @@
         <!-- Show Add Delegate Page: Start-->
         <template if:true={showAddDelegatePage}>
             <c-pp-add-new-delegate
-                selected-parent={participantState.Participant_Contact__c}
+                selected-parent={participantContactId}
                 is-desktop={isDesktop}
                 delegate-filter-data={availableStudyData}
                 total-no-of-studies={totalNoOfStudies}
                 is-r-t-l={isRTL}
+                picklist-label={picklistLabel}
             >
             </c-pp-add-new-delegate>
         </template>
@@ -51,7 +52,7 @@
         <template if:false={showAddDelegatePage}>
             <!--Active Delegates View: Starts-->
             <div class={cardRTL}>
-                <div class="manage-del-continer">
+                <div class="manage-del manage-del-continer">
                     <!--Main Layout: Starts -->
                     <lightning-layout multiple-rows="true">
                         <!-- Manage Delegate Header: Starts-->
@@ -473,7 +474,7 @@
                                                     >
                                                         <template if:false={del.isWithdrawn}
                                                             ><button
-                                                                class="apollo-btn secondary box-add-assignment-btn"
+                                                                class="apollo-btn secondary box-add-assignment-btn box-add-assignment-btn-former"
                                                                 onclick={addAssignmentFormer}
                                                                 data-pdid={del.PatientDelegate.Id}
                                                                 disabled={del.disableAddAssignmentButton}
