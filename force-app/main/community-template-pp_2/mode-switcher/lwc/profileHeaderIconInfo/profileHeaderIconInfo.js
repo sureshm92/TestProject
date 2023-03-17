@@ -144,12 +144,7 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
             });
     }
     doManageDelegates() {
-        this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
-            attributes: {
-                pageName: 'my-team'
-            }
-        });
+          communityService.navigateToPage('account-settings?manage-delegates');
         this.doCloseModal();
     }
     doNavigateToAccountSettings() {
