@@ -51,6 +51,8 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
     televisitTimePP2 = televisitTimePP2;
     televisitAttendeePP2 = televisitAttendeePP2;
     televisitNoUpcomingRecord = televisitNoUpcomingRecord;
+    isPIAttendee = false;
+    siteStaffName;
     @track labels = {
         UPCOMING_VISIT,
         PT_TV_MEET_INFO,
@@ -163,6 +165,16 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
                                     
                                 }
                             });
+
+                            for(var i=0; i < resultInfo.relatedAttendees.length; i++){
+                                if(resultInfo.relatedAttendees[i].attendeeType == 'PI'){
+                                    this.isPIAttendee = true;
+                                }else if(resultInfo.relatedAttendees[i].attendeeType == 'Site Staff'){
+                                    this.isPIAttendee = false;
+                                    this.siteStaffName = resultInfo.relatedAttendees[i].firstname + ' ' + resultInfo.relatedAttendees[i].lastname;
+
+                                }
+                            }
                             
                         });   
                         //visitData.push(visitInfo); 
