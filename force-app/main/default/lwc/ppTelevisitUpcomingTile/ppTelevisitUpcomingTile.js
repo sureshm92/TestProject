@@ -16,6 +16,7 @@ import televisitDatePP2 from '@salesforce/resourceUrl/Televisit_Date_PP2';
 import televisitTimePP2 from '@salesforce/resourceUrl/Televisit_Time_PP2';
 import televisitAttendeePP2 from '@salesforce/resourceUrl/Televisit_Attendee_PP2';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
+import televisitNoUpcomingRecord from '@salesforce/resourceUrl/TelevisitNoUpcomingRecord';
 
 export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningElement)  {
     @track status;
@@ -49,6 +50,7 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
     televisitDatePP2 = televisitDatePP2;
     televisitTimePP2 = televisitTimePP2;
     televisitAttendeePP2 = televisitAttendeePP2;
+    televisitNoUpcomingRecord = televisitNoUpcomingRecord;
     @track labels = {
         UPCOMING_VISIT,
         PT_TV_MEET_INFO,

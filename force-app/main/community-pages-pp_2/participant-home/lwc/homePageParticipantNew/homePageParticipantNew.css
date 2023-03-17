@@ -14,9 +14,9 @@
     background: #f0efef;
 }
 .po-fontsize {
-  color: #444444;
-  font-size: 32px;
-  font-weight: 600;
+    color: #444444;
+    font-size: 32px;
+    font-weight: 600;
 }
 .margin-top-bottom-20 {
     margin-top: 20px;
@@ -242,7 +242,7 @@
 }
 .container-card {
     background-color: rgb(246, 247, 249);
-    border-top-color: #0096FF;
+    border-top-color: #0096ff;
     border-top-width: 8px;
     padding: 0;
     border-radius: 7px;
@@ -255,4 +255,30 @@
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0 1rem 0 1rem;
+}
+.upcoming-card {
+    height: 419px;
+    border: 1px solid lightgrey;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-top-color: #005587;
+    background: linear-gradient(to bottom, #005587 32px, #005587 32px, #ffffff 0%, #ffffff 100%);
+}
+
+.uc-text-mobile {
+    margin-top: 6px;
+    padding: 0;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    text-align: center;
+    color: #ffffff;
+}
+@media only screen and (max-width: 768px) {
+    .upcoming-card {
+        height: 465px;
+    }
 }

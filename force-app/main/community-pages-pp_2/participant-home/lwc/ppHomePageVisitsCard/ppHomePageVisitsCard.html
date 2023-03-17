@@ -1,9 +1,9 @@
 <template>
-    <c-web-spinner class="main-spinner" ></c-web-spinner>
+    <c-web-spinner class="main-spinner"></c-web-spinner>
     <template if:true={isInitialized}>
         <template if:true={desktop}>
             <article class="slds-card header-card">
-                    <!--<div class="slds-card__header slds-grid card-wrap">
+                <!--<div class="slds-card__header slds-grid card-wrap">
                         <header class="slds-has-flexi-truncate">
                             <h2 class="slds-card__header-title">
                                 <p
@@ -14,213 +14,217 @@
                             </h2>
                         </header>
                     </div>-->
-                    <template if:true={isUpcomingDetails}>
-                        <c-web-spinner class="main-spinner" ></c-web-spinner>
-                        <!--<div class="slds-card__body slds-card__body_inner card-wrap">
+                <template if:true={isUpcomingDetails}>
+                    <c-web-spinner class="main-spinner"></c-web-spinner>
+                    <!--<div class="slds-card__body slds-card__body_inner card-wrap">
                             <article class="slds-card slds-card_boundary container-card">
                                 <div class="content card-wrap">-->
-                                    <div class="slds-card-wrapper slds-card_boundary visit-card">
-                                        <article
-                                            class="slds-card slds-has-bottom-magnet slds-has-bottom-magnet"
-                                        >
-                                            <div class="slds-card__header slds-grid card-wrap">
-                                                <header class="slds-has-flexi-truncate">
-                                                    <h2 class="slds-card__header-title">
-                                                        <p
-                                                            class="slds-card__header-link slds-truncate visit-title"
-                                                        >
-                                                            <span title={visitName}>{visitName}</span>
-                                                        </p>
-                                                    </h2>
-                                                </header>
-                                            </div>
-                                        </article>
-                                        <article
-                                            class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
-                                        >
-                                            <div
-                                                class="slds-card__header slds-grid slds-media slds-media_center slds-has-flexi-truncate card-wrap"
-                                            >
-                                                <div class="slds-media__figure icon">
-                                                    <c-web-icon
-                                                        icon-size="small"
-                                                        icon-name="calendar"
-                                                        data-id="calendar"
-                                                        icon-color="#00A3E0"
+                    <div class="slds-card-wrapper slds-card_boundary visit-card">
+                        <article class="slds-card slds-has-bottom-magnet slds-has-bottom-magnet">
+                            <div class="slds-card__header slds-grid card-wrap">
+                                <header class="slds-has-flexi-truncate">
+                                    <h2 class="slds-card__header-title">
+                                        <p class="slds-card__header-link slds-truncate visit-title">
+                                            <span title={visitName}>{visitName}</span>
+                                        </p>
+                                    </h2>
+                                </header>
+                            </div>
+                        </article>
+                        <article
+                            class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
+                        >
+                            <div
+                                class="slds-card__header slds-grid slds-media slds-media_center slds-has-flexi-truncate card-wrap"
+                            >
+                                <div class="slds-media__figure icon">
+                                    <c-web-icon
+                                        icon-size="small"
+                                        icon-name="calendar"
+                                        data-id="calendar"
+                                        icon-color="#00A3E0"
+                                    >
+                                    </c-web-icon>
+                                </div>
+                                <div class="slds-media__body">
+                                    <div class="slds-card__header-title">
+                                        <p class="slds-card__header-link slds-truncate visit-text">
+                                            <template if:true={planDateTime}>
+                                                <span>
+                                                    <lightning-formatted-date-time
+                                                        value={planDateTime}
+                                                        year="numeric"
+                                                        month="long"
+                                                        day="numeric"
+                                                        time-zone={userTimeZone}
                                                     >
-                                                    </c-web-icon>
-                                                </div>
-                                                <div class="slds-media__body">
-                                                    <div class="slds-card__header-title">
-                                                        <p
-                                                            class="slds-card__header-link slds-truncate visit-text"
-                                                        >
-                                                            <template if:true={planDateTime}>
-                                                                <span>
-                                                                    <lightning-formatted-date-time
-                                                                        value={planDateTime}
-                                                                        year="numeric"
-                                                                        month="long"
-                                                                        day="numeric"
-                                                                        time-zone={userTimeZone}
-                                                                    >
-                                                                    </lightning-formatted-date-time>
-                                                                </span>
-                                                            </template>
-                                                            <template if:false={planDateTime}>
-                                                                {labels.NO_DATE}
-                                                            </template>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </article>
-                                        <article
-                                            class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
-                                        >
-                                            <div class="slds-card__header slds-grid card-wrap">
-                                                <header
-                                                    class="slds-media slds-media_center slds-has-flexi-truncate"
-                                                >
-                                                    <div class="slds-media__figure icon">
-                                                        <c-web-icon
-                                                            icon-size="small"
-                                                            icon-name="time_clock"
-                                                            data-id="clock"
-                                                            icon-color="#00A3E0"
-                                                        >
-                                                        </c-web-icon>
-                                                    </div>
-                                                    <div class="slds-media__body">
-                                                        <div class="slds-card__header-title">
-                                                            <p
-                                                                class="slds-card__header-link slds-truncate visit-text"
-                                                            >
-                                                                <template if:true={planDateTime}>
-                                                                    <span>
-                                                                        <lightning-formatted-date-time
-                                                                            value={planDateTime}
-                                                                            hour="2-digit"
-                                                                            minute="2-digit"
-                                                                            hour12={ampm}
-                                                                            time-zone={userTimeZone}
-                                                                        >
-                                                                        </lightning-formatted-date-time>
-                                                                    </span>
-                                                                </template>
-                                                                <template if:false={planDateTime}>
-                                                                    {labels.NO_TIME}
-                                                                </template>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </header>
-                                            </div>
-                                        </article>
-                                        <article
-                                            class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
-                                        >
-                                            <div class="slds-card__header slds-grid card-wrap hide-overflow">
-                                            
-                                                    <div class="detail-section slds-truncate hide-overflow">
-                                                        <div>                                        
-                                                            <c-web-icon
-                                                            icon-size="small"
-                                                            icon-name="location_pin"
-                                                            data-id="location"
-                                                            icon-color="#00A3E0"
-                                                        >
-                                                        </c-web-icon></div>
-                                                        <div class="slds-m-left_small hide-overflow">
-                                                            <p class="site-title-text">{siteTitle}</p>
-                                                            <div class="slds-truncate">                                                    
-                                                                <span class="font-color" title={siteLocation}>
-                                                                    {siteLocation}
-                                                                </span>
-                                                            </div>
-                                                            <p class="font-color">{sitePhone}</p>
-                                                        </div>
-                                                    </div>
-                                                
-                                            </div>
-                                        </article>
+                                                    </lightning-formatted-date-time>
+                                                </span>
+                                            </template>
+                                            <template if:false={planDateTime}>
+                                                {labels.NO_DATE}
+                                            </template>
+                                        </p>
                                     </div>
-                                    
-                                    <article class="icon-card">
-                                        <template if:true={iconDetails}>
-                                        <div class="site-title-text slds-m-left_medium slds-m-top_small">
-                                            {labels.What_to_Expect}
-                                        </div>
-                                        <div class="slds-grid slds-wrap padding-desktop">
-                                            <template for:each={iconDetails} for:item="icon">
-                                                <div class="slds-col slds-size_6-of-12 slds-p-around_x-small detail-section" key={icon.Name}>
-                                                    <div class="expect-icon">   
-                                                        <c-web-icon
-                                                        icon-size="medium-large"
-                                                        icon-name={icon.Name}
-                                                        data-id={icon.Label__c}
-                                                        data-name={icon.Name}
-                                                        icon-color="#00A3E0"
+                                </div>
+                            </div>
+                        </article>
+                        <article
+                            class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
+                        >
+                            <div class="slds-card__header slds-grid card-wrap">
+                                <header
+                                    class="slds-media slds-media_center slds-has-flexi-truncate"
+                                >
+                                    <div class="slds-media__figure icon">
+                                        <c-web-icon
+                                            icon-size="small"
+                                            icon-name="time_clock"
+                                            data-id="clock"
+                                            icon-color="#00A3E0"
+                                        >
+                                        </c-web-icon>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <div class="slds-card__header-title">
+                                            <p
+                                                class="slds-card__header-link slds-truncate visit-text"
+                                            >
+                                                <template if:true={planDateTime}>
+                                                    <span>
+                                                        <lightning-formatted-date-time
+                                                            value={planDateTime}
+                                                            hour="2-digit"
+                                                            minute="2-digit"
+                                                            hour12={ampm}
+                                                            time-zone={userTimeZone}
                                                         >
-                                                        </c-web-icon>
-                                                    </div>
-                                                    <div class="slds-card__header-link slds-truncate icon-name" title={icon.Label__c}>
-                                                        {icon.Label__c}
-                                                    </div>
-                                                </div>
-                                            </template>
+                                                        </lightning-formatted-date-time>
+                                                    </span>
+                                                </template>
+                                                <template if:false={planDateTime}>
+                                                    {labels.NO_TIME}
+                                                </template>
+                                            </p>
                                         </div>
-                                        <template if:true={moreIconsCount}>
-                                        <div class="slds-m-top_xx-small more text-centre">
-                                            + {moreIconsCount} {labels.MORE}
+                                    </div>
+                                </header>
+                            </div>
+                        </article>
+                        <article
+                            class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
+                        >
+                            <div class="slds-card__header slds-grid card-wrap hide-overflow">
+                                <div class="detail-section slds-truncate hide-overflow">
+                                    <div>
+                                        <c-web-icon
+                                            icon-size="small"
+                                            icon-name="location_pin"
+                                            data-id="location"
+                                            icon-color="#00A3E0"
+                                        >
+                                        </c-web-icon>
+                                    </div>
+                                    <div class="slds-m-left_small hide-overflow">
+                                        <p class="site-title-text">{siteTitle}</p>
+                                        <div class="slds-truncate">
+                                            <span class="font-color" title={siteLocation}>
+                                                {siteLocation}
+                                            </span>
                                         </div>
-                                        </template>
-                                        <template if:false={moreIconsCount}>
-                                            <div class="slds-m-top_xx-small more text-centre">
-                                            </div>
-                                        </template>
-                                        </template>
-                                        <template if:false={iconDetails}>
-                                            <template if:false={isProgram}>
-                                                <div class="no-expect">{labels.VISIT_NO_EXPECT}</div>
-                                            </template>
-                                            <template if:true={isProgram}>
-                                                <div class="no-expect">{labels.EVENT_NO_EXPECT}</div>
-                                            </template>
-                                        </template>
-                                    </article>
-                                <!--</div>
+                                        <p class="font-color">{sitePhone}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <article class="icon-card">
+                        <template if:true={iconDetails}>
+                            <div class="site-title-text slds-m-left_medium slds-m-top_small">
+                                {labels.What_to_Expect}
+                            </div>
+                            <div class="slds-grid slds-wrap padding-desktop">
+                                <template for:each={iconDetails} for:item="icon">
+                                    <div
+                                        class="slds-col slds-size_6-of-12 slds-p-around_x-small detail-section"
+                                        key={icon.Name}
+                                    >
+                                        <div class="expect-icon">
+                                            <c-web-icon
+                                                icon-size="medium-large"
+                                                icon-name={icon.Name}
+                                                data-id={icon.Label__c}
+                                                data-name={icon.Name}
+                                                icon-color="#00A3E0"
+                                            >
+                                            </c-web-icon>
+                                        </div>
+                                        <div
+                                            class="slds-card__header-link slds-truncate icon-name"
+                                            title={icon.Label__c}
+                                        >
+                                            {icon.Label__c}
+                                        </div>
+                                    </div>
+                                </template>
+                                <template if:true={moreIconsCount}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-m-top_xx-small more text-centre"
+                                    >
+                                        + {moreIconsCount} {labels.MORE}
+                                    </div>
+                                </template>
+                                <template if:false={moreIconsCount}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-m-top_xx-small more text-centre"
+                                    ></div>
+                                </template>
+                            </div>
+                        </template>
+                        <template if:false={iconDetails}>
+                            <template if:false={isProgram}>
+                                <div class="no-expect">{labels.VISIT_NO_EXPECT}</div>
+                            </template>
+                            <template if:true={isProgram}>
+                                <div class="no-expect">{labels.EVENT_NO_EXPECT}</div>
+                            </template>
+                        </template>
+                    </article>
+                    <!--</div>
                             </article>
                         </div>-->
-                    </template>
+                </template>
                 <template if:false={isUpcomingDetails}>
-                    <c-web-spinner class="main-spinner" ></c-web-spinner>
+                    <c-web-spinner class="main-spinner"></c-web-spinner>
                     <!--<div class="slds-card__body slds-card__body_inner card-wrap">
                         <article class="slds-card slds-card_boundary container-card-upcoming">
                             <div class="slds-card__body slds-card__body_inner upcoming-m-top">-->
-                                <div
-                                    class="slds-card-wrapper slds-card_boundary slds-align_absolute-center visit-card-upcoming"
-                                >
-                                    <span class="center-align">
-                                        <img class="no-upcoming-img" src={empty_state} />
-                                    </span>
-                                    <template if:true={isProgram}>
-                                        <span class="text-colour padding-top">
-                                            {labels.No_Upcoming_Event}
-                                        </span>
-                                    </template>
-                                    <template if:false={isProgram}>
-                                        <span class="text-colour padding-top">
-                                            {labels.No_Upcoming_Visit}
-                                        </span>
-                                    </template>                                    
-                                </div>
-                            <!--</div>
+                    <div
+                        class="slds-card-wrapper slds-card_boundary slds-align_absolute-center visit-card-upcoming"
+                    >
+                        <span class="center-align">
+                            <img class="no-upcoming-img" src={empty_state} />
+                        </span>
+                        <template if:true={isProgram}>
+                            <span class="text-colour padding-top">
+                                {labels.No_Upcoming_Event}
+                            </span>
+                        </template>
+                        <template if:false={isProgram}>
+                            <span class="text-colour padding-top">
+                                {labels.No_Upcoming_Visit}
+                            </span>
+                        </template>
+                    </div>
+                    <!--</div>
                         </article>
                     </div>-->
                 </template>
                 <template if:true={isVisitAvailable}>
-                    <footer class="slds-card__footer card-wrap slds-card__footer-action slds-align_absolute-center">
+                    <footer
+                        class="slds-m-top_small slds-card__footer card-wrap slds-card__footer-action slds-align_absolute-center"
+                    >
                         <template if:true={isProgram}>
                             <a class="label" href="events" onclick={setSessionCookie}
                                 >{labels.View_Event_Details}
@@ -230,13 +234,13 @@
                             <a class="label" href="visits" onclick={setSessionCookie}
                                 >{labels.View_Visit_Details}
                             </a>
-                        </template>                        
+                        </template>
                     </footer>
                 </template>
             </article>
         </template>
         <template if:false={desktop}>
-        <div class="upcoming-card slds-m-around_small">
+            <!--<div class="upcoming-card slds-m-around_small">
             <div class = "uc-text-mobile">
                 <template if:true={isProgram}>
                     {labels.PG_Mobile_Title_Upcoming_Events}
@@ -244,13 +248,14 @@
                 <template if:false={isProgram}>
                     {labels.PG_Mobile_Title_Upcoming_Visits}
                 </template>
-            </div>
-            <template if:false={isUpcomingDetails}>
-                    <article
-                        class="slds-align_absolute-center container-card-no-upcoming"
-                    >
+            </div>-->
+            <div>
+                <template if:false={isUpcomingDetails}>
+                    <article class="slds-align_absolute-center container-card-no-upcoming">
                         <div class="dis-block">
-                            <span class="center"><img class="no-upcoming-img" src={empty_state} /></span>
+                            <span class="center"
+                                ><img class="no-upcoming-img" src={empty_state}
+                            /></span>
                             <template if:true={isProgram}>
                                 <span class="text-colour slds-m-top_medium"
                                     >{labels.No_Upcoming_Event}</span
@@ -263,160 +268,165 @@
                             </template>
                         </div>
                     </article>
-            </template>
-            
-            <template if:true={isUpcomingDetails}>
-                <div class="mobile-padding">
-                <div class="slds-truncate visit-title-mobile slds-p-vertical_small">
-                <span title={visitName}>{visitName}</span>
-                </div>
-                <div class="slds-grid slds-wrap">
-                <div class="slds-col slds-size_1-of-12 info-icon-mobile">
-                        <c-web-icon
-                            icon-size="small"
-                            icon-name="calendar"
-                            data-id="calendar"
-                            icon-color="#00A3E0"
-                        >
-                        </c-web-icon>
-                </div>
-                <div class="slds-col slds-size_11-of-12 slds-m-top_xxx-small text-padding">
-                    <p
-                    class="slds-truncate visit-text-mobile"
-                >
-                    <template if:true={planDateTime}>
-                        <div>
-                            <lightning-formatted-date-time
-                                value={planDateTime}
-                                year="numeric"
-                                month="long"
-                                day="numeric"
-                                time-zone={userTimeZone}
-                            >
-                            </lightning-formatted-date-time>
+                </template>
+
+                <template if:true={isUpcomingDetails}>
+                    <div class="mobile-padding">
+                        <div class="slds-truncate visit-title-mobile slds-p-vertical_small">
+                            <span title={visitName}>{visitName}</span>
                         </div>
-                    </template>
-                    <template if:false={planDateTime}>
-                        {labels.NO_DATE}
-                    </template>
-                </p>
-                </div> 
-                </div>
-                <div class="slds-grid slds-wrap slds-p-top_medium">
-                    <div class="slds-col slds-size_1-of-12 info-icon-mobile">
-                        <c-web-icon
-                        icon-size="small"
-                        icon-name="time_clock"
-                        data-id="clock"
-                        icon-color="#00A3E0"
-                    >
-                    </c-web-icon>
-                    </div>
-                    <div class="slds-col slds-size_11-of-12 slds-m-top_xxx-small text-padding">
-                        <p
-                        class="slds-truncate visit-text-mobile"
-                    >
-                        <template if:true={planDateTime}>
-                            <div>
-                                <lightning-formatted-date-time
-                                value={planDateTime}
-                                hour="2-digit"
-                                minute="2-digit"
-                                hour12={ampm}
-                                time-zone={userTimeZone}
-                            >
-                            </lightning-formatted-date-time>
-                            </div>
-                        </template>
-                        <template if:false={planDateTime}>
-                            {labels.NO_TIME}
-                        </template>
-                    </p>
-                    </div> 
-                </div>
-                <div class="slds-grid slds-wrap slds-p-top_medium slds-p-bottom_small">
-                    <div class="slds-col slds-size_1-of-12 info-icon-mobile">
-                        <c-web-icon
-                        icon-size="small"
-                        icon-name="location_pin"
-                        data-id="location"
-                        icon-color="#00A3E0"
-                    >
-                    </c-web-icon>
-                    </div>
-                    <div class="slds-col slds-size_11-of-12  text-padding">
-                        <p class="site-title-text">{siteTitle}</p>
-                        <p class="slds-truncate font-color" title={siteLocation}>{siteLocation}</p>
-                        <p class="font-color">{sitePhone}</p>
-                    </div>
-                </div>
-                </div>   
-                <hr>  
-                <div>                    
-                <article class="icon-card-mobile">
-                    <template if:true={iconDetails}>
-                    <div class="site-title-text slds-m-left_medium slds-m-top_small">
-                        {labels.What_to_Expect}
-                    </div>
-                    <div class="slds-grid slds-wrap">
-                        <template for:each={iconDetails} for:item="icon">
-                            <div class="slds-col slds-size_6-of-12 slds-p-top_small slds-p-horizontal_small detail-section icon-padding" key={icon.Name}>
-                                <div class="expect-icon">   
-                                    <c-web-icon
-                                    icon-size="medium-large"
-                                    icon-name={icon.Name}
-                                    data-id={icon.Label__c}
-                                    data-name={icon.Name}
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_1-of-12 info-icon-mobile">
+                                <c-web-icon
+                                    icon-size="small"
+                                    icon-name="calendar"
+                                    data-id="calendar"
                                     icon-color="#00A3E0"
-                                    >
-                                    </c-web-icon>
-                                </div>
-                                <div class="slds-card__header-link slds-truncate icon-name" title={icon.Label__c}>
-                                    {icon.Label__c}
-                                </div>
+                                >
+                                </c-web-icon>
                             </div>
-                        </template>
-                    </div>
-                    <template if:true={moreIconsCount}>
-                            <div class="slds-m-top_small more-mobile more text-centre">
-                            + {moreIconsCount} {labels.MORE}
+                            <div
+                                class="slds-col slds-size_11-of-12 slds-m-top_xxx-small text-padding"
+                            >
+                                <p class="slds-truncate visit-text-mobile">
+                                    <template if:true={planDateTime}>
+                                        <div>
+                                            <lightning-formatted-date-time
+                                                value={planDateTime}
+                                                year="numeric"
+                                                month="long"
+                                                day="numeric"
+                                                time-zone={userTimeZone}
+                                            >
+                                            </lightning-formatted-date-time>
+                                        </div>
+                                    </template>
+                                    <template if:false={planDateTime}> {labels.NO_DATE} </template>
+                                </p>
                             </div>
-                    </template>
-                    <template if:false={moreIconsCount}>
-                        <div class="slds-m-top_small more text-centre">
                         </div>
-                    </template>
-                    </template>
-                    <template if:false={iconDetails}>
-                        <template if:false={isProgram}>
-                            <div class="no-expect">{labels.VISIT_NO_EXPECT}</div>
-                        </template>
-                        <template if:true={isProgram}>
-                            <div class="no-expect">{labels.EVENT_NO_EXPECT}</div>
-                        </template>
-                    </template>
-                </article>  
-            </div>                         
-            </template>
-        </div>
+                        <div class="slds-grid slds-wrap slds-p-top_medium">
+                            <div class="slds-col slds-size_1-of-12 info-icon-mobile">
+                                <c-web-icon
+                                    icon-size="small"
+                                    icon-name="time_clock"
+                                    data-id="clock"
+                                    icon-color="#00A3E0"
+                                >
+                                </c-web-icon>
+                            </div>
+                            <div
+                                class="slds-col slds-size_11-of-12 slds-m-top_xxx-small text-padding"
+                            >
+                                <p class="slds-truncate visit-text-mobile">
+                                    <template if:true={planDateTime}>
+                                        <div>
+                                            <lightning-formatted-date-time
+                                                value={planDateTime}
+                                                hour="2-digit"
+                                                minute="2-digit"
+                                                hour12={ampm}
+                                                time-zone={userTimeZone}
+                                            >
+                                            </lightning-formatted-date-time>
+                                        </div>
+                                    </template>
+                                    <template if:false={planDateTime}> {labels.NO_TIME} </template>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap slds-p-top_medium slds-p-bottom_small">
+                            <div class="slds-col slds-size_1-of-12 info-icon-mobile">
+                                <c-web-icon
+                                    icon-size="small"
+                                    icon-name="location_pin"
+                                    data-id="location"
+                                    icon-color="#00A3E0"
+                                >
+                                </c-web-icon>
+                            </div>
+                            <div class="slds-col slds-size_11-of-12 text-padding">
+                                <p class="site-title-text">{siteTitle}</p>
+                                <p class="slds-truncate font-color" title={siteLocation}>
+                                    {siteLocation}
+                                </p>
+                                <p class="font-color">{sitePhone}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div>
+                        <article class="icon-card-mobile">
+                            <template if:true={iconDetails}>
+                                <div class="site-title-text slds-m-left_medium slds-m-top_small">
+                                    {labels.What_to_Expect}
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <template for:each={iconDetails} for:item="icon">
+                                        <div
+                                            class="slds-col slds-size_6-of-12 slds-p-top_small slds-p-horizontal_small detail-section icon-padding"
+                                            key={icon.Name}
+                                        >
+                                            <div class="expect-icon">
+                                                <c-web-icon
+                                                    icon-size="medium-large"
+                                                    icon-name={icon.Name}
+                                                    data-id={icon.Label__c}
+                                                    data-name={icon.Name}
+                                                    icon-color="#00A3E0"
+                                                >
+                                                </c-web-icon>
+                                            </div>
+                                            <div
+                                                class="slds-card__header-link slds-truncate icon-name"
+                                                title={icon.Label__c}
+                                            >
+                                                {icon.Label__c}
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template if:true={moreIconsCount}>
+                                        <div
+                                            class="slds-col slds-size_1-of-1 slds-m-top_small more-mobile more text-centre"
+                                        >
+                                            + {moreIconsCount} {labels.MORE}
+                                        </div>
+                                    </template>
+                                    <template if:false={moreIconsCount}>
+                                        <div
+                                            class="slds-col slds-size_1-of-1 slds-m-top_small more text-centre"
+                                        ></div>
+                                    </template>
+                                </div>
+                            </template>
+                            <template if:false={iconDetails}>
+                                <template if:false={isProgram}>
+                                    <div class="no-expect">{labels.VISIT_NO_EXPECT}</div>
+                                </template>
+                                <template if:true={isProgram}>
+                                    <div class="no-expect">{labels.EVENT_NO_EXPECT}</div>
+                                </template>
+                            </template>
+                        </article>
+                    </div>
+                </template>
+            </div>
             <template if:true={isVisitAvailable}>
-                <div
-                    class="slds-card__footer-action slds-align_absolute-center label"
-                >
+                <div class="slds-card__footer-action slds-align_absolute-center label">
                     <template if:true={isProgram}>
                         <a href="events" onclick={setSessionCookie}
                             >{labels.View_Event_Details}
                             <span class="slds-assistive-text">{labels.View_Event_Details}</span>
                         </a>
-                    </template> 
+                    </template>
                     <template if:false={isProgram}>
                         <a href="visits" onclick={setSessionCookie}
                             >{labels.View_Visit_Details}
                             <span class="slds-assistive-text">{labels.View_Visit_Details}</span>
                         </a>
-                    </template>                       
+                    </template>
                 </div>
             </template>
         </template>
-    </template>  
+    </template>
 </template>
