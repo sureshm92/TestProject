@@ -1,6 +1,7 @@
 {
   "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
   "componentName" : "c:OneColumnLayout",
+  "dataProviders" : [ ],
   "id" : "ffa75f1e-6e32-4fdc-9b90-bbb6406e5c6d",
   "label" : "My Patients",
   "regions" : [ {
