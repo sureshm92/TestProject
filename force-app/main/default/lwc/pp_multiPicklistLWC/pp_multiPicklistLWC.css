@@ -245,7 +245,7 @@
 }
 .study-box {
     margin-top: -1px;
-    height: 40px !important;
+    height: 40px;
 }
 .study-p-bottom {
     padding-bottom: 6px;
@@ -287,4 +287,4 @@
 }
 .std-input-box-height{
     height: 40px;
-} 
+}

@@ -1275,9 +1275,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-del-multi-picklist .slds-truncate{
     height: 32px !important;
 }
-.manage-del-multi-picklist .study-box-manage-del{
+/* .manage-del-multi-picklist .study-box-manage-del{
     line-height: 32px !important;
-}
+} */
 .del-access-rectangle {
     border-radius: 16px !important;
 }
@@ -1286,6 +1286,59 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     width: 233px !important;
     border-radius: 16px !important;
 }
+.pp-add-new-del .ad-warning-container{
+    border-radius: 8px !important;
+}
+.pp-add-new-del .btn-confirm-selection{
+    height: 32px !important;
+    width: 144px !important;
+    border-radius: 16px !important;
+    font-size: 14px !important;
+     
+}
+.manage-delegate-acc-setting .study-box{
+    margin-top: -1px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+}
+
+.manage-delegate-acc-setting .std .selectedValue{
+    border: 1px solid #d9d9d9 !important;
+    border-radius: 16px !important;
+    color: black !important;
+    font-weight: 600 !important;
+    float: left !important;
+    padding: 0 10px !important;
+    height: 24px !important;
+    line-height: 24px !important;
+    overflow: hidden !important;
+    margin: 3px !important;
+}
+
+.manage-delegate-acc-setting .padding-placeholder{
+    padding: 0 0 0 20px !important;
+}
+
+.manage-delegate-acc-setting .slds-input__icon_right {
+    top : 16px !important;
+}
+
+.manage-delegate-acc-setting .slds-dropdown .slds-dropdown_fluid .open-width .rtl-width{
+    margin-top: -6px !important;
+} 
+/* .manage-delegate-acc-setting .ul {
+    list-style: none !important;
+}
+.manage-delegate-acc-setting .ul li::before {
+    content: "\2022" !important;
+    color: #005587 !important;
+    font-weight: bold !important;
+    display: inline-block !important;
+    width: 8px !important;
+    height: 8px !important;
+    margin-left: -1em !important;
+    font-size: 25px !important;
+} */
 /* .slds-modal__container .manage-delegate{
     width: 402px !important;
 } */
