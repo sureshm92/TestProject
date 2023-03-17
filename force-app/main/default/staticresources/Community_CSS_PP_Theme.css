@@ -139,10 +139,10 @@
     line-height: 1;
     text-align: center;
 }
-.main-header-brand {
+.pp-main-header-brand {
     background: linear-gradient(to bottom, #00839a 0%, #005587 100%);
     border-bottom-right-radius: 20px;
-    height: 4rem;
+    height: 4rem !important;
 }
 
 .mobile-menu-background {
@@ -1159,3 +1159,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .icon-chevron-right svg{
     width: 10px;
 }
+
+.custom-notify-container .slds-notify_toast, .slds-notify--toast {
+    align-items: flex-start;
+   }
