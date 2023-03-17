@@ -4,7 +4,6 @@
 
 public without sharing class Batch_CreatePlatformResourceNotification extends Batch_ScheduledAbstract {
     public Map<Id, ThereaputicAreaLang> resWithTherapeuticAreasMap = new Map<Id, ThereaputicAreaLang>();
-    //  public List<ResourceMap> resourceMap;
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator(
             [
@@ -32,7 +31,7 @@ public without sharing class Batch_CreatePlatformResourceNotification extends Ba
         List<Id> linkResIds = new List<Id>();
         for (Therapeutic_Area_Assignment__c taObj : therapeuticAreaAssignmentsList) {
             if (taObj.Resource__r.Content_Type__c == 'Relevant_Link') {
-                linkResIds.add(taObj.Resource__c); // for later purpose
+                linkResIds.add(taObj.Resource__c);
             }
             if (
                 taObj.Resource__r.Content_Class__c == '3rd Party' ||
