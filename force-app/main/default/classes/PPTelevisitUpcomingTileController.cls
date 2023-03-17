@@ -48,6 +48,14 @@ Public Class PPTelevisitUpcomingTileController{
     }
     @AuraEnabled
     public static String getVisits(String communityMode, String userMode) {
+    
+        participantservice.participantstate pstate = ((participantservice) classfactory.newinstance(participantservice.class)).getState(); 
+        system.debug('+++++++++pstate'+pstate);
+        String ctpId;
+        if(pstate != null && pstate.pe != null){
+            ctpId = pstate.pe.Clinical_Trial_Profile__c;
+        }
+    
         Datetime currentDateTime = Datetime.now();
         Datetime next24HoursDateTime = Datetime.now().addHours(24);
         List<Televisit_Attendee__c> allVisitis = [
@@ -71,6 +79,7 @@ Public Class PPTelevisitUpcomingTileController{
                 User__c = :UserInfo.getUserId()
                 AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime
                 //AND Televisit__r.Visit_Link_Activation_End_Time__c <= :next24HoursDateTime
+                AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c = :ctpId
                 AND Televisit__r.Status__c = 'Scheduled'
             ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3
         ];
