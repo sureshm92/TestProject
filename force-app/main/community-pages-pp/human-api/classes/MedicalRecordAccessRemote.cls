@@ -143,7 +143,7 @@ public class MedicalRecordAccessRemote {
         try{
             HumanAPIWrapper hWrapper = new HumanAPIWrapper();
             //Listing all Alumini status
-            List<String> aluminiStatus = new List<String>{'Failed Review','Failed Referral','Excluded from Referring','Unable to Reach','Eligibility Passed','Declined Final Consent','Withdrew Consent','Screening Failed','Unable to Screen','Enrollment Failed','Randomization Failed','Withdrew Consent After Screening','Drop Out','Participation Complete','Trial Complete'};     
+            List<String> aluminiStatus = new List<String>{'Failed Review','Failed Referral','Excluded from Referring','Unable to Reach','Eligibility Failed','Pre-review Failed','Declined Consent','Declined Final Consent','Withdrew Consent','Screening Failed','Unable to Screen','Enrollment Failed','Randomization Failed','Withdrew Consent After Screening','Drop Out','Participation Complete','Trial Complete'};     
             //fatching contactId for running user
             Id contactId = [Select Id,contactId from user where Id =: userInfo.getUserId() ].contactId;
             //fetching contact for running user

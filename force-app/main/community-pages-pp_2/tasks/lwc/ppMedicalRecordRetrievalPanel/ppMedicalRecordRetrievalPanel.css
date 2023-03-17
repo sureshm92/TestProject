@@ -2,8 +2,10 @@
     min-height : 250px;
     max-height: 250px;
     overflow: auto;
-    background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%)
+}
 
+.slds-card.card-radius{
+    border-radius: 8px;
 }
 
 .mrr-footer_container{
