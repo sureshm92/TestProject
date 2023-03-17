@@ -21729,6 +21729,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Please confirm that your patient has signed ICF consent</value>
     </labels>
     <labels>
+        <fullName>Posting_date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Posting_date</shortDescription>
+        <value>Posting date:</value>
+    </labels>
+    <labels>
         <fullName>Potassium</fullName>
         <language>en_US</language>
         <protected>false</protected>
