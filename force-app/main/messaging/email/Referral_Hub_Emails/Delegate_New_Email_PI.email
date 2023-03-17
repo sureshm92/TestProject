@@ -10,12 +10,12 @@
                          greeting="{!$Label.Email_User_Greeting}"
                          signature="{!$Label.Email_Signature}"
                          communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK',
-                                                                                         'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
+                                                                                         'Default',IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal', 'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c))}">
 
             <c:Paragraph emailLabel="{!$Label.Email_Body_Delegate_Permission_Changed}"/>
             <c:EmailTemplateDelegate communityName="{!relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c}"/>
             <c:EmailActionBtn communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK',
-                                                                                         'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}" buttonLabel="{!$Label.Email_Action_View_Trial_Details}"/>
+                                                                                         'Default',IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal', 'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c))}" buttonLabel="{!$Label.Email_Action_View_Trial_Details}"/>
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
