@@ -240,12 +240,15 @@
                     <aura:if
                         isTrue="{!AND((v.compId == '8'),(v.userMode == 'Participant'),(v.showManageDelegateTab))}"
                     >
+                    <div class="manage-delegate-acc-setting-old">
                         <c:manageDelegates
                             userMode="{!v.userMode}"
                             participantContactId="{!v.initData.myContact.Id}"
                             isRTL="{!v.isRTLLanguage}"
                             picklistLabel="{!$Label.c.PG_MS_L_Studies_up}"
                         />
+                    </div>
+                        
                     </aura:if>
                     <!-- Manage Delegates Ends -->
                     <!-- Manage Assignment Start -->

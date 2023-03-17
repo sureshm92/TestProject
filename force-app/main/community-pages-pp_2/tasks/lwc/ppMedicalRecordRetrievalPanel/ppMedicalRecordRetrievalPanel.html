@@ -1,5 +1,5 @@
 <template>
-
+ <div class="slds-m-left--large slds-m-top--large">
    <template if:true={showspinner}>
         <lightning-card>      
             <div class="mrr-main_container">
@@ -15,17 +15,17 @@
    </template> 
  
     <template if:true={medicalCard}>
-        <div class="slds-m-left--large slds-m-top--large">
+       
             <div class="slds-grid card-wrap MRRHeader slds-p-around-xx--small">
                 <span class="slds-p-bottom--x-small header">{label.MRRHeader}</span>
                 &nbsp;<lightning-helptext content={externalLinkDisclaimer}></lightning-helptext>
             </div>
  
-        <lightning-card>
+        <div class="slds-card card-radius">
             <template if:true={innerspinner}>
                 <lightning-spinner data-id="spinner"  variant="brand" size="small" ></lightning-spinner>
-           </template>
-                <div class="mrr-main_container">
+             </template>
+            <div class="mrr-main_container slds-p-top--medium">
 
                 <template if:true={pastStudiesVisibility}>
                     <div class="slds-size--1-of-1">
@@ -41,7 +41,7 @@
                 </template>
                 <template if:true={isAuthorised}>
                     <template for:each= {medicalProviders} for:item ="provider" for:index="index">
-                        <div class="slds-grid slds-wrap slds-m-around--small slds-p-around--xx-small border1 slds-m-top_none" key={provider.providerName}>
+                        <div class="slds-grid slds-wrap slds-m-horizontal--small slds-m-bottom--x-small slds-p-around--xx-small border1" key={provider.providerName}>
                             <div class="namesize slds-col slds-size_3-of-5 slds-truncate" key={provider.providerName}>
                                  {provider.providerName}
                             </div>
@@ -69,7 +69,8 @@
                 </footer>
             </div>
                                                
-        </lightning-card>
-    </div>
+        </div>
+    
     </template>
+</div>
 </template>
