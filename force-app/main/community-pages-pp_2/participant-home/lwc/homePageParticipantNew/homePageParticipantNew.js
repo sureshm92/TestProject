@@ -75,19 +75,33 @@ export default class HomePageParticipantNew extends LightningElement {
                                 res.pvCount != undefined &&
                                 res.pvCount > 0;
                         }
-                            this.showTelevisitCard = this.clinicalrecord.Televisit_Vendor_is_Available__c;
-                            if(this.showTelevisitCard && !this.showVisitCard){
+                            //this.showTelevisitCard = this.clinicalrecord.Televisit_Vendor_is_Available__c;
+                            if(this.clinicalrecord.Televisit_Vendor_is_Available__c && res.televisitVendorAvailable){
+                                this.showTelevisitCard = true;
+                            }else{
+                                this.showTelevisitCard = false; 
+                            }
+                            console.log('Televisit Toggle',this.clinicalrecord.Televisit_Vendor_is_Available__c);
+                            console.log('Televisit Vendor',res.televisitVendorAvailable);
+                            if(this.showTelevisitCard  && !this.showVisitCard){
                                 this.isTelevisits = true;
                             }
 
-                            if(!this.showTelevisitCard && !this.showVisitCard){
-                                this.showUpcomingSection = false;
-                            }
+                            
                     }
                     if (this.desktop != true) {
                         //this.updatesSection = true;
                         this.showVisitCardMobile = true;
                     }
+
+                    if(!this.showTelevisitCard && !this.showVisitCard){
+                        this.showUpcomingSection = false;
+                        if (this.desktop != true) {
+                            this.updatesSection = true;
+                            this.showVisitCardMobile = false;
+                        }
+                    }
+
                     //For Delegate Self view
                     this.isDelegateSelfview =
                         this.participantState.value == 'ALUMNI' ||
