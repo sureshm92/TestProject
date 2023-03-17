@@ -5,6 +5,8 @@ import TIME_ZONE from '@salesforce/i18n/timeZone';
 import { NavigationMixin } from 'lightning/navigation';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import VERSION from '@salesforce/label/c.Version_date';
+import POSTING from '@salesforce/label/c.Posting_date';
+
 export default class PpResourceContainer extends NavigationMixin(LightningElement) {
     userTimezone = TIME_ZONE;
     //@api vars
@@ -14,15 +16,19 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
     @api resourceType;
     @api resourceId;
     @api resourceTitle;
+    @api resPostingDate;
     @api resUploadDate;
+    @api resVersionDate;
     @api isFavourite = false;
     @api resourceSummary;
     @api isVoted = false;
     state;
+    resourceForPostingDate = ['Article','Video','Multimedia'];
     isThumbnailPresent = false;
 
     label = {
-        VERSION
+        VERSION,
+        POSTING
     };
 
     connectedCallback() {
@@ -68,6 +74,13 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
 
     handleError() {
         this.isThumbnailPresent = false;
+    }
+
+    get showPostingDate(){
+        if(this.resourceForPostingDate.includes(this.resourceType)){
+            return true;
+        }
+        return false;
     }
 
     showErrorToast(titleText, messageText, variantType) {
