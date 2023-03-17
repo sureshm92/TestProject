@@ -37,8 +37,12 @@
                                     <hr class="hrline"/>
                                     <p class="tvbody">
                                         <img src={televisitAttendeePP2} style="width:35px"></img>
-                                        <span>{visit.PINameWithoutSalutation} (PI)</span> 
-                                       
+                                        <template if:true={isPIAttendee}>
+                                            <span>{visit.PINameWithoutSalutation} (PI)</span> 
+                                        </template>
+                                        <template if:false={isPIAttendee}>
+                                            <span>{siteStaffName} (Site Staff)</span> 
+                                        </template>
                                         <!--
                                         <span class="tooltip" style="float:right">+ {visit.numberOfParticipants} more 
                                             <span class="tooltiptext"> 
