@@ -169,6 +169,7 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
                             for(var i=0; i < resultInfo.relatedAttendees.length; i++){
                                 if(resultInfo.relatedAttendees[i].attendeeType == 'PI'){
                                     this.isPIAttendee = true;
+                                    break;
                                 }else if(resultInfo.relatedAttendees[i].attendeeType == 'Site Staff'){
                                     this.isPIAttendee = false;
                                     this.siteStaffName = resultInfo.relatedAttendees[i].firstname + ' ' + resultInfo.relatedAttendees[i].lastname;

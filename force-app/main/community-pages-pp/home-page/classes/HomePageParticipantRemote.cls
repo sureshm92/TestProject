@@ -58,8 +58,10 @@ public without sharing class HomePageParticipantRemote {
                 peSAndC.pvCount = count;
                 
                 Participant_Enrollment__c pe = [SELECT Id,Study_Site__c FROM Participant_Enrollment__c WHERE Id =:peId limit 1];
-                TelevisitVendorSettings__c tvs = [SELECT isEnable__c from TelevisitVendorSettings__c where Study_Site__c =:pe.Study_Site__c order by lastmodifieddate desc limit 1];
-                peSAndC.televisitVendorAvailable = tvs.isEnable__c;
+                List<TelevisitVendorSettings__c> tvs = new List<TelevisitVendorSettings__c>();
+                tvs = [SELECT Id,isEnable__c from TelevisitVendorSettings__c where Study_Site__c =:pe.Study_Site__c order by lastmodifieddate desc limit 1];
+                if(tvs.size() > 0)
+                    peSAndC.televisitVendorAvailable = tvs[0].isEnable__c;
                 
             }
             return JSON.serialize(peSAndC);

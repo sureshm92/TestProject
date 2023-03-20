@@ -35,34 +35,33 @@
                                         ></lightning-formatted-date-time>
                                     </p>
                                     <hr class="hrline"/>
-                                    <p class="tvbody">
-                                        <img src={televisitAttendeePP2} style="width:35px"></img>
-                                        <template if:true={isPIAttendee}>
-                                            <span>{visit.PINameWithoutSalutation} (PI)</span> 
-                                        </template>
-                                        <template if:false={isPIAttendee}>
-                                            <span>{siteStaffName} (Site Staff)</span> 
-                                        </template>
-                                        <!--
-                                        <span class="tooltip" style="float:right">+ {visit.numberOfParticipants} more 
-                                            <span class="tooltiptext"> 
-                                                <template for:each={visit.televisitAttendees} for:item="attendee" >
-                                                        <span  key={attendee.Id} >{attendee.Firstname__c} {attendee.Lastname__c} ({attendee.Attendee_Type__c}) </span>
-                                                    <br key={attendee.Id}/>
-                                                </template>
+                                    <div class="tvbody">
+                                        <lightning-layout>
+                                        <lightning-layout-item size="2">
+                                            <img src={televisitAttendeePP2} style="width:35px"></img>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8" class="televisitPIName" >
+                                            <template if:true={isPIAttendee}>
+                                                <span>{visit.PINameWithoutSalutation} (PI)</span> 
+                                            </template>
+                                            <template if:false={isPIAttendee}>
+                                                <span>{siteStaffName} (Site Staff)</span> 
+                                            </template>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="3" class="televisitToolTip">
+                                            <span>
+                                                <c-upcoming-televisit-tooltip
+                                                    height = "96px"
+                                                    width = "149px"
+                                                    position="absolute"
+                                                    related-attendees = {visit.relatedAttendees}
+                                                    displaytext = {visit.numberOfParticipants}
+                                                
+                                                > </c-upcoming-televisit-tooltip>
                                             </span>
-                                        </span>-->
-                                        <span>
-                                            <c-upcoming-televisit-tooltip
-                                        height = "96px"
-                                        width = "149px"
-                                        position="absolute"
-                                        related-attendees = {visit.relatedAttendees}
-                                        displaytext = {visit.numberOfParticipants}
-                                    
-                                    > </c-upcoming-televisit-tooltip>
-                                        </span>
-                                    </p> 
+                                        </lightning-layout-item>
+                                        </lightning-layout>
+                                    </div> 
                                         
                                         
 
