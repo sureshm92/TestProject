@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Notification_Type__c</field>
-        <value xsi:type="xsd:string">Message_to_PT_New_StdDoc_Type</value>
+        <value xsi:type="xsd:string">Update_to_PT_New_Document_Type</value>
     </values>
     <values>
         <field>Org_Wide_Email_Address__c</field>

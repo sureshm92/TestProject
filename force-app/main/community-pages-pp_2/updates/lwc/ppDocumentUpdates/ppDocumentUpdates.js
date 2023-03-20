@@ -38,6 +38,7 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
         if (communityService.isInitialized()) {
             state = communityService.getCurrentCommunityMode().participantState;
         }
+        console.log('window.location.origin : '+window.location.origin);
         let detailLink =
             window.location.origin +
             subDomain +
@@ -59,7 +60,7 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
 
         this[NavigationMixin.GenerateUrl](config).then((url) => {
             sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
+            //window.open(url, '_self');
         });
     }
 }
