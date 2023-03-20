@@ -1159,7 +1159,188 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .icon-chevron-right svg{
     width: 10px;
 }
-
 .custom-notify-container .slds-notify_toast, .slds-notify--toast {
     align-items: flex-start;
    }
+
+/* Delegate Redesing - Manage delegate page CSS override -start*/
+.manage-del-continer{
+    margin-left: 24px !important;
+    margin-right: 24px !important;
+    margin-top: 10px !important;
+}
+.manage-del .del-container{
+    border-radius: 8px !important;
+}
+.manage-del .study-rectangle{
+    border-radius: 8px !important;
+}
+.manage-del .former-del-rectangle{
+    border-radius: 8px !important;
+}
+.manage-del .add-Delegate-Btn{
+    width: 160px !important;
+    border-radius: 16px !important;
+    background-color: #015FF1 !important;
+}
+.manage-del .add-Delegate-Btn-mob{
+    height: 32px !important;
+    border-radius: 16px !important;
+    background-color: #015FF1 !important;
+}
+.manage-del .remove-btn{
+    border: 1px solid #D9D9D9 !important;
+    border-radius: 16px !important;
+    width: 107px !important;
+}
+.manage-del .remove-btn-mob{
+    border: 1px solid #D9D9D9 !important;
+    border-radius: 16px !important;
+}
+.manage-del .box-add-assignment-btn{
+    border-radius: 21px !important;
+}
+.manage-del .box-add-assignment-btn-former{
+    width: 200px !important;
+}
+.manage-del .box-add-assignment-btn-former-mob{
+    width: 100% !important;
+    height: 40px !important;
+}
+.manage-del .box-discard-btn{
+    border-radius: 21px !important;
+}
+.manage-del .box-Withdraw-del-btn{
+    border-radius: 21px !important;
+    width: 200px !important;
+}
+.manage-del .box-Withdraw-del-btn-mob{
+    border-radius: 21px !important;
+    width: 100% !important;
+}
+.manage-del .withdrawn-del-label{
+    font-size: 14px !important;
+}
+.manage-del .manage-del-save-btn{
+    height: 32px !important;
+    width: 107px !important;
+    border-radius: 16px !important;
+}
+.manage-del .save-del-bt-mob{
+    height: 32px !important;
+    border-radius: 16px !important;
+}
+/* Delegate Redesing - Manage delegate page CSS override -ends*/
+
+/* Delegate Redesing - Remove/Delete Modal - CSS Override - Start */
+.manage-delegate .card-top-bg{
+	height: 16px !important;
+    background: linear-gradient(90deg, #005587 0%, #008D9E 100%) !important;
+    border-top-left-radius: 16px !important;
+    border-top-right-radius: 16px !important;
+}
+
+.manage-delegate .footer-container{
+	border-bottom-left-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
+}
+.manage-delegate .button-confirm{
+    height: 32px !important;
+    width: 107px !important;
+    border-radius: 20px !important;
+    background-color: #015FF1 !important;
+}
+
+.manage-delegate .button-delete{
+    height: 32px !important;
+    width: 107px !important;
+    border-radius: 20px !important;
+}
+
+.manage-delegate .button-cancel{
+        height: 32px !important;
+}
+/* Delegate Redesing - Remove/Delete Modal - CSS Override - Ends */
+/* Delegate Redesing - Add New Delegate Page CSS  Override - Starts*/
+.manage-del-multi-picklist .multipicklist-box{
+    border-radius: 21px !important;
+    /* height: 32px !important; */
+}
+/* .manage-del-multi-picklist .study-box{
+    height: 32px !important;
+} */
+.manage-del-multi-picklist .slds-input__icon_right{
+    padding-right: 18px !important;
+}
+.manage-del-multi-picklist .slds-truncate{
+    height: 32px !important;
+}
+/* .manage-del-multi-picklist .study-box-manage-del{
+    line-height: 32px !important;
+} */
+.del-access-rectangle {
+    border-radius: 16px !important;
+}
+.manage-del-add-Del-page-save-btn{
+    height: 32px !important;
+    width: 233px !important;
+    border-radius: 16px !important;
+}
+.pp-add-new-del .ad-warning-container{
+    border-radius: 8px !important;
+}
+.pp-add-new-del .btn-confirm-selection{
+    height: 32px !important;
+    width: 144px !important;
+    border-radius: 16px !important;
+    font-size: 14px !important;
+     
+}
+.manage-delegate-acc-setting .study-box{
+    margin-top: -1px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+}
+
+.manage-delegate-acc-setting .std .selectedValue{
+    border: 1px solid #d9d9d9 !important;
+    border-radius: 16px !important;
+    color: black !important;
+    font-weight: 600 !important;
+    float: left !important;
+    padding: 0 10px !important;
+    height: 24px !important;
+    line-height: 24px !important;
+    overflow: hidden !important;
+    margin: 3px !important;
+}
+
+.manage-delegate-acc-setting .padding-placeholder{
+    padding: 0 0 0 20px !important;
+}
+
+.manage-delegate-acc-setting .slds-input__icon_right {
+    top : 16px !important;
+}
+
+.manage-delegate-acc-setting .slds-dropdown .slds-dropdown_fluid .open-width .rtl-width{
+    margin-top: -6px !important;
+} 
+/* .manage-delegate-acc-setting .ul {
+    list-style: none !important;
+}
+.manage-delegate-acc-setting .ul li::before {
+    content: "\2022" !important;
+    color: #005587 !important;
+    font-weight: bold !important;
+    display: inline-block !important;
+    width: 8px !important;
+    height: 8px !important;
+    margin-left: -1em !important;
+    font-size: 25px !important;
+} */
+/* .slds-modal__container .manage-delegate{
+    width: 402px !important;
+} */
+/* Delegate Redesing - Add New Delegate Page CSS  Override - ends*/
+
