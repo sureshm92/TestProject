@@ -89,12 +89,22 @@
                             <!--   Version Date    -->
                             <lightning-layout-item size="12">
                                 <div class="summary-date">
-                                    {label.VERSION}&nbsp;
+                                <template lwc:if={showPostingDate}>
+                                    {label.POSTING}&nbsp;
                                     <lightning-formatted-date-time
-                                        value={resUploadDate}
+                                        value={resPostingDate}
                                         time-zone={userTimeZone}
                                     >
                                     </lightning-formatted-date-time>
+                                </template>
+                                <template lwc:else>
+                                    {label.VERSION}&nbsp;
+                                    <lightning-formatted-date-time
+                                        value={resVersionDate}
+                                        time-zone={userTimeZone}
+                                    >
+                                    </lightning-formatted-date-time>
+                                </template>
                                 </div>
                             </lightning-layout-item>
                             <!--   SUMMARY    -->
