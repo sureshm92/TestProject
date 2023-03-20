@@ -119,3 +119,40 @@
     visibility: visible;
     z-index: 999;
   }
+
+  .televisitPIName{
+    padding:2px 0px; 
+    margin-left:-16px;
+  }
+
+  
+
+  @media all and (max-width: 540px){
+        .televisitPIName{
+            padding:2px 0px; 
+            margin-left:-20px;
+        }
+        .televisitToolTip{
+            margin-left:-18px;
+        }
+        .hrline{
+            margin-right: 0px;
+            margin-left: 0px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+    }
+
+    @media screen and (orientation: landscape) { 
+        .televisitPIName{
+            padding:2px 0px; 
+            margin-left:-85px;
+        }
+
+        .hrline{
+            margin-right: 0px;
+            margin-left: 0px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+    }
