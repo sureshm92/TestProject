@@ -46,6 +46,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     @api isRTL;
     @api participantContactId;
     @api picklistLabel;
+    @api currentCommunity;
     @track listPDE = [];
     @track formerListPDE = [];
     @wire(MessageContext)
@@ -385,6 +386,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     }
     get isAddNewDelegate() {
         return false;
+    }
+    get isNewPatientPortal(){
+        return this.currentCommunity ==='Iqvia Patient Portal II' ? true : false;
     }
     handleConsentCheckActiveDel(event) {
         let delId = event.currentTarget.dataset.pdid;
