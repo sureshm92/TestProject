@@ -1340,6 +1340,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .add-del-custom-radio-group .slds-radio__label {
     line-height: 36px !important;
 }
+.manage-delegate-acc-setting .manage-del-multi-picklist .slds-combobox_container{
+    height: 32px !important;
+}
   
 /* Delegate Redesing - Add New Delegate Page CSS  Override - ends*/
 
