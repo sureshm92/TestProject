@@ -1,6 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import VERSION_DATE from '@salesforce/label/c.Version_date';
+import POSTING_DATE from '@salesforce/label/c.Posting_date';
 
 export default class PpExploreUpdates extends NavigationMixin(LightningElement) {
     @api exploreData;
@@ -8,7 +9,8 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
     @api desktop;
     noExploreImage = false;
     labels = {
-        VERSION_DATE
+        VERSION_DATE,
+        POSTING_DATE
     };
 
     connectedCallback() {

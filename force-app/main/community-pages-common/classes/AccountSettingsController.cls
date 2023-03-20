@@ -618,6 +618,7 @@ public without sharing class AccountSettingsController {
                 RRCookiesAllowedCookie__c,
                 RRLanguageAllowedCookie__c,
                 Salutation,
+                Current_Participant_Enrollment__c,
                 userCommunityDelegateId__c,
                 userCommunytyType__c,
                 Phone_Type__c,
