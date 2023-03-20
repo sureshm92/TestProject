@@ -46,6 +46,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     @api isRTL;
     @api participantContactId;
     @api picklistLabel;
+    @api currentCommunity;
     @track listPDE = [];
     @track formerListPDE = [];
     @wire(MessageContext)
@@ -169,13 +170,13 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.formerListPDE = result.formerPDEWrapperList;
         this.setDefaultValuesToInItData(this.listPDE, true);
         this.setDefaultValuesToInItData(this.formerListPDE, false);
-        this.setActiveAndFormerDelegateFlags();
+        //this.setActiveAndFormerDelegateFlags();
     }
 
-    setActiveAndFormerDelegateFlags() {
-        this.hasNoActiveDelegate = this.listPDE.length == 0 ? true : false;
-        this.hasNoFormerDelegate = this.formerListPDE.length == 0 ? true : false;
-    }
+    // setActiveAndFormerDelegateFlags() {
+    //     this.hasNoActiveDelegate = this.listPDE.length == 0 ? true : false;
+    //     this.hasNoFormerDelegate = this.formerListPDE.length == 0 ? true : false;
+    // }
     //this method will separate email chars in two parts to partially mask the email address.
     setDefaultValuesToInItData(pdeList, activeDelegates) {
         pdeList.forEach((pde) => {
@@ -183,6 +184,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             //Add Additional default flags in the list of PDEnrollments.
             if (activeDelegates) {
                 //For Active Delegates.
+                this.hasNoActiveDelegate = false;
                 pde['addNewStudy'] = false;
                 pde['disableAddAssignmentButton'] = false;
                 pde['isEmailConsentChecked'] = false;
@@ -229,6 +231,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 pde['disableAddAssignmentButton'] = false;
                 pde['disableDeleteButton'] = false;
                 pde['isEmailConsentChecked'] = false;
+                if(!pde.isDeleted){
+                    this.hasNoFormerDelegate = false;
+                }
                 // pde.PDEEnrollmentsFormer.forEach((pdenFormer) => {
                 //     //If not withdrawn delegate.
                 //     if(!std.isWithdrawn){
@@ -381,6 +386,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     }
     get isAddNewDelegate() {
         return false;
+    }
+    get isNewPatientPortal(){
+        return this.currentCommunity ==='Iqvia Patient Portal II' ? true : false;
     }
     handleConsentCheckActiveDel(event) {
         let delId = event.currentTarget.dataset.pdid;

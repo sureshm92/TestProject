@@ -1225,6 +1225,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     height: 32px !important;
     width: 107px !important;
     border-radius: 16px !important;
+    margin-top: -3px !important;
 }
 .manage-del .save-del-bt-mob{
     height: 32px !important;
@@ -1286,10 +1287,10 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     width: 233px !important;
     border-radius: 16px !important;
 }
-.pp-add-new-del .ad-warning-container{
+.manage-delegate-acc-setting .ad-warning-container{
     border-radius: 8px !important;
 }
-.pp-add-new-del .btn-confirm-selection{
+.manage-delegate-acc-setting .btn-confirm-selection{
     height: 32px !important;
     width: 144px !important;
     border-radius: 16px !important;
@@ -1319,6 +1320,15 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     padding: 0 0 0 20px !important;
 }
 
+@media (max-device-width: 767px){
+    .manage-delegate-acc-setting .std .study-thmore-add-newdel {
+        padding: 1px 0px 0px 175px !important;
+    }
+    .manage-delegate-acc-setting .std .study-thmore-add-assignment {
+        padding: 0px 0px 0px 125px !important;
+    }
+}
+
 .manage-delegate-acc-setting .slds-input__icon_right {
     top : 16px !important;
 }
@@ -1326,21 +1336,19 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .slds-dropdown .slds-dropdown_fluid .open-width .rtl-width{
     margin-top: -6px !important;
 } 
-/* .manage-delegate-acc-setting .ul {
-    list-style: none !important;
+
+.manage-delegate-acc-setting .add-del-custom-radio-group .slds-radio__label {
+    line-height: 36px !important;
 }
-.manage-delegate-acc-setting .ul li::before {
-    content: "\2022" !important;
-    color: #005587 !important;
-    font-weight: bold !important;
-    display: inline-block !important;
-    width: 8px !important;
-    height: 8px !important;
-    margin-left: -1em !important;
-    font-size: 25px !important;
-} */
-/* .slds-modal__container .manage-delegate{
-    width: 402px !important;
-} */
+.manage-delegate-acc-setting .manage-del-multi-picklist .slds-combobox_container{
+    height: 32px !important;
+}
+.manage-delegate-acc-setting .add-del-padding {
+    padding: 0px !important;
+}
+.manage-delegate-acc-setting .no-active-delegates{
+    color: #444444 !important;
+}
+  
 /* Delegate Redesing - Add New Delegate Page CSS  Override - ends*/
 
