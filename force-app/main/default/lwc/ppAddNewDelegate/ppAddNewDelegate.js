@@ -76,6 +76,7 @@ export default class PpAddNewDelegate extends LightningElement {
     showExistingDelegateError = false;
     cmpinitialized = false;
     @track delegateOptions = [];
+    @track existingContacts = [];
     currentUserContactId = '';
     parentFullName = '';
     userMode;
@@ -447,6 +448,8 @@ export default class PpAddNewDelegate extends LightningElement {
         }
     }
     doSearchContact() {
+        this.selectedContact = '';
+        this.existingContacts = [];
         let emailElement = this.template.querySelector('[data-id="emailInput"]');
         this.delegate.delegateContact.Email = this.delegate.delegateContact.Email.trim();
         let delegate = this.delegate;
@@ -520,13 +523,19 @@ export default class PpAddNewDelegate extends LightningElement {
                     this.showExistingContactWarning = true;
                     this.sendMessageToDisableMultipicklist(true);
                     this.allDelegate.forEach((delegate) => {
+                        let option = {
+                            label: delegate.fullNameMasked,
+                            value: delegate.delegateContact.Id
+                          };
+                        this.existingContacts.push(option);
+
                         //check Delegate status.
                         let status = delegate.status;
                         let isActiveDelegate = delegate.isActive;
                         let isFormerDelegate =
                             !isActiveDelegate &&
                             (status === 'Disconnected' || status === 'On Hold');
-                        //If Delegate is Active/former(Not Withdrawn).
+                        //If Delegate is Active/former(Not Withdrawn/Deleted).
                         if (isActiveDelegate || isFormerDelegate) {
                             this.showExistingContactWarning = false;
                             this.showExistingDelegateError = true;
@@ -723,7 +732,7 @@ export default class PpAddNewDelegate extends LightningElement {
     }
     //Send Reset All to True to child component PP_MultiPickistLWC to reset the multipicklist value.
     //This LMS will be subscribe in connectedCallback in PP_MultiPickistLWC LWC comp.
-    sendFilterUpdates() {
+    sendResetAllStudiesMessage() {
         const returnPayload = {
             ResetAll: true
         };
@@ -762,20 +771,21 @@ export default class PpAddNewDelegate extends LightningElement {
     //This method will set the selected contact among multiple contacts.
     setSelectedContact(event) {
         this.selectedContact = event.target.value;
+        this.isContactSelected = true
         console.log('selectedContact: ' + this.selectedContact);
-        let checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
-        //Unslect the previously selected checkbox and keep the latest selection.
-        for (var i = 0; i < checkboxes.length; ++i) {
-            if (checkboxes[i].value != this.selectedContact) {
-                checkboxes[i].checked = false;
-            } else {
-                if (checkboxes[i].checked) {
-                    this.isContactSelected = true;
-                } else {
-                    this.isContactSelected = false;
-                }
-            }
-        }
+        // let checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
+        // //Unslect the previously selected checkbox and keep the latest selection.
+        // for (var i = 0; i < checkboxes.length; ++i) {
+        //     if (checkboxes[i].value != this.selectedContact) {
+        //         checkboxes[i].checked = false;
+        //     } else {
+        //         if (checkboxes[i].checked) {
+        //             this.isContactSelected = true;
+        //         } else {
+        //             this.isContactSelected = false;
+        //         }
+        //     }
+        // }
     }
     //Return the total number of existing contacts found.
     get existingContactsCount() {
@@ -801,6 +811,6 @@ export default class PpAddNewDelegate extends LightningElement {
         if (clearEmail) {
             this.template.querySelector('[data-id="emailInput"]').value = '';
         }
-        this.sendFilterUpdates();
+        this.sendResetAllStudiesMessage();
     }
 }
