@@ -108,7 +108,12 @@
                                             size="12"
                                             class="slds-m-top_x-large slds-align_absolute-center"
                                         >
-                                            <span><img src={noDelIcon_url} /></span>
+                                            <template if:false={isNewPatientPortal}>
+                                                <span><img src={noDelIcon_url} /></span>
+                                            </template>
+                                            <template if:true={isNewPatientPortal}>
+                                                <span><img src={icon_url} /></span>
+                                            </template>
                                         </lightning-layout-item>
                                         <lightning-layout-item
                                             size="12"
