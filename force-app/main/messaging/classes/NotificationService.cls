@@ -95,7 +95,6 @@ public without sharing class NotificationService {
     static public String NOTIFICATION_TARGET_TYPE_EMAIL = 'Email';
     static public String NOTIFICATION_TARGET_TYPE_SMS = 'SMS';
     static public String NOTIFICATION_TARGET_TYPE_PUSH = 'Push';
-    static public String NOTIFICATION_TARGET_TYPE_UPDATES = 'Updates';
 
     static public String NOTIFICATION_RECIPIENT_TYPE_PARTICIPANT = 'Participant';
     static public String NOTIFICATION_RECIPIENT_TYPE_HCP = 'HCP';
@@ -501,8 +500,6 @@ public without sharing class NotificationService {
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_RECIPIENT_TYPE_EXTERNAL_EMAIL) {
                     //TODO
-                }else if(nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_UPDATES){
-                    sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                 }
             }
         }
