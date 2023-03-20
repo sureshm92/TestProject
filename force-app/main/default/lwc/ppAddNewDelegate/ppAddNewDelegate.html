@@ -145,44 +145,16 @@
                                             >{label.PP_Users_Associated}</span
                                         >
                                     </lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-left_small" size="12">
-                                        <lightning-layout multiple-rows="treu">
-                                            <template
-                                                for:each={allDelegate}
-                                                for:item="del"
-                                                for:index="index"
-                                            >
-                                                <lightning-layout-item
-                                                    size="12"
-                                                    key={del.delegateContact.Id}
-                                                    class="slds-m-top_medium"
-                                                >
-                                                    <!-- <input
-                                                        type="checkbox"
-                                                        name={del.delegateContact.Name}
-                                                        value={del.delegateContact.Id}
-                                                        class="con-checkbox"
-                                                        onchange={setSelectedContact}
-                                                        data-contid={del.delegateContact.Id}
-                                                        data-id="checkbox"
-                                                    /> -->
-                                                    <lightning-input
-                                                        type="checkbox"
-                                                        name={del.delegateContact.Name}
-                                                        value={del.delegateContact.Id}
-                                                        class="taps mob-checkbox-txt"
-                                                        label={del.fullNameMasked}
-                                                        onchange={setSelectedContact}
-                                                        data-contid={del.delegateContact.Id}
-                                                        data-id="checkbox"
-                                                    ></lightning-input>
-                                                    <!-- <span class="text-for-check"
-                                                        >{del.delegateContact.FirstName} &nbsp;
-                                                        {del.delegateContact.LastName}</span
-                                                    > -->
-                                                </lightning-layout-item>
-                                            </template>
-                                        </lightning-layout>
+                                    <lightning-layout-item class="slds-p-left_medium slds-p-top_x-small" size="12">
+                                        <lightning-radio-group 
+                                                class="add-del-custom-radio-group"
+                                                name="radioGroup"
+                                                label=""
+                                                options={existingContacts}
+                                                value={selectedContact}
+                                                type="radio"    
+                                                onchange={setSelectedContact}>
+                                        </lightning-radio-group>
                                     </lightning-layout-item>
                                     <lightning-layout-item
                                         class="slds-p-left_small slds-m-top_medium slds-m-bottom_medium"
@@ -256,34 +228,16 @@
                                             >{label.PP_Users_Associated}</span
                                         >
                                     </lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-left_small" size="12">
-                                        <lightning-layout multiple-rows="treu">
-                                            <template
-                                                for:each={allDelegate}
-                                                for:item="del"
-                                                for:index="index"
-                                            >
-                                                <lightning-layout-item
-                                                    size="12"
-                                                    key={del.delegateContact.Id}
-                                                    class="slds-m-top_medium"
-                                                >
-                                                    <input
-                                                        type="checkbox"
-                                                        name={del.delegateContact.Name}
-                                                        value={del.delegateContact.Id}
-                                                        class="con-checkbox"
-                                                        onchange={setSelectedContact}
-                                                        data-contid={del.delegateContact.Id}
-                                                        data-id="checkbox"
-                                                    />
-                                                    <span class="text-for-check"
-                                                        >{del.delegateContact.FirstName} &nbsp;
-                                                        {del.delegateContact.LastName}</span
-                                                    >
-                                                </lightning-layout-item>
-                                            </template>
-                                        </lightning-layout>
+                                    <lightning-layout-item class="slds-p-left_medium slds-p-top_x-small" size="12">
+                                        <lightning-radio-group 
+                                                class="add-del-custom-radio-group"
+                                                name="radioGroup"
+                                                label=""
+                                                options={existingContacts}
+                                                value={selectedContact}
+                                                type="radio"    
+                                                onchange={setSelectedContact}>
+                                        </lightning-radio-group>
                                     </lightning-layout-item>
                                     <lightning-layout-item
                                         class="slds-p-left_small slds-m-top_medium slds-m-bottom_medium"
