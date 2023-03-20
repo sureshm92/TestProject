@@ -1343,6 +1343,12 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .manage-del-multi-picklist .slds-combobox_container{
     height: 32px !important;
 }
+.manage-delegate-acc-setting .add-del-padding {
+    padding: 0px !important;
+}
+.manage-delegate-acc-setting .no-active-delegates{
+    color: #444444 !important;
+}
   
 /* Delegate Redesing - Add New Delegate Page CSS  Override - ends*/
 
