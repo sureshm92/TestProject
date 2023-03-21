@@ -193,3 +193,11 @@
     font-size:14px;
     font-weight:600;
 }
+
+.mainDiv{
+    padding: 0px 10px;
+}
+
+.keydiv{
+    padding-right:3px;
+}
