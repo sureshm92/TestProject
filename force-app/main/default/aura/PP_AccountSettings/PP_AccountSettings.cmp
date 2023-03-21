@@ -240,11 +240,15 @@
                     <aura:if
                         isTrue="{!AND((v.compId == '8'),(v.userMode == 'Participant'),(v.showManageDelegateTab))}"
                     >
+                    <div class="manage-delegate-acc-setting-old">
                         <c:manageDelegates
                             userMode="{!v.userMode}"
-                            participantState="{!v.initData.participantState}"
+                            participantContactId="{!v.initData.myContact.Id}"
                             isRTL="{!v.isRTLLanguage}"
+                            picklistLabel="{!$Label.c.PG_MS_L_Studies_up}"
                         />
+                    </div>
+                        
                     </aura:if>
                     <!-- Manage Delegates Ends -->
                     <!-- Manage Assignment Start -->
@@ -252,11 +256,7 @@
                         isTrue="{!AND((v.compId == '9'),(v.userMode == 'Participant'),(v.showMamanageAssignmentTab))}"
                     >
                         <c:manageAssignment
-                            userMode="{!v.userMode}"
-                            hasPatientDelegates="{!v.initData.participantState.hasPatientDelegates}"
-                            isDelegate="{!v.initData.participantState.isDelegate}"
-                            ParticipantStateValue="{!v.initData.participantState.value}"
-                            isRTL="{!v.isRTLLanguage}"
+                        isRTL="{!v.isRTLLanguage}"
                         />
                     </aura:if>
                     <!-- Manage Assignment Ends -->

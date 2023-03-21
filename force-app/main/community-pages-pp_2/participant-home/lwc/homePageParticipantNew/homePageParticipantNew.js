@@ -6,7 +6,7 @@ import PPWELCOME from '@salesforce/label/c.PP_Welcome';
 import VISITS from '@salesforce/label/c.PG_SW_Tab_Visits';
 import EVENTS from '@salesforce/label/c.PG_SW_Tab_Events';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
-import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class HomePageParticipantNew extends LightningElement {
     label = {
@@ -32,6 +32,7 @@ export default class HomePageParticipantNew extends LightningElement {
     desktop = true;
     isDelegateSelfview = false;
     @track taskList = false;
+    showSpinner = true;
     homeIllustration = pp_icons + '/' + 'HomePage_Illustration.svg';
     homeIllustrationMble = pp_icons + '/' + 'HomePage_Illustration_Mble.svg';
     isTelevisits = false;
@@ -51,7 +52,6 @@ export default class HomePageParticipantNew extends LightningElement {
     initializeData() {
         getParticipantData()
             .then((result) => {
-                this.isInitialized = true;
                 if (result) {
                     let res = JSON.parse(result);
                     this.participantState = res.pState;
@@ -75,28 +75,46 @@ export default class HomePageParticipantNew extends LightningElement {
                                 res.pvCount != undefined &&
                                 res.pvCount > 0;
                         }
-                            this.showTelevisitCard = this.clinicalrecord.Televisit_Vendor_is_Available__c;
-                            if(this.showTelevisitCard && !this.showVisitCard){
+                            //this.showTelevisitCard = this.clinicalrecord.Televisit_Vendor_is_Available__c;
+                            if(this.clinicalrecord.Televisit_Vendor_is_Available__c && res.televisitVendorAvailable){
+                                this.showTelevisitCard = true;
+                            }else{
+                                this.showTelevisitCard = false; 
+                            }
+                            console.log('Televisit Toggle',this.clinicalrecord.Televisit_Vendor_is_Available__c);
+                            console.log('Televisit Vendor',res.televisitVendorAvailable);
+                            if(this.showTelevisitCard  && !this.showVisitCard){
                                 this.isTelevisits = true;
                             }
 
-                            if(!this.showTelevisitCard && !this.showVisitCard){
-                                this.showUpcomingSection = false;
-                            }
+                            
                     }
                     if (this.desktop != true) {
-                        this.updatesSection = true;
+                        //this.updatesSection = true;
+                        this.showVisitCardMobile = true;
                     }
+
+                    if(!this.showTelevisitCard && !this.showVisitCard){
+                        this.showUpcomingSection = false;
+                        if (this.desktop != true) {
+                            this.updatesSection = true;
+                            this.showVisitCardMobile = false;
+                        }
+                    }
+
                     //For Delegate Self view
                     this.isDelegateSelfview =
                         this.participantState.value == 'ALUMNI' ||
                         (this.participantState.hasPatientDelegates &&
-                            !this.participantState.isDelegate && !this.participantState.pe);
+                            !this.participantState.isDelegate &&
+                            !this.participantState.pe); 
                 }
+                this.isInitialized = true;
                 this.spinner ? this.spinner.hide() : '';
+                this.showSpinner = false;
             })
             .catch((error) => {
-                this.showErrorToast('Error occured', error.message, 'error','5000','dismissable');
+                this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
                 this.spinner ? this.spinner.hide() : '';
             });
     }

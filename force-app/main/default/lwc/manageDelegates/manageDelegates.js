@@ -44,6 +44,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     @api participantState;
     @api userMode;
     @api isRTL;
+    @api participantContactId;
+    @api picklistLabel;
+    @api currentCommunity;
     @track listPDE = [];
     @track formerListPDE = [];
     @wire(MessageContext)
@@ -60,7 +63,6 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     showAddDelegatePage = false;
     showpopup = false;
     removeStudyPDEId;
-    removeStudyPDId
     deletePatientDelId;
     showDeletePopup = false;
     modalMesstext;
@@ -77,7 +79,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     totalNoOfStudiesActivelyAssigned = 0;
     isAtLeastOneStudySelected = false;
     diabledAddNewButton = false;
-    //dataInitialized = false;
+    dataInitialized = false;
     isEmailConsentChecked = false;
 
     label = {
@@ -129,17 +131,14 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
 
     initializeData() {
         this.spinner = true;
-
         //get Available list of studies of participant
         getFilterData({
             userMode: this.userMode
         })
             .then((result) => {
                 this.availableStudyData = result;
-                // //console.log('Delegate fileter data: '+JSON.stringify(result));
                 this.totalNoOfStudies = result.studies.length;
-                // this.isLoading = false;
-                // this.spinner = false;
+                this.getDelegates();
             })
             .catch((error) => {
                 this.isLoading = false;
@@ -150,34 +149,34 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                     100
                 );
                 this.spinner = false;
-            });
-
-        //Get Patient Delegate Enrollment records.
-        getPDE()
-            .then((result) => {
-                //console.log('success', result);
-                this.setInitializedData(result);
-                this.spinner = false;
-                //this.dataInitialized = true;
-            })
-            .catch((error) => {
-                //console.log('error');
-                this.spinner = false;
-            });
+            });   
     }
-
+    //Get Patient Delegate Enrollment records.
+    getDelegates(){
+        getPDE()
+        .then((result) => {
+            //console.log('success', result);
+            this.setInitializedData(result);
+            this.spinner = false;
+            this.dataInitialized = true;
+        })
+        .catch((error) => {
+            //console.log('error');
+            this.spinner = false;
+        });
+    }    
     setInitializedData(result) {
         this.listPDE = result.activePDEWrapperList;
         this.formerListPDE = result.formerPDEWrapperList;
         this.setDefaultValuesToInItData(this.listPDE, true);
         this.setDefaultValuesToInItData(this.formerListPDE, false);
-        this.setActiveAndFormerDelegateFlags();
+        //this.setActiveAndFormerDelegateFlags();
     }
 
-    setActiveAndFormerDelegateFlags() {
-        this.hasNoActiveDelegate = this.listPDE.length == 0 ? true : false;
-        this.hasNoFormerDelegate = this.formerListPDE.length == 0 ? true : false;
-    }
+    // setActiveAndFormerDelegateFlags() {
+    //     this.hasNoActiveDelegate = this.listPDE.length == 0 ? true : false;
+    //     this.hasNoFormerDelegate = this.formerListPDE.length == 0 ? true : false;
+    // }
     //this method will separate email chars in two parts to partially mask the email address.
     setDefaultValuesToInItData(pdeList, activeDelegates) {
         pdeList.forEach((pde) => {
@@ -185,6 +184,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             //Add Additional default flags in the list of PDEnrollments.
             if (activeDelegates) {
                 //For Active Delegates.
+                this.hasNoActiveDelegate = false;
                 pde['addNewStudy'] = false;
                 pde['disableAddAssignmentButton'] = false;
                 pde['isEmailConsentChecked'] = false;
@@ -231,6 +231,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 pde['disableAddAssignmentButton'] = false;
                 pde['disableDeleteButton'] = false;
                 pde['isEmailConsentChecked'] = false;
+                if(!pde.isDeleted){
+                    this.hasNoFormerDelegate = false;
+                }
                 // pde.PDEEnrollmentsFormer.forEach((pdenFormer) => {
                 //     //If not withdrawn delegate.
                 //     if(!std.isWithdrawn){
@@ -336,8 +339,13 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     }
     get saveButtonClass() {
         return this.isEmailConsentChecked && this.isAtLeastOneStudySelected
-            ? 'save-del-btn addDelegateMobile'
-            : 'save-del-btn btn-save-opacity addDelegateMobile';
+            ? 'save-del-btn addDelegateMobile manage-del-save-btn'
+            : 'save-del-btn btn-save-opacity addDelegateMobile manage-del-save-btn';
+    }
+    get saveButtonClassMob() {
+        return this.isEmailConsentChecked && this.isAtLeastOneStudySelected
+            ? 'save-del-bt-mob addDelegateMobile manage-del-save-btn-mob'
+            : 'save-del-bt-mob btn-save-opacity addDelegateMobile manage-del-save-btn-mob';
     }
     get delInfoFormer() {
         return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large';
@@ -379,6 +387,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     get isAddNewDelegate() {
         return false;
     }
+    get isNewPatientPortal(){
+        return this.currentCommunity ==='Iqvia Patient Portal II' ? true : false;
+    }
     handleConsentCheckActiveDel(event) {
         let delId = event.currentTarget.dataset.pdid;
         let isEmailConsentChecked = event.target.checked;
@@ -413,7 +424,6 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         let pdfn = event.target.dataset.pdfn;
         let pdln = event.target.dataset.pdln;
         this.removeStudyPDEId = event.currentTarget.dataset.pdeid;
-        this.removeStudyPDId = event.currentTarget.dataset.pdid;
         //console.log('removeStudyPDEId:', this.removeStudyPDEId);
 
         this.modalMesstext =
@@ -436,11 +446,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     handleRemoveDelegate(event) {
         this.spinner = true;
         let pdEnrollmentId = event.detail.pdenrollmentid;
-        let removeStudyPDId = event.detail.removeStudyPDId;
         ////console.log('m-del pdEnrollmentId: ',this.removeStudyPDEId);
         removeAssignment({
-            pDEId: pdEnrollmentId,
-            pDId : removeStudyPDId
+            pDEId: pdEnrollmentId
         })
             .then((result) => {
                 this.showpopup = false;

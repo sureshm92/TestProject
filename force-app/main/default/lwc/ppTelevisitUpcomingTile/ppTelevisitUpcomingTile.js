@@ -2,8 +2,8 @@ import { LightningElement, api, track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import cometdStaticResource from '@salesforce/resourceUrl/cometd';
 import { loadScript } from 'lightning/platformResourceLoader';
-import getSessionId from '@salesforce/apex/TelevisitMeetBannerController.getSessionId';
-import getVisits from '@salesforce/apex/TelevisitMeetBannerController.getVisits';
+import getSessionId from '@salesforce/apex/PPTelevisitUpcomingTileController.getSessionId';
+import getVisits from '@salesforce/apex/PPTelevisitUpcomingTileController.getVisits';
 import PT_TV_MEET_INFO from '@salesforce/label/c.PT_Televisit_Meet_Info';
 import PI_TV_MEET_INFO from '@salesforce/label/c.PI_Televisit_Meet_Info';
 import JOIN_MEET from '@salesforce/label/c.WelcomeModal_Join';
@@ -16,6 +16,7 @@ import televisitDatePP2 from '@salesforce/resourceUrl/Televisit_Date_PP2';
 import televisitTimePP2 from '@salesforce/resourceUrl/Televisit_Time_PP2';
 import televisitAttendeePP2 from '@salesforce/resourceUrl/Televisit_Attendee_PP2';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
+import televisitNoUpcomingRecord from '@salesforce/resourceUrl/TelevisitNoUpcomingRecord';
 
 export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningElement)  {
     @track status;
@@ -49,6 +50,9 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
     televisitDatePP2 = televisitDatePP2;
     televisitTimePP2 = televisitTimePP2;
     televisitAttendeePP2 = televisitAttendeePP2;
+    televisitNoUpcomingRecord = televisitNoUpcomingRecord;
+    isPIAttendee = false;
+    siteStaffName;
     @track labels = {
         UPCOMING_VISIT,
         PT_TV_MEET_INFO,
@@ -161,6 +165,17 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
                                     
                                 }
                             });
+
+                            for(var i=0; i < resultInfo.relatedAttendees.length; i++){
+                                if(resultInfo.relatedAttendees[i].attendeeType == 'PI'){
+                                    this.isPIAttendee = true;
+                                    break;
+                                }else if(resultInfo.relatedAttendees[i].attendeeType == 'Site Staff'){
+                                    this.isPIAttendee = false;
+                                    this.siteStaffName = resultInfo.relatedAttendees[i].firstname + ' ' + resultInfo.relatedAttendees[i].lastname;
+
+                                }
+                            }
                             
                         });   
                         //visitData.push(visitInfo); 
@@ -203,7 +218,8 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
                 visitDetail.PINameWithoutSalutation = visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c;
 
                 let bannerEndTime = new Date(visitInfo.Televisit__r.Visit_Link_Activation_End_Time__c);
-                if (dateNow >= bannerStartTime && dateNow <= bannerEndTime) {
+                //if (dateNow >= bannerStartTime && dateNow <= bannerEndTime) {
+                if (dateNow <= bannerEndTime) {
                     activeVisits.push(visitDetail);
                 }
             });

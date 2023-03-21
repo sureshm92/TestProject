@@ -22,10 +22,7 @@ public without sharing class RemoteCall_getHumanAPIData {
         return providersList;
     }
     
-    public static List<Provider> parseHumanResourcesResponse(String respBody)
-    {
-        
-        
+      public static List<Provider> parseHumanResourcesResponse(String respBody){
         List<Object> objslist = (List<Object>)Json.deserializeUntyped(respBody); 
         List<Provider> providersList=new List<Provider>();
         for(Object obj : objslist)
@@ -36,7 +33,22 @@ public without sharing class RemoteCall_getHumanAPIData {
             
             Provider providerObj=new Provider();
             providerObj.providerName =(String)mp_StrObj.get('sourceName');
-            providerObj.status = (String)objMap.get('status');
+            
+        	String status = (String)objMap.get('status');
+			providerObj.status = status;
+            
+            //populate status and dotclass
+            if(status != null && status.equalsIgnoreCase('ok') ){
+                providerObj.mappedStatus='Active';
+            }else if(status != null && status.equalsIgnoreCase('inProgress')){
+                providerObj.mappedStatus='In-Progress';
+            }else{
+                providerObj.mappedStatus = status;
+            }
+            providerObj.dotClass = 'slds-p-around_small greendot'; 
+            if(status != null && status.equalsIgnoreCase('inProgress')){
+                providerObj.dotClass = 'slds-p-around_small orangedot';
+            }
             providersList.add(providerObj);
         }
         Provider providerObj3=new Provider();

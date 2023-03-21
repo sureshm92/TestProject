@@ -83,7 +83,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     visitWrappers = [];
     @api icondetails = [];
     isError = false;
-    initialized = '';
     dateloaded = false;
     @track buttonClicked = false;
     cbload = false;
@@ -100,11 +99,12 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track isEvent = false;
     isUpcomingVisits = true;
     isPastVisits = true;
+    showSpinner = true;
     column2 = 'col2';
     column3 = 'col3';
 
-    get iconContainerCss(){
-       return this.isMobile ? "icon-cont-mobile" : "icon-cont";
+    get iconContainerCss() {
+        return this.isMobile ? 'icon-cont-mobile' : 'icon-cont';
     }
 
     callParticipantVisit() {
@@ -120,18 +120,20 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.isEvent = pvResult.isEvent;
                 let location = pvResult?.studySiteAddress?.Site__r?.BillingAddress;
 
-            this.siteAddress = location
-                ? (location.street ? location.street : '') +
-                  ', ' +
-                  (location.city ? location.city : '') +
-                  ', ' +
-                  (location.stateCode ? location.stateCode : '') +
-                  ' ' +
-                  (location.postalCode ? location.postalCode : '')
-                : '';
+                this.siteAddress = location
+                    ? (location.street ? location.street : '') +
+                      ', ' +
+                      (location.city ? location.city : '') +
+                      ', ' +
+                      (location.stateCode ? location.stateCode : '') +
+                      ' ' +
+                      (location.postalCode ? location.postalCode : '')
+                    : '';
                 this.siteName = pvResult?.studySiteAddress?.Site__r?.Name;
                 this.sitePhoneNumber = pvResult?.studySiteAddress?.Site__r?.Phone;
                 this.isResultsCard = this.isEvent != true;
+                let pastWithDate = [];
+                let pastWithoutDate = [];
                 if (result.length > 0) {
                     for (let i = 0; i < result.length; i++) {
                         if (
@@ -175,25 +177,20 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                                 this.missedVisit = false;
                             }
                             result[i].missedVisit = this.missedVisit;
-                            if (result[i]?.visit?.Is_Pre_Enrollment_Patient_Visit__c == true) {
-                                this.pastInitialVisits.push(result[i]);
-                            } else {
-                                this.pastVisits.push(result[i]);
+                            if (result[i].visit.Completed_Date__c === '') {
+                                pastWithoutDate.push(result[i]);
+                            }else{
+                                pastWithDate.push(result[i]);
                             }
                         }
                     }
-                    if (this.pastInitialVisits != []) {
-                        if (this.pastInitialVisits.length > 1) {
-                            this.pastInitialVisits = this.pastInitialVisits.sort((pv1, pv2) =>
-                                pv1?.visit?.Completed_Date__c < pv2?.visit?.Completed_Date__c
-                                    ? 1
-                                    : pv1?.visit?.Completed_Date__c > pv2?.visit?.Completed_Date__c
-                                    ? -1
-                                    : 0
-                            );
-                        }
-                        this.pastVisits = [...this.pastInitialVisits, ...this.pastVisits];
-                    }
+                    pastWithDate = pastWithDate.sort(function(visit1,visit2){
+                        // Turn your strings into dates, and then subtract them
+                        // to get a value that is either negative, positive, or zero.
+                        return new Date(visit2.visit.Completed_Date__c) - new Date(visit1.visit.Completed_Date__c);
+                      });
+                      pastWithoutDate = pastWithoutDate.reverse();
+                    this.pastVisits =   [...pastWithDate, ...pastWithoutDate];
                     if (this.upcomingInitialVisits != []) {
                         if (this.upcomingInitialVisits.length > 1) {
                             this.upcomingInitialVisits = this.upcomingInitialVisits.sort(
@@ -220,7 +217,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         this.isUpcomingVisits = false;
                     }
                     if (!this.pastVisitId && this.pastVisits.length > 0) {
-                        this.pastVisits = this.pastVisits.reverse();
                         this.pastVisitId = this.pastVisits[0].visit.Id;
                     }
                     if (!this.upcomingVisitId && this.upcomingVisits.length > 0) {
@@ -230,8 +226,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     }
                     this.showList = true;
                     //if (this.visitid) {
-                         //this.initializeData(this.visitid);
-                     //}
+                    //this.initializeData(this.visitid);
+                    //}
                     this.createEditTask();
                 } else {
                     this.isUpcomingVisits = false;
@@ -252,7 +248,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.template.querySelector('c-web-spinner').show();
             this.hasRendered = true;
         }
-        this.template.querySelector('c-web-spinner').hide();
+        //this.template.querySelector('c-web-spinner').hide();
         if (
             !this.isUpcomingVisits &&
             this.showUpcomingVisits == true &&
@@ -499,7 +495,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 this.showChild = true;
-                if(!this.isMobile){
+                if (!this.isMobile) {
                     this.initializeData(this.visitid);
                 }
                 if (!this.initialPageLoad) {

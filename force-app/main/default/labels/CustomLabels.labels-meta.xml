@@ -69,7 +69,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_StudyDelegateConsentEmail</shortDescription>
-        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with study team and to be contacted at the email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
+        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with a study team and to be contacted at the email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
     </labels>
     <labels>
         <fullName>RH_No_Active_Study</fullName>
@@ -10955,7 +10955,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Can&apos;t rembeber my username</shortDescription>
-        <value>I can not remember my username</value>
+        <value>I cannot remember my username</value>
     </labels>
     <labels>
         <fullName>PP_Don_t_want_to_receive</fullName>
@@ -11684,6 +11684,34 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>You are already associated with this study.</shortDescription>
         <value>You are already associated with this study.</value>
+    </labels>
+    <labels>
+        <fullName>Medical_Record_Retrieval</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Medical Record Retrieval</shortDescription>
+        <value>Medical Record Authorization</value>
+    </labels>
+    <labels>
+        <fullName>HAPI_Provider</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HAPI_Provider</shortDescription>
+        <value>You have not authorized any providers</value>
+    </labels>
+    <labels>
+        <fullName>Manage_Authorization</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manage_Authorization</shortDescription>
+        <value>Manage Authorizations</value>
+    </labels>
+    <labels>
+        <fullName>HAPI_Start_Loading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HAPI_Start_Loading</shortDescription>
+        <value>Retrieving medical records. . . Please wait.</value>
     </labels>
     <labels>
         <fullName>Navigation_eDiary</fullName>
@@ -21701,6 +21729,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Please confirm that your patient has signed ICF consent</value>
     </labels>
     <labels>
+        <fullName>Posting_date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Posting_date</shortDescription>
+        <value>Posting date:</value>
+    </labels>
+    <labels>
         <fullName>Potassium</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -29942,7 +29977,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient New  PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether or not you can take part in the study.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
             &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
                         
@@ -30054,6 +30089,13 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>Studies PP</shortDescription>
         <value>studies</value>
+    </labels>
+    <labels>
+        <fullName>Studies_And_Program_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies And Program PP</shortDescription>
+        <value>Studies and Programs</value>
     </labels>
     <labels>
         <fullName>Delegate_learnmore_PP</fullName>

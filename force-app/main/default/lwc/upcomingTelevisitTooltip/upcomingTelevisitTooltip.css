@@ -12,9 +12,10 @@
     font-size: 14px;
     letter-spacing: 0;
     line-height: 24px;
+    font-weight: 500;
 }
 .slds-popover_tooltip .slds-popover__body .help-text-header-class{
-    font-weight: 600;
+    font-weight: 500;
 }
 .slds-popover_tooltip,
 .slds-popover--tooltip ::after {

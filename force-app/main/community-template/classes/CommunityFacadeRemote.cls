@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public without sharing class CommunityFacadeRemote {
+ public without sharing class CommunityFacadeRemote {
     public static final String COOKIE_FIELD_MARK = 'AllowedCookie__c';  
     
 
@@ -546,7 +546,7 @@ public without sharing class CommunityFacadeRemote {
                     }
                     siteList.clear();   
                }
-
+                
                 sendResultWrap.mapOfProtocolVsEnrollment = mapOfProtocolVsEnrollment;
                 for (String eachProtocol : mapOfProtocolVsEnrollment.keySet()) {                
                     Notification__c notificationRec = BellNotificationsHelper.createNotification('BELL_Message_on_New_Referrals', contactId, userRole, mapOfStudyVsComm.get(eachProtocol), false);       

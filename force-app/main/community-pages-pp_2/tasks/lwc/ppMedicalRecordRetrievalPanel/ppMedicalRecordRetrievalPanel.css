@@ -1,0 +1,81 @@
+.mrr-main_container{
+    min-height : 250px;
+    max-height: 250px;
+    overflow: auto;
+}
+
+.slds-card.card-radius{
+    border-radius: 8px;
+}
+
+.mrr-footer_container{
+    width: 90%;
+    border: 1px solid #E9E9E9;
+    border-radius: 16px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
+    padding: 3PX;
+}
+.text_para{
+        color: #999999;
+        font-family: "Proxima Nova";
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 17px;
+}
+.orangedot{
+    border-radius: 50%;
+    color:rgb(243, 161, 9);
+    font-size: 22px;
+    vertical-align: bottom;
+}
+.greendot{
+    border-radius: 50%;
+    color: rgb(9, 190, 9);
+    font-size: 22px;
+    vertical-align: bottom;
+}
+.border1{
+    border:1px solid lightgray;
+    border-radius: 4px;
+}
+
+.AuthButton {
+    color: #015FF1;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 550;
+    letter-spacing: 0;
+    line-height: 24px;
+  }
+.statussize{
+        color: #444444;
+        font-family: "Proxima Nova";
+        font-size: 14px;
+        letter-spacing: 0;
+        line-height: 24px;
+        text-align: right;
+}
+.namesize{
+        color: #444444;
+        font-family: "Proxima Nova";
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 24px;
+}
+.combostyle{
+        --sds-c-input-radius-border: 20px;
+        font-family: "Proxima Nova";
+        font-size: 16px;
+        color: #444444;
+}
+.header {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 550;
+    letter-spacing: 0;
+    line-height: 22px;
+  }

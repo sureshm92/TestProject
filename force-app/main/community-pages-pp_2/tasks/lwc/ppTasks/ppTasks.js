@@ -108,7 +108,6 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     @api desktop;
     editMode = false;
     taskParamId;
-    showSpinner = true;
     connectedCallback() {
         if (formFactor === 'Small') {
             this.isMobile = true;
@@ -127,10 +126,12 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         this.sfdcBaseURL = window.location.origin + basePathName + '/tasks';
         this.spinner = this.template.querySelector('c-web-spinner');
         this.initializeData();
-    }
+
+        }
+        
     initializeData() {
         try {
-            this.showSpinner = true;
+            if(this.spinner) this.spinner.show();
             this.openTasks = [];
             this.completedTasks = [];
             getPPParticipantTasks()
@@ -160,10 +161,10 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                             );
                         }
                     }
-                    this.showSpinner = false;
+                    if(this.spinner) this.spinner.hide();
                 })
                 .catch((error) => {
-                    this.showSpinner = false;
+                    if(this.spinner) this.spinner.hide();
                 });
         } catch (e) {
             alert(e);
@@ -171,7 +172,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     }
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
-    }
+    } 
     doCreateTask() {
         this.isCreateTask = !this.isCreateTask;
     }
