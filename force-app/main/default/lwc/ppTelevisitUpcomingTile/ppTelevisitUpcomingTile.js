@@ -162,20 +162,20 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
                                     visitInfo.numberOfParticipants ='+ ' + resultInfo.numberOfParticipants + ' more';
                                     visitInfo.televisitAttendees = resultInfo.televisitAttendees;
                                     visitInfo.relatedAttendees = resultInfo.relatedAttendees;
-                                    
+                                    for(var i=0; i < resultInfo.relatedAttendees.length; i++){
+                                        if(resultInfo.relatedAttendees[i].attendeeType == 'PI'){
+                                            visitInfo.isPIAttendee = true;
+                                            break;
+                                        }else if(resultInfo.relatedAttendees[i].attendeeType == 'Site Staff'){
+                                            visitInfo.isPIAttendee = false;
+                                            visitInfo.siteStaffName = resultInfo.relatedAttendees[i].firstname + ' ' + resultInfo.relatedAttendees[i].lastname;
+        
+                                        }
+                                    }
                                 }
                             });
 
-                            for(var i=0; i < resultInfo.relatedAttendees.length; i++){
-                                if(resultInfo.relatedAttendees[i].attendeeType == 'PI'){
-                                    this.isPIAttendee = true;
-                                    break;
-                                }else if(resultInfo.relatedAttendees[i].attendeeType == 'Site Staff'){
-                                    this.isPIAttendee = false;
-                                    this.siteStaffName = resultInfo.relatedAttendees[i].firstname + ' ' + resultInfo.relatedAttendees[i].lastname;
-
-                                }
-                            }
+                            
                             
                         });   
                         //visitData.push(visitInfo); 
