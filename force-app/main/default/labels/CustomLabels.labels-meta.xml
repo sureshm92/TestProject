@@ -29132,6 +29132,14 @@ Please contact the Study Team for further updates or please login for additional
         <value>*all features may not be available for each study</value>
     </labels>
     <labels>
+        <fullName>PP_AS_CONDITIONAL_FEATURE_GENERIC</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_CONDITIONAL_FEATURE_GENERIC</shortDescription>
+        <value>*all features may not be available</value>
+    </labels>
+    <labels>
         <fullName>PP_AS_Delegate_Header</fullName>
         <categories>PPAccountSettings</categories>
         <language>en_US</language>
