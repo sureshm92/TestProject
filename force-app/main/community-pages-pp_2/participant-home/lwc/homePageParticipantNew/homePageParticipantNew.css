@@ -258,19 +258,20 @@
     padding: 0 1rem 0 1rem;
 }
 .upcoming-card {
-    height: 419px;
-    border: 1px solid lightgrey;
+    /*background: rgb(248, 249, 251);*/
+    height: 450px;
+    /*border: 1px solid lightgrey;*/
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
     border-top-color: #005587;
-    background: linear-gradient(to bottom, #005587 32px, #005587 32px, #ffffff 0%, #ffffff 100%);
+    background: linear-gradient(to bottom, #005587 32px, #005587 32px, #f8f9fb 0%, #f8f9fb 100%);
 }
 
 .uc-text-mobile {
-    margin-top: 6px;
-    padding: 0;
+    /*margin-top: 6px;*/
+    padding: 6px 0;
     font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: bold;

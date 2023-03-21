@@ -21,8 +21,9 @@
                 </template>
                     <template if:false={showBlankTelevisit}>
                         <template for:each={allActiveVisits} for:item="visit" >
-                            <div key={visit.Id}>
+                            <div key={visit.Id} class={keydiv}>
                                 <lightning-card>
+                                    <div class={mainDiv}>
                                     <p class="tvheader">{visit.Televisit__r.Title__c} </p>
                                     <p class="tvbody">
                                         <img src={televisitDatePP2} style="width:30px;"></img>
@@ -41,11 +42,11 @@
                                             <img src={televisitAttendeePP2} style="width:35px"></img>
                                         </lightning-layout-item>
                                         <lightning-layout-item size="8" class="televisitPIName" >
-                                            <template if:true={isPIAttendee}>
+                                            <template if:true={visit.isPIAttendee}>
                                                 <span>{visit.PINameWithoutSalutation} (PI)</span> 
                                             </template>
-                                            <template if:false={isPIAttendee}>
-                                                <span>{siteStaffName} (Site Staff)</span> 
+                                            <template if:false={visit.isPIAttendee}>
+                                                <span>{visit.siteStaffName} (Site Staff)</span> 
                                             </template>
                                         </lightning-layout-item>
                                         <lightning-layout-item size="3" class="televisitToolTip">
@@ -73,25 +74,30 @@
                                     <!--<lightning-button data-name={visit.Televisit__r.Meeting_URL__c} label={labels.JOIN_MEET}
                                         title="Click To Join" onclick={handleJoinClick} variant="base"></lightning-button>
                                         <br/>-->
+                                    </div>
                                 </lightning-card>
                             </div>
-                            <br key={visit.Id}/>
+                            <!--<br key={visit.Id}/>-->
+                            <template if:false={desktop}>
+                                <p key={visit.Id} style="padding: 6px;text-align: center; background: rgb(248, 249, 251);"></p>
+                            </template>
                         </template> 
                     </template>
+                    
                     <template if:true={showBlankTelevisit}>
                         <div class="slds-card-wrapper slds-card_boundary slds-align_absolute-center televisit-card-upcoming">
                             <span class="center-align">
                                 <img src={televisitNoUpcomingRecord} />
                             </span>
                            <span class="text-colour"> No upcoming televisits </span>
-                           <div style="margin-bottom: -120px;text-align:center;font-size:14px;font-weight:600;">
+                           <div class="noupcomingcard">
                                 <a class="label" href="televisit" onclick={setSessionCookie}>
                                     View All Televisits
                                 </a>
                             </div>
                         </div>
                     </template>
-                        
+                    <br/>
                 
                 <!--</div>
             </article>
