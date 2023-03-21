@@ -53,6 +53,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     messageContext;
     subscription = null;
     icon_url = pp_icons + '/Avatar_Delegate.svg';
+    new_awatar_icon_url = pp_icons + '/Avatar_Delegate_New.svg';
     noDelIcon_url = pp_icons + '/Avatar-Delegate-Gray.svg';
     selectMenuTriagleDown_url = pp_icons + '/SelectMenuTriangleDown_blue.svg';
     iconTriangleRight_url = pp_icons + '/iconTriangleRight_blue.svg';

@@ -30695,4 +30695,11 @@ Please contact the Study Team for further updates or please login for additional
 
 &lt;div&gt;&lt;span&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot;&gt; ##expirationOnlyDate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
+    <labels>
+        <fullName>HAPI_Helptext</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HAPI_Helptext</shortDescription>
+        <value>In order to complete this transaction, your email address will be shared with the third-party servicer per our Privacy Policy at the bottom of the page. Links will open in new browser window. IQVIA Patient Portal is not responsible for content provided in external websites.</value>
+    </labels>
 </CustomLabels>
