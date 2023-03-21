@@ -2,7 +2,6 @@ public without sharing class ParticipantTelevisitRemote {
     @AuraEnabled
     public static televisitWrapper getParticipantTelevisits(List<Id> joinbuttonids){
         try {
-            Boolean isDelegate = ParticipantContext.isCurrentDelegate();
             Id userId;
             String timezonechanges;
             Boolean delegatecheck = false;
@@ -12,33 +11,28 @@ public without sharing class ParticipantTelevisitRemote {
             if(pstate != null && pstate.pe != null){
                 ctpId = pstate.pe.Clinical_Trial_Profile__c;
             }
-            user u = [Select id,contactid,TimeZoneSidKey from User where id =: UserInfo.getUserId()];
-            if(isDelegate){
-                List<Patient_Delegate__c> delegateList = [select id,Participant__c,Participant__r.Contact__c from Patient_Delegate__c
-                                                          where Contact__c =:u.contactid];
-                if(!delegateList.isEmpty()){
-                    user ur = [select id,TimeZoneSidKey from user where contactid =:delegateList[0].Participant__r.Contact__c];
-                    if(ur != null){
-                        userId = ur.Id;
-                        timezonechanges = ur.TimeZoneSidKey;
-                    }
-                }                
+
+            if(pstate != null && pstate.isDelegate){
+                user ur = [select id,TimeZoneSidKey from user where contactid =:pstate.currentContactId];
+                if(ur != null){
+                    userId = ur.Id;
+                    timezonechanges = ur.TimeZoneSidKey;
+                }               
             }else{
+                user u = [Select id,contactid,TimeZoneSidKey from User where id =: UserInfo.getUserId()];
                 userId = u.Id;
                 timezonechanges = u.TimeZoneSidKey;
-                contact con = [select id,UserCommunityIsDelegate__c from contact where Id =: u.contactid];
-                delegatecheck = con.UserCommunityIsDelegate__c;
-                if(delegatecheck && (ctpId == null || ctpId == '')){
-                    List<Patient_Delegate__c> delegateList = [select id,Participant__c,Participant__r.Contact__c from Patient_Delegate__c
-                    where Contact__c =:con.Id];
-                    List<Participant_Enrollment__c> perList = [select id,Clinical_Trial_Profile__c from Participant_Enrollment__c where Participant__c =:delegateList[0].Participant__c];
-                    ctpId = perList[0].Clinical_Trial_Profile__c;
-                }
-
             }
-            List<Televisit_Attendee__c> televisitattendeeList = [Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c,Televisit__r.Visit_End_Date_Time__c from Televisit_Attendee__c 
-                                                                 where User__c =:userId and Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c = :ctpId
-                                                                 order by Televisit__r.Visit_Date_Time__c desc];
+
+            String query = 'Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c,Televisit__r.Visit_End_Date_Time__c from Televisit_Attendee__c';
+            if(ctpId != null && ctpId != ''){
+                query += '  where User__c =:userId and Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c = :ctpId order by Televisit__r.Visit_Date_Time__c desc';
+            }else{
+                delegatecheck = true;
+                query += '  where User__c =:userId order by Televisit__r.Visit_Date_Time__c desc';
+            }
+
+            List<Televisit_Attendee__c> televisitattendeeList = Database.query(query);                                                     
             Set<Id> televisitIdSet = new Set<Id>();
             televisitWrapper  tw = new televisitWrapper();
             if(televisitattendeeList != null && !televisitattendeeList.isempty()){
@@ -124,11 +118,6 @@ public without sharing class ParticipantTelevisitRemote {
                 tw.showDefault = 'upcoming';
                 tw.tz = timezonechanges;
                 tw.isdelegate = delegatecheck;
-                /*if(!finalupcomingTelevisitslist.isEmpty() || finalpastTelevisitslist.isEmpty()){
-tw.showDefault = 'upcoming';
-}else{
-tw.showDefault = 'past';
-}*/
                 return tw;
             }
             tw.televisitupcomingList = new List<upcomingTelevisits>();
