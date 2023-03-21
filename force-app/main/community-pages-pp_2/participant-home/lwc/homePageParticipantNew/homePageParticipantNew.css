@@ -266,7 +266,7 @@
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
     border-top-color: #005587;
-    background: linear-gradient(to bottom, #005587 32px, #005587 32px, #ffffff 0%, #ffffff 100%);
+    background: linear-gradient(to bottom, #005587 32px, #005587 32px, #f8f9fb 0%, #f8f9fb 100%);
 }
 
 .uc-text-mobile {

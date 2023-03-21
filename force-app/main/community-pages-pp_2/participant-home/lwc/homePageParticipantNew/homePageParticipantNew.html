@@ -316,7 +316,15 @@
                                     </div>
                                 </template>
                             </template>
+                                <template if:true={showTelevisitCard}>
+                                    <template if:false={showVisitCard}>
+                                        <template if:false={desktop}>
+                                            <p style="padding: 6px;text-align: center; background: rgb(248, 249, 251);"></p>
                         </template>
+                                    </template>
+                                </template>
+                            </template>
+                   
                         <template if:true={isTelevisits}>
                             <c-pp-televisit-upcoming-tile ></c-pp-televisit-upcoming-tile>
                         </template>
