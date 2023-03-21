@@ -23,6 +23,7 @@
 }
 .delegatecssmobile{
     margin-left: 1rem;
+    margin-top: -10px;
 }
 .delegatetelevisitmobile{
     height: 30px;
@@ -48,7 +49,7 @@
     font-size: 24px;
     font-weight: 600;
     letter-spacing: 0;
-    line-height: 32px;
+    line-height: 50px;
     }
 .delegate-televisit {
     height: 24px;
@@ -171,6 +172,16 @@
         padding-left: unset;
         padding-right: unset;
     }
-
-
-    
+.pointer {
+        cursor: pointer;
+}
+.com-icon {
+        height: 16px;
+        color: grey;
+        width: 16px;
+        margin-right: 8px;
+        fill: #999999;
+}
+.delegate-desktop{
+    margin-top: -7px;
+}
