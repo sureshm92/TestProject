@@ -41,11 +41,11 @@
                                             <img src={televisitAttendeePP2} style="width:35px"></img>
                                         </lightning-layout-item>
                                         <lightning-layout-item size="8" class="televisitPIName" >
-                                            <template if:true={isPIAttendee}>
+                                            <template if:true={visit.isPIAttendee}>
                                                 <span>{visit.PINameWithoutSalutation} (PI)</span> 
                                             </template>
-                                            <template if:false={isPIAttendee}>
-                                                <span>{siteStaffName} (Site Staff)</span> 
+                                            <template if:false={visit.isPIAttendee}>
+                                                <span>{visit.siteStaffName} (Site Staff)</span> 
                                             </template>
                                         </lightning-layout-item>
                                         <lightning-layout-item size="3" class="televisitToolTip">
@@ -75,16 +75,17 @@
                                         <br/>-->
                                 </lightning-card>
                             </div>
-                            <br key={visit.Id}/>
+                            <!--<br key={visit.Id}/>-->
                         </template> 
                     </template>
+                    <br/>
                     <template if:true={showBlankTelevisit}>
                         <div class="slds-card-wrapper slds-card_boundary slds-align_absolute-center televisit-card-upcoming">
                             <span class="center-align">
                                 <img src={televisitNoUpcomingRecord} />
                             </span>
                            <span class="text-colour"> No upcoming televisits </span>
-                           <div style="margin-bottom: -120px;text-align:center;font-size:14px;font-weight:600;">
+                           <div class="noupcomingcard">
                                 <a class="label" href="televisit" onclick={setSessionCookie}>
                                     View All Televisits
                                 </a>

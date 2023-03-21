@@ -3,8 +3,12 @@
     <template if:true={contentLoaded}>
         <template if:false={isMobile}>
             <template if:true = {isdelegate}>
-              <div>
-                <img src={home_icon} style="height: 30px;cursor:pointer;margin-left: -10px;" onclick = {redircttohomepage}>
+              <div class = "delegate-desktop">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="com-icon pointer">
+                    <use xlink:href={homeSvg} onclick={redircttohomepage}></use>
+                </svg>
                 <lightning-icon icon-name="utility:chevronright" class = "icon-chevron-right"></lightning-icon>
                 <span class = "delegate-televisit" > &nbsp;{label.Televisits}</span>
                 <h2 class="my-televisits-delegate">{label.Televisits}</h2><br/>
@@ -105,7 +109,11 @@
         <template if:true={isMobile}>
             <template if:true = {isdelegate}>
                 <div class = "delegatecssmobile">
-                    <img src={home_icon} class="delegatetelevisitmobile" onclick = {redircttohomepage}>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="com-icon pointer">
+                        <use xlink:href={homeSvg} onclick={redircttohomepage}></use>
+                    </svg>
                     <lightning-icon icon-name="utility:chevronright" class = "icon-chevron-right"></lightning-icon>
                     <span class = "delegate-televisit" > &nbsp;{label.Televisits}</span>
                     <h2 class="my-televisits-mobiledelegate">{label.Televisits}</h2><br/>
