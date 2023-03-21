@@ -6,7 +6,7 @@
                     <img
                         class="explore-image"
                         onclick={navigateResourceDetail}
-                        src={exploreData.resource.Image__c}
+                        src={exploreData.thumbnailImage}
                         onerror={handleNoExploreImageError}
                     />
                 </template>
@@ -29,9 +29,9 @@
                     <p
                         class="document-label"
                         onclick={navigateResourceDetail}
-                        title={exploreData.resource.Title__c}
+                        title={exploreData.title}
                     >
-                        {exploreData.resource.Title__c}
+                        {exploreData.title}
                     </p>
                 </div>
                 <div class="slds-grid date-section-mobile">
@@ -39,7 +39,7 @@
                         <p class="date">
                             {labels.VERSION_DATE}&nbsp;
                             <lightning-formatted-date-time
-                                value={exploreData.resource.Version_Date__c}
+                                value={exploreData.versionDate}
                             ></lightning-formatted-date-time>
                         </p>
                     </div>
@@ -58,7 +58,7 @@
                         <img
                             class="explore-image"
                             onclick={navigateResourceDetail}
-                            src={exploreData.resource.Image__c}
+                            src={exploreData.thumbnailImage}
                             onerror={handleNoExploreImageError}
                         />
                     </template>
@@ -81,9 +81,9 @@
                         <p
                             class="document-label"
                             onclick={navigateResourceDetail}
-                            title={exploreData.resource.Title__c}
+                            title={exploreData.title}
                         >
-                            {exploreData.resource.Title__c}
+                            {exploreData.title}
                         </p>
                     </div>
                     <div class="slds-grid date-section">
@@ -91,7 +91,7 @@
                             <p class="date">
                                 {labels.VERSION_DATE}&nbsp;
                                 <lightning-formatted-date-time
-                                    value={exploreData.resource.Version_Date__c}
+                                    value={exploreData.versionDate}
                                 ></lightning-formatted-date-time>
                             </p>
                         </div>
@@ -108,7 +108,7 @@
                     <img
                         class="explore-image-desktop-horizontal"
                         onclick={navigateResourceDetail}
-                        src={exploreData.resource.Image__c}
+                        src={exploreData.thumbnailImage}
                         onerror={handleNoExploreImageError}
                     />
                 </template>
@@ -129,14 +129,14 @@
             <div
                 class="article-title"
                 onclick={navigateResourceDetail}
-                title={exploreData.resource.Title__c}
+                title={exploreData.title}
             >
-                {exploreData.resource.Title__c}
+                {exploreData.title}
             </div>
             <div class="date-desktop">
                 {labels.VERSION_DATE}&nbsp;
                 <lightning-formatted-date-time
-                    value={exploreData.resource.Version_Date__c}
+                    value={exploreData.versionDate}
                 ></lightning-formatted-date-time>
             </div>
         </template>

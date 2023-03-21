@@ -12,10 +12,11 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
     };
 
     connectedCallback() {
-        this.noExploreImage = this.exploreData.resource.Image__c ? false : true;
+        this.noExploreImage = this.exploreData.thumbnailImage ? false : true;
     }
 
     handleNoExploreImageError() {
+        console.log('No thumbnail Image');
         this.noExploreImage = true;
     }
 
@@ -30,9 +31,9 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
             subDomain +
             '/s/resource-detail' +
             '?resourceid=' +
-            this.exploreData.resource.Id +
+            this.exploreData.recId +
             '&resourcetype=' +
-            this.exploreData.resource.RecordType.DeveloperName +
+            this.exploreData.resourceDevRecordType +
             '&state=' +
             state;
 
