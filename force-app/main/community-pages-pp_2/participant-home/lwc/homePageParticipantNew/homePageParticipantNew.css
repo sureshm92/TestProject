@@ -278,8 +278,3 @@
     text-align: center;
     color: #ffffff;
 }
-@media only screen and (max-width: 768px) {
-    .upcoming-card {
-        height: 465px;
-    }
-}
