@@ -17,6 +17,7 @@ import televisitTimePP2 from '@salesforce/resourceUrl/Televisit_Time_PP2';
 import televisitAttendeePP2 from '@salesforce/resourceUrl/Televisit_Attendee_PP2';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import televisitNoUpcomingRecord from '@salesforce/resourceUrl/TelevisitNoUpcomingRecord';
+import FORM_FACTOR from '@salesforce/client/formFactor';
 
 export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningElement)  {
     @track status;
@@ -53,6 +54,9 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
     televisitNoUpcomingRecord = televisitNoUpcomingRecord;
     isPIAttendee = false;
     siteStaffName;
+    desktop;
+    mainDiv;
+    keydiv;
     @track labels = {
         UPCOMING_VISIT,
         PT_TV_MEET_INFO,
@@ -75,6 +79,15 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
         this.loadCometdScript();
         //this.loadSessionId();
         this.timeInterval();
+        if(FORM_FACTOR == 'Large'){
+            this.desktop = true;
+            this.mainDiv = '';
+            this.keydiv = '';
+        }else{
+            this.desktop = false;
+            this.mainDiv = 'mainDiv';
+            this.keydiv = 'keydiv';
+        }
         
     }
  
