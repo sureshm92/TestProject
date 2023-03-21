@@ -1362,6 +1362,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
  .manage-delegate-acc-setting .back-to-manage-del-btn{
      width: auto !important;
+     background-color: transparent !important
  }
 .manage-delegate-acc-setting .profile-information-rectangle{
     background-color: transparent !important;
@@ -1374,10 +1375,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     .manage-delegate-acc-setting .profile-information-rectangle{
         margin-right: 0px !important;
     }
-}
-
-.manage-delegate-acc-setting .back-to-manage-del-btn{
-    background-color: transparent !important;
 }
 
 .manage-delegate-acc-setting .slds-truncate_container_25{
