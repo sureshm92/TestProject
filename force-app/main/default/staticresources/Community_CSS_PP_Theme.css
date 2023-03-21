@@ -1361,8 +1361,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
  }
 .manage-delegate-acc-setting .profile-information-rectangle{
     background-color: transparent !important;
-    margin-right: 30px !important;
     width: auto !important;
+    position: relative !important;
+    width: 100% !important;
 }
 
 @media screen and (max-width: 768px){
