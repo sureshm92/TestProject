@@ -109,10 +109,10 @@
                                             size="12"
                                             class="slds-m-top_x-large slds-align_absolute-center"
                                         >
-                                        <template if:false={isNewPatientPortal}>
-                                            <span><img src={noDelIcon_url} /></span>
-                                        </template>
                                         <template if:true={isNewPatientPortal}>
+                                            <span><img src={new_awatar_icon_url} /></span>
+                                        </template>
+                                        <template if:false={isNewPatientPortal}>
                                             <span><img src={icon_url} /></span>
                                         </template>
                                             
@@ -163,7 +163,12 @@
                                                         size="1"
                                                         class={delAvararIcon}
                                                     >
+                                                    <template if:true={isNewPatientPortal}>
+                                                        <span><img src={new_awatar_icon_url} /></span>
+                                                    </template>
+                                                    <template if:false={isNewPatientPortal}>
                                                         <span><img src={icon_url} /></span>
+                                                    </template>
                                                     </lightning-layout-item>
                                                     <!--Profile Logo: Ends-->
                                                     <!--Delegate Name: Stats-->
@@ -383,7 +388,12 @@
                                                                 size="2"
                                                                 class={delAvararIcon}
                                                             >
+                                                            <template if:true={isNewPatientPortal}>
+                                                                <span><img src={new_awatar_icon_url} /></span>
+                                                            </template>
+                                                            <template if:false={isNewPatientPortal}>
                                                                 <span><img src={icon_url} /></span>
+                                                            </template>
                                                             </lightning-layout-item>
                                                             <!--Profile Logo: Ends-->
                                                             <!--Delegate Name: Stats-->
@@ -529,7 +539,12 @@
                                                             size="1"
                                                             class={delAvararIcon}
                                                         >
+                                                        <template if:true={isNewPatientPortal}>
+                                                            <span><img src={new_awatar_icon_url} /></span>
+                                                        </template>
+                                                        <template if:false={isNewPatientPortal}>
                                                             <span><img src={icon_url} /></span>
+                                                        </template>
                                                         </lightning-layout-item>
                                                         <!--Profile Logo: Ends-->
                                                         <!--Delegate Name: Stats-->
