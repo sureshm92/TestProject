@@ -15,6 +15,7 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
     };
 
     connectedCallback() {
+        console.log(this.documentData.thumbnailDocId);
         if (this.documentData.thumbnailDocId) {
             this.subDomain = communityService.getSubDomain();
             this.thumbnail =
@@ -23,9 +24,11 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
                 this.documentData.thumbnailDocId;
             this.thumbnailPresent = true;
         }
+        console.log('thumbnail : '+this.thumbnail)
     }
 
     handleNoThumnnailError() {
+        console.log('coming here to no thumbnail')
         this.thumbnailPresent = false;
     }
 
@@ -35,14 +38,15 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
         if (communityService.isInitialized()) {
             state = communityService.getCurrentCommunityMode().participantState;
         }
+        console.log('window.location.origin : '+window.location.origin);
         let detailLink =
             window.location.origin +
             subDomain +
             '/s/resource-detail' +
             '?resourceid=' +
-            this.documentData.resource.Id +
+            this.documentData.recId +
             '&resourcetype=' +
-            this.documentData.resource.RecordType.DeveloperName +
+            this.documentData.resourceDevRecordType +
             '&state=' +
             state;
 
@@ -56,7 +60,7 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
 
         this[NavigationMixin.GenerateUrl](config).then((url) => {
             sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
+            //window.open(url, '_self');
         });
     }
 }

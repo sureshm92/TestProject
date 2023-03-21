@@ -42,6 +42,10 @@
                 <behavior>Edit</behavior>
                 <field>IsDelegate__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Target_Record_Id__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
