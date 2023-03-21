@@ -17,6 +17,7 @@ import televisitTimePP2 from '@salesforce/resourceUrl/Televisit_Time_PP2';
 import televisitAttendeePP2 from '@salesforce/resourceUrl/Televisit_Attendee_PP2';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import televisitNoUpcomingRecord from '@salesforce/resourceUrl/TelevisitNoUpcomingRecord';
+import FORM_FACTOR from '@salesforce/client/formFactor';
 
 export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningElement)  {
     @track status;
@@ -53,6 +54,9 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
     televisitNoUpcomingRecord = televisitNoUpcomingRecord;
     isPIAttendee = false;
     siteStaffName;
+    desktop;
+    mainDiv;
+    keydiv;
     @track labels = {
         UPCOMING_VISIT,
         PT_TV_MEET_INFO,
@@ -75,6 +79,15 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
         this.loadCometdScript();
         //this.loadSessionId();
         this.timeInterval();
+        if(FORM_FACTOR == 'Large'){
+            this.desktop = true;
+            this.mainDiv = '';
+            this.keydiv = '';
+        }else{
+            this.desktop = false;
+            this.mainDiv = 'mainDiv';
+            this.keydiv = 'keydiv';
+        }
         
     }
  
@@ -162,20 +175,20 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
                                     visitInfo.numberOfParticipants ='+ ' + resultInfo.numberOfParticipants + ' more';
                                     visitInfo.televisitAttendees = resultInfo.televisitAttendees;
                                     visitInfo.relatedAttendees = resultInfo.relatedAttendees;
-                                    
+                                    for(var i=0; i < resultInfo.relatedAttendees.length; i++){
+                                        if(resultInfo.relatedAttendees[i].attendeeType == 'PI'){
+                                            visitInfo.isPIAttendee = true;
+                                            break;
+                                        }else if(resultInfo.relatedAttendees[i].attendeeType == 'Site Staff'){
+                                            visitInfo.isPIAttendee = false;
+                                            visitInfo.siteStaffName = resultInfo.relatedAttendees[i].firstname + ' ' + resultInfo.relatedAttendees[i].lastname;
+        
+                                        }
+                                    }
                                 }
                             });
 
-                            for(var i=0; i < resultInfo.relatedAttendees.length; i++){
-                                if(resultInfo.relatedAttendees[i].attendeeType == 'PI'){
-                                    this.isPIAttendee = true;
-                                    break;
-                                }else if(resultInfo.relatedAttendees[i].attendeeType == 'Site Staff'){
-                                    this.isPIAttendee = false;
-                                    this.siteStaffName = resultInfo.relatedAttendees[i].firstname + ' ' + resultInfo.relatedAttendees[i].lastname;
-
-                                }
-                            }
+                            
                             
                         });   
                         //visitData.push(visitInfo); 

@@ -2,7 +2,7 @@ import { LightningElement,track, api } from 'lwc';
 import My_Image from '@salesforce/resourceUrl/MRRImage';
 import MRRHeader from '@salesforce/label/c.Medical_Record_Retrieval';
 import Select from '@salesforce/label/c.Select';
-import RHManageAuth from '@salesforce/label/c.RH_Manage_Auth_Disclaimer';
+import RHManageAuth from '@salesforce/label/c.HAPI_Helptext';
 import ExternalLink from '@salesforce/label/c.RH_External_Link_Disclaimer';
 import externalLink1 from '@salesforce/label/c.RH_External_Link_Disclaimer1';
 import HAPI_Provider from '@salesforce/label/c.HAPI_Provider';
@@ -72,7 +72,7 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
                 .then(response =>{
                     this.returnValue = response;
                     this.referrals = this.returnValue.referrals;
-                    this.populateDisclaimerText(this.returnValue.communityName);
+                   // this.populateDisclaimerText(this.returnValue.communityName);
                     this.peId = this.returnValue.currentPerId;
                     this.participantState = this.returnValue.currentPerStatus;
                     if(this.referrals.length > 0){                        
@@ -107,7 +107,7 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
                 ' ' +
                 this.label.ExternalLink +
                 ' ' +
-                this.communityName +
+                communityName +
                 ' ' +
                 this.label.externalLink1;
             this.externalLinkDisclaimer = disclaimerText ;
