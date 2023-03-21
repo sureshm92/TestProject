@@ -258,8 +258,9 @@
     padding: 0 1rem 0 1rem;
 }
 .upcoming-card {
-    height: 419px;
-    border: 1px solid lightgrey;
+    /*background: rgb(248, 249, 251);*/
+    height: 450px;
+    /*border: 1px solid lightgrey;*/
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
     border-bottom-left-radius: 16px;
@@ -269,8 +270,8 @@
 }
 
 .uc-text-mobile {
-    margin-top: 6px;
-    padding: 0;
+    /*margin-top: 6px;*/
+    padding: 6px 0;
     font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: bold;
