@@ -1328,6 +1328,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     .manage-delegate-acc-setting .std .study-thmore-add-assignment {
         padding: 0px 0px 0px 125px !important;
     }
+    
 }
 
 .manage-delegate-acc-setting .slds-input__icon_right {
@@ -1362,6 +1363,12 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     background-color: transparent !important;
     margin-right: 30px !important;
     width: auto !important;
+}
+
+@media screen and (max-width: 768px){
+    .manage-delegate-acc-setting .profile-information-rectangle{
+        margin-right: 0px !important;
+    }
 }
 
 .manage-delegate-acc-setting .back-to-manage-del-btn{
