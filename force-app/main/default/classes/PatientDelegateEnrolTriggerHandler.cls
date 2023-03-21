@@ -140,6 +140,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         Set<Id> pdIdReaddeddDupCheckSet = new set<Id>();
         Map<Id,Set<String>> communityTemplateForDelContIdMap = new Map<Id,Set<String>>();
         List<Patient_Delegate_Enrollment__c> withdrawnPDEORDelORNewRecrs = new List<Patient_Delegate_Enrollment__c>();
+        List<Patient_Delegate_Enrollment__c> disconnectedPDErecrs = new List<Patient_Delegate_Enrollment__c>();
         for (Patient_Delegate_Enrollment__c pd : updatedpatientDelegateEnrollmentrecrs) {
             if (!communityTemplateForDelContIdMap.containsKey(pd.Patient_Delegate__r.Contact__c)){
                 communityTemplateForDelContIdMap.put(pd.Patient_Delegate__r.Contact__c, new Set<String>());
@@ -155,6 +156,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
                 pd.isInviteToPP__c == true
                 ) {
                     withdrawnPDEORDelORNewRecrs.add(pd); 
+                    disconnectedPDErecrs.add(pd);
                     if(!pdIdReaddeddDupCheckSet.contains(delId)){
                         pdIdReaddeddDupCheckSet.add(delId);
                         activatedDelegateEnrolrecrdsNewAssignment.add(pd);
@@ -189,6 +191,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         }
         if(withdrawnPDEORDelORNewRecrs != null){
             createPDEnrollmentAlerts(withdrawnPDEORDelORNewRecrs);
+            setPDPlatformLevelAlerts(disconnectedPDErecrs);
         }
         //Create Access level Change notification
         if(activatedDelegateEnrolrecrds!=null){
@@ -257,6 +260,7 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             }
         }
         createPDEnrollmentAlerts(patientDelegateEnrollRecrds);
+        setPDPlatformLevelAlerts(patientDelegateEnrollRecrds);
         //Create New Assignment notification
         if(pdeRecrdsToProcess!=null){
            createNotifications(pdeRecrdsToProcess, 'DelNewAssignNotifType',communityTemplateForDelContIdMap);
@@ -345,16 +349,29 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         Map<Id,List<Participant_Enrollment__c>> pdConPerlst = new Map<Id,List<Participant_Enrollment__c>>();
         for(Patient_Delegate_Enrollment__c pde: patientDelegates){
             if(PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(
-                pde.Participant_Enrollment__r.Participant_Status__c
-            )){
-            alertList.add(
-                new Alert__c(
-                    Contact__c = pde.Patient_Delegate__r.Contact__c,
-                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
-                    Record_ID__c = pde.Participant_Enrollment__c
-                )
-            ); 
-          } 
+                pde.Participant_Enrollment__r.Participant_Status__c) 
+              ){
+                  if(pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_PP)
+                  {
+                      alertList.add(
+                      new Alert__c(
+                          Contact__c = pde.Patient_Delegate__r.Contact__c,
+                          Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE_PP,
+                          Record_ID__c = pde.Participant_Enrollment__c
+                      )
+                  );
+               }
+              
+            else{
+                alertList.add(
+                    new Alert__c(
+                        Contact__c = pde.Patient_Delegate__r.Contact__c,
+                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
+                        Record_ID__c = pde.Participant_Enrollment__c
+                    )
+                ); 
+            }
+          }
         }
         if(!alertList.isEmpty() && alertList != null) insert alertList;
     }
@@ -485,6 +502,81 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
         }
     }
 
+    // Create platform alerts
+    public static void setPDPlatformLevelAlerts(List<Patient_Delegate_Enrollment__c> pdeIds) {
+         List<Alert__c> alertList = new List<Alert__c>();
+         List<Patient_Delegate_Enrollment__c> pdeList =[
+             SELECT Id,
+             Patient_Delegate__r.Participant__r.Full_Name__c,
+             Patient_Delegate__r.Id,
+             Welcome_Message_Sent__c,
+             Study_Email_Consent__c,
+             Study_SMS_Consent__c,
+             isInviteToPP__c,
+             Welcome_Message_Delivered__c,
+             Patient_Delegate__r.Participant__r.Contact__c,
+             Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+             Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+             Patient_Delegate__r.Participant__r.First_Name__c,
+             Patient_Delegate__r.Participant__r.Last_Name__c,
+             Patient_Delegate__r.Contact__c,
+             Patient_Delegate__r.Participant__c,   
+             Patient_Delegate__r.Participant_Delegate__r.Id,
+             Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
+             Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
+             Patient_Delegate__r.Participant_Delegate__r.Email__c,
+             Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+             Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+             Status__c,
+             Participant_Enrollment__c,
+             Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+             Participant_Enrollment__r.Name,
+             Participant_Enrollment__r.Clinical_Trial_Profile__c,
+             Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+             Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+             Participant_Enrollment__r.Participant_Status__c
+             FROM Patient_Delegate_Enrollment__c
+             WHERE Id IN :pdeIds
+         ];
+         Set<Id> delContacts = new Set<Id>();
+         for(Patient_Delegate_Enrollment__c participantDelegate : pdeList){
+             delContacts.add(participantDelegate.Patient_Delegate__r.Contact__c);
+          }
+         List<Alert__c> alerts = [
+             SELECT Id, Record_ID__c, Alert_Code__c, Contact__r.Name,Viewed__c
+             FROM Alert__c
+             WHERE Contact__c IN : delContacts AND Is_Platform_Level__c = TRUE 
+             ORDER BY CreatedDate ASC 
+         ];
+         for(Patient_Delegate_Enrollment__c participantDelegate : pdeList){
+             if(alerts.isEmpty()){                
+                 if (
+                     participantDelegate.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                     CommunityTemplateService.TEMPLATE_PP
+                 ) {
+                     alertList.add(
+                         new Alert__c(
+                             Contact__c = participantDelegate.Patient_Delegate__r.Contact__c,
+                             Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_DELEGATE_PP,
+                             Record_ID__c = participantDelegate.Participant_Enrollment__r.Id,
+                             Is_Platform_Level__c = true
+                         )
+                     );
+                 } else {
+                     alertList.add(
+                         new Alert__c(
+                             Contact__c = participantDelegate.Patient_Delegate__r.Contact__c,
+                             Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_DELEGATE,
+                             Record_ID__c = participantDelegate.Participant_Enrollment__r.Id,
+                             Is_Platform_Level__c = true
+                         )
+                     );
+                 } 
+             }
+         }
+         insert alertList;
+     }
+ 
     //This method is to make existing PDER primary as false if new primary PDER added
     public static void checkPrimaryDelegate(List<Patient_Delegate_Enrollment__c> patientDelegates) {
         List<Patient_Delegate_Enrollment__c> updatedList = new List<Patient_Delegate_Enrollment__c>();

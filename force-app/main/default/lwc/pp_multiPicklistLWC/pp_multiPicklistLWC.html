@@ -1,9 +1,9 @@
 <template>
     <!-- Ethnicity starts -->
-    <div class="std outcome-form-element slds-m-bottom_medium p-left std-height">
-        <label class="slds-form-element__label slds-no-flex disflex mb-5"
+    <div class="manage-del-multi-picklist std outcome-form-element slds-m-bottom_medium p-left std-height">
+        <label class="slds-form-element__label add-new-del-input-padding slds-no-flex disflex mb-5"
             ><span class="text-overflow1 study-p-bottom" title="Studies"
-                >{label.PG_MS_L_Studies_up}</span
+                >{picklistLabel}</span
             ><template if:true={showSelectAll}>
                 <span class="btn select-all-clear-all disable-select-all" onclick={selectAll}
                     >{label.Select_All_PI}</span
@@ -14,7 +14,7 @@
             </template>
         </label>
         <div
-            class="slds-form-element__control slds-grow slds-input slds-p-around--none eBox study-box dropdown-width disable-dropdown"
+            class="study-box-manage-del slds-form-element__control slds-grow slds-input slds-p-around--none eBox study-box dropdown-width disable-dropdown multipicklist-box"
             tabindex="0"
             onclick={openStudy}
             onblur={closeStudy}

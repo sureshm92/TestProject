@@ -149,6 +149,23 @@
                         <template if:true={showMedicalRecordAccess}>
                             <!--Medical Record Access Component-->
                         </template>
+                        <div class="manage-delegate-acc-setting">
+                            <template if:true={showManageDelegates}>
+                                <c-manage-delegates
+                                    user-mode={userMode}
+                                    participant-contact-id={initData.myContact.Id}
+                                    is-r-t-l={isRTL}
+                                    picklist-label={labels.STUDIES_AND_PROGRAM_PP}
+                                    current-community="Iqvia Patient Portal II"
+                                ></c-manage-delegates>
+                            </template>
+                        </div>
+                     
+                        <template if:true={showManageAssignments}>
+                            <c-manage-assignment
+                                is-r-t-l={isRTL}
+                        ></c-manage-assignment>
+                        </template>
                     </div>
                 </div>
             </template>

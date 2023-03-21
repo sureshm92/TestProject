@@ -6,6 +6,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import VERSION from '@salesforce/label/c.Version_date';
+import POSTING from '@salesforce/label/c.Posting_date';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
@@ -27,6 +28,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     state;
     label = {
         VERSION,
+        POSTING,
         Back_To_Resources
     };
     isMultimedia = false;
@@ -35,7 +37,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
     desktop = true;
     spinner;
-
+    resourceForPostingDate = ['Article','Video','Multimedia'];
     connectedCallback() {
         //get resource parameters from url
         const queryString = window.location.search;
@@ -86,7 +88,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
             .then((result) => {
                 this.requestFullScreen();
                 let resourceData = result.wrappers[0].resource;
-                this.resUploadDate = resourceData.Version_Date__c;
+                this.resUploadDate = this.resourceForPostingDate.includes(this.resourceType)?resourceData.Posting_Date__c:resourceData.Version_Date__c;
                 this.resourceTitle = resourceData.Title__c;
                 this.resourceSummary = resourceData.Body__c;
                 this.isArticleVideo =
@@ -119,6 +121,8 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                         .catch((error) => {
                             this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
                         });
+                }else{
+                    this.isInitialized = true;
                 }
             })
             .catch((error) => {
@@ -182,6 +186,13 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 }
             });
         }
+    }
+
+    get showPostingDate(){
+        if(this.resourceForPostingDate.includes(this.resourceType)){
+            return true;
+        }
+        return false;
     }
 
     handleFavourite() {

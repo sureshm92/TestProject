@@ -229,6 +229,13 @@
     font-size: 15px;
     margin-top: -1px;
 }
+.add-del-custom-radio-group .slds-radio__label {
+    line-height: 2rem !important;
+}
+  
+  
+  
+  
 /* .input-border-radius {
     border-radius: 20px;
 }

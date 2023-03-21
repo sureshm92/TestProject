@@ -316,4 +316,7 @@ hr {
         color: #a9a9a9;
         margin-top: 8px;
     }
+    .label {
+        margin-top: 1rem;
+    }
 }

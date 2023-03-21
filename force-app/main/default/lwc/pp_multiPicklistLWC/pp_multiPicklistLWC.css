@@ -245,7 +245,7 @@
 }
 .study-box {
     margin-top: -1px;
-    height: 40px !important;
+    height: 40px;
 }
 .study-p-bottom {
     padding-bottom: 6px;
@@ -257,8 +257,9 @@
 } */
 /* placeholder code */
 [contentEditable=false]:empty:before {
-    content: attr(placeholder);
-    color: #747474;
+    content: attr(placeholder); 
+    color: #999999;
+    font-size: 14px;
   }
 .padding-placeholder{
     padding: 4px 0px 0px 22px;
@@ -287,4 +288,4 @@
 }
 .std-input-box-height{
     height: 40px;
-} 
+}
