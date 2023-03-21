@@ -1279,13 +1279,14 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 /* .manage-del-multi-picklist .study-box-manage-del{
     line-height: 32px !important;
 } */
-.del-access-rectangle {
+.manage-delegate-acc-setting .del-access-rectangle {
     border-radius: 16px !important;
 }
-.manage-del-add-Del-page-save-btn{
+.manage-delegate-acc-setting .manage-del-add-Del-page-save-btn{
     height: 32px !important;
     width: 233px !important;
     border-radius: 16px !important;
+    font-size: 14px !important;
 }
 .manage-delegate-acc-setting .ad-warning-container{
     border-radius: 8px !important;
@@ -1317,7 +1318,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 
 .manage-delegate-acc-setting .padding-placeholder{
-    padding: 0 0 0 20px !important;
+    padding: 0 0 0 15px !important;
 }
 
 @media (max-device-width: 767px){
@@ -1349,6 +1350,22 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .no-active-delegates{
     color: #444444 !important;
 }
-  
+
+.manage-delegate-acc-setting .add-new-del-input-padding{
+     padding: 0px !important;
+ }
+
+ .manage-delegate-acc-setting .back-to-manage-del-btn{
+     width: auto !important;
+ }
+.manage-delegate-acc-setting .profile-information-rectangle{
+    background-color: transparent !important;
+    margin-right: 30px !important;
+    width: auto !important;
+}
+
+.manage-delegate-acc-setting .back-to-manage-del-btn{
+    background-color: transparent !important;
+}
 /* Delegate Redesing - Add New Delegate Page CSS  Override - ends*/
 
