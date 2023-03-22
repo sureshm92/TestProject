@@ -79,3 +79,26 @@
     letter-spacing: 0;
     line-height: 22px;
   }
+
+.info-tooltip{
+    position: relative;
+  }
+
+.info-tooltip_dimension{
+    width: 17rem;
+    height:fit-content; 
+    color: #FFFFFF;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    
+}
+
+.info-tooltip_position{
+    position:absolute;
+    top:2.25rem;
+    right:-4rem;
+}
+
+.info-tooltip_position.slds-nubbin_top-right:before,.info-tooltip_position.slds-nubbin_top-right:after{
+    right:4.5rem;
+}
