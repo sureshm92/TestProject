@@ -13,6 +13,14 @@ export default class PpLinkUpdates extends LightningElement {
     };
 
     openLink(event) {
+        console.log('open link');
+        console.log('open link : '+this.linkData.targetRecordId);
+        const customEvent = new CustomEvent('removecard', {
+            detail: {
+                targetRecordId: this.linkData.targetRecordId
+            }
+        });
+        this.dispatchEvent(customEvent);
         window.open(event.currentTarget.dataset.link, '_blank');
     }
 }

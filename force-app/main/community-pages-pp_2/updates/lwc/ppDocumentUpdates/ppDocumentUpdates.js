@@ -1,7 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import versionDate from '@salesforce/label/c.Version_date';
 import { NavigationMixin } from 'lightning/navigation';
-
 export default class PpDocumentUpdates extends NavigationMixin(LightningElement) {
     @api documentData;
     @api showVisitSection;
@@ -48,7 +47,8 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
             '&resourcetype=' +
             this.documentData.resourceDevRecordType +
             '&state=' +
-            state;
+            state +
+            '&showHomePage=true';
 
         const config = {
             type: 'standard__webPage',
@@ -57,10 +57,11 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
                 url: detailLink
             }
         };
-
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
+        this[NavigationMixin.Navigate](config,true);
+      /*  this[NavigationMixin.GenerateUrl](config).then((url) => {
             sessionStorage.setItem('Cookies', 'Accepted');
-            //window.open(url, '_self');
-        });
+            console.log('navigation not working');
+            window.open(url, '_self');
+        });  */
     }
 }

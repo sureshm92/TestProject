@@ -35,7 +35,8 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
             '&resourcetype=' +
             this.exploreData.resourceDevRecordType +
             '&state=' +
-            state;
+            state +
+            '&showHomePage=true';;
 
         const config = {
             type: 'standard__webPage',
@@ -45,9 +46,6 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
             }
         };
 
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
-        });
+        this[NavigationMixin.Navigate](config,true);
     }
 }

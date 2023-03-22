@@ -18,7 +18,7 @@ public without sharing class PPUpdatesController {
     }
     public static List<Send_Result__c> getSendResultRecords(List<Id> resStudyIds,List<Id> resPlatformIds,Integer offsets, Integer limits){
         ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
-        List<Send_Result__c> sendResults = [SELECT Id,Notification__c,Notification__r.Target_Record_Id__c,Is_Active__c, Is_Read__c, Link_to_Related_Event_or_Object__c,Status__c, Target_Type__c,Notification__r.Recipient__r.email FROM Send_Result__c WHERE Notification__r.Target_Record_Id__c!=null AND Target_Type__c='Updates' AND Notification__r.Recipient__c=:ps.Participant.Contact__c order by lastModifiedDate desc LIMIT:limits OFFSET:offsets];
+        List<Send_Result__c> sendResults = [SELECT Id,Notification__c,Notification__r.Target_Record_Id__c,Is_Active__c, Is_Read__c, Link_to_Related_Event_or_Object__c,Status__c, Target_Type__c,Notification__r.Recipient__r.email FROM Send_Result__c WHERE Status__c='In Progress' AND Notification__r.Target_Record_Id__c!=null AND Target_Type__c='Updates' AND Notification__r.Recipient__c=:ps.Participant.Contact__c order by lastModifiedDate desc LIMIT:limits OFFSET:offsets];
         for(Send_Result__c sr : sendResults){
             Id targetId = (Id)sr.Notification__r.Target_Record_Id__c;
             String targetType = targetId.getSObjectType().getDescribe().getName().toLowerCase();
@@ -87,18 +87,19 @@ public without sharing class PPUpdatesController {
                 }else if(targetType == OBJECT_TYPE_PT_RESOURCE){
                     createResPlatformWrapper(targetId,resPlatformMap,wrp,resIdContentVersionIdMap);
                 }
-            }else if(targetType == OBJECT_TYPE_TELEVISIT){
+            }/*else if(targetType == OBJECT_TYPE_TELEVISIT){
                 wrp.contentType = 'Televisit';
                 wrp.title = 'New televisit(s) has been scheduled';
             }else if(targetType == OBJECT_TYPE_TELEVISIT){
                 wrp.contentType = 'Visit';
                 wrp.title = 'New visit has been scheduled';
-            }
+            } */
             updateWrapperlist.add(wrp);
         }
     }
     public static void createResStudyWrapper(Id targetId,Map<Id,Res_study__c> resStudyMap,UpdateWrapper wrp,Map<Id,Id> resIdContentVersionIdMap){
         wrp.Title = resStudyMap.get(targetId).Resource__r.Title__c;
+        wrp.targetRecordId = targetId;
         wrp.recId = resStudyMap.get(targetId).Resource__c;
         wrp.contentType = resStudyMap.get(targetId).Resource__r.Content_Type__c;
         wrp.versionDate = resStudyMap.get(targetId).Resource__r.Version_Date__c;
@@ -117,6 +118,7 @@ public without sharing class PPUpdatesController {
     }
     public static void createResPlatformWrapper(Id targetId,Map<Id,Resource__c> resPlatformMap,UpdateWrapper wrp,Map<Id,Id> resIdContentVersionIdMap){
         wrp.Title = resPlatformMap.get(targetId).Title__c;
+        wrp.targetRecordId = targetId;
         wrp.recId = targetId;
         wrp.contentType = resPlatformMap.get(targetId).Content_Type__c;
         wrp.versionDate = resPlatformMap.get(targetId).Version_Date__c;
@@ -139,6 +141,13 @@ public without sharing class PPUpdatesController {
         Integer updateCount = [SELECT count() FROM Send_Result__c where Target_Type__c='Updates' AND Status__c='In Progress' AND Notification__r.Recipient__c=:ps.Participant.Contact__c];
         return updateCount;
     }
+    public static void removeUpdateCard(String targetRecordId){
+        List<Send_Result__c> sendResultList = [SELECT id,Status__c FROM Send_Result__c WHERE Notification__r.Target_Record_Id__c=:targetRecordId];
+        for(Send_Result__c sr : sendResultList){
+            sr.Status__c = 'Sent';
+        }
+        update sendResultList;
+    }
     public class UpdateWrapper{
         @AuraEnabled
         public String title;
@@ -160,5 +169,7 @@ public without sharing class PPUpdatesController {
         public String contentType;
         @AuraEnabled
         public String linkType;
+        @AuraEnabled 
+        public String targetRecordId;
     }
 }
