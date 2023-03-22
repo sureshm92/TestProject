@@ -8,13 +8,11 @@
         isValidEmail = this.checkValidEmail(DelegateEmail,DelegateEmailValue);
         if($A.util.isEmpty(component.get('v.isBulkImportOld')) && component.get('v.isBulkImport'))
         {
-            console.log('>>coming in helper 10>');
             component.set('v.isBulkImportOld',true);
         }
         if(isValidEmail)
         {
             var PER = JSON.parse(JSON.stringify(component.get('v.pe')));
-            console.log('>>>participantid>>'+PER.Participant__c);
             communityService.executeAction(
                 component,
                 'checkExisitingParticipant',
@@ -26,7 +24,6 @@
                 },
                 
                 function (returnValue) {
-                    console.log('>>retunrParticiapnt>>'+JSON.stringify(returnValue));
                     if(returnValue){
                         component.set('v.participantDelegate.First_Name__c',returnValue.firstName);
                         component.set('v.participantDelegate.Last_Name__c',returnValue.lastName);
@@ -50,14 +47,12 @@
                         component.set('v.isBulkImport',returnValue.isBulkImport);
                     }
                     else if(!$A.util.isEmpty(participantDelegateOld.Id)){
-                        console.log('>>>coming in 466>>>');
                         component.set('v.participantDelegate.Id',participantDelegateOld.Id);
                         component.set('v.participantDelegate.Contact__c',participantDelegateOld.Contact__c);
                         component.set('v.isEmailConfrmBtnClick',false);
                         component.set('v.recordFound',false);
                         component.set('v.useThisDelegate', false);
                         component.set('v.isFirstPrimaryDelegate',false);
-                        console.log('>>>bulkImportOdl>>'+component.get('v.isBulkImportOld'));
                         if(component.get('v.isBulkImportOld'))
                             component.set('v.isBulkImport',true);
                     }
@@ -72,7 +67,6 @@
                         component.set('v.isEmailConfrmBtnClick',true);
                         component.set('v.isBulkImport',false);
                     }
-                    console.log('>>final participant>>>'+JSON.stringify(component.get('v.participantDelegate')));
                 }
             );
         }
@@ -374,7 +368,6 @@
         component.find('spinner').show();
         let parent = component.get('v.parentComponent');
         if (parent!=null && parent.checkDateOfBith) {
-            console.log('Parent checkDateOfBith');
             parent.checkDateOfBith(function(result) {
                 component.set('v.participant.Adult__c', result);
                  $A.enqueueAction(component.get('c.doCheckFields'));

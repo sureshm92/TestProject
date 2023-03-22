@@ -194,6 +194,13 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         }
         return false;
     }
+    
+    get showPostingOrVersionLabel(){
+        if(this.resourceForPostingDate.includes(this.resourceType)){
+            return this.label.POSTING;
+        }
+        return this.label.VERSION;
+    }
 
     handleFavourite() {
         this.isFavourite = !this.isFavourite;
