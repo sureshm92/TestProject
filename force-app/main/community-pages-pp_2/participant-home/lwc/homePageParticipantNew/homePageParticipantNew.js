@@ -78,7 +78,7 @@ export default class HomePageParticipantNew extends LightningElement {
         .then((result) => {
             console.log('result',result);
             var televisitInformation = JSON.parse(result);
-            if (televisitInformation) {
+            if (televisitInformation.length > 0) {
                 this.isUpcomingTelevisitVisitDetails = true;
             }else{
                 this.isUpcomingTelevisitVisitDetails = false;
