@@ -37,9 +37,9 @@
                 <div class="slds-grid date-section-mobile">
                     <div class="slds-col slds-size_11-of-12">
                         <p class="date">
-                            {labels.UPLOAD_DATE}&nbsp;
+                            {labels.POSTING_DATE}&nbsp;
                             <lightning-formatted-date-time
-                                value={exploreData.resource.Upload_Date__c}
+                                value={exploreData.resource.Posting_Date__c}
                             ></lightning-formatted-date-time>
                         </p>
                     </div>
@@ -134,9 +134,9 @@
                 {exploreData.resource.Title__c}
             </div>
             <div class="date-desktop">
-                {labels.UPLOAD_DATE}&nbsp;
+                {labels.POSTING_DATE}&nbsp;
                 <lightning-formatted-date-time
-                    value={exploreData.resource.Upload_Date__c}
+                    value={exploreData.resource.Posting_Date__c}
                 ></lightning-formatted-date-time>
             </div>
         </template>
