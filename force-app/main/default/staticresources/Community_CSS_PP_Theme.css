@@ -1321,6 +1321,10 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     padding: 0 0 0 15px !important;
 }
 
+.manage-delegate-acc-setting .std .study-thmore-add-newdel{
+    padding: 0px 0px 1px 708px !important;
+}
+
 @media (max-device-width: 767px){
     .manage-delegate-acc-setting .std .study-thmore-add-newdel {
         padding: 1px 0px 0px 175px !important;
@@ -1358,6 +1362,12 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
  .manage-delegate-acc-setting .back-to-manage-del-btn{
      width: auto !important;
+     background-color: transparent !important
+ }
+ @media (max-device-width: 767px){
+    .manage-delegate-acc-setting .back-to-manage-del-btn{
+        width: 70% !important
+    }
  }
 .manage-delegate-acc-setting .profile-information-rectangle{
     background-color: transparent !important;
@@ -1372,12 +1382,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     }
 }
 
-.manage-delegate-acc-setting .back-to-manage-del-btn{
-    background-color: transparent !important;
-}
-.manage-delegate-acc-setting .std .study-thmore-add-newdel{
-    padding: 0px 0px 1px 708px !important;
-}
 .manage-delegate-acc-setting .slds-truncate_container_25{
     max-width: 29% !important;
 }
