@@ -87,7 +87,7 @@ export default class HomePageParticipantNew extends LightningElement {
             if(!this.isUpcomingVisitDetails && this.isUpcomingTelevisitVisitDetails){
                 this.isTelevisits = true;
             }else{
-                this.isTelevisits = false;
+                //this.isTelevisits = false;
             }
         })
         .catch((error) => {
