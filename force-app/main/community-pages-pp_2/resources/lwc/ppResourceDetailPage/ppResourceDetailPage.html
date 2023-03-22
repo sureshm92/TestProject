@@ -244,7 +244,10 @@
                                     <!--   Upload Date    -->
                                     <lightning-layout-item size="12">
                                         <div class="summary-date">
+                                        <template lwc:if={showPostingDate}>    
                                             {label.VERSION}&nbsp;
+                                        </template lwc:else>
+                                            <template></template>
                                             <lightning-formatted-date-time
                                                 value={resUploadDate}
                                                 time-zone={userTimeZone}
