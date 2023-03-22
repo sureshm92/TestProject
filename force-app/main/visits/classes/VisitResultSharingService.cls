@@ -170,7 +170,6 @@ public without sharing class VisitResultSharingService {
         Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType = getResultTypeSharingsByType(
             ctp
         );
-        //Checking if country is enabled for all visit result sharing on CTP
         for (String resultType : visitResultTypeSharingByType.keySet()) {
             Visit_Result_Type_Sharing__c typeSharing = visitResultTypeSharingByType.get(resultType);
             Boolean isCountryEnabled =
@@ -202,7 +201,6 @@ public without sharing class VisitResultSharingService {
                     ) {
                         isVisitResultAvailable = true;
                     }
-
                     Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(
                         result.Result_Type__c
                     );

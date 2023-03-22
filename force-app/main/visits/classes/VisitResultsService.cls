@@ -413,11 +413,9 @@ public inherited sharing class VisitResultsService {
         for (
             VisitResultSharingService.VisitResultWithAvailableSign visitResultWithAvailableSign : resultsWithAvailableSing
         ) {
-            if (visitResultWithAvailableSign.visitResult != null) {
+            if (visitResultWithAvailableSign.visitResult != null)
                 visitResults.add(visitResultWithAvailableSign.visitResult);
-            }
         }
-        //Visit result is returned if exists
 
         return visitResults;
     }
@@ -428,9 +426,6 @@ public inherited sharing class VisitResultsService {
         String visitResultGroupName,
         Id ctpId
     ) {
-        //resultsWithAvailableSign all result types on CTP enabled
-        //visitResultTypes metadata wch are enabled on ctp for group
-        //Heart arte, VisitResultSharingService.VisitResultWithAvailableSign
         Map<String, VisitResultSharingService.VisitResultWithAvailableSign> visitResultsByType = getVisitResultsByTypeDeveloperNames(
             resultsWithAvailableSign
         );
@@ -446,7 +441,6 @@ public inherited sharing class VisitResultsService {
                 }
             }
         }
-
         List<Visit_Result_Type_Sharing__c> visitResulTypeSharingList = [
             SELECT Id, Custom_Tooltip__c, Type__c
             FROM Visit_Result_Type_Sharing__c
@@ -465,13 +459,11 @@ public inherited sharing class VisitResultsService {
             }
         }
         List<VisitResultWrapper> wrappers = new List<VisitResultWrapper>();
-
         for (Visit_Result_TypeM__mdt singleVRT : visitResultTypes) {
             String description = '';
             if (visitResultTypeWithDesMap.containsKey(singleVRT.DeveloperName)) {
                 description = visitResultTypeWithDesMap.get(singleVRT.DeveloperName);
             }
-
             VisitResultSharingService.VisitResultWithAvailableSign resultWithAvailableSign = visitResultsByType.get(
                 singleVRT.DeveloperName
             );

@@ -8,20 +8,11 @@ public without sharing class VisitResultsRemote {
         Map<String, Map<String, List<String>>> visitResultSharings
     ) {
         try {
-            List<Visit_Result__c> visitResultsForMode = [
-                SELECT
-                    Patient_Visit__c,
-                    Id,
-                    Actual_Value__c,
-                    Max_Value__c,
-                    Measurement__c,
-                    Min_Value__c,
-                    Result_Type__c,
-                    RecordTypeId
-                FROM Visit_Result__c
-                WHERE ID = 'a1r6s000004CLcoAAG'
-            ];
-
+            List<Visit_Result__c> visitResultsForMode = VisitResultsService.getVisitResults(
+                ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c,
+                ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c,
+                visitResultsMode
+            );
             InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(
                 InitDataWrapper.class
             );
@@ -52,68 +43,120 @@ public without sharing class VisitResultsRemote {
     }
 
     @AuraEnabled
-    public static InitDataWrapper getInitData_PP(
-        String visitResultsMode,
-        Map<String, Map<String, List<String>>> visitResultSharings,
-        List<Visit_Result__c> visitResultsForMode
-    ) {
-        try {
-            List<Visit_Result__c> visitResultsForMode = [
+    public static PPInitDataWrapper getInitDataPP(Integer ctpSharingTiming, String patientVisitId) {
+        PPInitDataWrapper wrapper = (PPInitDataWrapper) ClassFactory.newInstance(
+            PPInitDataWrapper.class
+        );
+
+        //patientVisitId = 'a13DP000004haohYAA'; //'a13DP000004hbSoYAI';
+        //ctpSharingTiming = 0;
+
+        if (checkDataSharebackTiming(ctpSharingTiming, patientVisitId)) {
+            //check result
+            //ctp level visit result type with their subtype
+            Map<String, Map<String, List<String>>> visitResultSharings = VisitResultSharingService.visitResultSharingByGroupAndModeAndCountry();
+            if (visitResultSharings != null) {
+                wrapper.visitResultWithSubTypesCTP = visitResultSharings;
+            }
+
+            Set<String> visitResultSubTypeSet = new Set<String>();
+            wrapper.visitResultsShares = new Map<String, List<String>>();
+            //Contact currentContact = ParticipantContext.getCurrentContact();
+            Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
+            for (String visitResultTypeCTP : visitResultSharings.keySet()) {
+                Map<String, List<String>> visitResultTypeWithSubTypeCTP = visitResultSharings.get(
+                    visitResultTypeCTP
+                );
+                if (visitResultTypeCTP == 'Vitals') {
+                    wrapper.toggleStateForVitals = toggleStateForPP(visitResultTypeCTP, currentPE);
+                } else if (visitResultTypeCTP == 'Labs') {
+                    wrapper.toggleStateForLabs = toggleStateForPP(visitResultTypeCTP, currentPE);
+                } else if (visitResultTypeCTP == 'Biomarkers') {
+                    wrapper.toggleStateForBiomarkers = toggleStateForPP(
+                        visitResultTypeCTP,
+                        currentPE
+                    );
+                }
+                for (String visitResultTypeInner : visitResultTypeWithSubTypeCTP.keySet()) {
+                    List<String> subTypeSet = visitResultTypeWithSubTypeCTP.get(
+                        visitResultTypeInner
+                    );
+                    visitResultSubTypeSet.addAll(subTypeSet);
+                    wrapper.visitResultsShares.put(visitResultTypeCTP, subTypeSet);
+                }
+            }
+
+            List<Visit_Result__c> visResults = [
                 SELECT
-                    Patient_Visit__c,
                     Id,
                     Actual_Value__c,
                     Max_Value__c,
                     Measurement__c,
                     Min_Value__c,
+                    Patient_Visit__r.Completed_Date__c,
+                    Patient_Visit__r.Portal_Name__c,
+                    Patient_Visit__r.Participant_Enrollment__c,
                     Result_Type__c,
-                    RecordTypeId
+                    RecordType.DeveloperName
                 FROM Visit_Result__c
-                WHERE ID = 'a1r6s000004CLcoAAG'
+                WHERE
+                    Patient_Visit__c = :patientVisitId
+                    AND Result_Type__c IN :visitResultSubTypeSet
             ];
 
-            InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(
-                InitDataWrapper.class
-            );
-            wrapper.isVisitResultsAvailable = isVisitResultAvailable();
-            wrapper.contact = ParticipantContext.getCurrentContact();
-            // this is to check if result is enabled on CTP
-            wrapper.isResultsExist = existForModeAndAvailableByCTP(
-                visitResultSharings.get(visitResultsMode),
-                visitResultsForMode
-            );
-            // this is to check if result is enabled for country
-            wrapper.isCountryWiseResultExist = existResultForCountry(
-                visitResultsMode,
-                ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c,
-                visitResultsForMode
-            );
-            // While displaying Biomarker, result is available for Lab, but biomarker enabled on CTP with no results
-            wrapper.visitResultsGroupNames = notEmptyVisitResultsGroupName(
-                visitResultsMode,
-                visitResultSharings,
-                visitResultsForMode
-            );
-            wrapper.visitResultsShares = visitResultSharings.get(visitResultsMode);
+            wrapper.visitResultsGroupNamesCTP = new List<String>(visitResultSharings.keySet());
+            if (visResults != null && !visResults.isEmpty()) {
+                wrapper.isVisitResultsAvailable = false;
+                for (Visit_Result__c vr : visResults) {
+                    List<String> subTypesList = wrapper.visitResultsShares.get(
+                        vr.RecordType.DeveloperName + 's'
+                    );
+                    if (subTypesList != null && subTypesList.contains(vr.Result_Type__c)) {
+                        wrapper.isVisitResultsAvailable = true;
+                        break;
+                    }
+                }
+            } else {
+                wrapper.isVisitResultsAvailable = false;
+            }
+            //wrapper.contact = currentContact;
             wrapper.isDelegate = ParticipantContext.isCurrentDelegate();
-            wrapper.toggleState = toggleState(visitResultsMode);
             return wrapper;
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
+        } else {
+            //no need to show results
+            wrapper.isVisitResultsAvailable = false;
+            return wrapper;
         }
-        return null;
     }
 
-    @AuraEnabled
-    public static Map<String, InitDataWrapper> getInitDataForAllResultModes_PP(
-        Map<String, Map<String, List<String>>> visitResultSharings
+    public static Boolean checkDataSharebackTiming(
+        Integer ctpSharingTiming,
+        String patientVisitId
     ) {
-        Map<String, InitDataWrapper> allResultWrapper = new Map<String, InitDataWrapper>();
-        for (String resultMode : visitResultSharings.keySet()) {
-            InitDataWrapper wrapper = getInitData(resultMode, visitResultSharings);
-            allResultWrapper.put(resultMode, wrapper);
+        List<Patient_Visit__c> patientVisitList = getPatientVisitsForPP();
+        if (
+            patientVisitList == null ||
+            (patientVisitList != null &&
+            patientVisitList.size() <= ctpSharingTiming)
+        ) {
+            //no need to show results
+            return false;
+        } else {
+            //find position of our patientvisit in above list
+            //if it is greater than ctpSharingTiming then chekc results
+            for (Integer i = 0; i < patientVisitList.size(); i++) {
+                if (patientVisitList[i].Id == patientVisitId) {
+                    Integer patientVisitPosition = i + 1;
+                    if (patientVisitPosition > ctpSharingTiming) {
+                        //check result
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            return false;
         }
-        return allResultWrapper;
     }
 
     @AuraEnabled
