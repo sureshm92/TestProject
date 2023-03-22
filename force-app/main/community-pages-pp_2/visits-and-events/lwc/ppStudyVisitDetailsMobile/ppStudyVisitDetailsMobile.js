@@ -1,4 +1,4 @@
-import { LightningElement, track, wire } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 import getParticipantVisits from '@salesforce/apex/ParticipantVisitsRemote.getPatientVisitsDetails';
 import getParticipantVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsDetails';
 import getSiteAddress from '@salesforce/apex/ParticipantVisitsRemote.getSiteAddress';
@@ -24,6 +24,7 @@ import communicationPreference from '@salesforce/label/c.Communication_Preferenc
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import Unavailable from '@salesforce/label/c.Study_Visit_Unavailable';
+import formFactor from '@salesforce/client/formFactor';
 
 export default class PpStudyVisitDetailsMobile extends NavigationMixin(LightningElement) {
     label = {
@@ -74,6 +75,11 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
     @track visitdetailpageurl = '';
     @track missedVisit = false;
 
+    isMobile = true;
+    isTablet = false;
+
+    ctpSharingTiming;
+
     renderedCallback() {
         if (!this.hasRendered) {
             this.template.querySelector('c-web-spinner').show();
@@ -86,7 +92,16 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
             this.isEvent = true;
             this.missedVisit = true;
         }
+        console.log('rk:::ctpST', communityService.getUrlParameter('ctpST'));
+        if (window.location.pathname.includes('ctpST')) {
+            this.ctpSharingTiming = communityService.getUrlParameter('ctpST');
+        }
         this.contentLoaded = false;
+
+        if (formFactor == 'Medium') {
+            this.isMobile = false;
+            this.isTablet = true;
+        }
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 this.sfdcBaseURL = window.location.origin + basePathName + communicationPreference;

@@ -1,3 +1,38 @@
+.full-width {
+    width: 100%;
+}
+
+.curve-input {
+    display: flex;
+    position: relative;
+    width: 100%;
+    border-radius: 1rem;
+    border: 1px solid #d9d9d9;
+    padding-left: 2.25rem;
+    background-color: #f2f2f2;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+    color: #595959;
+}
+.curve-input:focus-within {
+    border: 1px solid #015ff1;
+}
+
+.curve-input .svg-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    left: 20px;
+    fill: #009dd6;
+}
+
+.image-result-header {
+    height: 52.01px;
+    width: 76px;
+    float: right;
+}
+
 .center {
     text-align: center;
 }
@@ -22,7 +57,7 @@
     cursor: pointer;
 }
 .what-to-expect {
-    height: 32px;
+    height: 2rem;
     width: 100%;
     max-width: 423px;
     color: #444444;
@@ -41,6 +76,34 @@
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
 }
 
+.result-container {
+    box-sizing: border-box;
+    /* height: 519px; */
+    width: 100%;
+    border: 1px solid #d9d9d9;
+    border-radius: 1rem;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+}
+.result-container-mobile {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #d9d9d9;
+    border-radius: 1rem;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+}
+.result-type-description {
+    color: #444444;
+    font-size: 0.875rem;
+    letter-spacing: 0;
+    line-height: 1.3125rem;
+    text-align: start;
+    word-wrap: break-word;
+}
+
+.divider {
+    opacity: 0.75;
+}
+
 .icon-cont1 .slds-wrap {
     flex-direction: column;
     align-items: center;
@@ -52,6 +115,6 @@
     box-sizing: border-box;
     height: auto;
     border: 1px solid #d9d9d9;
-    border-radius: 16px;
+    border-radius: 1rem;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
 }

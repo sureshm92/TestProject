@@ -167,6 +167,18 @@ public without sharing class VisitResultsRemote {
     }
 
     @AuraEnabled
+    public static Boolean toggleStateForPP(
+        String visitResultsMode,
+        Participant_Enrollment__c currentPE
+    ) {
+        String currentVisitResults = currentPE == null ||
+            currentPE.Visit_Results_Opt_In__c == null
+            ? ''
+            : currentPE.Visit_Results_Opt_In__c;
+        return currentVisitResults.contains(visitResultsMode);
+    }
+
+    @AuraEnabled
     public static Boolean showVisitResults() {
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
             .getState();
@@ -195,6 +207,28 @@ public without sharing class VisitResultsRemote {
         }
         currentContact.Visit_Results_OptIn__c = updatedVisitResults;
         update currentContact;
+    }
+
+    @AuraEnabled
+    public static void switchToggleRemoteForPP(String visitResultsMode, Boolean isToggleOn) {
+        Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
+        String currentVisitResults = currentPE.Visit_Results_Opt_In__c == null
+            ? ''
+            : currentPE.Visit_Results_Opt_In__c;
+        String updatedVisitResults = '';
+        if (isToggleOn) {
+            if (!currentVisitResults.contains(visitResultsMode)) {
+                updatedVisitResults = currentVisitResults + ';' + visitResultsMode;
+            }
+        } else {
+            List<String> visitResults = currentVisitResults.split(';');
+            for (String str : visitResults) {
+                if (!str.equals(visitResultsMode))
+                    updatedVisitResults += str + ';';
+            }
+        }
+        currentPE.Visit_Results_Opt_In__c = updatedVisitResults;
+        update currentPE;
     }
 
     public static List<String> notEmptyVisitResultsGroupName(
@@ -383,6 +417,36 @@ public without sharing class VisitResultsRemote {
         public Boolean toggleState;
     }
 
+    public class PPInitDataWrapper {
+        @AuraEnabled
+        public Contact contact;
+        @AuraEnabled
+        public Boolean isDelegate;
+        @AuraEnabled
+        public Boolean isVisitResultsAvailable;
+        @AuraEnabled
+        public Map<String, List<String>> visitResultsShares;
+        //variables related to Vitals
+        @AuraEnabled
+        public Boolean toggleStateForVitals;
+        //variables related to Labs
+        @AuraEnabled
+        public Boolean toggleStateForLabs;
+        //variables related to Biomarkers
+        @AuraEnabled
+        public Boolean toggleStateForBiomarkers;
+        @AuraEnabled
+        public Map<String, Map<String, List<String>>> visitResultWithSubTypesCTP;
+
+        //to store all result types configured at CTP
+        @AuraEnabled
+        public List<String> visitResultsGroupNamesCTP;
+
+        public PPInitDataWrapper() {
+            this.isVisitResultsAvailable = false;
+        }
+    }
+
     public static List<Patient_Visit__c> getPatientVisits() {
         if (!isOnStudy())
             return new List<Patient_Visit__c>();
@@ -406,6 +470,20 @@ public without sharing class VisitResultsRemote {
                         RecordType.DeveloperName
                     FROM Visit_Results__r
                 )
+            FROM Patient_Visit__c
+            WHERE
+                Participant_Enrollment__c = :ParticipantContext.getCurrentPEId()
+                AND Status__c = 'Completed'
+            ORDER BY Visit_Number__c, Completed_Date__c
+        ];
+    }
+
+    public static List<Patient_Visit__c> getPatientVisitsForPP() {
+        if (!isOnStudy())
+            return new List<Patient_Visit__c>();
+
+        return [
+            SELECT Id, Completed_Date__c, Visit_Number__c
             FROM Patient_Visit__c
             WHERE
                 Participant_Enrollment__c = :ParticipantContext.getCurrentPEId()

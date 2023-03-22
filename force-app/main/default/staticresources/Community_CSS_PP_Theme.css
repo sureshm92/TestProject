@@ -1382,4 +1382,60 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     max-width: 29% !important;
 }
 /* Delegate Redesing - Add New Delegate Page CSS  Override - ends*/
+/** VISIT RESULT CARD TOGGLE*/
+.result-type-toggle .slds-checkbox_toggle .slds-checkbox_faux,
+.slds-checkbox_toggle .slds-checkbox--faux,
+.slds-checkbox--toggle .slds-checkbox_faux,
+.slds-checkbox--toggle .slds-checkbox--faux {
+    background-color: #B5B5B5 !important;
+    border: 1px solid #B5B5B5 !important;
+    height: 1.5rem;
+    outline: none;
+    width: 3rem;
+}
+.result-type-toggle .slds-checkbox_toggle
+    [type='checkbox']:checked
+    + .slds-checkbox_faux_container
+    .slds-checkbox_faux {
+    background-color: #00C700 !important;
+    border: 1px solid #00C700 !important;
+}
 
+.result-type-toggle .slds-checkbox_toggle .slds-checkbox_faux::after, .slds-checkbox_toggle .slds-checkbox--faux::after, .slds-checkbox--toggle .slds-checkbox_faux::after, .slds-checkbox--toggle .slds-checkbox--faux::after{
+    width: 1rem;
+    height: 1rem;
+    top: 3.5px;
+    left: 4px;
+}
+.result-type-toggle .slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux_container .slds-checkbox_faux::before{
+    width: 1rem;
+    height: 1rem;
+    top: 3.5px;
+    right: 4px;
+}
+
+
+element.style {
+}
+svg:not(:root) {
+    overflow: hidden;
+}
+.slds-button__icon {
+    width: var(--lwc-squareIconMediumContentAlt,0.875rem);
+    height: var(--lwc-squareIconMediumContentAlt,0.875rem);
+    fill: var(--slds-c-icon-color-foreground, currentColor);
+}
+audio, canvas, iframe, img, svg, video {
+    vertical-align: middle;
+}
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+user agent stylesheet
+svg:not(:root) {
+    overflow-clip-margin: content-box;
+    overflow: hidden;
+}
+.show-result-tooltip lightning-primitive-icon {
+    color: #595959 !important;
+}

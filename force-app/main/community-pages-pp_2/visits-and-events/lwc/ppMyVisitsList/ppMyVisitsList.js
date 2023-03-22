@@ -57,6 +57,7 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     @api initialpageload;
     @api past;
     @api isevent;
+    @api ctpSharingTiming;
 
     @track showreminderdatepicker = false;
     @track contentLoaded = false;

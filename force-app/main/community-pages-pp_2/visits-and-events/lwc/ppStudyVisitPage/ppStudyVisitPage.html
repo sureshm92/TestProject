@@ -137,9 +137,9 @@
 
                     <template if:true={isResultsCard}>
                         <c-pp-study-visit-result-card
-                            past={past}
-                            current-visit={currentVisit}
-                            visit-id={visitid}
+                            is-past-visit={past}
+                            patient-visit-id={visitid}
+                            ctp-sharing-timing={ctpSharingTiming}
                         ></c-pp-study-visit-result-card>
                     </template>
                 </div>
@@ -173,6 +173,7 @@
                             onupcomingclick={onUpcomingClick}
                             isupcomingvisits={isUpcomingVisits}
                             isevent={isEvent}
+                            ctp-sharing-timing={ctpSharingTiming}
                         >
                         </c-pp-my-visits-list>
                     </template>

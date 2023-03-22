@@ -5,6 +5,7 @@ import viewAllResults from '@salesforce/label/c.Visits_View_All_Results';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { NavigationMixin } from 'lightning/navigation';
 import formFactor from '@salesforce/client/formFactor';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import visitResultSharingByGroupAndMode from '@salesforce/apex/StudyDetailViewController.visitResultSharingByGroupAndMode';
 import {
     subscribe,
@@ -21,11 +22,8 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
         viewAllResults,
         results
     };
-    @api past;
-    @api currentVisit;
-    @api visitId;
-    participantState;
-    showVisResults;
+
+    showVisResults = false;
     participantState;
     selectedResult;
     @track availableTabs = [];
@@ -39,6 +37,9 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
     resultsIllustration = pp_icons + '/' + 'results_Illustration.svg';
 
     subscription = null;
+    @api patientVisitId;
+    @api ctpSharingTiming;
+    @api isPastVisit = false;
     @wire(MessageContext)
     messageContext;
 
@@ -61,6 +62,7 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
     initializeData() {
         if (!communityService.isDummy()) {
             if (this.isDesktop) {
+                console.log('rk::ctpSharingTiming', this.ctpSharingTiming);
                 this.showVisResults = communityService.getVisResultsAvailable();
             } else {
                 this.handleSubscribe();
@@ -130,5 +132,15 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
                 pageName: 'results'
             }
         });
+    }
+
+    showErrorToast(titleText, messageText, variantType) {
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: titleText,
+                message: messageText,
+                variant: variantType
+            })
+        );
     }
 }
