@@ -234,4 +234,15 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
         return (this.medicalCard && this.initialized);
     }
 
+    showHideInfo(event){
+        let name = event.type;
+        if(name === 'mouseover'){
+            this.template.querySelector('div.info-tooltip_position').classList.remove('slds-hide');
+        }
+        else if(name === 'mouseleave'){
+            this.template.querySelector('div.info-tooltip_position').classList.add('slds-hide');
+
+        }
+    }
+
 }

@@ -18,7 +18,14 @@
        
             <div class="slds-grid card-wrap MRRHeader slds-p-around-xx--small">
                 <span class="slds-p-bottom--x-small header">{label.MRRHeader}</span>
-                &nbsp;<lightning-helptext content={label.RHManageAuth}></lightning-helptext>
+                &nbsp;
+                <div class="info-tooltip">
+                    <lightning-icon icon-name="utility:info" class="blue-icon slds-is-absolute slds-m-top--xxx-small" size="x-small"  onmouseover={showHideInfo} onmouseleave={showHideInfo}></lightning-icon>
+                    <div class="slds-popover slds-popover_tooltip slds-nubbin_top-right info-tooltip_position slds-hide" role="tooltip" id="help" >
+                    <div class="slds-popover__body info-tooltip_dimension">{label.RHManageAuth}</div>
+                    </div>
+                  </div>
+               <!--- <lightning-helptext content={label.RHManageAuth}></lightning-helptext> -->
             </div>
  
         <div class="slds-card card-radius">
