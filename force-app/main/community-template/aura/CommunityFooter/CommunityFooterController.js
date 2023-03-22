@@ -6,7 +6,6 @@
     doInit: function(component, event, helper) {
         let sponsor = communityService.getCurrentSponsorName();
         let communityName = communityService.getCurrentCommunityName();
-        console.log('commName: ' + communityService.getCurrentCommunityName());
         let strCommunityName = '';
         //let isGsk = communityService.getCommunityURLPathPrefix().includes("/gsk");
         if (communityName == 'GSK Community') {
@@ -32,7 +31,6 @@
         var action = component.get("c.getCPRALink");
         action.setParams({ strCommunityType : strCommunityName });
         action.setCallback(this, function(response) {
-            console.log('>>>responseback>>'+response.getReturnValue());
             if(response.getReturnValue())
             {
                 var getReturnValueMD = response.getReturnValue();
