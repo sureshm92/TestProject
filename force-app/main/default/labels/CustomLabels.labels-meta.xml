@@ -29132,6 +29132,14 @@ Please contact the Study Team for further updates or please login for additional
         <value>*all features may not be available for each study</value>
     </labels>
     <labels>
+        <fullName>PP_AS_CONDITIONAL_FEATURE_GENERIC</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_CONDITIONAL_FEATURE_GENERIC</shortDescription>
+        <value>*all features may not be available</value>
+    </labels>
+    <labels>
         <fullName>PP_AS_Delegate_Header</fullName>
         <categories>PPAccountSettings</categories>
         <language>en_US</language>
@@ -30694,5 +30702,12 @@ Please contact the Study Team for further updates or please login for additional
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##SurveyName&lt;/span&gt;
 
 &lt;div&gt;&lt;span&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot;&gt; ##expirationOnlyDate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>HAPI_Helptext</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HAPI_Helptext</shortDescription>
+        <value>In order to complete this transaction, your email address will be shared with the third-party servicer per our Privacy Policy at the bottom of the page. Links will open in new browser window. IQVIA Patient Portal is not responsible for content provided in external websites.</value>
     </labels>
 </CustomLabels>

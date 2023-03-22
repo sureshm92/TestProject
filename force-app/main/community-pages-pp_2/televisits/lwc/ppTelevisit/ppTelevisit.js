@@ -8,12 +8,13 @@ import getParticipantDetails from '@salesforce/apex/ParticipantTelevisitRemote.g
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { NavigationMixin } from 'lightning/navigation';
 import DEVICE from '@salesforce/client/formFactor';
-import homeicon from '@salesforce/resourceUrl/Home_Icon';
+import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 export default class PpTelevisit extends NavigationMixin(LightningElement) {
     @track contentLoaded = false;
     @track upcomingTelevisitslist = [];
     @track pastTelevisitlist = [];
     empty_state = pp_community_icons + '/' + 'empty_visits.png';
+    homeSvg = rr_community_icons + '/' + 'icons.svg' + '#' + 'icon-home-pplite-new';
     showupcomingtelevisits = false;
     showuppasttelevisits = false;
     showblankupcomingtelevisits = false;
@@ -30,8 +31,6 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
     timechanges ;
     reloadupcomingcomponent = false;
     isdelegate = false;
-    home_icon = homeicon;
-    delegatecheck = false;
     selectedNavHandler(event) {
         if(event.detail.filter == 'showblankupcomingtelevisits:false'){
             this.upcomingTelevisitslist = event.detail.upcomingdata;
@@ -56,11 +55,6 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
                 this.showuppasttelevisits = true;
             }
             
-        }
-        if(this.delegatecheck && this.upcomingTelevisitslist.length > 0 ){
-            this.isdelegate = true;
-        }else{
-            this.isdelegate = false;
         }
     }
     onPastClick (){
@@ -87,10 +81,6 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
                 this.timechanges = result.tz;
                 this.pastTelevisitlist = result.televisitpastList;
                 this.upcomingTelevisitslist = result.televisitupcomingList;
-                this.delegatecheck = result.isdelegate;
-                if(result.isdelegate && result.televisitupcomingList.length > 0){
-                    this.isdelegate = true;
-                }
                 if(this.pastTelevisitlist.length == 0){
                     this.showblankpasttelsvisits = true;
                 }
@@ -107,11 +97,8 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
             }else{
                 this.showblankupcomingtelevisits = true;
                 this.showblankpasttelsvisits = true;
-                this.delegatecheck = result.isdelegate;
-                if(result.isdelegate && result.televisitupcomingList.length > 0){
-                    this.isdelegate = true;
-                }
             }
+            this.isdelegate = result.isdelegate;
             this.template.querySelector('c-web-spinner').hide();
             this.contentLoaded = true;
             this.reloadupcomingcomponent = true;

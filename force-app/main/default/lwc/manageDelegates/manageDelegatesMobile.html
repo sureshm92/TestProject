@@ -44,6 +44,7 @@
                 total-no-of-studies={totalNoOfStudies}
                 is-r-t-l={isRTL}
                 picklist-label={picklistLabel}
+                current-community={currentCommunity}
             >
             </c-pp-add-new-delegate>
         </template>
@@ -108,10 +109,10 @@
                                             size="12"
                                             class="slds-m-top_x-large slds-align_absolute-center"
                                         >
-                                            <template if:false={isNewPatientPortal}>
-                                                <span><img src={noDelIcon_url} /></span>
-                                            </template>
                                             <template if:true={isNewPatientPortal}>
+                                                <span><img src={new_awatar_icon_url} /></span>
+                                            </template>
+                                            <template if:false={isNewPatientPortal}>
                                                 <span><img src={icon_url} /></span>
                                             </template>
                                         </lightning-layout-item>
@@ -160,7 +161,12 @@
                                                         size="3"
                                                         class={delAvararIconMobile}
                                                     >
-                                                        <span><img src={icon_url} /></span>
+                                                        <template if:true={isNewPatientPortal}>
+                                                            <span><img src={new_awatar_icon_url} /></span>
+                                                        </template>
+                                                        <template if:false={isNewPatientPortal}>
+                                                            <span><img src={icon_url} /></span>
+                                                        </template>
                                                     </lightning-layout-item>
                                                     <!--Profile Logo: Ends-->
                                                     <!--Delegate Name: Stats-->
@@ -378,7 +384,12 @@
                                                                     size="3"
                                                                     class={delAvararIcon}
                                                                 >
-                                                                    <span><img src={icon_url} /></span>
+                                                                    <template if:true={isNewPatientPortal}>
+                                                                        <span><img src={new_awatar_icon_url} /></span>
+                                                                    </template>
+                                                                    <template if:false={isNewPatientPortal}>
+                                                                        <span><img src={icon_url} /></span>
+                                                                    </template>
                                                                 </lightning-layout-item>
                                                                 <!--Profile Logo: Ends-->
                                                                 <!--Delegate Name: Stats-->
@@ -483,7 +494,12 @@
                                                                 size="3"
                                                                 class={delAvararIcon}
                                                             >
-                                                                <span><img src={icon_url} /></span>
+                                                                <template if:true={isNewPatientPortal}>
+                                                                    <span><img src={new_awatar_icon_url} /></span>
+                                                                </template>
+                                                                <template if:false={isNewPatientPortal}>
+                                                                    <span><img src={icon_url} /></span>
+                                                                </template>
                                                             </lightning-layout-item>
                                                             <!--Profile Logo: Ends-->
                                                             <!--Delegate Name: Stats-->

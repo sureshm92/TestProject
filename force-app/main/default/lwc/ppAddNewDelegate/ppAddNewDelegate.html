@@ -26,7 +26,7 @@
             <div class="profile-information slds-m-bottom_medium">{label.Add_New_Delegate}</div>
             <div class="slds-grid slds-gutters slds-wrap add-delegate-input-container">
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 profile-info-input">
-                    <label class="slds-form-element__label" for="userName"
+                    <label class="slds-form-element__label add-new-del-input-padding" for="userName"
                         >{label.PG_AS_F_Email_address}<abbr class="slds-required" title="required"
                             >*
                         </abbr></label
@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 profile-info-input">
-                    <label class="slds-form-element__label" for="userName"
+                    <label class="slds-form-element__label add-new-del-input-padding" for="userName"
                         >{label.PG_AS_F_First_name}<abbr class="slds-required" title="required"
                             >*
                         </abbr></label
@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 profile-info-input">
-                    <label class="slds-form-element__label" for="userName"
+                    <label class="slds-form-element__label add-new-del-input-padding" for="userName"
                         >{label.PG_AS_F_Last_name}
                         <abbr class="slds-required" title="required">* </abbr></label
                     >
@@ -318,7 +318,7 @@
                                 ><ul class="slds-list_dotted">
                                     <li>{label.PG_PST_L_Delegates_Compl_Task_Behalf_New}</li>
                                     <li class="slds-m-vertical_xx-small">
-                                        {label.PG_PST_L_Delegates_Receive_Emails_New}
+                                        {getEmailHelpText}
                                     </li>
                                     <li>{label.PG_PST_L_Delegates_See_Lab_Result_New}</li>
                                 </ul></lightning-layout-item
@@ -331,7 +331,7 @@
                                     </li>
                                 </ul>
                                 <span class="text-italic">
-                                    {label.PP_AS_CONDITIONAL_FEATURE}
+                                    {getConditionalFeatureHelpText}
                                 </span></lightning-layout-item
                             >
                         </lightning-layout>
@@ -359,7 +359,7 @@
                                 ><ul class="slds-list_dotted">
                                     <li>{label.PG_PST_L_Delegates_Compl_Task_Behalf_New}</li>
                                     <li class="slds-m-vertical_xx-small">
-                                        {label.PG_PST_L_Delegates_Receive_Emails_New}
+                                        {getEmailHelpText}
                                     </li>
                                     <li>{label.PG_PST_L_Delegates_See_Lab_Result_New}</li>
                                     <li>{label.PG_PST_L_Delegates_See_Vitals_New}</li>
@@ -367,7 +367,7 @@
                                         {label.PG_PST_L_Delegates_My_Measur_New}
                                     </li>
                                 </ul>
-                                <span class="text-italic"> {label.PP_AS_CONDITIONAL_FEATURE} </span>
+                                <span class="text-italic">  {getConditionalFeatureHelpText} </span>
                             </lightning-layout-item>
                         </lightning-layout>
                     </lightning-layout-item>
