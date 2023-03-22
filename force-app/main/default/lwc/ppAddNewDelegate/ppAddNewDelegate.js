@@ -52,6 +52,8 @@ import PP_ExistingDelError_1 from '@salesforce/label/c.PP_ExistingDelError_1';
 import PP_Select_User from '@salesforce/label/c.PP_Select_User';
 import PP_There_Are from '@salesforce/label/c.PP_There_Are';
 import PP_Users_Associated from '@salesforce/label/c.PP_Users_Associated';
+import PP_AS_RECEIVE_EMAIL from '@salesforce/label/c.PP_AS_RECEIVE_EMAIL';
+import PP_AS_CONDITIONAL_FEATURE_GENERIC from '@salesforce/label/c.PP_AS_CONDITIONAL_FEATURE_GENERIC';
 
 
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
@@ -68,6 +70,7 @@ export default class PpAddNewDelegate extends LightningElement {
     @track allDelegate = {};
     @api selectedParent;
     @api picklistLabel;
+    @api currentCommunity;
     @api isRTL;
     isAttested = false;
     isEmailConsentChecked = false;
@@ -151,7 +154,9 @@ export default class PpAddNewDelegate extends LightningElement {
         PP_ExistingDelError_1,
         PP_Select_User,
         PP_There_Are,
-        PP_Users_Associated
+        PP_Users_Associated,
+        PP_AS_RECEIVE_EMAIL,
+        PP_AS_CONDITIONAL_FEATURE_GENERIC
     };
     backToDelegates() {
         const selectedEvent = new CustomEvent('backtodelegates', {
@@ -236,6 +241,12 @@ export default class PpAddNewDelegate extends LightningElement {
             checkBoxDisabled = true;
         }
         return checkBoxDisabled;
+    }
+    get getEmailHelpText(){
+        return this.currentCommunity ==='Iqvia Patient Portal II' ? this.label.PP_AS_RECEIVE_EMAIL : this.label.PG_PST_L_Delegates_Receive_Emails_New;
+    }
+    get getConditionalFeatureHelpText(){
+        return this.currentCommunity ==='Iqvia Patient Portal II' ? this.label.PP_AS_CONDITIONAL_FEATURE_GENERIC : this.label.PP_AS_CONDITIONAL_FEATURE;
     }
     handleDateChange(event) {
         if (event.currentTarget.dataset.id == 'firstNameInput') {
