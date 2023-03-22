@@ -1364,6 +1364,11 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
      width: auto !important;
      background-color: transparent !important
  }
+ @media (max-device-width: 767px){
+    .manage-delegate-acc-setting .back-to-manage-del-btn{
+        width: 70% !important
+    }
+ }
 .manage-delegate-acc-setting .profile-information-rectangle{
     background-color: transparent !important;
     width: auto !important;
