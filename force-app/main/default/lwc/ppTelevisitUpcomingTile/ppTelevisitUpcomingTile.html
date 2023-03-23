@@ -28,12 +28,12 @@
                                     <p class="tvheader">{visit.Televisit__r.Title__c} </p>
                                     <p class="tvbody">
                                         <img src={televisitDatePP2} style="width:30px;"></img>
-                                        <lightning-formatted-date-time style="padding-left: 8px;" month="long" year="numeric" day="2-digit" value={visit.Televisit__r.Visit_Date_Time__c}></lightning-formatted-date-time></p>
+                                        <lightning-formatted-date-time time-zone={visit.timezone} style="padding-left: 8px;" month="long" year="numeric" day="2-digit" value={visit.Televisit__r.Visit_Date_Time__c} ></lightning-formatted-date-time></p>
                                     <p class="tvbody">
                                         <img src={televisitTimePP2} style="width:30px;"></img>
-                                        <lightning-formatted-date-time style="padding-left: 8px;" value={visit.Televisit__r.Visit_Date_Time__c} hour="2-digit" minute="2-digit" 
+                                        <lightning-formatted-date-time time-zone={visit.timezone} style="padding-left: 8px;" value={visit.Televisit__r.Visit_Date_Time__c} hour="2-digit" minute="2-digit" 
                                         ></lightning-formatted-date-time> -&nbsp; 
-                                        <lightning-formatted-date-time value={visit.Televisit__r.Visit_End_Date_Time__c} hour="2-digit" minute="2-digit" 
+                                        <lightning-formatted-date-time time-zone={visit.timezone} value={visit.Televisit__r.Visit_End_Date_Time__c} hour="2-digit" minute="2-digit" 
                                         ></lightning-formatted-date-time>
                                     </p>
                                     <hr class="hrline"/>
