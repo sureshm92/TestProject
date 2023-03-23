@@ -11,13 +11,14 @@
                                 <span class="update-count">{counter}</span>
                             </div>
                     </div>
-                    <div class="slds-col">
-                        <span onclick={refresh}>refresh</span>
-                        <img
+                    <div class="slds-col slds-align-bottom">
+                        <span class="refresh-text" onclick={refresh}>Refresh</span>
+                       <span class="refresh-icon"> <img
                                 src={refresh_icon}
                                 class="refresh_icon"
-                                onclick={openLink}
+                                onclick={refresh}
                             />
+                        </span>
                     </div>
                 </div>
                 <!-- <div style="display: inline-flex">
@@ -97,7 +98,7 @@
                 <article class="slds-card slds-card_boundary container-card-horizontal">
                     <div data-id="myDiv"
                         if:true={resourcePresent}
-                        class="slds-p-left_xx-small slds-p-right_xx-small resouce-container-horizontal slds-scrollable_x"
+                        class="slds-p-left_xx-small slds-p-right_xx-small resouce-container-horizontal"
                         onscroll={handleScroll}
                     >
                         <div class="slds-grid">

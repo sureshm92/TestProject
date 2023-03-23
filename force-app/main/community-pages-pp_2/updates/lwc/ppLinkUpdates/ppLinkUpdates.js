@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import helpfulLinks from '@salesforce/label/c.Helpful_Links';
-
+import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 export default class PpLinkUpdates extends LightningElement {
     @api linkData;
     @api showVisitSection;
@@ -13,14 +13,18 @@ export default class PpLinkUpdates extends LightningElement {
     };
 
     openLink(event) {
-        console.log('open link');
-        console.log('open link : '+this.linkData.targetRecordId);
-        const customEvent = new CustomEvent('removecard', {
-            detail: {
-                targetRecordId: this.linkData.targetRecordId
-            }
-        });
-        this.dispatchEvent(customEvent);
+        this.removeCardHandler();
         window.open(event.currentTarget.dataset.link, '_blank');
+    }
+    removeCardHandler(){
+        const targetRecId = this.linkData.targetRecordId;
+        removeCard({targetRecordId : targetRecId})
+        .then((returnValue) => {
+        })
+        .catch((error) => {
+            //console.log('error message 1'+error.message);
+            this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+            this.spinner.hide();
+        });
     }
 }

@@ -1,6 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 import getSendResultUpdates from '@salesforce/apex/PPUpdatesController.getSendResultUpdates';
 import getSendResultCount from '@salesforce/apex/PPUpdatesController.getSendResultCount';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
@@ -23,7 +22,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     open_new_tab = pp_community_icons + '/' + 'open_in_new.png';
     empty_state = pp_community_icons + '/' + 'empty_updates.PNG';
     link_state = pp_community_icons + '/' + 'linkssvg.svg';
-    refresh_icon = pp_community_icons + '/' + 'open_in_new.png';
+    refresh_icon = pp_community_icons + '/' + 'refresh_Icon.svg';
     isRendered = false;
     callServer=true;
     offset = 0;
@@ -47,18 +46,23 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.spinner.show();
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
         this.getCount();
-        this.getUpdates();
     }
     getCount(){
         getSendResultCount()
             .then((returnValue) => {
+                console.log('calling counter '+this.counter);
                 this.counter = returnValue;
-                this.displayCounter = true;
-                if(this.counter<100){
+                if(this.counter>0){
+                    this.resourcePresent = true;
+                }
+                if(this.counter < 100 && this.counter > 0){
+                    this.displayCounter = true;
                     this.counterLabel = this.counter;
-                }else{
+                }else if(this.counter >= 100){
+                    this.displayCounter = true;
                     this.counterLabel = '99+';
                 }
+                this.getUpdates();
             })
             .catch((error) => {
                 console.log('error message 1'+error.message);
@@ -73,6 +77,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         console.log('limit : '+this.limit);
         getSendResultUpdates({ offsets: this.offset, limits: this.limit })
             .then((returnValue) => {
+                console.log('calling update data ');
                 console.log('getSendResultUpdates : '+JSON.stringify(returnValue));
                 returnValue.forEach((resObj) => {
                     if (
@@ -95,6 +100,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                     this.resourcePresent = true;
                 }
                 this.offset += this.limit;
+                this.addHorizontalScroll();
                 this.spinner.hide();
                 this.callServer = true;
                 console.log('getSendResultUpdates : '+JSON.stringify(returnValue));
@@ -105,6 +111,15 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.callServer = true;
                 this.spinner.hide();
             });
+    }
+    addHorizontalScroll(){
+        console.log('coming to scroll');
+        if(this.counter>4 && this.desktop && !this.showvisitsection){
+            console.log('counter >4 '+this.counter);
+            const myDiv = this.template.querySelector('.resouce-container-horizontal');
+            console.log('myDiv : '+myDiv);
+            myDiv.classList.add('horizontal-scroll');
+        }
     }
     //timer=0;
     handleScroll(event) {
@@ -128,12 +143,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.limit = 4;
         this.resourcedData = [];
         this.initializeData();
-    }
-    handleRemoveCard(event){
-        console.log('event called');
-        const targetRecId = event.detail.targetRecordId;
-        //this.resourcedData = this.resourcedData.filter(item => item.targetRecordId !== targetRecId);
-        console.log('Received message:', targetRecId);
     }
     openLink(event) {
         window.open(event.currentTarget.dataset.link, '_blank');

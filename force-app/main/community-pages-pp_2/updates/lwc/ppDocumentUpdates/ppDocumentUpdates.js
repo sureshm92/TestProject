@@ -1,5 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import versionDate from '@salesforce/label/c.Version_date';
+import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 import { NavigationMixin } from 'lightning/navigation';
 export default class PpDocumentUpdates extends NavigationMixin(LightningElement) {
     @api documentData;
@@ -32,6 +33,7 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
     }
 
     navigateResourceDetail() {
+        this.removeCardHandler();
         let subDomain = communityService.getSubDomain();
         let state;
         if (communityService.isInitialized()) {
@@ -63,5 +65,18 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
             console.log('navigation not working');
             window.open(url, '_self');
         });  */
+    }
+    removeCardHandler(){
+        console.log('calling removeCardHandler');
+        const targetRecId = this.documentData.targetRecordId;
+        console.log('targetRecId : '+targetRecId);
+        removeCard({targetRecordId : targetRecId})
+        .then((returnValue) => {
+        })
+        .catch((error) => {
+            //console.log('error message 1'+error.message);
+            this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+            this.spinner.hide();
+        });
     }
 }

@@ -82,6 +82,7 @@ public without sharing class PPUpdatesController {
             UpdateWrapper wrp = new UpdateWrapper();
             if(targetType == OBJECT_TYPE_STD_RESOURCE || targetType == OBJECT_TYPE_PT_RESOURCE){
                 wrp.updateType = 'resource';
+                wrp.sendResultId = sr.Id;
                 if(targetType == OBJECT_TYPE_STD_RESOURCE){
                     createResStudyWrapper(targetId,resStudyMap,wrp,resIdContentVersionIdMap);
                 }else if(targetType == OBJECT_TYPE_PT_RESOURCE){
@@ -141,8 +142,10 @@ public without sharing class PPUpdatesController {
         Integer updateCount = [SELECT count() FROM Send_Result__c where Target_Type__c='Updates' AND Status__c='In Progress' AND Notification__r.Recipient__c=:ps.Participant.Contact__c];
         return updateCount;
     }
+    @AuraEnabled
     public static void removeUpdateCard(String targetRecordId){
-        List<Send_Result__c> sendResultList = [SELECT id,Status__c FROM Send_Result__c WHERE Notification__r.Target_Record_Id__c=:targetRecordId];
+        targetRecordId = '%'+targetRecordId+'%';
+        List<Send_Result__c> sendResultList = [SELECT id,Status__c FROM Send_Result__c WHERE Notification__r.Target_Record_Id__c like : targetRecordId];
         for(Send_Result__c sr : sendResultList){
             sr.Status__c = 'Sent';
         }
@@ -171,5 +174,7 @@ public without sharing class PPUpdatesController {
         public String linkType;
         @AuraEnabled 
         public String targetRecordId;
+        @AuraEnabled 
+        public String sendResultId;
     }
 }
