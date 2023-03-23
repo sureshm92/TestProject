@@ -78,9 +78,9 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
 
     get showPostingOrVersionDate(){
         if(this.resourceForPostingDate.includes(this.resourceType)){
-            return true;
+            return this.resPostingDate;
         }
-        return false;
+        return this.resVersionDate;
     }
 
     get showPostingOrVersionLabel(){
