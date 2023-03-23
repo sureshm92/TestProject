@@ -141,7 +141,7 @@
                                                             <p class="font-color">{sitePhone}</p>
                                                         </div>
                                                     </div>
-                                             </div>
+                                                </div>
                                         </article>
                                     </div>
                                     
@@ -153,9 +153,9 @@
                                         <div class="slds-grid slds-wrap padding-desktop">
                                             <template for:each={iconDetails} for:item="icon">
                                                 <div 
-                                                    class="slds-col slds-size_6-of-12 slds-p-around_x-small detail-section" 
-                                                    key={icon.Name}
-                                                    >
+                                                class="slds-col slds-size_6-of-12 slds-p-around_x-small detail-section"
+                                                key={icon.Name}
+                                                >
                                                     <div class="expect-icon">   
                                                         <c-web-icon
                                                         icon-size="medium-large"
@@ -166,26 +166,26 @@
                                                         >
                                                         </c-web-icon>
                                                     </div>
-                                                    <div 
-                                                    class="slds-card__header-link slds-truncate icon-name" 
+                                                    <div
+                                                    class="slds-card__header-link slds-truncate icon-name"
                                                     title={icon.Label__c}
                                                     >
                                                         {icon.Label__c}
                                                     </div>
                                                 </div>
                                             </template>
-                                        <template if:true={moreIconsCount}>
-                                        <div 
-                                        class="slds-col slds-size_1-of-1 slds-m-top_xx-small more text-centre"
-                                        >
-                                            + {moreIconsCount} {labels.MORE}
-                                        </div>
-                                        </template>
-                                        <template if:false={moreIconsCount}>
-                                            <div 
-                                            class="slds-col slds-size_1-of-1 slds-m-top_xx-small more text-centre"
-                                            ></div>
-                                        </template>
+                                            <template if:true={moreIconsCount}>
+                                                <div 
+                                                class="slds-col slds-size_1-of-1 slds-m-top_xx-small more text-centre" style="margin-top: 18px;margin-left: 20px;"
+                                                 >
+                                                    + {moreIconsCount} {labels.MORE}
+                                                </div>
+                                            </template>
+                                            <template if:false={moreIconsCount}>
+                                                <div
+                                                class="slds-col slds-size_1-of-1 slds-m-top_xx-small more text-centre"
+                                                ></div>
+                                            </template>
                                         </div>
                                         </template>
                                         <template if:false={iconDetails}>
@@ -255,14 +255,14 @@
                     {labels.PG_Mobile_Title_Upcoming_Visits}
                 </template>
             </div>-->
-        <div>
+        <div style="background:white">
             <template if:false={isUpcomingDetails}>
                     <article class="slds-align_absolute-center container-card-no-upcoming" style="background:white;border-radius:2px"
                     >
                         <div class="dis-block">
                             <span class="center"
-                                ><img class="no-upcoming-img" src={empty_state} 
-                                /></span>
+                            ><img class="no-upcoming-img" src={empty_state}
+                            /></span>
                             <template if:true={isProgram}>
                                 <span class="text-colour slds-m-top_medium"
                                     >{labels.No_Upcoming_Event}</span
@@ -282,6 +282,10 @@
                 <div class="slds-truncate visit-title-mobile slds-p-vertical_small">
                 <span title={visitName}>{visitName}</span>
                 </div>
+
+                <lightning-layout>
+                    <lightning-layout-item size="6" >
+                    
                 <div class="slds-grid slds-wrap">
                 <div class="slds-col slds-size_1-of-12 info-icon-mobile">
                         <c-web-icon
@@ -292,10 +296,10 @@
                         >
                         </c-web-icon>
                 </div>
-                <div 
-                class="slds-col slds-size_11-of-12 slds-m-top_xxx-small text-padding"
+                <div
+                class="slds-col slds-size_11-of-12 slds-m-top_xxx-small text-padding" style="padding-left: 24px;"
                 >
-                    <p class="slds-truncate visit-text-mobile">
+                <p class="slds-truncate visit-text-mobile">
                     <template if:true={planDateTime}>
                         <div>
                             <lightning-formatted-date-time
@@ -312,6 +316,10 @@
                 </p>
                 </div> 
                 </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" style="margin-top: -14px;">
+
+            
                 <div class="slds-grid slds-wrap slds-p-top_medium">
                     <div class="slds-col slds-size_1-of-12 info-icon-mobile">
                         <c-web-icon
@@ -323,7 +331,7 @@
                     </c-web-icon>
                     </div>
                     <div 
-                    class="slds-col slds-size_11-of-12 slds-m-top_xxx-small text-padding"
+                    class="slds-col slds-size_11-of-12 slds-m-top_xxx-small text-padding" style="padding-left: 24px;"
                     >
                         <p class="slds-truncate visit-text-mobile">
                         <template if:true={planDateTime}>
@@ -342,6 +350,8 @@
                     </p>
                     </div> 
                 </div>
+            </lightning-layout-item>
+        </lightning-layout>
                 <div class="slds-grid slds-wrap slds-p-top_medium slds-p-bottom_small">
                     <div class="slds-col slds-size_1-of-12 info-icon-mobile">
                         <c-web-icon
@@ -392,18 +402,18 @@
                                 </div>
                             </div>
                         </template>
-                    <template if:true={moreIconsCount}>
+                        <template if:true={moreIconsCount}>
                             <div 
-                            class="slds-col slds-size_1-of-1 slds-m-top_small more-mobile more text-centre"
+                            class="slds-col slds-size_1-of-1 slds-m-top_small more-mobile more text-centre" style="margin-left: 24px;"
                             >
                             + {moreIconsCount} {labels.MORE}
                             </div>
-                    </template>
-                    <template if:false={moreIconsCount}>
-                        <div
+                        </template>
+                        <template if:false={moreIconsCount}>
+                            <div 
                             class="slds-col slds-size_1-of-1 slds-m-top_small more text-centre"
-                        ></div>
-                    </template>
+                            ></div>
+                        </template>
                     </div>
                     </template>
                     <template if:false={iconDetails}>
@@ -419,6 +429,10 @@
             </template>
         </div>
             <template if:true={isVisitAvailable}>
+                <!--<div
+                    class="slds-card__footer-action slds-align_absolute-center label"
+                >-->
+
                 <div style="margin-top: -40px; text-align: center;">
                     <template if:true={isProgram}>
                         <a href="events" onclick={setSessionCookie}
@@ -433,6 +447,7 @@
                         </a>
                     </template> 
                 </div>                      
+                <!--</div>-->
             </template>
         </template>
     </template>  

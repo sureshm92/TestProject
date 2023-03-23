@@ -133,6 +133,8 @@ hr {
 .mobile-padding {
     padding: 5px;
     padding-top: 12px;
+    background: white;
+    border-radius: 8px;
 }
 
 .expect-text {
