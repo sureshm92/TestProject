@@ -18,14 +18,14 @@ public without sharing class PPUpdatesController {
     }
     public static List<Send_Result__c> getSendResultRecords(List<Id> resStudyIds,List<Id> resPlatformIds,Integer offsets, Integer limits){
         ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
-        List<Send_Result__c> sendResults = [SELECT Id,Notification__c,Notification__r.Target_Record_Id__c,Is_Active__c, Is_Read__c, Link_to_Related_Event_or_Object__c,Status__c, Target_Type__c,Notification__r.Recipient__r.email FROM Send_Result__c WHERE Status__c='In Progress' AND Notification__r.Target_Record_Id__c!=null AND Target_Type__c='Updates' AND Notification__r.Recipient__c=:ps.Participant.Contact__c order by lastModifiedDate desc LIMIT:limits OFFSET:offsets];
+        List<Send_Result__c> sendResults = [SELECT Id,Notification__c,Notification__r.Target_Record_Ids__c,Is_Active__c, Is_Read__c, Link_to_Related_Event_or_Object__c,Status__c, Target_Type__c,Notification__r.Recipient__r.email FROM Send_Result__c WHERE Status__c='In Progress' AND Notification__r.Target_Record_Ids__c!=null AND Target_Type__c='Updates' AND Notification__r.Recipient__c=:ps.Participant.Contact__c order by lastModifiedDate desc LIMIT:limits OFFSET:offsets];
         for(Send_Result__c sr : sendResults){
-            Id targetId = (Id)sr.Notification__r.Target_Record_Id__c;
+            Id targetId = (Id)sr.Notification__r.Target_Record_Ids__c;
             String targetType = targetId.getSObjectType().getDescribe().getName().toLowerCase();
             if(targetType == OBJECT_TYPE_STD_RESOURCE){
-                resStudyIds.add(sr.Notification__r.Target_Record_Id__c);
+                resStudyIds.add(sr.Notification__r.Target_Record_Ids__c);
             }else if(targetType == OBJECT_TYPE_PT_RESOURCE){
-                resPlatformIds.add(sr.Notification__r.Target_Record_Id__c);
+                resPlatformIds.add(sr.Notification__r.Target_Record_Ids__c);
             }
         }
         return sendResults;
@@ -77,7 +77,7 @@ public without sharing class PPUpdatesController {
     }
     public static void createWrapper(List<Send_Result__c> sendResults,Map<Id,Res_study__c> resStudyMap,Map<Id,Resource__c> resPlatformMap,Map<Id,Id> resIdContentVersionIdMap,List<UpdateWrapper> updateWrapperlist){
         for(Send_Result__c sr : sendResults){
-            Id targetId = (Id)sr.Notification__r.Target_Record_Id__c;
+            Id targetId = (Id)sr.Notification__r.Target_Record_Ids__c;
             String targetType = targetId.getSObjectType().getDescribe().getName().toLowerCase();
             UpdateWrapper wrp = new UpdateWrapper();
             if(targetType == OBJECT_TYPE_STD_RESOURCE || targetType == OBJECT_TYPE_PT_RESOURCE){
@@ -145,7 +145,7 @@ public without sharing class PPUpdatesController {
     @AuraEnabled
     public static void removeUpdateCard(String targetRecordId){
         targetRecordId = '%'+targetRecordId+'%';
-        List<Send_Result__c> sendResultList = [SELECT id,Status__c FROM Send_Result__c WHERE Notification__r.Target_Record_Id__c like : targetRecordId];
+        List<Send_Result__c> sendResultList = [SELECT id,Status__c FROM Send_Result__c WHERE Notification__r.Target_Record_Ids__c like : targetRecordId];
         for(Send_Result__c sr : sendResultList){
             sr.Status__c = 'Sent';
         }
