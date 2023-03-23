@@ -30079,8 +30079,14 @@ Please contact the Study Team for further updates or please login for additional
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
         <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more ##studiesOrPrograms listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.
-
-            &lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
+        </value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Initial_Patient_Delegate_PP_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
             &lt;span style=&quot;color:#444444;&quot;&gt;Your username is ##UserName.&lt;/span&gt;
         </value>
     </labels>
