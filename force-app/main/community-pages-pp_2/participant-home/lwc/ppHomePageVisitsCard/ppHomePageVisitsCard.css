@@ -200,10 +200,10 @@ hr {
     padding-bottom: 0;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    height: 220px;
+    /*height: 220px;*/
 }
 .visit-card-upcoming {
-    height: 377px;
+    height: 330px;
     display: grid;
 }
 .center-align {
