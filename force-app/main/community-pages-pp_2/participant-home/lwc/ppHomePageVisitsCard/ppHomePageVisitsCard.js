@@ -104,8 +104,8 @@ export default class HomePageVisitsCard extends LightningElement {
                         : '';
 
                     let icons = this.upcomingVisit.iconDetails;
-                    this.moreIconsCount = icons.length > 4 ? icons.length - 4 : false;
-                    this.iconDetails = icons.length > 0 ? icons?.slice(0, 4) : false;
+                    this.moreIconsCount = icons.length > 3 ? icons.length - 3 : false;
+                    this.iconDetails = icons.length > 0 ? icons?.slice(0, 3) : false;
                 } else {
                     this.isUpcomingDetails = false;
                 }
