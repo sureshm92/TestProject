@@ -51,9 +51,9 @@ export default class HomePageParticipantNew extends LightningElement {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner ? this.spinner.show() : '';
-        this.initializeData();
         this.getVisitsPreviewAndCount();
         this.getVisits();
+        this.initializeData();
         
     }
 
@@ -78,7 +78,7 @@ export default class HomePageParticipantNew extends LightningElement {
         .then((result) => {
             console.log('result',result);
             var televisitInformation = JSON.parse(result);
-            if (televisitInformation) {
+            if (televisitInformation.length > 0) {
                 this.isUpcomingTelevisitVisitDetails = true;
             }else{
                 this.isUpcomingTelevisitVisitDetails = false;
@@ -87,7 +87,7 @@ export default class HomePageParticipantNew extends LightningElement {
             if(!this.isUpcomingVisitDetails && this.isUpcomingTelevisitVisitDetails){
                 this.isTelevisits = true;
             }else{
-                this.isTelevisits = false;
+                //this.isTelevisits = false;
             }
         })
         .catch((error) => {
@@ -126,6 +126,7 @@ export default class HomePageParticipantNew extends LightningElement {
                                 this.showTelevisitCard = true;
                             }else{
                                 this.showTelevisitCard = false; 
+                                this.isTelevisits = false;
                             }
                             console.log('Televisit Toggle',this.clinicalrecord.Televisit_Vendor_is_Available__c);
                             console.log('Televisit Vendor',res.televisitVendorAvailable);

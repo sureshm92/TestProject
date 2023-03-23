@@ -33,7 +33,7 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
     subscription;
     currentVisit = {};
     _currentMode = {};
-    //USER_TIME_ZONE = USER_TIME_ZONE;
+    USER_TIME_ZONE = USER_TIME_ZONE;
     USER_ID = USER_ID;
     meetMainInfo = 'Text';
     meetLinkUrl;
@@ -156,6 +156,7 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
                     var televisitIds = [];
                     visitData.forEach((visitInfo) => {
                         televisitIds.push(visitInfo.Televisit__c);
+                        visitInfo.timezone = USER_TIME_ZONE;
                     });
                     console.log('televisitIds :',televisitIds);
                     
@@ -239,8 +240,10 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
             this.allActiveVisits = activeVisits;
             if(this.allActiveVisits.length === 0){
                 this.showBlankTelevisit = true;
+                
             }else{
                 this.showBlankTelevisit = false; 
+                
             }
             this.showMoreVisits =
                 this.showMoreVisits && (activeVisits.length === 0 || activeVisits.length === 1)
