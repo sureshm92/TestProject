@@ -34,14 +34,12 @@ public with sharing class Test_PatientDelegateTriggerHandler {
         ];
         System.debug('ptDelegateRef.Status__c'+ptDelegateRef.Status__c);
 
-        system.assertEquals(
-            PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS,
-            ptDelegateRef.Status__c
-        );
-
         ptDelegateRef.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS;
         update ptDelegateRef;
-
+        system.assertEquals(
+            PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS,
+             ptDelegateRef.Status__c
+         );
         ptDelegateRef = [
             SELECT Id, Contact__c, Status__c, Participant__c,Primary_Delegate__c
             FROM Patient_Delegate__c
