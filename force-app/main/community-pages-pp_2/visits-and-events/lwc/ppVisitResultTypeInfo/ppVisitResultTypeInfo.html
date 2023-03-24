@@ -1,0 +1,255 @@
+<template>
+    <template lwc:if={isDesktop}>
+        <div class="result-container">
+            <div class="position-container">
+                <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
+                <!--AL LEAST ONE VALID RESULT IS AVAILABLE-->
+                <template lwc:if={validVisitResults}>
+                    <div class="height-container-with-result">
+                        <div
+                            class="slds-grid slds-wrap slds-p-left_xx-small slds-p-top_medium slds-p-right_medium slds-p-bottom_medium"
+                        >
+                            <!--Visit Result Type Dropdown START-->
+                            <div
+                                class="slds-col slds-size_1-of-2 slds-p-top_small slds-p-bottom_x-small slds-p-right_none"
+                            >
+                                <div class="full-width">
+                                    <div class="curve-input">
+                                        <c-web-icon
+                                            class="svg-icon"
+                                            icon-size="small"
+                                            icon-name="icon_result_heart"
+                                            data-id="icon_result_heart"
+                                            icon-color="#009DD6"
+                                        >
+                                        </c-web-icon>
+                                        <c-pp-web-select
+                                            class="full-width"
+                                            label-hidden="true"
+                                            place-holder="Vitals"
+                                            selected-value={selectedResultType}
+                                            options={visitResultTypeOptions}
+                                            custom-class="custom-no-border-large"
+                                            onchangevalue={handleVRTypeChange}
+                                        ></c-pp-web-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Visit Result Type Dropdown END-->
+                            <!--Visit Result Type IMAGE START-->
+                            <div class="slds-col slds-size_1-of-2 slds-p-horizontal_none">
+                                <img
+                                    src={visitResultImagePI}
+                                    class="image-result-header slds-p-right_xx-small"
+                                />
+                            </div>
+                            <!--Visit Result Type IMAGE END-->
+                            <!--Visit Result Type Disclaimer START-->
+                            <div
+                                class="slds-col slds-size_1-of-1 slds-p-top_x-small slds-p-right_none result-type-disclaimer"
+                            >
+                                {resultTypeDisclaimer}
+                            </div>
+                            <!--Visit Result Type Disclaimer END-->
+                        </div>
+                        <!--DIVIDER START-->
+                        <div class="divider slds-m-horizontal_medium slds-border_top"></div>
+                        <!--DIVIDER END-->
+                        <div class="slds-grid slds-wrap slds-p-horizontal_xx-small">
+                            <div class="slds-col slds-size_1-of-1 slds-p-top_medium">
+                                <div class="slds-grid slds-wrap slds-gutters">
+                                    <div class="slds-col slds-size_12-of-12 result-type-toggle">
+                                        <div class="slds-grid">
+                                            <!--Toggle Label-->
+                                            <div class="show-result-type-text">
+                                                <span>{toggleLabel}</span>
+                                            </div>
+                                            <!--Toggle Helptext-->
+                                            <div class="slds-p-horizontal_x-small">
+                                                <span
+                                                    ><lightning-helptext
+                                                        content="This button will toggle the result data for all the visits."
+                                                        class="show-result-tooltip"
+                                                        icon-name="utility:info"
+                                                    ></lightning-helptext
+                                                ></span>
+                                            </div>
+                                            <!--TOGGLE START-->
+                                            <div class="slds-p-horizontal_small">
+                                                <span
+                                                    ><lightning-input
+                                                        type="toggle"
+                                                        checked={toggleValue}
+                                                        messagetoggleactive="ON"
+                                                        variant="label-hidden"
+                                                        messagetoggleinactive="OFF"
+                                                        onchange={handleVRToggle}
+                                                    >
+                                                    </lightning-input
+                                                ></span>
+                                            </div>
+                                            <!--TOGGLE END-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-grid_align-center">
+                                    <div class="slds-col slds-size_12-of-12">
+                                        <!--VITALS SECTION START-->
+                                        <template lwc:if={isVitalsSelected}>
+                                            <template lwc:if={isVitalsToggleOn}>
+                                                <template lwc:if={isVitalsAvailable}>
+                                                    <!--JAYASHREE COMPONENT-->
+                                                </template>
+                                                <template lwc:else>
+                                                    <div
+                                                        class="slds-grid slds-wrap slds-gutters slds-p-top_x-large"
+                                                    >
+                                                        <div class="slds-col slds-size_12-of-12">
+                                                            <img
+                                                                src={noVisitResultsAvailable}
+                                                                class="no-result-image"
+                                                            />
+                                                        </div>
+                                                        <div
+                                                            class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large slds-p-horizontal_small"
+                                                        >
+                                                            {labels.No_Vitals_Available}
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </template>
+                                            <!--Vital Toggle OFF-->
+                                            <template lwc:else>
+                                                <div
+                                                    class="slds-grid slds-wrap slds-gutters slds-p-top_x-large"
+                                                >
+                                                    <div class="slds-col slds-size_12-of-12">
+                                                        <img
+                                                            src={toggleOffHeart}
+                                                            class="toggle-off-image"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        class="slds-col slds-size_12-of-12 slds-p-top_large toggle-off-text slds-p-horizontal_small"
+                                                    >
+                                                        {labels.Vitals_Toggle_Off}
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </template>
+                                        <!--VITALS SECTION END-->
+                                        <!--LABS SECTION START-->
+                                        <template lwc:elseif={isLabsSelected}>
+                                            <template lwc:if={isLabsToggleOn}>
+                                                <template lwc:if={isLabsAvailable}
+                                                    ><!--JAYASHREE COMPONENT--></template
+                                                >
+                                                <template lwc:else>
+                                                    <div
+                                                        class="slds-grid slds-wrap slds-p-top_x-large"
+                                                    >
+                                                        <div class="slds-col slds-size_12-of-12">
+                                                            <img
+                                                                src={noVisitResultsAvailable}
+                                                                class="no-result-image"
+                                                            />
+                                                        </div>
+                                                        <div
+                                                            class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large slds-p-horizontal_small"
+                                                        >
+                                                            {labels.No_Labs_Available}
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </template>
+                                            <!--Vital Toggle OFF-->
+                                            <template lwc:else
+                                                ><div
+                                                    class="slds-grid slds-wrap slds-p-top_x-large"
+                                                >
+                                                    <div class="slds-col slds-size_12-of-12">
+                                                        <img
+                                                            src={toggleOffHeart}
+                                                            class="toggle-off-image"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        class="slds-col slds-size_12-of-12 slds-p-top_large toggle-off-text slds-p-horizontal_small"
+                                                    >
+                                                        {labels.Labs_Toggle_Off}
+                                                    </div>
+                                                </div></template
+                                            >
+                                        </template>
+                                        <!--LABS SECTION END-->
+                                        <!--BIOMARKERS SECTION START-->
+                                        <template lwc:elseif={isBiomarkersSelected}>
+                                            <template lwc:if={isBiomarkersToggleOn}>
+                                                <template lwc:if={isBiomarkersAvailable}
+                                                    ><!--JAYASHREE COMPONENT--></template
+                                                >
+                                                <template lwc:else>
+                                                    <div
+                                                        class="slds-grid slds-wrap slds-gutters slds-p-top_x-large"
+                                                    >
+                                                        <div class="slds-col slds-size_12-of-12">
+                                                            <img
+                                                                src={noVisitResultsAvailable}
+                                                                class="no-result-image"
+                                                            />
+                                                        </div>
+                                                        <div
+                                                            class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large slds-p-horizontal_small"
+                                                        >
+                                                            {labels.No_Biomarkers_Available}
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </template>
+                                            <!--Vital Toggle OFF-->
+                                            <template lwc:else
+                                                ><div
+                                                    class="slds-grid slds-wrap slds-p-top_x-large"
+                                                >
+                                                    <div class="slds-col slds-size_12-of-12">
+                                                        <img
+                                                            src={toggleOffHeart}
+                                                            class="toggle-off-image"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large toggle-off-text slds-p-horizontal_small"
+                                                    >
+                                                        {labels.Biomarkers_Toggle_Off}
+                                                    </div>
+                                                </div></template
+                                            >
+                                        </template>
+                                        <!--BIOMARKERS SECTION END-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <!--NO VALID RESULT IS AVAILABLE-->
+                <template lwc:else>
+                    <div class="no-result-container">
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-col slds-size_12-of-12">
+                                <img src={noVisitResultsAvailable} class="no-result-image" />
+                            </div>
+                            <div
+                                class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large slds-p-horizontal_small"
+                            >
+                                {labels.No_Visit_Results_Available}
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <div class="view-all-results slds-p-top_small">{labels.Visits_View_All_Results}</div>
+    </template>
+</template>

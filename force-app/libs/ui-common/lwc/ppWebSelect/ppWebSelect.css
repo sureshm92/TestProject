@@ -66,6 +66,10 @@
     background: transparent;
 }
 
+.custom-no-border-large .dropdown:after {
+    background: transparent;
+}
+
 .custom-no-border .dropdown-span {
     width: 95%;
 }
@@ -183,6 +187,16 @@
 
 .custom-no-border .dropdown-span {
     padding-left: 0.5rem;
+    padding-right: unset;
+}
+
+.custom-no-border-large {
+    border: none !important;
+    text-align: left;
+}
+
+.custom-no-border-large .dropdown-span {
+    padding-left: 1.25rem;
     padding-right: unset;
 }
 
