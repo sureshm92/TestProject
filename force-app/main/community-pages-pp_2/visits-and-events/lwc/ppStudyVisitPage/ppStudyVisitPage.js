@@ -78,7 +78,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track upcomingVisitId;
     @track selectedIndex = 0;
     @track initialPageLoad = false;
-    @track isResultsCard = true;
+    @track isResultsCard = false;
     initialized = '';
     visitWrappers = [];
     @api icondetails = [];
@@ -103,6 +103,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     column2 = 'col2';
     column3 = 'col3';
 
+    ctpSharingTiming;
+
     get iconContainerCss() {
         return this.isMobile ? 'icon-cont-mobile' : 'icon-cont';
     }
@@ -119,6 +121,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 var result = pvResult.pvList;
                 this.isEvent = pvResult.isEvent;
                 let location = pvResult?.studySiteAddress?.Site__r?.BillingAddress;
+                this.ctpSharingTiming = pvResult.ctpSharingTiming;
 
                 this.siteAddress = location
                     ? (location.street ? location.street : '') +
@@ -179,18 +182,21 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                             result[i].missedVisit = this.missedVisit;
                             if (result[i].visit.Completed_Date__c === '') {
                                 pastWithoutDate.push(result[i]);
-                            }else{
+                            } else {
                                 pastWithDate.push(result[i]);
                             }
                         }
                     }
-                    pastWithDate = pastWithDate.sort(function(visit1,visit2){
+                    pastWithDate = pastWithDate.sort(function (visit1, visit2) {
                         // Turn your strings into dates, and then subtract them
                         // to get a value that is either negative, positive, or zero.
-                        return new Date(visit2.visit.Completed_Date__c) - new Date(visit1.visit.Completed_Date__c);
-                      });
-                      pastWithoutDate = pastWithoutDate.reverse();
-                    this.pastVisits =   [...pastWithDate, ...pastWithoutDate];
+                        return (
+                            new Date(visit2.visit.Completed_Date__c) -
+                            new Date(visit1.visit.Completed_Date__c)
+                        );
+                    });
+                    pastWithoutDate = pastWithoutDate.reverse();
+                    this.pastVisits = [...pastWithDate, ...pastWithoutDate];
                     if (this.upcomingInitialVisits != []) {
                         if (this.upcomingInitialVisits.length > 1) {
                             this.upcomingInitialVisits = this.upcomingInitialVisits.sort(
@@ -211,7 +217,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     if (this.upcomingVisits.length > 0) {
                         this.visitid = this.upcomingVisits[0].visit.Id;
                         this.taskSubject = this.upcomingVisits[0].visit.Name;
-                        this.isInitialVisit = this.upcomingVisits[0].visit.Is_Pre_Enrollment_Patient_Visit__c;
+                        this.isInitialVisit =
+                            this.upcomingVisits[0].visit.Is_Pre_Enrollment_Patient_Visit__c;
                         this.isUpcomingVisits = true;
                     } else {
                         this.isUpcomingVisits = false;
@@ -221,7 +228,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     }
                     if (!this.upcomingVisitId && this.upcomingVisits.length > 0) {
                         this.upcomingVisitId = this.upcomingVisits[0].visit.Id;
-                        this.visitName = this.upcomingVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
+                        this.visitName =
+                            this.upcomingVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
                         this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
                     }
                     this.showList = true;
@@ -260,7 +268,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     }
 
     connectedCallback() {
-        if (formFactor === 'Small') {
+        if (formFactor === 'Small' || formFactor === 'Medium') {
             this.isMobile = true;
         } else {
             this.isMobile = false;
@@ -384,9 +392,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         } else {
             this.visitid = this.upcomingVisits[index].visit.Id;
             this.visitName = this.upcomingVisits[index].visit?.Visit__r?.Patient_Portal_Name__c;
-            this.isInitialVisit = this.upcomingVisits[
-                index
-            ].visit.Is_Pre_Enrollment_Patient_Visit__c;
+            this.isInitialVisit =
+                this.upcomingVisits[index].visit.Is_Pre_Enrollment_Patient_Visit__c;
             this.selectedIndex = index;
             this.past = false;
         }
@@ -410,7 +417,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 window.location.origin + basePathName + '/event-details' + '?eventid=' + visitid;
         } else {
             this.visitdetailurl =
-                window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
+                window.location.origin +
+                basePathName +
+                '/visit-details' +
+                '?visitid=' +
+                visitid +
+                '&ctpST=' +
+                this.ctpSharingTiming;
         }
         console.log('visitdetailurl:: ', this.visitdetailurl);
 
@@ -478,16 +491,14 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 if (!this.past) {
-                    this.upcomingVisits[
-                        this.selectedIndex
-                    ].visit.Planned_Date__c = this.visitdata.visitDate;
+                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
+                        this.visitdata.visitDate;
                 }
                 if (this.upcomingVisits.length > 0) {
                     if (this.visitdata.visitDate && this.showUpcomingVisits) {
                         this.upcomingVisits[this.selectedIndex].noVisitDate = false;
-                        this.plannedDate = this.upcomingVisits[
-                            this.selectedIndex
-                        ].visit.Planned_Date__c;
+                        this.plannedDate =
+                            this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
                     } else {
                         this.upcomingVisits[this.selectedIndex].noVisitDate = true;
                         this.plannedDate = '';
