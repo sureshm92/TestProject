@@ -106,6 +106,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
 
     ctpSharingTiming;
 
+    ctpSharingTiming;
+
     get iconContainerCss() {
         return this.isMobile ? 'icon-cont-mobile' : 'icon-cont';
     }

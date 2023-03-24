@@ -1,20 +1,20 @@
 <template>
+    <!--Desktop-->
     <template if:true={isDesktop}>
         <template if:true={showVisResults}>
             <h1 class="what-to-expect">{label.results}</h1>
+            <!--Past Visit Results Card-->
             <template lwc:if={isPastVisit}>
-                <div class="result-container">
-                    <c-pp-visit-result-type-info
-                        patient-visit-id={patientVisitId}
-                        ctp-sharing-timing={ctpSharingTiming}
-                    ></c-pp-visit-result-type-info>
-                </div>
+                <c-pp-visit-result-type-info
+                    patient-visit-id={patientVisitId}
+                    ctp-sharing-timing={ctpSharingTiming}
+                ></c-pp-visit-result-type-info>
             </template>
             <template lwc:else>
-                <div class="icon-cont1">
-                    <div class="slds-grid slds-wrap slds-align_absolute-center">
+                <div class="icon-cont1 slds-align_absolute-center">
+                    <div class="slds-grid slds-wrap">
                         <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12 slds-p-around_large"
+                            class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12 slds-p-bottom_large"
                         >
                             <img src={visitimage1} class="image-result-mobile" />
                         </div>
@@ -34,14 +34,16 @@
             </template>
         </template>
     </template>
+    <!--Mobile/Tablet-->
     <template if:true={isMobileOrTablet}>
         <template if:true={showVisResults}>
             <div class="slds-p-top_medium">
                 <h1 class="what-to-expect">{label.results}</h1>
                 <template lwc:if={isPastVisit}>
-                    <div class="result-container-mobile">
-                        <c-pp-visit-result-type-info></c-pp-visit-result-type-info>
-                    </div>
+                    <c-pp-visit-result-type-info
+                        patient-visit-id={patientVisitId}
+                        ctp-sharing-timing={ctpSharingTiming}
+                    ></c-pp-visit-result-type-info>
                 </template>
                 <template lwc:else>
                     <div

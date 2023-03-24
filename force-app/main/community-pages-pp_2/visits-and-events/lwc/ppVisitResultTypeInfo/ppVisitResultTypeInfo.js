@@ -1,10 +1,11 @@
 import { LightningElement, api, track } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import mobileTemplate from './ppVisitResultTypeInfoMobile.html';
 import tabletTemplate from './ppVisitResultTypeInfoTablet.html';
 import desktopTemplate from './ppVisitResultTypeInfo.html';
-import getInitDataPP from '@salesforce/apex/VisitResultsRemote.getInitDataPP';
-import switchToggleRemoteForPP from '@salesforce/apex/VisitResultsRemote.switchToggleRemoteForPP';
+import getInitDataPP from '@salesforce/apex/PP_VisitResultsService.getInitDataPP';
+import switchToggleRemoteForPP from '@salesforce/apex/PP_VisitResultsService.switchToggleRemoteForPP';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import Visit_Results_Tab_Vit_Disclaimer from '@salesforce/label/c.Visit_Results_Tab_Vit_Disclaimer';
 import Visit_Results_Tab_Lab_Disclaimer from '@salesforce/label/c.Visit_Results_Tab_Lab_Disclaimer';
@@ -19,6 +20,7 @@ import Vitals_Toggle_Off from '@salesforce/label/c.Vitals_Toggle_Off';
 import Labs_Toggle_Off from '@salesforce/label/c.Labs_Toggle_Off';
 import Biomarkers_Toggle_Off from '@salesforce/label/c.Biomarkers_Toggle_Off';
 import No_Visit_Results_Available from '@salesforce/label/c.No_Visit_Results_Available';
+import Visits_View_All_Results from '@salesforce/label/c.Visits_View_All_Results';
 
 export default class PpVisitResultTypeInfo extends LightningElement {
     labels = {
@@ -34,7 +36,8 @@ export default class PpVisitResultTypeInfo extends LightningElement {
         Vitals_Toggle_Off,
         Labs_Toggle_Off,
         Biomarkers_Toggle_Off,
-        No_Visit_Results_Available
+        No_Visit_Results_Available,
+        Visits_View_All_Results
     };
     visitResultTypeOptions = [];
 
@@ -89,10 +92,10 @@ export default class PpVisitResultTypeInfo extends LightningElement {
                             result.visitResultsGroupNamesCTP &&
                             result.visitResultsGroupNamesCTP.length
                         ) {
-                            for (let i = result.visitResultsGroupNamesCTP.length; i > 0; i--) {
+                            for (let i = 0; i < result.visitResultsGroupNamesCTP.length; i++) {
                                 let resultTypeOption = {
-                                    label: result.visitResultsGroupNamesCTP[i - 1],
-                                    value: result.visitResultsGroupNamesCTP[i - 1],
+                                    label: result.visitResultsGroupNamesCTP[i],
+                                    value: result.visitResultsGroupNamesCTP[i],
                                     itemClass: 'dropdown-li'
                                 };
                                 this.visitResultTypeOptions = [
@@ -114,8 +117,11 @@ export default class PpVisitResultTypeInfo extends LightningElement {
                         this.isBiomarkersToggleOn = result.toggleStateForBiomarkers
                             ? result.toggleStateForBiomarkers
                             : false;
+                        //make another apex call to show values
+                        this.showSpinner = false;
+                    } else {
+                        this.showSpinner = false;
                     }
-                    this.showSpinner = false;
                 })
                 .catch((error) => {
                     console.error(error);
@@ -178,19 +184,18 @@ export default class PpVisitResultTypeInfo extends LightningElement {
 
     handleVRToggle(event) {
         this.showSpinner = true;
-        if (this.selectedResultType === 'Vitals') {
-            this.isVitalsToggleOn = event.target.checked;
-        } else if (this.selectedResultType === 'Labs') {
-            this.isLabsToggleOn = event.target.checked;
-        } else if (this.selectedResultType === 'Biomarkers') {
-            this.isBiomarkersToggleOn = event.target.checked;
-        }
-        //apex call to update toggle
         switchToggleRemoteForPP({
             visitResultsMode: this.selectedResultType,
             isToggleOn: event.target.checked
         })
             .then((result) => {
+                if (this.selectedResultType === 'Vitals') {
+                    this.isVitalsToggleOn = !this.isVitalsToggleOn;
+                } else if (this.selectedResultType === 'Labs') {
+                    this.isLabsToggleOn = !this.isLabsToggleOn;
+                } else if (this.selectedResultType === 'Biomarkers') {
+                    this.isBiomarkersToggleOn = !this.isBiomarkersToggleOn;
+                }
                 this.showSpinner = false;
             })
             .catch((error) => {

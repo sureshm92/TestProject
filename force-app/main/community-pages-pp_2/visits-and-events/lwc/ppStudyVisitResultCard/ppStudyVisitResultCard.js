@@ -1,4 +1,4 @@
-import { LightningElement, wire, api, track } from 'lwc';
+import { LightningElement, wire, api } from 'lwc';
 import resultsCheck from '@salesforce/label/c.Visit_Check_Result';
 import results from '@salesforce/label/c.Visit_Result';
 import viewAllResults from '@salesforce/label/c.Visits_View_All_Results';
@@ -6,7 +6,6 @@ import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { NavigationMixin } from 'lightning/navigation';
 import formFactor from '@salesforce/client/formFactor';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import visitResultSharingByGroupAndMode from '@salesforce/apex/StudyDetailViewController.visitResultSharingByGroupAndMode';
 import {
     subscribe,
     unsubscribe,
@@ -25,10 +24,6 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
 
     showVisResults = false;
     participantState;
-    selectedResult;
-    @track availableTabs = [];
-    visitResultSMap = [];
-    visitResultSharings;
     isMobile = false;
     isTablet = false;
     isDesktop = false;
@@ -62,14 +57,9 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
     initializeData() {
         if (!communityService.isDummy()) {
             if (this.isDesktop) {
-                console.log('rk::ctpSharingTiming', this.ctpSharingTiming);
                 this.showVisResults = communityService.getVisResultsAvailable();
             } else {
                 this.handleSubscribe();
-            }
-            this.participantState = communityService.getCurrentCommunityMode().participantState;
-            if (this.participantState !== 'ALUMNI') {
-                this.fetchVisibleResultTab();
             }
         }
     }
@@ -122,7 +112,7 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
     }
 
     disconnectedCallback() {
-        this.unsubscribeToMessageChannel();
+        //this.unsubscribeToMessageChannel();
     }
 
     navigateToMyResults() {

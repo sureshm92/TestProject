@@ -34,7 +34,7 @@
 
 .image-result-header {
     height: 3.25rem;
-    width: 4.75rem;
+    width: 5rem;
     float: right;
 }
 
@@ -90,4 +90,30 @@
     line-height: 1.5rem;
     margin-bottom: 5rem;
     text-align: center;
+}
+
+.view-all-results {
+    color: #0768fd;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.result-container {
+    box-sizing: border-box;
+    /* height: 519px; */
+    width: 100%;
+    border: 1px solid #d9d9d9;
+    border-radius: 1rem;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+}
+.result-container-mobile {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #d9d9d9;
+    border-radius: 1rem;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
 }

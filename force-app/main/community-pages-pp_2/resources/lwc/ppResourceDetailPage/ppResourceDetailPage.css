@@ -53,21 +53,13 @@
     font-weight: 600;
     margin-left: 32px;
 }
-.rr-all-content .page-container {
-    background-color: #f6f7fb !important;
-}
-.page-margin {
-    margin: -30px;
-    margin-bottom: 0;
-}
+
 .resource-container {
     padding-top: 2%;
     max-width: 1000px;
     margin: auto;
 }
 .back-link {
-    /* margin: 12px 84% 0 28px; */
-    margin-left: 10px;
     font-size: 16px;
     font-weight: 600;
     display: flex;
@@ -90,10 +82,6 @@ hr {
     margin: 0% 35%;
 }
 @media (max-width: 486px) {
-    /* .back-link {
-        padding: 36px 0 24px 0;
-        margin: 20px 40% 0 28px;
-    } */
     .resource-heading {
         font-size: 24px;
         padding-top: 8px;
@@ -114,12 +102,6 @@ hr {
 
     .title-row {
         padding: 16px 16px 0 0;
-    }
-    .page-container {
-        background-color: #f6f7fb;
-    }
-    .page-margin {
-        margin: -30px 0 0 0;
     }
 }
 .my_iframe {

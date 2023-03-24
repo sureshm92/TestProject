@@ -29132,6 +29132,14 @@ Please contact the Study Team for further updates or please login for additional
         <value>*all features may not be available for each study</value>
     </labels>
     <labels>
+        <fullName>PP_AS_CONDITIONAL_FEATURE_GENERIC</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_CONDITIONAL_FEATURE_GENERIC</shortDescription>
+        <value>*all features may not be available</value>
+    </labels>
+    <labels>
         <fullName>PP_AS_Delegate_Header</fullName>
         <categories>PPAccountSettings</categories>
         <language>en_US</language>
@@ -30070,9 +30078,15 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
-        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more ##studiesOrPrograms listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.
-
-            &lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more programs listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.
+        </value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Initial_Patient_Delegate_PP_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
             &lt;span style=&quot;color:#444444;&quot;&gt;Your username is ##UserName.&lt;/span&gt;
         </value>
     </labels>
@@ -30771,5 +30785,75 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>HAPI_Helptext</shortDescription>
         <value>In order to complete this transaction, your email address will be shared with the third-party servicer per our Privacy Policy at the bottom of the page. Links will open in new browser window. IQVIA Patient Portal is not responsible for content provided in external websites.</value>
+    </labels>
+    <labels>
+        <fullName>Show_Vitals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Show Vitals</shortDescription>
+        <value>Show Vitals</value>
+    </labels>
+    <labels>
+        <fullName>Show_Labs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Show Labs</shortDescription>
+        <value>Show Labs</value>
+    </labels>
+    <labels>
+        <fullName>Show_Biomarkers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Show Biomarkers</shortDescription>
+        <value>Show Biomarkers</value>
+    </labels>
+    <labels>
+        <fullName>No_Vitals_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No Vitals Available</shortDescription>
+        <value>There are no vitals available for this visit.</value>
+    </labels>
+    <labels>
+        <fullName>No_Labs_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No Labs Available</shortDescription>
+        <value>There are no labs available for this visit.</value>
+    </labels>
+    <labels>
+        <fullName>No_Biomarkers_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No Biomarkers Available</shortDescription>
+        <value>There are no biomarkers available for this visit.</value>
+    </labels>
+    <labels>
+        <fullName>Vitals_Toggle_Off</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Vitals_Toggle_Off</shortDescription>
+        <value>Vitals are currently turned off. Use the toggle above if you would like to turn your data back on.</value>
+    </labels>
+    <labels>
+        <fullName>Labs_Toggle_Off</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Labs_Toggle_Off</shortDescription>
+        <value>Labs are currently turned off. Use the toggle above if you would like to turn your data back on.</value>
+    </labels>
+    <labels>
+        <fullName>Biomarkers_Toggle_Off</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Biomarkers_Toggle_Off</shortDescription>
+        <value>Biomarkers are currently turned off. Use the toggle above if you would like to turn your data back on.</value>
+    </labels>
+    <labels>
+        <fullName>No_Visit_Results_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No_Visit_Results_Available</shortDescription>
+        <value>No results associated with this visit</value>
     </labels>
 </CustomLabels>
