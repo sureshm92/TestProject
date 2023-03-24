@@ -1,10 +1,11 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, wire, api } from 'lwc';
 import resultsCheck from '@salesforce/label/c.Visit_Check_Result';
 import results from '@salesforce/label/c.Visit_Result';
 import viewAllResults from '@salesforce/label/c.Visits_View_All_Results';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { NavigationMixin } from 'lightning/navigation';
 import formFactor from '@salesforce/client/formFactor';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import {
     subscribe,
     unsubscribe,
@@ -21,7 +22,7 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
         results
     };
 
-    showVisResults;
+    showVisResults = false;
     participantState;
     isMobile = false;
     isTablet = false;
@@ -31,6 +32,9 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
     resultsIllustration = pp_icons + '/' + 'results_Illustration.svg';
 
     subscription = null;
+    @api patientVisitId;
+    @api ctpSharingTiming;
+    @api isPastVisit = false;
     @wire(MessageContext)
     messageContext;
 
@@ -86,7 +90,7 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
     }
 
     disconnectedCallback() {
-        //    this.unsubscribeToMessageChannel();
+        //this.unsubscribeToMessageChannel();
     }
 
     navigateToMyResults() {
@@ -96,5 +100,15 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
                 pageName: 'results'
             }
         });
+    }
+
+    showErrorToast(titleText, messageText, variantType) {
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: titleText,
+                message: messageText,
+                variant: variantType
+            })
+        );
     }
 }
