@@ -133,7 +133,7 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                                 Recipient__c = tap.Participant__r.Contact__c,
                                 WhatId__c = tap.Participant__c,
                                 Notification_Type__c = notificationType,
-                                Target_Record_Id__c = resourceId
+                                Target_Record_Ids__c = '' + resourceId
                             )
                         );
                         notifyUser = true;
