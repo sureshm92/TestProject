@@ -3278,7 +3278,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Study_status_description_motivation__c.Study__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3630,7 +3630,7 @@
         <allowDelete>false</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
         <object>Study_status_description_motivation__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
