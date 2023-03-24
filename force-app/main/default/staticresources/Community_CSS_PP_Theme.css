@@ -1379,11 +1379,18 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 @media screen and (max-width: 768px){
     .manage-delegate-acc-setting .profile-information-rectangle{
         margin-right: 0px !important;
+        padding-top: 0px!important;
     }
 }
 
 .manage-delegate-acc-setting .slds-truncate_container_25{
     max-width: 29% !important;
+}
+.manage-delegate-acc-setting .add-new-del-existing-del-warn{
+    margin-top: 6px !important;
+}
+.manage-delegate-acc-setting .ad-error-container{
+    border-radius: 8px !important;
 }
 /* Delegate Redesing - Add New Delegate Page CSS  Override - ends*/
 
