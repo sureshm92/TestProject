@@ -1,0 +1,24 @@
+<template>
+    <template if:true={data}>
+        <lightning-datatable
+                key-field="Id"
+                data={data}
+                columns={columns}
+                onsave={handleSave}
+                oncellchange = "{handleEditCellChange}"
+                errors={errors}
+                >
+                
+        </lightning-datatable>
+    </template>
+    <template if:false={data}>
+        <template if:true={featureUnavailale}>
+            <div class="slds-text-heading_small slds-text-align_center slds-text-color_weak">{label.PP_Study_Status_Unavailable}</div>
+        </template>
+        <template if:false={featureUnavailale}>
+            <div style="min-height: 227px;">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+    </template>
+</template>
