@@ -8,15 +8,14 @@
                     <div class="slds-col" style="display: inline-flex">
                             <div class="updates">{label.updatesLabel}</div>
                             <div if:true={displayCounter} class="update-counter-oval">
-                                <span class="update-count">{counter}</span>
+                                <span class="update-count">{counterLabel}</span>
                             </div>
                     </div>
-                    <div class="slds-col slds-align-bottom">
-                        <span class="refresh-text" onclick={refresh}>Refresh</span>
+                    <div class="slds-col slds-align-bottom" onclick={refresh}>
+                        <span class="refresh-text">{label.refresh}</span>
                        <span class="refresh-icon"> <img
                                 src={refresh_icon}
                                 class="refresh_icon"
-                                onclick={refresh}
                             />
                         </span>
                     </div>
