@@ -2416,11 +2416,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Study_status_description_motivation__c.Study__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Patient_Delegate__c.isInviteToPP__c</field>
         <readable>true</readable>
     </fieldPermissions>
