@@ -19174,6 +19174,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>To be eligible to participate in the study, one must meet the following criteria:</value>
     </labels>
     <labels>
+        <fullName>PP_Study_Status_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Status Unavailable</shortDescription>
+        <value>Description and Motivational message cannot be configured on this study.</value>
+    </labels>
+    <labels>
         <fullName>PP_Study_Consent_Adult_ROW</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19200,6 +19207,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Inclusion_Criteria</shortDescription>
         <value>Inclusion Criteria</value>
+    </labels>
+    <labels>
+        <fullName>PP_Event_Completion_Warning_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Event Completion Warning Message</shortDescription>
+        <value>You are about to mark -- as complete. You will not be able to revert the status of this event once marked as complete.
+            Are you sure you would like to continue?</value>
     </labels>
     <labels>
         <fullName>PP_Exclusion_Criteria</fullName>

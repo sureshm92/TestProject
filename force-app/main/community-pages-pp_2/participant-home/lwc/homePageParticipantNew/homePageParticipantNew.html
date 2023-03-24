@@ -359,6 +359,16 @@
             <template if:true={updatesSection}>
                 <c-pp-updates oncounterupdate={updateCounter} desktop={desktop}></c-pp-updates>
             </template>            
+            <div if:true={showProgress}>
+                <div class="progressTab">
+                    MY PROGRESS
+                </div>
+                <template if:true={participantState}>
+                    <template if:true={participantState.pe}>
+                        <c-pp-progress-bar perid={participantState.pe.Id}></c-pp-progress-bar>
+                    </template>
+                </template>
+            </div>
         </template>        
     </template>
 </template>
