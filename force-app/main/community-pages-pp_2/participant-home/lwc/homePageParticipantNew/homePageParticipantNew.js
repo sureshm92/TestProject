@@ -27,6 +27,7 @@ export default class HomePageParticipantNew extends LightningElement {
     isInitialized = false;
     isProgram = false;
     showVisitCard = false;
+    showProgress = false;
     showTelevisitCard = false;
     updatesSection = false;
     @track showVisitCardMobile = false;
@@ -176,6 +177,7 @@ export default class HomePageParticipantNew extends LightningElement {
         if (this.desktop != true) {
             this.showVisitCardMobile = false;
             this.updatesSection = false;
+            this.showProgress = false;
         }
         this.taskList = true;
     }
@@ -184,6 +186,7 @@ export default class HomePageParticipantNew extends LightningElement {
         if (this.desktop != true) {
             this.showVisitCardMobile = true;
             this.updatesSection = false;
+            this.showProgress = false;
         }
         this.taskList = false;
     }
@@ -194,6 +197,22 @@ export default class HomePageParticipantNew extends LightningElement {
         }
         this.taskList = false;
         this.showVisitCardMobile = false;
+        this.showProgress = false;
+    }
+    
+    showProgressMob(){
+        if (this.desktop != true) {
+            this.showVisitCardMobile = false;
+            this.updatesSection = false;
+            this.taskList = false;
+        }
+        this.showProgress = true;
+    }
+    get progressIcon(){
+        if(this.showProgress){
+            return "icon-updates taskIconPosition";
+        }
+        return "icon-updates";
     }
 
     updateCounter(event) {
