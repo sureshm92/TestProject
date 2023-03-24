@@ -150,38 +150,74 @@
                                         </div>
 
                                         <div class="slds-col slds-size_9-of-12">
-                                            <div
-                                                class="slds-truncate"
-                                                title={item.visit.Visit__r.Patient_Portal_Name__c}
-                                            >
-                                                <b>
-                                                    <lightning-formatted-text
-                                                        class="name-style"
-                                                        value={item.visit.Visit__r.Patient_Portal_Name__c}
-                                                    >
-                                                    </lightning-formatted-text>
-                                                </b>
-                                                <template if:true={item.missedVisit}>
-                                                    <p class="no-date unavailable-style">
-                                                        {label.visitUnavailable}
-                                                    </p>
-                                                </template>
-                                                <template if:false={item.missedVisit}>
-                                                    <p class="no-date date-style">
-                                                        {item.visit.Status__c}
-                                                        <template if:true={item.visitDate}
-                                                            >: </template
-                                                        >&nbsp;
-                                                        <lightning-formatted-date-time
-                                                            value={item.visitDate}
-                                                            year="numeric"
-                                                            month="short"
-                                                            day="2-digit"
-                                                            time-zone={visitTimezone}
-                                                        ></lightning-formatted-date-time>
-                                                    </p>
-                                                </template>
-                                            </div>
+                                            <template lwc:if={item.visit.Is_Adhoc__c}>
+                                                <div
+                                                    class="slds-truncate"
+                                                    title={label.unscheduledVisit}
+                                                >
+                                                    <b>
+                                                        <lightning-formatted-text
+                                                            class="name-style"
+                                                            value={label.unscheduledVisit}
+                                                        >
+                                                        </lightning-formatted-text>
+                                                    </b>
+                                                    <template if:true={item.missedVisit}>
+                                                        <p class="no-date unavailable-style">
+                                                            {label.visitUnavailable}
+                                                        </p>
+                                                    </template>
+                                                    <template if:false={item.missedVisit}>
+                                                        <p class="no-date date-style">
+                                                            {item.visit.Status__c}
+                                                            <template if:true={item.visitDate}
+                                                                >: </template
+                                                            >&nbsp;
+                                                            <lightning-formatted-date-time
+                                                                value={item.visitDate}
+                                                                year="numeric"
+                                                                month="short"
+                                                                day="2-digit"
+                                                                time-zone={visitTimezone}
+                                                            ></lightning-formatted-date-time>
+                                                        </p>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                            <template lwc:else>
+                                                <div
+                                                    class="slds-truncate"
+                                                    title={item.visit.Visit__r.Patient_Portal_Name__c}
+                                                >
+                                                    <b>
+                                                        <lightning-formatted-text
+                                                            class="name-style"
+                                                            value={item.visit.Visit__r.Patient_Portal_Name__c}
+                                                        >
+                                                        </lightning-formatted-text>
+                                                    </b>
+                                                    <template if:true={item.missedVisit}>
+                                                        <p class="no-date unavailable-style">
+                                                            {label.visitUnavailable}
+                                                        </p>
+                                                    </template>
+                                                    <template if:false={item.missedVisit}>
+                                                        <p class="no-date date-style">
+                                                            {item.visit.Status__c}
+                                                            <template if:true={item.visitDate}
+                                                                >: </template
+                                                            >&nbsp;
+                                                            <lightning-formatted-date-time
+                                                                value={item.visitDate}
+                                                                year="numeric"
+                                                                month="short"
+                                                                day="2-digit"
+                                                                time-zone={visitTimezone}
+                                                            ></lightning-formatted-date-time>
+                                                        </p>
+                                                    </template>
+                                                </div>
+                                            </template>
                                         </div>
                                         <div class="slds-col slds-size_2-of-12"></div>
                                     </div>
