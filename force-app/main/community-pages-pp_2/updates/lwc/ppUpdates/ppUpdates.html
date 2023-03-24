@@ -1,14 +1,34 @@
 <template>
-    <c-web-spinner id="updateSpinner" class="main-spinner" fixed="true"></c-web-spinner>
+    <div class="position-container">
+    <c-web-spinner id="updateSpinner" class="main-spinner"></c-web-spinner>
     <template if:true={desktop}>
         <div class="slds-grid card-wrap">
             <header class="slds-has-flexi-truncate">
-                <div style="display: inline-flex">
+                <div class="slds-grid slds-grid_align-spread" >
+                    <div class="slds-col" style="display: inline-flex">
+                            <div class="updates">{label.updatesLabel}</div>
+                            <div if:true={displayCounter} class="update-counter-oval">
+                                <span class="update-count">{counterLabel}</span>
+                            </div>
+                    </div>
+                    <div class="slds-col slds-align-bottom" onclick={refresh}>
+                        <span class="refresh-text">{label.refresh}</span>
+                       <span class="refresh-icon"> <img
+                                src={refresh_icon}
+                                class="refresh_icon"
+                            />
+                        </span>
+                    </div>
+                </div>
+                <!-- <div style="display: inline-flex">
                     <div class="updates">{label.updatesLabel}</div>
                     <div if:true={displayCounter} class="update-counter-oval">
                         <span class="update-count">{counter}</span>
                     </div>
-                </div>
+                    <div style="float:right;">
+                        <span onclick={refresh}>refresh</span>
+                    </div>
+                </div> -->
             </header>
         </div>
     </template>
@@ -18,7 +38,8 @@
                 <article class="slds-card slds-card_boundary container-card">
                     <div
                         if:true={resourcePresent}
-                        class="slds-card__body slds-card__body_inner custom-padding slds-scrollable_y" 
+                        class="slds-card__body slds-card__body_inner custom-padding "
+                        onscroll={handleScrolly} 
                     >
                         <template for:each={resourcedData} for:item="res">
                             <div if:true={res.isExplore} key={res}>
@@ -40,6 +61,7 @@
                                     link-data={res}
                                     desktop={desktop}
                                     show-visit-section={showvisitsection}
+                                    onremovecard={handleRemoveCard}
                                 ></c-pp-link-updates>
                             </div>
                             <div if:true={res.isMultimedia} key={res}>
@@ -75,7 +97,7 @@
                 <article class="slds-card slds-card_boundary container-card-horizontal">
                     <div data-id="myDiv"
                         if:true={resourcePresent}
-                        class="slds-p-left_xx-small slds-p-right_xx-small resouce-container-horizontal slds-scrollable_x"
+                        class="slds-p-left_xx-small slds-p-right_xx-small resouce-container-horizontal"
                         onscroll={handleScroll}
                     >
                         <div class="slds-grid">
@@ -111,6 +133,7 @@
                                         link-data={res}
                                         desktop={desktop}
                                         show-visit-section={showvisitsection}
+                                        onremovecard={handleRemoveCard}
                                     ></c-pp-link-updates>
                                 </div>
                                 <div if:true={res.isMultimedia} key={res} class="slds-col slds-size_3-of-12 slds-m-left_xx-small slds-m-right_xx-small horizontal-card">
@@ -120,7 +143,7 @@
                                         show-visit-section={showvisitsection}
                                     ></c-pp-explore-updates>
                                 </div>
-                                <div
+                            <!--    <div
                                     key={res}
                                     if:true={res.isTelevisit}
                                     class="slds-col slds-size_3-of-12 slds-m-left_xx-small slds-m-right_xx-small horizontal-card"
@@ -130,7 +153,7 @@
                                             desktop={desktop}
                                             show-visit-section={showvisitsection}
                                         ></c-pp-link-updates>
-                                    </div>
+                                    </div> -->
                             </template>
                         </div>
                     </div>
@@ -200,9 +223,5 @@
             </article>
         </template>
     </div>
-    <div class="slds-card__body slds-align_absolute-center">
-        <a class="comm-link" href="#" target="_self" onclick={navigateResources}>
-            <span>{label.viewAllResource}</span>
-        </a>
-    </div>
+</div>
 </template>

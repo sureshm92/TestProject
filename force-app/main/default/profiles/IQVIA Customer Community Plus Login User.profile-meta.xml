@@ -5193,7 +5193,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Notification__c.Target_Record_Id__c</field>
+        <field>Notification__c.Target_Record_Ids__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
