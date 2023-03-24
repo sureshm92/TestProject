@@ -136,6 +136,10 @@ export default class HomePageParticipantNew extends LightningElement {
                             }
 
                             
+                    }else if(this.participantState.value == 'ALUMNI' ||
+                            (this.participantState.hasPatientDelegates && !this.participantState.isDelegate)){
+                        this.showTelevisitCard = true;
+                        this.isTelevisits = true;
                     }
                     if (this.desktop != true) {
                         //this.updatesSection = true;
