@@ -286,6 +286,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>ppStatusDescConfig</componentName>
+                <identifier>c_ppStatusDescConfig</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-0b072df4-1d0f-4568-a489-7bd575be441d</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-71f78859-04bd-4226-8ba8-4ace3aa5ec77</value>
@@ -520,6 +530,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-0b072df4-1d0f-4568-a489-7bd575be441d</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Status Description Configuration</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-e2f2fc6b-f10c-4ef7-a488-63ddedbe118d</name>
