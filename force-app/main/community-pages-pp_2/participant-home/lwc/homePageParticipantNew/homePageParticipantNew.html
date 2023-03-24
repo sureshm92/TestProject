@@ -323,6 +323,13 @@
                         </template>
                                     </template>
                                 </template>
+                                <template if:false={showTelevisitCard}>
+                                    <template if:true={showVisitCard}>
+                                        <template if:false={desktop}>
+                                            <p style="padding: 6px;text-align: center; background: rgb(248, 249, 251);"></p>
+                                        </template>
+                                    </template>
+                                </template>
                             </template>
                    
                         <template if:true={isTelevisits}>
