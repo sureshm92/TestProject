@@ -46,13 +46,14 @@ export default class PpVisitResultTypeInfo extends LightningElement {
     toggleOffHeart = pp_icons + '/' + 'heart_Icon.svg';
 
     @track validVisitResults = false;
+    @track visitResultTypeWithSubTypes;
+    @track selectedResultType = 'Vitals';
 
     @api participantMailingCC;
     @api ctpId;
     @api ctpSharingTiming;
     @api patientVisitId;
 
-    selectedResultType = 'Vitals';
     showSpinner = true;
     isVitalsToggleOn = false;
     isLabsToggleOn = false;
@@ -119,6 +120,7 @@ export default class PpVisitResultTypeInfo extends LightningElement {
                             : false;
                         //make another apex call to show values
                         this.showSpinner = false;
+                        this.visitResultTypeWithSubTypes = result.visitResultWithSubTypesCTP;
                     } else {
                         this.showSpinner = false;
                     }

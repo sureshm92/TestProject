@@ -9,49 +9,53 @@ public without sharing class PP_VisitResultsService {
     public static Boolean isHematology = false;
     public static Boolean isFastingLipidProfile = false;
 
+    /**RK START*/
     @AuraEnabled
-    public static PP_VisitResultsContainer ppVisitResultsWrapper1() {
-        PP_VisitResultsContainer finalRes = new PP_VisitResultsContainer();
-        Map<String, List<VisitResultsService.VisitResultWrapper>> wrapper = new Map<String, List<VisitResultsService.VisitResultWrapper>>();
-        String visitResultsMode;
-        Map<String, List<String>> visitResultSharings;
-        Map<String, List<String>> visitResultSharingsForLabs = new Map<String, List<String>>();
-        Map<String, List<String>> visitResultSharingsDummy = new Map<String, List<String>>();
-        //  List<String> li=new List<String>();
-        //li.add('ICOS_Peritumoral');
-        //li.add('Height');
-        //li.add('Systolic_Blood_Pr');
-        //li.add('Respiratory_Rate');
-        //visitResultSharingsDummy.put('Biomarkers',li);
-        Map<String, Map<String, List<String>>> visResultsSharing = new Map<String, Map<String, List<String>>>();
-        Map<String, List<String>> visitTrial = new Map<String, List<String>>();
-        List<String> MBP = new List<String>();
-        MBP.add('BUN');
-        MBP.add('ALT');
-        MBP.add('Albumin');
-        MBP.add('Calcium');
-        List<String> HEA = new List<String>{ 'WBC_Count', 'RBC_Count', 'Platelet_Count' };
-        List<String> FLP = new List<String>{ 'Total_Cholesterol', 'Triglycerides' };
-        visitTrial.put(METABOLICPANEL, MBP);
-        visitTrial.put(HEMATOLOGY, HEA);
-        visitTrial.put(FASTING_LIPID_PROFILE, FLP);
-        visResultsSharing.put('Labs', visitTrial);
+    public static PPInitDataWrapper getInitDataPP(Integer ctpSharingTiming, String patientVisitId) {
+        PPInitDataWrapper wrapper = (PPInitDataWrapper) ClassFactory.newInstance(
+            PPInitDataWrapper.class
+        );
 
-        //    visResultsSharing.put('Biomarkers',visitResultSharingsDummy);
-
-        Map<String, Map<String, List<String>>> resMap = new Map<String, Map<String, List<String>>>();
-        String participantMailingCC = 'US';
-        String ctpId = 'a0E6s000002vqc2EAA';
-        String patientVisitId = 'a136s000000j1KoAAI';
-        try {
-            for (String categories : visResultsSharing.keySet()) {
-                if (categories == LABS_VISIT_RESULT_GROUP)
-                    visitResultSharingsForLabs = visResultsSharing.get(categories);
-                else
-                    visitResultSharings = visResultsSharing.get(categories);
-                visitResultsMode = categories;
+        if (checkDataSharebackTiming(ctpSharingTiming, patientVisitId)) {
+            /**CTP level configuration in Map*/
+            Map<String, Map<String, List<String>>> visitResultSharings = VisitResultSharingService.visitResultSharingByGroupAndModeAndCountry();
+            if (visitResultSharings != null) {
+                wrapper.visitResultWithSubTypesCTP = visitResultSharings;
             }
-            // Fetch visit results for patient visit ID
+
+            Set<String> visitResultSubTypeSet = new Set<String>();
+            wrapper.visitResultsShares = new Map<String, List<String>>();
+            Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
+            for (String visitResultTypeCTP : visitResultSharings.keySet()) {
+                Map<String, List<String>> visitResultTypeWithSubTypeCTP = visitResultSharings.get(
+                    visitResultTypeCTP
+                );
+                if (visitResultTypeCTP == 'Vitals') {
+                    wrapper.toggleStateForVitals = toggleStateForPP(visitResultTypeCTP, currentPE);
+                } else if (visitResultTypeCTP == 'Labs') {
+                    wrapper.toggleStateForLabs = toggleStateForPP(visitResultTypeCTP, currentPE);
+                } else if (visitResultTypeCTP == 'Biomarkers') {
+                    wrapper.toggleStateForBiomarkers = toggleStateForPP(
+                        visitResultTypeCTP,
+                        currentPE
+                    );
+                }
+                for (String visitResultTypeInner : visitResultTypeWithSubTypeCTP.keySet()) {
+                    List<String> subTypeSet = visitResultTypeWithSubTypeCTP.get(
+                        visitResultTypeInner
+                    );
+                    visitResultSubTypeSet.addAll(subTypeSet);
+                    if (wrapper.visitResultsShares.containsKey(visitResultTypeCTP)) {
+                        List<String> subTypeList = wrapper.visitResultsShares.get(
+                            visitResultTypeCTP
+                        );
+                        subTypeList.addAll(subTypeSet);
+                    } else {
+                        wrapper.visitResultsShares.put(visitResultTypeCTP, subTypeSet);
+                    }
+                }
+            }
+
             List<Visit_Result__c> visResults = [
                 SELECT
                     Id,
@@ -65,254 +69,147 @@ public without sharing class PP_VisitResultsService {
                     Result_Type__c,
                     RecordType.DeveloperName
                 FROM Visit_Result__c
-                WHERE Patient_Visit__c = :patientVisitId
+                WHERE
+                    Patient_Visit__c = :patientVisitId
+                    AND Result_Type__c IN :visitResultSubTypeSet
             ];
 
-            if (visitResultSharingsForLabs.size() > 0) {
-                Map<String, Visit_Result__c> existingVisResultsMap = new Map<String, Visit_Result__c>();
-
-                for (Visit_Result__c result : visResults)
-                    existingVisResultsMap.put(result.Result_Type__c, result);
-
-                VisitResultMService metadataService = new VisitResultMService();
-
-                List<Visit_Result_TypeM__mdt> visitResultMDTypesMetbPan;
-                List<Visit_Result_TypeM__mdt> visitResultMDTypesHea;
-                List<Visit_Result_TypeM__mdt> visitResultMDTypesFLP;
-
-                Map<String, String> visitResultsMeasurementNamesMap = metadataService.getVisitResultsMeasurementNamesMap();
-                List<String> enabledVisitResultsOnCtp = new List<String>();
-                for (String subType : visitResultSharingsForLabs.keySet()) {
-                    if (subType == METABOLICPANEL) {
-                        visitResultMDTypesMetbPan = metadataService.getVisitResultTypes(subType);
-                        enabledVisitResultsOnCtp.addAll(visitResultSharingsForLabs.get(subType));
-                    }
-                    if (subType == HEMATOLOGY) {
-                        visitResultMDTypesHea = metadataService.getVisitResultTypes(subType);
-                        enabledVisitResultsOnCtp.addAll(visitResultSharingsForLabs.get(subType));
-                    }
-                    if (subType == FASTING_LIPID_PROFILE) {
-                        visitResultMDTypesFLP = metadataService.getVisitResultTypes(subType);
-                        enabledVisitResultsOnCtp.addAll(visitResultSharingsForLabs.get(subType));
+            wrapper.visitResultsGroupNamesCTP = new List<String>(visitResultSharings.keySet());
+            if (visResults != null && !visResults.isEmpty()) {
+                wrapper.isVisitResultsAvailable = false;
+                for (Visit_Result__c vr : visResults) {
+                    List<String> subTypesList = wrapper.visitResultsShares.get(
+                        vr.RecordType.DeveloperName + 's'
+                    );
+                    if (subTypesList != null && subTypesList.contains(vr.Result_Type__c)) {
+                        wrapper.isVisitResultsAvailable = true;
+                        break;
                     }
                 }
-
-                List<Visit_Result_TypeM__mdt> filteredVisResMDTypesMB = new List<Visit_Result_TypeM__mdt>();
-                List<Visit_Result_TypeM__mdt> filteredVisResMDTypesHea = new List<Visit_Result_TypeM__mdt>();
-                List<Visit_Result_TypeM__mdt> filteredVisResMDTypesFLP = new List<Visit_Result_TypeM__mdt>();
-
-                //Filter metadata records for vis results enabled on CTP
-                for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultMDTypesMetbPan) {
-                    if (enabledVisitResultsOnCtp.contains(visitResultTypeM.DeveloperName))
-                        filteredVisResMDTypesMB.add(visitResultTypeM);
-                }
-                for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultMDTypesHea) {
-                    if (enabledVisitResultsOnCtp.contains(visitResultTypeM.DeveloperName))
-                        filteredVisResMDTypesHea.add(visitResultTypeM);
-                }
-                for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultMDTypesFLP) {
-                    if (enabledVisitResultsOnCtp.contains(visitResultTypeM.DeveloperName))
-                        filteredVisResMDTypesFLP.add(visitResultTypeM);
-                }
-
-                String mailingCountryCode = String.isNotEmpty(participantMailingCC)
-                    ? participantMailingCC
-                    : '';
-                List<Visit_Result_Type_Sharing__c> visitResultTypeSharing = [
-                    SELECT
-                        Id,
-                        Include_Countries__c,
-                        Sharing_Countries__c,
-                        Type__c,
-                        Custom_Tooltip__c
-                    FROM Visit_Result_Type_Sharing__c
-                    WHERE
-                        Clinical_Trial_Profile__c = :ctpId
-                        AND Type__c IN :enabledVisitResultsOnCtp
-                ];
-                Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType = new Map<String, Visit_Result_Type_Sharing__c>();
-
-                for (Visit_Result_Type_Sharing__c resultType : visitResultTypeSharing)
-                    visitResultTypeSharingByType.put(resultType.Type__c, resultType);
-
-                //Map of result type and available visit results
-                Map<String, Visit_Result__c> resultTypeWithVisRes = new Map<String, Visit_Result__c>();
-
-                for (String resultType : visitResultTypeSharingByType.keySet()) {
-                    Visit_Result__c res = existingVisResultsMap.get(resultType);
-                    if (res != null)
-                        resultTypeWithVisRes.put(resultType, res);
-                    else
-                        resultTypeWithVisRes.put(resultType, null);
-                }
-
-                //Fetch language of participant for translation
-                String language = getLanguage(resultTypeWithVisRes);
-
-                if (
-                    filteredVisResMDTypesMB.size() > 0 &&
-                    visitResultSharingsForLabs.containsKey(METABOLICPANEL)
-                ) {
-                    List<VisitResultsService.VisitResultWrapper> mPResWrapper = formResultWrapper(
-                        filteredVisResMDTypesMB,
-                        METABOLICPANEL,
-                        null,
-                        resultTypeWithVisRes
-                    );
-                    wrapper.put(
-                        TranslateHelper.getLabelValue('Visit_Result_Group_' + METABOLICPANEL),
-                        mPResWrapper
-                    );
-                }
-                if (
-                    filteredVisResMDTypesHea.size() > 0 &&
-                    visitResultSharingsForLabs.containsKey(HEMATOLOGY)
-                ) {
-                    List<VisitResultsService.VisitResultWrapper> mPResWrapper = formResultWrapper(
-                        filteredVisResMDTypesHea,
-                        HEMATOLOGY,
-                        null,
-                        resultTypeWithVisRes
-                    );
-                    wrapper.put(
-                        TranslateHelper.getLabelValue('Visit_Result_Group_' + HEMATOLOGY),
-                        mPResWrapper
-                    );
-                }
-                if (
-                    filteredVisResMDTypesFLP.size() > 0 &&
-                    visitResultSharingsForLabs.containsKey(FASTING_LIPID_PROFILE)
-                ) {
-                    List<VisitResultsService.VisitResultWrapper> mPResWrapper = formResultWrapper(
-                        filteredVisResMDTypesFLP,
-                        FASTING_LIPID_PROFILE,
-                        null,
-                        resultTypeWithVisRes
-                    );
-                    wrapper.put(
-                        TranslateHelper.getLabelValue(
-                            'Visit_Result_Group_' + FASTING_LIPID_PROFILE
-                        ),
-                        mPResWrapper
-                    );
-                }
-                finalRes.resWrappers = wrapper;
             } else {
-                //Form Map of Type and Visit results
-                Map<String, Visit_Result__c> existingVisResultsMap = new Map<String, Visit_Result__c>();
+                wrapper.isVisitResultsAvailable = false;
+            }
+            wrapper.isDelegate = ParticipantContext.isCurrentDelegate();
+            return wrapper;
+        } else {
+            wrapper.isVisitResultsAvailable = false;
+            return wrapper;
+        }
+    }
 
-                for (Visit_Result__c result : visResults)
-                    existingVisResultsMap.put(result.Result_Type__c, result);
-
-                //Fetch metadata records for Visit Result mode- lab:biomarker:vitals
-                VisitResultMService metadataService = new VisitResultMService();
-
-                List<Visit_Result_TypeM__mdt> visitResultMDTypes = metadataService.getVisitResultTypes(
-                    visitResultsMode
-                );
-
-                Map<String, String> visitResultsMeasurementNamesMap = metadataService.getVisitResultsMeasurementNamesMap();
-
-                List<String> enabledVisitResultsOnCtp = visitResultSharings.get(visitResultsMode);
-
-                List<Visit_Result_TypeM__mdt> filteredVisResMDTypes = new List<Visit_Result_TypeM__mdt>();
-
-                //Filter metadata records for vis results enabled on CTP
-                for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultMDTypes) {
-                    if (
-                        enabledVisitResultsOnCtp != null &&
-                        enabledVisitResultsOnCtp.contains(visitResultTypeM.DeveloperName)
-                    )
-                        filteredVisResMDTypes.add(visitResultTypeM);
-                }
-
-                String mailingCountryCode = String.isNotEmpty(participantMailingCC)
-                    ? participantMailingCC
-                    : '';
-
-                List<Visit_Result_Type_Sharing__c> visitResultTypeSharing = [
-                    SELECT
-                        Id,
-                        Include_Countries__c,
-                        Sharing_Countries__c,
-                        Type__c,
-                        Custom_Tooltip__c
-                    FROM Visit_Result_Type_Sharing__c
-                    WHERE
-                        Clinical_Trial_Profile__c = :ctpId
-                        AND Type__c IN :enabledVisitResultsOnCtp
-                ];
-
-                Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType = new Map<String, Visit_Result_Type_Sharing__c>();
-
-                Map<String, String> visitResultTypeWithCusToolMap = new Map<String, String>();
-
-                for (Visit_Result_Type_Sharing__c resultType : visitResultTypeSharing) {
-                    visitResultTypeSharingByType.put(resultType.Type__c, resultType);
-                    if (!String.isBlank(resultType.Custom_Tooltip__c)) {
-                        visitResultTypeWithCusToolMap.put(
-                            resultType.Type__c,
-                            resultType.Custom_Tooltip__c
-                        );
+    public static Boolean checkDataSharebackTiming(
+        Integer ctpSharingTiming,
+        String patientVisitId
+    ) {
+        List<Patient_Visit__c> patientVisitList = getPatientVisitsForPP();
+        /**checking CTP level Data Shareback Timing Configuration*/
+        if (
+            patientVisitList == null ||
+            (patientVisitList != null &&
+            patientVisitList.size() <= ctpSharingTiming)
+        ) {
+            return false;
+        } else {
+            for (Integer i = 0; i < patientVisitList.size(); i++) {
+                if (patientVisitList[i].Id == patientVisitId) {
+                    Integer patientVisitPosition = i + 1;
+                    if (patientVisitPosition > ctpSharingTiming) {
+                        return true;
+                    } else {
+                        return false;
                     }
                 }
-
-                //Map of result type and available visit results
-                Map<String, Visit_Result__c> resultTypeWithVisRes = new Map<String, Visit_Result__c>();
-
-                for (String resultType : visitResultTypeSharingByType.keySet()) {
-                    Visit_Result__c res = existingVisResultsMap.get(resultType);
-                    if (res != null)
-                        resultTypeWithVisRes.put(resultType, res);
-                    else
-                        resultTypeWithVisRes.put(resultType, null);
-                }
-
-                //Fetch language of participant for translation
-                String language = getLanguage(resultTypeWithVisRes);
-
-                if (visitResultTypeSharing != null && visitResultTypeSharing.size() > 0) {
-                    TranslateHelper.translate(visitResultTypeSharing, language);
-                }
-                List<VisitResultsService.VisitResultWrapper> resWrapper = formResultWrapper(
-                    filteredVisResMDTypes,
-                    visitResultsMode,
-                    visitResultTypeWithCusToolMap,
-                    resultTypeWithVisRes
-                );
-                wrapper.put(
-                    TranslateHelper.getLabelValue('Visit_Result_Group_' + visitResultsMode),
-                    resWrapper
-                );
-                finalRes.resWrappers = wrapper;
             }
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return false;
         }
+    }
 
-        return finalRes;
+    /**Returns toggle state for specific visit result type configured at PE level*/
+    @AuraEnabled
+    public static Boolean toggleStateForPP(
+        String visitResultsMode,
+        Participant_Enrollment__c currentPE
+    ) {
+        String currentVisitResults = currentPE == null ||
+            currentPE.Visit_Results_Opt_In__c == null
+            ? ''
+            : currentPE.Visit_Results_Opt_In__c;
+        return currentVisitResults.contains(visitResultsMode);
     }
 
     @AuraEnabled
-    public static PP_VisitResultsContainer ppVisitResultsWrapper(
+    public static void switchToggleRemoteForPP(String visitResultsMode, Boolean isToggleOn) {
+        Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
+        String currentVisitResults = currentPE.Visit_Results_Opt_In__c == null
+            ? ''
+            : currentPE.Visit_Results_Opt_In__c;
+        String updatedVisitResults = '';
+        if (isToggleOn) {
+            if (!currentVisitResults.contains(visitResultsMode)) {
+                updatedVisitResults = currentVisitResults + ';' + visitResultsMode;
+            }
+        } else {
+            List<String> visitResults = currentVisitResults.split(';');
+            for (String str : visitResults) {
+                if (!str.equals(visitResultsMode))
+                    updatedVisitResults += str + ';';
+            }
+        }
+        currentPE.Visit_Results_Opt_In__c = updatedVisitResults;
+        update currentPE;
+    }
+    public static List<Patient_Visit__c> getPatientVisitsForPP() {
+        if (!isOnStudy())
+            return new List<Patient_Visit__c>();
+
+        return [
+            SELECT Id, Completed_Date__c, Visit_Number__c
+            FROM Patient_Visit__c
+            WHERE
+                Participant_Enrollment__c = :ParticipantContext.getCurrentPEId()
+                AND Status__c = 'Completed'
+            ORDER BY Visit_Number__c, Completed_Date__c
+        ];
+    }
+
+    public static Boolean isOnStudy() {
+        ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
+        if (
+            PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(
+                participantState.pe.Participant_Status__c
+            ) ||
+            PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(
+                participantState.pe.Participant_Status__c
+            )
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**RK END*/
+
+    @AuraEnabled
+    public static List<PP_VisitResultsContainer> ppVisitResultsWrapper(
         String ctpId,
         String patientVisitId,
         String participantMailingCC,
-        Map<String, Map<String, List<String>>> allVisResultCategories
+        Map<String, Map<String, List<String>>> allVisResultCategories,
+        String visitResultsMode
     ) {
-        PP_VisitResultsContainer finalRes = new PP_VisitResultsContainer();
-        Map<String, List<VisitResultsService.VisitResultWrapper>> wrapper = new Map<String, List<VisitResultsService.VisitResultWrapper>>();
-        String visitResultsMode;
+        List<PP_VisitResultsContainer> finalResults = new List<PP_VisitResultsContainer>();
+
         Map<String, List<String>> visitResultSharings = new Map<String, List<String>>();
         Map<String, List<String>> visitResultSharingsForLabs = new Map<String, List<String>>();
 
         try {
             for (String category : allVisResultCategories.keySet()) {
-                if (category == LABS_VISIT_RESULT_GROUP)
-                    visitResultSharingsForLabs = allVisResultCategories.get(category);
-                else
-                    visitResultSharings = allVisResultCategories.get(category);
-                visitResultsMode = category;
+                if (category == visitResultsMode) {
+                    if (visitResultsMode == LABS_VISIT_RESULT_GROUP)
+                        visitResultSharingsForLabs = allVisResultCategories.get(category);
+                    else
+                        visitResultSharings = allVisResultCategories.get(category);
+                }
             }
             // Fetch visit results for patient visit ID
             List<Visit_Result__c> visResults = [
@@ -417,50 +314,38 @@ public without sharing class PP_VisitResultsService {
                     filteredVisResMDTypesMB.size() > 0 &&
                     visitResultSharingsForLabs.containsKey(METABOLICPANEL)
                 ) {
-                    List<VisitResultsService.VisitResultWrapper> mPResWrapper = formResultWrapper(
+                    PP_VisitResultsContainer visitResultsContainer = formResultWrapper(
                         filteredVisResMDTypesMB,
                         METABOLICPANEL,
                         null,
                         resultTypeWithVisRes
                     );
-                    wrapper.put(
-                        TranslateHelper.getLabelValue('Visit_Result_Group_' + METABOLICPANEL),
-                        mPResWrapper
-                    );
+                    finalResults.add(visitResultsContainer);
                 }
                 if (
                     filteredVisResMDTypesHea.size() > 0 &&
                     visitResultSharingsForLabs.containsKey(HEMATOLOGY)
                 ) {
-                    List<VisitResultsService.VisitResultWrapper> mPResWrapper = formResultWrapper(
+                    PP_VisitResultsContainer visitResultsContainer = formResultWrapper(
                         filteredVisResMDTypesHea,
                         HEMATOLOGY,
                         null,
                         resultTypeWithVisRes
                     );
-                    wrapper.put(
-                        TranslateHelper.getLabelValue('Visit_Result_Group_' + HEMATOLOGY),
-                        mPResWrapper
-                    );
+                    finalResults.add(visitResultsContainer);
                 }
                 if (
                     filteredVisResMDTypesFLP.size() > 0 &&
                     visitResultSharingsForLabs.containsKey(FASTING_LIPID_PROFILE)
                 ) {
-                    List<VisitResultsService.VisitResultWrapper> mPResWrapper = formResultWrapper(
+                    PP_VisitResultsContainer visitResultsContainer = formResultWrapper(
                         filteredVisResMDTypesFLP,
                         FASTING_LIPID_PROFILE,
                         null,
                         resultTypeWithVisRes
                     );
-                    wrapper.put(
-                        TranslateHelper.getLabelValue(
-                            'Visit_Result_Group_' + FASTING_LIPID_PROFILE
-                        ),
-                        mPResWrapper
-                    );
+                    finalResults.add(visitResultsContainer);
                 }
-                finalRes.resWrappers = wrapper;
             } else {
                 //Form visit result wrapper for Vitals/Biomarkers
                 //Form Map of Type and Visit results
@@ -539,23 +424,19 @@ public without sharing class PP_VisitResultsService {
                 if (visitResultTypeSharing != null && visitResultTypeSharing.size() > 0) {
                     TranslateHelper.translate(visitResultTypeSharing, language);
                 }
-                List<VisitResultsService.VisitResultWrapper> resWrapper = formResultWrapper(
+                PP_VisitResultsContainer visitResultsContainer = formResultWrapper(
                     filteredVisResMDTypes,
                     visitResultsMode,
                     visitResultTypeWithCusToolMap,
                     resultTypeWithVisRes
                 );
-                wrapper.put(
-                    TranslateHelper.getLabelValue('Visit_Result_Group_' + visitResultsMode),
-                    resWrapper
-                );
-                finalRes.resWrappers = wrapper;
+                finalResults.add(visitResultsContainer);
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
 
-        return finalRes;
+        return finalResults;
     }
 
     public static String getLanguage(Map<String, Visit_Result__c> resultTypeWithVisRes) {
@@ -573,18 +454,21 @@ public without sharing class PP_VisitResultsService {
         return lang;
     }
 
-    public static List<VisitResultsService.VisitResultWrapper> formResultWrapper(
+    public static PP_VisitResultsContainer formResultWrapper(
         List<Visit_Result_TypeM__mdt> filteredVisResMDTypes,
         String visitResultsMode,
         Map<String, String> visitResultTypeWithCusToolMap,
         Map<String, Visit_Result__c> resultTypeWithVisRes
     ) {
-        List<VisitResultsService.VisitResultWrapper> finalWrapper = new List<VisitResultsService.VisitResultWrapper>();
+        Boolean isResultAvailable = false;
+
+        List<PP_VisitResultWrapper> finalWrapper = new List<PP_VisitResultWrapper>();
+
         VisitResultMService metadataService = new VisitResultMService();
         Map<String, String> visitResultsMeasurementNamesMap = metadataService.getVisitResultsMeasurementNamesMap();
 
-        List<VisitResultsService.VisitResultWrapper> wrappersWithVisRes = new List<VisitResultsService.VisitResultWrapper>();
-        List<VisitResultsService.VisitResultWrapper> wrappersWithOutVisRes = new List<VisitResultsService.VisitResultWrapper>();
+        List<PP_VisitResultWrapper> wrappersWithVisRes = new List<PP_VisitResultWrapper>();
+        List<PP_VisitResultWrapper> wrappersWithOutVisRes = new List<PP_VisitResultWrapper>();
 
         //Form result wrapper
         for (Visit_Result_TypeM__mdt singleVRT : filteredVisResMDTypes) {
@@ -603,7 +487,7 @@ public without sharing class PP_VisitResultsService {
                     (visitResultsMode != BIOMARKER_VISIT_RESULT_GROUP)
                 ) {
                     wrappersWithVisRes.add(
-                        new VisitResultsService.VisitResultWrapper(
+                        new PP_VisitResultWrapper(
                             visitResult,
                             TranslateHelper.getLabelValue(singleVRT.DeveloperName),
                             description == ''
@@ -618,7 +502,7 @@ public without sharing class PP_VisitResultsService {
             } else {
                 if (visitResultsMode != BIOMARKER_VISIT_RESULT_GROUP) {
                     wrappersWithOutVisRes.add(
-                        new VisitResultsService.VisitResultWrapper(
+                        new PP_VisitResultWrapper(
                             visitResult,
                             TranslateHelper.getLabelValue(singleVRT.DeveloperName),
                             description == ''
@@ -634,17 +518,109 @@ public without sharing class PP_VisitResultsService {
         }
         if (wrappersWithVisRes.size() > 0) {
             finalWrapper.addAll(wrappersWithVisRes);
+            isResultAvailable = true;
         }
         if (wrappersWithOutVisRes.size() > 0) {
             finalWrapper.addAll(wrappersWithOutVisRes);
         }
-        return finalWrapper;
+        return new PP_VisitResultsContainer(
+            finalWrapper,
+            isResultAvailable,
+            TranslateHelper.getLabelValue('Visit_Result_Group_' + visitResultsMode)
+        );
+    }
+    public class PPInitDataWrapper {
+        @AuraEnabled
+        public Boolean isDelegate;
+        @AuraEnabled
+        public Boolean isVisitResultsAvailable;
+        @AuraEnabled
+        public Map<String, List<String>> visitResultsShares;
+        @AuraEnabled
+        public Boolean toggleStateForVitals;
+        @AuraEnabled
+        public Boolean toggleStateForLabs;
+        @AuraEnabled
+        public Boolean toggleStateForBiomarkers;
+        @AuraEnabled
+        public Map<String, Map<String, List<String>>> visitResultWithSubTypesCTP;
+
+        @AuraEnabled
+        public List<String> visitResultsGroupNamesCTP;
+
+        public PPInitDataWrapper() {
+            this.isVisitResultsAvailable = false;
+        }
     }
 
     public class PP_VisitResultsContainer {
         @AuraEnabled
-        public Map<String, List<VisitResultsService.VisitResultWrapper>> resWrappers;
+        public List<PP_VisitResultWrapper> resWrappers;
+        @AuraEnabled
+        public Boolean isResultsAvailable;
+        @AuraEnabled
+        public String resultsModeName;
         PP_VisitResultsContainer() {
+        }
+        PP_VisitResultsContainer(
+            List<PP_VisitResultWrapper> resWrappers,
+            Boolean isResultsAvailable,
+            String resultsModeName
+        ) {
+            this.resWrappers = resWrappers;
+            this.isResultsAvailable = isResultsAvailable;
+            this.resultsModeName = resultsModeName;
+        }
+    }
+
+    public class PP_VisitResultWrapper {
+        @AuraEnabled
+        public Double value;
+        @AuraEnabled
+        public Double minValue;
+        @AuraEnabled
+        public Double maxValue;
+        @AuraEnabled
+        public String name;
+        @AuraEnabled
+        public String visitName;
+        @AuraEnabled
+        public String measurement;
+        @AuraEnabled
+        public String description;
+        @AuraEnabled
+        public String recordtype;
+        @AuraEnabled
+        public String visitDate;
+        @AuraEnabled
+        public Date dateVisited;
+        @AuraEnabled
+        public boolean isConversion;
+
+        public PP_VisitResultWrapper(
+            Visit_Result__c visitResult,
+            String name,
+            String description,
+            Map<String, String> measurementNamesMap
+        ) {
+            this.name = name;
+            this.description = description;
+            if (visitResult != null) {
+                this.value = visitResult.Actual_Value__c;
+                this.minValue = visitResult.Min_Value__c;
+                this.maxValue = visitResult.Max_Value__c;
+                if (visitResult.Measurement__c != null) {
+                    String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
+                    if (
+                        measurementNamesMap != null &&
+                        measurementNamesMap.containsKey(measurementLowerCase)
+                    ) {
+                        this.measurement = measurementNamesMap.get(measurementLowerCase);
+                    } else {
+                        this.measurement = visitResult.Measurement__c;
+                    }
+                }
+            }
         }
     }
 }

@@ -30855,5 +30855,19 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>No_Visit_Results_Available</shortDescription>
         <value>No results associated with this visit</value>
+    </labels>    
+     <labels>
+        <fullName>PP_Visit_Result_Value_Not_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Visit_Result_Value_Not_Available</shortDescription>
+        <value>Not available</value>
+    </labels>
+     <labels>
+        <fullName>PP_More_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_More_Results</shortDescription>
+        <value>more results</value>
     </labels>
 </CustomLabels>
