@@ -9,8 +9,8 @@
 .slds-notify_container{
     border-radius: 8px;
     width:50% !important;
-    position: absolute;
-    left: 28%;
+    position: fixed;
+    left: 26%;
     top: 2%;
 }
 .slds-notify__content{
