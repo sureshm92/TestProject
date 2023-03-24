@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import VERSION_DATE from '@salesforce/label/c.Version_date';
-
+import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 export default class PpExploreUpdates extends NavigationMixin(LightningElement) {
     @api exploreData;
     @api showVisitSection;
@@ -21,6 +21,7 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
     }
 
     navigateResourceDetail() {
+        this.removeCardHandler();
         let subDomain = communityService.getSubDomain();
         let state;
         if (communityService.isInitialized()) {
@@ -35,7 +36,8 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
             '&resourcetype=' +
             this.exploreData.resourceDevRecordType +
             '&state=' +
-            state;
+            state +
+            '&showHomePage=true';;
 
         const config = {
             type: 'standard__webPage',
@@ -45,9 +47,17 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
             }
         };
 
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
+        this[NavigationMixin.Navigate](config,true);
+    }
+    removeCardHandler(){
+        const targetRecId = this.exploreData.targetRecordId;
+        removeCard({targetRecordId : targetRecId})
+        .then((returnValue) => {
+        })
+        .catch((error) => {
+            //console.log('error message 1'+error.message);
+            this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+            this.spinner.hide();
         });
     }
 }

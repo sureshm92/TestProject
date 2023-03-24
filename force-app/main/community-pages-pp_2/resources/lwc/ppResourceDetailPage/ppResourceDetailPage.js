@@ -7,6 +7,7 @@ import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import VERSION from '@salesforce/label/c.Version_date';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
+import Back_To_Home from '@salesforce/label/c.Link_Back_To_Home';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
 export default class PpResourceDetailPage extends NavigationMixin(LightningElement) {
@@ -23,11 +24,13 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     isDocument = false;
     langCode;
     documentLink;
+    showHomePage=false;
     studyTitle = '';
     state;
     label = {
         VERSION,
-        Back_To_Resources
+        Back_To_Resources,
+        Back_To_Home
     };
     isMultimedia = false;
     isArticleVideo = false;
@@ -39,12 +42,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         const urlParams = new URLSearchParams(queryString);
         this.resourceId = urlParams.get('resourceid');
         this.resourceType = urlParams.get('resourcetype');
+        this.showHomePage = urlParams.get('showHomePage');
+        console.log('showHomePage : '+this.showHomePage);
         this.state = urlParams.get('state');
         if (this.resourceType == 'Study_Document') {
             this.langCode = urlParams.get('lang');
             this.isDocument = true;
         }
-
+        
         this.initializeData();
     }
 
@@ -135,7 +140,15 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
     handleBackClick() {
         sessionStorage.setItem('Cookies', 'Accepted');
-        if (FORM_FACTOR == 'Large') {
+        if(this.showHomePage){
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'home'
+                }
+            });
+        }
+        else if (FORM_FACTOR == 'Large') {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {

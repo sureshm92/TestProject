@@ -3,6 +3,13 @@ public without sharing class PPUpdatesController {
     public static String OBJECT_TYPE_PT_RESOURCE = 'resource__c';
     public static String OBJECT_TYPE_TELEVISIT = 'televisit__c';
     public static String OBJECT_TYPE_VISIT = 'visit__c';
+    public static String SR_STATUS_IN_PROGRESS = 'In Progress';
+    public static String SR_TARGET_TYPE_UPDATES = 'Updates';
+    public static String STD_DOC_CONTENT_TYPE = 'Study_Document';
+    public static String ARTICLE_CONTENT_TYPE = 'Article';
+    public static String MULTIMEDIA_CONTENT_TYPE = 'Multimedia';
+    public static String VIDEO_CONTENT_TYPE = 'Video';
+    public static String RELEVANT_LINK_CONTENT_TYPE = 'Relevant_Link';
     @AuraEnabled
     public static List<UpdateWrapper> getSendResultUpdates(Integer offsets,Integer limits){
         List<UpdateWrapper> updateWrapperlist = new List<UpdateWrapper>();
@@ -13,26 +20,25 @@ public without sharing class PPUpdatesController {
         Map<Id,Resource__c> resPlatformMap = getResPlatform(resPlatformIds);
         Map<Id,Id> resIdContentVersionIdMap = getContentVersionForStdDoc(resStudyMap,resPlatformMap);
         createWrapper(sendResults,resStudyMap,resPlatformMap,resIdContentVersionIdMap,updateWrapperlist);
-        System.debug('updateWrapperlist : '+updateWrapperlist);
         return updateWrapperlist; 
-    }
+    } 
     public static List<Send_Result__c> getSendResultRecords(List<Id> resStudyIds,List<Id> resPlatformIds,Integer offsets, Integer limits){
         ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
-        List<Send_Result__c> sendResults = [SELECT Id,Notification__c,Notification__r.Target_Record_Id__c,Is_Active__c, Is_Read__c, Link_to_Related_Event_or_Object__c,Status__c, Target_Type__c,Notification__r.Recipient__r.email FROM Send_Result__c WHERE Notification__r.Target_Record_Id__c!=null AND Target_Type__c='Updates' AND Notification__r.Recipient__c=:ps.Participant.Contact__c order by lastModifiedDate desc LIMIT:limits OFFSET:offsets];
+        List<Send_Result__c> sendResults = [SELECT Id,Notification__c,Notification__r.Target_Record_Ids__c,Is_Active__c, Is_Read__c, Link_to_Related_Event_or_Object__c,Status__c, Target_Type__c,Notification__r.Recipient__r.email FROM Send_Result__c WHERE Status__c=:SR_STATUS_IN_PROGRESS AND Notification__r.Target_Record_Ids__c!=null AND Target_Type__c=:SR_TARGET_TYPE_UPDATES AND Notification__r.Recipient__c=:ps.Participant.Contact__c order by lastModifiedDate desc LIMIT:limits OFFSET:offsets];
         for(Send_Result__c sr : sendResults){
-            Id targetId = (Id)sr.Notification__r.Target_Record_Id__c;
+            Id targetId = (Id)sr.Notification__r.Target_Record_Ids__c;
             String targetType = targetId.getSObjectType().getDescribe().getName().toLowerCase();
             if(targetType == OBJECT_TYPE_STD_RESOURCE){
-                resStudyIds.add(sr.Notification__r.Target_Record_Id__c);
+                resStudyIds.add(sr.Notification__r.Target_Record_Ids__c);
             }else if(targetType == OBJECT_TYPE_PT_RESOURCE){
-                resPlatformIds.add(sr.Notification__r.Target_Record_Id__c);
+                resPlatformIds.add(sr.Notification__r.Target_Record_Ids__c);
             }
         }
         return sendResults;
     }
     public static Map<Id,Res_study__c> getResStudy(List<Id> resStudyIds){
         Map<Id,Res_study__c> resStudyMap = new Map<Id,Res_study__c>();
-        List<Res_study__c> studyResources = [SELECT id,RecordType.name,Resource__r.RecordType.DeveloperName,Resource__c,Resource__r.Content_Type__c,Resource__r.Title__c,Resource__r.Image__c,Resource__r.Posting_Date__c,Resource__r.Version_Date__c,Resource__r.URL__c,Resource__r.Type__c FROM Res_study__c where id in : resStudyIds];
+        List<Res_study__c> studyResources = [SELECT id,RecordType.name,Resource__r.RecordType.DeveloperName,Resource__c,Resource__r.Content_Type__c,Resource__r.Title__c,Resource__r.Image__c,Resource__r.Posting_Date__c,Resource__r.Version_Date__c,Resource__r.URL__c,Resource__r.Type__c FROM Res_study__c where Resource__c!=null AND id in : resStudyIds];
         for(Res_study__c res : studyResources){
             resStudyMap.put(res.Id,res);
         }
@@ -70,41 +76,41 @@ public without sharing class PPUpdatesController {
         if(docIdResIdMap.size()>0){
         List<ContentVersion> contentVersionList = [SELECT ContentDocumentId,Id FROM ContentVersion WHERE ContentDocumentId in : docIdResIdMap.keyset()];
         for(ContentVersion cv : contentVersionList){
-            resIdContentVersionId.put(docIdResIdMap.get(cv.ContentDocumentId),cv.Id);
+            if(docIdResIdMap.containsKey(cv.ContentDocumentId)){
+                resIdContentVersionId.put(docIdResIdMap.get(cv.ContentDocumentId),cv.Id);
+            }
         }
         }
         return resIdContentVersionId;
     }
     public static void createWrapper(List<Send_Result__c> sendResults,Map<Id,Res_study__c> resStudyMap,Map<Id,Resource__c> resPlatformMap,Map<Id,Id> resIdContentVersionIdMap,List<UpdateWrapper> updateWrapperlist){
         for(Send_Result__c sr : sendResults){
-            Id targetId = (Id)sr.Notification__r.Target_Record_Id__c;
+            Id targetId = (Id)sr.Notification__r.Target_Record_Ids__c;
             String targetType = targetId.getSObjectType().getDescribe().getName().toLowerCase();
             UpdateWrapper wrp = new UpdateWrapper();
             if(targetType == OBJECT_TYPE_STD_RESOURCE || targetType == OBJECT_TYPE_PT_RESOURCE){
                 wrp.updateType = 'resource';
+                wrp.sendResultId = sr.Id;
                 if(targetType == OBJECT_TYPE_STD_RESOURCE){
                     createResStudyWrapper(targetId,resStudyMap,wrp,resIdContentVersionIdMap);
                 }else if(targetType == OBJECT_TYPE_PT_RESOURCE){
                     createResPlatformWrapper(targetId,resPlatformMap,wrp,resIdContentVersionIdMap);
                 }
-            }else if(targetType == OBJECT_TYPE_TELEVISIT){
-                wrp.contentType = 'Televisit';
-                wrp.title = 'New televisit(s) has been scheduled';
-            }else if(targetType == OBJECT_TYPE_TELEVISIT){
-                wrp.contentType = 'Visit';
-                wrp.title = 'New visit has been scheduled';
             }
             updateWrapperlist.add(wrp);
         }
     }
     public static void createResStudyWrapper(Id targetId,Map<Id,Res_study__c> resStudyMap,UpdateWrapper wrp,Map<Id,Id> resIdContentVersionIdMap){
         wrp.Title = resStudyMap.get(targetId).Resource__r.Title__c;
+        wrp.targetRecordId = targetId;
         wrp.recId = resStudyMap.get(targetId).Resource__c;
         wrp.contentType = resStudyMap.get(targetId).Resource__r.Content_Type__c;
-        wrp.versionDate = resStudyMap.get(targetId).Resource__r.Version_Date__c;
         wrp.resourceDevRecordType = resStudyMap.get(targetId).Resource__r.RecordType.DeveloperName;
         if(resStudyMap.get(targetId).Resource__r.Content_Type__c == 'Study_Document'){
-            wrp.thumbnailDocId = resIdContentVersionIdMap.get(resStudyMap.get(targetId).Resource__c);
+            if(resIdContentVersionIdMap.containsKey(resStudyMap.get(targetId).Resource__c)){
+                wrp.thumbnailDocId = resIdContentVersionIdMap.get(resStudyMap.get(targetId).Resource__c);
+            }
+            wrp.versionDate = resStudyMap.get(targetId).Resource__r.Version_Date__c;
         }else if(resStudyMap.get(targetId).Resource__r.Content_Type__c == 'Article' ||
                  resStudyMap.get(targetId).Resource__r.Content_Type__c == 'Video' ||
                  resStudyMap.get(targetId).Resource__r.Content_Type__c == 'Multimedia'){
@@ -113,10 +119,12 @@ public without sharing class PPUpdatesController {
                  }else if(resStudyMap.get(targetId).Resource__r.Content_Type__c == 'Relevant_Link'){
                      wrp.redirectLink = resStudyMap.get(targetId).Resource__r.URL__c;
                      wrp.linkType = resStudyMap.get(targetId).Resource__r.Type__c;
+                     wrp.versionDate = resStudyMap.get(targetId).Resource__r.Posting_Date__c;
                  }
     }
     public static void createResPlatformWrapper(Id targetId,Map<Id,Resource__c> resPlatformMap,UpdateWrapper wrp,Map<Id,Id> resIdContentVersionIdMap){
         wrp.Title = resPlatformMap.get(targetId).Title__c;
+        wrp.targetRecordId = targetId;
         wrp.recId = targetId;
         wrp.contentType = resPlatformMap.get(targetId).Content_Type__c;
         wrp.versionDate = resPlatformMap.get(targetId).Version_Date__c;
@@ -136,8 +144,17 @@ public without sharing class PPUpdatesController {
     @AuraEnabled
     public static Integer getSendResultCount(){
         ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
-        Integer updateCount = [SELECT count() FROM Send_Result__c where Target_Type__c='Updates' AND Status__c='In Progress' AND Notification__r.Recipient__c=:ps.Participant.Contact__c];
+        Integer updateCount = [SELECT count() FROM Send_Result__c where Notification__r.Target_Record_Ids__c!=null AND Target_Type__c=:SR_TARGET_TYPE_UPDATES AND Status__c=:SR_STATUS_IN_PROGRESS AND Notification__r.Recipient__c=:ps.Participant.Contact__c];
         return updateCount;
+    }
+    @AuraEnabled
+    public static void removeUpdateCard(String targetRecordId){
+        targetRecordId = '%'+targetRecordId+'%';
+        List<Send_Result__c> sendResultList = [SELECT id,Status__c FROM Send_Result__c WHERE Notification__r.Target_Record_Ids__c like : targetRecordId];
+        for(Send_Result__c sr : sendResultList){
+            sr.Status__c = 'Sent';
+        }
+        update sendResultList;
     }
     public class UpdateWrapper{
         @AuraEnabled
@@ -160,5 +177,9 @@ public without sharing class PPUpdatesController {
         public String contentType;
         @AuraEnabled
         public String linkType;
+        @AuraEnabled 
+        public String targetRecordId;
+        @AuraEnabled 
+        public String sendResultId;
     }
 }
