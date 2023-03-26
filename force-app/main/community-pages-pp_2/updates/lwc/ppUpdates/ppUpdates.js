@@ -33,6 +33,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         caughtup,
         refresh
     };
+    timer;
 
     renderedCallback() {
         if (!this.isRendered) {
@@ -49,7 +50,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     }
     getCount() {
         getSendResultCount()
-            .then(returnValue => {
+            .then((returnValue) => {
                 this.counter = returnValue;
                 if (this.counter > 0) {
                     this.resourcePresent = true;
@@ -63,7 +64,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 }
                 this.getUpdates();
             })
-            .catch(error => {
+            .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                 this.spinner.hide();
             });
@@ -73,8 +74,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.spinner.show();
         console.log('offset : ' + this.offset);
         getSendResultUpdates({ offsets: this.offset, limits: this.limit })
-            .then(returnValue => {
-                returnValue.forEach(resObj => {
+            .then((returnValue) => {
+                returnValue.forEach((resObj) => {
                     if (resObj.contentType == 'Article' || resObj.contentType == 'Video') {
                         resObj.isExplore = true;
                     } else if (resObj.contentType == 'Study_Document') {
@@ -92,10 +93,14 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                     this.resourcePresent = true;
                 }
                 this.offset += this.limit;
-                this.addHorizontalScroll();
+                if (this.showvisitsection) {
+                    this.addVerticalScroll();
+                } else {
+                    this.addHorizontalScroll();
+                }
                 this.spinner.hide();
             })
-            .catch(error => {
+            .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                 this.spinner.hide();
             });
@@ -106,7 +111,12 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             myDiv.classList.add('horizontal-scroll');
         }
     }
-    timer;
+    addVerticalScroll() {
+        if (this.counter > 4 && this.desktop && this.showvisitsection) {
+            const myDiv = this.template.querySelector('.custom-padding');
+            myDiv.classList.add('vertical-scroll');
+        }
+    }
     handleScroll(event) {
         const container = event.target;
         const { scrollLeft, scrollWidth, clientWidth } = container;
@@ -125,7 +135,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.timer = setTimeout(() => {
             this.initializeData();
         }, 1000);
-        
     }
     openLink(event) {
         window.open(event.currentTarget.dataset.link, '_blank');
