@@ -1,7 +1,6 @@
 import { LightningElement, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
-import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
 import PP_Share_Article from '@salesforce/label/c.PP_Share_Article';
 import CONTRIBUTE from '@salesforce/label/c.PP_Resources_Contribute';
@@ -50,32 +49,32 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
     }
 
     get inputGridSize() {
-        return this.isMobile ? "9" : "10";
+        return this.isMobile ? '9' : '10';
     }
 
     get buttonGridSize() {
-        return this.isMobile ? "3" : "2";
+        return this.isMobile ? '3' : '2';
     }
 
     handleChangePreference() {
-        this.redirecturl = window.location.origin + basePathName + '/account-settings?changePref';
-        const config = {
-            type: 'standard__webPage',
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: this.redirecturl
+                pageName: 'account-settings'
+            },
+            state: {
+                changePref: null
             }
-        };
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
         });
     }
 
     handleUrlValidation(event) {
         var inputValue = this.template.querySelector('lightning-input[data-input]').value;
         var urlField = this.template.querySelector('lightning-input[data-input]');
-        var validURLregex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:\?#[\]@!\$&\(\)\*\+,;=.]+$/;
-        var validregex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
+        var validURLregex =
+            /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:\?#[\]@!\$&\(\)\*\+,;=.]+$/;
+        var validregex =
+            /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
         if (inputValue) {
             if (validURLregex.test(inputValue) || validregex.test(inputValue)) {
                 urlField.setCustomValidity(' ');
@@ -93,8 +92,10 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
     handleUrlValidationBlur(event) {
         var inputValue = this.template.querySelector('lightning-input[data-input]').value;
         var urlField = this.template.querySelector('lightning-input[data-input]');
-        var validURLregex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:\?#[\]@!\$&\(\)\*\+,;=.]+$/;
-        var validregex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
+        var validURLregex =
+            /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:\?#[\]@!\$&\(\)\*\+,;=.]+$/;
+        var validregex =
+            /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
         if (inputValue) {
             if (validURLregex.test(inputValue) || validregex.test(inputValue)) {
                 urlField.setCustomValidity(' ');
