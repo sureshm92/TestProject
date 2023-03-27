@@ -155,7 +155,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                     )
                                 );
                             }
-                            if (res.Resource__r.document_type__c == 'Document') {
+                            if (res.Resource__r.Content_Type__c == 'Study_Document') {
                                 notifications.add(
                                     new Notification__c(
                                         Recipient__c = contact.Id,
