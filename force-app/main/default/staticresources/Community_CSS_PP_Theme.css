@@ -1332,7 +1332,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     .manage-delegate-acc-setting .std .study-thmore-add-assignment {
         padding: 0px 0px 0px 125px !important;
     }
-    
+    .manage-delegate-acc-setting .ad-warning-container{
+        padding-right: 7px !important;
+    }
 }
 
 .manage-delegate-acc-setting .slds-input__icon_right {
