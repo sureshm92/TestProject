@@ -1,6 +1,7 @@
 import { LightningElement, track } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
 import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesById';
+import getPPResources from '@salesforce/apex/ResourceRemote.getPPResources';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
@@ -9,6 +10,7 @@ import POSTING from '@salesforce/label/c.Posting_date';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
+
 export default class PpResourceDetailPage extends NavigationMixin(LightningElement) {
     userTimezone = TIME_ZONE;
     isInitialized = false;
@@ -37,6 +39,32 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     desktop = true;
     spinner;
     resourceForPostingDate = ['Article', 'Video', 'Multimedia'];
+    suggestedArticlesData;
+
+    /*******Getters******************/
+
+    get showSpinner() {
+        return !this.isInitialized;
+    }
+
+    get showPostingDate() {
+        if (this.resourceForPostingDate.includes(this.resourceType)) {
+            return true;
+        }
+        return false;
+    }
+
+    get showPostingOrVersionLabel() {
+        if (this.resourceForPostingDate.includes(this.resourceType)) {
+            return this.label.POSTING;
+        }
+        return this.label.VERSION;
+    }
+
+    get isSuggestedArticlesVisible() {
+        return this.isArticleVideo && this.suggestedArticlesData;
+    }
+
     connectedCallback() {
         //get resource parameters from url
         const queryString = window.location.search;
@@ -62,10 +90,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         }
 
         this.initializeData();
-    }
-
-    get showSpinner() {
-        return !this.isInitialized;
     }
 
     async initializeData() {
@@ -108,10 +132,11 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                     if (this.isDocument) {
                         this.handleDocumentLoad();
                     }
-                    this.isInitialized = true;
-                } else {
-                    this.isInitialized = true;
                 }
+                if (this.isArticleVideo) {
+                    this.getSuggestedArticles();
+                }
+                this.isInitialized = true;
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
@@ -176,20 +201,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         }
     }
 
-    get showPostingDate() {
-        if (this.resourceForPostingDate.includes(this.resourceType)) {
-            return true;
-        }
-        return false;
-    }
-
-    get showPostingOrVersionLabel() {
-        if (this.resourceForPostingDate.includes(this.resourceType)) {
-            return this.label.POSTING;
-        }
-        return this.label.VERSION;
-    }
-
     handleFavourite() {
         this.isFavourite = !this.isFavourite;
         setResourceAction({
@@ -210,5 +221,19 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 variant: variantType
             })
         );
+    }
+    getSuggestedArticles() {
+        if (communityService.isInitialized()) {
+            var pData = communityService.getParticipantData();
+            this.state = communityService.getCurrentCommunityMode().participantState;
+            let data = JSON.stringify(pData);
+            getPPResources({ participantData: data })
+                .then((result) => {
+                    this.suggestedArticlesData = result;
+                })
+                .catch((error) => {
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                });
+        }
     }
 }
