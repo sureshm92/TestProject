@@ -1,98 +1,208 @@
 <template>
     <c-web-spinner fixed="true"></c-web-spinner>
-    <template if:true={contentLoaded}>
-        <div onclick={handleBackClick} class="mBackButton">
-            <c-web-icon
-                icon-size="medium"
-                icon-name="chevron-left"
-                icon-color="#015ff1"
-                onclick={handleBackClick}
-            ></c-web-icon>
-            <lightning-button variant="base" label={label.BTN_Back}></lightning-button>
-        </div>
-        <div class="mVisitContent">
-            <h1 if:false={past} class="visit3 slds-truncate" title={visitName}>
-                {visitName}
-                <div class="visit-date-time">
-                    <template if:true={plannedDate}>
-                        <lightning-formatted-date-time
-                            value={plannedDate}
-                            year="numeric"
-                            month="short"
-                            day="2-digit"
-                            time-zone={visitTimezone}
-                        ></lightning-formatted-date-time>
-                        &nbsp;|&nbsp;<lightning-formatted-date-time
-                            value={plannedDate}
-                            hour="2-digit"
-                            minute="2-digit"
-                            time-zone={visitTimezone}
-                        ></lightning-formatted-date-time>
-                    </template>
-                    <template if:false={plannedDate}> {label.noVisitsLabel} </template>
+    <template lwc:if={isMobile}>
+        <template if:true={contentLoaded}>
+            <div onclick={handleBackClick} class="mBackButton">
+                <c-web-icon
+                    icon-size="medium"
+                    icon-name="chevron-left"
+                    icon-color="#015ff1"
+                    onclick={handleBackClick}
+                ></c-web-icon>
+                <lightning-button variant="base" label={label.BTN_Back}></lightning-button>
+            </div>
+            <div class="mVisitContent">
+                <h1 if:false={past} class="visit3 slds-truncate" title={visitName}>
+                    {visitName}
+                    <div class="visit-date-time">
+                        <template if:true={plannedDate}>
+                            <lightning-formatted-date-time
+                                value={plannedDate}
+                                year="numeric"
+                                month="short"
+                                day="2-digit"
+                                time-zone={visitTimezone}
+                            ></lightning-formatted-date-time>
+                            &nbsp;|&nbsp;<lightning-formatted-date-time
+                                value={plannedDate}
+                                hour="2-digit"
+                                minute="2-digit"
+                                time-zone={visitTimezone}
+                            ></lightning-formatted-date-time>
+                        </template>
+                        <template if:false={plannedDate}> {label.noVisitsLabel} </template>
+                    </div>
+                </h1>
+                <h1 if:true={past} class="visit3 slds-truncate" title={visitName}>
+                    {visitName}<span class="visit-date-time">{visitStatus}</span>
+                </h1>
+                <h1 class="what-to-expect">{label.WTELabel}</h1>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 icon-cont-mobile">
+                    <div class="slds-clearfix">
+                        <div class="rem-border">
+                            <template if:false={isError}>
+                                <c-pp-r-r-icon-splitter
+                                    icons={icondetails}
+                                    label={cblabel}
+                                    description={cbdescription}
+                                    ismobile="true"
+                                ></c-pp-r-r-icon-splitter>
+                            </template>
+                        </div>
+                    </div>
+                    <template if:true={isError}
+                        ><span class="slds-align_absolute-center no-data-mobile">
+                            {label.noDataAvailable}
+                        </span></template
+                    >
                 </div>
-            </h1>
-            <h1 if:true={past} class="visit3 slds-truncate" title={visitName}>
-                {visitName}<span class="visit-date-time">{visitStatus}</span>
-            </h1>
-            <h1 class="what-to-expect">{label.WTELabel}</h1>
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 icon-cont-mobile">
-                <div class="slds-clearfix">
-                    <div class="rem-border">
-                        <template if:false={isError}>
-                            <c-pp-r-r-icon-splitter
-                                icons={icondetails}
-                                label={cblabel}
-                                description={cbdescription}
-                                ismobile="true"
-                            ></c-pp-r-r-icon-splitter>
+                <template if:true={isEvent}>
+                    <h1 class="what-to-expect">{label.eventdetails}</h1>
+                </template>
+                <template if:false={isEvent}>
+                    <h1 class="what-to-expect">{label.visitdetails}</h1>
+                </template>
+                <div
+                    class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 card-content no-border"
+                >
+                    <div class="slds-clearfix">
+                        <c-pp-study-visit-details-card
+                            if:true={showChild}
+                            past={past}
+                            visitid={visitid}
+                            tasksubject={taskSubject}
+                            taskid={taskId}
+                            visitdata={visitdata}
+                            url={sfdcBaseURL}
+                            siteaddress={siteAddress}
+                            sitename={siteName}
+                            sitephone={sitePhoneNumber}
+                            ondataupdated={handleDataUpdate}
+                            ondiscard={handleDiscard}
+                            isevent={isEvent}
+                            isinitialvisit={isInitialVisit}
+                        >
+                        </c-pp-study-visit-details-card>
+
+                        <template if:false={contentLoaded}>
+                            <lightning-spinner alternative-text={label.loading}></lightning-spinner>
                         </template>
                     </div>
                 </div>
-                <template if:true={isError}
-                    ><span class="slds-align_absolute-center no-data-mobile">
-                        {label.noDataAvailable}
-                    </span></template
-                >
+
+                <template if:false={missedVisit}>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12">
+                        <c-pp-study-visit-result-card
+                            is-past-visit={past}
+                            patient-visit-id={visitid}
+                            ctp-sharing-timing={ctpSharingTiming}
+                        ></c-pp-study-visit-result-card>
+                    </div>
+                </template>
             </div>
-            <template if:true={isEvent}>
-                <h1 class="what-to-expect">{label.eventdetails}</h1>
-            </template>
-            <template if:false={isEvent}>
-                <h1 class="what-to-expect">{label.visitdetails}</h1>
-            </template>
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 card-content no-border">
-                <div class="slds-clearfix">
-                    <c-pp-study-visit-details-card
-                        if:true={showChild}
-                        past={past}
-                        visitid={visitid}
-                        tasksubject={taskSubject}
-                        taskid={taskId}
-                        visitdata={visitdata}
-                        url={sfdcBaseURL}
-                        siteaddress={siteAddress}
-                        sitename={siteName}
-                        sitephone={sitePhoneNumber}
-                        ondataupdated={handleDataUpdate}
-                        ondiscard={handleDiscard}
-                        isevent={isEvent}
-                        isinitialvisit={isInitialVisit}
+        </template>
+    </template>
+    <!--Tablet UI-->
+    <template lwc:elseif={isTablet}>
+        <template if:true={contentLoaded}>
+            <div onclick={handleBackClick} class="mBackButton">
+                <c-web-icon
+                    icon-size="medium"
+                    icon-name="chevron-left"
+                    icon-color="#015ff1"
+                    onclick={handleBackClick}
+                ></c-web-icon>
+                <lightning-button variant="base" label={label.BTN_Back}></lightning-button>
+            </div>
+            <div class="mVisitContent">
+                <h1 if:false={past} class="visit3 slds-truncate" title={visitName}>
+                    {visitName}
+                    <div class="visit-date-time">
+                        <template if:true={plannedDate}>
+                            <lightning-formatted-date-time
+                                value={plannedDate}
+                                year="numeric"
+                                month="short"
+                                day="2-digit"
+                                time-zone={visitTimezone}
+                            ></lightning-formatted-date-time>
+                            &nbsp;|&nbsp;<lightning-formatted-date-time
+                                value={plannedDate}
+                                hour="2-digit"
+                                minute="2-digit"
+                                time-zone={visitTimezone}
+                            ></lightning-formatted-date-time>
+                        </template>
+                        <template if:false={plannedDate}> {label.noVisitsLabel} </template>
+                    </div>
+                </h1>
+                <h1 if:true={past} class="visit3 slds-truncate" title={visitName}>
+                    {visitName}<span class="visit-date-time">{visitStatus}</span>
+                </h1>
+                <h1 class="what-to-expect">{label.WTELabel}</h1>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 icon-cont-mobile">
+                    <div class="slds-clearfix">
+                        <div class="rem-border">
+                            <template if:false={isError}>
+                                <c-pp-r-r-icon-splitter
+                                    icons={icondetails}
+                                    label={cblabel}
+                                    description={cbdescription}
+                                    ismobile="true"
+                                ></c-pp-r-r-icon-splitter>
+                            </template>
+                        </div>
+                    </div>
+                    <template if:true={isError}
+                        ><span class="slds-align_absolute-center no-data-mobile">
+                            {label.noDataAvailable}
+                        </span></template
                     >
-                    </c-pp-study-visit-details-card>
-
-                    <template if:false={contentLoaded}>
-                        <lightning-spinner alternative-text={label.loading}></lightning-spinner>
-                    </template>
                 </div>
-            </div>
+                <template if:true={isEvent}>
+                    <h1 class="what-to-expect">{label.eventdetails}</h1>
+                </template>
+                <template if:false={isEvent}>
+                    <h1 class="what-to-expect">{label.visitdetails}</h1>
+                </template>
+                <div
+                    class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 card-content no-border"
+                >
+                    <div class="slds-clearfix">
+                        <c-pp-study-visit-details-card
+                            if:true={showChild}
+                            past={past}
+                            visitid={visitid}
+                            tasksubject={taskSubject}
+                            taskid={taskId}
+                            visitdata={visitdata}
+                            url={sfdcBaseURL}
+                            siteaddress={siteAddress}
+                            sitename={siteName}
+                            sitephone={sitePhoneNumber}
+                            ondataupdated={handleDataUpdate}
+                            ondiscard={handleDiscard}
+                            isevent={isEvent}
+                            isinitialvisit={isInitialVisit}
+                        >
+                        </c-pp-study-visit-details-card>
 
-            <template if:false={missedVisit}>
-                <c-pp-study-visit-result-card></c-pp-study-visit-result-card>
-                <!--     <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 icon-cont1-mobile">
-                    <c-pp-study-visit-result-card></c-pp-study-visit-result-card>
-                </div>-->
-            </template>
-        </div>
+                        <template if:false={contentLoaded}>
+                            <lightning-spinner alternative-text={label.loading}></lightning-spinner>
+                        </template>
+                    </div>
+                </div>
+
+                <template if:false={missedVisit}>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12">
+                        <c-pp-study-visit-result-card
+                            is-past-visit={past}
+                            patient-visit-id={visitid}
+                            ctp-sharing-timing={ctpSharingTiming}
+                        ></c-pp-study-visit-result-card>
+                    </div>
+                </template>
+            </div>
+        </template>
     </template>
 </template>

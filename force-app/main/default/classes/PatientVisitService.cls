@@ -34,16 +34,21 @@ public inherited sharing class PatientVisitService {
         );
         processPendingInitialVisits(pvList);
         pvAndEvent.pvList = this.getVisitWrappers(pvList);
-        if(pState.pe !=null){
-            Id studySiteId = pState.pe.Study_Site__c; 
-            if(studySiteId !=null){
-                List<Study_Site__c> ssList = [SELECT Id,Site__r.BillingAddress,Site__r.Phone, Site__r.Name FROM Study_Site__c WHERE Id =:studySiteId];
-                if(ssList.size()>0){
+        if (pState.pe != null) {
+            Id studySiteId = pState.pe.Study_Site__c;
+            if (studySiteId != null) {
+                List<Study_Site__c> ssList = [
+                    SELECT Id, Site__r.BillingAddress, Site__r.Phone, Site__r.Name
+                    FROM Study_Site__c
+                    WHERE Id = :studySiteId
+                ];
+                if (ssList.size() > 0) {
                     pvAndEvent.studySiteAddress = ssList[0];
                 }
             }
         }
         pvAndEvent.isEvent = pState.pe.Clinical_Trial_Profile__r.Is_Program__c;
+        pvAndEvent.ctpSharingTiming = pState.pe.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c.intValue();
         return pvAndEvent;
     }
 
@@ -54,6 +59,8 @@ public inherited sharing class PatientVisitService {
         public Boolean isEvent = false;
         @AuraEnabled
         public Study_Site__c studySiteAddress;
+        @AuraEnabled
+        public Integer ctpSharingTiming;
     }
 
     public List<VisitWrapper> getVisitWrappers(String visitMode, Integer limitNumber) {
@@ -231,26 +238,30 @@ public inherited sharing class PatientVisitService {
         );
 
         List<Id> recordIds = new List<Id>();
-        for(Patient_Visit__c pv: patientVisits){
+        for (Patient_Visit__c pv : patientVisits) {
             recordIds.add(pv.Visit__c);
         }
-		String language=IRBParticipantService.getSuitableLanguageForIRBTranslation(peId);
+        String language = IRBParticipantService.getSuitableLanguageForIRBTranslation(peId);
         if (language == null)
             language = UserInfo.getLanguage();
-        
+
         List<Translation__c> translations = [
             SELECT Id, Field_Name__c, Language__c, Object_Name__c, Record_Id__c, Value__c
             FROM Translation__c
-            WHERE Record_Id__c IN :recordIds AND Language__c = :language and Object_Name__c ='Visit__c'
-        	and Field_Name__c='patient_portal_name__c'];
-        map<id,Translation__c> mapVisitIdToTranslations=new Map<id,Translation__c>();
-        for(Translation__c tt:translations){
-            mapVisitIdToTranslations.put(tt.Record_Id__c,tt);
+            WHERE
+                Record_Id__c IN :recordIds
+                AND Language__c = :language
+                AND Object_Name__c = 'Visit__c'
+                AND Field_Name__c = 'patient_portal_name__c'
+        ];
+        map<id, Translation__c> mapVisitIdToTranslations = new Map<id, Translation__c>();
+        for (Translation__c tt : translations) {
+            mapVisitIdToTranslations.put(tt.Record_Id__c, tt);
         }
-        for(Patient_Visit__c pv: patientVisits){
-            if(mapVisitIdToTranslations.containskey(pv.Visit__c)){
-                Translation__c tt=mapVisitIdToTranslations.get(pv.Visit__c);
-                pv.Portal_Name__c=tt.Value__c;
+        for (Patient_Visit__c pv : patientVisits) {
+            if (mapVisitIdToTranslations.containskey(pv.Visit__c)) {
+                Translation__c tt = mapVisitIdToTranslations.get(pv.Visit__c);
+                pv.Portal_Name__c = tt.Value__c;
             }
         }
 
