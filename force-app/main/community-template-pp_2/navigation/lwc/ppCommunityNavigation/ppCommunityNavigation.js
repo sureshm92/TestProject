@@ -236,7 +236,6 @@ export default class PpCommunityNavigation extends LightningElement {
         this.allPagesSubMenu = {
             visits: {
                 page: 'visits',
-                link: this.baseLink + '/pp/s/visits',
                 label: navigationVisits,
                 icon: '',
                 visible: this.showAboutProgram ? false : this.showVisits,
@@ -244,7 +243,6 @@ export default class PpCommunityNavigation extends LightningElement {
             },
             events: {
                 page: 'events',
-                link: this.baseLink + '/pp/s/events',
                 label: navigationEvents,
                 icon: '',
                 visible: this.showAboutProgram ? this.showVisits : false,
@@ -252,7 +250,6 @@ export default class PpCommunityNavigation extends LightningElement {
             },
             'about-televisit': {
                 page: 'televisit',
-                link: this.baseLink + '/pp/s/televisit',
                 label: televisits,
                 icon: '',
                 visible: this.showAboutTelevisit,
@@ -260,7 +257,6 @@ export default class PpCommunityNavigation extends LightningElement {
             },
             results: {
                 page: 'results',
-                link: this.baseLink + '/pp/s/results',
                 label: navigationResults,
                 icon: '',
                 visible: this.showResults,
@@ -268,7 +264,6 @@ export default class PpCommunityNavigation extends LightningElement {
             },
             'about-study': {
                 page: 'about-study-and-overview',
-                link: this.baseLink + '/pp/s/about-study-and-overview',
                 label: navigationStudy,
                 icon: '',
                 visible: this.showAboutStudy,
@@ -276,7 +271,6 @@ export default class PpCommunityNavigation extends LightningElement {
             },
             'about-program': {
                 page: 'overview',
-                link: this.baseLink + '/pp/s/overview',
                 label: navigationProgram,
                 icon: '',
                 visible: this.showAboutProgram,
@@ -403,7 +397,6 @@ export default class PpCommunityNavigation extends LightningElement {
     @api forceRefresh() {
         this.isInitialized = false;
         this.participantTabs = [];
-        console.log('calling from forceRefresh');
         this.initializeDataForDOM();
     }
 }
