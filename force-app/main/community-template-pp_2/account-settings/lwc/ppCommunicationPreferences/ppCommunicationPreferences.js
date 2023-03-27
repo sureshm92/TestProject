@@ -117,7 +117,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     isPrivacyPolicy = false;
     showIQIVAOutreachConsentFlag = false;
     showStudyConsentFlag = false;
-    DisableConsentsForDelInParView = false;
+    disableConsentsForDelInParView = false;
     showStaticMessageForDelSelfViewEmpty =false;
     showPERConsents = false;
     ShowPDEConsents = false;
@@ -306,7 +306,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         }
         //
         if (!this.isParticipantLoggedIn && !this.isDelegateSelfView) {
-            this.DisableConsentsForDelInParView = true;
+            this.disableConsentsForDelInParView = true;
         }
 
         this.consentPreferenceDataLocal.isSelfAccountSettingWarningMessage

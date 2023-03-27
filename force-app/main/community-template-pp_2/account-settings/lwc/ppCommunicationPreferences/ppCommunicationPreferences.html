@@ -89,7 +89,7 @@
                         </lightning-layout-item>
                     </lightning-layout>
                 </template>
-                <Template if:true={DisableConsentsForDelInParView}>
+                <Template if:true={disableConsentsForDelInParView}>
                     <lightning-layout class="po-mr-15">
                         <lightning-layout-item size="12" class="po-no-communication-del">
                             <div>{label.PP_Communication_Pref_Blank_Del_View_Par}</div>
@@ -195,7 +195,7 @@
                                                             variant="label-hidden"
                                                             checked={study.Permit_Voice_Text_contact_for_this_study__c}
                                                             onchange={selectIndividualOptions}
-                                                            disabled={DisableConsentsForDelInParView}
+                                                            disabled={disableConsentsForDelInParView}
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -220,7 +220,7 @@
                                                             variant="label-hidden"
                                                             checked={study.Permit_Mail_Email_contact_for_this_study__c}
                                                             onchange={selectIndividualOptions}
-                                                            disabled={DisableConsentsForDelInParView}
+                                                            disabled={disableConsentsForDelInParView}
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -245,7 +245,7 @@
                                                             variant="label-hidden"
                                                             checked={study.Permit_SMS_Text_for_this_study__c}
                                                             onchange={selectIndividualOptions}
-                                                            disabled={DisableConsentsForDelInParView}
+                                                            disabled={disableConsentsForDelInParView}
                                                             class="smsElements"
                                                             data-label="SMS_STUDY"
                                                             data-id={study.Id}
@@ -277,7 +277,7 @@
                                                             variant="label-hidden"
                                                             checked={study.Study_Direct_Mail_Consent__c}
                                                             onchange={selectIndividualOptions}
-                                                            disabled={DisableConsentsForDelInParView}
+                                                            disabled={disableConsentsForDelInParView}
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -302,7 +302,7 @@
                                                             variant="label-hidden"
                                                             checked={study.all}
                                                             onchange={selectAllOptions}
-                                                            disabled={DisableConsentsForDelInParView}
+                                                            disabled={disableConsentsForDelInParView}
                                                             data-id={study.Id}
                                                             data-label="All"
                                                         ></lightning-input>
@@ -554,7 +554,7 @@
                                                             variant="label-hidden"
                                                             checked={outreach.Participant_Phone_Opt_In_Permit_Phone__c}
                                                             onchange={selectIndividualOptionsOutreach}
-                                                            disabled={DisableConsentsForDelInParView}
+                                                            disabled={disableConsentsForDelInParView}
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -578,7 +578,7 @@
                                                             variant="label-hidden"
                                                             checked={outreach.Participant_Opt_In_Status_Emails__c}
                                                             onchange={selectIndividualOptionsOutreach}
-                                                            disabled={DisableConsentsForDelInParView}
+                                                            disabled={disableConsentsForDelInParView}
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -602,7 +602,7 @@
                                                             variant="label-hidden"
                                                             checked={outreach.Participant_Opt_In_Status_SMS__c}
                                                             onchange={selectIndividualOptionsOutreach}
-                                                            disabled={DisableConsentsForDelInParView}
+                                                            disabled={disableConsentsForDelInParView}
                                                             class="smsElements"
                                                             data-label="SMS_OUTREACH"
                                                             data-id={outreach.Id}
@@ -629,7 +629,7 @@
                                                             variant="label-hidden"
                                                             checked={outreach.IQVIA_Direct_Mail_Consent__c}
                                                             onchange={selectIndividualOptionsOutreach}
-                                                            disabled={DisableConsentsForDelInParView}
+                                                            disabled={disableConsentsForDelInParView}
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -655,7 +655,7 @@
                                                             checked={outreach.all}
                                                             variant="label-hidden"
                                                             onchange={selectAllOptionsOutreach}
-                                                            disabled={DisableConsentsForDelInParView}
+                                                            disabled={disableConsentsForDelInParView}
                                                             data-id={outreach.Id}
                                                             data-label="All_OUTREACH"
                                                         ></lightning-input>
@@ -778,7 +778,7 @@
                         </lightning-layout-item>
                     </lightning-layout>
                 </template>
-                <Template if:true={DisableConsentsForDelInParView}>
+                <Template if:true={disableConsentsForDelInParView}>
                     <lightning-layout class="po-mr-15">
                         <lightning-layout-item size="12" class="po-no-communication-del">
                             <div>{label.PP_Communication_Pref_Blank_Del_View_Par}</div>
@@ -870,7 +870,7 @@
                                                         variant="label-hidden"
                                                         checked={study.Permit_Voice_Text_contact_for_this_study__c}
                                                         onchange={selectIndividualOptions}
-                                                        disabled={DisableConsentsForDelInParView}
+                                                        disabled={disableConsentsForDelInParView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -895,7 +895,7 @@
                                                         variant="label-hidden"
                                                         checked={study.Permit_Mail_Email_contact_for_this_study__c}
                                                         onchange={selectIndividualOptions}
-                                                        disabled={DisableConsentsForDelInParView}
+                                                        disabled={disableConsentsForDelInParView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -920,7 +920,7 @@
                                                         variant="label-hidden"
                                                         checked={study.Permit_SMS_Text_for_this_study__c}
                                                         onchange={selectIndividualOptions}
-                                                        disabled={DisableConsentsForDelInParView}
+                                                        disabled={disableConsentsForDelInParView}
                                                         class="smsElements"
                                                         data-label="SMS_STUDY"
                                                         data-id={study.Id}
@@ -950,7 +950,7 @@
                                                         variant="label-hidden"
                                                         checked={study.Study_Direct_Mail_Consent__c}
                                                         onchange={selectIndividualOptions}
-                                                        disabled={DisableConsentsForDelInParView}
+                                                        disabled={disableConsentsForDelInParView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -977,7 +977,7 @@
                                                         variant="label-hidden"
                                                         checked={study.all}
                                                         onchange={selectAllOptions}
-                                                        disabled={DisableConsentsForDelInParView}
+                                                        disabled={disableConsentsForDelInParView}
                                                         data-id={study.Id}
                                                         data-label="All"
                                                     ></lightning-input>
@@ -1214,7 +1214,7 @@
                                                         variant="label-hidden"
                                                         checked={outreach.Participant_Phone_Opt_In_Permit_Phone__c}
                                                         onchange={selectIndividualOptionsOutreach}
-                                                        disabled={DisableConsentsForDelInParView}
+                                                        disabled={disableConsentsForDelInParView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -1238,7 +1238,7 @@
                                                         variant="label-hidden"
                                                         checked={outreach.Participant_Opt_In_Status_Emails__c}
                                                         onchange={selectIndividualOptionsOutreach}
-                                                        disabled={DisableConsentsForDelInParView}
+                                                        disabled={disableConsentsForDelInParView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -1262,7 +1262,7 @@
                                                         variant="label-hidden"
                                                         checked={outreach.Participant_Opt_In_Status_SMS__c}
                                                         onchange={selectIndividualOptionsOutreach}
-                                                        disabled={DisableConsentsForDelInParView}
+                                                        disabled={disableConsentsForDelInParView}
                                                         class="smsElements"
                                                         data-label="SMS_OUTREACH"
                                                         data-id={outreach.Id}
@@ -1289,7 +1289,7 @@
                                                         variant="label-hidden"
                                                         checked={outreach.IQVIA_Direct_Mail_Consent__c}
                                                         onchange={selectIndividualOptionsOutreach}
-                                                        disabled={DisableConsentsForDelInParView}
+                                                        disabled={disableConsentsForDelInParView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -1316,7 +1316,7 @@
                                                         checked={outreach.all}
                                                         variant="label-hidden"
                                                         onchange={selectAllOptionsOutreach}
-                                                        disabled={DisableConsentsForDelInParView}
+                                                        disabled={disableConsentsForDelInParView}
                                                         data-id={outreach.Id}
                                                         data-label="All_OUTREACH"
                                                     ></lightning-input>
