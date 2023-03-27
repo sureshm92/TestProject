@@ -52,27 +52,28 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         getSendResultCount()
             .then((returnValue) => {
                 this.counter = returnValue;
-                if (this.counter > 0) {
-                    this.resourcePresent = true;
-                }
                 if (this.counter < 100 && this.counter > 0) {
                     this.displayCounter = true;
                     this.counterLabel = this.counter;
+                    this.resourcePresent = true;
                 } else if (this.counter >= 100) {
                     this.displayCounter = true;
                     this.counterLabel = '99+';
+                    this.resourcePresent = true;
+                }else if(this.counter <= 0){
+                    this.resourcePresent = false;
+                    this.displayCounter = false;
                 }
                 this.getUpdates();
             })
             .catch((error) => {
+                console.log('counter failed');
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                 this.spinner.hide();
             });
     }
     getUpdates() {
         this.spinner = this.template.querySelector('c-web-spinner');
-        this.spinner.show();
-        console.log('offset : ' + this.offset);
         getSendResultUpdates({ offsets: this.offset, limits: this.limit })
             .then((returnValue) => {
                 returnValue.forEach((resObj) => {
@@ -121,6 +122,20 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         const container = event.target;
         const { scrollLeft, scrollWidth, clientWidth } = container;
         if (this.counter > this.offset && Math.ceil(scrollLeft) + clientWidth + 20 >= scrollWidth) {
+            this.spinner = this.template.querySelector('c-web-spinner');
+            this.spinner.show();
+            clearTimeout(this.timer);
+            this.timer = setTimeout(() => {
+                this.getUpdates();
+            }, 1000);
+        }
+    }
+    handleVerticalScroll(event) {
+        const container = event.target;
+        const { scrollTop, scrollHeight, clientHeight } = container;
+        if (this.counter > this.offset && scrollTop + clientHeight + 20 >= scrollHeight) {
+            this.spinner = this.template.querySelector('c-web-spinner');
+            this.spinner.show();
             clearTimeout(this.timer);
             this.timer = setTimeout(() => {
                 this.getUpdates();
@@ -128,12 +143,16 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         }
     }
     refresh() {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        this.spinner.show();
+        this.counter = 0;
+        this.displayCounter = false;
         this.offset = 0;
         this.limit = 4;
         this.resourcedData = [];
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
-            this.initializeData();
+            this.initializeData(); 
         }, 1000);
     }
     openLink(event) {
