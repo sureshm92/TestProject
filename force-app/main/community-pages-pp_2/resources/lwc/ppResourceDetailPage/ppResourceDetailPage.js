@@ -80,7 +80,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
             resourceType: this.resourceType
         })
             .then((result) => {
-                this.requestFullScreen();
                 let resourceData = result.wrappers[0].resource;
                 this.resUploadDate = this.resourceForPostingDate.includes(this.resourceType)
                     ? resourceData.Posting_Date__c
@@ -211,38 +210,5 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 variant: variantType
             })
         );
-    }
-
-    requestFullScreen() {
-        let ele = this.template.querySelectorAll('.forceOrientation');
-    }
-
-    goBackToPortraitMode() {
-        // console.log("goBackToPortraitMode");
-        // let ele = window.document.documentElement;
-        // // ele[0].style.transform = "rotate(90deg)";
-        //  if (ele.requestFullscreen) {
-        //     ele.requestFullscreen();
-        // } else if (ele.webkitRequestFullscreen) { /* Safari */
-        //     ele.webkitRequestFullscreen();
-        // } else if (ele.msRequestFullscreen) { /* IE11 */
-        //     ele.msRequestFullscreen();
-        // }
-        // ele.requestFullscreen({ navigationUI: "show" })
-        // .then(() => {
-        //     console.log("success");
-        // })
-        // .catch((err) => {
-        //     console.log(
-        //     `An error occurred while trying to switch into fullscreen mode: ${err.message} (${err.name})`
-        //     );
-        // });
-        // screen.orientation.lock("portrait-primary")
-        // .then(function(){
-        //     console.log("success");
-        // })
-        // .catch(function(error){
-        //     console.log(error);
-        // })
     }
 }
