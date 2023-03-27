@@ -237,6 +237,9 @@ p {
     letter-spacing: 0;
     text-decoration: underline;
 }
+.change-preferences:hover {
+    cursor: pointer;
+}
 
 .resource-container {
     height: 95px;

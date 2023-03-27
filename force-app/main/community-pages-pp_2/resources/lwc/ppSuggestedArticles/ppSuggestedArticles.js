@@ -91,25 +91,16 @@ export default class PpSuggestedArticles extends NavigationMixin(LightningElemen
         }
     }
     navigateToRes(event) {
-        let detailLink =
-            window.location.origin +
-            '/pp/s/resource-detail' +
-            '?resourceid=' +
-            event.currentTarget.dataset.id +
-            '&resourcetype=' +
-            this.resTypeMap.get(event.currentTarget.dataset.id) +
-            '&state=' +
-            this.state;
-        const config = {
-            type: 'standard__webPage',
-
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: detailLink
+                pageName: 'resource-detail'
+            },
+            state: {
+                resourceid: event.currentTarget.dataset.id,
+                resourcetype: this.resTypeMap.get(event.currentTarget.dataset.id),
+                state: this.state
             }
-        };
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
         });
     }
 }
