@@ -5209,6 +5209,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Notification__c.Target_Record_Ids__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Notification__c.From__c</field>
         <readable>true</readable>
     </fieldPermissions>
