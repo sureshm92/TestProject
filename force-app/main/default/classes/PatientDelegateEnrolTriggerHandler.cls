@@ -190,8 +190,8 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
             }
         }
         if(withdrawnPDEORDelORNewRecrs != null){
-            createPDEnrollmentAlerts(withdrawnPDEORDelORNewRecrs);
             setPDPlatformLevelAlerts(disconnectedPDErecrs);
+            createPDEnrollmentAlerts(withdrawnPDEORDelORNewRecrs);
         }
         //Create Access level Change notification
         if(activatedDelegateEnrolrecrds!=null){
@@ -259,8 +259,8 @@ public with sharing class PatientDelegateEnrolTriggerHandler {
                 pdeRecrdsToProcess.add(pde); // Might be part of two different studies - del is same but enrollments hould be two
             }
         }
-        createPDEnrollmentAlerts(patientDelegateEnrollRecrds);
         setPDPlatformLevelAlerts(patientDelegateEnrollRecrds);
+        createPDEnrollmentAlerts(patientDelegateEnrollRecrds);
         //Create New Assignment notification
         if(pdeRecrdsToProcess!=null){
            createNotifications(pdeRecrdsToProcess, 'DelNewAssignNotifType',communityTemplateForDelContIdMap);
