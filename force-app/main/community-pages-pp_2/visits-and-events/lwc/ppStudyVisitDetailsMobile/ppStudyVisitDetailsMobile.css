@@ -4,7 +4,7 @@
 }
 
 .mVisitContent {
-    padding: 0 .75rem;
+    padding: 0 0.75rem;
 }
 
 .visit3-mobile {
@@ -30,7 +30,7 @@
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
 }
-.card-content{
+.card-content {
     border: 1px solid #d9d9d9;
 }
 
@@ -45,41 +45,23 @@
     max-height: 400px;
 }
 
-.scroll-position{
+.scroll-position {
     max-height: 400px;
     min-height: inherit;
 }
 
-.no-data-mobile{
+.no-data-mobile {
     height: 207px;
-    color: #999999;
-    font-family: "Proxima Nova";
-    font-size: 16px;
-    font-weight: 500;
-}
-
-
-
-.check-for-results-on {
-    height: 32px;
     color: #999999;
     font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
-    letter-spacing: 0;
-    line-height: 32px;
-    text-align: center;
 }
+
 .center {
     text-align: center;
 }
-.icon-cont1-mobile {
-    box-sizing: border-box;
-    height: auto;
-    border: 1px solid #d9d9d9;
-    border-radius: 16px;
-    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
-}
+
 .vertical-mobile {
     padding: 180px 0;
 }
@@ -98,4 +80,13 @@
     height: 92px;
     width: 128px;
     margin: 1rem 1rem 0 1rem;
+}
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .mBackButton {
+        margin-left: 10rem;
+    }
+    .mVisitContent {
+        width: 52rem;
+        margin-left: 10rem;
+    }
 }

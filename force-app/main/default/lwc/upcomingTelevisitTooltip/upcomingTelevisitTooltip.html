@@ -1,0 +1,36 @@
+<template>
+    <div class="slds-float_right">
+        <div class="slds-form-element">
+            <div class="slds-form-element__icon">
+                <button class="slds-button slds-button_icon"
+                    onmouseover={togglePasswordHint}
+                    onmouseout={togglePasswordHint}
+                >
+                    <template if:false={ismobile}>
+                        <div class={helpTextClass} role="tooltip" id="help" style = "width: 250px;position: absolute;right: 81px;text-align:left;">
+                            <div class="slds-popover__body">
+                                <template for:each={relatedAttendees} for:item="record">
+                                    
+                                    <p key = {record.firstname}>{record.firstname} {record.lastname} ({record.attendeeType})</p>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:true={ismobile}>
+                        <div class={helpTextClassmobile} role="tooltip" style = "width: 270px;position: absolute;left: 37px;text-align:left;">
+                            <div class="slds-popover__body">
+                                <template for:each={relatedAttendees} for:item="record">
+                                    
+                                    <p key = {record.firstname}>{record.firstname} {record.lastname} ({record.attendeeType})</p>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <span class="upcomingToolTip">
+                        {displaytext}
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</template>

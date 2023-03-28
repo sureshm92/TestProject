@@ -382,7 +382,7 @@ public without sharing class PIR_ParticipantDetailController {
                 update pdToupdateDuplicate;   
           
                 List<Patient_Delegate_Enrollment__c> updSecondaryPDE = new List<Patient_Delegate_Enrollment__c>();
-                updSecondaryPDE = [Select Id,Patient_Delegate__c,Primary_Delegate__c,Participant_Enrollment__c from  Patient_Delegate_Enrollment__c where Patient_Delegate__c=:pd[0].Id AND Participant_Enrollment__c=:perRecord.Id];
+                updSecondaryPDE = [Select Id,Patient_Delegate__c,Primary_Delegate__c,Participant_Enrollment__c,Status__c from  Patient_Delegate_Enrollment__c where Patient_Delegate__c=:pd[0].Id AND Participant_Enrollment__c=:perRecord.Id];
                 
                 if(updSecondaryPDE != null && !updSecondaryPDE.isEmpty()){
                         Patient_Delegate_Enrollment__c pdeToupdateDuplicate = new Patient_Delegate_Enrollment__c();
@@ -394,6 +394,14 @@ public without sharing class PIR_ParticipantDetailController {
                         if(consentWrapper.Study_SMS_Consent != null){ 
                         pdeToupdateDuplicate.Study_SMS_Consent__c = consentWrapper.Study_SMS_Consent;
                         }  
+                        if(updSecondaryPDE[0].Status__c == 'Withdrawn'){
+                          pdeToupdateDuplicate.Study_Email_Consent_Time__c = Datetime.now();
+                          pdeToupdateDuplicate.Study_Phone_Consent_Time__c = Datetime.now();
+                          if(consentWrapper.Study_SMS_Consent != null){
+                           pdeToupdateDuplicate.Study_SMS_Consent_Time__c = Datetime.now();
+                          }  
+                      }  
+
                         List<Patient_Delegate_Enrollment__c> getPDE = new List<Patient_Delegate_Enrollment__c>();
                         List<Patient_Delegate_Enrollment__c> updPDE = new List<Patient_Delegate_Enrollment__c>();
                         getPDE = [Select Id,Participant_Enrollment__c,Primary_Delegate__c,Patient_Delegate__c from Patient_Delegate_Enrollment__c where Participant_Enrollment__c=:perRecord.Id AND Primary_Delegate__c=:true];
@@ -601,7 +609,6 @@ public without sharing class PIR_ParticipantDetailController {
       pde.Participant_Enrollment__c = perRecord.Id;
       pde.Patient_Delegate__c = peDeligate.Id;
       pde.Attested_By__c = peDeligate.Attested_by__c;
-      pde.isInviteToPP__c = peDeligate.isInviteToPP__c;
       pde.Primary_Delegate__c = true;
       pde.Status__c =  'Disconnected';
       pde.Study_Email_Consent__c = consentWrapper.Study_Email_Consent;

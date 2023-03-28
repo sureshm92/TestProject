@@ -99,7 +99,7 @@ public without sharing class ReferringRemote {
                     } 
                 }
             }
-        }
+    }
         StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance()
             .getSiteFilterDataImpl(trialId, 'HCP');
 
@@ -931,6 +931,13 @@ return String.join(addressList, ', ');
         String contentDocId
     ) {
         try {
+             //Bypaass old methods from Patient Delegate Trigger       
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+                            );
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+                            );  
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class
@@ -1078,6 +1085,13 @@ return String.join(addressList, ', ');
         String contentDocId
     ) {
         try {
+             //Bypaass old methods from Patient Delegate Trigger       
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+                            );
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+                            );  
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class
@@ -1609,6 +1623,13 @@ update objConVersion;*/
 
     @Future
     public static void updatePatientDelegateNew(List<Id> lstPatientDelegtaeId){
+             //Bypaass old methods from Patient Delegate Trigger       
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+                            );
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+                            );  
             List<Patient_Delegate__c> lstPTUpdate = new List<Patient_Delegate__c> ();
              for(Patient_Delegate__c objPT : [ SELECT Id, Primary_Delegate__c FROM Patient_Delegate__c 
                                                 Where ID IN:lstPatientDelegtaeId and Primary_Delegate__c = True])
@@ -1621,6 +1642,14 @@ update objConVersion;*/
 
     @Future
     public static void updatePatientDelegateExisting(List<Id> lstPrimaryDelegate, List<Id> lstNonPrimaryDelegtae){
+            //Bypaass old methods from Patient Delegate Trigger       
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+                            );
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+                            );               
+            
             List<Patient_Delegate__c> lstPTUpdate = new List<Patient_Delegate__c> ();
 
             for(ID lstprimaryId : lstPrimaryDelegate)
@@ -1636,5 +1665,12 @@ update objConVersion;*/
             }
             
         update lstPTUpdate;
+    }
+    @AuraEnabled
+    public static string getContentVersion(String contDocId) {
+        String versionData;
+        ContentVersion cv = [SELECT Id, VersionData,ContentDocumentId FROM ContentVersion where ContentDocumentId=:contDocId LIMIT 1];       
+        versionData = EncodingUtil.base64Encode(cv.VersionData);
+        return versionData;
     }
 }

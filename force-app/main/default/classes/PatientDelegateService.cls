@@ -332,7 +332,6 @@ public without sharing class PatientDelegateService {
             }
         }
 
-        createPDAlerts(newDelegate);
 
         List<Participant__c> participant = DatabaseService.getInstance()
             .queryImpl(
@@ -416,59 +415,7 @@ public without sharing class PatientDelegateService {
         }
     }
 
-    public void createPDAlerts(Contact contactDelegate) {
-        ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
-            .getState();
-        if (participantState.pe == null)
-            return;
-        List<Alert__c> alertList = new List<Alert__c>();
-        if (
-            participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-            CommunityTemplateService.TEMPLATE_PP
-        ) {
-            alertList.add(
-                new Alert__c(
-                    Contact__c = contactDelegate.Id,
-                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_DELEGATE_PP,
-                    Record_ID__c = participantState.pe.Id
-                )
-            );
-        } else {
-            alertList.add(
-                new Alert__c(
-                    Contact__c = contactDelegate.Id,
-                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_DELEGATE,
-                    Record_ID__c = participantState.pe.Id
-                )
-            );
-        }
-
-        if (participantState.value == ParticipantService.ParticipantStates.PARTICIPANT) {
-            if (
-                participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                CommunityTemplateService.TEMPLATE_PP
-            ) {
-                alertList.add(
-                    new Alert__c(
-                        Contact__c = contactDelegate.Id,
-                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE_PP,
-                        Record_ID__c = participantState.pe.Id
-                    )
-                );
-            } else {
-                /*alertList.add(
-                    new Alert__c(
-                        Contact__c = contactDelegate.Id,
-                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
-                        Record_ID__c = participantState.pe.Id
-                    )
-                );*/
-            }
-        }
-
-        insert alertList;
-    }
-
+    
     public static void changeStatus(Id contactId, String newStatus) {
         List<Patient_Delegate__c> patientDelegate = [
             SELECT Id, Status__c
@@ -1011,10 +958,11 @@ public without sharing class PatientDelegateService {
 
     public static void updateContactPermSetsWithDelegates(
         Set<Id> participantContactIds,
-        Set<Id> invitedPartContactIds
+        Set<Id> invitedPartContactIds,
+        Set<Id> perIds
     ) {
-        Map<Id, List<Id>> delegatesByParticipant = PatientDelegateService.getDelegateContactIdsByPAContactIs(
-            new List<Id>(participantContactIds)
+        Map<Id, List<Id>> delegatesByParticipant = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
+            new List<Id>(perIds), true
         );
         Set<Id> allContactIds = new Set<Id>(invitedPartContactIds);
         for (Id partKey : delegatesByParticipant.keySet()) {

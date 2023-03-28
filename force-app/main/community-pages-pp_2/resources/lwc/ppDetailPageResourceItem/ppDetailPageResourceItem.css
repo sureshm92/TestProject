@@ -35,3 +35,10 @@ iframe {
         height: 214px;
     }
 }
+
+@media screen and (orientation: landscape) and (max-width: 896px) {
+    .multimedia_landscape {
+        min-height: 100vh;
+        width:  100vw;
+    }
+}

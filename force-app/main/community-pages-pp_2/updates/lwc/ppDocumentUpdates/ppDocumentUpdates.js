@@ -15,7 +15,6 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
     };
 
     connectedCallback() {
-        console.log(this.documentData.thumbnailDocId);
         if (this.documentData.thumbnailDocId) {
             this.subDomain = communityService.getSubDomain();
             this.thumbnail =
@@ -24,11 +23,9 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
                 this.documentData.thumbnailDocId;
             this.thumbnailPresent = true;
         }
-        console.log('thumbnail : '+this.thumbnail)
     }
 
     handleNoThumnnailError() {
-        console.log('coming here to no thumbnail')
         this.thumbnailPresent = false;
     }
 
@@ -39,44 +36,28 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
         if (communityService.isInitialized()) {
             state = communityService.getCurrentCommunityMode().participantState;
         }
-        console.log('window.location.origin : '+window.location.origin);
-        let detailLink =
-            window.location.origin +
-            subDomain +
-            '/s/resource-detail' +
-            '?resourceid=' +
-            this.documentData.recId +
-            '&resourcetype=' +
-            this.documentData.resourceDevRecordType +
-            '&state=' +
-            state +
-            '&showHomePage=true';
-
-        const config = {
-            type: 'standard__webPage',
-
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: detailLink
+                pageName: 'resource-detail'
+            },
+            state: {
+                resourceid: this.documentData.resource.Id,
+                resourcetype: this.documentData.resource.RecordType.DeveloperName,
+                state: state
             }
-        };
-        this[NavigationMixin.Navigate](config,true);
-      /*  this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            console.log('navigation not working');
-            window.open(url, '_self');
-        });  */
+        });
     }
-    removeCardHandler(){
+    removeCardHandler() {
         console.log('calling removeCardHandler');
         const targetRecId = this.documentData.targetRecordId;
-        console.log('targetRecId : '+targetRecId);
-        removeCard({targetRecordId : targetRecId})
-        .then((returnValue) => {
-        })
-        .catch((error) => {
-            //console.log('error message 1'+error.message);
-            this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-            this.spinner.hide();
-        });
+        console.log('targetRecId : ' + targetRecId);
+        removeCard({ targetRecordId: targetRecId })
+            .then((returnValue) => {})
+            .catch((error) => {
+                //console.log('error message 1'+error.message);
+                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                this.spinner.hide();
+            });
     }
 }

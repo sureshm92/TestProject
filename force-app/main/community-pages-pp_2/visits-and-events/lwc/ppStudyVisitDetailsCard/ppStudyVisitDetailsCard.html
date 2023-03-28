@@ -1,6 +1,6 @@
 <template>
     <!-- Loading Spinner-->
-    <c-web-spinner fixed="true"></c-web-spinner>
+    <c-web-spinner fixed="true" show-spinner={showSpinner}></c-web-spinner>
     <lightning-card>
         <div>
             <div class="location-title">{label.location}</div>
@@ -63,7 +63,7 @@
                 </template>
                 <template if:false={dbCompletedDate}>
                     <template if:true={past}>
-                        <br>
+                        <br />
                         <div class="slds-align_absolute-center no-date-available">
                             {label.nodateavailable}
                         </div>
@@ -71,7 +71,9 @@
                 </template>
                 <div if:true={past} class="slds-grid slds-wrap">
                     <template if:true={dbCompletedDate}>
-                        <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-left_none">
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-left_none"
+                        >
                             {label.date}
                             <div class="curve-input date-height">
                                 <c-web-icon
@@ -82,7 +84,12 @@
                                     icon-color="#00A3E0"
                                 >
                                 </c-web-icon>
-                                <input disabled type="date" id="disableddate" value={dbCompletedDate} />
+                                <input
+                                    disabled
+                                    type="date"
+                                    id="disableddate"
+                                    value={dbCompletedDate}
+                                />
                             </div>
                         </div>
                     </template>

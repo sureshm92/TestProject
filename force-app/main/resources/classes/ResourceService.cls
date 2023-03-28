@@ -228,6 +228,7 @@ public virtual without sharing class ResourceService {
             'document_type__c, ' +
             'Image_Subtitle__c, ' +
             'article_external_link__c, ' +
+            'Posting_Date__c, '+
             'Subtitle__c, ' +
             'Byline__c, ' +
             'Author_s_Name__c, ' +

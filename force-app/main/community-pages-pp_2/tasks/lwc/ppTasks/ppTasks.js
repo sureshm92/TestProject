@@ -123,14 +123,13 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         } else {
             this.ishomepage = true;
         }
-        this.sfdcBaseURL = window.location.origin + basePathName + '/tasks';
         this.spinner = this.template.querySelector('c-web-spinner');
         this.initializeData();
+    }
 
-        }
     initializeData() {
         try {
-            if(this.spinner) this.spinner.show();
+            if (this.spinner) this.spinner.show();
             this.openTasks = [];
             this.completedTasks = [];
             getPPParticipantTasks()
@@ -160,10 +159,10 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                             );
                         }
                     }
-                    if(this.spinner) this.spinner.hide();
+                    if (this.spinner) this.spinner.hide();
                 })
                 .catch((error) => {
-                    if(this.spinner) this.spinner.hide();
+                    if (this.spinner) this.spinner.hide();
                 });
         } catch (e) {
             alert(e);
@@ -171,7 +170,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     }
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
-    } 
+    }
     doCreateTask() {
         this.isCreateTask = !this.isCreateTask;
     }
@@ -444,8 +443,12 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         );
         radioTask.classList.remove('active-custom-box');
     }
-    setSessionCookie() {
-        sessionStorage.setItem('Cookies', 'Accepted');
-        return true;
+    navigateToTasks() {
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'tasks'
+            }
+        });
     }
 }

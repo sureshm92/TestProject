@@ -149,6 +149,7 @@ public class Test_PatientDelegateService {
             delUserIds = PatientDelegateService.getInstance().getDelegatedUsersIds();
             delConIds = PatientDelegateService.getInstance().getDelegatedContactIds();
             patientDelegates = PatientDelegateService.getInstance().getPDelegates();
+            PatientDelegateService.getPDelegates(new list<Id>{participant.contact__c});
             //delCon = PatientDelegateService.getInstance().getDelegateContact(conDel[0].Id);
             delCons = PatientDelegateService.getDelegateContacts(firstParticipantContact.Id);
             delConIds2 = PatientDelegateService.getDelegatedContactIds(firstParticipantContact.Id);
@@ -183,7 +184,6 @@ public class Test_PatientDelegateService {
 
         DatabaseService.setMock(new DatabaseServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
-
         Test.startTest();
         // PatientDelegateService.getInstance().createPatientDelegate(secondDelegateContact);
         Test.stopTest();
@@ -197,27 +197,71 @@ public class Test_PatientDelegateService {
         // System.assertEquals(1, patDel.size());
         //System.assertEquals(secondDelegateContact.FirstName, patDel.get(0).Contact__r.FirstName);
     }
-
+    
     @IsTest
-    static void resetDelegateTest() {
+    static void delegateTestwithContact(){
         TestData testData = new TestData();
-
+        
         Contact delegateContact = new Contact(
             FirstName = 'Joseph',
             LastName = 'Davis',
             Email = 'jdavis@somemail.com'
         );
         upsert delegateContact;
+        
+        Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
+            Contact__c = delegateContact.Id,
+            Contact__r = delegateContact,
+            Participant__c = testdata.participant.id,
+            Participant__r = testdata.participant
+        );
+        upsert patientDelegate;
+        
+        Test.startTest();
+        PatientDelegateService.getDelegatedParticipantIds(delegateContact.id);
+        PatientDelegateService.getDelegateContactIdsByPAContactIs(new List<ID>{testData.participant.Contact__c});
+        PatientDelegateService.getDelegatedCntsByParticipantCnt(new List<ID>{testData.participant.Contact__c},new List<String>{'Name','Email'});
+        PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(new List<ID>{testData.participant.Id});
+		PatientDelegateService.isPrimaryDelegate(delegateContact.id,testdata.participant.id);
+        PatientDelegateService.getPDForMinorOrAdultWithoutEmailPar(delegateContact.id);
+        PatientDelegateService.getPerRecords(new set<Id>{testData.pe.id});
+        Test.stopTest();
+        
+    }
 
+    @IsTest
+    static void resetDelegateTest() {
+        TestData testData = new TestData();
+        
+        Participant_Enrollment__c per = new Participant_Enrollment__c(id = testData.pe.id);
+        per.Participant_Status__c = 'Enrollment Success';
+        update per;
+        
+        Contact delegateContact = new Contact(
+            FirstName = 'Joseph',
+            LastName = 'Davis',
+            Email = 'jdavis@somemail.com'
+        );
+        upsert delegateContact;
+        
+    
+		 Participant__c p = new Participant__c(
+            First_Name__c = 'Joseph',
+            Last_Name__c = 'Davis',
+            Contact__c = delegateContact.Id
+        );
+        insert p;
+        
         //Patient_Delegates:
         Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
             Contact__c = delegateContact.Id,
             Contact__r = delegateContact,
-            Participant__c = testData.participant.Id,
-            Participant__r = testData.participant
+            Participant__c = testdata.participant.id,
+            Participant__r = testdata.participant
         );
         upsert patientDelegate;
-
+		
+        
         System.runAs(testData.participantUser) {
             Test.startTest();
             PatientDelegateService.getInstance().getParticipant();
@@ -246,12 +290,14 @@ public class Test_PatientDelegateService {
             CommunityService.isNewSession();
             CommunityService.setUserToCommunity(testData.participantUser.contactid);
             // CommunityService.setUserToCommunity(delegateContact.Id);
-            PatientDelegateService pds = new PatientDelegateService();
-            pds.createPDAlerts(delegateContact);
+            //PatientDelegateService pds = new PatientDelegateService();
+            //pds.createPDAlerts(delegateContact);
             PatientDelegateService.changeStatus(delegateContact.Id, 'Active');
             PatientDelegateService.getParticipantByDelegateContactId(delegateContact.Id);
             PatientDelegateService.getPastPEIdsForContact(delegateContact.Id);
             PatientDelegateService.getAvailablePEIdsForContact(delegateContact.Id);
+            
+            
             Test.stopTest();
         }
 

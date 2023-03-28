@@ -1,4 +1,4 @@
-.add-Delegate-Btn {
+.add-Delegate-Btn-mob {
     height: 40px;
     /* width: 131px; */
     color: #ffffff;
@@ -15,13 +15,13 @@
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
     width: 100%;
 }
-.add-Delegate-Btn:disabled {
+.add-Delegate-Btn-mob:disabled {
     opacity: .4;
     box-shadow: none;
     cursor: not-allowed;
     pointer-events: none;
 }
-.remove-btn {
+.remove-btn-mob {
     border: 1px solid #d9d9d9;
     border-radius: 4px;
     color: #e20000;
@@ -32,13 +32,13 @@
     font-weight: 600;
     width: 100%;
 }
-.remove-btn:disabled {
+.remove-btn-mob:disabled {
     opacity: .4;
     box-shadow: none;
     cursor: not-allowed;
     pointer-events: none;
 }
-.remove-btn:hover {
+.remove-btn-mob:hover {
     background-color: rgba(226, 0, 0, 0.1);
     border: 1px solid #e20000;
     cursor: pointer;
@@ -213,8 +213,10 @@
     padding: 0px;
 }
 .delete-icon {
-    height: 20px;
-    width: 18px;
+    min-height: 20px;
+    min-width: 20px;
+    max-height: 20px;
+    max-width: 20px;
 }
 .delete-btn {
     background: none;
@@ -251,7 +253,7 @@
 .add-del-padding {
     padding: 0 48px 0 48px;
 }
-.save-del-btn {
+.save-del-bt-mob {
     height: 40px;
     border-radius: 4px;
     background-color: #0768fd;
@@ -310,3 +312,7 @@
     --sds-c-checkbox-mark-color-foreground: #fff;
 }
 
+.elipsis{
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

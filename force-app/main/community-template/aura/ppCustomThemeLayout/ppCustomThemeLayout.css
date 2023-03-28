@@ -6,7 +6,7 @@
 }
 
 .THIS.PHONE .rr-body-content {
-    padding-top: 2rem;
+    padding-top: 4.5rem;
 }
 
 /* login screen background */
@@ -333,9 +333,9 @@
 }
 
 @media screen and (max-width: 768px) {
-    .THIS {
+    /* .THIS {
         padding-bottom: 50px;
-    }
+    } */
     .THIS .menu-btn {
         display: none;
     }

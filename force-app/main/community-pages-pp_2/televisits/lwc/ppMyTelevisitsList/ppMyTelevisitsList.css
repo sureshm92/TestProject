@@ -10,6 +10,18 @@
     border-radius: 16px;
     background-color: #015FF1;
     color: #FFFFFF;
+    font-size: 14px;
+}
+.join-button:hover{
+    background-color: #0557D5;
+    font-weight: 600;
+}
+
+.desktop-icon{
+    margin-left: 9px;
+}
+.desktop-join{
+    margin-left: 5px;
 }
 .join-button-mobile{
     border-radius: 16px 0 0 16px;
@@ -19,13 +31,18 @@
     border-radius: 16px;
     background-color: #015FF1;
     color: #FFFFFF;
-    margin-top: 7%;
-    margin-left: -20px;
-   /* margin-top: 18%;*/
+    margin-top: 60%;
+    font-size: 14px;
+    /*margin-left: -20px;
+    margin-top: 18%;*/
+}
+.join-button-mobile:hover{
+    background-color: #0557D5;
+    font-weight: 600;
 }
 .name-style,
 .nameStyle {
-    color: #595959;
+    color: #444444;
     font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
@@ -37,9 +54,35 @@
 }
 
 .scroll-bar {
-    height: 39rem;
+    height: 52%;
+    /*width: 51%;
+    margin-left: 25%;*/
+    /*height: 39rem;
     border-radius: 4px;
-    margin-right: 1rem;
+    margin-right: 1rem;*/
+}
+.left-line1{
+    /*border-left: 4px solid #009dd6;
+    border-radius: 4px;
+    margin-left: 16px;*/
+    position: relative;
+    padding-left: 20px;
+}
+
+
+.left-line2 {
+    /*margin-left: 16px;*/
+    margin-left: 24px;
+}
+.leftline3 {
+    position: absolute;
+    height: 100%;
+    border-radius: 8px;
+    border:3px solid #009dd6;
+}
+.left-line1-mobile{
+    position: relative;
+    padding-left: 12px;
 }
 
 .left-line,
@@ -89,7 +132,7 @@
 
 .inactive-custom-box {
     box-sizing: border-box;
-    height: 80px;
+    /*height: 80px;*/
     width: 630px;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
@@ -116,8 +159,9 @@
     background-color: #ffffff;
     padding: 0.9rem 0 1rem 0.2rem;
     margin-bottom: 0.5rem;
+    display: block;
 }
-.inactive-custom-box:hover,
+/*.inactive-custom-box:hover,*/
 .active-custom-box:hover {
     cursor: pointer;
 }
@@ -148,6 +192,15 @@
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
+}
+.televisitdate{
+    display:inline;
+}
+.televisittime{
+    display:inline-block;
+}
+.televisitduration{
+    display:inline-block;
 }
 /*
 @media all and (max-width: 1200px) {

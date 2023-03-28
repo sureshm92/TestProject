@@ -299,12 +299,18 @@ public with sharing class HumanAPIcontroller {
     }
     	 
       if(String.isBlank(email) || isAdult == false){
-         List<Patient_Delegate__c> lstPatientDelegate = [SELECT ID,Participant_Delegate__c From Patient_Delegate__c 
-                                                        Where Participant__c =:ParticipantId AND Primary_Delegate__c = True LIMIT 1];
+         List<Patient_Delegate_Enrollment__c> lstPatientDelegate = [SELECT ID,Patient_Delegate__c,Patient_Delegate__r.Participant_Delegate__c 
+                                                        FROM Patient_Delegate_Enrollment__c 
+                                                        WHERE 
+                                                        Participant_Enrollment__c =: peId
+                                                        AND
+                                                        Patient_Delegate__r.Participant__c =:ParticipantId 
+                                                        AND 
+                                                        Primary_Delegate__c = True LIMIT 1];
           if(!lstPatientDelegate.isEmpty())
           {
                objParticipantDelegate = [SELECT ID,Email__c,First_Name__c,Last_Name__c FROM Participant__c Where 
-                                               id=:lstPatientDelegate[0].Participant_Delegate__c];
+                                               id=:lstPatientDelegate[0].Patient_Delegate__r.Participant_Delegate__c];
               if(String.isBlank(objParticipantDelegate.Email__c))
               {
                   return 'EmailError';

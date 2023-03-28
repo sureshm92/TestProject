@@ -297,6 +297,7 @@ public without sharing class DashboardRemoteNew {
                 List<String> communityNames = new List<String>(); 
                 if(communityName  == CommunityTemplateService.TEMPLATE_DEFAULT){
                     communityNames.add(CommunityTemplateService.TEMPLATE_GSK);
+                    communityNames.add(CommunityTemplateService.TEMPLATE_PP);
                 }
                 communityNames.add(communityName);
                 if (

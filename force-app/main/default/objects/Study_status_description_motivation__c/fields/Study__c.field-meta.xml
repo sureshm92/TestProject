@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Study__c</fullName>
+    <externalId>false</externalId>
+    <label>Study</label>
+    <referenceTo>Clinical_Trial_Profile__c</referenceTo>
+    <relationshipLabel>Study status&apos;s description &amp; motivation</relationshipLabel>
+    <relationshipName>Study_status_description_motivation</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

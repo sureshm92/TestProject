@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
 import getTrialDetail from '@salesforce/apex/StudyDetailViewController.getTrialDetail';
 import gettelevisitData from '@salesforce/apex/StudyDetailViewController.gettelevisitData';
 import menuDesktop from './ppCommunityNavigation.html';
@@ -23,6 +23,8 @@ import navigationPastStudy from '@salesforce/label/c.Navigation_Past_Studies';
 import desktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import DEVICE from '@salesforce/client/formFactor';
+import { publish, MessageContext } from 'lightning/messageService';
+import messagingChannel from '@salesforce/messageChannel/ppVisResults__c';
 
 export default class PpCommunityNavigation extends LightningElement {
     @api communityServic;
@@ -46,6 +48,8 @@ export default class PpCommunityNavigation extends LightningElement {
     showSubMenu = false;
     @api isInitialLoad = false;
     hasRendered = false;
+    @wire(MessageContext)
+    messageContext;
     renderedCallback() {
         if (!this.hasRendered) {
             this.hasRendered = true;
@@ -115,49 +119,67 @@ export default class PpCommunityNavigation extends LightningElement {
         if (communityService.isInitialized()) {
             var recId = communityService.getUrlParameter('id');
             var userMode = communityService.getUserMode();
-            getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
-                .then((result) => {
-                    let td = JSON.parse(result);
-                    this.showVisits = td.tabs?.some(
-                        (studyTab) => studyTab.id == 'tab-visits'
-                    );
-                    this.showResults = td.tabs?.some(
-                        (resultTab) => resultTab.id == 'tab-lab-results'
-                    );
-                    this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
-                    this.showAboutStudy = !this.showAboutProgram;
-                    if(td.pe && td.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c){
-                        this.gettelevisitDetails(td.pe.Study_Site__c);
-                    }else{
-                        this.showAboutTelevisit = false;
-                        if (this.participantTabs.length < 1) {
-                            this.populateNavigationItems();
-                        }
-                        this.isInitialized = true;
-                    }
-                    
-                })
-                .catch((error) => {
-                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+            if (communityService.isDummy()) {
+                const loadTelevisitBanner = true;
+                const valueChangeEvent = new CustomEvent('handleLoadTelevisitBanner', {
+                    detail: { loadTelevisitBanner }
                 });
+                this.dispatchEvent(valueChangeEvent);
+            } else {
+                getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
+                    .then((result) => {
+                        let td = JSON.parse(result);
+                        this.showVisits = td.tabs?.some((studyTab) => studyTab.id == 'tab-visits');
+                        this.showResults = td.tabs?.some(
+                            (resultTab) => resultTab.id == 'tab-lab-results'
+                        );
+                        this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
+                        this.showAboutStudy = !this.showAboutProgram;
+                        if (this.showAboutStudy) {
+                            this.communityServic.setVisResultsAvailable(this.showResults);
+                        }
+                        if (DEVICE != 'Large' && this.showAboutStudy && this.showResults) {
+                            let isResultTab = {
+                                isVisResultsAvailable: this.showResults
+                            };
+                            publish(this.messageContext, messagingChannel, isResultTab);
+                        }
+
+                        if (
+                            td.pe &&
+                            td.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c
+                        ) {
+                            this.gettelevisitDetails(td.pe.Study_Site__c);
+                        } else {
+                            this.showAboutTelevisit = false;
+                            if (this.participantTabs.length < 1) {
+                                this.populateNavigationItems();
+                            }
+                            this.isInitialized = true;
+                        }
+                    })
+                    .catch((error) => {
+                        this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                    });
+            }
         }
 
         if (this.spinner) {
             this.spinner.hide();
         }
     }
-    gettelevisitDetails( studysiteId){
-        gettelevisitData({siteId:studysiteId})
-        .then((result) => {
-            this.showAboutTelevisit = result;
-            if (this.participantTabs.length < 1) {
-                this.populateNavigationItems();
-            }
-            this.isInitialized = true;
-        })
-        .catch((error) => {
-            this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-        });
+    gettelevisitDetails(studysiteId) {
+        gettelevisitData({ siteId: studysiteId })
+            .then((result) => {
+                this.showAboutTelevisit = result;
+                if (this.participantTabs.length < 1) {
+                    this.populateNavigationItems();
+                }
+                this.isInitialized = true;
+            })
+            .catch((error) => {
+                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+            });
     }
     populateNavigationItems() {
         this.allPagesMap = {
@@ -214,7 +236,6 @@ export default class PpCommunityNavigation extends LightningElement {
         this.allPagesSubMenu = {
             visits: {
                 page: 'visits',
-                link: this.baseLink + '/pp/s/visits',
                 label: navigationVisits,
                 icon: '',
                 visible: this.showAboutProgram ? false : this.showVisits,
@@ -222,15 +243,13 @@ export default class PpCommunityNavigation extends LightningElement {
             },
             events: {
                 page: 'events',
-                link: this.baseLink + '/pp/s/events',
                 label: navigationEvents,
                 icon: '',
                 visible: this.showAboutProgram ? this.showVisits : false,
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
             'about-televisit': {
-                page:'televisit',
-                link: this.baseLink + '/pp/s/televisit',
+                page: 'televisit',
                 label: televisits,
                 icon: '',
                 visible: this.showAboutTelevisit,
@@ -238,7 +257,6 @@ export default class PpCommunityNavigation extends LightningElement {
             },
             results: {
                 page: 'results',
-                link: this.baseLink + '/pp/s/results',
                 label: navigationResults,
                 icon: '',
                 visible: this.showResults,
@@ -246,7 +264,6 @@ export default class PpCommunityNavigation extends LightningElement {
             },
             'about-study': {
                 page: 'about-study-and-overview',
-                link: this.baseLink + '/pp/s/about-study-and-overview',
                 label: navigationStudy,
                 icon: '',
                 visible: this.showAboutStudy,
@@ -254,7 +271,6 @@ export default class PpCommunityNavigation extends LightningElement {
             },
             'about-program': {
                 page: 'overview',
-                link: this.baseLink + '/pp/s/overview',
                 label: navigationProgram,
                 icon: '',
                 visible: this.showAboutProgram,
@@ -268,25 +284,25 @@ export default class PpCommunityNavigation extends LightningElement {
         }
         if (this.communityServic.getCurrentCommunityMode().hasPastStudies)
             this.participantTabs.push(this.allPagesMap['past-studies']);
-            if (this.communityServic.getEDiaryVisible()) {
-                if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
-                    if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-                        this.participantTabs.push(this.allPagesMap['e-diaries']);
-                    }
-                }
-            }
-            if (this.communityServic.getMessagesVisible()) {
+        if (this.communityServic.getEDiaryVisible()) {
+            if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
                 if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-                    this.participantTabs.push(this.allPagesMap['messages']);
+                    this.participantTabs.push(this.allPagesMap['e-diaries']);
                 }
             }
-            if (this.communityServic.getTrialMatchVisible()) {
-                if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
-                    if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-                        this.participantTabs.push(this.allPagesMap['trial-match']);
-                    }
+        }
+        if (this.communityServic.getMessagesVisible()) {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                this.participantTabs.push(this.allPagesMap['messages']);
+            }
+        }
+        if (this.communityServic.getTrialMatchVisible()) {
+            if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
+                if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                    this.participantTabs.push(this.allPagesMap['trial-match']);
                 }
             }
+        }
         this.participantTabs.push(this.allPagesMap['tasks']);
         this.participantTabs.push(this.allPagesMap['resources']);
         this.participantTabs.push(this.allPagesMap['help']);
@@ -381,7 +397,6 @@ export default class PpCommunityNavigation extends LightningElement {
     @api forceRefresh() {
         this.isInitialized = false;
         this.participantTabs = [];
-        console.log('calling from forceRefresh');
         this.initializeDataForDOM();
     }
 }

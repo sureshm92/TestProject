@@ -598,31 +598,39 @@ public without sharing class PIR_HomepageController {
         Integer limitOfRecords = (pageNumber * 10);
         List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
         String orderByString = sortOn + ' LIMIT :limitOfRecords ';
+        String queryString2 = 'SELECT Id FROM Participant_Enrollment__c Where ';
         if(isEnabled){
-          queryString = queryString + ' Id IN :listOfIds' + orderByString;
+          queryString2 = queryString2 + ' Id IN :listOfIds' + orderByString;
         }
         else if (isPPFiltered == true) {
-          queryString =
-            queryString +
-            filterString +
-            filterStringPP +
-            orderByString;
+          queryString2 =
+                        queryString2 +
+                        filterString +
+                        filterStringPP +
+                        orderByString;
         }else if(isDCTFiltered == true){
-          queryString =
-            queryString +
-            filterString +
-            filterStringDCT+
-            orderByString;
+          queryString2 =
+                        queryString2 +
+                        filterString +
+                        filterStringDCT+
+                        orderByString;
         }else {
-          queryString = queryString + filterString + orderByString;
+          queryString2 = queryString2 + filterString + orderByString;
         }
 
-        perList = Database.query(queryString);
+        perList = Database.query(queryString2);
         List<Participant_Enrollment__c> perLimitList = new List<Participant_Enrollment__c>();
-        for (Integer i = (limitOfRecords - 10); i < perList.size(); i++) {
-          perLimitList.add(perList[i]);
-        }
-        listViewWrapper = createListViewWrapper(perLimitList, studyIdlist);
+                List<Id> perIdList = new List<Id>();
+                Integer loopStart = limitOfRecords - 10;
+                Integer loopEnd = perList.size();
+                for (Integer i = loopStart; i < loopEnd; i++) {
+                    perIdList.add(perList[i].Id);
+                }
+                
+                String fltrStringNew = ' ID IN :perIdList';
+                queryString = queryString + fltrStringNew;
+                perLimitList = Database.query(queryString);
+                listViewWrapper = createListViewWrapper(perLimitList, studyIdlist);
         //for pages more than 200 ends
       } else {
         Integer offsetLimit = (pageNumber - 1) * 10;
@@ -1185,7 +1193,8 @@ public without sharing class PIR_HomepageController {
       if (lst.Participant__r.Phone__c != null) {
         wrap.participantPhone = lst.Participant__r.Phone__c;
       } else {
-        List<Patient_Delegate__c> patientDelegate = new List<Patient_Delegate__c>();
+       //Commented as part of PD redesign 
+       /* List<Patient_Delegate__c> patientDelegate = new List<Patient_Delegate__c>();
         patientDelegate = [
           SELECT
             Id,
@@ -1198,9 +1207,26 @@ public without sharing class PIR_HomepageController {
             Participant__c = :lst.Participant__c
             AND Primary_Delegate__c = TRUE
           LIMIT 1
+        ];*/
+        List<Patient_Delegate_Enrollment__c> patientDelegate = new List<Patient_Delegate_Enrollment__c>();
+        patientDelegate = [
+          SELECT
+            Id,
+            Patient_Delegate__c,
+            Patient_Delegate__r.Primary_Delegate__c,
+            Patient_Delegate__r.Contact__c,
+            Patient_Delegate__r.Contact__r.Phone,
+            Patient_Delegate__r.Participant__c
+          FROM Patient_Delegate_Enrollment__c
+          WHERE
+          Participant_Enrollment__c =: lst.id
+          AND  
+          Patient_Delegate__r.Participant__c = :lst.Participant__c
+          AND Primary_Delegate__c = TRUE
+          LIMIT 1
         ];
         if (patientDelegate != null && !patientDelegate.isEmpty()) {
-          wrap.participantPhone = patientDelegate[0].Contact__r.Phone;
+          wrap.participantPhone = patientDelegate[0].Patient_Delegate__r.Contact__r.Phone;
         } else {
           wrap.participantPhone = '';
         }
@@ -1400,44 +1426,65 @@ public without sharing class PIR_HomepageController {
     Set<Id> setFilledPrescreenerSurvey = new Set<Id> ();
     PreScreenerWrapper objWrapper = new PreScreenerWrapper();
     Boolean boolisComingFromEPR = false;
-    for(Participant_PrescreenerResponse__c objPreScreenerResponse : [SELECT ID,PreScreener_Survey__c,MRR_EPR__c FROM Participant_PrescreenerResponse__c
-                                                                      wHERE Participant_enrollment__c =:strPerId OR  Participant__c=:strParticipantId])
-    {
-      if(objPreScreenerResponse.MRR_EPR__c)
-        boolisComingFromEPR = true;
-
-      setFilledPrescreenerSurvey.add(objPreScreenerResponse.PreScreener_Survey__c);
-    }
-    List<PreScreener_Survey__c> totalScreener = new List<PreScreener_Survey__c> ();
-    if(!boolisComingFromEPR){
-      totalScreener = [SELECT Id,Study__c,Link_to_Pre_screening__c,MRR__c,Prescreener__c FROM PreScreener_Survey__c
-                                                 Where Study__c=:strCtpId];
-    }
-    else {
-        totalScreener = [SELECT Id,Study__c,Link_to_Pre_screening__c,MRR__c,Prescreener__c FROM PreScreener_Survey__c
-                         Where Study__c=:strCtpId and MRR__c = false];
-    }
-    List<PreScreener_Survey__c> lstPrescreenerSurveyCompleted = [SELECT ID,Link_to_Pre_screening__c,MRR__c,Primary__c,Prescreener__c,ProviderName__c,Study__c,Survey_Name__c
-                                                                  FROM PreScreener_Survey__c Where ID IN:setFilledPrescreenerSurvey];
-
-    List<PreScreener_Survey__c> lstPrescreenerSurvey = new List<PreScreener_Survey__c> ();
-    if(!boolisComingFromEPR){
-     lstPrescreenerSurvey = [SELECT ID,Link_to_Pre_screening__c,MRR__c,Primary__c,Prescreener__c,ProviderName__c,Study__c,Survey_Name__c
-                                                        FROM PreScreener_Survey__c Where ID NOT IN:setFilledPrescreenerSurvey
-                                                        AND  Study__c=:strCtpId  order by CreatedDate asc];
-    }
-    else{
-        lstPrescreenerSurvey = [SELECT ID,Link_to_Pre_screening__c,MRR__c,Primary__c,Prescreener__c,ProviderName__c,Study__c,Survey_Name__c
-                                                        FROM PreScreener_Survey__c Where ID NOT IN:setFilledPrescreenerSurvey AND MRR__c = false
-                                                        AND  Study__c=:strCtpId   order by CreatedDate asc];
+    if(string.isBlank(strPerId) && string.isBlank(strParticipantId)){
+      return null;
     }
 
-    objWrapper.lstPreScreenerCompleted = lstPrescreenerSurveyCompleted;
-    objWrapper.lstTotalSurvey = totalScreener;
-    objWrapper.lstPrescreenerSurveyPending = lstPrescreenerSurvey;
+    String strQuery = ' SELECT ID,PreScreener_Survey__c,MRR_EPR__c FROM Participant_PrescreenerResponse__c WHERE  ';
 
-    return objWrapper;
-
+    if(string.isNotBlank(strPerId)){
+      strQuery +=' Participant_enrollment__c =: strPerId ' ;
+    }
+    if(string.isNotBlank(strPerId) && string.isNotBlank(strParticipantId)){
+      strQuery +=' OR ' ;
+    }
+    if(string.isNotBlank(strParticipantId)){
+     strQuery += ' Participant__c =: strParticipantId ';
+    }
+    strQuery += ' limit 30000 ';
+    try{
+      for(Participant_PrescreenerResponse__c objPreScreenerResponse : Database.query(strQuery)) 
+      {
+        if(objPreScreenerResponse.MRR_EPR__c)
+          boolisComingFromEPR = true;
+    
+        setFilledPrescreenerSurvey.add(objPreScreenerResponse.PreScreener_Survey__c);
+      }
+      List<PreScreener_Survey__c> totalScreener = new List<PreScreener_Survey__c> ();
+      if(!boolisComingFromEPR){
+        totalScreener = [SELECT Id,Study__c,Link_to_Pre_screening__c,MRR__c,Prescreener__c FROM PreScreener_Survey__c 
+                                                  Where Study__c=:strCtpId];
+      }
+      else {
+          totalScreener = [SELECT Id,Study__c,Link_to_Pre_screening__c,MRR__c,Prescreener__c FROM PreScreener_Survey__c 
+                          Where Study__c=:strCtpId and MRR__c = false];
+      }
+      List<PreScreener_Survey__c> lstPrescreenerSurveyCompleted = [SELECT ID,Link_to_Pre_screening__c,MRR__c,Primary__c,Prescreener__c,ProviderName__c,Study__c,Survey_Name__c
+                                                                    FROM PreScreener_Survey__c Where ID IN:setFilledPrescreenerSurvey];
+    
+      List<PreScreener_Survey__c> lstPrescreenerSurvey = new List<PreScreener_Survey__c> ();
+      if(!boolisComingFromEPR){
+      lstPrescreenerSurvey = [SELECT ID,Link_to_Pre_screening__c,MRR__c,Primary__c,Prescreener__c,ProviderName__c,Study__c,Survey_Name__c
+                                                          FROM PreScreener_Survey__c Where ID NOT IN:setFilledPrescreenerSurvey 
+                                                          AND  Study__c=:strCtpId  order by CreatedDate asc];
+      }
+      else{
+          lstPrescreenerSurvey = [SELECT ID,Link_to_Pre_screening__c,MRR__c,Primary__c,Prescreener__c,ProviderName__c,Study__c,Survey_Name__c
+                                                          FROM PreScreener_Survey__c Where ID NOT IN:setFilledPrescreenerSurvey AND MRR__c = false
+                                                          AND  Study__c=:strCtpId   order by CreatedDate asc];
+      }
+    
+      objWrapper.lstPreScreenerCompleted = lstPrescreenerSurveyCompleted;
+      objWrapper.lstTotalSurvey = totalScreener;
+      objWrapper.lstPrescreenerSurveyPending = lstPrescreenerSurvey;
+    
+      return objWrapper;
+                                                  
+    }
+    catch(Exception ex){
+      system.debug('>>>some issue while getting screener response>>'+ex.getMessage()+'>at line>>'+ex.getLineNumber());
+      return null;
+    }
   }
 
   public static Boolean ifAllowedForSH(
@@ -2778,6 +2825,7 @@ public without sharing class PIR_HomepageController {
         }else{
             communityTypeList.add('Default');
             communityTypeList.add('GSK');
+            communityTypeList.add('PatientPortal');
         }
       List<Study_Site__c> lstOfStudySite = new List<Study_Site__c>();
       List<Participant_Enrollment__c> lstOfPE = new List<Participant_Enrollment__c>();

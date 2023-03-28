@@ -1,0 +1,105 @@
+<template>
+    
+    <div if:true={parentWrapper} class={parentClass}>
+        
+        <div class="topBar"></div>
+        <div class="slds-grid slds-wrap box">
+            <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium"></lightning-spinner>
+            <div class={layoutClass1}>
+                <div class="rightBox">
+                    <div class="rightTextPar">
+                        <div class="rightTitle">
+                            {parentWrapper.message}
+                        </div>
+                        <div if:true={parentWrapper.messageDesc} class="rightDesc">
+                            {parentWrapper.messageDesc}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="rightText sLink">
+                                Learn more about your journey <img class="" src={icon.open_in_new_Icon} />
+                        </div>
+                        <div class="rightImg">
+                            <img class="" src={icon.mountain} />
+                        </div>
+                    </div>
+                </div>
+                <span class="divider"></span>
+            </div>
+            <div class={layoutClass2}>
+                <span class="leftBox">
+                    <span class={leftDesktopClass} onclick={prev}>                
+                        <lightning-icon size="small" icon-name="utility:chevronleft" alternative-text="left" class="chevronL disableCursor" onclick={goLeft}></lightning-icon>
+                    </span>
+                    <span class="rMain">
+                        <div class={leftMobileClass} onclick={prev}>                
+                            <lightning-icon size="small" icon-name="utility:chevronleft" alternative-text="left" class="chevronL disableCursor" onclick={goLeft}></lightning-icon>
+                        </div>
+                        <div class="leftTitle">
+                            {title}
+                        </div>
+                        <div class={rightMobileClass} onclick={next}>
+                            <lightning-icon size="small" icon-name="utility:chevronright" alternative-text="right" onclick={goRight} class="chevronR"></lightning-icon>
+                        </div>
+                        <div class="leftDescription">
+                            {description}
+                        </div>
+                        <div class="progress">
+                            <span class="iconCont">
+                                <template if:true={barsToShow} for:each={barsToShow} for:item="bar" for:index="index">
+                                    <span key={bar.id} class={bar.iconClass}>
+                                        <img class="" src={bar.iconUrl} />
+                                    </span>
+                                </template>
+                            </span>
+                            <template if:false={showMarkAsComplete}>
+                                <span class="progressText slds-align-middle">
+                                    {barStatus}
+                                    <template if:true={barStatusDate}>
+                                        <span>
+                                            &nbsp;|&nbsp;<lightning-formatted-date-time value={barStatusDate}></lightning-formatted-date-time>
+                                        </span>
+                                    </template>
+                                </span>
+                            </template>
+                            <template if:true={showMarkAsComplete}>
+                                <span class="slds-align-middle">
+                                    <div  class="btnmac">
+                                        <button class="slds-button slds-button_neutral evtBtn" onclick={handleMarkAsComplete}>Mark as Complete</button>
+                                    </div>
+                                </span>
+                            </template>
+                        </div>
+                    </span>
+                    <span class={rightDesktopClass} onclick={next}>
+                        <lightning-icon size="small" icon-name="utility:chevronright" alternative-text="right" onclick={goRight} class="chevronR"></lightning-icon>
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>  
+    <template if:true={showMarkAsCompletePopUp}>
+        <c-pp-modal 
+                header-text={label.Mark_As_Completed}
+                size="small"
+                onclose={handleMarkAsComplete}
+                is-show="true"
+        > 
+        <div slot="body"> 
+            <div class="slds-form-element">
+                {markAsCompleteWarnMessage}
+            </div>    
+            <div slot="footer">
+                <div class="slds-grid slds-gutters slds-grid_align-end  slds-p-top--x-large">
+                    <div class="slds-col">
+                        <button class="slds-button cancelBtn" title={label.BTN_Cancel} type="button" onclick={handleMarkAsComplete} >{label.BTN_Cancel}</button>
+                    </div>
+                    <div class="slds-col">
+                        <button class="contButton" title={label.BTN_Continue} type="button" onclick={markEventAsComplete}>{label.BTN_Continue}</button>
+                    </div>
+                </div>
+            </div>  
+        </div>
+        </c-pp-modal>
+    </template>
+</template>

@@ -1,7 +1,6 @@
 import { LightningElement, track, api } from 'lwc';
 import getParticipantVisits from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsAndStudyType';
 import getParticipantVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsDetails';
-import getSiteAddress from '@salesforce/apex/ParticipantVisitsRemote.getSiteAddress';
 import basePathName from '@salesforce/community/basePath';
 import communicationPreference from '@salesforce/label/c.Communication_Preference_Url';
 import noVisitsLabel from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Entered';
@@ -21,6 +20,7 @@ import myEvents from '@salesforce/label/c.My_Events';
 import loading from '@salesforce/label/c.Loading';
 import visitdetails from '@salesforce/label/c.Visit_Details';
 import eventdetails from '@salesforce/label/c.Event_Details';
+import unscheduledVisit from '@salesforce/label/c.StudyVisit_Unscheduled_Visit';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import formFactor from '@salesforce/client/formFactor';
@@ -41,7 +41,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         myEvents,
         loading,
         visitdetails,
-        eventdetails
+        eventdetails,
+        unscheduledVisit
     };
     status = {
         scheduled: 'Scheduled',
@@ -79,12 +80,11 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track upcomingVisitId;
     @track selectedIndex = 0;
     @track initialPageLoad = false;
-    @track isResultsCard = true;
+    @track isResultsCard = false;
     initialized = '';
     visitWrappers = [];
     @api icondetails = [];
     isError = false;
-    initialized = '';
     dateloaded = false;
     @track buttonClicked = false;
     cbload = false;
@@ -93,7 +93,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track noVisitDate = false;
     @track showUpcomingVisits = true;
     @track onVisitSelection = false;
-    visitimage1 = pp_icons + '/' + 'VisitPageResultImage.png';
     visitimage2 = pp_icons + '/' + 'VisitPage_1.png';
     @track missedVisit = false;
     @track showList = false;
@@ -102,8 +101,15 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     @track isEvent = false;
     isUpcomingVisits = true;
     isPastVisits = true;
+    showSpinner = true;
     column2 = 'col2';
     column3 = 'col3';
+
+    ctpSharingTiming;
+
+    get iconContainerCss() {
+        return this.isMobile ? 'icon-cont-mobile' : 'icon-cont';
+    }
 
     callParticipantVisit() {
         this.cbload = true;
@@ -116,7 +122,23 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.visitTimezone = TIME_ZONE;
                 var result = pvResult.pvList;
                 this.isEvent = pvResult.isEvent;
+                let location = pvResult?.studySiteAddress?.Site__r?.BillingAddress;
+                this.ctpSharingTiming = pvResult.ctpSharingTiming;
+
+                this.siteAddress = location
+                    ? (location.street ? location.street : '') +
+                      ', ' +
+                      (location.city ? location.city : '') +
+                      ', ' +
+                      (location.stateCode ? location.stateCode : '') +
+                      ' ' +
+                      (location.postalCode ? location.postalCode : '')
+                    : '';
+                this.siteName = pvResult?.studySiteAddress?.Site__r?.Name;
+                this.sitePhoneNumber = pvResult?.studySiteAddress?.Site__r?.Phone;
                 this.isResultsCard = this.isEvent != true;
+                let pastWithDate = [];
+                let pastWithoutDate = [];
                 if (result.length > 0) {
                     for (let i = 0; i < result.length; i++) {
                         if (
@@ -160,25 +182,23 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                                 this.missedVisit = false;
                             }
                             result[i].missedVisit = this.missedVisit;
-                            if (result[i]?.visit?.Is_Pre_Enrollment_Patient_Visit__c == true) {
-                                this.pastInitialVisits.push(result[i]);
+                            if (result[i].visit.Completed_Date__c === '') {
+                                pastWithoutDate.push(result[i]);
                             } else {
-                                this.pastVisits.push(result[i]);
+                                pastWithDate.push(result[i]);
                             }
                         }
                     }
-                    if (this.pastInitialVisits != []) {
-                        if (this.pastInitialVisits.length > 1) {
-                            this.pastInitialVisits = this.pastInitialVisits.sort((pv1, pv2) =>
-                                pv1?.visit?.Completed_Date__c < pv2?.visit?.Completed_Date__c
-                                    ? 1
-                                    : pv1?.visit?.Completed_Date__c > pv2?.visit?.Completed_Date__c
-                                    ? -1
-                                    : 0
-                            );
-                        }
-                        this.pastVisits = [...this.pastInitialVisits, ...this.pastVisits];
-                    }
+                    pastWithDate = pastWithDate.sort(function (visit1, visit2) {
+                        // Turn your strings into dates, and then subtract them
+                        // to get a value that is either negative, positive, or zero.
+                        return (
+                            new Date(visit2.visit.Completed_Date__c) -
+                            new Date(visit1.visit.Completed_Date__c)
+                        );
+                    });
+                    pastWithoutDate = pastWithoutDate.reverse();
+                    this.pastVisits = [...pastWithDate, ...pastWithoutDate];
                     if (this.upcomingInitialVisits != []) {
                         if (this.upcomingInitialVisits.length > 1) {
                             this.upcomingInitialVisits = this.upcomingInitialVisits.sort(
@@ -206,7 +226,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         this.isUpcomingVisits = false;
                     }
                     if (!this.pastVisitId && this.pastVisits.length > 0) {
-                        this.pastVisits = this.pastVisits.reverse();
                         this.pastVisitId = this.pastVisits[0].visit.Id;
                     }
                     if (!this.upcomingVisitId && this.upcomingVisits.length > 0) {
@@ -216,9 +235,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
                     }
                     this.showList = true;
-                    if (this.visitid) {
-                        this.initializeData(this.visitid);
-                    }
+                    //if (this.visitid) {
+                    //this.initializeData(this.visitid);
+                    //}
                     this.createEditTask();
                 } else {
                     this.isUpcomingVisits = false;
@@ -239,7 +258,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.template.querySelector('c-web-spinner').show();
             this.hasRendered = true;
         }
-        this.template.querySelector('c-web-spinner').hide();
+        //this.template.querySelector('c-web-spinner').hide();
         if (
             !this.isUpcomingVisits &&
             this.showUpcomingVisits == true &&
@@ -251,25 +270,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     }
 
     connectedCallback() {
-        if (formFactor === 'Small') {
+        if (formFactor === 'Small' || formFactor === 'Medium') {
             this.isMobile = true;
         } else {
             this.isMobile = false;
         }
         this.sfdcBaseURL = window.location.origin + basePathName + communicationPreference;
         this.callParticipantVisit();
-        getSiteAddress()
-            .then((result) => {
-                this.template.querySelector('c-web-spinner').show();
-                var data = JSON.parse(result);
-                this.siteAddress = data.accountAddress;
-                this.siteName = data.accountName;
-                this.sitePhoneNumber = data.accountPhone;
-                this.template.querySelector('c-web-spinner').show();
-            })
-            .catch((error) => {
-                this.showErrorToast('Error occured', error.message, 'error');
-            });
     }
 
     getParams() {
@@ -331,7 +338,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         if (this.pastVisits.length > 0) {
             this.isPastVisits = true;
             this.visitid = this.pastVisitId;
-            this.visitName = this.pastVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
+            this.visitName = this.pastVisits[0].visit?.Is_Adhoc__c?this.label.unscheduledVisit:this.pastVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
             this.plannedDate = this.pastVisits[0].visit.Planned_Date__c;
             this.visitStatus = this.pastVisits[0].visit.Status__c;
             if (this.visitStatus == 'Missed') this.visitStatus = this.label.visitUnavailable;
@@ -342,7 +349,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.template
                     .querySelector('[data-id="' + this.column3 + '"]')
                     .classList.remove('hide');
-                this.initializeData(this.visitid);
+                //this.initializeData(this.visitid);
             }
 
             this.createEditTask();
@@ -372,7 +379,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         if (past) {
             this.past = true;
             this.visitid = this.pastVisits[index].visit.Id;
-            this.visitName = this.pastVisits[index].visit?.Visit__r?.Patient_Portal_Name__c;
+            this.visitName = this.pastVisits[index].visit?.Is_Adhoc__c?this.label.unscheduledVisit:this.pastVisits[index].visit?.Visit__r?.Patient_Portal_Name__c;
             this.plannedDate = this.pastVisits[index].visit.Planned_Date__c;
             this.isInitialVisit = this.pastVisits[index].visit.Is_Pre_Enrollment_Patient_Visit__c;
             if (this.pastVisits[index].missedVisit) {
@@ -412,7 +419,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 window.location.origin + basePathName + '/event-details' + '?eventid=' + visitid;
         } else {
             this.visitdetailurl =
-                window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
+                window.location.origin +
+                basePathName +
+                '/visit-details' +
+                '?visitid=' +
+                visitid +
+                '&ctpST=' +
+                this.ctpSharingTiming;
         }
         console.log('visitdetailurl:: ', this.visitdetailurl);
 
@@ -495,13 +508,14 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 this.showChild = true;
-                if (!this.initialPageLoad) {
+                if (!this.isMobile) {
                     this.initializeData(this.visitid);
+                }
+                if (!this.initialPageLoad) {
                     this.contentLoaded = true;
                     this.template.querySelector('c-web-spinner').hide();
                     this.template.querySelector('c-pp-Study-Visit-Details-Card')?.callFromParent();
                 } else {
-                    this.initializeData(this.visitid);
                     this.contentLoaded = true;
                     this.template.querySelector('c-web-spinner').hide();
                 }

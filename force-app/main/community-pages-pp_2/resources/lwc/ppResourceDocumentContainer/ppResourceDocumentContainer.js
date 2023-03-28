@@ -5,6 +5,7 @@ import noDocumentsAvailable from '@salesforce/label/c.No_Documents_Available';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class PpResourceDocumentContainer extends LightningElement {
+    showSpinner = true;
     documentList = [];
     documents = [];
     documentPresent;
@@ -25,7 +26,6 @@ export default class PpResourceDocumentContainer extends LightningElement {
 
     getDocuments() {
         this.spinner = this.template.querySelector('c-web-spinner');
-        this.spinner.show();
         getStudyDocuments()
             .then((result) => {
                 this.documentList = result.wrappers;

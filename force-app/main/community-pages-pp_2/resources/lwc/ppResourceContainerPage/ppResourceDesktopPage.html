@@ -18,18 +18,31 @@
                                         <div class="engage-header mb-8">{labels.ENGAGE}</div>
                                         <div class="left-column">
                                             <div class={engageHeight}>
-                                                <template if:true ={multimedia}>
-                                                    <c-pp-resource-multimedia resourced-data = {resourcesData} desktop = {desktop}>
+                                                <template if:true={multimedia}>
+                                                    <c-pp-resource-multimedia
+                                                        resourced-data={resourcesData}
+                                                        desktop={desktop}
+                                                    >
                                                     </c-pp-resource-multimedia>
                                                 </template>
-                                                <template if:false ={multimedia}>
-                                                    <template if:true ={toggleLinks}>
-                                                        <img class="empty-state" src={empty_state}/>
-                                                        <p class="no-links-available">No modules available</p>
+                                                <template if:false={multimedia}>
+                                                    <template if:true={toggleLinks}>
+                                                        <img
+                                                            class="empty-state"
+                                                            src={empty_state}
+                                                        />
+                                                        <p class="no-links-available">
+                                                            No modules available
+                                                        </p>
                                                     </template>
-                                                    <template if:false ={toggleLinks}>
-                                                        <img class="empty-state" src={empty_state}/>
-                                                        <p class="no-links-availables mt-15">No modules available</p>
+                                                    <template if:false={toggleLinks}>
+                                                        <img
+                                                            class="empty-state"
+                                                            src={empty_state}
+                                                        />
+                                                        <p class="no-links-availables mt-15">
+                                                            No modules available
+                                                        </p>
                                                     </template>
                                                 </template>
                                                 <!-- START : COMING SOON -->
@@ -40,9 +53,9 @@
                                                     </div>
                                                 </div> -->
                                                 <!-- END : COMING SOON -->
-                                                <!-- ENGAGE LWC COMPONENT PLACEHOLDER -->                                              
+                                                <!-- ENGAGE LWC COMPONENT PLACEHOLDER -->
                                                 <!--<img class="empty-state" src={empty_state}/>
-                                                <p class="no-links-available mt-15">No modules available</p>  -->                                                                                            
+                                                <p class="no-links-available mt-15">No modules available</p>  -->
                                             </div>
                                         </div>
                                     </lightning-layout-item>
@@ -53,7 +66,7 @@
                                             <lightning-layout>
                                                 <lightning-layout-item size="6">
                                                     {labels.DISCOVER_TITLE}
-                                                    <span>                                              
+                                                    <span>
                                                         <lightning-helptext
                                                             class="newColor resDiscoverIcon"
                                                             content="Links will open in new browser window. IQVIA Patient Portal
@@ -64,17 +77,20 @@
                                                     </span>
                                                 </lightning-layout-item>
                                                 <template if:true={enableChangePref}>
-                                                    <lightning-layout-item size="6" class="right-align">
-                                                        <a
-                                                        onclick={handleChangePreference}
-                                                        class="change-preferences"
-                                                        style="float: right"
+                                                    <lightning-layout-item
+                                                        size="6"
+                                                        class="right-align"
                                                     >
-                                                        {labels.CHANGE_PREFERENCES}
-                                                    </a>
-                                                    </lightning-layout-item> 
-                                                </template>                                           
-                                            </lightning-layout>                                          
+                                                        <div
+                                                            onclick={handleChangePreference}
+                                                            class="change-preferences"
+                                                            style="float: right"
+                                                        >
+                                                            {labels.CHANGE_PREFERENCES}
+                                                        </div>
+                                                    </lightning-layout-item>
+                                                </template>
+                                            </lightning-layout>
                                         </div>
 
                                         <div class="left-column">
@@ -88,7 +104,11 @@
                                                 </div> -->
                                                 <!-- END : COMING SOON -->
                                                 <!-- RELEVANT LINKS LWC COMPONENT PLACEHOLDER -->
-                                                <c-pp-discover-links toggle-explore={toggleExplore} links-wrappers={linksWrappers} discover-empty-state={discoverEmptyState}></c-pp-discover-links>
+                                                <c-pp-discover-links
+                                                    toggle-explore={toggleExplore}
+                                                    links-wrappers={linksWrappers}
+                                                    discover-empty-state={discoverEmptyState}
+                                                ></c-pp-discover-links>
                                             </div>
                                         </div>
                                     </lightning-layout-item>
@@ -99,18 +119,18 @@
 
                     <!-- Center Column -->
                     <template if:true={toggleExplore}>
-                    <lightning-layout-item size="6">                      
+                        <lightning-layout-item size="6">
                             <lightning-layout multiple-rows="true">
                                 <lightning-layout-item size="12">
                                     <div class="explore-header mb-8">
                                         {labels.EXPLORE}
-                                        <a
+                                        <div
                                             onclick={handleChangePreference}
                                             class="change-preferences"
                                             style="float: right"
                                         >
                                             {labels.CHANGE_PREFERENCES}
-                                        </a>
+                                        </div>
                                     </div>
 
                                     <div class="center-column">
@@ -124,65 +144,67 @@
                                         </div>
                                     </div>
                                 </lightning-layout-item>
-                            </lightning-layout>                        
-                    </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
                     </template>
 
                     <!-- Right Column -->
                     <template if:true={toggleDocs}>
-                    <lightning-layout-item size={documentGridSize} class={rightColumnPadding}>
-                        <lightning-layout multiple-rows="true">                           
+                        <lightning-layout-item size={documentGridSize} class={rightColumnPadding}>
+                            <lightning-layout multiple-rows="true">
                                 <lightning-layout-item size="12">
                                     <lightning-layout multiple-rows="true" vertical-align="center">
                                         <lightning-layout-item size="6">
-                                            <div class="document-header mb-8">{labels.DOCUMENTS}</div>
+                                            <div class="document-header mb-8">
+                                                {labels.DOCUMENTS}
+                                            </div>
                                         </lightning-layout-item>
                                         <template if:true={enableChangePrefOnDocs}>
                                             <lightning-layout-item size="6" class="right-align">
-                                                <a
-                                                onclick={handleChangePreference}
-                                                class="change-preferences"
-                                                style="float: right; margin-bottom:-14px;"
-                                            >
-                                                {labels.CHANGE_PREFERENCES}
-                                            </a>
-                                            </lightning-layout-item> 
+                                                <div
+                                                    onclick={handleChangePreference}
+                                                    class="change-preferences"
+                                                    style="float: right; margin-bottom: -14px"
+                                                >
+                                                    {labels.CHANGE_PREFERENCES}
+                                                </div>
+                                            </lightning-layout-item>
                                         </template>
                                     </lightning-layout>
-                                    
+
                                     <div class="right-column">
-                                            <div class={docsHeight}>
+                                        <div class={docsHeight}>
                                             <c-pp-Resource-Document-Container></c-pp-Resource-Document-Container>
                                         </div>
                                     </div>
                                 </lightning-layout-item>
-                            <template if:true={answersVisible}>
-                                <lightning-layout-item size="12">
-                                    <div class="answers-header mb-8">{labels.FIND_ANSWERS}</div>
-                                    <div class="left-column">
-                                        <div class="res-box-answers-container crossed">
-                                            <!-- START : COMING SOON -->
-                                            <div class="object">
-                                                <div class="object-rope"></div>
-                                                <div class="object-shape">
-                                                    Coming <span class="soon">Soon</span>
+                                <template if:true={answersVisible}>
+                                    <lightning-layout-item size="12">
+                                        <div class="answers-header mb-8">{labels.FIND_ANSWERS}</div>
+                                        <div class="left-column">
+                                            <div class="res-box-answers-container crossed">
+                                                <!-- START : COMING SOON -->
+                                                <div class="object">
+                                                    <div class="object-rope"></div>
+                                                    <div class="object-shape">
+                                                        Coming <span class="soon">Soon</span>
+                                                    </div>
                                                 </div>
+                                                <!-- END : COMING SOON -->
+                                                <!-- FIND ANSWERS LINKS LWC COMPONENT PLACEHOLDER -->
                                             </div>
-                                            <!-- END : COMING SOON -->
-                                            <!-- FIND ANSWERS LINKS LWC COMPONENT PLACEHOLDER -->
                                         </div>
-                                    </div>
-                                </lightning-layout-item>
-                            </template>
-                        </lightning-layout>
-                    </lightning-layout-item>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                        </lightning-layout-item>
                     </template>
 
                     <template if:false={toggleExplore}>
-                        <lightning-layout-item size="6"></lightning-layout-item>                            
+                        <lightning-layout-item size="6"></lightning-layout-item>
                         <lightning-layout-item size="6" class="mt-10">
-                                <c-pp-contribute-section></c-pp-contribute-section>  
-                        </lightning-layout-item>                                         
+                            <c-pp-contribute-section></c-pp-contribute-section>
+                        </lightning-layout-item>
                     </template>
                 </lightning-layout>
             </div>

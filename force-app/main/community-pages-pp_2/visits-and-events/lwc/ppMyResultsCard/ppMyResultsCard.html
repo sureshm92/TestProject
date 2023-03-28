@@ -1,0 +1,18 @@
+<template>
+    <div class="my-results">{label.myResults}</div>
+    <lightning-layout multiple-rows>
+        <lightning-layout-item
+            size="12"
+            large-device-size="4"
+            small-device-size="12"
+            class="slds-show_large"
+            ><div class="slds-border_right col1-height"></div
+        ></lightning-layout-item>
+        <lightning-layout-item size="12" large-device-size="8" small-device-size="12"
+            ><div class="slds-align--absolute-center no-task-box">
+                <span class="center"><img src={resultsIllustration} /></span
+                ><span class="no-result-txt slds-m-top_medium">{label.noItemToDisplay}</span>
+            </div></lightning-layout-item
+        >
+    </lightning-layout>
+</template>
