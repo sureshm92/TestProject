@@ -13,8 +13,8 @@
     <template if:true={showpopup}>
         <c-pp-remove-delegate-modal-old
             pdenrollmentid={withdrawStudyPDEId}
-            messtext="By withdrawing, you will no longer be able to access this assignment. Are you sure you would like to continue?"
-            tittext="Withdraw assignment"
+            messtext={label.Withdrew_Assignment_Consent}
+            tittext={label.Withdrew_Assignment}
             onconfirmmodal={handleWithdrawDelegate}
             onmodalclose={handleModalClose}
         >
@@ -63,7 +63,8 @@
                                             <lightning-layout-item
                                                 size="12"
                                                 class="participant-email"
-                                                >{par.Participant.Email__c}
+                                                >
+                                                <p class="elipsis">{par.Participant.Email__c}</p>
                                             </lightning-layout-item>
                                         </lightning-layout>
                                     </lightning-layout-item>

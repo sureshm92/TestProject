@@ -123,6 +123,8 @@ a:hover {
     .divBody{      
         /* top: -16px; */
     }   
+    
+    
 }
 
 @media all and (max-width: 540px){
@@ -164,6 +166,19 @@ a:hover {
     margin-top: -4px;
 }
 
+
+.singleJoinPP2:hover{
+    width: 116px;
+    text-align: center;
+    border-radius: 35px;
+    height: 32px;
+    background: #0557D5;
+    font-size: 14px;
+    padding: 5px;
+    margin-top: -4px;
+    font-weight: 600;
+}
+
 .singleJoinPP2Mobile{
     background: #015FF1;
     font-size: 16px;
@@ -171,6 +186,17 @@ a:hover {
     padding: 8px 21px;
     border-radius: 18px;
 }
+
+.singleJoinPP2Mobile:hover{
+    background: #0557D5;
+    font-size: 16px;
+    margin-left: -10px;
+    padding: 8px 21px;
+    border-radius: 18px;
+    font-weight: 600;
+}
+
+
 
 .multipleJoinPP2{
     text-align: center;
@@ -235,4 +261,59 @@ a:hover {
 .hrline{
     margin-left: -10px;
     margin-bottom: -1px;
+}
+
+
+@media screen and (orientation: landscape) { 
+    .multipleJoinPP2Mobile{
+        text-align: center;
+        border-radius: 35px;
+        height: 34px;
+        color: rgb(1, 95, 241);
+        font-size: 14px;
+        border: 1px solid #d6d6d6;
+        display: block;
+        width: 66px !important;
+        font-weight: 600;
+        padding: 8px;
+    }
+    
+    .multipleJoinPP2Mobile:hover{
+        text-align: center;
+        border-radius: 35px;
+        height: 34px;
+        color: rgb(1, 95, 241);
+        font-size: 14px;
+        border: 1px solid;
+        display: block;
+        width: 66px !important;
+        background: aliceblue;
+        font-weight: 600;
+        padding: 8px;
+    }
+
+    .divBodyPP2Mobile {
+        background-color: #2b3942;
+        position: relative;
+        /* top: -29px; */
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        width: 100vw;
+        top:-60px;
+    }
+    .divBodyPP2Mobile::before {
+        content: "";
+        position: absolute;
+        
+        background-color: transparent;
+        /*bottom: -50px;*/
+        height: 50px;
+        width: 25px;
+        right: 0px;
+        top: 0px;
+        /*border-top-left-radius: 25px;*/
+        box-shadow: 0 -25px 0 0 #2b3942;
+    }
 }

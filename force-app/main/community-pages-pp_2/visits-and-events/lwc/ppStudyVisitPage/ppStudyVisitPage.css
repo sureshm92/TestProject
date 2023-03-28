@@ -45,6 +45,16 @@
     width: 100%;
 }
 
+.icon-cont-mobile {
+    box-sizing: border-box;
+    height: auto;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+    margin-bottom: 16px;
+    width: 100%;
+}
+
 .icon-cont1 {
     box-sizing: border-box;
     height: 519px;

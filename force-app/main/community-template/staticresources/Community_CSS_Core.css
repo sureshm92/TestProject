@@ -1663,6 +1663,11 @@ input[type=password]::-ms-clear
         margin-left: 52px !important;
     }
 }
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .logo-container-pp {
+        margin-left: 12rem !important;
+    }
+}
 
 
 
@@ -2007,5 +2012,7 @@ outline: none !important;
     width: 20px;
     height: 20px;
 }
-
+.manage-delegate-acc-setting-old .study-box{
+    height: 40px !important;
+}
 /* Delegate redesing - Chages-  Ends */

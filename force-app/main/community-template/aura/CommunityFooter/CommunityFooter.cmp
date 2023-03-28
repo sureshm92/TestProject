@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="CommunityFooter" extends="c:CommunityContext">
+<aura:component description="CommunityFooter" extends="c:CommunityContext" controller = "communityFooterController">
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
         afterScriptsLoaded="{!c.doInit}"
@@ -15,19 +15,22 @@
     <aura:attribute name="communityType" type="String" />
     <aura:attribute name="isPatientPortal" type="Boolean" default="false" /> 
     <aura:attribute name="mobile" type="Boolean" default="false" />
+    <aura:attribute name="enablePrivacyChoice" type="Boolean" default="false" />
+    <aura:attribute name="CPRALinkToredirect" type="String" default="" />
+    <aura:attribute name="CPRAlabel" type="String" default="" />
 
     <aura:handler event="forceCommunity:routeChange" action="{!c.doInit}" />
 
     <div class="{!'rrc-footer ' + if(v.isRTL, 'rtl', '')}">
         <div class="cf-margin-cutter">
             <div class="cf-links">
-                <div class="cf-link">
+                <div class="cf-link cf-linksMobile">
                     <c:FooterLink
                         label="{!$Label.c.Footer_Link_About_IQVIA}"
                         link="https://www.iqvia.com/"
                     />
-                </div>
-                <div class="cf-link">
+                </div>  
+                <div class="cf-link cf-linksMobile">
                     <aura:if isTrue="{!v.isGsk}">
                         <c:FooterLink
                             label="{!if(or(empty(v.sponsor),v.defaultTC), '', v.sponsor + ' ') + $Label.c.Footer_Link_Privacy_Policy}"
@@ -42,12 +45,23 @@
                         </aura:set>
                     </aura:if>
                 </div>
-                <div class="cf-link">
-                    <c:FooterLink
-                        label="{!if(or(empty(v.sponsor),v.defaultTC), '', v.sponsor + ' ') + $Label.c.Footer_Link_Terms_Of_Use}"
-                        link="{!'/terms-and-conditions?ret='+ v.retUrl + if(v.defaultTC,'&amp;'+'default=true','')}"
-                    />
-                </div>
+                    <aura:if isTrue="{!v.enablePrivacyChoice}">
+                        <div class="cf-link"> 
+                        
+                            <c:FooterLink
+                                label="{!v.CPRAlabel}"
+                                link="{!v.CPRALinkToredirect}"
+                                enablePrivacyChoice = "{!v.enablePrivacyChoice}"
+                            />
+                        </div>
+                    </aura:if>
+                    <div class="cf-link">
+                        <c:FooterLink
+                            label="{!if(or(empty(v.sponsor),v.defaultTC), '', v.sponsor + ' ') + $Label.c.Footer_Link_Terms_Of_Use}"
+                            link="{!'/terms-and-conditions?ret='+ v.retUrl + if(v.defaultTC,'&amp;'+'default=true','')}"
+                        />
+                    </div>
+           
             </div>
             <!-- <div class="cf-copyright">{!$Label.c.Footer_T_Copyright}</div> -->
 

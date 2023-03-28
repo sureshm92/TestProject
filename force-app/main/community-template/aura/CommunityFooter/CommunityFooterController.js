@@ -5,20 +5,48 @@
 ({
     doInit: function(component, event, helper) {
         let sponsor = communityService.getCurrentSponsorName();
-        console.log('commName: ' + communityService.getCurrentCommunityName());
+        let communityName = communityService.getCurrentCommunityName();
+        let strCommunityName = '';
         //let isGsk = communityService.getCommunityURLPathPrefix().includes("/gsk");
-        if (communityService.getCurrentCommunityName() == 'GSK Community') {
+        if (communityName == 'GSK Community') {
             component.set('v.isGsk', true);
+            strCommunityName = 'GSK Community';
         } else if (
-            communityService.getCurrentCommunityName() == 'Janssen Community' ||
-            communityService.getCommunityName().includes('Janssen')
+            communityName == 'Janssen Community' ||
+            communityName.includes('Janssen')
         ) {
             component.set('v.communityType', 'Janssen');
-        }
-
+            strCommunityName = 'Janssen Community';
+             
+        } 
         if(communityService.getCurrentCommunityTemplateName()=='PatientPortal'){
             component.set('v.isPatientPortal', true);
+            strCommunityName = 'PatientPortal'; 
+        } 
+        if(communityName == 'IQVIA Referral Hub')
+        {
+            strCommunityName = 'IQVIA Referral Hub'; 
         }
+
+        var action = component.get("c.getCPRALink");
+        action.setParams({ strCommunityType : strCommunityName });
+        action.setCallback(this, function(response) {
+            if(response.getReturnValue())
+            {
+                var getReturnValueMD = response.getReturnValue();
+                component.set('v.enablePrivacyChoice',true);
+                var labelReference = $A.getReference("$Label.c." + getReturnValueMD.CPRA_Label__c);
+ 
+                component.set('v.CPRAlabel', labelReference); 
+                component.set('v.CPRALinkToredirect',getReturnValueMD.Link_to_redirect__c); 
+            }
+            else {
+                component.set('v.enablePrivacyChoice',false);
+                
+            }
+            
+        });
+        $A.enqueueAction(action);
 
         if ($A.get('$Browser.formFactor') !== 'DESKTOP') {
             component.set('v.mobile', true);

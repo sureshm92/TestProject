@@ -395,14 +395,16 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                             alertsForInsert.add(
                                 new Alert__c(
                                     Contact__c = participant.Contact__c,
-                                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_PP
+                                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_PP,
+                                    Is_Platform_Level__c = true
                                 )
                             );
                         } else {
                             alertsForInsert.add(
                                 new Alert__c(
                                     Contact__c = participant.Contact__c,
-                                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
+                                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH,
+                                    Is_Platform_Level__c = true
                                 )
                             );
                         }
@@ -471,7 +473,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                         .createParticipantUsers(toCreateUser);
                 } else {
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                        .createParticipantUsersAsync(toCreateUser, participantContactIds);
+                        .createParticipantUsersAsync(toCreateUser, participantContactIds, peIds);
                 }
             }
             if (!notifications.isEmpty())
@@ -484,44 +486,74 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
     private static void createStudyAlerts(
         List<Id> newHistories
     ) {
-        
-        //List<Participant_Enrollment_Status_History__c> newHistories
+        Map<Id,Id> statusHistoryPER = new Map<Id,Id>();
         List<Participant_Enrollment_Status_History__c> histories = [
             SELECT
-                ParticipantEnrollment__r.Participant_Contact__c,
-                ParticipantEnrollment__r.Participant__c,
-                ParticipantEnrollment__r.Clinical_Trial_Profile__c,
-                ParticipantEnrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
-                Status__c,
-                Date__c,
-                ParticipantEnrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+            ParticipantEnrollment__r.Participant_Contact__c,
+            ParticipantEnrollment__r.Participant__c,
+            ParticipantEnrollment__r.Clinical_Trial_Profile__c,
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+            Status__c,
+            Date__c,
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
             FROM Participant_Enrollment_Status_History__c
             WHERE Id IN :newHistories
         ];
-
+        
         List<Participant_Enrollment__c> peSuccess = new List<Participant_Enrollment__c>();
         for (Participant_Enrollment_Status_History__c history : histories) {
+            statusHistoryPER.put(history.Id, history.ParticipantEnrollment__c);
             if (
-                history.Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS ||
-                history.Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS
+                PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(history.Status__c)
             ) {
                 Participant_Enrollment__c enrollment = history.ParticipantEnrollment__r;
                 if (enrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
                     peSuccess.add(enrollment);
+                    
                 }
             }
         }
-
+        set<Id> alredayEnrolledPER = new Set<Id>();
+        Map<ID, Participant_Enrollment_Status_History__c> enrollmentHistories = new Map<ID, Participant_Enrollment_Status_History__c>([
+            SELECT
+            ParticipantEnrollment__r.Participant_Contact__c,
+            ParticipantEnrollment__r.Participant__c,
+            ParticipantEnrollment__r.Clinical_Trial_Profile__c,
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+            Status__c,
+            Date__c,
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+            FROM Participant_Enrollment_Status_History__c
+            WHERE ParticipantEnrollment__c IN :statusHistoryPER.values() 
+            AND Status__c IN : PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS
+            AND Id NOT IN : newHistories
+        ]);
+        
+        for (Participant_Enrollment_Status_History__c pe : enrollmentHistories.values()){
+            alredayEnrolledPER.add(pe.ParticipantEnrollment__c);
+        }        
+        
         List<Id> participantIds = new List<Id>();
-        for (Participant_Enrollment__c pe : peSuccess)
+        List<Id> perIdLst = new List<Id>();
+        for (Participant_Enrollment__c pe : peSuccess){
             participantIds.add(pe.Participant__c);
-        Map<Id, List<Id>> delegateCntByParticipant = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
-            participantIds
+            perIdLst.add(pe.Id);
+        }
+        
+        PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
+            participantIds,perIdLst
         );
-
+        Map<Id, List<Id>> delegateCntByParticipant = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
+        
+        //Commented as part of PD design 
+        /* Map<Id, List<Id>> delegateCntByParticipant = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+participantIds
+);*/
+        
         List<Alert__c> alerts = new List<Alert__c>();
         for (Participant_Enrollment__c pe : peSuccess) {
-            if (pe.Participant_Contact__c != null) {
+            
+            if (pe.Participant_Contact__c != null && !alredayEnrolledPER.contains(pe.Id)) {
                 if (
                     pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
                     CommunityTemplateService.TEMPLATE_PP
@@ -543,33 +575,35 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     );
                 }
             }
-
+            
             if (!delegateCntByParticipant.containsKey(pe.Participant__c))
                 continue;
             for (Id contactDelegateId : delegateCntByParticipant.get(pe.Participant__c)) {
-                if (
-                    pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                    CommunityTemplateService.TEMPLATE_PP
-                ) {
-                    alerts.add(
-                        new Alert__c(
-                            Contact__c = contactDelegateId,
-                            Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE_PP,
-                            Record_ID__c = pe.Id
-                        )
-                    );
-                } else {
-                    alerts.add(
-                        new Alert__c(
-                            Contact__c = contactDelegateId,
-                            Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
-                            Record_ID__c = pe.Id
-                        )
-                    );
+                if(!alredayEnrolledPER.contains(pe.Id)){
+                    if (
+                        pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                        CommunityTemplateService.TEMPLATE_PP 
+                    ) {
+                        alerts.add(
+                            new Alert__c(
+                                Contact__c = contactDelegateId,
+                                Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE_PP,
+                                Record_ID__c = pe.Id
+                            )
+                        );
+                    } else {
+                        alerts.add(
+                            new Alert__c(
+                                Contact__c = contactDelegateId,
+                                Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
+                                Record_ID__c = pe.Id
+                            )
+                        );
+                    }
                 }
             }
         }
-
+        
         insert alerts;
     }
 }

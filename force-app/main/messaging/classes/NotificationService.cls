@@ -45,7 +45,6 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
-      
     };
 
     static public List<String> instantNotificationTypes = new List<String>{
@@ -354,7 +353,7 @@ public without sharing class NotificationService {
         if (!taskIds.isEmpty()) {
             taskMap = new Map<Id, Task>(
                 [
-                    SELECT Id, Remind_Using_Email__c, Remind_Using_SMS__c, CreatedByAdmin__c
+                    SELECT Id, WhatId, Remind_Using_Email__c, Remind_Using_SMS__c, CreatedByAdmin__c
                     FROM Task
                     WHERE Id IN :taskIds
                 ]
@@ -396,9 +395,25 @@ public without sharing class NotificationService {
             for (Notification_Target__mdt nt : notificationType.Notification_Targets__r) {
                 if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_EMAIL) {
                     if (n.Recipient__c != null) {
+                        Boolean isDeferedFlag = availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c);
+                        Boolean platformTask = false;
+                        if(n.Task_Id__c != null && n.Task_Id__c != '' && taskMap.containsKey(n.Task_Id__c)){
+                            Id wId = taskMap.get(n.Task_Id__c).WhatId != null ? Id.valueOf(taskMap.get(n.Task_Id__c).WhatId) : null;
+                            if(wId != null)
+                            platformTask = String.valueOf(wId.getSobjectType()) == 'Participant__c'  && !taskMap.get(n.Task_Id__c).CreatedByAdmin__c ? true : false ;
+                        }
                         if (
                             !notificationWithoutPermissions.contains(n.Notification_Type__c) &&
-                            availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c) &&
+                            isDeferedFlag && n.IsDelegate__c &&  platformTask &&
+                            (taskAndVisitReminderTypes.contains(n.Notification_Type__c))  &&
+                            (n.StartDate__c == null &&
+                            !instantNotificationTypes.contains(n.Notification_Type__c))
+                        ){
+                            isDeferedFlag = false;
+                        }             
+                        if (
+                            !notificationWithoutPermissions.contains(n.Notification_Type__c) &&
+                            isDeferedFlag && 
                             (n.StartDate__c == null &&
                             !instantNotificationTypes.contains(n.Notification_Type__c))
                         )
@@ -417,7 +432,7 @@ public without sharing class NotificationService {
                                 if (
                                     (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
                                     (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
-                                     !String.isBlank(n.Task_Id__c))
+                                    !String.isBlank(n.Task_Id__c))
                                 ) {
                                     if (
                                         !String.isBlank(n.Task_Id__c) &&

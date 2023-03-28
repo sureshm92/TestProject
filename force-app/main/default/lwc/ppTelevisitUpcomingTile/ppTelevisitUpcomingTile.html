@@ -1,0 +1,103 @@
+<template>
+    <!--<div class="slds-grid card-wrap">
+        <header class="slds-has-flexi-truncate">
+            <h2 class="slds-card__header-title">
+                <p class="slds-card__header-link slds-truncate taskHeader">
+                    <span>Upcoming</span>
+                </p>
+            </h2>
+        </header>
+    </div>-->
+
+    
+        <!--<div class="slds-card__body slds-card__body_inner card-wrap " style="overflow: hidden">
+            <article class="slds-card slds-card_boundary container-card">
+                <div class="slds-card__body slds-card__body_inner slds-scrollable_y" style="height:50rem;width:24rem">
+                -->
+                <template if:true={isLoading}>
+                    <lightning-spinner
+                        alternative-text="Loading..." variant="brand">
+                    </lightning-spinner>
+                </template>
+                    <template if:false={showBlankTelevisit}>
+                        <template for:each={allActiveVisits} for:item="visit" >
+                            
+                            <div key={visit.Id} class={keydiv}>
+                                <lightning-card>
+                                    <div class={mainDiv}>
+                                    <p class="tvheader">{visit.Televisit__r.Title__c} </p>
+                                    <p class="tvbody">
+                                        <img src={televisitDatePP2} style="width:30px;"></img>
+                                        <lightning-formatted-date-time time-zone={visit.timezone} style="padding-left: 8px;" month="long" year="numeric" day="2-digit" value={visit.Televisit__r.Visit_Date_Time__c} ></lightning-formatted-date-time></p>
+                                    <p class="tvbody">
+                                        <img src={televisitTimePP2} style="width:30px;"></img>
+                                        <lightning-formatted-date-time time-zone={visit.timezone} style="padding-left: 8px;" value={visit.Televisit__r.Visit_Date_Time__c} hour="2-digit" minute="2-digit" 
+                                        ></lightning-formatted-date-time> -&nbsp; 
+                                        <lightning-formatted-date-time time-zone={visit.timezone} value={visit.Televisit__r.Visit_End_Date_Time__c} hour="2-digit" minute="2-digit" 
+                                        ></lightning-formatted-date-time>
+                                    </p>
+                                    <hr class="hrline"/>
+                                    <div class="tvbody">
+                                        
+                                            <span><img src={televisitAttendeePP2} style="width:35px;vertical-align: top;"></img></span>
+                                       
+                                        
+                                            <template if:true={visit.isPIAttendee}>
+                                                <span style="display: inline-block;width:60%;padding: 2px 6px;">{visit.PINameWithoutSalutation} (PI)</span> 
+                                            </template>
+                                            <template if:false={visit.isPIAttendee}>
+                                                <span style="display: inline-block;width:60%;padding: 2px 6px;">{visit.siteStaffName} (Site Staff)</span> 
+                                            </template>
+                                        
+                                            <span>
+                                                <c-upcoming-televisit-tooltip
+                                                    height = "96px"
+                                                    width = "149px"
+                                                    position="absolute"
+                                                    related-attendees = {visit.relatedAttendees}
+                                                    displaytext = {visit.numberOfParticipants}
+                                                
+                                                > </c-upcoming-televisit-tooltip>
+                                            </span>
+                                        
+                                    </div> 
+                                        
+                                        
+
+                                      
+                                        
+                                    <p class="tvbody" style="text-align:center; padding:10px"><a href="televisit" onclick={setSessionCookie}>View Televisit Details</a> </p>
+                                    <!--{visit.eachMeetInfo} &nbsp;-->
+                                    
+                                    <!--<lightning-button data-name={visit.Televisit__r.Meeting_URL__c} label={labels.JOIN_MEET}
+                                        title="Click To Join" onclick={handleJoinClick} variant="base"></lightning-button>
+                                        <br/>-->
+                                    </div>
+                                </lightning-card>
+                            </div>
+                            <!--<br key={visit.Id}/>-->
+                            <template if:false={desktop}>
+                                <p key={visit.Id} style="padding: 6px;text-align: center; background: rgb(248, 249, 251);"></p>
+                            </template>
+                        </template> 
+                    </template>
+                    
+                    <template if:true={showBlankTelevisit}>
+                        <div class="slds-card-wrapper slds-card_boundary slds-align_absolute-center televisit-card-upcoming">
+                            <span class="center-align">
+                                <img src={televisitNoUpcomingRecord} />
+                            </span>
+                           <span class="text-colour"> No upcoming televisits </span>
+                           <div class="noupcomingcard">
+                                <a class="label" href="televisit" onclick={setSessionCookie}>
+                                    View All Televisits
+                                </a>
+                            </div>
+                        </div>
+                    </template>
+                    <br/>
+                
+                <!--</div>
+            </article>
+        </div> -->
+</template>

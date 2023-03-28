@@ -8,6 +8,13 @@ export default class PpDetailPageResourceItem extends LightningElement {
     isThumbnailPresent = false;
     desktop;
     showSpinner = false;
+
+    // landscape = false;
+
+    get modeOfIframeStyle(){
+        return this.resourceType == 'Multimedia' ? "multimedia_landscape" : "multimedia_landscape";
+    }
+
     connectedCallback() {
         this.showSpinner = true;
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
@@ -19,9 +26,18 @@ export default class PpDetailPageResourceItem extends LightningElement {
         if (this.resourceType == 'Video') {
             this.showVideo = true;
         }
+        if (this.resourceType == 'Multimedia') {
+            this.showVideo = true;
+        }
         this.showSpinner = false;
+
+        // window.addEventListener("orientationchange", function() {
+        //     console.log("the orientation of the device is now " + screen.orientation.angle);
+        //     screen.orientation.angle > 0 ? this.landscape = true : this.landscape = false; 
+        // });
     }
     handleError() {
         this.isThumbnailPresent = false;
     }
+    
 }

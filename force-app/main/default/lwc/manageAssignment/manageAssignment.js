@@ -29,6 +29,8 @@ import PG_PST_L_Delegates_My_Measur_New from '@salesforce/label/c.PG_PST_L_Deleg
 import PG_PST_L_Delegates_See_Vitals_New from '@salesforce/label/c.PG_PST_L_Delegates_See_Vitals_New';
 import PP_AS_CONDITIONAL_FEATURE from '@salesforce/label/c.PP_AS_CONDITIONAL_FEATURE';
 import PP_Delegates_Permitted_Actions from '@salesforce/label/c.PP_Delegates_Permitted_Actions';
+import Withdrew_Assignment from '@salesforce/label/c.Withdrew_Assignment';
+import Withdrew_Assignment_Consent from '@salesforce/label/c.Withdrew_Assignment_Consent';
 
 import {
     publish,
@@ -81,7 +83,9 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
         PP_Withdraw,
         PP_What_can_I_see_Or_Do,
         PP_Assigned_As_Primary_Delegate,
-        PP_Assigned_As_Primary_Delegate_help
+        PP_Assigned_As_Primary_Delegate_help,
+        Withdrew_Assignment,
+        Withdrew_Assignment_Consent
     };
 
     connectedCallback() {

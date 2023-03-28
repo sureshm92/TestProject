@@ -408,6 +408,7 @@ public without sharing class VisitResultSharingService {
                 Shareback_Settings_Countries__c,
                 Participant_Visit_Result_Group__c,
                 Visit_Data_Shareback__c,
+                CommunityTemplate__c,
                 (
                     SELECT
                         Id,
@@ -466,6 +467,53 @@ public without sharing class VisitResultSharingService {
         }
         return visitResultSharingByGroupAndMode;
     }
+
+    public static Map<String, Map<String, List<String>>> visitResultSharingByGroupAndModeAndCountry() {
+        VisitResultMService visitResultMService = new VisitResultMService();
+        List<Visit_Result_Type_Sharing__c> visitResultTypeSharings = [
+            SELECT Id, Type__c, Include_Countries__c, Sharing_Countries__c
+            FROM Visit_Result_Type_Sharing__c
+            WHERE Clinical_Trial_Profile__c = :state.ctp.Id
+        ];
+        List<String> visitResultTypeSharingNames = new List<String>();
+        String mailingCountryCode = state.participant.Mailing_Country_Code__c;
+        for (Visit_Result_Type_Sharing__c visitResultTypeSharing : visitResultTypeSharings) {
+            //country check
+            Boolean isCountryEnabled =
+                visitResultTypeSharing.Sharing_Countries__c == 'All' ||
+                (visitResultTypeSharing.Include_Countries__c &&
+                visitResultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode)) ||
+                (!visitResultTypeSharing.Include_Countries__c &&
+                !visitResultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode));
+            if (isCountryEnabled) {
+                visitResultTypeSharingNames.add(visitResultTypeSharing.Type__c);
+            }
+        }
+        Map<String, Map<String, List<String>>> visitResultSharingByGroupAndMode = new Map<String, Map<String, List<String>>>();
+        for (String resultType : visitResultTypeSharingNames) {
+            String visitResultGroup = visitResultMService.getVisitResultGroupByTypeName(resultType);
+            String visitResultMode = visitResultMService.getVisitResultModeByGroupName(
+                visitResultGroup
+            );
+            if (visitResultSharingByGroupAndMode.get(visitResultMode) == null) {
+                visitResultSharingByGroupAndMode.put(
+                    visitResultMode,
+                    new Map<String, List<String>>()
+                );
+            }
+            if (
+                visitResultSharingByGroupAndMode.get(visitResultMode).get(visitResultGroup) == null
+            ) {
+                visitResultSharingByGroupAndMode.get(visitResultMode)
+                    .put(visitResultGroup, new List<String>());
+            }
+            visitResultSharingByGroupAndMode.get(visitResultMode)
+                .get(visitResultGroup)
+                .add(resultType);
+        }
+        return visitResultSharingByGroupAndMode;
+    }
+
     private static String getVisitResultRecordTypeName(String strVisitResultGroup) {
         String strVisitResultRecordType = '';
         if (!String.isBlank(strVisitResultGroup)) {

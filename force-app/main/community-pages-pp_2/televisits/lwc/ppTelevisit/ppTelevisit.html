@@ -2,10 +2,24 @@
     <c-web-spinner fixed="true"></c-web-spinner>
     <template if:true={contentLoaded}>
         <template if:false={isMobile}>
-            <h2 class="my-televisits">{label.Televisits}</h2><br/><br/><br/>
+            <template if:true = {isdelegate}>
+              <div class = "delegate-desktop">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="com-icon pointer">
+                    <use xlink:href={homeSvg} onclick={redircttohomepage}></use>
+                </svg>
+                <lightning-icon icon-name="utility:chevronright" class = "icon-chevron-right"></lightning-icon>
+                <span class = "delegate-televisit" > &nbsp;{label.Televisits}</span>
+                <h2 class="my-televisits-delegate">{label.Televisits}</h2><br/>
+              </div>
+            </template>
+            <template if:false = {isdelegate}>
+                <h2 class="my-televisits">{label.Televisits}</h2><br/>
+            </template>
             <div class="slds-grid slds-wrap slds-gutters">
                 <div
-                    class="slds-col slds-size_1-of-1 col1"
+                    class="slds-col slds-size_1-of-1 "
                 >
                     <template if:true={contentLoaded}>
                         <div class="list-selection">
@@ -93,7 +107,21 @@
                 </div>
         </template>
         <template if:true={isMobile}>
-            <h2 class="my-televisits-mobile">{label.Televisits}</h2><br/>
+            <template if:true = {isdelegate}>
+                <div class = "delegatecssmobile">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="com-icon pointer">
+                        <use xlink:href={homeSvg} onclick={redircttohomepage}></use>
+                    </svg>
+                    <lightning-icon icon-name="utility:chevronright" class = "icon-chevron-right"></lightning-icon>
+                    <span class = "delegate-televisit" > &nbsp;{label.Televisits}</span>
+                    <h2 class="my-televisits-mobiledelegate">{label.Televisits}</h2><br/>
+                  </div>
+            </template>
+            <template if:false = {isdelegate}>
+                <h2 class="my-televisits-mobile">{label.Televisits}</h2><br/>
+            </template>
             <div class="slds-grid slds-wrap slds-gutters">
                 <div
                     class="slds-col slds-size_1-of-1"

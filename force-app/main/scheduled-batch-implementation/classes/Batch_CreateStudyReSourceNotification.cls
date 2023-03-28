@@ -69,11 +69,11 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                 if (resStudyObj.Resource__r.Content_Type__c == 'Relevant_Link') {
                     if (contentLangByResId.containsKey(resStudyObj.Resource__c)) {
                         contentLangByResId.get(resStudyObj.Resource__c)
-                            .add(resStudyObj.Resource__r.Languages__c);
+                            .addAll(resStudyObj.Resource__r.Languages__c.split(';'));
                     } else {
                         contentLangByResId.put(
                             resStudyObj.Resource__c,
-                            new List<String>{ resStudyObj.Resource__r.Languages__c }
+                            resStudyObj.Resource__r.Languages__c.split(';')
                         );
                     }
                 } else {
@@ -151,6 +151,16 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                         Recipient__c = contact.Id,
                                         WhatId__c = pe.Id,
                                         Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_TYPE,
+                                        Target_Record_Ids__c = '' + res.Resource__c
+                                    )
+                                );
+                            }
+                            if (res.Resource__r.Content_Type__c == 'Study_Document') {
+                                notifications.add(
+                                    new Notification__c(
+                                        Recipient__c = contact.Id,
+                                        WhatId__c = pe.Id,
+                                        Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_DOC_TYPE,
                                         Target_Record_Ids__c = '' + res.Resource__c
                                     )
                                 );

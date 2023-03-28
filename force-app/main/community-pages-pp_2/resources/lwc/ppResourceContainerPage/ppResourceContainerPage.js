@@ -116,8 +116,6 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             this.spinner.show();
         }
         if (communityService.isInitialized()) {
-            var recId = communityService.getUrlParameter('id');
-            var userMode = communityService.getUserMode();
             //language support
             let paramLanguage = communityService.getUrlParameter('language');
             let lanCode = communityService.getUrlParameter('lanCode');
@@ -129,27 +127,12 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             ) {
                 this.isRTL = true;
             }
-            let result = await getTrialDetail({ trialId: recId, userMode: userMode }).catch(
-                (error) => {
-                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-                }
-            );
-            this.linksData = await getLinksData({}).catch((error) => {
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-            });
-
-            this.trialdata = JSON.parse(result);
             //cards toggle logic
             if (communityService.getCurrentCommunityMode().participantState != 'ALUMNI') {
-                this.toggleExplore = this.trialdata?.trial?.Video_And_Articles_Are_Available__c;
-                this.toggleDocs = this.trialdata?.trial?.Study_Documents_Are_Available__c;
-                this.toggleLinks = this.linksData?.linksAvailable;
             } else {
                 this.toggleExplore = true;
                 this.toggleLinks = true;
             }
-            this.isInitialized = true;
-            this.createoptions();
             getInitDataNew()
                 .then((returnValue) => {
                     let initData = JSON.parse(JSON.stringify(returnValue));
@@ -159,6 +142,13 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                         id: '',
                         therapeuticArea: ''
                     };
+                    if (communityService.getCurrentCommunityMode().participantState != 'ALUMNI') {
+                        this.toggleExplore = initData.videoAndArticlesAreAvailable;
+                        this.toggleDocs = initData.studyDocumentsAreAvailable;
+                        this.toggleLinks = initData.linksAvailable;
+                    }
+
+                    this.createoptions();
 
                     initData.resources.forEach((resObj) => {
                         this.linksWrappers.push(resObj.resource);
@@ -177,8 +167,8 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                         delete resObj.resource.Therapeutic_Area_Assignments__r;
                     });
                     this.linksWrappers.length == 0
-                    ? (this.discoverEmptyState = true)
-                    : (this.discoverEmptyState = false);
+                        ? (this.discoverEmptyState = true)
+                        : (this.discoverEmptyState = false);
                     this.getUpdates(JSON.stringify(initData));
                 })
                 .catch((error) => {
@@ -191,9 +181,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         }
     }
     async getUpdates(returnValue) {
-        let state;
         if (communityService.isInitialized()) {
-            state = communityService.getCurrentCommunityMode().participantState;
             this.pData = communityService.getParticipantData();
             let data = JSON.stringify(this.pData);
 
@@ -237,16 +225,14 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         );
     }
     handleChangePreference() {
-        this.redirecturl = window.location.origin + basePathName + '/account-settings?changePref';
-        const config = {
-            type: 'standard__webPage',
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: this.redirecturl
+                pageName: 'account-settings'
+            },
+            state: {
+                changePref: null
             }
-        };
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
         });
     }
     updateResources(event) {

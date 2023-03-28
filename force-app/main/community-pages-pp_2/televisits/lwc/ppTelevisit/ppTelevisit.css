@@ -6,8 +6,28 @@
   font-size: 32px;
   font-weight: 600;
   letter-spacing: 0;
-  line-height: 110px;
-  padding-left: 32px;
+}
+.my-televisits-delegate{
+    height: 48px;
+    width: 340px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 70px;
+}
+.delegatecss{
+    padding-left: 32px; 
+    padding-top: 13px;
+}
+.delegatecssmobile{
+    margin-left: 1rem;
+}
+.delegatetelevisitmobile{
+    height: 30px;
+    cursor:pointer;
+    margin-left: -10px;
 }
 .my-televisits-mobile{
   height: 32px;
@@ -18,7 +38,32 @@
   font-weight: 600;
   letter-spacing: 0;
   line-height: 32px;
+  margin-left: 1rem;
   }
+  .my-televisits-mobiledelegate{
+    height: 32px;
+    width: 217px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 50px;
+    }
+.delegate-televisit {
+    height: 24px;
+    width: 67px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.icon-chevron-right {
+    height: 10px;
+    width: 10px;
+}
 .televisit-card-upcoming {
     height: 152px;
     width: 630px;
@@ -64,15 +109,20 @@
 .up-button {
     border-radius: 16px 0 0 16px;
     border: 1px solid #d9d9d9 !important;
+    width: 109px;
 }
 .active-button-background {
     color: white !important;
     background-color: #015ff1;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .inactive-button-background {
     color: #595959 !important;
     background-color: #ffffff !important;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .past-button {
@@ -80,7 +130,7 @@
     border: 1px solid #d9d9d9;
     border-radius: 0 16px 16px 0 !important;
     font-family: 'Proxima Nova';
-    font-weight: 400;
+    font-weight: 600;
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
@@ -121,6 +171,16 @@
         padding-left: unset;
         padding-right: unset;
     }
-
-
-    
+.pointer {
+        cursor: pointer;
+}
+.com-icon {
+        height: 16px;
+        color: grey;
+        width: 16px;
+        margin-right: 8px;
+        fill: #999999;
+}
+.delegate-desktop{
+    margin-top: -7px;
+}

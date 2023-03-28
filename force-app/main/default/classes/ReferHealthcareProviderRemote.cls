@@ -493,6 +493,13 @@ global without sharing class ReferHealthcareProviderRemote {
         String YearOfBirth,
         Id perID
     ) {
+        //Bypaass old methods from Patient Delegate Trigger
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+            );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+            );
         try {
             HealthcareProvider delegateDuplicate;
             if (ddInfo != null)
@@ -564,6 +571,24 @@ global without sharing class ReferHealthcareProviderRemote {
                 Contact newContact;
                 if (delegateDuplicate == null || delegateDuplicate.contactId == null) {
                     newContact = new Contact();
+                    //Added for performance improvement
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.createNotificationsHandler.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.SetShowTourDefaultHandler.class);
+                    TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
+                    TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
+                    TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
+                    );
+                    //
                     newContact.FirstName = delegateObj.firstName;
                     newContact.LastName = delegateObj.lastName;
                     newContact.Email = delegateObj.email;
@@ -602,6 +627,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     } else {
                         newContact.Phone = participantObj.Phone__c;
                     }
+                    
                     insert newContact;
                 } else {
                     newContact = [
@@ -620,6 +646,14 @@ global without sharing class ReferHealthcareProviderRemote {
                 }
 
                 Participant__c participantDelegate;
+                //Added for performance improvement
+                TriggerHandlerExecutor.bypassHandler(
+                        ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                        ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class
+                );
+                
                 if (delegateDuplicate == null || delegateDuplicate.participantId == null) {
                     participantDelegate = new Participant__c(
                         Adult__c = true,
@@ -728,6 +762,9 @@ global without sharing class ReferHealthcareProviderRemote {
                 if (!createUser) {
                     TriggerHandlerExecutor.bypassHandler(
                         PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(
+                        PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
                     );
                 }
                 Patient_Delegate_Enrollment__c getPtDelegateEnroll = [Select id, Patient_Delegate__c, Status__c,isInviteToPP__c

@@ -69,7 +69,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_StudyDelegateConsentEmail</shortDescription>
-        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with study team and to be contacted at the email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
+        <value>By checking this box, you confirm that the participant&apos;s chosen delegate consents to share their information with a study team and to be contacted at the email provided above, to support the participant in the course of this study and to keep them updated with important study-related information.</value>
     </labels>
     <labels>
         <fullName>RH_No_Active_Study</fullName>
@@ -506,6 +506,55 @@ Duration: ##VisitDuration</value>
         <protected>false</protected>
         <shortDescription>PIR_Discard</shortDescription>
         <value>Discard</value>
+    </labels>
+    <labels>
+        <fullName>PDE_Created_By_for_Data_Load</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Studies For Data Load</shortDescription>
+        <value>Mani Deepak</value>
+    </labels>
+    <labels>
+        <fullName>PP_Open_In_New_Tab</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Open In New Tab</shortDescription>
+        <value>Open in New Tab</value>
+    </labels>
+    <labels>
+        <fullName>PP_Update_Refresh</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Update Refresh</shortDescription>
+        <value>Refresh</value>
+    </labels>
+    <labels>
+        <fullName>PP_Studies_Program</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Studies Program</shortDescription>
+        <value>Study/Program Suppor</value>
+    </labels>
+    <labels>
+        <fullName>PP_Site_And_Location_Caps</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Site And Location Caps</shortDescription>
+        <value>SITE LOCATION</value>
+    </labels>
+    <labels>
+        <fullName>PP_Site_Staff_Post_Fix</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Site Staff Post Fix</shortDescription>
+        <value>(Site Staff)</value>
+    </labels>
+    <labels>
+        <fullName>PP_Studies_For_Data_Load</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Studies For Data Load</shortDescription>
+        <value>S-71111;S-71112;S-62415;S-70716</value>
     </labels>
     <labels>
         <fullName>PIR_Discard_Changes</fullName>
@@ -3056,6 +3105,34 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>CC_search_for_a_participant</shortDescription>
         <value>Search for a phone number</value>
+    </labels>
+    <labels>
+        <fullName>CPRA_DoNotSell_GSK</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPRA_DoNotSell_GSK</shortDescription>
+        <value>Your Privacy Choices</value>
+    </labels>
+    <labels>
+        <fullName>CPRA_DoNotSell_IQVIA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPRA_DoNotSell_IQVIA</shortDescription>
+        <value>Your Privacy Choices</value>
+    </labels>
+    <labels>
+        <fullName>CPRA_DoNotSell_PatientPortal</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPRA_DoNotSell_PatientPortal</shortDescription>
+        <value>Your Privacy Choices</value>
+    </labels>
+    <labels>
+        <fullName>CPRA_DoNotSell_Janssen</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPRA_DoNotSell_Janssen</shortDescription>
+        <value>Your Privacy Choices</value>
     </labels>
     <labels>
         <fullName>CPD_About_you</fullName>
@@ -10500,6 +10577,13 @@ The expected format is REF##### to REF########</value>
         <value>https://fun-nosoftware-4733-dev-ed--c.documentforce.com/servlet/servlet.FileDownload?file=01554000001U88V</value>
     </labels>
     <labels>
+        <fullName>ImgPathRegistrationEmail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ImgPathRegistrationEmail</shortDescription>
+        <value>update ImgPathRegistrationEmail</value>
+    </labels>
+    <labels>
         <fullName>Initial_Visit_Date</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10906,7 +10990,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Can&apos;t rembeber my username</shortDescription>
-        <value>I can not remember my username</value>
+        <value>I cannot remember my username</value>
     </labels>
     <labels>
         <fullName>PP_Don_t_want_to_receive</fullName>
@@ -11635,6 +11719,34 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>You are already associated with this study.</shortDescription>
         <value>You are already associated with this study.</value>
+    </labels>
+    <labels>
+        <fullName>Medical_Record_Retrieval</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Medical Record Retrieval</shortDescription>
+        <value>Medical Record Authorization</value>
+    </labels>
+    <labels>
+        <fullName>HAPI_Provider</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HAPI_Provider</shortDescription>
+        <value>You have not authorized any providers</value>
+    </labels>
+    <labels>
+        <fullName>Manage_Authorization</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manage_Authorization</shortDescription>
+        <value>Manage Authorizations</value>
+    </labels>
+    <labels>
+        <fullName>HAPI_Start_Loading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HAPI_Start_Loading</shortDescription>
+        <value>Retrieving medical records. . . Please wait.</value>
     </labels>
     <labels>
         <fullName>Navigation_eDiary</fullName>
@@ -14466,6 +14578,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>New password</value>
     </labels>
     <labels>
+        <fullName>PP_Need_Tech_Support</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Need Tech Support</shortDescription>
+        <value>Need technical support?</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Nickname</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14625,6 +14744,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP Incorrect password</shortDescription>
         <value>Incorrect password</value>
+    </labels>
+    <labels>
+        <fullName>PP_If_You_Exp_Issue</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_If_You_Exp_Issue</shortDescription>
+        <value>If you experience any issue while using IQVIA Patient Portal, send us an email at</value>
     </labels>
     <labels>
         <fullName>PP_Password_does_not_fit_criteria</fullName>
@@ -16539,7 +16665,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_MRR_BTN_Back_to_My_Participant</shortDescription>
-        <value>Back to My participants</value>
+        <value>Back to My Participants</value>
     </labels>
     <labels>
         <fullName>Primary</fullName>
@@ -19097,6 +19223,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>To be eligible to participate in the study, one must meet the following criteria:</value>
     </labels>
     <labels>
+        <fullName>PP_Study_Status_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Status Unavailable</shortDescription>
+        <value>Description and Motivational message cannot be configured on this study.</value>
+    </labels>
+    <labels>
         <fullName>PP_Study_Consent_Adult_ROW</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19123,6 +19256,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Inclusion_Criteria</shortDescription>
         <value>Inclusion Criteria</value>
+    </labels>
+    <labels>
+        <fullName>PP_Event_Completion_Warning_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Event Completion Warning Message</shortDescription>
+        <value>You are about to mark -- as complete. You will not be able to revert the status of this event once marked as complete.
+            Are you sure you would like to continue?</value>
     </labels>
     <labels>
         <fullName>PP_Exclusion_Criteria</fullName>
@@ -19193,6 +19334,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_CantReuseOldPwd</shortDescription>
         <value>You cannot reuse this old password.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Care_Team_Caps</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Care Team Caps</shortDescription>
+        <value>CARE TEAM</value>
     </labels>
     <labels>
         <fullName>PP_NewPwdCantCurrentPwd</fullName>
@@ -19447,6 +19595,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>For the site to contact you through this platform regarding participation in this study, please note that at least one contact method should be selected.</value>
     </labels>
     <labels>
+        <fullName>PP_PI_Post_Fix</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP PI Post Fix</shortDescription>
+        <value>(PI)</value>
+    </labels>
+    <labels>
         <fullName>PP_Profile_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19487,6 +19642,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_ContactInformation</shortDescription>
         <value>Contact Information</value>
+    </labels>
+    <labels>
+        <fullName>PP_Contact_Support</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Contact_Support</shortDescription>
+        <value>Contact Support</value>
     </labels>
     <labels>
         <fullName>PP_Cookie_Banner_Header</fullName>
@@ -19846,6 +20008,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_FirstName</shortDescription>
         <value>First Name</value>
+    </labels>
+    <labels>
+        <fullName>PP_For_Question_Abt_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP For Question Abt Participant</shortDescription>
+        <value>For questions about your participation, contact:</value>
     </labels>
     <labels>
         <fullName>PP_ForgotPwd</fullName>
@@ -20343,6 +20512,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Paste URL</shortDescription>
         <value>Paste URL here</value>
+    </labels>
+    <labels>
+        <fullName>PP_Phone_In_Caps</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Phone In Caps</shortDescription>
+        <value>PHONE</value>
     </labels>
     <labels>
         <fullName>PP_Phone_Mandatory</fullName>
@@ -21650,6 +21826,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Poput_ICF</shortDescription>
         <value>Please confirm that your patient has signed ICF consent</value>
+    </labels>
+    <labels>
+        <fullName>Posting_date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Posting_date</shortDescription>
+        <value>Posting date:</value>
     </labels>
     <labels>
         <fullName>Potassium</fullName>
@@ -27511,6 +27694,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077jMc&amp;oid=00D1I000001V1t1&amp;lastMod=1607842028000</value>
     </labels>
     <labels>
+        <fullName>Withdrew_Assignment</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Withdrew Assignment</shortDescription>
+        <value>Withdraw assignment</value>
+    </labels>
+    <labels>
+        <fullName>Withdrew_Assignment_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Withdrew Assignment Consent</shortDescription>
+        <value>By withdrawing, you will no longer be able to access this assignment. Are you sure you would like to continue?</value>
+    </labels>
+    <labels>
         <fullName>Withdrew_Consent</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -28509,6 +28706,27 @@ Please contact the Study Team for further updates or please login for additional
         <value>IQVIA™ Patient Portal would like to access the microphone and camera.</value>
     </labels>
     <labels>
+        <fullName>InitailEmail_stayInformed_illustration	</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>	InitailEmail_stayInformed_illustration	</shortDescription>
+        <value>Update value</value>
+    </labels>
+    <labels>
+        <fullName>InitailEmail_task_illustration</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InitailEmail_task_illustration</shortDescription>
+        <value>Update value</value>
+    </labels>
+    <labels>
+        <fullName>InitailEmail_trackProgress_illustration</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InitailEmail_trackProgress_illustration	</shortDescription>
+        <value>Update value</value>
+    </labels>
+    <labels>
         <fullName>Don_t_allow</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -29013,6 +29231,14 @@ Please contact the Study Team for further updates or please login for additional
         <value>*all features may not be available for each study</value>
     </labels>
     <labels>
+        <fullName>PP_AS_CONDITIONAL_FEATURE_GENERIC</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_CONDITIONAL_FEATURE_GENERIC</shortDescription>
+        <value>*all features may not be available</value>
+    </labels>
+    <labels>
         <fullName>PP_AS_Delegate_Header</fullName>
         <categories>PPAccountSettings</categories>
         <language>en_US</language>
@@ -29114,7 +29340,7 @@ Please contact the Study Team for further updates or please login for additional
         <protected>true</protected>
         <shortDescription>No_date_available</shortDescription>
         <value>No date available</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>Navigation_AboutProgram</fullName>
         <language>en_US</language>
@@ -29835,9 +30061,15 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Created By PI New PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the enrollment process.&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the participation journey.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram center.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+            </value>
+
     </labels>
 
     <labels>
@@ -29852,15 +30084,11 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient New  PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram center.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+                        
+            &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Sign_Patient_New_PP</fullName>
@@ -29882,11 +30110,7 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient1 PP New</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in clinical research.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in clinical research.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
 
@@ -29953,7 +30177,17 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
-        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more ##studiesOrPrograms that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more programs listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.
+        </value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Initial_Patient_Delegate_PP_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
+            &lt;span style=&quot;color:#444444;&quot;&gt;Your username is ##UserName.&lt;/span&gt;
+        </value>
     </labels>
     <labels>
         <fullName>Programs_PP</fullName>
@@ -29968,6 +30202,13 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>Studies PP</shortDescription>
         <value>studies</value>
+    </labels>
+    <labels>
+        <fullName>Studies_And_Program_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies And Program PP</shortDescription>
+        <value>Studies and Programs</value>
     </labels>
     <labels>
         <fullName>Delegate_learnmore_PP</fullName>
@@ -30010,45 +30251,44 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Initial_Patient_ePR_PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information.A member of the ##isStudyorProgram team will contact you regarding the next steps in the ##isStudyorProgram process.&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information. A member of the ##isStudyorProgram team will contact you regarding the next steps in the ##isStudyorProgram process.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Patient_ePR_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Signature_Patient_ePR_PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the IQVIA Patient Portal will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+                        
+            &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Participant_Delegate_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Signature_Participant_Delegate_PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
-&lt;span style=&quot;color:#444444;&quot;&gt;Your username is ##UserName.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;We are excited to be on this journey with you.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;We are excited to be on this journey with you.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+                        
+            &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_RP_Referral_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Initial_Patient_RP_Referral_PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in a ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the referral process.&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the referral process.&lt;/span&gt;
+            
+            &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;</value>
     </labels>
 
     <labels>
@@ -30056,13 +30296,11 @@ Please contact the Study Team for further updates or please login for additional
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Signature_Patient_RP_Referral_PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the IQVIA Patient Portal will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+                        
+            &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Program_SMS_PP</fullName>
@@ -30453,6 +30691,13 @@ Please contact the Study Team for further updates or please login for additional
         <value>Reminder must be prior to visit.</value>
     </labels>
     <labels>
+        <fullName>Minutesinshort</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Minutesinshort</shortDescription>
+        <value>min</value>
+    </labels>
+    <labels>
         <fullName>Future_DateTime_Error_For_Reminder_DateTime_Task</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -30494,15 +30739,17 @@ Please contact the Study Team for further updates or please login for additional
                 
             Sincerely,            
     
-            ##SignatureShortCommunityName</value>    
-    </labels> 
+            ##SignatureShortCommunityName</value>
+           
+    </labels>
+     
     <labels>
         <fullName>Email_Body_Reset_Password_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Reset Password PP</shortDescription>
         <value>You recently requested a password reset for your account. To complete the process, you can set a new password by clicking on the button above.</value>
-    </labels> 
+    </labels>
     <labels>
         <fullName>Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected_PP_OnlyDate</fullName>
         <language>en_US</language>
@@ -30512,7 +30759,7 @@ Please contact the Study Team for further updates or please login for additional
 
 &lt;div&gt;&lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##TaskOnlydate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_PP_OnlyDate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -30523,7 +30770,7 @@ Please contact the Study Team for further updates or please login for additional
 
 &lt;span &gt;Please login to update the status of your task.&lt;/span&gt;</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Task_Reminder_Type_Not_Selected_Deleg_PP_OnlyDate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -30534,7 +30781,7 @@ Please contact the Study Team for further updates or please login for additional
 
 &lt;span style=&quot;color:#444444;&quot; &gt;Please login to update the status of this task.&lt;/span&gt;</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Email_Body_Instant_Task_Reminder_Type_Not_Selected_PPOnlyDate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -30562,17 +30809,80 @@ Please contact the Study Team for further updates or please login for additional
 &lt;div&gt;&lt;span&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot;&gt; ##expirationOnlyDate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
-        <fullName>PP_Open_In_New_Tab</fullName>
+        <fullName>HAPI_Helptext</fullName>
         <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PP Open In New Tab</shortDescription>
-        <value>Open in New Tab</value>
+        <protected>false</protected>
+        <shortDescription>HAPI_Helptext</shortDescription>
+        <value>In order to complete this transaction, your email address will be shared with the third-party servicer per our Privacy Policy at the bottom of the page. Links will open in new browser window. IQVIA Patient Portal is not responsible for content provided in external websites.</value>
     </labels>
     <labels>
-        <fullName>PP_Update_Refresh</fullName>
+        <fullName>Show_Vitals</fullName>
         <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PP Update Refresh</shortDescription>
-        <value>Refresh</value>
+        <protected>false</protected>
+        <shortDescription>Show Vitals</shortDescription>
+        <value>Show Vitals</value>
+    </labels>
+    <labels>
+        <fullName>Show_Labs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Show Labs</shortDescription>
+        <value>Show Labs</value>
+    </labels>
+    <labels>
+        <fullName>Show_Biomarkers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Show Biomarkers</shortDescription>
+        <value>Show Biomarkers</value>
+    </labels>
+    <labels>
+        <fullName>No_Vitals_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No Vitals Available</shortDescription>
+        <value>There are no vitals available for this visit.</value>
+    </labels>
+    <labels>
+        <fullName>No_Labs_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No Labs Available</shortDescription>
+        <value>There are no labs available for this visit.</value>
+    </labels>
+    <labels>
+        <fullName>No_Biomarkers_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No Biomarkers Available</shortDescription>
+        <value>There are no biomarkers available for this visit.</value>
+    </labels>
+    <labels>
+        <fullName>Vitals_Toggle_Off</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Vitals_Toggle_Off</shortDescription>
+        <value>Vitals are currently turned off. Use the toggle above if you would like to turn your data back on.</value>
+    </labels>
+    <labels>
+        <fullName>Labs_Toggle_Off</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Labs_Toggle_Off</shortDescription>
+        <value>Labs are currently turned off. Use the toggle above if you would like to turn your data back on.</value>
+    </labels>
+    <labels>
+        <fullName>Biomarkers_Toggle_Off</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Biomarkers_Toggle_Off</shortDescription>
+        <value>Biomarkers are currently turned off. Use the toggle above if you would like to turn your data back on.</value>
+    </labels>
+    <labels>
+        <fullName>No_Visit_Results_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No_Visit_Results_Available</shortDescription>
+        <value>No results associated with this visit</value>
     </labels>
 </CustomLabels>

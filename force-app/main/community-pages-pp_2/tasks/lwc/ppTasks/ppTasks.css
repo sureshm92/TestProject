@@ -401,6 +401,9 @@
     line-height: 24px;
     text-align: center;
 }
+.comm-link:hover {
+    cursor: pointer;
+}
 .taskHeader {
     height: 3.14%;
     color: #444444;
@@ -515,5 +518,16 @@
         font-weight: 600;
         letter-spacing: 0;
         line-height: 48px;
+    }
+}
+.divider {
+    border-left: 1px solid #d3d3d3;
+}
+@media all and (max-width: 1023px) {
+    .divider {
+        border-left: none;
+        border-top: 1px solid #d3d3d3;
+        margin: inherit;
+        margin-top: 50px;
     }
 }

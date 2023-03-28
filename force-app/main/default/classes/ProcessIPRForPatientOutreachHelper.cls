@@ -278,6 +278,8 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
             //peList.add(IprEprTriggerHandler.createPE(ipr, participant.Id, ss.Id,ss,participant.Adult__c));
         }
         List<String> PEErrorMsg = new List<String>();
+        List<Patient_Delegate_Enrollment__c> patientDelEnrollList = new List<Patient_Delegate_Enrollment__c>();
+
        List<Database.SaveResult> saveResults = Database.update(peList, false);
         
         Set<Id> participantsWithoutErrors = new Set<Id>();
@@ -295,6 +297,22 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
                     if(dupPartUpdateMap.containsKey(pe.Participant__c))
                         dupPartToUpdateList.add(dupPartUpdateMap.get(pe.Participant__c));
                     //    
+
+                    if( !String.isBlank(ipr.Delegate_First_Name__c) &&
+                       !String.isBlank(ipr.Delegate_Last_Name__c) &&
+                       !String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c) &&
+                       !String.isEmpty(ipr.Delegate_Email_Address__c))
+                    {
+                    patientDelEnrollList.add(
+                        new Patient_Delegate_Enrollment__c(
+                            Status__c = 'Disconnected',
+                            Participant_Enrollment__c = sr.getId(),
+                            Primary_Delegate__c = true,
+                            Study_info_storage_consent__c=true,
+                            Study_Storage_Consent_Time__c = Datetime.now()
+                        )
+                    );
+                    }
                 } else {
                     ipr.Batch_consideration__c = 'Completed';
                     ipr.Error_Message__c = EPR_Validation_Message__mdt.getinstance('enrollment_duplicate').Error_Message__c;
@@ -306,6 +324,10 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
             }
         }
         update iprListToUpdate;
+
+        if(!patientDelEnrollList.isEmpty()){
+            insert patientDelEnrollList;
+        }
 
         //REF-4741
         if(!dupPartToUpdateList.isEmpty())
@@ -502,6 +524,13 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
         }             
         
         //Create Patient delegate
+        //Bypaass old methods from Patient Delegate Trigger
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+            );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+            );
         if (!delegateIds.isEmpty()) {
             Set<Id> ptDelegateContSet = new Set<Id>();
             Set<Id> participantSet = new Set<Id>();
@@ -567,6 +596,33 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
             }
             
             insert ptDelegateRefs;
+            Map<id,id> participantToPatientDelMap = new map<id,id>();
+            if (!participantsWithoutErrors.isEmpty()) {
+
+            for(Patient_Delegate__c getPatientDelegate : [Select id, Participant__c from
+                        Patient_Delegate__c where 
+                        Participant__c IN :participantsWithoutErrors  and Primary_Delegate__c=true] ){
+
+                         participantToPatientDelMap.put(getPatientDelegate.Participant__c,getPatientDelegate.id);
+                        }
+            
+            List<Patient_Delegate_Enrollment__c> updatePatientDelEnroll= new List<Patient_Delegate_Enrollment__c> ();
+            for( Patient_Delegate_Enrollment__c pder: [select id,Participant_Enrollment__c,Participant_Enrollment__r.Participant__c ,Patient_Delegate__c
+                                                    from Patient_Delegate_Enrollment__c where 
+                                                    Participant_Enrollment__r.Participant__c in : participantsWithoutErrors 
+                                                    and Patient_Delegate__c=null]){
+                                                        if(participantToPatientDelMap.containsKey(pder.Participant_Enrollment__r.Participant__c))
+                                                        {
+                                                            pder.Patient_Delegate__c=ParticipantToPatientDelMap.get(pder.Participant_Enrollment__r.Participant__c);
+                                                            updatePatientDelEnroll.add(pder);
+                                                        }
+                                                        
+            }
+            if(!updatePatientDelEnroll.isEmpty()){
+                update updatePatientDelEnroll;
+            }
+         }
+            
         }
         
         Map <Id,Contact> contactsToUpdateMap = new Map <Id,Contact>();

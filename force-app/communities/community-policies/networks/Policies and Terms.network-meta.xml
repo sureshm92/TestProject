@@ -5,7 +5,7 @@
     <changePasswordTemplate>unfiled$public/CommunityChangePasswordEmailTemplate</changePasswordTemplate>
     <communityRoles/>
     <disableReputationRecordConversations>false</disableReputationRecordConversations>
-    <emailSenderAddress>gulamsabir.khan@quintiles.com</emailSenderAddress>
+    <emailSenderAddress>patientupdates@mail.clinicalresearch.com</emailSenderAddress>
     <emailSenderName>Policies and Terms</emailSenderName>
     <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
     <enableDirectMessages>true</enableDirectMessages>
@@ -37,7 +37,6 @@
         <loginPageOverrideSetting>Designer</loginPageOverrideSetting>
         <selfRegProfilePageOverrideSetting>Designer</selfRegProfilePageOverrideSetting>
     </networkPageOverrides>
-    <newSenderAddress>updates@cp.clinicalresearch.com</newSenderAddress>
     <picassoSite>Policies_and_Terms1</picassoSite>
     <selfRegistration>false</selfRegistration>
     <sendWelcomeEmail>false</sendWelcomeEmail>

@@ -26,6 +26,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     @api totalNoOfStudies;
     @api isDesktop;
     @api addNewDelegate;
+    @api picklistLabel;
 
     @track firstThreeselectedStudyies = [];
     subscription = null;
@@ -198,9 +199,9 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         //   }
     }
     divSetStudy(event) {
-        event.currentTarget.getElementsByTagName('input')[0].checked =
-            !event.currentTarget.getElementsByTagName('input')[0].checked;
-        this.setStudyList();
+        event.currentTarget.getElementsByTagName('lightning-input')[0].checked =
+            !event.currentTarget.getElementsByTagName('lightning-input')[0].checked;
+        this.setStudyList(event,false);
     }
     setStudyList(event, selectAllRemoveAll) {
         let tempList = [];

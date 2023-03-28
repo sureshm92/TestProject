@@ -152,3 +152,7 @@
       text-align: left;
   }
 }
+.elipsis{
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
