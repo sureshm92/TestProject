@@ -6,7 +6,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import getTrialDetail from '@salesforce/apex/StudyDetailViewController.getTrialDetail';
 import getLinksData from '@salesforce/apex/RelevantLinksRemote.getInitData';
-import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
+import getDataWrapper from '@salesforce/apex/RelevantLinksRemote.getDataWrapper';
 import getUpdateResources from '@salesforce/apex/ResourceRemote.getUpdateResource';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import RELEVANT_LINKS from '@salesforce/label/c.Home_Page_RelevantLinks_Title';
@@ -133,7 +133,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                 this.toggleExplore = true;
                 this.toggleLinks = true;
             }
-            getInitDataNew()
+            getDataWrapper()
                 .then((returnValue) => {
                     let initData = JSON.parse(JSON.stringify(returnValue));
                     let therapeuticAssignmentsList = [];
