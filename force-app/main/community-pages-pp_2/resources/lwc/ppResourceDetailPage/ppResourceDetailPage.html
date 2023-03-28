@@ -16,8 +16,13 @@
                                     icon-color="#015ff1"
                                     onclick={handleBackClick}
                                     class="slds-p-right_xx-small"
-                                ></c-web-icon>
-                                <span>{label.Back_To_Resources}</span>
+                                ></c-web-icon
+                                ><template if:true={showHomePage}>
+                                    <span>{label.Back_To_Home}</span>
+                                </template>
+                                <template if:false={showHomePage}>
+                                    <span>{label.Back_To_Resources}</span>
+                                </template>
                             </div>
                             <hr />
                         </lightning-layout-item>
@@ -108,11 +113,12 @@
                                     </lightning-layout-item>
                                     <!-- Article suggestions-->
                                     <lightning-layout-item size="12">
-                                        <div if:true={isArticleVideo}>
+                                        <template lwc:if={isSuggestedArticlesVisible}>
                                             <c-pp-suggested-articles
                                                 resid={resourceId}
+                                                suggested-articles-data={suggestedArticlesData}
                                             ></c-pp-suggested-articles>
-                                        </div>
+                                        </template>
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
@@ -132,7 +138,6 @@
             </template>
             <template lwc:else>
                 <div class="page-container page-margin">
-                    <!-- <button class="back-button-multimedia" onclick={goBackToPortraitMode}>Back</button> -->
                     <!--***************  Detail Top Bar  ******************-->
                     <lightning-layout multiple-rows="true" class="full-width-container">
                         <!-- ************** Back To Resources *************** -->
@@ -248,11 +253,12 @@
                                     </lightning-layout-item>
                                     <!-- Article suggestions-->
                                     <lightning-layout-item size="12">
-                                        <div if:true={isArticleVideo}>
+                                        <template lwc:if={isSuggestedArticlesVisible}>
                                             <c-pp-suggested-articles
                                                 resid={resourceId}
+                                                suggested-articles-data={suggestedArticlesData}
                                             ></c-pp-suggested-articles>
-                                        </div>
+                                        </template>
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>

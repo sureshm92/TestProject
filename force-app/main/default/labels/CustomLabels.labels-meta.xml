@@ -515,6 +515,41 @@ Duration: ##VisitDuration</value>
         <value>Mani Deepak</value>
     </labels>
     <labels>
+        <fullName>PP_Open_In_New_Tab</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Open In New Tab</shortDescription>
+        <value>Open in New Tab</value>
+    </labels>
+    <labels>
+        <fullName>PP_Update_Refresh</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Update Refresh</shortDescription>
+        <value>Refresh</value>
+    </labels>
+    <labels>
+        <fullName>PP_Studies_Program</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Studies Program</shortDescription>
+        <value>Study/Program Suppor</value>
+    </labels>
+    <labels>
+        <fullName>PP_Site_And_Location_Caps</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Site And Location Caps</shortDescription>
+        <value>SITE LOCATION</value>
+    </labels>
+    <labels>
+        <fullName>PP_Site_Staff_Post_Fix</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Site Staff Post Fix</shortDescription>
+        <value>(Site Staff)</value>
+    </labels>
+    <labels>
         <fullName>PP_Studies_For_Data_Load</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14543,6 +14578,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>New password</value>
     </labels>
     <labels>
+        <fullName>PP_Need_Tech_Support</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Need Tech Support</shortDescription>
+        <value>Need technical support?</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Nickname</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14702,6 +14744,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP Incorrect password</shortDescription>
         <value>Incorrect password</value>
+    </labels>
+    <labels>
+        <fullName>PP_If_You_Exp_Issue</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_If_You_Exp_Issue</shortDescription>
+        <value>If you experience any issue while using IQVIA Patient Portal, send us an email at</value>
     </labels>
     <labels>
         <fullName>PP_Password_does_not_fit_criteria</fullName>
@@ -19287,6 +19336,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You cannot reuse this old password.</value>
     </labels>
     <labels>
+        <fullName>PP_Care_Team_Caps</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Care Team Caps</shortDescription>
+        <value>CARE TEAM</value>
+    </labels>
+    <labels>
         <fullName>PP_NewPwdCantCurrentPwd</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19539,6 +19595,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>For the site to contact you through this platform regarding participation in this study, please note that at least one contact method should be selected.</value>
     </labels>
     <labels>
+        <fullName>PP_PI_Post_Fix</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP PI Post Fix</shortDescription>
+        <value>(PI)</value>
+    </labels>
+    <labels>
         <fullName>PP_Profile_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19579,6 +19642,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_ContactInformation</shortDescription>
         <value>Contact Information</value>
+    </labels>
+    <labels>
+        <fullName>PP_Contact_Support</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Contact_Support</shortDescription>
+        <value>Contact Support</value>
     </labels>
     <labels>
         <fullName>PP_Cookie_Banner_Header</fullName>
@@ -19938,6 +20008,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_FirstName</shortDescription>
         <value>First Name</value>
+    </labels>
+    <labels>
+        <fullName>PP_For_Question_Abt_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP For Question Abt Participant</shortDescription>
+        <value>For questions about your participation, contact:</value>
     </labels>
     <labels>
         <fullName>PP_ForgotPwd</fullName>
@@ -20435,6 +20512,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Paste URL</shortDescription>
         <value>Paste URL here</value>
+    </labels>
+    <labels>
+        <fullName>PP_Phone_In_Caps</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Phone In Caps</shortDescription>
+        <value>PHONE</value>
     </labels>
     <labels>
         <fullName>PP_Phone_Mandatory</fullName>
