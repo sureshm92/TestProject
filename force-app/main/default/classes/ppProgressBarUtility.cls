@@ -1,4 +1,4 @@
-public with sharing class ppProgressBarUtility {
+public without sharing class ppProgressBarUtility {
     public class parentWrapper{
         @AuraEnabled
         public list<progressWrapper> progressWrapperList;   
