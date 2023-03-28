@@ -104,6 +104,11 @@
                 </template>
             </lightning-layout>
             <!-- Bottom Congrats Text -->
+            <template if:true={participantState}>
+                <template if:true={participantState.pe}>
+                    <c-pp-progress-bar perid={participantState.pe.Id}></c-pp-progress-bar>
+                </template>
+            </template>
         </template>
         <template if:false={desktop}>
             <!--<template if:true={clinicalrecord}>-->
@@ -262,17 +267,21 @@
                 </div>             
                 <div class="slds-col slds-m-horizontal_xxx-small">
                     <div class="progress">
-                        <div class="icon-updates">
+                        <div class={progressIcon}>
                             <c-web-icon
                                 class="svg-icon svg-icon-with-text"
                                 icon-size="medium"
                                 icon-name="navigation-menu-horizontal"
                                 data-id="navigationmenuhorizontal"
                                 icon-color="#ffffff"
+                                onclick={showProgressMob}
                             >
                             </c-web-icon>
                         </div>
-                        <p class="p-text">Progress</p>
+                        <p if:false={showProgress} class="p-text">Progress</p>
+                        <template if:true={showProgress} >
+                            <div class="vertical progress-green"></div>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -359,6 +368,16 @@
             <template if:true={updatesSection}>
                 <c-pp-updates oncounterupdate={updateCounter} desktop={desktop}></c-pp-updates>
             </template>            
+            <div if:true={showProgress}>
+                <div class="progressTab">
+                    MY PROGRESS
+                </div>
+                <template if:true={participantState}>
+                    <template if:true={participantState.pe}>
+                        <c-pp-progress-bar perid={participantState.pe.Id}></c-pp-progress-bar>
+                    </template>
+                </template>
+            </div>
         </template>        
     </template>
 </template>

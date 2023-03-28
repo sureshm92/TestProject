@@ -1,15 +1,17 @@
 import { LightningElement, track } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
 import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesById';
-import getCtpName from '@salesforce/apex/ParticipantStateRemote.getInitData';
+import getPPResources from '@salesforce/apex/ResourceRemote.getPPResources';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import VERSION from '@salesforce/label/c.Version_date';
 import POSTING from '@salesforce/label/c.Posting_date';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
+import Back_To_Home from '@salesforce/label/c.Link_Back_To_Home';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
+
 export default class PpResourceDetailPage extends NavigationMixin(LightningElement) {
     userTimezone = TIME_ZONE;
     isInitialized = false;
@@ -24,12 +26,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     isDocument = false;
     langCode;
     documentLink;
+    showHomePage = false;
     studyTitle = '';
     state;
     label = {
         VERSION,
         POSTING,
-        Back_To_Resources
+        Back_To_Resources,
+        Back_To_Home
     };
     isMultimedia = false;
     isArticleVideo = false;
@@ -37,41 +41,60 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
     desktop = true;
     spinner;
-    resourceForPostingDate = ['Article','Video','Multimedia'];
+    resourceForPostingDate = ['Article', 'Video', 'Multimedia'];
+    suggestedArticlesData;
+
+    /*******Getters******************/
+
+    get showSpinner() {
+        return !this.isInitialized;
+    }
+
+    get showPostingDate() {
+        if (this.resourceForPostingDate.includes(this.resourceType)) {
+            return true;
+        }
+        return false;
+    }
+
+    get showPostingOrVersionLabel() {
+        if (this.resourceForPostingDate.includes(this.resourceType)) {
+            return this.label.POSTING;
+        }
+        return this.label.VERSION;
+    }
+
+    get isSuggestedArticlesVisible() {
+        return this.isArticleVideo && this.suggestedArticlesData;
+    }
+
     connectedCallback() {
         //get resource parameters from url
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         this.resourceId = urlParams.get('resourceid');
         this.resourceType = urlParams.get('resourcetype');
+        this.showHomePage = urlParams.get('showHomePage');
+
         this.state = urlParams.get('state');
         if (this.resourceType == 'Study_Document') {
             this.langCode = urlParams.get('lang');
             this.isDocument = true;
         }
 
-        switch(FORM_FACTOR) {
-            case "Small":
+        switch (FORM_FACTOR) {
+            case 'Small':
                 this.desktop = false;
                 break;
-            case "Medium":
+            case 'Medium':
                 this.desktop = true;
                 break;
-            case "Large":
+            case 'Large':
                 this.desktop = true;
                 break;
-          }
+        }
 
         this.initializeData();
-        // window.addEventListener("orientationchange", function() {
-        //     alert("the orientation of the device is now1 " + screen.orientation.angle);
-        //     screen.orientation.angle > 0 ? this.landscape = true : this.landscape = false;
-        //     alert(this.landscape);         
-        // });
-    }
-
-    get showSpinner() {
-        return !this.isInitialized;
     }
 
     async initializeData() {
@@ -86,9 +109,10 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
             resourceType: this.resourceType
         })
             .then((result) => {
-                this.requestFullScreen();
                 let resourceData = result.wrappers[0].resource;
-                this.resUploadDate = this.resourceForPostingDate.includes(this.resourceType)?resourceData.Posting_Date__c:resourceData.Version_Date__c;
+                this.resUploadDate = this.resourceForPostingDate.includes(this.resourceType)
+                    ? resourceData.Posting_Date__c
+                    : resourceData.Version_Date__c;
                 this.resourceTitle = resourceData.Title__c;
                 this.resourceSummary = resourceData.Body__c;
                 this.isArticleVideo =
@@ -108,22 +132,16 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                     this.state != 'ALUMNI' &&
                     (resourceData.Content_Class__c == 'Study-Specific' || this.isDocument)
                 ) {
-                    getCtpName({})
-                        .then((result) => {
-                            let data = JSON.parse(result);
-                            this.studyTitle =
-                                data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Code_Name__c;
-                            if (this.isDocument) {
-                                this.handleDocumentLoad();
-                            }
-                            this.isInitialized = true;
-                        })
-                        .catch((error) => {
-                            this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-                        });
-                }else{
-                    this.isInitialized = true;
+                    this.studyTitle =
+                        communityService.getParticipantData()?.ctp?.Study_Code_Name__c;
+                    if (this.isDocument) {
+                        this.handleDocumentLoad();
+                    }
                 }
+                if (this.isArticleVideo) {
+                    this.getSuggestedArticles();
+                }
+                this.isInitialized = true;
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
@@ -160,7 +178,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
     handleBackClick() {
         sessionStorage.setItem('Cookies', 'Accepted');
-        if (FORM_FACTOR == 'Large') {
+        if (this.showHomePage) {
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'home'
+                }
+            });
+        } else if (FORM_FACTOR == 'Large') {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
@@ -175,31 +200,17 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 resType = 'documents';
             } else if (this.resourceType == 'Video' || this.resourceType == 'Article') {
                 resType = 'explore';
-            }    
+            }
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
                     pageName: 'resources'
                 },
                 state: {
-                    resType : resType
+                    resType: resType
                 }
             });
         }
-    }
-
-    get showPostingDate(){
-        if(this.resourceForPostingDate.includes(this.resourceType)){
-            return true;
-        }
-        return false;
-    }
-    
-    get showPostingOrVersionLabel(){
-        if(this.resourceForPostingDate.includes(this.resourceType)){
-            return this.label.POSTING;
-        }
-        return this.label.VERSION;
     }
 
     handleFavourite() {
@@ -223,39 +234,18 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
             })
         );
     }
-
-    requestFullScreen(){
-        let ele = this.template.querySelectorAll(".forceOrientation");
-       
-    }
-
-    goBackToPortraitMode(){
-        // console.log("goBackToPortraitMode");
-        // let ele = window.document.documentElement;
-        // // ele[0].style.transform = "rotate(90deg)";
-        //  if (ele.requestFullscreen) {
-        //     ele.requestFullscreen();
-        // } else if (ele.webkitRequestFullscreen) { /* Safari */
-        //     ele.webkitRequestFullscreen();
-        // } else if (ele.msRequestFullscreen) { /* IE11 */
-        //     ele.msRequestFullscreen();
-        // }
-
-        // ele.requestFullscreen({ navigationUI: "show" })
-        // .then(() => {
-        //     console.log("success");
-        // })
-        // .catch((err) => {
-        //     console.log(
-        //     `An error occurred while trying to switch into fullscreen mode: ${err.message} (${err.name})`
-        //     );
-        // });
-        // screen.orientation.lock("portrait-primary")
-        // .then(function(){
-        //     console.log("success");
-        // })
-        // .catch(function(error){
-        //     console.log(error);
-        // })
+    getSuggestedArticles() {
+        if (communityService.isInitialized()) {
+            var pData = communityService.getParticipantData();
+            this.state = communityService.getCurrentCommunityMode().participantState;
+            let data = JSON.stringify(pData);
+            getPPResources({ participantData: data })
+                .then((result) => {
+                    this.suggestedArticlesData = result;
+                })
+                .catch((error) => {
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                });
+        }
     }
 }

@@ -20,6 +20,7 @@ import myEvents from '@salesforce/label/c.My_Events';
 import loading from '@salesforce/label/c.Loading';
 import visitdetails from '@salesforce/label/c.Visit_Details';
 import eventdetails from '@salesforce/label/c.Event_Details';
+import unscheduledVisit from '@salesforce/label/c.StudyVisit_Unscheduled_Visit';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import formFactor from '@salesforce/client/formFactor';
@@ -40,7 +41,8 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         myEvents,
         loading,
         visitdetails,
-        eventdetails
+        eventdetails,
+        unscheduledVisit
     };
     status = {
         scheduled: 'Scheduled',
@@ -220,8 +222,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     if (this.upcomingVisits.length > 0) {
                         this.visitid = this.upcomingVisits[0].visit.Id;
                         this.taskSubject = this.upcomingVisits[0].visit.Name;
-                        this.isInitialVisit =
-                            this.upcomingVisits[0].visit.Is_Pre_Enrollment_Patient_Visit__c;
+                        this.isInitialVisit = this.upcomingVisits[0].visit.Is_Pre_Enrollment_Patient_Visit__c;
                         this.isUpcomingVisits = true;
                     } else {
                         this.isUpcomingVisits = false;
@@ -231,8 +232,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     }
                     if (!this.upcomingVisitId && this.upcomingVisits.length > 0) {
                         this.upcomingVisitId = this.upcomingVisits[0].visit.Id;
-                        this.visitName =
-                            this.upcomingVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
+                        this.visitName = this.upcomingVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
                         this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
                     }
                     this.showList = true;
@@ -340,8 +340,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         if (this.pastVisits.length > 0) {
             this.isPastVisits = true;
             this.visitid = this.pastVisitId;
-            this.visitName = this.pastVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
-            this.currentVisit = this.pastVisits[0].visit;
+            this.visitName = this.pastVisits[0].visit?.Is_Adhoc__c
+                ? this.label.unscheduledVisit
+                : this.pastVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
             this.plannedDate = this.pastVisits[0].visit.Planned_Date__c;
             this.visitStatus = this.pastVisits[0].visit.Status__c;
             if (this.visitStatus == 'Missed') this.visitStatus = this.label.visitUnavailable;
@@ -383,8 +384,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         if (past) {
             this.past = true;
             this.visitid = this.pastVisits[index].visit.Id;
-            this.visitName = this.pastVisits[index].visit?.Visit__r?.Patient_Portal_Name__c;
-            this.currentVisit = this.pastVisits[index].visit;
+            this.visitName = this.pastVisits[index].visit?.Is_Adhoc__c
+                ? this.label.unscheduledVisit
+                : this.pastVisits[index].visit?.Visit__r?.Patient_Portal_Name__c;
             this.plannedDate = this.pastVisits[index].visit.Planned_Date__c;
             this.isInitialVisit = this.pastVisits[index].visit.Is_Pre_Enrollment_Patient_Visit__c;
             if (this.pastVisits[index].missedVisit) {
@@ -400,8 +402,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.visitid = this.upcomingVisits[index].visit.Id;
             this.currentVisit = this.upcomingVisits[index].visit;
             this.visitName = this.upcomingVisits[index].visit?.Visit__r?.Patient_Portal_Name__c;
-            this.isInitialVisit =
-                this.upcomingVisits[index].visit.Is_Pre_Enrollment_Patient_Visit__c;
+            this.isInitialVisit = this.upcomingVisits[
+                index
+            ].visit.Is_Pre_Enrollment_Patient_Visit__c;
             this.selectedIndex = index;
             this.past = false;
         }
@@ -499,14 +502,16 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 }
 
                 if (!this.past) {
-                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
-                        this.visitdata.visitDate;
+                    this.upcomingVisits[
+                        this.selectedIndex
+                    ].visit.Planned_Date__c = this.visitdata.visitDate;
                 }
                 if (this.upcomingVisits.length > 0) {
                     if (this.visitdata.visitDate && this.showUpcomingVisits) {
                         this.upcomingVisits[this.selectedIndex].noVisitDate = false;
-                        this.plannedDate =
-                            this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
+                        this.plannedDate = this.upcomingVisits[
+                            this.selectedIndex
+                        ].visit.Planned_Date__c;
                     } else {
                         this.upcomingVisits[this.selectedIndex].noVisitDate = true;
                         this.plannedDate = '';

@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import versionDate from '@salesforce/label/c.Version_date';
+import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 import { NavigationMixin } from 'lightning/navigation';
-
 export default class PpDocumentUpdates extends NavigationMixin(LightningElement) {
     @api documentData;
     @api showVisitSection;
@@ -30,33 +30,34 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
     }
 
     navigateResourceDetail() {
+        this.removeCardHandler();
         let subDomain = communityService.getSubDomain();
         let state;
         if (communityService.isInitialized()) {
             state = communityService.getCurrentCommunityMode().participantState;
         }
-        let detailLink =
-            window.location.origin +
-            subDomain +
-            '/s/resource-detail' +
-            '?resourceid=' +
-            this.documentData.resource.Id +
-            '&resourcetype=' +
-            this.documentData.resource.RecordType.DeveloperName +
-            '&state=' +
-            state;
-
-        const config = {
-            type: 'standard__webPage',
-
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: detailLink
+                pageName: 'resource-detail'
+            },
+            state: {
+                resourceid: this.documentData.resource.Id,
+                resourcetype: this.documentData.resource.RecordType.DeveloperName,
+                state: state
             }
-        };
-
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
         });
+    }
+    removeCardHandler() {
+        console.log('calling removeCardHandler');
+        const targetRecId = this.documentData.targetRecordId;
+        console.log('targetRecId : ' + targetRecId);
+        removeCard({ targetRecordId: targetRecId })
+            .then((returnValue) => {})
+            .catch((error) => {
+                //console.log('error message 1'+error.message);
+                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                this.spinner.hide();
+            });
     }
 }
