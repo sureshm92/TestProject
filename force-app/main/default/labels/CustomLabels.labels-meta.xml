@@ -30809,20 +30809,6 @@ Please contact the Study Team for further updates or please login for additional
 &lt;div&gt;&lt;span&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot;&gt; ##expirationOnlyDate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
-<<<<<<< HEAD
-        <fullName>PP_Open_In_New_Tab</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PP Open In New Tab</shortDescription>
-        <value>Open in New Tab</value>
-    </labels>
-    <labels>
-        <fullName>PP_Update_Refresh</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PP Update Refresh</shortDescription>
-        <value>Refresh</value>
-=======
         <fullName>HAPI_Helptext</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -30898,6 +30884,5 @@ Please contact the Study Team for further updates or please login for additional
         <protected>false</protected>
         <shortDescription>No_Visit_Results_Available</shortDescription>
         <value>No results associated with this visit</value>
->>>>>>> b0443b7183da846de4c317b67f878507decf7376
     </labels>
 </CustomLabels>
