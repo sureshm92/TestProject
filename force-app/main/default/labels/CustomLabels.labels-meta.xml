@@ -515,6 +515,20 @@ Duration: ##VisitDuration</value>
         <value>Mani Deepak</value>
     </labels>
     <labels>
+        <fullName>PP_Open_In_New_Tab</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Open In New Tab</shortDescription>
+        <value>Open in New Tab</value>
+    </labels>
+    <labels>
+        <fullName>PP_Update_Refresh</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Update Refresh</shortDescription>
+        <value>Refresh</value>
+    </labels>
+    <labels>
         <fullName>PP_Studies_Program</fullName>
         <language>en_US</language>
         <protected>false</protected>
