@@ -7850,11 +7850,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Study_status_description_motivation__c.Study__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>SurveyInvitation.ExpireDateTime__c</field>
         <readable>false</readable>
     </fieldPermissions>
