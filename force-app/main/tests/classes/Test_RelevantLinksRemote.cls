@@ -122,8 +122,8 @@ public class Test_RelevantLinksRemote {
     @IsTest
     public static void visibleResourceNew_Test() {
         TestData td = new TestData();
-        RelevantLinksRemote.InitDataNew InitDataNew = new RelevantLinksRemote.InitDataNew();
-        System.debug('InitDataNew:::' + InitDataNew);
+        RelevantLinksRemote.DataWrapper DataWrapper = new RelevantLinksRemote.DataWrapper();
+        System.debug('DataWrapper:::' + DataWrapper);
         Resource__c relLink = new Resource__c(
             Content_Type__c = 'Relevant_Link',
             Title__c = 'Test',
@@ -147,9 +147,9 @@ public class Test_RelevantLinksRemote {
 
         Test.startTest();
         System.runAs(td.participantUser) {
-            InitDataNew = RelevantLinksRemote.getInitDataNew();
+            DataWrapper = RelevantLinksRemote.getDataWrapper();
         }
         Test.stopTest();
-        System.assertEquals(false, InitDataNew.resources[0].isFavorite);
+        System.assertEquals(false, DataWrapper.resources[0].isFavorite);
     }
 }
