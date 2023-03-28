@@ -1,6 +1,7 @@
 {
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
   "componentName" : "c:PPOneColumnLayout",
+  "dataProviders" : [ ],
   "id" : "6cd6f18d-1cb2-4956-9796-a3cab4317b7f",
   "label" : "Resource Detail",
   "regions" : [ {
@@ -31,7 +32,7 @@
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
-  "themeLayoutType" : "plAm3nHzp9j4TqsN4DBW97xONJ8WJG",
+  "themeLayoutType" : "Inner",
   "type" : "view",
   "viewType" : "custom-resource-detail"
 }
