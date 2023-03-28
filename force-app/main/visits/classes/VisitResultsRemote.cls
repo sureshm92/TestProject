@@ -43,123 +43,6 @@ public without sharing class VisitResultsRemote {
     }
 
     @AuraEnabled
-    public static PPInitDataWrapper getInitDataPP(Integer ctpSharingTiming, String patientVisitId) {
-        PPInitDataWrapper wrapper = (PPInitDataWrapper) ClassFactory.newInstance(
-            PPInitDataWrapper.class
-        );
-
-        //patientVisitId = 'a13DP000004haohYAA'; //'a13DP000004hbSoYAI';
-        //ctpSharingTiming = 0;
-
-        if (checkDataSharebackTiming(ctpSharingTiming, patientVisitId)) {
-            //check result
-            //ctp level visit result type with their subtype
-            Map<String, Map<String, List<String>>> visitResultSharings = VisitResultSharingService.visitResultSharingByGroupAndModeAndCountry();
-            if (visitResultSharings != null) {
-                wrapper.visitResultWithSubTypesCTP = visitResultSharings;
-            }
-
-            Set<String> visitResultSubTypeSet = new Set<String>();
-            wrapper.visitResultsShares = new Map<String, List<String>>();
-            //Contact currentContact = ParticipantContext.getCurrentContact();
-            Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
-            for (String visitResultTypeCTP : visitResultSharings.keySet()) {
-                Map<String, List<String>> visitResultTypeWithSubTypeCTP = visitResultSharings.get(
-                    visitResultTypeCTP
-                );
-                if (visitResultTypeCTP == 'Vitals') {
-                    wrapper.toggleStateForVitals = toggleStateForPP(visitResultTypeCTP, currentPE);
-                } else if (visitResultTypeCTP == 'Labs') {
-                    wrapper.toggleStateForLabs = toggleStateForPP(visitResultTypeCTP, currentPE);
-                } else if (visitResultTypeCTP == 'Biomarkers') {
-                    wrapper.toggleStateForBiomarkers = toggleStateForPP(
-                        visitResultTypeCTP,
-                        currentPE
-                    );
-                }
-                for (String visitResultTypeInner : visitResultTypeWithSubTypeCTP.keySet()) {
-                    List<String> subTypeSet = visitResultTypeWithSubTypeCTP.get(
-                        visitResultTypeInner
-                    );
-                    visitResultSubTypeSet.addAll(subTypeSet);
-                    wrapper.visitResultsShares.put(visitResultTypeCTP, subTypeSet);
-                }
-            }
-
-            List<Visit_Result__c> visResults = [
-                SELECT
-                    Id,
-                    Actual_Value__c,
-                    Max_Value__c,
-                    Measurement__c,
-                    Min_Value__c,
-                    Patient_Visit__r.Completed_Date__c,
-                    Patient_Visit__r.Portal_Name__c,
-                    Patient_Visit__r.Participant_Enrollment__c,
-                    Result_Type__c,
-                    RecordType.DeveloperName
-                FROM Visit_Result__c
-                WHERE
-                    Patient_Visit__c = :patientVisitId
-                    AND Result_Type__c IN :visitResultSubTypeSet
-            ];
-
-            wrapper.visitResultsGroupNamesCTP = new List<String>(visitResultSharings.keySet());
-            if (visResults != null && !visResults.isEmpty()) {
-                wrapper.isVisitResultsAvailable = false;
-                for (Visit_Result__c vr : visResults) {
-                    List<String> subTypesList = wrapper.visitResultsShares.get(
-                        vr.RecordType.DeveloperName + 's'
-                    );
-                    if (subTypesList != null && subTypesList.contains(vr.Result_Type__c)) {
-                        wrapper.isVisitResultsAvailable = true;
-                        break;
-                    }
-                }
-            } else {
-                wrapper.isVisitResultsAvailable = false;
-            }
-            //wrapper.contact = currentContact;
-            wrapper.isDelegate = ParticipantContext.isCurrentDelegate();
-            return wrapper;
-        } else {
-            //no need to show results
-            wrapper.isVisitResultsAvailable = false;
-            return wrapper;
-        }
-    }
-
-    public static Boolean checkDataSharebackTiming(
-        Integer ctpSharingTiming,
-        String patientVisitId
-    ) {
-        List<Patient_Visit__c> patientVisitList = getPatientVisitsForPP();
-        if (
-            patientVisitList == null ||
-            (patientVisitList != null &&
-            patientVisitList.size() <= ctpSharingTiming)
-        ) {
-            //no need to show results
-            return false;
-        } else {
-            //find position of our patientvisit in above list
-            //if it is greater than ctpSharingTiming then chekc results
-            for (Integer i = 0; i < patientVisitList.size(); i++) {
-                if (patientVisitList[i].Id == patientVisitId) {
-                    Integer patientVisitPosition = i + 1;
-                    if (patientVisitPosition > ctpSharingTiming) {
-                        //check result
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            }
-            return false;
-        }
-    }
-
-    @AuraEnabled
     public static List<String> getVisitResultsGroupNames(String visitResultsMode) {
         try {
             return ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class))
@@ -210,18 +93,6 @@ public without sharing class VisitResultsRemote {
     }
 
     @AuraEnabled
-    public static Boolean toggleStateForPP(
-        String visitResultsMode,
-        Participant_Enrollment__c currentPE
-    ) {
-        String currentVisitResults = currentPE == null ||
-            currentPE.Visit_Results_Opt_In__c == null
-            ? ''
-            : currentPE.Visit_Results_Opt_In__c;
-        return currentVisitResults.contains(visitResultsMode);
-    }
-
-    @AuraEnabled
     public static Boolean showVisitResults() {
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
             .getState();
@@ -250,28 +121,6 @@ public without sharing class VisitResultsRemote {
         }
         currentContact.Visit_Results_OptIn__c = updatedVisitResults;
         update currentContact;
-    }
-
-    @AuraEnabled
-    public static void switchToggleRemoteForPP(String visitResultsMode, Boolean isToggleOn) {
-        Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
-        String currentVisitResults = currentPE.Visit_Results_Opt_In__c == null
-            ? ''
-            : currentPE.Visit_Results_Opt_In__c;
-        String updatedVisitResults = '';
-        if (isToggleOn) {
-            if (!currentVisitResults.contains(visitResultsMode)) {
-                updatedVisitResults = currentVisitResults + ';' + visitResultsMode;
-            }
-        } else {
-            List<String> visitResults = currentVisitResults.split(';');
-            for (String str : visitResults) {
-                if (!str.equals(visitResultsMode))
-                    updatedVisitResults += str + ';';
-            }
-        }
-        currentPE.Visit_Results_Opt_In__c = updatedVisitResults;
-        update currentPE;
     }
 
     public static List<String> notEmptyVisitResultsGroupName(
@@ -460,36 +309,6 @@ public without sharing class VisitResultsRemote {
         public Boolean toggleState;
     }
 
-    public class PPInitDataWrapper {
-        @AuraEnabled
-        public Contact contact;
-        @AuraEnabled
-        public Boolean isDelegate;
-        @AuraEnabled
-        public Boolean isVisitResultsAvailable;
-        @AuraEnabled
-        public Map<String, List<String>> visitResultsShares;
-        //variables related to Vitals
-        @AuraEnabled
-        public Boolean toggleStateForVitals;
-        //variables related to Labs
-        @AuraEnabled
-        public Boolean toggleStateForLabs;
-        //variables related to Biomarkers
-        @AuraEnabled
-        public Boolean toggleStateForBiomarkers;
-        @AuraEnabled
-        public Map<String, Map<String, List<String>>> visitResultWithSubTypesCTP;
-
-        //to store all result types configured at CTP
-        @AuraEnabled
-        public List<String> visitResultsGroupNamesCTP;
-
-        public PPInitDataWrapper() {
-            this.isVisitResultsAvailable = false;
-        }
-    }
-
     public static List<Patient_Visit__c> getPatientVisits() {
         if (!isOnStudy())
             return new List<Patient_Visit__c>();
@@ -513,20 +332,6 @@ public without sharing class VisitResultsRemote {
                         RecordType.DeveloperName
                     FROM Visit_Results__r
                 )
-            FROM Patient_Visit__c
-            WHERE
-                Participant_Enrollment__c = :ParticipantContext.getCurrentPEId()
-                AND Status__c = 'Completed'
-            ORDER BY Visit_Number__c, Completed_Date__c
-        ];
-    }
-
-    public static List<Patient_Visit__c> getPatientVisitsForPP() {
-        if (!isOnStudy())
-            return new List<Patient_Visit__c>();
-
-        return [
-            SELECT Id, Completed_Date__c, Visit_Number__c
             FROM Patient_Visit__c
             WHERE
                 Participant_Enrollment__c = :ParticipantContext.getCurrentPEId()

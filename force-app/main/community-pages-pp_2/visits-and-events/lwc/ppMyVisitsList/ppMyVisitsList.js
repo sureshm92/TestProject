@@ -59,7 +59,6 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     @api initialpageload;
     @api past;
     @api isevent;
-    @api ctpSharingTiming;
 
     @track showreminderdatepicker = false;
     @track contentLoaded = false;
@@ -172,12 +171,14 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
                     this.upcomingVisits[this.selectedIndex].isReminderDate = true;
                 }
                 if (!this.past && this.upcomingVisits) {
-                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
-                        this.visitdata.visitDate;
+                    this.upcomingVisits[
+                        this.selectedIndex
+                    ].visit.Planned_Date__c = this.visitdata.visitDate;
                     if (this.visitdata.visitDate && this.showupcomingvisits) {
                         this.upcomingvisits[this.selectedIndex].noVisitDate = false;
-                        this.plannedDate =
-                            this.upcomingvisits[this.selectedIndex].visit.Planned_Date__c;
+                        this.plannedDate = this.upcomingvisits[
+                            this.selectedIndex
+                        ].visit.Planned_Date__c;
                     } else {
                         this.upcomingvisits[this.selectedIndex].noVisitDate = true;
                         this.plannedDate = '';
@@ -217,6 +218,7 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
 
         if (this.ismobile == true) {
         }
+
         const visitEvent = new CustomEvent('visitchange', {
             detail: { past: this.past, indexval: index, tasksubject: this.taskSubject }
         });

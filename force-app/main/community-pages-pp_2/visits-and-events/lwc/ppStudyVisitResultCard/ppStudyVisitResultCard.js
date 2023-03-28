@@ -63,31 +63,9 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
             }
         }
     }
-
-    fetchVisibleResultTab() {
-        visitResultSharingByGroupAndMode({})
-            .then((result) => {
-                this.visitResultSharings = result;
-                let options = [];
-                for (var key in this.visitResultSharings) {
-                    options.push({ label: key, value: key });
-                }
-                if (options) {
-                    this.availableTabs = options;
-                    this.selectedResult = this.availableTabs[0].value;
-                }
-            })
-            .catch((error) => {
-                console.log('error', error);
-            });
-    }
-    handleChange(event) {
-        this.selectedResult = event.detail.value;
-    }
     get isMobileOrTablet() {
         return this.isDesktop ? false : true;
     }
-
     handleSubscribe() {
         if (this.subscription) {
             return;

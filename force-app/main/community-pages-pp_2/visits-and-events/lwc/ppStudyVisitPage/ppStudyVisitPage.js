@@ -104,9 +104,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     showSpinner = true;
     column2 = 'col2';
     column3 = 'col3';
-    @track currentVisit;
-
-    ctpSharingTiming;
 
     ctpSharingTiming;
 
@@ -303,7 +300,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             this.isUpcomingVisits = true;
             this.visitid = this.upcomingVisitId;
             this.visitName = this.upcomingVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
-            this.currentVisit = this.upcomingVisits[0].visit;
             this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
             this.visitStatus = this.upcomingVisits[0].visit.Status__c;
             this.isInitialVisit = this.upcomingVisits[0].visit.Is_Pre_Enrollment_Patient_Visit__c;
@@ -380,7 +376,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         this.initialPageLoad = false;
         var index = event.detail.indexval;
         var past = event.detail.past;
-
         if (past) {
             this.past = true;
             this.visitid = this.pastVisits[index].visit.Id;
@@ -400,7 +395,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             }
         } else {
             this.visitid = this.upcomingVisits[index].visit.Id;
-            this.currentVisit = this.upcomingVisits[index].visit;
             this.visitName = this.upcomingVisits[index].visit?.Visit__r?.Patient_Portal_Name__c;
             this.isInitialVisit = this.upcomingVisits[
                 index
