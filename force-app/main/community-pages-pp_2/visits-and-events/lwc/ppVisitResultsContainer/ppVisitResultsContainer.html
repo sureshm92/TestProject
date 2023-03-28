@@ -1,4 +1,6 @@
 <template>
+    <!-- Loading Spinner-->
+    <c-web-spinner fixed="true" show-spinner={showSpinner}></c-web-spinner>
     <template lwc:if={isVitalsSelected}>
         <template lwc:if={isVitalsResults}>
             <template for:each={visitResultsListVitals} for:item="result">
@@ -9,7 +11,9 @@
                     ></c-pp-visit-result>
                 </div>
             </template>
-            <template if:true={showMoreResults}>{showMoreText}</template>
+            <div class="more-results">
+                <template if:true={showMoreResults}>{showMoreText}</template>
+            </div>
         </template>
         <template lwc:else>
             <div class="slds-grid slds-wrap slds-gutters slds-p-top_x-large">
@@ -25,8 +29,8 @@
         </template>
     </template>
     <template lwc:elseif={isLabsSelected}>
-        <template lwc:if={isLabsResults}
-            >JAYASHREE COMPONENT
+        <template lwc:if={isLabsResults}>
+            <div class="slds-text-align_left lab-header">{labsHeading}</div>
             <template for:each={visitResultsListForLabs} for:item="result">
                 <div key={result.name}>
                     <c-pp-visit-result
@@ -35,7 +39,9 @@
                     ></c-pp-visit-result>
                 </div>
             </template>
-            <template if:true={showMoreResults}>{showMoreText}</template>
+            <div class="more-results">
+                <template if:true={showMoreResults}>{showMoreText}</template>
+            </div>
         </template>
         <template lwc:else>
             <div class="slds-grid slds-wrap slds-p-top_x-large">
@@ -60,7 +66,9 @@
                     ></c-pp-visit-result>
                 </div>
             </template>
-            <template if:true={showMoreResults}>{showMoreText}</template>
+            <div class="more-results">
+                <template if:true={showMoreResults}>{showMoreText}</template>
+            </div>
         </template>
         <template lwc:else>
             <div class="slds-grid slds-wrap slds-gutters slds-p-top_x-large">

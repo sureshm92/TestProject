@@ -1,10 +1,37 @@
 <template>
-    <div>{visitResult.name}</div>
     <div>
-        <div class="slds-p-around_medium lgc-bg">
-            {header}
-            <lightning-helptext content={toolTipText}></lightning-helptext>
-            {actualResultValue} {expectedRange}
-        </div>
+        <template lwc:if={isBiomarkersResult}>
+            <div class={bioMarkerResClass}>
+                <div>
+                    <span class="result-name"> {header}</span>
+                    <span class="slds-p-horizontal_x-small show-result-tooltip"
+                        ><lightning-helptext content={toolTipText}></lightning-helptext
+                    ></span>
+                </div>
+                <template if:true={ICOSRelatedResults}>
+                    <div class={actualValueClass}>{actualResultValue}</div>
+                </template>
+                <template if:false={ICOSRelatedResults}>
+                    <div class={actualValueClass}>{biomarkerResult}</div>
+                    <template if:true={showExpectedRange}>
+                        <div class="expected-range">{expectedRange}</div>
+                    </template>
+                </template>
+            </div>
+        </template>
+        <template lwc:else>
+            <div class={resultDisplayClass}>
+                <div>
+                    <span class="result-name">{header}</span>
+                    <span class="slds-p-horizontal_x-small show-result-tooltip">
+                        <lightning-helptext content={toolTipText}></lightning-helptext>
+                    </span>
+                </div>
+                <div class={actualValueClass}>{actualResultValue}</div>
+                <template if:true={showExpectedRange}>
+                    <div class="expected-range">{expectedRange}</div>
+                </template>
+            </div>
+        </template>
     </div>
 </template>

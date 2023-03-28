@@ -30,6 +30,9 @@ export default class PpVisitResultsContainer extends LightningElement {
     isVitalsResultsAvailable = false;
     isLabsResultsAvailable = false;
     isBiomarkersResultsAvailable = false;
+    actualVisitResultsListVitals;
+    actualVisitResultsListForLabs;
+    actualVisitResultsListBio;
     visitResultsListVitals;
     visitResultsListForLabs;
     visitResultsListBio;
@@ -39,13 +42,15 @@ export default class PpVisitResultsContainer extends LightningElement {
     totalBioResults = 0;
     setInitialLabResults = true;
     maxResultsToDisp = 4;
+    sliceStartValue = 0;
+    sliceEndValue = 4;
     minResultsToDisp = 1;
     @track showMoreResults;
     @track showMoreText;
     // showSpinner;
 
     connectedCallback() {
-        //  this.showSpinner = true;
+        this.showSpinner = true;
         this.participantMailingCC = communityService.getParticipantData().pe.Participant__r.Mailing_Country_Code__c;
         this.ctpId = communityService.getParticipantData().pe.Clinical_Trial_Profile__c;
         this.initializeData();
@@ -66,9 +71,12 @@ export default class PpVisitResultsContainer extends LightningElement {
                     if (this.selectedResultType == 'Labs') {
                         for (let i = 0; i < resultsWrapper.length; i++) {
                             if (this.setInitialLabResults && resultsWrapper[i].isResultsAvailable) {
-                                this.visitResultsListForLabs = resultsWrapper[i].resWrappers;
+                                this.actualVisitResultsListForLabs = resultsWrapper[i].resWrappers;
+                                this.visitResultsListForLabs = this.formResultsToDisplay(
+                                    this.actualVisitResultsListForLabs
+                                );
                                 this.labsHeading =
-                                    resultsWrapper[i].resultsModeName == 'MetabolicPanel'
+                                    resultsWrapper[i].resultsModeName == 'Metabolic Panel'
                                         ? Visit_Result_Group_MetabolicPanel
                                         : resultsWrapper[i].resultsModeName == 'Hematology'
                                         ? Visit_Result_Group_Hematology
@@ -81,27 +89,37 @@ export default class PpVisitResultsContainer extends LightningElement {
                                 ? this.totalLabResults + resultsWrapper[i].resWrappers.length
                                 : this.totalLabResults;
                         }
-                        //    this.calculateRemainingVisResults(this.totalLabResults);
+                        this.calculateRemainingVisResults(this.totalLabResults);
                     } else if (this.selectedResultType == 'Vitals') {
                         for (let i = 0; i < resultsWrapper.length; i++) {
                             if (resultsWrapper[i].isResultsAvailable) {
-                                this.visitResultsListVitals = resultsWrapper[i].resWrappers;
+                                this.actualVisitResultsListVitals = resultsWrapper[i].resWrappers;
                                 this.totalVitalResults =
                                     this.totalVitalResults + resultsWrapper[i].resWrappers.length;
+                                console.log(
+                                    'JJ this.actualVisitResultsListVitals' +
+                                        this.actualVisitResultsListVitals
+                                );
+                                this.visitResultsListVitals = this.formResultsToDisplay(
+                                    this.actualVisitResultsListVitals
+                                );
                             }
                         }
-                        //   this.calculateRemainingVisResults(this.totalVitalResults);
+                        this.calculateRemainingVisResults(this.totalVitalResults);
                     } else {
                         for (let i = 0; i < resultsWrapper.length; i++) {
                             if (resultsWrapper[i].isResultsAvailable) {
-                                this.visitResultsListBio = resultsWrapper[i].resWrappers;
+                                this.actualVisitResultsListBio = resultsWrapper[i].resWrappers;
                                 this.totalBioResults =
                                     this.totalBioResults + resultsWrapper[i].resWrappers.length;
+                                this.visitResultsListBio = this.formResultsToDisplay(
+                                    this.actualVisitResultsListBio
+                                );
                             }
                         }
-                        //   this.calculateRemainingVisResults(this.totalBioResults);
+                        this.calculateRemainingVisResults(this.totalBioResults);
                     }
-                    // this.showSpinner = false;
+                    this.showSpinner = false;
                 })
                 .catch((error) => {
                     console.error(error);
@@ -109,12 +127,19 @@ export default class PpVisitResultsContainer extends LightningElement {
         }
     }
     calculateRemainingVisResults(totalResultsLength) {
-        let remainingResults;
+        let remainingResults = 0;
         this.showMoreResults = totalResultsLength > this.maxResultsToDisp ? true : false;
         if (this.showMoreResults) {
-            remainingResults = this.totalResultsLength - this.maxResultsToDisp;
-            this.showMoreText = '+' + remainingResults + More_Results;
+            remainingResults = totalResultsLength - this.maxResultsToDisp;
+            this.showMoreText = '+' + ' ' + remainingResults + ' ' + More_Results;
         }
+    }
+    formResultsToDisplay(actualVisitResults) {
+        let finalVisResults;
+        if (actualVisitResults.length > 4) {
+            finalVisResults = actualVisitResults.slice(this.sliceStartValue, this.sliceEndValue);
+        } else finalVisResults = actualVisitResults;
+        return finalVisResults;
     }
 
     get isVitalsSelected() {
@@ -129,11 +154,11 @@ export default class PpVisitResultsContainer extends LightningElement {
         return this.selectedResultType == 'Biomarkers';
     }
     get isVitalsResults() {
-        return this.totalLabResults > 0 ? true : false;
+        return this.totalVitalResults > 0 ? true : false;
     }
 
     get isLabsResults() {
-        return this.totalVitalResults > 0 ? true : false;
+        return this.totalLabResults > 0 ? true : false;
     }
 
     get isBiomarkersResults() {
