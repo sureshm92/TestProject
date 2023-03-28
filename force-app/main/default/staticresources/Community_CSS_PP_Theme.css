@@ -1261,6 +1261,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate .button-cancel{
         height: 32px !important;
 }
+.manage-delegate-acc-setting .save-button-aligment{
+    padding: 22px 0px 0px 12px;	
+}
 /* Delegate Redesing - Remove/Delete Modal - CSS Override - Ends */
 /* Delegate Redesing - Add New Delegate Page CSS  Override - Starts*/
 .manage-del-multi-picklist .multipicklist-box{
