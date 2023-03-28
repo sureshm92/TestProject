@@ -225,16 +225,14 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         );
     }
     handleChangePreference() {
-        this.redirecturl = window.location.origin + basePathName + '/account-settings?changePref';
-        const config = {
-            type: 'standard__webPage',
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: this.redirecturl
+                pageName: 'account-settings'
+            },
+            state: {
+                changePref: null
             }
-        };
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
         });
     }
     updateResources(event) {
