@@ -113,7 +113,7 @@ public without sharing class ResourceRemote {
         }
     }
     @AuraEnabled
-    public static ResourceService.ResourceWrapperContainer getUpdateResource(
+    public static ResourceService.ResourceWrapperContainer getMultimediaResources(
         String linkWrapperText,
         String participantData
     ) {
