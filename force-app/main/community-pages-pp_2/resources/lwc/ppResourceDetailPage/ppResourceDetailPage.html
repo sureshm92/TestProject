@@ -108,11 +108,12 @@
                                     </lightning-layout-item>
                                     <!-- Article suggestions-->
                                     <lightning-layout-item size="12">
-                                        <div if:true={isArticleVideo}>
+                                        <template lwc:if={isSuggestedArticlesVisible}>
                                             <c-pp-suggested-articles
                                                 resid={resourceId}
+                                                suggested-articles-data={suggestedArticlesData}
                                             ></c-pp-suggested-articles>
-                                        </div>
+                                        </template>
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
@@ -132,7 +133,6 @@
             </template>
             <template lwc:else>
                 <div class="page-container page-margin">
-                    <!-- <button class="back-button-multimedia" onclick={goBackToPortraitMode}>Back</button> -->
                     <!--***************  Detail Top Bar  ******************-->
                     <lightning-layout multiple-rows="true" class="full-width-container">
                         <!-- ************** Back To Resources *************** -->
@@ -248,11 +248,12 @@
                                     </lightning-layout-item>
                                     <!-- Article suggestions-->
                                     <lightning-layout-item size="12">
-                                        <div if:true={isArticleVideo}>
+                                        <template lwc:if={isSuggestedArticlesVisible}>
                                             <c-pp-suggested-articles
                                                 resid={resourceId}
+                                                suggested-articles-data={suggestedArticlesData}
                                             ></c-pp-suggested-articles>
-                                        </div>
+                                        </template>
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>

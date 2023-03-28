@@ -11,13 +11,13 @@
 
                     <lightning-layout-item if:true={resourcesAvailable} size="6" class="mb-8">
                         <div class="pref-container">
-                            <a
+                            <div
                                 onclick={handleChangePreference}
                                 class="change-preferences"
                                 style="float: right"
                             >
                                 {labels.CHANGE_PREFERENCES}
-                            </a>
+                            </div>
                         </div>
                     </lightning-layout-item>
 
@@ -43,17 +43,20 @@
                 <!-- Load Components based on Selection -->
                 <lightning-layout multiple-rows="true">
                     <template if:true={engageVisible}>
-                        <template if:true ={multimedia}>
+                        <template if:true={multimedia}>
                             <lightning-layout-item size="12">
                                 <!--Explore Section starts here-->
                                 <div class="res-explore-container res-explore-mobile">
                                     <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
-                                    <c-pp-resource-multimedia resourced-data = {resourcesData} desktop = {desktop}>
+                                    <c-pp-resource-multimedia
+                                        resourced-data={resourcesData}
+                                        desktop={desktop}
+                                    >
                                     </c-pp-resource-multimedia>
                                 </div>
                             </lightning-layout-item>
                         </template>
-                        <template if:false ={multimedia}>
+                        <template if:false={multimedia}>
                             <lightning-layout-item size="12">
                                 <div class="res-box-engage-container slds-align_absolute-center">
                                     <div class="dis-block">
@@ -91,7 +94,10 @@
                             </lightning-layout-item>
                             <lightning-layout-item size="12">
                                 <div class="res-box-relLinks-container pad10">
-                                    <c-pp-discover-links links-wrappers={linksWrappers} discover-empty-state={discoverEmptyState}></c-pp-discover-links>
+                                    <c-pp-discover-links
+                                        links-wrappers={linksWrappers}
+                                        discover-empty-state={discoverEmptyState}
+                                    ></c-pp-discover-links>
                                 </div>
                             </lightning-layout-item>
                         </lightning-layout>
