@@ -30,33 +30,20 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
     }
 
     navigateResourceDetail() {
-        let subDomain = communityService.getSubDomain();
         let state;
         if (communityService.isInitialized()) {
             state = communityService.getCurrentCommunityMode().participantState;
         }
-        let detailLink =
-            window.location.origin +
-            subDomain +
-            '/s/resource-detail' +
-            '?resourceid=' +
-            this.documentData.resource.Id +
-            '&resourcetype=' +
-            this.documentData.resource.RecordType.DeveloperName +
-            '&state=' +
-            state;
-
-        const config = {
-            type: 'standard__webPage',
-
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: detailLink
+                pageName: 'resource-detail'
+            },
+            state: {
+                resourceid: this.documentData.resource.Id,
+                resourcetype: this.documentData.resource.RecordType.DeveloperName,
+                state: state
             }
-        };
-
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
         });
     }
 }
