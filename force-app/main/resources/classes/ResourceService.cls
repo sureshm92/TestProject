@@ -42,7 +42,7 @@ public virtual without sharing class ResourceService {
     public ResourceService init(String resourceType, String resourceId) {
         return init(resourceType, resourceId, null, null);
     }
-    public ResourceService ppinit(String resourceType, String participantData) {
+    public ResourceService ppInit(String resourceType, String participantData) {
         return init(resourceType, resourceId, null, participantData);
     }
 
