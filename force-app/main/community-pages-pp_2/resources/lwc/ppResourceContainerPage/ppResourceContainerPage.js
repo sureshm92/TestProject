@@ -4,10 +4,8 @@ import resourcesMobile from './ppResourceMobilePage.html';
 import DEVICE from '@salesforce/client/formFactor';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
-import getTrialDetail from '@salesforce/apex/StudyDetailViewController.getTrialDetail';
-import getLinksData from '@salesforce/apex/RelevantLinksRemote.getInitData';
-import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
-import getUpdateResources from '@salesforce/apex/ResourceRemote.getUpdateResource';
+import getDataWrapper from '@salesforce/apex/RelevantLinksRemote.getDataWrapper';
+import getMultimediaResources from '@salesforce/apex/ResourceRemote.getMultimediaResources';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import RELEVANT_LINKS from '@salesforce/label/c.Home_Page_RelevantLinks_Title';
 import DISCOVER_TITLE from '@salesforce/label/c.Discover_Title';
@@ -17,7 +15,6 @@ import DOCUMENTS from '@salesforce/label/c.PP_Resource_Documents';
 import FIND_ANSWERS from '@salesforce/label/c.PP_Resource_Answers';
 import RESOURCES from '@salesforce/label/c.PG_SW_Tab_Resources';
 import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
-import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
 
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
@@ -133,7 +130,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                 this.toggleExplore = true;
                 this.toggleLinks = true;
             }
-            getInitDataNew()
+            getDataWrapper()
                 .then((returnValue) => {
                     let initData = JSON.parse(JSON.stringify(returnValue));
                     let therapeuticAssignmentsList = [];
@@ -185,24 +182,13 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             this.pData = communityService.getParticipantData();
             let data = JSON.stringify(this.pData);
 
-            await getUpdateResources({ linkWrapperText: returnValue, participantData: data })
+            await getMultimediaResources({ linkWrapperText: returnValue, participantData: data })
                 .then((result) => {
                     this.resourcesData = result.wrappers;
                     this.resourcesData.forEach((resObj) => {
-                        if (
-                            resObj.resource.Content_Type__c == 'Article' ||
-                            resObj.resource.Content_Type__c == 'Video'
-                        ) {
-                            resObj.isExplore = true;
-                        } else if (resObj.resource.Content_Type__c == 'Study_Document') {
-                            resObj.isDoc = true;
-                        } else if (resObj.resource.Content_Type__c == 'Multimedia') {
-                            resObj.isMultimedia = true;
-                            if (!this.multimedia) {
-                                this.multimedia = true;
-                            }
-                        } else {
-                            resObj.isLink = true;
+                        resObj.isMultimedia = true;
+                        if (!this.multimedia) {
+                            this.multimedia = true;
                         }
                     });
                     this.resourcesFilterData = this.resourcesData[0] ? this.resourcesData : false;

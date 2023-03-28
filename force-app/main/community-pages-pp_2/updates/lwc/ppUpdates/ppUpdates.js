@@ -1,6 +1,6 @@
 import { LightningElement, track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
+import getDataWrapper from '@salesforce/apex/RelevantLinksRemote.getDataWrapper';
 import getUpdateResources from '@salesforce/apex/ResourceRemote.getUpdateResources';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import DEVICE from '@salesforce/client/formFactor';
@@ -39,7 +39,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
-        getInitDataNew()
+        getDataWrapper()
             .then((returnValue) => {
                 this.isInitialized = true;
                 let initData = JSON.parse(JSON.stringify(returnValue));

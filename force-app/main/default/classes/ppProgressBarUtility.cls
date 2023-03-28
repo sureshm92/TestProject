@@ -1,4 +1,4 @@
-public with sharing class ppProgressBarUtility {
+public without sharing class ppProgressBarUtility {
     public class parentWrapper{
         @AuraEnabled
         public list<progressWrapper> progressWrapperList;   
@@ -101,7 +101,7 @@ public with sharing class ppProgressBarUtility {
                 prW.description = patientVisit.Visit__r.Visit_Description__c;      
                 prW.status = (patientVisit.Status__c == 'Missed' ? 'UNAVAILABLE' : (patientVisit.Status__c == 'Completed' ? 'COMPLETED' : 'FUTURE'));
                 prW.statusDate = patientVisit.Completed_Date__c;
-                if(((patientVisit.Completed_Date__c == null && patientVisit.Status__c != 'Missed' ) || (patientVisits.size()-1 == i))
+                if(((patientVisit.Status__c != 'Completed' && patientVisit.Status__c != 'Missed' ) || (patientVisits.size()-1 == i))
                  && (!upComingVisit)){
                     upComingVisit = true;
                     pw.currentStatusVal = count;                    
