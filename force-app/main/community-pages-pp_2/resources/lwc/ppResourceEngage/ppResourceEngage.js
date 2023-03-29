@@ -1,6 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
 import getPPResources from '@salesforce/apex/ResourceRemote.getPPResources';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import ALL from '@salesforce/label/c.AF_All';
