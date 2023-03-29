@@ -286,7 +286,7 @@
                 </div>
             </div>
             <template if:true={showVisitCardMobile}>
-                <div class="upcoming-card slds-m-around_small" style="overflow: hidden;">
+                <div class="upcoming-card slds-m-around_small">
                     <div class = "uc-text-mobile">
                         <template if:true={isProgram}>
                             UPCOMING
@@ -295,7 +295,7 @@
                             UPCOMING
                         </template>
                     </div>
-                        <div class="slds-scrollable_y" style="width: 103%;">
+                        <div class={marginbottom}>
                         <template if:true={showVisitCardMobile}>
                             <template if:true={showTelevisitCard}>
                                 <template if:true={showVisitCard}>
