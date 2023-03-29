@@ -13,7 +13,7 @@ public without sharing class ParticipantTelevisitRemote {
             }
 
             if(pstate != null && pstate.isDelegate){
-                user ur = [select id,TimeZoneSidKey from user where contactid =:pstate.currentContactId];
+                user ur = [select id,TimeZoneSidKey from user where contactid =:pstate.pe.Participant_Contact__c];
                 if(ur != null){
                     userId = ur.Id;
                     timezonechanges = ur.TimeZoneSidKey;

@@ -6,7 +6,7 @@
                     <img
                         class="explore-image"
                         onclick={navigateResourceDetail}
-                        src={exploreData.resource.Image__c}
+                        src={exploreData.thumbnailImage}
                         onerror={handleNoExploreImageError}
                     />
                 </template>
@@ -29,9 +29,9 @@
                     <p
                         class="document-label"
                         onclick={navigateResourceDetail}
-                        title={exploreData.resource.Title__c}
+                        title={exploreData.title}
                     >
-                        {exploreData.resource.Title__c}
+                        {exploreData.title}
                     </p>
                 </div>
                 <div class="slds-grid date-section-mobile">
@@ -39,7 +39,7 @@
                         <p class="date">
                             {labels.POSTING_DATE}&nbsp;
                             <lightning-formatted-date-time
-                                value={exploreData.resource.Posting_Date__c}
+                                value={exploreData.versionDate}
                             ></lightning-formatted-date-time>
                         </p>
                     </div>
@@ -49,7 +49,7 @@
     </template>
     <template if:true={desktop}>
         <template if:true={showVisitSection}>
-            <div class="slds-grid slds-wrap card-border-desktop">
+            <div class="slds-grid slds-wrap card-border-desktop" onclick={navigateResourceDetail}>
                 <div
                     class="slds-col slds-size_2-of-6 card-element"
                     onclick={navigateResourceDetail}
@@ -58,7 +58,7 @@
                         <img
                             class="explore-image"
                             onclick={navigateResourceDetail}
-                            src={exploreData.resource.Image__c}
+                            src={exploreData.thumbnailImage}
                             onerror={handleNoExploreImageError}
                         />
                     </template>
@@ -81,9 +81,9 @@
                         <p
                             class="document-label"
                             onclick={navigateResourceDetail}
-                            title={exploreData.resource.Title__c}
+                            title={exploreData.title}
                         >
-                            {exploreData.resource.Title__c}
+                            {exploreData.title}
                         </p>
                     </div>
                     <div class="slds-grid date-section">
@@ -91,7 +91,7 @@
                             <p class="date">
                                 {labels.POSTING_DATE}&nbsp;
                                 <lightning-formatted-date-time
-                                    value={exploreData.resource.Posting_Date__c}
+                                    value={exploreData.versionDate}
                                 ></lightning-formatted-date-time>
                             </p>
                         </div>
@@ -108,7 +108,7 @@
                     <img
                         class="explore-image-desktop-horizontal"
                         onclick={navigateResourceDetail}
-                        src={exploreData.resource.Image__c}
+                        src={exploreData.thumbnailImage}
                         onerror={handleNoExploreImageError}
                     />
                 </template>
@@ -126,17 +126,13 @@
                     ></c-web-icon>
                 </div>
             </div>
-            <div
-                class="article-title"
-                onclick={navigateResourceDetail}
-                title={exploreData.resource.Title__c}
-            >
-                {exploreData.resource.Title__c}
+            <div class="article-title" onclick={navigateResourceDetail} title={exploreData.title}>
+                {exploreData.title}
             </div>
-            <div class="date-desktop">
-                {labels.POSTING_DATE}&nbsp;
+            <div class="date-desktop" onclick={navigateResourceDetail}>
+                {labels.VERSION_DATE}&nbsp;
                 <lightning-formatted-date-time
-                    value={exploreData.resource.Posting_Date__c}
+                    value={exploreData.versionDate}
                 ></lightning-formatted-date-time>
             </div>
         </template>

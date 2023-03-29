@@ -153,14 +153,19 @@
     height: 100%;
 }
 
-.THIS .fpi-as{
+.THIS .fpi-as {
     font-weight: 600;
     color: #0f6efd;
-    cursor: pointer
+    cursor: pointer;
 }
 
-.THIS .fpi_container_margin{
+.THIS .fpi_container_margin {
     margin: 10px 0px 20px 0px;
     font-size: 16px;
     line-height: 24px;
+}
+@media all and (max-width: 768px) {
+    .THIS .checkBox-desc {
+        margin-right: 5px !important;
+    }
 }
