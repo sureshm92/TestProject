@@ -423,8 +423,7 @@ public without sharing class TelevisitCreationScreenController {
             WHERE
                 Participant_Enrollment__c = :per.id
                 AND Patient_Delegate__r.Participant__c = :per.Participant__c
-                AND Status__c = 'Active'
-            ORDER BY Primary_Delegate__c DESC
+                ORDER BY Primary_Delegate__c DESC
         ]) {
             if (preventDuplicate.add(participantDelegate.Patient_Delegate__r.Contact__c)) {
                 AttendeesWrapper wrap2 = new AttendeesWrapper();
