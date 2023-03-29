@@ -227,4 +227,5 @@
     </aura:if>
 
     <lightning:messageChannel type="rhrefresh__c" aura:id="sampleMessageChannel" />
+    <lightning:messageChannel type="ppStudyUpdates__c" aura:id="ctpUpdatesChannel" />
 </aura:component>
