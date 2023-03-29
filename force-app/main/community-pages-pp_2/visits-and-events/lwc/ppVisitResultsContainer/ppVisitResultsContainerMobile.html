@@ -1,5 +1,5 @@
 <template>
-    <template lwc:if={isDesktop}>
+    <template lwc:if={isMobile}>
         <div class="position-container">
             <!-- Loading Spinner-->
             <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
@@ -23,7 +23,7 @@
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
                 <template lwc:else>
                     <div class="slds-grid slds-wrap slds-gutters slds-p-top_x-large">
-                        <div class="slds-col slds-size_12-of-12">
+                        <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
                             <img src={noVisitResultsAvailable} class="no-result-image" />
                         </div>
                         <div
@@ -35,9 +35,8 @@
                 </template>
             </template>
             <template lwc:elseif={isLabsSelected}>
+                <!-- If Lab Visit Results present-->
                 <template lwc:if={isLabsResults}>
-                    <!-- If Lab Visit Results present-->
-                    <!-- If Lab Visit Subtype-->
                     <div class="slds-text-align_left lab-header">{labsHeading}</div>
                     <div class="lab-results">
                         <template for:each={visitResultsListForLabs} for:item="result">
@@ -55,8 +54,8 @@
                 </template>
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
                 <template lwc:else>
-                    <div class="slds-grid slds-wrap slds-p-top_x-large">
-                        <div class="slds-col slds-size_12-of-12">
+                    <div class="slds-grid slds-wrap slds-gutters slds-p-top_x-large">
+                        <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
                             <img src={noVisitResultsAvailable} class="no-result-image" />
                         </div>
                         <div
@@ -86,8 +85,8 @@
                 </template>
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
                 <template lwc:else>
-                    <div class="slds-grid slds-wrap slds-gutters slds-p-top_x-large">
-                        <div class="slds-col slds-size_12-of-12">
+                    <div class="slds-grid slds-wrap slds-p-top_x-large">
+                        <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
                             <img src={noVisitResultsAvailable} class="no-result-image" />
                         </div>
                         <div

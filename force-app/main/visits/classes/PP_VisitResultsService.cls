@@ -214,6 +214,7 @@ public without sharing class PP_VisitResultsService {
     /**RK END*/
 
     /*Jayashree J*/
+    /* Returns the visit results for the visit tesult mode selected*/
     @AuraEnabled
     public static List<PP_VisitResultsContainer> ppVisitResultsWrapper(
         String ctpId,

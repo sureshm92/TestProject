@@ -5,6 +5,10 @@ import Biomarkers_Unknown from '@salesforce/label/c.Biomarkers_Unknown';
 import visitResultNotAvailable from '@salesforce/label/c.PP_Visit_Result_Value_Not_Available';
 import Biomarkers_Expected_Range from '@salesforce/label/c.Biomarkers_Expected_Range';
 import Report_Expected_Range from '@salesforce/label/c.Report_Expected_Range';
+import mobileTemplate from './ppVisitResultMobile.html';
+import tabletTemplate from './ppVisitResultTablet.html';
+import desktopTemplate from './ppVisitResult.html';
+import FORM_FACTOR from '@salesforce/client/formFactor';
 
 export default class PpVisitResult extends LightningElement {
     labels = {
@@ -100,6 +104,7 @@ export default class PpVisitResult extends LightningElement {
     }
 
     get actualValueClass() {
+        console.log('JJ' + this.visitResult.value);
         return this.visitResult.value != null ? 'actual-value' : 'not-available-text';
     }
     get resultDisplayClass() {
@@ -111,5 +116,25 @@ export default class PpVisitResult extends LightningElement {
         return this.biomarkerResult == visitResultNotAvailable
             ? 'slds-text-align_left result-not-available'
             : 'slds-text-align_left result-available';
+    }
+    get isDesktop() {
+        return FORM_FACTOR === 'Large' ? true : false;
+    }
+
+    get isTablet() {
+        return FORM_FACTOR === 'Medium' ? true : false;
+    }
+
+    get isMobile() {
+        return FORM_FACTOR === 'Small' ? true : false;
+    }
+    render() {
+        if (this.isDesktop) {
+            return desktopTemplate;
+        } else if (this.isMobile) {
+            return mobileTemplate;
+        } else {
+            return tabletTemplate;
+        }
     }
 }

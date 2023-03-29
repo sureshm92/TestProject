@@ -6,7 +6,10 @@ import More_Results from '@salesforce/label/c.PP_More_Results';
 import Visit_Result_Group_MetabolicPanel from '@salesforce/label/c.Visit_Result_Group_MetabolicPanel';
 import Visit_Result_Group_Hematology from '@salesforce/label/c.Visit_Result_Group_Hematology';
 import Visit_Result_Group_FastingLipidProfile from '@salesforce/label/c.Visit_Result_Group_FastingLipidProfile';
-
+import FORM_FACTOR from '@salesforce/client/formFactor';
+import mobileTemplate from './ppVisitResultsContainerMobile.html';
+import tabletTemplate from './ppVisitResultsContainerTablet.html';
+import desktopTemplate from './ppVisitResultsContainer.html';
 import ppVisitResultsWrapper from '@salesforce/apex/PP_VisitResultsService.ppVisitResultsWrapper';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 
@@ -47,7 +50,7 @@ export default class PpVisitResultsContainer extends LightningElement {
     minResultsToDisp = 1;
     @track showMoreResults;
     @track showMoreText;
-    // showSpinner;
+    showSpinner = true;
 
     connectedCallback() {
         this.showSpinner = true;
@@ -96,10 +99,6 @@ export default class PpVisitResultsContainer extends LightningElement {
                                 this.actualVisitResultsListVitals = resultsWrapper[i].resWrappers;
                                 this.totalVitalResults =
                                     this.totalVitalResults + resultsWrapper[i].resWrappers.length;
-                                console.log(
-                                    'JJ this.actualVisitResultsListVitals' +
-                                        this.actualVisitResultsListVitals
-                                );
                                 this.visitResultsListVitals = this.formResultsToDisplay(
                                     this.actualVisitResultsListVitals
                                 );
@@ -122,7 +121,8 @@ export default class PpVisitResultsContainer extends LightningElement {
                     this.showSpinner = false;
                 })
                 .catch((error) => {
-                    console.error(error);
+                    console.error('Error when loading visit results' + error);
+                    this.showSpinner = false;
                 });
         }
     }
@@ -163,5 +163,25 @@ export default class PpVisitResultsContainer extends LightningElement {
 
     get isBiomarkersResults() {
         return this.totalBioResults > 0 ? true : false;
+    }
+    get isDesktop() {
+        return FORM_FACTOR === 'Large' ? true : false;
+    }
+
+    get isTablet() {
+        return FORM_FACTOR === 'Medium' ? true : false;
+    }
+
+    get isMobile() {
+        return FORM_FACTOR === 'Small' ? true : false;
+    }
+    render() {
+        if (this.isDesktop) {
+            return desktopTemplate;
+        } else if (this.isMobile) {
+            return mobileTemplate;
+        } else {
+            return tabletTemplate;
+        }
     }
 }

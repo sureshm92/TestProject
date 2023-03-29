@@ -1,29 +1,27 @@
 <template>
-    <template lwc:if={isDesktop}>
+    <template lwc:if={isTablet}>
         <div class="position-container">
             <!-- Loading Spinner-->
             <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
             <template lwc:if={isVitalsSelected}>
                 <!-- If Vital Visit Results present-->
                 <template lwc:if={isVitalsResults}>
-                    <div class="vital-results">
-                        <template for:each={visitResultsListVitals} for:item="result">
-                            <div key={result.name}>
-                                <c-pp-visit-result
-                                    visit-result={result}
-                                    visit-result-type={selectedResultType}
-                                ></c-pp-visit-result>
-                            </div>
-                        </template>
-                        <div class="more-results">
-                            <template if:true={showMoreResults}>{showMoreText}</template>
+                    <template for:each={visitResultsListVitals} for:item="result">
+                        <div key={result.name}>
+                            <c-pp-visit-result
+                                visit-result={result}
+                                visit-result-type={selectedResultType}
+                            ></c-pp-visit-result>
                         </div>
+                    </template>
+                    <div class="more-results">
+                        <template if:true={showMoreResults}>{showMoreText}</template>
                     </div>
                 </template>
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
                 <template lwc:else>
                     <div class="slds-grid slds-wrap slds-gutters slds-p-top_x-large">
-                        <div class="slds-col slds-size_12-of-12">
+                        <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
                             <img src={noVisitResultsAvailable} class="no-result-image" />
                         </div>
                         <div
@@ -35,9 +33,8 @@
                 </template>
             </template>
             <template lwc:elseif={isLabsSelected}>
+                <!-- If Lab Visit Results present-->
                 <template lwc:if={isLabsResults}>
-                    <!-- If Lab Visit Results present-->
-                    <!-- If Lab Visit Subtype-->
                     <div class="slds-text-align_left lab-header">{labsHeading}</div>
                     <div class="lab-results">
                         <template for:each={visitResultsListForLabs} for:item="result">
@@ -56,13 +53,13 @@
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
                 <template lwc:else>
                     <div class="slds-grid slds-wrap slds-p-top_x-large">
-                        <div class="slds-col slds-size_12-of-12">
+                        <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
                             <img src={noVisitResultsAvailable} class="no-result-image" />
                         </div>
                         <div
                             class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large slds-p-horizontal_small"
                         >
-                            {labels.No_Labs_Available}
+                            {labels.No_Biomarkers_Available}
                         </div>
                     </div>
                 </template>
@@ -86,8 +83,8 @@
                 </template>
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
                 <template lwc:else>
-                    <div class="slds-grid slds-wrap slds-gutters slds-p-top_x-large">
-                        <div class="slds-col slds-size_12-of-12">
+                    <div class="slds-grid slds-wrap slds-p-top_x-large">
+                        <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
                             <img src={noVisitResultsAvailable} class="no-result-image" />
                         </div>
                         <div

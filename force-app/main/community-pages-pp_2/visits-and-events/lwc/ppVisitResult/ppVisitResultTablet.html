@@ -1,10 +1,10 @@
 <template>
-    <template lwc:if={isDesktop}>
+    <template lwc:if={isTablet}>
         <!--Biomarker Visit Results-->
         <template lwc:if={isBiomarkersResult}>
             <div class={bioMarkerResClass}>
                 <div>
-                    <span class="result-name"> {header}</span>
+                    <span class="result-name-tablet"> {header}</span>
                     <span class="slds-p-horizontal_x-small show-result-tooltip"
                         ><lightning-helptext content={toolTipText}></lightning-helptext
                     ></span>
