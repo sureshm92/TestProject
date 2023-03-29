@@ -126,6 +126,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
             }
 
             for (Res_study__c res : studyResourcesList) {
+                if (pe.Clinical_Trial_Profile__c == res.Clinical_Trial_Profile__c) {
                 for (Contact contact : peContacts) {
                     Boolean isDelegate = pe.Participant_Contact__c != contact.Id;
                     if (contact.userCommunityMode__c == null)
@@ -151,7 +152,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                         Recipient__c = contact.Id,
                                         WhatId__c = pe.Id,
                                         Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_TYPE,
-                                        Target_Record_Ids__c = '' + res.Resource__c
+                                            Target_Record_Ids__c = '' + res.Id
                                     )
                                 );
                             }
@@ -161,7 +162,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                         Recipient__c = contact.Id,
                                         WhatId__c = pe.Id,
                                         Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_DOC_TYPE,
-                                        Target_Record_Ids__c = '' + res.Resource__c
+                                            Target_Record_Ids__c = '' + res.Id
                                     )
                                 );
                             }
@@ -172,7 +173,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                         Recipient__c = contact.Id,
                                         WhatId__c = pe.Id,
                                         Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_ARTICLE_TYPE,
-                                        Target_Record_Ids__c = '' + res.Resource__c
+                                            Target_Record_Ids__c = '' + res.Id
                                     )
                                 );
                             }
@@ -183,7 +184,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                         Recipient__c = contact.Id,
                                         WhatId__c = pe.Id,
                                         Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_VIDEO_TYPE,
-                                        Target_Record_Ids__c = '' + res.Resource__c
+                                            Target_Record_Ids__c = '' + res.Id
                                     )
                                 );
                             }
@@ -194,7 +195,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                         Recipient__c = contact.Id,
                                         WhatId__c = pe.Id,
                                         Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_LINK_TYPE,
-                                        Target_Record_Ids__c = '' + res.Resource__c
+                                            Target_Record_Ids__c = '' + res.Id
                                     )
                                 );
                             }
@@ -205,7 +206,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                         Recipient__c = contact.Id,
                                         WhatId__c = pe.Id,
                                         Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_MULTIMEDIA_TYPE,
-                                        Target_Record_Ids__c = '' + res.Resource__c
+                                            Target_Record_Ids__c = '' + res.Id
                                     )
                                 );
                             }
@@ -218,6 +219,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                 resIdsByContactId.put(contact.Id, resNotificationIds);
                             }
                             resIdsByContactId.get(contact.Id).add(res.Resource__c);
+                            }
                         }
                     }
                 }
