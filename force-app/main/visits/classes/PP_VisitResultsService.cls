@@ -5,9 +5,7 @@ public without sharing class PP_VisitResultsService {
     public static final String METABOLICPANEL = 'MetabolicPanel';
     public static final String HEMATOLOGY = 'Hematology';
     public static final String FASTING_LIPID_PROFILE = 'FastingLipidProfile';
-    public static Boolean isMetabolicPanel = false;
-    public static Boolean isHematology = false;
-    public static Boolean isFastingLipidProfile = false;
+
     /**RK START*/
     @AuraEnabled
     public static PPInitDataWrapper getInitDataPP(Integer ctpSharingTiming, String patientVisitId) {
