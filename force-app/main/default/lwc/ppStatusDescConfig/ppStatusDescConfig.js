@@ -18,8 +18,13 @@ export default class PpStatusDescConfig extends LightningElement {
     label = {
         PP_Study_Status_Unavailable
     };
+    receivedMessage = '';
+    ppProgressBarMessage = '';
+    subscription = null;
+    context = createMessageContext();
     connectedCallback(){
         this.getData();
+        this.subscribeToMessageChannel();
     }
     getData(){
         fetchStatusConfig({ recId: this.recordId })
@@ -118,5 +123,17 @@ export default class PpStatusDescConfig extends LightningElement {
                 });
             }
         }
+    handleChange(event) {
+        this.data=null;
+        this.getData();
+
+    }
+    subscribeToMessageChannel() {
+        if (!this.subscription) {
+            this.subscription = subscribe(this.context, ppToggleMessageChannel, (message) => {
+                this.handleChange(message);
+            });
+        }
+    }
     
 }
