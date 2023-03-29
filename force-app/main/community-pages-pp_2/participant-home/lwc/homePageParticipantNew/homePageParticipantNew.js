@@ -42,6 +42,7 @@ export default class HomePageParticipantNew extends LightningElement {
     showUpcomingSection =  true;
     isUpcomingVisitDetails;
     isUpcomingTelevisitVisitDetails;
+    marginbottom = '';
 
 
     get showProgramOverview() {
@@ -87,6 +88,7 @@ export default class HomePageParticipantNew extends LightningElement {
             console.log('Televisit :',this.isUpcomingTelevisitVisitDetails);
             if(!this.isUpcomingVisitDetails && this.isUpcomingTelevisitVisitDetails){
                 this.isTelevisits = true;
+                this.marginbottom = 'marginbottom';
             }else{
                 //this.isTelevisits = false;
             }
@@ -128,11 +130,13 @@ export default class HomePageParticipantNew extends LightningElement {
                             }else{
                                 this.showTelevisitCard = false; 
                                 this.isTelevisits = false;
+                                this.marginbottom = '';
                             }
                             console.log('Televisit Toggle',this.clinicalrecord.Televisit_Vendor_is_Available__c);
                             console.log('Televisit Vendor',res.televisitVendorAvailable);
                             if(this.showTelevisitCard  && !this.showVisitCard){
                                 this.isTelevisits = true;
+                                this.marginbottom = 'marginbottom';
                             }
 
                             
@@ -140,6 +144,7 @@ export default class HomePageParticipantNew extends LightningElement {
                             (this.participantState.hasPatientDelegates && !this.participantState.isDelegate)){
                         this.showTelevisitCard = true;
                         this.isTelevisits = true;
+                        this.marginbottom = 'marginbottom';
                     }
                     if (this.desktop != true) {
                         //this.updatesSection = true;
@@ -237,10 +242,12 @@ export default class HomePageParticipantNew extends LightningElement {
 
     visitsTab(){
         this.isTelevisits = false;
+        this.marginbottom = '';
     }
 
     televisitsTab(){
         this.isTelevisits = true;
+        this.marginbottom = 'marginbottom';
     }
 
 }
