@@ -176,6 +176,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     );
   }
   connectedCallback() {
+    console.clear();
     if(!this.isLanguageSelected) {
       getUserLanguage()
         .then((result) => {
