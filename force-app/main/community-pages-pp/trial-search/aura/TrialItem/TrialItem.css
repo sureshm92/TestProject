@@ -113,4 +113,7 @@
     .THIS .p-content {
         max-height: 40vh !important;
     }
+    .THIS .ctp-study-code-name {
+        width: 82% !important;
+    }
 }

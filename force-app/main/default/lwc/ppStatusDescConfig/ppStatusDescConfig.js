@@ -3,6 +3,8 @@ import fetchStatusConfig from '@salesforce/apex/ppStatusDescConfigController.fet
 import updateStatusConfig from '@salesforce/apex/ppStatusDescConfigController.updateStatusConfig';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import PP_Study_Status_Unavailable from '@salesforce/label/c.PP_Study_Status_Unavailable';
+import { subscribe,createMessageContext } from 'lightning/messageService';
+import ppToggleMessageChannel from "@salesforce/messageChannel/ppStudyUpdates__c";
 const columns = [
     { label: 'Status Name', fieldName: 'Status_Name__c' },
     { label: 'Status Description', fieldName: 'Status_Description__c', editable: true },
@@ -18,8 +20,13 @@ export default class PpStatusDescConfig extends LightningElement {
     label = {
         PP_Study_Status_Unavailable
     };
+    receivedMessage = '';
+    ppProgressBarMessage = '';
+    subscription = null;
+    context = createMessageContext();
     connectedCallback(){
         this.getData();
+        this.subscribeToMessageChannel();
     }
     getData(){
         fetchStatusConfig({ recId: this.recordId })
@@ -53,7 +60,7 @@ export default class PpStatusDescConfig extends LightningElement {
                 }
                 else{
                     if(fldNm.includes('Status_Description__c')){
-                        msg.splice(msg.indexOf('Please enter Status Description under 200 characters'),200);
+                        msg.splice(msg.indexOf('Please enter Status Description under 200 characters'),1);
                         fldNm.splice(fldNm.indexOf('Status_Description__c'),1);
                     }
                 }
@@ -67,7 +74,7 @@ export default class PpStatusDescConfig extends LightningElement {
                 }
                 else{
                     if(fldNm.includes('Status_Motivational_Message__c')){
-                        msg.splice(msg.indexOf('Please enter Status Motivational Message under 100 characters'),100);
+                        msg.splice(msg.indexOf('Please enter Status Motivational Message under 100 characters'),1);
                         fldNm.splice(fldNm.indexOf('Status_Motivational_Message__c'),1);
                     }
                 }
@@ -116,7 +123,21 @@ export default class PpStatusDescConfig extends LightningElement {
                 .catch(error => {
                     console.log(error);
                 });
-            }
         }
-    
+    }
+    handleChange(event) {
+        this.data=null;
+        this.getData();
+
+    }
+    subscribeToMessageChannel() {
+        if (!this.subscription) {
+            this.subscription = subscribe(this.context, ppToggleMessageChannel, (message) => {
+                this.handleChange(message);
+            });
+        }
+    }
+    handleCancel(){
+        this.errors = { rows: {}};
+    }
 }

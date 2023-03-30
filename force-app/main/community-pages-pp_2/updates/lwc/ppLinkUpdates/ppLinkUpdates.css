@@ -155,7 +155,7 @@
 }
 
 .icon-section {
-    height: 26px;
+    height: 12px;
 }
 
 .empty-space {
@@ -164,6 +164,7 @@
 
 .open-tab-data-icon-container {
     height: 68px;
+    border-top: 1px solid #E9E9E9;
 }
 
 .title-section-horizontal {
@@ -176,7 +177,6 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #015ff1;
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0;
@@ -185,13 +185,34 @@
     margin-top: 5px;
     cursor: pointer;
 }
-
+.open-in-new-tab{
+    color : #015FF1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-left: 36px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+.link-title{
+    width: 100%;
+    height: 30px;
+}
+.icon-style{
+    margin-top: 5px;
+}
 .helpful-link-title {
     color: #757575;
     font-size: 13px;
     letter-spacing: 0.1px;
-    line-height: 16px;
-    margin-left: 16px;
+    line-height: 14px;
+    margin-left: 17px;
     margin-top: 10px;
     overflow: hidden;
     display: -webkit-box;
