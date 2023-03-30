@@ -137,5 +137,7 @@ export default class PpStatusDescConfig extends LightningElement {
             });
         }
     }
-    
+    handleCancel(){
+        this.errors = { rows: {}};
+    }
 }
