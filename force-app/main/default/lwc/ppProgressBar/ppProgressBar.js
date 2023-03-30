@@ -7,8 +7,10 @@ import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import Mark_As_Completed from '@salesforce/label/c.BTN_Mark_As_Completed';
 import BTN_Continue from '@salesforce/label/c.Continue';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import TIME_ZONE from '@salesforce/i18n/timeZone';
 
 export default class PpProgressBar extends LightningElement {
+    time-zone={userTimeZone}
     @api
     parentClass = 'big';
     layoutClass1 = 'slds-col slds-large-size_2-of-5 slds-size_1-of-1';
