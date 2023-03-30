@@ -1,15 +1,11 @@
-public without sharing class PP_VisitResultsService {
+public without sharing class ModifiedVisitResultsRemote {
     public static final String BIOMARKER_VISIT_RESULT_GROUP = 'Biomarkers';
     public static final String VITAL_VISIT_RESULT_GROUP = 'Vitals';
     public static final String LABS_VISIT_RESULT_GROUP = 'Labs';
     public static final String METABOLICPANEL = 'MetabolicPanel';
     public static final String HEMATOLOGY = 'Hematology';
     public static final String FASTING_LIPID_PROFILE = 'FastingLipidProfile';
-    public static Boolean isMetabolicPanel = false;
-    public static Boolean isHematology = false;
-    public static Boolean isFastingLipidProfile = false;
 
-    /**RK START*/
     @AuraEnabled
     public static PPInitDataWrapper getInitDataPP(Integer ctpSharingTiming, String patientVisitId) {
         PPInitDataWrapper wrapper = (PPInitDataWrapper) ClassFactory.newInstance(
@@ -158,6 +154,7 @@ public without sharing class PP_VisitResultsService {
         currentPE.Visit_Results_Opt_In__c = updatedVisitResults;
         update currentPE;
     }
+
     public static List<Patient_Visit__c> getPatientVisitsForPP() {
         if (!isOnStudy())
             return new List<Patient_Visit__c>();
@@ -187,8 +184,31 @@ public without sharing class PP_VisitResultsService {
         return false;
     }
 
-    /**RK END*/
+    public class PPInitDataWrapper {
+        @AuraEnabled
+        public Boolean isDelegate;
+        @AuraEnabled
+        public Boolean isVisitResultsAvailable;
+        @AuraEnabled
+        public Map<String, List<String>> visitResultsShares;
+        @AuraEnabled
+        public Boolean toggleStateForVitals;
+        @AuraEnabled
+        public Boolean toggleStateForLabs;
+        @AuraEnabled
+        public Boolean toggleStateForBiomarkers;
+        @AuraEnabled
+        public Map<String, Map<String, List<String>>> visitResultWithSubTypesCTP;
 
+        @AuraEnabled
+        public List<String> visitResultsGroupNamesCTP;
+
+        public PPInitDataWrapper() {
+            this.isVisitResultsAvailable = false;
+        }
+    }
+
+    /* Returns the visit results for the visit tesult mode selected*/
     @AuraEnabled
     public static List<PP_VisitResultsContainer> ppVisitResultsWrapper(
         String ctpId,
@@ -528,29 +548,6 @@ public without sharing class PP_VisitResultsService {
             isResultAvailable,
             TranslateHelper.getLabelValue('Visit_Result_Group_' + visitResultsMode)
         );
-    }
-    public class PPInitDataWrapper {
-        @AuraEnabled
-        public Boolean isDelegate;
-        @AuraEnabled
-        public Boolean isVisitResultsAvailable;
-        @AuraEnabled
-        public Map<String, List<String>> visitResultsShares;
-        @AuraEnabled
-        public Boolean toggleStateForVitals;
-        @AuraEnabled
-        public Boolean toggleStateForLabs;
-        @AuraEnabled
-        public Boolean toggleStateForBiomarkers;
-        @AuraEnabled
-        public Map<String, Map<String, List<String>>> visitResultWithSubTypesCTP;
-
-        @AuraEnabled
-        public List<String> visitResultsGroupNamesCTP;
-
-        public PPInitDataWrapper() {
-            this.isVisitResultsAvailable = false;
-        }
     }
 
     public class PP_VisitResultsContainer {

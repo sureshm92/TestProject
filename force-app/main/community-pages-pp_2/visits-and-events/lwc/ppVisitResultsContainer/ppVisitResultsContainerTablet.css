@@ -4,11 +4,11 @@
     font-weight: 600;
 }
 .more-results {
-    padding: 1.291rem, 10rem, 1.313rem, 10rem;
     color: #6e6e6e;
     font-size: 0.875rem;
     font-weight: 600;
 }
 .position-container {
     position: relative;
+    padding-left: 0.675rem;
 }

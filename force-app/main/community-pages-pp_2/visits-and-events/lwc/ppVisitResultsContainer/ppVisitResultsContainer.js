@@ -10,7 +10,7 @@ import FORM_FACTOR from '@salesforce/client/formFactor';
 import mobileTemplate from './ppVisitResultsContainerMobile.html';
 import tabletTemplate from './ppVisitResultsContainerTablet.html';
 import desktopTemplate from './ppVisitResultsContainer.html';
-import ppVisitResultsWrapper from '@salesforce/apex/PP_VisitResultsService.ppVisitResultsWrapper';
+import ppVisitResultsWrapper from '@salesforce/apex/ModifiedVisitResultsRemote.ppVisitResultsWrapper';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class PpVisitResultsContainer extends LightningElement {

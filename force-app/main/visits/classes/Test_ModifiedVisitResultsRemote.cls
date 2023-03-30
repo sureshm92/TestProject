@@ -2,7 +2,7 @@
  * Created by rushikesh.kadam on 27.03.2023.
  */
 @IsTest
-private class Test_PP_VisitResultsService {
+private class Test_ModifiedVisitResultsRemote {
     @TestSetup
     static void setup() {
         TriggerHandlerExecutor.bypassHandler(
@@ -151,7 +151,7 @@ private class Test_PP_VisitResultsService {
         insert visitResults;
 
         System.runAs(testData.participantUser) {
-            PP_VisitResultsService.PPInitDataWrapper wrapper = PP_VisitResultsService.getInitDataPP(
+            ModifiedVisitResultsRemote.PPInitDataWrapper wrapper = ModifiedVisitResultsRemote.getInitDataPP(
                 0,
                 patientVisits.get(0).Id
             );
@@ -243,7 +243,7 @@ private class Test_PP_VisitResultsService {
         insert visitResults;
 
         System.runAs(testData.participantUser) {
-            PP_VisitResultsService.PPInitDataWrapper wrapper = PP_VisitResultsService.getInitDataPP(
+            ModifiedVisitResultsRemote.PPInitDataWrapper wrapper = ModifiedVisitResultsRemote.getInitDataPP(
                 0,
                 patientVisits.get(0).Id
             );
@@ -319,7 +319,7 @@ private class Test_PP_VisitResultsService {
         insert visitResults;
 
         System.runAs(testData.participantUser) {
-            PP_VisitResultsService.PPInitDataWrapper wrapper = PP_VisitResultsService.getInitDataPP(
+            ModifiedVisitResultsRemote.PPInitDataWrapper wrapper = ModifiedVisitResultsRemote.getInitDataPP(
                 0,
                 patientVisits.get(0).Id
             );
@@ -342,8 +342,8 @@ private class Test_PP_VisitResultsService {
 
         Test.startTest();
         System.runAs(testData.participantUser) {
-            PP_VisitResultsService.switchToggleRemoteForPP('Vitals', true);
-            PP_VisitResultsService.switchToggleRemoteForPP('Biomarkers', true);
+            ModifiedVisitResultsRemote.switchToggleRemoteForPP('Vitals', true);
+            ModifiedVisitResultsRemote.switchToggleRemoteForPP('Biomarkers', true);
         }
         Test.stopTest();
 
@@ -370,8 +370,8 @@ private class Test_PP_VisitResultsService {
 
         Test.startTest();
         System.runAs(testData.participantUser) {
-            PP_VisitResultsService.switchToggleRemoteForPP('Vitals', false);
-            PP_VisitResultsService.switchToggleRemoteForPP('Biomarkers', false);
+            ModifiedVisitResultsRemote.switchToggleRemoteForPP('Vitals', false);
+            ModifiedVisitResultsRemote.switchToggleRemoteForPP('Biomarkers', false);
         }
         Test.stopTest();
 

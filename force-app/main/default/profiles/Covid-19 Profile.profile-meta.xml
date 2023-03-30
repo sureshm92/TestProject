@@ -2057,6 +2057,10 @@
         <apexClass>VisitResultsService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>ModifiedVisitResultsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>VisitService</apexClass>
         <enabled>true</enabled>
