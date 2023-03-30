@@ -70,6 +70,9 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         return this.isArticleVideo && this.suggestedArticlesData;
     }
 
+    get linkLabel() {
+        return this.showHomePage ? this.label.Back_To_Home : this.label.Back_To_Resources;
+    }
     connectedCallback() {
         //get resource parameters from url
         const queryString = window.location.search;
@@ -208,7 +211,10 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         }
     }
 
-    handleBackClick() {
+    handleBackClick(event) {
+        if (event) {
+            this.showHomePage = event.detail.backToHome;
+        }
         if (this.showHomePage) {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
@@ -216,7 +222,9 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                     pageName: 'home'
                 }
             });
-        } else if (FORM_FACTOR == 'Large') {
+        }
+
+        if (FORM_FACTOR == 'Large') {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {

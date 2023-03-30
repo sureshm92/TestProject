@@ -68,7 +68,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             })
             .catch((error) => {
                 console.log('counter failed');
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                this.showErrorToast(this.ERROR_MESSAGE, error.message, 'error');
                 this.spinner.hide();
             });
     }
@@ -102,7 +102,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.spinner.hide();
             })
             .catch((error) => {
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                this.showErrorToast(this.ERROR_MESSAGE, error.message, 'error');
                 this.spinner.hide();
             });
     }

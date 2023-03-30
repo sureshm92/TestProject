@@ -9,21 +9,15 @@
                     <lightning-layout multiple-rows="true">
                         <!-- ************** Back To Resources *************** -->
                         <lightning-layout-item size="12">
-                            <div onclick={handleBackClick} class="back-link slds-p-vertical_small">
+                            <span onclick={handleBackClick} class="back-link slds-p-vertical_small">
                                 <c-web-icon
                                     icon-size="medium-large"
                                     icon-name="chevron-left"
                                     icon-color="#015ff1"
-                                    onclick={handleBackClick}
                                     class="slds-p-right_xx-small"
                                 ></c-web-icon
-                                ><template if:true={showHomePage}>
-                                    <span>{label.Back_To_Home}</span>
-                                </template>
-                                <template if:false={showHomePage}>
-                                    <span>{label.Back_To_Resources}</span>
-                                </template>
-                            </div>
+                                >{linkLabel}
+                            </span>
                             <hr />
                         </lightning-layout-item>
                         <!-- ***************** Resource Title ******************* -->
@@ -50,7 +44,10 @@
                         <!-- *************** Study Documents ****************** -->
                         <template lwc:if={isDocument}>
                             <template lwc:if={isInvalidResource}>
-                                <c-pp-invalid-resource></c-pp-invalid-resource>
+                                <c-pp-invalid-resource
+                                    resource-type={resourceType}
+                                    onviewresources={handleBackClick}
+                                ></c-pp-invalid-resource>
                             </template>
                             <template lwc:else>
                                 <lightning-layout-item size="12" class="title-row-document">
@@ -164,7 +161,7 @@
                         <!-- ************** Back To Resources *************** -->
                         <div class="portrait-mode">
                             <lightning-layout-item size="12">
-                                <div
+                                <span
                                     onclick={handleBackClick}
                                     class="back-link slds-p-vertical_small"
                                 >
@@ -172,11 +169,10 @@
                                         icon-size="medium-large"
                                         icon-name="chevron-left"
                                         icon-color="#015ff1"
-                                        onclick={handleBackClick}
                                         class="slds-p-right_xx-small"
-                                    ></c-web-icon>
-                                    <span>{label.Back_To_Resources}</span>
-                                </div>
+                                    ></c-web-icon
+                                    >{linkLabel}
+                                </span>
                                 <hr />
                             </lightning-layout-item>
 
