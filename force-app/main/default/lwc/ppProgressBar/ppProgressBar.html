@@ -57,7 +57,12 @@
                                     {barStatus}
                                     <template if:true={barStatusDate}>
                                         <span>
-                                            &nbsp;|&nbsp;<lightning-formatted-date-time value={barStatusDate}></lightning-formatted-date-time>
+                                            &nbsp;|&nbsp;<lightning-formatted-date-time value={barStatusDate} 
+                                             year="numeric"
+                                            month="long"
+                                            day="numeric"
+                                            time-zone={userTimeZone}
+                                            ></lightning-formatted-date-time>
                                         </span>
                                     </template>
                                 </span>
