@@ -1,7 +1,7 @@
 import { LightningElement, track } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
 import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesById';
-import getUnsortedResourcesByType from '@salesforce/apex/ResourceRemote.getUnsortedResourcesByType';
+import getUnsortedResources from '@salesforce/apex/ResourceRemote.getUnsortedResourcesByType';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
@@ -108,7 +108,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         //if (!communityService.isInitialized()) return;
 
         let participantData = communityService.getParticipantData();
-        getUnsortedResourcesByType({
+        getUnsortedResources({
             resourceType:
                 this.resourceType == 'Article' || this.resourceType == 'Video'
                     ? 'Article;Video'
@@ -126,6 +126,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                     )
                 ) {
                     this.isInvalidResource = true;
+                    this.isInitialized = true;
                 } else {
                     //get clicked resource details
                     getResourceDetails({
