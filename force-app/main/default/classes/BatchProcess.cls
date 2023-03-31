@@ -1,5 +1,5 @@
 /**
- * Created by Yehor Dobrovolskyi
+ * Created by Yehor Dobrovolskyi....
  */ 
 global class BatchProcess implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts {
     global Boolean isFinished;
