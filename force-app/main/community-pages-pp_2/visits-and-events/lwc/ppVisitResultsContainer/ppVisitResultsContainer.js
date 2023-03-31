@@ -10,7 +10,7 @@ import FORM_FACTOR from '@salesforce/client/formFactor';
 import mobileTemplate from './ppVisitResultsContainerMobile.html';
 import tabletTemplate from './ppVisitResultsContainerTablet.html';
 import desktopTemplate from './ppVisitResultsContainer.html';
-import ppVisitResultsWrapper from '@salesforce/apex/ModifiedVisitResultsRemote.ppVisitResultsWrapper';
+import getVisitResultsWrapperModified from '@salesforce/apex/Modified_VisitResultsRemote.getVisitResultsWrapperModified';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class PpVisitResultsContainer extends LightningElement {
@@ -61,7 +61,7 @@ export default class PpVisitResultsContainer extends LightningElement {
 
     initializeData() {
         if (!communityService.isDummy()) {
-            ppVisitResultsWrapper({
+            getVisitResultsWrapperModified({
                 ctpId: this.ctpId,
                 patientVisitId: this.patientVisitId,
                 participantMailingCC: this.participantMailingCC,

@@ -4,8 +4,8 @@ import FORM_FACTOR from '@salesforce/client/formFactor';
 import mobileTemplate from './ppVisitResultTypeInfoMobile.html';
 import tabletTemplate from './ppVisitResultTypeInfoTablet.html';
 import desktopTemplate from './ppVisitResultTypeInfo.html';
-import getInitDataPP from '@salesforce/apex/ModifiedVisitResultsRemote.getInitDataPP';
-import switchToggleRemoteForPP from '@salesforce/apex/ModifiedVisitResultsRemote.switchToggleRemoteForPP';
+import getInitDataModified from '@salesforce/apex/Modified_VisitResultsRemote.getInitDataModified';
+import modifiedSwitchToggleRemote from '@salesforce/apex/Modified_VisitResultsRemote.modifiedSwitchToggleRemote';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import Visit_Results_Tab_Vit_Disclaimer from '@salesforce/label/c.Visit_Results_Tab_Vit_Disclaimer';
 import Visit_Results_Tab_Lab_Disclaimer from '@salesforce/label/c.Visit_Results_Tab_Lab_Disclaimer';
@@ -81,7 +81,7 @@ export default class PpVisitResultTypeInfo extends LightningElement {
 
     initializeData() {
         if (!communityService.isDummy()) {
-            getInitDataPP({
+            getInitDataModified({
                 ctpSharingTiming: this.ctpSharingTiming,
                 patientVisitId: this.patientVisitId
             })
@@ -127,7 +127,11 @@ export default class PpVisitResultTypeInfo extends LightningElement {
                 })
                 .catch((error) => {
                     console.error(error);
-                    this.showErrorToast('Error occured here', error.message, 'error');
+                    this.showErrorToast(
+                        'Error occured here' + error.message,
+                        error.message,
+                        'error'
+                    );
                 });
         }
     }
@@ -186,7 +190,7 @@ export default class PpVisitResultTypeInfo extends LightningElement {
 
     handleVRToggle(event) {
         this.showSpinner = true;
-        switchToggleRemoteForPP({
+        modifiedSwitchToggleRemote({
             visitResultsMode: this.selectedResultType,
             isToggleOn: event.target.checked
         })
