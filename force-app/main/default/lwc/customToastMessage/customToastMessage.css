@@ -11,7 +11,7 @@
     width:50% !important;
     position: fixed;
     left: 26%;
-    top: 2%;
+    top: 48px;
 }
 .slds-notify__content{
     width: 508px;
@@ -25,7 +25,6 @@
 .custom-icon-mobile{
    margin-right: 10px;
     text-align: right;
-    margin-top: 5px;
 }
 /* .slds-notify_container_mobile{
     height:80px;
@@ -46,15 +45,23 @@
 
 .custom-notify-container-mobile{
     position: fixed;
-    top: -1%;
+    top: 25px;
     background-color: #C42EA5;
     padding: 8px;
     margin: 20px;
     border-radius: 8px;
     z-index: 10000000;
-    margin-top: 27px
+    margin-top: 27px;
+    width: 90%;
 }
 
 .mt-0{
-    top: 15% !important;
+    position: absolute;
+    top: 20px;
+}
+
+.slds-notify__close{
+    width: 24px;
+    height: 24px;
+    right: 1%;
 }
