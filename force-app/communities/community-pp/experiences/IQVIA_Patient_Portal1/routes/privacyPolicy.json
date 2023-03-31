@@ -4,7 +4,7 @@
   "configurationTags" : [ ],
   "id" : "38c1a3f8-6d98-497d-918e-972fe78aea06",
   "label" : "Privacy Policy",
-  "pageAccess" : "UseParent",
+  "pageAccess" : "Public",
   "routeType" : "custom-privacy-policy",
   "type" : "route",
   "urlPrefix" : "privacy-policy"
