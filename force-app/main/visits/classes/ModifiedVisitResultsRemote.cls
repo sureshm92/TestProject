@@ -249,7 +249,9 @@ public without sharing class ModifiedVisitResultsRemote {
             ];
 
             //Form visit result wrapper for Labs
-            if (visitResultSharingsForLabs.size() > 0) {
+            if (
+                !visitResultSharingsForLabs.isEmpty() && visitResultsMode == LABS_VISIT_RESULT_GROUP
+            ) {
                 Map<String, Visit_Result__c> existingVisResultsMap = new Map<String, Visit_Result__c>();
 
                 for (Visit_Result__c result : visResults)
@@ -257,9 +259,9 @@ public without sharing class ModifiedVisitResultsRemote {
 
                 VisitResultMService metadataService = new VisitResultMService();
 
-                List<Visit_Result_TypeM__mdt> visitResultMDTypesMetbPan;
-                List<Visit_Result_TypeM__mdt> visitResultMDTypesHea;
-                List<Visit_Result_TypeM__mdt> visitResultMDTypesFLP;
+                List<Visit_Result_TypeM__mdt> visitResultMDTypesMetbPan = new List<Visit_Result_TypeM__mdt>();
+                List<Visit_Result_TypeM__mdt> visitResultMDTypesHea = new List<Visit_Result_TypeM__mdt>();
+                List<Visit_Result_TypeM__mdt> visitResultMDTypesFLP = new List<Visit_Result_TypeM__mdt>();
 
                 Map<String, String> visitResultsMeasurementNamesMap = metadataService.getVisitResultsMeasurementNamesMap();
                 List<String> enabledVisitResultsOnCtp = new List<String>();
@@ -283,55 +285,48 @@ public without sharing class ModifiedVisitResultsRemote {
                 List<Visit_Result_TypeM__mdt> filteredVisResMDTypesFLP = new List<Visit_Result_TypeM__mdt>();
 
                 //Filter metadata records for vis results enabled on CTP
-                for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultMDTypesMetbPan) {
-                    if (enabledVisitResultsOnCtp.contains(visitResultTypeM.DeveloperName))
-                        filteredVisResMDTypesMB.add(visitResultTypeM);
+                if (!visitResultMDTypesMetbPan.isEmpty()) {
+                    for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultMDTypesMetbPan) {
+                        if (enabledVisitResultsOnCtp.contains(visitResultTypeM.DeveloperName))
+                            filteredVisResMDTypesMB.add(visitResultTypeM);
+                    }
                 }
-                for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultMDTypesHea) {
-                    if (enabledVisitResultsOnCtp.contains(visitResultTypeM.DeveloperName))
-                        filteredVisResMDTypesHea.add(visitResultTypeM);
+                if (!visitResultMDTypesHea.isEmpty()) {
+                    for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultMDTypesHea) {
+                        if (enabledVisitResultsOnCtp.contains(visitResultTypeM.DeveloperName))
+                            filteredVisResMDTypesHea.add(visitResultTypeM);
+                    }
                 }
-                for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultMDTypesFLP) {
-                    if (enabledVisitResultsOnCtp.contains(visitResultTypeM.DeveloperName))
-                        filteredVisResMDTypesFLP.add(visitResultTypeM);
+                if (!visitResultMDTypesFLP.isEmpty()) {
+                    for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultMDTypesFLP) {
+                        if (enabledVisitResultsOnCtp.contains(visitResultTypeM.DeveloperName))
+                            filteredVisResMDTypesFLP.add(visitResultTypeM);
+                    }
                 }
 
                 String mailingCountryCode = String.isNotEmpty(participantMailingCC)
                     ? participantMailingCC
                     : '';
-                List<Visit_Result_Type_Sharing__c> visitResultTypeSharing = [
-                    SELECT
-                        Id,
-                        Include_Countries__c,
-                        Sharing_Countries__c,
-                        Type__c,
-                        Custom_Tooltip__c
-                    FROM Visit_Result_Type_Sharing__c
-                    WHERE
-                        Clinical_Trial_Profile__c = :ctpId
-                        AND Type__c IN :enabledVisitResultsOnCtp
-                ];
-                Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType = new Map<String, Visit_Result_Type_Sharing__c>();
-
-                for (Visit_Result_Type_Sharing__c resultType : visitResultTypeSharing)
-                    visitResultTypeSharingByType.put(resultType.Type__c, resultType);
-
-                //Map of result type and available visit results
                 Map<String, Visit_Result__c> resultTypeWithVisRes = new Map<String, Visit_Result__c>();
-
-                for (String resultType : visitResultTypeSharingByType.keySet()) {
-                    Visit_Result__c res = existingVisResultsMap.get(resultType);
-                    if (res != null)
-                        resultTypeWithVisRes.put(resultType, res);
-                    else
-                        resultTypeWithVisRes.put(resultType, null);
-                }
+                Map<String, String> visitResultTypeWithCusToolMap = new Map<String, String>();
+                List<Visit_Result_Type_Sharing__c> visitResultTypeSharing = new List<Visit_Result_Type_Sharing__c>();
+                PP_VisitResultsContainer visitResDetails = getVisitResultsDetails(
+                    enabledVisitResultsOnCtp,
+                    ctpId,
+                    existingVisResultsMap
+                );
+                if (!visitResDetails.resultTypeWithVisRes.isEmpty())
+                    resultTypeWithVisRes = visitResDetails.resultTypeWithVisRes;
+                if (!visitResDetails.visitResultTypeWithCusToolMap.isEmpty())
+                    visitResultTypeWithCusToolMap = visitResDetails.visitResultTypeWithCusToolMap;
+                if (!visitResDetails.visitResultTypeSharing.isEmpty())
+                    visitResultTypeSharing = visitResDetails.visitResultTypeSharing;
 
                 //Fetch language of participant for translation
                 String language = getLanguage(resultTypeWithVisRes);
 
                 if (
-                    filteredVisResMDTypesMB.size() > 0 &&
+                    !filteredVisResMDTypesMB.isEmpty() &&
                     visitResultSharingsForLabs.containsKey(METABOLICPANEL)
                 ) {
                     PP_VisitResultsContainer visitResultsContainer = formResultWrapper(
@@ -343,7 +338,7 @@ public without sharing class ModifiedVisitResultsRemote {
                     finalResults.add(visitResultsContainer);
                 }
                 if (
-                    filteredVisResMDTypesHea.size() > 0 &&
+                    !filteredVisResMDTypesHea.isEmpty() &&
                     visitResultSharingsForLabs.containsKey(HEMATOLOGY)
                 ) {
                     PP_VisitResultsContainer visitResultsContainer = formResultWrapper(
@@ -355,7 +350,7 @@ public without sharing class ModifiedVisitResultsRemote {
                     finalResults.add(visitResultsContainer);
                 }
                 if (
-                    filteredVisResMDTypesFLP.size() > 0 &&
+                    !filteredVisResMDTypesFLP.isEmpty() &&
                     visitResultSharingsForLabs.containsKey(FASTING_LIPID_PROFILE)
                 ) {
                     PP_VisitResultsContainer visitResultsContainer = formResultWrapper(
@@ -400,48 +395,25 @@ public without sharing class ModifiedVisitResultsRemote {
                     ? participantMailingCC
                     : '';
 
-                List<Visit_Result_Type_Sharing__c> visitResultTypeSharing = [
-                    SELECT
-                        Id,
-                        Include_Countries__c,
-                        Sharing_Countries__c,
-                        Type__c,
-                        Custom_Tooltip__c
-                    FROM Visit_Result_Type_Sharing__c
-                    WHERE
-                        Clinical_Trial_Profile__c = :ctpId
-                        AND Type__c IN :enabledVisitResultsOnCtp
-                ];
-
-                Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType = new Map<String, Visit_Result_Type_Sharing__c>();
-
-                Map<String, String> visitResultTypeWithCusToolMap = new Map<String, String>();
-
-                for (Visit_Result_Type_Sharing__c resultType : visitResultTypeSharing) {
-                    visitResultTypeSharingByType.put(resultType.Type__c, resultType);
-                    if (!String.isBlank(resultType.Custom_Tooltip__c)) {
-                        visitResultTypeWithCusToolMap.put(
-                            resultType.Type__c,
-                            resultType.Custom_Tooltip__c
-                        );
-                    }
-                }
-
-                //Map of result type and available visit results
                 Map<String, Visit_Result__c> resultTypeWithVisRes = new Map<String, Visit_Result__c>();
-
-                for (String resultType : visitResultTypeSharingByType.keySet()) {
-                    Visit_Result__c res = existingVisResultsMap.get(resultType);
-                    if (res != null)
-                        resultTypeWithVisRes.put(resultType, res);
-                    else
-                        resultTypeWithVisRes.put(resultType, null);
-                }
+                Map<String, String> visitResultTypeWithCusToolMap = new Map<String, String>();
+                List<Visit_Result_Type_Sharing__c> visitResultTypeSharing = new List<Visit_Result_Type_Sharing__c>();
+                PP_VisitResultsContainer visitResDetails = getVisitResultsDetails(
+                    enabledVisitResultsOnCtp,
+                    ctpId,
+                    existingVisResultsMap
+                );
+                if (!visitResDetails.resultTypeWithVisRes.isEmpty())
+                    resultTypeWithVisRes = visitResDetails.resultTypeWithVisRes;
+                if (!visitResDetails.visitResultTypeWithCusToolMap.isEmpty())
+                    visitResultTypeWithCusToolMap = visitResDetails.visitResultTypeWithCusToolMap;
+                if (!visitResDetails.visitResultTypeSharing.isEmpty())
+                    visitResultTypeSharing = visitResDetails.visitResultTypeSharing;
 
                 //Fetch language of participant for translation
                 String language = getLanguage(resultTypeWithVisRes);
 
-                if (visitResultTypeSharing != null && visitResultTypeSharing.size() > 0) {
+                if (visitResultTypeSharing != null && (!visitResultTypeSharing.isEmpty())) {
                     TranslateHelper.translate(visitResultTypeSharing, language);
                 }
                 PP_VisitResultsContainer visitResultsContainer = formResultWrapper(
@@ -461,7 +433,7 @@ public without sharing class ModifiedVisitResultsRemote {
 
     public static String getLanguage(Map<String, Visit_Result__c> resultTypeWithVisRes) {
         String lang;
-        if (resultTypeWithVisRes != null && resultTypeWithVisRes.size() > 0) {
+        if (resultTypeWithVisRes != null && (!resultTypeWithVisRes.isEmpty())) {
             for (String visResType : resultTypeWithVisRes.keySet()) {
                 Visit_Result__c res = resultTypeWithVisRes.get(visResType);
                 if (res != null) {
@@ -482,11 +454,12 @@ public without sharing class ModifiedVisitResultsRemote {
     ) {
         Boolean isResultAvailable = false;
 
-        List<PP_VisitResultWrapper> finalWrapper = new List<PP_VisitResultWrapper>();
+        List<PP_VisitResultWrapper> finalWrapperSorted = new List<PP_VisitResultWrapper>();
 
         VisitResultMService metadataService = new VisitResultMService();
         Map<String, String> visitResultsMeasurementNamesMap = metadataService.getVisitResultsMeasurementNamesMap();
 
+        List<PP_VisitResultWrapper> allVisitResultWrapper = new List<PP_VisitResultWrapper>();
         List<PP_VisitResultWrapper> wrappersWithVisRes = new List<PP_VisitResultWrapper>();
         List<PP_VisitResultWrapper> wrappersWithOutVisRes = new List<PP_VisitResultWrapper>();
 
@@ -518,6 +491,19 @@ public without sharing class ModifiedVisitResultsRemote {
                             visitResultsMeasurementNamesMap
                         )
                     );
+
+                    allVisitResultWrapper.add(
+                        new PP_VisitResultWrapper(
+                            visitResult,
+                            TranslateHelper.getLabelValue(singleVRT.DeveloperName),
+                            description == ''
+                                ? TranslateHelper.getLabelValue(
+                                      singleVRT.Description_Label_Api_Name__c
+                                  )
+                                : description,
+                            visitResultsMeasurementNamesMap
+                        )
+                    );
                 }
             } else {
                 if (visitResultsMode != BIOMARKER_VISIT_RESULT_GROUP) {
@@ -533,40 +519,109 @@ public without sharing class ModifiedVisitResultsRemote {
                             visitResultsMeasurementNamesMap
                         )
                     );
+                    allVisitResultWrapper.add(
+                        new PP_VisitResultWrapper(
+                            visitResult,
+                            TranslateHelper.getLabelValue(singleVRT.DeveloperName),
+                            description == ''
+                                ? TranslateHelper.getLabelValue(
+                                      singleVRT.Description_Label_Api_Name__c
+                                  )
+                                : description,
+                            visitResultsMeasurementNamesMap
+                        )
+                    );
                 }
             }
         }
-        if (wrappersWithVisRes.size() > 0) {
-            finalWrapper.addAll(wrappersWithVisRes);
+        if (wrappersWithVisRes.size() > 0 && (!wrappersWithVisRes.isEmpty())) {
+            finalWrapperSorted.addAll(wrappersWithVisRes);
             isResultAvailable = true;
         }
-        if (wrappersWithOutVisRes.size() > 0) {
-            finalWrapper.addAll(wrappersWithOutVisRes);
+        if (wrappersWithOutVisRes.size() > 0 && (!wrappersWithOutVisRes.isEmpty())) {
+            finalWrapperSorted.addAll(wrappersWithOutVisRes);
         }
         return new PP_VisitResultsContainer(
-            finalWrapper,
+            finalWrapperSorted,
+            allVisitResultWrapper,
             isResultAvailable,
             TranslateHelper.getLabelValue('Visit_Result_Group_' + visitResultsMode)
         );
     }
+    public static PP_VisitResultsContainer getVisitResultsDetails(
+        List<String> enabledVisitResultsOnCtp,
+        String ctpId,
+        Map<String, Visit_Result__c> existingVisResultsMap
+    ) {
+        List<Visit_Result_Type_Sharing__c> visitResultTypeSharing = [
+            SELECT Id, Include_Countries__c, Sharing_Countries__c, Type__c, Custom_Tooltip__c
+            FROM Visit_Result_Type_Sharing__c
+            WHERE Clinical_Trial_Profile__c = :ctpId AND Type__c IN :enabledVisitResultsOnCtp
+        ];
+
+        Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType = new Map<String, Visit_Result_Type_Sharing__c>();
+
+        Map<String, String> visitResultTypeWithCusToolMap = new Map<String, String>();
+
+        for (Visit_Result_Type_Sharing__c resultType : visitResultTypeSharing) {
+            visitResultTypeSharingByType.put(resultType.Type__c, resultType);
+            if (!String.isBlank(resultType.Custom_Tooltip__c)) {
+                visitResultTypeWithCusToolMap.put(resultType.Type__c, resultType.Custom_Tooltip__c);
+            }
+        }
+
+        //Map of result type and available visit results
+        Map<String, Visit_Result__c> resultTypeWithVisRes = new Map<String, Visit_Result__c>();
+
+        for (String resultType : visitResultTypeSharingByType.keySet()) {
+            Visit_Result__c res = existingVisResultsMap.get(resultType);
+            if (res != null)
+                resultTypeWithVisRes.put(resultType, res);
+            else
+                resultTypeWithVisRes.put(resultType, null);
+        }
+        return (new PP_VisitResultsContainer(
+            resultTypeWithVisRes,
+            visitResultTypeWithCusToolMap,
+            visitResultTypeSharing
+        ));
+    }
 
     public class PP_VisitResultsContainer {
+        /*Wrapper for Past Visit Page*/
+        @AuraEnabled
+        public List<PP_VisitResultWrapper> resWrappersSorted;
+        /*Wrapper for My Result Page*/
         @AuraEnabled
         public List<PP_VisitResultWrapper> resWrappers;
         @AuraEnabled
         public Boolean isResultsAvailable;
         @AuraEnabled
         public String resultsModeName;
+        public Map<String, Visit_Result__c> resultTypeWithVisRes;
+        public Map<String, String> visitResultTypeWithCusToolMap;
+        List<Visit_Result_Type_Sharing__c> visitResultTypeSharing;
         PP_VisitResultsContainer() {
         }
         PP_VisitResultsContainer(
+            List<PP_VisitResultWrapper> resWrappersSorted,
             List<PP_VisitResultWrapper> resWrappers,
             Boolean isResultsAvailable,
             String resultsModeName
         ) {
+            this.resWrappersSorted = resWrappersSorted;
             this.resWrappers = resWrappers;
             this.isResultsAvailable = isResultsAvailable;
             this.resultsModeName = resultsModeName;
+        }
+        PP_VisitResultsContainer(
+            Map<String, Visit_Result__c> resultTypeWithVisRes,
+            Map<String, String> visitResultTypeWithCusToolMap,
+            List<Visit_Result_Type_Sharing__c> visitResultTypeSharing
+        ) {
+            this.resultTypeWithVisRes = resultTypeWithVisRes;
+            this.visitResultTypeWithCusToolMap = visitResultTypeWithCusToolMap;
+            this.visitResultTypeSharing = visitResultTypeSharing;
         }
     }
 

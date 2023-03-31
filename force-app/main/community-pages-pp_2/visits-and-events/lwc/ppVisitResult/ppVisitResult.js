@@ -104,8 +104,9 @@ export default class PpVisitResult extends LightningElement {
     }
 
     get actualValueClass() {
-        console.log('JJ' + this.visitResult.value);
-        return this.visitResult.value != null ? 'actual-value' : 'not-available-text';
+        return this.visitResult.value != null
+            ? 'actual-value slds-p-top_xx-small slds-p-bottom_xxx-small'
+            : 'not-available-text slds-p-top_xxx-small';
     }
     get resultDisplayClass() {
         return this.visitResult.value != null

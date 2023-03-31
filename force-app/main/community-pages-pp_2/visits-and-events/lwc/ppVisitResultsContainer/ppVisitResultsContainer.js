@@ -70,11 +70,11 @@ export default class PpVisitResultsContainer extends LightningElement {
             })
                 .then((result) => {
                     let resultsWrapper = result;
-
                     if (this.selectedResultType == 'Labs') {
                         for (let i = 0; i < resultsWrapper.length; i++) {
                             if (this.setInitialLabResults && resultsWrapper[i].isResultsAvailable) {
-                                this.actualVisitResultsListForLabs = resultsWrapper[i].resWrappers;
+                                this.actualVisitResultsListForLabs =
+                                    resultsWrapper[i].resWrappersSorted;
                                 this.visitResultsListForLabs = this.formResultsToDisplay(
                                     this.actualVisitResultsListForLabs
                                 );
@@ -89,16 +89,18 @@ export default class PpVisitResultsContainer extends LightningElement {
                                 this.setInitialLabResults = false;
                             }
                             this.totalLabResults = resultsWrapper[i].isResultsAvailable
-                                ? this.totalLabResults + resultsWrapper[i].resWrappers.length
+                                ? this.totalLabResults + resultsWrapper[i].resWrappersSorted.length
                                 : this.totalLabResults;
                         }
                         this.calculateRemainingVisResults(this.totalLabResults);
                     } else if (this.selectedResultType == 'Vitals') {
                         for (let i = 0; i < resultsWrapper.length; i++) {
                             if (resultsWrapper[i].isResultsAvailable) {
-                                this.actualVisitResultsListVitals = resultsWrapper[i].resWrappers;
+                                this.actualVisitResultsListVitals =
+                                    resultsWrapper[i].resWrappersSorted;
                                 this.totalVitalResults =
-                                    this.totalVitalResults + resultsWrapper[i].resWrappers.length;
+                                    this.totalVitalResults +
+                                    resultsWrapper[i].resWrappersSorted.length;
                                 this.visitResultsListVitals = this.formResultsToDisplay(
                                     this.actualVisitResultsListVitals
                                 );
@@ -108,9 +110,11 @@ export default class PpVisitResultsContainer extends LightningElement {
                     } else {
                         for (let i = 0; i < resultsWrapper.length; i++) {
                             if (resultsWrapper[i].isResultsAvailable) {
-                                this.actualVisitResultsListBio = resultsWrapper[i].resWrappers;
+                                this.actualVisitResultsListBio =
+                                    resultsWrapper[i].resWrappersSorted;
                                 this.totalBioResults =
-                                    this.totalBioResults + resultsWrapper[i].resWrappers.length;
+                                    this.totalBioResults +
+                                    resultsWrapper[i].resWrappersSorted.length;
                                 this.visitResultsListBio = this.formResultsToDisplay(
                                     this.actualVisitResultsListBio
                                 );
@@ -121,7 +125,9 @@ export default class PpVisitResultsContainer extends LightningElement {
                     this.showSpinner = false;
                 })
                 .catch((error) => {
-                    console.error('Error when loading visit results' + error);
+                    console.error(
+                        'Error when loading visit results' + error + JSON.stringify(error)
+                    );
                     this.showSpinner = false;
                 });
         }
