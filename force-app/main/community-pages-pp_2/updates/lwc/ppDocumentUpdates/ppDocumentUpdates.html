@@ -101,6 +101,11 @@
                             </p>
                         </div>
                     </div>
+                    <div class="slds-grid">
+                        <span class="view-resource-label-vertical">
+                            {label.VIEW_RESOURCE}
+                        </span>
+                    </div>
                 </div>
             </div>
         </template>
@@ -142,6 +147,9 @@
                 <lightning-formatted-date-time
                     value={documentData.versionDate}
                 ></lightning-formatted-date-time>
+            </div>
+            <div class="slds-grid view-resource-container slds-align_absolute-center">
+                <span class="view-resource-label">{label.VIEW_RESOURCE}</span>
             </div>
         </template>
     </template>

@@ -2,6 +2,7 @@ import { LightningElement, api } from 'lwc';
 import versionDate from '@salesforce/label/c.Version_date';
 import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 import { NavigationMixin } from 'lightning/navigation';
+import VIEW_RESOURCE from '@salesforce/label/c.PP_View_Resource';
 export default class PpDocumentUpdates extends NavigationMixin(LightningElement) {
     @api documentData;
     @api showVisitSection;
@@ -11,7 +12,8 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
     subDomain;
     thumbnail;
     label = {
-        versionDate
+        versionDate,
+        VIEW_RESOURCE
     };
 
     connectedCallback() {

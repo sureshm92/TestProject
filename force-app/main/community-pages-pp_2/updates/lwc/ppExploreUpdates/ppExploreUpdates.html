@@ -37,7 +37,7 @@
                 <div class="slds-grid date-section-mobile">
                     <div class="slds-col slds-size_11-of-12">
                         <p class="date">
-                            {labels.POSTING_DATE}&nbsp;
+                            {labels.VERSION_DATE}&nbsp;
                             <lightning-formatted-date-time
                                 value={exploreData.versionDate}
                             ></lightning-formatted-date-time>
@@ -79,7 +79,7 @@
                 <div class="slds-col slds-size_4-of-6 card-data-element">
                     <div class="slds-grid slds-wrap title-section">
                         <p
-                            class="document-label"
+                            class="document-label slds-truncate"
                             onclick={navigateResourceDetail}
                             title={exploreData.title}
                         >
@@ -89,12 +89,16 @@
                     <div class="slds-grid date-section">
                         <div class="slds-col slds-size_11-of-12">
                             <p class="date">
-                                {labels.POSTING_DATE}&nbsp;
                                 <lightning-formatted-date-time
                                     value={exploreData.versionDate}
                                 ></lightning-formatted-date-time>
                             </p>
                         </div>
+                    </div>
+                    <div class="slds-grid view-resource-label-vertical">
+                        <span class="view-resource-label">
+                            {labels.VIEW_RESOURCE}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -126,14 +130,20 @@
                     ></c-web-icon>
                 </div>
             </div>
-            <div class="article-title" onclick={navigateResourceDetail} title={exploreData.title}>
+            <div
+                class="article-title"
+                onclick={navigateResourceDetail}
+                title={exploreData.title}
+            >
                 {exploreData.title}
             </div>
             <div class="date-desktop" onclick={navigateResourceDetail}>
-                {labels.VERSION_DATE}&nbsp;
                 <lightning-formatted-date-time
                     value={exploreData.versionDate}
                 ></lightning-formatted-date-time>
+            </div>
+            <div class="slds-grid view-resource-container slds-align_absolute-center">
+                <span class="view-resource-label">{labels.VIEW_RESOURCE}</span>
             </div>
         </template>
     </template>

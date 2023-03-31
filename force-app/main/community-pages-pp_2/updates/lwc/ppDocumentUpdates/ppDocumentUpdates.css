@@ -4,7 +4,7 @@
 
 .title-section {
     width: 100%;
-    height: 54px;
+    height: 32px;
 }
 
 .date-section {
@@ -95,20 +95,19 @@
 }
 
 .date-desktop {
-    height: 30px;
+    height: 22px;
     width: 85%;
     color: #999999;
     font-family: 'Proxima Nova';
     font-size: 13px;
     letter-spacing: 0;
-    line-height: 24px;
     margin-left: 10px;
     margin-top: 9px;
 }
 
 .document-label-desktop {
     color: #444444;
-    height: 52px;
+    height: 20px;
     font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
@@ -177,4 +176,19 @@
 .open-tab {
     width: 14px;
     height: 14px;
+}
+.view-resource-container {
+    height: 30px;
+    border-top: 1px solid #E9E9E9;
+}
+.view-resource-label{
+    font-size:14px;
+    font-weight:600;
+    color:#015FF1;
+}
+.view-resource-label-vertical{
+    font-size:14px;
+    font-weight:600;
+    color:#015FF1;
+    margin-left: 10px;
 }
