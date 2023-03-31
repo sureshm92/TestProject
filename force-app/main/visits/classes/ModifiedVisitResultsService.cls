@@ -1,4 +1,4 @@
-public without sharing class Modified_VisitResultsService {
+public inherited sharing class ModifiedVisitResultsService {
     private final String BIOMARKER_VISIT_RESULT_GROUP = 'Biomarkers';
     private final String VITALS_VISIT_RESULT_GROUP = 'Vitals';
     private final String LABS_VISIT_RESULT_GROUP = 'Labs';
@@ -6,12 +6,12 @@ public without sharing class Modified_VisitResultsService {
     private final String HEMATOLOGY = 'Hematology';
     private final String FASTING_LIPID_PROFILE = 'FastingLipidProfile';
 
-    public Modified_InitDataWrapper getInitDataModified(
+    public ModifiedInitDataWrapper getInitDataModified(
         Integer ctpSharingTiming,
         String patientVisitId
     ) {
-        Modified_InitDataWrapper wrapper = (Modified_InitDataWrapper) ClassFactory.newInstance(
-            Modified_InitDataWrapper.class
+        ModifiedInitDataWrapper wrapper = (ModifiedInitDataWrapper) ClassFactory.newInstance(
+            ModifiedInitDataWrapper.class
         );
 
         if (checkDataSharebackTiming(ctpSharingTiming, patientVisitId)) {
@@ -93,7 +93,7 @@ public without sharing class Modified_VisitResultsService {
     }
 
     public Boolean checkDataSharebackTiming(Integer ctpSharingTiming, String patientVisitId) {
-        List<Patient_Visit__c> patientVisitList = getPatientVisits_Modified();
+        List<Patient_Visit__c> patientVisitList = getPatientVisitsModified();
         /**checking CTP level Data Shareback Timing Configuration*/
         if (
             patientVisitList == null ||
@@ -125,7 +125,7 @@ public without sharing class Modified_VisitResultsService {
         return currentVisitResults.contains(visitResultsMode);
     }
 
-    public List<Patient_Visit__c> getPatientVisits_Modified() {
+    public List<Patient_Visit__c> getPatientVisitsModified() {
         if (!isOnStudy())
             return new List<Patient_Visit__c>();
 
@@ -154,14 +154,14 @@ public without sharing class Modified_VisitResultsService {
     }
 
     /* Returns the visit results for the visit tesult mode selected*/
-    public List<Modified_VisitResultsContainer> getVisitResultsWrapperModified(
+    public List<ModifiedVisitResultsContainer> getVisitResultsWrapperModified(
         String ctpId,
         String patientVisitId,
         String participantMailingCC,
         Map<String, Map<String, List<String>>> allVisResultCategories,
         String visitResultsMode
     ) {
-        List<Modified_VisitResultsContainer> finalResults = new List<Modified_VisitResultsContainer>();
+        List<ModifiedVisitResultsContainer> finalResults = new List<ModifiedVisitResultsContainer>();
 
         Map<String, List<String>> visitResultSharings = new Map<String, List<String>>();
         Map<String, List<String>> visitResultSharingsForLabs = new Map<String, List<String>>();
@@ -251,7 +251,7 @@ public without sharing class Modified_VisitResultsService {
             Map<String, Visit_Result__c> resultTypeWithVisRes = new Map<String, Visit_Result__c>();
             Map<String, String> visitResultTypeWithCusToolMap = new Map<String, String>();
             List<Visit_Result_Type_Sharing__c> visitResultTypeSharing = new List<Visit_Result_Type_Sharing__c>();
-            Modified_VisitResultsContainer visitResDetails = getVisitResultsDetails(
+            ModifiedVisitResultsContainer visitResDetails = getVisitResultsDetails(
                 enabledVisitResultsOnCtp,
                 ctpId,
                 existingVisResultsMap
@@ -270,7 +270,7 @@ public without sharing class Modified_VisitResultsService {
                 !filteredVisResMDTypesMB.isEmpty() &&
                 visitResultSharingsForLabs.containsKey(METABOLICPANEL)
             ) {
-                Modified_VisitResultsContainer visitResultsContainer = formResultWrapper(
+                ModifiedVisitResultsContainer visitResultsContainer = formResultWrapper(
                     filteredVisResMDTypesMB,
                     METABOLICPANEL,
                     null,
@@ -282,7 +282,7 @@ public without sharing class Modified_VisitResultsService {
                 !filteredVisResMDTypesHea.isEmpty() &&
                 visitResultSharingsForLabs.containsKey(HEMATOLOGY)
             ) {
-                Modified_VisitResultsContainer visitResultsContainer = formResultWrapper(
+                ModifiedVisitResultsContainer visitResultsContainer = formResultWrapper(
                     filteredVisResMDTypesHea,
                     HEMATOLOGY,
                     null,
@@ -294,7 +294,7 @@ public without sharing class Modified_VisitResultsService {
                 !filteredVisResMDTypesFLP.isEmpty() &&
                 visitResultSharingsForLabs.containsKey(FASTING_LIPID_PROFILE)
             ) {
-                Modified_VisitResultsContainer visitResultsContainer = formResultWrapper(
+                ModifiedVisitResultsContainer visitResultsContainer = formResultWrapper(
                     filteredVisResMDTypesFLP,
                     FASTING_LIPID_PROFILE,
                     null,
@@ -339,7 +339,7 @@ public without sharing class Modified_VisitResultsService {
             Map<String, Visit_Result__c> resultTypeWithVisRes = new Map<String, Visit_Result__c>();
             Map<String, String> visitResultTypeWithCusToolMap = new Map<String, String>();
             List<Visit_Result_Type_Sharing__c> visitResultTypeSharing = new List<Visit_Result_Type_Sharing__c>();
-            Modified_VisitResultsContainer visitResDetails = getVisitResultsDetails(
+            ModifiedVisitResultsContainer visitResDetails = getVisitResultsDetails(
                 enabledVisitResultsOnCtp,
                 ctpId,
                 existingVisResultsMap
@@ -357,7 +357,7 @@ public without sharing class Modified_VisitResultsService {
             if (visitResultTypeSharing != null && (!visitResultTypeSharing.isEmpty())) {
                 TranslateHelper.translate(visitResultTypeSharing, language);
             }
-            Modified_VisitResultsContainer visitResultsContainer = formResultWrapper(
+            ModifiedVisitResultsContainer visitResultsContainer = formResultWrapper(
                 filteredVisResMDTypes,
                 visitResultsMode,
                 visitResultTypeWithCusToolMap,
@@ -369,7 +369,7 @@ public without sharing class Modified_VisitResultsService {
         return finalResults;
     }
 
-    public Modified_VisitResultsContainer formResultWrapper(
+    public ModifiedVisitResultsContainer formResultWrapper(
         List<Visit_Result_TypeM__mdt> filteredVisResMDTypes,
         String visitResultsMode,
         Map<String, String> visitResultTypeWithCusToolMap,
@@ -377,14 +377,14 @@ public without sharing class Modified_VisitResultsService {
     ) {
         Boolean isResultAvailable = false;
 
-        List<Modified_VisitResultWrapper> finalWrapperSorted = new List<Modified_VisitResultWrapper>();
+        List<ModifiedVisitResultWrapper> finalWrapperSorted = new List<ModifiedVisitResultWrapper>();
 
         VisitResultMService metadataService = new VisitResultMService();
         Map<String, String> visitResultsMeasurementNamesMap = metadataService.getVisitResultsMeasurementNamesMap();
 
-        List<Modified_VisitResultWrapper> allVisitResultWrapper = new List<Modified_VisitResultWrapper>();
-        List<Modified_VisitResultWrapper> wrappersWithVisRes = new List<Modified_VisitResultWrapper>();
-        List<Modified_VisitResultWrapper> wrappersWithOutVisRes = new List<Modified_VisitResultWrapper>();
+        List<ModifiedVisitResultWrapper> allVisitResultWrapper = new List<ModifiedVisitResultWrapper>();
+        List<ModifiedVisitResultWrapper> wrappersWithVisRes = new List<ModifiedVisitResultWrapper>();
+        List<ModifiedVisitResultWrapper> wrappersWithOutVisRes = new List<ModifiedVisitResultWrapper>();
 
         //Form result wrapper
         for (Visit_Result_TypeM__mdt singleVRT : filteredVisResMDTypes) {
@@ -403,7 +403,7 @@ public without sharing class Modified_VisitResultsService {
                     (visitResultsMode != BIOMARKER_VISIT_RESULT_GROUP)
                 ) {
                     wrappersWithVisRes.add(
-                        new Modified_VisitResultWrapper(
+                        new ModifiedVisitResultWrapper(
                             visitResult,
                             TranslateHelper.getLabelValue(singleVRT.DeveloperName),
                             description == ''
@@ -416,7 +416,7 @@ public without sharing class Modified_VisitResultsService {
                     );
 
                     allVisitResultWrapper.add(
-                        new Modified_VisitResultWrapper(
+                        new ModifiedVisitResultWrapper(
                             visitResult,
                             TranslateHelper.getLabelValue(singleVRT.DeveloperName),
                             description == ''
@@ -431,7 +431,7 @@ public without sharing class Modified_VisitResultsService {
             } else {
                 if (visitResultsMode != BIOMARKER_VISIT_RESULT_GROUP) {
                     wrappersWithOutVisRes.add(
-                        new Modified_VisitResultWrapper(
+                        new ModifiedVisitResultWrapper(
                             visitResult,
                             TranslateHelper.getLabelValue(singleVRT.DeveloperName),
                             description == ''
@@ -443,7 +443,7 @@ public without sharing class Modified_VisitResultsService {
                         )
                     );
                     allVisitResultWrapper.add(
-                        new Modified_VisitResultWrapper(
+                        new ModifiedVisitResultWrapper(
                             visitResult,
                             TranslateHelper.getLabelValue(singleVRT.DeveloperName),
                             description == ''
@@ -464,7 +464,7 @@ public without sharing class Modified_VisitResultsService {
         if (wrappersWithOutVisRes.size() > 0 && (!wrappersWithOutVisRes.isEmpty())) {
             finalWrapperSorted.addAll(wrappersWithOutVisRes);
         }
-        return new Modified_VisitResultsContainer(
+        return new ModifiedVisitResultsContainer(
             finalWrapperSorted,
             allVisitResultWrapper,
             isResultAvailable,
@@ -472,7 +472,7 @@ public without sharing class Modified_VisitResultsService {
         );
     }
 
-    public Modified_VisitResultsContainer getVisitResultsDetails(
+    public ModifiedVisitResultsContainer getVisitResultsDetails(
         List<String> enabledVisitResultsOnCtp,
         String ctpId,
         Map<String, Visit_Result__c> existingVisResultsMap
@@ -504,7 +504,7 @@ public without sharing class Modified_VisitResultsService {
             else
                 resultTypeWithVisRes.put(resultType, null);
         }
-        return (new Modified_VisitResultsContainer(
+        return (new ModifiedVisitResultsContainer(
             resultTypeWithVisRes,
             visitResultTypeWithCusToolMap,
             visitResultTypeSharing
@@ -527,7 +527,7 @@ public without sharing class Modified_VisitResultsService {
         return lang;
     }
 
-    public class Modified_InitDataWrapper {
+    public class ModifiedInitDataWrapper {
         @AuraEnabled
         public Boolean isDelegate;
         @AuraEnabled
@@ -546,18 +546,18 @@ public without sharing class Modified_VisitResultsService {
         @AuraEnabled
         public List<String> visitResultsGroupNamesCTP;
 
-        public Modified_InitDataWrapper() {
+        public ModifiedInitDataWrapper() {
             this.isVisitResultsAvailable = false;
         }
     }
 
-    public class Modified_VisitResultsContainer {
+    public class ModifiedVisitResultsContainer {
         /*Wrapper for Past Visit Page*/
         @AuraEnabled
-        public List<Modified_VisitResultWrapper> resWrappersSorted;
+        public List<ModifiedVisitResultWrapper> resWrappersSorted;
         /*Wrapper for My Result Page*/
         @AuraEnabled
-        public List<Modified_VisitResultWrapper> resWrappers;
+        public List<ModifiedVisitResultWrapper> resWrappers;
         @AuraEnabled
         public Boolean isResultsAvailable;
         @AuraEnabled
@@ -565,11 +565,11 @@ public without sharing class Modified_VisitResultsService {
         public Map<String, Visit_Result__c> resultTypeWithVisRes;
         public Map<String, String> visitResultTypeWithCusToolMap;
         List<Visit_Result_Type_Sharing__c> visitResultTypeSharing;
-        Modified_VisitResultsContainer() {
+        ModifiedVisitResultsContainer() {
         }
-        Modified_VisitResultsContainer(
-            List<Modified_VisitResultWrapper> resWrappersSorted,
-            List<Modified_VisitResultWrapper> resWrappers,
+        ModifiedVisitResultsContainer(
+            List<ModifiedVisitResultWrapper> resWrappersSorted,
+            List<ModifiedVisitResultWrapper> resWrappers,
             Boolean isResultsAvailable,
             String resultsModeName
         ) {
@@ -578,7 +578,7 @@ public without sharing class Modified_VisitResultsService {
             this.isResultsAvailable = isResultsAvailable;
             this.resultsModeName = resultsModeName;
         }
-        Modified_VisitResultsContainer(
+        ModifiedVisitResultsContainer(
             Map<String, Visit_Result__c> resultTypeWithVisRes,
             Map<String, String> visitResultTypeWithCusToolMap,
             List<Visit_Result_Type_Sharing__c> visitResultTypeSharing
@@ -589,7 +589,7 @@ public without sharing class Modified_VisitResultsService {
         }
     }
 
-    public class Modified_VisitResultWrapper {
+    public class ModifiedVisitResultWrapper {
         @AuraEnabled
         public Double value;
         @AuraEnabled
@@ -611,7 +611,7 @@ public without sharing class Modified_VisitResultsService {
         @AuraEnabled
         public Date dateVisited;
 
-        public Modified_VisitResultWrapper(
+        public ModifiedVisitResultWrapper(
             Visit_Result__c visitResult,
             String name,
             String description,

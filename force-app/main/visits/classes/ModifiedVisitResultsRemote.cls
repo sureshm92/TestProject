@@ -1,12 +1,12 @@
-public without sharing class Modified_VisitResultsRemote {
+public without sharing class ModifiedVisitResultsRemote {
     @AuraEnabled
-    public static Modified_VisitResultsService.Modified_InitDataWrapper getInitDataModified(
+    public static ModifiedVisitResultsService.ModifiedInitDataWrapper getInitDataModified(
         Integer ctpSharingTiming,
         String patientVisitId
     ) {
         try {
-            return ((Modified_VisitResultsService) ClassFactory.newInstance(
-                    Modified_VisitResultsService.class
+            return ((ModifiedVisitResultsService) ClassFactory.newInstance(
+                    ModifiedVisitResultsService.class
                 ))
                 .getInitDataModified(ctpSharingTiming, patientVisitId);
         } catch (Exception e) {
@@ -16,7 +16,7 @@ public without sharing class Modified_VisitResultsRemote {
     }
 
     @AuraEnabled
-    public static List<Modified_VisitResultsService.Modified_VisitResultsContainer> getVisitResultsWrapperModified(
+    public static List<ModifiedVisitResultsService.ModifiedVisitResultsContainer> getVisitResultsWrapperModified(
         String ctpId,
         String patientVisitId,
         String participantMailingCC,
@@ -24,8 +24,8 @@ public without sharing class Modified_VisitResultsRemote {
         String visitResultsMode
     ) {
         try {
-            return ((Modified_VisitResultsService) ClassFactory.newInstance(
-                    Modified_VisitResultsService.class
+            return ((ModifiedVisitResultsService) ClassFactory.newInstance(
+                    ModifiedVisitResultsService.class
                 ))
                 .getVisitResultsWrapperModified(
                     ctpId,
