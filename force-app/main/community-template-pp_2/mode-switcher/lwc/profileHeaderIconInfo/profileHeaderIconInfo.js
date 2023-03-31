@@ -7,7 +7,6 @@ import Space_Delegate from '@salesforce/label/c.Space_Delegate';
 import PP_ManageDelegates from '@salesforce/label/c.PP_ManageDelegates';
 import PP_Account_Settings from '@salesforce/label/c.PP_Account_Settings';
 import { NavigationMixin } from 'lightning/navigation';
-import getContact from '@salesforce/apex/ContactService.getContact';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import getSwitcherInitData from '@salesforce/apex/CommunityModeSwitcherRemote.getSwitcherInitData';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
@@ -18,7 +17,7 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
     @api currentMode;
     @api hasProfilePic;
     @api isRTL;
-    //@api communityModes;
+    @api allModes;
     comModes;
     fullName;
     reset = true;
@@ -39,6 +38,8 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
     @track error;
     contactId;
     @track userCommunityIsDelegate = true;
+    @track manageDelegates = false;
+
 
     get fullName() {
         let user = this.user;
@@ -90,9 +91,6 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
     }
     */
 
-    get isUserDelegate() {
-        return this.userCommunityIsDelegate;
-    }
     get manageDelSvgClass() {
         return '';
     }
@@ -102,9 +100,8 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
             this.fullName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;
             this.contactId = this.user.ContactId;
         }
-        this.getContactData();
+        this.isUserDelegate();
         this.getCommModes();
-
         this.reset = true;
         let currentMode = this.currentMode;
         let mode = '';
@@ -121,16 +118,22 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
         this.viewMode = mode;
         this.reset = false;
     }
-    getContactData() {
-        getContact({ contactId: this.contactId })
-            .then((result) => {
-                this.contactDetails = result;
-                this.userCommunityIsDelegate = this.contactDetails.UserCommunityIsDelegate__c;
-                this.showSpinner = false;
-            })
-            .catch((error) => {
-                this.error = error;
-            });
+    
+    isUserDelegate() {
+        if(this.allModes){
+            let displayManageDelegates = false;
+            if(this.allModes.ppModeItems){
+                const ppModeItems = this.allModes.ppModeItems;
+                ppModeItems.forEach(function(item) {
+                    const delItem = JSON.stringify(item);
+                    const delItem1 = JSON.parse(delItem);
+                    if((!delItem1.isDelegate) && delItem1.hasBeenActive){
+                        displayManageDelegates = true;
+                    }
+                });
+                this.manageDelegates = displayManageDelegates;
+            }
+        }
     }
     getCommModes() {
         getSwitcherInitData()
@@ -138,6 +141,7 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
                 let userData = JSON.parse(result);
                 this.comModes = userData.communityModes;
                 this.userCommModeLength = this.comModes.ppModeItems.length;
+                this.showSpinner = false;
             })
             .catch((error) => {
                 console.log('headre -------------------error', error);

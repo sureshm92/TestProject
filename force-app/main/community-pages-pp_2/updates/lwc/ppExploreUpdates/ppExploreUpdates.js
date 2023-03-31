@@ -1,6 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import VERSION_DATE from '@salesforce/label/c.Version_date';
+import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 import POSTING_DATE from '@salesforce/label/c.Posting_date';
 
 export default class PpExploreUpdates extends NavigationMixin(LightningElement) {
@@ -14,14 +15,16 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
     };
 
     connectedCallback() {
-        this.noExploreImage = this.exploreData.resource.Image__c ? false : true;
+        this.noExploreImage = this.exploreData.thumbnailImage ? false : true;
     }
 
     handleNoExploreImageError() {
+        console.log('No thumbnail Image');
         this.noExploreImage = true;
     }
 
     navigateResourceDetail() {
+        this.removeCardHandler();
         let subDomain = communityService.getSubDomain();
         let state;
         if (communityService.isInitialized()) {
@@ -32,11 +35,12 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
             subDomain +
             '/s/resource-detail' +
             '?resourceid=' +
-            this.exploreData.resource.Id +
+            this.exploreData.recId +
             '&resourcetype=' +
-            this.exploreData.resource.RecordType.DeveloperName +
+            this.exploreData.resourceDevRecordType +
             '&state=' +
-            state;
+            state +
+            '&showHomePage=true';
 
         const config = {
             type: 'standard__webPage',
@@ -46,9 +50,16 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
             }
         };
 
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
-        });
+        this[NavigationMixin.Navigate](config, true);
+    }
+    removeCardHandler() {
+        const targetRecId = this.exploreData.targetRecordId;
+        removeCard({ targetRecordId: targetRecId })
+            .then((returnValue) => {})
+            .catch((error) => {
+                //console.log('error message 1'+error.message);
+                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                this.spinner.hide();
+            });
     }
 }

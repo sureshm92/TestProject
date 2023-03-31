@@ -1164,9 +1164,14 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
    }
 
 /* Delegate Redesing - Manage delegate page CSS override -start*/
-.manage-del-continer{
+.manage-delegate-acc-setting .manage-del-continer{
     margin-left: 24px !important;
     margin-right: 24px !important;
+    margin-top: 10px !important;
+}
+.manage-delegate-acc-setting .manage-del-continer-mobile{
+    margin-left: 16px !important;
+    margin-right: 16px !important;
     margin-top: 10px !important;
 }
 .manage-del .del-container{
@@ -1225,10 +1230,18 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     height: 32px !important;
     width: 107px !important;
     border-radius: 16px !important;
-    margin-top: -3px !important;
+    margin-top: -9px !important;
+    font-size: 14px !important;
 }
 .manage-del .save-del-bt-mob{
     height: 32px !important;
+    border-radius: 16px !important;
+}
+.manage-delegate-acc-setting .add-assignment-rectangle{
+    border-radius: 16px !important;
+
+}
+.manage-delegate-acc-setting .add-assignment-former-rectangle{
     border-radius: 16px !important;
 }
 /* Delegate Redesing - Manage delegate page CSS override -ends*/
@@ -1260,6 +1273,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
 .manage-delegate .button-cancel{
         height: 32px !important;
+}
+.manage-delegate-acc-setting .save-button-aligment{
+    padding: 22px 0px 0px 12px;	
 }
 /* Delegate Redesing - Remove/Delete Modal - CSS Override - Ends */
 /* Delegate Redesing - Add New Delegate Page CSS  Override - Starts*/
@@ -1296,7 +1312,15 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     width: 144px !important;
     border-radius: 16px !important;
     font-size: 14px !important;
+    border: 1px solid #D9D9D9 !important;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04) !important;
      
+}
+.manage-delegate-acc-setting .blue-highlight-text-color{
+    font-weight: 600 !important;
+}
+.manage-delegate-acc-setting .ad-text-red{
+    color: #E20000 !important;
 }
 .manage-delegate-acc-setting .study-box{
     margin-top: -1px !important;
@@ -1394,6 +1418,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .ad-error-container{
     border-radius: 8px !important;
 }
+.manage-delegate-acc-setting .pp-add-new-del-radio .slds-form-element__label{
+    font-size: 16px !important;
+}
 /* Delegate Redesing - Add New Delegate Page CSS  Override - ends*/
 /** VISIT RESULT CARD TOGGLE*/
 .result-type-toggle .slds-checkbox_toggle .slds-checkbox_faux,
@@ -1453,3 +1480,18 @@ svg:not(:root) {
     color: #595959 !important;
 }
 
+
+/* Contact support Modal css- Starts */
+@media (min-width: 48em){
+    .contact-support-popup .slds-modal_medium .slds-modal__container {
+        width: 720px !important;
+    }
+}
+
+.contact-support-popup .slds-icon_x-small{
+    height: 24px !important;
+    width: 24px !important;
+    display: block !important;
+}
+
+/* Contact support Modal css- Ends */

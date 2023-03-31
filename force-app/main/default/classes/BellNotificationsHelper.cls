@@ -229,6 +229,7 @@ public class BellNotificationsHelper {
             nRec.Notification_Type__c = notificationType;
             nRec.Target_User_Group__c = userRole;
             nRec.Community_Type__c = communityType;
+            nRec.Status__c = 'In Progress';
         }
 
         if(isInsert){

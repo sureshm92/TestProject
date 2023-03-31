@@ -32,6 +32,7 @@ import getFilterData from '@salesforce/apex/MyTeamRemote.getFilterData';
 import largeTemplate from './manageDelegatesDesktop.html';
 import mobileTemplate from './manageDelegatesMobile.html';
 import formFactor from '@salesforce/client/formFactor';
+import BACK from '@salesforce/label/c.Back';
 
 import {
     subscribe,
@@ -101,7 +102,8 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         PP_Delegate_Email_Consent,
         PIR_Discard,
         PP_NO_Active_Delegate,
-        Icon_Delete
+        Icon_Delete,
+        BACK
     };
 
     connectedCallback() {
@@ -150,23 +152,25 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                     100
                 );
                 this.spinner = false;
-            });   
+            });
     }
     //Get Patient Delegate Enrollment records.
-    getDelegates(){
+    getDelegates() {
         getPDE()
-        .then((result) => {
-            //console.log('success', result);
-            this.setInitializedData(result);
-            this.spinner = false;
-            this.dataInitialized = true;
-        })
-        .catch((error) => {
-            //console.log('error');
-            this.spinner = false;
-        });
-    }    
+            .then((result) => {
+                //console.log('success', result);
+                this.setInitializedData(result);
+                this.spinner = false;
+                this.dataInitialized = true;
+            })
+            .catch((error) => {
+                //console.log('error');
+                this.spinner = false;
+            });
+    }
     setInitializedData(result) {
+        this.hasNoFormerDelegate = true;
+        this.hasNoActiveDelegate = true;
         this.listPDE = result.activePDEWrapperList;
         this.formerListPDE = result.formerPDEWrapperList;
         this.setDefaultValuesToInItData(this.listPDE, true);
@@ -232,7 +236,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 pde['disableAddAssignmentButton'] = false;
                 pde['disableDeleteButton'] = false;
                 pde['isEmailConsentChecked'] = false;
-                if(!pde.isDeleted){
+                if (!pde.isDeleted) {
                     this.hasNoFormerDelegate = false;
                 }
                 // pde.PDEEnrollmentsFormer.forEach((pdenFormer) => {
@@ -247,17 +251,22 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     //mask Email for active/former delegate
     maskEmail(pde) {
         let maskedEmail = '';
-        let pdeEmailBeforeAt= pde.PatientDelegate.Email__c.substring(0, pde.PatientDelegate.Email__c .lastIndexOf("@"));
-        let pdeEmailBeforeAtCiel=Math.ceil(pdeEmailBeforeAt.length/2);
-        let pdeEmailPostfix= pde.PatientDelegate.Email__c.substring(pde.PatientDelegate.Email__c .lastIndexOf("@"));
-        for (let i = 0; i < pdeEmailBeforeAt.length; i++) { 
-            if(i<pdeEmailBeforeAtCiel){          
-                maskedEmail += pde.PatientDelegate.Email__c.charAt(i);   
-            }else {
-                maskedEmail += '*'; 
+        let pdeEmailBeforeAt = pde.PatientDelegate.Email__c.substring(
+            0,
+            pde.PatientDelegate.Email__c.lastIndexOf('@')
+        );
+        let pdeEmailBeforeAtCiel = Math.ceil(pdeEmailBeforeAt.length / 2);
+        let pdeEmailPostfix = pde.PatientDelegate.Email__c.substring(
+            pde.PatientDelegate.Email__c.lastIndexOf('@')
+        );
+        for (let i = 0; i < pdeEmailBeforeAt.length; i++) {
+            if (i < pdeEmailBeforeAtCiel) {
+                maskedEmail += pde.PatientDelegate.Email__c.charAt(i);
+            } else {
+                maskedEmail += '*';
             }
         }
-            pde.PatientDelegate.Email__c = maskedEmail+pdeEmailPostfix;
+        pde.PatientDelegate.Email__c = maskedEmail + pdeEmailPostfix;
     }
     //Subscribe the message channel to read the message published.
     subscribeToMessageChannel() {
@@ -300,6 +309,12 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     unsubscribeToMessageChannel() {
         unsubscribe(this.subscription);
         this.subscription = null;
+    }
+    get isPPLight() {
+        return this.currentCommunity === 'Iqvia Patient Portal II' ? true : false;
+    }
+    get iconChevron() {
+        return 'icon-chevron-left';
     }
     get addDelBtnMarin() {
         return this.isRTL
@@ -388,8 +403,8 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     get isAddNewDelegate() {
         return false;
     }
-    get isNewPatientPortal(){
-        return this.currentCommunity ==='Iqvia Patient Portal II' ? true : false;
+    get isNewPatientPortal() {
+        return this.currentCommunity === 'Iqvia Patient Portal II' ? true : false;
     }
     handleConsentCheckActiveDel(event) {
         let delId = event.currentTarget.dataset.pdid;
@@ -745,5 +760,17 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 //console.log('error');
                 this.spinner = false;
             });
+    }
+    showMenuBar(event) {
+        if (event.target.dataset.header) {
+            this.dispatchEvent(
+                new CustomEvent('shownavmenubar', {
+                    detail: {
+                        header: event.target.dataset.header
+                    }
+                })
+            );
+            this.dataInitialized = false;
+        }
     }
 }
