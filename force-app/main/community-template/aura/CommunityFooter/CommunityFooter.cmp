@@ -18,6 +18,7 @@
     <aura:attribute name="enablePrivacyChoice" type="Boolean" default="false" />
     <aura:attribute name="CPRALinkToredirect" type="String" default="" />
     <aura:attribute name="CPRAlabel" type="String" default="" />
+    <aura:attribute name="receiveMessage" type="Boolean" default="false"/>
 
     <aura:handler event="forceCommunity:routeChange" action="{!c.doInit}" />
 
@@ -41,6 +42,7 @@
                                 communityTypeName="{!v.communityType}"
                                 isRtl="{!v.isRTL}"
                                 isCommunityFooter="true"
+                                receiveMessage="{!v.defaultTC}"
                             />
                         </aura:set>
                     </aura:if>
