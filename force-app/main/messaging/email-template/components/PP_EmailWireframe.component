@@ -161,12 +161,12 @@
                         border-top: 1px solid #D9D9D9;
                         border-bottom: 1px solid #D9D9D9;
                         padding: 0.5rem 0 0.5rem 0;">
-                <div style="{!IF(isRTL=true,'display:block', 'display:none')}">
+                <div style="{!IF(isRTL,'display:block;', 'display:none;')}">
                     <a style="color: #015FF1;
                             text-decoration: none;
                             font-weight: 600;" href="{!emailCommunityURL + '/s/privacy-policy'}">{!$Label.Email_Footer_Privacy_Policy}</a>&nbsp;&nbsp;|&nbsp;&nbsp;{!$Label.Email_Footer_Address}
                 </div>
-                <div style="{!IF(isRTL=false,'display:block;', 'display:none;')}">
+                <div style="{!IF(!isRTL,'display:block;', 'display:none;')}">
                     {!$Label.Email_Footer_Address}&nbsp;&nbsp;|&nbsp;
                     <a style="color: #015FF1;
                             text-decoration: none;

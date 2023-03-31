@@ -11,28 +11,26 @@ public without sharing class ParticipantTelevisitRemote {
             if(pstate != null && pstate.pe != null){
                 ctpId = pstate.pe.Clinical_Trial_Profile__c;
             }
+            user u = [Select id,contactid,TimeZoneSidKey from User where id =: UserInfo.getUserId()];
+            userId = u.Id;
+            timezonechanges = u.TimeZoneSidKey;
 
-            if(pstate != null && pstate.isDelegate){
-                user ur = [select id,TimeZoneSidKey from user where contactid =:pstate.pe.Participant_Contact__c];
-                if(ur != null){
-                    userId = ur.Id;
-                    timezonechanges = ur.TimeZoneSidKey;
-                }               
-            }else{
-                user u = [Select id,contactid,TimeZoneSidKey from User where id =: UserInfo.getUserId()];
-                userId = u.Id;
-                timezonechanges = u.TimeZoneSidKey;
-            }
-
-            String query = 'Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c,Televisit__r.Visit_End_Date_Time__c from Televisit_Attendee__c';
+            String query = 'Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c,Televisit__r.Visit_End_Date_Time__c,Televisit__r.Participant_Enrollment__r.Study_Site__c from Televisit_Attendee__c';
             if(ctpId != null && ctpId != ''){
-                query += '  where User__c =:userId and Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c = :ctpId order by Televisit__r.Visit_Date_Time__c desc';
+                String peId = pstate.pe.Id;
+                query += '  where Televisit__r.Participant_Enrollment__c = :peId order by Televisit__r.Visit_Date_Time__c desc';
             }else{
                 delegatecheck = true;
-                query += '  where User__c =:userId order by Televisit__r.Visit_Date_Time__c desc';
+                String contactId = pstate.currentContactId;
+                query += '  where Contact__c =:contactId order by Televisit__r.Visit_Date_Time__c desc';
             }
-
-            List<Televisit_Attendee__c> televisitattendeeList = Database.query(query);                                                     
+            List<Televisit_Attendee__c> televisitattendeesdata = Database.query(query);
+            List<Televisit_Attendee__c> televisitattendeeList;
+            if(televisitattendeesdata != null && televisitattendeesdata.size() > 0){
+                televisitattendeeList =  filteringtelevisits(televisitattendeesdata);
+            }else{
+                televisitattendeeList = televisitattendeesdata;
+            }                                                    
             Set<Id> televisitIdSet = new Set<Id>();
             televisitWrapper  tw = new televisitWrapper();
             if(televisitattendeeList != null && !televisitattendeeList.isempty()){
@@ -131,6 +129,42 @@ public without sharing class ParticipantTelevisitRemote {
         }
     }
     
+    @AuraEnabled
+    public static List<Televisit_Attendee__c> filteringtelevisits(List<Televisit_Attendee__c> attendeesList){
+        try {
+            List<Televisit_Attendee__c> filteredTelevisits = new List<Televisit_Attendee__c>();
+            Set<Id> studySiteIds = new Set<Id>();
+            for (Televisit_Attendee__c telattendeeObj : attendeesList) {
+                studySiteIds.add(telattendeeObj.Televisit__r.Participant_Enrollment__r.Study_Site__c);
+            }
+            Map<Id, Study_Site__c> ssMap = new Map<Id, Study_Site__c>(
+                [
+                    SELECT Id
+                    FROM Study_Site__c
+                    WHERE
+                        Id IN (
+                            SELECT Study_Site__c
+                            FROM TelevisitVendorSettings__c
+                            WHERE
+                                isEnable__c = TRUE
+                                AND Study_Site__r.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c = TRUE
+                                AND Study_Site__c = :studySiteIds 
+                        )
+                ]
+            );
+            for (Televisit_Attendee__c telattendeeObj : attendeesList) {
+                if (
+                    ssMap.size() > 0 &&
+                    ssMap.containsKey(telattendeeObj.Televisit__r.Participant_Enrollment__r.Study_Site__c)
+                ) {
+                    filteredTelevisits.add(telattendeeObj);
+                }
+            }
+            return  filteredTelevisits;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
     public class upcomingTelevisits{
         @AuraEnabled public string title;
         @AuraEnabled public datetime televisitdate;
