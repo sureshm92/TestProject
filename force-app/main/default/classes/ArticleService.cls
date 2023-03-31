@@ -1,6 +1,3 @@
-/**
- * Created by Yehor Dobrovolskyi...
- */
 public with sharing class ArticleService {
     public static final String HEALTH_DAY_NAME_LOGO = 'HealthDay.png';
     public static final String IQVIA_NAME_LOGO = 'IQVIA.svg';
