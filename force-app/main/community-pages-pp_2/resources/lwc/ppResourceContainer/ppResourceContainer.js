@@ -23,7 +23,7 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
     @api resourceSummary;
     @api isVoted = false;
     state;
-    resourceForPostingDate = ['Article','Video','Multimedia'];
+    resourceForPostingDate = ['Article', 'Video', 'Multimedia'];
     isThumbnailPresent = false;
 
     label = {
@@ -38,18 +38,17 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
         }
     }
     handleNavigate() {
-        sessionStorage.setItem('Cookies', 'Accepted');		
-			this[NavigationMixin.Navigate]({
+        this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
                 pageName: 'resource-detail'
             },
-			state: {
-                resourceid : this.resourceId,
-                resourcetype : this.resourceType,
-                state : this.state
+            state: {
+                resourceid: this.resourceId,
+                resourcetype: this.resourceType,
+                state: this.state
             }
-		});	
+        });
     }
     handleFavourite() {
         this.isFavourite = !this.isFavourite;
@@ -76,15 +75,15 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
         this.isThumbnailPresent = false;
     }
 
-    get showPostingOrVersionDate(){
-        if(this.resourceForPostingDate.includes(this.resourceType)){
+    get showPostingOrVersionDate() {
+        if (this.resourceForPostingDate.includes(this.resourceType)) {
             return this.resPostingDate;
         }
         return this.resVersionDate;
     }
 
-    get showPostingOrVersionLabel(){
-        if(this.resourceForPostingDate.includes(this.resourceType)){
+    get showPostingOrVersionLabel() {
+        if (this.resourceForPostingDate.includes(this.resourceType)) {
             return this.label.POSTING;
         }
         return this.label.VERSION;

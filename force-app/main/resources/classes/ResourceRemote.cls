@@ -15,12 +15,34 @@ public without sharing class ResourceRemote {
             return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
         }
     }
+    //Use semicolon separated value for multiple types
     @AuraEnabled
-    public static ResourceService.ResourceWrapperContainer getPPResources(String participantData) {
+    public static ResourceService.ResourceWrapperContainer getUnsortedResourcesByType(
+        String resourceType,
+        String participantData
+    ) {
         try {
-            ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceArticleVideoService.getInstance()
-                .ppInit('Article;Video', participantData)
-                .getResourceWrapperContainer();
+            ResourceService.ResourceWrapperContainer resourceWrapperContainer = resourceType.equalsIgnoreCase(
+                    ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT
+                )
+                ? getStudyDocuments()
+                : ResourceArticleVideoService.getInstance()
+                      .ppInit(resourceType, participantData)
+                      .getResourceWrapperContainer();
+            return resourceWrapperContainer;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    @AuraEnabled
+    public static ResourceService.ResourceWrapperContainer getArticleAndVideos(
+        String participantData
+    ) {
+        try {
+            ResourceService.ResourceWrapperContainer resourceWrapperContainer = getUnsortedResourcesByType(
+                'Article;Video',
+                participantData
+            );
             resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(
                 resourceWrapperContainer.wrappers
             );
@@ -54,9 +76,10 @@ public without sharing class ResourceRemote {
                 String.valueOf(ParticipantService.ParticipantStates.ALUMNI)
             ) {
                 if (linkWrapper.VideoAndArticlesAreAvailable) {
-                    ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
-                        .ppInit('Article;Video;Multimedia', participantData)
-                        .getResourceWrapperContainer();
+                    ResourceService.ResourceWrapperContainer contExplore = getUnsortedResourcesByType(
+                        'Article;Video;Multimedia',
+                        participantData
+                    );
 
                     resUpdates.addAll(contExplore.wrappers);
                 }
@@ -65,16 +88,18 @@ public without sharing class ResourceRemote {
                 String.valueOf(ParticipantService.ParticipantStates.ALUMNI)
             ) {
                 //for delegate and alumni view
-                ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
-                    .ppInit('Article;Video;Multimedia', participantData)
-                    .getResourceWrapperContainer();
+                ResourceService.ResourceWrapperContainer contExplore = getUnsortedResourcesByType(
+                    'Article;Video;Multimedia',
+                    participantData
+                );
 
                 resUpdates.addAll(contExplore.wrappers);
             } else if (linkWrapper.VideoAndArticlesAreAvailable) {
                 //for participant view
-                ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
-                    .ppInit('Article;Video;Multimedia', participantData)
-                    .getResourceWrapperContainer();
+                ResourceService.ResourceWrapperContainer contExplore = getUnsortedResourcesByType(
+                    'Article;Video;Multimedia',
+                    participantData
+                );
 
                 resUpdates.addAll(contExplore.wrappers);
             }
@@ -118,9 +143,10 @@ public without sharing class ResourceRemote {
         String participantData
     ) {
         try {
-            ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceArticleVideoService.getInstance()
-                .ppInit('Multimedia', participantData)
-                .getResourceWrapperContainer();
+            ResourceService.ResourceWrapperContainer resourceWrapperContainer = getUnsortedResourcesByType(
+                'Multimedia',
+                participantData
+            );
             resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(
                 resourceWrapperContainer.wrappers
             );

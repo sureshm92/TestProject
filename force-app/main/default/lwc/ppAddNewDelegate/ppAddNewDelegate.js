@@ -54,7 +54,7 @@ import PP_There_Are from '@salesforce/label/c.PP_There_Are';
 import PP_Users_Associated from '@salesforce/label/c.PP_Users_Associated';
 import PP_AS_RECEIVE_EMAIL from '@salesforce/label/c.PP_AS_RECEIVE_EMAIL';
 import PP_AS_CONDITIONAL_FEATURE_GENERIC from '@salesforce/label/c.PP_AS_CONDITIONAL_FEATURE_GENERIC';
-
+import PP_Delegate_Email_Consent_1 from '@salesforce/label/c.PP_Delegate_Email_Consent_1';
 
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
 import {
@@ -156,7 +156,8 @@ export default class PpAddNewDelegate extends LightningElement {
         PP_There_Are,
         PP_Users_Associated,
         PP_AS_RECEIVE_EMAIL,
-        PP_AS_CONDITIONAL_FEATURE_GENERIC
+        PP_AS_CONDITIONAL_FEATURE_GENERIC,
+        PP_Delegate_Email_Consent_1
     };
     backToDelegates() {
         const selectedEvent = new CustomEvent('backtodelegates', {
@@ -242,11 +243,20 @@ export default class PpAddNewDelegate extends LightningElement {
         }
         return checkBoxDisabled;
     }
-    get getEmailHelpText(){
-        return this.currentCommunity ==='Iqvia Patient Portal II' ? this.label.PP_AS_RECEIVE_EMAIL : this.label.PG_PST_L_Delegates_Receive_Emails_New;
+    get getEmailHelpText() {
+        return this.currentCommunity === 'Iqvia Patient Portal II'
+            ? this.label.PP_AS_RECEIVE_EMAIL
+            : this.label.PG_PST_L_Delegates_Receive_Emails_New;
     }
-    get getConditionalFeatureHelpText(){
-        return this.currentCommunity ==='Iqvia Patient Portal II' ? this.label.PP_AS_CONDITIONAL_FEATURE_GENERIC : this.label.PP_AS_CONDITIONAL_FEATURE;
+    get getConditionalFeatureHelpText() {
+        return this.currentCommunity === 'Iqvia Patient Portal II'
+            ? this.label.PP_AS_CONDITIONAL_FEATURE_GENERIC
+            : this.label.PP_AS_CONDITIONAL_FEATURE;
+    }
+    get getStudyEmailConsent() {
+        return this.currentCommunity === 'Iqvia Patient Portal II'
+            ? this.label.PP_Delegate_Email_Consent_1
+            : this.label.PP_Delegate_Email_Consent;
     }
     handleDateChange(event) {
         if (event.currentTarget.dataset.id == 'firstNameInput') {
@@ -383,49 +393,49 @@ export default class PpAddNewDelegate extends LightningElement {
     partiallyMaskFields() {
         this.allDelegate.forEach((del) => {
             let firstName = del.delegateContact.FirstName;
-            let firstNameLength=firstName.length;
-            let firstNameCiel=Math.ceil(firstNameLength/2);
+            let firstNameLength = firstName.length;
+            let firstNameCiel = Math.ceil(firstNameLength / 2);
             let maskedFirstName = '';
             for (let i = 0; i < firstNameLength; i++) {
-                switch(true){
-                    case (firstNameLength >= 5 ) : 
-                        if (i<firstNameCiel) {
-                                maskedFirstName += firstName.charAt(i);
-                            } else {
-                                maskedFirstName += '*';
-                            }
-                        break
-                    case (firstNameLength < 5 ) :
-                        if(i<=1){
-                                maskedFirstName += firstName.charAt(i);
-                            } else {
-                                maskedFirstName += '*';
-                            }
-                        break
+                switch (true) {
+                    case firstNameLength >= 5:
+                        if (i < firstNameCiel) {
+                            maskedFirstName += firstName.charAt(i);
+                        } else {
+                            maskedFirstName += '*';
+                        }
+                        break;
+                    case firstNameLength < 5:
+                        if (i <= 1) {
+                            maskedFirstName += firstName.charAt(i);
+                        } else {
+                            maskedFirstName += '*';
+                        }
+                        break;
                 }
             }
             del.delegateContact.FirstName = maskedFirstName;
 
             let lastName = del.delegateContact.LastName;
-            let lastNameLength=lastName.length;
-            let lastNameCiel=Math.ceil(lastNameLength/2);
+            let lastNameLength = lastName.length;
+            let lastNameCiel = Math.ceil(lastNameLength / 2);
             let maskedLastName = '';
             for (let i = 0; i < lastNameLength; i++) {
-                switch(true){
-                    case (lastNameLength >= 5 ) : 
-                        if (i<lastNameCiel) {
-                                maskedLastName += lastName.charAt(i);
-                            } else {
-                                maskedLastName += '*';
-                            }
-                        break
-                    case (lastNameLength < 5 ) :
-                        if(i<=1){
-                                maskedLastName += lastName.charAt(i);
-                            } else {
-                                maskedLastName += '*';
-                            }
-                        break
+                switch (true) {
+                    case lastNameLength >= 5:
+                        if (i < lastNameCiel) {
+                            maskedLastName += lastName.charAt(i);
+                        } else {
+                            maskedLastName += '*';
+                        }
+                        break;
+                    case lastNameLength < 5:
+                        if (i <= 1) {
+                            maskedLastName += lastName.charAt(i);
+                        } else {
+                            maskedLastName += '*';
+                        }
+                        break;
                 }
             }
             del.delegateContact.LastName = maskedLastName;
@@ -537,7 +547,7 @@ export default class PpAddNewDelegate extends LightningElement {
                         let option = {
                             label: delegate.fullNameMasked,
                             value: delegate.delegateContact.Id
-                          };
+                        };
                         this.existingContacts.push(option);
 
                         //check Delegate status.
@@ -782,7 +792,7 @@ export default class PpAddNewDelegate extends LightningElement {
     //This method will set the selected contact among multiple contacts.
     setSelectedContact(event) {
         this.selectedContact = event.target.value;
-        this.isContactSelected = true
+        this.isContactSelected = true;
         console.log('selectedContact: ' + this.selectedContact);
         // let checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
         // //Unslect the previously selected checkbox and keep the latest selection.
