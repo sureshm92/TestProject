@@ -46,7 +46,7 @@ public without sharing class StudyDetailViewController {
     @AuraEnabled
     public static Boolean gettelevisitData(string siteId) {
         try {
-            List<TelevisitVendorSettings__c> televisitvendorList = [Select id,Study_Site__c,isEnable__c from TelevisitVendorSettings__c where isEnable__c = true and Televisit_Record_Vendor__r.Name = 'Vonage' and Study_Site__c = :siteId];
+            List<TelevisitVendorSettings__c> televisitvendorList = [Select id,Study_Site__c,isEnable__c from TelevisitVendorSettings__c where isEnable__c = true and Study_Site__c = :siteId];
             if(!televisitvendorList.isEmpty()){
                 return true;
             }
@@ -57,3 +57,4 @@ public without sharing class StudyDetailViewController {
     }
     
     }
+    
