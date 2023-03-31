@@ -1164,9 +1164,14 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
    }
 
 /* Delegate Redesing - Manage delegate page CSS override -start*/
-.manage-del-continer{
+.manage-delegate-acc-setting .manage-del-continer{
     margin-left: 24px !important;
     margin-right: 24px !important;
+    margin-top: 10px !important;
+}
+.manage-delegate-acc-setting .manage-del-continer-mobile{
+    margin-left: 16px !important;
+    margin-right: 16px !important;
     margin-top: 10px !important;
 }
 .manage-del .del-container{
@@ -1235,6 +1240,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .add-assignment-rectangle{
     border-radius: 16px !important;
 
+}
+.manage-delegate-acc-setting .add-assignment-former-rectangle{
+    border-radius: 16px !important;
 }
 /* Delegate Redesing - Manage delegate page CSS override -ends*/
 
@@ -1472,3 +1480,18 @@ svg:not(:root) {
     color: #595959 !important;
 }
 
+
+/* Contact support Modal css- Starts */
+@media (min-width: 48em){
+    .contact-support-popup .slds-modal_medium .slds-modal__container {
+        width: 720px !important;
+    }
+}
+
+.contact-support-popup .slds-icon_x-small{
+    height: 24px !important;
+    width: 24px !important;
+    display: block !important;
+}
+
+/* Contact support Modal css- Ends */
