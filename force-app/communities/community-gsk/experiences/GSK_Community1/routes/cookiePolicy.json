@@ -4,7 +4,7 @@
   "configurationTags" : [ ],
   "id" : "d675ea8a-3976-4ecd-badd-409b31841357",
   "label" : "Cookie Policy",
-  "pageAccess" : "public",
+  "pageAccess" : "Public",
   "routeType" : "custom-cookie-policy",
   "type" : "route",
   "urlPrefix" : "cookie-policy"
