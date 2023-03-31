@@ -32,6 +32,7 @@ import getFilterData from '@salesforce/apex/MyTeamRemote.getFilterData';
 import largeTemplate from './manageDelegatesDesktop.html';
 import mobileTemplate from './manageDelegatesMobile.html';
 import formFactor from '@salesforce/client/formFactor';
+import BACK from '@salesforce/label/c.Back';
 
 import {
     subscribe,
@@ -101,7 +102,8 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         PP_Delegate_Email_Consent,
         PIR_Discard,
         PP_NO_Active_Delegate,
-        Icon_Delete
+        Icon_Delete,
+        BACK
     };
 
     connectedCallback() {
@@ -307,6 +309,12 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     unsubscribeToMessageChannel() {
         unsubscribe(this.subscription);
         this.subscription = null;
+    }
+    get isPPLight() {
+        return this.currentCommunity === 'Iqvia Patient Portal II' ? true : false;
+    }
+    get iconChevron() {
+        return 'icon-chevron-left';
     }
     get addDelBtnMarin() {
         return this.isRTL
@@ -752,5 +760,17 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 //console.log('error');
                 this.spinner = false;
             });
+    }
+    showMenuBar(event) {
+        if (event.target.dataset.header) {
+            this.dispatchEvent(
+                new CustomEvent('shownavmenubar', {
+                    detail: {
+                        header: event.target.dataset.header
+                    }
+                })
+            );
+            this.dataInitialized = false;
+        }
     }
 }
