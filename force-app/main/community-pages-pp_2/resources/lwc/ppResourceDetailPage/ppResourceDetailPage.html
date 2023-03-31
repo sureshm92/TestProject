@@ -44,10 +44,12 @@
                         <!-- *************** Study Documents ****************** -->
                         <template lwc:if={isDocument}>
                             <template lwc:if={isInvalidResource}>
-                                <c-pp-invalid-resource
-                                    resource-type={resourceType}
-                                    onviewresources={handleBackClick}
-                                ></c-pp-invalid-resource>
+                                <lightning-layout-item size="12" class="resource-container">
+                                    <c-pp-invalid-resource
+                                        resource-type={resourceType}
+                                        onviewresources={handleBackClick}
+                                    ></c-pp-invalid-resource>
+                                </lightning-layout-item>
                             </template>
                             <template lwc:else>
                                 <lightning-layout-item size="12" class="title-row-document">
@@ -65,7 +67,12 @@
                         <!--**************  Article/Videos ******************* -->
                         <template lwc:else>
                             <template lwc:if={isInvalidResource}>
-                                <c-pp-invalid-resource></c-pp-invalid-resource>
+                                <lightning-layout-item size="12" class="resource-container">
+                                    <c-pp-invalid-resource
+                                        resource-type={resourceType}
+                                        onviewresources={handleBackClick}
+                                    ></c-pp-invalid-resource>
+                                </lightning-layout-item>
                             </template>
                             <template lwc:else>
                                 <lightning-layout-item size="12" class="resource-container">

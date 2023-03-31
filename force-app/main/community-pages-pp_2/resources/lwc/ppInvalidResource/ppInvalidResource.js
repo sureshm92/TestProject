@@ -14,6 +14,12 @@ export default class PpInvalidResource extends LightningElement {
         }
     }
 
+    get cardStyle() {
+        return this.resourceType == 'Article' || this.resourceType == 'Video'
+            ? 'card-container medium'
+            : 'card-container elongate';
+    }
+
     handleViewResources() {
         const viewResources = new CustomEvent('viewresources', {
             detail: {
