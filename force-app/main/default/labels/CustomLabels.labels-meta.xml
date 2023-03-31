@@ -19792,6 +19792,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_ContactInfo_Change</shortDescription>
         <value>You will be able to change your Contact Information from your Account Settings at all times.</value>
     </labels>
+    <labels> 
+        <fullName>PP_Delegate_Email_Consent_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Delegate_Email_Consent_1</shortDescription>
+        <value>By checking this box, you confirm that your delegate or chosen care partner agrees to share their information with IQVIA and to receive emails at the address provided with information and updates about this study/program.</value>
+    </labels>
     <labels>
         <fullName>PP_ContactInformation</fullName>
         <language>en_US</language>
