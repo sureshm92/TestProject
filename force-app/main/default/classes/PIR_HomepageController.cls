@@ -598,31 +598,40 @@ public without sharing class PIR_HomepageController {
         Integer limitOfRecords = (pageNumber * 10);
         List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
         String orderByString = sortOn + ' LIMIT :limitOfRecords ';
+        String queryString2 = 'SELECT Id FROM Participant_Enrollment__c Where ';
         if(isEnabled){
-          queryString = queryString + ' Id IN :listOfIds' + orderByString;
+          queryString2 = queryString2 + ' Id IN :listOfIds' + orderByString;
         }
         else if (isPPFiltered == true) {
-          queryString =
-            queryString +
-            filterString +
-            filterStringPP +
-            orderByString;
+          queryString2 =
+                        queryString2 +
+                        filterString +
+                        filterStringPP +
+                        orderByString;
         }else if(isDCTFiltered == true){
-          queryString =
-            queryString +
-            filterString +
-            filterStringDCT+
-            orderByString;
+          queryString2 =
+                        queryString2 +
+                        filterString +
+                        filterStringDCT+
+                        orderByString;
         }else {
-          queryString = queryString + filterString + orderByString;
+          queryString2 = queryString2 + filterString + orderByString;
         }
 
-        perList = Database.query(queryString);
+        perList = Database.query(queryString2);
         List<Participant_Enrollment__c> perLimitList = new List<Participant_Enrollment__c>();
-        for (Integer i = (limitOfRecords - 10); i < perList.size(); i++) {
-          perLimitList.add(perList[i]);
-        }
-        listViewWrapper = createListViewWrapper(perLimitList, studyIdlist);
+                List<Id> perIdList = new List<Id>();
+                Integer loopStart = limitOfRecords - 10;
+                Integer loopEnd = perList.size();
+                for (Integer i = loopStart; i < loopEnd; i++) {
+                    perIdList.add(perList[i].Id);
+                }
+                
+                String fltrStringNew = ' ID IN :perIdList';
+                queryString = queryString + fltrStringNew;
+                perLimitList = Database.query(queryString);
+                listViewWrapper = createListViewWrapper(perLimitList, studyIdlist);
+
         //for pages more than 200 ends
       } else {
         Integer offsetLimit = (pageNumber - 1) * 10;
