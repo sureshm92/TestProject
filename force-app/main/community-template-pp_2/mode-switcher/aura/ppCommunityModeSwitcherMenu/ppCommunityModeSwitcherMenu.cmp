@@ -26,6 +26,7 @@
                     hasProfilePic="{!v.hasProfilePic}"
                     onpagenavigation="{!c.handleCardVisiblity}"
                     onitemselection="{!c.doSelectItem}"
+                    allModes="{!v.communityModes}"
                 />
             </li>
             <li class="body">
