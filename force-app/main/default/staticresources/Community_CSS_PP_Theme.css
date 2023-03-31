@@ -1233,7 +1233,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     border-radius: 16px !important;
 }
 .manage-delegate-acc-setting .add-assignment-rectangle{
-    border-radius: 8px !important;
+    border-radius: 16px !important;
 
 }
 /* Delegate Redesing - Manage delegate page CSS override -ends*/
@@ -1410,7 +1410,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .ad-error-container{
     border-radius: 8px !important;
 }
-.manage-delegate-acc-setting .slds-form-element__label{
+.manage-delegate-acc-setting .pp-add-new-del-radio .slds-form-element__label{
     font-size: 16px !important;
 }
 /* Delegate Redesing - Add New Delegate Page CSS  Override - ends*/
