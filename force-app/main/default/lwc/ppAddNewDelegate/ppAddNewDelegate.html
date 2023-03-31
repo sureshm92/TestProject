@@ -20,7 +20,9 @@
                 <!--chevron Icon: Ends-->
                 <button title="" onclick={goBackToManageDelegate} class="back-to-manage-del-btn">
                     <span><img src={icon_url} class="icon-chevron-right" /></span>
-                    <div class="slds-p-around_xx-small inline">{label.Back_to_Manage_Delegates}</div>
+                    <div class="slds-p-around_xx-small inline">
+                        {label.Back_to_Manage_Delegates}
+                    </div>
                 </button>
             </div>
             <div class="profile-information slds-m-bottom_medium">{label.Add_New_Delegate}</div>
@@ -79,7 +81,10 @@
                             <lightning-layout multiple-rows="true" class="ad-warning-container">
                                 <lightning-layout-item size="2" class="slds-align_absolute-center">
                                     <span>
-                                        <img src={exclamation_orange} class="ad-exclamation-orange" />
+                                        <img
+                                            src={exclamation_orange}
+                                            class="ad-exclamation-orange"
+                                        />
                                     </span>
                                 </lightning-layout-item>
                                 <lightning-layout-item size="10">
@@ -92,21 +97,27 @@
                                             size="12"
                                             class="ad-warning-text slds-p-left_small slds-p-top_medium"
                                         >
-                                            <span class="ad-text-bold">{label.PP_Select_User} </span>
+                                            <span class="ad-text-bold"
+                                                >{label.PP_Select_User}
+                                            </span>
                                             <span>{label.PP_There_Are}</span
                                             >&nbsp;{existingContactsCount}&nbsp;<span
                                                 >{label.PP_Users_Associated}</span
                                             >
                                         </lightning-layout-item>
-                                        <lightning-layout-item class="slds-p-left_medium slds-p-top_x-small" size="12">
-                                            <lightning-radio-group 
-                                                    class="add-del-custom-radio-group"
-                                                    name="radioGroup"
-                                                    label=""
-                                                    options={existingContacts}
-                                                    value={selectedContact}
-                                                    type="radio"    
-                                                    onchange={setSelectedContact}>
+                                        <lightning-layout-item
+                                            class="slds-p-left_medium slds-p-top_x-small pp-add-new-del-radio"
+                                            size="12"
+                                        >
+                                            <lightning-radio-group
+                                                class="add-del-custom-radio-group"
+                                                name="radioGroup"
+                                                label=""
+                                                options={existingContacts}
+                                                value={selectedContact}
+                                                type="radio"
+                                                onchange={setSelectedContact}
+                                            >
                                             </lightning-radio-group>
                                         </lightning-layout-item>
                                         <lightning-layout-item
@@ -228,15 +239,19 @@
                                             >{label.PP_Users_Associated}</span
                                         >
                                     </lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-left_medium slds-p-top_x-small" size="12">
-                                        <lightning-radio-group 
-                                                class="add-del-custom-radio-group"
-                                                name="radioGroup"
-                                                label=""
-                                                options={existingContacts}
-                                                value={selectedContact}
-                                                type="radio"    
-                                                onchange={setSelectedContact}>
+                                    <lightning-layout-item
+                                        class="slds-p-left_medium slds-p-top_x-small pp-add-new-del-radio"
+                                        size="12"
+                                    >
+                                        <lightning-radio-group
+                                            class="add-del-custom-radio-group"
+                                            name="radioGroup"
+                                            label=""
+                                            options={existingContacts}
+                                            value={selectedContact}
+                                            type="radio"
+                                            onchange={setSelectedContact}
+                                        >
                                         </lightning-radio-group>
                                     </lightning-layout-item>
                                     <lightning-layout-item
@@ -288,7 +303,7 @@
                     data-id="emailconsentcheck"
                     class="taps mob-checkbox-txt validate"
                     type="checkbox"
-                    label={label.PP_Delegate_Email_Consent}
+                    label={getStudyEmailConsent}
                     checked={isEmailConsentChecked}
                     onchange={handleDateChange}
                     disabled={checkBoxDisabled}
@@ -317,9 +332,7 @@
                             <lightning-layout-item size="6" class={whatDeleCanSeeText}
                                 ><ul class="slds-list_dotted">
                                     <li>{label.PG_PST_L_Delegates_Compl_Task_Behalf_New}</li>
-                                    <li class="slds-m-vertical_xx-small">
-                                        {getEmailHelpText}
-                                    </li>
+                                    <li class="slds-m-vertical_xx-small">{getEmailHelpText}</li>
                                     <li>{label.PG_PST_L_Delegates_See_Lab_Result_New}</li>
                                 </ul></lightning-layout-item
                             >
@@ -358,16 +371,14 @@
                                 class="slds-p-left_medium slds-p-right_medium"
                                 ><ul class="slds-list_dotted">
                                     <li>{label.PG_PST_L_Delegates_Compl_Task_Behalf_New}</li>
-                                    <li class="slds-m-vertical_xx-small">
-                                        {getEmailHelpText}
-                                    </li>
+                                    <li class="slds-m-vertical_xx-small">{getEmailHelpText}</li>
                                     <li>{label.PG_PST_L_Delegates_See_Lab_Result_New}</li>
                                     <li>{label.PG_PST_L_Delegates_See_Vitals_New}</li>
                                     <li class="slds-m-vertical_xx-small">
                                         {label.PG_PST_L_Delegates_My_Measur_New}
                                     </li>
                                 </ul>
-                                <span class="text-italic">  {getConditionalFeatureHelpText} </span>
+                                <span class="text-italic"> {getConditionalFeatureHelpText} </span>
                             </lightning-layout-item>
                         </lightning-layout>
                     </lightning-layout-item>
