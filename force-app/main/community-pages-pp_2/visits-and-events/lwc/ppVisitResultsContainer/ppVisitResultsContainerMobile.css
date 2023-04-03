@@ -1,0 +1,17 @@
+.lab-header {
+    color: #444444;
+    font-size: 1.125 rem;
+    font-weight: 600;
+}
+.more-results {
+    padding: 1.291rem, 10rem, 1.313rem, 10rem;
+    color: #6e6e6e;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+.position-container {
+    position: relative;
+}
+.vital-results {
+    /* padding-left: 1.291rem;*/
+}
