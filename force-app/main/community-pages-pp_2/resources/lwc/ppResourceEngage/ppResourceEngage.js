@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import getPPResources from '@salesforce/apex/ResourceRemote.getPPResources';
+import getArticleAndVideos from '@salesforce/apex/ResourceRemote.getArticleAndVideos';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import ALL from '@salesforce/label/c.AF_All';
 import ARTICLES from '@salesforce/label/c.Resources_Card_Title_Articles';
@@ -66,7 +66,7 @@ export default class PpResourceEngage extends LightningElement {
         if (communityService.isInitialized()) {
             this.pData = communityService.getParticipantData();
             let data = JSON.stringify(this.pData);
-            await getPPResources({ participantData: data })
+            await getArticleAndVideos({ participantData: data })
                 .then((result) => {
                     this.resourcesData = result.wrappers;
                     this.resourcesFilterData = this.resourcesData[0] ? this.resourcesData : false;

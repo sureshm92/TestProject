@@ -15,6 +15,7 @@ import PP_Delegate_Delegate_Warning from '@salesforce/label/c.PP_Delegate_Delega
 import PP_Delegate_Delegate from '@salesforce/label/c.PP_Delegate_Delegate';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
 import PP_Delegate_Email_Consent from '@salesforce/label/c.PP_Delegate_Email_Consent';
+import PP_Delegate_Email_Consent_1 from '@salesforce/label/c.PP_Delegate_Email_Consent_1';
 import PIR_Discard from '@salesforce/label/c.PIR_Discard';
 import PP_NO_Active_Delegate from '@salesforce/label/c.PP_NO_Active_Delegate';
 import Icon_Delete from '@salesforce/label/c.pir_Delete_Btn';
@@ -32,6 +33,7 @@ import getFilterData from '@salesforce/apex/MyTeamRemote.getFilterData';
 import largeTemplate from './manageDelegatesDesktop.html';
 import mobileTemplate from './manageDelegatesMobile.html';
 import formFactor from '@salesforce/client/formFactor';
+import BACK from '@salesforce/label/c.Back';
 
 import {
     subscribe,
@@ -99,9 +101,11 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         PP_Delegate_Delegate,
         BTN_Save,
         PP_Delegate_Email_Consent,
+        PP_Delegate_Email_Consent_1,
         PIR_Discard,
         PP_NO_Active_Delegate,
-        Icon_Delete
+        Icon_Delete,
+        BACK
     };
 
     connectedCallback() {
@@ -307,6 +311,17 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     unsubscribeToMessageChannel() {
         unsubscribe(this.subscription);
         this.subscription = null;
+    }
+    get getStudyEmailConsent() {
+        return this.currentCommunity === 'Iqvia Patient Portal II'
+            ? this.label.PP_Delegate_Email_Consent_1
+            : this.label.PP_Delegate_Email_Consent;
+    }
+    get isPPLight() {
+        return this.currentCommunity === 'Iqvia Patient Portal II' ? true : false;
+    }
+    get iconChevron() {
+        return 'icon-chevron-left';
     }
     get addDelBtnMarin() {
         return this.isRTL
@@ -752,5 +767,17 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 //console.log('error');
                 this.spinner = false;
             });
+    }
+    showMenuBar(event) {
+        if (event.target.dataset.header) {
+            this.dispatchEvent(
+                new CustomEvent('shownavmenubar', {
+                    detail: {
+                        header: event.target.dataset.header
+                    }
+                })
+            );
+            this.dataInitialized = false;
+        }
     }
 }

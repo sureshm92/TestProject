@@ -1,7 +1,7 @@
 import { LightningElement, track } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
 import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesById';
-import getPPResources from '@salesforce/apex/ResourceRemote.getPPResources';
+import getUnsortedResources from '@salesforce/apex/ResourceRemote.getUnsortedResourcesByType';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
@@ -42,7 +42,9 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     desktop = true;
     spinner;
     resourceForPostingDate = ['Article', 'Video', 'Multimedia'];
+    resourcesData;
     suggestedArticlesData;
+    isInvalidResource = false;
 
     /*******Getters******************/
 
@@ -67,12 +69,9 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     get isSuggestedArticlesVisible() {
         return this.isArticleVideo && this.suggestedArticlesData;
     }
-    get showBackNavigationLabel(){
-        if(this.showHomePage){
-            return this.label.Back_To_Home;
-        }else{
-            return this.label.Back_To_Resources;
-        }
+
+    get linkLabel() {
+        return this.showHomePage ? this.label.Back_To_Home : this.label.Back_To_Resources;
     }
     connectedCallback() {
         //get resource parameters from url
@@ -108,46 +107,76 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         if (this.spinner) {
             this.spinner.show();
         }
+        this.isArticleVideo = this.resourceType == 'Article' || this.resourceType == 'Video';
+        //if (!communityService.isInitialized()) return;
 
-        //get clicked resource details
-        getResourceDetails({
-            resourceId: this.resourceId,
-            resourceType: this.resourceType
+        let participantData = communityService.getParticipantData();
+        getUnsortedResources({
+            resourceType:
+                this.resourceType == 'Article' || this.resourceType == 'Video'
+                    ? 'Article;Video'
+                    : this.resourceType,
+            participantData: JSON.stringify(participantData)
         })
             .then((result) => {
-                let resourceData = result.wrappers[0].resource;
-                this.resUploadDate = this.resourceForPostingDate.includes(this.resourceType)
-                    ? resourceData.Posting_Date__c
-                    : resourceData.Version_Date__c;
-                this.resourceTitle = resourceData.Title__c;
-                this.resourceSummary = resourceData.Body__c;
-                this.isArticleVideo =
-                    this.resourceType == 'Article' || this.resourceType == 'Video';
-                this.resourceLink =
-                    this.resourceType == 'Article' ? resourceData.Image__c : resourceData.Video__c;
-                if (this.resourceType == 'Multimedia') {
-                    this.resourceLink = resourceData.Multimedia__c;
-                    this.resourceType = 'Multimedia';
-                    this.isMultimedia = true;
-                }
-                this.isFavourite = result.wrappers[0].isFavorite;
-                this.isVoted = result.wrappers[0].isVoted;
-
-                //get study Title
-                if (
-                    this.state != 'ALUMNI' &&
-                    (resourceData.Content_Class__c == 'Study-Specific' || this.isDocument)
-                ) {
-                    this.studyTitle =
-                        communityService.getParticipantData()?.ctp?.Study_Code_Name__c;
-                    if (this.isDocument) {
-                        this.handleDocumentLoad();
-                    }
-                }
+                this.resourcesData = result;
                 if (this.isArticleVideo) {
-                    this.getSuggestedArticles();
+                    suggestedArticlesData = result;
                 }
-                this.isInitialized = true;
+                if (
+                    !this.resourcesData.wrappers.some(
+                        (wrapper) => wrapper.resource.Id === this.resourceId
+                    )
+                ) {
+                    this.isInvalidResource = true;
+                    this.isInitialized = true;
+                } else {
+                    //get clicked resource details
+                    getResourceDetails({
+                        resourceId: this.resourceId,
+                        resourceType: this.resourceType
+                    })
+                        .then((result) => {
+                            let resourceData = result.wrappers[0].resource;
+                            this.resUploadDate = this.resourceForPostingDate.includes(
+                                this.resourceType
+                            )
+                                ? resourceData.Posting_Date__c
+                                : resourceData.Version_Date__c;
+                            this.resourceTitle = resourceData.Title__c;
+                            this.resourceSummary = resourceData.Body__c;
+                            this.resourceLink =
+                                this.resourceType == 'Article'
+                                    ? resourceData.Image__c
+                                    : resourceData.Video__c;
+                            if (this.resourceType == 'Multimedia') {
+                                this.resourceLink = resourceData.Multimedia__c;
+                                this.isMultimedia = true;
+                            }
+                            this.isFavourite = result.wrappers[0].isFavorite;
+                            this.isVoted = result.wrappers[0].isVoted;
+
+                            //get study Title
+                            if (
+                                this.state != 'ALUMNI' &&
+                                (resourceData.Content_Class__c == 'Study-Specific' ||
+                                    this.isDocument)
+                            ) {
+                                this.studyTitle =
+                                    communityService.getParticipantData()?.ctp?.Study_Code_Name__c;
+                                if (this.isDocument) {
+                                    this.handleDocumentLoad();
+                                }
+                            }
+                            if (this.isArticleVideo) {
+                                this.getSuggestedArticles();
+                            }
+                            this.isInitialized = true;
+                        })
+                        .catch((error) => {
+                            this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                        });
+                }
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
@@ -182,8 +211,10 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         }
     }
 
-    handleBackClick() {
-        sessionStorage.setItem('Cookies', 'Accepted');
+    handleBackClick(event) {
+        if (event) {
+            this.showHomePage = event.detail.backToHome;
+        }
         if (this.showHomePage) {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
@@ -191,7 +222,9 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                     pageName: 'home'
                 }
             });
-        } else if (FORM_FACTOR == 'Large') {
+        }
+
+        if (FORM_FACTOR == 'Large') {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
@@ -239,19 +272,5 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 variant: variantType
             })
         );
-    }
-    getSuggestedArticles() {
-        if (communityService.isInitialized()) {
-            var pData = communityService.getParticipantData();
-            this.state = communityService.getCurrentCommunityMode().participantState;
-            let data = JSON.stringify(pData);
-            getPPResources({ participantData: data })
-                .then((result) => {
-                    this.suggestedArticlesData = result;
-                })
-                .catch((error) => {
-                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-                });
-        }
     }
 }

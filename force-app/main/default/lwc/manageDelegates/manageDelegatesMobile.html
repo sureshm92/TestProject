@@ -53,10 +53,38 @@
         <template if:false={showAddDelegatePage}>
             <!--Active Delegates View: Starts-->
             <div class={cardRTL}>
-                <div class="manage-del manage-del-continer">
+                <div class="manage-del manage-del-continer-mobile">
                     <!--Main Layout: Starts -->
                     <lightning-layout multiple-rows="true">
                         <!-- Manage Delegate Header: Starts-->
+                        <lightning-layout-item size="12" class="man-del-icon-chevron-padding">
+                            <template if:true={isPPLight}>
+                                <div class="back-button">
+                                    <template if:false={isRTL}>
+                                        <c-web-icon
+                                            icon-size="medium"
+                                            icon-name={iconChevron}
+                                            icon-color="#297dfd"
+                                        >
+                                        </c-web-icon>
+                                    </template>
+                                    <span
+                                        class="slds-p-left_x-small slds-p-right_x-small"
+                                        onclick={showMenuBar}
+                                        data-header="profile-information"
+                                        >{label.BACK}</span
+                                    >
+                                    <template if:true={isRTL}>
+                                        <c-web-icon
+                                            icon-size="medium"
+                                            icon-name={iconChevron}
+                                            icon-color="#297dfd"
+                                        >
+                                        </c-web-icon>
+                                    </template>
+                                </div>
+                            </template>
+                        </lightning-layout-item>
                         <lightning-layout-item size="12">
                             <span class="manage-delegates-header">
                                 {label.PP_ManageDelegates}
@@ -306,7 +334,7 @@
                                                                 data-pdid={del.PatientDelegate.Id}
                                                                 class="taps mob-checkbox-txt validate"
                                                                 type="checkbox"
-                                                                label={label.PP_Delegate_Email_Consent}
+                                                                label={getStudyEmailConsent}
                                                                 checked={del.isEmailConsentChecked}
                                                                 onchange={handleConsentCheckActiveDel}
                                                             ></lightning-input
@@ -594,7 +622,7 @@
                                                                         data-pdid={del.PatientDelegate.Id}
                                                                         class="taps mob-checkbox-txt validate"
                                                                         type="checkbox"
-                                                                        label={label.PP_Delegate_Email_Consent}
+                                                                        label={getStudyEmailConsent}
                                                                         checked={del.isEmailConsentChecked}
                                                                         onchange={handleConsentCheckFormerDel}
                                                                     ></lightning-input

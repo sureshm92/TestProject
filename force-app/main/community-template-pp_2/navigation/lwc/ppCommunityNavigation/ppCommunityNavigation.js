@@ -60,7 +60,7 @@ export default class PpCommunityNavigation extends LightningElement {
     }
     //template toggle
     render() {
-        return this.desktop ? menuDesktop : menuMobile;
+        return DEVICE == 'Large' ? menuDesktop : menuMobile;
     }
     @api
     handleCloseHamberungMenu() {
@@ -83,7 +83,7 @@ export default class PpCommunityNavigation extends LightningElement {
         this.showSubMenu = false;
     }
     handleNavigationSubMenu(event) {
-        if (!this.desktop) {
+        if (DEVICE != 'Large') {
             let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);
             mobileDiv && !mobileDiv.classList.contains('slds-hide')
                 ? mobileDiv.classList.add('slds-hide')
@@ -362,7 +362,7 @@ export default class PpCommunityNavigation extends LightningElement {
         }));
         //filtering submenu based on parentmenu clicked
         this.submenu = subMenu.filter((subItem) => subItem.parentMenu == headerMenu);
-        if (this.submenu && this.desktop == false) {
+        if (this.submenu && DEVICE != 'Large') {
             this.showSubMenu = !this.showSubMenu;
         }
         var isOpen = element.classList.contains('slds-is-open');

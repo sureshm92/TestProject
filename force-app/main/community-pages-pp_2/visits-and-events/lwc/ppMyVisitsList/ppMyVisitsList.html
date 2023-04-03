@@ -47,7 +47,7 @@
                                     data-index={index}
                                     data-past="false"
                                     data-id={item.visit.Id}
-                                    data-name={item.visit.Visit__r.Patient_Portal_Name__c}
+                                    data-name={item.ppVisitName}
                                 >
                                     <div class="slds-grid slds-wrap">
                                         <div class="slds-col slds-size_1-of-12">
@@ -55,13 +55,10 @@
                                         </div>
 
                                         <div class="slds-col slds-size_9-of-12">
-                                            <div
-                                                class="slds-truncate"
-                                                title={item.visit.Visit__r.Patient_Portal_Name__c}
-                                            >
+                                            <div class="slds-truncate" title={item.ppVisitName}>
                                                 <lightning-formatted-text
                                                     class="name-style"
-                                                    value={item.visit.Visit__r.Patient_Portal_Name__c}
+                                                    value={item.ppVisitName}
                                                 >
                                                 </lightning-formatted-text>
 
@@ -185,14 +182,11 @@
                                                 </div>
                                             </template>
                                             <template lwc:else>
-                                                <div
-                                                    class="slds-truncate"
-                                                    title={item.visit.Visit__r.Patient_Portal_Name__c}
-                                                >
+                                                <div class="slds-truncate" title={item.ppVisitName}>
                                                     <b>
                                                         <lightning-formatted-text
                                                             class="name-style"
-                                                            value={item.visit.Visit__r.Patient_Portal_Name__c}
+                                                            value={item.ppVisitName}
                                                         >
                                                         </lightning-formatted-text>
                                                     </b>

@@ -88,6 +88,9 @@ div{
 .tRight{
     text-align: end;
 }
+.tCenter{
+    text-align: center;
+}
 .leftTitle{
     color: #444444;
     font-family: "Proxima Nova";
