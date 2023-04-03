@@ -96,29 +96,11 @@
                                     <!--VITALS SECTION START-->
                                     <template lwc:if={isVitalsSelected}>
                                         <template lwc:if={isVitalsToggleOn}>
-                                            <template lwc:if={isVitalsAvailable}>
-                                                <!--JAYASHREE COMPONENT-->
-                                            </template>
-                                            <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
-                                            <template lwc:else>
-                                                <div
-                                                    class="slds-grid slds-wrap slds-gutters slds-p-top_x-large"
-                                                >
-                                                    <div
-                                                        class="slds-col slds-size_12-of-12 slds-align_absolute-center"
-                                                    >
-                                                        <img
-                                                            src={noVisitResultsAvailable}
-                                                            class="no-result-image"
-                                                        />
-                                                    </div>
-                                                    <div
-                                                        class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large slds-p-horizontal_small"
-                                                    >
-                                                        {labels.No_Vitals_Available}
-                                                    </div>
-                                                </div>
-                                            </template>
+                                            <c-pp-visit-results-container
+                                                visit-result-type-with-sub-types={visitResultTypeWithSubTypes}
+                                                patient-visit-id={patientVisitId}
+                                                selected-result-type={selectedResultType}
+                                            ></c-pp-visit-results-container>
                                         </template>
                                         <!--Vital Toggle OFF-->
                                         <template lwc:else>
@@ -145,30 +127,13 @@
                                     <!--LABS SECTION START-->
                                     <template lwc:elseif={isLabsSelected}>
                                         <template lwc:if={isLabsToggleOn}>
-                                            <template lwc:if={isLabsAvailable}
-                                                ><!--JAYASHREE COMPONENT--></template
-                                            >
-                                            <template lwc:else>
-                                                <div
-                                                    class="slds-grid slds-wrap slds-gutters slds-p-top_x-large"
-                                                >
-                                                    <div
-                                                        class="slds-col slds-size_12-of-12 slds-align_absolute-center"
-                                                    >
-                                                        <img
-                                                            src={noVisitResultsAvailable}
-                                                            class="no-result-image"
-                                                        />
-                                                    </div>
-                                                    <div
-                                                        class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large slds-p-horizontal_small"
-                                                    >
-                                                        {labels.No_Labs_Available}
-                                                    </div>
-                                                </div>
-                                            </template>
+                                            <c-pp-visit-results-container
+                                                visit-result-type-with-sub-types={visitResultTypeWithSubTypes}
+                                                patient-visit-id={patientVisitId}
+                                                selected-result-type={selectedResultType}
+                                            ></c-pp-visit-results-container>
                                         </template>
-                                        <!--Vital Toggle OFF-->
+                                        <!--lab Toggle OFF-->
                                         <template lwc:else
                                             ><div
                                                 class="slds-grid slds-wrap slds-p-top_xx-large slds-p-horizontal_small"
@@ -193,28 +158,13 @@
                                     <!--BIOMARKERS SECTION START-->
                                     <template lwc:elseif={isBiomarkersSelected}>
                                         <template lwc:if={isBiomarkersToggleOn}>
-                                            <template lwc:if={isBiomarkersAvailable}
-                                                ><!--JAYASHREE COMPONENT--></template
-                                            >
-                                            <template lwc:else>
-                                                <div class="slds-grid slds-wrap slds-p-top_x-large">
-                                                    <div
-                                                        class="slds-col slds-size_12-of-12 slds-align_absolute-center"
-                                                    >
-                                                        <img
-                                                            src={noVisitResultsAvailable}
-                                                            class="no-result-image"
-                                                        />
-                                                    </div>
-                                                    <div
-                                                        class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large slds-p-horizontal_small"
-                                                    >
-                                                        {labels.No_Biomarkers_Available}
-                                                    </div>
-                                                </div>
-                                            </template>
+                                            <c-pp-visit-results-container
+                                                visit-result-type-with-sub-types={visitResultTypeWithSubTypes}
+                                                patient-visit-id={patientVisitId}
+                                                selected-result-type={selectedResultType}
+                                            ></c-pp-visit-results-container>
                                         </template>
-                                        <!--Vital Toggle OFF-->
+                                        <!--Biomarker Toggle OFF-->
                                         <template lwc:else
                                             ><div
                                                 class="slds-grid slds-wrap slds-p-top_xx-large slds-p-horizontal_small"
@@ -258,6 +208,8 @@
                 </template>
             </div>
         </div>
-        <div class="view-all-results slds-p-top_small">{labels.Visits_View_All_Results}</div>
+        <template lwc:if={validVisitResults}>
+            <div class="view-all-results slds-p-top_small">{labels.Visits_View_All_Results}</div>
+        </template>
     </template>
 </template>

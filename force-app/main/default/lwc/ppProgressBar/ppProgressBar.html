@@ -28,6 +28,10 @@
             </div>
             <div class={layoutClass2}>
                 <span class="leftBox">
+                    <div class="tCenter" if:false={parentWrapper.progressWrapperList}>
+                        {label.PP_ProgressBar_No_Visit}
+                    </div>
+                    <div if:true={parentWrapper.progressWrapperList}>
                     <span class={leftDesktopClass} onclick={prev}>                
                         <lightning-icon size="small" icon-name="utility:chevronleft" alternative-text="left" class="chevronL disableCursor" onclick={goLeft}></lightning-icon>
                     </span>
@@ -79,6 +83,7 @@
                     <span class={rightDesktopClass} onclick={next}>
                         <lightning-icon size="small" icon-name="utility:chevronright" alternative-text="right" onclick={goRight} class="chevronR"></lightning-icon>
                     </span>
+                    </div>
                 </span>
             </div>
         </div>
