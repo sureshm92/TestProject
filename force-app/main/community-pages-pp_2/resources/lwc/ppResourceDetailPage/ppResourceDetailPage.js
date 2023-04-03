@@ -213,7 +213,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
     handleBackClick(event) {
         if (event) {
-            this.showHomePage = event.detail.backToHome;
+           // this.showHomePage = event.detail.backToHome;
         }
         if (this.showHomePage) {
             this[NavigationMixin.Navigate]({
@@ -224,7 +224,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
             });
         }
 
-        if (FORM_FACTOR == 'Large') {
+        else if (FORM_FACTOR == 'Large') {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
