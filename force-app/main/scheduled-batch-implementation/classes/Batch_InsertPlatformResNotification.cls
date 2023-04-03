@@ -71,79 +71,86 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
             }
             Boolean notifyUser = false;
             for (Id resourceId : resWithTherapeuticAreasMap.keySet()) {
+                notifyUser = false;
                 Boolean isResourceVisible = false;
                 Batch_CreatePlatformResourceNotification.ThereaputicAreaLang therapeuticAreaLang = resWithTherapeuticAreasMap.get(
                     resourceId
                 );
                 if (
-                    tap.Participant__r.Contact__r.UserCommunityIsDelegate__c ||
-                    (contactPeMap.get(tap.Participant__r.Contact__c) != null &&
-                    contactPeMap.get(tap.Participant__r.Contact__c) > 0 &&
-                    therapeuticAreaLang.contentClass == '3rd Party') ||
-                    (therapeuticAreaLang.contentClass == 'Platform-TA' &&
-                    contactPeMap.get(tap.Participant__r.Contact__c) == null)
+                    currentContact.Resource_Notifications__c == null ||
+                    !currentContact.Resource_Notifications__c.contains(resourceId)
                 ) {
+                    notifyUser = true;
+                }
+                if (notifyUser) {
                     if (
-                        currentContact.Resource_Notifications__c == null ||
-                        !currentContact.Resource_Notifications__c.contains(resourceId)
+                        (therapeuticAreaLang.contentClass == 'Platform-TA' &&
+                        contactPeMap.get(tap.Participant__r.Contact__c) == null)
                     ) {
                         notifyUser = true;
                     }
-
                     if (
-                        notifyUser &&
-                        ((therapeuticAreaLang.langCodeList.contains(
-                            tap.Participant__r.Contact__r.Language__c
-                        )) ||
-                        (therapeuticAreaLang.langCodeList.contains(
-                            tap.Participant__r.Contact__r.Second_Choice_Language__c
-                        )) ||
-                        (therapeuticAreaLang.langCodeList.contains(
-                            tap.Participant__r.Contact__r.Third_Choice_Language__c
-                        )))
+                        therapeuticAreaLang.contentClass == '3rd Party' &&
+                        (tap.Participant__r.Contact__r.UserCommunityIsDelegate__c ||
+                        contactPeMap.get(tap.Participant__r.Contact__c) != null)
                     ) {
                         notifyUser = true;
-
-                        currentContact.Resource_Notifications__c = currentContact.Resource_Notifications__c !=
-                            null
-                            ? currentContact.Resource_Notifications__c + ';' + resourceId
-                            : resourceId;
-                    } else {
-                        notifyUser = false;
-                    }
-                    if (
-                        notifyUser &&
-                        therapeuticAreaLang.therapeuticAreaIds.contains(tap.Therapeutic_Area__c)
-                    ) {
-                        String notificationType;
-                        if (therapeuticAreaLang.resourceType == 'Article') {
-                            notificationType = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFROM_ARTICLE_TYPE;
-                        }
-                        if (therapeuticAreaLang.resourceType == 'Video') {
-                            notificationType = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE;
-                        }
-                        if (therapeuticAreaLang.resourceType == 'Multimedia') {
-                            notificationType = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFROMMULTIMEDIA_TYPE;
-                        }
-                        if (therapeuticAreaLang.resourceType == 'Relevant_Link') {
-                            notificationType = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_LINK_TYPE;
-                        }
-                        notificationsList.add(
-                            new Notification__c(
-                                Recipient__c = tap.Participant__r.Contact__c,
-                                WhatId__c = tap.Participant__c,
-                                Notification_Type__c = notificationType,
-                                Target_Record_Ids__c = '' + resourceId
-                            )
-                        );
-                        notifyUser = true;
-                    } else {
-                        notifyUser = false;
                     }
                 }
-            }
-            if (notifyUser) {
-                contactstoNotify.put(currentContact.Id, currentContact);
+
+                if (
+                    notifyUser &&
+                    ((therapeuticAreaLang.langCodeList.contains(
+                        tap.Participant__r.Contact__r.Language__c
+                    )) ||
+                    (therapeuticAreaLang.langCodeList.contains(
+                        tap.Participant__r.Contact__r.Second_Choice_Language__c
+                    )) ||
+                    (therapeuticAreaLang.langCodeList.contains(
+                        tap.Participant__r.Contact__r.Third_Choice_Language__c
+                    )))
+                ) {
+                    notifyUser = true;
+
+                    currentContact.Resource_Notifications__c = currentContact.Resource_Notifications__c !=
+                        null
+                        ? currentContact.Resource_Notifications__c + ';' + resourceId
+                        : resourceId;
+                } else {
+                    notifyUser = false;
+                }
+                if (
+                    notifyUser &&
+                    therapeuticAreaLang.therapeuticAreaIds.contains(tap.Therapeutic_Area__c)
+                ) {
+                    String notificationType;
+                    if (therapeuticAreaLang.resourceType == 'Article') {
+                        notificationType = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFROM_ARTICLE_TYPE;
+                    }
+                    if (therapeuticAreaLang.resourceType == 'Video') {
+                        notificationType = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE;
+                    }
+                    if (therapeuticAreaLang.resourceType == 'Multimedia') {
+                        notificationType = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFROMMULTIMEDIA_TYPE;
+                    }
+                    if (therapeuticAreaLang.resourceType == 'Relevant_Link') {
+                        notificationType = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_LINK_TYPE;
+                    }
+                    notificationsList.add(
+                        new Notification__c(
+                            Recipient__c = tap.Participant__r.Contact__c,
+                            WhatId__c = tap.Participant__c,
+                            Notification_Type__c = notificationType,
+                            Target_Record_Ids__c = '' + resourceId
+                        )
+                    );
+                    notifyUser = true;
+                } else {
+                    notifyUser = false;
+                }
+                if (notifyUser) {
+                    contactstoNotify.put(currentContact.Id, currentContact);
+                }
             }
         }
 
