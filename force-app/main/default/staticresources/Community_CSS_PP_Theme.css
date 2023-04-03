@@ -1174,6 +1174,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     margin-right: 16px !important;
     margin-top: 0px !important;
 }
+.manage-delegate-acc-setting .manage-delegates-header{
+    font-size: 24px !important;
+}
 .manage-del .del-container{
     border-radius: 8px !important;
 }
