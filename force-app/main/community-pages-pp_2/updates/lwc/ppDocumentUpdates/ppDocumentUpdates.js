@@ -33,10 +33,9 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
 
     navigateResourceDetail() {
         this.removeCardHandler();
-        let subDomain = communityService.getSubDomain();
-        let state;
+        let states;
         if (communityService.isInitialized()) {
-            state = communityService.getCurrentCommunityMode().participantState;
+            states = communityService.getCurrentCommunityMode().participantState;
         }
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
@@ -44,22 +43,19 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
                 pageName: 'resource-detail'
             },
             state: {
-                resourceid: this.documentData.resource.Id,
-                resourcetype: this.documentData.resource.RecordType.DeveloperName,
-                state: state
+                resourceid: this.documentData.recId,
+                resourcetype: this.documentData.resourceDevRecordType,
+                state: states,
+                showHomePage : 'true'
             }
         });
     }
     removeCardHandler() {
-        console.log('calling removeCardHandler');
         const targetRecId = this.documentData.targetRecordId;
-        console.log('targetRecId : ' + targetRecId);
         removeCard({ targetRecordId: targetRecId })
             .then((returnValue) => {})
             .catch((error) => {
-                //console.log('error message 1'+error.message);
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-                this.spinner.hide();
+                console.log('error message '+error?.message);
             });
     }
 }

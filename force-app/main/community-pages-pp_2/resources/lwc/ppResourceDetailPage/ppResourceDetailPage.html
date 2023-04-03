@@ -17,12 +17,8 @@
                                     onclick={handleBackClick}
                                     class="slds-p-right_xx-small"
                                 ></c-web-icon
-                                ><template if:true={showHomePage}>
-                                    <span>{label.Back_To_Home}</span>
-                                </template>
-                                <template if:false={showHomePage}>
-                                    <span>{label.Back_To_Resources}</span>
-                                </template>
+                                >
+                                    <span>{showBackNavigationLabel}</span>
                             </div>
                             <hr />
                         </lightning-layout-item>

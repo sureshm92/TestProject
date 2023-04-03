@@ -67,8 +67,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.getUpdates();
             })
             .catch((error) => {
-                console.log('counter failed');
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                console.log('error message : '+error?.message);
                 this.spinner.hide();
             });
     }
@@ -102,7 +101,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.spinner.hide();
             })
             .catch((error) => {
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                console.log('error message : '+error?.message);
                 this.spinner.hide();
             });
     }
@@ -154,9 +153,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.timer = setTimeout(() => {
             this.initializeData(); 
         }, 1000);
-    }
-    openLink(event) {
-        window.open(event.currentTarget.dataset.link, '_blank');
     }
 
     showErrorToast(titleText, messageText, variantType) {

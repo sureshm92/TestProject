@@ -20,47 +20,34 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
     }
 
     handleNoExploreImageError() {
-        console.log('No thumbnail Image');
         this.noExploreImage = true;
     }
 
     navigateResourceDetail() {
         this.removeCardHandler();
-        let subDomain = communityService.getSubDomain();
-        let state;
+        let states;
         if (communityService.isInitialized()) {
-            state = communityService.getCurrentCommunityMode().participantState;
+            states = communityService.getCurrentCommunityMode().participantState;
         }
-        let detailLink =
-            window.location.origin +
-            subDomain +
-            '/s/resource-detail' +
-            '?resourceid=' +
-            this.exploreData.recId +
-            '&resourcetype=' +
-            this.exploreData.resourceDevRecordType +
-            '&state=' +
-            state +
-            '&showHomePage=true';
-
-        const config = {
-            type: 'standard__webPage',
-
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: detailLink
+                pageName: 'resource-detail'
+            },
+            state: {
+                resourceid: this.exploreData.recId,
+                resourcetype: this.exploreData.resourceDevRecordType,
+                state: states,
+                showHomePage : 'true'
             }
-        };
-
-        this[NavigationMixin.Navigate](config, true);
+        });
     }
     removeCardHandler() {
         const targetRecId = this.exploreData.targetRecordId;
         removeCard({ targetRecordId: targetRecId })
             .then((returnValue) => {})
             .catch((error) => {
-                //console.log('error message 1'+error.message);
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-                this.spinner.hide();
+                console.log('error message '+error.message);
             });
     }
 }

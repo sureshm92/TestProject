@@ -67,7 +67,13 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     get isSuggestedArticlesVisible() {
         return this.isArticleVideo && this.suggestedArticlesData;
     }
-
+    get showBackNavigationLabel(){
+        if(this.showHomePage){
+            return this.label.Back_To_Home;
+        }else{
+            return this.label.Back_To_Resources;
+        }
+    }
     connectedCallback() {
         //get resource parameters from url
         const queryString = window.location.search;

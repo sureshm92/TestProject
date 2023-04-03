@@ -53,14 +53,12 @@
     </template>
     <template if:true={desktop}>
         <template if:true={showVisitSection}>
-            <div class="slds-grid slds-wrap card-border-desktop">
+            <div class="slds-grid slds-wrap card-border-desktop" onclick={navigateResourceDetail}>
                 <div
                     class="slds-col slds-size_2-of-6 card-element"
-                    onclick={navigateResourceDetail}
                 >
                     <div
                         class="slds-align_absolute-center icon-container"
-                        onclick={navigateResourceDetail}
                     >
                         <div if:true={thumbnailPresent} class="thumbnail-image">
                             <img
@@ -68,7 +66,6 @@
                                 class="thumnail-img-desktop-vertical"
                                 alt="Image N/A"
                                 onerror={handleNoThumnnailError}
-                                onclick={navigateResourceDetail}
                             />
                         </div>
                         <c-web-icon
@@ -82,10 +79,9 @@
                     <div></div>
                 </div>
                 <div class="slds-col slds-size_4-of-6 card-data-element">
-                    <div class="slds-grid slds-wrap title-section">
+                    <div class="slds-grid slds-wrap title-section slds-truncate">
                         <p
                             class="document-label"
-                            onclick={navigateResourceDetail}
                             title={documentData.title}
                         >
                             {documentData.title}
@@ -110,21 +106,20 @@
             </div>
         </template>
         <template if:false={showVisitSection}>
+            <div class="pointer-class" onclick={navigateResourceDetail}>
             <div class="slds-align_absolute-center thumbnail-section-horizontal">
                 <div
                     if:true={thumbnailPresent}
                     class="thumbnail-image-desktop-horizontal-section"
-                    onclick={navigateResourceDetail}
                 >
                     <img
                         src={thumbnail}
                         class="thumnail-img"
                         alt="Image N/A"
                         onerror={handleNoThumnnailError}
-                        onclick={navigateResourceDetail}
                     />
                 </div>
-                <div onclick={navigateResourceDetail}>
+                <div>
                     <c-web-icon
                         if:false={thumbnailPresent}
                         icon-color="#b5b5b5"
@@ -136,13 +131,13 @@
                 </div>
             </div>
             <div
-                class="slds-grid slds-wrap document-label-desktop document-label-section-horizontal"
+                class="slds-grid slds-wrap  document-label-section-horizontal"
             >
-                <p onclick={navigateResourceDetail} title={documentData.title}>
+                <p class="document-label-desktop slds-truncate" title={documentData.title}>
                     {documentData.title}
                 </p>
             </div>
-            <div class="date-desktop">
+            <div class="date-desktop slds-truncate">
                 {label.versionDate}&nbsp;
                 <lightning-formatted-date-time
                     value={documentData.versionDate}
@@ -151,6 +146,7 @@
             <div class="slds-grid view-resource-container slds-align_absolute-center">
                 <span class="view-resource-label">{label.VIEW_RESOURCE}</span>
             </div>
+        </div>
         </template>
     </template>
 </template>

@@ -3,7 +3,7 @@
         <div class="slds-grid slds-wrap card-border">
             <div class="slds-col slds-size_2-of-6 card-element" onclick={navigateResourceDetail}>
                 <template if:false={noExploreImage}>
-                    <img
+                    <img 
                         class="explore-image"
                         onclick={navigateResourceDetail}
                         src={exploreData.thumbnailImage}
@@ -52,12 +52,10 @@
             <div class="slds-grid slds-wrap card-border-desktop" onclick={navigateResourceDetail}>
                 <div
                     class="slds-col slds-size_2-of-6 card-element"
-                    onclick={navigateResourceDetail}
                 >
                     <template if:false={noExploreImage}>
                         <img
                             class="explore-image"
-                            onclick={navigateResourceDetail}
                             src={exploreData.thumbnailImage}
                             onerror={handleNoExploreImageError}
                         />
@@ -65,7 +63,6 @@
                     <div
                         if:true={noExploreImage}
                         class="slds-align_absolute-center icon-container"
-                        onclick={navigateResourceDetail}
                     >
                         <c-web-icon
                             icon-color="#b5b5b5"
@@ -77,10 +74,9 @@
                     <div></div>
                 </div>
                 <div class="slds-col slds-size_4-of-6 card-data-element">
-                    <div class="slds-grid slds-wrap title-section">
+                    <div class="slds-grid slds-wrap title-section slds-truncate">
                         <p
-                            class="document-label slds-truncate"
-                            onclick={navigateResourceDetail}
+                            class="document-label"
                             title={exploreData.title}
                         >
                             {exploreData.title}
@@ -104,14 +100,13 @@
             </div>
         </template>
         <template if:false={showVisitSection}>
+            <div class="pointer-class" onclick={navigateResourceDetail}>
             <div
                 class="slds-align_absolute-center explore-section-horizontal"
-                onclick={navigateResourceDetail}
             >
                 <template if:false={noExploreImage}>
                     <img
                         class="explore-image-desktop-horizontal"
-                        onclick={navigateResourceDetail}
                         src={exploreData.thumbnailImage}
                         onerror={handleNoExploreImageError}
                     />
@@ -119,7 +114,6 @@
                 <div
                     if:true={noExploreImage}
                     class="slds-align_absolute-center empty-image-horizontal"
-                    onclick={navigateResourceDetail}
                 >
                     <c-web-icon
                         icon-color="#b5b5b5"
@@ -131,13 +125,12 @@
                 </div>
             </div>
             <div
-                class="article-title"
-                onclick={navigateResourceDetail}
+                class="article-title slds-truncate"
                 title={exploreData.title}
             >
                 {exploreData.title}
             </div>
-            <div class="date-desktop" onclick={navigateResourceDetail}>
+            <div class="date-desktop">
                 <lightning-formatted-date-time
                     value={exploreData.versionDate}
                 ></lightning-formatted-date-time>
@@ -145,6 +138,7 @@
             <div class="slds-grid view-resource-container slds-align_absolute-center">
                 <span class="view-resource-label">{labels.VIEW_RESOURCE}</span>
             </div>
+        </div>
         </template>
     </template>
 </template>
