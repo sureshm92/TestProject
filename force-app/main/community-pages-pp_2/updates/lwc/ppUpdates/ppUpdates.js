@@ -34,7 +34,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         refresh
     };
     timer;
-    ERROR_MESSAGE = 'Counter';
+
     renderedCallback() {
         if (!this.isRendered) {
             this.isRendered = true;
@@ -60,19 +60,14 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                     this.displayCounter = true;
                     this.counterLabel = '99+';
                     this.resourcePresent = true;
-                } else if (this.counter <= 0) {
+                }else if(this.counter <= 0){
                     this.resourcePresent = false;
                     this.displayCounter = false;
                 }
                 this.getUpdates();
             })
             .catch((error) => {
-<<<<<<< HEAD
                 console.log('error message : '+error?.message);
-=======
-                console.log('counter failed');
-                this.showErrorToast(this.ERROR_MESSAGE, error.message, 'error');
->>>>>>> origin/int16
                 this.spinner.hide();
             });
     }
@@ -156,7 +151,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.resourcedData = [];
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
-            this.initializeData();
+            this.initializeData(); 
         }, 1000);
     }
 
