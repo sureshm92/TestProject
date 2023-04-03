@@ -21190,6 +21190,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Program</value>
     </labels>
     <labels>
+        <fullName>PP_ProgressBar_No_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP ProgressBar No Visit</shortDescription>
+        <value>No Visits are assigned to your study site.</value>
+    </labels>
+    <labels>
         <fullName>PP_ProgramOverview_LearnMore_Desktop</fullName>
         <language>en_US</language>
         <protected>true</protected>
