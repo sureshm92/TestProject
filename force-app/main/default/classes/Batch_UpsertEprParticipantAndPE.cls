@@ -774,8 +774,11 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             system.debug('ERROR during deleting records: ' + exp.getMessage());
         }
         finally {
+            Id ApexClassId = [Select Id from ApexClass where Name = 'Batch_UpsertEprParticipantAndPE'].Id;
+            List<String> lstPendingJobStatus = new List<String>{'Holding','Preparing','Processing','Queued'};
+            List<AsyncApexJob> lstbatchCurrentlyRunning = [Select Id, Status from AsyncApexJob where ApexClassId = :ApexClassId AND Status IN:lstPendingJobStatus];
 			String isAbortJob =Label.Abort_Batch_UpsertEprParticipantAndPE;
-           if(!test.isRunningTest() && isAbortJob!='True')
+           if(!test.isRunningTest() && isAbortJob!='True' && lstbatchCurrentlyRunning.isEmpty())
             	Database.executeBatch(new Batch_UpsertEprParticipantAndPE(), 7);
         }
         
