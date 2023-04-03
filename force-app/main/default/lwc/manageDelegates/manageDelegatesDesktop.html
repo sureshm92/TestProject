@@ -320,7 +320,7 @@
                                                                 data-pdid={del.PatientDelegate.Id}
                                                                 class="taps mob-checkbox-txt validate"
                                                                 type="checkbox"
-                                                                label={label.PP_Delegate_Email_Consent}
+                                                                label={getStudyEmailConsent}
                                                                 checked={del.isEmailConsentChecked}
                                                                 onchange={handleConsentCheckActiveDel}
                                                             ></lightning-input
@@ -674,7 +674,7 @@
                                                                         data-pdid={del.PatientDelegate.Id}
                                                                         class="taps mob-checkbox-txt validate"
                                                                         type="checkbox"
-                                                                        label={label.PP_Delegate_Email_Consent}
+                                                                        label={getStudyEmailConsent}
                                                                         checked={del.isEmailConsentChecked}
                                                                         onchange={handleConsentCheckFormerDel}
                                                                     ></lightning-input
