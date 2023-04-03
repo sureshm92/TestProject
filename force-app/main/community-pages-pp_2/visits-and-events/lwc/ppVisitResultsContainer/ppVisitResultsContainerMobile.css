@@ -11,6 +11,7 @@
 }
 .position-container {
     position: relative;
+    padding-left: 0.675rem;
 }
 .vital-results {
     /* padding-left: 1.291rem;*/
