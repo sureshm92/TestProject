@@ -1375,6 +1375,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .manage-del-multi-picklist .slds-combobox_container{
     height: 32px !important;
 }
+.manage-delegate-acc-setting .manage-del-multi-picklist .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    font-size:14px !important;
+}
 .manage-delegate-acc-setting .add-del-padding {
     padding: 0px !important;
 }
