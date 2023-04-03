@@ -2130,6 +2130,14 @@
         <apexClass>VisitService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>ModifiedVisitResultsService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+     <classAccesses>
+        <apexClass>ModifiedVisitResultsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>VisitTriggerHandler</apexClass>
         <enabled>true</enabled>
