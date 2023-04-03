@@ -1172,7 +1172,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .manage-del-continer-mobile{
     margin-left: 16px !important;
     margin-right: 16px !important;
-    margin-top: 10px !important;
+    margin-top: 0px !important;
 }
 .manage-del .del-container{
     border-radius: 8px !important;
