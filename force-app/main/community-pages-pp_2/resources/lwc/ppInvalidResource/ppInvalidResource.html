@@ -1,25 +1,17 @@
 <template>
     <div class={cardStyle}>
-        <lightning-layout multiple-rows="true">
-            <lightning-layout-item
-                padding="around-small"
-                class="slds-align_absolute-center"
-                size="12"
-            >
-                <img src={invalidResource} />
-            </lightning-layout-item>
-            <lightning-layout-item padding="around-small" class="info-text" size="12">
-                {label.PP_Invalid_Resource}
-            </lightning-layout-item>
-            <template lwc:if={showButton}>
-                <lightning-layout-item
-                    padding="around-small"
-                    class="slds-align_absolute-center"
-                    size="12"
-                >
-                    <button onclick={handleViewResources}>{ label.PP_Available_Resources }</button>
-                </lightning-layout-item>
-            </template>
-        </lightning-layout>
+        <div class={imageStyle}>
+            <span><img src={invalidResource} /></span>
+        </div>
+        <div class="slds-col slds-grid_align-center slds-m-vertical_medium">
+            {label.PP_Invalid_Resource}
+        </div>
+        <template lwc:if={showButton}>
+            <div class="slds-col slds-grid_align-center slds-m-top_x-large">
+                <button class="avlble-res-btn" onclick={handleViewResources}>
+                    { label.PP_Available_Resources }
+                </button>
+            </div>
+        </template>
     </div>
 </template>

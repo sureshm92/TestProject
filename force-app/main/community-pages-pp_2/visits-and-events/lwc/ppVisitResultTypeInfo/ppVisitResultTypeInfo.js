@@ -93,10 +93,11 @@ export default class PpVisitResultTypeInfo extends LightningElement {
                             result.visitResultsGroupNamesCTP &&
                             result.visitResultsGroupNamesCTP.length
                         ) {
-                            for (let i = 0; i < result.visitResultsGroupNamesCTP.length; i++) {
+                            let sortedOptions = result.visitResultsGroupNamesCTP.sort();
+                            for (let i = sortedOptions.length - 1; i >= 0; i--) {
                                 let resultTypeOption = {
-                                    label: result.visitResultsGroupNamesCTP[i],
-                                    value: result.visitResultsGroupNamesCTP[i],
+                                    label: sortedOptions[i],
+                                    value: sortedOptions[i],
                                     itemClass: 'dropdown-li'
                                 };
                                 this.visitResultTypeOptions = [

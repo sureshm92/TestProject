@@ -22,7 +22,7 @@
                         </lightning-layout-item>
                         <!-- ***************** Resource Title ******************* -->
                         <template lwc:if={isInvalidResource}>
-                            <!--All good-->
+                            <!--Don't render title-->
                         </template>
                         <template lwc:else>
                             <lightning-layout-item size="12" class="slds-p-vertical_medium">
@@ -37,7 +37,10 @@
                             </lightning-layout-item>
                         </template>
                     </lightning-layout>
-                    <hr />
+                    <template lwc:if={isInvalidResource}>
+                        <!-- Don't show <hr / > -->
+                    </template>
+                    <template lwc:else><hr /></template>
 
                     <!--****************  Resource Container **********************-->
                     <lightning-layout multiple-rows="true">
