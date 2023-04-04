@@ -187,3 +187,6 @@
     height: 16px;
     width: 18px;
 }
+.pointer-class {
+    cursor: pointer;
+}
