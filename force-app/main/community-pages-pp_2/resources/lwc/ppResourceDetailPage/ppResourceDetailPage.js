@@ -220,9 +220,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                     pageName: 'home'
                 }
             });
-        }
-
-        if (FORM_FACTOR == 'Large') {
+        } else if (FORM_FACTOR == 'Large') {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
