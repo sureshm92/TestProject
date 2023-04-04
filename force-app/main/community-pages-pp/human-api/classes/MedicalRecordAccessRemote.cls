@@ -137,7 +137,7 @@ public class MedicalRecordAccessRemote {
         return labelItems;
     }
 
-    @AuraEnabled
+   @AuraEnabled
     public static HumanAPIWrapper getHumanAPIAlunmiPastPEListRevamp()
     {
         try{
@@ -175,6 +175,9 @@ public class MedicalRecordAccessRemote {
             if(hWrapper.currentPerId != null && currentPer.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c && !medicalVendors.isEmpty()){
                 for(Medical_Record_Vendor__c vendor: medicalVendors){
                     if(vendor.Medical_Vendor__c == 'HumanAPI'){
+                        if(hWrapper.currentPerStatus != 'ALUMINI'){
+                            hWrapper.isCurrentPresent  = true;
+                        }
                         LabelValueItem labelItem = new LabelValueItem(currentPer.Clinical_Trial_Profile__r.Study_Code_Name__c,currentPer.Unique_HumanId__c+':::'+currentPer.Id);
                         labelItems.add(labelItem);
                         break;

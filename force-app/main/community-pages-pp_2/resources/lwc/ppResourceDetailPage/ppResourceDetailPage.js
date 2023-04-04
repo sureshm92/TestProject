@@ -168,9 +168,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                                     this.handleDocumentLoad();
                                 }
                             }
-                            if (this.isArticleVideo) {
-                                this.getSuggestedArticles();
-                            }
                             this.isInitialized = true;
                         })
                         .catch((error) => {

@@ -1,13 +1,15 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
-
+import PP_Available_Resource_Suggestion from '@salesforce/label/c.PP_Available_Resource_Suggestion';
+import PP_You_May_Like from '@salesforce/label/c.PP_You_May_Like';
 export default class PpSuggestedArticles extends NavigationMixin(LightningElement) {
     userTimezone = TIME_ZONE;
     resourcesData = [];
     showData = false;
     firstrender = true;
     @api resid;
+    @api isInvalid;
     showRight = false;
     state;
     resTypeMap = new Map();
@@ -29,6 +31,9 @@ export default class PpSuggestedArticles extends NavigationMixin(LightningElemen
             }
         }
         if (this.resourcesData.length > 0) this.showData = true;
+    }
+    get headerTitle() {
+        return this.isInvalid ? PP_Available_Resource_Suggestion : PP_You_May_Like;
     }
     renderedCallback() {
         if (this.template.querySelector('.topdiv')) {
