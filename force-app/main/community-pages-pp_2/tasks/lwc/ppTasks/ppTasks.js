@@ -108,6 +108,8 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     @api desktop;
     editMode = false;
     taskParamId;
+    rightPanelComponents = [];
+    
     connectedCallback() {
         if (formFactor === 'Small') {
             this.isMobile = true;
@@ -450,5 +452,32 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 pageName: 'tasks'
             }
         });
+    }
+
+    handleLoad(event){
+        let rightElement = this.template.querySelector('.task-panel_right');
+        let leftElement = this.template.querySelector('.task-panel_left');
+        this.rightPanelComponents.push(event.detail);
+        if(rightElement && !(rightElement.classList.contains('divider'))){
+            rightElement.classList.add('divider');
+        }
+        if(leftElement && !leftElement.classList.contains('slds-large-size--2-of-3')){
+            leftElement.classList.add('slds-large-size--2-of-3');
+        }
+    }
+
+    handleCardRemove(event){
+        let cmpName = event.detail;
+        let leftElement = this.template.querySelector('.task-panel_left');
+        if(this.rightPanelComponents.includes(cmpName)){
+            this.rightPanelComponents.splice(this.rightPanelComponents.indexOf(cmpName),1);
+            if(this.rightPanelComponents.length == 0){
+                this.template.querySelector('.task-panel_right').classList.remove('divider'); 
+                if(leftElement  && leftElement.classList.contains('slds-large-size--2-of-3')){
+                    leftElement.classList.remove('slds-large-size--2-of-3');
+                } 
+            }
+        }
+        
     }
 }
