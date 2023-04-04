@@ -2,6 +2,7 @@ import { LightningElement, track } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
 import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesById';
 import getUnsortedResources from '@salesforce/apex/ResourceRemote.getUnsortedResourcesByType';
+import getDataWrapper from '@salesforce/apex/RelevantLinksRemote.getDataWrapper';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
@@ -73,6 +74,8 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     get linkLabel() {
         return this.showHomePage ? this.label.Back_To_Home : this.label.Back_To_Resources;
     }
+
+    /** Lifecycle hooks **/
     connectedCallback() {
         //get resource parameters from url
         const queryString = window.location.search;
@@ -102,87 +105,118 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         this.initializeData();
     }
 
+    /** Methods **/
     async initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
             this.spinner.show();
         }
         this.isArticleVideo = this.resourceType == 'Article' || this.resourceType == 'Video';
-        //if (!communityService.isInitialized()) return;
 
         let participantData = communityService.getParticipantData();
-        getUnsortedResources({
-            resourceType:
-                this.resourceType == 'Article' || this.resourceType == 'Video'
-                    ? 'Article;Video'
-                    : this.resourceType,
-            participantData: JSON.stringify(participantData)
-        })
-            .then((result) => {
-                this.resourcesData = result;
-                if (this.isArticleVideo) {
-                    this.suggestedArticlesData = result;
-                }
-                if (
-                    !this.resourcesData.wrappers.some(
-                        (wrapper) => wrapper.resource.Id === this.resourceId
-                    )
-                ) {
-                    this.isInvalidResource = true;
-                    this.isInitialized = true;
-                } else {
-                    //get clicked resource details
-                    getResourceDetails({
-                        resourceId: this.resourceId,
-                        resourceType: this.resourceType
-                    })
-                        .then((result) => {
-                            let resourceData = result.wrappers[0].resource;
-                            this.resUploadDate = this.resourceForPostingDate.includes(
-                                this.resourceType
-                            )
-                                ? resourceData.Posting_Date__c
-                                : resourceData.Version_Date__c;
-                            this.resourceTitle = resourceData.Title__c;
-                            this.resourceSummary = resourceData.Body__c;
-                            this.resourceLink =
-                                this.resourceType == 'Article'
-                                    ? resourceData.Image__c
-                                    : resourceData.Video__c;
-                            if (this.resourceType == 'Multimedia') {
-                                this.resourceLink = resourceData.Multimedia__c;
-                                this.isMultimedia = true;
+        if (this.resourceType == 'Relevant_Link') {
+            getDataWrapper({ sortByCOI: true })
+                .then((returnValue) => {
+                    let initData = JSON.parse(JSON.stringify(returnValue));
+                    let linksWrappers = [];
+                    let link;
+                    initData.resources.forEach((resObj) => {
+                        linksWrappers.push(resObj.resource);
+                    });
+                    if (
+                        linksWrappers &&
+                        linksWrappers.some((resource) => {
+                            let returnValue = false;
+                            if (resource.Id === this.resourceId) {
+                                link = resource.URL__c;
+                                returnValue = true;
                             }
-                            this.isFavourite = result.wrappers[0].isFavorite;
-                            this.isVoted = result.wrappers[0].isVoted;
-
-                            //get study Title
-                            if (
-                                this.state != 'ALUMNI' &&
-                                (resourceData.Content_Class__c == 'Study-Specific' ||
-                                    this.isDocument)
-                            ) {
-                                this.studyTitle =
-                                    communityService.getParticipantData()?.ctp?.Study_Code_Name__c;
-                                if (this.isDocument) {
-                                    this.handleDocumentLoad();
-                                }
-                            }
-                            this.isInitialized = true;
+                            return returnValue;
                         })
-                        .catch((error) => {
-                            this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-                        });
-                }
+                    ) {
+                        window.location.href = link;
+                    } else {
+                        this.isInvalidResource = true;
+                        this.isInitialized = true;
+                    }
+                })
+                .catch((error) => {
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                });
+        } else {
+            getUnsortedResources({
+                resourceType:
+                    this.resourceType == 'Article' || this.resourceType == 'Video'
+                        ? 'Article;Video'
+                        : this.resourceType,
+                participantData: JSON.stringify(participantData)
             })
-            .catch((error) => {
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-            })
-            .finally(() => {
-                if (this.spinner) {
-                    this.spinner.hide();
-                }
-            });
+                .then((result) => {
+                    this.resourcesData = result;
+                    if (this.isArticleVideo) {
+                        this.suggestedArticlesData = result;
+                    }
+                    if (
+                        !this.resourcesData.wrappers.some(
+                            (wrapper) => wrapper.resource.Id === this.resourceId
+                        )
+                    ) {
+                        this.isInvalidResource = true;
+                        this.isInitialized = true;
+                    } else {
+                        //get clicked resource details
+                        getResourceDetails({
+                            resourceId: this.resourceId,
+                            resourceType: this.resourceType
+                        })
+                            .then((result) => {
+                                let resourceData = result.wrappers[0].resource;
+                                this.resUploadDate = this.resourceForPostingDate.includes(
+                                    this.resourceType
+                                )
+                                    ? resourceData.Posting_Date__c
+                                    : resourceData.Version_Date__c;
+                                this.resourceTitle = resourceData.Title__c;
+                                this.resourceSummary = resourceData.Body__c;
+                                this.resourceLink =
+                                    this.resourceType == 'Article'
+                                        ? resourceData.Image__c
+                                        : resourceData.Video__c;
+                                if (this.resourceType == 'Multimedia') {
+                                    this.resourceLink = resourceData.Multimedia__c;
+                                    this.isMultimedia = true;
+                                }
+                                this.isFavourite = result.wrappers[0].isFavorite;
+                                this.isVoted = result.wrappers[0].isVoted;
+
+                                //get study Title
+                                if (
+                                    this.state != 'ALUMNI' &&
+                                    (resourceData.Content_Class__c == 'Study-Specific' ||
+                                        this.isDocument)
+                                ) {
+                                    this.studyTitle =
+                                        communityService.getParticipantData()?.ctp?.Study_Code_Name__c;
+                                    if (this.isDocument) {
+                                        this.handleDocumentLoad();
+                                    }
+                                }
+                                this.isInitialized = true;
+                            })
+                            .catch((error) => {
+                                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                            });
+                    }
+                })
+                .catch((error) => {
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                })
+                .finally(() => {
+                    if (this.spinner) {
+                        this.spinner.hide();
+                    }
+                });
+        }
     }
 
     handleDocumentLoad() {

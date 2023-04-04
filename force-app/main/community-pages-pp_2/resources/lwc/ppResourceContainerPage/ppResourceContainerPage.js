@@ -130,7 +130,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                 this.toggleExplore = true;
                 this.toggleLinks = true;
             }
-            getDataWrapper()
+            getDataWrapper({ sortByCOI: true })
                 .then((returnValue) => {
                     let initData = JSON.parse(JSON.stringify(returnValue));
                     let therapeuticAssignmentsList = [];
