@@ -115,7 +115,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
         let participantData = communityService.getParticipantData();
         if (this.resourceType == 'Relevant_Link') {
-            getDataWrapper({ sortByCOI: true })
+            getDataWrapper({ sortByCOI: false })
                 .then((returnValue) => {
                     let initData = JSON.parse(JSON.stringify(returnValue));
                     let linksWrappers = [];
