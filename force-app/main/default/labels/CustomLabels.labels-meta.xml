@@ -20813,6 +20813,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Open in New Tab</value>
     </labels>
     <labels>
+        <fullName>PP_View_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP View Resource</shortDescription>
+        <value>View Resource</value>
+    </labels>
+    <labels>
         <fullName>PP_Opt_Out_Category</fullName>
         <categories>Opt Out And Technical Support</categories>
         <language>en_US</language>
