@@ -17,9 +17,9 @@ export default class PpLinkUpdates extends NavigationMixin(LightningElement) {
 
     openLink(event) {
         this.removeCardHandler();
-        let states;
+        let participantState;
         if (communityService.isInitialized()) {
-            states = communityService.getCurrentCommunityMode().participantState;
+            participantState = communityService.getCurrentCommunityMode().participantState;
         }
         this[NavigationMixin.GenerateUrl]({
             type: 'comm__namedPage',
@@ -29,7 +29,7 @@ export default class PpLinkUpdates extends NavigationMixin(LightningElement) {
             state: {
                 resourceid: this.linkData.recId,
                 resourcetype: this.linkData.resourceDevRecordType,
-                state: states,
+                state: participantState,
                 showHomePage: true
             }
         }).then((url) => {

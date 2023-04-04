@@ -33,9 +33,9 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
 
     navigateResourceDetail() {
         this.removeCardHandler();
-        let states;
+        let participantState;
         if (communityService.isInitialized()) {
-            states = communityService.getCurrentCommunityMode().participantState;
+            participantState = communityService.getCurrentCommunityMode().participantState;
         }
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
@@ -45,7 +45,7 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
             state: {
                 resourceid: this.documentData.recId,
                 resourcetype: this.documentData.resourceDevRecordType,
-                state: states,
+                state: participantState,
                 showHomePage: true
             }
         });
