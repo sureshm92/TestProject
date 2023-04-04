@@ -151,11 +151,15 @@
                                 </lightning-layout-item>
                             </template>
                             <!-- Article suggestions-->
-                            <lightning-layout-item size="12">
+                            <lightning-layout-item
+                                size="12"
+                                class="suggested-container slds-p-top_x-large"
+                            >
                                 <template lwc:if={isSuggestedArticlesVisible}>
                                     <c-pp-suggested-articles
                                         resid={resourceId}
                                         suggested-articles-data={suggestedArticlesData}
+                                        is-invalid={isInvalidResource}
                                     ></c-pp-suggested-articles>
                                 </template>
                             </lightning-layout-item>
@@ -279,11 +283,15 @@
                                         </div>
                                     </lightning-layout-item>
                                     <!-- Article suggestions-->
-                                    <lightning-layout-item size="12">
+                                    <lightning-layout-item
+                                        size="12"
+                                        class="suggested-container slds-p-top_x-large"
+                                    >
                                         <template lwc:if={isSuggestedArticlesVisible}>
                                             <c-pp-suggested-articles
                                                 resid={resourceId}
                                                 suggested-articles-data={suggestedArticlesData}
+                                                is-invalid={isInvalidResource}
                                             ></c-pp-suggested-articles>
                                         </template>
                                     </lightning-layout-item>

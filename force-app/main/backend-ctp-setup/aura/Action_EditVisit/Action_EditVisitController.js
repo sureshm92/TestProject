@@ -32,11 +32,14 @@
         let visit = component.get('v.visit');
         let isValid =
             !visit.Name || !visit.Icons__c || !visit.Visit_Number__c || visit.Visit_Number__c < 1;
+        if(component.get('v.communitytemplate') == 'PatientPortal'){
         let motivMsgValidity = component.find("motivationalMsg").get("v.validity");
         let descripMsgValidity = component.find("descriptionMsg").get("v.validity");
         isValid = isValid || (!motivMsgValidity.valid) || (!descripMsgValidity.valid);
         component.set('v.showMotivHelpTxt',component.find("motivationalMsg").reportValidity());
         component.set('v.showDesriptionHelpTxt',component.find("descriptionMsg").reportValidity());
+        }
+        
         component.set('v.isValid', isValid);
     },
 

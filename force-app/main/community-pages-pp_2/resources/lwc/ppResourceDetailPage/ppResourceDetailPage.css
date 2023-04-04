@@ -59,6 +59,10 @@
     max-width: 1000px;
     margin: auto;
 }
+.suggested-container {
+    max-width: 1000px;
+    margin: auto;
+}
 .back-link {
     font-size: 16px;
     font-weight: 600;

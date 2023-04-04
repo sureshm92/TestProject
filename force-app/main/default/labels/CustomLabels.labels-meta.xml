@@ -19477,6 +19477,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>View Available Resources</value>
     </labels>
     <labels>
+        <fullName>PP_Available_Resource_Suggestion</fullName>
+        <categories>PP2.0</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Available_Resources</shortDescription>
+        <value>Available Resources</value>
+    </labels>
+    <labels>
         <fullName>PP_BTN_Back_To_Log_in</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -20521,7 +20529,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Invalid_Resource</shortDescription>
-        <value>The resource you are trying to access no longer exists</value>
+        <value>The resource you are trying to access is no longer available</value>
     </labels>
     <labels>
         <fullName>PP_L_Account_Setting_Preferred_Lng</fullName>
@@ -22121,6 +22129,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_YOBUsrUpdateDntTranslate</shortDescription>
         <value>Request to Update YOB and Match UserName</value>
+    </labels>
+    <labels>
+        <fullName>PP_You_May_Like</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_You_May_Like</shortDescription>
+        <value>You may also like</value>
     </labels>
     <labels>
         <fullName>PP_Zippostalcode</fullName>
