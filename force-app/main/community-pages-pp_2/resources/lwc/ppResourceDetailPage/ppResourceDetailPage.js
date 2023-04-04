@@ -168,9 +168,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                                     this.handleDocumentLoad();
                                 }
                             }
-                            if (this.isArticleVideo) {
-                                this.getSuggestedArticles();
-                            }
                             this.isInitialized = true;
                         })
                         .catch((error) => {
@@ -212,10 +209,11 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     }
 
     handleBackClick(event) {
+        let backToHome;
         if (event) {
-            this.showHomePage = event.detail.backToHome;
+            backToHome = event.detail.backToHome;
         }
-        if (this.showHomePage) {
+        if (this.showHomePage || backToHome) {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
