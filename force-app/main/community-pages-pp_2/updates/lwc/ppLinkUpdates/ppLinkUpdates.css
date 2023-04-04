@@ -52,12 +52,12 @@
 
 .data-section-helpful {
     width: 100%;
-    height: 29px;
+    height: 24px;
 }
 
 .data-section {
     width: 100%;
-    height: 58px;
+    height: 32px;
 }
 
 .card-border-desktop {
@@ -69,6 +69,7 @@
     margin-top: 8px;
     margin-left: 16px;
     margin-right: 16px;
+    cursor: pointer;
 }
 
 .card-element-links {
@@ -121,20 +122,17 @@
 }
 
 .links-title {
-    color: #015ff1;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    color: #444444;
     overflow: hidden;
     text-overflow: ellipsis;
     font-family: 'Proxima Nova';
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 0;
     line-height: 24px;
     margin-left: 10px;
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 16px;
 }
 
 .link-image-section-horizontal {
@@ -147,10 +145,10 @@
 }
 
 .open-tab-image {
-    margin-bottom: 12px;
+    margin-bottom: 4px;
     margin-left: 6px;
-    height: 16px;
-    width: 16px;
+    height: 12px;
+    width: 12px;
     cursor: pointer;
 }
 
@@ -163,7 +161,7 @@
 }
 
 .open-tab-data-icon-container {
-    height: 68px;
+    height: 30px;
     border-top: 1px solid #E9E9E9;
 }
 
@@ -172,17 +170,11 @@
 }
 
 .link-title-horizontal {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: 24px;
-    margin-left: 16px;
-    margin-top: 5px;
+    font-weight: 500;
+    margin:5px 10px 0 10px;
     cursor: pointer;
 }
 .open-in-new-tab{
@@ -195,9 +187,6 @@
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0;
-    line-height: 24px;
-    margin-left: 36px;
-    margin-top: 5px;
     cursor: pointer;
 }
 .link-title{
@@ -212,7 +201,7 @@
     font-size: 13px;
     letter-spacing: 0.1px;
     line-height: 14px;
-    margin-left: 17px;
+    margin-left: 10px;
     margin-top: 10px;
     overflow: hidden;
     display: -webkit-box;
@@ -252,4 +241,20 @@
         margin-left: 18px;
         margin-bottom: 4px;
     }
+}
+.open-in-new-tab-label{
+    margin-left:10px;
+    font-size:14px;
+    color:#015FF1;
+    font-weight:600;
+    padding-top:3px;
+}
+.open-tab-horizontal {
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+.pointer-class{
+    cursor:pointer;
 }
