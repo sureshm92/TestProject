@@ -51,6 +51,7 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
     @track studyProviders= [];
     innerspinner = false;
     showspinner = true;
+    participantPresent = false;
 
     connectedCallback(){
        //load human API JS and then initialize component data
@@ -60,6 +61,7 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
            this.initialize();
             //
         }).catch((error)=>{
+            this.innerspinner  = false;
             this.showspinner = false;
             console.error('error in load:'+JSON.stringify(error));
         })
@@ -75,7 +77,12 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
                    // this.populateDisclaimerText(this.returnValue.communityName);
                     this.peId = this.returnValue.currentPerId;
                     this.participantState = this.returnValue.currentPerStatus;
-                    if(this.referrals.length > 0){                        
+                    this.participantPresent = this.returnValue.iscurrentPresent;
+                    if(this.referrals.length > 0 ){
+                        if(this.participantPresent){
+                            this.innerspinner = true;
+                            this.sendloadinfoParent('successload');
+                        }                      
                         //method responsible to fetch studies providers from HAPI.
                         return getStudyProviderList({itemstr : JSON.stringify(this.referrals),
                                                      peId : this.peId,
@@ -86,18 +93,30 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
                 .then(response =>{
                     this.studyProviders = response;
                     if(this.studyProviders.length > 0){
+                        if(!this.participantPresent){
+                            this.sendloadinfoParent('successload');
+                        }
+                        this.innerspinner = false;
                         this.medicalProviders = this.studyProviders[0].providers;
                         this.defaultStudy = this.studyProviders[0].value;
                         this.initialized = true;
+                    
                     }
                     this.showspinner = false;
                     
                 })
                 .catch(error=>{
+                    this.innerspinner = false;
                     this.showspinner = false;
                     console.log('Error'+JSON.stringify(error));
                 }); 
           
+    }
+
+    sendloadinfoParent(eventname){
+        const custEvent = new CustomEvent(
+            eventname, {detail:'MedicalRecordRetrieval'});
+        this.dispatchEvent(custEvent);
     }
 
     populateDisclaimerText(communityName){
@@ -170,6 +189,9 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
                             this.studyProviders.splice(itemIndex,1);
                             this.defaultStudy =  this.studyProviders.length >0 ? this.studyProviders[0].value : '';
                             this.medicalProviders =this.studyProviders.length >0 ? this.studyProviders[0].providers : [];   
+                            if(this.studyProviders.length == 0){
+                                this.sendloadinfoParent('cardremove');
+                            }
                         }
                        
                         if(this.pastStudiesVisibility === true){
@@ -214,7 +236,7 @@ export default class PpMedicalRecordRetrievalPanel extends LightningElement {
         
     }
     get medicalCard(){
-        var cardCheck = (this.showMedicalCard || this.studyProviders.length >0)
+        var cardCheck = (this.participantPresent || this.studyProviders.length >0)
         return cardCheck;
     }
 
