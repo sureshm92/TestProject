@@ -212,19 +212,18 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     }
 
     handleBackClick(event) {
+        let backToHome;
         if (event) {
-           // this.showHomePage = event.detail.backToHome;
+            backToHome = event.detail.backToHome;
         }
-        if (this.showHomePage) {
+        if (this.showHomePage || backToHome) {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
                     pageName: 'home'
                 }
             });
-        }
-
-        else if (FORM_FACTOR == 'Large') {
+        } else if (FORM_FACTOR == 'Large') {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {

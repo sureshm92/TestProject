@@ -3,7 +3,7 @@
         <div class="slds-grid slds-wrap card-border">
             <div class="slds-col slds-size_2-of-6 card-element" onclick={navigateResourceDetail}>
                 <template if:false={noExploreImage}>
-                    <img 
+                    <img
                         class="explore-image"
                         onclick={navigateResourceDetail}
                         src={exploreData.thumbnailImage}
@@ -37,7 +37,7 @@
                 <div class="slds-grid date-section-mobile">
                     <div class="slds-col slds-size_11-of-12">
                         <p class="date">
-                            {labels.VERSION_DATE}&nbsp;
+                            {labels.POSTING_DATE}&nbsp;
                             <lightning-formatted-date-time
                                 value={exploreData.versionDate}
                             ></lightning-formatted-date-time>
@@ -50,9 +50,7 @@
     <template if:true={desktop}>
         <template if:true={showVisitSection}>
             <div class="slds-grid slds-wrap card-border-desktop" onclick={navigateResourceDetail}>
-                <div
-                    class="slds-col slds-size_2-of-6 card-element"
-                >
+                <div class="slds-col slds-size_2-of-6 card-element">
                     <template if:false={noExploreImage}>
                         <img
                             class="explore-image"
@@ -60,10 +58,7 @@
                             onerror={handleNoExploreImageError}
                         />
                     </template>
-                    <div
-                        if:true={noExploreImage}
-                        class="slds-align_absolute-center icon-container"
-                    >
+                    <div if:true={noExploreImage} class="slds-align_absolute-center icon-container">
                         <c-web-icon
                             icon-color="#b5b5b5"
                             icon-width="35"
@@ -75,12 +70,7 @@
                 </div>
                 <div class="slds-col slds-size_4-of-6 card-data-element">
                     <div class="slds-grid slds-wrap title-section slds-truncate">
-                        <p
-                            class="document-label"
-                            title={exploreData.title}
-                        >
-                            {exploreData.title}
-                        </p>
+                        <p class="document-label" title={exploreData.title}>{exploreData.title}</p>
                     </div>
                     <div class="slds-grid date-section">
                         <div class="slds-col slds-size_11-of-12">
@@ -92,53 +82,46 @@
                         </div>
                     </div>
                     <div class="slds-grid view-resource-label-vertical">
-                        <span class="view-resource-label">
-                            {labels.VIEW_RESOURCE}
-                        </span>
+                        <span class="view-resource-label"> {labels.VIEW_RESOURCE} </span>
                     </div>
                 </div>
             </div>
         </template>
         <template if:false={showVisitSection}>
             <div class="pointer-class" onclick={navigateResourceDetail}>
-            <div
-                class="slds-align_absolute-center explore-section-horizontal"
-            >
-                <template if:false={noExploreImage}>
-                    <img
-                        class="explore-image-desktop-horizontal"
-                        src={exploreData.thumbnailImage}
-                        onerror={handleNoExploreImageError}
-                    />
-                </template>
-                <div
-                    if:true={noExploreImage}
-                    class="slds-align_absolute-center empty-image-horizontal"
-                >
-                    <c-web-icon
-                        icon-color="#b5b5b5"
-                        icon-width="55"
-                        icon-height="55"
-                        icon-size="large"
-                        icon-name="empty-thumbnail-updates"
-                    ></c-web-icon>
+                <div class="slds-align_absolute-center explore-section-horizontal">
+                    <template if:false={noExploreImage}>
+                        <img
+                            class="explore-image-desktop-horizontal"
+                            src={exploreData.thumbnailImage}
+                            onerror={handleNoExploreImageError}
+                        />
+                    </template>
+                    <div
+                        if:true={noExploreImage}
+                        class="slds-align_absolute-center empty-image-horizontal"
+                    >
+                        <c-web-icon
+                            icon-color="#b5b5b5"
+                            icon-width="55"
+                            icon-height="55"
+                            icon-size="large"
+                            icon-name="empty-thumbnail-updates"
+                        ></c-web-icon>
+                    </div>
+                </div>
+                <div class="article-title slds-truncate" title={exploreData.title}>
+                    {exploreData.title}
+                </div>
+                <div class="date-desktop">
+                    <lightning-formatted-date-time
+                        value={exploreData.versionDate}
+                    ></lightning-formatted-date-time>
+                </div>
+                <div class="slds-grid view-resource-container slds-align_absolute-center">
+                    <span class="view-resource-label">{labels.VIEW_RESOURCE}</span>
                 </div>
             </div>
-            <div
-                class="article-title slds-truncate"
-                title={exploreData.title}
-            >
-                {exploreData.title}
-            </div>
-            <div class="date-desktop">
-                <lightning-formatted-date-time
-                    value={exploreData.versionDate}
-                ></lightning-formatted-date-time>
-            </div>
-            <div class="slds-grid view-resource-container slds-align_absolute-center">
-                <span class="view-resource-label">{labels.VIEW_RESOURCE}</span>
-            </div>
-        </div>
         </template>
     </template>
 </template>

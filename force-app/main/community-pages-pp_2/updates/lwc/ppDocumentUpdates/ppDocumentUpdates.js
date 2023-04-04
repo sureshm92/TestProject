@@ -46,7 +46,7 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
                 resourceid: this.documentData.recId,
                 resourcetype: this.documentData.resourceDevRecordType,
                 state: states,
-                showHomePage : 'true'
+                showHomePage: true
             }
         });
     }
@@ -55,7 +55,7 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
         removeCard({ targetRecordId: targetRecId })
             .then((returnValue) => {})
             .catch((error) => {
-                console.log('error message '+error?.message);
+                console.log('error message ' + error?.message);
             });
     }
 }

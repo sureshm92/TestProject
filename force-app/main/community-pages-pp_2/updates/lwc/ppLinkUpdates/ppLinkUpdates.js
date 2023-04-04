@@ -4,7 +4,7 @@ import helpfulLinks from '@salesforce/label/c.Helpful_Links';
 import Open_In_New_Tab from '@salesforce/label/c.PP_Open_In_New_Tab';
 import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 import { NavigationMixin } from 'lightning/navigation';
-export default class PpLinkUpdates extends NavigationMixin(LightningElement){
+export default class PpLinkUpdates extends NavigationMixin(LightningElement) {
     @api linkData;
     @api showVisitSection;
     @api desktop;
@@ -21,9 +21,6 @@ export default class PpLinkUpdates extends NavigationMixin(LightningElement){
         if (communityService.isInitialized()) {
             states = communityService.getCurrentCommunityMode().participantState;
         }
-        console.log('coming here 1'+this.linkData.recId);
-        console.log('coming here 1'+this.linkData.resourceDevRecordType);
-        console.log('coming here 1'+states);
         this[NavigationMixin.GenerateUrl]({
             type: 'comm__namedPage',
             attributes: {
@@ -33,19 +30,18 @@ export default class PpLinkUpdates extends NavigationMixin(LightningElement){
                 resourceid: this.linkData.recId,
                 resourcetype: this.linkData.resourceDevRecordType,
                 state: states,
-                showHomePage : 'true'
+                showHomePage: true
             }
-        }).then(url => {
-            window.open(url, "_blank");
+        }).then((url) => {
+            window.open(url, '_blank');
         });
     }
-    removeCardHandler(){
+    removeCardHandler() {
         const targetRecId = this.linkData.targetRecordId;
-        removeCard({targetRecordId : targetRecId})
-        .then((returnValue) => {
-        })
-        .catch((error) => {
-            console.log('error message '+error?.message);
-        });
+        removeCard({ targetRecordId: targetRecId })
+            .then((returnValue) => {})
+            .catch((error) => {
+                console.log('error message ' + error?.message);
+            });
     }
 }
