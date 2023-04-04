@@ -121,7 +121,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
             .then((result) => {
                 this.resourcesData = result;
                 if (this.isArticleVideo) {
-                    suggestedArticlesData = result;
+                    this.suggestedArticlesData = result;
                 }
                 if (
                     !this.resourcesData.wrappers.some(
