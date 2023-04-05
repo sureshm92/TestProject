@@ -1305,6 +1305,23 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 /* .manage-del-multi-picklist .study-box-manage-del{
     line-height: 32px !important;
 } */
+.manage-delegate-acc-setting .check-box-label-class input:focus {
+    box-shadow: none !important
+}
+/* .manage-delegate-acc-setting .slds-checkbox [type='checkbox']:hover + .slds-checkbox__label .slds-checkbox_faux:before {
+    border: 1px solid #015ff1 !important;
+    background-color: transparent !important;
+    height: 16px !important;
+    width: 16px !important;
+    content: '' !important;
+    position: absolute !important;
+    border-radius: 2px !important;
+    top: 0px !important;
+    left: 0px !important;
+}
+.manage-delegate-acc-setting .slds-listbox_vertical .slds-listbox__option:hover{
+    background-color: transparent !important; 
+} */
 .manage-delegate-acc-setting .del-access-rectangle {
     border-radius: 16px !important;
 }
