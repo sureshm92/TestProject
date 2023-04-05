@@ -49,5 +49,6 @@
         <standardTab>Chatter</standardTab>
     </tabs>
     <urlPathPrefix>janssen</urlPathPrefix>
-    <welcomeTemplate>Referral_Hub_Emails/Initial_Email_Janssen</welcomeTemplate>
+    <welcomeTemplate>Referral_Hub_Emails/Initial_Email_Janssen</welcomeTemplate> 
+    
 </Network>
