@@ -93,6 +93,11 @@ export default class PpVisitResultsContainer extends LightningElement {
                                 : this.totalLabResults;
                         }
                         this.calculateRemainingVisResults(this.totalLabResults);
+                        let resultsAvailable = this.totalLabResults > 0 ? true : false;
+                        const selectedEvent = new CustomEvent('totalvisitresultcount', {
+                            detail: resultsAvailable
+                        });
+                        this.dispatchEvent(selectedEvent);
                     } else if (this.selectedResultType == 'Vitals') {
                         for (let i = 0; i < resultsWrapper.length; i++) {
                             if (resultsWrapper[i].isResultsAvailable) {
@@ -107,6 +112,11 @@ export default class PpVisitResultsContainer extends LightningElement {
                             }
                         }
                         this.calculateRemainingVisResults(this.totalVitalResults);
+                        let resultsAvailable = this.totalVitalResults > 0 ? true : false;
+                        const selectedEvent = new CustomEvent('totalvisitresultcount', {
+                            detail: resultsAvailable
+                        });
+                        this.dispatchEvent(selectedEvent);
                     } else {
                         for (let i = 0; i < resultsWrapper.length; i++) {
                             if (resultsWrapper[i].isResultsAvailable) {
@@ -121,6 +131,11 @@ export default class PpVisitResultsContainer extends LightningElement {
                             }
                         }
                         this.calculateRemainingVisResults(this.totalBioResults);
+                        let resultsAvailable = this.totalBioResults > 0 ? true : false;
+                        const selectedEvent = new CustomEvent('totalvisitresultcount', {
+                            detail: resultsAvailable
+                        });
+                        this.dispatchEvent(selectedEvent);
                     }
                     this.showSpinner = false;
                 })
