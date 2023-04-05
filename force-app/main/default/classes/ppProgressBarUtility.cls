@@ -120,6 +120,9 @@ public without sharing class ppProgressBarUtility {
                 pw.progressWrapperList.add(prW);
             }
         }
+        if(patientVisits.isEmpty() && setMotivationMsg){
+            pw = null;
+        }
         if(!setMotivationMsg){
             for(Study_status_desc_and_motivational_msg__mdt statusConfig : [select id,MasterLabel,Status_order__c,PER_Participant_Status__c FROM Study_status_desc_and_motivational_msg__mdt where PER_Participant_Status__c =:pe.Participant_Status__c]){
                 pw.message =statusConfig.MasterLabel;
