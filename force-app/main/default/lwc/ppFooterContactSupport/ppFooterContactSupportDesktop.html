@@ -1,0 +1,152 @@
+<template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+            <lightning-spinner
+                alternative-text="Loading"
+                variant="brand"
+                size="medium"
+                class="spins"
+            >
+            </lightning-spinner>
+        </template>
+    </div>
+    <div class="contact-support-popup">
+        <template if:true={desktop}>
+            <template if:true={showmodal}>
+                <c-pp-modal
+                    header-text={tittext}
+                    size="medium"
+                    onclose={handleModalClose}
+                    is-show={showmodal}
+                    class=""
+                >
+                    <div slot="body">
+                        <div class={cardRTL}>
+                            <lightning-layout
+                                horizontal-align="center"
+                                vertical-align="start"
+                                multiple-rows="true"
+                                class="mainContainer"
+                            >
+                                <lightning-layout-item
+                                    size="12"
+                                    class="slds-align_absolute-center"
+                                >
+                                    <img src={site_Icon} class="siteIcon"/>
+                                </lightning-layout-item>
+                                <lightning-layout-item
+                                    size="12"
+                                    class="slds-align_absolute-center study-program-support marginBottom-12"
+                                >
+                                    <span>{label.Studies_Program}</span>
+                                </lightning-layout-item>
+                                <lightning-layout-item
+                                    size="12"
+                                    class="slds-align_absolute-center for-questions-about"
+                                >
+                                    <span>{label.For_Question_Abt_Participant}</span>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" class="container2">
+                                    <lightning-layout vertical-align="stretch" multiple-rows="true">
+                                        <lightning-layout-item size="6" class="left-item">
+                                            <!-- Phone -->
+                                            <lightning-layout class="phoneContainer" onclick={copyPhoneToClipboard}>
+                                                <!-- <lightning-layout multiple-rows="false" size="10" class="marginTop-16 marginLeft-16"> -->
+                                                    <lightning-layout-item class="marginTop-16 marginLeft-14 marginRight-16">
+                                                        <img src={phone_Icon} />
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item size="8" class="marginTop-16">
+                                                        <lightning-layout multiple-rows="true">
+                                                            <lightning-layout-item size="12" class="subHeaders marginBottom-4">
+                                                                {label.Phone_In_Caps}
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item size="12" class="phoneNumber content1">
+                                                                 <div class="param">{studySitePhone}</div>
+                                                                 <textarea class="phone-value-ele textarea-style">{studySitePhone}</textarea>
+                                                            </lightning-layout-item>
+                                                        </lightning-layout>
+                                                    </lightning-layout-item>
+                                                    <!-- </lightning-layout> -->
+                                                    <!-- <lightning-layout-item size="2" class="marginTop-16">
+                                                        <img src={copy_Icon} onclick={handleCopy} class="copyIcon"/>
+                                                    </lightning-layout-item> -->
+                                            </lightning-layout>
+
+                                            <!-- Address -->
+                                            <lightning-layout class="addressContainer">
+                                                <lightning-layout multiple-rows="false" class="marginTop-16 marginLeft-16">
+                                                    <lightning-layout-item class="marginRight-21 marginLeft-1">
+                                                        <img src={address_Icon} />
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item size="10">
+                                                        <lightning-layout multiple-rows="true">
+                                                            <lightning-layout-item size="12" class="subHeaders marginBottom-8">
+                                                                {label.Site_And_Location_Caps}
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item size="12" class="content2 marginBottom-4" onclick={copyAddressToClipboard}>
+                                                                {siteName}
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item size="12" class="addressContent" onclick={copyAddressToClipboard}>
+                                                                <div class="param2">{siteAddress}</div>
+                                                                <textarea class="address-value-ele textarea-style">{siteAddress}</textarea>
+                                                            </lightning-layout-item>
+                                                        </lightning-layout>
+                                                    </lightning-layout-item>
+
+                                                </lightning-layout>
+                                            </lightning-layout>
+
+                                        </lightning-layout-item>
+
+                                        <!-- <lightning-layout-item size="6"  class="right-item" style={height: {leftHeight px;}> -->
+                                        <lightning-layout-item size="6" class="right-item">
+                                            <!-- PI -->
+                                            <lightning-layout multiple-rows="false" class="careTeamContainer" style={customHeightStyle}>
+                                                <lightning-layout-item class="marginTop-16 marginRight-15 marginLeft-19">
+                                                    <img src={pi_Icon} />
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="8" class="marginTop-16">
+                                                    <lightning-layout multiple-rows="true">
+                                                        <lightning-layout-item size="12" class="subHeaders marginBottom-16">
+                                                            {label.Care_Team_Caps}
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="12" class="content1 marginBottom-12">
+                                                            {piName}&nbsp;{label.PI_Post_Fix}
+                                                        </lightning-layout-item>
+                                                    <!-- Site Staff -->
+                                                    <div style={customHeightMatchForSiteStaff} class="site-staff-container">
+                                                        <template
+                                                            for:each={siteStaffParticipantList}
+                                                            for:item="ssName"
+                                                        >                                                        
+                                                            <lightning-layout key={ssName} multiple-rows="true">
+                                                                <lightning-layout-item size="12" key={ssName} class="content1 marginBottom-12">
+                                                                    {ssName.Full_Name__c}&nbsp;{label.Site_Staff_Post_Fix}
+                                                                </lightning-layout-item>
+                                                            </lightning-layout>                                                        
+                                                        </template>
+                                                    </div>
+                                                    </lightning-layout>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                            
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" class="needSupport">
+                                    {label.Need_Tech_Support}
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" class="needSupport2">
+                                    {label.If_You_Exp_Issue} &nbsp; <a class="support-Email" href="mailto:support@mail.clinicalresearch.com">{label.supportEmail}</a>.
+                                </lightning-layout-item>
+
+                            </lightning-layout>
+                        </div>
+                    </div>
+                </c-pp-modal>
+            </template>
+        </template>
+    </div>
+
+    
+</template>

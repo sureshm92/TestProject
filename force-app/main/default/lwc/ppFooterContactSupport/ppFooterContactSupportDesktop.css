@@ -1,0 +1,208 @@
+.spins::after {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+}
+
+.mainContainer {
+    /* height: 313.68px; */
+}
+
+.study-program-support {
+    height: 22px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+
+.siteIcon {
+    height: 26.67px;
+    width: 20px;
+    margin-bottom: 12.12px;
+}
+
+.for-questions-about {
+    height: 24px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 17px;
+    margin-bottom: 12.12px;
+}
+
+.mainContainer2 {
+    min-height: 207.37px;
+}
+
+.container2 {
+    min-height: 207.37px;
+    margin-bottom: 27.32px;
+}
+
+.phoneContainer {
+    height: 72.13px;
+    width: 302px;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+    margin-bottom: 8.02px;
+    cursor: pointer;
+}
+
+.addressContainer {
+    min-height: 127.23px;
+    width: 302px;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+}
+
+.careTeamContainer {
+    min-height: 207.37px;
+    /* height: 207.37px;
+    width: 302px; */
+    border-radius: 8px;
+    background-color: #f2f2f2;
+}
+
+.needSupport {
+    height: 24px;
+    width: 618px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-bottom: 4px;
+}
+
+.needSupport2 {
+    height: 42px;
+    width: 618px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 21px;
+    margin-bottom: -12px;
+}
+
+.subHeaders {
+    height: 17px;
+    color: #757575;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    line-height: 16px;
+}
+
+.content1 {
+    /* height: 19px; */
+    height: auto;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 17px;
+}
+
+.content2 {
+    /* height: 24px; */
+    height: auto;
+    width: 222px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 21px;
+    cursor: pointer;
+}
+
+.addressContent {
+    /* height: 42px; */
+    height: auto;
+    width: 222px;
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 21px;
+    word-wrap: break-word;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.support-Email {
+    font-weight: 600;
+    color: #015ff1;
+}
+
+.marginLeft-16 {
+    margin-left: 16px;
+}
+
+.marginTop-16 {
+    margin-top: 16px;
+}
+.marginTop-8 {
+    margin-top: 8px;
+}
+.marginBottom-4 {
+    margin-bottom: 4.4px;
+}
+
+.marginBottom-8 {
+    margin-bottom: 8.3px;
+}
+
+.marginBottom-12 {
+    margin-bottom: 12.12px;
+}
+
+.marginBottom-16 {
+    margin-bottom: 16.6px;
+}
+
+.marginRight-16 {
+    margin-right: 16px;
+}
+
+.marginLeft-14 {
+    margin-left: 14px;
+}
+
+.marginRight-21 {
+    margin-right: 21px;
+}
+
+.marginLeft-1 {
+    margin-left: 1px;
+}
+
+.marginRight-15 {
+    margin-right: 15px;
+}
+
+.marginLeft-19 {
+    margin-left: 19px;
+}
+
+.textarea-style {
+    height: 1px;
+    width: 1px;
+    z-index: -1;
+    position: absolute;
+}
+
+.site-staff-container{
+    overflow-y: auto;
+    width: 100%;
+}
