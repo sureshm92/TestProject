@@ -10,9 +10,8 @@
             </lightning-spinner>
         </template>
     </div>
-
-    <template if:true={showmodal}>
-        <div class="pp-manade-del-modal">
+    <div class="pp-manade-del-modal">
+        <template if:true={showmodal}>
             <c-pp-modal
                 header-text={tittext}
                 size="small"
@@ -35,8 +34,8 @@
                                 </button>
                             </div>
                             <div class="slds-col">
-                                <button class="slds-button button-confirm" onclick={confirmModal}>
-                                    {label.BTN_Continue}
+                                <button class="slds-button button-delete" onclick={deleteModal}>
+                                    {label.BTN_Delete}
                                 </button>
                             </div>
                         </div>
@@ -45,8 +44,8 @@
                         <!-- for Mobile-->
                         <div class="slds-grid slds-wrap manage-delegate">
                             <div class="slds-col slds-size_1-of-1 slds-align_absolute-center">
-                                <button class="slds-button button-confirm" onclick={confirmModal}>
-                                    {label.BTN_Continue}
+                                <button class="slds-button button-delete" onclick={deleteModal}>
+                                    {label.BTN_Delete}
                                 </button>
                             </div>
                             <div
@@ -63,6 +62,6 @@
                     </template>
                 </div>
             </c-pp-modal>
-        </div>
-    </template>
+        </template>
+    </div>
 </template>

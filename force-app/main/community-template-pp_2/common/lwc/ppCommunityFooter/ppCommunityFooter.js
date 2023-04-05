@@ -9,6 +9,7 @@ import CPRA_DoNotSell_PatientPortal from '@salesforce/label/c.CPRA_DoNotSell_Pat
 import ABOUT_IQVIA from '@salesforce/label/c.Footer_Link_About_IQVIA';
 import COPYRIGHT from '@salesforce/label/c.Footer_T_Copyright';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error'; 
+import CONTACT_SUPPORT from '@salesforce/label/c.PP_Contact_Support'; 
 
 
 export default class PpCommunityFooter extends LightningElement {
@@ -29,8 +30,9 @@ export default class PpCommunityFooter extends LightningElement {
     initialized = false;
     isRTL = false;
     isCPRAAvailable = false;
+    showmodal = false;
 
-    
+    studysite;
 
     labels = {
         PRIVACY_POLICY,
@@ -38,7 +40,8 @@ export default class PpCommunityFooter extends LightningElement {
         ABOUT_IQVIA,
         COPYRIGHT,
         ERROR_MESSAGE,
-        CPRA_DoNotSell_PatientPortal
+        CPRA_DoNotSell_PatientPortal,
+        CONTACT_SUPPORT
     };
 
     connectedCallback() {
@@ -73,11 +76,13 @@ export default class PpCommunityFooter extends LightningElement {
         getInitData({})
             .then((result) => {
                 let ps = JSON.parse(result);
+					
                 if(ps.objCPRA){
                     this.isCPRAAvailable = true;
                     this.CPRALinkToredirect = ps.objCPRA.Link_to_redirect__c;
                 }
                 if (ps.ctp != null) {
+										 this.studysite = ps.pe.Study_Site__r;
                     if (ps.ctp.Terms_And_Conditions_ID__c != null) {
                         this.ctpId = ps.ctp.Id;
                         var tclink =
@@ -144,5 +149,11 @@ export default class PpCommunityFooter extends LightningElement {
     }
     get footerClass() {
         return this.isRTL ? 'rrc-footer rtl' : 'rrc-footer';
+    }
+    openContactSupportModal(){
+        this.showmodal = true;
+    }
+    handleModalClose(){
+        this.showmodal = false;
     }
 }

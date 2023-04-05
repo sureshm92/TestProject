@@ -2,6 +2,7 @@ import { LightningElement, api } from 'lwc';
 import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitData';
 import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
+import contact_support_icons from '@salesforce/resourceUrl/contact_support_icons';
 
 import desktopTemplate from './desktopTemplate.html';
 import mobileTemplate from './mobileTemplate.html';
@@ -14,6 +15,7 @@ import PPPARTICIPATIONCRITERIA from '@salesforce/label/c.PP_Participation_Criter
 import PPSTUDYELIGIBLECRITERIA from '@salesforce/label/c.PP_Participant_Study_Eligible_Criteria';
 import PPINCLUSIONCRITERIA from '@salesforce/label/c.PP_Inclusion_Criteria';
 import PPEXCLUSIONCRITERIA from '@salesforce/label/c.PP_Exclusion_Criteria';
+import PI_Post_Fix from '@salesforce/label/c.PP_PI_Post_Fix';
 
 export default class ProgramOverviewDetails extends LightningElement {
     label = {
@@ -23,7 +25,8 @@ export default class ProgramOverviewDetails extends LightningElement {
         PPPARTICIPATIONCRITERIA,
         PPSTUDYELIGIBLECRITERIA,
         PPINCLUSIONCRITERIA,
-        PPEXCLUSIONCRITERIA
+        PPEXCLUSIONCRITERIA,
+        PI_Post_Fix
     };
 
     programname;
@@ -32,6 +35,14 @@ export default class ProgramOverviewDetails extends LightningElement {
     activeTab = 'overview';
     homeSvg = rr_community_icons + '/' + 'icons.svg' + '#' + 'icon-home-pplite-new';
     ctpAccordionData;
+    phone_Icon = contact_support_icons+'/phone_Icon.svg';
+    pi_Icon = contact_support_icons+'/PI_icon.svg';
+    address_Icon = contact_support_icons+'/pin_Icon.svg';
+
+    piName;
+    studySitePhone;
+    siteName;
+    siteAddress;
 
     desktop = true;
     tabContent = true;
@@ -124,6 +135,18 @@ export default class ProgramOverviewDetails extends LightningElement {
                                 this.ctpAccordionData = ctpaccordionDatalist;
                                 this.showSpinner = false;
                             }
+                        }
+                        if(this.participantState.pe.Study_Site__r){
+                            this.piName = this.participantState.pe.Study_Site__r.Principal_Investigator__r.Name;
+                            console.log('piName--->'+this.piName);
+                            this.studySitePhone = this.participantState.pe.Study_Site__r.Study_Site_Phone__c;
+                            console.log('studySitePhone--->'+this.studySitePhone);
+                            this.siteName = this.participantState.pe.Study_Site__r.Site__r.Name;
+                            console.log('siteName--->'+this.siteName);
+                            this.siteAddress = this.participantState.pe.Study_Site__r.Site__r.BillingStreet + 
+                                            ',' + this.participantState.pe.Study_Site__r.Site__r.BillingCountryCode +
+                                            ' ' + this.participantState.pe.Study_Site__r.Site__r.BillingPostalCode;
+                            console.log('siteAddress--->'+this.siteAddress);
                         }
                     }
                 }
