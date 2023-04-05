@@ -69,10 +69,9 @@ export default class PpVisitResult extends LightningElement {
             }
             this.header = result.name;
             this.toolTipText = result.description;
+            let measurement = result.measurement != null ? result.measurement : '';
             this.actualResultValue =
-                result.value != null
-                    ? result.value + ' ' + result.measurement
-                    : visitResultNotAvailable;
+                result.value != null ? result.value + ' ' + measurement : visitResultNotAvailable;
         }
     }
 
