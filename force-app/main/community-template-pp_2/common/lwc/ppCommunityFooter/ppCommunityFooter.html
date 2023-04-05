@@ -1,6 +1,15 @@
 <template>
     <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner"></c-web-spinner>
+    <template if:true={showmodal}>
+        <c-pp-footer-contact-support
+            tittext={labels.CONTACT_SUPPORT}
+            onmodalclose={handleModalClose}
+						studysite={studysite}
+        >
+        </c-pp-footer-contact-support>
+    </template>
+
     <div class={footerClass}>
         <div class="cf-margin-cutter">
             <div class="cf-links">
@@ -16,18 +25,29 @@
                         </c-pp-footer-link>
                     </template>
                 </div>
-                 <!-- Your Privacy Choices-->
-                 <template if:true={isCPRAAvailable}>
-                <div class="cf-link">
-                        <c-pp-footer-link label={labels.CPRA_DoNotSell_PatientPortal} link={CPRALinkToredirect} iscpra-available={isCPRAAvailable}>
-                        </c-pp-footer-link> 
-                </div>
+                <!-- Your Privacy Choices-->
+                <template if:true={isCPRAAvailable}>
+                    <div class="cf-link">
+                        <c-pp-footer-link
+                            label={labels.CPRA_DoNotSell_PatientPortal}
+                            link={CPRALinkToredirect}
+                            iscpra-available={isCPRAAvailable}
+                        >
+                        </c-pp-footer-link>
+                    </div>
                 </template>
                 <!-- Terms Of Use-->
                 <div class="cf-link">
                     <template if:true={initialized}>
-                        <c-pp-footer-link label={termsOfUseLabel} link={tcLink}>
-                        </c-pp-footer-link>
+                        <c-pp-footer-link label={termsOfUseLabel} link={tcLink}> </c-pp-footer-link>
+                    </template>
+                </div>
+                <!-- Terms Of Use-->
+                <div class="cf-link">
+                    <template if:true={initialized}>
+                        <button class="contact-support-btn" onclick={openContactSupportModal}>
+                            {labels.CONTACT_SUPPORT}
+                        </button>
                     </template>
                 </div>
             </div>
