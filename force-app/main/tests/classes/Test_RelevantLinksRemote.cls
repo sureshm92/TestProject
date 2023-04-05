@@ -147,7 +147,7 @@ public class Test_RelevantLinksRemote {
 
         Test.startTest();
         System.runAs(td.participantUser) {
-            DataWrapper = RelevantLinksRemote.getDataWrapper();
+            DataWrapper = RelevantLinksRemote.getDataWrapper(true);
         }
         Test.stopTest();
         System.assertEquals(false, DataWrapper.resources[0].isFavorite);

@@ -107,7 +107,7 @@ public without sharing class RelevantLinksRemote {
     }
 
     @AuraEnabled
-    public static DataWrapper getDataWrapper() {
+    public static DataWrapper getDataWrapper(Boolean sortByCOI) {
         try {
             String contentType = ResourceService.RESOURCE_TYPE_RELEVANT_LINK;
             List<Id> COIsOfParticipant = new List<Id>();
@@ -179,9 +179,13 @@ public without sharing class RelevantLinksRemote {
                 ResourceService.ResourceWrapper rw = new ResourceService.ResourceWrapper(res);
                 platformResourceWrapper.add(rw);
             }
+            if (sortByCOI) {
+                studyResourceWrapper = ResourceService.sortResourcesByCOI(studyResourceWrapper);
+                platformResourceWrapper = ResourceService.sortResourcesByCOI(
+                    platformResourceWrapper
+                );
+            }
 
-            studyResourceWrapper = ResourceService.sortResourcesByCOI(studyResourceWrapper);
-            platformResourceWrapper = ResourceService.sortResourcesByCOI(platformResourceWrapper);
             DataWrapper.resources.addAll(studyResourceWrapper);
             DataWrapper.resources.addAll(platformResourceWrapper);
             return DataWrapper;

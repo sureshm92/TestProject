@@ -10,14 +10,19 @@ export default class PpInvalidResource extends LightningElement {
 
     connectedCallback() {
         if (this.resourceType == 'Article' || this.resourceType == 'Video') {
-            showButton = false;
+            this.showButton = false;
         }
     }
 
     get cardStyle() {
         return this.resourceType == 'Article' || this.resourceType == 'Video'
-            ? 'card-container medium'
-            : 'card-container elongate';
+            ? 'slds-grid slds-grid_vertical slds-grid_vertical-align-center card-container medium'
+            : 'slds-grid slds-grid_vertical slds-grid_vertical-align-center slds-grid_align-center card-container elongate';
+    }
+    get imageStyle() {
+        return this.resourceType == 'Article' || this.resourceType == 'Video'
+            ? 'slds-col slds-m-top_x-large'
+            : 'slds-col';
     }
 
     handleViewResources() {

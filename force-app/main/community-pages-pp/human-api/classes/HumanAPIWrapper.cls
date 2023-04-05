@@ -10,5 +10,7 @@ public class HumanAPIWrapper {
     public String communityName;
     @AuraEnabled
     public String currentPerStatus = 'PARTICIPANT';
+    @AuraEnabled
+    public Boolean iscurrentPresent = false;
     
 }

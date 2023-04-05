@@ -94,7 +94,7 @@
     <!--Task detail page-->
     <template if:false={ishomepage}>
         <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-stretch">
-            <div class="slds-col slds-large-size--2-of-3 slds-size_1-of-1">
+            <div class="slds-col slds-size_1-of-1 task-panel_left">
                 <!-- Loading Spinner-->
                 <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
                 <div class={cardRTL}>
@@ -275,11 +275,12 @@
                     </div>
                 </div>
             </div>
-            <div class="slds-col slds-large-size--1-of-3 slds-size_1-of-1 divider">
-                <c-pp-medical-record-retrieval-panel
-                    participant-state={participantState}
-                ></c-pp-medical-record-retrieval-panel>
-            </div>
+            <div class="slds-col slds-large-size--1-of-3 slds-size_1-of-1 task-panel_right">
+
+                <c-pp-medical-record-retrieval-panel onsuccessload={handleLoad}
+                                                     oncardremove={handleCardRemove}></c-pp-medical-record-retrieval-panel>
+      
+          </div>
         </div>
     </template>
 </template>

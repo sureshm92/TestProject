@@ -27,7 +27,9 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                     Participant__r.Contact__r.Resource_Notifications__c,
                     Participant__r.Contact__r.Third_Choice_Language__c,
                     Participant__r.Contact__r.Second_Choice_Language__c,
-                    Participant__r.Contact__r.Language__c
+                    Participant__r.Contact__r.Language__c,
+                    Participant__r.Has_Studies_In_Progress__c,
+                    Participant__r.Has_Past_Studies__c
                 FROM Therapeutic_Area_Patient__c
                 WHERE
                     Participant__r.Contact__r.userCommunityMode__c = 'Participant'
@@ -43,21 +45,10 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
         List<Notification__c> notificationsList = new List<Notification__c>();
 
         List<Id> participantContactIds = new List<Id>();
-        Map<Id, Integer> contactPeMap = new Map<Id, Integer>();
         for (Therapeutic_Area_Patient__c tap : therapeuticAreaPatientsList) {
             if (!tap.Participant__r.Contact__r.UserCommunityIsDelegate__c) {
                 participantContactIds.add(tap.Participant__r.Contact__c);
             }
-        }
-        for (AggregateResult aggre : [
-            SELECT Participant__r.Contact__c contactId, Count(Id) counterr
-            FROM Participant_Enrollment__c
-            WHERE
-                Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_ALUMNI
-                AND Participant__r.Contact__c = :participantContactIds
-            GROUP BY Participant__r.Contact__c
-        ]) {
-            contactPeMap.put((Id) aggre.get('contactId'), (Integer) aggre.get('counterr'));
         }
         for (Therapeutic_Area_Patient__c tap : therapeuticAreaPatientsList) {
             Contact currentContact;
@@ -76,28 +67,29 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                 Batch_CreatePlatformResourceNotification.ThereaputicAreaLang therapeuticAreaLang = resWithTherapeuticAreasMap.get(
                     resourceId
                 );
-                if (
-                    currentContact.Resource_Notifications__c == null ||
-                    !currentContact.Resource_Notifications__c.contains(resourceId)
-                ) {
-                    notifyUser = true;
+                if (therapeuticAreaLang.therapeuticAreaIds.contains(tap.Therapeutic_Area__c)) {
+                    if (
+                        currentContact.Resource_Notifications__c == null ||
+                        !currentContact.Resource_Notifications__c.contains(resourceId)
+                    ) {
+                        notifyUser = true;
+                    }
                 }
                 if (notifyUser) {
+                    notifyUser = false;
                     if (
-                        (therapeuticAreaLang.contentClass == 'Platform-TA' &&
-                        contactPeMap.get(tap.Participant__r.Contact__c) == null)
+                        therapeuticAreaLang.contentClass == 'Platform-TA' &&
+                        tap.Participant__r.Has_Studies_In_Progress__c
                     ) {
                         notifyUser = true;
-                    }
-                    if (
-                        therapeuticAreaLang.contentClass == '3rd Party' &&
-                        (tap.Participant__r.Contact__r.UserCommunityIsDelegate__c ||
-                        contactPeMap.get(tap.Participant__r.Contact__c) != null)
+                    } else if (
+                        (therapeuticAreaLang.contentClass == '3rd Party' ||
+                        therapeuticAreaLang.resourceType == 'Relevant_Link') &&
+                        !tap.Participant__r.Has_Studies_In_Progress__c
                     ) {
                         notifyUser = true;
                     }
                 }
-
                 if (
                     notifyUser &&
                     ((therapeuticAreaLang.langCodeList.contains(
