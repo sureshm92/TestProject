@@ -14,8 +14,8 @@ import Need_Tech_Support from '@salesforce/label/c.PP_Need_Tech_Support';
 import If_You_Exp_Issue from '@salesforce/label/c.PP_If_You_Exp_Issue';
 import supportEmail from '@salesforce/label/c.PG_Unable_To_Login_L6';
 
-import DesktopTemplate from './DesktopTemplate.html';
-import MobileTemplate from './MobileTemplate.html';
+import DesktopTemplate from './ppFooterContactSupportDesktop.html';
+import MobileTemplate from './ppFooterContactSupportMobile.html';
 
 export default class PpFooterContactSupport extends LightningElement {
     label = {
