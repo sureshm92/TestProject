@@ -24,7 +24,7 @@
     text-align: center;
 }
 
-.button-confirm {
+.button-delete {
     justify-content: center;
     width: 107px;
     height: 2.5rem;
@@ -35,6 +35,6 @@
     line-height: 1.3125rem;
     text-align: center;
     border-radius: 1.25rem;
-    background-color: #0768fd;
-    box-shadow: 0 4px 8px 0 rgb(7 104 253 / 25%);
+    background-color: #e20000;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(226, 0, 0, 0.16);
 }
