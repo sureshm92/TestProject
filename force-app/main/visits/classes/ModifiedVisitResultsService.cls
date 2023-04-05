@@ -102,10 +102,27 @@ public inherited sharing class ModifiedVisitResultsService {
         ) {
             return false;
         } else {
-            for (Integer i = 0; i < patientVisitList.size(); i++) {
-                if (patientVisitList[i].Id == patientVisitId) {
+            /*show visits when ctpSharingTiming is more than or equal to total patient visits or ctpSharingTiming is 0*/
+            if (ctpSharingTiming == 0) {
+                return true;
+            }
+            List<Patient_Visit__c> completedPatientVisitsList = new List<Patient_Visit__c>();
+            for (Patient_Visit__c pv : patientVisitList) {
+                if (pv.Status__c == 'Completed') {
+                    completedPatientVisitsList.add(pv);
+                }
+            }
+            /*check if completed visits are less than or equal to ctpSharingTiming*/
+            if (completedPatientVisitsList.size() <= ctpSharingTiming) {
+                return false;
+            }
+            /*check the position of current patientvisit in completed visit list*/
+            for (Integer i = 0; i < completedPatientVisitsList.size(); i++) {
+                if (completedPatientVisitsList[i].Id == patientVisitId) {
                     Integer patientVisitPosition = i + 1;
-                    if (patientVisitPosition > ctpSharingTiming) {
+                    Integer ctpSharingDifference =
+                        completedPatientVisitsList.size() - ctpSharingTiming;
+                    if (patientVisitPosition <= ctpSharingDifference) {
                         return true;
                     } else {
                         return false;
@@ -130,11 +147,9 @@ public inherited sharing class ModifiedVisitResultsService {
             return new List<Patient_Visit__c>();
 
         return [
-            SELECT Id, Completed_Date__c, Visit_Number__c
+            SELECT Id, Completed_Date__c, Visit_Number__c, Status__c
             FROM Patient_Visit__c
-            WHERE
-                Participant_Enrollment__c = :ParticipantContext.getCurrentPEId()
-                AND Status__c = 'Completed'
+            WHERE Participant_Enrollment__c = :ParticipantContext.getCurrentPEId()
             ORDER BY Visit_Number__c, Completed_Date__c
         ];
     }

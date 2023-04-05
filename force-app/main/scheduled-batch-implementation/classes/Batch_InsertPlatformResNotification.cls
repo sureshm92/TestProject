@@ -83,7 +83,8 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                     ) {
                         notifyUser = true;
                     } else if (
-                        therapeuticAreaLang.contentClass == '3rd Party' &&
+                        (therapeuticAreaLang.contentClass == '3rd Party' ||
+                        therapeuticAreaLang.resourceType == 'Relevant_Link') &&
                         !tap.Participant__r.Has_Studies_In_Progress__c
                     ) {
                         notifyUser = true;
