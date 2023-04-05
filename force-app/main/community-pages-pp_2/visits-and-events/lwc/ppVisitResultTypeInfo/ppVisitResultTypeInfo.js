@@ -62,6 +62,7 @@ export default class PpVisitResultTypeInfo extends LightningElement {
     isVitalsAvailable = false;
     isLabsAvailable = false;
     isBiomarkersAvailable = false;
+    isVisitResultsAvaliable;
 
     get isDesktop() {
         return FORM_FACTOR === 'Large' ? true : false;
@@ -189,6 +190,12 @@ export default class PpVisitResultTypeInfo extends LightningElement {
         }
     }
 
+    get containerClassDesktop() {
+        return this.isVisitResultsAvaliable == true
+            ? 'height-container-with-result'
+            : 'height-container-with-out-result';
+    }
+
     handleVRToggle(event) {
         this.showSpinner = true;
         modifiedSwitchToggleRemote({
@@ -214,6 +221,10 @@ export default class PpVisitResultTypeInfo extends LightningElement {
 
     handleVRTypeChange(event) {
         this.selectedResultType = event.detail;
+    }
+    handleResultAvailability(event) {
+        console.log('JJ' + event.detail);
+        this.isVisitResultsAvaliable = event.detail;
     }
 
     showErrorToast(titleText, messageText, variantType) {
