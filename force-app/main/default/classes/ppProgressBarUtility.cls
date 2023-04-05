@@ -87,7 +87,7 @@ public without sharing class ppProgressBarUtility {
 
     public static parentWrapper generateVisitData(String peId, parentWrapper pw, Boolean isProgram, Boolean setMotivationMsg, Participant_Enrollment__c pe){
         List<Patient_Visit__c> patientVisits = [select Id,Visit__r.Visit_Description__c, Visit__r.Motivational_Message__c,Visit__r.Patient_Portal_Name__c ,Completed_Date__c,Status__c 
-                    from Patient_Visit__c where Participant_Enrollment__c =:peId  order by Visit__r.Visit_Number__c]; 
+                    from Patient_Visit__c where Participant_Enrollment__c =:peId  order by Visit_Number__c ,Visit__r.Visit_Number__c]; 
         
         pw.isEvent = isProgram;
         Integer count = 1; 
