@@ -60,14 +60,14 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                     this.displayCounter = true;
                     this.counterLabel = '99+';
                     this.resourcePresent = true;
-                }else if(this.counter <= 0){
+                } else if (this.counter <= 0) {
                     this.resourcePresent = false;
                     this.displayCounter = false;
                 }
                 this.getUpdates();
             })
             .catch((error) => {
-                console.log('error message : '+error?.message);
+                console.log('error message : ' + error?.message);
                 this.spinner.hide();
             });
     }
@@ -101,7 +101,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.spinner.hide();
             })
             .catch((error) => {
-                console.log('error message : '+error?.message);
+                console.log('error message : ' + error?.message);
                 this.spinner.hide();
             });
     }
@@ -151,7 +151,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.resourcedData = [];
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
-            this.initializeData(); 
+            this.initializeData();
         }, 1000);
     }
 

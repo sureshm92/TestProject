@@ -6,9 +6,6 @@
 .card-wrap {
     padding: 0;
 }
-.refresh_icon {
-    height: 25px;
-}
 .updates {
     color: #444444;
     font-size: 24px;
@@ -179,13 +176,13 @@
 }
 .refresh-text {
     color: #015ff1;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: 600;
 }
 .refresh-icon {
     margin-left: 8px;
     height: 16px;
-    width: 18px;
+    margin-right: 8px;
 }
 .pointer-class {
     cursor: pointer;
