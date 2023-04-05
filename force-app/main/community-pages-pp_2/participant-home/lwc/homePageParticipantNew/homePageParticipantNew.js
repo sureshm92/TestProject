@@ -43,6 +43,7 @@ export default class HomePageParticipantNew extends LightningElement {
     isUpcomingVisitDetails;
     isUpcomingTelevisitVisitDetails;
     marginbottom = '';
+    studysite;
 
 
     get showProgramOverview() {
@@ -112,6 +113,7 @@ export default class HomePageParticipantNew extends LightningElement {
                     }
                     if (this.participantState.pe) {
                         if (this.participantState.pe.Clinical_Trial_Profile__r) {
+                            this.studysite = this.participantState.pe.Study_Site__r;
                             this.clinicalrecord =
                                 this.participantState.pe.Clinical_Trial_Profile__r;
                             // Check if Program toggle is or study workspcae on ctp

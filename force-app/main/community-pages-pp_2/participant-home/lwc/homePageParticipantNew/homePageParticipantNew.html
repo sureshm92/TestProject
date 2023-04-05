@@ -14,11 +14,13 @@
                             <template if:true={isProgram}>
                                 <c-program-overview
                                     clinicalrecord={clinicalrecord}
+                                    studysite={studysite}
                                 ></c-program-overview>
                             </template>
                             <template if:false={isProgram}>
                                 <c-study-overview
                                     clinicalrecord={clinicalrecord}
+                                    studysite={studysite}
                                 ></c-study-overview>
                             </template>
                         </template> 
@@ -129,11 +131,14 @@
                                 <template if:true={isProgram}>
                                     <c-program-overview
                                         clinicalrecord={clinicalrecord}
+                                        studysite={studysite}
                                     ></c-program-overview>
                                 </template>
                                 <template if:false={isProgram}>
                                     <div class="vl"></div>
-                                    <c-study-overview clinicalrecord={clinicalrecord}>
+                                    <c-study-overview 
+                                        clinicalrecord={clinicalrecord}
+                                        studysite={studysite}>
                                     </c-study-overview>
                                 </template>
                             </template>

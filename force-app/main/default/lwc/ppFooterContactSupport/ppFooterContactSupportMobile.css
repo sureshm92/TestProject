@@ -1,0 +1,183 @@
+.mainContainer {
+    /* height: 313.68px; */
+}
+
+.study-program-support {
+    height: 22px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+
+.siteIcon {
+    height: 26.67px;
+    width: 20px;
+    margin-bottom: 12.12px;
+}
+
+.for-questions-about {
+    height: 24px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 17px;
+    margin-bottom: 19px;
+}
+
+.mainContainer2 {
+    min-height: 207.37px;
+}
+
+.subHeaders {
+    height: 17px;
+    color: #757575;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    line-height: 16px;
+}
+
+.marginLeft-16 {
+    margin-left: 16px;
+}
+
+.marginTop-16 {
+    margin-top: 16px;
+}
+.marginTop-8 {
+    margin-top: 8px;
+}
+.marginBottom-4 {
+    margin-bottom: 4.4px;
+}
+
+.marginBottom-8 {
+    margin-bottom: 8.3px;
+}
+
+.marginBottom-12 {
+    margin-bottom: 12.12px;
+}
+
+.marginBottom-16 {
+    margin-bottom: 16.6px;
+}
+
+.mob-phoneContainer {
+    height: 72.13px;
+    /* width: 302px; */
+    border-radius: 8px;
+    background-color: #f2f2f2;
+    margin-bottom: 8.02px;
+}
+
+.mob-addressContainer {
+    height: auto;
+    /* width: 334px; */
+    border-radius: 8px;
+    background-color: #f2f2f2;
+    margin-bottom: 8px;
+    padding-bottom: 16px;
+}
+
+.mob-careTeamContainer {
+    height: auto;
+    /* width: 302px; */
+    border-radius: 8px;
+    background-color: #f2f2f2;
+    padding-bottom: 4px;
+    margin-bottom: 24px;
+}
+
+.mob-needSupport {
+    height: 24px;
+    /* width: 618px; */
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-bottom: 4px;
+}
+
+.mob-needSupport2 {
+    height: 63px;
+    /* width: 618px; */
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 21px;
+}
+
+.mob-ph-content1 {
+    height: 19px;
+    width: 109px;
+    color: #015ff1;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 17px;
+}
+
+.mob-ss-content1 {
+    height: auto;
+    /* width: 148px; */
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 17px;
+}
+
+.mob-addr-content1 {
+    height: auto;
+    /* width: 222px; */
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 21px;
+    color: #015ff1;
+}
+
+.addressContent {
+    /* height: 48px; */
+    height: auto;
+    /* width: 222px; */
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 21px;
+    /* overflow-y: auto; */
+    width: 100%;
+}
+
+.mob-support-Email {
+    /* font: 'Proxima Nova Semibold'; */
+    font-weight: 600;
+    color: #015ff1;
+}
+
+.textarea-style {
+    height: 1px;
+    width: 1px;
+    z-index: -1;
+    position: absolute;
+}
+
+.site-staff-container {
+    /* overflow-y: auto;
+    height: 116px; */
+    width: 100%;    
+    padding-right: 10px;
+}
