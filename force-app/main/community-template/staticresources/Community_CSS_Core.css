@@ -2015,4 +2015,7 @@ outline: none !important;
 .manage-delegate-acc-setting-old .study-box{
     height: 40px !important;
 }
+.manage-delegate-acc-setting-old .check-box-label-class input:focus {
+    box-shadow: none !important
+}
 /* Delegate redesing - Chages-  Ends */
