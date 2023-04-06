@@ -343,11 +343,11 @@ public without sharing class UpdateService {
         @AuraEnabled
         public String sendResultId;
     }
-    public void updateNotificationsStatus(List<String> targetRecordIds) {
+    public void updateNotificationsStatus(List<Id> notificationIds) {
         List<Notification__c> notifications = [
             SELECT Id, (SELECT Id, Status__c FROM Send_Results__r)
             FROM Notification__c
-            WHERE Target_Record_Ids__c like : targetRecordIds
+            WHERE id in : notificationIds
         ];
         for (Notification__c n : notifications) {
             if (n.Send_Results__r.isEmpty())
