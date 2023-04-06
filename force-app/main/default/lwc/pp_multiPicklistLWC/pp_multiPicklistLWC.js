@@ -219,12 +219,21 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         let studyOpts = [];
         let checkedCount = 0;
         for (var i = 0; i < opts.length; i++) {
+            let query = '[data-labelid="' + opts[i].value + '"]';
+            let studylebelElement = this.template.querySelector(query);
             if (opts[i].checked) {
                 tempList.push({ label: opts[i].name, value: opts[i].value });
                 studyOpts.push(opts[i].value);
                 //Store First Threventee selected Studies in separate List.
                 if (tempFirstThreeList.length <= 2) {
                     tempFirstThreeList.push({ label: opts[i].name, value: opts[i].value });
+                }
+                //make Selected chekboxes bold
+                studylebelElement.classList.add('text-checked-bold');
+            } else {
+                //Remove bold if checkbox is deselected
+                if (studylebelElement.classList.contains('text-checked-bold')) {
+                    studylebelElement.classList.remove('text-checked-bold');
                 }
             }
         }
@@ -237,10 +246,10 @@ export default class Pp_multiPicklistLWC extends LightningElement {
             //make the Study lable bold/unbold.
             // if (checked) {
             //     studylebelElement.classList.add('text-checked-bold');
-            //     spanlebelElement.classList.add('text-checked-bold');
+            //     // spanlebelElement.classList.add('text-checked-bold');
             // } else if (studylebelElement.classList.contains('text-checked-bold')) {
             //     studylebelElement.classList.remove('text-checked-bold');
-            //     spanlebelElement.classList.remove('text-checked-bold');
+            //     // spanlebelElement.classList.remove('text-checked-bold');
             // }
 
             // let spanElements = this.template.querySelectorAll('.labelForOptions');
