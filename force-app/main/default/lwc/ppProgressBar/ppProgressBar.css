@@ -285,3 +285,15 @@ c-pp-modal .close-cursor {
         width: 32%;
     }
 }
+@media all and (max-width: 1038px) and (min-width: 1024px) {
+    .rightText{
+        width: unset;
+    }
+    .rightImg{
+        width: 100%;
+        text-align: end;
+    }
+    .rightImg img {
+        width: 32%;
+    }
+}
