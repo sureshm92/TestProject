@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="20px" viewBox="0 0 14 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>phone copy</title>
+    <defs>
+        <path d="M7,0 C3.13580582,0.00413323519 0.00433989898,2.98648034 0,6.66666354 C0,9.59166217 4.375,16.6874922 6.2545,19.6033241 C6.41378368,19.8498977 6.6960235,20 7,20 C7.30455306,20.0013698 7.58753973,19.8504817 7.7455,19.6024908 C9.625,16.6883255 14,9.5949955 14,6.66666354 C13.9956601,2.98648034 10.8641942,0.00413323519 7,0 Z M7,10 C5.34314575,10 4,8.65685425 4,7 C4,5.34314575 5.34314575,4 7,4 C8.65685425,4 10,5.34314575 10,7 C10,8.65685425 8.65685425,10 7,10 Z" id="path-1"></path>
+    </defs>
+    <g id="---↳--Adding-Site-Contact-Information" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="PP-Lite---About-the-Study---Dektop-1-Copy-3" transform="translate(-254.000000, -270.000000)">
+            <g id="Group-12-Copy" transform="translate(32.000000, 244.000000)">
+                <g id="Group-10" transform="translate(24.000000, 24.000000)">
+                    <g id="Group-36-Copy" transform="translate(193.000000, 0.000000)">
+                        <g id="phone-copy" transform="translate(5.000000, 2.000000)">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <use id="icon-color" fill="#10558A" xlink:href="#path-1"></use>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

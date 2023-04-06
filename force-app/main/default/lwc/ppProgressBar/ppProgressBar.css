@@ -268,6 +268,7 @@ c-pp-modal .close-cursor {
     }
     .iconCont{
         padding: 0px;
+        display: block;
     } 
     .rightImg{
         text-align: right;
