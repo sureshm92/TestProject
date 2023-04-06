@@ -62,7 +62,6 @@ export default class PpAccountSettings extends LightningElement {
             .then(() => {
                 this.spinner = this.template.querySelector('c-web-spinner');
                 this.spinner.show();
-                this.displayManageDelegates();
                 this.initializeData();
                 this.isMobile ? (this.isDesktopFlag = false) : (this.isDesktopFlag = true);
             })
@@ -181,6 +180,7 @@ export default class PpAccountSettings extends LightningElement {
                         value: 'medRecAccess'
                     });
                 }
+                this.displayManageDelegates();
                 initialData.password = {
                     old: '',
                     new: '',
