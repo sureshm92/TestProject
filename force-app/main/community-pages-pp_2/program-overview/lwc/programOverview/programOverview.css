@@ -11,7 +11,7 @@
 }
 
 .po-custom-card-mobile {
-    height: 64px;
+    height: 114px; /* 64px */
     background-color: #fff;
     font-family: Proxima Nova Medium;
 }
@@ -51,10 +51,12 @@
     color: #0768fd;
     line-height: 24px;
     cursor: pointer;
+    /*PEH-11588*/
+    padding-top: 10px;
 }
 
 .po-more-text {
-    border-bottom: 1px dotted #0768fd;
+    /* border-bottom: 1px dotted #0768fd; */
     height: 24px;
     width: 162px;
     color: #0768fd;
@@ -71,4 +73,53 @@
 
 .borderRight {
     border-right: 1px solid #e9e9e9;
+}
+
+/*PEH-11588*/
+.li3 {
+    display: table-row;
+}
+
+.piPhone {
+    height: 17px;
+    /*width: 96px;*/
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+
+.piName {
+    min-height: 17px;
+    width: 129px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 16px;
+    padding-top: 10px;
+}
+
+.phoneIcon {
+    height: 13.33px;
+    width: 13.33px;
+    margin-right: 10px;
+}
+
+.piIcon {
+    height: 13.33px;
+    width: 12px;
+    margin-right: 12px;
+}
+
+.piNameText {
+    width: 199px;
+    word-wrap: break-word;
+}
+
+.piIcon-li {
+    margin-right: 10px;
 }

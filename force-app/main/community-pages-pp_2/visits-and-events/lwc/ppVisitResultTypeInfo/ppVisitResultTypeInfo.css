@@ -112,6 +112,9 @@
 }
 
 .height-container-with-result {
+    min-height: 100%;
+}
+.height-container-with-out-result {
     min-height: 493px;
 }
 

@@ -69,19 +69,19 @@ export default class PpVisitResult extends LightningElement {
             }
             this.header = result.name;
             this.toolTipText = result.description;
+            let measurement = result.measurement != null ? result.measurement : '';
             this.actualResultValue =
-                result.value != null
-                    ? result.value + ' ' + result.measurement
-                    : visitResultNotAvailable;
+                result.value != null ? result.value + ' ' + measurement : visitResultNotAvailable;
         }
     }
+
     roundValue(value) {
         return +(Math.round(value + 'e+4') + 'e-4');
     }
     getExpectedRange(result) {
         let expectedRange;
         if (this.minValue != null && this.maxValue != null) {
-            expectedRange = this.minValue + '-' + this.maxValue;
+            expectedRange = this.minValue + '\u2013' + this.maxValue;
         } else if (this.minValue != null) {
             expectedRange = '> ' + this.minValue;
         } else {
