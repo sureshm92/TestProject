@@ -15,7 +15,9 @@
                 <template if:false={ICOSRelatedResults}>
                     <div class={actualValueClass}>{biomarkerResult}</div>
                     <template lwc:if={showExpectedRange}>
-                        <div class="expected-range">{expectedRange}</div>
+                        <div class="expected-range">
+                            {expectedRange}&nbsp;&nbsp;&nbsp;&nbsp;{label.Biomarkers_Expected_Range}
+                        </div>
                     </template>
                 </template>
             </div>
@@ -31,7 +33,9 @@
                 </div>
                 <div class={actualValueClass}>{actualResultValue}</div>
                 <template lwc:if={showExpectedRange}>
-                    <div class="expected-range">{expectedRange}</div>
+                    <div class="expected-range">
+                        {expectedRangeLabel}&nbsp;&nbsp;&nbsp;&nbsp;{expectedRange}
+                    </div>
                 </template>
             </div>
         </template>
