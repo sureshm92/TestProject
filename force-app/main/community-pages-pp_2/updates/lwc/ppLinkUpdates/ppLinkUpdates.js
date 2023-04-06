@@ -2,7 +2,6 @@ import { LightningElement, api } from 'lwc';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import helpfulLinks from '@salesforce/label/c.Helpful_Links';
 import Open_In_New_Tab from '@salesforce/label/c.PP_Open_In_New_Tab';
-import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 import { NavigationMixin } from 'lightning/navigation';
 export default class PpLinkUpdates extends NavigationMixin(LightningElement) {
     @api linkData;
@@ -37,11 +36,9 @@ export default class PpLinkUpdates extends NavigationMixin(LightningElement) {
         });
     }
     removeCardHandler() {
-        const targetRecId = this.linkData.targetRecordId;
-        removeCard({ targetRecordId: targetRecId })
-            .then((returnValue) => {})
-            .catch((error) => {
-                console.log('error message ' + error?.message);
-            });
+        const removeCardEvent = new CustomEvent('removecard', {
+            detail: { sendResultId: this.linkData.sendResultId }
+        });
+        this.dispatchEvent(removeCardEvent);
     }
 }
