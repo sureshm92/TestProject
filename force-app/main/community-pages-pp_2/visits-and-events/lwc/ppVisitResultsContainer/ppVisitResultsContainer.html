@@ -15,9 +15,11 @@
                                 ></c-pp-visit-result>
                             </div>
                         </template>
-                        <div class="more-results">
-                            <template if:true={showMoreResults}>{showMoreText}</template>
-                        </div>
+                        <template lwc:if={showMoreResults}>
+                            <div class="more-results slds-p-around_medium slds-text-align_center">
+                                {showMoreText}
+                            </div>
+                        </template>
                     </div>
                 </template>
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
@@ -48,9 +50,11 @@
                                 ></c-pp-visit-result>
                             </div>
                         </template>
-                        <div class="more-results">
-                            <template if:true={showMoreResults}>{showMoreText}</template>
-                        </div>
+                        <template lwc:if={showMoreResults}>
+                            <div class="more-results slds-p-around_medium slds-text-align_center">
+                                {showMoreText}
+                            </div>
+                        </template>
                     </div>
                 </template>
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
@@ -79,9 +83,11 @@
                                 ></c-pp-visit-result>
                             </div>
                         </template>
-                        <div class="more-results">
-                            <template if:true={showMoreResults}>{showMoreText}</template>
-                        </div>
+                        <template lwc:if={showMoreResults}>
+                            <div class="more-results slds-p-around_medium slds-text-align_center">
+                                {showMoreText}
+                            </div>
+                        </template>
                     </div>
                 </template>
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
