@@ -172,6 +172,7 @@ export default class PpAccountSettings extends LightningElement {
         getInitData()
             .then((result) => {
                 let initialData = JSON.parse(result);
+                this.initData = initialData;
                 this.medicalRecordVendorToggle = communityService.getParticipantData().ctp
                     ? communityService.getParticipantData().ctp.Medical_Vendor_is_Available__c
                     : false;
