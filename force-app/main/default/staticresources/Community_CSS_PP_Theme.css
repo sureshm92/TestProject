@@ -1576,5 +1576,7 @@ svg:not(:root) {
 .contact-support-popup .slds-modal__container{
     height: auto;
 }
-
+.update-container .rr-spinner{
+    background-color: transparent;
+}
 /* Contact support Modal css- Ends */
