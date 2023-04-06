@@ -35,6 +35,13 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         refresh
     };
     timer;
+    get countStyle() {
+        if (this.counter >= 100) {
+            return 'update-count-2';
+        } else {
+            return 'update-count-1';
+        }
+    }
 
     renderedCallback() {
         if (!this.isRendered) {
@@ -166,9 +173,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         );
     }
     handleRemoveCard(event) {
-        console.log();
         const sendResultId = event.detail.sendResultId;
-        console.log('sendResultId : ' + sendResultId);
         removeCard({ sendResultId: sendResultId })
             .then((returnValue) => {})
             .catch((error) => {
