@@ -23,3 +23,10 @@
     text-align: center;
     padding-bottom: 5.625rem;
 }
+.no-result-image {
+    height: 4.84rem;
+    width: 5.69rem;
+}
+.loading-container {
+    height: 298px;
+}
