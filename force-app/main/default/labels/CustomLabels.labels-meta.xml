@@ -19800,7 +19800,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_ContactInfo_Change</shortDescription>
         <value>You will be able to change your Contact Information from your Account Settings at all times.</value>
     </labels>
-    <labels> 
+    <labels>
         <fullName>PP_Delegate_Email_Consent_1</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21209,7 +21209,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP ProgressBar No Visit</shortDescription>
-        <value>No Visits are assigned to your study site.</value>
+        <value>Visit plan is currently unavailable.</value>
     </labels>
     <labels>
         <fullName>PP_ProgramOverview_LearnMore_Desktop</fullName>
@@ -21594,7 +21594,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Studies Program</shortDescription>
-        <value>Study/Program Suppor</value>
+        <value>Study/Program Support</value>
     </labels>
     <labels>
         <fullName>PP_StudyOverview_LearnMore_Mobile</fullName>
@@ -30860,7 +30860,7 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>weekly task error</shortDescription>
         <value>Cannot set yearly task for these dates.</value>
     </labels>
-        <labels>
+    <labels>
         <fullName>Show_Vitals</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -30937,7 +30937,7 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>PP_Visit_Result_Value_Not_Available</shortDescription>
         <value>Not available</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_More_Results</fullName>
         <language>en_US</language>
         <protected>true</protected>

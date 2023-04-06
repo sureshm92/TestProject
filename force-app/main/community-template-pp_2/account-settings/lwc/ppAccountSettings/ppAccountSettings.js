@@ -45,7 +45,6 @@ export default class PpAccountSettings extends LightningElement {
         MANAGE_DELEGATES,
         MANAGE_ASSIGNMENTS,
         STUDIES_AND_PROGRAM_PP
-
     };
 
     navHeadersList = [
@@ -63,6 +62,7 @@ export default class PpAccountSettings extends LightningElement {
             .then(() => {
                 this.spinner = this.template.querySelector('c-web-spinner');
                 this.spinner.show();
+                this.displayManageDelegates();
                 this.initializeData();
                 this.isMobile ? (this.isDesktopFlag = false) : (this.isDesktopFlag = true);
             })
@@ -161,17 +161,17 @@ export default class PpAccountSettings extends LightningElement {
     get showMedicalRecordAccess() {
         return this.componentId === 'medRecAccess' ? true : false;
     }
-    get showManageDelegates(){
+    get showManageDelegates() {
         return this.componentId === 'manage-delegates' ? true : false;
     }
-    get showManageAssignments(){
+    get showManageAssignments() {
         return this.componentId === 'manage-assignmens' ? true : false;
     }
-
     initializeData() {
         getInitData()
             .then((result) => {
                 let initialData = JSON.parse(result);
+                this.initData = initialData;
                 this.medicalRecordVendorToggle = communityService.getParticipantData().ctp
                     ? communityService.getParticipantData().ctp.Medical_Vendor_is_Available__c
                     : false;
@@ -179,52 +179,6 @@ export default class PpAccountSettings extends LightningElement {
                     this.navHeadersList.push({
                         label: MEDICAL_RECORD_ACCESS,
                         value: 'medRecAccess'
-                    });
-                }
-                var isParticipantLoggedIn = initialData.consentPreferenceData.isParticipantLoggedIn;
-                var isDelegateSelfView = initialData.consentPreferenceData.isDelegateSelfView;
-                var isDelegateAlsoAParticipant =
-                initialData.consentPreferenceData.isDelegateAlsoAParticipant;
-                var isActiveDelegate = initialData.consentPreferenceData.isActiveDelegate;
-                var showManageDelegateTab = false;
-                var showMamanageAssignmentTab = false;
-
-                this.initData = initialData;
-                //When delegate switch to participant View, Don't show Manage Delegate as well as Manage Assignment tabs.
-                if (this.isDelegate) {
-                   showManageDelegateTab = false;
-                   showMamanageAssignmentTab = false;
-                } else {
-                    if (isParticipantLoggedIn && !isDelegateAlsoAParticipant) {
-                        //When Pure Participant Logs in, Show only Manage Delegate Tab.
-                        showManageDelegateTab= true;
-                        showMamanageAssignmentTab = false;
-                    } else if (isParticipantLoggedIn && isDelegateAlsoAParticipant) {
-                        //When Participant(also a delegate) Logs in, Show both Manage Delegate and Manage Assignment Tabs.
-                        showManageDelegateTab= true;
-                        //When delegate is active delegate.
-                        if (isActiveDelegate) {
-                            showMamanageAssignmentTab= true;
-                        } else {
-                            showMamanageAssignmentTab = false;
-                        }
-                    } else if (isDelegateSelfView && isActiveDelegate) {
-                        //When pure delegate login to Self View, show only Manage Assignment tab.
-                       showManageDelegateTab = false;
-                       showMamanageAssignmentTab= true;
-                    }
-                }
-
-                if (showManageDelegateTab) {
-                    this.navHeadersList.push({
-                        label: MANAGE_DELEGATES,
-                        value: 'manage-delegates'
-                    });
-                }
-                if (showMamanageAssignmentTab) {
-                    this.navHeadersList.push({
-                        label: MANAGE_ASSIGNMENTS,
-                        value: 'manage-assignmens'
                     });
                 }
                 initialData.password = {
@@ -245,6 +199,68 @@ export default class PpAccountSettings extends LightningElement {
             .catch((error) => {
                 this.showToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
+    }
+    displayManageDelegates() {
+        let isDelegateSwitchingToParView = false;
+        let showManageDelegateTab = false;
+        let showMamanageAssignmentTab = false;
+        let isDelSelfView =
+            communityService.getParticipantData().value == 'ALUMNI' ||
+            (communityService.getParticipantData().hasPatientDelegates &&
+                !communityService.getParticipantData().isDelegate &&
+                !communityService.getParticipantData().pe);
+        let allUserModes = communityService.getAllUserModes();
+        //Delegate switched to Par View
+        if (communityService.getCurrentCommunityMode().currentDelegateId) {
+            isDelegateSwitchingToParView = true;
+            showMamanageAssignmentTab = false;
+            showManageDelegateTab = false;
+        }
+        //Del Self View
+        else if (isDelSelfView) {
+            showMamanageAssignmentTab = true;
+            showManageDelegateTab = false;
+        }
+        //Pure Participant Login
+        else if (
+            !isDelegateSwitchingToParView &&
+            !communityService.getParticipantData().hasPatientDelegates
+        ) {
+            showMamanageAssignmentTab = false;
+            showManageDelegateTab = true;
+        }
+        //Multi Role
+        else if (
+            !isDelegateSwitchingToParView &&
+            communityService.getParticipantData().hasPatientDelegates &&
+            allUserModes
+        ) {
+            // For Participant also same JSON make sure it shouldnt execute for Participnat
+            allUserModes.forEach(function (item) {
+                if (item.userMode == 'Participant') {
+                    if (item.subModes) {
+                        item.subModes.forEach(function (subModeitem) {
+                            if (subModeitem.currentDelegateId == null) {
+                                showMamanageAssignmentTab = true;
+                                showManageDelegateTab = true;
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        if (showManageDelegateTab) {
+            this.navHeadersList.push({
+                label: MANAGE_DELEGATES,
+                value: 'manage-delegates'
+            });
+        }
+        if (showMamanageAssignmentTab) {
+            this.navHeadersList.push({
+                label: MANAGE_ASSIGNMENTS,
+                value: 'manage-assignmens'
+            });
+        }
     }
 
     setComponentId(queryString) {

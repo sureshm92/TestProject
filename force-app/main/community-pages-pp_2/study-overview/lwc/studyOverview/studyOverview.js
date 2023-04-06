@@ -5,6 +5,7 @@ import DEVICE from '@salesforce/client/formFactor';
 import IQVIA_Logo from '@salesforce/resourceUrl/IQVIA_Logo';
 import GSK_Logo from '@salesforce/resourceUrl/GSK_Logos';
 import openNewTabBlueIcon from '@salesforce/resourceUrl/openNewTabBlueIcon';
+import contact_support_icons from '@salesforce/resourceUrl/contact_support_icons';
 import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
 
@@ -12,6 +13,7 @@ import PPLEARNMOREDESKTOPLabel from '@salesforce/label/c.PP_ProgramOverview_Lear
 import PPLEARNMOREMBLELabel from '@salesforce/label/c.PP_StudyOverview_LearnMore_Mobile';
 import PP_StudyOverview_homePage_shortDecs_DelAlu from '@salesforce/label/c.PP_StudyOverview_homePage_shortDecs_DelAlu';
 import PP_Clinical_Research_by_IQVIA from '@salesforce/label/c.PP_Clinical_Research_by_IQVIA';
+import PI_Post_Fix from '@salesforce/label/c.PP_PI_Post_Fix';
 
 
 export default class StudyOverview extends NavigationMixin(LightningElement) {
@@ -19,15 +21,21 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
 				PPLEARNMOREDESKTOPLabel,
                 PPLEARNMOREMBLELabel,
                 PP_StudyOverview_homePage_shortDecs_DelAlu,
-                PP_Clinical_Research_by_IQVIA
+                PP_Clinical_Research_by_IQVIA,
+                PI_Post_Fix
     };
 
     iqviaLogoUrl = IQVIA_Logo+'/IQVIALogo.png';
     gskLogoUrl = GSK_Logo+'/gsk-full.png';
     open_new_tab = openNewTabBlueIcon;
+    phone_Icon = contact_support_icons+'/phone_Icon.svg';
+    pi_Icon = contact_support_icons+'/PI_icon.svg';
 
     @api clinicalrecord;
     shortOverview;
+    @api studysite;
+    piName;
+    studySitePhone;
 
     desktop = true;
     isRTL = false;
@@ -76,6 +84,13 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
 					this.shortOverview = briefsummary;
 				}
             } 
+        }
+
+        if(this.studysite){
+            this.piName = this.studysite.Principal_Investigator__r.Name;
+            console.log('piName---->'+this.piName);
+            this.studySitePhone = this.studysite.Study_Site_Phone__c;
+            console.log('studySitePhone---->'+this.studySitePhone);
         }
 
         getisRTL()

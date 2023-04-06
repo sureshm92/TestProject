@@ -16,7 +16,7 @@
 
 .button-cancel {
     color: #0768fd;
-    height: 2rem;
+    height: 2.5rem;
     font-size: 0.875rem;
     font-weight: 500;
     border-color: transparent;
@@ -27,7 +27,7 @@
 .button-confirm {
     justify-content: center;
     width: 107px;
-    height: 2rem;
+    height: 2.5rem;
     color: #ffffff;
     font-size: 0.875rem;
     font-weight: 500;

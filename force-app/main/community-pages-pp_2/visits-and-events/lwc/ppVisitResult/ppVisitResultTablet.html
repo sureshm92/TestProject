@@ -9,12 +9,12 @@
                         ><lightning-helptext content={toolTipText}></lightning-helptext
                     ></span>
                 </div>
-                <template if:true={ICOSRelatedResults}>
+                <template lwc:if={ICOSRelatedResults}>
                     <div class={actualValueClass}>{actualResultValue}</div>
                 </template>
                 <template if:false={ICOSRelatedResults}>
                     <div class={actualValueClass}>{biomarkerResult}</div>
-                    <template if:true={showExpectedRange}>
+                    <template lwc:if={showExpectedRange}>
                         <div class="expected-range">{expectedRange}</div>
                     </template>
                 </template>
@@ -30,7 +30,7 @@
                     </span>
                 </div>
                 <div class={actualValueClass}>{actualResultValue}</div>
-                <template if:true={showExpectedRange}>
+                <template lwc:if={showExpectedRange}>
                     <div class="expected-range">{expectedRange}</div>
                 </template>
             </div>

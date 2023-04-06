@@ -1261,21 +1261,28 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 	border-bottom-left-radius: 16px !important;
     border-bottom-right-radius: 16px !important;
 }
-.manage-delegate .button-confirm{
+.manage-delegate-acc-setting .button-confirm{
     height: 32px !important;
-    width: 107px !important;
+    width: 100% !important;
     border-radius: 20px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
     background-color: #015FF1 !important;
 }
 
-.manage-delegate .button-delete{
+.manage-delegate-acc-setting .button-delete{
     height: 32px !important;
-    width: 107px !important;
+    width: 100% !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
     border-radius: 20px !important;
 }
 
-.manage-delegate .button-cancel{
-        height: 32px !important;
+.manage-delegate-acc-setting .button-cancel{
+    height: 32px !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+
 }
 .manage-delegate-acc-setting .save-button-aligment{
     padding: 22px 0px 0px 12px;	
@@ -1297,6 +1304,23 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 /* .manage-del-multi-picklist .study-box-manage-del{
     line-height: 32px !important;
+} */
+.manage-delegate-acc-setting .check-box-label-class input:focus {
+    box-shadow: none !important
+}
+/* .manage-delegate-acc-setting .slds-checkbox [type='checkbox']:hover + .slds-checkbox__label .slds-checkbox_faux:before {
+    border: 1px solid #015ff1 !important;
+    background-color: transparent !important;
+    height: 16px !important;
+    width: 16px !important;
+    content: '' !important;
+    position: absolute !important;
+    border-radius: 2px !important;
+    top: 0px !important;
+    left: 0px !important;
+}
+.manage-delegate-acc-setting .slds-listbox_vertical .slds-listbox__option:hover{
+    background-color: transparent !important; 
 } */
 .manage-delegate-acc-setting .del-access-rectangle {
     border-radius: 16px !important;
@@ -1413,6 +1437,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
         margin-right: 0px !important;
         padding-top: 0px!important;
     }
+    .manage-delegate-acc-setting .pp-manade-del-modal .slds-icon_container {
+        display: none !important;
+     }
 }
 
 .manage-delegate-acc-setting .slds-truncate_container_25{
@@ -1498,6 +1525,13 @@ svg:not(:root) {
     height: 24px !important;
     width: 24px !important;
     display: block !important;
+}
+.contact-support-popup .slds-modal {
+    position: absolute;
+    top: 48px;
+    }
+.contact-support-popup .slds-modal__container{
+    height: auto;
 }
 
 /* Contact support Modal css- Ends */
