@@ -45,7 +45,6 @@ export default class PpAccountSettings extends LightningElement {
         MANAGE_DELEGATES,
         MANAGE_ASSIGNMENTS,
         STUDIES_AND_PROGRAM_PP
-
     };
 
     navHeadersList = [
@@ -63,6 +62,7 @@ export default class PpAccountSettings extends LightningElement {
             .then(() => {
                 this.spinner = this.template.querySelector('c-web-spinner');
                 this.spinner.show();
+                this.displayManageDelegates();
                 this.initializeData();
                 this.isMobile ? (this.isDesktopFlag = false) : (this.isDesktopFlag = true);
             })
@@ -161,14 +161,13 @@ export default class PpAccountSettings extends LightningElement {
     get showMedicalRecordAccess() {
         return this.componentId === 'medRecAccess' ? true : false;
     }
-    get showManageDelegates(){
+    get showManageDelegates() {
         return this.componentId === 'manage-delegates' ? true : false;
     }
-    get showManageAssignments(){
+    get showManageAssignments() {
         return this.componentId === 'manage-assignmens' ? true : false;
     }
     initializeData() {
-        this.displayManageDelegates();
         getInitData()
             .then((result) => {
                 let initialData = JSON.parse(result);
@@ -201,48 +200,55 @@ export default class PpAccountSettings extends LightningElement {
                 this.showToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
     }
-    displayManageDelegates(){
+    displayManageDelegates() {
         let isDelegateSwitchingToParView = false;
         let showManageDelegateTab = false;
         let showMamanageAssignmentTab = false;
         let isDelSelfView =
-        communityService.getParticipantData().value == 'ALUMNI' ||
-        (communityService.getParticipantData().hasPatientDelegates &&
-            !communityService.getParticipantData().isDelegate &&
-            !communityService.getParticipantData().pe);
-        let allUserModes = communityService.getAllUserModes();  
-        //Delegate switched to Par View    
-        if (communityService.getCurrentCommunityMode().currentDelegateId){
+            communityService.getParticipantData().value == 'ALUMNI' ||
+            (communityService.getParticipantData().hasPatientDelegates &&
+                !communityService.getParticipantData().isDelegate &&
+                !communityService.getParticipantData().pe);
+        let allUserModes = communityService.getAllUserModes();
+        //Delegate switched to Par View
+        if (communityService.getCurrentCommunityMode().currentDelegateId) {
             isDelegateSwitchingToParView = true;
             showMamanageAssignmentTab = false;
             showManageDelegateTab = false;
-        } 
+        }
         //Del Self View
-        else if(isDelSelfView){
+        else if (isDelSelfView) {
             showMamanageAssignmentTab = true;
             showManageDelegateTab = false;
-        }   
+        }
         //Pure Participant Login
-        else if(!isDelegateSwitchingToParView && !communityService.getParticipantData().hasPatientDelegates){
+        else if (
+            !isDelegateSwitchingToParView &&
+            !communityService.getParticipantData().hasPatientDelegates
+        ) {
             showMamanageAssignmentTab = false;
-            showManageDelegateTab = true;        
-        } 
-        //Multi Role    
-        else if(!isDelegateSwitchingToParView && communityService.getParticipantData().hasPatientDelegates && allUserModes){ // For Participant also same JSON make sure it shouldnt execute for Participnat
-            allUserModes.forEach(function(item) {
-                if(item.userMode == 'Participant'){
-                    if(item.subModes){
-                        item.subModes.forEach(function(subModeitem) {
-                            if(subModeitem.currentDelegateId == null){
+            showManageDelegateTab = true;
+        }
+        //Multi Role
+        else if (
+            !isDelegateSwitchingToParView &&
+            communityService.getParticipantData().hasPatientDelegates &&
+            allUserModes
+        ) {
+            // For Participant also same JSON make sure it shouldnt execute for Participnat
+            allUserModes.forEach(function (item) {
+                if (item.userMode == 'Participant') {
+                    if (item.subModes) {
+                        item.subModes.forEach(function (subModeitem) {
+                            if (subModeitem.currentDelegateId == null) {
                                 showMamanageAssignmentTab = true;
                                 showManageDelegateTab = true;
-                    
-                            }    
+                            }
                         });
                     }
                 }
             });
-        }  
+        }
         if (showManageDelegateTab) {
             this.navHeadersList.push({
                 label: MANAGE_DELEGATES,
