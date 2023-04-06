@@ -51,11 +51,9 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
         });
     }
     removeCardHandler() {
-        const targetRecId = this.documentData.targetRecordId;
-        removeCard({ targetRecordId: targetRecId })
-            .then((returnValue) => {})
-            .catch((error) => {
-                console.log('error message ' + error?.message);
-            });
+        const removeCardEvent = new CustomEvent('removecard', {
+            detail: { sendResultId: this.documentData.sendResultId }
+        });
+        this.dispatchEvent(removeCardEvent);
     }
 }

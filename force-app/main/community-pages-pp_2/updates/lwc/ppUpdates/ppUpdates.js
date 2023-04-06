@@ -2,6 +2,7 @@ import { LightningElement, track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getSendResultUpdates from '@salesforce/apex/PPUpdatesController.getSendResultUpdates';
 import getSendResultCount from '@salesforce/apex/PPUpdatesController.getSendResultCount';
+import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import DEVICE from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
@@ -34,6 +35,13 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         refresh
     };
     timer;
+    get countStyle() {
+        if (this.counter >= 100) {
+            return 'update-count-2';
+        } else {
+            return 'update-count-1';
+        }
+    }
 
     renderedCallback() {
         if (!this.isRendered) {
@@ -163,5 +171,13 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 variant: variantType
             })
         );
+    }
+    handleRemoveCard(event) {
+        const sendResultId = event.detail.sendResultId;
+        removeCard({ sendResultId: sendResultId })
+            .then((returnValue) => {})
+            .catch((error) => {
+                console.log('error message ' + error?.message);
+            });
     }
 }
