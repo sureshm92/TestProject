@@ -198,6 +198,14 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         //     return 'study-thmore-add-assignment';
         //   }
     }
+    // get manageMarginCustom() {
+    //     return this.isDesktop ? 'manage-margin-custom-desktop' : 'manage-margin-custom-mobile';
+    // }
+    manageCheckbox(event) {
+        let inputEle = event.currentTarget.getElementsByTagName('lightning-input')[0];
+        let checkboxUiEle = inputEle.querySelectorAll('.slds-checkbox_faux');
+        checkboxUiEle.classList.add('customBorder');
+    }
     divSetStudy(event) {
         event.currentTarget.getElementsByTagName('lightning-input')[0].checked =
             !event.currentTarget.getElementsByTagName('lightning-input')[0].checked;
@@ -214,7 +222,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
             if (opts[i].checked) {
                 tempList.push({ label: opts[i].name, value: opts[i].value });
                 studyOpts.push(opts[i].value);
-                //Store First Three selected Studies in separate List.
+                //Store First Threventee selected Studies in separate List.
                 if (tempFirstThreeList.length <= 2) {
                     tempFirstThreeList.push({ label: opts[i].name, value: opts[i].value });
                 }
@@ -222,16 +230,30 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         }
         //When this is not called from SelectAll/RemoveAll fucntion.
         if (!selectAllRemoveAll) {
-            let datalebelid = event.target.dataset.id;
-            let checked = event.target.checked;
+            let datalebelid = event.currentTarget.dataset.id;
+            let checked = event.currentTarget.checked;
             let query = '[data-labelid="' + datalebelid + '"]';
             let studylebelElement = this.template.querySelector(query);
             //make the Study lable bold/unbold.
-            if (checked) {
-                studylebelElement.classList.add('text-checked-bold');
-            } else if (studylebelElement.classList.contains('text-checked-bold')) {
-                studylebelElement.classList.remove('text-checked-bold');
-            }
+            // if (checked) {
+            //     studylebelElement.classList.add('text-checked-bold');
+            //     spanlebelElement.classList.add('text-checked-bold');
+            // } else if (studylebelElement.classList.contains('text-checked-bold')) {
+            //     studylebelElement.classList.remove('text-checked-bold');
+            //     spanlebelElement.classList.remove('text-checked-bold');
+            // }
+
+            // let spanElements = this.template.querySelectorAll('.labelForOptions');
+            // spanElements.forEach((ele) => {
+            //     let spanId = ele.getAttribute('data-spanid');
+            //     if (datalebelid == spanId) {
+            //         if (ele.classList.contains('text-checked-bold')) {
+            //             ele.classList.remove('text-checked-bold');
+            //         } else {
+            //             ele.classList.add('text-checked-bold');
+            //         }
+            //     }
+            // });
         }
 
         this.studyListStr = studyOpts.join(';');
