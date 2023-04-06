@@ -219,7 +219,6 @@ public inherited sharing class ModifiedVisitResultsService {
             List<Visit_Result_TypeM__mdt> visitResultMDTypesHea = new List<Visit_Result_TypeM__mdt>();
             List<Visit_Result_TypeM__mdt> visitResultMDTypesFLP = new List<Visit_Result_TypeM__mdt>();
 
-            Map<String, String> visitResultsMeasurementNamesMap = metadataService.getVisitResultsMeasurementNamesMap();
             List<String> enabledVisitResultsOnCtp = new List<String>();
             for (String subType : visitResultSharingsForLabs.keySet()) {
                 if (subType == METABOLICPANEL) {
@@ -332,8 +331,6 @@ public inherited sharing class ModifiedVisitResultsService {
                 visitResultsMode
             );
 
-            Map<String, String> visitResultsMeasurementNamesMap = metadataService.getVisitResultsMeasurementNamesMap();
-
             List<String> enabledVisitResultsOnCtp = visitResultSharings.get(visitResultsMode);
 
             List<Visit_Result_TypeM__mdt> filteredVisResMDTypes = new List<Visit_Result_TypeM__mdt>();
@@ -395,7 +392,6 @@ public inherited sharing class ModifiedVisitResultsService {
         List<ModifiedVisitResultWrapper> finalWrapperSorted = new List<ModifiedVisitResultWrapper>();
 
         VisitResultMService metadataService = new VisitResultMService();
-        Map<String, String> visitResultsMeasurementNamesMap = metadataService.getVisitResultsMeasurementNamesMap();
 
         List<ModifiedVisitResultWrapper> allVisitResultWrapper = new List<ModifiedVisitResultWrapper>();
         List<ModifiedVisitResultWrapper> wrappersWithVisRes = new List<ModifiedVisitResultWrapper>();
@@ -425,8 +421,7 @@ public inherited sharing class ModifiedVisitResultsService {
                                 ? TranslateHelper.getLabelValue(
                                       singleVRT.Description_Label_Api_Name__c
                                   )
-                                : description,
-                            visitResultsMeasurementNamesMap
+                                : description
                         )
                     );
 
@@ -438,8 +433,7 @@ public inherited sharing class ModifiedVisitResultsService {
                                 ? TranslateHelper.getLabelValue(
                                       singleVRT.Description_Label_Api_Name__c
                                   )
-                                : description,
-                            visitResultsMeasurementNamesMap
+                                : description
                         )
                     );
                 }
@@ -453,8 +447,7 @@ public inherited sharing class ModifiedVisitResultsService {
                                 ? TranslateHelper.getLabelValue(
                                       singleVRT.Description_Label_Api_Name__c
                                   )
-                                : description,
-                            visitResultsMeasurementNamesMap
+                                : description
                         )
                     );
                     allVisitResultWrapper.add(
@@ -465,8 +458,7 @@ public inherited sharing class ModifiedVisitResultsService {
                                 ? TranslateHelper.getLabelValue(
                                       singleVRT.Description_Label_Api_Name__c
                                   )
-                                : description,
-                            visitResultsMeasurementNamesMap
+                                : description
                         )
                     );
                 }
@@ -629,8 +621,7 @@ public inherited sharing class ModifiedVisitResultsService {
         public ModifiedVisitResultWrapper(
             Visit_Result__c visitResult,
             String name,
-            String description,
-            Map<String, String> measurementNamesMap
+            String description
         ) {
             this.name = name;
             this.description = description;
@@ -639,15 +630,7 @@ public inherited sharing class ModifiedVisitResultsService {
                 this.minValue = visitResult.Min_Value__c;
                 this.maxValue = visitResult.Max_Value__c;
                 if (visitResult.Measurement__c != null) {
-                    String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
-                    if (
-                        measurementNamesMap != null &&
-                        measurementNamesMap.containsKey(measurementLowerCase)
-                    ) {
-                        this.measurement = measurementNamesMap.get(measurementLowerCase);
-                    } else {
-                        this.measurement = visitResult.Measurement__c;
-                    }
+                    this.measurement = visitResult.Measurement__c;
                 }
             }
         }
