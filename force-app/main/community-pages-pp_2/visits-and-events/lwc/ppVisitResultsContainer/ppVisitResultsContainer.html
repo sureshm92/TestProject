@@ -25,19 +25,14 @@
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
                 <template lwc:else>
                     <div class="slds-grid slds-wrap slds-gutters slds-p-top_x-large">
-                        <template lwc:if={showSpinner}>
-                            <div class="no-result-image no-result-text loading-container"></div>
-                        </template>
-                        <template lwc:else
-                            ><div class="slds-col slds-size_12-of-12">
-                                <img src={noVisitResultsAvailable} class="no-result-image" />
-                            </div>
-                            <div
-                                class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large slds-p-horizontal_small"
-                            >
-                                {labels.No_Vitals_Available}
-                            </div></template
+                        <div class="slds-col slds-size_12-of-12">
+                            <img src={noVisitResultsAvailable} class="no-result-image" />
+                        </div>
+                        <div
+                            class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large slds-p-horizontal_small"
                         >
+                            {labels.No_Vitals_Available}
+                        </div>
                     </div>
                 </template>
             </template>
@@ -65,20 +60,14 @@
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
                 <template lwc:else>
                     <div class="slds-grid slds-wrap slds-gutters slds-p-top_x-large">
-                        <template lwc:if={showSpinner}>
-                            <div
-                                class="no-result-image no-result-text loading-container"
-                            ></div> </template
-                        ><template lwc:else>
-                            <div class="slds-col slds-size_12-of-12">
-                                <img src={noVisitResultsAvailable} class="no-result-image" />
-                            </div>
-                            <div
-                                class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large slds-p-horizontal_small"
-                            >
-                                {labels.No_Labs_Available}
-                            </div></template
+                        <div class="slds-col slds-size_12-of-12">
+                            <img src={noVisitResultsAvailable} class="no-result-image" />
+                        </div>
+                        <div
+                            class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large slds-p-horizontal_small"
                         >
+                            {labels.No_Labs_Available}
+                        </div>
                     </div>
                 </template>
             </template>
@@ -104,20 +93,14 @@
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
                 <template lwc:else>
                     <div class="slds-grid slds-wrap slds-gutters slds-p-top_x-large">
-                        <template lwc:if={showSpinner}>
-                            <div
-                                class="no-result-image no-result-text loading-container"
-                            ></div> </template
-                        ><template lwc:else>
-                            <div class="slds-col slds-size_12-of-12">
-                                <img src={noVisitResultsAvailable} class="no-result-image" />
-                            </div>
-                            <div
-                                class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large slds-p-horizontal_small"
-                            >
-                                {labels.No_Biomarkers_Available}
-                            </div>
-                        </template>
+                        <div class="slds-col slds-size_12-of-12">
+                            <img src={noVisitResultsAvailable} class="no-result-image" />
+                        </div>
+                        <div
+                            class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large slds-p-horizontal_small"
+                        >
+                            {labels.No_Biomarkers_Available}
+                        </div>
                     </div>
                 </template>
             </template>

@@ -106,27 +106,21 @@
                                             </template>
                                             <!--Vital Toggle OFF-->
                                             <template lwc:else>
-                                                <template lwc:if={showSpinner}>
-                                                    <div
-                                                        class="no-result-image no-result-text loading-container"
-                                                    ></div> </template
-                                                ><template lwc:else>
-                                                    <div
-                                                        class="slds-grid slds-wrap slds-gutters slds-p-top_x-large"
-                                                    >
-                                                        <div class="slds-col slds-size_12-of-12">
-                                                            <img
-                                                                src={toggleOffHeart}
-                                                                class="toggle-off-image"
-                                                            />
-                                                        </div>
-                                                        <div
-                                                            class="slds-col slds-size_12-of-12 slds-p-top_large toggle-off-text slds-p-horizontal_small"
-                                                        >
-                                                            {labels.Vitals_Toggle_Off}
-                                                        </div>
+                                                <div
+                                                    class="slds-grid slds-wrap slds-gutters slds-p-top_x-large"
+                                                >
+                                                    <div class="slds-col slds-size_12-of-12">
+                                                        <img
+                                                            src={toggleOffHeart}
+                                                            class="toggle-off-image"
+                                                        />
                                                     </div>
-                                                </template>
+                                                    <div
+                                                        class="slds-col slds-size_12-of-12 slds-p-top_large toggle-off-text slds-p-horizontal_small"
+                                                    >
+                                                        {labels.Vitals_Toggle_Off}
+                                                    </div>
+                                                </div>
                                             </template>
                                         </template>
                                         <!--VITALS SECTION END-->
@@ -142,28 +136,19 @@
                                             </template>
                                             <!--Lab Toggle OFF-->
                                             <template lwc:else>
-                                                <template lwc:if={showSpinner}>
-                                                    <div
-                                                        class="no-result-image no-result-text loading-container"
-                                                    ></div>
-                                                </template>
-                                                <template lwc:else>
-                                                    <div
-                                                        class="slds-grid slds-wrap slds-p-top_x-large"
-                                                    >
-                                                        <div class="slds-col slds-size_12-of-12">
-                                                            <img
-                                                                src={toggleOffHeart}
-                                                                class="toggle-off-image"
-                                                            />
-                                                        </div>
-                                                        <div
-                                                            class="slds-col slds-size_12-of-12 slds-p-top_large toggle-off-text slds-p-horizontal_small"
-                                                        >
-                                                            {labels.Labs_Toggle_Off}
-                                                        </div>
+                                                <div class="slds-grid slds-wrap slds-p-top_x-large">
+                                                    <div class="slds-col slds-size_12-of-12">
+                                                        <img
+                                                            src={toggleOffHeart}
+                                                            class="toggle-off-image"
+                                                        />
                                                     </div>
-                                                </template>
+                                                    <div
+                                                        class="slds-col slds-size_12-of-12 slds-p-top_large toggle-off-text slds-p-horizontal_small"
+                                                    >
+                                                        {labels.Labs_Toggle_Off}
+                                                    </div>
+                                                </div>
                                             </template>
                                         </template>
                                         <!--LABS SECTION END-->
@@ -179,29 +164,20 @@
                                             </template>
                                             <!--Biomarker Toggle OFF-->
                                             <template lwc:else>
-                                                <template lwc:if={showSpinner}>
-                                                    <div
-                                                        class="no-result-image no-result-text loading-container"
-                                                    ></div>
-                                                </template>
-                                                <template lwc:else>
-                                                    <div
-                                                        class="slds-grid slds-wrap slds-p-top_x-large"
-                                                    >
-                                                        <div class="slds-col slds-size_12-of-12">
-                                                            <img
-                                                                src={toggleOffHeart}
-                                                                class="toggle-off-image"
-                                                            />
-                                                        </div>
-                                                        <div
-                                                            class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large toggle-off-text slds-p-horizontal_small"
-                                                        >
-                                                            {labels.Biomarkers_Toggle_Off}
-                                                        </div>
+                                                <div class="slds-grid slds-wrap slds-p-top_x-large">
+                                                    <div class="slds-col slds-size_12-of-12">
+                                                        <img
+                                                            src={toggleOffHeart}
+                                                            class="toggle-off-image"
+                                                        />
                                                     </div>
-                                                </template></template
-                                            >
+                                                    <div
+                                                        class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large toggle-off-text slds-p-horizontal_small"
+                                                    >
+                                                        {labels.Biomarkers_Toggle_Off}
+                                                    </div>
+                                                </div>
+                                            </template>
                                         </template>
                                         <!--BIOMARKERS SECTION END-->
                                     </div>
