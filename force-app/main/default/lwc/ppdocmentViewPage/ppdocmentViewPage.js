@@ -36,7 +36,7 @@ export default class ppdocmentViewPage extends LightningElement {
                 if(communityService.getCurrentCommunityMode().currentDelegateId){ 
                     this.isDelegate=true;
                 }
-            }
+            
             fetchUploadedFiles({ 
                 perId: this.getData.pe.Id,
                 pageNumber: this.pageNumber,
@@ -56,6 +56,7 @@ export default class ppdocmentViewPage extends LightningElement {
                 });
                 this.dispatchEvent(selectEventnew);
                 })
+            }
     }
     renderedCallback(){
     }
