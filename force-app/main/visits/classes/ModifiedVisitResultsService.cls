@@ -23,17 +23,20 @@ public inherited sharing class ModifiedVisitResultsService {
 
             Set<String> visitResultSubTypeSet = new Set<String>();
             wrapper.visitResultsShares = new Map<String, List<String>>();
-            Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
+            Contact currentContact = ParticipantContext.getCurrentContact();
             for (String visitResultTypeCTP : visitResultSharings.keySet()) {
                 Map<String, List<String>> visitResultTypeWithSubTypeCTP = visitResultSharings.get(
                     visitResultTypeCTP
                 );
                 if (visitResultTypeCTP == VITALS_VISIT_RESULT_GROUP) {
-                    wrapper.toggleStateForVitals = toggleState(visitResultTypeCTP, currentPE);
+                    wrapper.toggleStateForVitals = toggleState(visitResultTypeCTP, currentContact);
                 } else if (visitResultTypeCTP == LABS_VISIT_RESULT_GROUP) {
-                    wrapper.toggleStateForLabs = toggleState(visitResultTypeCTP, currentPE);
+                    wrapper.toggleStateForLabs = toggleState(visitResultTypeCTP, currentContact);
                 } else if (visitResultTypeCTP == BIOMARKER_VISIT_RESULT_GROUP) {
-                    wrapper.toggleStateForBiomarkers = toggleState(visitResultTypeCTP, currentPE);
+                    wrapper.toggleStateForBiomarkers = toggleState(
+                        visitResultTypeCTP,
+                        currentContact
+                    );
                 }
                 for (String visitResultTypeInner : visitResultTypeWithSubTypeCTP.keySet()) {
                     List<String> subTypeSet = visitResultTypeWithSubTypeCTP.get(
@@ -134,11 +137,11 @@ public inherited sharing class ModifiedVisitResultsService {
     }
 
     /**Returns toggle state for specific visit result type configured at PE level*/
-    public Boolean toggleState(String visitResultsMode, Participant_Enrollment__c currentPE) {
-        String currentVisitResults = currentPE == null ||
-            currentPE.Visit_Results_Opt_In__c == null
+    public Boolean toggleState(String visitResultsMode, Contact currentContact) {
+        String currentVisitResults = currentContact == null ||
+            currentContact.Visit_Results_OptIn__c == null
             ? ''
-            : currentPE.Visit_Results_Opt_In__c;
+            : currentContact.Visit_Results_OptIn__c;
         return currentVisitResults.contains(visitResultsMode);
     }
 
@@ -219,7 +222,6 @@ public inherited sharing class ModifiedVisitResultsService {
             List<Visit_Result_TypeM__mdt> visitResultMDTypesHea = new List<Visit_Result_TypeM__mdt>();
             List<Visit_Result_TypeM__mdt> visitResultMDTypesFLP = new List<Visit_Result_TypeM__mdt>();
 
-            Map<String, String> visitResultsMeasurementNamesMap = metadataService.getVisitResultsMeasurementNamesMap();
             List<String> enabledVisitResultsOnCtp = new List<String>();
             for (String subType : visitResultSharingsForLabs.keySet()) {
                 if (subType == METABOLICPANEL) {
@@ -332,8 +334,6 @@ public inherited sharing class ModifiedVisitResultsService {
                 visitResultsMode
             );
 
-            Map<String, String> visitResultsMeasurementNamesMap = metadataService.getVisitResultsMeasurementNamesMap();
-
             List<String> enabledVisitResultsOnCtp = visitResultSharings.get(visitResultsMode);
 
             List<Visit_Result_TypeM__mdt> filteredVisResMDTypes = new List<Visit_Result_TypeM__mdt>();
@@ -395,7 +395,6 @@ public inherited sharing class ModifiedVisitResultsService {
         List<ModifiedVisitResultWrapper> finalWrapperSorted = new List<ModifiedVisitResultWrapper>();
 
         VisitResultMService metadataService = new VisitResultMService();
-        Map<String, String> visitResultsMeasurementNamesMap = metadataService.getVisitResultsMeasurementNamesMap();
 
         List<ModifiedVisitResultWrapper> allVisitResultWrapper = new List<ModifiedVisitResultWrapper>();
         List<ModifiedVisitResultWrapper> wrappersWithVisRes = new List<ModifiedVisitResultWrapper>();
@@ -425,8 +424,7 @@ public inherited sharing class ModifiedVisitResultsService {
                                 ? TranslateHelper.getLabelValue(
                                       singleVRT.Description_Label_Api_Name__c
                                   )
-                                : description,
-                            visitResultsMeasurementNamesMap
+                                : description
                         )
                     );
 
@@ -438,8 +436,7 @@ public inherited sharing class ModifiedVisitResultsService {
                                 ? TranslateHelper.getLabelValue(
                                       singleVRT.Description_Label_Api_Name__c
                                   )
-                                : description,
-                            visitResultsMeasurementNamesMap
+                                : description
                         )
                     );
                 }
@@ -453,8 +450,7 @@ public inherited sharing class ModifiedVisitResultsService {
                                 ? TranslateHelper.getLabelValue(
                                       singleVRT.Description_Label_Api_Name__c
                                   )
-                                : description,
-                            visitResultsMeasurementNamesMap
+                                : description
                         )
                     );
                     allVisitResultWrapper.add(
@@ -465,8 +461,7 @@ public inherited sharing class ModifiedVisitResultsService {
                                 ? TranslateHelper.getLabelValue(
                                       singleVRT.Description_Label_Api_Name__c
                                   )
-                                : description,
-                            visitResultsMeasurementNamesMap
+                                : description
                         )
                     );
                 }
@@ -629,8 +624,7 @@ public inherited sharing class ModifiedVisitResultsService {
         public ModifiedVisitResultWrapper(
             Visit_Result__c visitResult,
             String name,
-            String description,
-            Map<String, String> measurementNamesMap
+            String description
         ) {
             this.name = name;
             this.description = description;
@@ -639,15 +633,7 @@ public inherited sharing class ModifiedVisitResultsService {
                 this.minValue = visitResult.Min_Value__c;
                 this.maxValue = visitResult.Max_Value__c;
                 if (visitResult.Measurement__c != null) {
-                    String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
-                    if (
-                        measurementNamesMap != null &&
-                        measurementNamesMap.containsKey(measurementLowerCase)
-                    ) {
-                        this.measurement = measurementNamesMap.get(measurementLowerCase);
-                    } else {
-                        this.measurement = visitResult.Measurement__c;
-                    }
+                    this.measurement = visitResult.Measurement__c;
                 }
             }
         }

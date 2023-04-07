@@ -134,11 +134,9 @@
                                                     ontotalvisitresultcount={handleResultAvailability}
                                                 ></c-pp-visit-results-container>
                                             </template>
-                                            <!--Vital Toggle OFF-->
-                                            <template lwc:else
-                                                ><div
-                                                    class="slds-grid slds-wrap slds-p-top_x-large"
-                                                >
+                                            <!--Lab Toggle OFF-->
+                                            <template lwc:else>
+                                                <div class="slds-grid slds-wrap slds-p-top_x-large">
                                                     <div class="slds-col slds-size_12-of-12">
                                                         <img
                                                             src={toggleOffHeart}
@@ -150,8 +148,8 @@
                                                     >
                                                         {labels.Labs_Toggle_Off}
                                                     </div>
-                                                </div></template
-                                            >
+                                                </div>
+                                            </template>
                                         </template>
                                         <!--LABS SECTION END-->
                                         <!--BIOMARKERS SECTION START-->
@@ -164,11 +162,9 @@
                                                     ontotalvisitresultcount={handleResultAvailability}
                                                 ></c-pp-visit-results-container>
                                             </template>
-                                            <!--Vital Toggle OFF-->
-                                            <template lwc:else
-                                                ><div
-                                                    class="slds-grid slds-wrap slds-p-top_x-large"
-                                                >
+                                            <!--Biomarker Toggle OFF-->
+                                            <template lwc:else>
+                                                <div class="slds-grid slds-wrap slds-p-top_x-large">
                                                     <div class="slds-col slds-size_12-of-12">
                                                         <img
                                                             src={toggleOffHeart}
@@ -176,12 +172,12 @@
                                                         />
                                                     </div>
                                                     <div
-                                                        class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large toggle-off-text slds-p-horizontal_small"
+                                                        class="slds-col slds-size_12-of-12 slds-p-top_large toggle-off-text slds-p-horizontal_small"
                                                     >
                                                         {labels.Biomarkers_Toggle_Off}
                                                     </div>
-                                                </div></template
-                                            >
+                                                </div>
+                                            </template>
                                         </template>
                                         <!--BIOMARKERS SECTION END-->
                                     </div>
