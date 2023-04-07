@@ -115,8 +115,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     }
     addHorizontalScroll() {
         if (this.counter > 4 && this.desktop && !this.showvisitsection) {
-            const myDiv = this.template.querySelector('.resouce-container-horizontal');
-            myDiv.classList.add('horizontal-scroll');
+            var scrollDiv = this.template.querySelector('[data-id = "horz_scroll"]');
+            scrollDiv.classList.add('horizontal-scroll');
         }
     }
     addVerticalScroll() {
