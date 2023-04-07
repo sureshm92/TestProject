@@ -187,9 +187,9 @@
         <lightning-layout multiple-rows class="mob-upld-card-center">
             <lightning-layout-item size="12" class="">
                 <div if:false={ShowuploadSection}>
-                    <c-ppview-files-page-new onreccountupdate={recCountUpdate} onpageswap={changePage} ongettotalrecord={handletotalrecord} onresetpagination={handleresetpagination} onresetpageonupdate={handleresetpageonupdate}   stop-spinner={stopSpinnerChild} >
+                    <c-ppdocment-view-page onreccountupdate={recCountUpdate} onpageswap={changePage} ongettotalrecord={handletotalrecord} onresetpagination={handleresetpagination} onresetpageonupdate={handleresetpageonupdate}   stop-spinner={stopSpinnerChild} >
                     
-                    </c-ppview-files-page-new> 
+                    </c-ppdocment-view-page> 
                 </div>
             </lightning-layout-item>
             <div if:false={ShowuploadSection} class="slds-col center uploadfileBtn slds-m-top_large">

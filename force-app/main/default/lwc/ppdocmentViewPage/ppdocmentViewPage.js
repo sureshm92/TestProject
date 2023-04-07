@@ -4,7 +4,7 @@ import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import fetchUploadedFiles from '@salesforce/apex/ppFileUploadController.fetchUploadedFiles'; 
 import formFactor from '@salesforce/client/formFactor';
 
-export default class PpviewFilesPageNew extends LightningElement {
+export default class ppdocmentViewPage extends LightningElement {
     noDocumentAvailable = pp_icons + '/' + 'noDocumentAvailable.svg';
     uploadNewDocuments = pp_icons + '/' + 'uploadNewDocuments.svg';
 
