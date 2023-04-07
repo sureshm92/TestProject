@@ -24,10 +24,21 @@
     .menu-block {
         position: relative !important;
     }
+
+    .slds-popover_tooltip,
+    .slds-popover--tooltip ::after {
+        background-color: #444444;
+        margin-right: .5rem;
+    }
 }
 @media (max-width: 390px) {
     .logo-container-pp {
         width: 190px !important;
+    }
+    .slds-popover_tooltip,
+    .slds-popover--tooltip ::after {
+        background-color: #444444;
+        margin-right: .5rem;
     }
 }
 
@@ -1539,5 +1550,7 @@ svg:not(:root) {
 .contact-support-popup .slds-modal__container{
     height: auto;
 }
-
+.update-container .rr-spinner{
+    background-color: transparent;
+}
 /* Contact support Modal css- Ends */

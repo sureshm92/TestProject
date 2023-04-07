@@ -2438,11 +2438,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant_Enrollment__c.Visit_Results_Opt_In__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Participant_Enrollment__c.Participant_Opt_In_Status_Emails__c</field>
         <readable>true</readable>
     </fieldPermissions>
