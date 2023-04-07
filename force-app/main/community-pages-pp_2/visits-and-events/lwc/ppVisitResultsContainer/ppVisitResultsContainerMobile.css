@@ -4,10 +4,10 @@
     font-weight: 600;
 }
 .more-results {
-    /* padding: 1.291rem, 10rem, 1.313rem, 10rem;*/
     color: #6e6e6e;
     font-size: 0.875rem;
     font-weight: 600;
+    width: fit-content;
 }
 .position-container {
     position: relative;
@@ -17,6 +17,7 @@
     /* padding-left: 1.291rem;*/
 }
 .no-result-text {
+    height: 1.5rem;
     color: #999999;
     font-size: 1rem;
     font-weight: 500;
@@ -24,4 +25,7 @@
     line-height: 1.5rem;
     text-align: center;
     padding-bottom: 5.188rem;
+}
+.loading-container {
+    height: 298px;
 }

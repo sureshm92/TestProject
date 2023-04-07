@@ -16,7 +16,9 @@
                             </div>
                         </template>
                         <template lwc:if={showMoreResults}>
-                            <div class="more-results slds-p-around_medium slds-text-align_center">
+                            <div
+                                class="more-results slds-p-around_medium slds-text-align_center slds-align_absolute-center"
+                            >
                                 {showMoreText}
                             </div>
                         </template>
@@ -51,7 +53,9 @@
                             </div>
                         </template>
                         <template lwc:if={showMoreResults}>
-                            <div class="more-results slds-p-around_medium slds-text-align_center">
+                            <div
+                                class="more-results slds-p-around_medium slds-text-align_center slds-align_absolute-center"
+                            >
                                 {showMoreText}
                             </div>
                         </template>
@@ -59,7 +63,7 @@
                 </template>
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
                 <template lwc:else>
-                    <div class="slds-grid slds-wrap slds-p-top_x-large">
+                    <div class="slds-grid slds-wrap slds-gutters slds-p-top_x-large">
                         <div class="slds-col slds-size_12-of-12">
                             <img src={noVisitResultsAvailable} class="no-result-image" />
                         </div>
@@ -84,7 +88,9 @@
                             </div>
                         </template>
                         <template lwc:if={showMoreResults}>
-                            <div class="more-results slds-p-around_medium slds-text-align_center">
+                            <div
+                                class="more-results slds-p-around_medium slds-text-align_center slds-align_absolute-center"
+                            >
                                 {showMoreText}
                             </div>
                         </template>

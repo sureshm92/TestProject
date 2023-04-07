@@ -42,10 +42,10 @@ public without sharing class ModifiedVisitResultsRemote {
 
     @AuraEnabled
     public static void modifiedSwitchToggleRemote(String visitResultsMode, Boolean isToggleOn) {
-        Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
-        String currentVisitResults = currentPE.Visit_Results_Opt_In__c == null
+        Contact currentContact = ParticipantContext.getCurrentContact();
+        String currentVisitResults = currentContact.Visit_Results_OptIn__c == null
             ? ''
-            : currentPE.Visit_Results_Opt_In__c;
+            : currentContact.Visit_Results_OptIn__c;
         String updatedVisitResults = '';
         if (isToggleOn) {
             if (!currentVisitResults.contains(visitResultsMode)) {
@@ -58,9 +58,9 @@ public without sharing class ModifiedVisitResultsRemote {
                     updatedVisitResults += str + ';';
             }
         }
-        currentPE.Visit_Results_Opt_In__c = updatedVisitResults;
+        currentContact.Visit_Results_OptIn__c = updatedVisitResults;
         try {
-            update currentPE;
+            update currentContact;
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
