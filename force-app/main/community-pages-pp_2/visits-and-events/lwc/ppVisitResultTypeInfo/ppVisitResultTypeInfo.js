@@ -223,7 +223,6 @@ export default class PpVisitResultTypeInfo extends LightningElement {
         this.selectedResultType = event.detail;
     }
     handleResultAvailability(event) {
-        console.log('JJ' + event.detail);
         this.isVisitResultsAvaliable = event.detail;
     }
 
