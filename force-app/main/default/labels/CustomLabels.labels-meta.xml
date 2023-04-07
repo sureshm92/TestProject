@@ -21212,6 +21212,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Visit plan is currently unavailable.</value>
     </labels>
     <labels>
+        <fullName>PP_ProgressBar_No_Visit_Adhoc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP ProgressBar No Visit Adhoc</shortDescription>
+        <value>No Description is currently available for this visit.</value>
+    </labels>
+    <labels>
         <fullName>PP_ProgramOverview_LearnMore_Desktop</fullName>
         <language>en_US</language>
         <protected>true</protected>
