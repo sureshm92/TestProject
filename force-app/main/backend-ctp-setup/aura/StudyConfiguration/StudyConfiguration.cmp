@@ -236,4 +236,8 @@
     </aura:if>
 
     <lightning:messageChannel type="rhrefresh__c" aura:id="sampleMessageChannel" />
+    <lightning:messageChannel type="ppStudyUpdates__c" aura:id="ctpUpdatesChannel" />
+    <aura:dependency resource="markup://force:editRecord" type="EVENT" />
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+
 </aura:component>
