@@ -1258,47 +1258,10 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .add-assignment-former-rectangle{
     border-radius: 16px !important;
 }
-/* Delegate Redesing - Manage delegate page CSS override -ends*/
 
-/* Delegate Redesing - Remove/Delete Modal - CSS Override - Start */
-.manage-delegate .card-top-bg{
-	height: 16px !important;
-    background: linear-gradient(90deg, #005587 0%, #008D9E 100%) !important;
-    border-top-left-radius: 16px !important;
-    border-top-right-radius: 16px !important;
-}
-
-.manage-delegate .footer-container{
-	border-bottom-left-radius: 16px !important;
-    border-bottom-right-radius: 16px !important;
-}
-.manage-delegate-acc-setting .button-confirm{
-    height: 32px !important;
-    width: 100% !important;
-    border-radius: 20px !important;
-    font-size: 16px !important;
-    font-weight: 600 !important;
-    background-color: #015FF1 !important;
-}
-
-.manage-delegate-acc-setting .button-delete{
-    height: 32px !important;
-    width: 100% !important;
-    font-size: 16px !important;
-    font-weight: 600 !important;
-    border-radius: 20px !important;
-}
-
-.manage-delegate-acc-setting .button-cancel{
-    height: 32px !important;
-    font-weight: 600 !important;
-    font-size: 16px !important;
-
-}
 .manage-delegate-acc-setting .save-button-aligment{
     padding: 22px 0px 0px 12px;	
 }
-/* Delegate Redesing - Remove/Delete Modal - CSS Override - Ends */
 /* Delegate Redesing - Add New Delegate Page CSS  Override - Starts*/
 .manage-del-multi-picklist .multipicklist-box{
     border-radius: 21px !important;

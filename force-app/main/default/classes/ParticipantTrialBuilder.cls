@@ -28,6 +28,7 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
         trialDetail.tabs = getStudyTabs();
         trialDetail.communityName = ps.communityName;
         trialDetail.showTravelCardInPreEnrollment = ps.showTravelCardInPreEnrollment;
+        trialDetail.tabvisiblity = checkFileTabPermission();
     }
 
     public override TrialDetail createTrial() {
@@ -43,6 +44,33 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
             trialDetail.accountEnrollmentsList.add(createClinicWrapper(acc.Name, acc, null, null));
         }
         return trialDetail;
+    }
+
+    public TrialDetail.TabPermission checkFileTabPermission(){
+        User objUser =[SELECT Id, ContactId,Contact.userCommunityDelegateId__c,Contact.Current_Participant_Enrollment__c
+                         FROM User WHERE Id =: UserInfo.getUserId()];
+
+        TrialDetail.TabPermission objWrapper = new TrialDetail.TabPermission();
+        objWrapper.isFileTabVisiblity = true;
+        objWrapper.isPastStudyVisible = true;
+
+        if(string.isnotBlank(objUser.Contact.userCommunityDelegateId__c)){
+                List<Participant_Enrollment__c> lstPERAlumni = [SELECT id from Participant_Enrollment__c Where Participant_Contact__c =:objUser.Contact.userCommunityDelegateId__c
+                                                                And  Participant_Status__c IN: PEStatusState.PE_STATUS_GROUP_ALUMNI LIMIT 10000];
+
+                List<Patient_Delegate_Enrollment__c> lstPDERAlumni = [SELECT ID FROM Patient_Delegate_Enrollment__c WHERE Participant_Enrollment__c IN:lstPERAlumni 
+                                                                AND Patient_Delegate__r.Contact__c =: objUser.ContactId AND Primary_Delegate__c = TRUE LIMIT 10000];
+                
+                 List<Patient_Delegate_Enrollment__c> lstPDEActive = [SELECT ID from Patient_Delegate_Enrollment__c Where 
+                                                                      Participant_Enrollment__c =: objUser.contact.Current_Participant_Enrollment__c 
+                                                                      AND Patient_Delegate__r.Contact__c =:objUser.ContactId  And Primary_Delegate__c = True LIMIT 10000];
+                
+                objWrapper.isPastStudyVisible = lstPDERAlumni.isEmpty() ? false : true ;
+                objWrapper.isFileTabVisiblity = lstPDEActive.isEmpty() ? false : true ;  
+        }
+
+        return objWrapper;
+        
     }
 
     protected override StudyActions getStudyActions() {
