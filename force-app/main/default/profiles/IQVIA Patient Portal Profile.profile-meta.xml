@@ -4261,11 +4261,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant_Enrollment__c.Visit_Results_Opt_In__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Participant_Enrollment__c.Atid__c</field>
         <readable>false</readable>
     </fieldPermissions>
