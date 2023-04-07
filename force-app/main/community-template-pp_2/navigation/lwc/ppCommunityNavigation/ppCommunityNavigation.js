@@ -16,6 +16,7 @@ import navigationVisits from '@salesforce/label/c.PP_Tab_Visits';
 import navigationEvents from '@salesforce/label/c.PP_Tab_Events';
 import navigationProgram from '@salesforce/label/c.Navigation_AboutProgram';
 import navigationStudy from '@salesforce/label/c.Navigation_AboutStudy';
+import navigationFiles from '@salesforce/label/c.PP_Tab_Files';
 import navigationTasks from '@salesforce/label/c.PG_SW_Tab_Tasks';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import televisits from '@salesforce/label/c.Televisits';
@@ -48,6 +49,8 @@ export default class PpCommunityNavigation extends LightningElement {
     showSubMenu = false;
     @api isInitialLoad = false;
     hasRendered = false;
+    shouldDisplayFilesTab = false;
+    shouldDisplayPastStudyTab = false;
     @wire(MessageContext)
     messageContext;
     renderedCallback() {
@@ -129,6 +132,8 @@ export default class PpCommunityNavigation extends LightningElement {
                 getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
                     .then((result) => {
                         let td = JSON.parse(result);
+                        this.shouldDisplayFilesTab = td.tabvisiblity.isFileTabVisiblity;
+                        this.shouldDisplayPastStudyTab = td.tabvisiblity.isPastStudyVisible;
                         this.showVisits = td.tabs?.some((studyTab) => studyTab.id == 'tab-visits');
                         this.showResults = td.tabs?.some(
                             (resultTab) => resultTab.id == 'tab-lab-results'
@@ -262,6 +267,15 @@ export default class PpCommunityNavigation extends LightningElement {
                 visible: this.showResults,
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
+            files: {
+                page: 'files',
+                link: this.baseLink + '/pp/s/files',
+                label: navigationFiles,
+                icon: '',
+                visible: this.shouldDisplayFilesTab,
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
+            }, 
+            
             'about-study': {
                 page: 'about-study-and-overview',
                 label: navigationStudy,
@@ -282,7 +296,7 @@ export default class PpCommunityNavigation extends LightningElement {
         if (this.communityServic.getCurrentCommunityMode().currentPE) {
             this.participantTabs.push(this.allPagesMap['my-study']);
         }
-        if (this.communityServic.getCurrentCommunityMode().hasPastStudies)
+        if (this.communityServic.getCurrentCommunityMode().hasPastStudies && this.shouldDisplayPastStudyTab) //shouldDisplayPastStudyTab chekc is for primary delegate
             this.participantTabs.push(this.allPagesMap['past-studies']);
         if (this.communityServic.getEDiaryVisible()) {
             if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
