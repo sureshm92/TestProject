@@ -86,7 +86,7 @@ public without sharing class ppProgressBarUtility {
     }
 
     public static parentWrapper generateVisitData(String peId, parentWrapper pw, Boolean isProgram, Boolean setMotivationMsg, Participant_Enrollment__c pe){
-        List<Patient_Visit__c> patientVisits = [select Id,Visit__r.Visit_Description__c, Visit__r.Motivational_Message__c,Visit__r.Patient_Portal_Name__c ,Completed_Date__c,Status__c 
+        List<Patient_Visit__c> patientVisits = [select Id,Visit__c,Visit__r.Visit_Description__c,Is_Adhoc__c, Visit__r.Motivational_Message__c,Visit__r.Patient_Portal_Name__c ,Completed_Date__c,Status__c 
                     from Patient_Visit__c where Participant_Enrollment__c =:peId  order by Visit_Number__c ,Visit__r.Visit_Number__c]; 
         
         pw.isEvent = isProgram;
@@ -98,8 +98,8 @@ public without sharing class ppProgressBarUtility {
             for( Integer i=0; i<patientVisits.size(); i++){
                 Patient_Visit__c patientVisit = patientVisits[i];
                 progressWrapper prW = new progressWrapper();
-                prW.title = patientVisit.Visit__r.Patient_Portal_Name__c;
-                prW.description = patientVisit.Visit__r.Visit_Description__c;      
+                prW.title = ( patientVisit.Visit__c != null ? patientVisit.Visit__r.Patient_Portal_Name__c : (patientVisit.Is_Adhoc__c ? System.Label.Home_Page_StudyVisit_Visit : ''));  
+                prW.description = ( patientVisit.Visit__c != null ? patientVisit.Visit__r.Visit_Description__c : (patientVisit.Is_Adhoc__c ? System.Label.PP_ProgressBar_No_Visit_Adhoc : ''));      
                 prW.status = (patientVisit.Status__c == 'Missed' ? 'UNAVAILABLE' : (patientVisit.Status__c == 'Completed' ? 'COMPLETED' : 'FUTURE'));
                 prW.statusDate = patientVisit.Completed_Date__c;
                 if(((patientVisit.Status__c != 'Completed' && patientVisit.Status__c != 'Missed' ) || (patientVisits.size()-1 == i))
