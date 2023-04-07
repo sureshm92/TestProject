@@ -52,6 +52,11 @@
             let stValue = component.find('iqviaToggle').get('v.checked');
             component.find('iqviaToggle').set('v.checked', stValue);
         }
+         //Document Upload Starts
+         if (source === 'DocumentUpload') {
+            let stValue = component.find('documentUploadToggle').get('v.checked');
+            component.find('documentUploadToggle').set('v.checked', stValue);
+        }
         
         
         component.find('spinner').show();
