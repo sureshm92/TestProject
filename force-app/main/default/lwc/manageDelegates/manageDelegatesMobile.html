@@ -27,6 +27,7 @@
             tittext={label.PG_PST_L_Delegates_Remove_Himself_Header}
             onconfirmmodal={handleRemoveDelegate}
             onmodalclose={handleRemoveModalClose}
+            is-desktop={isDesktop}
         >
         </c-pp-remove-delegate-modal>
     </template>
@@ -49,6 +50,7 @@
             tittext={label.PP_Delegate_Delegate}
             ondeletemodal={handleDeleteDelegate}
             ondeletemodalclose={handleDeleteModalClose}
+            is-desktop={isDesktop}
         >
         </c-pp-delete-delegate-modal>
     </template>
