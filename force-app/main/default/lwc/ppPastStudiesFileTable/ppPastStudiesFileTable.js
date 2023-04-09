@@ -11,7 +11,7 @@ export default class PpPastStudiesFileTable extends LightningElement {
     @api pageNumber=1;
     isFile=true;
     isDelegate=false;
-    @api totalRecord=10;
+    totalRecord=10;
     isMobile = false;
     selectedmenu = 'Uploaded';
     selectedsortOption = 'Sort By'
@@ -19,12 +19,20 @@ export default class PpPastStudiesFileTable extends LightningElement {
     connectedCallback(){
         console.log('>>connected callback>>');
         this.noRecords=true;
-        if (formFactor === 'Small') {
+        if (formFactor === 'Small' || formFactor === 'Medium') {
             this.isMobile = true;
         } else {
             this.isMobile = false;
         }
-       
+        const selectEvent = new CustomEvent('gettotalrecord', {
+            detail: this.totalRecord
+        });
+        this.dispatchEvent(selectEvent);
+        
+        const selectEventnew = new CustomEvent('resetpagination', {
+            detail: ''
+        });
+        this.dispatchEvent(selectEventnew);
     
     }
     get optionstab() {

@@ -358,19 +358,19 @@ tr:hover {
 @media all and (min-width: 376px) and (max-width: 395px) {
     .document-box {
     width: 355px!important;
-    margin-left: 18px;
+    margin-left: 17px;
     }
 }
 @media all and (min-width: 321px) and  (max-width: 362px) {
     .document-box {
     width: 335px!important;
-    margin-left: 14px;
+    margin-left: 12px;
     }
 }
 @media all and  (max-width: 321px) {
     .document-box {
     width: 284px!important;
-    margin-left: 18px;
+    margin-left: 17px;
 
     }
 }
@@ -384,7 +384,7 @@ tr:hover {
 @media all and (min-width: 427px) and  (max-width: 767px) {
     .document-box {
         width: 392px  ;
-        margin-left: 22px;
+        margin-left: 17px;
         
     }
 }
@@ -403,6 +403,12 @@ tr:hover {
 @media screen and (orientation: landscape) and (max-width: 740px)  {
     
     .document-box{
-        width: 94% ;
+        width: 99% ;
+    }
+}
+@media screen and (orientation: landscape) and (min-width: 427px) and (max-width: 767px) {
+    
+    .document-box{
+        margin-left: 10px;
     }
 }
