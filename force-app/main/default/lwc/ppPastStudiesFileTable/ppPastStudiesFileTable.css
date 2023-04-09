@@ -400,13 +400,13 @@ tr:hover {
         height: 979px;
     }
 }
-@media screen and (orientation: landscape) and (max-width: 740px)  {
+@media screen and (pointer: coarse) and (orientation: landscape) and (max-width: 740px)  {
     
     .document-box{
         width: 99% ;
     }
 }
-@media screen and (orientation: landscape) and (min-width: 427px) and (max-width: 767px) {
+@media screen and (pointer: coarse) and (orientation: landscape) and (min-width: 427px) and (max-width: 767px) {
     
     .document-box{
         margin-left: 10px;

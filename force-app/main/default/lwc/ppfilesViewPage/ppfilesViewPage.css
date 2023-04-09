@@ -586,7 +586,7 @@
         width: 90%;
     } 
 }
-@media screen and (orientation: landscape) and (min-width: 74px)  and (max-width: 895px) {
+@media screen and (pointer: coarse) and (orientation: landscape) and (min-width: 74px)  and (max-width: 895px) {
     .btn-position {
         position: unset;
         bottom: 0px;
@@ -595,25 +595,25 @@
         margin-left: 3.5rem;
     }
 }
-@media screen and (orientation: landscape) and (max-width: 740px)   {
+@media screen and (pointer: coarse) and (orientation: landscape) and (max-width: 740px)   {
       
     .upload-btn {
         margin-left: 2.5rem;
     }
 }
-@media screen and (orientation: landscape) and (max-width: 1368px)  {
+@media screen and (pointer: coarse) and (orientation: landscape) and (max-width: 1368px)  {
     .upload-newFile-btn {
         width: 94%;
     }
 }
-@media screen and (pointer: coarse) and (orientation: landscape) and (min-width: 742px) and (max-width: 1180px) {
+@media screen and (pointer: coarse) and (pointer: coarse) and (orientation: landscape) and (min-width: 742px) and (max-width: 1180px) {
     
     
     .my-filesmbl { 
         margin-top: -4rem;
     }
 }
-@media screen and (pointer: coarse) and (orientation: landscape) and (max-width: 741px)  {
+@media screen and (pointer: coarse) and (pointer: coarse) and (orientation: landscape) and (max-width: 741px)  {
     
     
     .my-filesmbl { 
