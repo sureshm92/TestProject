@@ -16,12 +16,12 @@
 .update-count-1 {
     color: #ffffff;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
 }
 .update-count-2 {
     color: #ffffff;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 10px;
 }
 .update-counter-oval {
     box-sizing: border-box;
@@ -181,8 +181,8 @@
 }
 .refresh-text {
     color: #015ff1;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
 }
 .refresh-icon {
     margin-left: 8px;
