@@ -21233,6 +21233,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Program</value>
     </labels>
     <labels>
+        <fullName>PP_ProgressBar_Event_Complete
+        </fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP ProgressBar Event Complete</shortDescription>
+        <value>Mark Event as Complete</value>
+    </labels>
+    <labels>
         <fullName>PP_ProgressBar_No_Visit</fullName>
         <language>en_US</language>
         <protected>true</protected>
