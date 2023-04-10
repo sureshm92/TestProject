@@ -19,12 +19,11 @@ export default class PpPastStudiesFileTable extends LightningElement {
     connectedCallback(){
         console.log('>>connected callback>>');
         this.noRecords=true;
-        if (formFactor === 'Small') {
+        if (formFactor === 'Small' || formFactor === 'Medium') {
             this.isMobile = true;
         } else {
             this.isMobile = false;
-        }
-       
+        } 
     
     }
     get optionstab() {
