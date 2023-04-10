@@ -2,5 +2,5 @@
 <StaticResource xmlns="http://soap.sforce.com/2006/04/metadata">
     <cacheControl>Public</cacheControl>
     <contentType>application/x-zip-compressed</contentType>
-    <description>Contains all the icons and images used in IQVIA Patient Portal (PP 2.0)</description>
+    <description>Contains all the icons and images used in IQVIA Patient Portal (PP 2.0)</description> 
 </StaticResource>

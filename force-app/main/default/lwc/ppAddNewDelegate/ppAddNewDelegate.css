@@ -90,7 +90,7 @@
     padding-left: 0px;
 }
 
-.inline{
+.inline {
     display: inline;
 }
 
@@ -232,10 +232,28 @@
 .add-del-custom-radio-group .slds-radio__label {
     line-height: 2rem !important;
 }
-  
-  
-  
-  
+
+.redio-selected-bold {
+    font-weight: 600;
+}
+
+.check-box-label-class label {
+    display: flex;
+    align-items: center;
+}
+/* .check-box-label-class label :hover {
+    font-weight: bold;
+} */
+
+.check-box-label-class input[type='radio'] {
+    margin-right: 5px;
+    height: 16px;
+    width: 16px;
+}
+
+.check-box-label-class {
+    padding-bottom: 13px;
+}
 /* .input-border-radius {
     border-radius: 20px;
 }

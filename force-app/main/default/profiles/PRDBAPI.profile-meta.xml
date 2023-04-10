@@ -1370,6 +1370,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ppFileUploadController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+     <classAccesses>
+        <apexClass>PpPastStudiesFilesController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ProfileIconController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2733,6 +2741,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Document_Upload_Is_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.IQVIA_Outreach__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3422,11 +3435,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Add_televisit_for_Initial_Visit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Enrollment__c.Visit_Results_Opt_In__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

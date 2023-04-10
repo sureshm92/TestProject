@@ -1,5 +1,5 @@
 <template>
-    <div class="position-container">
+    <div class="position-container update-container">
         <c-web-spinner id="updateSpinner" class="main-spinner"></c-web-spinner>
         <template if:true={desktop}>
             <div class="slds-grid card-wrap">
@@ -8,7 +8,7 @@
                         <div class="slds-col" style="display: inline-flex">
                             <div class="updates">{label.updatesLabel}</div>
                             <div if:true={displayCounter} class="update-counter-oval">
-                                <span class="update-count">{counterLabel}</span>
+                                <span class={countStyle}>{counterLabel}</span>
                             </div>
                         </div>
                         <div class="slds-col slds-align-bottom pointer-class" onclick={refresh}>
@@ -36,6 +36,7 @@
                                         explore-data={res}
                                         desktop={desktop}
                                         show-visit-section={showvisitsection}
+                                        onremovecard={handleRemoveCard}
                                     ></c-pp-explore-updates>
                                 </div>
                                 <div if:true={res.isDoc} key={res}>
@@ -43,6 +44,7 @@
                                         document-data={res}
                                         desktop={desktop}
                                         show-visit-section={showvisitsection}
+                                        onremovecard={handleRemoveCard}
                                     ></c-pp-document-updates>
                                 </div>
                                 <div if:true={res.isLink} key={res}>
@@ -58,6 +60,7 @@
                                         explore-data={res}
                                         desktop={desktop}
                                         show-visit-section={showvisitsection}
+                                        onremovecard={handleRemoveCard}
                                     ></c-pp-explore-updates>
                                 </div>
                                 <div if:true={res.isTelevisit} key={res}>
@@ -65,6 +68,7 @@
                                         link-data={res}
                                         desktop={desktop}
                                         show-visit-section={showvisitsection}
+                                        onremovecard={handleRemoveCard}
                                     ></c-pp-link-updates>
                                 </div>
                             </template>
@@ -87,37 +91,38 @@
                         <div
                             data-id="myDiv"
                             if:true={resourcePresent}
-                            class="slds-p-left_xx-small slds-p-right_xx-small resouce-container-horizontal"
-                            onscroll={handleScroll}
+                            class="slds-p-left_x-small resouce-container-horizontal"
                         >
-                            <div class="slds-grid">
+                            <div data-id="horz_scroll" class="slds-grid" onscroll={handleScroll}>
                                 <template for:each={resourcedData} for:item="res">
                                     <div
                                         key={res}
                                         if:true={res.isExplore}
-                                        class="slds-col slds-size_3-of-12 slds-m-left_xx-small slds-m-right_xx-small horizontal-card"
+                                        class="slds-col slds-size_3-of-12 slds-m-right_x-small horizontal-card"
                                     >
                                         <c-pp-explore-updates
                                             explore-data={res}
                                             desktop={desktop}
                                             show-visit-section={showvisitsection}
+                                            onremovecard={handleRemoveCard}
                                         ></c-pp-explore-updates>
                                     </div>
                                     <div
                                         key={res}
                                         if:true={res.isDoc}
-                                        class="slds-col slds-size_3-of-12 slds-m-left_xx-small slds-m-right_xx-small horizontal-card"
+                                        class="slds-col slds-size_3-of-12 slds-m-right_x-small horizontal-card"
                                     >
                                         <c-pp-document-updates
                                             document-data={res}
                                             desktop={desktop}
                                             show-visit-section={showvisitsection}
+                                            onremovecard={handleRemoveCard}
                                         ></c-pp-document-updates>
                                     </div>
                                     <div
                                         key={res}
                                         if:true={res.isLink}
-                                        class="slds-col slds-size_3-of-12 slds-m-left_xx-small slds-m-right_xx-small horizontal-card"
+                                        class="slds-col slds-size_3-of-12 slds-m-right_x-small horizontal-card"
                                     >
                                         <c-pp-link-updates
                                             link-data={res}
@@ -129,12 +134,13 @@
                                     <div
                                         if:true={res.isMultimedia}
                                         key={res}
-                                        class="slds-col slds-size_3-of-12 slds-m-left_xx-small slds-m-right_xx-small horizontal-card"
+                                        class="slds-col slds-size_3-of-12 slds-m-right_x-small horizontal-card"
                                     >
                                         <c-pp-explore-updates
                                             explore-data={res}
                                             desktop={desktop}
                                             show-visit-section={showvisitsection}
+                                            onremovecard={handleRemoveCard}
                                         ></c-pp-explore-updates>
                                     </div>
                                     <!--    <div

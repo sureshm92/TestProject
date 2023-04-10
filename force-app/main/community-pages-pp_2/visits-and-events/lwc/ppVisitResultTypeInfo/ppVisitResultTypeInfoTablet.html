@@ -100,6 +100,7 @@
                                                 visit-result-type-with-sub-types={visitResultTypeWithSubTypes}
                                                 patient-visit-id={patientVisitId}
                                                 selected-result-type={selectedResultType}
+                                                ontotalvisitresultcount={handleResultAvailability}
                                             ></c-pp-visit-results-container>
                                         </template>
                                         <!--Vital Toggle OFF-->
@@ -131,6 +132,7 @@
                                                 visit-result-type-with-sub-types={visitResultTypeWithSubTypes}
                                                 patient-visit-id={patientVisitId}
                                                 selected-result-type={selectedResultType}
+                                                ontotalvisitresultcount={handleResultAvailability}
                                             ></c-pp-visit-results-container>
                                         </template>
                                         <!--Vital Toggle OFF-->
@@ -162,6 +164,7 @@
                                                 visit-result-type-with-sub-types={visitResultTypeWithSubTypes}
                                                 patient-visit-id={patientVisitId}
                                                 selected-result-type={selectedResultType}
+                                                ontotalvisitresultcount={handleResultAvailability}
                                             ></c-pp-visit-results-container>
                                         </template>
                                         <!--Vital Toggle OFF-->
@@ -209,7 +212,7 @@
             </div>
         </div>
         <template lwc:if={validVisitResults}
-            ><div class="view-all-results slds-p-top_small">
+            ><div class="view-all-results slds-p-top_small slds-align_absolute-center">
                 {labels.Visits_View_All_Results}
             </div></template
         >
