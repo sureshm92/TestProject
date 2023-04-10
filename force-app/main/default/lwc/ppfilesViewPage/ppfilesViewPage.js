@@ -194,22 +194,22 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
      }
   
     handleFilesChange(event) {
-        if (event.target.files.length > 0) {
-            this.Nofilesupload = false;
-          //  this.filesUploaded.push(event.target.files);
-          //  console.log('>>>>this.filesUploaded>>' + this.filesUploaded);
-         //   console.log('>>>>this.filesUploaded>>' + JSON.stringify(this.filesUploaded));  
-            for (var i = 0; i < event.target.files.length; i++) {
-                console.log('>>>name is>>' + event.target.files[i].name);
-                this.filesUploaded.push(event.target.files[i]);
-            }
-            this.progress = 0;
-            this.progressWidth = 'width :0%';
-            this.base = 1;
-            this.totalRecs = 0;
-            this.progressMultiplier = 0;
-            this.saveFile();
-        }
+        // if (event.target.files.length > 0) {
+        //     this.Nofilesupload = false;
+        //   //  this.filesUploaded.push(event.target.files);
+        //   //  console.log('>>>>this.filesUploaded>>' + this.filesUploaded);
+        //  //   console.log('>>>>this.filesUploaded>>' + JSON.stringify(this.filesUploaded));  
+        //     for (var i = 0; i < event.target.files.length; i++) {
+        //         console.log('>>>name is>>' + event.target.files[i].name);
+        //         this.filesUploaded.push(event.target.files[i]);
+        //     }
+        //     this.progress = 0;
+        //     this.progressWidth = 'width :0%';
+        //     this.base = 1;
+        //     this.totalRecs = 0;
+        //     this.progressMultiplier = 0;
+        //     this.saveFile();
+        // }
     }
 
     saveFile() {
