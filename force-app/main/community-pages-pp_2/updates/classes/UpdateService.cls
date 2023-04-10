@@ -343,4 +343,25 @@ public without sharing class UpdateService {
         @AuraEnabled
         public String sendResultId;
     }
+    public void updateNotificationsStatus(List<Id> notificationIds) {
+        List<Notification__c> notifications = [
+            SELECT Id, (SELECT Id, Status__c FROM Send_Results__r)
+            FROM Notification__c
+            WHERE id in : notificationIds
+        ];
+        for (Notification__c n : notifications) {
+            if (n.Send_Results__r.isEmpty())
+                continue;
+
+            Boolean hasInProgress = false;
+            for (Send_Result__c sr : n.Send_Results__r) {
+                if (sr.Status__c == SR_STATUS_IN_PROGRESS)
+                    hasInProgress = true;
+            }
+            if (!hasInProgress) {
+                n.Status__c = NotificationService.NOTIFICATION_STATUS_PROCESSED;
+            }
+        }
+        update notifications;
+    }
 }

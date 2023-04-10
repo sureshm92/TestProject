@@ -24,12 +24,14 @@ public without sharing class PPUpdatesController {
         return updateCount;
     }
     @AuraEnabled
-    public static void removeUpdateCard(String targetRecordId){
-        targetRecordId = '%'+targetRecordId+'%';
-        List<Send_Result__c> sendResultList = [SELECT id,Status__c FROM Send_Result__c WHERE Notification__r.Target_Record_Ids__c like : targetRecordId];
+    public static void removeUpdateCard(String sendResultId){ 
+        List<Id> notificationIds = new List<Id>();
+        List<Send_Result__c> sendResultList = [SELECT id,Status__c,Notification__c FROM Send_Result__c WHERE Id =: sendResultId];
         for(Send_Result__c sr : sendResultList){
             sr.Status__c = 'Sent';
+            notificationIds.add(sr.Notification__c);
         }
         update sendResultList;
+        UpdateService.getInstance().updateNotificationsStatus(notificationIds);
     }
 }

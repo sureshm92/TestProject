@@ -1,0 +1,335 @@
+<template>
+    <template if:false={isMobile}> 
+    <div class="my-files">My Files</div>
+    
+    <lightning-layout   class="mob-upld-card-center">
+        <template if:true={isSaving}>
+            <lightning-spinner alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+        </template>
+        <lightning-layout-item
+            class="documentuploadempty"
+            size={getsize}   >
+            <div if:false={ShowuploadSection}>  
+                <c-ppdocment-view-page onreccountupdate={recCountUpdate} onpageswap={changePage} ongettotalrecord={handletotalrecord} onresetpagination={handleresetpagination} onresetpageonupdate={handleresetpageonupdate}   stop-spinner={stopSpinnerChild} >
+                
+                </c-ppdocment-view-page>
+                <div class="tablePPn slds-col slds-large-size_12-of-12 slds-show_medium">
+                    <div class=" ">
+                        <template if:false={noRecords}>
+                        <c-pir_participant-pagination
+                            class="pg"
+                            total-records={totalRecord}
+                            onpagechange={pageChanged}
+                            is-file={isFile}
+                        >
+                        </c-pir_participant-pagination>
+                        </template>
+                    </div>
+                </div>
+            
+            </div> 
+        </lightning-layout-item>
+
+        <lightning-layout-item
+        class=" "
+        size="4">
+
+        <!-- Desktop upload View When files not available-->
+        <template if:true={isCTPenableUpload}> 
+            <span class="upload-new-document slds-show_medium">Upload New Document(s)</span>
+           
+            <div  if:true={Nofilesupload} class="maindivclass" >
+                <input onchange={handleFilesChange} type="file" class="fileInputclassEmpty" multiple></input>
+                <div class="upload-newdocument-boxNoFiles slds-align_absolute-center">
+                    <input onchange={handleFilesChange} type="file" class="fileInputclassEmpty" multiple></input>
+                    <div  class="dis-block">
+                        <span class="center"
+                            ><img src={uploadNewDocuments} class="upload-new-doc-img-size"
+                        /></span>
+                        <span class="slds-m-top_medium center"
+                            ><span class="drag-drop-txt">Drag and drop your files</span>
+                        </span>
+                        <span class="center orclass slds-m-bottom--x-small">or</span>
+                        <span class="center"><button class="browse-btn">Browse</button></span>
+
+                        <div class="center slds-m-top_x-large filesizeinfoclass">
+                            <span>{label.PP_acceptedformats}</span><br />
+                            <b>{label.PP_AcceptedFileformats} </b>
+                        </div>
+
+                        <div class="center slds-m-top_small filesizeinfoclass">
+                            Maximum upload file size is <b>4MB</b>
+                        </div> 
+                    </div> 
+                </div>
+                <div class="wait-time-nofile center">
+                    Your wait time may vary based on the number of files uploaded
+                </div>
+            </div>
+          <!-- Desktop upload View When files  available-->
+            <div if:false={Nofilesupload} class="mainuploadclass">
+            <div class="upload-newdocument-boxfiles">
+
+                <div class="fileHolder" data-id="browsediv">
+                    <input onchange={handleFilesChange} type="file" class="fileInput" multiple></input>
+                    <div class="fileBox slds-wrap">
+                       <div class="slds-size_full slds-m-top_large slds-align_absolute-center slds-p-top--small" > 
+                        <img src={uploadNewDocuments} class="desk-upload-new-doc-img-size"/>
+                       </div>
+                       <div class="slds-size_full slds-m-top_small slds-align_absolute-center uploadLabeldrag">  
+                              Drag and Drop your files  
+                       </div> 
+                       <div class="slds-size_full center   slds-m-bottom_large">
+                        or <span class="linkLabel uploadLabeldrag"> <u>browse </u> </span> 
+                       </div>
+                        
+                        <div class="center slds-m-left--medium slds-m-right--medium slds-m-top_medium uploadLabel">
+                            <span>{label.PP_acceptedformats}<b>{label.PP_AcceptedFileformats}</b></span>
+                        </div>
+        
+                        <div class="center uploadLabel">Maximum upload file size is <b>4MB</b></div> 
+                       
+                    </div>
+                </div>
+                </div>
+                        <div class="wait-time center">Your wait time may vary based on the number of files uploaded</div>
+                        <div class="scrollableclass">
+                        <template for:each={filesData} for:item="imgData" for:index="index">
+                            <div class="slds-grid slds-m-vertical_small filegrid" key={imgData.index}> 
+                                <div class="slds-truncate imgname slds-col slds-size_7-of-12" >
+                                   
+                                        <template lwc:if={imgData.isNameReadOnly}>
+                                            <span class="upld-file-txt" title={imgData.fileName}>
+                                                {imgData.fileName}
+                                            </span>
+                                        </template>
+                                        <template lwc:else>
+                                            <span class="pld-file-txtinput" title={imgData.fileName}>
+                                            <lightning-input type="text" class="renameinputclass"  value={imgData.fileName} variant="label-hidden" data-key={imgData.index}
+                                            onblur={validateandsaveFileName}></lightning-input>
+                                            </span>
+                                        </template> 
+
+                                    <div if:false={imgData.isValid} class="errorMessage" title={imgData.ErrorMessage}>
+                                        {imgData.ErrorMessage}
+                                    </div>
+                                </div> 
+                                
+
+                                <div class="progressBar slds-col slds-size_4-of-12">
+                                    <template lwc:if={imgData.isValid}> 
+                                        <div aria-valuemin="0" aria-valuemax="100" aria-valuenow={imgData.progress} aria-busy="true" role="progressbar" class="slds-progress-bar slds-progress-bar_large slds-progress-bar_circular">
+                                        <span class="slds-progress-bar__value" style={imgData.progressWidth}></span> 
+                                        </div> 
+                                    </template>
+                                 </div>
+                                 <template if:false={imgData.UploadCompleted}>
+                                    <div class="slds-col slds-size_1-of-12 imagecss">
+                                        <lightning-icon icon-name='utility:clear' data-key={imgData.index} alternative-text='clear' size='xx-small' title='clear' onclick={removeFiles}></lightning-icon>
+                                    </div>
+                                </template>
+
+                                <template if:true={imgData.UploadCompleted}>  
+                                    <template lwc:if={imgData.isValid}> 
+                                        <div class="slds-col slds-size_1-of-12 slds-dropdown-trigger slds-dropdown-trigger_click D imagecss"  onclick={showActionMenu}
+                                            tabindex="0"  onblur={closeMenu} data-key={imgData.index}>  
+                                            <div aria-haspopup="true" aria-expanded="true"   tabindex="0" onblur={closeMenu} >
+                                                <img src={threedots_imgUrl} class="image-result" />
+                                            </div> 
+
+                                            <div  class="slds-dropdown slds-dropdown_right  action-menu"  tabindex="0"  onblur={closeMenu}  >
+                                                <ul class="slds-dropdown__list"  role="menu"  aria-label="Show More">
+                                                    <template  for:each={popupActionItems}  for:item="citem" >
+                                                    <li class="slds-dropdown__item popup-default"  role="presentation"  key={citem} >
+                                                        <a  href="#"  onmousedown={callMethod}  data-method={citem.name} data-key={imgData.index} role="menuitem"  >
+                                                            <span class="slds-truncate">
+                                                                &nbsp;&nbsp;{citem.name}
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </template> 
+                                                </ul>
+                                            </div>
+                                        </div>
+                                   </template>
+                                   <template lwc:else>
+                                    <div class="slds-col slds-size_1-of-12 imagecss">
+                                        <lightning-icon icon-name='utility:clear' data-key={imgData.index} alternative-text='clear' size='xx-small' title='clear' onclick={removeFiles}></lightning-icon>
+                                    </div>
+                                    </template>
+                                </template>
+                                  
+                            </div>
+                         </template>
+                        </div> 
+                       
+                        <div class="center uploadinfo slds-m-bottom_medium">Uploaded files may be shared with study team </div>
+                        <span class="horizontal"></span>
+                        <div class="upld-can-btn slds-m-around--medium">
+                            <span class="cancel-btn slds-m-right--small">
+                                Cancel
+                            </span>
+                            <button class="std-upload-btn slds-m-horizontal_small">
+                            Upload
+                        </button>
+                    </div> 
+           
+            </div>
+        </template>
+    </lightning-layout-item>  
+    </lightning-layout>
+    </template>
+
+     <!-- Only Mob upload View -->
+    <template if:true={isMobile}> 
+        <template if:true={isSaving}>
+            <lightning-spinner alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+        </template>
+        <div class="my-filesmbl slds-m-around--small">My Files</div>
+        <lightning-layout multiple-rows class="mob-upld-card-center">
+            <lightning-layout-item size="12" class="">
+                <div if:false={ShowuploadSection}>
+                    <c-ppdocment-view-page onreccountupdate={recCountUpdate} onpageswap={changePage} ongettotalrecord={handletotalrecord} onresetpagination={handleresetpagination} onresetpageonupdate={handleresetpageonupdate}   stop-spinner={stopSpinnerChild} >
+                    
+                    </c-ppdocment-view-page> 
+                </div>
+            </lightning-layout-item>
+            <template if:true={isCTPenableUpload}> 
+            <div if:false={ShowuploadSection} class="slds-col center uploadfileBtn slds-m-top_large">
+                    <button class="upload-newFile-btn" onclick={showfileUplaodSection}>
+                        <span class="upload-new-file-txt" >Upload New Files</span>
+                    </button>
+            </div> 
+            </template>
+            <template lwc:if={ShowuploadSection}> 
+                 <lightning-layout-item  size="12" class="mbllightninglayout">
+        
+                 <div class="dis-block mob-upload-rectangle">
+                    <input onchange={handleFilesChange} type="file" class="fileInputMobile" multiple></input>
+                    <span class="slds-m-top_large center">
+                        <img src={uploadNewDocuments} class="mob-upload-new-doc-img-size"/>
+                    </span>
+                    <span class="center" >
+                        <span class="linkLabel"> <u>Browse files</u> </span>   
+                    </span>
+        
+                    <div class="center slds-m-top--large  mob-margin">
+                        <span>{label.PP_acceptedformats} <b>{label.PP_AcceptedFileformats}</b></span>
+                    </div>
+        
+                    <div class="center slds-m-bottom_small">Maximum upload file size is <b>4MB</b></div>
+                    </div>
+                    <div class="mob-wait-time center slds-m-top--medium">
+                        Your wait time may vary based on the number of files uploaded
+                    </div>
+                    <!-- Mob upload progress bar start -->
+                    <div class="upload-progress-scroll">
+                        <template for:each={filesData} for:item="imgData" for:index="index">
+        
+                            <div class="slds-grid slds-m-top_medium" key={imgData.index}>
+                                <div class="slds-col slds-size_10-of-12 slds-p-left_medium">
+                                    <template lwc:if={imgData.isNameReadOnly}>
+                                        <div class="upld-file-txt slds-m-bottom_x-small">
+                                            {imgData.fileName}
+                                        </div>
+                                    </template>
+                                    <template lwc:else>
+                                        <span class="pld-file-txtinput" title={imgData.fileName}>
+                                        <lightning-input type="text" class="renameinputclass"  value={imgData.fileName} variant="label-hidden" data-key={imgData.index}
+                                        onblur={validateandsaveFileName}></lightning-input>
+                                        </span>
+                                    </template> 
+                                    
+                                    <div class="progressBar  slds-col slds-size--1-of-1">
+                                        <template lwc:if={imgData.isValid}> 
+                                            <div aria-valuemin="0" aria-valuemax="100" aria-valuenow={imgData.progress} aria-busy="true" role="progressbar" class="slds-progress-bar slds-progress-bar_large slds-progress-bar_circular">
+                                            <span class="slds-progress-bar__value" style={imgData.progressWidth}></span> 
+                                            </div>
+                                    </template>
+                                        <div if:false={imgData.isValid} class="errorMessage" title={imgData.ErrorMessage}>
+                                            {imgData.ErrorMessage}
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+        
+                                <template if:false={imgData.UploadCompleted}>
+                                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                                        <lightning-icon icon-name='utility:clear' data-key={imgData.index} alternative-text='clear' size='xx-small' title='clear' onclick={removeFiles}></lightning-icon>
+                                    </div>
+                                </template>
+        
+                                <template if:true={imgData.UploadCompleted}>  
+                                    <template lwc:if={imgData.isValid}> 
+                                        <div class="slds-col center slds-align-middle slds-size_2-of-12 slds-dropdown-trigger slds-dropdown-trigger_click D imagecss"  onclick={showActionMenu}
+                                            tabindex="0"  onblur={closeMenu} data-key={imgData.index}>  
+                                            <div aria-haspopup="true" aria-expanded="true"   tabindex="0" onblur={closeMenu} >
+                                                <img src={threedots_imgUrl} class="image-result" />
+                                            </div> 
+        
+                                            <div  class="slds-dropdown slds-dropdown_right  action-menu"  tabindex="0"  onblur={closeMenu}  >
+                                                <ul class="slds-dropdown__list"  role="menu"  aria-label="Show More">
+                                                    <template  for:each={popupActionItems}  for:item="citem" >
+                                                    <li class="slds-dropdown__item popup-default"  role="presentation"  key={citem} >
+                                                        <a  href="#"  onmousedown={callMethod}  data-method={citem.name} data-key={imgData.index} role="menuitem"  >
+                                                            <span class="slds-truncate">
+                                                                &nbsp;&nbsp;{citem.name}
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </template>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                   </template>
+                                   <template lwc:else>
+                                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                                        <lightning-icon icon-name='utility:clear' data-key={imgData.index} alternative-text='clear' size='xx-small' title='clear' onclick={removeFiles}></lightning-icon>
+                                    </div>
+                                    </template>
+                                </template> 
+                                
+                            </div>
+                            
+                        </template>
+                     <!-- <div class="slds-grid slds-m-top_medium">
+                        <div class="slds-col slds-size_10-of-12 slds-p-left_medium">
+                            <div class="upld-file-name slds-m-bottom_x-small">Rash on Left Shoulder.jpeg</div>
+                            <div class="">upload progress bar</div>
+                        </div>
+                        <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                            <img src={threedots_imgUrl} class="image-result" />
+                        </div>
+                    </div> -->
+                   
+                </div>
+                    <!-- Mob upload progress bar end -->
+        
+                    <div class="slds-grid slds-wrap  btn-position">
+                        <div class="slds-col slds-size--1-of-1 uploadshare center slds-m-bottom--large" > 
+                            Upload may be share with study team 
+                        </div>  
+                        <div class="slds-col slds-size--4-of-12">
+                            <span><button class="cancel-btn">Cancel</button></span>
+                        </div>
+                        <div class="slds-col slds-size--8-of-12">
+                            <span><button class="upload-btn">Upload</button></span>
+                        </div>
+                    </div>
+                
+                </lightning-layout-item>
+            </template> 
+        </lightning-layout>
+
+    </template>
+
+
+
+
+
+
+
+
+</template>

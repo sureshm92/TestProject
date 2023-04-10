@@ -201,6 +201,15 @@
                             <div style="margin-left: 10px">Televisit</div>
                         </div>
                         <!-- Televisit ends -->
+                        <!-- Document Upload -->
+                         <div class="global-element">
+                            <lightning:input aura:id="documentUploadToggle" type="toggle" label="Document upload"
+                                name="DocumentUpload" onchange="{!c.saveCTP}"
+                                checked="{!v.ctp.Document_Upload_Is_Available__c}" variant="label-hidden"
+                                 />
+                            <div style="margin-left: 10px">Document upload </div>
+                        </div>
+                        <!-- Document Upload -->
                         <!-- IQVIA Outreach-->
                         <div class="global-element">
                             <lightning:input aura:id="iqviaToggle" type="toggle" label="IQVIA Outreach"
@@ -228,4 +237,7 @@
 
     <lightning:messageChannel type="rhrefresh__c" aura:id="sampleMessageChannel" />
     <lightning:messageChannel type="ppStudyUpdates__c" aura:id="ctpUpdatesChannel" />
+    <aura:dependency resource="markup://force:editRecord" type="EVENT" />
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+
 </aura:component>

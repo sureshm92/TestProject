@@ -794,20 +794,16 @@ export default class PpAddNewDelegate extends LightningElement {
         this.selectedContact = event.target.value;
         this.isContactSelected = true;
         console.log('selectedContact: ' + this.selectedContact);
-        // let checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
-        // //Unslect the previously selected checkbox and keep the latest selection.
-        // for (var i = 0; i < checkboxes.length; ++i) {
-        //     if (checkboxes[i].value != this.selectedContact) {
-        //         checkboxes[i].checked = false;
-        //     } else {
-        //         if (checkboxes[i].checked) {
-        //             this.isContactSelected = true;
-        //         } else {
-        //             this.isContactSelected = false;
-        //         }
-        //     }
-        // }
+        const labels = this.template.querySelectorAll('.check-box-label-class');
+        labels.forEach((label) => {
+            if (label.querySelector('input').value === this.selectedContact) {
+                label.classList.add('redio-selected-bold');
+            } else {
+                label.classList.remove('redio-selected-bold');
+            }
+        });
     }
+
     //Return the total number of existing contacts found.
     get existingContactsCount() {
         return this.allDelegate.length;

@@ -4,8 +4,8 @@ import FORM_FACTOR from '@salesforce/client/formFactor';
 import mobileTemplate from './ppVisitResultTypeInfoMobile.html';
 import tabletTemplate from './ppVisitResultTypeInfoTablet.html';
 import desktopTemplate from './ppVisitResultTypeInfo.html';
-import getInitDataPP from '@salesforce/apex/PP_VisitResultsService.getInitDataPP';
-import switchToggleRemoteForPP from '@salesforce/apex/PP_VisitResultsService.switchToggleRemoteForPP';
+import getInitDataModified from '@salesforce/apex/ModifiedVisitResultsRemote.getInitDataModified';
+import modifiedSwitchToggleRemote from '@salesforce/apex/ModifiedVisitResultsRemote.modifiedSwitchToggleRemote';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import Visit_Results_Tab_Vit_Disclaimer from '@salesforce/label/c.Visit_Results_Tab_Vit_Disclaimer';
 import Visit_Results_Tab_Lab_Disclaimer from '@salesforce/label/c.Visit_Results_Tab_Lab_Disclaimer';
@@ -46,13 +46,14 @@ export default class PpVisitResultTypeInfo extends LightningElement {
     toggleOffHeart = pp_icons + '/' + 'heart_Icon.svg';
 
     @track validVisitResults = false;
+    @track visitResultTypeWithSubTypes;
+    @track selectedResultType = 'Vitals';
 
     @api participantMailingCC;
     @api ctpId;
     @api ctpSharingTiming;
     @api patientVisitId;
 
-    selectedResultType = 'Vitals';
     showSpinner = true;
     isVitalsToggleOn = false;
     isLabsToggleOn = false;
@@ -61,6 +62,7 @@ export default class PpVisitResultTypeInfo extends LightningElement {
     isVitalsAvailable = false;
     isLabsAvailable = false;
     isBiomarkersAvailable = false;
+    isVisitResultsAvaliable;
 
     get isDesktop() {
         return FORM_FACTOR === 'Large' ? true : false;
@@ -80,7 +82,7 @@ export default class PpVisitResultTypeInfo extends LightningElement {
 
     initializeData() {
         if (!communityService.isDummy()) {
-            getInitDataPP({
+            getInitDataModified({
                 ctpSharingTiming: this.ctpSharingTiming,
                 patientVisitId: this.patientVisitId
             })
@@ -92,10 +94,11 @@ export default class PpVisitResultTypeInfo extends LightningElement {
                             result.visitResultsGroupNamesCTP &&
                             result.visitResultsGroupNamesCTP.length
                         ) {
-                            for (let i = 0; i < result.visitResultsGroupNamesCTP.length; i++) {
+                            let sortedOptions = result.visitResultsGroupNamesCTP.sort();
+                            for (let i = sortedOptions.length - 1; i >= 0; i--) {
                                 let resultTypeOption = {
-                                    label: result.visitResultsGroupNamesCTP[i],
-                                    value: result.visitResultsGroupNamesCTP[i],
+                                    label: sortedOptions[i],
+                                    value: sortedOptions[i],
                                     itemClass: 'dropdown-li'
                                 };
                                 this.visitResultTypeOptions = [
@@ -119,13 +122,18 @@ export default class PpVisitResultTypeInfo extends LightningElement {
                             : false;
                         //make another apex call to show values
                         this.showSpinner = false;
+                        this.visitResultTypeWithSubTypes = result.visitResultWithSubTypesCTP;
                     } else {
                         this.showSpinner = false;
                     }
                 })
                 .catch((error) => {
                     console.error(error);
-                    this.showErrorToast('Error occured here', error.message, 'error');
+                    this.showErrorToast(
+                        'Error occured here' + error.message,
+                        error.message,
+                        'error'
+                    );
                 });
         }
     }
@@ -182,9 +190,15 @@ export default class PpVisitResultTypeInfo extends LightningElement {
         }
     }
 
+    get containerClassDesktop() {
+        return this.isVisitResultsAvaliable == true
+            ? 'height-container-with-result'
+            : 'height-container-with-out-result';
+    }
+
     handleVRToggle(event) {
         this.showSpinner = true;
-        switchToggleRemoteForPP({
+        modifiedSwitchToggleRemote({
             visitResultsMode: this.selectedResultType,
             isToggleOn: event.target.checked
         })
@@ -207,6 +221,9 @@ export default class PpVisitResultTypeInfo extends LightningElement {
 
     handleVRTypeChange(event) {
         this.selectedResultType = event.detail;
+    }
+    handleResultAvailability(event) {
+        this.isVisitResultsAvaliable = event.detail;
     }
 
     showErrorToast(titleText, messageText, variantType) {

@@ -14,11 +14,13 @@
                             <template if:true={isProgram}>
                                 <c-program-overview
                                     clinicalrecord={clinicalrecord}
+                                    studysite={studysite}
                                 ></c-program-overview>
                             </template>
                             <template if:false={isProgram}>
                                 <c-study-overview
                                     clinicalrecord={clinicalrecord}
+                                    studysite={studysite}
                                 ></c-study-overview>
                             </template>
                         </template> 
@@ -94,12 +96,12 @@
                 </lightning-layout-item>
                 <template if:true={showUpcomingSection}>
                     <lightning-layout-item size="4" class="around-small-custom around-right-zero">
-                        <c-pp-updates showvisitsection={showVisitCard}></c-pp-updates>
+                        <c-pp-updates showvisitsection={showUpcomingSection}></c-pp-updates>
                     </lightning-layout-item>
                 </template>
                 <template if:false={showUpcomingSection}>
                     <lightning-layout-item size="8" class="around-small-custom around-right-zero">
-                        <c-pp-updates showvisitsection={showVisitCard}></c-pp-updates>
+                        <c-pp-updates showvisitsection={showUpcomingSection}></c-pp-updates>
                     </lightning-layout-item>
                 </template>
             </lightning-layout>
@@ -129,11 +131,14 @@
                                 <template if:true={isProgram}>
                                     <c-program-overview
                                         clinicalrecord={clinicalrecord}
+                                        studysite={studysite}
                                     ></c-program-overview>
                                 </template>
                                 <template if:false={isProgram}>
                                     <div class="vl"></div>
-                                    <c-study-overview clinicalrecord={clinicalrecord}>
+                                    <c-study-overview 
+                                        clinicalrecord={clinicalrecord}
+                                        studysite={studysite}>
                                     </c-study-overview>
                                 </template>
                             </template>

@@ -50,7 +50,18 @@
 
                     <template if:true={tabContent}>
                         <lightning-layout-item size="12">
-                            <div class="po-tab-overview">
+                            <div class="contact-detail-tab">
+                                <div class="piPhone mr-left-24 mr-24"><img src={phone_Icon} class="phoneIcon"/>
+                                    {studySitePhone}</div>
+                                <div class="mr-left-24"><img src={address_Icon} class="pinIcon"/>
+                                    <span class="site-Name">{siteName}</span>
+                                </div>
+                                <div class="site-addr mr-left-54">{siteAddress}</div>
+                                <div class="piName mr-left-24 mr-24"><img src={pi_Icon} class="piIcon"/>
+                                    {piName}&nbsp;{label.PI_Post_Fix}</div>
+                            </div>
+
+                            <div class="po-tab-overview po-mt-10">
                                 <p class="po-pb-10">
                                     <lightning-formatted-text
                                         value={label.PPOBJECTIVE}

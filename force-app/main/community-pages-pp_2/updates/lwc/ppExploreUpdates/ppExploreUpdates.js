@@ -3,7 +3,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import VERSION_DATE from '@salesforce/label/c.Version_date';
 import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 import POSTING_DATE from '@salesforce/label/c.Posting_date';
-
+import VIEW_RESOURCE from '@salesforce/label/c.PP_View_Resource';
 export default class PpExploreUpdates extends NavigationMixin(LightningElement) {
     @api exploreData;
     @api showVisitSection;
@@ -11,7 +11,8 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
     noExploreImage = false;
     labels = {
         VERSION_DATE,
-        POSTING_DATE
+        POSTING_DATE,
+        VIEW_RESOURCE
     };
 
     connectedCallback() {
@@ -19,47 +20,32 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
     }
 
     handleNoExploreImageError() {
-        console.log('No thumbnail Image');
         this.noExploreImage = true;
     }
 
     navigateResourceDetail() {
         this.removeCardHandler();
-        let subDomain = communityService.getSubDomain();
-        let state;
+        let participantState;
         if (communityService.isInitialized()) {
-            state = communityService.getCurrentCommunityMode().participantState;
+            participantState = communityService.getCurrentCommunityMode().participantState;
         }
-        let detailLink =
-            window.location.origin +
-            subDomain +
-            '/s/resource-detail' +
-            '?resourceid=' +
-            this.exploreData.recId +
-            '&resourcetype=' +
-            this.exploreData.resourceDevRecordType +
-            '&state=' +
-            state +
-            '&showHomePage=true';
-
-        const config = {
-            type: 'standard__webPage',
-
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: detailLink
+                pageName: 'resource-detail'
+            },
+            state: {
+                resourceid: this.exploreData.recId,
+                resourcetype: this.exploreData.resourceDevRecordType,
+                state: participantState,
+                showHomePage: true
             }
-        };
-
-        this[NavigationMixin.Navigate](config, true);
+        });
     }
     removeCardHandler() {
-        const targetRecId = this.exploreData.targetRecordId;
-        removeCard({ targetRecordId: targetRecId })
-            .then((returnValue) => {})
-            .catch((error) => {
-                //console.log('error message 1'+error.message);
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-                this.spinner.hide();
-            });
+        const removeCardEvent = new CustomEvent('removecard', {
+            detail: { sendResultId: this.exploreData.sendResultId }
+        });
+        this.dispatchEvent(removeCardEvent);
     }
 }

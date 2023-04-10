@@ -40,6 +40,7 @@ public with sharing class StudyConfigurationRemote {
                     Visits_are_Available__c,
                     Televisit_Vendor_is_Available__c, //Televisit
                     IQVIA_Outreach__c,
+                    Document_Upload_Is_Available__c, 
                     E_Consent_Configuration__c,
                     Status_Milestone_Available__c,
                     CommunityTemplate__c

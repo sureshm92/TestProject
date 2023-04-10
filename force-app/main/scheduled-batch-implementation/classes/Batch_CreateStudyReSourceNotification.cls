@@ -18,7 +18,8 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                     Participant_Contact__r.userCommunityMode__c,
                     Participant_Status__c,
                     Study_Site__r.Approved_Lng__c,
-                    Study_Site__r.Site__r.BillingCountryCode
+                    Study_Site__r.Site__r.BillingCountryCode,
+                    Participant__r.Has_Studies_In_Progress__c
                 FROM Participant_Enrollment__c
                 WHERE
                     Clinical_Trial_Profile__c IN :ctpIds
@@ -129,8 +130,15 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                 if (pe.Clinical_Trial_Profile__c == res.Clinical_Trial_Profile__c) {
                 for (Contact contact : peContacts) {
                     Boolean isDelegate = pe.Participant_Contact__c != contact.Id;
-                    if (contact.userCommunityMode__c == null)
-                        continue;
+                        if (
+                            (contact.userCommunityMode__c == null) ||
+                            (!pe.Participant__r.Has_Studies_In_Progress__c &&
+                            (res.Resource__r.Content_Type__c !=
+                            ResourceService.RESOURCE_TYPE_RELEVANT_LINK &&
+                            res.Resource__r.Content_Type__c !=
+                            ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT))
+                        )
+                            continue;
 
                     if (
                         StudyResourceVisibilityService.isResourceVisibleForPE(
@@ -156,6 +164,8 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                     )
                                 );
                             }
+                                if (isDelegate)
+                                    continue;
                             if (res.Resource__r.Content_Type__c == 'Study_Document') {
                                 notifications.add(
                                     new Notification__c(

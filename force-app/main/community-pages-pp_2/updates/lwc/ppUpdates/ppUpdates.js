@@ -2,6 +2,7 @@ import { LightningElement, track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getSendResultUpdates from '@salesforce/apex/PPUpdatesController.getSendResultUpdates';
 import getSendResultCount from '@salesforce/apex/PPUpdatesController.getSendResultCount';
+import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import DEVICE from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
@@ -34,7 +35,14 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         refresh
     };
     timer;
-    ERROR_MESSAGE = 'Counter';
+    get countStyle() {
+        if (this.counter >= 100) {
+            return 'update-count-2';
+        } else {
+            return 'update-count-1';
+        }
+    }
+
     renderedCallback() {
         if (!this.isRendered) {
             this.isRendered = true;
@@ -67,8 +75,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.getUpdates();
             })
             .catch((error) => {
-                console.log('counter failed');
-                this.showErrorToast(this.ERROR_MESSAGE, error.message, 'error');
+                console.log('error message : ' + error?.message);
                 this.spinner.hide();
             });
     }
@@ -102,14 +109,14 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.spinner.hide();
             })
             .catch((error) => {
-                this.showErrorToast(this.ERROR_MESSAGE, error.message, 'error');
+                console.log('error message : ' + error?.message);
                 this.spinner.hide();
             });
     }
     addHorizontalScroll() {
         if (this.counter > 4 && this.desktop && !this.showvisitsection) {
-            const myDiv = this.template.querySelector('.resouce-container-horizontal');
-            myDiv.classList.add('horizontal-scroll');
+            var scrollDiv = this.template.querySelector('[data-id = "horz_scroll"]');
+            scrollDiv.classList.add('horizontal-scroll');
         }
     }
     addVerticalScroll() {
@@ -155,9 +162,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             this.initializeData();
         }, 1000);
     }
-    openLink(event) {
-        window.open(event.currentTarget.dataset.link, '_blank');
-    }
 
     showErrorToast(titleText, messageText, variantType) {
         this.dispatchEvent(
@@ -167,5 +171,13 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 variant: variantType
             })
         );
+    }
+    handleRemoveCard(event) {
+        const sendResultId = event.detail.sendResultId;
+        removeCard({ sendResultId: sendResultId })
+            .then((returnValue) => {})
+            .catch((error) => {
+                console.log('error message ' + error?.message);
+            });
     }
 }

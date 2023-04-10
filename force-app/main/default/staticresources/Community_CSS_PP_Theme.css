@@ -24,10 +24,21 @@
     .menu-block {
         position: relative !important;
     }
+
+    .slds-popover_tooltip,
+    .slds-popover--tooltip ::after {
+        background-color: #444444;
+        margin-right: .5rem;
+    }
 }
 @media (max-width: 390px) {
     .logo-container-pp {
         width: 190px !important;
+    }
+    .slds-popover_tooltip,
+    .slds-popover--tooltip ::after {
+        background-color: #444444;
+        margin-right: .5rem;
     }
 }
 
@@ -1172,7 +1183,10 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .manage-del-continer-mobile{
     margin-left: 16px !important;
     margin-right: 16px !important;
-    margin-top: 10px !important;
+    margin-top: 0px !important;
+}
+.manage-delegate-acc-setting .manage-delegates-header{
+    font-size: 24px !important;
 }
 .manage-del .del-container{
     border-radius: 8px !important;
@@ -1244,40 +1258,10 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .add-assignment-former-rectangle{
     border-radius: 16px !important;
 }
-/* Delegate Redesing - Manage delegate page CSS override -ends*/
 
-/* Delegate Redesing - Remove/Delete Modal - CSS Override - Start */
-.manage-delegate .card-top-bg{
-	height: 16px !important;
-    background: linear-gradient(90deg, #005587 0%, #008D9E 100%) !important;
-    border-top-left-radius: 16px !important;
-    border-top-right-radius: 16px !important;
-}
-
-.manage-delegate .footer-container{
-	border-bottom-left-radius: 16px !important;
-    border-bottom-right-radius: 16px !important;
-}
-.manage-delegate .button-confirm{
-    height: 32px !important;
-    width: 107px !important;
-    border-radius: 20px !important;
-    background-color: #015FF1 !important;
-}
-
-.manage-delegate .button-delete{
-    height: 32px !important;
-    width: 107px !important;
-    border-radius: 20px !important;
-}
-
-.manage-delegate .button-cancel{
-        height: 32px !important;
-}
 .manage-delegate-acc-setting .save-button-aligment{
     padding: 22px 0px 0px 12px;	
 }
-/* Delegate Redesing - Remove/Delete Modal - CSS Override - Ends */
 /* Delegate Redesing - Add New Delegate Page CSS  Override - Starts*/
 .manage-del-multi-picklist .multipicklist-box{
     border-radius: 21px !important;
@@ -1294,6 +1278,66 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 /* .manage-del-multi-picklist .study-box-manage-del{
     line-height: 32px !important;
+} */
+.manage-delegate-acc-setting .check-box-label-class input:focus {
+    box-shadow: none !important
+}
+.manage-delegate-acc-setting .md-check-box-layout-item{
+    height: 32px !important;
+    width: 100% !important;
+    padding-top: 10px !important;
+    padding-left: 10px !important;
+    font-size: 16px !important;
+    font-family: 'Proxima Nova' !important;
+    cursor: pointer !important;
+}
+
+.manage-delegate-acc-setting .md-check-box-layout-item:hover{  
+    background: #ecf3ff !important;
+}
+.manage-delegate-acc-setting .manage-del-continer .md-check-box-layout-item{
+    height: 32px !important;
+    width: 100% !important;
+    padding-top: 0px !important;
+    padding-left: 10px !important;
+    font-size: 16px !important;
+    font-family: 'Proxima Nova' !important;
+    cursor: pointer !important;
+}
+
+.manage-delegate-acc-setting .manage-del-continer .md-check-box-layout-item:hover{  
+    background: #ecf3ff !important;
+}
+.manage-delegate-acc-setting .manage-del-continer-mobile .md-check-box-layout-item{
+    height: 32px !important;
+    width: 100% !important;
+    padding-top: 0px !important;
+    padding-left: 10px !important;
+    font-size: 16px !important;
+    font-family: 'Proxima Nova' !important;
+    cursor: pointer !important;
+}
+
+.manage-delegate-acc-setting .manage-del-continer-mobile .md-check-box-layout-item:hover{  
+    background: #ecf3ff !important;
+}
+.manage-delegate-acc-setting .noclk .slds-checkbox_faux{
+            margin-top: -2px;
+}
+
+/* .manage-delegate-acc-setting .slds-checkbox [type='checkbox']:hover + .slds-checkbox__label .slds-checkbox_faux:before {
+    border: 1px solid #015ff1 !important;
+    background-color: transparent !important;
+    height: 16px !important;
+    width: 16px !important;
+    content: '' !important;
+    position: absolute !important;
+    border-radius: 2px !important;
+    top: 0px !important;
+    left: 0px !important;
+}
+.manage-delegate-acc-setting .slds-listbox_vertical .slds-listbox__option:hover{
+    background-color: transparent !important; 
 } */
 .manage-delegate-acc-setting .del-access-rectangle {
     border-radius: 16px !important;
@@ -1375,6 +1419,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .manage-del-multi-picklist .slds-combobox_container{
     height: 32px !important;
 }
+.manage-delegate-acc-setting .manage-del-multi-picklist .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    font-size:14px !important;
+}
 .manage-delegate-acc-setting .add-del-padding {
     padding: 0px !important;
 }
@@ -1407,6 +1454,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
         margin-right: 0px !important;
         padding-top: 0px!important;
     }
+    .manage-delegate-acc-setting .pp-manade-del-modal .slds-icon_container {
+        display: none !important;
+     }
 }
 
 .manage-delegate-acc-setting .slds-truncate_container_25{
@@ -1493,5 +1543,14 @@ svg:not(:root) {
     width: 24px !important;
     display: block !important;
 }
-
+.contact-support-popup .slds-modal {
+    position: absolute;
+    top: 48px;
+    }
+.contact-support-popup .slds-modal__container{
+    height: auto;
+}
+.update-container .rr-spinner{
+    background-color: transparent;
+}
 /* Contact support Modal css- Ends */

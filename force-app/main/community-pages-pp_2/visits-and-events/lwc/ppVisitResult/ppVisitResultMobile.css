@@ -1,0 +1,29 @@
+.actual-value {
+    color: #c42ea5;
+    font-size: 1.5rem;
+    font-weight: 600;
+    /* padding-top: 0.924rem;
+     padding-bottom: 1.076rem;*/
+}
+.not-available-text {
+    color: #444444;
+    font-size: 1rem;
+    font-weight: 600;
+}
+.expected-range {
+    color: #757575;
+    font-size: 0.875rem;
+    /* line-height: 1.5rem;*/
+}
+.result-available {
+    padding-bottom: 0.5rem;
+}
+.result-not-available {
+    padding-bottom: 0.8rem;
+}
+.result-name {
+    color: #444444;
+    font-size: 1rem;
+    letter-spacing: 0;
+    /* line-height: 1.5rem;*/
+}

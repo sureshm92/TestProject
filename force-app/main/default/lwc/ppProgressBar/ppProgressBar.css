@@ -88,6 +88,9 @@ div{
 .tRight{
     text-align: end;
 }
+.tCenter{
+    text-align: center;
+}
 .leftTitle{
     color: #444444;
     font-family: "Proxima Nova";
@@ -265,12 +268,25 @@ c-pp-modal .close-cursor {
     }
     .iconCont{
         padding: 0px;
+        display: block;
     } 
     .rightImg{
         text-align: right;
     }
 }
 @media all and (max-width: 420px) {
+    .rightText{
+        width: unset;
+    }
+    .rightImg{
+        width: 100%;
+        text-align: end;
+    }
+    .rightImg img {
+        width: 32%;
+    }
+}
+@media all and (max-width: 1038px) and (min-width: 1024px) {
     .rightText{
         width: unset;
     }

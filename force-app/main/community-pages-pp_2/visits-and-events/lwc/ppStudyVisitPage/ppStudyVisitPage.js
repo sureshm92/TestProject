@@ -188,6 +188,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                                 pastWithDate.push(result[i]);
                             }
                         }
+
+                        if (result[i]?.visit?.Visit__r?.Patient_Portal_Name__c) {
+                            result[i].ppVisitName =
+                                result[i]?.visit?.Visit__r?.Patient_Portal_Name__c;
+                        } else {
+                            result[i].ppVisitName = '';
+                        }
                     }
                     pastWithDate = pastWithDate.sort(function (visit1, visit2) {
                         // Turn your strings into dates, and then subtract them
@@ -338,7 +345,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         if (this.pastVisits.length > 0) {
             this.isPastVisits = true;
             this.visitid = this.pastVisitId;
-            this.visitName = this.pastVisits[0].visit?.Is_Adhoc__c?this.label.unscheduledVisit:this.pastVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
+            this.visitName = this.pastVisits[0].visit?.Is_Adhoc__c
+                ? this.label.unscheduledVisit
+                : this.pastVisits[0].visit?.Visit__r?.Patient_Portal_Name__c;
             this.plannedDate = this.pastVisits[0].visit.Planned_Date__c;
             this.visitStatus = this.pastVisits[0].visit.Status__c;
             if (this.visitStatus == 'Missed') this.visitStatus = this.label.visitUnavailable;
@@ -379,7 +388,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         if (past) {
             this.past = true;
             this.visitid = this.pastVisits[index].visit.Id;
-            this.visitName = this.pastVisits[index].visit?.Is_Adhoc__c?this.label.unscheduledVisit:this.pastVisits[index].visit?.Visit__r?.Patient_Portal_Name__c;
+            this.visitName = this.pastVisits[index].visit?.Is_Adhoc__c
+                ? this.label.unscheduledVisit
+                : this.pastVisits[index].visit?.Visit__r?.Patient_Portal_Name__c;
             this.plannedDate = this.pastVisits[index].visit.Planned_Date__c;
             this.isInitialVisit = this.pastVisits[index].visit.Is_Pre_Enrollment_Patient_Visit__c;
             if (this.pastVisits[index].missedVisit) {

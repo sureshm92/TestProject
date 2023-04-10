@@ -6,9 +6,6 @@
 .card-wrap {
     padding: 0;
 }
-.refresh_icon {
-    height: 25px;
-}
 .updates {
     color: #444444;
     font-size: 24px;
@@ -16,11 +13,15 @@
     letter-spacing: 0;
     line-height: 32px;
 }
-
-.update-count {
+.update-count-1 {
     color: #ffffff;
-    font-size: 16px;
     font-weight: 600;
+    font-size: 16px;
+}
+.update-count-2 {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 13px;
 }
 .update-counter-oval {
     box-sizing: border-box;
@@ -29,7 +30,7 @@
     text-align: center;
     border-radius: 50%;
     margin: 0.3rem 0 0 0.6rem;
-    border: 1px solid #ffffff;
+    border: 1.5px solid #ffffff;
     background-color: #e20000;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 }
@@ -172,6 +173,7 @@
     overflow-y: scroll;
     white-space: nowrap;
     overflow-x: hidden;
+    margin-right: 7px;
 }
 ::-webkit-scrollbar {
     width: 8px;
@@ -179,11 +181,14 @@
 }
 .refresh-text {
     color: #015ff1;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 600;
 }
 .refresh-icon {
     margin-left: 8px;
     height: 16px;
-    width: 18px;
+    margin-right: 8px;
+}
+.pointer-class {
+    cursor: pointer;
 }

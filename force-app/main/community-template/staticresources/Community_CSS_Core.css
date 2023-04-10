@@ -2015,4 +2015,49 @@ outline: none !important;
 .manage-delegate-acc-setting-old .study-box{
     height: 40px !important;
 }
+.manage-delegate-acc-setting-old .check-box-label-class input:focus {
+    box-shadow: none !important
+}
+.manage-delegate-acc-setting-old .md-check-box-layout-item{
+    height: 32px !important;
+    width: 100% !important;
+    padding-top: 10px !important;
+    padding-left: 10px !important;
+    font-size: 16px !important;
+    font-family: 'Proxima Nova' !important;
+    cursor: pointer !important;
+}
+
+.manage-delegate-acc-setting-old .md-check-box-layout-item:hover{  
+    background: #ecf3ff !important;
+}
+.manage-delegate-acc-setting-old .manage-del-continer .md-check-box-layout-item{
+    height: 32px !important;
+    width: 100% !important;
+    padding-top: 0px !important;
+    padding-left: 10px !important;
+    font-size: 16px !important;
+    font-family: 'Proxima Nova' !important;
+    cursor: pointer !important;
+}
+
+.manage-delegate-acc-setting-old .manage-del-continer .md-check-box-layout-item:hover{  
+    background: #ecf3ff !important;
+}
+.manage-delegate-acc-setting-old .noclk .slds-checkbox_faux{
+            margin-top: -2px;
+}
+.manage-delegate-acc-setting-old .manage-del-continer-mobile .md-check-box-layout-item{
+    height: 32px !important;
+    width: 100% !important;
+    padding-top: 0px !important;
+    padding-left: 10px !important;
+    font-size: 16px !important;
+    font-family: 'Proxima Nova' !important;
+    cursor: pointer !important;
+}
+
+.manage-delegate-acc-setting-old .manage-del-continer-mobile .md-check-box-layout-item:hover{  
+    background: #ecf3ff !important;
+}
 /* Delegate redesing - Chages-  Ends */

@@ -2,6 +2,7 @@ import { LightningElement, api } from 'lwc';
 import versionDate from '@salesforce/label/c.Version_date';
 import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 import { NavigationMixin } from 'lightning/navigation';
+import VIEW_RESOURCE from '@salesforce/label/c.PP_View_Resource';
 export default class PpDocumentUpdates extends NavigationMixin(LightningElement) {
     @api documentData;
     @api showVisitSection;
@@ -11,7 +12,8 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
     subDomain;
     thumbnail;
     label = {
-        versionDate
+        versionDate,
+        VIEW_RESOURCE
     };
 
     connectedCallback() {
@@ -31,10 +33,9 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
 
     navigateResourceDetail() {
         this.removeCardHandler();
-        let subDomain = communityService.getSubDomain();
-        let state;
+        let participantState;
         if (communityService.isInitialized()) {
-            state = communityService.getCurrentCommunityMode().participantState;
+            participantState = communityService.getCurrentCommunityMode().participantState;
         }
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
@@ -42,22 +43,17 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
                 pageName: 'resource-detail'
             },
             state: {
-                resourceid: this.documentData.resource.Id,
-                resourcetype: this.documentData.resource.RecordType.DeveloperName,
-                state: state
+                resourceid: this.documentData.recId,
+                resourcetype: this.documentData.resourceDevRecordType,
+                state: participantState,
+                showHomePage: true
             }
         });
     }
     removeCardHandler() {
-        console.log('calling removeCardHandler');
-        const targetRecId = this.documentData.targetRecordId;
-        console.log('targetRecId : ' + targetRecId);
-        removeCard({ targetRecordId: targetRecId })
-            .then((returnValue) => {})
-            .catch((error) => {
-                //console.log('error message 1'+error.message);
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-                this.spinner.hide();
-            });
+        const removeCardEvent = new CustomEvent('removecard', {
+            detail: { sendResultId: this.documentData.sendResultId }
+        });
+        this.dispatchEvent(removeCardEvent);
     }
 }
