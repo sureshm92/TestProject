@@ -1,7 +1,7 @@
 <template>
     <template if:false={isMobile}>
-        <lightning-layout-item size="12" large-device-size="8" medium-device-size="12">
-            <span class="document slds-show_medium">Documents</span>
+       
+            <span class="document">Documents</span>
             <div class="document-box pir-parent">
                 
                 <div class="section-padding all-tabs slds-show_medium">
@@ -175,11 +175,11 @@
                     </div>
                 </div> -->
             </div>
-        </lightning-layout-item>
+         
     </template>
     <!-- only for mobile table data start here -->
     <template if:true={isMobile}>
-        <lightning-layout-item size="12">
+        
             <div class="document-box pir-parent"> 
                 <div class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large D">
                     <button
@@ -270,7 +270,7 @@
             </div>
         </template>
     </div>
-    </lightning-layout-item>
+     
 </template>
         <!-- only for mobile table data end here -->
 </template>
