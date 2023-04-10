@@ -45,7 +45,14 @@
                                 name="programToggle" checked="{!v.ctp.Is_Program__c}" onchange="{!c.saveCTP}"
                                 variant="label-hidden" />
                             <div style="margin-left: 10px; margin-right: 20px">
+                                <span>
                                 Program (Description)
+                                    <aura:if isTrue="{!v.ctp.CommunityTemplate__c == 'PatientPortal'}">
+                                        <lightning:helptext class="helpTxt"
+                                            content="Provide the program description and motivational message to populate on the progress bar for the participant and their delegate."
+                                        />
+                                    </aura:if>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -56,7 +63,12 @@
                                 <lightning:input aura:id="pp2StToggle" type="toggle" label="Status/Milestones PP2"
                                     name="statusTimelineTogglePP2" checked="{!v.ctp.Status_Milestone_Available__c}"
                                     onchange="{!c.saveCTP}" variant="label-hidden" />
-                                <div style="margin-left: 10px">Status/Milestones</div>
+                                <div style="margin-left: 10px">
+                                    <span>
+                                        Status/Milestones
+                                        <lightning:helptext class="helpTxt" content="Provide the status description and motivational message under Status Description tab to populate on the progress bar for the participant and their delegate."/>
+                                    </span>
+                                </div>
                             </div>
                             <aura:set attribute="else">
                                 <div class="global-element">
@@ -72,7 +84,16 @@
                             <lightning:input aura:id="vsToggle" type="toggle" label="Visits/Events"
                                 name="visitScheduleToggle" checked="{!v.ctp.Visit_Schedule_Is_Available__c}"
                                 onchange="{!c.saveCTP}" variant="label-hidden" />
-                            <div style="margin-left: 10px; margin-right: 20px">Visits/Events</div>
+                            <div style="margin-left: 10px; margin-right: 20px">
+                                <span>
+                                    Visits/Events
+                                    <aura:if isTrue="{!v.ctp.CommunityTemplate__c == 'PatientPortal'}">
+                                        <lightning:helptext class="helpTxt"
+                                            content="Provide the visit/event description and motivational message to populate on the progress bar for the participant and their delegate."
+                                        />
+                                    </aura:if>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="group-title">Resources</div>
