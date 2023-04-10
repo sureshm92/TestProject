@@ -2293,6 +2293,11 @@ public without sharing class PIR_HomepageController {
         } else {
           pe.Final_consent__c = finalconsent;
         }
+        if(pe.Final_consent__c == true){
+          pe.Final_Consent_Date__c= system.today();
+          }else{
+            pe.Final_Consent_Date__c = null; 
+          }
           pe.Participant_Status_Last_Changed_Date__c = system.now();
           if (consentSigned != null && signedDate != null) {
               pe.Informed_Consent__c = consentSigned;
