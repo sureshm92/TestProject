@@ -7,6 +7,7 @@ import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import Mark_As_Completed from '@salesforce/label/c.BTN_Mark_As_Completed';
 import BTN_Continue from '@salesforce/label/c.Continue';
 import PP_ProgressBar_No_Visit from '@salesforce/label/c.PP_ProgressBar_No_Visit';
+import PP_ProgressBar_Event_Complete from '@salesforce/label/c.PP_ProgressBar_Event_Complete';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 
@@ -48,7 +49,8 @@ export default class PpProgressBar extends LightningElement {
         PP_Event_Completion_Warning_Message,
         Mark_As_Completed,
         BTN_Continue,
-        PP_ProgressBar_No_Visit
+        PP_ProgressBar_No_Visit,
+        PP_ProgressBar_Event_Complete
     };
     parentWrapper ;
     bars;

@@ -51,7 +51,7 @@
     border-radius: 8px;
     background-color: #f2f2f2;
     margin-bottom: 8.02px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .addressContainer {
@@ -122,7 +122,7 @@
     font-weight: 500;
     letter-spacing: 0;
     line-height: 21px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .addressContent {
@@ -136,7 +136,7 @@
     letter-spacing: 0;
     line-height: 21px;
     word-wrap: break-word;
-    cursor: pointer;
+    /* cursor: pointer; */
     margin-bottom: 15px;
 }
 
@@ -202,7 +202,7 @@
     position: absolute;
 }
 
-.site-staff-container{
+.site-staff-container {
     overflow-y: auto;
     width: 100%;
 }
