@@ -190,7 +190,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
 
      showfileUplaodSection(){
          console.log('>>>calling btuton>>');
-         this.ShowuploadSection = true;
+        // this.ShowuploadSection = true;
      }
   
     handleFilesChange(event) {
