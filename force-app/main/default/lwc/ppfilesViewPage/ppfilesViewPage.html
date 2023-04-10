@@ -183,6 +183,10 @@
 
      <!-- Only Mob upload View -->
     <template if:true={isMobile}> 
+        <template if:true={isSaving}>
+            <lightning-spinner alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+        </template>
         <div class="my-filesmbl slds-m-around--small">My Files</div>
         <lightning-layout multiple-rows class="mob-upld-card-center">
             <lightning-layout-item size="12" class="">
@@ -192,11 +196,13 @@
                     </c-ppdocment-view-page> 
                 </div>
             </lightning-layout-item>
+            <template if:true={isCTPenableUpload}> 
             <div if:false={ShowuploadSection} class="slds-col center uploadfileBtn slds-m-top_large">
                     <button class="upload-newFile-btn" onclick={showfileUplaodSection}>
-                        <span class="upload-new-file-txt" >Upload New File</span>
+                        <span class="upload-new-file-txt" >Upload New Files</span>
                     </button>
             </div> 
+            </template>
             <template lwc:if={ShowuploadSection}> 
                  <lightning-layout-item  size="12" class="mbllightninglayout">
         
@@ -288,7 +294,7 @@
                             </div>
                             
                         </template>
-                     <div class="slds-grid slds-m-top_medium">
+                     <!-- <div class="slds-grid slds-m-top_medium">
                         <div class="slds-col slds-size_10-of-12 slds-p-left_medium">
                             <div class="upld-file-name slds-m-bottom_x-small">Rash on Left Shoulder.jpeg</div>
                             <div class="">upload progress bar</div>
@@ -296,7 +302,7 @@
                         <div class="slds-col center slds-align-middle slds-size_2-of-12">
                             <img src={threedots_imgUrl} class="image-result" />
                         </div>
-                    </div>
+                    </div> -->
                    
                 </div>
                     <!-- Mob upload progress bar end -->
