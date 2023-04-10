@@ -1,0 +1,276 @@
+<template>
+    <template if:false={isMobile}>
+       
+            <span class="document">Documents</span>
+            <div class="document-box pir-parent">
+                
+                <div class="section-padding all-tabs slds-show_medium">
+                    <lightning-tabset active-tab-value="">
+                        <lightning-tab label="Uploaded">
+                            <template if:false={noRecords}>
+                            <div
+                                class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small ppfont tablePP"
+                            >
+                                <div class="table-width nodata paddingTable">
+                                    <table
+                                        role="grid"
+                                        class="slds-table slds-table_cell-buffer table-width-D"
+                                    >
+                                        <colgroup>
+                                            <col class="fTitle" />
+                                            <col class="ffileType" />
+                                            <col span="2" class="fUploadDate" />
+                                            <col class="fDownload" />
+                                            <col class="fDelete" />
+                                        </colgroup>
+                                        <!--Header of the table-->
+                                        <thead>
+                                            <tr class="slds-line-height_reset">
+                                                <th
+                                                    class="table-header slds-large-size_5-of-12"
+                                                    scope="col"
+                                                >
+                                                    <div
+                                                        class="table-header-label slds-truncate pptablewidth"
+                                                        title="Title"
+                                                    >
+                                                        Title
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    class="table-header slds-text-align_center slds-medium-size_2-of-12"
+                                                    scope="col"
+                                                >
+                                                    <div
+                                                        class="table-header-label slds-truncate"
+                                                        title="File Type"
+                                                    >
+                                                        File Type
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    class="table-header slds-text-align_center slds-medium-size_2-of-12"
+                                                    scope="col"
+                                                >
+                                                    <div
+                                                        class="table-header-label slds-truncate"
+                                                        title="Upload Date"
+                                                    >
+                                                        Upload Date
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    class="table-header slds-text-align_center slds-medium-size_1-of-12"
+                                                    scope="col"
+                                                >
+                                                    <div class="table-header-label slds-truncate"></div>
+                                                </th>
+                                                <th
+                                                    class="table-header slds-medium-size_1-of-12"
+                                                    scope="col"
+                                                >
+                                                    <div class="table-header-label slds-truncate"></div>
+                                                </th>
+
+                                                <!---  <th class="table-header slds-text-align_center" scope="col">
+                                                    <div class="table-header-label slds-truncate" title="Status">Status</div>
+                                                </th>-->
+                                            </tr>
+                                        </thead>
+                                        <!-- <template if:true={cvList}>-->
+                                                <tbody >
+                                                    <tr class="slds-hint-parent table-row divider">
+                                                        <td data-label="ftitle">
+                                                            <div class="slds-truncate" title="Title">
+                                                                <a href="" target="_blank"
+                                                                    >Title
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            data-label="ffiletype"
+                                                            class="slds-text-align_center"
+                                                        >
+                                                            <div
+                                                                class="slds-truncate"
+                                                                title="FileType"
+                                                            >
+                                                                FileType
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            data-label="fuploaddate"
+                                                            class="slds-text-align_center"
+                                                        >
+                                                            <div class="slds-truncate">
+                                                                22/09/2022
+                                                                <!-- <lightning-formatted-date-time
+                                                                    year="numeric"
+                                                                    month="short"
+                                                                    day="2-digit"
+                                                                    value="CreatedDate"
+                                                                ></lightning-formatted-date-time> -->
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            data-label="action"
+                                                            class="slds-text-align_center"
+                                                        >
+                                                            <div class="slds-truncate" title="">
+                                                                <a href='' target="_blank">
+                                                                    <lightning-icon
+                                                                        icon-name="utility:download"
+                                                                        size="x-small"
+                                                                        alternative-text="Download"
+                                                                        title="Download"
+                                                                    >
+                                                                    </lightning-icon>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                        <td data-label="action" class="">
+                                                            <div class="slds-truncate" title="">
+                                                                <a href="" target="_blank">
+                                                                    <lightning-icon
+                                                                        icon-name="utility:delete"
+                                                                        size="x-small"
+                                                                        alternative-text="Delete"
+                                                                        title="Delete"
+                                                                    >
+                                                                    </lightning-icon>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                        <!--  </template>-->
+                                    </table>
+                                </div>
+                            </div>
+                        </template>
+                        </lightning-tab>
+                        <lightning-tab label="Shared with Me">  </lightning-tab>
+                    </lightning-tabset>
+                </div>
+            
+                <template if:true={noRecords}>
+                    <div class="slds-align_absolute-center top-center">
+                        <div class="dis-block">
+                            <span class="center"
+                                ><img src={noDocumentAvailable} class="no-doc-img-size"
+                            /></span>
+                            <span class="no-doc-txt slds-m-top_medium">No documents available</span>
+                        </div>
+                    </div>
+                </template>
+                <!-- <div class="tablePPn slds-col slds-large-size_12-of-12">
+                    <div class="slds-align--absolute-center">
+                        <c-pir_participant-pagination
+                            class="pg"
+                            total-records={totalRecord}
+                            onpagechange={pageChanged}
+                            is-file={isFile}
+                        >
+                        </c-pir_participant-pagination>
+                    </div>
+                </div> -->
+            </div>
+         
+    </template>
+    <!-- only for mobile table data start here -->
+    <template if:true={isMobile}>
+        
+            <div class="document-box pir-parent"> 
+                <div class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large D">
+                    <button
+                        class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small button-content actionsList"
+                        aria-haspopup="true" aria-expanded="true" title="Uploaded" onclick={opendropdown}
+                         onblur={handleonblur}>
+                        <span class="slds-truncate w-100">{selectedmenu}</span>
+                        <span>
+                            <lightning-icon icon-name="utility:down" size="xx-small" alternative-text="down"
+                                title="down" class="slds-icon-text-primary"></lightning-icon>
+                        </span>
+                    </button>
+                    <div class="slds-dropdown slds-dropdown_left w-100 dropdown-zindex uploadeditemswidth slds-m-left--xx-small">
+                            <ul class="slds-dropdown__list font-dropdowns" role="menu" aria-label="Uploaded">
+                                <template for:each={optionstab} for:item="stab"> 
+                                 <li class="slds-dropdown__item" role="presentation" key={stab.value}
+                                    data-id={stab.value} data-title={stab.label}>
+                                    <a href="#" role="menuitem" data-id={stab.value} data-title={stab.label}
+                                        onmousedown={handlenewOnSelect}> <span class="slds-truncate"
+                                            title={stab.label} data-title={stab.label}
+                                            data-id='Uploaded'>{stab.label }</span> </a>
+                                </li> 
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+        <template if:false={noRecords}>
+        <div class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large Sort">
+            <button
+                class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small sortbutton-content actionsList"
+                aria-haspopup="true" aria-expanded="true" title="Uploaded" onclick={opendropdownSort}
+                 onblur={handleonblur}>
+                <span class="slds-truncate w-100">{selectedsortOption}</span>
+                <span>
+                    <lightning-icon icon-name="utility:up" size="xx-small" alternative-text="down"
+                                title="down" class="slds-icon-text-primary"></lightning-icon>
+                    <lightning-icon icon-name="utility:down" size="xx-small" alternative-text="down"
+                        title="down" class="slds-icon-text-primary"></lightning-icon>
+                </span>
+            </button>
+            <div class="slds-dropdown slds-dropdown_left w-100 dropdown-zindex  sortitems">
+                    <ul class="slds-dropdown__list font-dropdowns" role="menu" aria-label="SortBy">
+                        <template for:each={optionsSort} for:item="sortopt"> 
+                         <li class="slds-dropdown__item" role="presentation" key={sortopt.value}
+                            data-id={sortopt.value} data-title={sortopt.label}>
+                            <a href="#" role="menuitem" data-id={sortopt.value} data-title={sortopt.label}
+                                onmousedown={handlenewOnSelectSort}> <span class="slds-truncate"
+                                    title={sortopt.label} data-title={sortopt.label}
+                                    data-id={sortopt.value}>{sortopt.label}</span> </a>
+                        </li> 
+                    </template>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="slds-grid m-grid">
+            <div class="slds-col slds-size_8-of-12 slds-p-left_medium">
+                <div class="upld-file-name">Note from Physician</div>
+                <div class="pdf">PDF</div>
+                <div class="file-upld-date">September 19, 2022</div>
+            </div>
+            <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                <lightning-icon
+                    icon-name="utility:download"
+                    alternative-text="download"
+                    size="x-small"
+                    title="download"
+                ></lightning-icon>
+            </div>
+            <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                <lightning-icon
+                    icon-name="utility:delete"
+                    alternative-text="delete"
+                    size="x-small"
+                    title="delete"
+                ></lightning-icon>
+            </div>
+        </div>
+        </template>
+        <template if:true={noRecords}>
+            <div class="slds-align_absolute-center top-center">
+                <div class="dis-block">
+                    <span class="center"
+                        ><img src={noDocumentAvailable} class="no-doc-img-size"
+                    /></span>
+                    <span class="no-doc-txt slds-m-top_medium">No documents available</span>
+                </div>
+            </div>
+        </template>
+    </div>
+     
+</template>
+        <!-- only for mobile table data end here -->
+</template>
