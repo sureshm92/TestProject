@@ -5,7 +5,7 @@
                 <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
                 <!--AL LEAST ONE VALID RESULT IS AVAILABLE-->
                 <template lwc:if={validVisitResults}>
-                    <div class="height-container-with-result">
+                    <div class={containerClassDesktop}>
                         <div
                             class="slds-grid slds-wrap slds-p-left_xx-small slds-p-top_medium slds-p-right_medium slds-p-bottom_medium"
                         >
@@ -101,6 +101,7 @@
                                                     visit-result-type-with-sub-types={visitResultTypeWithSubTypes}
                                                     patient-visit-id={patientVisitId}
                                                     selected-result-type={selectedResultType}
+                                                    ontotalvisitresultcount={handleResultAvailability}
                                                 ></c-pp-visit-results-container>
                                             </template>
                                             <!--Vital Toggle OFF-->
@@ -130,13 +131,12 @@
                                                     visit-result-type-with-sub-types={visitResultTypeWithSubTypes}
                                                     patient-visit-id={patientVisitId}
                                                     selected-result-type={selectedResultType}
+                                                    ontotalvisitresultcount={handleResultAvailability}
                                                 ></c-pp-visit-results-container>
                                             </template>
-                                            <!--Vital Toggle OFF-->
-                                            <template lwc:else
-                                                ><div
-                                                    class="slds-grid slds-wrap slds-p-top_x-large"
-                                                >
+                                            <!--Lab Toggle OFF-->
+                                            <template lwc:else>
+                                                <div class="slds-grid slds-wrap slds-p-top_x-large">
                                                     <div class="slds-col slds-size_12-of-12">
                                                         <img
                                                             src={toggleOffHeart}
@@ -148,8 +148,8 @@
                                                     >
                                                         {labels.Labs_Toggle_Off}
                                                     </div>
-                                                </div></template
-                                            >
+                                                </div>
+                                            </template>
                                         </template>
                                         <!--LABS SECTION END-->
                                         <!--BIOMARKERS SECTION START-->
@@ -159,13 +159,12 @@
                                                     visit-result-type-with-sub-types={visitResultTypeWithSubTypes}
                                                     patient-visit-id={patientVisitId}
                                                     selected-result-type={selectedResultType}
+                                                    ontotalvisitresultcount={handleResultAvailability}
                                                 ></c-pp-visit-results-container>
                                             </template>
-                                            <!--Vital Toggle OFF-->
-                                            <template lwc:else
-                                                ><div
-                                                    class="slds-grid slds-wrap slds-p-top_x-large"
-                                                >
+                                            <!--Biomarker Toggle OFF-->
+                                            <template lwc:else>
+                                                <div class="slds-grid slds-wrap slds-p-top_x-large">
                                                     <div class="slds-col slds-size_12-of-12">
                                                         <img
                                                             src={toggleOffHeart}
@@ -173,12 +172,12 @@
                                                         />
                                                     </div>
                                                     <div
-                                                        class="slds-col slds-size_12-of-12 no-result-text slds-p-top_large toggle-off-text slds-p-horizontal_small"
+                                                        class="slds-col slds-size_12-of-12 slds-p-top_large toggle-off-text slds-p-horizontal_small"
                                                     >
                                                         {labels.Biomarkers_Toggle_Off}
                                                     </div>
-                                                </div></template
-                                            >
+                                                </div>
+                                            </template>
                                         </template>
                                         <!--BIOMARKERS SECTION END-->
                                     </div>
@@ -205,7 +204,9 @@
             </div>
         </div>
         <template lwc:if={validVisitResults}>
-            <div class="view-all-results slds-p-top_small">{labels.Visits_View_All_Results}</div>
+            <div class="view-all-results slds-p-top_small slds-align_absolute-center">
+                {labels.Visits_View_All_Results}
+            </div>
         </template>
     </template>
 </template>

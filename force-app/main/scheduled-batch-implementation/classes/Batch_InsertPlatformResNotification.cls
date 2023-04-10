@@ -67,7 +67,10 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                 Batch_CreatePlatformResourceNotification.ThereaputicAreaLang therapeuticAreaLang = resWithTherapeuticAreasMap.get(
                     resourceId
                 );
-                if (therapeuticAreaLang.therapeuticAreaIds.contains(tap.Therapeutic_Area__c)) {
+                if (
+                    String.isNotBlank(tap.Therapeutic_Area__c) &&
+                    therapeuticAreaLang.therapeuticAreaIds.contains(tap.Therapeutic_Area__c)
+                ) {
                     if (
                         currentContact.Resource_Notifications__c == null ||
                         !currentContact.Resource_Notifications__c.contains(resourceId)
@@ -92,13 +95,16 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                 }
                 if (
                     notifyUser &&
-                    ((therapeuticAreaLang.langCodeList.contains(
+                    ((String.isNotBlank(tap.Participant__r.Contact__r.Language__c) &&
+                    therapeuticAreaLang.langCodeList.contains(
                         tap.Participant__r.Contact__r.Language__c
                     )) ||
-                    (therapeuticAreaLang.langCodeList.contains(
+                    (String.isNotBlank(tap.Participant__r.Contact__r.Second_Choice_Language__c) &&
+                    therapeuticAreaLang.langCodeList.contains(
                         tap.Participant__r.Contact__r.Second_Choice_Language__c
                     )) ||
-                    (therapeuticAreaLang.langCodeList.contains(
+                    (String.isNotBlank(tap.Participant__r.Contact__r.Third_Choice_Language__c) &&
+                    therapeuticAreaLang.langCodeList.contains(
                         tap.Participant__r.Contact__r.Third_Choice_Language__c
                     )))
                 ) {
@@ -112,6 +118,7 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                     notifyUser = false;
                 }
                 if (
+                    String.isNotBlank(tap.Therapeutic_Area__c) &&
                     notifyUser &&
                     therapeuticAreaLang.therapeuticAreaIds.contains(tap.Therapeutic_Area__c)
                 ) {

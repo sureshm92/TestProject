@@ -5,7 +5,7 @@
         <c-pp-footer-contact-support
             tittext={labels.CONTACT_SUPPORT}
             onmodalclose={handleModalClose}
-						studysite={studysite}
+            studysite={studysite}
         >
         </c-pp-footer-contact-support>
     </template>
@@ -44,7 +44,7 @@
                 </div>
                 <!-- Terms Of Use-->
                 <div class="cf-link">
-                    <template if:true={initialized}>
+                    <template if:true={showContactSupportLink}>
                         <button class="contact-support-btn" onclick={openContactSupportModal}>
                             {labels.CONTACT_SUPPORT}
                         </button>

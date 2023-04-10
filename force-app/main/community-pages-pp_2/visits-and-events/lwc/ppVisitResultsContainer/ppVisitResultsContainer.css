@@ -1,21 +1,19 @@
 .lab-header {
     color: #444444;
-    font-size: 1.125 rem;
+    font-size: 1.125rem;
     font-weight: 600;
 }
 .more-results {
-    padding: 1.291rem, 10rem, 1.313rem, 10rem;
     color: #6e6e6e;
     font-size: 0.875rem;
     font-weight: 600;
     padding-bottom: 0.5rem;
+    width: fit-content;
 }
 .position-container {
     position: relative;
 }
-.vital-results {
-    /* padding-left: 1.291rem;*/
-}
+
 .no-result-text {
     height: 1.5rem;
     color: #999999;
@@ -24,4 +22,12 @@
     letter-spacing: 0;
     line-height: 1.5rem;
     text-align: center;
+    padding-bottom: 5.625rem;
+}
+.no-result-image {
+    height: 4.84rem;
+    width: 5.69rem;
+}
+.loading-container {
+    height: 298px;
 }

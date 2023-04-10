@@ -9,13 +9,15 @@
                         ><lightning-helptext content={toolTipText}></lightning-helptext
                     ></span>
                 </div>
-                <template if:true={ICOSRelatedResults}>
+                <template lwc:if={ICOSRelatedResults}>
                     <div class={actualValueClass}>{actualResultValue}</div>
                 </template>
                 <template if:false={ICOSRelatedResults}>
                     <div class={actualValueClass}>{biomarkerResult}</div>
-                    <template if:true={showExpectedRange}>
-                        <div class="expected-range">{expectedRange}</div>
+                    <template lwc:if={showExpectedRange}>
+                        <div class="expected-range">
+                            {expectedRange}&nbsp;&nbsp;&nbsp;&nbsp;{label.Biomarkers_Expected_Range}
+                        </div>
                     </template>
                 </template>
             </div>
@@ -30,8 +32,10 @@
                     </span>
                 </div>
                 <div class={actualValueClass}>{actualResultValue}</div>
-                <template if:true={showExpectedRange}>
-                    <div class="expected-range">{expectedRange}</div>
+                <template lwc:if={showExpectedRange}>
+                    <div class="expected-range">
+                        {expectedRangeLabel}&nbsp;&nbsp;&nbsp;&nbsp;{expectedRange}
+                    </div>
                 </template>
             </div>
         </template>

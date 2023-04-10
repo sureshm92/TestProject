@@ -550,6 +550,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Document_Upload_Is_Available__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.ECOA_Is_Avaialble__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4257,11 +4262,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Add_televisit_for_Initial_Visit__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Enrollment__c.Visit_Results_Opt_In__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

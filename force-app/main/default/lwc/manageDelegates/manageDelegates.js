@@ -64,10 +64,12 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     spinner = false;
     loaded = false;
     showAddDelegatePage = false;
-    showpopup = false;
+    showRemovePopup = false;
+    showRemovePopupPPNew = false;
     removeStudyPDEId;
     deletePatientDelId;
     showDeletePopup = false;
+    showDeletePopupPPNew = false;
     modalMesstext;
     showActiveDelegates = true;
     showFormerDelegates = true;
@@ -312,6 +314,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         unsubscribe(this.subscription);
         this.subscription = null;
     }
+
     get getStudyEmailConsent() {
         return this.currentCommunity === 'Iqvia Patient Portal II'
             ? this.label.PP_Delegate_Email_Consent_1
@@ -457,12 +460,22 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             pdln +
             '. ' +
             this.label.PG_PST_L_Delegates_Remove_Mess_P3_New;
-        this.showpopup = true;
+        // this.showRemovePopup = true;
+        this.currentCommunity === 'Iqvia Patient Portal II'
+            ? (this.showRemovePopupPPNew = true)
+            : (this.showRemovePopup = true);
         //this.removeStudyPDEId = event.currentTarget.dataset.pdeid;
     }
     openDeleteDelegateModal(event) {
-        this.showDeletePopup = true;
+        // this.showDeletePopup = true;
+        this.currentCommunity === 'Iqvia Patient Portal II'
+            ? (this.showDeletePopupPPNew = true)
+            : (this.showDeletePopup = true);
         this.deletePatientDelId = event.currentTarget.dataset.id;
+        //for Mobile, meke Icon color to red when clicked.
+        if (!this.isDesktop) {
+            this.toggleDeleteIcon(event);
+        }
     }
 
     //This method will remove the delegate once Confirm button clicked on Remove Delegate Modal.
@@ -474,7 +487,10 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             pDEId: pdEnrollmentId
         })
             .then((result) => {
-                this.showpopup = false;
+                // this.showRemovePopup = false;
+                this.currentCommunity === 'Iqvia Patient Portal II'
+                    ? (this.showRemovePopupPPNew = false)
+                    : (this.showRemovePopup = false);
                 this.setInitializedData(result);
                 // window.scrollTo({ top: 0, behavior: 'smooth' });
                 this.spinner = false;
@@ -485,15 +501,39 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 this.spinner = false;
             });
     }
-    handleModalClose(event) {
+    handleRemoveModalClose(event) {
         const showHideModal = event.detail;
-        this.showpopup = showHideModal;
+        // this.showRemovePopup = showHideModal;
+        this.currentCommunity === 'Iqvia Patient Portal II'
+            ? (this.showRemovePopupPPNew = showHideModal)
+            : (this.showRemovePopup = showHideModal);
         this.removeStudyPDEId = '';
+        //for Mobile, meke Icon color to gray when modal is closed.
+        if (!this.isDesktop) {
+            this.formerListPDE.filter(function (del) {
+                if (del.showDeleteRedIcon) {
+                    del.showDeleteRedIcon = false;
+                    return;
+                }
+            });
+        }
     }
     handleDeleteModalClose(event) {
         const showHideModal = event.detail;
-        this.showDeletePopup = showHideModal;
+        // this.showDeletePopup = showHideModal;
+        this.currentCommunity === 'Iqvia Patient Portal II'
+            ? (this.showDeletePopupPPNew = showHideModal)
+            : (this.showDeletePopup = showHideModal);
         this.deletePatientDelId = '';
+        //for Mobile, meke Icon color to gray when modal is closed.
+        if (!this.isDesktop) {
+            this.formerListPDE.filter(function (del) {
+                if (del.showDeleteRedIcon) {
+                    del.showDeleteRedIcon = false;
+                    return;
+                }
+            });
+        }
     }
 
     handleDeleteDelegate(event) {
@@ -503,7 +543,10 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             pdId: patientdelegateid
         })
             .then((result) => {
-                this.showDeletePopup = false;
+                // this.showDeletePopup = false;
+                this.currentCommunity === 'Iqvia Patient Portal II'
+                    ? (this.showDeletePopupPPNew = false)
+                    : (this.showDeletePopup = false);
                 this.setInitializedData(result);
                 this.spinner = false;
                 communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);

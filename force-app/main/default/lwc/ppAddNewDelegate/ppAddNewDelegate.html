@@ -109,19 +109,31 @@
                                             class="slds-p-left_medium slds-p-top_x-small pp-add-new-del-radio"
                                             size="12"
                                         >
-                                            <lightning-radio-group
-                                                class="add-del-custom-radio-group"
-                                                name="radioGroup"
-                                                label=""
-                                                options={existingContacts}
-                                                value={selectedContact}
-                                                type="radio"
-                                                onchange={setSelectedContact}
+                                            <template
+                                                for:each={existingContacts}
+                                                for:item="contact"
                                             >
-                                            </lightning-radio-group>
+                                                <div
+                                                    key={contact.value}
+                                                    class="check-box-label-class"
+                                                >
+                                                    <label>
+                                                        <input
+                                                            type="radio"
+                                                            name="contact"
+                                                            value={contact.value}
+                                                            onchange={setSelectedContact}
+                                                        />
+                                                        <span
+                                                            class="slds-p-left_medium slds-p-right_medium"
+                                                            >{contact.label}</span
+                                                        >
+                                                    </label>
+                                                </div>
+                                            </template>
                                         </lightning-layout-item>
                                         <lightning-layout-item
-                                            class="slds-p-left_small slds-m-top_medium slds-m-bottom_medium"
+                                            class="slds-p-left_small slds-m-top_xx-small slds-m-bottom_medium"
                                             size="12"
                                         >
                                             <button
@@ -243,19 +255,25 @@
                                         class="slds-p-left_medium slds-p-top_x-small pp-add-new-del-radio"
                                         size="12"
                                     >
-                                        <lightning-radio-group
-                                            class="add-del-custom-radio-group"
-                                            name="radioGroup"
-                                            label=""
-                                            options={existingContacts}
-                                            value={selectedContact}
-                                            type="radio"
-                                            onchange={setSelectedContact}
-                                        >
-                                        </lightning-radio-group>
+                                        <template for:each={existingContacts} for:item="contact">
+                                            <div key={contact.value} class="check-box-label-class">
+                                                <label>
+                                                    <input
+                                                        type="radio"
+                                                        name="contact"
+                                                        value={contact.value}
+                                                        onchange={setSelectedContact}
+                                                    />
+                                                    <span
+                                                        class="slds-p-left_medium slds-p-right_medium"
+                                                        >{contact.label}</span
+                                                    >
+                                                </label>
+                                            </div>
+                                        </template>
                                     </lightning-layout-item>
                                     <lightning-layout-item
-                                        class="slds-p-left_small slds-m-top_medium slds-m-bottom_medium"
+                                        class="slds-p-left_small slds-m-top_xx-small slds-m-bottom_medium"
                                         size="12"
                                     >
                                         <button
@@ -359,7 +377,7 @@
                 >
                     <lightning-layout-item
                         size="12"
-                        class="slds-p-left_medium slds-p-left_small slds-p-top_medium"
+                        class="slds-p-left_medium slds-p-left_small slds-p-top_large"
                         ><span class="what-can-your-delega"
                             >{label.PP_Delegates_Permitted_Actions}</span
                         >
@@ -370,11 +388,17 @@
                                 size="12"
                                 class="slds-p-left_medium slds-p-right_medium"
                                 ><ul class="slds-list_dotted">
-                                    <li>{label.PG_PST_L_Delegates_Compl_Task_Behalf_New}</li>
-                                    <li class="slds-m-vertical_xx-small">{getEmailHelpText}</li>
-                                    <li>{label.PG_PST_L_Delegates_See_Lab_Result_New}</li>
-                                    <li>{label.PG_PST_L_Delegates_See_Vitals_New}</li>
-                                    <li class="slds-m-vertical_xx-small">
+                                    <li class="slds-m-top_medium">
+                                        {label.PG_PST_L_Delegates_Compl_Task_Behalf_New}
+                                    </li>
+                                    <li class="slds-m-top_medium">{getEmailHelpText}</li>
+                                    <li class="slds-m-top_medium">
+                                        {label.PG_PST_L_Delegates_See_Lab_Result_New}
+                                    </li>
+                                    <li class="slds-m-top_medium">
+                                        {label.PG_PST_L_Delegates_See_Vitals_New}
+                                    </li>
+                                    <li class="slds-m-top_medium slds-m-bottom_medium">
                                         {label.PG_PST_L_Delegates_My_Measur_New}
                                     </li>
                                 </ul>

@@ -11,7 +11,7 @@ import desktopTemplate from './ppVisitResult.html';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 
 export default class PpVisitResult extends LightningElement {
-    labels = {
+    label = {
         Biomarkers_Positive,
         Biomarkers_Negative,
         Biomarkers_Unknown,
@@ -28,6 +28,7 @@ export default class PpVisitResult extends LightningElement {
     header;
     toolTipText;
     actualResultValue;
+    expectedRangeLabel;
 
     showExpectedRange = true;
     connectedCallback() {
@@ -59,8 +60,7 @@ export default class PpVisitResult extends LightningElement {
                         else if (result.value == -1) this.biomarkerResult = Biomarkers_Negative;
                         else if (result.value == 0) this.biomarkerResult = Biomarkers_Unknown;
                         else this.biomarkerResult = visitResultNotAvailable;
-                        this.expectedRange =
-                            Report_Expected_Range + ': ' + Biomarkers_Expected_Range;
+                        this.expectedRange = Report_Expected_Range + ':';
                     } else {
                         this.ICOSRelatedResults = true;
                         this.showExpectedRange = false;
@@ -69,26 +69,26 @@ export default class PpVisitResult extends LightningElement {
             }
             this.header = result.name;
             this.toolTipText = result.description;
+            let measurement = result.measurement != null ? result.measurement : '';
             this.actualResultValue =
-                result.value != null
-                    ? result.value + ' ' + result.measurement
-                    : visitResultNotAvailable;
+                result.value != null ? result.value + ' ' + measurement : visitResultNotAvailable;
         }
     }
+
     roundValue(value) {
         return +(Math.round(value + 'e+4') + 'e-4');
     }
     getExpectedRange(result) {
         let expectedRange;
         if (this.minValue != null && this.maxValue != null) {
-            expectedRange = this.minValue + '-' + this.maxValue;
+            expectedRange = this.minValue + ' ' + '\u2013' + ' ' + this.maxValue;
         } else if (this.minValue != null) {
             expectedRange = '> ' + this.minValue;
         } else {
             expectedRange = '< ' + this.maxValue;
         }
         if (expectedRange && result.measurement) expectedRange += ' ' + result.measurement;
-        expectedRange = Report_Expected_Range + ': ' + expectedRange;
+        this.expectedRangeLabel = Report_Expected_Range + ':';
         return expectedRange;
     }
     get isVitalsResult() {

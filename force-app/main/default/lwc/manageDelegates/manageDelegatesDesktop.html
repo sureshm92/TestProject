@@ -10,15 +10,26 @@
     </template>
     <!--Spinner: Ends-->
     <!--Remove Delegate Modal: Starts-->
-    <template if:true={showpopup}>
+    <template if:true={showRemovePopup}>
         <c-pp-remove-delegate-modal-old
             pdenrollmentid={removeStudyPDEId}
             messtext={modalMesstext}
             tittext={label.PG_PST_L_Delegates_Remove_Himself_Header}
             onconfirmmodal={handleRemoveDelegate}
-            onmodalclose={handleModalClose}
+            onmodalclose={handleRemoveModalClose}
         >
         </c-pp-remove-delegate-modal-old>
+    </template>
+    <template if:true={showRemovePopupPPNew}>
+        <c-pp-remove-delegate-modal
+            pdenrollmentid={removeStudyPDEId}
+            messtext={modalMesstext}
+            tittext={label.PG_PST_L_Delegates_Remove_Himself_Header}
+            onconfirmmodal={handleRemoveDelegate}
+            onmodalclose={handleRemoveModalClose}
+            is-desktop={isDesktop}
+        >
+        </c-pp-remove-delegate-modal>
     </template>
     <!--Remove Delegate Modal: Ends-->
     <!--Delete Delegate Modal: Starts-->
@@ -31,6 +42,17 @@
             ondeletemodalclose={handleDeleteModalClose}
         >
         </c-pp-delete-delegate-modal-old>
+    </template>
+    <template if:true={showDeletePopupPPNew}>
+        <c-pp-delete-delegate-modal
+            patientdelegateid={deletePatientDelId}
+            messtext={label.PP_Delegate_Delegate_Warning}
+            tittext={label.PP_Delegate_Delegate}
+            ondeletemodal={handleDeleteDelegate}
+            ondeletemodalclose={handleDeleteModalClose}
+            is-desktop={isDesktop}
+        >
+        </c-pp-delete-delegate-modal>
     </template>
     <!--Delete Delegate Modal: Ends-->
     <!-- <c-web-spinner fixed="true"></c-web-spinner> -->
@@ -192,7 +214,9 @@
                                                             <lightning-layout-item
                                                                 size="12"
                                                                 class="delegate-email"
-                                                                >{del.PatientDelegate.Email__c}
+                                                                ><p class="elipsis">
+                                                                    {del.PatientDelegate.Email__c}
+                                                                </p>
                                                             </lightning-layout-item>
                                                         </lightning-layout>
                                                     </lightning-layout-item>

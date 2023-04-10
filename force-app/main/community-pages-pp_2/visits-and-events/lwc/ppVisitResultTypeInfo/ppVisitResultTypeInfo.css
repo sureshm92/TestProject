@@ -99,8 +99,8 @@
     color: #6e6e6e;
     font-size: 1rem;
     letter-spacing: 0;
-    line-height: 1.5rem;
     text-align: center;
+    padding-bottom: 5.313rem;
 }
 
 .no-result-container {
@@ -112,6 +112,9 @@
 }
 
 .height-container-with-result {
+    min-height: 100%;
+}
+.height-container-with-out-result {
     min-height: 493px;
 }
 
@@ -123,4 +126,5 @@
     line-height: 1.5rem;
     text-align: center;
     cursor: pointer;
+    width: fit-content;
 }
