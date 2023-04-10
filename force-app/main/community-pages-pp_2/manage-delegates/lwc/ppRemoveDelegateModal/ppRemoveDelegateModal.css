@@ -16,9 +16,9 @@
 
 .button-cancel {
     color: #0768fd;
-    height: 2.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
+    height: 2rem;
+    font-size: 1rem;
+    font-weight: 600;
     border-color: transparent;
     line-height: 1.3125rem;
     text-align: center;
@@ -27,14 +27,29 @@
 .button-confirm {
     justify-content: center;
     width: 107px;
-    height: 2.5rem;
+    height: 2rem;
     color: #ffffff;
-    font-size: 0.875rem;
-    font-weight: 500;
+    font-size: 1rem;
+    font-weight: 600;
     letter-spacing: 0;
     line-height: 1.3125rem;
     text-align: center;
     border-radius: 1.25rem;
-    background-color: #0768fd;
+    background-color: #015ff1;
+    box-shadow: 0 4px 8px 0 rgb(7 104 253 / 25%);
+}
+
+.button-confirm-mobile {
+    justify-content: center;
+    width: 100%;
+    height: 2rem;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.3125rem;
+    text-align: center;
+    border-radius: 1.25rem;
+    background-color: #015ff1;
     box-shadow: 0 4px 8px 0 rgb(7 104 253 / 25%);
 }

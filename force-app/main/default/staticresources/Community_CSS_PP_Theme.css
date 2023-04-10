@@ -24,13 +24,44 @@
     .menu-block {
         position: relative !important;
     }
+
+    .slds-popover_tooltip,
+    .slds-popover--tooltip ::after {
+        background-color: #444444;
+        margin-right: .5rem;
+    }
 }
 @media (max-width: 390px) {
     .logo-container-pp {
         width: 190px !important;
     }
+    .slds-popover_tooltip,
+    .slds-popover--tooltip ::after {
+        background-color: #444444;
+        margin-right: .5rem;
+    }
 }
 
+.pir-parent .slds-tabs_default__item.slds-is-active .slds-tabs_default__link{
+    color: #000000 !important;
+    font-weight: 600 !important;
+    font-size: 16px;
+    text-decoration: none !important;
+}
+.pir-parent .slds-tabs--default__item.slds-is-active {
+    background-color: #0768fd !important;
+    border-radius: 80px !important;
+    height: calc(var(--sds-c-tabs-list-sizing-border, 2px) + 2.5px) !important;
+}
+.pir-parent .all-tabs .slds-tabs_default__item:after {
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 80px;
+    height: calc(var(--sds-c-tabs-list-sizing-border, 2px) + 2.5px);
+}
+.pir-parent .slds-tabs_default__item.slds-is-active:after{
+    background-color: #0768FD !important;
+}
 .task-modal-background .slds-backdrop {
     background:rgba(0, 0, 0, 0.1) !important;
 }
@@ -1247,47 +1278,10 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .add-assignment-former-rectangle{
     border-radius: 16px !important;
 }
-/* Delegate Redesing - Manage delegate page CSS override -ends*/
 
-/* Delegate Redesing - Remove/Delete Modal - CSS Override - Start */
-.manage-delegate .card-top-bg{
-	height: 16px !important;
-    background: linear-gradient(90deg, #005587 0%, #008D9E 100%) !important;
-    border-top-left-radius: 16px !important;
-    border-top-right-radius: 16px !important;
-}
-
-.manage-delegate .footer-container{
-	border-bottom-left-radius: 16px !important;
-    border-bottom-right-radius: 16px !important;
-}
-.manage-delegate-acc-setting .button-confirm{
-    height: 32px !important;
-    width: 100% !important;
-    border-radius: 20px !important;
-    font-size: 16px !important;
-    font-weight: 600 !important;
-    background-color: #015FF1 !important;
-}
-
-.manage-delegate-acc-setting .button-delete{
-    height: 32px !important;
-    width: 100% !important;
-    font-size: 16px !important;
-    font-weight: 600 !important;
-    border-radius: 20px !important;
-}
-
-.manage-delegate-acc-setting .button-cancel{
-    height: 32px !important;
-    font-weight: 600 !important;
-    font-size: 16px !important;
-
-}
 .manage-delegate-acc-setting .save-button-aligment{
     padding: 22px 0px 0px 12px;	
 }
-/* Delegate Redesing - Remove/Delete Modal - CSS Override - Ends */
 /* Delegate Redesing - Add New Delegate Page CSS  Override - Starts*/
 .manage-del-multi-picklist .multipicklist-box{
     border-radius: 21px !important;

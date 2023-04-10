@@ -19364,6 +19364,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>See your vitals</value>
     </labels>
     <labels>
+        <fullName>PP_AcceptedFileformats</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_AcceptedFileformats</shortDescription>
+        <value>JPG, JPEG, PNG, PDF, GIF</value>
+    </labels>
+    <labels>
+        <fullName>PP_acceptedformats</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_acceptedformats</shortDescription>
+        <value>We accept the following file formats:</value>
+    </labels>
+    <labels>
         <fullName>PP_Account_Settings</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20328,6 +20342,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>page or enter a unique email address to add a new delegate.</value>
     </labels>
     <labels>
+        <fullName>PP_FileFormatNotAccept</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_FileFormatNotAccept</shortDescription>
+        <value>File format is not accepted</value>
+    </labels>
+    <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20642,6 +20663,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_MatchUsr</shortDescription>
         <value>We will attempt to match your username with your email.</value>
+    </labels>
+    <labels>
+        <fullName>PP_MaxFileSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_MaxFileSize</shortDescription>
+        <value>File size exceeds 4MB</value>
     </labels>
     <labels>
         <fullName>PP_MeetingCriteria</fullName>
@@ -21212,6 +21240,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Visit plan is currently unavailable.</value>
     </labels>
     <labels>
+        <fullName>PP_ProgressBar_No_Visit_Adhoc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP ProgressBar No Visit Adhoc</shortDescription>
+        <value>No Description is currently available for this visit.</value>
+    </labels>
+    <labels>
         <fullName>PP_ProgramOverview_LearnMore_Desktop</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21694,6 +21729,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Events tab</shortDescription>
         <value>My Events</value>
+    </labels>
+    <labels>
+        <fullName>PP_Tab_Files</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Tab_Files</shortDescription>
+        <value>Files</value>
     </labels>
     <labels>
         <fullName>PP_Tab_Results</fullName>
