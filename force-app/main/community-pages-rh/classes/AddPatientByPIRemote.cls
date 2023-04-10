@@ -935,8 +935,8 @@ public without sharing class AddPatientByPIRemote {
                 /*ReferringRemote.createParticipantUsers(new Map<Id, Id>{
                         newContact.Id => null
                 });*/
-                ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                    .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
+                
+
                 //Recalling createSurveyTasks method to create survey task for Patient Delegates
                 TaskService.invitationsVisibleTemp = invitationsVisibleTemp;
                 if (
