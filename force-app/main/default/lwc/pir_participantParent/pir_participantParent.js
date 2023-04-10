@@ -57,6 +57,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   @api studyName;
   @api referredBy;
   @api selectedPE;
+  @track isDisableButton=true;
   @api isLoaded = false;
   @api disablebtn = false;
   @api statusDetailValueChanged = false;
@@ -1008,7 +1009,11 @@ gotoPartTab(){
                 label: this.utilLabels[outcomeReason],
                 value: outcomeReason
               });
-
+            }
+            if(this.newStatusSelected == "Declined Final Consent"){
+              this.isDisableButton = true;
+            }else{
+              this.isDisableButton = false;
             }
             this.reasoneoptions = trans_reasonopts;
             if(this.newStatusSelected == "Contacted - Not Suitable"){
