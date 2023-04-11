@@ -16,6 +16,10 @@
     box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
     padding: 3PX;
 }
+.mrr-footer_container:hover{
+    background-color: #ECF3FF;
+    border-color: #015FF1;
+}
 .text_para{
         color: #999999;
         font-family: "Proxima Nova";
