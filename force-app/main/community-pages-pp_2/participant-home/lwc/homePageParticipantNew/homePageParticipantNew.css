@@ -160,14 +160,24 @@
     padding-top: 14px !important;
     margin-left: 29px !important;
 }
-.update-circle {
+.update-circle-1 {
     background-color: #e20000;
-    border: 1px solid #ffff;
+    border: 1.5px solid #ffff;
     height: 24px;
     border-radius: 50%;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
     width: 24px;
+    position: absolute;
+    text-align: center;
+    right: -6px;
+    top: -10px;
+}
+.update-circle-2 {
+    background-color: #e20000;
+    border: 1.5px solid #ffff;
+    height: 24px;
+    border-radius: 12px;
     position: absolute;
     text-align: center;
     right: -6px;
@@ -181,10 +191,16 @@
     font-family: 'Proxima Nova';
     text-align: center;
 }
-.update-count-font {
+.update-count-font-1 {
     color: #ffffff;
     font-size: 14px;
     font-weight: 500;
+}
+.update-count-font-2 {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0px 8px;
 }
 .pad-left {
     margin-left: -30px !important;

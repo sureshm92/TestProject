@@ -16,19 +16,30 @@
 .update-count-1 {
     color: #ffffff;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
 }
 .update-count-2 {
     color: #ffffff;
     font-weight: 600;
-    font-size: 10px;
+    font-size: 16px;
+    padding:0px 8px;
 }
-.update-counter-oval {
+.update-counter-oval-1 {
     box-sizing: border-box;
     height: 24px;
     width: 24px;
     text-align: center;
     border-radius: 50%;
+    margin: 0.3rem 0 0 0.6rem;
+    border: 1.5px solid #ffffff;
+    background-color: #e20000;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+.update-counter-oval-2 {
+    box-sizing: border-box;
+    height: 24px;
+    text-align: center;
+    border-radius: 12px;
     margin: 0.3rem 0 0 0.6rem;
     border: 1.5px solid #ffffff;
     background-color: #e20000;
@@ -57,7 +68,7 @@
     border-radius: 7px;
     overflow-y: auto;
     height: 416px;
-    padding-top: 8px;
+    padding-top: 16px;
 }
 
 .container-card-mobile {
