@@ -1,0 +1,38 @@
+{
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "componentName" : "c:PPOneColumnLayout",
+  "dataProviders" : [ ],
+  "id" : "e4194c8b-c5eb-47ce-a2ba-3934c0d6f062",
+  "label" : "Past Studies",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ppPastStudiesFiles",
+      "id" : "0aa6c9ad-b1a0-4d21-858c-6624bcbe214e",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "7de7768e-ac1c-4039-8df4-b83b63f5d1bb",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Past Studies"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "d8775b6d-1422-4bf1-bf18-64b2eaa1a925",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "14817a1a-e45f-4d70-b1c4-fcd19afb071b",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-past-studies"
+}
