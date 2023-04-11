@@ -806,6 +806,7 @@
                                     title={utilLabels.PE_Enrollment_ID} onchange={changeInputValue}
                                     required={makerequiredrandomizationid}></lightning-input>
                             </div>
+                            <template if:false={isDisableButton}>
                             <div
                                 class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                                 <lightning-input checked={participantrecord.Final_consent__c} data-value="FinalConsent"
@@ -814,6 +815,18 @@
                                     title={utilLabels.FD_PE_Field_Final_Consent} required={makerequiredfinalConsent}
                                     style="padding-top:33px"></lightning-input>
                             </div>
+                        </template>
+                        <template if:true={isDisableButton}>
+                            <div
+                                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                                <lightning-input  data-value="FinalConsent"
+                                    onchange={changeInputValue} type="checkbox"
+                                    disabled={isDisableButton} 
+                                    label={utilLabels.FD_PE_Field_Final_Consent}
+                                    title={utilLabels.FD_PE_Field_Final_Consent} required={makerequiredfinalConsent}
+                                    style="padding-top:33px" ></lightning-input>
+                            </div>
+                            </template>
                             <template if:true={isTokanizationSupportReq}>
                                 <div
                                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
@@ -1017,6 +1030,7 @@
                                     title={utilLabels.PE_Randomization_ID} onchange={changeInputValue}
                                     required={makerequiredrandomizationid}></lightning-input>
                             </div>
+                            <template if:false={isDisableButton}>
                             <div
                                 class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                                 <lightning-input checked={participantrecord.Final_consent__c} data-value="FinalConsent"
@@ -1025,6 +1039,18 @@
                                     title={utilLabels.FD_PE_Field_Final_Consent} style="padding-top:33px"
                                     required={makerequiredfinalConsent}></lightning-input>
                             </div>
+                        </template>
+                        <template if:true={isDisableButton}>
+                            <div
+                                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                                <lightning-input  data-value="FinalConsent"
+                                    onchange={changeInputValue} type="checkbox"
+                                    disabled={isDisableButton} 
+                                    label={utilLabels.FD_PE_Field_Final_Consent}
+                                    title={utilLabels.FD_PE_Field_Final_Consent} required={makerequiredfinalConsent}
+                                    style="padding-top:33px" ></lightning-input>
+                            </div>
+                        </template>
                             <template if:true={isTokanizationSupportReq}>
                                 <div
                                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
