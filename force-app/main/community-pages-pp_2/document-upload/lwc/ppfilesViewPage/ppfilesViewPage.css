@@ -20,7 +20,7 @@
 }
 .tablePPn {
     position: relative;
-    margin-top: -50px;
+    /* margin-top: -10px; */
     width: 100%;
     left: 1px;
 }
@@ -136,7 +136,7 @@
     font-size: 16px;
     font-weight: 600;
 }
-.maindivclass {
+.uploadDivMain {
     box-sizing: border-box;
     height: 698px;
     /* width: 410px; */
@@ -146,7 +146,9 @@
     background-color: #ffffff;
     /* padding-right: 30px; */
     position: relative;
+    margin-top: 8px;
 }
+
 .filesizeinfoclass {
     font-size: 14px;
 }
@@ -200,6 +202,30 @@
     text-align-last: justify;
     /* top: 0px; */
     height: 698px;
+    width: 100%;
+    opacity: 0;
+}
+.fileInputclassEmptyouter {
+    border-radius: 16px;
+    border: 1px solid #e9e9e9;
+    background: grey;
+    position: absolute;
+    /* left: 0px; */
+    text-align-last: justify;
+    /* top: 0px; */
+    height: 698px;
+    width: 100%;
+    opacity: 0;
+}
+.fileInputclassEmptyinner {
+    border-radius: 16px;
+    border: 1px solid #e9e9e9;
+    background: grey;
+    position: absolute;
+    /* left: 0px; */
+    text-align-last: justify;
+    /* top: 0px; */
+    height: 655px;
     width: 100%;
     opacity: 0;
 }
