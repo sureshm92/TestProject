@@ -34,7 +34,7 @@
     <c:uiModal
         aura:id="modal"
         size="medium"
-        headerText="{!if(v.mode == 'new', 'Add Visit/Event', 'Edit Visit')}"
+        headerText="{!if(v.mode == 'new', 'Add Visit/Event', 'Edit Visit/Event')}"
     >
         <div class="form-container">
             <div class="slds-grid slds-gutters">
@@ -115,7 +115,7 @@
             <lightning:button
                 variant="brand"
                 type="button"
-                label="{!if(v.mode == 'new', 'Add Visit/Event', 'Save Visit')}"
+                label="{!if(v.mode == 'new', 'Add Visit/Event', 'Save Visit/Event')}"
                 disabled="{!v.isValid}"
                 onclick="{!c.saveVisit}"
             />
