@@ -217,7 +217,7 @@ export default class PpAccountSettings extends LightningElement {
             showManageDelegateTab = false;
         }
         //Del Self View
-        else if (isDelSelfView) {
+        else if (isDelSelfView && !communityService.getCurrentCommunityMode().hasPastStudies) {
             showMamanageAssignmentTab = true;
             showManageDelegateTab = false;
         }
@@ -238,13 +238,19 @@ export default class PpAccountSettings extends LightningElement {
             // For Participant also same JSON make sure it shouldnt execute for Participnat
             allUserModes.forEach(function (item) {
                 if (item.userMode == 'Participant') {
-                    if (item.subModes) {
+                    if (item.subModes != undefined && item.subModes.length > 0) {
                         item.subModes.forEach(function (subModeitem) {
                             if (subModeitem.currentDelegateId == null) {
                                 showMamanageAssignmentTab = true;
                                 showManageDelegateTab = true;
                             }
                         });
+                    }
+                    else if(item.subModes.length == 0){ 
+                        if(item.hasPastStudies && item.currentDelegateId == null){
+                            showMamanageAssignmentTab = true;
+                            showManageDelegateTab = true;
+                        }
                     }
                 }
             });
