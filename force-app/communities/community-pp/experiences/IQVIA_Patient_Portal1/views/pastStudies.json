@@ -2,18 +2,18 @@
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
   "componentName" : "c:PPOneColumnLayout",
   "dataProviders" : [ ],
-  "id" : "6cd6f18d-1cb2-4956-9796-a3cab4317b7f",
-  "label" : "Resource Detail",
+  "id" : "e4194c8b-c5eb-47ce-a2ba-3934c0d6f062",
+  "label" : "Past Studies",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:ppResourceDetailPage",
-      "id" : "34e3648c-c7d6-48dc-a033-7924f42e8115",
+      "componentName" : "c:ppPastStudiesFiles",
+      "id" : "0aa6c9ad-b1a0-4d21-858c-6624bcbe214e",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "8a2f7918-7b23-45e6-b5c1-2debe7a2018b",
+    "id" : "7de7768e-ac1c-4039-8df4-b83b63f5d1bb",
     "regionName" : "column1",
     "type" : "region"
   }, {
@@ -21,18 +21,18 @@
       "componentAttributes" : {
         "customHeadTags" : "",
         "description" : "",
-        "title" : "Resource Detail"
+        "title" : "Past Studies"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "5fd2741e-d729-4b96-b6f6-42fa56098b19",
+      "id" : "d8775b6d-1422-4bf1-bf18-64b2eaa1a925",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "235c9ea5-cddd-4854-96d0-3459f59e07da",
+    "id" : "14817a1a-e45f-4d70-b1c4-fcd19afb071b",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
   "themeLayoutType" : "Inner",
   "type" : "view",
-  "viewType" : "custom-resource-detail"
+  "viewType" : "custom-past-studies"
 }
