@@ -13,6 +13,7 @@ import refresh from '@salesforce/label/c.PP_Update_Refresh';
 export default class PpUpdates extends NavigationMixin(LightningElement) {
     @api desktop;
     @api showvisitsection;
+    @api counter;
     linksWrappers = [];
     @track resourcedData = [];
     resourcePresent = false;
@@ -35,14 +36,21 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         refresh
     };
     timer;
+    get countOvalStyle() {
+        if (this.counter >= 10) {
+            return 'update-counter-oval-2 slds-align_absolute-center';
+        } else {
+            return 'update-counter-oval-1 slds-align_absolute-center';
+        }
+    }
+
     get countStyle() {
-        if (this.counter >= 100) {
+        if (this.counter >= 10) {
             return 'update-count-2';
         } else {
             return 'update-count-1';
         }
     }
-
     renderedCallback() {
         if (!this.isRendered) {
             this.isRendered = true;
@@ -57,27 +65,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.getCount();
     }
     getCount() {
-        getSendResultCount()
-            .then((returnValue) => {
-                this.counter = returnValue;
-                if (this.counter < 100 && this.counter > 0) {
-                    this.displayCounter = true;
-                    this.counterLabel = this.counter;
-                    this.resourcePresent = true;
-                } else if (this.counter >= 100) {
-                    this.displayCounter = true;
-                    this.counterLabel = '99+';
-                    this.resourcePresent = true;
-                } else if (this.counter <= 0) {
-                    this.resourcePresent = false;
-                    this.displayCounter = false;
-                }
+                this.showCounterCheck();
                 this.getUpdates();
-            })
-            .catch((error) => {
-                console.log('error message : ' + error?.message);
-                this.spinner.hide();
-            });
     }
     getUpdates() {
         this.spinner = this.template.querySelector('c-web-spinner');
@@ -107,6 +96,18 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                     this.addHorizontalScroll();
                 }
                 this.spinner.hide();
+            })
+            .catch((error) => {
+                console.log('error message : ' + error?.message);
+                this.spinner.hide();
+            });
+    }
+    refreshUpdatesData(){
+        getSendResultCount()
+            .then((returnValue) => {
+                this.counter = returnValue;
+                this.showCounterCheck();
+                this.getUpdates();
             })
             .catch((error) => {
                 console.log('error message : ' + error?.message);
@@ -159,7 +160,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.resourcedData = [];
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
-            this.initializeData();
+            this.refreshUpdatesData();
         }, 1000);
     }
 
@@ -179,5 +180,19 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             .catch((error) => {
                 console.log('error message ' + error?.message);
             });
+    }
+    showCounterCheck(){
+        if (this.counter < 100 && this.counter > 0) {
+            this.displayCounter = true;
+            this.counterLabel = this.counter;
+            this.resourcePresent = true;
+        } else if (this.counter >= 100) {
+            this.displayCounter = true;
+            this.counterLabel = '99+';
+            this.resourcePresent = true;
+        } else if (this.counter <= 0) {
+            this.resourcePresent = false;
+            this.displayCounter = false;
+        }
     }
 }
