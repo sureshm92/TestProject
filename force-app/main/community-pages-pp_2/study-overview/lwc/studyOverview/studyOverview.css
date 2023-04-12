@@ -79,7 +79,7 @@
 }
 
 .po-more {
-    height: 24px;
+    min-height: 24px;
     width: 199px;
     color: #015ff1;
     font-family: 'Proxima Nova';
