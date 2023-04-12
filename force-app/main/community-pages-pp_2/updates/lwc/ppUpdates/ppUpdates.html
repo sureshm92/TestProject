@@ -7,7 +7,10 @@
                     <div class="slds-grid slds-grid_align-spread">
                         <div class="slds-col" style="display: inline-flex">
                             <div class="updates">{label.updatesLabel}</div>
-                            <div if:true={displayCounter} class="update-counter-oval">
+                            <div
+                                if:true={displayCounter}
+                                class={countOvalStyle}
+                            >
                                 <span class={countStyle}>{counterLabel}</span>
                             </div>
                         </div>

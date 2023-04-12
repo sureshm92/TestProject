@@ -219,7 +219,7 @@ export default class PpCommunityNavigation extends LightningElement {
             'past-studies': {
                 page: 'past-studies',
                 label: navigationPastStudy,
-                icon: 'plan-check-in-square'
+                icon: 'Past_study_icon'
             },
             messages: {
                 page: 'messages',
