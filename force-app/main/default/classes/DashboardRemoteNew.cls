@@ -1284,8 +1284,7 @@ public without sharing class DashboardRemoteNew {
             PRE_REVIEW_FAILED
         },
         'conditionStatus1' => new List<String>{
-            PE_STATUS_SUCCESSFULLY_CONTACTED,
-            STATUS_CONTACTED_NOT_SUITABLE
+            PE_STATUS_SUCCESSFULLY_CONTACTED
         },
         'conditionStatus2' => new List<String>{
             PE_STATUS_SUCCESSFULLY_CONTACTED,
