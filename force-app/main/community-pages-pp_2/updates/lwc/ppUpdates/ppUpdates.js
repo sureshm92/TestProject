@@ -65,8 +65,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.getCount();
     }
     getCount() {
-                this.showCounterCheck();
-                this.getUpdates();
+        this.showCounterCheck();
+        this.getUpdates();
     }
     getUpdates() {
         this.spinner = this.template.querySelector('c-web-spinner');
@@ -102,7 +102,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.spinner.hide();
             });
     }
-    refreshUpdatesData(){
+    refreshUpdatesData() {
         getSendResultCount()
             .then((returnValue) => {
                 this.counter = returnValue;
@@ -118,12 +118,22 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         if (this.counter > 4 && this.desktop && !this.showvisitsection) {
             var scrollDiv = this.template.querySelector('[data-id = "horz_scroll"]');
             scrollDiv.classList.add('horizontal-scroll');
+        } else if (this.counter <= 4 && this.desktop && !this.showvisitsection) {
+            const myDiv = this.template.querySelector('.horizontal-scroll');
+            if (myDiv) {
+                myDiv.classList.remove('horizontal-scroll');
+            }
         }
     }
     addVerticalScroll() {
         if (this.counter > 4 && this.desktop && this.showvisitsection) {
-            const myDiv = this.template.querySelector('.custom-padding');
-            myDiv.classList.add('vertical-scroll');
+            var scrollDiv = this.template.querySelector('[data-id = "vert_scroll"]');
+            scrollDiv.classList.add('vertical-scroll');
+        } else if (this.counter <= 4 && this.desktop && this.showvisitsection) {
+            const myDiv = this.template.querySelector('.vertical-scroll');
+            if (myDiv) {
+                myDiv.classList.remove('vertical-scroll');
+            }
         }
     }
     handleScroll(event) {
@@ -181,7 +191,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 console.log('error message ' + error?.message);
             });
     }
-    showCounterCheck(){
+    showCounterCheck() {
         if (this.counter < 100 && this.counter > 0) {
             this.displayCounter = true;
             this.counterLabel = this.counter;

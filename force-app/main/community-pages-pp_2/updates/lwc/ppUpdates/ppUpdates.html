@@ -7,10 +7,7 @@
                     <div class="slds-grid slds-grid_align-spread">
                         <div class="slds-col" style="display: inline-flex">
                             <div class="updates">{label.updatesLabel}</div>
-                            <div
-                                if:true={displayCounter}
-                                class={countOvalStyle}
-                            >
+                            <div if:true={displayCounter} class={countOvalStyle}>
                                 <span class={countStyle}>{counterLabel}</span>
                             </div>
                         </div>
@@ -29,6 +26,7 @@
                 <template if:true={showvisitsection}>
                     <article class="slds-card slds-card_boundary container-card">
                         <div
+                            data-id="vert_scroll"
                             if:true={resourcePresent}
                             class="slds-card__body slds-card__body_inner custom-padding"
                             onscroll={handleVerticalScroll}
