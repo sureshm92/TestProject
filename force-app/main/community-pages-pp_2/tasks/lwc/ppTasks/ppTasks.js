@@ -108,6 +108,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     @api desktop;
     editMode = false;
     taskParamId;
+    showSpinner = true;
     rightPanelComponents = [];
     
     connectedCallback() {
@@ -131,7 +132,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
 
     initializeData() {
         try {
-            if (this.spinner) this.spinner.show();
+            this.showSpinner = true;
             this.openTasks = [];
             this.completedTasks = [];
             getPPParticipantTasks()
@@ -161,10 +162,10 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                             );
                         }
                     }
-                    if (this.spinner) this.spinner.hide();
+                    this.showSpinner = false;
                 })
                 .catch((error) => {
-                    if (this.spinner) this.spinner.hide();
+                    this.showSpinner = false;
                 });
         } catch (e) {
             alert(e);

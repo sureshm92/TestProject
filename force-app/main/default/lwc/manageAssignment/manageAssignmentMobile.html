@@ -10,7 +10,7 @@
     </template>
     <!--Spinner: Ends-->
     <!--Withdraw Delegate Modal: Starts-->
-    <template if:true={showpopup}>
+    <template if:true={showRemovePopup}>
         <c-pp-remove-delegate-modal-old
             pdenrollmentid={withdrawStudyPDEId}
             messtext={label.Withdrew_Assignment_Consent}
@@ -19,6 +19,17 @@
             onmodalclose={handleModalClose}
         >
         </c-pp-remove-delegate-modal-old>
+    </template>
+    <template if:true={showWithDrawPopupNew}>
+        <c-pp-remove-delegate-modal
+            pdenrollmentid={withdrawStudyPDEId}
+            messtext={label.Withdrew_Assignment_Consent}
+            tittext={label.Withdrew_Assignment}
+            onconfirmmodal={handleWithdrawDelegate}
+            onmodalclose={handleModalClose}
+            is-desktop={isDesktop}
+        >
+        </c-pp-remove-delegate-modal>
     </template>
     <!--Withdraw Delegate Modal: Ends-->
     <div class={cardRTL}>
@@ -48,7 +59,12 @@
                                 <lightning-layout multiple-rows="true">
                                     <!--Profile Logo: Stats-->
                                     <lightning-layout-item size="3" class={delAvararIconMobile}>
-                                        <span><img src={icon_url} /></span>
+                                        <template if:true={isNewPatientPortal}>
+                                            <span><img src={new_awatar_icon_url} /></span>
+                                        </template>
+                                        <template if:false={isNewPatientPortal}>
+                                            <span><img src={icon_url} /></span>
+                                        </template>
                                     </lightning-layout-item>
                                     <!--Profile Logo: Ends-->
                                     <!--Delegate Name: Stats-->
@@ -63,7 +79,7 @@
                                             <lightning-layout-item
                                                 size="12"
                                                 class="participant-email"
-                                                >
+                                            >
                                                 <p class="elipsis">{par.Participant.Email__c}</p>
                                             </lightning-layout-item>
                                         </lightning-layout>
@@ -155,7 +171,9 @@
                             title=""
                             onclick={toggleshowWhatCanISeeCardView}
                         >
-                           <span class="text-wrap-max-width-404">{label.PP_What_can_I_see_Or_Do}</span>
+                            <span class="text-wrap-max-width-404"
+                                >{label.PP_What_can_I_see_Or_Do}</span
+                            >
                             <img
                                 src={iconChevronleRight_url}
                                 width="22"
@@ -176,7 +194,9 @@
                             title=""
                             onclick={toggleshowWhatCanISeeCardView}
                         >
-                            <span class="text-wrap-max-width-404">{label.PP_What_can_I_see_Or_Do}</span>
+                            <span class="text-wrap-max-width-404"
+                                >{label.PP_What_can_I_see_Or_Do}</span
+                            >
                             <img
                                 src={iconChevronleRight_url}
                                 width="22"
@@ -191,9 +211,7 @@
                                 <lightning-layout-item size="12"
                                     ><ul class="slds-list_dotted">
                                         <li>{label.PG_PST_L_Delegates_Compl_Task_Behalf_New}</li>
-                                        <li class="slds-m-vertical_xx-small">
-                                            {label.PG_PST_L_Delegates_Receive_Emails_New}
-                                        </li>
+                                        <li class="slds-m-vertical_xx-small">{getEmailHelpText}</li>
                                         <li class="slds-m-vertical_xx-small">
                                             {label.PG_PST_L_Delegates_See_Lab_Result_New}
                                         </li>
@@ -205,7 +223,7 @@
                                         </li>
                                     </ul>
                                     <span class="text-italic">
-                                        {label.PP_AS_CONDITIONAL_FEATURE}
+                                        {getConditionalFeatureHelpText}
                                     </span></lightning-layout-item
                                 >
                                 <!-- <lightning-layout-item size="6"
