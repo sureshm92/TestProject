@@ -340,13 +340,5 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
             sessionStorage.setItem('Cookies', 'Accepted');
             return true;
         }
-        navigateToTelevisit() {
-            this[NavigationMixin.Navigate]({
-                type: 'comm__namedPage',
-                attributes: {
-                    pageName: 'televisit'
-                }
-            });
-        }    
 
 }
