@@ -23,8 +23,8 @@ export default class PpMyVisitResultsList extends LightningElement {
 
     connectedCallback() {
         this.urlString = window.location.href;
-        if (window.location.href.includes('currentpv')) {
-            this.currentVisitId = communityService.getUrlParameter('currentpv');
+        if (window.location.href.includes('pvId')) {
+            this.currentVisitId = communityService.getUrlParameter('pvId');
         }
         this.initiazeData();
     }
@@ -50,7 +50,7 @@ export default class PpMyVisitResultsList extends LightningElement {
     }
 
     get isPatientVisitNotSelected() {
-        return this.urlString.includes('mob-visitresults&currentpv') ? false : true;
+        return this.urlString.includes('vrlist&pvId') ? false : true;
     }
 
     render() {
@@ -103,11 +103,7 @@ export default class PpMyVisitResultsList extends LightningElement {
         this.handleVisitChangeCSS();
         if (this.isMobile || this.isTablet) {
             //show user the results values if available
-            window.history.replaceState(
-                null,
-                null,
-                '?mob-visitresults&currentpv=' + this.currentVisitId
-            );
+            window.history.replaceState(null, null, '?vrlist&pvId=' + this.currentVisitId);
             this.urlString = window.location.href;
         }
         //pass info to jayashree's components to show visit results
@@ -115,7 +111,7 @@ export default class PpMyVisitResultsList extends LightningElement {
 
     handleBackToVisitList() {
         if (this.isMobile || this.isTablet) {
-            window.history.replaceState(null, null, '?mob-visitresultslist');
+            window.history.replaceState(null, null, '?vrlist');
             this.urlString = window.location.href;
         }
     }
