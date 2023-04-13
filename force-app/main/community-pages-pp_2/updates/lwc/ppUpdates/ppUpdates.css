@@ -13,33 +13,18 @@
     letter-spacing: 0;
     line-height: 32px;
 }
-.update-count-1 {
+.update-count {
     color: #ffffff;
     font-weight: 600;
     font-size: 16px;
+    padding:0px 6px;
 }
-.update-count-2 {
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 16px;
-    padding:0px 8px;
-}
-.update-counter-oval-1 {
-    box-sizing: border-box;
-    height: 24px;
-    width: 24px;
-    text-align: center;
-    border-radius: 50%;
-    margin: 0.3rem 0 0 0.6rem;
-    border: 1.5px solid #ffffff;
-    background-color: #e20000;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-}
-.update-counter-oval-2 {
+.update-counter-oval {
     box-sizing: border-box;
     height: 24px;
     text-align: center;
     border-radius: 12px;
+    min-width: 24px;
     margin: 0.3rem 0 0 0.6rem;
     border: 1.5px solid #ffffff;
     background-color: #e20000;

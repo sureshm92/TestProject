@@ -36,21 +36,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         refresh
     };
     timer;
-    get countOvalStyle() {
-        if (this.counter >= 10) {
-            return 'update-counter-oval-2 slds-align_absolute-center';
-        } else {
-            return 'update-counter-oval-1 slds-align_absolute-center';
-        }
-    }
 
-    get countStyle() {
-        if (this.counter >= 10) {
-            return 'update-count-2';
-        } else {
-            return 'update-count-1';
-        }
-    }
     renderedCallback() {
         if (!this.isRendered) {
             this.isRendered = true;
