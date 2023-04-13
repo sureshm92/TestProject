@@ -25,7 +25,7 @@
                 <div></div>
             </div>
             <div class="slds-col slds-size_4-of-6 card-data-element">
-                <div class="slds-grid slds-wrap title-section-mobile">
+                <div class="slds-grid slds-wrap title-section-mobile slds-truncate">
                     <p
                         class="document-label"
                         onclick={navigateResourceDetail}
@@ -43,6 +43,9 @@
                             ></lightning-formatted-date-time>
                         </p>
                     </div>
+                </div>
+                <div class="slds-grid view-resource-label-vertical">
+                    <span class="view-resource-label"> {labels.VIEW_RESOURCE} </span>
                 </div>
             </div>
         </div>
