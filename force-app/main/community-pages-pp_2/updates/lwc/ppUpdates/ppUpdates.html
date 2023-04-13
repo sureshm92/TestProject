@@ -7,8 +7,8 @@
                     <div class="slds-grid slds-grid_align-spread">
                         <div class="slds-col" style="display: inline-flex">
                             <div class="updates">{label.updatesLabel}</div>
-                            <div if:true={displayCounter} class={countOvalStyle}>
-                                <span class={countStyle}>{counterLabel}</span>
+                            <div if:true={displayCounter} class="update-counter-oval slds-align_absolute-center">
+                                <span class="update-count">{counterLabel}</span>
                             </div>
                         </div>
                         <div class="slds-col slds-align-bottom pointer-class" onclick={refresh}>
