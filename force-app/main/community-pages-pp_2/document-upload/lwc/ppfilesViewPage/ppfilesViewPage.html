@@ -39,10 +39,10 @@
         <template if:true={isCTPenableUpload}> 
             <span class="upload-new-document slds-show_medium">Upload New Document(s)</span>
            
-            <div  if:true={Nofilesupload} class="maindivclass" >
-                <input onchange={handleFilesChange} type="file" class="fileInputclassEmpty" multiple></input>
+            <div  if:true={Nofilesupload} class="uploadDivMain" >
+                <input onchange={handleFilesChange} type="file" class="fileInputclassEmptyouter" multiple></input>
                 <div class="upload-newdocument-boxNoFiles slds-align_absolute-center">
-                    <input onchange={handleFilesChange} type="file" class="fileInputclassEmpty" multiple></input>
+                    <input onchange={handleFilesChange} type="file" class="fileInputclassEmptyinner" multiple></input>
                     <div  class="dis-block">
                         <span class="center"
                             ><img src={uploadNewDocuments} class="upload-new-doc-img-size"

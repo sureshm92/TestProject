@@ -1,12 +1,13 @@
 import { api, LightningElement } from 'lwc';
-import generateProgressBar from '@salesforce/apex/ppProgressBarUtility.generateProgressBar';
-import updatePatientVisit from '@salesforce/apex/ppProgressBarUtility.updatePatientVisit';
+import generateProgressBar from '@salesforce/apex/PP_ProgressBarUtility.generateProgressBar';
+import updatePatientVisit from '@salesforce/apex/PP_ProgressBarUtility.updatePatientVisit';
 import ppProgressBarIcons from '@salesforce/resourceUrl/ppProgressBarIcons';
 import PP_Event_Completion_Warning_Message from '@salesforce/label/c.PP_Event_Completion_Warning_Message';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import Mark_As_Completed from '@salesforce/label/c.BTN_Mark_As_Completed';
 import BTN_Continue from '@salesforce/label/c.Continue';
 import PP_ProgressBar_No_Visit from '@salesforce/label/c.PP_ProgressBar_No_Visit';
+import PP_ProgressBar_Event_Complete from '@salesforce/label/c.PP_ProgressBar_Event_Complete';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 
@@ -48,7 +49,8 @@ export default class PpProgressBar extends LightningElement {
         PP_Event_Completion_Warning_Message,
         Mark_As_Completed,
         BTN_Continue,
-        PP_ProgressBar_No_Visit
+        PP_ProgressBar_No_Visit,
+        PP_ProgressBar_Event_Complete
     };
     parentWrapper ;
     bars;

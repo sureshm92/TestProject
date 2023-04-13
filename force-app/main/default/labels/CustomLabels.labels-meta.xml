@@ -21233,6 +21233,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Program</value>
     </labels>
     <labels>
+        <fullName>PP_ProgressBar_Event_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP ProgressBar Event Complete</shortDescription>
+        <value>Mark Event as Complete</value>
+    </labels>
+    <labels>
         <fullName>PP_ProgressBar_No_Visit</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21728,7 +21735,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Events tab</shortDescription>
-        <value>My Events</value>
+        <value>Events</value>
     </labels>
     <labels>
         <fullName>PP_Tab_Files</fullName>
@@ -21742,14 +21749,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Lab Results tab</shortDescription>
-        <value>My Results</value>
+        <value>Results</value>
     </labels>
     <labels>
         <fullName>PP_Tab_Visits</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Visits tab</shortDescription>
-        <value>My Visits</value>
+        <value>Visits</value>
     </labels>
     <labels>
         <fullName>PP_TaskCreationSuccess</fullName>

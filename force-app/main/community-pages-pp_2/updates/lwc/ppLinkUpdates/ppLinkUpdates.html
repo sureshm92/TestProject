@@ -4,45 +4,42 @@
             <div class="slds-col slds-size_2-of-6 card-element">
                 <div class="slds-align_absolute-center icon-container">
                     <div class="slds-align_absolute-center">
-                        <img 
-                        data-link={linkData.redirectLink} 
-                        onclick={openLink} 
-                        src={link_state} 
-                        class="link-img"
-                         />
+                        <img
+                            data-link={linkData.redirectLink}
+                            onclick={openLink}
+                            src={link_state}
+                            class="link-img"
+                        />
                     </div>
                 </div>
             </div>
             <div class="slds-col slds-size_4-of-6">
                 <div class="slds-grid data-section-helpful">
-                    <p class="helpful-links" title={linkData.linkType}>
-                        {linkData.linkType}
-                    </p>
+                    <p class="helpful-links" title={linkData.linkType}>{linkData.linkType}</p>
                 </div>
                 <div class="slds-grid data-section">
-                    <div class="slds-col slds-size_10-of-12">
+                    <div class="slds-col slds-truncate">
                         <div>
                             <p
                                 class="links-title"
                                 data-link={linkData.redirectLink}
                                 onclick={openLink}
                                 title={linkData.title}
-                                >
+                            >
                                 {linkData.title}
                             </p>
                         </div>
                     </div>
-                    <div class="slds-col slds-size_2-of-12">
-                        <div class="open-tab-empty-section"></div>
-                        <div class="open-tab-empty-section">
-                            <img 
-                                src={open_new_tab} 
-                                data-link={linkData.redirectLink} 
-                                class="open-tab"
-                                onclick={openLink}
-                            />
-                        </div>
-                    </div>
+                </div>
+                <div class="slds-grid">
+                    <span class="open-in-new-tab-label"> {label.Open_In_New_Tab} </span>
+                    <span>
+                        <img
+                            src={open_new_tab}
+                            data-link={linkData.redirectLink}
+                            class="open-tab-horizontal"
+                        />
+                    </span>
                 </div>
             </div>
         </div>
@@ -53,38 +50,35 @@
                 <div class="slds-col slds-size_2-of-6 card-element">
                     <div class="slds-align_absolute-center icon-container">
                         <div class="slds-align_absolute-center">
-                            <img 
-                                data-link={linkData.redirectLink} 
-                                src={link_state} 
-                                class="link-img" 
+                            <img
+                                data-link={linkData.redirectLink}
+                                src={link_state}
+                                class="link-img"
                             />
                         </div>
                     </div>
                 </div>
                 <div class="slds-col slds-size_4-of-6">
                     <div class="slds-grid data-section-helpful">
-                        <p class="helpful-links" title={linkData.linkType}>
-                            {linkData.linkType}
-                        </p>
+                        <p class="helpful-links" title={linkData.linkType}>{linkData.linkType}</p>
                     </div>
                     <div class="slds-grid slds-wrap data-section slds-truncate">
-                                <p 
-                                    class="links-title" 
-                                    data-link={linkData.redirectLink} 
-                                    title={linkData.title}
-                                    >
-                                    {linkData.title}
-                                </p>
+                        <p
+                            class="links-title"
+                            data-link={linkData.redirectLink}
+                            title={linkData.title}
+                        >
+                            {linkData.title}
+                        </p>
                     </div>
                     <div class="slds-grid">
-                        <span class="open-in-new-tab-label">
-                            {label.Open_In_New_Tab}
-                        </span>
+                        <span class="open-in-new-tab-label"> {label.Open_In_New_Tab} </span>
                         <span>
-                            <img src={open_new_tab} 
-                                data-link={linkData.redirectLink} 
-                                class="open-tab-horizontal" 
-                                />
+                            <img
+                                src={open_new_tab}
+                                data-link={linkData.redirectLink}
+                                class="open-tab-horizontal"
+                            />
                         </span>
                     </div>
                 </div>
@@ -93,44 +87,37 @@
         <template if:false={showVisitSection}>
             <div class="pointer-class" onclick={openLink}>
                 <div class="slds-align_absolute-center link-image-section-horizontal">
-                    <img
-                        data-link={linkData.redirectLink} 
-                        src={link_state} 
-                        class="link-image" 
-                    />
+                    <img data-link={linkData.redirectLink} src={link_state} class="link-image" />
                 </div>
                 <div class="helpful-link-horizontal">
-                    <p class="helpful-link-title" title={linkData.linkType}>
-                        {linkData.linkType}
-                    </p>
+                    <p class="helpful-link-title" title={linkData.linkType}>{linkData.linkType}</p>
                 </div>
                 <div class="link-title">
-                    <p 
-                            class="link-title-horizontal slds-truncate" 
-                            data-link={linkData.redirectLink} 
-                            title={linkData.title}
-                        >
+                    <p
+                        class="link-title-horizontal slds-truncate"
+                        data-link={linkData.redirectLink}
+                        title={linkData.title}
+                    >
                         {linkData.title}
                     </p>
                 </div>
                 <div class="slds-grid open-tab-data-icon-container slds-align_absolute-center">
                     <div class="">
-                        <p 
-                            class="open-in-new-tab" 
-                            data-link={linkData.redirectLink} 
+                        <p
+                            class="open-in-new-tab"
+                            data-link={linkData.redirectLink}
                             title={linkData.title}
                         >
                             {label.Open_In_New_Tab}
                         </p>
                     </div>
                     <div class="">
-                        <img 
-                            src={open_new_tab} 
-                            data-link={linkData.redirectLink} 
-                            class="open-tab-image" 
-                            />
+                        <img
+                            src={open_new_tab}
+                            data-link={linkData.redirectLink}
+                            class="open-tab-image"
+                        />
                     </div>
-
                 </div>
             </div>
         </template>

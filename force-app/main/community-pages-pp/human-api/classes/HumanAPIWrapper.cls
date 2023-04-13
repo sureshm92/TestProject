@@ -12,5 +12,7 @@ public class HumanAPIWrapper {
     public String currentPerStatus = 'PARTICIPANT';
     @AuraEnabled
     public Boolean iscurrentPresent = false;
+    @AuraEnabled
+    public Boolean isDelegate = false;
     
 }
