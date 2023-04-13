@@ -1491,7 +1491,41 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .pp-add-new-del-radio .slds-form-element__label{
     font-size: 16px !important;
 }
+
 /* Delegate Redesing - Add New Delegate Page CSS  Override - ends*/
+/*Manage Assignment Changes Start */
+.manage-assignment-acc-setting .manage-assignment-continer{
+    margin-right: 23px !important;
+}
+.manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn-item-Desktop{
+    padding-left: 40px !important;
+}
+.manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn{
+    border-radius: 16px !important;
+    padding: 5px 0px 5px 0px !important;
+    width: 107px !important;
+}
+.manage-assignment-acc-setting .manage-assignment-continer .ma-btn-box , .ma-btn-box-1, .ma-what-I-can-see-card, .del-container, .study-rectangle{
+    border-radius: 8px !important;
+}
+.manage-assignment-acc-setting .ma-icon-color {
+    --sds-c-icon-color-foreground-default: #595959 !important;
+}
+@media screen and (max-width: 768px){
+    .manage-assignment-acc-setting .manage-assignment-continer .ma-what-I-can-see-button-mob .apollo-btn.secondary {
+        min-height: 56px !important;
+    }
+    .manage-assignment-acc-setting .manage-assignment-continer .ma-what-I-can-see-button-mob-1 .apollo-btn.secondary {
+        min-height: 56px !important;
+    }
+    .manage-assignment-acc-setting .manage-assignment-continer .ma-what-I-can-see-card{
+        background-color: #FFFFFF !important;
+    }
+    .manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn{
+        width: 100% !important;
+    }
+}
+/*Manage Assignment Changes End */
 /** VISIT RESULT CARD TOGGLE*/
 .result-type-toggle .slds-checkbox_toggle .slds-checkbox_faux,
 .slds-checkbox_toggle .slds-checkbox--faux,

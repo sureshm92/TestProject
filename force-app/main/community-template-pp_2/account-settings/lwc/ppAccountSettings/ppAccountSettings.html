@@ -161,13 +161,15 @@
                                 ></c-manage-delegates>
                             </template>
                         </div>
-
-                        <template if:true={showManageAssignments}>
-                            <c-manage-assignment
-                                is-r-t-l={isRTL}
-                                onshownavmenubar={showNavigationMenu}
-                            ></c-manage-assignment>
-                        </template>
+                        <div class="manage-assignment-acc-setting">
+                            <template if:true={showManageAssignments}>
+                                <c-manage-assignment
+                                    is-r-t-l={isRTL}
+                                    onshownavmenubar={showNavigationMenu}
+                                    current-community="Iqvia Patient Portal II"
+                                ></c-manage-assignment>
+                            </template>
+                        </div>
                     </div>
                 </div>
             </template>

@@ -19348,6 +19348,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Receive emails about your program status</value>
     </labels>
     <labels>
+        <fullName>PP_AS_RECEIVE_EMAIL_STUDY_PROG</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_RECEIVE_EMAIL_STUDY_PROG</shortDescription>
+        <value>Receive emails about your study/program status</value>
+    </labels>
+    <labels>
         <fullName>PP_AS_REQUIRED_FIELD</fullName>
         <categories>PPAccountSettings</categories>
         <language>en_US</language>
