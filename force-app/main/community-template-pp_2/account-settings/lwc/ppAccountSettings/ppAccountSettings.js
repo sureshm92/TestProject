@@ -235,23 +235,20 @@ export default class PpAccountSettings extends LightningElement {
             communityService.getParticipantData().hasPatientDelegates &&
             allUserModes
         ) {
+            let isActiveDelegate = this.initData.isActiveDelegate;
             // For Participant also same JSON make sure it shouldnt execute for Participnat
             allUserModes.forEach(function (item) {
                 if (item.userMode == 'Participant') {
                     if (item.subModes != undefined && item.subModes.length > 0) {
                         item.subModes.forEach(function (subModeitem) {
                             if (subModeitem.currentDelegateId == null) {
-                                showMamanageAssignmentTab = this.initData.isActiveDelegate
-                                    ? true
-                                    : false;
+                                showMamanageAssignmentTab = isActiveDelegate ? true : false;
                                 showManageDelegateTab = true;
                             }
                         });
                     } else if (item.subModes.length == 0) {
                         if (item.hasPastStudies && item.currentDelegateId == null) {
-                            showMamanageAssignmentTab = this.initData.isActiveDelegate
-                                ? true
-                                : false;
+                            showMamanageAssignmentTab = isActiveDelegate ? true : false;
                             showManageDelegateTab = true;
                         }
                     }
