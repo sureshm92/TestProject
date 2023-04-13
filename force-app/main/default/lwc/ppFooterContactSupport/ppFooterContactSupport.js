@@ -85,7 +85,9 @@ export default class PpFooterContactSupport extends LightningElement {
         this.siteName = this.studysite.Site__r.Name;
         console.log('siteName--->'+this.siteName);
         this.siteAddress = this.studysite.Site__r.BillingStreet + 
-                            ',' + this.studysite.Site__r.BillingCountryCode +
+                            ', ' + this.studysite.Site__r.BillingCity +
+                            ', ' + this.studysite.Site__r.BillingState +
+                            ', ' + this.studysite.Site__r.BillingCountryCode +
                             ' ' + this.studysite.Site__r.BillingPostalCode;
         console.log('siteAddress--->'+this.siteAddress);
 
