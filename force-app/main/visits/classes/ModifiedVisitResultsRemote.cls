@@ -16,19 +16,6 @@ public without sharing class ModifiedVisitResultsRemote {
     }
 
     @AuraEnabled
-    public static ModifiedVisitResultsService.ModifiedInitDataWrapper getInitDataForVisitResultsModified() {
-        try {
-            return ((ModifiedVisitResultsService) ClassFactory.newInstance(
-                    ModifiedVisitResultsService.class
-                ))
-                .getInitDataForVisitResultsModified();
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
-        }
-        return null;
-    }
-
-    @AuraEnabled
     public static List<ModifiedVisitResultsService.ModifiedVisitResultsContainer> getVisitResultsWrapperModified(
         String ctpId,
         String patientVisitId,
