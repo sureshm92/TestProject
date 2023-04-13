@@ -96,12 +96,12 @@
                 </lightning-layout-item>
                 <template if:true={showUpcomingSection}>
                     <lightning-layout-item size="4" class="around-small-custom around-right-zero">
-                        <c-pp-updates showvisitsection={showUpcomingSection}></c-pp-updates>
+                        <c-pp-updates showvisitsection={showUpcomingSection} counter={counter}></c-pp-updates>
                     </lightning-layout-item>
                 </template>
                 <template if:false={showUpcomingSection}>
                     <lightning-layout-item size="8" class="around-small-custom around-right-zero">
-                        <c-pp-updates showvisitsection={showUpcomingSection}></c-pp-updates>
+                        <c-pp-updates showvisitsection={showUpcomingSection} counter={counter}></c-pp-updates>
                     </lightning-layout-item>
                 </template>
             </lightning-layout>
@@ -200,7 +200,7 @@
                         <template if:true={updatesSection}>
                             <template if:true={displayCounter}>
                                 <div class="update-circle">
-                                    <span class="update-count-font">{counter}</span>
+                                    <span class="update-count-font">{counterLabel}</span>
                                 </div>
                             </template>
                             <div class="icon-update-section-large svg-icon-with-text">
@@ -219,7 +219,7 @@
                         <template if:false={updatesSection}>
                             <template if:true={displayCounter}>
                                 <div class="update-circle">
-                                    <span class="update-count-font">{counter}</span>
+                                    <span class="update-count-font">{counterLabel}</span>
                                 </div>
                             </template>
                             <div class="icon-update-section-small">

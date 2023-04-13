@@ -3,6 +3,7 @@
     <fullName>Document_Upload_Is_Available__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
+    <inlineHelpText>If Document Upload is toggled On, the participant and their primary delegate will be able to upload their document which may be visible to the PI  and Site staff for all study sites</inlineHelpText>
     <label>Document Upload Is Available</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>

@@ -1,6 +1,6 @@
 import { api, LightningElement } from 'lwc';
-import generateProgressBar from '@salesforce/apex/ppProgressBarUtility.generateProgressBar';
-import updatePatientVisit from '@salesforce/apex/ppProgressBarUtility.updatePatientVisit';
+import generateProgressBar from '@salesforce/apex/PP_ProgressBarUtility.generateProgressBar';
+import updatePatientVisit from '@salesforce/apex/PP_ProgressBarUtility.updatePatientVisit';
 import ppProgressBarIcons from '@salesforce/resourceUrl/ppProgressBarIcons';
 import PP_Event_Completion_Warning_Message from '@salesforce/label/c.PP_Event_Completion_Warning_Message';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
