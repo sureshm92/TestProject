@@ -224,11 +224,14 @@
                         <!-- Televisit ends -->
                         <!-- Document Upload -->
                          <div class="global-element">
-                            <lightning:input aura:id="documentUploadToggle" type="toggle" label="Document upload"
+                            <lightning:input aura:id="documentUploadToggle" type="toggle" label="Document Upload"
                                 name="DocumentUpload" onchange="{!c.saveCTP}"
                                 checked="{!v.ctp.Document_Upload_Is_Available__c}" variant="label-hidden"
                                  />
-                            <div style="margin-left: 10px">Document upload </div>
+                            <div style="margin-left: 10px">Document Upload
+                                <span ><lightning:helptext class="slds-align-bottom" content="If Document Upload is toggled On, the participant and their primary delegate will be able to upload their document which may be visible to the PI  and Site staff for all study sites">
+                                </lightning:helptext></span>
+                            </div>
                         </div>
                         <!-- Document Upload -->
                         <!-- IQVIA Outreach-->
