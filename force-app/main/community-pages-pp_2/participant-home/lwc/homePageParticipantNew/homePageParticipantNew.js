@@ -9,6 +9,7 @@ import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getVisitsPreviewAndCount from '@salesforce/apex/ParticipantVisitsRemote.getVisitsPreviewAndCount';
 import getVisits from '@salesforce/apex/PPTelevisitUpcomingTileController.getVisits';
+import getSendResultCount from '@salesforce/apex/PPUpdatesController.getSendResultCount';
 
 export default class HomePageParticipantNew extends LightningElement {
     label = {
@@ -44,18 +45,20 @@ export default class HomePageParticipantNew extends LightningElement {
     isUpcomingTelevisitVisitDetails;
     marginbottom = '';
     studysite;
+    counterLabel;
 
 
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
     }
-
+    
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner ? this.spinner.show() : '';
         this.getVisitsPreviewAndCount();
         this.getVisits();
+        this.getUpdatesCount();
         this.initializeData();
         
     }
@@ -97,6 +100,27 @@ export default class HomePageParticipantNew extends LightningElement {
         .catch((error) => {
             this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
         });
+    }
+
+    getUpdatesCount() {
+        getSendResultCount()
+            .then((returnValue) => {
+                this.counter = returnValue;
+                if (this.counter < 100 && this.counter > 0) {
+                    this.displayCounter = true;
+                    this.counterLabel = this.counter;
+                } else if (this.counter >= 100) {
+                    this.displayCounter = true;
+                    this.counterLabel = '99+';
+                } else if (this.counter <= 0) {
+                    this.displayCounter = false;
+                }
+            })
+            .catch((error) => {
+                console.log('error message : ' + error?.message);
+                this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
+                this.spinner.hide();
+            });
     }
 
     initializeData() {
