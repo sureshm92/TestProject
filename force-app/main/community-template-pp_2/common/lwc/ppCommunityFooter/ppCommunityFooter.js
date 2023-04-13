@@ -169,6 +169,7 @@ export default class PpCommunityFooter extends LightningElement {
     }
     openContactSupportModal() {
         this.showmodal = true;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     handleModalClose() {
         this.showmodal = false;
