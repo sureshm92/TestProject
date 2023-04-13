@@ -1,8 +1,8 @@
 public without sharing class TelevisitAttendeeTriggerHandler {
     public class ManageAttendees extends TriggerHandler {
-        /*public override void afterDelete(List<SObject> oldList) {
+        public override void afterDelete(List<SObject> oldList) {
             notifyAttendeesRemoved(oldList);
-        }*/
+        }
         public override void afterInsert(List<SObject> newList) {
             notifyNewAttendees(newList);
             sendBellNotificationToNewAttendees(newList);
