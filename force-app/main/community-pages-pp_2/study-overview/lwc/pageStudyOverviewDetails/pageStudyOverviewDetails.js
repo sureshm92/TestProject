@@ -144,7 +144,9 @@ export default class ProgramOverviewDetails extends LightningElement {
                             this.siteName = this.participantState.pe.Study_Site__r.Site__r.Name;
                             console.log('siteName--->'+this.siteName);
                             this.siteAddress = this.participantState.pe.Study_Site__r.Site__r.BillingStreet + 
-                                            ',' + this.participantState.pe.Study_Site__r.Site__r.BillingCountryCode +
+                                            ', ' + this.participantState.pe.Study_Site__r.Site__r.BillingCity +
+                                            ', ' + this.participantState.pe.Study_Site__r.Site__r.BillingState +
+                                            ', ' + this.participantState.pe.Study_Site__r.Site__r.BillingCountryCode +
                                             ' ' + this.participantState.pe.Study_Site__r.Site__r.BillingPostalCode;
                             console.log('siteAddress--->'+this.siteAddress);
                         }
