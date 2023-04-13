@@ -218,7 +218,7 @@ export default class PpAccountSettings extends LightningElement {
         }
         //Del Self View
         else if (isDelSelfView && !communityService.getCurrentCommunityMode().hasPastStudies) {
-            showMamanageAssignmentTab = true;
+            showMamanageAssignmentTab = this.initData.isActiveDelegate ? true : false;
             showManageDelegateTab = false;
         }
         //Pure Participant Login
@@ -241,14 +241,17 @@ export default class PpAccountSettings extends LightningElement {
                     if (item.subModes != undefined && item.subModes.length > 0) {
                         item.subModes.forEach(function (subModeitem) {
                             if (subModeitem.currentDelegateId == null) {
-                                showMamanageAssignmentTab = true;
+                                showMamanageAssignmentTab = this.initData.isActiveDelegate
+                                    ? true
+                                    : false;
                                 showManageDelegateTab = true;
                             }
                         });
-                    }
-                    else if(item.subModes.length == 0){ 
-                        if(item.hasPastStudies && item.currentDelegateId == null){
-                            showMamanageAssignmentTab = true;
+                    } else if (item.subModes.length == 0) {
+                        if (item.hasPastStudies && item.currentDelegateId == null) {
+                            showMamanageAssignmentTab = this.initData.isActiveDelegate
+                                ? true
+                                : false;
                             showManageDelegateTab = true;
                         }
                     }
