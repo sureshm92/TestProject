@@ -66,7 +66,7 @@
 
                                       
                                         
-                                    <p class="tvbody" style="text-align:center; padding:10px"><a href="televisit" onclick={setSessionCookie}>View Televisit Details</a> </p>
+                                    <p class="tvbody" style="text-align:center; padding:10px"><a onclick={navigateToTelevisit}>View Televisit Details</a> </p>
                                     <!--{visit.eachMeetInfo} &nbsp;-->
                                     
                                     <!--<lightning-button data-name={visit.Televisit__r.Meeting_URL__c} label={labels.JOIN_MEET}
@@ -89,7 +89,7 @@
                             </span>
                            <span class="text-colour"> No upcoming televisits </span>
                            <div class="noupcomingcard">
-                                <a class="label" href="televisit" onclick={setSessionCookie}>
+                                <a class="label" onclick={navigateToTelevisit}>
                                     View All Televisits
                                 </a>
                             </div>
