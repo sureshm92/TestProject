@@ -21749,14 +21749,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Lab Results tab</shortDescription>
-        <value>Results</value>
+        <value>My Results</value>
     </labels>
     <labels>
         <fullName>PP_Tab_Visits</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Visits tab</shortDescription>
-        <value>Visits</value>
+        <value>My Visits</value>
     </labels>
     <labels>
         <fullName>PP_TaskCreationSuccess</fullName>
