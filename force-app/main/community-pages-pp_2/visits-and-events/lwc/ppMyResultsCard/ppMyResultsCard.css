@@ -1,3 +1,10 @@
+.visit-list-container {
+    min-width: 380px;
+    border-right-width: 1px;
+    border-right-color: #999999;
+    padding-right: 1rem;
+}
+
 .my-results {
     color: #444444;
     font-size: 32px;
@@ -5,9 +12,8 @@
 }
 .col1-height {
     height: 627px;
-    width: 385px;
+    width: 356px;
     margin-top: 1.5rem;
-    opacity: 0.75;
 }
 .no-task-box {
     box-sizing: border-box;
@@ -40,5 +46,10 @@
     }
     .no-task-box {
         margin: 0.8rem 1.5rem 0.8rem 1.5rem;
+    }
+}
+@media all and (max-width: 1200px) {
+    .col1-height {
+        width: 370px;
     }
 }
