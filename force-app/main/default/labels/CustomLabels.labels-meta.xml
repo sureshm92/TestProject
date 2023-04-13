@@ -22966,7 +22966,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Posting_date</shortDescription>
-        <value>Posting date:</value>
+        <value>Posted date:</value>
     </labels>
     <labels>
         <fullName>Potassium</fullName>
