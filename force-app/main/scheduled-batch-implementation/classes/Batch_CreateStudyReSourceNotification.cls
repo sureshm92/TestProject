@@ -91,7 +91,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                 }
             }
         }
-        if (resIds.size() > 0) {
+        if (!resIds.isEmpty()) {
         List<ContentDocumentLink> contentDocumentLinks = [
             SELECT
                 Id,
