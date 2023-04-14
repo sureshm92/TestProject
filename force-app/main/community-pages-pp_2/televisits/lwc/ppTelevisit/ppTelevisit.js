@@ -54,7 +54,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
             if(this.past){
                 this.showuppasttelevisits = true;
             }
-            
+
         }
     }
     onPastClick (){
@@ -99,12 +99,12 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
                 this.showblankpasttelsvisits = true;
             }
             this.isdelegate = result.isdelegate;
-            this.template.querySelector('c-web-spinner').hide();
             this.contentLoaded = true;
             this.reloadupcomingcomponent = true;
+            this.template.querySelector('c-web-spinner').hide();
         })
         .catch((error) => {
-            this.template.querySelector('c-web-spinner').hide();
+           this.template.querySelector('c-web-spinner').hide();
             this.contentLoaded = true;
         });
     }
