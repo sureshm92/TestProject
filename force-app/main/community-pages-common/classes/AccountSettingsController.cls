@@ -282,6 +282,7 @@ public without sharing class AccountSettingsController {
                 initData.myContact,
                 initData.participant
             );
+            initData.isActiveDelegate = PatientDelegateEnrollmentService.isActiveDelegate(initData.myContact.Id);
             return JSON.serialize(initData, false);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -829,6 +830,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public ProgramOverViewData programOverViewData = new ProgramOverViewData();
         @AuraEnabled
         public ParticipantService.ParticipantState participantState;
+        @AuraEnabled
+        public Boolean isActiveDelegate = false;
     }
 
     public class ContactSectionData {
