@@ -1,5 +1,5 @@
 /**
- * Created by Yehor Dobrovolskyi
+ * Created by Yehor Dobrovolskyi..................
  */
 public with sharing class ArticleService {
     public static final String HEALTH_DAY_NAME_LOGO = 'HealthDay.png';

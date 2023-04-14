@@ -1,5 +1,5 @@
 /**
- * Created by Yehor Dobrovolskyi
+ * Created by Yehor Dobrovolskyi...
  */
 global class BatchException extends Exception {
 }
