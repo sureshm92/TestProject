@@ -51,20 +51,7 @@ export default class HomePageParticipantNew extends LightningElement {
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
     }
-    get updateCircle(){
-        if (this.counter >= 10) {
-            return 'update-circle-2';
-        } else {
-            return 'update-circle-1';
-        }
-    }
-    get updateCountFont(){
-        if (this.counter >= 10) {
-            return 'update-count-font-2';
-        } else {
-            return 'update-count-font-1';
-        }
-    }
+    
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
         this.spinner = this.template.querySelector('c-web-spinner');

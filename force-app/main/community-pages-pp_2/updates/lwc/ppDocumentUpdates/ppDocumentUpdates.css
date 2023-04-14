@@ -12,14 +12,14 @@
     height: 27px;
 }
 
-.date-section {
+.date-section-mobile {
     width: 100%;
     height: 27px;
 }
 
 .title-section-mobile {
     width: 100%;
-    height: 58px;
+    height: 32px;
 }
 
 .horizontal-card {
@@ -40,7 +40,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
-    margin-right:16px;
+    margin-right: 16px;
 }
 
 .thumbnail-image {
@@ -113,7 +113,7 @@
     text-overflow: ellipsis;
     margin-top: 10px;
     cursor: pointer;
-    margin-right:7px;
+    margin-right: 7px;
 }
 
 .card-border {
@@ -173,19 +173,19 @@
 }
 .view-resource-container {
     height: 30px;
-    border-top: 1px solid #E9E9E9;
+    border-top: 1px solid #e9e9e9;
 }
-.view-resource-label{
-    font-size:14px;
-    font-weight:600;
-    color:#015FF1;
+.view-resource-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #015ff1;
 }
-.view-resource-label-vertical{
-    font-size:14px;
-    font-weight:600;
-    color:#015FF1;
+.view-resource-label-vertical {
+    font-size: 14px;
+    font-weight: 600;
+    color: #015ff1;
     margin-left: 10px;
 }
-.pointer-class{
-    cursor:pointer;
+.pointer-class {
+    cursor: pointer;
 }

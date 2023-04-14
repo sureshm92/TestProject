@@ -309,18 +309,6 @@
                     </div>
                 </div>
             </div>
-
-            <!--Delegate Withdraw Consent Section Yet to Design-->
-            <template if:true={isDelegate}>
-                <div class="delegate-info slds-p-vertical_medium">
-                    <c-pp-delegate-information
-                        user-mode="Participant"
-                        delegate-contact={delegateContact}
-                        is-mobile={isMobile}
-                        is-r-t-l={isRTL}
-                    ></c-pp-delegate-information>
-                </div>
-            </template>
             <!--Contact Information Section-->
             <template if:true={initData.participant.Adult__c}>
                 <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">

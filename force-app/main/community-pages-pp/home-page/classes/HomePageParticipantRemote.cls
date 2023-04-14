@@ -101,19 +101,6 @@ public without sharing class HomePageParticipantRemote {
             WHERE Study_Site__c = :studySiteId
         ];
 
-        List<Id> contactIds = new List<Id>();
-        for (Site_Staff__c sf : siteStaffList) {
-            contactIds.add(sf.Site_Contact__c);
-        }
-        list<Participant__c> partcipants = new List<Participant__c>();
-        if (!contactIds.isEmpty()) {
-            partcipants = [
-                SELECT Id, Name, First_Name__c, Last_Name__c, Full_Name__c
-                FROM Participant__c
-                WHERE Contact__c IN :contactIds
-            ];
-        }
-
-        return JSON.serialize(partcipants);
+        return JSON.serialize(siteStaffList);
     }
 }
