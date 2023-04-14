@@ -985,10 +985,8 @@ public without sharing class ParticipantEnrollmentService {
             PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedParticipantIdsMap(
                 CommunityService.getUserContact().Id
             );
-            List<Id> delegatedParticipants = pdewrapper.delParticipantIds.get(
-                UserContext.getUserContactId()
-            );
-
+            List<Id> delegatedParticipants = pdewrapper.delParticipantIds.get(UserContext.getUserContactId());
+          
             if (delegatedParticipants != null && delegatedParticipants.size() > 0) {
                 delegatesFilter =
                     ' OR ' + DatabaseService.fieldInValues('Participant__c', delegatedParticipants);
