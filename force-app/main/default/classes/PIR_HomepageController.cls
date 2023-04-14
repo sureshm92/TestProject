@@ -631,6 +631,7 @@ public without sharing class PIR_HomepageController {
                 queryString = queryString + fltrStringNew;
                 perLimitList = Database.query(queryString);
                 listViewWrapper = createListViewWrapper(perLimitList, studyIdlist);
+
         //for pages more than 200 ends
       } else {
         Integer offsetLimit = (pageNumber - 1) * 10;
